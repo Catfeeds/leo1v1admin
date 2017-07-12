@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+.left{width:80px;padding:20px 25px 20px;border-right:3px solid #d5d5d5;position:absolute;top:0;left:0;}
+.left ul.nav_icon{width:80px;position:absolute;top:20px;left:25px;z-index:2;}
+.left ul.nav_icon li.navLi_icon{width:80px;height:105px;margin-bottom:10px;display:block;}
+.left ul.nav_icon li.navLi_icon .icon01{width:80px;height:80px;background:url(../images/icon.jpg) no-repeat left top;}
+.left ul.nav_icon li.navLi_icon p{width:80px;text-align:center;color:#666;font-size:16px;}
+
+.left ul.nav_icon li.navLi_icon .icon{width:80px;height:80px;}
+.left ul.nav_icon li.navLi_icon .icon i{display:block;width:80px;height:80px;}
+.left ul.nav_icon li.navLi_icon .icon01{background:url(../images/icon.jpg) no-repeat left top;}
+.left ul.nav_icon li.navLi_icon .icon02{background:url(../images/icon.jpg) no-repeat left -80px;}
+.left ul.nav_icon li.navLi_icon .icon03{background:url(../images/icon.jpg) no-repeat left -160px;}
+.left ul.nav_icon li.navLi_icon .icon04{background:url(../images/icon.jpg) no-repeat left -240px;}
+.left ul.nav_icon li.navLi_icon .icon05{background:url(../images/icon.jpg) no-repeat left -320px;}
+.left ul.nav_icon li.navLi_icon .icon06{background:url(../images/icon.jpg) no-repeat left -400px;}
+
+.left ul.nav_icon li.navLi_icon02 .icon01{background:url(../images/icon02.jpg) no-repeat left top;}
+.left ul.nav_icon li.navLi_icon02 .icon02{background:url(../images/icon02.jpg) no-repeat left -80px;}
+.left ul.nav_icon li.navLi_icon02 .icon03{background:url(../images/icon02.jpg) no-repeat left -160px;}
+.left ul.nav_icon li.navLi_icon02 .icon04{background:url(../images/icon02.jpg) no-repeat left -240px;}
+.left ul.nav_icon li.navLi_icon02 .icon05{background:url(../images/icon02.jpg) no-repeat left -320px;}
+.left ul.nav_icon li.navLi_icon02 .icon06{background:url(../images/icon02.jpg) no-repeat left -400px;}
+.left ul.nav_icon li.navLi_icon02 .icon07{background:url(../images/icon02.jpg) no-repeat left -480px;}
+
+.left ul.nav_icon li.navLi_icon:hover{cursor:pointer;}
+.left ul.nav_icon li.navLi_icon:hover p{color:#333;}
+.left ul.nav_icon li.navLi_icon:hover .icon01,.left ul.nav_icon li.navLi_icon .current .icon01{background:url(../images/icon.jpg) no-repeat right top;}
+.left ul.nav_icon li.navLi_icon:hover .icon02,.left ul.nav_icon li.navLi_icon .current .icon02{background:url(../images/icon.jpg) no-repeat right -80px;}
+.left ul.nav_icon li.navLi_icon:hover .icon03,.left ul.nav_icon li.navLi_icon .current .icon03{background:url(../images/icon.jpg) no-repeat right -160px;}
+.left ul.nav_icon li.navLi_icon:hover .icon04,.left ul.nav_icon li.navLi_icon .current .icon04{background:url(../images/icon.jpg) no-repeat right -240px;}
+.left ul.nav_icon li.navLi_icon:hover .icon05,.left ul.nav_icon li.navLi_icon .current .icon05{background:url(../images/icon.jpg) no-repeat right -320px;}
+.left ul.nav_icon li.navLi_icon:hover .icon06,.left ul.nav_icon li.navLi_icon .current .icon06{background:url(../images/icon.jpg) no-repeat right -400px;}
+
+.left ul.nav_icon li.navLi_icon02:hover .icon01,.left ul.nav_icon li.navLi_icon02 .current .icon01{background:url(../images/icon02.jpg) no-repeat right top;}
+.left ul.nav_icon li.navLi_icon02:hover .icon02,.left ul.nav_icon li.navLi_icon02 .current .icon02{background:url(../images/icon02.jpg) no-repeat right -80px;}
+.left ul.nav_icon li.navLi_icon02:hover .icon03,.left ul.nav_icon li.navLi_icon02 .current .icon03{background:url(../images/icon02.jpg) no-repeat right -160px;}
+.left ul.nav_icon li.navLi_icon02:hover .icon04,.left ul.nav_icon li.navLi_icon02 .current .icon04{background:url(../images/icon02.jpg) no-repeat right -240px;}
+.left ul.nav_icon li.navLi_icon02:hover .icon05,.left ul.nav_icon li.navLi_icon02 .current .icon05{background:url(../images/icon02.jpg) no-repeat right -320px;}
+.left ul.nav_icon li.navLi_icon02:hover .icon06,.left ul.nav_icon li.navLi_icon02 .current .icon06{background:url(../images/icon02.jpg) no-repeat right -400px;}
+.left ul.nav_icon li.navLi_icon02:hover .icon07,.left ul.nav_icon li.navLi_icon02 .current .icon07{background:url(../images/icon02.jpg) no-repeat right -480px;}
+
+.navCont_box{width:350px;min-height:800px;position:absolute;left:75px;top:0;opacity:0;display:none;z-index:100;}
+.nav_cont{width:350px;min-height:800px;}
+.nav_cont li.nav_one{display:none;padding-left:28px;}
+.nav_cont li.nav_one a{color:#fff;}
+.nav_cont li.dis_on{display:block;}
+.nav_cont li h2{height:72px;line-height:72px;font-size:27px;text-align:center;font-weight:normal;color:#fff;border-bottom:1px solid #fff;background:url(../images/nav_bg.png) repeat;}
+.nav_cont li ol{padding:0 25px 100px;background:url(../images/nav_bg.png) repeat;}
+.nav_cont li ol li{line-height:65px;border-bottom:1px dashed #fff;color:#fff;font-size:16px;}
+.nav_cont li ol li:hover{cursor:pointer;}
+
+.pointer{width:20px;height:25px;background:url(../images/litter_icon.png) no-repeat left -75px;position:absolute;top:165px;right:0px;}
+
+
+
+
+
+
+
+

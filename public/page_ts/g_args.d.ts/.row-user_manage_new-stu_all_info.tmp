@@ -1,0 +1,10 @@
+	userid	:any;
+	nick	:any;
+	type	:any;
+	parent_name	:any;
+	phone	:any;
+	grade	:any;
+	lesson_count_all	:any;
+	lesson_count_left	:any;
+	last_lesson_time	:any;
+	type_str	:any;

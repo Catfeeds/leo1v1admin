@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* CSS Document */
+.mesg_alert{max-height:550px;overflow:auto;width:500px;background:#fff;border:1px solid #666;border-radius:10px;position:fixed;top:100px;left:50%;margin-left:-250px;padding-bottom:20px;display:none;}
+.mesg_alert h6{text-align:center;font-size:18px;font-weight:normal;height:40px;line-height:40px;overflow:hidden;position:relative;}
+.mesg_alert .closed{background:url(../images/alert_closeIcon.png) no-repeat center;width:40px;height:40px;display:inline-block;border:0;position:absolute;top:0;right:0;}
+
+.mesg_alert .mesg_alertCont{padding:0 40px 20px;}
+.mesg_alert .mesg_alertCont td{padding:5px 0;}
+.mesg_alert ul.list01{overflow:hidden;}
+.mesg_alert .list01 li{float:left;width:210px;height:50px;line-height:50px;}
+.mesg_alert .list01 li.searched{width:450px;}
+.mesg_alert .list01 li span{display:inline-block;margin-right:10px;}
+.mesg_alert .list01 li input,.list01 li select{border:1px solid #aaa;color:#666;}
+.mesg_alert .list01 li input{color:#999;}
+
+.mesg_alert .search_teacher{width:200px;height:30px;line-height:30px;padding-left:5px;margin-right:5px;}
+.mesg_alert .list01 li input.search_btn{width:100px;height:30px;border:0;background:#6ac3ec;color:#fff;border:1px solid #6ac3ec;}
+
+
+ul.list02{width:100%;overflow:hidden;margin-top:5px;}
+.list02 li{float:left;text-align:center;height:24px;line-height:24px;}
+.list02 li.line01{width:7%;}
+.list02 li.line02{width:27%;}
+.list02 li.line03{width:17%;}
+.list02 li.line04{width:22%;}
+.list02 li.line05{width:22%;}
+
+.tab01{height:185px;overflow-y:auto;border:1px solid #999;margin-top:5px;background:#eee;}
+table.list03{background:#eee;}
+.list03 td{text-align:center;height:30px;line-height:30px;}
+
+.yes{text-align:center;}
+.yes input{margin-top:20px;}
+.edit_long{width:60%;}
+
+.dis_on{display:none;}
+
+/*弹窗课表排课*/
+.classTb{overflow:hidden;}
+.classTb ul{width:20%;float:left;font-size:12px;}
+.classTb ul li{height:21px;line-height:21px;}
+.classTb .list04{width:75%;float:left;font-size:12px;}
+.classTb .list04 thead tr td{height:20px;line-height:20px;}
+.classTb .list04 td{height:20px;}
+
+.have{background:#0CF;}
+.class_plan{display:none;}
+.clcOn:hover,.clcNo:hover{cursor:pointer;}
+
+/*弹窗录入回访*/
+.alert03 input,.alert03 textarea{border:1px solid #666;width:90%;font-size:14px;padding:5px;}
+.alert03 textarea{height:100px;}
+.alert03 li{line-height:30px;margin-bottom:5px;font-size:16px;}
+.sure{text-align:center;}
+.sure input{width:100px;height:30px;background:#6ac3ec;color:#fff;font-size:16px;margin-top:20px;border:0;}
+
+
+/*大弹窗*/
+.mesgAlert_big{width:1000px;margin-left:-500px;padding-bottom:40px;top:200px;}
+.mesgAlert_big .mesg_alertCont{overflow:auto;height:350px;margin-top:10px;}
+.mesgAlert_big .mesg_alertCont .blue_btn{margin-bottom:20px;}
+
+/*礼品状态弹窗*/
+.mesg_alert05 select{margin-top:10px;}
+
+/*自定义排课*/
+.mesg_alert10 table tr{height:34px;}
+
+.mesg_alert10 input.give_ok{border:0;width:100%;}
+
+.mesg_alert11 table tr{height:34px;}
+.sure_p{padding-left:20px;height:36px;line-height:36px;font-size:16px;color:#09c;}
+.cancel_cause{width:90%;padding:5px;}
+
+/*教师课表*/
+.mesg_alert12 li{height:36px;line-height:36px;}
+.mesg_alert12 .blue_btn{margin:0;}
+
+/*意向用户弹窗*/
+.mesg_alert14 table{margin-top:20px;}
+.mesg_alert14 thead,.mesg_alert17 thead{font-weight:bold;font-size:16px;}
+.mesg_alert14 td,.mesg_alert17 td{padding:1% 5%;height:28px;line-height:28px;}
+
+.mesg_alert15{padding-bottom:20px;height:300px;}
+
+/*退费详情*/
+.mesg_alert16{padding-bottom:40px;}
+.mesg_alert16 .blue_btn{margin-bottom:20px;}
+
+/*教师列表*/
+.mesg_alert21,.mesg_alert23{padding-bottom:20px;}
+.mesg_alert21 input,.mesg_alert21 select,.mesg_alert23 input,.mesg_alert23 select{width:85%;height:32px;padding:0 2%;}
+
+.teach_mesg{display:none;}
+.teach_mesg textarea,.teach_mesg input,.teach_mesg select{width:85%;}
+.teach_mesg input,.teach_mesg select{height:32px;}
+
+p.teach_alertBtn{overflow:hidden;width:auto;left:115px;}
+p.teach_alertBtn a{float:left;}
+
+/*角色管理*/
+.mesg_alert24,.mesg_alert25{padding-bottom:20px;}
+.mesg_alert24 .align_l input{padding:5px;width:80%;}
+
+/*权限管理弹窗*/
+.mesg_alert27 table,.mesg_alert28 table{margin-top:20px;}
+.mesg_alert27 table input,.mesg_alert28 table input{padding:5px;width:80%;}
+
+
+
+
+
+

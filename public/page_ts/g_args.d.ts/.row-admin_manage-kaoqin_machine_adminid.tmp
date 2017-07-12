@@ -1,0 +1,9 @@
+	title	:any;
+	machine_id	:any;
+	adminid	:any;
+	auth_flag	:any;
+	open_door_flag	:any;
+	sn	:any;
+	del_flag	:any;
+	auth_flag_str	:any;
+	admin_nick	:any;

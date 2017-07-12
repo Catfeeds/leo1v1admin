@@ -1,0 +1,49 @@
+common_ex.php:        $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
+common_ex.php:        $ret = $this->t_teacher_lecture_appointment_info->row_insert([
+common_new.php:        $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
+common_new.php:        $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);
+common.php:                            $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num($reference_info['phone'],$type);
+human_resource.php:        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,[
+human_resource.php:            $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
+human_resource.php:        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info(
+human_resource.php:        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,$update_data);
+human_resource.php:        $check_flag=$this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
+human_resource.php:        $ret = $this->t_teacher_lecture_appointment_info->row_insert([
+human_resource.php:        $appoint_list = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_appointment_origin_list(
+human_resource.php:        $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
+human_resource.php:        $lecture_info = $this->t_teacher_lecture_appointment_info->get_lecture_sum_by_reference($start_time,$end_time);
+human_resource.php:        $trial_info = $this->t_teacher_lecture_appointment_info->get_trial_sum_by_reference($start_time,$end_time);
+human_resource.php:        $through_info = $this->t_teacher_lecture_appointment_info->get_trial_sum_by_reference($start_time,$end_time,1);
+human_resource.php:        $train_info = $this->t_teacher_lecture_appointment_info->get_train_sum_by_reference($start_time,$end_time);
+human_resource.php:        // $train_trial_info = $this->t_teacher_lecture_appointment_info->get_train_trial_sum_by_reference($start_time,$end_time);
+human_resource.php:        // $train_through_info = $this->t_teacher_lecture_appointment_info->get_train_trial_sum_by_reference($start_time,$end_time,1);
+main_page.php:        //$lecture_info = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_tongji($start_time,$end_time);
+main_page.php:        $this->t_teacher_lecture_appointment_info->switch_tongji_database();
+main_page.php:        $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
+seller_student.php:            $ret_id = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
+seller_student.php:                $id = $this->t_teacher_lecture_appointment_info->add_all_info(
+ss_deal.php:            $this->t_teacher_lecture_appointment_info->field_update_list($item,[
+ss_deal.php:        $old_phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+ss_deal.php:            $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
+ss_deal.php:        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+ss_deal.php:            $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_appointment_status"=>$lecture_appointment_status]);
+ss_deal.php:            $this->t_teacher_lecture_appointment_info->row_delete($item);
+ss_deal.php:        $this->t_teacher_lecture_appointment_info->row_delete($id);
+ss_deal.php:        $ret = $this->t_teacher_lecture_appointment_info->add_all_info(
+teacher_info_new.php:        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info($page_num,$start_time,$end_time,$phone,$status);
+teacher_info_new.php:        $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
+tea_manage_new.php:        $email = $this->t_teacher_lecture_appointment_info->get_email_by_phone($phone);
+tea_manage_new.php:        $email = $this->t_teacher_lecture_appointment_info->get_email_by_phone($phone);
+tea_manage.php:        $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
+tea_manage.php:        $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
+TeaPower.php:        $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
+TeaPower.php:        $appointment_info = $this->t_teacher_lecture_appointment_info->get_simple_info($teacher_info['phone']);
+TeaPower.php:        $reference           = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
+TeaPower.php:        $reference_count     = $this->t_teacher_lecture_appointment_info->get_reference_count($reference);
+test_code.php:        $list = $this->t_teacher_lecture_appointment_info->get_ref_teacher_list();
+test_code.php:        $teacher_info = $this->t_teacher_lecture_appointment_info->get_lecture_appointment_info($phone);
+tongji_ss.php:        $this->t_teacher_lecture_appointment_info->switch_tongji_database();
+tongji_ss.php:        $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
+tongji_ss.php:        $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
+tongji_ss.php:        $app_time = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_time($time);
+tongji_ss.php:        $list = $this->t_teacher_lecture_appointment_info->tongji_zs_reference_info($start_time,$end_time);

@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+.top{height:110px;width:100%;background:url(../images/topTitle_bg.png) no-repeat center bottom #6ac3ec;position:relative;box-shadow:0 1px 10px #aaa;}
+.top h1{height:110px;line-height:110px;position:absolute;top:0;left:10%;color:#fff;font-size:45px;font-weight:normal;}
+.top h1 span{font-weight:normal;font-size:32px;margin-left:10px;}
+.top p{position:absolute;bottom:30px;right:10%;color:#fff;font-size:16px;padding-right:100px;}
+.top p a{margin-left:20px;color:#fff;display:inline-block;overflow:hidden;position:absolute;right:0;top:0;}
+.top p a i{width:25px;height:25px;display:inline-block;background:url(../images/litter_icon.png) no-repeat left 3px;float:right;margin-left:10px;}
+.top p a:hover{color:#2892c2;}
+.top p a:hover i{background:url(../images/litter_icon.png) no-repeat right 3px;}
+
+.main{height:100%;position:relative;}
+
+/*弹框*/
+.shadow{width:100%;height:100%;background:#000;opacity:.5;filter:alpha(opacity=50);position:absolute;top:0;left:0;z-index:20;display:none;}
+.alert{width:500px;height:300px;background:#fff;position:fixed;left:50%;top:50%;margin:-150px 0 0 -250px;z-index:21;display:none;}
+.close{height:40px;overflow:hidden;border-bottom:1px solid #ccc;}
+.close a{width:40px;height:40px;display:inline-block;float:right;background:url(../images/alert_closeIcon.png) no-repeat center;}
+.alert_cont{line-height:40px;text-align:center;font-size:18px;margin:50px 0;padding:0 20px;}
+
+.alert_btn,.sub_btn{width:100%;height:50px;line-height:50px;text-align:center;position:absolute;bottom:40px;left:0;}
+.alert_btn a,.sub_btn a{width:80px;height:40px;line-height:40px;display:inline-block;background:#6ac3ec;color:#fff;margin:0 30px;font-size:18px;}
+.alert_btn a:hover,.sub_btn a:hover{text-decoration:none;}
+.alert_btn a.no,.sub_btn a.no{background:#aaa;}
+
+.alert02 table{margin:0 auto;}
+.alert02 table td{height:40px;}
+.alert02 table td input{margin-right:5px;}
+
+
+
+
+
+
+

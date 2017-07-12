@@ -1,0 +1,7 @@
+	lesson_count	:any;
+	count	:any;
+	user_count	:any;
+	assistantid	:any;
+	assistant_nick	:any;
+	week_per	:any;
+	xs	:any;

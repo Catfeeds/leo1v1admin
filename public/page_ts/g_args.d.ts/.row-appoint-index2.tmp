@@ -1,0 +1,15 @@
+	packageid	:any;
+	package_pic	:any;
+	package_name	:any;
+	grade	:any;
+	subject	:any;
+	lesson_total	:any;
+	effect_start	:any;
+	effect_end	:any;
+	tag_type	:any;
+	current_price	:any;
+	package_deadline	:any;
+	package_type	:any;
+	user_total	:any;
+	package_tags	:any;
+	package_type_str	:any;

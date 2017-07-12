@@ -1,0 +1,22 @@
+{
+    "libs": [
+        "browser", 
+        "jquery"
+    ], 
+    "loadEagerly": [
+        "../js/jquery.query.js", 
+        "./header.js", 
+        "./question_editor.js", 
+        "./mathjax_editor.js", 
+        "../js/jquery.datetimepicker.js", 
+        "../js/bootstrap-dialog.js", 
+        "../js/bootstrap.js", 
+        "../js/jquery.admin.js"
+    ], 
+    "plugins": {
+        "requirejs": {
+            "baseURL": "./", 
+            "paths": {}
+        }
+    }
+}

@@ -1,0 +1,192 @@
+function load_data( ){
+    var start_date = $("#id_start_date").val();
+    var end_date   = $("#id_end_date").val();
+    
+    reload_self_page({
+        "start_date" : start_date,
+        "end_date" : end_date,
+        "origin" : $("#id_origin").val(),
+        "origin_ex" : $("#id_origin_ex").val(),
+        "admin_revisiterid" : $("#id_admin_revisiterid").val()
+    });
+}
+
+$(function(){
+
+    $("#id_subject_pic,#id_has_pad_pic,#id_grade_pic,#id_area_pic").css({
+        "height" : 400
+    });
+
+	function labelFormatter(label, series) {
+		return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+	}
+
+
+    var gen_data=function ( map, field_str,id_str) {
+        var data = [];
+        var tbody=$("#"+id_str).parent().find("tbody");
+        
+
+        var objectList = new Array();
+        $.each(map,function(i,v){
+            var desc="";
+            if (field_str) {
+                desc=Enum_map.get_desc(field_str,i) ;
+            }else{
+                desc=i;
+                i="";
+            }
+ 		    data.push({
+			    label: desc,
+			    data: v 
+		    });
+            objectList.push([v, "<tr> <td> "+i+"</td>   <td> "+desc+" </td>  <td> "+v+" </td></tr>" ]) ;
+
+	    }) ;
+        objectList.sort(function(a,b){
+            return b[0]-a[0];
+        });
+        $.each(objectList,function(i,item){
+            tbody.append(item[1]);
+        });
+
+
+        $.plot('#'+id_str, data, {
+            series: {
+                pie: {
+                    show: true,
+                    radius: 1,
+                    tilt: 0.5,
+                    label: {
+                        show: true,
+                        radius: 1,
+                        formatter: labelFormatter,
+                        background: {
+                            opacity: 0.8
+                        }
+                    },
+                    combine: {
+                        color: '#999',
+                        threshold: 0.1
+                    }
+                }
+            },
+            legend: {
+                show: false
+            }
+        });
+
+    };
+    gen_data( g_subject_map,"subject","id_subject_pic");
+    gen_data( g_grade_map,"grade","id_grade_pic");
+    gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
+    gen_data( g_area_map,"","id_area_pic");
+
+
+    
+
+   
+    $('#id_start_date').val(g_args.start_date);
+    $('#id_end_date').val(g_args.end_date);
+    $('#id_origin').val(g_args.origin);
+    $('#id_origin_ex').val(g_args.origin_ex);
+    $.each($(".key2"),function(){
+        var $this=$(this);
+        if($.trim($this.text())!=""  ) {
+            $this.parent().hide();
+        }
+    });
+
+    $.do_ajax( "/authority/get_group_user_list_ex", {
+        groupid:1
+    },function(data){
+        var user_list=data.user_list;
+        var $select=$("#id_admin_revisiterid" );
+        $.each(user_list, function(i,item){
+            $select.append( "<option value="+item.adminid+"> "+item.admin_nick+ " </option>" );
+
+        });
+        $("#id_admin_revisiterid").val(g_args.admin_revisiterid);
+    });
+
+    var link_css=        {
+            color: "#3c8dbc",
+            cursor:"pointer"
+    };
+
+    $(".l-1 .key1").css(link_css);
+    $(".l-2 .key2").css(link_css);
+    $(".l-3 .key3").css(link_css);
+
+    $(".l-1 .key1").on("click",function(){
+        var $this=$(this);
+        var class_name= $this.data("class_name");
+        if ($this.data("show") ==true) {
+            $(".key2."+class_name ).parent().hide();
+        }else{
+            var $opt_item=$(".key2."+class_name ).parent(".l-2");
+            $opt_item.show();
+        }
+        $this.parent().show();
+        $this.data("show", !$this.data("show") );
+
+    });
+
+    $(".l-2 .key2").on("click",function(){
+        var $this=$(this);
+        var class_name= $this.data("class_name");
+        if ($this.data("show") ==true) {
+            $(".key3."+class_name ).parent().hide();
+        }else{
+            var $opt_item=$(".key3."+class_name ).parent(".l-3");
+            $opt_item.show();
+        }
+        $this.parent().show();
+        $this.data("show", !$this.data("show") );
+    });
+
+    $(".l-3 .key3").on("click",function(){
+        var $this=$(this);
+        var class_name= $this.data("class_name");
+        if ($this.data("show") ==true) {
+            $(".key4."+class_name ).parent().hide();
+        }else{
+            var $opt_item=$(".key4."+class_name ).parent(".l-4");
+            $opt_item.show();
+        }
+        $this.parent().show();
+        $this.data("show", !$this.data("show") );
+    });
+
+
+
+
+    set_input_enter_event($("#id_origin"),function(){
+        load_data();
+    });
+    
+	//时间控件
+	$('#id_start_date').datetimepicker({
+		lang:'ch',
+		timepicker:false,
+		format:'Y-m-d',
+	    onChangeDateTime :function(){
+		    load_data();
+        }
+	});
+    
+	$('#id_end_date').datetimepicker({
+		lang:'ch',
+		timepicker:false,
+		format:'Y-m-d',
+		onChangeDateTime :function(){
+		    load_data();
+        }
+	});
+
+    
+	$(".opt-change").on("change",function(){
+		load_data();
+	});
+
+});

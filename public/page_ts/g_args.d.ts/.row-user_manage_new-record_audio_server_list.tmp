@@ -1,0 +1,7 @@
+	ip	:any;
+	last_active_time	:any;
+	priority	:any;
+	desc	:any;
+	config_userid	:any;
+	max_record_count	:any;
+	status_class	:any;

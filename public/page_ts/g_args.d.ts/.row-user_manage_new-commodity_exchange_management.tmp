@@ -1,0 +1,13 @@
+	exchangeid	:any;
+	nick	:any;
+	phone	:any;
+	exchange_time	:any;
+	gift_name	:any;
+	gift_type	:any;
+	account	:any;
+	address	:any;
+	status	:any;
+	consignee	:any;
+	consignee_phone	:any;
+	ecg_express_name	:any;
+	status_str	:any;

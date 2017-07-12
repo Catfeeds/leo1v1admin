@@ -1,0 +1,5 @@
+	groupid	:any;
+	group_name	:any;
+	main_assign_percent	:any;
+	master_adminid	:any;
+	master_nick	:any;

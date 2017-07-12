@@ -1,0 +1,659 @@
+@extends('layouts.app')
+@section('content')
+
+<script type="text/javascript" src="/page_js/lib/flow.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+<script type="text/javascript" src="/js/qiniu/ui.js"></script>
+<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+<script type="text/javascript" src="/js/jquery.md5.js"></script>
+<script type="text/javascript">
+ var _KDA = _KDA || [];
+ window._KDA = _KDA;
+ (function(){
+     var _dealProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+     var _sdkURL = _dealProtocol + "deal-admin.kuick.cn/sdk/v1/";
+     _KDA.push(['SDK_URL', _dealProtocol + "deal-admin.kuick.cn/sdk/v1/"]);
+     _KDA.push(['APP_KEY', '128994ec-ba97-4a28-9ecc-faa1b00eba33']);
+     _KDA.push(['APP_SECRET', 'e1888aa6-f527-4477-ae9b-409fca29f44c']);
+     (function() {
+         var dealAdmin = document.createElement('script');
+         dealAdmin.type='text/javascript';
+         dealAdmin.async = true;
+         dealAdmin.src = _sdkURL + 'kuickdealadmin-pc.min.js';
+         var s = document.getElementsByTagName('script')[0];
+         s.parentNode.insertBefore(dealAdmin, s);
+     })();
+ })();
+
+    function onKDAReady(){
+       // 客户下拉组件
+        KDAJsSdk.widget.createCustomerDropMenuWidget({
+          selector: ".kda-customer-widget",
+        });
+        $(function(){
+            var $title=$(".kda-customer-widget .KDA_customerDropMenuName "  );
+            $title.text("K");
+            $(".kda-customer-widget .KDA_customerDropMenuCon"  ).attr( "style" ,"width:30px;");
+        });
+
+    }
+
+    if (typeof KDAJsSdk == "undefined"){
+        if(document.addEventListener){
+            document.addEventListener('KDAReady', onKDAReady, false);
+        } else if (document.attachEvent){
+            document.attachEvent('KDAReady', onKDAReady);
+            document.attachEvent('onKDAReady', onKDAReady);
+        }
+    } else {
+        onKDAReady();
+    }
+</script>
+<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
+    <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
+    <section class="content ">
+        <div>
+            <div class="row  row-query-list" >
+                <div class="col-xs-12 col-md-6"  data-title="时间段">
+                    <div  id="id_date_range" >
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">大类</span>
+                        <select class="opt-change form-control" id="id_group_seller_student_status" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">TQ</span>
+                        <select class="opt-change form-control" id="id_tq_called_flag" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2"  data-always_hide="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">学生</span>
+                        <input class="opt-change form-control" id="id_userid" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">资源</span>
+                        <select class="opt-change form-control" id="id_seller_resource_type" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-3" data-always_show="1"   >
+                    <div class="input-group ">
+                        <input class="opt-change form-control" id="id_phone_name" placeholder="电话,姓名,回车搜索"/>
+                    </div>
+                </div>
+                <div  class="col-xs-6 col-md-4">
+                    <div class="input-group ">
+                        <span class="input-group-addon">转介绍申请人选择</span>
+                        <input class="opt-change form-control" id="id_seller_groupid_ex" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1" >
+                    <div class="input-group ">
+                        <span class="input-group-addon">状态</span>
+                        <select class="opt-change form-control" id="id_seller_student_status" >
+                            <option value="-2">非结课无意向学员</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:none;" class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <span class="input-group-addon">手机归属地</span>
+                        <input class="opt-change form-control" id="id_phone_location" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">科目</span>
+                        <select class="opt-change form-control" id="id_subject" >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">PAD类型</span>
+                        <select class="opt-change form-control" id="id_has_pad" >
+                            </select>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">转介绍负责人</span>
+                        <input class="opt-change form-control" id="id_origin_assistantid" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">转介绍学生</span>
+                        <input class="opt-change form-control" id="id_origin_userid" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">试听确认</span>
+                        <select class="opt-change form-control" id="id_success_flag" >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">申请更改状态</span>
+                        <select class="opt-change form-control" id="id_seller_require_change_flag" >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">微信运营</span>
+                        <select class="opt-change form-control" id="id_tmk_student_status" >
+                        </select>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-xs-6 col-md-2"
+                           style="   {{$cur_page!=10002?"display:none;":""}}"
+                >
+                       <div
+                           class="input-group ">
+                           <span class="input-group-addon">角色</span>
+                           <select class="opt-change form-control" id="id_origin_assistant_role" >
+                           </select>
+                       </div>
+                   </div>
+
+               @if ( $cur_page==10001 )
+                   <div class="col-xs-6 col-md-1">
+                       <button class="btn btn-primary fa fa-plus" id="id_add" > 转介绍</button>
+                   </div>
+
+               @elseif ( $cur_page==10002 )
+
+               @else
+
+                   <div class=" col-xs-12 col-md-5" >
+
+                       <div class="input-group">
+                           <button class="btn  " id="id_tmk_new_no_called_count" ></button>
+                           <button class="btn  " id="id_new_no_called_count" ></button>
+                           <button class="btn  " id="id_no_called_count" ></button>
+                           <button class="btn  " id="id_next_revisit" ></button>
+                           <button  class="btn  " id="id_lesson_today"></button>
+                           <button  class="btn  " id="id_lesson_tomorrow" ></button>
+                           <button class="btn  " id="id_return_back_count" ></button>
+                           <button  class="btn  " id="id_require_count" ></button>
+                           <button  class="btn  " id="id_no_confirm_count" ></button>
+                       </div>
+                   </div>
+
+
+               @endif
+            </div>
+        </div>
+        <hr/>
+        <table class="common-table">
+            <thead>
+                <tr>
+                    <td >电话</td>
+                    <td style=" display:none;  min-width:140px;">个人信息</td>
+                    <td style="width:60px" class="th-opt-time-field" ></td>
+                    <td style="display:none;">资源进来时间</td>
+                    <td style="display:none;" >来源</td>
+                    <td >姓名</td>
+                    <td >回访状态</td>
+                    <td >TQ状态</td>
+                    <td style="display:none;" >用户备注(all)</td>
+                    <td >年级</td>
+                    <td >科目</td>
+                    <td >是否有pad</td>
+                    <td  >试卷</td>
+                    <td style=" display:none; min-width:200px;" >回访信息</td>
+                    <td style="display:none;">下次跟进时间</td>
+
+                    <td style="   {{$cur_page<=10000 ?"display:none;":""}}" >销售</td>
+
+                    <td style="display:none;" >分配时间</td>
+                    <td style="display:none;" >最后一次回访时间</td>
+                    <td style=""  >最后一次回访记录</td>
+                    <td style=" display:none; min-width:120px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ?"display:none;":""}}"   >课程信息</td>
+                    <td style=" display:none; min-width:240px;   {{@$page_hide_list["teacher_nick"] && $cur_page<10000 ? "display:none;":""}}"   >课程确认</td>
+                    <td style="" >教务</td>
+                    <td style="" >老师</td>
+                    <td style="" >上课信息</td>
+                    <td style="" >确认成功</td>
+                    <td style="" >出错是否付工资</td>
+                    <td style="" >原因</td>
+                    <td>申请更改时间</td>
+                    <td>合同金额</td>
+                    <td style="display:none;" >未签单分类</td>
+                    <td style="display:none;" >未签单说明</td>
+                    <td style="min-width:120px;" >操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ( $table_data_list as $var )
+                    <tr>
+                         <td  class="td-phone">
+                             <div class="phone-data">{{$var["phone"]}}</div>
+                         </td>
+                         <td >
+                             {{$var["phone"]}} {{$var["phone_location"]}} <br/>
+                             姓名: {{$var["nick"]}} <br/>
+                             年级:{{$var["grade_str"]}}<br/>
+                             科目:{{$var["subject_str"]}}<br/>
+                             PAD: {{$var["has_pad_str"]}}<br/>
+                             @if (!$var["origin_assistantid"]  )
+                             @else
+                                 转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
+                                 介绍人:{{$var["origin_user_nick"]}}
+                             @endif
+                             版本: {{$var["user_agent"]}}<br/>
+                         </td>
+                         <td >{{$var["opt_time"]}}</td>
+                         <td >{{$var["add_time"]}}</td>
+                         <td class="">
+                             @if (!$var["origin_assistantid"]  )
+                             @else
+                                 转介绍申请人:{{$var["origin_assistant_nick"]}}<br>
+                                 介绍人:{{$var["origin_user_nick"]}}
+                             @endif
+                         </td>
+
+                         <td >{{$var["nick"]}}</td>
+                         <td >
+                             {{$var["seller_student_status_str"]}}<br><br>
+                             @if($var["seller_student_status"]==110)
+                                 驳回理由:{{$var["no_accept_reason"]}}
+                             @endif
+                         </td>
+                         <td>{{$var["tq_called_flag_str"]}}</td>
+                         <td >{{$var["user_desc"]}}</td>
+                         <td >{{$var["grade_str"]}}</td>
+                         <td >{{$var["subject_str"]}}</td>
+                         <td >{{$var["has_pad_str"]}}</td>
+                         <td >
+                             {!!  $var["stu_test_paper_flag_str"] !!}
+                             <br/>
+                             @if( $var["stu_test_paper_flow_status"])
+                                 不传审核:{!!   $var["stu_test_paper_flow_status_str"] !!}
+                             @endif
+                         </td>
+                         <td >
+                             下次跟进时间: {{$var["next_revisit_time"]}} <br/>
+                             最后一次回访时间:{{$var["last_revisit_time"]}}<br/>
+                             最后一次回访记录:{{$var["last_revisit_msg_sub"]}}<br/>
+
+                             <br/>
+                             备注:{{$var["user_desc_sub"]}}</td>
+                         </td>
+                         <td >{{$var["next_revisit_time"]}}</td>
+                         <td >{{$var["admin_revisiter_nick"]}}</td>
+                         <td >{{$var["admin_assign_time"]}}</td>
+                         <td >{{$var["last_revisit_time"]}}</td>
+                         <td >{{$var["last_revisit_msg_sub"]}}</td>
+                         <td >
+                             <div
+                                 style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                 >试卷: {!!  $var["stu_test_paper_flag_str"] !!}
+                             </div>
+
+
+
+
+                             <br/>
+                             是否保留: {!!  $var["lesson_used_flag_str"] !!} <br/>
+                             老师: {{$var["teacher_nick"]}} <br/>
+                             时间: {{$var["lesson_start"]}} <br/>
+                             {!! @$var["notify_lesson_flag_str"]!!}
+
+                         </td>
+                         <td >
+                                课时确认(是否成功):{!!$var["success_flag_str"]!!} <br/>
+                                确认人:{!!$var["confirm_admin_nick"]!!} <br/>
+                                确认时间:{!!$var["confirm_time"]!!} <br/>
+
+                                @if ($var["success_flag"]==2)
+                                    是否付工资:
+                                    @if ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
+                                        <font color="red"> 付</font>
+                                    @else
+                                        <font > 不付</font>
+                                    @endif
+                                    <br/>
+                                    上课4小时前取消: {{$var["fail_greater_4_hour_flag_str"]}} <br/>
+                                    出错类型:{{$var["test_lesson_fail_flag_str"]}} <br/>
+                                    说明:{{$var["fail_reason"]}} <br/>
+
+                                @endif
+
+
+                         </td>
+                         <td >{{$var["accept_admin_nick"]}} </td>
+                         <td >{{$var["teacher_nick"]}}
+
+                         </td>
+                         <td >
+                             @if( $var["parent_wx_openid"] )
+                                 <font color="green">家长已绑定微信 </font>
+                             @else
+                                 <font color="red"> 家长未绑定微信  </font>
+                             @endif
+                             <br/>
+                             上课时间: {{$var["lesson_start"]}}
+                             <br/>
+                             家长确认时间: {{$var["parent_confirm_time"]}}
+
+                             {!! @$var["notify_lesson_flag_str"]!!}
+
+                         </td>
+                         <td >
+                                {!!$var["success_flag_str"]!!}
+                         </td>
+                        <td >
+
+                            @if ($var["success_flag"] ==2 )
+                                @if (! $var["success_flag"]   )
+                                @elseif ( in_array( $var["test_lesson_fail_flag"], [1,2,3]) )
+                                    <font color="red"> 付</font>
+                                @else
+                                    <font > 不付</font>
+                                @endif
+                            @endif
+
+                        </td>
+                        <td >
+                            @if ($var["success_flag"] ==2 )
+                                {{$var["test_lesson_fail_flag_str"]}}
+                            @endif
+                         </td>
+
+                         <td >{{$var["seller_require_change_flag_str"]}} </td>
+                         <td >{{intval($var["order_price"])}} </td>
+                         <td >{{$var["test_lesson_order_fail_flag_str"]}} </td>
+                         <td >{{$var["test_lesson_order_fail_desc"]}} </td>
+
+
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                                <a href="javascript:;" title="用户信息" class="fa-user opt-user"></a>
+                                <a title="查看回访" class=" show-in-select  fa-comments  opt-return-back-list "></a>
+                                <a title="录入回访信息" class="  fa-edit opt-edit"></a>
+                                <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
+                                <a title="试听申请" class="fa fa-headphones opt-post-test-lesson "></a>
+                                <a class="fa  opt-flow-node-list fa-facebook " title="不传试卷,审核进度"></a>
+                                <a title="试听申请未排-取消"  class="fa fa-undo opt-undo-test-lesson "></a>
+                                <a title="查看试听课老师反馈" class="fa fa-bookmark opt-get_stu_performance"></a>
+                                <a title="上传试卷"
+                                   style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                   id="upload-test-paper-{{$var["test_lesson_subject_id"]}}"
+                                   class=" fa-upload opt-upload-test-paper "></a>
+                                <a title="下载试卷"
+                                   style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                   class=" fa-download opt-download-test-paper "></a>
+                                <a
+                                    style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                    title="设置排课通知家长"  class=" fa-bullhorn opt-notify-lesson"></a>
+                                <a
+                                    style="   {{@$page_hide_list["stu_test_paper_flag_str"]?"display:none;":""}}"
+                                    title="试听请求列表" class="fa fa-list opt-get-require-list "></a>
+
+                                <a
+                                    style="   {{$cur_page!=301?"display:none;":""}}"
+                                    href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+
+                                <a
+                                    style="   {{$cur_page!=10001?"display:none;":""}}"
+                                    title="删除" class="fa  fa-trash-o   opt-del "></a>
+
+
+
+                                <a href="javascript:;" class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+
+                                <a title="扩课"  class="  fa-share-alt opt-kuoke"></a>
+                                <a class="btn  fa-tumblr-square  opt-seller-require" title="申请更换时间"></a>
+                                <a class="btn  opt-seller-qr-code " title="产生二维码">P</a>
+                                <a class="btn fa-hand-o-right opt-seller-green-channel" title="申请绿色通道"></a>
+                                <div  class="kda-customer-widget"
+                                     auid="{{$var["userid"]}}"
+                                     duid=""
+                                     name="{{$var["nick"]?$var["nick"]:"无昵称"}}"
+                                     phone=""
+                                     email=""
+                                     company=""
+                                     title=""
+                                      style=" display:inline-block;  "> </div>
+                                @if($is_seller_master==1)
+                                    <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推</a>
+                                @endif
+                                <a title="匹配老师" class="opt-match-teacher show_flag">匹配老师</a>
+                                <a title="TMK 信息" class="opt-tmk-valid ">TMK</a>
+                            </div>
+
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @include("layouts.page")
+    </section>
+
+
+    <div style="display:none;" id="id_dlg_post_user_info">
+        <div class="row">
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6  ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学员姓名：</span>
+                            <input type="text" class=" form-control "  id="id_stu_nick"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">家长姓名：</span>
+                            <input type="text" class=" form-control "  id="id_par_nick"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学生性别：</span>
+                            <select id="id_stu_gender" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">是否有pad：</span>
+                            <select id="id_stu_has_pad" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">家庭住址：</span>
+                            <input type="text" id="id_stu_addr"  class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">学生年级：</span>
+                            <select id="id_stu_grade" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">　　科目：</span>
+                            <select id="id_stu_subject" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">在读学校：</span>
+                            <input type="text" id="id_stu_school"  class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">教材版本：</span>
+                            <select id="id_stu_editionid" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-7 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">回访状态：</span>
+                            <select id="id_stu_status" class=" form-control "   >
+                            </select>
+                            <span> &gt </span>
+                            <select id="id_seller_student_sub_status" class=" form-control "   >
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-5 ">
+                        <a class="btn  " id="id_stu_rev_info" >回访记录</a>
+                        <a class="btn  btn-primary " id="id_send_sms" >发短信给家长</a>
+                    </div>
+                </div>
+                <div class="row ">
+
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">下次回访：</span>
+                            <input id="id_next_revisit_time" class=" form-control " />
+
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_next_revisit_time"  title="取消下次回访">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span >成绩情况:</span>
+                            <input type="text" value=""   id="id_stu_score_info"  class="form-control" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span >性格特点:</span>
+                            <input type="text" value=""   id="id_stu_character_info" class="form-control"  placeholder="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row ">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听内容：</span>
+                            <select id="id_stu_test_lesson_level" class=" form-control "   >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon"> 连线测试 ：</span>
+                            <select id="id_stu_test_ipad_flag" class=" form-control "   >
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听时间：</span>
+                            <input id="id_stu_request_test_lesson_time" class=" form-control "   />
+                            <div class=" input-group-btn "  >
+                                <button class="btn  btn-primary " id="id_stu_reset_stu_request_test_lesson_time"  title="取消">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <button class="btn  btn-primary " id="id_stu_request_test_lesson_time_info"  title=""> 试听其他时段 </button>
+                        <button class="btn  btn-primary " id="id_stu_request_lesson_time_info"  title=""> 正式课时段 </button>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon">试听需求：</span>
+                            <textarea class="form-control" style="height:60px;"
+                                      id="id_stu_request_test_lesson_demand" > </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >　　备注：</span>
+                            <textarea class="form-control" style="height:70px;" id="id_stu_user_desc" > </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-addon" >回访信息：</span>
+                            <textarea class="form-control" style="height:130px;" id="id_stu_revisite_info"  > </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+@endsection

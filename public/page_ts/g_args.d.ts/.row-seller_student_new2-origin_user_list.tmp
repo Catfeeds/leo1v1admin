@@ -1,0 +1,8 @@
+	userid	:any;
+	origin	:any;
+	add_time	:any;
+	subject	:any;
+	cur_origin	:any;
+	phone	:any;
+	subject_str	:any;
+	origin_same_flag_str	:any;

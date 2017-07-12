@@ -1,0 +1,11 @@
+	userid	:any;
+	phone	:any;
+	last_revisit_admin_time	:any;
+	last_revisit_adminid	:any;
+	lesson_start	:any;
+	gender	:any;
+	grade	:any;
+	nick	:any;
+	grade_str	:any;
+	gender_str	:any;
+	phone_hide	:any;

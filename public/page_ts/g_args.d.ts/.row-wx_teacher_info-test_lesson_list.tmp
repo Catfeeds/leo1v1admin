@@ -1,0 +1,10 @@
+	seller_student_id	:any;
+	grade	:any;
+	subject	:any;
+	st_class_time	:any;
+	assigned_teacherid	:any;
+	teacher_confirm_flag	:any;
+	teacher_confirm_time	:any;
+	grade_str	:any;
+	subject_str	:any;
+	st_class_time_str	:any;

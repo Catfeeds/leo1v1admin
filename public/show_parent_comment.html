@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width,initial-scale=0.8,maximum-scale=1.0,user-scalable=no" name="viewport">
+        <meta content="yes" name="apple-mobile-web-app-capable">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style">
+        <meta content="telephone=no" name="format-detection">
+        <meta content="email=no" name="format-detection">
+        <title>评价内容</title>
+        <link href="./lib/css/main.css" rel="stylesheet" media="screen" type="text/css">
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+        <script src="js/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="js/show_teacher_comment.js"></script>
+        <!-- Insert this line after script imports -->
+        <script>if (window.module) module = window.module;</script>
+        <script src="/js/jquery-2.1.4.js" type="text/javascript"></script>
+        <script src="/js/jquery.query.js" type="text/javascript"></script>
+        <!-- <script src="/js/jquery.admin.js?20170328-193149" type="text/javascript"></script>
+           -->
+        <style>
+         .dowebok{
+             margin-left:18px;
+         }
+        </style>
+    </head>
+    <body class="body-div">
+        <div class="up">
+            <div id="container">
+                    <div class="group">
+                        <div class="icon-tag">
+                            <image class="image-tag" src="lib/images/icon_tag.png" height="15" width="3">
+                            </image>
+                            <div class="title-tag">
+                                <h4>师生互动</h4>
+                            </div>
+                        </div>
+                        <div class="dowebok" >
+                            <div class="stu_interaction">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group">
+                        <div class="icon-tag">
+                            <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                            </image>
+                            <div class="title-tag">
+                                <h4>课堂氛围</h4>
+                            </div>
+                        </div>
+                        <div class="dowebok" >
+                            <div class="stu_class_atmos">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group">
+                        <div class="icon-tag">
+                            <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                            </image>
+                            <div class="title-tag">
+                                <h4>授课规范</h4>
+                            </div>
+                        </div>
+                        <div class="dowebok" >
+                            <div class="stu_tea_standard">
+                            </div>
+                        </div>
+                    </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                        </image>
+                        <div class="title-tag">
+                            <h4>老师风格</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_tea_style">
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                        </image>
+                        <div class="title-tag">
+                            <h4>评分等级</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_level">
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag"  src="lib/images/icon_tag.png" height="12" width="3">
+                        </image>
+                        <div class="title-tag">
+                            <h4>设备评级</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_device_level">
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                        </image>
+                        <div class="title-tag">
+                            <h4>反馈内容:</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_record_info">
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                        <div class="title-tag">
+                            <h4>设备描述:</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_device_description">
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="icon-tag">
+                        <image class="image-tag" src="lib/images/icon_tag.png" height="12" width="3">
+                        <div class="title-tag">
+                            <h4>设备反馈:</h4>
+                        </div>
+                    </div>
+                    <div class="dowebok" >
+                        <div class="stu_device_record">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script type="text/javascript" >
+     (function() {
+         function GetRequest() {
+             var url = location.search; //获取url中"?"符后的字串
+             var theRequest = new Object();
+             if (url.indexOf("?") != -1) {
+                 var str = url.substr(1);
+                 strs = str.split("&");
+                 for(var i = 0; i < strs.length; i ++) {
+                     theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+                 }
+             }
+             return theRequest;
+         }
+
+         var Request = GetRequest();
+         var lessonid = Request['lessonid'];
+         var userid = Request['userid'];
+         var url = 'http://wx-parent.leo1v1.com/wx_parent_common/get_lesson_evaluate';
+
+         $.ajax({
+             type:  'get',
+             url:   url,
+             data:  {
+                 lessonid:lessonid,
+                 userid:userid,
+             },
+             dataType: 'jsonp',
+             success:function(result){
+                 $.each(result,function(index,item){
+                     $('.dowebok>.stu_'+index).text(item);
+                 });
+             }
+         });
+     })();
+    </script>
+
+</html>

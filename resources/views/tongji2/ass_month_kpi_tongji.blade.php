@@ -1,0 +1,142 @@
+@extends('layouts.app')
+@section('content')
+    <style>
+     .center-title {
+         font-size:20px;
+         text-align:center;
+     }
+     .huge {
+         font-size: 40px;
+     }
+     .panel-green {
+         border-color: #5cb85c;
+     }
+     .panel-green .panel-heading {
+         background-color: #5cb85c;
+         border-color: #5cb85c;
+         color: #fff;
+     }
+     .panel-green a {
+         color: #5cb85c;
+     }
+     .panel-green a:hover {
+         color: #3d8b3d;
+     }
+     .panel-red {
+         border-color: #d9534f;
+     }
+     .panel-red .panel-heading {
+         background-color: #d9534f;
+         border-color: #d9534f;
+         color: #fff;
+     }
+     .panel-red a {
+         color: #d9534f;
+     }
+     .panel-red a:hover {
+         color: #b52b27;
+     }
+     .panel-yellow {
+         border-color: #f0ad4e;
+     }
+     .panel-yellow .panel-heading {
+         background-color: #f0ad4e;
+         border-color: #f0ad4e;
+         color: #fff;
+     }
+     .panel-yellow a {
+         color: #f0ad4e;
+     }
+     .panel-yellow a:hover {
+         color: #df8a13;
+     }
+
+
+     #id_content .panel-body {
+         text-align:center;
+     }
+
+    </style>
+
+  
+
+
+    <section class="content " id="id_content" >
+        <div>
+            <div class="row">
+                <div class="col-xs-12 col-md-5">
+                    <div id="id_date_range" >
+                    </div>
+                </div>
+            </div>
+            <hr/>
+           
+
+            
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-warning"  >
+                        <div class="panel-heading center-title ">
+                            组员明细
+                        </div>
+                        <div class="panel-body">
+
+                            <table   class="table table-bordered "   >
+                                <thead>
+                                    <tr>
+                                        <td>英文名</td>
+                                        <td>助教</td>
+                                        <td>回访目标</td>
+                                        <td>实际回访量</td>
+                                        <td>回访达成率</td>
+                                        <td>续费目标</td>
+                                        <td>实际续费</td>
+                                        <td>续费达成率</td>
+                                        <td>新学生数</td>
+                                        <td>24小时内首次回访量</td>
+                                        <td>未首次回访量</td>
+                                        <td>退费扣分值</td>
+                                        <td>月课时收入</td>
+                                        <td>扩课数量</td>
+                                        <td>转介绍金额</td>
+                                        <td>续费总额</td>
+                                        <td>转介绍人数</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="id_ass_list">
+                                    @foreach ( $ass_list as $key=> $var )
+                                        <tr>                                           
+                                            <td  > {{@$var["account"]}} </td> 
+                                            <td  > {{@$var["nick"]}} </td> 
+                                            <td  > {{@$var["revisit_target"]}} </td> 
+                                            <td  > {{@$var["revisit_real"]}} </td> 
+                                            <td  > {{@$var["revisit_per"]}}% </td> 
+                                            <td  > {{@$var["renw_target"]}} </td> 
+                                            <td  > {{@$var["renw_price"]}} </td> 
+                                            <td  > {{@$var["renw_per"]}}% </td> 
+                                            <td  > {{@$var["new_num"]}} </td> 
+                                            <td  > {{@$var["first_revisit_num"]}} </td> 
+                                            <td  > {{@$var["un_first_revisit_num"]}} </td> 
+                                            <td>{{@$var["refund_score"]}}</td>
+                                            <td>{{@$var["lesson_money"]}} </td>
+                                            <td>{{@$var["kk_succ"]}} </td>
+                                            <td>{{@$var["tran_price"]}} </td>
+                                            <td>{{@$var["all_price"]}} </td>
+                                            <td>{{@$var["tran_num"]}} </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+        </div>
+    </section>
+    
+@endsection
+
+
+

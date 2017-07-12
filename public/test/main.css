@@ -1,0 +1,501 @@
+
+
+.nav-header {
+	width:100%;
+	height:30px;
+	text-align:left;
+	color:white;
+	background-color: rgba(60,141,188,100);
+	box-shadow: 0 0px 0px 0 rgba(0,0,0,20);
+}
+
+.ok {
+  display: none;
+}
+
+.up {
+  display: default;
+}
+
+.body-div {
+	background-color:rgb(245,245,245);
+}
+
+.style {
+   text-align: center;
+}
+
+.btn-style ,input {
+  -webkit-appearance: none;
+}
+
+.btn-style {
+  text-align: center;
+  font-size: 17px;
+  border: none;
+	color:white;
+	width:300px;
+	height:44px;
+	background-color: rgba(11,206,255,100);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+
+
+.container {
+   
+}
+
+.icon-tag {
+   margin-left:10px;
+   height: 50px;
+   width: 100%;
+   margin-bottom: 10px;
+}
+
+.image-tag {
+   vertical-align: middle;
+   padding-top: 40px;
+   height: 20px;
+}
+
+.title-tag { 
+   font:bold;
+   font-size: 16px;
+   vertical-align: middle;
+   left:20px;
+   width:300px;
+   height:30px;
+   display: inline-block;
+}
+
+.pre-listen {
+	float: none;
+}
+.group {
+	background-color: white;
+	margin-left: -10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: -10px;
+	padding-top: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 10px;
+}
+
+.radioclass {
+	width: 40px;
+	height: 40px;
+    opacity: 0;
+    cursor: pointer;
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+filter: alpha(opacity=0);
+}
+
+.text-4-radio {
+line-height:40px;
+	margin-left:30px;
+	height: 40px;
+	vertical-align: middle;
+	display: inline-block;
+  font:normal 16px;
+}
+
+.line {
+    height: 50px;
+    width: 100%;
+    background-color: white;
+}
+
+.radioOrCheckBox1 {
+	margin-left:30px;
+	display: inline-block;
+	width: 40px;
+	height:40px;
+	background-image: url(../images/A.png);
+    background-repeat: no-repeat;
+    background-position: -40px 0px;
+}
+
+.radioOrCheckBox2 {
+	margin-left:30px;
+	display: inline-block;
+    width: 40px;
+	height:40px;
+	background-image: url(../images/B.png);
+    background-repeat: no-repeat;
+    background-position: -40px 0px;
+}
+
+.radioOrCheckBox3 {
+	margin-left:30px;
+	display: inline-block;
+    width: 40px;
+	height:40px;
+	background-image: url(../images/C.png);
+    background-repeat: no-repeat;
+    background-position: -40px 0px;
+}
+
+.radioOrCheckBox4 {
+	margin-left:30px;
+	display: inline-block;
+    width: 40px;
+	height:40px;
+	background-image: url(../images/D.png);
+    background-repeat: no-repeat;
+    background-position: -40px 0px;
+}
+
+.radioOrCheckBox5 {
+	margin-left:30px;
+	display: inline-block;
+    width: 40px;
+	height:40px;
+	background-image: url(../images/E.png);
+    background-repeat: no-repeat;
+    background-position: -40px 0px;
+}
+
+.listen1 {
+    background-position: -40px 0px;
+}
+
+.listen2 {
+    background-position: -40px 0px;
+}
+
+.attitude1 {
+    background-position: -40px 0px;
+}
+
+.attitude2 {
+    background-position: -40px 0px;
+}
+.attitude3 {
+    background-position: -40px 0px;
+}
+
+.attitude4 {
+    background-position: -40px 0px;
+}
+
+.element1 {
+    background-position: -40px 0px;
+}
+
+.element2 {
+    background-position: -40px 0px;
+}
+.element3 {
+    background-position: -40px 0px;
+}
+
+.element4 {
+    background-position: -40px 0px;
+}
+
+.advantage1 {
+    background-position: -40px 0px;
+}
+
+.advantage2 {
+    background-position: -40px 0px;
+}
+.advantage3 {
+    background-position: -40px 0px;
+}
+
+.advantage4 {
+    background-position: -40px 0px;
+}
+
+.advantage5 {
+    background-position: -40px 0px;
+}
+
+.disadvantage1 {
+    background-position: -40px 0px;
+}
+
+.disadvantage2 {
+    background-position: -40px 0px;
+}
+.disadvantage3 {
+    background-position: -40px 0px;
+}
+
+.disadvantage4 {
+    background-position: -40px 0px;
+}
+
+.disadvantage5 {
+    background-position: -40px 0px;
+}
+
+.plan1 {
+    background-position: -40px 0px;
+}
+
+.plan2 {
+    background-position: -40px 0px;
+}
+.plan3 {
+    background-position: -40px 0px;
+}
+
+.plan4 {
+    background-position: -40px 0px;
+}
+
+.teach1 {
+    background-position: -40px 0px;
+}
+
+.teach2 {
+    background-position: -40px 0px;
+}
+
+
+.select-style {
+
+   margin-left: 100px;
+   width:90px;
+   height:50px;
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+
+  padding-right: 14px;
+  text-align: center;
+  color: #333333;
+  font-size: 14px;
+}
+
+select-style::-ms-expand { display: none; }
+
+.select-book {
+	margin-left: 20px;
+
+	width:90px;
+  height:50px;
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  
+  padding-right: 14px;
+  text-align: center;
+  color: #333333;
+  font-size: 16px;
+}
+
+select-book::-ms-expand { display: none; }
+
+.select1 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select2 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select3 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select4 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select5 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select6 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select7 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+.select8 {
+    background: url("../images/icon_arr_gray.png") no-repeat scroll right center transparent;
+    background-size: 20px 14px;
+    background-color: rgba(245,245,245,100);
+    border: solid 2px #ccc;
+}
+
+
+#area1 {
+  margin-left: 100px;
+}
+
+#area1 input {
+  padding-left:10px; 
+  font-size: 14px;
+  width: 320px;
+  height: 50px;
+  background: #f0f0f0;
+  color: #333333;
+  border:solid 0.5px #e6e6e6;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#area2 {
+	margin-left: 100px;
+
+}
+
+#area2 input {
+  padding-left:10px;
+  font-size: 14px;
+  width: 320px;
+  height: 50px;
+  background: #f0f0f0;
+  color: #333333;
+  border:solid 0.5px #e6e6e6;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#area3 {
+	margin-left: 100px;
+
+}
+
+#area3 input {
+  padding-left:10px;
+  font-size: 14px;
+  width: 320px;
+  height: 50px;
+  background: #f0f0f0;
+  color: #333333;
+  border:solid 0.5px #e6e6e6;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#area4 {
+	margin-left: 100px;
+}
+
+#area4 input {
+  padding-left:10px;
+  font-size: 14px;
+  width: 320px;
+  height: 50px;
+  background: #f0f0f0;
+  color: #333333;
+  border:solid 0.5px #e6e6e6;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#area5 {
+  margin-left: 100px;
+}
+
+#area5 input {
+  padding-left:10px;
+  font-size: 14px;
+  width: 320px;
+  height: 50px;
+  background: #f0f0f0;
+  color: #333333;
+  border:solid 0.5px #e6e6e6;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#area6 {
+  margin-left: 20px;
+}
+
+.error-message1 {
+  margin-left: 100px;
+}
+
+.error-message2 {
+  margin-left: 100px;
+}
+
+.error-message3 {
+  margin-left: 100px;
+}
+
+.error-message4 {
+  margin-left: 100px;
+}
+
+.error-message5 {
+  margin-left: 100px;
+}
+
+.error-message6 {
+  margin-left: 100px;
+}
+
+.error-message7 {
+  margin-left: 100px;
+}
+
+.error-message8 {
+  margin-left: 100px;
+}
+
+.error-message9 {
+  margin-left: 100px;
+}
+
+.error-message10 {
+  margin-left: 100px;
+}
+
+.error-message11 {
+  margin-left: 100px;
+}
+
+.error-message12 {
+  margin-left: 20px;
+}

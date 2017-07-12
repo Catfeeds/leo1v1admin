@@ -1,0 +1,14 @@
+	nick	:any;
+	assistant_type	:any;
+	gender	:any;
+	birth	:any;
+	phone	:any;
+	email	:any;
+	rate_score	:any;
+	assistantid	:any;
+	school	:any;
+	prize	:any;
+	ass_nick	:any;
+	is_part_time	:any;
+	gender_str	:any;
+	age	:any;

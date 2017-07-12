@@ -1,0 +1,10 @@
+	k1	:any;
+	k2	:any;
+	k3	:any;
+	folder	:any;
+	pid	:any;
+	k_class	:any;
+	class	:any;
+	level	:any;
+	has_power_flag	:any;
+	url	:any;

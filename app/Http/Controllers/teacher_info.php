@@ -1,0 +1,554 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use \App\Enums as E;
+
+use App\Helper\Utils;
+use Illuminate\Support\Facades\Cookie ;
+
+class teacher_info extends Controller
+{
+    use CacheNick;
+
+    static $page_self_view_data=[];
+    var $teacherid;
+
+    public function __construct() {
+        parent::__construct();
+        $this->teacherid=$this->get_in_teacherid();
+        static::$page_self_view_data["_teacherid"]= $this->teacherid;
+        static::$page_self_view_data["_teacher_nick"]= $this->cache_get_teacher_nick($this->teacherid);
+    }
+
+    public function index(){
+        $teacherid = $this->teacherid;
+        $tea_info  = $this->t_teacher_info->get_teacher_info_all($teacherid);
+        $tea_info['gender_str'] = @E\Egender::get_desc( $tea_info['gender']);
+        $tea_info['textbook_type_str'] = @E\Etextbook_type::get_desc( $tea_info['textbook_type']);
+        $tea_info['grade_part_ex_str'] = empty($tea_info['grade_part_ex'])?"":@E\Egrade_part_ex::get_desc( $tea_info['grade_part_ex']);
+        $tea_info['subject_str'] = empty($tea_info['subject'])?"":@E\Esubject::get_desc( $tea_info['subject']);
+        $tea_info['putonghua_is_correctly_str'] = @E\Eputonghua_is_correctly::get_desc( $tea_info['putonghua_is_correctly']);
+        $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
+                               ."-".substr(@$tea_info['birth'],4,2)
+                               ."-".substr(@$tea_info['birth'],6,2);
+        if($tea_info['phone_spare'] != ""){
+            $tea_info['phone'] = $tea_info['phone_spare'];
+        }
+
+        $arr = explode(",",@$tea_info['quiz_analyse']);
+        $tea_info['quiz_analyse'] = $arr[0];
+        if(!empty($tea_info['create_time'])){
+            $tea_info['create_time'] = date('Y-m-d H:i:s',$tea_info['create_time']);
+        }else{
+            $tea_info['create_time'] = "";
+        }
+        $adminid      = $this->get_account_id();
+        $account_role = $this->t_manager_info->get_account_role($adminid);
+
+        return $this->pageView(__METHOD__,null,[
+            "tea_info"     => $tea_info,
+            "account_role" => $account_role,
+            "adminid"      => $adminid,
+        ]);
+    }
+
+    public function get_teacher_info_for_js(){
+        $teacherid=$this->get_in_teacherid();
+        $tea_info  = $this->t_teacher_info->get_teacher_info_all($teacherid);
+        return $this->output_succ(["data"=>$tea_info]);
+    }
+
+    public function get_tea_arr_list(){
+        $tea_all_list = $this->t_teacher_info->get_teacher_list_new();
+        $tea_arr= [];
+        foreach($tea_all_list as $item){
+            $tea_arr[$item['teacherid']] = $item['nick'];
+        }
+        $tea_list = json_encode($tea_arr);
+        return $tea_list;
+    }
+    public function get_free_time_js()
+    {
+        $teacherid     = $this->teacherid;
+        $free_time_new = $this->t_teacher_freetime_for_week->get_free_time_new($teacherid);
+        $date_week   = \App\Helper\Utils::get_week_range(time(),1);
+        $start_time = $date_week["sdate"];
+        $end_time = $start_time + 21*86400;
+        $test_lesson_list = $this->t_lesson_info->get_teacher_week_test_lesson_info($teacherid,$start_time,$end_time);
+        foreach($test_lesson_list as &$val){
+            $lesson_start = $val["lesson_start"];
+            $date_week_test   = \App\Helper\Utils::get_week_range($lesson_start,1);
+            $val["week"] = intval(( $lesson_start-$date_week_test["sdate"])/86400)+1;
+            $val["start"] = date("H",$lesson_start);
+            $val["end"] = date("H",$val["lesson_end"]);
+        }
+        $common_lesson_config= $this->t_week_regular_course->get_lesson_info($teacherid,-1);
+        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
+        $stime=$date["sdate"];
+        foreach ( $common_lesson_config as &$item ) {
+            $start_time=$item["start_time"];
+            $end_time=$item["end_time"];
+
+            $arr=explode("-",$start_time);
+            $item["week"]=$arr[0];
+            $item["lesson_start"]=substr(@$arr[1],0,2);
+            $item["lesson_end"]=substr(@$item["end_time"],0,2);
+
+            //得到周几的开始时间
+            // $day_start=$stime + ($week-1)*86400;
+            /*$item["start_time_ex"] = strtotime(date("Y-m-d", $day_start)." $start_time")*1000;
+            $item["end_time_ex"]   = strtotime(date("Y-m-d", $day_start)." $end_time")*1000;
+            $item["nick"]          = $this->cache_get_student_nick($item["userid"]);
+            $item["teacher"]       = $this->cache_get_teacher_nick($item["teacherid"]);*/
+        }
+
+        //dd($common_lesson_config);
+        return  $this->output_succ( [ "data" =>$free_time_new,"lesson"=>$common_lesson_config,"test_lesson"=>$test_lesson_list ] );
+    }
+
+    public function free_time()
+    {
+        $teacherid = $this->teacherid;
+        $ret_info  = \App\Helper\Utils::list_to_page_info([]);
+
+        $now      = time(NULL);
+        $week_arr = \App\Helper\Utils::get_week_range( $now ,1);
+        $week_start_time = $week_arr["sdate"];
+
+        return $this->pageView(__METHOD__, $ret_info , [
+            "week_start_time" => $week_start_time
+        ]);
+    }
+
+    public function update_free_time(){
+        $teacherid = $this->teacherid;
+        $free_time = $this->get_in_str_val("free_time");
+        $this->t_teacher_freetime_for_week->field_update_list($teacherid,[
+            "free_time_new" => $free_time,
+        ]);
+        return $this->output_succ();
+    }
+
+    public function set_teacher_info(){
+        $teacherid              = $this->get_in_int_val("teacherid");
+        $nick                   = $this->get_in_str_val("nick");
+        $realname               = $this->get_in_str_val("realname");
+        $gender                 = $this->get_in_int_val("gender");
+        $birth                  = $this->get_in_str_val("birth");
+        $work_year              = $this->get_in_int_val("work_year");
+        // $is_good_flag           = $this->get_in_int_val("is_good_flag");
+        $phone                  = $this->get_in_int_val("phone");
+        /* $textbook_type          = $this->get_in_int_val("textbook_type");
+        $grade_part_ex          = $this->get_in_int_val("grade_part_ex");
+        $subject                = $this->get_in_int_val("subject");*/
+        $putonghua_is_correctly = $this->get_in_int_val("putonghua_is_correctly");
+        $email                  = $this->get_in_str_val("email");
+        $advantage              = $this->get_in_str_val("advantage");
+        $base_intro             = $this->get_in_str_val("base_intro");
+        $dialect_notes          = $this->get_in_str_val("dialect_notes");
+
+        if(!empty($email)){
+            if(preg_match('/^[1-9]\d{4,10}$/',$email)){
+                $email = $email."@qq.com";
+            }else{
+                $pattern = "/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i";
+                if ( !preg_match( $pattern, $email )){
+                   return outputJson(array(
+                        'ret' => -1,
+                        'info' => "邮箱格式有误 ",
+                    ));
+
+                }
+            }
+        }
+        if(strlen($phone) != 11){
+           return outputJson(array(
+                'ret' => -1,
+                'info' => "手机号码长度有误 ",
+            ));
+        }
+        if(!empty($birth)){
+            $birth = substr($birth,0,4).''.substr($birth,5,2).''.substr($birth,8,2);
+        }
+
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "nick"                   => $nick,
+            "realname"               => $realname,
+            "phone"                  => $phone,
+            "email"                  => $email,
+            "gender"                 => $gender,
+            "birth"                  => $birth,
+            "work_year"              => $work_year,
+            "advantage"              => $advantage,
+            "base_intro"             => $base_intro,
+            "putonghua_is_correctly" => $putonghua_is_correctly,
+            "dialect_notes"          => $dialect_notes,
+        ]);
+
+        return $this->output_succ();
+    }
+
+    public function set_teacher_face(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $face = $this->get_in_str_val("face");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $face = $domain.'/'.$face;
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "face" => $face,
+        ]);
+        return $this->output_succ();
+
+    }
+
+    public function set_teacher_quiz_analyse(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $quiz_analyse = $this->get_in_str_val("quiz_analyse");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $quiz_analyse = $domain.'/'.$quiz_analyse;
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "quiz_analyse" => $quiz_analyse,
+        ]);
+        return $this->output_succ();
+
+    }
+
+    public function set_teacher_jianli(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $jianli = $this->get_in_str_val("jianli");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $jianli = $domain.'/'.$jianli;
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "jianli" => $jianli,
+        ]);
+        return $this->output_succ();
+
+    }
+
+
+
+    public function common_time() {
+        $teacherid = $this->get_in_teacherid();
+
+        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
+        $stat_time=$date["sdate"];
+        $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+    public function common_time_new() {
+        $teacherid = $this->get_in_teacherid();
+
+        $date=\App\Helper\Utils::get_week_range(time(NULL),1);
+        $stat_time=$date["sdate"];
+        $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+    public function avoid(){
+        dd("xx");
+    }
+    public function get_lesson_list (){
+        $teacherid   = $this->get_in_teacherid();
+        $start_date  = $this->get_in_str_val('start_date',date('Y-m-d', time(NULL) ));
+        $end_date    = $this->get_in_str_val('end_date',date('Y-m-d', time(NULL)+86400*7 ));
+        $lesson_type = $this->get_in_el_contract_type(-1, "lesson_type");
+        $page_num    = $this->get_in_page_num();
+        $lessonid    = $this->get_in_lessonid(-1);
+
+        #list($start_time,$end_time) = $this->get_in_date_range(-7,0);
+        $start_time = strtotime($start_date);
+        $end_time   = strtotime($end_date)+86400;
+
+        $lesson_type_in_str="";
+        switch ($lesson_type){
+        case  E\Econtract_type::V_0:
+            $lesson_type_in_str="0,1,2,3";
+            break;
+        case  E\Econtract_type::V_2 :
+            $lesson_type_in_str="2";
+            break;
+        case  E\Econtract_type::V_1001 :
+            $lesson_type_in_str="1001,1002,1003";
+            break;
+        case  E\Econtract_type::V_3001 :
+            $lesson_type_in_str="3001";
+            break;
+        default :
+            break;
+        }
+        $get_flag_color_func= function($v) {
+            if ($v)  {
+                $color="green";
+            }else{
+                $color="red";
+            }
+            $desc=E\Eboolean::get_desc($v);
+            return "<font color=$color>$desc<font>";
+        };
+
+        $ret_info=$this->t_lesson_info_b2->get_teacher_lesson_list_new(  $page_num,$teacherid,$start_time,$end_time,$lesson_type,$lessonid);
+
+        foreach($ret_info["list"] as &$item){
+            $item["lesson_time"]     = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
+            E\Econtract_type::set_item_value_str($item,"lesson_type");
+
+            $item["lesson_num_str"]  = "第".$item["lesson_num"]."次课";
+            if($item["lesson_type"]<1000){
+                $item["lesson_course_name"] = $this->cache_get_student_nick($item["userid"]);
+            }elseif($item["lesson_type"]<3000){
+                $item["lesson_course_name"]='';
+            }else{
+                $item["lesson_course_name"]= \App\Helper\Utils::fmt_lesson_name($item["grade"],$item["subject"],$item["lesson_num"]);
+            }
+            $lessonid    = $item["lessonid"];
+            $lesson_type = $item['lesson_type'];
+
+            $item['textbook']='';
+            $item['tea_comment_str']="<font color=red>-<font>";
+            if ($lesson_type<1000) {
+                if($lesson_type==2){
+                    $item['textbook']=E\Eregion_version::get_desc( $item['editionid']);
+                    $tea_comment=$this->t_seller_student_info->get_lesson_content($item['lessonid']);
+                }else{
+                    $tea_comment=$this->t_lesson_info->get_stu_performance($item['lessonid']);
+                }
+                $item['tea_comment']=$tea_comment==''?0:1;
+                $item['tea_comment_str']=$get_flag_color_func($item['tea_comment']);
+            }elseif($lesson_type>=3000 && $lesson_type<4000){
+                $ret_homework=$this->t_small_lesson_info->get_pdf_homework($item['lessonid']);
+                if ($ret_homework) {
+                    $item['homework_status'] = $ret_homework['work_status'];
+                    $item['issue_url'] = $ret_homework['issue_url'];
+                    $item['pdf_question_count'] = $ret_homework['pdf_question_count'];
+                }
+            }
+            $item["pdf_status_str"]= $get_flag_color_func( $item["tea_status"])."/"
+                                   . $get_flag_color_func( $item["stu_status"])."/"
+                                   . $get_flag_color_func( $item["homework_status"]);
+            $item["price"] /=100;
+            $item["pay_flag_str"] ="";
+            $item["pay_flag"] =-2;
+            $item["pay_info"] ="";
+            if ( $item["lesson_type"] ==2 ) {
+                if($item["price"])  {
+                    $item["pay_flag"]=1;
+                    $item["pay_info"]="金额:". $item["price"] ;
+                }else if ( $item["test_lesson_order_fail_flag"] ) {
+                    $item["pay_flag"]=2;
+                    $item["pay_info"]="说明:". E\Etest_lesson_order_fail_flag::get_desc($item["test_lesson_order_fail_flag"] )  ."|".$item["test_lesson_order_fail_desc"] ;
+                }else{
+                    $item["pay_flag"]=0;
+                }
+                $item["pay_flag_str"]=  \App\Helper\Common::get_set_boolean_color_str($item["pay_flag"] );
+            }
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function lesson_list () {
+        $teacherid = $this->teacherid;
+        $ret_info=\App\Helper\Utils::list_to_page_info([]);
+        return $this->pageView(__METHOD__, $ret_info,['teacherid'=>$teacherid]);
+
+    }
+    public function get_lesson_time_js() {
+        $teacherid = $this->get_in_teacherid();
+        $timestamp = $this->get_in_int_val("timestamp");
+        $type      = $this->get_in_int_val("type",0);
+
+        if ($timestamp == 0) {
+            $timestamp = time();
+        }
+
+        if($type==0) { //
+            $ret_week=\App\Helper\Utils::get_week_range($timestamp,1);
+            $start_time=$ret_week["sdate"];
+            $end_time=$ret_week["edate"];
+        }else{
+            $ret_week=\App\Helper\Utils::get_month_range($timestamp) ;
+            $start_time=$ret_week["sdate"];
+            $end_time=$ret_week["edate"];
+        }
+
+        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+        foreach($lesson_list as &$item) {
+            $nick=$this->cache_get_student_nick($item["userid"]);
+            $item["month_title"]= $nick  ;
+            $item["week_title"]=  "学生:$nick";
+        }
+        return $this->output_succ(["lesson_list"=>$lesson_list]);
+    }
+
+    public function get_user_info()
+    {
+        $userid= $this->get_in_int_val("userid");
+        $phone=$this->t_student_info->get_phone($userid);
+        $row=$this->t_seller_student_info->field_get_list($phone, "*");
+        return outputjson_success(["data"=> $row  ]);
+    }
+
+    public function teacher_assess(){
+        $teacherid     = $this->teacherid;
+        $page_num    = $this->get_in_page_num();
+        $ret_info = $this->t_teacher_assess->get_assess_info($teacherid,$page_num);
+        foreach($ret_info["list"] as &$item){
+            $item['assess_nick'] = $this->cache_get_account_nick($item['assess_adminid']);
+            $item['assess_res_str'] = E\Eassess_res::get_desc($item["assess_res"]) ;
+            $item['assess_time_str'] = date("Y-m-d H:i:s",$item["assess_time"]) ;
+        }
+        $assess_num = $this->t_teacher_info->field_get_value($teacherid,"assess_num");
+        return $this->pageView(__METHOD__,$ret_info,['assess_num'=>$assess_num]);
+    }
+
+    public function assess_del(){
+        $teacherid= $this->get_in_int_val("teacherid");
+        $assess_time= $this->get_in_int_val("assess_time");
+        $ret = $this->t_teacher_assess->row_delete_2($teacherid,$assess_time);
+        $assess_num = $this->t_teacher_info->field_get_value($teacherid,"assess_num")-1;
+        if($ret){
+            $this->t_teacher_info->field_update_list($teacherid,["assess_num"=>$assess_num]);
+        }
+
+        return $this->output_succ();
+    }
+    public function add_teacher_assess(){
+        $teacherid= $this->get_in_int_val("teacherid");
+        $assess_res= $this->get_in_int_val("assess_res");
+        $content= trim($this->get_in_str_val("content"));
+        $advise_reason= trim($this->get_in_str_val("advise_reason"));
+        $assess_time= time();
+        $assess_adminid=$this->get_account_id();
+        $ret = $this->t_teacher_assess->row_insert([
+            "teacherid"  => $teacherid ,
+            "assess_adminid"  => $assess_adminid,
+            "content"=>$content,
+            "assess_time"=>$assess_time,
+            "advise_reason"=>$advise_reason,
+            "assess_res"=>$assess_res
+        ]);
+        $assess_num = $this->t_teacher_info->field_get_value($teacherid,"assess_num")+1;
+        if($ret){
+            $this->t_teacher_info->field_update_list($teacherid,["assess_num"=>$assess_num]);
+        }
+
+        return $this->output_succ();
+
+    }
+
+    public function update_teacher_assess(){
+        $teacherid= $this->get_in_int_val("teacherid");
+        $assess_res= $this->get_in_int_val("assess_res");
+        $content= trim($this->get_in_str_val("content"));
+        $advise_reason= trim($this->get_in_str_val("advise_reason"));
+        $assess_time= $this->get_in_int_val("assess_time");
+        $ret = $this->t_teacher_assess->field_update_list_2($teacherid,$assess_time,[
+            "content"=>$content,
+            "advise_reason"=>$advise_reason,
+            "assess_res"=>$assess_res
+        ]);
+
+        return $this->output_succ();
+
+    }
+
+
+    public function add_meeting_info(){
+        $create_time = $this->get_in_str_val("create_time");
+        $theme = $this->get_in_str_val("theme");
+        $summary = $this->get_in_str_val("summary");
+        $address = $this->get_in_str_val("address");
+        $moderator = $this->get_in_str_val("moderator");
+        if(empty($create_time)){
+            return outputJson(array('ret' => -1, 'info' => '时间不能为空'));
+        }else{
+            $create_time = strtotime($create_time);
+        }
+        $this->t_teacher_meeting_info->row_insert([
+            "create_time"=>$create_time,
+            "theme"=>$theme,
+            "summary"=>$summary,
+            "address"=>$address,
+            "moderator"=>$moderator
+        ]);
+        $ret_tea = $this->t_teacher_info->get_teacher_list_new();
+        foreach($ret_tea as $item){
+            $this->t_teacher_meeting_join_info->row_insert([
+                "create_time"=>$create_time,
+                "teacherid"=>$item['teacherid'],
+            ]);
+
+        }
+        return $this->output_succ();
+    }
+
+    public function update_meeting_info(){
+        $create_time = $this->get_in_str_val("create_time");
+        $theme = $this->get_in_str_val("theme");
+        $summary = $this->get_in_str_val("summary");
+        $address = $this->get_in_str_val("address");
+        $moderator = $this->get_in_str_val("moderator");
+        $id = $this->get_in_int_val("id");
+        if(empty($create_time)){
+            return outputJson(array('ret' => -1, 'info' => '时间不能为空'));
+        }else{
+            $create_time = strtotime($create_time);
+        }
+        $this->t_teacher_meeting_info->field_update_list($id,[
+            "create_time"=>$create_time,
+            "theme"=>$theme,
+            "summary"=>$summary,
+            "address"=>$address,
+            "moderator"=>$moderator
+        ]);
+        return $this->output_succ();
+    }
+
+
+    public function teacher_meeting_info_del(){
+        $id = $this->get_in_int_val("id");
+        $this->t_teacher_meeting_info->row_delete($id);
+        return $this->output_succ();
+    }
+    public function set_teacher_meeting_info(){
+        $id = $this->get_in_int_val("id");
+        $teacher_join_info = $this->get_in_str_val("teacher_join_info");
+
+        $this->t_teacher_meeting_info->field_update_list($id,['teacher_join_info'=>$teacher_join_info]);
+
+        return $this->output_succ();
+    }
+    public function set_teacher_join_info(){
+        $join_info = $this->get_in_int_val("join_info");
+        $create_time = $this->get_in_str_val("create_time");
+        $teacherid_list = json_decode($this->get_in_str_val("teacherid_list"));
+        foreach($teacherid_list as $item){
+            $this->t_teacher_meeting_join_info->field_update_list_2($item,$create_time,['join_info'=>$join_info]);
+        }
+        return $this->output_succ();
+    }
+
+    public function set_teacher_join_info_once(){
+        $join_info = $this->get_in_int_val("join_info");
+        $create_time = $this->get_in_str_val("create_time");
+        $teacherid = $this->get_in_int_val("teacherid");
+        $this->t_teacher_meeting_join_info->field_update_list_2($teacherid,$create_time,['join_info'=>$join_info]);
+        return $this->output_succ();
+    }
+
+    public function get_all_teacher_info_new(){
+        $gender     = $this->get_in_int_val('gender',-1);
+        $nick_phone = trim($this->get_in_str_val('nick_phone',""));
+
+        $page_num     = $this->get_in_page_num();
+        $ret_info = $this->t_teacher_info->get_all_teacher_info_new($gender,$nick_phone,$page_num);
+        foreach($ret_info['list'] as &$item){
+            $item['gender_str'] = E\Egender::get_desc($item['gender']);
+        }
+        $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
+
+        return outputjson_success(array('data' => $ret_info));
+    }
+
+}

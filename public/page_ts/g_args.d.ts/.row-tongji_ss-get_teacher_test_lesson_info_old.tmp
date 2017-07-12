@@ -1,0 +1,7 @@
+	nick	:any;
+	create_time_str	:any;
+	teacher_money_type_str	:any;
+	level_str	:any;
+	identity_str	:any;
+	work_day	:any;
+	school	:any;

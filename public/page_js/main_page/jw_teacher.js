@@ -1,0 +1,136 @@
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/main_page-jw_teacher.d.ts" />
+
+$(function(){
+
+    function load_data(){
+        $.reload_self_page ( {
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val()
+        });
+    }
+
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config), 
+        onQuery :function() {
+            load_data();
+        }
+    });
+
+
+    function show_top( $person_body_list) {
+        
+        $($person_body_list[0]).find("td").css(
+            {
+                "color" :"red"
+            } 
+        );
+        $($person_body_list[1]).find("td").css(
+            {
+                "color" :"orange"
+            } 
+        );
+
+        $($person_body_list[2]).find("td").css(
+            {
+                "color" :"blue"
+            } 
+        );
+
+    }
+
+    show_top( $("#id_per_count_list > tr")) ;
+
+    $(".order_lesson").on("click",function(){
+        var adminid = $(this).data("adminid");
+        console.log(adminid);
+        if(adminid > 0){           
+            var title = "课程详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+                "adminid" : adminid,
+                "start_time":g_args.start_time,
+                "end_time":g_args.end_time
+            },function(resp) {
+                var userid_list = resp.data;
+                console.log(userid_list);
+                $.each(userid_list,function(i,item){
+                    var lessonid = item["lessonid"];
+                    var nick = item["nick"]
+                    var time = item["lesson_start_str"];
+                    var subject = item["subject_str"];
+                    var grade = item["grade_str"];
+                    var tea_name=item["tea_name"];
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+        }
+        
+    });
+
+
+    $("#id_tongji").on("click",function(){
+        var row_list=$("#id_per_count_list tr");
+        var do_index=0;
+	    
+        function do_one() {
+            if (do_index < row_list.length ) {
+                var $tr=$(row_list[do_index]);
+                var adminid=$tr.find(".order_lesson").data("adminid");
+                var all_count = $tr.find(".all_count").text();
+                $.do_ajax("/user_deal/get_jw_tran_info_by_adminid",{
+                    "adminid"  : adminid,
+                    "all_count": all_count,
+                    "start_time" :g_args.start_time,
+                    "end_time"  :g_args.end_time
+                },function(resp){                    
+                    $tr.find(".order_lesson").text(resp.tra_count);
+                    $tr.find(".tra_count_seller").text(resp.tra_count_seller);
+                    $tr.find(".tra_count_ass").text(resp.tra_count_ass);
+                    $tr.find(".tra_per_str").text(resp.tra_per_str);
+                    
+                    do_index++;
+                    do_one();                                     
+                });
+
+            }else{
+            }
+        };
+        do_one();
+
+    });
+
+
+	$('.opt-change').set_input_change_event(load_data);
+});
+
+
+

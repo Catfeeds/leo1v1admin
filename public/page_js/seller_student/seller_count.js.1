@@ -1,0 +1,27 @@
+$(function(){
+
+    
+	//时间控件
+	$('#id_start_date').datetimepicker({
+		lang:'ch',
+		timepicker:false,
+		format:'Y-m-d',
+	    onChangeDateTime :function(){
+		    load_data();
+        }
+	});
+    
+	$('#id_end_date').datetimepicker({
+		lang:'ch',
+		timepicker:false,
+		format:'Y-m-d',
+		onChangeDateTime :function(){
+		    load_data();
+        }
+	});
+
+	$(".opt-change").on("change",function(){
+		load_data();
+	});
+
+});

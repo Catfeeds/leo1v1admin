@@ -1,0 +1,3 @@
+
+p
+select  count(*) as test_lesson_count, sum( success_flag in (0,1 ) ) as succ_test_lesson_count from db_weiyi.t_test_lesson_subject_require tr join db_weiyi.t_test_lesson_subject t on tr.test_lesson_subject_id=t.test_lesson_subject_id join db_weiyi.t_seller_student_new n on t.userid=n.userid join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid join db_weiyi.t_student_info s on s.userid = l.userid where true and lesson_start >=1479657600 and lesson_start<1480262400 and accept_flag=1 and is_test_user=0 and require_admin_type = 2; 

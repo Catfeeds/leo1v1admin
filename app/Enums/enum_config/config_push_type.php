@@ -1,0 +1,15 @@
+<?php
+
+return array (
+    array(1001,"","PUSH_STUDENT_DAILY_LESSON" ),
+    array(1002,"","PUSH_STUDENT_NEW_ORDER" ),
+    array(1003,"","PUSH_STUDENT_LESSON_NOTICE" ),
+    array(1004,"","PUSH_STUDENT_DAILY_QUIZ" ),
+    array(1005,"","PUSH_STUDENT_HOMEWORK_CHECKED" ),
+    array(1006,"","PUSH_STUDENT_QUIZ_CHECKED" ),
+    array(1007,"","PUSH_STUDENT_SYSTEM_NOTICE" ),
+    array(1008,"","PUSH_STUDENT_NORMAL_NOTICE" ),
+    array(1009,"","PUSH_STUDENT_NEW_HOMEWORK" ),
+    array(1010,"","PUSH_STUDENT_GIFT_SENT" ),
+    array(2010,"","PUSH_TEACHER_SYSTEM_NOTICE" ),
+);

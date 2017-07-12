@@ -1,0 +1,1243 @@
+PHPUnit 4.8.24 by Sebastian Bergmann and contributors.
+
+.AuTest::test_control
+.AuTest::test_nologin
+.check all funtion  ...
+ .AuTest::test_url_1
+test login
+.AuTest::test_url
+test login
+.AuTest::test_common_new
+.test_book_free_lesson
+.test_jinshuju
+..test_transaction
+.test_rollback
+.login test_index
+.login test_login
+Flogin test_check_power
+
+
+Time: 1.9 seconds, Memory: 56.25Mb
+
+There was 1 failure:
+
+1) LoginTest::test_check_power
+<head>
+<meta charset="UTF-8">
+<title>理优管理系统 </title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- bootstrap 3.0.2 --><link rel="stylesheet" href="/css/jquery-ui-1.8.custom.css">
+<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/css/bootstrap-dialog.css" rel="stylesheet" type="text/css">
+<link href="/css/header.css?20170420-103358" rel="stylesheet" type="text/css">
+<link type="text/css" rel="stylesheet" href="/css/al_page.css">
+<!-- font Awesome --><link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/js/Font-Awesome/css/font-awesome.min.css">
+<!-- Ionicons --><link href="/css/ionicons.min.css" rel="stylesheet" type="text/css">
+<!-- Morris chart --><link href="/css/morris/morris.css" rel="stylesheet" type="text/css">
+<!-- jvectormap --><!-- <link href="/css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" /> --><!-- fullCalendar --><link href="/css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css">
+<!-- Daterange picker --><!-- <link href="/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" /> --><!-- bootstrap wysihtml5 - text editor --><!-- <link href="/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" /> --><!-- Theme style --><link href="/css/AdminLTE.css" rel="stylesheet" type="text/css">
+<link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css">
+<style>
+         .content  .row  .input-group >select {
+             display:table-cell;
+         }
+         .content  .row  .input-group >input{
+             display:table-cell;
+         }
+
+        </style>
+<!-- add new calendar event modal --><!-- jQuery 2.0.2 --><script src="/js/jquery-2.1.4.js" type="text/javascript"></script><script src="/js/jquery.query.js" type="text/javascript"></script><script src="/js/jquery.admin.js?20170420-103358" type="text/javascript"></script><script src="/page_js/enum_map.js?20170420-103358" type="text/javascript"></script><script src="/page_js/header.js?20170420-103358" type="text/javascript"></script><script type="text/javascript" src="/page_js/lib/select_date_range.js?20170420-103358"></script><!-- jQuery UI 1.10.3 --><script src="/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script><script type="text/javascript" src="/js/jquery.datetimepicker.js"></script><script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script><script type="text/javascript" src="/page_js/lib/select_dlg.js"></script><script type="text/javascript">
+         g_power_list= {"":true,"0":true,"2020400":true,"1":true,"2":true,"3":true,"4":true,"5":true,"6":true,"7":true,"8":true,"9":true,"201":true,"202":true,"203":true,"501":true,"502":true,"503":true,"504":true,"701":true,"21":true,"1012200":true,"1010100":true,"1010200":true,"1012100":true,"1010300":true,"1010400":true,"1010800":true,"1010707":true,"1010708":true,"1010702":true,"1010703":true,"1010704":true,"1010705":true,"1010706":true,"1150100":true,"1150200":true,"1150300":true,"1153100":true,"1150400":true,"1151101":true,"1151111":true,"1151102":true,"1151105":true,"1151106":true,"1151301":true,"1151302":true,"1151303":true,"1152301":true,"1152302":true,"1152303":true,"1151283":true,"1151280":true,"1151281":true,"1151282":true,"1151201":true,"1151202":true,"1151250":true,"1151252":true,"1151203":true,"1151231":true,"1151204":true,"1151205":true,"1151206":true,"1151207":true,"1151208":true,"1151209":true,"1151210":true,"1151211":true,"1151212":true,"1151213":true,"1151214":true,"1151215":true,"1151216":true,"1151217":true,"1151223":true,"1151219":true,"1151220":true,"1151221":true,"1151222":true,"1152021":true,"1152002":true,"1152003":true,"1152004":true,"1152005":true,"1152101":true,"1020100":true,"1021200":true,"1021300":true,"1021101":true,"1020400":true,"1020500":true,"1020701":true,"1020702":true,"1020704":true,"1020703":true,"1020705":true,"1021400":true,"1020800":true,"1020900":true,"1021000":true,"1030101":true,"1030102":true,"1030103":true,"1030104":true,"1030105":true,"1030106":true,"1030107":true,"1030201":true,"1030202":true,"1030203":true,"1030204":true,"1030205":true,"1030206":true,"1030207":true,"1030208":true,"1030209":true,"1030210":true,"1030211":true,"1030212":true,"1030213":true,"1030301":true,"1030302":true,"1030303":true,"1030304":true,"1030305":true,"1030306":true,"1030307":true,"1030400":true,"1030500":true,"1030600":true,"1030700":true,"1030800":true,"1042200":true,"1040100":true,"1042400":true,"1042300":true,"1040800":true,"1042101":true,"1042102":true,"1040501":true,"1040502":true,"1040503":true,"1040504":true,"1040507":true,"1040505":true,"1040508":true,"1040509":true,"1040511":true,"1040512":true,"1040513":true,"1040400":true,"1040500":true,"1040600":true,"1040900":true,"1041001":true,"1060200":true,"1062000":true,"1063000":true,"1062100":true,"1062200":true,"1062400":true,"1062301":true,"1062302":true,"1060500":true,"1060400":true,"1060600":true,"1060700":true,"1067100":true,"1061000":true,"1060801":true,"1060802":true,"1060803":true,"1060805":true,"1060804":true,"1070100":true,"1070200":true,"1070400":true,"1074100":true,"1074200":true,"1074300":true,"1070500":true,"1070600":true,"1070700":true,"1070800":true,"1072500":true,"1070900":true,"1071101":true,"1071102":true,"1071001":true,"1071002":true,"1071003":true,"1071004":true,"1071005":true,"1080100":true,"1081100":true,"1080200":true,"1080800":true,"1080900":true,"1080300":true,"1080400":true,"1080904":true,"1080905":true,"1080906":true,"1090101":true,"1090104":true,"1090102":true,"1090103":true,"1090201":true,"1090202":true,"1090203":true,"1090204":true,"1090205":true,"1090301":true,"1090302":true,"1090310":true,"1090303":true,"1090304":true,"1090305":true,"1090307":true,"1090901":true,"1090902":true,"1091101":true,"1091102":true,"1090400":true,"1090500":true,"1090700":true,"1090800":true,"1093000":true,"1101000":true,"1100101":true,"1100102":true,"1100121":true,"1100103":true,"1100104":true,"1100105":true,"1100106":true,"1100107":true,"1100109":true,"1100108":true,"1100110":true,"1100111":true,"1100601":true,"1100602":true,"1100603":true,"1100604":true,"1100605":true,"1100201":true,"1100202":true,"1100401":true,"1100402":true,"1101101":true,"1101102":true,"1200500":true,"1209100":true,"1200200":true,"1201000":true,"1116000":true,"1116800":true,"1116600":true,"1116400":true,"1110100":true,"1110200":true,"1110300":true,"1112000":true,"1112100":true,"1114000":true,"1115300":true,"1115400":true,"1115200":true,"1115100":true,"1113100":true,"1119102":true,"1119103":true,"1119104":true,"1119105":true,"1119106":true,"1119107":true,"1119108":true,"1119110":true,"1119109":true,"1119130":true,"1119002":true,"1119012":true,"1119005":true,"1119007":true,"1119003":true,"1140000":true,"1138000":true,"1138100":true,"1139900":true,"1135400":true,"1131400":true,"1136000":true,"1131200":true,"1130100":true,"1130200":true,"1130300":true,"1133300":true,"1130400":true,"1130500":true,"1130600":true,"1130700":true,"1132600":true,"1130800":true,"1132700":true,"1134000":true,"1135000":true,"1120100":true,"1125300":true,"1125400":true,"1120500":true,"1120300":true,"1120200":true,"1123300":true,"1120600":true,"1122000":true,"1122600":true,"1122700":true,"1122100":true,"1120800":true,"1120900":true,"1127700":true,"1121000":true,"1122200":true,"1123023":true,"1123024":true,"1123025":true,"1125000":true,"1125100":true,"1129300":true,"1140100":true,"1140500":true,"1140600":true,"1141000":true,"1140300":true,"1140200":true,"1140900":true,"1141100":true,"1140400":true,"1140700":true,"1250100":true,"1250300":true,"1250400":true,"1313100":true,"1310500":true,"1320700":true,"1320100":true,"1320200":true,"1320300":true,"1320400":true,"1320500":true,"1320600":true,"1320800":true,"1320900":true,"1321000":true,"1321100":true,"1321200":true,"1321300":true,"1321700":true,"2010100":true,"2012000":true,"2010200":true,"2010300":true,"2010400":true,"2016200":true,"2014200":true,"2014000":true,"2014100":true,"2010500":true,"2010600":true,"2016100":true,"2010700":true,"2010800":true,"2011000":true,"2011100":true,"2011200":true,"2011400":true,"2011300":true,"2020100":true,"2020700":true,"2020600":true,"2020200":true,"2020300":true,"2020500":true,"10":true,"11":true,"12":true,"13":true,"14":true,"15":true,"16":true,"20":true,"204":true,"205":true,"301":true,"401":true,"402":true,"410":true,"505":true,"506":true,"601":true,"602":true,"603":true,"604":true,"801":true,"1021":true,"1000":true,"1001":true,"1002":true} ;
+        </script><!-- Bootstrap --><script src="/js/bootstrap.min.js" type="text/javascript"></script><script src="/js/bootstrap-dialog.js" type="text/javascript"></script><!-- Sparkline --><!-- AdminLTE App --><script src="/js/AdminLTE/app.js" type="text/javascript"></script><script type="text/javascript" src="/page_js/supervisor/monitor.js?20170420-103358"></script><!-- &#20840;&#23616;&#21464;&#37327;  --><script type="text/javascript">
+	g_date="2017-04-20";
+	g_st_application_nick="";
+	g_require_adminid="-1";
+	g_userid="-1";
+	g_teacherid="-1";
+	g_run_flag="1";
+	g_assistantid="-1";
+	g_args={"date":"2017-04-20","st_application_nick":"","require_adminid":-1,"userid":-1,"teacherid":-1,"run_flag":1,"assistantid":-1};
+</script><!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --><!-- WARNING: Respond.js doesn't work if you view the page via file:// --><!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body class="skin-blue">
+        <!-- header logo: style can be found in header.less -->
+        <header class="header"><a href="/" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                [NEW]理优管理系统
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation"><!-- Sidebar toggle button--><a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button" title="切换菜单栏">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-left ">
+                    <ul class="nav navbar-nav">
+<li><a href="javascript:;" id="header_title1" style="font-size:20px ;cursor: default; ">  </a></li>
+                    </ul>
+</div>
+
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+<!-- Messages: style can be found in dropdown.less--><!-- Notifications: style can be found in dropdown.less --><!-- Tasks: style can be found in dropdown.less --><!-- User Account: style can be found in dropdown.less --><li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span>
+
+                                        jim
+                                    <i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+<!-- User image --><li class="user-header bg-light-blue">
+                                    <img src="" class="img-circle" alt="User Image"><p>
+                                        jim
+                                        -
+                                        <small> 2015</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-right" style="margin-bottom: 3px;">
+
+                                        <a href="#" class="btn btn-primary btn-flat" id="id_new_seller_system">新版客服系统</a>
+                                    </div>
+
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-primary btn-flat" id="id_user_change_passwd">修改密码</a>
+
+                                        <a href="#" class="btn btn-primary btn-flat" id="id_public_user_reset_power">重置权限</a>
+                                        <a href="#" class="btn btn-warning btn-flat" id="id_system_logout">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+</li>
+                    </ul>
+</div>
+            </nav></header><div class="wrapper row-offcanvas row-offcanvas-left menu-list">
+            <!-- Left side column. contains the logo and sidebar -->
+            <!-- __COPY_START -->
+            <aside class="left-side sidebar-offcanvas"><!-- sidebar: style can be found in sidebar.less --><section class="sidebar"><!-- /.search form --><!-- sidebar menu: : style can be found in sidebar.less --><ul class="sidebar-menu">
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>服务管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/supervisor/monitor"><i class="fa fa-dashboard"></i><span>课堂状态</span></a>
+</li>
+<li> <a href="/user_manage/all_users"><i class="fa fa-angle-double-right"></i><span>所有用户</span></a>
+</li>
+<li> <a href="/user_manage/index"><i class="fa fa-angle-double-right"></i><span>学员档案</span></a>
+</li>
+<li> <a href="/user_manage_new/account_list"><i class="fa fa-angle-double-right"></i><span>账号登录管理</span></a>
+</li>
+<li> <a href="/user_manage/contract_list"><i class="fa fa-angle-double-right"></i><span>合同管理</span></a>
+</li>
+<li> <a href="/user_manage/parent_archive"><i class="fa fa-angle-double-right"></i><span>家长档案</span></a>
+</li>
+<li> <a href="/user_manage/pc_relationship"><i class="fa fa-angle-double-right"></i><span>家长学生</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>其它</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage/refund_list"><i class="fa fa-angle-double-right"></i><span>退费管理</span></a>
+</li>
+<li> <a href="/user_manage/refund_analysia"><i class="fa fa-angle-double-right"></i><span>退费原因分析</span></a>
+</li>
+<li> <a href="/user_will/index"><i class="fa fa-angle-double-right"></i><span>潜在学员-注册用户</span></a>
+</li>
+<li> <a href="/user_will/user_will"><i class="fa fa-angle-double-right"></i><span>潜在学员-意向用户</span></a>
+</li>
+<li> <a href="/user_manage/audition"><i class="fa fa-angle-double-right"></i><span>潜在学员-试听用户</span></a>
+</li>
+<li> <a href="/user_manage/user_finish"><i class="fa fa-angle-double-right"></i><span>结课学员</span></a>
+</li>
+<li> <a href="/user_manage_new/notify_phone"><i class="fa fa-angle-double-right"></i><span>手机电话</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>例子-新版</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student_new/assign_sub_adminid_list"><i class="fa fa-angle-double-right"></i><span>分配例子</span></a>
+</li>
+<li> <a href="/seller_student_new/assign_member_list"><i class="fa fa-angle-double-right"></i><span>分配例子-主管</span></a>
+</li>
+<li> <a href="/seller_student_new/ass_master_seller_student_list"><i class="fa fa-angle-double-right"></i><span>转介绍例子-全部</span></a>
+</li>
+<li> <a href="/seller_student_new/ass_master_seller_master_student_list"><i class="fa fa-angle-double-right"></i><span>转介绍例子-主管</span></a>
+</li>
+<li> <a href="/seller_student_new2/tmk_student_list"><i class="fa fa-angle-double-right"></i><span>微信运营</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>排课</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student_new2/test_lesson_plan_list"><i class="fa fa-angle-double-right"></i><span>试听排课</span></a>
+</li>
+<li> <a href="/seller_student_new2/test_lesson_plan_list_jx"><i class="fa fa-angle-double-right"></i><span>试听排课-教务</span></a>
+</li>
+<li> <a href="/seller_student_new2/test_lesson_no_binding_list"><i class="fa fa-angle-double-right"></i><span>未绑定的试听课</span></a>
+</li>
+<li> <a href="/tongji_ss/test_lesson_plan_detail_list"><i class="fa fa-angle-double-right"></i><span>教务排课明细</span></a>
+</li>
+<li> <a href="/seller_student_new/test_lesson_order_fail_list"><i class="fa fa-angle-double-right"></i><span>试听销售签单与否反馈</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>抢新例子数据</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student_new2/seller_get_new_count_admin_list"><i class="fa fa-angle-double-right"></i><span>当前用户可抢数</span></a>
+</li>
+<li> <a href="/seller_student_new2/seller_get_new_count_list"><i class="fa fa-angle-double-right"></i><span>当前用户可抢数明细</span></a>
+</li>
+<li> <a href="/seller_student_new2/seller_no_call_to_free_list"><i class="fa fa-angle-double-right"></i><span>当前未拨打未拨通</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>在读统计</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji_ss/valid_user_count"><i class="fa fa-angle-double-right"></i><span>学员人数</span></a>
+</li>
+<li> <a href="/tongji2/valid_user_region"><i class="fa fa-angle-double-right"></i><span>区域/年级/科目 分布</span></a>
+</li>
+<li> <a href="/tongji2/valid_user_money_info"><i class="fa fa-angle-double-right"></i><span>新增/续费/转介绍</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>统计</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/admin"><i class="fa fa-angle-double-right"></i><span>系统状态</span></a>
+</li>
+<li> <a href="/tongji/online_def_user_count_list"><i class="fa fa-angle-double-right"></i><span>在线预计课数</span></a>
+</li>
+<li> <a href="/tongji/online_user_count_list"><i class="fa fa-angle-double-right"></i><span>在线课数</span></a>
+</li>
+<li> <a href="/tongji_ss/new_user_count"><i class="fa fa-angle-double-right"></i><span>新增例子分时统计</span></a>
+</li>
+<li> <a href="/tongji_ss/user_count"><i class="fa fa-angle-double-right"></i><span>例子统计</span></a>
+</li>
+<li> <a href="/tongji_ss/origin_count"><i class="fa fa-angle-double-right"></i><span>渠道统计</span></a>
+</li>
+<li> <a href="/tongji_ss/origin_count_tmk"><i class="fa fa-angle-double-right"></i><span>渠道统计-微信运营/tmk</span></a>
+</li>
+<li> <a href="/tongji_ss/origin_count_seller"><i class="fa fa-angle-double-right"></i><span>tmk统计-销售</span></a>
+</li>
+<li> <a href="/tongji_ss/seller_count"><i class="fa fa-angle-double-right"></i><span>销售个人统计</span></a>
+</li>
+<li> <a href="/tongji_ss/seller_count_seller_master"><i class="fa fa-angle-double-right"></i><span>销售个人统计-主管</span></a>
+</li>
+<li> <a href="/seller_student_new2/test_lesson_detail_list"><i class="fa fa-angle-double-right"></i><span>排课明细</span></a>
+</li>
+<li> <a href="/tongji_ss/contract_count"><i class="fa fa-angle-double-right"></i><span>合同统计</span></a>
+</li>
+<li> <a href="/tongji_ss/set_lesson_count"><i class="fa fa-angle-double-right"></i><span>排课统计</span></a>
+</li>
+<li> <a href="/tongji_ss/require_count_seller"><i class="fa fa-angle-double-right"></i><span>销售申请统计</span></a>
+</li>
+<li> <a href="/tongji_ss/master_no_assign_count"><i class="fa fa-angle-double-right"></i><span>销售主管未分配统计</span></a>
+</li>
+<li> <a href="/user_manage_new/seller_tongji_report_info"><i class="fa fa-angle-double-right"></i><span>销售月度统计报表</span></a>
+</li>
+<li> <a href="/user_manage_new/seller_require_tq_time_list"><i class="fa fa-angle-double-right"></i><span>销售红黑榜</span></a>
+</li>
+<li> <a href="/tongji_ss/require_no_set_lesson_info"><i class="fa fa-angle-double-right"></i><span>实时申请未排统计</span></a>
+</li>
+<li> <a href="/tongji_ss/teacher_test_lesson_info"><i class="fa fa-angle-double-right"></i><span>试听老师统计</span></a>
+</li>
+<li> <a href="/tongji_ss/lesson_device_info"><i class="fa fa-angle-double-right"></i><span>设备统计</span></a>
+</li>
+<li> <a href="/tongji_ss/day_report"><i class="fa fa-angle-double-right"></i><span>日报</span></a>
+</li>
+<li> <a href="/tongji_ss/tmk_test_lesson_count"><i class="fa fa-angle-double-right"></i><span>微信运营试听课统计</span></a>
+</li>
+<li> <a href="/tongji_ss/get_origin_info_by_order"><i class="fa fa-angle-double-right"></i><span>渠道统计-销售</span></a>
+</li>
+<li> <a href="/tongji/assistant_test_lesson_count"><i class="fa fa-angle-double-right"></i><span>助教-试听统计</span></a>
+</li>
+<li> <a href="/tongji_ss/teacher_trial_lesson_list"><i class="fa fa-angle-double-right"></i><span>老师-试听分次统计</span></a>
+</li>
+<li> <a href="/tongji_ss/get_teacher_test_lesson_info_old"><i class="fa fa-angle-double-right"></i><span>老师-试听统计-old</span></a>
+</li>
+<li> <a href="/tongji_ss/rejion_count_list"><i class="fa fa-angle-double-right"></i><span>重复报名统计</span></a>
+</li>
+<li> <a href="/tongji_ss/require_time_test_lesson_require_time_date_info"><i class="fa fa-angle-double-right"></i><span>试听申请-时间间隔</span></a>
+</li>
+<li> <a href="/tongji_ss/stu_lesson_total_list"><i class="fa fa-angle-double-right"></i><span>学生续费统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>统计2</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji_ss/invalid_user_list"><i class="fa fa-angle-double-right"></i><span>无效资源分类</span></a>
+</li>
+<li> <a href="/tongji_ss/order_fail_list"><i class="fa fa-angle-double-right"></i><span>试听签约失败分类</span></a>
+</li>
+<li> <a href="/tongji_ss/order_fail_seller_set"><i class="fa fa-angle-double-right"></i><span>试听签约失败-未设置</span></a>
+</li>
+<li> <a href="/tongji2/seller_month_money_list"><i class="fa fa-angle-double-right"></i><span>销售月度绩效</span></a>
+</li>
+<li> <a href="/contract_present/contract_present_info"><i class="fa fa-angle-double-right"></i><span>折扣情况</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>统计-助教</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"><li> <a href="/tongji2/ass_all"><i class="fa fa-angle-double-right"></i><span>助教组-整体统计</span></a>
+</li></ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>教学管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tea_manage/lesson_list"><i class="fa fa-angle-double-right"></i><span>课程管理</span></a>
+</li>
+<li> <a href="/user_manage_new/get_error_record_lesson_list"><i class="fa fa-angle-double-right"></i><span>error 课程视频</span></a>
+</li>
+<li> <a href="/tea_manage_new/lesson_record_server_list"><i class="fa fa-angle-double-right"></i><span>当前录音服务器分布</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>课程列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"><li> <a href="/tea_manage/tea_lesson_list"><i class="fa fa-angle-double-right"></i><span>老师-课程列表</span></a>
+</li></ul>
+</li>
+<li> <a href="/tea_manage/quiz_info"><i class="fa fa-angle-double-right"></i><span>测评管理</span></a>
+</li>
+<li> <a href="/tea_manage/open_class2"><i class="fa fa-angle-double-right"></i><span>公开课堂</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>小班课</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/small_class/index"><i class="fa fa-angle-double-right"></i><span>小班管理</span></a>
+</li>
+<li> <a href="/small_class/lesson_list"><i class="fa fa-angle-double-right"></i><span>小班课次管理</span></a>
+</li>
+<li> <a href="/small_class/lesson_list_new"><i class="fa fa-angle-double-right"></i><span>小班课次管理-new</span></a>
+</li>
+<li> <a href="/small_class/student_list"><i class="fa fa-angle-double-right"></i><span>小班学生列表</span></a>
+</li>
+<li> <a href="/small_class/student_list_new"><i class="fa fa-angle-double-right"></i><span>小班学生列表-new</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/tea_manage/train_lesson_list"><i class="fa fa-angle-double-right"></i><span>培训课堂</span></a>
+</li>
+<li> <a href="/lesson_manage/error_info"><i class="fa fa-angle-double-right"></i><span>课程错误报告</span></a>
+</li>
+<li> <a href="/tea_manage/lesson_account"><i class="fa fa-angle-double-right"></i><span>课程统计信息</span></a>
+</li>
+<li> <a href="/lesson_manage/stu_login_count"><i class="fa fa-angle-double-right"></i><span>登陆过多统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>题库管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>录入</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/question/question_list"><i class="fa fa-angle-double-right"></i><span>录入-编辑</span></a>
+</li>
+<li> <a href="/question/question_list_nopass"><i class="fa fa-angle-double-right"></i><span>录入-审核未通过-所有</span></a>
+</li>
+<li> <a href="/question/question_list_nopass_10"><i class="fa fa-angle-double-right"></i><span>录入-审核未通过-扣10%</span></a>
+</li>
+<li> <a href="/question/question_list_nopass_50"><i class="fa fa-angle-double-right"></i><span>录入-审核未通过-扣50%</span></a>
+</li>
+<li> <a href="/question/question_list_nopass_100"><i class="fa fa-angle-double-right"></i><span>录入-审核未通过-扣100%</span></a>
+</li>
+<li> <a href="/question/question_list_nopass_del"><i class="fa fa-angle-double-right"></i><span>录入-审核未通过-不入库</span></a>
+</li>
+<li> <a href="/question/question_list_pass"><i class="fa fa-angle-double-right"></i><span>录入-审核通过</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>一审</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/question/question_list_check?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-book"></i><span>一审-审核</span></a>
+</li>
+<li> <a href="/question/question_list_check_nopass?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核未通过-所有</span></a>
+</li>
+<li> <a href="/question/question_list_check_nopass_10?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核未通过-扣10%</span></a>
+</li>
+<li> <a href="/question/question_list_check_nopass_50?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核未通过-扣50%</span></a>
+</li>
+<li> <a href="/question/question_list_check_nopass_100?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核未通过-扣100%</span></a>
+</li>
+<li> <a href="/question/question_list_check_nopass_del?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核未通过-不入库</span></a>
+</li>
+<li> <a href="/question/question_list_check_pass?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>一审-审核通过</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_nopass"><i class="fa fa-angle-double-right"></i><span>二审-审核未通过-所有</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_nopass_10"><i class="fa fa-angle-double-right"></i><span>二审-审核未通过-扣10%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_nopass_50"><i class="fa fa-angle-double-right"></i><span>二审-审核未通过-扣50%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_nopass_100"><i class="fa fa-angle-double-right"></i><span>二审-审核未通过-扣100%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_nopass_del"><i class="fa fa-angle-double-right"></i><span>二审-审核未通过-不入库</span></a>
+</li>
+<li> <a href="/question/question_list_check2_for1_pass"><i class="fa fa-angle-double-right"></i><span>二审-审核通过</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>二审</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/question/question_list_check2_for2?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-book"></i><span>审核</span></a>
+</li>
+<li> <a href="/question/question_list_check2_nopass?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>-审核未通过-所有</span></a>
+</li>
+<li> <a href="/question/question_list_check2_nopass_10?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>审核未通过-扣10%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_nopass_50?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>审核未通过-扣50%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_nopass_100?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>审核未通过-扣100%</span></a>
+</li>
+<li> <a href="/question/question_list_check2_nopass_del?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>审核未通过-不入库</span></a>
+</li>
+<li> <a href="/question/question_list_check2_pass?grade=200&amp;subject=2&amp;start_time=2015-10-23"><i class="fa fa-angle-double-right"></i><span>审核通过</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/question/edit_lesson_note"><i class="fa fa-book"></i><span>知识点编辑</span></a>
+</li>
+<li> <a href="/question/publish_list"><i class="fa fa-book"></i><span>所有题目</span></a>
+</li>
+<li> <a href="/question/admin_info"><i class="fa fa-book"></i><span>录入统计</span></a>
+</li>
+<li> <a href="/question/check_admin_info"><i class="fa fa-book"></i><span>审核统计</span></a>
+</li>
+<li> <a href="/human_resource/get_question_tongji"><i class="fa fa-book"></i><span>题库题目统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>人事绩效</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/human_resource/index_new"><i class="fa fa-angle-double-right"></i><span>教师档案(试讲老师)</span></a>
+</li>
+<li> <a href="/human_resource/index"><i class="fa fa-angle-double-right"></i><span>教师档案(全部老师)</span></a>
+</li>
+<li> <a href="/human_resource/teacher_info_new"><i class="fa fa-angle-double-right"></i><span>教师档案-new</span></a>
+</li>
+<li> <a href="/human_resource/teacher_assess"><i class="fa fa-angle-double-right"></i><span>教师评估考核</span></a>
+</li>
+<li> <a href="/human_resource/specialty"><i class="fa fa-angle-double-right"></i><span>教师特长</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>老师会议</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/human_resource/teacher_meeting_info"><i class="fa fa-angle-double-right"></i><span>会议记录</span></a>
+</li>
+<li> <a href="/human_resource/teacher_meeting_join_info"><i class="fa fa-angle-double-right"></i><span>与会人员信息</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>老师工资</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage_new/tea_lesson_count_total_list"><i class="fa fa-angle-double-right"></i><span>老师课时-总体</span></a>
+</li>
+<li> <a href="/user_manage_new/tea_lesson_count_detail_list"><i class="fa fa-angle-double-right"></i><span>老师工资</span></a>
+</li>
+<li> <a href="/user_manage_new/get_teacher_money_list"><i class="fa fa-angle-double-right"></i><span>老师课时工资配置信息</span></a>
+</li>
+<li> <a href="/user_manage_new/lesson_student_grade_list"><i class="fa fa-angle-double-right"></i><span>学生课程年级异常</span></a>
+</li>
+<li> <a href="/user_manage_new/tea_wages_list"><i class="fa fa-angle-double-right"></i><span>工资总体-new</span></a>
+</li>
+<li> <a href="/user_manage_new/tea_wages_info"><i class="fa fa-angle-double-right"></i><span>工资明细-new</span></a>
+</li>
+<li> <a href="/user_manage_new/teacher_money_type_list"><i class="fa fa-angle-double-right"></i><span>工资配置-new</span></a>
+</li>
+<li> <a href="/user_manage_new/tea_wages_count_list"><i class="fa fa-angle-double-right"></i><span>工资统计</span></a>
+</li>
+<li> <a href="/human_resource/get_lesson_full_list"><i class="fa fa-angle-double-right"></i><span>全勤奖配置</span></a>
+</li>
+<li> <a href="/human_resource/get_lesson_full_wage_old"><i class="fa fa-angle-double-right"></i><span>全勤奖配置-old</span></a>
+</li>
+<li> <a href="/user_manage_new/teacher_trial_reward_list"><i class="fa fa-angle-double-right"></i><span>额外奖金</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/human_resource/assistant_info2"><i class="fa fa-angle-double-right"></i><span>助教档案</span></a>
+</li>
+<li> <a href="/human_resource/assistant_info_new"><i class="fa fa-angle-double-right"></i><span>助教档案-new</span></a>
+</li>
+<li> <a href="/human_resource/get_apply_info"><i class="fa fa-angle-double-right"></i><span>面试信息查看</span></a>
+</li>
+<li> <a href="/human_resource/teacher_lecture_list"><i class="fa fa-angle-double-right"></i><span>老师试讲课列表</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>老师反馈</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"><li> <a href="/teacher_feedback/teacher_feedback_list"><i class="fa fa-angle-double-right"></i><span>反馈列表</span></a>
+</li></ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>系统设置</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/authority/manager_list"><i class="fa fa-angle-double-right"></i><span>用户管理</span></a>
+</li>
+<li> <a href="/authority/manager_list_for_seller"><i class="fa fa-angle-double-right"></i><span>用户管理-销售</span></a>
+</li>
+<li> <a href="/authority/manager_list_for_ass"><i class="fa fa-angle-double-right"></i><span>用户管理-助教</span></a>
+</li>
+<li> <a href="/user_manage_new/admin_group_edit"><i class="fa fa-angle-double-right"></i><span>后台成员分组</span></a>
+</li>
+<li> <a href="/user_manage_new/admin_main_group_edit"><i class="fa fa-angle-double-right"></i><span>后台主管成员分组</span></a>
+</li>
+<li> <a href="/user_manage_new/admin_main_assign_percent_edit"><i class="fa fa-angle-double-right"></i><span>销售主管分组比例配置</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>后台销售管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage_new/admin_member_list"><i class="fa fa-angle-double-right"></i><span>销售额以及时间</span></a>
+</li>
+<li> <a href="/user_manage_new/seller_attendance_info"><i class="fa fa-angle-double-right"></i><span>销售个人出勤</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/user_manage_new/power_group_edit"><i class="fa fa-angle-double-right"></i><span>权限管理</span></a>
+</li>
+<li> <a href="/authority/jurisdiction"><i class="fa fa-angle-double-right"></i><span>权限execl</span></a>
+</li>
+<li> <a href="/authority/get_acc_power_list"><i class="fa fa-angle-double-right"></i><span>权限查询</span></a>
+</li>
+<li> <a href="/authority/get_login_list"><i class="fa fa-angle-double-right"></i><span>登录日志</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_ws"><i class="fa fa-angle-double-right"></i><span>websocket测试</span></a>
+</li>
+<li> <a href="/user_manage_new/user_power_group_edit"><i class="fa fa-angle-double-right"></i><span>老师后台权限</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>数据库</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/table_manage/index"><i class="fa fa-angle-double-right"></i><span>数据库-表管理</span></a>
+</li>
+<li> <a href="/table_manage/edit_table_data"><i class="fa fa-angle-double-right"></i><span>数据库-数据修改</span></a>
+</li>
+<li> <a href="/table_manage/opt_table_log"><i class="fa fa-angle-double-right"></i><span>数据库-数据修改记录</span></a>
+</li>
+<li> <a href="/table_manage/tq_wsdl"><i class="fa fa-angle-double-right"></i><span>tq wsdl生成</span></a>
+</li>
+<li> <a href="/table_manage/dev_info"><i class="fa fa-angle-double-right"></i><span>开发信息</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>预约管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student/student_list"><i class="fa fa-angle-double-right"></i><span>分配用户</span></a>
+</li>
+<li> <a href="/user_manage_new/test_lesson_lost_user_list"><i class="fa fa-angle-double-right"></i><span>未签单试听用户</span></a>
+</li>
+<li> <a href="/seller_student/test_lesson_list"><i class="fa fa-angle-double-right"></i><span>试听管理</span></a>
+</li>
+<li> <a href="/seller_student/test_lesson_assign_teacher"><i class="fa fa-angle-double-right"></i><span>试听派单管理</span></a>
+</li>
+<li> <a href="/seller_student/test_lesson_log_list"><i class="fa fa-angle-double-right"></i><span>试听记录管理</span></a>
+</li>
+<li> <a href="/seller_student/test_lesson_no_binding_list"><i class="fa fa-angle-double-right"></i><span>未绑定的试听课</span></a>
+</li>
+<li> <a href="/seller_student/seller_count"><i class="fa fa-angle-double-right"></i><span>销售产出统计</span></a>
+</li>
+<li> <a href="/seller_student/channel_statistics"><i class="fa fa-angle-double-right"></i><span>渠道统计</span></a>
+</li>
+<li> <a href="/seller_student/channel_summary"><i class="fa fa-angle-double-right"></i><span>渠道汇总</span></a>
+</li>
+<li> <a href="/seller_student/channel_manage"><i class="fa fa-angle-double-right"></i><span>渠道管理</span></a>
+</li>
+<li> <a href="/seller_student/channel_manage_bd"><i class="fa fa-angle-double-right"></i><span>渠道-BD</span></a>
+</li>
+<li> <a href="/appoint/index2"><i class="fa fa-angle-double-right"></i><span>约课 课程包管理</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>TQ</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tq/get_list"><i class="fa fa-angle-double-right"></i><span>电话明细</span></a>
+</li>
+<li> <a href="/tq/tongji_list"><i class="fa fa-angle-double-right"></i><span>销售统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>其它</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_book/get_tea_schedule"><i class="fa fa-angle-double-right"></i><span>排课</span></a>
+</li>
+<li> <a href="/user_book/audition_list"><i class="fa fa-angle-double-right"></i><span>试听用户</span></a>
+</li>
+<li> <a href="/user_book/get_booked_user"><i class="fa fa-angle-double-right"></i><span>注册用户</span></a>
+</li>
+<li> <a href="/user_book/phone_user_list"><i class="fa fa-angle-double-right"></i><span>电话用户</span></a>
+</li>
+<li> <a href="/user_book/phone_user_list_all"><i class="fa fa-angle-double-right"></i><span>所有渠道用户</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>财务管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage_new/money_contract_list"><i class="fa fa-angle-double-right"></i><span>合同管理-财务</span></a>
+</li>
+<li> <a href="/user_manage_new/money_contract_list_stu"><i class="fa fa-angle-double-right"></i><span>合同管理-new</span></a>
+</li>
+<li> <a href="/lesson_manage/stu_status_count"><i class="fa fa-angle-double-right"></i><span>统计</span></a>
+</li>
+<li> <a href="/tongji/all_info"><i class="fa fa-angle-double-right"></i><span>总体收入</span></a>
+</li>
+<li> <a href="/tongji/get_month_money_info"><i class="fa fa-angle-double-right"></i><span>月度收入</span></a>
+</li>
+<li> <a href="/seller_student/money_contract_list_for_origin"><i class="fa fa-angle-double-right"></i><span>渠道统计</span></a>
+</li>
+<li> <a href="/user_manage_new/month_user_info"><i class="fa fa-angle-double-right"></i><span>月份学生统计</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>考勤</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji/admin_card_log_list"><i class="fa fa-angle-double-right"></i><span>考勤记录</span></a>
+</li>
+<li> <a href="/tongji/admin_card_date_log_list"><i class="fa fa-angle-double-right"></i><span>员工-考勤信息</span></a>
+</li>
+<li> <a href="/tongji/admin_card_admin_log_list"><i class="fa fa-angle-double-right"></i><span>员工-每天考勤信息</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>工具箱</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>商城管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/authority/present_manage"><i class="fa fa-angle-double-right"></i><span>商品管理</span></a>
+</li>
+<li> <a href="/user_manage_new/present_manage_new"><i class="fa fa-angle-double-right"></i><span>商品管理-new</span></a>
+</li>
+<li> <a href="/present/index"><i class="fa fa-angle-double-right"></i><span>兑换管理</span></a>
+</li>
+<li> <a href="/user_manage_new/commodity_exchange_management"><i class="fa fa-angle-double-right"></i><span>兑换管理-new</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>家长端</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/school_info/search_scores"><i class="fa fa-angle-double-right"></i><span>查分数线</span></a>
+</li>
+<li> <a href="/school_info/search_paper"><i class="fa fa-angle-double-right"></i><span>找卷子</span></a>
+</li>
+<li> <a href="/school_info/search_school"><i class="fa fa-angle-double-right"></i><span>查学校</span></a>
+</li>
+<li> <a href="/news_info/news_ency_info"><i class="fa fa-angle-double-right"></i><span>政策百科</span></a>
+</li>
+<li> <a href="/news_info/news_headlines_info"><i class="fa fa-angle-double-right"></i><span>升学头条</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>消息记录</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/monitor/api_func"><i class="fa fa-angle-double-right"></i><span>api 实时调用消息</span></a>
+</li>
+<li> <a href="/monitor/wxMonitor"><i class="fa fa-angle-double-right"></i><span>微信推送</span></a>
+</li>
+<li> <a href="/user_manage_new/wx_monitor_new"><i class="fa fa-angle-double-right"></i><span>微信推送-new</span></a>
+</li>
+<li> <a href="/monitor/smsmonitor"><i class="fa fa-angle-double-right"></i><span>短信发送</span></a>
+</li>
+<li> <a href="/monitor/baiduMonitor"><i class="fa fa-angle-double-right"></i><span>百度推送</span></a>
+</li>
+<li> <a href="/monitor/aggregate"><i class="fa fa-angle-double-right"></i><span>消息统计</span></a>
+</li>
+<li> <a href="/user_manage_new/teacher_send_video_list"><i class="fa fa-angle-double-right"></i><span>微信视频推送详情</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>淘宝管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/taobao_manage/taobao_type"><i class="fa fa-angle-double-right"></i><span>app首页设置</span></a>
+</li>
+<li> <a href="/taobao_manage/taobao_item"><i class="fa fa-angle-double-right"></i><span>商品管理</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>tmk数据 上传</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/upload_tmk/post_list"><i class="fa fa-angle-double-right"></i><span>批次列表</span></a>
+</li>
+<li> <a href="/upload_tmk/post_student_list"><i class="fa fa-angle-double-right"></i><span>批次明细</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/pic_manage/pic_info"><i class="fa fa-angle-double-right"></i><span>图片管理</span></a>
+</li>
+<li> <a href="/festival/festival_list"><i class="fa fa-angle-double-right"></i><span>节日列表</span></a>
+</li>
+<li> <a href="/news_info/stu_message_list"><i class="fa fa-angle-double-right"></i><span>系统消息</span></a>
+</li>
+<li> <a href="/user_manage_new/record_audio_server_list"><i class="fa fa-angle-double-right"></i><span>声音记录管理</span></a>
+</li>
+<li> <a href="/order_refund_confirm_config/refund_info"><i class="fa fa-angle-double-right"></i><span>退费原因编辑</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>统计</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji_ex/top_list"><i class="fa fa-angle-double-right"></i><span>排行榜数据</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>销售</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji/contract"><i class="fa fa-angle-double-right"></i><span>合同每日统计</span></a>
+</li>
+<li> <a href="/tongji/user_count"><i class="fa fa-angle-double-right"></i><span>例子统计</span></a>
+</li>
+<li> <a href="/tongji/seller_user_count"><i class="fa fa-angle-double-right"></i><span>例子统计-个人</span></a>
+</li>
+<li> <a href="/tongji/seller_time"><i class="fa fa-angle-double-right"></i><span>销售时效统计</span></a>
+</li>
+<li> <a href="/tongji/test_lesson_tongi"><i class="fa fa-angle-double-right"></i><span>试听排课统计</span></a>
+</li>
+<li> <a href="/tongji/test_lesson_detail_list"><i class="fa fa-angle-double-right"></i><span>试听排课-明细</span></a>
+</li>
+<li> <a href="/tongji/first_revisite_time_list"><i class="fa fa-angle-double-right"></i><span>首次回访例子数-小时</span></a>
+</li>
+<li> <a href="/tongji2/test_lesson_frist_call_time"><i class="fa fa-angle-double-right"></i><span>试听首次回访时间统计</span></a>
+</li>
+<li> <a href="/tongji2/test_lesson_frist_call_time_master"><i class="fa fa-angle-double-right"></i><span>试听首次回访时间统计-主管</span></a>
+</li>
+<li> <a href="/tongji_ss/tongji_seller_test_lesson_order_info"><i class="fa fa-angle-double-right"></i><span>试听转化率统计</span></a>
+</li>
+<li> <a href="/tongji_ss/tongji_seller_test_lesson_paper_order_info"><i class="fa fa-angle-double-right"></i><span>试听转化率统计-试卷</span></a>
+</li>
+<li> <a href="/tongji2/seller_student_admin_list"><i class="fa fa-angle-double-right"></i><span>例子销售分布</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>助教</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji/test_lesson_ass"><i class="fa fa-angle-double-right"></i><span>课时统计</span></a>
+</li>
+<li> <a href="/tongji/test_lesson_ass_self"><i class="fa fa-angle-double-right"></i><span>课时统计-助教</span></a>
+</li>
+<li> <a href="/tongji/revisit_info_tongji_ass"><i class="fa fa-angle-double-right"></i><span>回访统计-助教</span></a>
+</li>
+<li> <a href="/tq/ass_tongji_list"><i class="fa fa-angle-double-right"></i><span>电话统计-助教</span></a>
+</li>
+<li> <a href="/tq/ass_self_tongji_list"><i class="fa fa-angle-double-right"></i><span>电话统计-个人</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>消息统计</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji/sms"><i class="fa fa-angle-double-right"></i><span>短信日期统计</span></a>
+</li>
+<li> <a href="/tongji/sms_type"><i class="fa fa-angle-double-right"></i><span>短信分类统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>获赞</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage/count_zan"><i class="fa fa-angle-double-right"></i><span>获赞统计</span></a>
+</li>
+<li> <a href="/user_manage/zan_info"><i class="fa fa-angle-double-right"></i><span>获赞类别详情</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>后台登入</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/user_manage/user_login_list"><i class="fa fa-angle-double-right"></i><span>详情</span></a>
+</li>
+<li> <a href="/user_manage/tongji_login_ip_info"><i class="fa fa-angle-double-right"></i><span>统计</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>个人中心</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji/admin_card_date_log_list_self"><i class="fa fa-angle-double-right"></i><span>考勤信息</span></a>
+</li>
+<li> <a href="/seller_student_new/wiki"><i class="fa fa-angle-double-right"></i><span>知识库</span></a>
+</li>
+<li> <a href="/self_manage/qingjia"><i class="fa fa-angle-double-right"></i><span>请假</span></a>
+</li>
+<li> <a href="/self_manage/flow_list"><i class="fa fa-angle-double-right"></i><span>审批</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-销售</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/seller"><i class="fa fa-angle-double-right"></i><span>排行榜</span></a>
+</li>
+<li> <a href="/human_resource/index_seller"><i class="fa fa-angle-double-right"></i><span>老师推荐</span></a>
+</li>
+<li> <a href="/supervisor/monitor_seller"><i class="fa fa-angle-double-right"></i><span>课堂状态-销售</span></a>
+</li>
+<li> <a href="/tea_manage/lesson_list_seller"><i class="fa fa-angle-double-right"></i><span>课程列表-销售</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_all"><i class="fa fa-angle-double-right"></i><span>所有用户</span></a>
+</li>
+<li> <a href="/seller_student_new/find_user"><i class="fa fa-angle-double-right"></i><span>查找用户所在</span></a>
+</li>
+<li> <a href="/seller_student_new/test_lesson_order_fail_list_seller"><i class="fa fa-angle-double-right"></i><span>试听签单与否反馈</span></a>
+</li>
+<li> <a href="/user_manage/contract_list_seller_add"><i class="fa fa-angle-double-right"></i><span>合同-待付费</span></a>
+</li>
+<li> <a href="/user_manage/contract_list_seller_payed"><i class="fa fa-angle-double-right"></i><span>合同-已付费</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_seller_student_list"><i class="fa fa-angle-double-right"></i><span>new-转介绍例子</span></a>
+</li>
+<li> <a href="/seller_student_new/get_hold_list"><i class="fa fa-angle-double-right"></i><span>例子回流公海</span></a>
+</li>
+<li> <a href="/seller_student_new/get_free_seller_list"><i class="fa fa-angle-double-right"></i><span>公海-抢学生</span></a>
+</li>
+<li> <a href="/seller_student_new/get_new_list"><i class="fa fa-angle-double-right"></i><span>抢新学生</span></a>
+</li>
+<li> <a href="/seller_student_new/test_lesson_no_order_list"><i class="fa fa-angle-double-right"></i><span>试听未签-抢学生</span></a>
+</li>
+<li> <a href="/tongji2/self_seller_month_money_list"><i class="fa fa-angle-double-right"></i><span>月度绩效提成</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>状态分类</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student_new/seller_student_list_0"><i class="fa fa-angle-double-right"></i><span>未回访&amp;未接通</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_101"><i class="fa fa-angle-double-right"></i><span>次优先跟进</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_110"><i class="fa fa-angle-double-right"></i><span>被驳回&amp;取消</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_103"><i class="fa fa-angle-double-right"></i><span>优先跟进</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_200"><i class="fa fa-angle-double-right"></i><span>待排课</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_210"><i class="fa fa-angle-double-right"></i><span>待通知</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_220"><i class="fa fa-angle-double-right"></i><span>待开课</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_290"><i class="fa fa-angle-double-right"></i><span>已试听-待跟进</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_301"><i class="fa fa-angle-double-right"></i><span>已试听</span></a>
+</li>
+<li> <a href="/seller_student_new/seller_student_list_1"><i class="fa fa-angle-double-right"></i><span>无效用户</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>旧版</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student/student_list2"><i class="fa fa-angle-double-right"></i><span>我负责的用户</span></a>
+</li>
+<li> <a href="/seller_student/no_called_list"><i class="fa fa-angle-double-right"></i><span>未打通用户-抢学生</span></a>
+</li>
+<li> <a href="/user_manage/contract_list_seller"><i class="fa fa-angle-double-right"></i><span>合同管理-销售</span></a>
+</li>
+<li> <a href="/seller_student/ass_add_student_list_seller"><i class="fa fa-angle-double-right"></i><span>转介绍例子-销售</span></a>
+</li>
+<li> <a href="/seller_student/student_sub_list"><i class="fa fa-angle-double-right"></i><span>我负责的重复用户</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-助教助长</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/assistant_leader"><i class="fa fa-angle-double-right"></i><span>首页</span></a>
+</li>
+<li> <a href="/main_page/assistant_leader_new"><i class="fa fa-angle-double-right"></i><span>首页-new</span></a>
+</li>
+<li> <a href="/tongji_ss/tongji_ass_leader_kpi"><i class="fa fa-angle-double-right"></i><span>助教组长KPI</span></a>
+</li>
+<li> <a href="/user_manage_new/assistant_admin_member_list"><i class="fa fa-angle-double-right"></i><span>每月系数录入</span></a>
+</li>
+<li> <a href="/user_manage_new/ass_warning_stu_info_leader"><i class="fa fa-angle-double-right"></i><span>预警学员信息</span></a>
+</li>
+<li> <a href="/user_manage/ass_archive"><i class="fa fa-angle-double-right"></i><span>学员档案-全部</span></a>
+</li>
+<li> <a href="/user_manage/user_info_by_month"><i class="fa fa-angle-double-right"></i><span>每月学员科目统计</span></a>
+</li>
+<li> <a href="/seller_student/ass_add_student_list"><i class="fa fa-angle-double-right"></i><span>转介绍例子</span></a>
+</li>
+<li> <a href="/user_manage_new/ass_contract_list"><i class="fa fa-angle-double-right"></i><span>签约管理</span></a>
+</li>
+<li> <a href="/user_manage_new/ass_lesson_count_list"><i class="fa fa-angle-double-right"></i><span>助教课时统计</span></a>
+</li>
+<li> <a href="/user_manage_new/tea_lesson_count_list"><i class="fa fa-angle-double-right"></i><span>老师课时统计</span></a>
+</li>
+<li> <a href="/user_manage_new/stu_lesson_count_list"><i class="fa fa-angle-double-right"></i><span>学生课时统计</span></a>
+</li>
+<li> <a href="/user_manage/ass_count"><i class="fa fa-angle-double-right"></i><span>回访统计-助教</span></a>
+</li>
+<li> <a href="/user_manage/ass_counts"><i class="fa fa-angle-double-right"></i><span>回访统计</span></a>
+</li>
+<li> <a href="/user_manage_new/lesson_count_user_list"><i class="fa fa-angle-double-right"></i><span>学员课时信息</span></a>
+</li>
+<li> <a href="/user_manage_new/lesson_count_type_list"><i class="fa fa-angle-double-right"></i><span>回访类别统计</span></a>
+</li>
+<li> <a href="/human_resource/regular_course_all"><i class="fa fa-angle-double-right"></i><span>常规课表</span></a>
+</li>
+<li> <a href="/human_resource/winter_regular_course_all"><i class="fa fa-angle-double-right"></i><span>寒假课表</span></a>
+</li>
+<li> <a href="/tea_manage/course_plan_stu"><i class="fa fa-angle-double-right"></i><span>按常规课程排课</span></a>
+</li>
+<li> <a href="/tongji_ss/tongji_zs_teacher_info"><i class="fa fa-angle-double-right"></i><span>招师统计</span></a>
+</li>
+<li> <a href="/user_manage/graduating_lesson_time"><i class="fa fa-angle-double-right"></i><span>初三高三课时</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-助教</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/assistant"><i class="fa fa-angle-double-right"></i><span>首页</span></a>
+</li>
+<li> <a href="/main_page/assistant_new"><i class="fa fa-angle-double-right"></i><span>首页-new</span></a>
+</li>
+<li> <a href="/user_manage_new/ass_warning_stu_info"><i class="fa fa-angle-double-right"></i><span>预警学员信息</span></a>
+</li>
+<li> <a href="/user_manage/ass_archive_ass"><i class="fa fa-angle-double-right"></i><span>学员档案-助教</span></a>
+</li>
+<li> <a href="/supervisor/monitor_ass"><i class="fa fa-angle-double-right"></i><span>课堂状态-助教</span></a>
+</li>
+<li> <a href="/user_manage/contract_list_ass"><i class="fa fa-angle-double-right"></i><span>学员合同-助教</span></a>
+</li>
+<li> <a href="/user_manage_new/stu_lesson_count_list_ass"><i class="fa fa-angle-double-right"></i><span>学生课时统计-助教</span></a>
+</li>
+<li> <a href="/user_manage_new/commodity_exchange_management_assistant"><i class="fa fa-angle-double-right"></i><span>兑换管理-助教</span></a>
+</li>
+<li> <a href="/tea_manage/lesson_list_ass"><i class="fa fa-angle-double-right"></i><span>课程管理-助教</span></a>
+</li>
+<li> <a href="/tea_manage/course_plan"><i class="fa fa-angle-double-right"></i><span>排课</span></a>
+</li>
+<li> <a href="/tea_manage/course_plan_stu_ass"><i class="fa fa-angle-double-right"></i><span>按常规课程排课</span></a>
+</li>
+<li> <a href="/human_resource/index_ass"><i class="fa fa-angle-double-right"></i><span>教师档案</span></a>
+</li>
+<li> <a href="/human_resource/regular_course"><i class="fa fa-angle-double-right"></i><span>常规课表</span></a>
+</li>
+<li> <a href="/human_resource/winter_regular_course"><i class="fa fa-angle-double-right"></i><span>寒假课表</span></a>
+</li>
+<li> <a href="/human_resource/winter_teacher_lesson_list"><i class="fa fa-angle-double-right"></i><span>寒假课表-new</span></a>
+</li>
+<li> <a href="/user_manage_new/stu_all_info"><i class="fa fa-angle-double-right"></i><span>教师所带学生</span></a>
+</li>
+<li> <a href="/human_resource/specialty"><i class="fa fa-angle-double-right"></i><span>教师特长</span></a>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>小班管理</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/small_class/index_ass"><i class="fa fa-angle-double-right"></i><span>小班管理-助教</span></a>
+</li>
+<li> <a href="/small_class/lesson_list_new_ass"><i class="fa fa-angle-double-right"></i><span>小班课次管理-助教</span></a>
+</li>
+<li> <a href="/small_class/student_list_new_ass"><i class="fa fa-angle-double-right"></i><span>小班学生列表-助教</span></a>
+</li>
+</ul>
+</li>
+<li> <a href="/seller_student_new2/ass_test_lesson_list"><i class="fa fa-angle-double-right"></i><span>new-试听申请(常规)</span></a>
+</li>
+<li> <a href="/seller_student_new/ass_seller_student_list"><i class="fa fa-angle-double-right"></i><span>new-转介绍例子</span></a>
+</li>
+<li> <a href="/user_manage_new/get_ass_change_teacher_info_ass"><i class="fa fa-angle-double-right"></i><span>更换老师申请列表</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-教务</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/jw_teacher"><i class="fa fa-angle-double-right"></i><span>首页</span></a>
+</li>
+<li> <a href="/seller_student_new2/test_lesson_plan_list_jw"><i class="fa fa-angle-double-right"></i><span>试听排课</span></a>
+</li>
+<li> <a href="/seller_student_new2/test_lesson_detail_list_jw"><i class="fa fa-angle-double-right"></i><span>排课明细</span></a>
+</li>
+<li> <a href="/tongji_ss/test_lesson_plan_detail_list_jw"><i class="fa fa-angle-double-right"></i><span>教务-排课明细</span></a>
+</li>
+<li> <a href="/human_resource/index_jw"><i class="fa fa-angle-double-right"></i><span>教师档案</span></a>
+</li>
+<li> <a href="/human_resource/index_new_jw"><i class="fa fa-angle-double-right"></i><span>教师档案(常规)</span></a>
+</li>
+<li> <a href="/human_resource/index_new_jw_hold"><i class="fa fa-angle-double-right"></i><span>教师档案(休课)</span></a>
+</li>
+<li> <a href="/human_resource/get_assign_jw_adminid_list"><i class="fa fa-angle-double-right"></i><span>分配老师</span></a>
+</li>
+<li> <a href="/human_resource/teacher_lecture_appointment_info"><i class="fa fa-angle-double-right"></i><span>教师试讲预约</span></a>
+</li>
+<li> <a href="/human_resource/teacher_lecture_origin_count"><i class="fa fa-angle-double-right"></i><span>转介绍统计</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-招师</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/main_page/zs_teacher"><i class="fa fa-angle-double-right"></i><span>首页</span></a>
+</li>
+<li> <a href="/human_resource/index_zs"><i class="fa fa-angle-double-right"></i><span>教师档案</span></a>
+</li>
+<li> <a href="/human_resource/teacher_lecture_appointment_info_zs"><i class="fa fa-angle-double-right"></i><span>教师试讲预约</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-TMK</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/seller_student_new/tel_student_list"><i class="fa fa-angle-double-right"></i><span>筛选例子</span></a>
+</li>
+<li> <a href="/seller_student_new2/tmk_student_list2"><i class="fa fa-angle-double-right"></i><span>有效例子</span></a>
+</li>
+</ul>
+</li>
+<li class="treeview "> <a href="#"> <i class="fa fa-laptop"></i> <span>角色-教研</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu">
+<li> <a href="/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"><i class="fa fa-angle-double-right"></i><span>教研排行榜</span></a>
+</li>
+<li> <a href="/human_resource/teacher_test_lesson_info"><i class="fa fa-angle-double-right"></i><span>老师-试听转化率(明细)</span></a>
+</li>
+<li> <a href="/human_resource/teacher_test_lesson_info_total"><i class="fa fa-angle-double-right"></i><span>老师-试听转化率(整体)</span></a>
+</li>
+<li> <a href="/tongji_ss/get_test_lesson_low_tra_teacher"><i class="fa fa-angle-double-right"></i><span>试听未转化率低黑名单</span></a>
+</li>
+<li> <a href="/tongji_ss/teacher_interview_info_tongji"><i class="fa fa-angle-double-right"></i><span>老师面试通过率统计</span></a>
+</li>
+<li> <a href="/tongji_ss/teacher_interview_info_tongji_by_reference"><i class="fa fa-angle-double-right"></i><span>渠道面试通过率统计</span></a>
+</li>
+<li> <a href="/tongji_ss/new_teacher_test_lesson_info"><i class="fa fa-angle-double-right"></i><span>新老师试听课统计</span></a>
+</li>
+<li> <a href="/tongji_ss/research_teacher_lesson_detail_info"><i class="fa fa-angle-double-right"></i><span>试听课转化详情-教研</span></a>
+</li>
+<li> <a href="/tongji_ss/seller_test_lesson_info_tongji"><i class="fa fa-angle-double-right"></i><span>销售试听转化率-教研</span></a>
+</li>
+<li> <a href="/human_resource/get_teacher_lecture_fail_score_info"><i class="fa fa-angle-double-right"></i><span>面试淘汰各项得分占比</span></a>
+</li>
+<li> <a href="/tongji_ss/get_seller_require_modify_info"><i class="fa fa-angle-double-right"></i><span>限课更改转化率-CC</span></a>
+</li>
+<li> <a href="/human_resource/research_qz_teacher_stu_info"><i class="fa fa-angle-double-right"></i><span>教研以及全职老师常规学生详情</span></a>
+</li>
+<li> <a href="/tongji_ss/teacher_first_test_lesson_week"><i class="fa fa-angle-double-right"></i><span>新入职老师试听课反馈</span></a>
+</li>
+<li> <a href="/user_manage_new/get_ass_change_teacher_info"><i class="fa fa-angle-double-right"></i><span>更换老师申请列表</span></a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+                    </ul></section><!-- /.sidebar --></aside><!-- __COPY_END --><!-- Right side column. Contains the navbar and content of the page --><aside class="right-side"><!-- Content Header (Page header) --><script type="text/javascript">
+                 var g_account="jim";
+                 var g_account_role="";
+                 var g_adminid="";
+                </script><script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script><script type="text/javascript" src="/js/svg.js"></script><script type="text/javascript" src="/js/strophe.js"></script><script type="text/javascript" src="/js/strophe.muc.js"></script><script type="text/javascript" src="/page_js/lib/wb_supervisor.js"></script><script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script><script type="text/javascript" src="/js/jquery.websocket.js"></script><script type="text/javascript" src="/js/jquery.base64.js"></script><script src="/page_js/set_lesson_time.js"></script><style type="text/css">
+     .modal-dialog {
+         width: 750px;
+         margin:5px auto;
+     }
+
+     @media  screen and (max-width: 480px) {
+     .modal-dialog {
+         width: 350px;
+         margin:5px auto;
+     }
+    </style>
+<script type="text/javascript">
+     var self_groupid = "0";
+     var is_group_leader_flag   = "1";
+    </script><section class="content"><div class="row">
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  " style="width:180px">
+                    <div class=" input-group-btn ">
+                        <button id="id_pre_day" type="submit" class="btn  btn-primary"><i class="fa   fa-chevron-left"></i></button>
+                    </div>
+                    <input type="text" class="form-control" id="id_date" placeholder="日期"><div class=" input-group-btn ">
+                        <button id="id_next_day" type="submit" class="btn  btn-primary"><i class="fa   fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  ">
+                    <span>状态</span>
+                    <select id="id_run_flag" class="opt-change"><option value="-1">[全部]</option>
+<option value="1">上课中</option>
+<option value="2">试听</option></select>
+</div>
+            </div>
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  ">
+                    <input type="text" class="form-control opt-change" id="id_st_application_nick" placeholder="试听销售">
+</div>
+            </div>
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  ">
+                    <span> 老师 </span>
+                    <input type="text" class="form-control opt-change" id="id_teacherid">
+</div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  ">
+                    <span> 学生</span>
+                    <input type="text" class="form-control opt-change" id="id_userid">
+</div>
+            </div>
+
+
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group  ">
+                    <span>助教</span>
+                    <input type="text" class="form-control opt-change" id="id_assistantid">
+</div>
+            </div>
+
+
+        </div>
+        <hr>
+<table class=" common-table  ">
+<thead><tr>
+<td class="remove-for-xs">服务器</td>
+                    <td style="display:none;">助教</td>
+                    <td>老师</td>
+                    <td>学生</td>
+                    <td>服务<br>上课时间</td>
+                    <td>老师</td>
+                    <td>学生</td>
+                    <td class="remove-for-xs">家长</td>
+                    <td class="remove-for-xs">助教</td>
+                    <td>操作</td>
+                </tr></thead>
+<tbody></tbody>
+</table>
+<div style="display:none;">
+            <div id="id_lesson_log">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        <div class="input-group ">
+                            <select class="opt-userid form-control"></select>
+</div>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <div class="input-group ">
+                            <select class="opt-server-type form-control"><option value="-1"> 不限 </option>
+<option value="1"> webrtc</option>
+<option value="2"> xmpp</option></select>
+</div>
+                    </div>
+                </div>
+
+                <hr>
+<table class="table table-bordered ">
+<tr>
+<th> 时间 </th>
+<th>角色 </th>
+<th>用户id </th>
+<th>服务 </th>
+<th> 进出 </th>
+<th> ip </th>
+</tr>
+<tbody class="data-body"></tbody>
+</table>
+</div>
+        </div>
+
+        <div class="dlg_show_faq" style="display:none;">
+            <div>
+                <table class="table table-bordered table-striped">
+<tr>
+<td rowspan="3">1</td>
+                        <td> Q: </td>
+<td>页面显示 网络错误（-1001）</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>网络环境过差，无法及时获取数据</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>稍等后重试，或重启设备</td>
+                    </tr>
+<tr>
+<td rowspan="3">2</td>
+                        <td> Q: </td>
+<td>页面显示 网络错误（-1003）</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>无法连接服务器</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>重启设备或重连网络</td>
+                    </tr>
+<tr>
+<td rowspan="3">3</td>
+                        <td> Q: </td>
+<td>理优管理系统显示语音未连接</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>设备不支持、网络过差</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>I. 新用户语音无法连接，
+                            a.若iOS，后台退出重试，多次未果。更换服务器。。。
+                            b.若Android，如果为小米，执行a，否则，上报至开发 。。<br>
+                            II. 老用户语音无法连接
+                            从后台退出后重进，多次未果，更换服务器。。<br>
+
+                            PS: 语音连接会稍慢，可多等待几秒钟</td>
+                    </tr>
+<tr>
+<td rowspan="3">4</td>
+                        <td> Q: </td>
+<td>理优管理系统显示白板未连接</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>白板内容过多，加载需要时间，网络过差</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>更改服务器</td>
+                    </tr>
+<tr>
+<td rowspan="3">5</td>
+                        <td> Q: </td>
+<td>老师截图不可见</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>学生或老师的网络环境较差，域名解析失败</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>I . 尽量减少拍照上传类型的图片传输，所贴图最好从pdf中截取<br>
+                            II. 后台看到图片，学生看不到更改DNS，将8.8.8.8更改为114.114.114.114
+                            后台看不到图片，老师上传失败</td>
+                    </tr>
+<tr>
+<td rowspan="3">6</td>
+                        <td> Q: </td>
+<td>学生可以听到老师，老师无法听到学生</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td></td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>尝试更换服务器</td>
+                    </tr>
+<tr>
+<td rowspan="3">6</td>
+                        <td> Q: </td>
+<td>语音断断续续</td>
+                    </tr>
+<tr>
+<td> R: </td>
+<td>网络太差</td>
+                    </tr>
+<tr>
+<td> OP: </td>
+<td>尝试更换服务器，建议更改时间，若无法保证上课质量，可考虑放弃此学生。</td>
+                    </tr>
+</table>
+</div>
+        </div>
+
+        <div id="id_dlg_set_server" style="display:none;">
+            <div class="row">
+                <div class="col-xs-0 col-md-3">
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                  <select id="id_region" class="form-control"><option value="h">杭州</option>
+<option value="b">北京</option>
+<option value="q">青岛-测试</option></select>
+</div>
+                <div class="col-xs-6 col-md-3">
+                    <select id="id_server" class="form-control"><option value="00">1</option>
+<option value="01">2</option>
+<option value="02">3</option>
+<option value="03">4</option>
+<option value="04">5</option></select>
+</div>
+            </div>
+        </div>
+        <div class="opt-set-audio-server-type" style="display:none">
+            <div class="row">
+                <div class="input-group ">
+                    <span class="input-group-addon">课程id</span>
+                    <input type="text" class="lessonid form-control">
+</div>
+            </div>
+            <div class="row">
+                <div class="input-group ">
+                    <span class="input-group-addon">音频服务器</span>
+                    <select class="opt-audio-server-type form-control"><option value="0">未设定(默认用声网)</option>
+<option value="1">(理优)telpresence</option>
+<option value="2">(声网)agora</option></select>
+</div>
+            </div>
+        </div>
+
+        <div class="dlg_add_error_info" style="display:none">
+            <table class="table table-bordered table-striped"><tbody>
+<tr>
+<td style="text-align:right; width:30%;">常见异常</td>
+                  <td>
+                            <div class="add_error_info"></div>
+                        </td>
+                </tr>
+<tr>
+<td style="text-align:right; width:30%;">其他异常</td>
+                  <td><textarea value="" class="add_error_info_other" type="text"></textarea></td>
+                </tr>
+</tbody></table>
+</div>
+        <iframe id="id_frame" style="display:none;"> </iframe>
+
+
+    </section></aside>
+</div>
+    </body>
+
+
+Failed asserting that the page contains the HTML [没有权限]: Something. Please check the content above.
+
+/home/jim/admin.yb1v1.com/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Constraints/PageConstraint.php:90
+/home/jim/admin.yb1v1.com/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:247
+/home/jim/admin.yb1v1.com/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithPages.php:261
+/home/jim/admin.yb1v1.com/tests/LoginTest.php:75
+
+FAILURES!
+Tests: 14, Assertions: 71, Failures: 1.
+TEST ERROR. end

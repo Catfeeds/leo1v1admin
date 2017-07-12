@@ -1,0 +1,4 @@
+	logtime	:any;
+	uid	:any;
+	cardid	:any;
+	account	:any;

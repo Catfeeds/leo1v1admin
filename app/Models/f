@@ -1,0 +1,125 @@
+t_admin_group.php:                                  " left join %s m on a.phone = m.phone".
+t_admin_main_group_name.php:                                  ." left join %s t on t.phone = m.phone"
+t_apply_reg.php:        $sql = $this->gen_sql_new("select count(*) num from %s where phone = %u",
+t_apply_reg.php:        $sql = $this->gen_sql_new("select * from %s where phone = %u",
+t_apply_reg.php:        $sql = sprintf("delete from %s  where phone = %u ",
+t_assistant_info.php:         $sql = $this->gen_sql("update %s set nick = '%s', birth = %u, e_name = '%s', gender = %u, work_year = %u, school = '%s', phone = '%s', email = '%s', assistant_type = %u where assistantid = %u ",
+t_assistant_info.php:         $sql = $this->gen_sql("update %s set nick = '%s', birth = %u,  gender = %u, work_year = %u, school = '%s', phone = '%s', email = '%s', assistant_type = %u where assistantid = %u ",
+t_assistant_info.php:        $sql =$this->gen_sql_new("select  o.sys_operator,count(distinct userid) all_student,sum(o.price) all_price,sum(o.lesson_total*o.default_lesson_count) all_total,sum(if(contract_type=1,lesson_total*default_lesson_count,0)) give_total from %s a, %s m,%s o where a.phone = m.phone and m.account = o.sys_operator and %s group by sys_operator order by all_price desc",
+t_assistant_info.php:                                  ." join %s m on a.phone = m.phone"
+t_book_info.php:        $sql = sprintf("update %s set class_time= %u where phone = %u",
+t_book_revisit.php:            ." where n.phone = '%s' and  %s  " ,
+t_book_revisit.php:                       " where phone = '%u'",
+t_book_revisit.php:                                ."from %s b,%s n where b.phone = n.phone and %s order by b.revisit_time desc",
+t_book_revisit.php:        $sql = $this->gen_sql_new("select revisit_time,operator_note,sys_operator from %s where phone = '%s' and operator_note not like '%%操作者:%%' and operator_note not like '%%COMMING:资源%%' order by revisit_time desc ",self::DB_TABLE_NAME,$phone);
+t_book_revisit.php:        $sql = $this->gen_sql_new("select revisit_time,operator_note,sys_operator from %s where phone = '%s' order by revisit_time desc ",self::DB_TABLE_NAME,$phone);
+t_course_order.php:                            ." left join %s m on t.phone = m.phone"
+t_course_order.php:                                  ." left join %s m on m.phone = a.phone"
+t_lecture_revisit_info.php:        $sql = $this->gen_sql_new("select * from %s where phone = '%s'",
+t_lesson_info_b2.php:                                  ." join %s tl on t.phone = tl.phone and tl.status=1"
+t_lesson_info_b2.php:                                  ." left join %s m on t.phone = m.phone"
+t_lesson_info_b2.php:                                  ." left join %s m on t.phone = m.phone"
+t_lesson_info_b2.php:                                  ." left join %s m on t.phone = m.phone"
+t_lesson_info_b2.php:                                ." left join %s m on  a.phone = m.phone"
+t_lesson_info.php:                     ."    ON tt.phone = m.phone "
+t_lesson_info.php:            ." left join %s m on m.phone =  a.phone   "
+t_lesson_info.php:                                  ." left join %s ttt on ttt.phone = m.phone"
+t_lesson_info.php:                                  " left join %s m on m.phone = tt.phone".
+t_lesson_info.php:                                  ." left join %s ta on t.phone = ta.phone"
+t_lesson_info.php:                                  ." left join %s ta on t.phone = ta.phone"
+t_lesson_info.php:                                  ." left join %s ttt on (ttt.phone = m.phone )"
+t_lesson_info.php:                                  ." left join %s tll on (t.phone=tll.phone and tll.answer_begin_time = (select max(answer_begin_time) from db_weiyi.t_teacher_lecture_appointment_info where phone = t.phone))"
+t_lesson_info.php:                                  ." left join %s mmm on t.phone = mmm.phone"
+t_lesson_info.php:                                  ." left join %s mmm on t.phone = mmm.phone"
+t_lesson_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_lesson_info.php:                                  ." left join %s tl on (tl.phone =t.phone and tl.status=1 and tl.subject = t.subject)"
+t_manager_info.php:                                  ." join %s t on m.phone = t.phone "
+t_manager_info.php:        $sql = $this->gen_sql_new("select uid from %s where phone =%u",self::DB_TABLE_NAME,$phone);
+t_manager_info.php:                                  ." from %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                            ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                                ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                            ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                                ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                                ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:                            ." from  %s m left join %s a on m.phone = a.phone"
+t_manager_info.php:        $sql = $this->gen_sql_new("select uid,account,a.nick from %s m left join %s a on m.phone = a.phone ".
+t_month_ass_warning_student_info.php:                                  ." left join %s a on m.phone = a.phone"
+t_order_refund.php:                                  ." left join %s m on a.phone = m.phone"
+t_order_refund.php:                                  ." left join %s m on a.phone = m.phone"
+t_order_refund.php:                                  ." left join %s m on a.phone = m.phone "
+t_parent_info.php:        $sql =$this->gen_sql("update %s set phone=%u where phone = %u ",
+t_phone_to_user.php:        $sql = sprintf("select count(*) as num from %s where role = %u and phone = '%s'",
+t_phone_to_user.php:        $sql = sprintf("select userid from %s where role = %u and phone = %u ",
+t_phone_to_user.php:        $sql=$this->gen_sql("select userid from %s where phone = '%s' ",
+t_phone_to_user.php:            ["phone = %u",$phone,-1],
+t_revisit_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_revisit_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_seller_student_info.php:        if ($phone =="") {
+t_seller_student_info.php:            if ($phone =="") {
+t_seller_student_info.php:            self::C_phone => $phone,
+t_seller_student_info.php:        $sql = sprintf("delete from %s  where phone = '%s' ",
+t_seller_student_info.php:        $sql = sprintf("update %s set last_revisit_time = %u, last_revisit_msg = '%s', admin_revisiterid = %u where phone = '%s'",
+t_seller_student_info.php:        $sql = sprintf("update %s set status = %u ,last_revisit_time = %u where phone = '%s'",
+t_seller_student_info.php:                        "where phone = '%s'",
+t_seller_student_info.php:        $sql=$this->gen_sql("select admin_revisiterid from %s where phone = '%s'",
+t_seller_student_info_sub.php:        $sql = sprintf("update %s set admin_revisiterid = %u  where phone = '%s'",
+t_student_info.php:                              " left join %s m on a.phone = m.phone".
+t_student_info.php:                              ." left join %s t on t.phone = m.phone "
+t_student_info.php:        $sql=$this->gen_sql("select userid from %s where phone = '%s'",
+t_student_info.php:        $sql = sprintf("update %s set seller_adminid = %u where phone = '%s'",
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone "
+t_student_info.php:           ." left join %s m on a.phone = m.phone "
+t_student_info.php:                                  ." left join %s m on a.phone = m.phone"
+t_teacher_info.php:                                  ." left join %s m on t.phone = m.phone"
+t_teacher_info.php:                                  ." left join %s m on t.phone = m.phone"
+t_teacher_info.php:                                ." from %s t join %s m on t.phone = m.phone "
+t_teacher_info.php:        $sql = $this->gen_sql_new("select tl.reason from %s t join %s tl on (t.phone = tl.phone and t.subject = tl.subject and tl.status=1) where teacherid = %u",self::DB_TABLE_NAME,t_teacher_lecture_info::DB_TABLE_NAME,$teacherid);
+t_teacher_lecture_appointment_info.php:                                 ." left join %s l on la.phone = l.phone"
+t_teacher_lecture_appointment_info.php:                                 ." left join %s l on la.phone = l.phone"
+t_teacher_lecture_appointment_info.php:                                  ." from %s al left join %s l on al.phone = l.phone and l.confirm_time >=%u"
+t_teacher_lecture_appointment_info.php:                                  ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' "
+t_teacher_lecture_appointment_info.php:                                  ." from %s al left join %s l on al.phone = l.phone and l.confirm_time >=%u"
+t_teacher_lecture_appointment_info.php:                                  ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' and t.train_through_new=1 "
+t_teacher_lecture_appointment_info.php:                                  ." from %s al join %s l on al.phone = l.phone and l.confirm_time >=%u"
+t_teacher_lecture_appointment_info.php:                                  ." where al.answer_begin_time = (select min(answer_begin_time) from %s where phone = al.phone)"
+t_teacher_lecture_appointment_info.php:                                  ." and l.add_time = (select max(add_time) from %s where phone = l.phone) and l.add_time>0 and al.answer_begin_time >0",
+t_teacher_lecture_info.php:                                  " left join %s t on m.phone = t.phone ".
+t_teacher_lecture_info.php:                                  " left join %s ta on tl.phone = ta.phone".
+t_teacher_lecture_info.php:                                  " left join %s t on m.phone = t.phone ".
+t_teacher_lecture_info.php:                                  " left join %s ta on tl.phone = ta.phone".
+t_teacher_lecture_info.php:                                  "left join %s t on m.phone = t.phone where %s group by account",
+t_teacher_lecture_info.php:        $sql = $this->gen_sql_new("select t.teacherid from %s tl left join %s t on tl.phone = t.phone where %s ",
+t_teacher_lecture_info.php:                                  "left join %s t on tl.phone = t.phone".
+t_teacher_lecture_info.php:                                  " left join %s ta on ta.phone = tl.phone ".
+t_teacher_lecture_info.php:                                  "left join %s t on tl.phone = t.phone".
+t_teacher_lecture_info.php:                                  " left join %s ta on ta.phone = tl.phone ".
+t_teacher_lecture_info.php:        $sql = $this->gen_sql_new("select * from %s where phone = '%s'",
+t_teacher_lecture_info.php:                                  " left join %s ta on tl.phone = ta.phone".
+t_teacher_lecture_info.php:                                  " left join %s ta on tl.phone = ta.phone".
+t_teacher_lecture_info.php:                                  " left join %s ta on tl.phone = ta.phone".
+t_teacher_lecture_info.php:                                  ." left join %s ta on tl.phone = ta.phone "
+t_teacher_lecture_info.php:                                 ." left join %s la on la.phone = l.phone"
+t_teacher_lecture_info.php:                                 ." left join %s la on la.phone = l.phone"
+t_teacher_lecture_info.php:                                  ." left join %s t on m.phone = t.phone"
+t_teacher_lecture_info.php:                                  ." left join %s tt on tl.phone = tt.phone"
+t_teacher_lecture_info.php:                                  ." left join %s tt on tl.phone = tt.phone"
+t_teacher_lecture_info.php:                                  ." from %s tl left join %s t on (tl.phone = t.phone and tl.subject=t.subject)"
+t_teacher_lecture_info.php:                                  ." left join %s t on tl.phone = t.phone "
+t_teacher_lecture_info.php:                                  ." left join %s t on tl.phone = t.phone "
+t_teacher_lecture_info.php:                                  ." left join %s tt on tl.phone = tt.phone"
+t_teacher_lecture_info.php:                                  ." left join %s tt on tl.phone = tt.phone"
+t_teacher_lecture_info.php:                                  ." left join %s t on tl.phone = t.phone"
+t_test_lesson_subject_sub_list.php:                                  ." left join %s mm on tt.phone = mm.phone"
+t_week_regular_course.php:                                  ." left join %s m on m.phone = a.phone"
+t_week_regular_course.php:                                  ." left join %s m on m.phone = a.phone"
+t_week_regular_course.php:                                  ." left join %s m on m.phone = a.phone"

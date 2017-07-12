@@ -1,0 +1,14 @@
+	userid	:any;
+	assistantid	:any;
+	revisit_time	:any;
+	operator_note	:any;
+	nick	:any;
+	phone	:any;
+	is_test_user	:any;
+	originid	:any;
+	grade	:any;
+	max_revisit_time	:any;
+	first_revisit_time	:any;
+	assistant_nick	:any;
+	first_operator_note	:any;
+	sys_operator	:any;

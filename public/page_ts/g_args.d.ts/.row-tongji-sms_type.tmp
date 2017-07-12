@@ -1,0 +1,4 @@
+	type	:any;
+	succ_count	:any;
+	fail_count	:any;
+	type_str	:any;

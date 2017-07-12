@@ -1,0 +1,866 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model as BaseModel;
+
+class Model extends BaseModel
+{
+   
+        /**
+         * @var
+         */
+        var $ins_data = array();
+        var $modified = array();
+
+        /**
+         * @var PDO 
+         */
+        var $db            = null;
+        var $table;
+        var $in;
+        var $tpl;
+        var $g_config;
+        var $query;
+        var $last_query;
+        var $order;
+        var $limit;
+        var $db_insert_id;
+        var $affectNum;
+        var $page;
+        var $where         = array();
+        var $join          = array();
+        var $from          = array();
+        var $groupby       = array();
+        var $having        = array();
+        var $table_suffix  = '';
+        var $last_id;
+        var $join_table    = NULL;
+        var $groupby_where = NULL;
+        var $having_where  = NULL;
+
+        var $conditions;
+        var $page_limit;
+
+        var $from_table;
+
+        var $table_name; // add by aarontl at 2014-07-07
+
+        var	$where_arr = array();
+
+        public $field_id1_name   = "id";
+        public $field_id2_name   = "id2";
+        public $field_table_name = "xxx.sss";
+
+
+        /**
+         * 构造函数
+         * @global $this ->db 数据库类
+         * @global $table 数据库表列表
+         *
+         * @return \Model
+         */
+        function __construct( $db_name_fix = DEFAULT_DB )
+        {
+            global $g_config,$in,$logger;
+
+            $this->in 		= $in;
+            $this->g_config = $g_config;
+            $this->last_id	= &$this->db_insert_id;
+            $this->selectDB($db_name_fix);
+        }
+
+        /**
+         * 切换数据库服务器
+         * @param $config
+         */
+        function getDBConnection($config = NULL,$typename)
+        {
+            global $dbs;
+            if(isset( $dbs[$typename])){
+                $this->db = $dbs[$typename];
+            }else{
+                /*
+                  'db_type'     => 'mysql',
+                  'db_name'     => 'db_weiyi_admin',
+                  'db_charset'  => 'latin1',
+                  'db_host'     => '127.0.0.1',
+                  'db_user'     => 'root',
+                  'db_password' => 'ta0mee',
+                */
+
+                $db_type        = $config["db_type"];
+                $db_host        = $config["db_host"];
+                $dbname         = $config["db_name"];
+                $username       = $config["db_user"];
+                $password       = $config["db_password"];
+                $charset        = $config["db_charset"];
+                $dsn            = "$db_type:host=$db_host;dbname=$dbname;charset=$charset";
+                $this->db       = new PDO($dsn,$username,$password);
+                $dbs[$typename] = $this->db ;
+            }
+
+        }
+
+
+        /**
+         * 加载类库文件
+         *
+         * @param string $class
+         */
+        function loadClass($class)
+        {
+            if ( 1 === func_num_args() )
+            {
+                $this->$class = new $class;
+            }
+            else
+            {
+                $reflectionObj = new ReflectionClass($class);
+
+                $args = func_get_args();
+                array_shift($args);
+
+                $this->$class = $reflectionObj->newInstanceArgs($args);
+            }
+        }
+
+        /**
+         * 加载模型
+         *
+         * @param string $class
+         */
+        function loadModel($class)
+        {
+            $args         = func_get_args();
+            $this->$class = call_user_func_array('init_model',$args);
+            return $this->$class;
+        }
+
+        /**
+         * 添加处理数据
+         *
+         * @param string $var   变量名
+         * @param string|int $value 值
+         * @param int    $modified = 1 : 为添加修饰符
+         */
+        function addData($var,$value = null,$modified = 1)
+        {
+            if (is_array($var) || $var instanceof ArrayObject) // why add $var instanceof ArrayObject
+            {
+                foreach ($var as $key => $val)
+                {
+                    if ($key != '')
+                    {
+                        $this->ins_data[$key] = $val;
+                        $this->modified[$key] = $modified;
+                    }
+                }
+            }
+            else
+            {
+                $this->ins_data[$var] = $value;
+                $this->modified[$var] = $modified;
+            }
+        }
+
+
+        /**
+         * 清空数据
+         *
+         */
+        function cleanData()
+        {
+            $this->ins_data = array();
+        }
+
+        /**
+         * 清空条件
+         *
+         */
+        function cleanConditions()
+        {
+            if (isset($this->conditions) && $this->conditions) {
+                $this->old_conditions = $this->conditions;
+            }
+
+            $this->old_groupby = $this->groupby;
+
+            unset($this->conditions);
+            unset($this->from);
+            unset($this->join);
+            $this->where         = array();
+            $this->join_table    = NULL;
+            $this->groupby_where = NULL;
+            $this->groupby       = array();
+            $this->having        = array();
+            $this->having_where  = NULL;
+            $this->order         = NULL;
+            $this->limit         = NULL;
+        }
+
+        /**
+         * 处理插入数据库字符串
+         *
+         * @param string $string
+         * @return string
+         */
+        function ensql($string)
+        {
+            $ret = $this->db->quote($string);
+            return substr($ret,1,-1); 
+        }
+
+
+        public function main_get_one_field_list( $sql   )
+        {
+            $db_ret   = $this->main_get_list($sql);
+            $ret_list = [];
+            foreach ($db_ret as $item ){
+                foreach( $item as  $v ){
+                    $ret_list[] = $v;
+                    break;
+                }
+            }
+            return $ret_list;
+        }
+
+
+
+        public function main_insert($sql )
+        {
+            $ret                = $this->db->exec($sql);
+            $this->do_error($ret);
+            $this->db_insert_id = $this->db->lastInsertId();
+            return $ret;
+        }
+
+
+        public function main_get_list_by_page( $sql,$page_id,$page_count , $use_group_by_flag = false ,$order_str=""  )
+        {
+            $pattern 	 = '/select\s+(.*?)\s+from\s+(.*)/i';
+            $replacement = 'from $2';
+            $count_query = preg_replace($pattern, $replacement, $sql);
+
+
+            if ($page_id    == 0xFFFFFFFF+1  ) { //get_all
+                $page_id     = 1;
+                $page_count  = 10000;
+            }
+
+            $count_query = "select count(*) " . $count_query;
+
+            $ret_arr = array();
+            if ( !$use_group_by_flag ){
+                $count = $this->main_get_value($count_query,0);
+            }else{
+                $count = count($this->main_get_list($count_query));
+            }
+
+            //for old 
+            $ret_arr["total_num"]      = $count;
+            $ret_arr["per_page_count"] = $page_count;
+
+            $ret_arr["page_info"] = array(
+                "total_num"      => $count,
+                "per_page_count" => $page_count,
+                "page_num"       => $page_id,
+            );
+
+
+            $limit_start = ($page_id-1)*$page_count;
+
+            $sql             .= " $order_str limit $limit_start,$page_count";
+            $ret_arr["list"] = $this->main_get_list($sql );
+            return $ret_arr;
+
+        }
+
+
+        public function main_get_value( $sql, $default_value = 0  )
+        {
+            $row = $this->main_get_row( $sql);
+            if (is_array($row)){
+                foreach( $row as  $v ){
+                    return $v;
+                }
+            }else{
+                return  $default_value;
+            }
+        }
+
+        // 
+        public function field_get_value( $id, $field_name ) {
+            return $this->get_field_value($this->field_table_name,$field_name,
+                                          $this->field_id1_name ,$id);
+        }
+
+
+        public function field_get_list( $id, $field_name_list_str ) {
+            return $this->get_field_list($this->field_table_name,$field_name_list_str,
+                                         $this->field_id1_name ,$id);
+        }
+
+    
+        public function field_update_list ( $id, $set_field_arr) {
+            return $this->update_field_list($this->field_table_name,$set_field_arr,
+                                            $this->field_id1_name ,$id);
+        }
+    
+        /**
+         * 插入数据库数据
+         */
+        function row_insert( $arr )
+        {
+            //构建SQL语句
+
+            $name_arr  = [];
+            $value_arr = [];
+            foreach( $arr as $key => $value ) {
+                $name_arr[] = $key;
+                $value_arr[] = "'". $this->ensql($value)."'" ;
+            }
+
+            $name_arr_str  = join(",", $name_arr);
+            $value_arr_str = join(",", $value_arr);
+
+            $sql = 'insert into ' . $this->field_table_name . " (". $name_arr_str. ") values (" . $value_arr_str. ")";
+            return $this->main_insert($sql);
+        }
+
+    
+        //like sprintf but default use ensql 
+
+        // arg use array
+        //gen_sql( "update %s where %s"  , "t_abc", ["userid = 100"]  ) 
+
+        public function gen_sql( $fmt_str , $__args__ ) {
+            $args     = func_get_args();
+            $ret_args = [];
+            foreach( $args as $index => $item) {
+                if ( $index     == 0 ) { //
+                    $ret_args[]  = $item;
+                }else{
+                    if (is_array($item)) {
+                        $is_ensql = false;
+                        $str      = $item[0];
+                    }else{
+                        $is_ensql = true;
+                        $str      = $item;
+                    }
+
+                    if ($is_ensql) {
+                        $ret_args[] = $this->ensql($str);
+                    }else{
+                        $ret_args[] = $str;
+                    }
+                }
+            }
+            return call_user_func_array("sprintf",$ret_args );
+        }
+
+
+        public function get_field_value( $table_name, $field_name,$id_name ,$id_value ) {
+            $sql=sprintf("select %s from %s  where  %s = %u ", $field_name,$table_name,
+                         $id_name , $id_value);
+            return $this->main_get_value($sql);
+        }
+        public function get_field_list ( $table_name, $field_name,$id_name ,$id_value ) {
+            $sql = sprintf("select %s from %s  where  %s = %u ", $field_name,$table_name,
+                           $id_name , $id_value);
+            return $this->main_get_row($sql);
+        }
+        // $set_field_arr ["key" => value ] or  [ ["key" , value , "+/-/ " ] ]
+
+    
+        //adcc
+        public function row_delete( $id ) {
+            $sql = sprintf("delete from %s  where  %s = %u ",
+                           $this->field_table_name,
+                           $this->field_id1_name, $id );
+            return $this->main_update($sql);
+
+        }
+        public function get_sql_set_str($set_field_arr ) {
+
+            $update_str_arr = [];
+            foreach( $set_field_arr as $key => $item ) {
+                if (!is_numeric( $key)) { // 
+                    $item = [$key,$item];
+                }
+
+                if ($item[2] == "+") {
+                    $update_str_arr[]  = sprintf("%s = %s + (%s)", $item[0], $item[0], $this->ensql( $item[1]) );
+                } else if ($item[2]   == "-") {
+                    $update_str_arr[] = sprintf("%s = %s - (%s)", $item[0], $item[0], $this->ensql( $item[1]) );
+
+                }else{
+                    $update_str_arr[] = sprintf("%s='%s'", $item[0], $this->ensql( $item[1]) );
+                }
+            }
+
+            return join(",", $update_str_arr );
+        }
+    
+        public function update_field_list( $table_name, $set_field_arr,$id_name ,$id_value ) {
+            $set_field_list_str                          = $this->get_sql_set_str( $set_field_arr);
+            $sql = sprintf("update %s set  %s  where  %s = %u ", $table_name, $set_field_list_str,
+                           $id_name , $id_value);
+
+            return $this->main_update($sql);
+        }
+
+
+        public function row_delete_2( $id_value, $id_value_2  ) {
+            $sql = sprintf("delete from %s  where  %s=%u and %s=%u ", $this->field_table_name ,
+                           $this->field_id1_name , $id_value, $this->field_id2_name, $id_value_2 );
+            return $this->main_update($sql);
+        }
+
+        public function field_get_value_2(  $id_value, $id_value_2  ,$field_name ) {
+            $sql = sprintf("select %s from %s  where  %s=%u and %s=%u ", $field_name,$this->field_table_name ,
+                           $this->field_id1_name , $id_value, $this->field_id2_name, $id_value_2 );
+            return $this->main_get_value($sql);
+        }
+        public function field_get_list_2 ($id_value , $id_value_2, $field_name_list_str  ) {
+            $sql = sprintf("select %s from %s  where  %s=%u and %s=%u ", $field_name_list_str,$this->field_table_name ,
+                           $this->field_id1_name , $id_value, $this->field_id2_name, $id_value_2 );
+            return $this->main_get_row($sql);
+
+        }
+
+        public function field_update_list_2( $id_value , $id_value_2 , $set_field_arr ) {
+            $update_str_arr = [];
+            foreach( $set_field_arr as $item ) {
+                if ($item[2]=="+") {
+                    $update_str_arr[] = sprintf("%s = %s + (%s)", $item[0], $item[0], $this->ensql( $item[1]) );
+                } else if ($item[2]=="-") {
+                    $update_str_arr[] = sprintf("%s = %s - (%s)", $item[0], $item[0], $this->ensql( $item[1]) );
+
+                }else{
+                    $update_str_arr[] = sprintf("%s='%s'", $item[0], $this->ensql( $item[1]) );
+                }
+            }
+
+            $set_field_list_str                                         = join(",", $update_str_arr );
+            $sql                = sprintf("update %s set  %s  where  %s = %u and %s=%u ",
+                                          $this->field_table_name , $set_field_list_str,
+                                          $this->field_id1_name , $id_value ,
+                                          $this->field_id2_name, $id_value_2 );
+
+            return $this->main_update($sql);
+        }
+
+
+        /**
+         * 插入数据库数据
+         *
+         * @param string $table
+         * @throws AppException
+         * @return boolean
+         */
+        function dataInsert($table)
+        {
+            //构建SQL语句
+            $ins_data_num = count($this->ins_data);
+            $foreach_i = 0;
+            $query     = 'Insert into ' . $table . " (";
+            $query_key = '';
+            $query_val = '';
+
+            foreach($this->ins_data as $key => $val)
+            {
+                if(strlen($val)>0 || $val != null)
+                {
+                    if($foreach_i == 0)
+                    {
+                        $query_key .= $key;
+
+                        if($this->modified[$key])
+                        {
+                            $query_val .= "'" . $this->ensql($val) . "'";
+                        }
+                        else
+                        {
+                            $query_val .= "'" . $this->ensql($val) . "'";
+                        }
+                    }
+                    else
+                    {
+                        $query_key .= ",{$key}";
+
+                        if($this->modified[$key])
+                        {
+                            $query_val .= ",'" . $this->ensql($val) . "'";
+                        }
+                        else
+                        {
+                            $query_val .= ",'" . $this->ensql($val) . "'";
+                        }
+                    }
+
+                    $foreach_i = $foreach_i + 1;
+                }
+            }
+
+
+            $query .= $query_key . ") Values (" . $query_val . ")";
+
+            $this->cleanData();
+
+            //SQL语句执行
+            if(!$this->db) throw new AppException('Not fond object : $this->db .');
+
+
+            $ret                = $this->db_exec($query);
+            $this->db_insert_id = $this->db->lastInsertId();
+            return $ret;
+        }
+
+
+        /**
+         * 添加条件语句
+         *
+         * @param string $field 表字段
+         * @param string $value 值
+         * @param string $terms 条件
+         * @param string $type 条件逻辑运算符
+         * @param int|string $modify 条件修饰符
+         */
+        function where($field,$value = NULL,$terms = "=",$type = "and",$modify = 1)
+        {
+            $prefix = (count($this->where) === 0) ? '' : $type . ' ';
+
+            if(strtolower($terms) == 'in' || strtolower($terms) == 'not in')
+            {
+                $this->where[] = $prefix . $field . ' ' . $terms . ' (' . $value . ')';
+            }
+            elseif(strtolower($terms) == 'like')
+            {
+                $this->where[] = $prefix . $field . ' ' . $terms . ' "%' . $value . '%"';
+            }
+            else
+            {
+                if ($value !== NULL)
+                {
+                    if($modify)
+                    {
+                        $value = "'" . $this->ensql($value) . "'";
+                    }
+
+                    $this->where[] = $prefix . $field . ' ' . $terms . ' ' . $value;
+                }
+                else
+                {
+                    $this->where[] = $prefix . $field;
+                }
+            }
+
+            $this->conditions = implode(" ",$this->where);
+        }
+
+        /**
+         * join查询
+         *
+         * @param string $table
+         * @param string $cond
+         * @param string $type
+         */
+        function join($table, $cond, $type = '')
+        {
+
+            if ($type != '')
+            {
+                $type = strtoupper(trim($type));
+
+                if ( ! in_array($type, array('LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER')))
+                {
+                    $type = '';
+                }
+                else
+                {
+                    $type .= ' ';
+                }
+            }
+
+            // Strip apart the condition and protect the identifiers
+            if (preg_match('/([\w\.]+)([\W\s]+)(.+)/', $cond, $match))
+            {
+                $cond = $match[1] . $match[2] . $match[3];
+            }
+
+            $this->join[] = $type . 'JOIN ' . $table . ' ON ' . $cond;
+
+            $this->join_table = " " . implode(" ",$this->join);
+        }
+
+        /**
+         * 添加groupBy 条件
+         *
+         * @param string $field
+         */
+        function groupby($field)
+        {
+            $this->groupby[] = $field;
+
+            $this->groupby_where = " GROUP BY " . implode(",",$this->groupby) . ' ';
+        }
+
+        /**
+         * 添加having 条件
+         *
+         * @param string $field
+         * @param $value
+         * @param string $terms
+         * @param string $type
+         */
+        function having($field,$value,$terms = '=', $type = 'and')
+        {
+            $prefix = (count($this->having) == 0) ? '' : $type . ' ';
+
+            if (is_null($value))
+            {
+                $value = ' IS NULL';
+            }
+
+            if(!is_integer($value))
+            {
+                $value = "'" . $value . "'";
+            }
+
+            if(strtolower($terms) == 'in' || strtolower($terms) == 'not in')
+            {
+                $this->having[] = $prefix . $field . ' ' . $terms . ' (' . $value . ')';
+            }
+            else
+            {
+                $this->having[] = $prefix . $field . ' ' . $terms . ' ' . $value;
+            }
+
+            $this->having_where = " HAVING " . implode(" ",$this->having) . ' ';
+        }
+
+        /**
+         * 设置记录上限
+         *
+         * @param int $limit
+         */
+        function setLimit($limit)
+        {
+            if ($limit) $this->limit = $limit;
+        }
+
+        /**
+         * 设置排序
+         *
+         * @param string $order
+         */
+        function setOrder($order = ' order by ID desc')
+        {
+            $this->order = " " . $order . " ";
+        }
+
+        /**
+         * 设置取得的页数
+         *
+         * @param int $page
+         */
+        function setPage($page)
+        {
+            $this->page = $page;
+        }
+
+
+
+
+    
+    
+
+        function start_transaction(){
+            return $this->db->beginTransaction();
+        }
+
+        function commit (){
+            return $this->db->commit();
+        }
+
+        function rollback(){
+            return  $this->db->rollBack();
+        }
+
+
+        public function db_exec($sql) {
+            log::write("SQL:".$sql);
+            return $this->do_error( $this->db->exec($sql),$sql);
+        }
+
+        public function db_query($sql) {
+            log::write("SQL:".$sql);
+            return $this->do_error( $this->db->query($sql),$sql);
+        }
+
+
+        function do_error($result,$sql) {
+            if ($result === false) {
+                $errorInfo = $this->db->errorInfo();
+                $str       = "MYSQL:ERR:". $errorInfo[1]. ":". $errorInfo[2] . ":$sql";
+                log::write($str);
+                throw new AppException($str);
+            }
+            return $result;
+        }
+
+        public function main_update( $sql  )
+        {
+
+            return $this->db_exec($sql);
+        }
+        public function main_get_row( $sql)
+        {
+            $result = $this->db_query($sql);
+            if (count($result ) == 1  ) {
+                return $result->fetch(PDO::FETCH_ASSOC);
+            }else{
+                throw new AppException('SQL ERROR >1 row ".count." : '.$sql);
+            }
+        }
+
+        public function main_get_list( $sql ,$list_key_func = null )
+        {
+            $result = $this->db_query($sql);
+            $list   = [];
+            if ( ! $list_key_func ) {
+                foreach( $result as $item ) {
+                    $list[] = $item;
+                }
+            }else{
+                foreach( $result as $item ) {
+                    $list[ $list_key_func($item ) ] = $item;
+                }
+            }
+            return $list;
+        }
+
+
+        /**
+         * 自定义查询
+         *
+         * @param string $sql 查询语句
+         * @param int $type 返回类型 1 = 多条记录，2=单条记录，3=不取记录
+         * @throws AppException
+         * @return array
+         */
+        /*
+          function customQuery($sql,$type = 1, $list_key_func=null )
+          {
+
+          if($type == 1){
+          return $this->main_get_list($sql);
+          } elseif($type == 2) {
+          return $this->main_get_row($sql);
+          } else {
+          return $this->main_update($sql);
+          }
+          }
+        */
+
+
+
+
+
+    
+	
+        public function selectDB($typename)
+        {
+
+            if ( !isset($this->g_config['db_' . $typename]) ) {
+                throw new AppException('db typename not defined: ' . $typename);
+            }
+            $this->getDBConnection($this->g_config['db_' . $typename],$typename);
+
+        }
+
+    
+    
+    
+    
+        public function where_clear(){
+            $this->where_arr = array();
+        }
+        //sprintf 格式 
+        // $add_flag : 如果 == true, 则加入$where_arr
+        public function where_add($add_flag,$fmt_str  ){
+            if ($add_flag){
+                $args = func_get_args();
+                array_shift( $args);
+                if ( is_array($args[1]) ){
+                    $tmp_args   = array() ;
+                    $tmp_args[] = $args[0];
+                    foreach ($args[1] as $v ) {
+                        $tmp_args[] = $v;
+                    }
+                    $args = $tmp_args;
+                }
+                $this->where_arr[] = call_user_func_array( "sprintf",$args  );
+            }
+        }
+
+        //
+        // $where_str = $this->where_str_gen(array(
+        //     array( "grade = %d", $grade , -1 ),
+        //             fmtstr      value , if value = -1 no add
+        //     array( "subject = %d", $subject , -1 ),
+        // ));
+        public function where_str_gen( $conf_arr  ){
+            $this->where_clear();
+            foreach( $conf_arr as $item  ){
+                if (is_array($item)) {
+                    $fmt_str  = $item[0];
+                    $value    = $item[1];
+                    $add_flag = true;
+                    if(isset( $item[2] )){
+                        $no_deal_value = $item[2];
+                        if ( $value == $no_deal_value ){
+                            $add_flag = false;
+                        }
+                    }
+                    if ($add_flag){
+                        $this->where_add(true,$fmt_str,$value);
+                    }
+                }else{
+                    $this->where_add(true, $item );
+                
+                }
+            }
+            return $this->where_get_sqlstr("and");
+        }
+
+
+        public function where_get_sqlstr( $join_str = "and" ){
+
+            if (count($this->where_arr ) == 0){
+                return "true";
+            }else{
+                $ret_str         = join(" $join_str " ,  $this->where_arr  );
+                $this->where_arr = array();
+                return $ret_str;
+            }
+        }
+    
+        public function where_get_in_str( $field_name, $id_list ) {
+            if (count($id_list) == 0){
+                return "true";
+            }else{
+                return "$field_name in  (" .join("," ,$id_list ).  ")";
+            }
+        }
+
+        public function __get($name)
+        {
+            if (preg_match("/_model$/",$name) ){
+                return $this->loadModel($name);
+            }
+        }
+
+
+}

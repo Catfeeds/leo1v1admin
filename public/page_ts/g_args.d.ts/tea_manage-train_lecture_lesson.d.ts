@@ -1,0 +1,183 @@
+interface GargsStatic {
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
+	lesson_status:	number;
+	subject:	number;
+	grade:	number;
+	check_status:	number;
+	train_teacherid:	number;
+	page_num:	number;
+	page_count:	number;
+	lessonid:	number;
+	res_teacherid:	number;
+	have_wx:	number;
+	lecture_status:	number;
+	train_email_flag:	number;
+}
+declare module "g_args" {
+    export = g_args;
+}
+declare var g_args: GargsStatic;
+declare var g_account: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
+interface RowData {
+	lessonid	:any;
+	lesson_start	:any;
+	lesson_end	:any;
+	lesson_name	:any;
+	audio	:any;
+	draw	:any;
+	grade	:any;
+	subject	:any;
+	lesson_status	:any;
+	teacherid	:any;
+	nick	:any;
+	phone_spare	:any;
+	user_agent	:any;
+	l_teacherid	:any;
+	trial_train_status	:any;
+	acc	:any;
+	lecture_status	:any;
+	real_teacherid	:any;
+	account	:any;
+	lesson_time	:any;
+	lesson_status_str	:any;
+	trial_train_status_str	:any;
+	tea_nick	:any;
+	lecture_status_str	:any;
+}
+
+/*
+
+tofile: 
+	 mkdir -p ../tea_manage; vi  ../tea_manage/train_lecture_lesson.ts
+
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/tea_manage-train_lecture_lesson.d.ts" />
+
+$(function(){
+    function load_data(){
+        $.reload_self_page ( {
+			date_type_config:	$('#id_date_type_config').val(),
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val(),
+			lesson_status:	$('#id_lesson_status').val(),
+			subject:	$('#id_subject').val(),
+			grade:	$('#id_grade').val(),
+			check_status:	$('#id_check_status').val(),
+			train_teacherid:	$('#id_train_teacherid').val(),
+			lessonid:	$('#id_lessonid').val(),
+			res_teacherid:	$('#id_res_teacherid').val(),
+			have_wx:	$('#id_have_wx').val(),
+			lecture_status:	$('#id_lecture_status').val(),
+			train_email_flag:	$('#id_train_email_flag').val()
+        });
+    }
+
+
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
+	$('#id_lesson_status').val(g_args.lesson_status);
+	$('#id_subject').val(g_args.subject);
+	$('#id_grade').val(g_args.grade);
+	$('#id_check_status').val(g_args.check_status);
+	$('#id_train_teacherid').val(g_args.train_teacherid);
+	$('#id_lessonid').val(g_args.lessonid);
+	$('#id_res_teacherid').val(g_args.res_teacherid);
+	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_lecture_status').val(g_args.lecture_status);
+	$('#id_train_email_flag').val(g_args.train_email_flag);
+
+
+	$('.opt-change').set_input_change_event(load_data);
+});
+
+
+
+*/
+/* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lesson_status</span>
+                <input class="opt-change form-control" id="id_lesson_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade</span>
+                <input class="opt-change form-control" id="id_grade" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">check_status</span>
+                <input class="opt-change form-control" id="id_check_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">train_teacherid</span>
+                <input class="opt-change form-control" id="id_train_teacherid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lessonid</span>
+                <input class="opt-change form-control" id="id_lessonid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">res_teacherid</span>
+                <input class="opt-change form-control" id="id_res_teacherid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">have_wx</span>
+                <input class="opt-change form-control" id="id_have_wx" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lecture_status</span>
+                <input class="opt-change form-control" id="id_lecture_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">train_email_flag</span>
+                <input class="opt-change form-control" id="id_train_email_flag" />
+            </div>
+        </div>
+*/

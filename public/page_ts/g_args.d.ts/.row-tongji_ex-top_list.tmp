@@ -1,0 +1,7 @@
+	tongji_type	:any;
+	logtime	:any;
+	adminid	:any;
+	value	:any;
+	top_index	:any;
+	top_index2	:any;
+	admin_nick	:any;

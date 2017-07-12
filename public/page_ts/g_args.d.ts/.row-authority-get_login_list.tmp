@@ -1,0 +1,4 @@
+	account	:any;
+	all_count	:any;
+	succ	:any;
+	fail	:any;

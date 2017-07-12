@@ -1,0 +1,8 @@
+	recordid	:any;
+	phone	:any;
+	message	:any;
+	send_time	:any;
+	type	:any;
+	user_ip	:any;
+	receive_content	:any;
+	is_success	:any;

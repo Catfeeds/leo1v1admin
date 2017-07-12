@@ -1,0 +1,84 @@
+CheckTeacherIsInRoom.php:        $type = $this->option('type');
+do_once.php:        $this->task        = new \App\Console\Tasks\TaskController();
+gen_top_info.php:        $this->task= new \App\Console\Tasks\TaskController();
+gen_top_info.php:        $list= $this->task->t_test_lesson_subject_require->tongji_require_count($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$list);
+gen_top_info.php:        $test_lesson_succ_list=$this->task->t_test_lesson_subject_require->tongji_test_lesson_succ_count($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$test_lesson_succ_list);
+gen_top_info.php:        $order_count_list= $this->task->t_order_info->tongji_seller_order_count($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$order_count_list);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$order_percent_list);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$order_money_list);
+gen_top_info.php:        $assign_count_list = $this->task->t_seller_student_new->tongji_assign_count_list($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$assign_count_list);
+gen_top_info.php:        $lesson_count_list = $this->task->t_test_lesson_subject_sub_list->tongji_lesson_count_list($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$lesson_count_list);*/
+gen_top_info.php:        $order_person_count_list= $this->task->t_order_info->tongji_seller_order_person_count($start_time,$end_time);
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$order_person_count_list);
+gen_top_info.php:        $test_lesson_list=$this->task->t_test_lesson_subject_require->tongji_test_lesson_group_by_admin_revisiterid($start_time,$end_time );
+gen_top_info.php:        $this->task->t_tongji_seller_top_info->update_list($tongji_type,$start_time,$test_lesson_fail_per);
+get_ass_stu_info_update.php:        // $res        = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info($start_time,$end_time);
+Inspire.php:        $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+log_seller_call_phone_day.php:        $day=$this->option('day');
+log_valid_user_count.php:        $this->task= new \App\Console\Tasks\TaskController();
+log_valid_user_count.php:        $count=$this->task->t_student_info-> get_valid_user_count();
+log_valid_user_count.php:        $this->task->t_id_opt_log->add_ex($log_type,$logtime,0,$count);
+NoticeLessonHomework.php:        $type = $this->option('type');
+NoticeStudent.php:        $type = $this->option('type');
+NoticeTeacher.php:        $type = $this->option('type');
+NoticeTomorrowLessonToParent.php:        $ret_list = $this->get_student_info($ret_id);
+notify_day_report.php:        $this->task= new \App\Console\Tasks\TaskController();
+notify_day_report.php:        $seller_count=$this->task->t_seller_month_money_target->get_seller_num_day($start_time);
+notify_day_report.php:        $order_arr=$this->task->t_order_info->seller_info( $start_time,$end_time);
+notify_day_report.php:        $tq_arr=$this->task->t_tq_call_info->tongji_tq_info_all($start_time,$end_time);
+notify_day_report.php:        $set_lesson_arr=$this->task->t_test_lesson_subject_sub_list->get_set_lesson_count_info($start_time,$end_time);
+notify_day_report.php:        $test_lesson_arr= $this->task->t_test_lesson_subject_require->tongji_test_lesson_all($start_time,$end_time);
+notify_day_report.php:        $data= $this->get_day_data_from_time("本日", strtotime($opt_date) );
+notify_day_report.php:            $this->task->t_manager_info->send_wx_todo_msg(
+reset_lesson_count_when_lesson_start.php:        $all_flag=$this->option('all');
+reset_lesson_info_real_begin_time.php:        $this->task= new \App\Console\Tasks\TaskController();
+reset_lesson_info_real_begin_time.php:        $this->task->t_lesson_info->reset_real_begin_time();
+reset_lesson_online_user_status.php:        $this->task= new \App\Console\Tasks\TaskController();
+reset_lesson_online_user_status.php:        $day=$this->option('day');
+reset_lesson_online_user_status.php:        $always_reset = $this->option("always_reset");
+reset_lesson_online_user_status.php:        $lesson_list = $this->task->t_lesson_info_b2->get_lesson_list_for_set_online_user_status($start_time, $end_time  , $always_reset);
+reset_lesson_online_user_status.php:            list($tea_logintime ,$check_teacher_online_flag) =$this->task->t_lesson_opt_log->check_online_flag($lessonid,$teacherid, $check_time );
+reset_lesson_online_user_status.php:            list($stu_logintime ,$check_student_online_flag) =$this->task->t_lesson_opt_log->check_online_flag($lessonid,$studentid, $check_time );
+reset_lesson_online_user_status.php:            $this->task->t_lesson_info->field_update_list($lessonid,[
+ResetTeacherLessonCount.php:        $day = $this->option('day');
+seller_new_count_day_gen.php:        $this->task= new \App\Console\Tasks\TaskController();
+seller_new_count_day_gen.php:        $admin_list=$this->task->t_manager_info->get_seller_list();
+seller_new_count_day_gen.php:            $existed_flag=$this->task->t_seller_new_count->check_adminid_seller_new_count_type_start_time (  $adminid, $seller_new_count_type, $start_time  );
+seller_new_count_day_gen.php:                $this->task->t_seller_new_count->add(
+send_Teach_Pdf_email_to_parent.php:            $parentid = $this->t_student_info->get_parent_total_list($userid);
+send_Teach_Pdf_email_to_parent.php:            $eamil    = $this->t_parent_info->get_parent_email_list($parentid);
+set_lesson_audio_record_server_at_time_new.php:        $this->task        = new \App\Console\Tasks\TaskController();
+set_lesson_audio_record_server_at_time_new.php:        $active_list = $this->task->t_audio_record_server->get_active_server_list();
+set_lesson_audio_record_server_at_time_new.php:        $lesson_list= $this->task->t_lesson_info->get_current_lessons("");
+set_lesson_audio_record_server_at_time_new.php:        $this->reset_lesson_audio($lesson_list,$active_list);
+set_lesson_audio_record_server_at_time_new.php:                $this->task->t_lesson_info->field_update_list($lessonid,[
+set_new_user_later_call_free.php:        $this->task= new \App\Console\Tasks\TaskController();
+set_new_user_later_call_free.php:        $this->task->t_seller_student_new->get_no_call_to_free_list();
+set_new_user_later_call_free.php:        //$this->task->
+SetTeacherMoney.php:        $type = $this->option('type');
+sync_tq.php:        $day=$this->option('day');
+sync_tq.php:        $this->do_handle($start_time,$end_time);
+test_lesson_set_seller_student_status_290.php:        $this->task= new \App\Console\Tasks\TaskController();
+test_lesson_set_seller_student_status_290.php:        $this->task->t_test_lesson_subject-> set_seller_student_status_290_at_time();
+UpdateOrderLessonList.php:        $day = $this->option('day');
+UpdateSetLessonFullNum.php:        $month = $this->option('month');
+ytx_sync.php:        $this->task= new \App\Console\Tasks\TaskController();
+ytx_sync.php:        $ytx_phone_map = $this->task->t_manager_info->get_ytx_account_map($caller);
+ytx_sync.php:            $rec_start_time=$this->get_time_from_fmt($item["StartD"] );
+ytx_sync.php:            $rec_end_time=$this->get_time_from_fmt($item["EndD"] );
+ytx_sync.php:                $this->task->t_seller_student_new->sync_tq($phone , $call_state+1 );
+ytx_sync.php:                $this->task->t_tq_call_info->add(
+ytx_sync.php:                        $userid=$this->task->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT );
+ytx_sync.php:                            $this->task->t_revisit_info->add_revisit_record($userid, $revisit_time,"" ,"" , $sys_operator, "电话录音",3,  $id);
+ytx_sync.php:                            //$this->task->t_student_info->set_ass_revisit_last_week_time($userid, $revisit_time);
+ytx_sync.php:        $day=$this->option('day');
+ytx_sync.php:        $this->load_data("liyou",$start_date,$end_date);
+ytx_sync.php:        $count=$this->load_data("liyou2",$start_date,$end_date);
+ytx_sync_wav.php:        $this->task= new \App\Console\Tasks\TaskController();
+ytx_sync_wav.php:        $day=$this->option('day');
+ytx_sync_wav.php:        $list=$this->task->t_tq_call_info->get_list($start_time,$end_time);

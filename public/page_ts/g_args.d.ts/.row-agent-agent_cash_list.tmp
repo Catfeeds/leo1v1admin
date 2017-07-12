@@ -1,0 +1,7 @@
+	id	:any;
+	aid	:any;
+	cash	:any;
+	is_suc_flag	:any;
+	create_time	:any;
+	type	:any;
+	phone	:any;

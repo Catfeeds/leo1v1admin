@@ -1,0 +1,12 @@
+	stu_num	:any;
+	teacher_1v1	:any;
+	teacher_trial	:any;
+	teacher_num	:any;
+	lesson_total	:any;
+	lesson_1v1	:any;
+	lesson_trial	:any;
+	lesson_money	:any;
+	date_str	:any;
+	teacher_money_type_str	:any;
+	tea_stu_ratio	:any;
+	per_total	:any;

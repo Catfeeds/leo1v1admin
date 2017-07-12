@@ -1,0 +1,22 @@
+<?php
+namespace App\Models;
+use \App\Enums as E;
+class t_kaoqin_machine extends \App\Models\Zgen\z_t_kaoqin_machine
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+

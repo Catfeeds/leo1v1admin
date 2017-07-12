@@ -1,0 +1,144 @@
+html, body {
+  margin: 0px;
+  height: 100%;
+}
+
+#board-page {
+  background-color: #e6e6e6;
+}
+
+#board-toolbar {
+  width: 100%;
+  height: 64px;
+  max-height: 64px;
+  background-color: white;
+  vertical-align: middle;
+}
+
+#board-toolbar img {
+  width: 30px;
+  height: 30px;
+  /*-webkit-filter: grayscale(100%);*/
+  /*filter: grayscale(100%);*/
+  cursor: pointer;
+  vertical-align: middle;
+  margin: 17px 16px 17px 16px;
+}
+
+#board-toolbar img:hover {
+  -webkit-filter: brightness(0.5);
+}
+
+#board-toolbar img.selected {
+  -webkit-filter: brightness(0.5);
+}
+
+.popover-trigger img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin: 0px 6px 0px 6px;
+}
+
+.popover-trigger img:hover {
+  -webkit-filter: brightness(0.5);
+}
+
+.popover-trigger img.selected {
+  -webkit-filter: brightness(0.5);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+#pdfGrid canvas {
+  margin: 5px;
+  border: black 1px solid;
+}
+
+#pdfGrid canvas:hover {
+  border: red 3px solid;
+  cursor: pointer;
+}
+
+.pager {
+  margin: 0
+}
+
+.button-gray {
+  color: #FFFFFF;
+  background-color: #b9b9b9;
+  border-radius: 5px;
+  border: none;
+  width: 100px;
+  height: 45px;
+  font-size: 17px;
+}
+
+.button-blue {
+  color: #FFFFFF;
+  background-color: #00CDFD;
+  border-radius: 5px;
+  border: none;
+  width: 100px;
+  height: 45px;
+  font-size: 17px;
+}
+
+.ReactModal__Overlay {
+  -webkit-perspective: 600;
+  perspective: 600;
+  opacity: 0;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transition: opacity 150ms ease-out;
+  z-index: 9999;
+}
+
+.ReactModal__Content {
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+.ReactModal__Content--after-open {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  transition: all 150ms ease-in;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--before-close {
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  transition: all 150ms ease-in;
+}
+
+.LessonState-Modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 200px;
+  margin-top: -100px;
+  margin-left: -200px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.rc-slider {
+  cursor: pointer;
+}

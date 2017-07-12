@@ -1,0 +1,14 @@
+	add_time	:any;
+	admin_revisiterid	:any;
+	userid	:any;
+	phone	:any;
+	user_desc	:any;
+	account	:any;
+	admin_assign_time	:any;
+	global_tq_called_flag	:any;
+	seller_student_status	:any;
+	seller_level	:any;
+	student_nick	:any;
+	global_tq_called_flag_str	:any;
+	seller_level_str	:any;
+	seller_student_status_str	:any;

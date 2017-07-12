@@ -1,0 +1,13 @@
+	id	:any;
+	uid	:any;
+	phone	:any;
+	start_time	:any;
+	end_time	:any;
+	duration	:any;
+	is_called_phone	:any;
+	record_url	:any;
+	account	:any;
+	seller_student_status	:any;
+	load_wav_self_flag	:any;
+	is_called_phone_str	:any;
+	seller_student_status_str	:any;

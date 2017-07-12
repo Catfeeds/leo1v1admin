@@ -1,0 +1,22 @@
+<?php
+namespace App\Models;
+use \App\Enums as E;
+class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+

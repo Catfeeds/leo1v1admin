@@ -1,0 +1,147 @@
+section  hr  {
+    margin-top :10px;
+    margin-bottom :15px;
+}
+
+.menu-active-item {
+    background-color:rgb(60, 141, 188);
+    color :white !Important;
+}
+
+
+.remove-for-xs .btn
+{
+    box-shadow:none;
+    padding:6px 6px;
+}
+
+.row {
+    padding-top:0px;
+}
+.row:first-child {
+    padding-top:0px;
+}
+
+
+.col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+  padding-top: 5px;
+}
+
+/* Content */
+.content {
+  padding: 5px 8px;
+  background: #f9f9f9;
+}
+
+
+
+
+.remove-for-not-xs .btn
+{
+    font-size:20px;
+    box-shadow:none;
+}
+
+.remove-for-not-xs  .dropdown-menu >li >div
+{
+    text-align:center;
+    display:  inline-flex;
+}
+
+
+.remove-for-not-xs .nav.nav-pills > li > a {
+    color:#428BCA;
+    padding:0px;
+    font-size:20px;
+}
+
+
+.row  .input-group >span
+{
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #EEE;
+    border: 1px solid #CCC;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-cell;
+    border-collapse: separate;
+}
+.row  .input-group >input,
+.row  .input-group >select
+{
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    vertical-align: middle;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+.danger{
+    background:#f2dede;
+}
+
+.bootstrap-dialog-message input,
+.bootstrap-dialog-message textarea,
+.bootstrap-dialog-message select
+{
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
+.bootstrap-dialog-message textarea
+{
+    height: 80px;
+    width: 90%;
+}
+
+.ui-autocomplete
+{
+    border-radius: 0px;
+}
+
+.ui-corner-all {
+    border-radius: 0px;
+}
+
+.tbody-scroll-table thead, .tbody-scroll-table tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.tbody-scroll-table thead tr {
+    display:block;
+}
+.tbody-scroll-table tbody {
+    display: block;
+    height: 400px;
+    overflow-y:scroll;
+}
+.tbody-scroll-table  thead {
+    width: 100%;
+}
