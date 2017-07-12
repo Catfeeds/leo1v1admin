@@ -16,6 +16,7 @@ require_once( app_path() ."/Helper/functions.php"  );
  * @property  \App\Models\t_lesson_info_b2       $t_lesson_info_b2
 
 //MODEL_DEFINE_DEGIN
+ * @property  \App\Models\t_user_login_log  	 $t_user_login_log
  * @property  \App\Models\t_student_score_info  	 $t_student_score_info
  * @property  \App\Models\t_student_cc_to_cr  	 $t_student_cc_to_cr
  * @property  \App\Models\t_todo  	 $t_todo

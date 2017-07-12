@@ -3926,17 +3926,22 @@ class human_resource extends Controller
         }
 
         $add_info = [
-            "acc"                  => $acc,
-            "wx_use_flag"            => $teacher_info['wx_use_flag'],
-            "trial_lecture_is_pass"  => $teacher_info['trial_lecture_is_pass'],
-            "train_through_new"      => $teacher_info['train_through_new'],
-            "level"                  => 1,
-            "subject"            => $teacher_info['subject'],
-            "tea_nick"            => $teacher_info['nick'],
-            "realname"            => $teacher_info['realname'],
-            "phone_spare"            => $phone,
-            "phone"                  => $new_phone,
-            "send_sms_flag"          => 0,
+            "acc"                   => $acc,
+            "wx_use_flag"           => $teacher_info['wx_use_flag'],
+            "trial_lecture_is_pass" => $teacher_info['trial_lecture_is_pass'],
+            "train_through_new"     => $teacher_info['train_through_new'],
+            "level"                 => 1,
+            "subject"               => $teacher_info['subject'],
+            "tea_nick"              => $teacher_info['nick'],
+            "realname"              => $teacher_info['realname'],
+            "phone_spare"           => $phone,
+            "phone"                 => $new_phone,
+            "identity"              => $teacher_info['identity'],
+            "grade_start"           => $teacher_info['grade_start'],
+            "grade_end"             => $teacher_info['grade_end'],
+            "email"                 => $teacher_info['email'],
+            "school"                => $teacher_info['school'],
+            "send_sms_flag"         => 0,
         ];
         $new_teacherid = $this->add_teacher_common($add_info);
 

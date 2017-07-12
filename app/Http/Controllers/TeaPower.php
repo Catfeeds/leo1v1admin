@@ -1179,8 +1179,11 @@ trait  TeaPower {
      * @param int is_test_user 是否是测试账号 0 不是 1 是
      * @param int use_easy_pass 是否用123456作为老师账号密码 0 不是 1 是
      * @param int send_sms_flag 是否发送老师账号短信 0 不 1 是
-     * @param int all_grade 是否是全年级老师 0 不是 1 是
      * @param string base_intro 老师简介 
+     * @param int grade_start 老师年级开始范围
+     * @param int grade_end 老师年级结束范围
+     * @param string email 邮箱
+     * @param string school 学校
      */
     public function add_teacher_common($teacher_info){
         $phone = $teacher_info['phone'];
@@ -1210,8 +1213,11 @@ trait  TeaPower {
         \App\Helper\Utils::set_default_value($is_test_user,$teacher_info,0,"is_test_user");
         \App\Helper\Utils::set_default_value($use_easy_pass,$teacher_info,0,"use_easy_pass");
         \App\Helper\Utils::set_default_value($send_sms_flag,$teacher_info,1,"send_sms_flag");
-        \App\Helper\Utils::set_default_value($all_grade,$teacher_info,0,"all_grade");
         \App\Helper\Utils::set_default_value($base_intro,$teacher_info,"","base_intro");
+        \App\Helper\Utils::set_default_value($grade_start,$teacher_info,0,"grade_start");
+        \App\Helper\Utils::set_default_value($grade_end,$teacher_info,0,"grade_end");
+        \App\Helper\Utils::set_default_value($email,$teacher_info,"","email");
+        \App\Helper\Utils::set_default_value($school,$teacher_info,"","school");
 
         $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
         $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
@@ -1254,8 +1260,8 @@ trait  TeaPower {
         }
 
         $this->t_teacher_info->add_teacher_info_to_ejabberd($teacherid,$passwd_md5);
-        if($all_grade==1){
-            $grade_range = ["grade_start"=>1,"grade_end"=>6];
+        if($grade_start==0 && $grade_end==0){
+            $grade_range = ["grade_start"=>$grade_start,"grade_end"=>$grade_end];
         }else{
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
         }
@@ -1283,6 +1289,8 @@ trait  TeaPower {
             "add_acc"                => $acc, 
             "is_test_user"           => $is_test_user, 
             "base_intro"             => $base_intro, 
+            "email"                  => $email, 
+            "school"                 => $school, 
         ]);
 
         if(!$ret){

@@ -147,5 +147,5 @@ class z_t_agent  extends  \App\Models\NewModel
   UNIQUE KEY `db_weiyi_t_agent_userid_unique` (`userid`),
   UNIQUE KEY `db_weiyi_t_agent_wx_openid_unique` (`wx_openid`),
   KEY `db_weiyi_t_agent_parentid_index` (`parentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

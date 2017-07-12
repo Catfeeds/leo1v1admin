@@ -103,5 +103,5 @@ class z_t_student_score_info  extends  \App\Models\NewModel
   PRIMARY KEY (`id`),
   KEY `db_weiyi_t_student_score_info_userid_index` (`userid`),
   KEY `db_weiyi_t_student_score_info_create_adminid_index` (`create_adminid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

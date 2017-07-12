@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_user_login_log","id"],
     ["db_weiyi","t_student_score_info","id"],
     ["db_weiyi","t_student_cc_to_cr","id"],
     ["db_weiyi_admin","t_todo","todoid"],

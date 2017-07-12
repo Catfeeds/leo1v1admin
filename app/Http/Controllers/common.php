@@ -901,6 +901,8 @@ class common extends Controller
 
 
         $orderNo = $orderid+1000000000;
+        $orderNo = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+        dd($orderNo);
         /**
          * 设置请求签名密钥，密钥对需要你自己用 openssl 工具生成，如何生成可以参考帮助中心：https://help.pingxx.com/article/123161；
          * 生成密钥后，需要在代码中设置请求签名的私钥(rsa_private_key.pem)；
