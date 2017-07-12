@@ -1,1 +1,0 @@
-jack@jack-Aspire-TC-705.2179:1499822884

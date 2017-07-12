@@ -1265,16 +1265,39 @@ class stu_manage extends Controller
         );
     }
     /**
-     *autho
+     *@author    sam
+     *@function  学生分数列表显示
      *
      */
-    public function  score_list () {
-        $stu_score_type=$this->get_in_el_stu_score_type();
-        $page_info=$this->get_in_page_info();
-        $sid=$this->sid;
-        //$ret_info=$this->t_student_score_info->get_list($page_info,$sid);
+    public function  score_list () { 
+        $userid = $this->sid;
+        if($userid<>0)
+        $ret_info=$this->t_student_score_info->get_list($page_info,$sid);
 
+        $page_info=$this->get_in_page_info();
+        
         dd($sid);
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
+    /**
+     *@author    kevin
+     *@function  学生助教反馈列表显示
+     *
+     */
+    public function  todo_list() {
+        //: dd($sid);
+        $userid = $this->sid;
+        //dd($userid);
+        /*
+        if($userid<>0)
+            $ret_info=$this->t_student_score_info->get_list($page_info,$sid);
+
+        $page_info=$this->get_in_page_info();/
+        */
+        //dd($sid);
+        return $this->pageView(__METHOD__,$userid);
+   
     }
 
 }

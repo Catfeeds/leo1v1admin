@@ -275,14 +275,19 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     
     public function get_lecture_info_by_identity($start_time,$end_time,$status=-1){
         $where_arr=[
-            ["confirm_time >= %u",$start_time,-1],
-            ["confirm_time <= %u",$end_time,-1],
-            ["status=%u",$status,-1],
-            "is_test_flag =0",
-            "account <> 'adrian'"
+            ["tl.confirm_time >= %u",$start_time,-1],
+            ["tl.confirm_time <= %u",$end_time,-1],
+            ["tl.status=%u",$status,-1],
+            "tl.is_test_flag =0",
+            "tl.account <> 'adrian'"
         ];
-        $sql = $this->gen_sql_new("select identity, count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s where %s group by identity",
+        $sql = $this->gen_sql_new("select if(ta.teacher_type>0,ta.teacher_type,tl.identity) identity, count(*) all_num,count(distinct tl.phone) all_count,sum(if(tl.status=1,1,0)) suc_count,sum(tl.confirm_time-tl.add_time) time_count from %s tl "
+                                  ." left join %s ta on tl.phone = ta.phone and not exists ("
+                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
+                                  ." where %s group by identity",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr                                 
         );
         return $this->main_get_list($sql,function($item){

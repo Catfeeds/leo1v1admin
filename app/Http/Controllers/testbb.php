@@ -80,7 +80,9 @@ class testbb extends Controller
 
 
     public function test () {
-
+        $orderid=$this->get_in_int_val('orderid');
+        $wx_openid = $this->t_order_info->get_master_openid_by_orderid($orderid);
+        dd($wx_openid);
     }
     public function lesson_send_msg(){
         $start_time = time(null);

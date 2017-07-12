@@ -13,13 +13,17 @@ class t_teacher_apply extends \App\Models\Zgen\z_t_teacher_apply
         $where_arr=[
             ["ta.cc_id=%u",$cc_id,-1],
         ];
-        $sql=$this->gen_sql_new ("select ta.*,t.realname,t.phone"
-                                 ." from %s ta"
-                                 ." left join %s t on t.teacherid = ta.teacherid"
+        $sql=$this->gen_sql_new (" select ta.*,t.realname,t.phone,s.phone p_phone"
+                                 ." from %s ta "
+                                 ." left join %s t on t.teacherid = ta.teacherid "
+                                 ." left join %s l on l.lessonid = ta.lessonid "
+                                 ." left join %s s on s.userid = l.userid "
                                  ." where %s "
-                                 ."order by ta.create_time desc"
+                                 ." order by ta.create_time desc "
                                  ,self::DB_TABLE_NAME
                                  ,t_teacher_info::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);

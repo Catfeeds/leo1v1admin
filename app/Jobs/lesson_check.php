@@ -21,17 +21,14 @@ class lesson_check extends Job implements ShouldQueue
      */
     public function __construct($ret)
     {
-        list($this->lessonid,$this->lesson_type,
-             $this->tea_attend,$this->stu_attend,$this->teacher_openid,
-             $this->$assistantid,$this->$cc_id,$this->work_type) = $ret;
-        // $this->lessonid        = $ret['lessonid'];
-        // $this->work_type       = $ret['work_type'];
-        // $this->lesson_type     = $ret['lesson_type'];
-        // $this->tea_attend      = $ret['tea_attend'];
-        // $this->stu_attend      = $ret['stu_attend'];
-        // $this->teacher_openid = $ret['teacher_openid'];
-        // $this->$assistantid    = $ret['assistantid'];
-        // $this->$cc_id          = $ret['cc_id'];
+        $this->lessonid       = $ret['lessonid'];
+        $this->lesson_type    = $ret['lesson_type'];
+        $this->tea_attend     = $ret['tea_attend'];
+        $this->stu_attend     = $ret['stu_attend'];
+        $this->teacher_openid = $ret['teacher_openid'];
+        $this->assistantid    = $ret['assistantid'];
+        $this->cc_id          = $ret['cc_id'];
+        $this->work_type      = $ret['work_type'];
     }
 
     /**
@@ -48,8 +45,8 @@ class lesson_check extends Job implements ShouldQueue
         $tea_attend     = $this->tea_attend;
         $stu_attedn     = $this->stu_attend;
         $teacher_openid = $this->teacher_openid;
-        $assistantid    = $assistantid;
-        $cc_id          = $cc_id;
+        $assistantid    = $this->assistantid;
+        $cc_id          = $this->cc_id;
         if($work_type == 0){
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher, $data,$url);
             // $task->t_manager_info->send_wx_todo_msg($teacher_account,'主题','头信息','内容');

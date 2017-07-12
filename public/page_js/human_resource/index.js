@@ -654,6 +654,7 @@ $(function(){
         var arr = [
             ["工资类别", id_teacher_money_type],
             ["等级", id_level],
+            ["时间不填则不会重置课程时间",""],
             ["重置课程开始时间", id_start_time],
         ];
         $.show_key_value_table("修改等级", arr ,{
@@ -1562,18 +1563,11 @@ $(function(){
     });
 
     $(".opt-change_tea_to_new").on("click",function(){
-      var data            = $(this).get_opt_data();
+        var data            = $(this).get_opt_data();
         var id_new_phone    = $("<input/>");
         var id_lesson_start = $("<input/>");
-        var id_lesson_end   = $("<input/>");
 
         id_lesson_start.datetimepicker({
-            lang       : 'ch',
-            timepicker : false,
-            format     : 'Y-m-d ',
-        });
-
-        id_lesson_end.datetimepicker({
             lang       : 'ch',
             timepicker : false,
             format     : 'Y-m-d ',
@@ -1590,7 +1584,6 @@ $(function(){
             cssClass : "btn-warning",
             action   : function(dialog) {
                 var lesson_start  = id_lesson_start.val();
-                var lesson_end    = id_lesson_end.val();
                 data.lesson_start = lesson_start;
 
                 var new_phone = id_new_phone.val();
@@ -1602,45 +1595,13 @@ $(function(){
     var check_new_phone = function(new_phone,old_info){
         $.do_ajax("/human_resource/change_teacher_to_new",{
             "new_phone" : new_phone,
-            "teacherid" : old_info.phone,
+            "phone"     : old_info.phone,
         },function(result){
-            var new_teacherid = 0;
             if(result.ret==0){
-                $.do_ajax("/tea_manage/add_teacher",{
-                    "tea_nick"              : old_info.realname,
-                    "teacher_money_type"    : 4,
-                    "level"                 : 1,
-                    "phone"                 : new_phone,
-                    "phone_spare"           : old_info.phone,
-                    "email"                 : old_info.email,
-                    "identity"              : old_info.identity,
-                    "school"                : old_info.school,
-                    "trial_lecture_is_pass" : old_info.trial_lecture_is_pass,
-                    "train_through_new"     : old_info.train_through_new,
-                    "work_year"             : old_info.work_year,
-                    "gender"                : old_info.gender,
-                    "birth"                 : old_info.birth,
-                    "address"               : old_info.address,
-                    "subject"               : old_info.subject,
-                    "grade_part_ex"         : old_info.grade_part_ex,
-                    "grade_start"           : old_info.grade_start,
-                    "grade_end"             : old_info.grade_end,
-                    "teacher_type"          : 0,
-                },function(new_result){
-                    if(new_result.ret==0){
-                        new_teacherid = new_result.teacherid;
-                        change_tea_to_new(old_info,new_teacherid);
-                    }else{
-                        BootstrapDialog.alert(new_result.info);
-                    }
-                });
+                var new_teacherid = result.new_teacherid;
+                change_tea_to_new(old_info,new_teacherid);
             }else{
-                if(result.new_teacherid>0){
-                    new_teacherid = result.new_teacherid;
-                    change_tea_to_new(old_info,new_teacherid);
-                }else{
-                    BootstrapDialog.alert(result.info);
-                }
+                BootstrapDialog.alert(result.info);
             }
         });
     }

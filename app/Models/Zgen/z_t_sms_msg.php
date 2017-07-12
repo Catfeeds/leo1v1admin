@@ -87,5 +87,5 @@ class z_t_sms_msg  extends  \App\Models\NewModel
   `type` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'the send type',
   `user_ip` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'user ip',
   PRIMARY KEY (`recordid`)
-) ENGINE=InnoDB AUTO_INCREMENT=30793 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=30799 DEFAULT CHARSET=utf8
  */

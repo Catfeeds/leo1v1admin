@@ -23,9 +23,9 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <!-- <td>id</td> -->
                     <td>讲师</td>
                     <td>讲师手机</td>
+                    <td>家长手机</td>
                     <td>课程名称</td>
                     <td>问题类型</td>
                     <td>问题内容</td>
@@ -40,9 +40,9 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <!-- <td>{{@$var["id"]}} </td> -->
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["p_phone"]}} </td>
                         <td>{{@$var["lesson_name"]}} </td>
                         <td>
                             @if($var["question_type"] == 1)
@@ -82,6 +82,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+                                <a title="手机拨打&录入回访信息" class="fa-phone opt-telphone"></a>
                                 <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                 <!-- <a class="fa fa-times opt-del" title="删除"> </a>
                                    -->

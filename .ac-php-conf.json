@@ -1,0 +1,14 @@
+{
+  "use-cscope": true,
+  "filter": {
+    "php-file-ext-list": [
+      "php"
+    ],
+    "php-path-list": [
+        "./app",
+        "./tests",
+        "./vendor/laravel/framework/src/Illuminate/Database/Schema/"
+    ],
+    "php-path-list-without-subdir": []
+  }
+}

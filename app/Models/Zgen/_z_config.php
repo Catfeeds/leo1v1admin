@@ -70,6 +70,7 @@ return array(
     ["db_weiyi","t_fulltime_teacher_attendance_list","id"] ,
     ["db_weiyi","t_test_lesson_require_teacher_list","id"] ,
     ["db_weiyi","t_student_type_change_list","id"] ,
+    ["db_weiyi","t_orderid_orderno_list","order_no"] ,
     ["db_weiyi","t_tongji_date","__null_"] ,
 
     ["db_weiyi","t_taobao_item","open_iid"] ,

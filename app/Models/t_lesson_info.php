@@ -3048,6 +3048,7 @@ lesson_type in (0,1) "
             ["teacherid=%u",$teacherid,0],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
+            "lesson_type<1000",
         ];
         $sql = $this->gen_sql_new("select sum(lesson_count) "
                                   ." from %s"

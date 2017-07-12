@@ -680,9 +680,10 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
     // 获取所推荐的不同类型的老师数
-    public function get_reference_num($phone,$type){
+    public function get_reference_num($phone,$type,$begin_time){
         $where_arr = [
             ["tla.reference='%s'",$phone,""],
+            ["tla.answer_begin_time>%u",$begin_time,0],
             "t.train_through_new=1",
             "t.trial_lecture_is_pass=1",
         ];

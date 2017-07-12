@@ -1130,7 +1130,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id_ass,"");
 
                 $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
-                
+
                 if(empty($master_adminid)){
                     $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
                     $num_all = count($ass_leader_arr);
@@ -1166,7 +1166,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
             }elseif(!empty($user_info["init_info_pdf_url"])){
                 if($user_info["origin_userid"] >0){
-                   
+
                     $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
                     if(empty($master_adminid)){
                         $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
@@ -1596,7 +1596,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $arr;
 
     }
-   
+
 
     public function get_warning_stu_list(){
         $sql = $this->gen_sql_new("select s.userid, count(*) lesson_num, s.lesson_count_left, "
@@ -1900,9 +1900,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         return $this->main_get_list($sql);
 
-        
+
     }
-    
+
     public function get_refund_info($start_time,$end_time,$type=-1){
         $where_arr=[];
 
@@ -2349,7 +2349,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                  t_order_info::DB_TABLE_NAME,
                                  t_order_info::DB_TABLE_NAME,
                                  t_order_info::DB_TABLE_NAME,
-                                 t_order_info::DB_TABLE_NAME                                 
+                                 t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }

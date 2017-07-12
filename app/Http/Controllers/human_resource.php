@@ -3902,7 +3902,7 @@ class human_resource extends Controller
      * @param new_phone 转移的新的phone账号
      */
     public function change_teacher_to_new(){
-        $phone     = $this->get_in_int_val("phone");
+        $phone     = $this->get_in_str_val("phone");
         $new_phone = $this->get_in_str_val("new_phone");
         $acc       = $this->get_account();
 
@@ -3914,38 +3914,40 @@ class human_resource extends Controller
         }
 
         $new_teacherid = $this->t_teacher_info->get_teacherid_by_phone($new_phone);
-        if($new_teacherid>0){
-            return $this->output_err("新手机号已存在老师库中！请检查！",[
-                "new_teacherid" => $new_teacherid
-            ]);
+        if(!$new_teacherid){
+            $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+            if(empty($teacher_info)){
+                return $this->output_err("老师信息为空!请确定老师手机是否正确!".$phone);
+            }
+
+            $add_info = [
+                "acc"                   => $acc,
+                "wx_use_flag"           => $teacher_info['wx_use_flag'],
+                "trial_lecture_is_pass" => $teacher_info['trial_lecture_is_pass'],
+                "train_through_new"     => $teacher_info['train_through_new'],
+                "level"                 => 1,
+                "subject"               => $teacher_info['subject'],
+                "tea_nick"              => $teacher_info['nick'],
+                "realname"              => $teacher_info['realname'],
+                "phone_spare"           => $phone,
+                "phone"                 => $new_phone,
+                "identity"              => $teacher_info['identity'],
+                "grade_start"           => $teacher_info['grade_start'],
+                "grade_end"             => $teacher_info['grade_end'],
+                "grade"                 => $teacher_info['grade_part_ex'],
+                "email"                 => $teacher_info['email'],
+                "school"                => $teacher_info['school'],
+                "send_sms_flag"         => 0,
+                "use_easy_pass"         => 1,
+                "transfer_teacherid"    => $teacher_info['teacherid'],
+                "transfer_time"         => time(),
+            ];
+            $new_teacherid = $this->add_teacher_common($add_info);
+        }else{
+            return $this->output_err("新手机老师账号已存在！");
         }
 
-        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
-        if(empty($teacher_info)){
-            return $this->output_err("老师信息为空!请确定老师手机是否正确!".$phone);
-        }
-
-        $add_info = [
-            "acc"                   => $acc,
-            "wx_use_flag"           => $teacher_info['wx_use_flag'],
-            "trial_lecture_is_pass" => $teacher_info['trial_lecture_is_pass'],
-            "train_through_new"     => $teacher_info['train_through_new'],
-            "level"                 => 1,
-            "subject"               => $teacher_info['subject'],
-            "tea_nick"              => $teacher_info['nick'],
-            "realname"              => $teacher_info['realname'],
-            "phone_spare"           => $phone,
-            "phone"                 => $new_phone,
-            "identity"              => $teacher_info['identity'],
-            "grade_start"           => $teacher_info['grade_start'],
-            "grade_end"             => $teacher_info['grade_end'],
-            "email"                 => $teacher_info['email'],
-            "school"                => $teacher_info['school'],
-            "send_sms_flag"         => 0,
-        ];
-        $new_teacherid = $this->add_teacher_common($add_info);
-
-        return $this->output_succ(["data"=>$teacher_info]);
+        return $this->output_succ(["new_teacherid"=>$new_teacherid]);
     }
 
     public function check_phone_exists($phone){

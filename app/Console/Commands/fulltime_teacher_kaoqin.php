@@ -72,30 +72,30 @@ class fulltime_teacher_kaoqin extends Command
         }
 
         //第二天满8课时,在家办公(教研/全职老师)
-        if($w >=2){
-            $start_time = strtotime(date("Y-m-d",$time))+86400;
-            $end_time = $start_time + 86400;
-            $lesson_info = $task->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
-            $list=[];
-            foreach($lesson_info as $val){
-                if($val["lesson_type"]==1100 && $val["train_type"]==5){
-                    @$list[$val["uid"]] += 0.8;
-                }elseif($val["lesson_type"]==2){
-                    @$list[$val["uid"]] += 1.5;
-                }else{
-                    @$list[$val["uid"]] += $val["lesson_count"]/100;
-                }
+        // if($w >=2){
+        $start_time = strtotime(date("Y-m-d",$time))+86400;
+        $end_time = $start_time + 86400;
+        $lesson_info = $task->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
+        $list=[];
+        foreach($lesson_info as $val){
+            if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                @$list[$val["uid"]] += 0.8;
+            }elseif($val["lesson_type"]==2){
+                @$list[$val["uid"]] += 1.5;
+            }else{
+                @$list[$val["uid"]] += $val["lesson_count"]/100;
             }
-            $name_list ="";
-            $num=0;
-            $name_list_research="";
-            $num_research=0;
-            foreach($list as $k=>$item){
-                if($item>=8){
-                     $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
-                    /* $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天课时满8小时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
-                       $task->t_manager_info->send_wx_todo_msg_by_adminid (480,"在家办公通知","明天课时满8小时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");*/
-
+        }
+        $name_list ="";
+        $num=0;
+        $name_list_research="";
+        $num_research=0;
+        foreach($list as $k=>$item){
+            if($item>=8){
+                $account_role = $task->t_manager_info->get_account_role($k);
+                if($account_role==5 && $w >=2){
+                    $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+              
                     $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($k);                   
                     $teacherid = $teacher_info["teacherid"];
                     $realname = $task->t_teacher_info->get_realname($teacherid);
@@ -107,34 +107,47 @@ class fulltime_teacher_kaoqin extends Command
                         "day_num"           =>1,
                         "adminid"           =>$k
                     ]);
-                    $account_role = $task->t_manager_info->get_account_role($k);
-                    if($account_role==5){
-                        $name_list .= $realname.",";
-                        $num++;
-                    }elseif($account_role==4){
-                        $name_list_research .= $realname.",";
-                        $num_research++;
-                    }
  
+                    $name_list .= $realname.",";
+                    $num++;
+                }elseif($account_role==4){
+                    $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+              
+                    $teacher_info = $task->t_manager_info->get_teacher_info_by_adminid($k);                   
+                    $teacherid = $teacher_info["teacherid"];
+                    $realname = $task->t_teacher_info->get_realname($teacherid);
+                    $task->t_fulltime_teacher_attendance_list->row_insert([
+                        "teacherid"  =>$teacherid,
+                        "add_time"   =>$time,
+                        "attendance_type" =>1,
+                        "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
+                        "day_num"           =>1,
+                        "adminid"           =>$k
+                    ]);
+
+                    $name_list_research .= $realname.",";
+                    $num_research++;
                 }
+ 
             }
-            $name_list = trim($name_list,",");
-            $name_list_research = trim($name_list_research,",");
-            if($num>0){
-                $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");
-                $task->t_manager_info->send_wx_todo_msg_by_adminid (480,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");                               
+        }
+        $name_list = trim($name_list,",");
+        $name_list_research = trim($name_list_research,",");
+        if($num>0){
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (480,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");                               
 
-            }
-            if($num_research>0){
-                $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天在家办公教研老师名单","明天有如下".$num_research."位老师满8课时,可在家办公,具体名单如下:".$name_list_research,"");
-                $task->t_manager_info->send_wx_todo_msg_by_adminid (72,"在家办公通知","明天在家办公教研老师名单","明天有如下".$num_research."位老师满8课时,可在家办公,具体名单如下:".$name_list_research,"");                               
+        }
+        if($num_research>0){
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天在家办公教研老师名单","明天有如下".$num_research."位老师满8课时,可在家办公,具体名单如下:".$name_list_research,"");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (72,"在家办公通知","明天在家办公教研老师名单","明天有如下".$num_research."位老师满8课时,可在家办公,具体名单如下:".$name_list_research,"");                               
 
-            }
+        }
 
                      
 
             
-        }
+            //}
        
               
     }

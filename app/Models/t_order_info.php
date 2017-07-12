@@ -2371,4 +2371,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             return $item['orderid'];
         });
     }
+
+    public function get_master_openid_by_orderid($orderid){
+        $sql = $this->gen_sql_new(" select s.userid,m.wx_openid, s.nick from %s o ".
+                                  " left join %s s on s.userid= o.userid ".
+                                  " left join %s m on m.uid = s.ass_master_adminid ".
+                                  " where o.orderid=$orderid",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME
+        );
+
+
+        return $this->main_get_row($sql);
+    }
+
 }

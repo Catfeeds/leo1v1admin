@@ -73,5 +73,5 @@ class z_t_user_info  extends  \App\Models\NewModel
   `reg_ip` int(10) unsigned NOT NULL COMMENT '注册ip',
   `reg_time` int(10) unsigned NOT NULL COMMENT '注册时间',
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=62640 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=62647 DEFAULT CHARSET=utf8
  */

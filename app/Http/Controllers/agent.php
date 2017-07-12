@@ -72,34 +72,117 @@ class agent extends Controller
 
 
     public function check(){
+        // $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
+        $time = strtotime('2017-7-12 18:00:00');
+        $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];
+        $lesson_info = $this->t_lesson_info_b2->get_check_lesson($lesson_start);
+        // dd($lesson_start,$lesson_info);
+        if(count($lesson_info)>0){
+            foreach($lesson_info as $key=>$l_item){
+                $ret = [
+                    'lessonid'       => $l_item['lessonid'],
+                    'lesson_type'    => $l_item['lesson_type'],
+                    'tea_attend'     => $l_item['tea_attend'],
+                    'stu_attend'     => $l_item['stu_attend'],
+                    'teacher_openid' => $l_item['teacher_openid'],
+                    'assistantid'    => $l_item['assistantid'],
+                    'cc_id'          => $l_item['cc_id'],
+                ];
+                if($l_item['lesson_start'] == $time+300){//课前5分钟
+                    $ret['work_type'] = 0;
+                    dd($ret);
+                    if(!isset($l_item['tea_attend'])){
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                }elseif($l_item['lesson_start'] == $time-60){//上课1分钟
+                    $ret['work_type'] = 1;
+                    dd($ret);
+                    if(!isset($l_item['stu_attend'])){
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                }elseif($l_item['lesson_start'] == $time-180){//上课3分钟
+                    $ret['work_type'] = 2;
+                    dd($ret);
+                }elseif($l_item['lesson_start'] == $time-300){//上课5分钟
+                    $ret['work_type'] = 3;
+                    dd($ret);
+                }elseif($l_item['lesson_start'] == $time-600){//上课10分钟
+                    $ret['work_type'] = 4;
+                    dd($ret);
+                    if(!isset($l_item['tea_attend'])){
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                    if(!isset($l_item['stu_attend'])){
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                }elseif($l_item['lesson_start'] == $time-1200){//上课20分钟
+                    $ret['work_type'] = 5;
+                    dd($ret);
+                }elseif($l_item['lesson_start'] == $time-2400){//上课40分钟
+                    $ret['work_type'] = 6;
+                    if(isset($l_item['tea_attend'])){
+                        $this->lessonid       = $ret['lessonid'];
+                        $this->lesson_type    = $ret['lesson_type'];
+                        $this->tea_attend     = $ret['tea_attend'];
+                        $this->stu_attend     = $ret['stu_attend'];
+                        $this->teacher_openid = $ret['teacher_openid'];
+                        $this->assistantid    = $ret['assistantid'];
+                        $this->cc_id          = $ret['cc_id'];
+                        $this->work_type      = $ret['work_type'];
+
+                        $lessonid       = $this->lessonid;
+                        dd($lessonid);
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                    if(!isset($l_item['stu_attend'])){
+                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
+                        dispatch($job);
+                    }
+                }else{//学生中途退出超过5分钟
+                    $ret['work_type'] = 7;
+                    dd($ret);
+                }
+            }
+            list($this->lessonid,$this->lesson_type,
+                 $this->tea_attend,$this->stu_attend,$this->teacher_openid,
+                 $this->$assistantid,$this->$cc_id,$this->work_type) = $ret;
+
+        }
+
+
         // $phone = '13022221195';
         // $phone = '13902236712';   //1
         // $phone = '13818732888';      //2
         // $phone = '13162561667';
         // $pay = $this->check_agent_level($phone);
         // $pay = $this->add_agent_order();
-        $phone = trim($this->get_in_str_val('phone'));
-        $code_flag= $this->get_in_int_val("code_flag",0) ;
-        $phone = '15251318621';
-        $code_flag = 1;
-        if ( strlen($phone) != 11) {
-            return $this->output_err("电话号码出错");
-        }
-        \App\Helper\Utils::logger("sessionid:".session_id());
+        // $phone = trim($this->get_in_str_val('phone'));
+        // $code_flag= $this->get_in_int_val("code_flag",0) ;
+        // $phone = '15251318621';
+        // $code_flag = 1;
+        // if ( strlen($phone) != 11) {
+        //     return $this->output_err("电话号码出错");
+        // }
+        // \App\Helper\Utils::logger("sessionid:".session_id());
 
-        $msg_num = \App\Helper\Common::redis_set_json_date_add("STU_PHONE_$phone",1000000);
-        $code    = rand(1000,9999);
+        // $msg_num = \App\Helper\Common::redis_set_json_date_add("STU_PHONE_$phone",1000000);
+        // $code    = rand(1000,9999);
 
-        \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
-        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
-            "code" => $code,
-            "index" => $msg_num
-        ] );
-        $ret_arr= ["msg_num" =>$msg_num  ];
-        if ( $code_flag ) {
-            $ret_arr["code"] =  $code;
-        }
-        return $this->output_succ($ret_arr);
+        // \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
+        // $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
+        //     "code" => $code,
+        //     "index" => $msg_num
+        // ] );
+        // $ret_arr= ["msg_num" =>$msg_num  ];
+        // if ( $code_flag ) {
+        //     $ret_arr["code"] =  $code;
+        // }
+        // return $this->output_succ($ret_arr);
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0

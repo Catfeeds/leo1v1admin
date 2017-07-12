@@ -629,9 +629,6 @@ class user_manage_new extends Controller
         }
         //$up_master_adminid=-1;
 
-        \App\Helper\Utils::logger("account_id1:$account_id,up_master_adminid1:$up_master_adminid");
-
-
         $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str);
 
         $money_all=0;

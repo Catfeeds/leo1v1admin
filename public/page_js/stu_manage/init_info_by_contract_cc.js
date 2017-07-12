@@ -56,55 +56,6 @@ $(function(){
 
     }
 
-    $("#id_submit").on("click",function(){
-        var url_arr = GetRequest();
-
-        var input= $(".form-control");
-        var arr={
-        };
-        input.each(function(){
-            var $item=$(this);
-            var id=$item.attr("id");
-            if (id.substr(0,3 )=="id_") {
-                var name=id.substr(3 );
-                arr[name]=$.trim($item.val());
-            }
-        });
-        var check_field_list=["subject_info","order_info"
-                              ,"teacher", "first_lesson_time",
-                              "common_lesson_time","teacher_info" ,"test_lesson_info"
-                              ,"lesson_plan","except_lesson_count","parent_other_require"
-                             ];
-
-        var check_flag=true;
-        var check_err_field="";
-        $(check_field_list).each(function(){
-            var name=this;
-            if (!arr[name]) {
-                check_flag=false;
-
-                check_err_field=name;
-                return false;
-            }
-        });
-        if (!check_flag) {
-            var field_title= $("#id_"+check_err_field ).parent().find(".field-name").text();
-            alert( field_title+"不能为空");
-
-            return ;
-        }else{
-            arr['orderid'] = url_arr['orderid'];
-            $.do_ajax( "/user_deal/set_stu_cc_to_cr_info", {
-                "userid" : g_args.sid,
-                "ispost" : 0,
-                data : JSON.stringify(arr )
-            });
-        }
-
-
-    });
-
-
 
     $("#id_submit_succ").on("click",function(){
         var url_arr = GetRequest();

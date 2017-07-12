@@ -405,16 +405,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if (substr($url,0,7 )!="http://") {
             $url="http://admin.yb1v1.com/".trim($url,"/ \t");
         }
-        \App\Helper\Utils::logger("WX URLxj $url");
 
         $wx     = new \App\Helper\Wx();
         $openid = $this->get_wx_openid_by_account($account);
         if ($openid) {
-            \App\Helper\Utils::logger('openidxj'.$openid);
-
             $ret = $wx->send_template_msg($openid,$template_id,$data ,$url);
-            \App\Helper\Utils::logger('xjmuban1'.$ret);
-
         }else{
             return false;
         }

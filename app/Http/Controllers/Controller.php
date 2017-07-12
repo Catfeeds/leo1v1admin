@@ -79,6 +79,7 @@ require_once( app_path() ."/Helper/functions.php"  );
  * @property  \App\Models\t_fulltime_teacher_attendance_list  	 $t_fulltime_teacher_attendance_list
  * @property  \App\Models\t_test_lesson_require_teacher_list  	 $t_test_lesson_require_teacher_list
  * @property  \App\Models\t_student_type_change_list  	 $t_student_type_change_list
+ * @property  \App\Models\t_orderid_orderno_list  	 $t_orderid_orderno_list
  * @property  \App\Models\t_tongji_date  	 $t_tongji_date
  * @property  \App\Models\t_taobao_item  	 $t_taobao_item
  * @property  \App\Models\t_taobao_type_list  	 $t_taobao_type_list

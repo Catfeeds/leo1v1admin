@@ -674,7 +674,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $this->where_arr_add_int_or_idlist($where_arr,'l.lesson_start',$lesson_start);
 
         $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_type,l.lesson_start,l.lesson_end,l.tea_attend,"
-                                  ."l.stu_attend,l.teacherid,l.assistantid,t.phone,t.wx_openid,"
+                                  ."l.stu_attend,l.teacherid,l.assistantid,t.phone,t.wx_openid teacher_openid,"
                                   ."s.require_adminid as cc_id "
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid=l.lessonid "

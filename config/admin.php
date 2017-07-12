@@ -25,6 +25,7 @@ return [
     'monitor_url' => env('MONITOR_URL', 'http://monitor.yb1v1.com/'),
     'monitor_new_url' => env('MONITOR_NEW_URL', 'http://admin.yb1v1.com'),
     "lesson_confirm_start_time" => "2017-05-01",
+    "teacher_ref_start_time"    => "2017-07-01",
     "test" => [
         "username"  =>   'jim',
         "password"  =>   env('TEST_PASSWORD', 'xcwen142857'),

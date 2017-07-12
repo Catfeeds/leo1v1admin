@@ -306,6 +306,8 @@ class NewRouteConfig {
 
         "/stu_manage/index"                    => true,
         "/stu_manage/score_list"                    => true,
+        "/stu_manage/todo_list"                    => true,
+        
         "/stu_manage/call_list"                    => true,
         "/stu_manage/set_week_comment_num"     => true,
         "/stu_manage/set_enable_video"         => true,

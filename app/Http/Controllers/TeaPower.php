@@ -865,8 +865,8 @@ trait  TeaPower {
         $lend      = $date_week["edate"];
 
         $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
-        if($test_lesson_num >=12){
-            return $this->output_err("该老师该周已有12课时课!不可以做限课特殊申请!");
+        if($test_lesson_num >=10){
+            return $this->output_err("该老师该周已有10课时课!不可以做限课特殊申请!");
         }
 
         //申请数量限制
@@ -1167,8 +1167,8 @@ trait  TeaPower {
      * @param int train_through_new 是否通过培训 0 不是 1 是
      * @param int teacher_money_type 老师工资类型
      * @param int level 老师工资等级
-     * @param int grade 老师年级
-     * @param int subject 老师科目
+     * @param int subject 老师第一科目
+     * @param int grade 老师第一科目年级
      * @param string tea_nick 老师昵称
      * @param string realname 老师真实姓名
      * @param string phone_spare 老师额外的联系方式
@@ -1184,6 +1184,9 @@ trait  TeaPower {
      * @param int grade_end 老师年级结束范围
      * @param string email 邮箱
      * @param string school 学校
+     * @param int transfer_teacherid 转移自此teacherid
+     * @param int transfer_time 转移时间
+     * @param string interview_access 老师面试评价
      */
     public function add_teacher_common($teacher_info){
         $phone = $teacher_info['phone'];
@@ -1218,6 +1221,9 @@ trait  TeaPower {
         \App\Helper\Utils::set_default_value($grade_end,$teacher_info,0,"grade_end");
         \App\Helper\Utils::set_default_value($email,$teacher_info,"","email");
         \App\Helper\Utils::set_default_value($school,$teacher_info,"","school");
+        \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
+        \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
+        \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
 
         $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
         $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
@@ -1260,7 +1266,7 @@ trait  TeaPower {
         }
 
         $this->t_teacher_info->add_teacher_info_to_ejabberd($teacherid,$passwd_md5);
-        if($grade_start==0 && $grade_end==0){
+        if($grade_start!=0 && $grade_end!=0){
             $grade_range = ["grade_start"=>$grade_start,"grade_end"=>$grade_end];
         }else{
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
@@ -1274,7 +1280,7 @@ trait  TeaPower {
             "teacher_money_type"     => $teacher_money_type,
             "level"                  => $level,
             "subject"                => $subject,
-            "grade"                  => $grade,
+            "grade_part_ex"          => $grade,
             "grade_start"            => $grade_range['grade_start'],
             "grade_end"              => $grade_range['grade_end'],
             "not_grade"              => $not_grade,
@@ -1291,6 +1297,9 @@ trait  TeaPower {
             "base_intro"             => $base_intro, 
             "email"                  => $email, 
             "school"                 => $school, 
+            "transfer_teacherid"     => $transfer_teacherid, 
+            "transfer_time"          => $transfer_time, 
+            "interview_access"       => $interview_access, 
         ]);
 
         if(!$ret){

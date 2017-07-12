@@ -2577,38 +2577,51 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
-        $id = $this->t_ass_weekly_info->get_id_by_unique_record(433,1496592000,1);
-        dd($id);
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
-        
-         $start_time = strtotime("2017-05-01");
-        $end_time = strtotime("2017-06-01");
-        $list = $this->get_ass_refund_score($start_time,$end_time);
-        dd($list);
-        $list = $this->t_order_refund->get_ass_refund_info_new($start_time,$end_time);
-        $arr=[];
-        foreach($list as $val){
-            $ss = $val["orderid"]."-".$val["apply_time"];
-            @$arr[$val["uid"]][$ss][$val["value"]]=$val["score"]; 
-        }
-
-        $refund_score = [];
-        foreach($arr as $uu=>$item){
-            foreach($item as $v){
-                $all=0;$ass=0;
-                foreach($v as $k=>$s){
-                    if($k=="助教部"){
-                        $ass = $s;
-                    }
-                    $all +=$s;
+        for($i=0;$i<=7;$i++){
+            $start_time = strtotime("2017-07-01")+86400*$i;
+            $end_time = $start_time + 86400;
+            $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
+            $list=[];
+            foreach($lesson_info as $val){
+                if($val["lesson_type"]==1100 && $val["train_type"]==5){
+                    @$list[$val["uid"]] += 0.8;
+                }elseif($val["lesson_type"]==2){
+                    @$list[$val["uid"]] += 1.5;
+                }else{
+                    @$list[$val["uid"]] += $val["lesson_count"]/100;
                 }
-                
-                @$refund_score[$uu] +=10*$ass/$all;
             }
+            $name_list ="";
+            $num=0;
+            $name_list_research="";
+            $num_research=0;
+            foreach($list as $k=>$item){
+                if($item>=8){
+                    $account_role = $this->t_manager_info->get_account_role($k);
+                    if($account_role==4){
+                        //$task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
+              
+                        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($k);                   
+                        $teacherid = $teacher_info["teacherid"];
+                        $realname = $this->t_teacher_info->get_realname($teacherid);
+                        $this->t_fulltime_teacher_attendance_list->row_insert([
+                            "teacherid"  =>$teacherid,
+                            "add_time"   =>time(),
+                            "attendance_type" =>1,
+                            "attendance_time"  =>$start_time,
+                            "day_num"           =>1,
+                            "adminid"           =>$k
+                        ]);
+
+                    }
+ 
+                }
+            }
+  
         }
-        dd($score);
-        
+       
+        dd(111);
+
         $orderid     = 15758;
         $apply_time  = 1495781631;
         $list        = $this->t_refund_analysis->get_ass_list($orderid,$apply_time);
@@ -2665,7 +2678,7 @@ class user_deal extends Controller
 【关于理优】<br>
 理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）"
         ));
-     
+
     }
 
     public function get_admin_wx_info() {
@@ -3568,7 +3581,7 @@ class user_deal extends Controller
         $this->t_fulltime_teacher_attendance_list->row_delete($id);
         return $this->output_succ();
     }
-    
+
     public function del_teacher_require_deal(){
         $id=$this->get_in_int_val("id");
         $this->t_change_teacher_list->row_delete($id);
@@ -4520,6 +4533,7 @@ class user_deal extends Controller
 
     public function set_stu_cc_to_cr_info(){
 
+        $cc_nick = $this->get_account();
         $cc_id  = $this->get_account_id();
         $ispost = $this->get_in_int_val('ispost');
         $data = \App\Helper\Utils::json_decode_as_array($this->get_in_str_val("data"));
@@ -4565,8 +4579,6 @@ class user_deal extends Controller
                 return $this->output_err('首次上课时间不得早于9点!');
             }
         }
-
-
 
         if($data["week_lesson_num"]==0){
              return $this->output_err("每周课次不能为0");
@@ -4619,6 +4631,24 @@ class user_deal extends Controller
                 "first_lesson_time"    => $data['first_lesson_time']
             ]);
 
+            /**
+               cc 驳回处理后 给cr发送微信推送
+            **/
+
+            if($state_arr['reject_flag'] == 1 ){
+                $master_arr = $this->t_order_info->get_master_openid_by_orderid($data['orderid']);
+                $wx     = new \App\Helper\Wx();
+                $url = '/user_manage_new/ass_contract_list?studentid='.$master_arr['userid'];
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+                $data_msg = [
+                    "first"     => $cc_nick."已处理 ".$master_arr['nick']."同学被驳回的交接单 ",
+                    "keyword1"  => " CC交接单驳回处理完成",
+                    "keyword2"  => " CC交接单驳回处理完成",
+                    "keyword3"  => " 提交时间:".date('Y-m-d H:i:s'),
+                ];
+                $wx->send_template_msg($master_arr['wx_openid'],$template_id,$data_msg ,$url);
+            }
+
         }else{
             // 更新
             $this->t_student_cc_to_cr->field_update_list($state_arr['id'],$data);
@@ -4631,8 +4661,9 @@ class user_deal extends Controller
             "seller_adminid" => $this->get_account_id(),
         ]);
 
-        $account=$this->get_account();
-        $this->t_student_info->noti_ass_order($userid, $account );
+
+        // $account=$this->get_account();
+        // $this->t_student_info->noti_ass_order($userid, $account );
         return $this->output_succ();
     }
 
@@ -4681,7 +4712,6 @@ class user_deal extends Controller
              **/
 
             if($ret){
-                \App\Helper\Utils::logger("rejeic");
 
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
@@ -4693,7 +4723,6 @@ class user_deal extends Controller
                 $url = 'http://admin.yb1v1.com/stu_manage/init_info_by_contract_cr?orderid='.$orderid;
                 $wx  = new \App\Helper\Wx();
                 $result = $wx->send_template_msg($cc_openid,$template_id,$data_msg,$url);
-                \App\Helper\Utils::logger("jieguyiu:$cc_openid");
             }
 
         }else{

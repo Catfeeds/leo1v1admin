@@ -613,15 +613,20 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=10",
             ["tr.trial_train_status=%u",$trial_train_status,-1]
         ];
-        $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,l.subject,count(*) all_num,tt.identity "
+        $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,l.subject,count(*) all_num,"
+                                  ." if(tal.teacher_type>0,tal.teacher_type,tt.identity) identity "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." where %s and l.subject>0 group by tt.identity",
+                                  ." left join %s tal on tt.phone_spare = tal.phone and not exists ("
+                                  ." select 1 from %s taa where taa.phone=tal.phone and tal.answer_begin_time<taa.answer_begin_time)"
+                                  ." where %s and l.subject>0 group by tal.teacher_type ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){

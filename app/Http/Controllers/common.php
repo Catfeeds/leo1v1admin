@@ -341,7 +341,11 @@ class common extends Controller
                             }else{
                                 $type = 2;
                             }
-                            $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num($reference_info['phone'],$type);
+                            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+                            $begin_time = strtotime($begin_date);
+                            $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+                                $reference_info['phone'],$type,$begin_time
+                            );
                             $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
                             $this->t_teacher_money_list->row_insert([
                                 "teacherid"  => $reference_info['teacherid'],
@@ -698,7 +702,7 @@ class common extends Controller
 
         if(is_array($msg_arr) && !empty($msg_arr)){
             extract($msg_arr);
-            $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url);
+            $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url,$desc);
         }
     }
 
@@ -900,9 +904,13 @@ class common extends Controller
         $channel = strtolower($channel);
 
 
-        $orderNo = $orderid+1000000000;
-        $orderNo = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-        dd($orderNo);
+        // $orderNo = $orderid+1000000000;
+        if($channel=="cmb_wallet"){            
+            $orderNo = substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 10);
+        }else{
+            $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+        }
+        //  dd($orderNo);
         /**
          * 设置请求签名密钥，密钥对需要你自己用 openssl 工具生成，如何生成可以参考帮助中心：https://help.pingxx.com/article/123161；
          * 生成密钥后，需要在代码中设置请求签名的私钥(rsa_private_key.pem)；
@@ -1011,6 +1019,12 @@ class common extends Controller
                 )
             );
 
+            if($ch){
+                $this->t_orderid_orderno_list->row_insert([
+                    "order_no"  =>$orderNo,
+                    "orderid"   =>$orderid
+                ]);
+            }
             //echo $ch;// 输出 Ping++ 返回的支付凭据 Charge
             //dd(json_decode($ch,true));
             return $this->output_succ(["charge"=>$ch]);
@@ -1047,10 +1061,13 @@ class common extends Controller
             // 开发者在此处加入对支付异步通知的处理代码
             header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
             $orderNo = $event->data->object->order_no;
-            $orderid=  $orderNo-1000000000;
+            $channel = $event->data->object->channel;
+            $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $this->t_order_info->field_update_list($orderid,[
                 "order_status" =>1,
-                "contract_status"=>1
+                "contract_status"=>1,
+                "pay_time"       =>time(),
+                "channel"        =>$channel
             ]);
             break;
         case "refund.succeeded":
@@ -1192,54 +1209,4 @@ class common extends Controller
     }
 
 
-    // public function cny($ns){ //数字转中文
-    //     $cnums     = array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖");
-    //     $cnyunits  = array("圆");
-    //     $cnyunits2 = array('角',"分");
-    //     $grees     = array("拾","佰","仟","万","拾","佰","仟","亿");
-    //     $arr=explode(".",$ns,2);
-    //     $ns1 = $arr[0];
-    //     if(count($arr)>1){ // 处理小数点后面数字
-    //         $ns2 = $arr[1];
-    //         $ns2_arr = str_split($ns2);
-    //         $jiao = [];
-    //         foreach($ns2_arr as $index=>$item){
-    //             if($item == 0){
-    //                 $n = '';
-    //             }else{
-    //                 $n = $item.$cnyunits2[$index];
-    //             }
-    //             array_push($jiao,$n);
-    //         }
-    //         $ret2 = implode("",$jiao);
-    //         $ret=array(implode("",$this->_cny_map_unit(str_split($ns1),$grees)),"");
-    //     }else{
-    //         $ret=array(implode("",$this->_cny_map_unit(str_split($ns1),$grees)),"");
-    //     }
-    //     $ret=implode("",array_reverse($this->_cny_map_unit($ret,$cnyunits)));
-    //     if(isset($ret2)){
-    //         $ret = $ret.$ret2;
-    //     }
-    //     return str_replace(array_keys($cnums),$cnums,$ret);
-    // }
-
-
-    // function _cny_map_unit($list,$units) {
-    //     $ul=count($units);
-    //     $xs=array();
-    //     foreach (array_reverse($list) as $x) {
-    //         $l=count($xs);
-    //         if ($x!="0" || !($l%4)){
-    //             if($l>0){
-    //                 $n=($x=='0'?'':$x).($units[($l-1)%$ul]);
-    //             }else{
-    //                 $n=($x=='0'?'':$x);
-    //             }
-    //         }else{
-    //             $n=is_numeric($xs[0])?$x:'';
-    //         }
-    //         array_unshift($xs,$n);
-    //     }
-    //     return $xs;
-    // }
 }
