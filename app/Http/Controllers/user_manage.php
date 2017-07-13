@@ -548,7 +548,7 @@ class user_manage extends Controller
         $old_type= $this->t_student_info->get_type($userid);
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
-        // if($type != $old_type){
+        if($type != $old_type){
             $ret_note= $this->t_student_info->field_update_list($userid,[
                 "type_change_time"  =>time()
             ]);
@@ -564,7 +564,7 @@ class user_manage extends Controller
                 "recover_time"=>$recover_time,
                 "stop_duration"=>$stop_duration
             ]);
-        // }
+        }
 
         //echo "11";
         //dd($ret_note);exit;
