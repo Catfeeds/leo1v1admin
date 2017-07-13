@@ -2669,7 +2669,7 @@ lesson_type in (0,1) "
      */
     public function get_lesson_list_for_wages($teacherid,$start,$end,$studentid=-1){
         $where_arr = [
-            ["l.teacherid=%u",$teacherid,0],
+            ["l.teacherid=%u",$teacherid,-1],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
@@ -2682,7 +2682,8 @@ lesson_type in (0,1) "
                                   ." already_lesson_count,l.lesson_count,sum(o.price) as lesson_price,"
                                   ." lesson_cancel_time_type,lesson_cancel_reason_type,t.teacher_type,"
                                   ." m.money,m.type,m.level,m.teacher_money_type,"
-                                  ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,l.competition_flag"
+                                  ." tl.test_lesson_fail_flag,tl.fail_greater_4_hour_flag,"
+                                  ." l.competition_flag"
                                   ." from %s l "
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on l.userid=s.userid "

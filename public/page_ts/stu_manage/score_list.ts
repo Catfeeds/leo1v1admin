@@ -2,12 +2,13 @@
 /// <reference path="../g_args.d.ts/stu_manage-course_list.d.ts" />
 
 $(function(){
+    
     $(".opt-del").on("click",function(){
 	      var opt_data = $(this).get_opt_data();
 	      BootstrapDialog.confirm("要删除学生是["+opt_data.userid+"]的考试信息吗?",function(val){
 		        if(val){
 		            $.do_ajax("/ajax_deal2/score_del",{
-			              "id" : opt_data.id	
+			              "id" : opt_data.id,
 			          });
 		        }
 	      });
