@@ -73,7 +73,7 @@ class lesson_check extends Job implements ShouldQueue
 
         }elseif($work_type == 4){//上课10分钟
             if(!$tea_attend){
-                $this->send_wx_to_teacher($teacher_openid);
+                $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
             }
             if(!$stu_attend){
                 $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
@@ -82,7 +82,7 @@ class lesson_check extends Job implements ShouldQueue
 
         }elseif($work_type == 6){//上课40分钟
             if(!$tea_attend){
-                $this->send_wx_to_teacher($teacher_openid);
+                $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
             }
             if(!$stu_attend){
                 $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
