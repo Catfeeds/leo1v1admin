@@ -173,13 +173,14 @@ class all_type_interview_info_send_wx extends Command
 
         $train_all = $task->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,-1);
         $train_succ = $task->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,1);
+        $train_real = $task->t_lesson_info_b2->get_all_train_num_real($start,$end_time,$teacher_list,-1);
         $train_all_per = round($train_all/650*100,2)."%";
         $train_succ_per = round($train_succ/650*100,2)."%";
         $arr2=["72","478","486","448","871"];
         //$arr2=["349"];
 
         foreach($arr2 as $val){ 
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($val,"本月培训信息报告","招聘月项目进度汇总","本月累计入职数:".$all_tea."人,参与培训数:".$train_all."人,通过培训数:".$train_succ."人,培训完成率:".$train_all_per.",培训通过率:".$train_succ_per.";
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($val,"本月培训信息报告","招聘月项目进度汇总","本月累计入职数:".$all_tea."人,参与培训数:".$train_all."人,培训实到人数:".$train_real.",通过培训数:".$train_succ."人,培训完成率:".$train_all_per.",培训通过率:".$train_succ_per.";
 招聘月KPI指标:一周需要进行多次培训,累计需要培训通过650人,考核周期6月18日到7月31号,大家加油冲锋!",""); 
         }
 

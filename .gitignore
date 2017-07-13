@@ -1,0 +1,6 @@
+app/Enums/*
+app/Models/Zgen/*
+app/Http/Controllers/ControllerEx.php
+old
+public/page_js/enum_map.js
+storage

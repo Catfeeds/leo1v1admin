@@ -86,24 +86,24 @@ class agent extends Controller
         // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
         // dd('a');
 
-        $teacher_openid = 'oJ_4fxFUMHpPlf-ibtKD2vuWTKp4';
-        $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
-        $url = 'www.leo1v1.com';
-        $data = [
-            'first'    => '1',
-            'keyword1' => '2',
-            'keyword2' => '3',
-            'keyword3' => '4',
-            'remark'   => '5',
-        ];
+        // $teacher_openid = 'oJ_4fxFUMHpPlf-ibtKD2vuWTKp4';
+        // $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+        // $url = 'www.leo1v1.com';
+        // $data = [
+        //     'first'    => '1',
+        //     'keyword1' => '2',
+        //     'keyword2' => '3',
+        //     'keyword3' => '4',
+        //     'remark'   => '5',
+        // ];
         // dd($template_id_teacher);
-        \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher,$data,$url);
+        // \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher,$data,$url);
 
         // $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
         $time = strtotime('2017-7-12 18:00:00');
         $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];
         $lesson_info = $this->t_lesson_info_b2->get_check_lesson($lesson_start);
-        // dd($lesson_start,$lesson_info);
+        dd($lesson_start,$lesson_info);
         if(count($lesson_info)>0){
             foreach($lesson_info as $key=>$l_item){
                 $ret = [
