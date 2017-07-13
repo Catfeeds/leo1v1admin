@@ -1,7 +1,0 @@
-	teacherid	:any;
-	userid	:any;
-	lesson_start	:any;
-	lesson_end	:any;
-	student_nick	:any;
-	teacher_nick	:any;
-	lesson_time	:any;

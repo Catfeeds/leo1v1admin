@@ -1,6 +1,0 @@
-	teacherid	:any;
-	nick	:any;
-	tutor_subject	:any;
-	teacher_type	:any;
-	tea_nick	:any;
-	quiz_num	:any;

@@ -1,7 +1,0 @@
-	machine_id	:any;
-	open_door_flag	:any;
-	last_post_time	:any;
-	sn	:any;
-	title	:any;
-	desc	:any;
-	open_door_flag_str	:any;

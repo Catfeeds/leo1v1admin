@@ -1,8 +1,0 @@
-	id	:any;
-	create_time	:any;
-	summary	:any;
-	theme	:any;
-	moderator	:any;
-	address	:any;
-	teacher_join_info	:any;
-	create_time_str	:any;

@@ -66,27 +66,27 @@ class lesson_check extends Job implements ShouldQueue
         if($work_type == 0){ //课前5分钟
             $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
         }elseif($work_type == 1){//上课1分钟
-            $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
+            // $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
         }elseif($work_type == 2){//上课3分钟
 
         }elseif($work_type == 3){//上课5分钟
 
         }elseif($work_type == 4){//上课10分钟
             if(!$tea_attend){
-                $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
+                // $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
             }
             if(!$stu_attend){
-                $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
+                // $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
             }
         }elseif($work_type == 5){//上课20分钟
 
         }elseif($work_type == 6){//上课40分钟
             if(!$tea_attend){
-                $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
+                // $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
             }
             if(!$stu_attend){
-                $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
-                $this->cancel_lesson($lessonid);
+                // $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
+                // $this->cancel_lesson($lessonid);
             }
         }elseif($work_type == 7){//中途退出5分钟未再次进入
 

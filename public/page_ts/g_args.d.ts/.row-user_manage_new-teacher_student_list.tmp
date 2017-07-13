@@ -1,5 +1,0 @@
-	userid	:any;
-	subject	:any;
-	max_lesson_start	:any;
-	student_nick	:any;
-	subject_str	:any;

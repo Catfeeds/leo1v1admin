@@ -4,3 +4,9 @@ app/Http/Controllers/ControllerEx.php
 old
 public/page_js/enum_map.js
 storage
+table_config/.*.temp
+public/page_ts/g_args.d.ts/.*.tmp
+*#*
+.*
+node_modules/
+fonts/

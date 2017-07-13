@@ -1,7 +1,0 @@
-	grade_ex	:any;
-	all_num	:any;
-	all_count	:any;
-	suc_count	:any;
-	time_count	:any;
-	succ	:any;
-	grade_ex_str	:any;

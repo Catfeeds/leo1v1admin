@@ -40,9 +40,6 @@ class teacher_money extends Controller
         $time_list   = [];
         $lesson_list = [];
         $lesson_info = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
-        if($acc=="adrian"){
-            \App\Helper\Utils::debug_to_html( $lesson_info );
-        }
         if(!empty($lesson_info)){
             foreach($lesson_info as $key => &$val){
                 $base_list   = [];
@@ -628,6 +625,17 @@ class teacher_money extends Controller
             return $this->output_err("更新失败！请重试！");
         }
         return $this->output_succ();
+    }
+
+    public function grade_wages_list(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
+
+        $list = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time);
+
+        foreach($list as $val){
+            
+        }
+
     }
 
 }

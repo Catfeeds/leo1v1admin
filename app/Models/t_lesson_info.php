@@ -1968,17 +1968,18 @@ lesson_type in (0,1) "
         return $this->main_get_row($sql);
     }
 
-    public function get_user_list( $day_count="" )
+    public function get_user_list( $day_count="" ,$is_auto_set_type_flag=0)
     {
         $now=time(NULL);
         $where_arr=[
+            ["s.is_auto_set_type_flag = %u",$is_auto_set_type_flag,-1],
             " l.lesson_type in( 0, 1,3) ",
         ];
         if(!empty($day_count)){
             $where_arr[] = "l.lesson_start > $now - $day_count*86400" ;
         }
         $sql = $this->gen_sql_new("select distinct l.userid as userid from %s l left join %s s on l.userid = s.userid ".
-                                  "  where %s and  l.userid > 0 and s.is_auto_set_type_flag = 0  "
+                                  "  where %s and  l.userid > 0  "
                                   ." and lesson_del_flag=0 " ,
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -2673,7 +2674,7 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
         ];
-        $teacher_money_type_str=" l.teacher_money_type=m.teacher_money_type";
+        $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
                                   ." deduct_check_homework,deduct_change_class,deduct_rate_student,deduct_upload_cw,l.subject,"

@@ -391,6 +391,22 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_no_auto_read_stu_list()
+    {
+        $where_arr = [
+            "type=0",
+            "is_auto_set_type_flag = 1",
+        ];
+        $sql = $this->gen_sql_new("select userid,type from %s  ".
+                                  "  where  %s  ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr);
+
+
+        return $this->main_get_list($sql);
+    }
+
     public function get_student_list_new_id()
     {
         $sql = $this->gen_sql_new("select userid as userid,type from %s  ".

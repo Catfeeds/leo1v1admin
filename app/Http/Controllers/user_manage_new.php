@@ -3368,16 +3368,6 @@ class user_manage_new extends Controller
         return $this->output_succ(["data"=>$data]);
     }
 
-    public function tea_grade_wages_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
-
-        $list = $this->t_lesson_info_b2->get_tea_grade_wages_list($start_time,$end_time);
-
-        foreach($list as $val){
-            
-        }
-
-    }
 
 
 }

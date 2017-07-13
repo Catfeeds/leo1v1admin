@@ -1479,12 +1479,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_tea_grade_wages_list($start_time,$end_time){
+    public function get_grade_wages_list($start_time,$end_time){
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
         ];
-        $sql = $this->gen_sql_new("select lesson_count,teacher_money_type,level"
+        $sql = $this->gen_sql_new("select lesson_count,money"
                                   ." from %s l"
                                   ." left join %s"
                                   ." where %s"

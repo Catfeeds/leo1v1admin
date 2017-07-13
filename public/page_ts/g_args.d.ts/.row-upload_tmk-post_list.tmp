@@ -1,9 +1,0 @@
-	postid	:any;
-	upload_time	:any;
-	upload_desc	:any;
-	post_flag	:any;
-	upload_adminid	:any;
-	old_count	:any;
-	count	:any;
-	upload_admin_nick	:any;
-	post_flag_str	:any;

@@ -1,7 +1,0 @@
-	lessonid	:any;
-	courseid	:any;
-	userid	:any;
-	lesson_type	:any;
-	lesson_start	:any;
-	lesson_end	:any;
-	tea_nick	:any;

@@ -1,9 +1,0 @@
-	giftid	:any;
-	gift_type	:any;
-	gift_name	:any;
-	gift_intro	:any;
-	current_praise	:any;
-	gift_pic	:any;
-	gift_desc	:any;
-	gift_type_str	:any;
-	gift_desc_str	:any;

@@ -1,5 +1,0 @@
-	child_groupid	:any;
-	child_group_name	:any;
-	master_adminid	:any;
-	group_assign_percent	:any;
-	master_nick	:any;

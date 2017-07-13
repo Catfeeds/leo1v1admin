@@ -1,6 +1,0 @@
-	uid	:any;
-	all_count	:any;
-	is_called_phone_count	:any;
-	duration_count	:any;
-	phone_count	:any;
-	called_phone_count	:any;

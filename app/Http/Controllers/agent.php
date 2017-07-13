@@ -103,7 +103,8 @@ class agent extends Controller
         $time = strtotime('2017-7-12 18:00:00');
         $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];
         $lesson_info = $this->t_lesson_info_b2->get_check_lesson($lesson_start);
-        dd($lesson_start,$lesson_info);
+        $lesson_time = date('Y-m-d H:s',$lesson_info[0]['lesson_start']).'-'.date('H:s',$lesson_info[0]['lesson_end']);
+        dd($lesson_start,$lesson_time);
         if(count($lesson_info)>0){
             foreach($lesson_info as $key=>$l_item){
                 $ret = [
