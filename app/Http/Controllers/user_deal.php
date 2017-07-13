@@ -2578,19 +2578,19 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $data=[];
+        $phone=13817759346;
         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $url = "";
-        if($flag==1){
-            $data['first']    = "老师您好,恭喜您已经成功通过试讲";
-            $data['keyword1'] = "试讲审核";
-            $data['keyword2'] = "\n账号:".$phone
-                              ."\n密码:123456"
-                              ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
-            $url="https://qm.qq.com/cgi-bin/qm/qr?k=gOHZTNZPY78o5Z_fsCCZCqjAbWydyRea";
+        $data['first']    = "老师您好,恭喜您已经成功通过试讲";
+        $data['keyword1'] = "试讲审核";
+        $data['keyword2'] = "\n账号:".$phone
+                          ."\n密码:123456"
+                          ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
+        $data['keyword3'] = date("Y-m-d H:i",time());
+        $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+        $url="https://qm.qq.com/cgi-bin/qm/qr?k=gOHZTNZPY78o5Z_fsCCZCqjAbWydyRea";
   
-        }
+       $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
         $start= strtotime("2017-06-18");

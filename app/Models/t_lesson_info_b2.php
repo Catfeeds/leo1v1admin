@@ -878,7 +878,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.train_type=1",
             ["t.train_through_new=%u",$train_through_new,-1],
-            "lo.lessonid is not null"
+            "lo.lessonid is not null and lo.lessonid>0"
         ];
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);

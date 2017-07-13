@@ -285,7 +285,7 @@ abstract class NewModel
             $page_count = 10000;
         }
 
-        $count_query = "select count(*) " . $count_query;
+        $count_query = "select count(1) " . $count_query;
 
         $ret_arr=array();
         if ( !$use_group_by_flag ){
