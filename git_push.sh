@@ -1,5 +1,6 @@
 #!/bin/bash
 # 加入新文件
+
 git add app/ config/ database/  public/ resources/ tests/
 
 #
