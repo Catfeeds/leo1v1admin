@@ -230,7 +230,7 @@ class user extends TeaWxController
         $feedlist_arr = $this->t_teacher_feedback_list->get_feedback_list($teacherid,$lessonid);
 
         if(!$feedlist_arr){
-            return $this->output_err("反馈列表获取失败!");
+            return $this->output_succ(['data'=>[]]);
         }else{
             foreach($feedlist_arr as &$item){
                 $feedback_type = $item['feedback_type'];

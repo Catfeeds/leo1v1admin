@@ -4395,6 +4395,16 @@ class user_deal extends Controller
         return $this->output_succ(["id"=>$id]);
     }
 
+    public function set_fulltime_teacher_self_assessment(){
+        $id = $this->get_in_int_val("id");
+        $self_assessment = trim($this->get_in_str_val("self_assessment"));
+        
+        $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
+           "self_assessment"  =>$self_assessment 
+        ]);
+
+        return $this->output_succ();
+    }
     public function fulltime_teacher_positive_require_deal(){
         $positive_type = $this->get_in_int_val("positive_type");
         $adminid   = $this->get_in_int_val("adminid");

@@ -629,14 +629,31 @@ class teacher_money extends Controller
     public function grade_wages_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
-        $list      = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
-        $full_list = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,1);
+        $this->switch_tongji_database();
+        $list       = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
+        $full_start = strtotime("-1 month",$start_time);
+        $full_end   = strtotime("-1 month",$end_time);
+        $full_list  = $this->t_lesson_info_b2->get_grade_wages_list($full_start,$full_end,1);
         $lesson_list = array_merge($list,$full_list);
         dd($lesson_list);
+        $count = [];
         foreach($list as $val){
+            $grade = $val['grade'];
             
+            if($val['lesson_type']==2){
+                $trial_base = \App\Helper\Utils::get_trial_base_price(
+                    $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
+                );
+                \App\Helper\Utils::check_isset_data($count[$grade]['trial_money'],$trial_base);
+                \App\Helper\Utils::check_isset_data($count[$grade]['trial_count'],$val['lesson_count']);
+            }else{
+                \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],$val['money']);
+                \App\Helper\Utils::check_isset_data($count[$grade]['normal_count'],$val['lesson_count']);
+            }
+            \App\Helper\Utils::check_isset_data($count[$grade]['lesson_price'],$val['lesson_price']);
         }
-
+        dd($count);
+        return $this->View(__METHOD__,$count);
     }
 
 }

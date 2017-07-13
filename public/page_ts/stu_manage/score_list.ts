@@ -13,6 +13,12 @@ $(function(){
 
         Enum_map.append_option_list("subject", id_subject, true);
         Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
+         id_stu_score_time.datetimepicker({
+            lang:'ch',
+            timepicker:true,
+            format:'Y-m-d'
+        });
+
 
         id_subject.val(opt_data.subject_str);
         id_stu_score_type.val(opt_data.stu_score_type_str);
@@ -29,6 +35,23 @@ $(function(){
             ["考试排名",id_rank],
             ["文件附件",id_file_url],
         ];
+
+        $.show_key_value_table("修改考试记录", arr, {
+            label    :   "确认",
+            cssClass :   "btn-warning",
+            action   :   function(dialog){
+                $.do_ajax('/ajax_deal2/score_edit',{
+                    "subject"       : id_subject.val(),
+                    "stu_score_type": id_stu_score_type.val(),
+                    "stu_score_time": id_stu_score_time.val(),
+                    "score"         : id_score.val(),
+                    "rank"          : id_rank.val(),
+                    "file_url"      : id_file_url.val()
+                });
+            }
+        },function(){
+            
+        });
 
 
 

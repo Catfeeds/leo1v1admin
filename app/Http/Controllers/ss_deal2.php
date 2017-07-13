@@ -147,6 +147,12 @@ class ss_deal2 extends Controller
 
         $ret = $this->t_seller_student_new->get_tmk_assign_time_by_adminid($tmk_adminid);
 
+        // , global_tq_called_flag, tmk_adminid, first_call_time
+        foreach($ret as &$item){
+            // $item['tmk_assign_time_str'] = 
+            \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time",'_str');
+        }
+
         return $this->output_succ(['data'=>$ret]);
 
     }

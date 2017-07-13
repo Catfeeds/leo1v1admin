@@ -797,7 +797,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
-                                  ." l.lesson_status,t.teacherid,t.nick,t.phone_spare,t.user_agent,l.teacherid as l_teacherid,"
+                                  ." l.lesson_status,t.teacherid,t.nick,t.phone phone_spare,t.user_agent,l.teacherid as l_teacherid,"
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
@@ -806,8 +806,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
                                   ." left join %s tr on l.lessonid=tr.train_lessonid"
-                                  ." left join %s tli on t.phone_spare=tli.phone"
-                                  ." left join %s tt on t.phone_spare=tt.phone"
+                                  ." left join %s tli on t.phone=tli.phone"
+                                  ." left join %s tt on t.phone=tt.phone"
                                   ." left join %s ttt on l.teacherid=ttt.teacherid"
                                   ." left join %s m on ttt.phone = m.phone "
                                   ." where %s"
@@ -1483,13 +1483,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
+            "lesson_type<1000",
+            "lesson_status=2",
         ];
+        $where_arr = $this->lesson_common_where_arr($where_arr);
         if($full_flag==0){
-            $where_arr[] = "t.teacher_type!=3 or t.teacherid in (51094,99504,97313)"
+            $where_arr[] = "(t.teacher_type!=3 or t.teacherid in (51094,99504,97313))";
         }else{
-            $where_arr[] = "t.teacher_type=3 and t.teacherid not in (51094,99504,97313)"
+            $where_arr[] = "(t.teacher_type=3 and t.teacherid not in (51094,99504,97313))";
         }
-        $sql = $this->gen_sql_new("select l.lesson_count,l.lesson_type,l.grade,sum(o.price) as lesson_price,m.money"
+        $sql = $this->gen_sql_new("select l.lesson_count,l.lesson_type,l.grade,sum(o.price) as lesson_price,m.money,t.teacher_type,"
+                                  ." l.lesson_start,l.teacher_money_type,l.lessonid,l.level"
                                   ." from %s l"
                                   ." left join %s o on l.lessonid=o.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"
@@ -1499,8 +1503,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." else l.grade"
                                   ." end )"
                                   ." and l.teacher_money_type=m.teacher_money_type"
-                                  ." left join %s"
                                   ." where %s"
+                                  ." group by l.lessonid"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME

@@ -138,7 +138,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." select 1 from %s ll where ll.phone=l.phone and l.add_time<ll.add_time)"
                                   ." left join %s t on t.phone=la.reference"
                                   ." left join %s m on la.accept_adminid=m.uid"
-                                  ." left join %s tt on  la.phone = tt.phone_spare"
+                                  ." left join %s tt on  la.phone = tt.phone"
                                   ." left join %s ta on ta.userid= tt.teacherid and not exists ("
                                   ." select 1 from %s taa where taa.userid=ta.userid and ta.add_time<taa.add_time)"
                                   ." left join %s tr on tr.train_lessonid = ta.lessonid and type=10"

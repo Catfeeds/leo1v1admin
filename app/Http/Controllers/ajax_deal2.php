@@ -127,7 +127,36 @@ class ajax_deal2 extends Controller
     //$from_key_int  = $userid;
     //$from_key2_int = $next_revisit_time;
     //            \App\Todo\todo_base::add($todo_type,$next_revisit_time ,$next_revisit_time+7200,$adminid,$from_key_int,$from_key2_int);
+    /**
+     *@author    sam
+     *@function  更新学生考试成绩信息
+     *
+     */
+    public function score_edit(){
+        $id               = $this->get_in_int_val("id");
+        $userid           = $this->get_in_int_val("userid");
+        $subject          = $this->get_in_int_val("subject");
+        $stu_score_type   = $this->get_in_int_val("stu_score_type");
+        $stu_score_time   = strtotime($this->get_in_int_val("stu_score_time"));
+        $score            = $this->get_in_int_val("score");
+        $rank             = $this->get_in_str_val("rank");
+        $file_url         = $this->get_in_str_val("file_url");
+        $create_adminid   =  $this->get_account_id();
 
+        $id = $this->get_in_int_val('id');
+        $data = [
+            'subject'       =>   $subject,
+            'stu_score_type'=>   $stu_score_type,
+            'stu_score_time'=>   $stu_score_time,
+            'score'         =>   $score,
+            'rank'          =>   $rank,
+            'file_url'      =>   $file_url,
+        ];
+
+	$ret = $this->t_student_score_info->field_update_list($id,$data);
+	dd($ret);
+        return $this->output_succ();
+    }
     /**
      *@author    sam
      *@function  新增学生考试成绩信息

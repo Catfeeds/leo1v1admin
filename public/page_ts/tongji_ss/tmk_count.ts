@@ -181,7 +181,7 @@ $(function(){
         var html_node    = $.obj_copy_node("#id_assign_log");
 
          BootstrapDialog.show({
-            title: "分配列表",
+            title: "已回访时间列表",
             message: html_node,
             closable: true
         });
@@ -189,7 +189,20 @@ $(function(){
 
         $.do_ajax('/ss_deal2/get_tmk_assign_time',{
             'tmk_adminid' : tmk_adminid
-        },function(){
+        },function(result){
+            if (result['ret'] == 0) {
+                var data = result['data'];
+
+                var html_str = "";
+                $.each(data, function (i, item) {
+                    var cls = "success";
+
+                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "</tr>";
+                });
+
+                html_node.find(".data-body").html(html_str);
+
+            }
 
         });
     });

@@ -42,20 +42,19 @@ class  yxyx_wx_server extends Controller
 
     public function sync_menu() {
         $menuList = array(
-            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'click', 'code'=>''),
-            array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
+            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'', 'code'=>''),
+            array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>'http://www.xmypage.com/model2_28992.html'),
             array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
 
-            array('id'=>'4', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
+            array('id'=>'4', 'pid'=>'2', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
             array('id'=>'5', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
 
             array('id'=>'6', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
         );
-
-
         $ret =  \Yxyx\core\Menu::setMenu($menuList);
-        $result =  \Yxyx\core\Menu::getMenu($menuList);
-        dd($result);
+        // $result =  \Yxyx\core\Menu::getMenu($menuList);
+        // dd($result);
+        dd($ret);
     }
 
 

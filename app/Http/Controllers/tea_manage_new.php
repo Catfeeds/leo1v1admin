@@ -702,6 +702,10 @@ class tea_manage_new extends Controller
             ];
             $teacherid = $this->add_teacher_common($teacher_info);              
         }else{
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "realname"  =>$tea_nick, 
+                "nick"  =>$tea_nick, 
+            ]);
             $this->t_user_info->field_update_list($teacherid,[
                 "passwd" => md5(123456) 
             ]); 

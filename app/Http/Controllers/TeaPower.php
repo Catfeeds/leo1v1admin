@@ -1208,7 +1208,7 @@ trait  TeaPower {
         \App\Helper\Utils::set_default_value($subject,$teacher_info,0,"subject");
         \App\Helper\Utils::set_default_value($tea_nick,$teacher_info,$phone,"tea_nick");
         \App\Helper\Utils::set_default_value($realname,$teacher_info,$tea_nick,"realname");
-        \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,"","phone_spare");
+        \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,$phone,"phone_spare");
         \App\Helper\Utils::set_default_value($not_grade,$teacher_info,"","not_grade");
         \App\Helper\Utils::set_default_value($identity,$teacher_info,0,"identity");
         \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,0,"teacher_type");

@@ -223,7 +223,7 @@
      <div class="row" style="display:none;" >
          <div class="col-xs-6 col-md-3">
              <div> 年级 </div>
-         <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
+             <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
              <table   class="table table-bordered table-striped"   >
                  <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
                  <tbody>
@@ -232,7 +232,7 @@
          </div>
          <div class="col-xs-6 col-md-3">
              <div> 科目</div>
-         <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
+             <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
              <table   class="table table-bordered table-striped"   >
                  <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
                  <tbody>
@@ -273,6 +273,16 @@
 
      </div>
 
+
+     <div style="display:none;" >
+         <div id="id_assign_log">
+             <table   class="table table-bordered "   >
+                 <tr>  <th> 分配时间 <th>第一次拨打时间 <th>是否接通 </tr>
+                     <tbody class="data-body">
+                     </tbody>
+             </table>
+         </div>
+     </div>
 
 
  </section>
