@@ -1,11 +1,11 @@
-//<reference path="../common.d.ts" />
-//<reference path="../g_args.d.ts/stu_manage-todo_list.d.ts" />
+///<reference path="../common.d.ts" />
+///<reference path="../g_args.d.ts/stu_manage-todo_list.d.ts" />
 
 $(function(){
     function load_data(){
-        
+
         $.reload_self_page ( {
-			sid:	$('#id_sid').val()
+      sid:	$('#id_sid').val()
         });
     }
 
@@ -19,7 +19,7 @@ $(function(){
         var $login_type = $("<input/>");
         var $flag = $("<input/>");
 
-        
+
         var arr=[
             ["学生ID",  $userid],
             ["登录时间",  $login],
@@ -37,23 +37,22 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                
-                $.do_ajax("/stu_manage/todo_list_add",{
+
+                $.do_ajax_t("/ajax_deal2/todo_list_add",{
                     "userid" : $userid.val(),
                     "login" : $login.val(),
                     "nick" : $nick.val(),
                     "ip" : $ip.val(),
                     "role" : $role.val(),
                     "login_type" : $login_type.val(),
-                    "flag" : $falg.val()
+                    "flag" : $flag.val()
                 });
              }
         });
 
-
     });
 
 
-	  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 
 });

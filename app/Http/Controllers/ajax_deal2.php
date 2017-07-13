@@ -137,7 +137,7 @@ class ajax_deal2 extends Controller
         $userid           = $this->get_in_int_val("userid");
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
-        $stu_score_time   = strtotime($this->get_in_int_val("stu_score_time"));
+        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
@@ -154,7 +154,7 @@ class ajax_deal2 extends Controller
         ];
 
 	$ret = $this->t_student_score_info->field_update_list($id,$data);
-	dd($ret);
+	//dd($ret);
         return $this->output_succ();
     }
     /**
@@ -165,16 +165,14 @@ class ajax_deal2 extends Controller
     public function score_add_new(){
 
         $userid           = $this->get_in_int_val("userid");
-        //$create_time      = $this->get_in_int_val("create_time");
         $create_time      = time();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
-        $stu_score_time   = strtotime($this->get_in_int_val("stu_score_time"));
-        //$stu_score_time   = time();
+        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-        $create_adminid   =  $this->get_account_id();
+	$create_adminid   =  $this->get_account_id();
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -197,5 +195,32 @@ class ajax_deal2 extends Controller
         $this->t_student_score_info->row_delete($id);
         return $this->output_succ();
     } 
+
+    //测试增加 
+    public function todo_list_add(){
+        $userid = $this->get_in_int_val("userid");
+        $login = $this->get_in_int_val("login");
+        $nick = $this->get_in_str_val("nick");
+        $ip = $this->get_in_str_val("ip");
+        $role = $this->get_in_str_val("role");
+        $login_type = $this->get_in_int_val("login_type");
+        $flag = $this->get_in_int_val("flag");
+        $ret_info = $this->t_student_score_info->row_insert([
+            "userid"                => $userid,
+            "create_time"           => $create_time,
+            "create_adminid"        => $create_adminid,
+            "subject"               => $subject,
+            "stu_score_type"        => $stu_score_type,
+            "stu_score_time"        => $stu_score_time,
+            "score"                 => $score,
+            "rank"                  => $rank,
+            "file_url"              => $file_url
+        ]);
+ 
+
+        return $this->output_succ();
+
+   }
+
 
 }

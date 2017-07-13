@@ -1629,10 +1629,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
-    public function get_tmk_assign_time_by_adminid($tmk_adminid){
-        $sql = $this->gen_sql_new(" select tmk_assign_time, global_tq_called_flag, tmk_adminid, first_call_time from %s ss ".
-                                  " where tmk_adminid = %d and global_tq_called_flag<>0",
+    public function get_tmk_assign_time_by_adminid($tmk_adminid, $start_time, $end_time){
+        $sql = $this->gen_sql_new(" select tmk_assign_time, global_tq_called_flag, tmk_adminid, first_call_time from %s ss left join %s tl on ss.userid=tl.userid ".
+                                  " where tmk_adminid = %d and global_tq_called_flag<>0 and require_admin_type=2 and  tmk_assign_time>=$start_time and tmk_assign_time<$end_time",
                                   self::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $tmk_adminid
         );
 

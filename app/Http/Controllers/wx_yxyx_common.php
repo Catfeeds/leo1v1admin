@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session ;
 
 class wx_yxyx_common extends Controller
 {
-    var $check_login_flag=false;
+    // var $check_login_flag=false;
 
     public function wx_jump_page () {
         $code       = $this->get_in_str_val("code");

@@ -144,13 +144,16 @@ class ss_deal2 extends Controller
     public function get_tmk_assign_time(){
 
         $tmk_adminid = $this->get_in_int_val('tmk_adminid');
+        $start_time  = strtotime($this->get_in_str_val('start_time'));
+        $end_time    = strtotime($this->get_in_str_val('end_time'));
 
-        $ret = $this->t_seller_student_new->get_tmk_assign_time_by_adminid($tmk_adminid);
+        $ret = $this->t_seller_student_new->get_tmk_assign_time_by_adminid($tmk_adminid, $start_time, $end_time);
 
-        // , global_tq_called_flag, tmk_adminid, first_call_time
         foreach($ret as &$item){
-            // $item['tmk_assign_time_str'] = 
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time",'_str');
+            \App\Helper\Utils::unixtime2date_for_item($item,"first_call_time",'_str');
+
+           $item['global_tq_called_flag_str'] = \App\Enums\Etq_called_flag::get_desc($item['global_tq_called_flag']);
         }
 
         return $this->output_succ(['data'=>$ret]);

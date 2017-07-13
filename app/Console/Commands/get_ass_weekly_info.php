@@ -52,7 +52,7 @@ class get_ass_weekly_info extends Command
         $assistant_renew_list = $task->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
        
         $refund_info = $task->t_order_refund->get_ass_refund_info($start_time,$end_time);
-        $new_info = $task->t_student_info->get_refund_info($start_time,$end_time,0);
+        $new_info = $task->t_student_info->get_new_assign_stu_info($start_time,$end_time);
         $end_info = $task->t_student_info->get_end_class_stu_info($start_time,$end_time);
 
         $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);

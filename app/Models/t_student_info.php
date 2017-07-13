@@ -1919,6 +1919,29 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     }
 
+    public function get_new_assign_stu_info($start_time,$end_time){
+        $where_arr=[];
+        $this->where_arr_add_time_range($where_arr,"s.master_assign_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(" select m.uid, count(distinct s.userid) num,sum(lesson_total*default_lesson_count) lesson_count"
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." left join %s o on s.userid = o.userid and contract_type=0"
+                                  ." where %s"
+                                  ." group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+
+            
+    }
     public function get_refund_info($start_time,$end_time,$type=-1){
         $where_arr=[];
 

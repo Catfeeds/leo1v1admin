@@ -630,30 +630,54 @@ class teacher_money extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
         $this->switch_tongji_database();
-        $list       = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
-        $full_start = strtotime("-1 month",$start_time);
-        $full_end   = strtotime("-1 month",$end_time);
-        $full_list  = $this->t_lesson_info_b2->get_grade_wages_list($full_start,$full_end,1);
+        $list        = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
+        $full_start  = strtotime("-1 month",$start_time);
+        $full_end    = strtotime("-1 month",$end_time);
+        $full_list   = $this->t_lesson_info_b2->get_grade_wages_list($full_start,$full_end,1);
         $lesson_list = array_merge($list,$full_list);
-        dd($lesson_list);
-        $count = [];
+
+        $count[0]  = [];
+        $all_count = &$count[0];
+        $all_count['grade_str'] = "总计";
+        $all_count['trial_money'] = 0;
+        $all_count['trial_count'] = 0;
+        $all_count['normal_money'] = 0;
+        $all_count['normal_count'] = 0;
+        $all_count['lesson_price'] = 0;
         foreach($list as $val){
             $grade = $val['grade'];
-            
+            if(!isset($count[$grade]["grade"])){
+                $count[$grade]["grade_str"]=E\Egrade::get_desc($grade);
+            }
+            $val['lesson_count'] /= 100;
+            $val['lesson_price'] /= 100;
+            \App\Helper\Utils::check_isset_data($count[$grade]['trial_money'],0);
+            \App\Helper\Utils::check_isset_data($count[$grade]['trial_count'],0);
+            \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],0);
+            \App\Helper\Utils::check_isset_data($count[$grade]['normal_count'],0);
+            \App\Helper\Utils::check_isset_data($count[$grade]['lesson_price'],$val['lesson_price']);
+            \App\Helper\Utils::check_isset_data($all_count['lesson_price'],$val['lesson_price']);
             if($val['lesson_type']==2){
                 $trial_base = \App\Helper\Utils::get_trial_base_price(
                     $val['teacher_money_type'],$val['teacher_type'],$val['lesson_start']
                 );
+
                 \App\Helper\Utils::check_isset_data($count[$grade]['trial_money'],$trial_base);
                 \App\Helper\Utils::check_isset_data($count[$grade]['trial_count'],$val['lesson_count']);
+                \App\Helper\Utils::check_isset_data($all_count['trial_money'],$trial_base);
+                \App\Helper\Utils::check_isset_data($all_count['trial_count'],$val['lesson_count']);
             }else{
-                \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],$val['money']);
+                $normal_money = $val['lesson_count']*$val['money']/100;
+                \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],$normal_money);
                 \App\Helper\Utils::check_isset_data($count[$grade]['normal_count'],$val['lesson_count']);
+                \App\Helper\Utils::check_isset_data($all_count['normal_money'],$normal_money);
+                \App\Helper\Utils::check_isset_data($all_count['normal_count'],$val['lesson_count']);
             }
-            \App\Helper\Utils::check_isset_data($count[$grade]['lesson_price'],$val['lesson_price']);
         }
-        dd($count);
-        return $this->View(__METHOD__,$count);
+        ksort($count);
+        $ret_info = \App\Helper\Utils::list_to_page_info($count);
+
+        return $this->PageView(__METHOD__,$ret_info);
     }
 
 }

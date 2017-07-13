@@ -146,7 +146,12 @@ class fulltime_teacher extends Controller
         if($positive_type==1){
             $data["positive_time"] = $data["create_time"]+90*86400;
         }elseif($positive_type==2){
-            $data["positive_time"] = $data["create_time"]+60*86400;
+            $tt =  $data["create_time"]+60*86400;
+            if($tt>time()){
+                $data["positive_time"] = $tt;
+            }else{
+                $data["positive_time"]= time();
+            }
         }elseif($positive_type==3 || $positive_type==4){
              $data["positive_time"] = $data["create_time"]+120*86400;
         }

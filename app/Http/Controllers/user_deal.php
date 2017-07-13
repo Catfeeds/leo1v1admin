@@ -2577,6 +2577,14 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $time = time()-86400;
+        $date_week = \App\Helper\Utils::get_week_range($time,1);
+        $start_time = $date_week["sdate"];
+        $end_time = $date_week["edate"];
+       
+        $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        dd($new_info);
+
         $user_map_60 = $this->t_lesson_info->get_user_list(60,1);
         // $user_map_90 = $this->t_lesson_info->get_user_list(90,1);
         $user_read = $this->t_student_info->get_no_auto_read_stu_list();

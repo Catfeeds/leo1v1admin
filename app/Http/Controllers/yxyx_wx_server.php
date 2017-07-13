@@ -42,19 +42,20 @@ class  yxyx_wx_server extends Controller
 
     public function sync_menu() {
         $menuList = array(
-            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'', 'code'=>''),
-            array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>'http://www.xmypage.com/model2_28992.html'),
+            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'view', 'code'=>''),
+            array('id'=>'2', 'pid'=>'0', 'name'=>'理由教育', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
+            array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
 
-            array('id'=>'4', 'pid'=>'2', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
-            array('id'=>'5', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
-
-            array('id'=>'6', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
+            array('id'=>'7', 'pid'=>'2', 'name'=>'荣誉榜', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
+            array('id'=>'11', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
+            array('id'=>'12', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://wx-yxyx-web.leo1v1.com'),
+            array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
         );
+
         $ret =  \Yxyx\core\Menu::setMenu($menuList);
-        // $result =  \Yxyx\core\Menu::getMenu($menuList);
-        // dd($result);
-        dd($ret);
+        $result =  \Yxyx\core\Menu::getMenu($menuList);
+        dd($result);
     }
 
 

@@ -797,9 +797,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
-                                  ." l.lesson_status,t.teacherid,t.nick,t.phone phone_spare,t.user_agent,l.teacherid as l_teacherid,"
+                                  ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,"
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
-                                  ." t.phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
+                                  ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id  "
                                   ." from %s l"
@@ -1485,6 +1485,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start<%u",$end_time,0],
             "lesson_type<1000",
             "lesson_status=2",
+            "t.is_test_user=0",
         ];
         $where_arr = $this->lesson_common_where_arr($where_arr);
         if($full_flag==0){

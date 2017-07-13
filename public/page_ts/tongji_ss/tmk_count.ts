@@ -112,11 +112,6 @@ $(function(){
         });
 
     };
-    // gen_data( g_subject_map,"subject","id_subject_pic");
-    // gen_data( g_grade_map,"grade","id_grade_pic",true);
-    // gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
-    // gen_data( g_area_map,"","id_area_pic");
-    // gen_data( g_origin_level_map,"origin_level","id_origin_level_pic");
 
 
     $('#id_origin').val(g_args.origin);
@@ -174,10 +169,12 @@ $(function(){
     });
 
 
-    //opt-get_assign_time
 
-    $('#opt-get_assign_time').on("click",function(){
+    $('.opt-get_assign_time').on("click",function(){
         var tmk_adminid = $(this).attr('data-tmk_adminid');
+        var start_time  =  g_args.start_time;
+        var end_time    =  g_args.end_time;
+
         var html_node    = $.obj_copy_node("#id_assign_log");
 
          BootstrapDialog.show({
@@ -188,7 +185,10 @@ $(function(){
 
 
         $.do_ajax('/ss_deal2/get_tmk_assign_time',{
-            'tmk_adminid' : tmk_adminid
+            'tmk_adminid' : tmk_adminid,
+            'start_time'  : start_time,
+            'end_time'    : end_time
+
         },function(result){
             if (result['ret'] == 0) {
                 var data = result['data'];
@@ -197,11 +197,10 @@ $(function(){
                 $.each(data, function (i, item) {
                     var cls = "success";
 
-                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.ass_date + "<td>" + item.assign_str + "<td>" + item.accept_str + "</tr>";
+                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.tmk_assign_time_str + "<td>" + item.first_call_time_str + "<td>" + item.global_tq_called_flag_str  + "</tr>";
                 });
 
                 html_node.find(".data-body").html(html_str);
-
             }
 
         });
