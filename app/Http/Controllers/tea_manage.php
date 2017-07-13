@@ -325,7 +325,7 @@ class tea_manage extends Controller
             E\Eboolean::set_item_value_str($item,"lesson_del_flag");
         }
 
-        $seller_list = $this->t_admin_group->get_admin_list_by_gorupid(E\Eaccount_role::V_1 );
+        $seller_list      = $this->t_admin_group->get_admin_list_by_gorupid(E\Eaccount_role::V_1 );
         $adminid          = $this->get_account_id();
         $self_groupid     = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
         $get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
@@ -2200,6 +2200,7 @@ class tea_manage extends Controller
                                   ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+                $url="https://qm.qq.com/cgi-bin/qm/qr?k=gOHZTNZPY78o5Z_fsCCZCqjAbWydyRea";
   
             }else if($flag==0){
                 $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
