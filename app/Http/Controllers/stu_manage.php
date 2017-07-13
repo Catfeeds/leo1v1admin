@@ -1269,48 +1269,20 @@ class stu_manage extends Controller
      *@function  学生分数列表显示
      *
      */
-    public function  score_list () { 
+    public function  score_list () {
         $userid = $this->sid;
-        // dd($userid);
         $page_info=$this->get_in_page_info();
-        if($userid<>0){
-                       // dd($userid);
-            $ret_info=$this->t_student_score_info->get_list($userid,$page_info);
+        $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
+        foreach( $ret_info["list"] as &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y-m-d");
+            E\Esubject::set_item_value_str($item);
+            E\Estu_score_type::set_item_value_str($item);
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
-        // dd($ret_info);
+
+        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
-    }
-    /**
-     *@author    sam
-     *@function  新增学生分数信息
-     *
-     */
-    public function score_add_new(){
-        $userid           = $this->get_in_int_val("userid");
-        //$create_time      = $this->get_in_int_val("create_time");
-        $create_time      = time();
-        $create_adminid   = $this->get_in_int_val("create_adminid");
-        $subject          = $this->get_in_int_val("subject");
-        $stu_score_type   = $this->get_in_int_val("stu_score_type");
-        $stu_score_time   = $this->get_in_int_val("stu_score_time");
-        //$stu_score_time   = time();
-        $score            = $this->get_in_int_val("score");
-        $rank             = $this->get_in_str_val("rank");
-        $file_url         = $this->get_in_str_val("file_url");
-
-        $this->t_student_score_info->row_insert([
-            "userid"                => $userid,
-            "create_time"           => $create_time,
-            "create_adminid"        => $create_adminid,
-            "subject"               => $subject,
-            "stu_score_type"        => $stu_score_type,
-            "stu_score_time"        => $stu_score_time,
-            "score"                 => $score,
-            "rank"                  => $rank,
-            "file_url"              => $file_url
-        ]);
-
-        return $this->output_succ();
     }
 
 
@@ -1325,11 +1297,11 @@ class stu_manage extends Controller
         //dd(this->pageView(__METHOD__,$table_data_list );
         //dd($userid);
         $page_info=$this->get_in_page_info();
-        $login_list = $this->t_user_login_log->login_list($userid,$page_info);
+        $login_list = $this->t_user_login_log->login_list($page_info,$userid);
         // dd($login_list);
         return $this->pageView(__METHOD__,$login_list);
-        
-       
+
+
     }
 
 

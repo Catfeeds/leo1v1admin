@@ -530,8 +530,19 @@ class user_manage extends Controller
         $type   = $this->get_in_int_val('type',0);
         $is_auto_set_type_flag   = $this->get_in_int_val('is_auto_set_type_flag',0);
         $lesson_stop_reason   = trim($this->get_in_str_val('lesson_stop_reason'));
+        $recover_time   = $this->get_in_str_val('recover_time');
+        $stop_duration   = trim($this->get_in_str_val('stop_duration'));
         if(empty($lesson_stop_reason)){
             return $this->output_err("请填写原因");
+        }
+        if($type>1){
+            if(empty($recover_time) || empty($stop_duration)){
+                return $this->output_err("请填写完整");
+            }
+            $recover_time = strtotime($recover_time);
+        }else{
+            $recover_time =0;
+            $stop_duration="";
         }
 
         $old_type= $this->t_student_info->get_type($userid);
@@ -549,7 +560,9 @@ class user_manage extends Controller
                 "type_cur"    =>$type,
                 "change_type" =>2,
                 "adminid"     =>$this->get_account_id(),
-                "reason"      =>$lesson_stop_reason
+                "reason"      =>$lesson_stop_reason,
+                "recover_time"=>$recover_time,
+                "stop_duration"=>$stop_duration
             ]);
         }
 

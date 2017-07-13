@@ -1025,7 +1025,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public  function sync_tq($phone,$tq_called_flag,$call_time) {
         $userid=$this->get_userid_by_phone($phone);
         if($userid) {
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time");
+            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status");
 
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
@@ -1071,6 +1071,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             //同步给销售
             if (  $tq_called_flag ==2
                   &&  $item["seller_resource_type"] ==0
+                  &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
                   && !$item["admin_revisiterid"]
                   &&  $competition_call_adminid ) {
                 if ($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
@@ -1628,4 +1629,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function get_tmk_assign_time_by_adminid($tmk_adminid){
+        $sql = $this->gen_sql_new(" select tmk_assign_time, first_call_time from %s ss ".
+                                  " where tmk_adminid = %d",
+                                  self::DB_TABLE_NAME,
+                                  $tmk_adminid
+        );
+
+
+        return $this->main_get_list($sql);
+    }
 }

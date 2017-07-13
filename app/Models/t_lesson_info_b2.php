@@ -674,19 +674,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $this->where_arr_add_int_or_idlist($where_arr,'l.lesson_start',$lesson_start);
 
         $sql = $this->gen_sql_new(" select l.lessonid,l.lesson_type,l.lesson_start,l.lesson_end,l.tea_attend,"
-                                  ."l.stu_attend,l.teacherid,l.assistantid,t.phone,t.wx_openid teacher_openid,"
-                                  ."s.require_adminid as cc_id "
+                                  ." l.stu_attend,l.teacherid,l.assistantid,t.phone,t.wx_openid teacher_openid,t.nick,"
+                                  ." s.require_adminid as cc_id,st.nick "
                                   ." from %s l "
                                   ." left join %s tss on tss.lessonid=l.lessonid "
                                   ." left join %s sr on sr.require_id=tss.require_id "
                                   ." left join %s s on s.test_lesson_subject_id=sr.test_lesson_subject_id "
                                   ." left join %s t on t.teacherid=l.teacherid "
+                                  ." left join %s st on st.userid=l.userid "
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql);
@@ -1476,5 +1478,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_tea_grade_wages_list($start_time,$end_time){
+        $where_arr = [
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select lesson_count,teacher_money_type,level"
+                                  ." from %s l"
+                                  ." left join %s"
+                                  ." where %s"
+                                  ." group by l.grade"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }

@@ -142,10 +142,14 @@ class ss_deal2 extends Controller
 
 
     public function get_tmk_assign_time(){
+
         $tmk_adminid = $this->get_in_int_val('tmk_adminid');
 
+        $ret = $this->t_seller_student_new->get_tmk_assign_time_by_adminid($tmk_adminid);
 
+        return $this->output_succ(['data'=>$ret]);
 
     }
+
 
 }

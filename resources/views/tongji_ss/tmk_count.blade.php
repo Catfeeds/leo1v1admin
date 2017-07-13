@@ -135,7 +135,7 @@
                             -->
                          <td>{{@$var["succ_test_lesson_count"]}}</td>
 
-                         <td id="opt-get_assign_time"  >{{@$var["tq_called_count"]}}</td>
+                         <td id="opt-get_assign_time" data-tmk_adminid="{{@$var['check_value']}}"  ><a>{{@$var["tq_called_count"]}}</a></td>
                          <td >{{@$var["tq_no_call_count"]}}</td>
                          <td >{{@$var["no_call_count"]}}</td>
                          <td >{{@$var["invalid_count"]}}</td>

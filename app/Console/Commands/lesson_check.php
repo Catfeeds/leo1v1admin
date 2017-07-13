@@ -41,6 +41,9 @@ class lesson_check extends cmd_base
                     'teacher_openid' => $l_item['teacher_openid'],
                     'assistantid'    => $l_item['assistantid'],
                     'cc_id'          => $l_item['cc_id'],
+                    'teacher_nick'   => $l_item['teacher_nick'],
+                    'student_nick'   => $l_item['student_nick'],
+                    'lesson_time'    => date('Y-m-d H:i',$l_item['lesson_start']).'-'.date('H:i',$l_item['lesson_end']),
                 ];
                 if($l_item['lesson_start'] == $time+300){//课前5分钟
                     $ret['work_type'] = 0;

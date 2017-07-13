@@ -2577,22 +2577,39 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+
+        $phone=13817759346;        
+        $flag=0;
+        $record_info=9999;
         $data=[];
-        $phone=13817759346;
         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $url = "";
-        $data['first']    = "老师您好,恭喜您已经成功通过试讲";
-        $data['keyword1'] = "试讲审核";
-        $data['keyword2'] = "\n账号:".$phone
-                          ."\n密码:123456"
-                          ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
-        $data['keyword3'] = date("Y-m-d H:i",time());
-        $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
-        $url="https://qm.qq.com/cgi-bin/qm/qr?k=gOHZTNZPY78o5Z_fsCCZCqjAbWydyRea";
+        if($flag==1){
+            $data['first']    = "老师您好,恭喜您已经成功通过试讲";
+            $data['keyword1'] = "通过";
+            $data['keyword2'] = "\n账号:".$phone
+                              ."\n密码:123456"
+                              ."\n新师培训群号：315540732"
+                              ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+            $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
   
-       $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+        }else if($flag==0){
+            $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
+            $data['keyword1'] = "未通过";
+            $data['keyword2'] = "\n您的面试反馈情况是".$record_info
+                              ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
+            $data['keyword3'] = date("Y-m-d H:i",time());
+            $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
+            $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
+ 
+        }
+
+        $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
         \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
 
+        dd(111);
         $start= strtotime("2017-06-18");
         $end_time= time();
         $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start,$end_time);
@@ -3225,6 +3242,11 @@ class user_deal extends Controller
             E\Estudent_type::set_item_value_str($val,"type_cur");
             $val["change_type_str"] = $val["change_type"]==1?"系统":"手动";
             $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+            if($val['recover_time']>0){
+                $val['recover_time_str']=date("Y-m-d",$val['recover_time']);
+            }else{
+                $val['recover_time_str']=""; 
+            }
         }
         if(empty($data)){
             return $this->output_err("该老师没有更改类型记录!");

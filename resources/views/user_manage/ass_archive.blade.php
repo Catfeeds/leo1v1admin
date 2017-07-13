@@ -148,7 +148,6 @@
                             <a class="fa-gavel opt-modify " title="设置密码"></a>
                             <a class="fa-headphones opt-test-room" title="设置试听"></a>
                             @if($master_adminid >0)
-                                <a class="fa-deviantart opt-change-type" title="设置学员类型"></a>
                                 <a class="fa-deviantart opt-change-type-new" title="设置学员类型"></a>
                             @endif
                             <a class="fa-list-alt opt-type-change-list" title="学员类型变更列表"></a>

@@ -5801,8 +5801,8 @@ class tongji_ss extends Controller
             $tmk_adminid = -1;
         }
 
+        $check_field_id = 4;
 
-        $check_field_id    = $this->get_in_int_val("check_field_id",1);
         $check_field_config=[
             1=> ["渠道","origin", "" ],
             2=> ["年级","grade", E\Egrade::class ],
@@ -5811,7 +5811,6 @@ class tongji_ss extends Controller
             5=> ["销售人员","admin_revisiterid", "" ],
         ];
 
-        $check_field_id = 4;
         $data_map=[];
         $check_item       = $check_field_config[$check_field_id];
         $field_name       = $check_item[1];

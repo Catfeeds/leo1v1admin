@@ -701,7 +701,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             // "ttt.require_admin_type=2",
             "mm.del_flag=0",
             "mm.account_role=2",
-            // "m.del_flag =0"
+            "m.del_flag =0"
         ];
         
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);

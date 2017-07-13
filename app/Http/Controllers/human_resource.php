@@ -3597,6 +3597,9 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"subject");
             E\Esubject::set_item_value_str($item,"l_subject");
             E\Esubject::set_item_value_str($item,"second_subject");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+
             E\Egrade_part_ex::set_item_value_str($item);
             E\Eclass_will_type::set_item_value_str($item);
             E\Eclass_will_sub_type::set_item_value_str($item);

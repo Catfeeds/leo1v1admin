@@ -122,7 +122,14 @@
                         <td>{{@$var["identity_str"]}}  </td>
                         <td>{{@$var["work_day"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["grade_part_ex_str"]}} </td>
+                        <td>
+                            @if(@$var["grade_start"]>0)
+                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
+                            @else
+                                {{@$var["grade_part_ex_str"]}}
+                            @endif
+
+                        </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["second_subject_str"]}} </td>
                         <td>{{@$var["account"]}}</td>

@@ -13,6 +13,15 @@ class lesson_check extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     var $lessonid;
+    var $lesson_type;
+    var $tea_attend;
+    var $stu_attend;
+    var $teacher_openid;
+    var $assistantid;
+    var $cc_id;
+    var $teacher_nick;
+    var $student_nick;
+    var $lesson_time;
     var $work_type;
     /**
      * Create a new job instance.
@@ -28,6 +37,9 @@ class lesson_check extends Job implements ShouldQueue
         $this->teacher_openid = $ret['teacher_openid'];
         $this->assistantid    = $ret['assistantid'];
         $this->cc_id          = $ret['cc_id'];
+        $this->teacher_nick   = $ret['teacher_nick'];
+        $this->student_nick   = $ret['student_nick'];
+        $this->lesson_time    = $ret['lesson_time'];
         $this->work_type      = $ret['work_type'];
     }
 
@@ -47,8 +59,12 @@ class lesson_check extends Job implements ShouldQueue
         $teacher_openid = $this->teacher_openid;
         $assistantid    = $this->assistantid;
         $cc_id          = $this->cc_id;
+        $teacher_nick   = $this->teacher_nick;
+        $student_nick   = $this->student_nick;
+        $lesson_time    = $this->lesson_time;
+        $time           = date('Y/m/d',time(null));
         if($work_type == 0){ //课前5分钟
-            $this->send_wx_to_teacher($teacher_openid);
+            $this->send_wx_to_teacher($teacher_openid,$time,$teacher_nick,$student_nick,$lesson_time);
         }elseif($work_type == 1){//上课1分钟
             $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
         }elseif($work_type == 2){//上课3分钟
@@ -77,14 +93,14 @@ class lesson_check extends Job implements ShouldQueue
         }
     }
 
-    public function send_wx_to_teacher($openid){
+    public function send_wx_to_teacher($openid,$time,$teacher_nick,$student_nick,$lesson_time){
         $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
         $data = [
-            'first'    => '1',
-            'keyword1' => '2',
-            'keyword2' => '3',
-            'keyword3' => '4',
-            'remark'   => '5',
+            'first'    => $teacher_nick.'老师您好，课程将于5分钟后开始，请尽快进入课堂',
+            'keyword1' => '课程提醒',
+            'keyword2' => '课程时间:'.$lesson_time.',学生姓名:'.$student_nick,
+            'keyword3' => $time,
+            'remark'   => '理优期待与你一起共同进步，提供高品质教学服务',
         ];
         $url = 'www.leo1v1.com';
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id_teacher,$data,$url);

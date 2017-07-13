@@ -23,6 +23,7 @@ interface RowData {
 	lesson_money	:any;
 	date_str	:any;
 	teacher_money_type_str	:any;
+	level_str	:any;
 	tea_stu_ratio	:any;
 	per_total	:any;
 }

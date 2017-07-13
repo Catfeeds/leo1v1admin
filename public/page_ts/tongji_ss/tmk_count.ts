@@ -12,7 +12,7 @@ function load_data(){
         groupid:	$('#id_groupid').val(),
         tmk_adminid:	$('#id_tmk_adminid').val(),
         origin_ex:	$('#id_origin_ex').val(),
-			  origin_level:	$('#id_origin_level').val(),
+        origin_level:	$('#id_origin_level').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
         origin:	$('#id_origin').val()
     });
@@ -40,8 +40,8 @@ $(function(){
     $('#id_check_field_id').val(g_args.check_field_id);
 
 
-	  $('#id_origin_level').val(g_args.origin_level);
-	  $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
+    $('#id_origin_level').val(g_args.origin_level);
+    $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "T类" : [90],
         "非T类" : [0,1,2,3,4,100],
     }  );
@@ -174,6 +174,25 @@ $(function(){
     });
 
 
+    //opt-get_assign_time
+
+    $('#opt-get_assign_time').on("click",function(){
+        var tmk_adminid = $(this).attr('data-tmk_adminid');
+        var html_node    = $.obj_copy_node("#id_assign_log");
+
+         BootstrapDialog.show({
+            title: "分配列表",
+            message: html_node,
+            closable: true
+        });
+
+
+        $.do_ajax('/ss_deal2/get_tmk_assign_time',{
+            'tmk_adminid' : tmk_adminid
+        },function(){
+
+        });
+    });
 
 
 

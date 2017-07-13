@@ -2540,11 +2540,11 @@ class user_manage_new extends Controller
                     $lesson_1v1   = $val['lesson_1v1']/100;
                     $lesson_trial = $val['lesson_trial']/100;
                     $lesson_total = $val['lesson_total']/100;
-                    $lesson_price = $val['lesson_price']/100;
+                    // $lesson_price = $val['lesson_price']/100;
 
-                    \App\Helper\Utils::check_isset_data($count_list[$date_str]["all"]["all"]["lesson_money"],$lesson_price);
-                    \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type]["all"]["lesson_money"],$lesson_price);
-                    \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type][$level]["lesson_money"],$lesson_price);
+                    // \App\Helper\Utils::check_isset_data($count_list[$date_str]["all"]["all"]["lesson_money"],$lesson_price);
+                    // \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type]["all"]["lesson_money"],$lesson_price);
+                    // \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type][$level]["lesson_money"],$lesson_price);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str]["all"]["all"]["lesson_1v1"],$lesson_1v1);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type]["all"]["lesson_1v1"],$lesson_1v1);
                     \App\Helper\Utils::check_isset_data($count_list[$date_str][$teacher_money_type][$level]["lesson_1v1"],$lesson_1v1);
@@ -3358,10 +3358,26 @@ class user_manage_new extends Controller
         $userid = $this->get_in_int_val("userid",0);
         $data = $this->t_student_type_change_list->get_info_by_userid_last($userid);
         if($data){
-            $data["recover_time"] = date("Y-m-d", $data["recover_time"]);
+            if($data["recover_time"]>0){
+                $data["recover_time"] = date("Y-m-d", $data["recover_time"]);
+            }else{
+                $data["recover_time"]="";
+            }
         }
  
         return $this->output_succ(["data"=>$data]);
     }
+
+    public function tea_grade_wages_list(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
+
+        $list = $this->t_lesson_info_b2->get_tea_grade_wages_list($start_time,$end_time);
+
+        foreach($list as $val){
+            
+        }
+
+    }
+
 
 }

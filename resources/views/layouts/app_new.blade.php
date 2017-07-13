@@ -100,7 +100,7 @@
         {!!  @$js_values_str !!}
 
 
-        <script type="text/javascript" src="/page_js/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
+        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
 
 
 

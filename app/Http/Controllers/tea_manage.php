@@ -2194,20 +2194,23 @@ class tea_manage extends Controller
             $url = "";
             if($flag==1){
                 $data['first']    = "老师您好,恭喜您已经成功通过试讲";
-                $data['keyword1'] = "试讲审核";
+                $data['keyword1'] = "通过";
                 $data['keyword2'] = "\n账号:".$phone
                                   ."\n密码:123456"
+                                  ."\n新师培训群号：315540732"
                                   ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
-                $url="https://qm.qq.com/cgi-bin/qm/qr?k=gOHZTNZPY78o5Z_fsCCZCqjAbWydyRea";
+                $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
   
             }else if($flag==0){
                 $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
                 $data['keyword1'] = "未通过";
-                $data['keyword2'] = "\n您的面试反馈情况是".$record_info;
+                $data['keyword2'] = "\n您的面试反馈情况是".$record_info
+                                  ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
+                $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
  
             }
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

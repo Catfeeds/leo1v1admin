@@ -9,5 +9,5 @@ class TaskController extends Controller
     use \App\Http\Controllers\TeaPower;
     var $check_login_flag=false;
 
-    
+
 }
