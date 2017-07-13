@@ -33,6 +33,9 @@
   cd ~/admin_yb1v1 
   sudo cp ./install_files/admin.yb1v1.conf /etc/nginx/sites-enabled/
   sudo /etc/init.d/nginx reload
+
+  /etc/hosts 加入
+  self.admin.yb1v1.com 127.0.0.1
   
 *  
   
