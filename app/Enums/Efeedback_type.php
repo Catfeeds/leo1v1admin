@@ -3,7 +3,7 @@
 //source  file: config_feedback_type.php
 namespace  App\Enums;
 
-class Efeedback_type extends \App\Enums\Enum_base
+class Efeedback_type extends \App\Core\Enum_base
 {
 	static public $field_name = "feedback_type"  ;
 	static public $name = "feedback_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_tq_called_flag.php
 namespace  App\Enums;
 
-class Etq_called_flag extends \App\Enums\Enum_base
+class Etq_called_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "tq_called_flag"  ;
 	static public $name = "TQ"  ;

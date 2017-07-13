@@ -3,7 +3,7 @@
 //source  file: config_click_status.php
 namespace  App\Enums;
 
-class Eclick_status extends \App\Enums\Enum_base
+class Eclick_status extends \App\Core\Enum_base
 {
 	static public $field_name = "click_status"  ;
 	static public $name = "click_status"  ;

@@ -3,7 +3,7 @@
 //source  file: config_textbook_type.php
 namespace  App\Enums;
 
-class Etextbook_type extends \App\Enums\Enum_base
+class Etextbook_type extends \App\Core\Enum_base
 {
 	static public $field_name = "textbook_type"  ;
 	static public $name = "textbook_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_is_top.php
 namespace  App\Enums;
 
-class Eis_top extends \App\Enums\Enum_base
+class Eis_top extends \App\Core\Enum_base
 {
 	static public $field_name = "is_top"  ;
 	static public $name = "is_top"  ;

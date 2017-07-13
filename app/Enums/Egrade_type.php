@@ -3,7 +3,7 @@
 //source  file: config_grade_type.php
 namespace  App\Enums;
 
-class Egrade_type extends \App\Enums\Enum_base
+class Egrade_type extends \App\Core\Enum_base
 {
 	static public $field_name = "grade_type"  ;
 	static public $name = "grade_type"  ;

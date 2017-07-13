@@ -3,7 +3,7 @@
 //source  file: config_identity.php
 namespace  App\Enums;
 
-class Eidentity extends \App\Enums\Enum_base
+class Eidentity extends \App\Core\Enum_base
 {
 	static public $field_name = "identity"  ;
 	static public $name = "identity"  ;

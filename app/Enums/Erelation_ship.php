@@ -3,7 +3,7 @@
 //source  file: config_relation_ship.php
 namespace  App\Enums;
 
-class Erelation_ship extends \App\Enums\Enum_base
+class Erelation_ship extends \App\Core\Enum_base
 {
 	static public $field_name = "relation_ship"  ;
 	static public $name = "relation_ship"  ;

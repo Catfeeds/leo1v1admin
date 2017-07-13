@@ -3,7 +3,7 @@
 //source  file: config_seller_require_change_flag.php
 namespace  App\Enums;
 
-class Eseller_require_change_flag extends \App\Enums\Enum_base
+class Eseller_require_change_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_require_change_flag"  ;
 	static public $name = "seller_require_change_flag"  ;

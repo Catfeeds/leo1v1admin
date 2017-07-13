@@ -3,7 +3,7 @@
 //source  file: config_education.php
 namespace  App\Enums;
 
-class Eeducation extends \App\Enums\Enum_base
+class Eeducation extends \App\Core\Enum_base
 {
 	static public $field_name = "education"  ;
 	static public $name = "education"  ;

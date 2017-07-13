@@ -3,7 +3,7 @@
 //source  file: config_tmk_student_status.php
 namespace  App\Enums;
 
-class Etmk_student_status extends \App\Enums\Enum_base
+class Etmk_student_status extends \App\Core\Enum_base
 {
 	static public $field_name = "tmk_student_status"  ;
 	static public $name = "tmk_student_status"  ;

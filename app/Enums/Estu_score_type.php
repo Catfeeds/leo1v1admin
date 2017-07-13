@@ -3,7 +3,7 @@
 //source  file: config_stu_score_type.php
 namespace  App\Enums;
 
-class Estu_score_type extends \App\Enums\Enum_base
+class Estu_score_type extends \App\Core\Enum_base
 {
 	static public $field_name = "stu_score_type"  ;
 	static public $name = "测验分类"  ;

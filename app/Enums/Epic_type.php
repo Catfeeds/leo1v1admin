@@ -3,7 +3,7 @@
 //source  file: config_pic_type.php
 namespace  App\Enums;
 
-class Epic_type extends \App\Enums\Enum_base
+class Epic_type extends \App\Core\Enum_base
 {
 	static public $field_name = "pic_type"  ;
 	static public $name = "pic_type"  ;

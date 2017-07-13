@@ -3,7 +3,7 @@
 //source  file: config_lesson_status.php
 namespace  App\Enums;
 
-class Elesson_status extends \App\Enums\Enum_base
+class Elesson_status extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_status"  ;
 	static public $name = "lesson_status"  ;

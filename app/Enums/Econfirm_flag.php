@@ -3,7 +3,7 @@
 //source  file: config_confirm_flag.php
 namespace  App\Enums;
 
-class Econfirm_flag extends \App\Enums\Enum_base
+class Econfirm_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "confirm_flag"  ;
 	static public $name = "confirm_flag"  ;

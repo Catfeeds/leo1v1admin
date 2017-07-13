@@ -3,7 +3,7 @@
 //source  file: config_from_parent_order_type.php
 namespace  App\Enums;
 
-class Efrom_parent_order_type extends \App\Enums\Enum_base
+class Efrom_parent_order_type extends \App\Core\Enum_base
 {
 	static public $field_name = "from_parent_order_type"  ;
 	static public $name = "赠送分类"  ;

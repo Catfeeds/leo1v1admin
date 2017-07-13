@@ -3,7 +3,7 @@
 //source  file: config_dialect_type.php
 namespace  App\Enums;
 
-class Edialect_type extends \App\Enums\Enum_base
+class Edialect_type extends \App\Core\Enum_base
 {
 	static public $field_name = "dialect_type"  ;
 	static public $name = "dialect_type"  ;

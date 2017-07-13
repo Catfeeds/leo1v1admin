@@ -3,7 +3,7 @@
 //source  file: config_contract_type_ex.php
 namespace  App\Enums;
 
-class Econtract_type_ex extends \App\Enums\Enum_base
+class Econtract_type_ex extends \App\Core\Enum_base
 {
 	static public $field_name = "contract_type_ex"  ;
 	static public $name = "contract_type_ex"  ;

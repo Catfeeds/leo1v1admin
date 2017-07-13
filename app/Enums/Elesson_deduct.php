@@ -3,7 +3,7 @@
 //source  file: config_lesson_deduct.php
 namespace  App\Enums;
 
-class Elesson_deduct extends \App\Enums\Enum_base
+class Elesson_deduct extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_deduct"  ;
 	static public $name = "lesson_deduct"  ;

@@ -3,7 +3,7 @@
 //source  file: config_revisit_type.php
 namespace  App\Enums;
 
-class Erevisit_type extends \App\Enums\Enum_base
+class Erevisit_type extends \App\Core\Enum_base
 {
 	static public $field_name = "revisit_type"  ;
 	static public $name = "revisit_type"  ;

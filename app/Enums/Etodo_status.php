@@ -3,7 +3,7 @@
 //source  file: config_todo_status.php
 namespace  App\Enums;
 
-class Etodo_status extends \App\Enums\Enum_base
+class Etodo_status extends \App\Core\Enum_base
 {
 	static public $field_name = "todo_status"  ;
 	static public $name = "状态"  ;

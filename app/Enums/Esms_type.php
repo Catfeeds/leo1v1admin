@@ -3,7 +3,7 @@
 //source  file: config_sms_type.php
 namespace  App\Enums;
 
-class Esms_type extends \App\Enums\Enum_base
+class Esms_type extends \App\Core\Enum_base
 {
 	static public $field_name = "sms_type"  ;
 	static public $name = "sms_type"  ;

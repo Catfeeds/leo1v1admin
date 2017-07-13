@@ -3,7 +3,7 @@
 //source  file: config_hour.php
 namespace  App\Enums;
 
-class Ehour extends \App\Enums\Enum_base
+class Ehour extends \App\Core\Enum_base
 {
 	static public $field_name = "hour"  ;
 	static public $name = "hour"  ;

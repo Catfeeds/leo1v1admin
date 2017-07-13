@@ -3,7 +3,7 @@
 //source  file: config_is_test.php
 namespace  App\Enums;
 
-class Eis_test extends \App\Enums\Enum_base
+class Eis_test extends \App\Core\Enum_base
 {
 	static public $field_name = "is_test"  ;
 	static public $name = "is_test"  ;

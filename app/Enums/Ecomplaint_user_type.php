@@ -3,7 +3,7 @@
 //source  file: config_complaint_user_type.php
 namespace  App\Enums;
 
-class Ecomplaint_user_type extends \App\Enums\Enum_base
+class Ecomplaint_user_type extends \App\Core\Enum_base
 {
 	static public $field_name = "complaint_user_type"  ;
 	static public $name = "complaint_user_type"  ;

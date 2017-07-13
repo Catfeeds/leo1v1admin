@@ -3,7 +3,7 @@
 //source  file: config_performance.php
 namespace  App\Enums;
 
-class Eperformance extends \App\Enums\Enum_base
+class Eperformance extends \App\Core\Enum_base
 {
 	static public $field_name = "performance"  ;
 	static public $name = "performance"  ;

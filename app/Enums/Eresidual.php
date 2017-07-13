@@ -3,7 +3,7 @@
 //source  file: config_residual.php
 namespace  App\Enums;
 
-class Eresidual extends \App\Enums\Enum_base
+class Eresidual extends \App\Core\Enum_base
 {
 	static public $field_name = "residual"  ;
 	static public $name = "剩余值"  ;

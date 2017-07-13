@@ -3,7 +3,7 @@
 //source  file: config_star_level.php
 namespace  App\Enums;
 
-class Estar_level extends \App\Enums\Enum_base
+class Estar_level extends \App\Core\Enum_base
 {
 	static public $field_name = "star_level"  ;
 	static public $name = "star_level"  ;

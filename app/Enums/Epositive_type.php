@@ -3,7 +3,7 @@
 //source  file: config_positive_type.php
 namespace  App\Enums;
 
-class Epositive_type extends \App\Enums\Enum_base
+class Epositive_type extends \App\Core\Enum_base
 {
 	static public $field_name = "positive_type"  ;
 	static public $name = "positive_type"  ;

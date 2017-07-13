@@ -3,7 +3,7 @@
 //source  file: config_attendance_type.php
 namespace  App\Enums;
 
-class Eattendance_type extends \App\Enums\Enum_base
+class Eattendance_type extends \App\Core\Enum_base
 {
 	static public $field_name = "attendance_type"  ;
 	static public $name = "attendance_type"  ;

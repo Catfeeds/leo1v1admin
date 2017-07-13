@@ -3,7 +3,7 @@
 //source  file: config_main_type.php
 namespace  App\Enums;
 
-class Emain_type extends \App\Enums\Enum_base
+class Emain_type extends \App\Core\Enum_base
 {
 	static public $field_name = "main_type"  ;
 	static public $name = "main_type"  ;

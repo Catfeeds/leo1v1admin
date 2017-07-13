@@ -3,7 +3,7 @@
 //source  file: config_teacher_ref_type.php
 namespace  App\Enums;
 
-class Eteacher_ref_type extends \App\Enums\Enum_base
+class Eteacher_ref_type extends \App\Core\Enum_base
 {
 	static public $field_name = "teacher_ref_type"  ;
 	static public $name = "teacher_ref_type"  ;

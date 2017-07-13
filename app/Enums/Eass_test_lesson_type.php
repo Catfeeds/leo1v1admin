@@ -3,7 +3,7 @@
 //source  file: config_ass_test_lesson_type.php
 namespace  App\Enums;
 
-class Eass_test_lesson_type extends \App\Enums\Enum_base
+class Eass_test_lesson_type extends \App\Core\Enum_base
 {
 	static public $field_name = "ass_test_lesson_type"  ;
 	static public $name = "助教试听分类"  ;

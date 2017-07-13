@@ -3,7 +3,7 @@
 //source  file: config_renw_type.php
 namespace  App\Enums;
 
-class Erenw_type extends \App\Enums\Enum_base
+class Erenw_type extends \App\Core\Enum_base
 {
 	static public $field_name = "renw_type"  ;
 	static public $name = "renw_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_class_time.php
 namespace  App\Enums;
 
-class Eclass_time extends \App\Enums\Enum_base
+class Eclass_time extends \App\Core\Enum_base
 {
 	static public $field_name = "class_time"  ;
 	static public $name = "class_time"  ;

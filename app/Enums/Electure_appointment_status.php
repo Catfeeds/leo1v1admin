@@ -3,7 +3,7 @@
 //source  file: config_lecture_appointment_status.php
 namespace  App\Enums;
 
-class Electure_appointment_status extends \App\Enums\Enum_base
+class Electure_appointment_status extends \App\Core\Enum_base
 {
 	static public $field_name = "lecture_appointment_status"  ;
 	static public $name = "lecture_appointment_status"  ;

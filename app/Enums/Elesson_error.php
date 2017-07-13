@@ -3,7 +3,7 @@
 //source  file: config_lesson_error.php
 namespace  App\Enums;
 
-class Elesson_error extends \App\Enums\Enum_base
+class Elesson_error extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_error"  ;
 	static public $name = "lesson_error"  ;

@@ -3,7 +3,7 @@
 //source  file: config_groupid.php
 namespace  App\Enums;
 
-class Egroupid extends \App\Enums\Enum_base
+class Egroupid extends \App\Core\Enum_base
 {
 	static public $field_name = "groupid"  ;
 	static public $name = "groupid"  ;

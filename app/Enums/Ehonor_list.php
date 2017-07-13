@@ -3,7 +3,7 @@
 //source  file: config_honor_list.php
 namespace  App\Enums;
 
-class Ehonor_list extends \App\Enums\Enum_base
+class Ehonor_list extends \App\Core\Enum_base
 {
 	static public $field_name = "honor_list"  ;
 	static public $name = "honor_list"  ;

@@ -197,7 +197,6 @@ class tea_manage extends Controller
         $fulltime_flag = $this->get_in_int_val("fulltime_flag",-1 );
         $lesson_user_online_status   = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
 
-
         $lesson_type_default = Cookie::get("lesson_type")==null?-1: Cookie::get("lesson_type") ;
         $subject_default     = Cookie::get("subject")==null?-1: Cookie::get("subject");
 
@@ -236,7 +235,7 @@ class tea_manage extends Controller
         $lesson_deduct_key     = E\Elesson_deduct::$v2s_map;
         $lesson_deduct_info    = E\Elesson_deduct::$desc_map;
         $price_all             = 0;
-        $start_index =\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+        $start_index           = \App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info['list'] as $i=> &$item){
             $item["number"] = $start_index+$i;
             $stu_id         = $item["stu_id"];
@@ -276,7 +275,7 @@ class tea_manage extends Controller
             $item['homework_url']           = $this->get_work_url($item);
             $item['lesson_type_str']        = E\Econtract_type::get_desc($item["lesson_type"]) ;
             $item['level']                  = E\Elevel::get_desc($item["level"]) ;
-            $item['teacher_score']          = sprintf("%.2f", ( $item["teacher_effect"] +$item["teacher_quality"] +$item["teacher_interact"])/3 );
+            $item['teacher_score']        = sprintf("%.2f",($item["teacher_effect"]+$item["teacher_quality"]+$item["teacher_interact"])/3 );
             $item["tea_nick"]             = $this->cache_get_teacher_nick($item["teacherid"]);
             $item["require_admin_nick"]   = $this->cache_get_account_nick($item["require_adminid"]);
             $item["teacher_comment"]      = trim($item["teacher_comment"]);

@@ -3,7 +3,7 @@
 //source  file: config_date_id_log_type.php
 namespace  App\Enums;
 
-class Edate_id_log_type extends \App\Enums\Enum_base
+class Edate_id_log_type extends \App\Core\Enum_base
 {
 	static public $field_name = "date_id_log_type"  ;
 	static public $name = "分类"  ;

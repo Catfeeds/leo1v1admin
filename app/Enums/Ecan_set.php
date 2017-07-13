@@ -3,7 +3,7 @@
 //source  file: config_can_set.php
 namespace  App\Enums;
 
-class Ecan_set extends \App\Enums\Enum_base
+class Ecan_set extends \App\Core\Enum_base
 {
 	static public $field_name = "can_set"  ;
 	static public $name = "can_set"  ;

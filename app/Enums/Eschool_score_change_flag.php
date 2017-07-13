@@ -3,7 +3,7 @@
 //source  file: config_school_score_change_flag.php
 namespace  App\Enums;
 
-class Eschool_score_change_flag extends \App\Enums\Enum_base
+class Eschool_score_change_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "school_score_change_flag"  ;
 	static public $name = "school_score_change_flag"  ;

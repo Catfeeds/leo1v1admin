@@ -3,7 +3,7 @@
 //source  file: config_role.php
 namespace  App\Enums;
 
-class Erole extends \App\Enums\Enum_base
+class Erole extends \App\Core\Enum_base
 {
 	static public $field_name = "role"  ;
 	static public $name = "role"  ;

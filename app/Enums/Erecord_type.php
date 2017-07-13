@@ -3,7 +3,7 @@
 //source  file: config_record_type.php
 namespace  App\Enums;
 
-class Erecord_type extends \App\Enums\Enum_base
+class Erecord_type extends \App\Core\Enum_base
 {
 	static public $field_name = "record_type"  ;
 	static public $name = "record_type"  ;

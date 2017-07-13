@@ -3,7 +3,7 @@
 //source  file: config_jw_test_lesson_status.php
 namespace  App\Enums;
 
-class Ejw_test_lesson_status extends \App\Enums\Enum_base
+class Ejw_test_lesson_status extends \App\Core\Enum_base
 {
 	static public $field_name = "jw_test_lesson_status"  ;
 	static public $name = "jw_test_lesson_status"  ;

@@ -3,7 +3,7 @@
 //source  file: config_from_type.php
 namespace  App\Enums;
 
-class Efrom_type extends \App\Enums\Enum_base
+class Efrom_type extends \App\Core\Enum_base
 {
 	static public $field_name = "from_type"  ;
 	static public $name = "from_type"  ;

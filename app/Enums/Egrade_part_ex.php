@@ -3,7 +3,7 @@
 //source  file: config_grade_part_ex.php
 namespace  App\Enums;
 
-class Egrade_part_ex extends \App\Enums\Enum_base
+class Egrade_part_ex extends \App\Core\Enum_base
 {
 	static public $field_name = "grade_part_ex"  ;
 	static public $name = "grade_part_ex"  ;

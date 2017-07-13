@@ -3,7 +3,7 @@
 //source  file: config_grab_status.php
 namespace  App\Enums;
 
-class Egrab_status extends \App\Enums\Enum_base
+class Egrab_status extends \App\Core\Enum_base
 {
 	static public $field_name = "grab_status"  ;
 	static public $name = "grab_status"  ;

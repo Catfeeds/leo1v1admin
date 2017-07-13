@@ -3,7 +3,7 @@
 //source  file: config_revisit_person.php
 namespace  App\Enums;
 
-class Erevisit_person extends \App\Enums\Enum_base
+class Erevisit_person extends \App\Core\Enum_base
 {
 	static public $field_name = "revisit_person"  ;
 	static public $name = "revisit_person"  ;

@@ -3,7 +3,7 @@
 //source  file: config_is_warning_flag.php
 namespace  App\Enums;
 
-class Eis_warning_flag extends \App\Enums\Enum_base
+class Eis_warning_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "is_warning_flag"  ;
 	static public $name = "is_warning_flag"  ;

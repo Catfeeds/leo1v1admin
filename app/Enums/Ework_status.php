@@ -3,7 +3,7 @@
 //source  file: config_work_status.php
 namespace  App\Enums;
 
-class Ework_status extends \App\Enums\Enum_base
+class Ework_status extends \App\Core\Enum_base
 {
 	static public $field_name = "work_status"  ;
 	static public $name = "work_status"  ;

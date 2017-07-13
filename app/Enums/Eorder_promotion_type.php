@@ -3,7 +3,7 @@
 //source  file: config_order_promotion_type.php
 namespace  App\Enums;
 
-class Eorder_promotion_type extends \App\Enums\Enum_base
+class Eorder_promotion_type extends \App\Core\Enum_base
 {
 	static public $field_name = "order_promotion_type"  ;
 	static public $name = "促销分类"  ;

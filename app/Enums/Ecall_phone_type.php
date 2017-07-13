@@ -3,7 +3,7 @@
 //source  file: config_call_phone_type.php
 namespace  App\Enums;
 
-class Ecall_phone_type extends \App\Enums\Enum_base
+class Ecall_phone_type extends \App\Core\Enum_base
 {
 	static public $field_name = "call_phone_type"  ;
 	static public $name = "拨打电话类型"  ;

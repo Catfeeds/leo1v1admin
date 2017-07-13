@@ -3,7 +3,7 @@
 //source  file: config_permission.php
 namespace  App\Enums;
 
-class Epermission extends \App\Enums\Enum_base
+class Epermission extends \App\Core\Enum_base
 {
 	static public $field_name = "permission"  ;
 	static public $name = "permission"  ;

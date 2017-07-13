@@ -3,7 +3,7 @@
 //source  file: config_is_freeze.php
 namespace  App\Enums;
 
-class Eis_freeze extends \App\Enums\Enum_base
+class Eis_freeze extends \App\Core\Enum_base
 {
 	static public $field_name = "is_freeze"  ;
 	static public $name = "冻结操作类型"  ;

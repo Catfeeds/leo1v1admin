@@ -3,7 +3,7 @@
 //source  file: config_putonghua_is_correctly.php
 namespace  App\Enums;
 
-class Eputonghua_is_correctly extends \App\Enums\Enum_base
+class Eputonghua_is_correctly extends \App\Core\Enum_base
 {
 	static public $field_name = "putonghua_is_correctly"  ;
 	static public $name = "putonghua_is_correctly"  ;

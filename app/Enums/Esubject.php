@@ -3,7 +3,7 @@
 //source  file: config_subject.php
 namespace  App\Enums;
 
-class Esubject extends \App\Enums\Enum_base
+class Esubject extends \App\Core\Enum_base
 {
 	static public $field_name = "subject"  ;
 	static public $name = "科目"  ;

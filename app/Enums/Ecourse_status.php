@@ -3,7 +3,7 @@
 //source  file: config_course_status.php
 namespace  App\Enums;
 
-class Ecourse_status extends \App\Enums\Enum_base
+class Ecourse_status extends \App\Core\Enum_base
 {
 	static public $field_name = "course_status"  ;
 	static public $name = "course_status"  ;

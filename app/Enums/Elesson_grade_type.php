@@ -3,7 +3,7 @@
 //source  file: config_lesson_grade_type.php
 namespace  App\Enums;
 
-class Elesson_grade_type extends \App\Enums\Enum_base
+class Elesson_grade_type extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_grade_type"  ;
 	static public $name = "lesson_grade_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_seller_order_money.php
 namespace  App\Enums;
 
-class Eseller_order_money extends \App\Enums\Enum_base
+class Eseller_order_money extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_order_money"  ;
 	static public $name = "销售绩效提成"  ;

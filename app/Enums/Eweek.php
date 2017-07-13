@@ -3,7 +3,7 @@
 //source  file: config_week.php
 namespace  App\Enums;
 
-class Eweek extends \App\Enums\Enum_base
+class Eweek extends \App\Core\Enum_base
 {
 	static public $field_name = "week"  ;
 	static public $name = "week"  ;

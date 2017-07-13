@@ -3,7 +3,7 @@
 //source  file: config_ad_status.php
 namespace  App\Enums;
 
-class Ead_status extends \App\Enums\Enum_base
+class Ead_status extends \App\Core\Enum_base
 {
 	static public $field_name = "ad_status"  ;
 	static public $name = "ad_status"  ;

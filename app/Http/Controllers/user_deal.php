@@ -2587,7 +2587,7 @@ class user_deal extends Controller
             }
         }
 
-        $train_all = $this->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,-1);
+        $train_all = $this->t_lesson_info_b2->get_all_train_num_real($start,$end_time,$teacher_list,-1);
 
         dd($train_all);
 

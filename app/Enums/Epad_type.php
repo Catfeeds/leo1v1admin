@@ -3,7 +3,7 @@
 //source  file: config_pad_type.php
 namespace  App\Enums;
 
-class Epad_type extends \App\Enums\Enum_base
+class Epad_type extends \App\Core\Enum_base
 {
 	static public $field_name = "pad_type"  ;
 	static public $name = "Pad"  ;

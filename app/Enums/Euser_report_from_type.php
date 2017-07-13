@@ -3,7 +3,7 @@
 //source  file: config_user_report_from_type.php
 namespace  App\Enums;
 
-class Euser_report_from_type extends \App\Enums\Enum_base
+class Euser_report_from_type extends \App\Core\Enum_base
 {
 	static public $field_name = "user_report_from_type"  ;
 	static public $name = "user_report_from_type"  ;

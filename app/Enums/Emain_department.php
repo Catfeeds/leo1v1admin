@@ -3,7 +3,7 @@
 //source  file: config_main_department.php
 namespace  App\Enums;
 
-class Emain_department extends \App\Enums\Enum_base
+class Emain_department extends \App\Core\Enum_base
 {
 	static public $field_name = "main_department"  ;
 	static public $name = "main_department"  ;

@@ -3,7 +3,7 @@
 //source  file: config_origin_level.php
 namespace  App\Enums;
 
-class Eorigin_level extends \App\Enums\Enum_base
+class Eorigin_level extends \App\Core\Enum_base
 {
 	static public $field_name = "origin_level"  ;
 	static public $name = "origin_level"  ;

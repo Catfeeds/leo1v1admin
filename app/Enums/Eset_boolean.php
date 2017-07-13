@@ -3,7 +3,7 @@
 //source  file: config_set_boolean.php
 namespace  App\Enums;
 
-class Eset_boolean extends \App\Enums\Enum_base
+class Eset_boolean extends \App\Core\Enum_base
 {
 	static public $field_name = "set_boolean"  ;
 	static public $name = "set_boolean"  ;

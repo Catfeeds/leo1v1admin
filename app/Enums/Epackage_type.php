@@ -3,7 +3,7 @@
 //source  file: config_package_type.php
 namespace  App\Enums;
 
-class Epackage_type extends \App\Enums\Enum_base
+class Epackage_type extends \App\Core\Enum_base
 {
 	static public $field_name = "package_type"  ;
 	static public $name = "package_type"  ;

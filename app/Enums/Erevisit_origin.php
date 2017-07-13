@@ -3,7 +3,7 @@
 //source  file: config_revisit_origin.php
 namespace  App\Enums;
 
-class Erevisit_origin extends \App\Enums\Enum_base
+class Erevisit_origin extends \App\Core\Enum_base
 {
 	static public $field_name = "revisit_origin"  ;
 	static public $name = "revisit_origin"  ;

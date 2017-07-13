@@ -3,7 +3,7 @@
 //source  file: config_gift_status.php
 namespace  App\Enums;
 
-class Egift_status extends \App\Enums\Enum_base
+class Egift_status extends \App\Core\Enum_base
 {
 	static public $field_name = "gift_status"  ;
 	static public $name = "gift_status"  ;

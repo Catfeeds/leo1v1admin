@@ -3,7 +3,7 @@
 //source  file: config_book_status.php
 namespace  App\Enums;
 
-class Ebook_status extends \App\Enums\Enum_base
+class Ebook_status extends \App\Core\Enum_base
 {
 	static public $field_name = "book_status"  ;
 	static public $name = "book_status"  ;

@@ -3,7 +3,7 @@
 //source  file: config_power.php
 namespace  App\Enums;
 
-class Epower extends \App\Enums\Enum_base
+class Epower extends \App\Core\Enum_base
 {
 	static public $field_name = "power"  ;
 	static public $name = "power"  ;

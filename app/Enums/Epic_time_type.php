@@ -3,7 +3,7 @@
 //source  file: config_pic_time_type.php
 namespace  App\Enums;
 
-class Epic_time_type extends \App\Enums\Enum_base
+class Epic_time_type extends \App\Core\Enum_base
 {
 	static public $field_name = "pic_time_type"  ;
 	static public $name = "pic_time_type"  ;

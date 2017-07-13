@@ -3,7 +3,7 @@
 //source  file: config_test_listen_from_type.php
 namespace  App\Enums;
 
-class Etest_listen_from_type extends \App\Enums\Enum_base
+class Etest_listen_from_type extends \App\Core\Enum_base
 {
 	static public $field_name = "test_listen_from_type"  ;
 	static public $name = "test_listen_from_type"  ;

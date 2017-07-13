@@ -3,7 +3,7 @@
 //source  file: config_reward_type.php
 namespace  App\Enums;
 
-class Ereward_type extends \App\Enums\Enum_base
+class Ereward_type extends \App\Core\Enum_base
 {
 	static public $field_name = "reward_type"  ;
 	static public $name = "reward_type"  ;

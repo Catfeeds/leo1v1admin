@@ -3,7 +3,7 @@
 //source  file: config_test_lesson_cancel_flag.php
 namespace  App\Enums;
 
-class Etest_lesson_cancel_flag extends \App\Enums\Enum_base
+class Etest_lesson_cancel_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "test_lesson_cancel_flag"  ;
 	static public $name = "课前取消"  ;

@@ -3,7 +3,7 @@
 //source  file: config_account_role.php
 namespace  App\Enums;
 
-class Eaccount_role extends \App\Enums\Enum_base
+class Eaccount_role extends \App\Core\Enum_base
 {
 	static public $field_name = "account_role"  ;
 	static public $name = "account_role"  ;

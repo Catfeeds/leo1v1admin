@@ -3,7 +3,7 @@
 //source  file: config_trial_type.php
 namespace  App\Enums;
 
-class Etrial_type extends \App\Enums\Enum_base
+class Etrial_type extends \App\Core\Enum_base
 {
 	static public $field_name = "trial_type"  ;
 	static public $name = "trial_type"  ;

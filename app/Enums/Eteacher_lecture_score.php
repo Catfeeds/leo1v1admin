@@ -3,7 +3,7 @@
 //source  file: config_teacher_lecture_score.php
 namespace  App\Enums;
 
-class Eteacher_lecture_score extends \App\Enums\Enum_base
+class Eteacher_lecture_score extends \App\Core\Enum_base
 {
 	static public $field_name = "teacher_lecture_score"  ;
 	static public $name = "teacher_lecture_score"  ;

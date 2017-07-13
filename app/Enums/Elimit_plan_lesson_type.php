@@ -3,7 +3,7 @@
 //source  file: config_limit_plan_lesson_type.php
 namespace  App\Enums;
 
-class Elimit_plan_lesson_type extends \App\Enums\Enum_base
+class Elimit_plan_lesson_type extends \App\Core\Enum_base
 {
 	static public $field_name = "limit_plan_lesson_type"  ;
 	static public $name = "limit_plan_lesson_type"  ;

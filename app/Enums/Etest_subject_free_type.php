@@ -3,7 +3,7 @@
 //source  file: config_test_subject_free_type.php
 namespace  App\Enums;
 
-class Etest_subject_free_type extends \App\Enums\Enum_base
+class Etest_subject_free_type extends \App\Core\Enum_base
 {
 	static public $field_name = "test_subject_free_type"  ;
 	static public $name = "test_subject_free_type"  ;

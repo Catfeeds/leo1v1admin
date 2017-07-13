@@ -63,7 +63,7 @@ $data= "<?php
 //source  file: $opt_file
 namespace  App\Enums;
 
-class $className extends \App\Enums\Enum_base
+class $className extends \App\Core\Enum_base
 {
 \tstatic public \$field_name = \"$field_name\"  ;
 \tstatic public \$name = \"$name\"  ;

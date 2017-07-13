@@ -3,7 +3,7 @@
 //source  file: config_flow_status.php
 namespace  App\Enums;
 
-class Eflow_status extends \App\Enums\Enum_base
+class Eflow_status extends \App\Core\Enum_base
 {
 	static public $field_name = "flow_status"  ;
 	static public $name = "状态"  ;

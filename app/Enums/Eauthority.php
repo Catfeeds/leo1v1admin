@@ -3,7 +3,7 @@
 //source  file: config_authority.php
 namespace  App\Enums;
 
-class Eauthority extends \App\Enums\Enum_base
+class Eauthority extends \App\Core\Enum_base
 {
 	static public $field_name = "authority"  ;
 	static public $name = "authority"  ;

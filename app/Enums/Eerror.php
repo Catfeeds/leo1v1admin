@@ -3,7 +3,7 @@
 //source  file: config_error.php
 namespace  App\Enums;
 
-class Eerror extends \App\Enums\Enum_base
+class Eerror extends \App\Core\Enum_base
 {
 	static public $field_name = "error"  ;
 	static public $name = "error"  ;

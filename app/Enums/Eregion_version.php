@@ -3,7 +3,7 @@
 //source  file: config_region_version.php
 namespace  App\Enums;
 
-class Eregion_version extends \App\Enums\Enum_base
+class Eregion_version extends \App\Core\Enum_base
 {
 	static public $field_name = "region_version"  ;
 	static public $name = "region_version"  ;

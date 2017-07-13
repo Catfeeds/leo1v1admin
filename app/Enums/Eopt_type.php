@@ -3,7 +3,7 @@
 //source  file: config_opt_type.php
 namespace  App\Enums;
 
-class Eopt_type extends \App\Enums\Enum_base
+class Eopt_type extends \App\Core\Enum_base
 {
 	static public $field_name = "opt_type"  ;
 	static public $name = "opt_type"  ;

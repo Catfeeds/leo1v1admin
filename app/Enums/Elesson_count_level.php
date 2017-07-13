@@ -3,7 +3,7 @@
 //source  file: config_lesson_count_level.php
 namespace  App\Enums;
 
-class Elesson_count_level extends \App\Enums\Enum_base
+class Elesson_count_level extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_count_level"  ;
 	static public $name = "lesson_count_level"  ;

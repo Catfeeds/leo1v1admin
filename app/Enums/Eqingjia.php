@@ -3,7 +3,7 @@
 //source  file: config_qingjia.php
 namespace  App\Enums;
 
-class Eqingjia extends \App\Enums\Enum_base
+class Eqingjia extends \App\Core\Enum_base
 {
 	static public $field_name = "qingjia"  ;
 	static public $name = "请假类型"  ;

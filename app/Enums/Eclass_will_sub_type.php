@@ -3,7 +3,7 @@
 //source  file: config_class_will_sub_type.php
 namespace  App\Enums;
 
-class Eclass_will_sub_type extends \App\Enums\Enum_base
+class Eclass_will_sub_type extends \App\Core\Enum_base
 {
 	static public $field_name = "class_will_sub_type"  ;
 	static public $name = "class_will_sub_type"  ;

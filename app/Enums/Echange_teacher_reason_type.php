@@ -3,7 +3,7 @@
 //source  file: config_change_teacher_reason_type.php
 namespace  App\Enums;
 
-class Echange_teacher_reason_type extends \App\Enums\Enum_base
+class Echange_teacher_reason_type extends \App\Core\Enum_base
 {
 	static public $field_name = "change_teacher_reason_type"  ;
 	static public $name = "change_teacher_reason_type"  ;

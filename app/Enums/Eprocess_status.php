@@ -3,7 +3,7 @@
 //source  file: config_process_status.php
 namespace  App\Enums;
 
-class Eprocess_status extends \App\Enums\Enum_base
+class Eprocess_status extends \App\Core\Enum_base
 {
 	static public $field_name = "process_status"  ;
 	static public $name = "process_status"  ;

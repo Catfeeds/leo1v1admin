@@ -3,7 +3,7 @@
 //source  file: config_check_status.php
 namespace  App\Enums;
 
-class Echeck_status extends \App\Enums\Enum_base
+class Echeck_status extends \App\Core\Enum_base
 {
 	static public $field_name = "check_status"  ;
 	static public $name = "check_status"  ;

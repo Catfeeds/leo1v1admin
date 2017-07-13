@@ -3,7 +3,7 @@
 //source  file: config_seller_new_count_type.php
 namespace  App\Enums;
 
-class Eseller_new_count_type extends \App\Enums\Enum_base
+class Eseller_new_count_type extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_new_count_type"  ;
 	static public $name = "例子赠送类型"  ;

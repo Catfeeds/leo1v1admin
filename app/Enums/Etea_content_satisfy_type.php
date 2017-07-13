@@ -3,7 +3,7 @@
 //source  file: config_tea_content_satisfy_type.php
 namespace  App\Enums;
 
-class Etea_content_satisfy_type extends \App\Enums\Enum_base
+class Etea_content_satisfy_type extends \App\Core\Enum_base
 {
 	static public $field_name = "tea_content_satisfy_type"  ;
 	static public $name = "tea_content_satisfy_type"  ;

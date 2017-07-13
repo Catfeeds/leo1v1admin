@@ -3,7 +3,7 @@
 //source  file: config_express_name.php
 namespace  App\Enums;
 
-class Eexpress_name extends \App\Enums\Enum_base
+class Eexpress_name extends \App\Core\Enum_base
 {
 	static public $field_name = "express_name"  ;
 	static public $name = "express_name"  ;

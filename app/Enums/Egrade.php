@@ -3,7 +3,7 @@
 //source  file: config_grade.php
 namespace  App\Enums;
 
-class Egrade extends \App\Enums\Enum_base
+class Egrade extends \App\Core\Enum_base
 {
 	static public $field_name = "grade"  ;
 	static public $name = "年级"  ;

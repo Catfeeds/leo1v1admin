@@ -3,7 +3,7 @@
 //source  file: config_send_gift.php
 namespace  App\Enums;
 
-class Esend_gift extends \App\Enums\Enum_base
+class Esend_gift extends \App\Core\Enum_base
 {
 	static public $field_name = "send_gift"  ;
 	static public $name = "send_gift"  ;

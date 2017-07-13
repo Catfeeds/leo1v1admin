@@ -3,7 +3,7 @@
 //source  file: config_assess_res.php
 namespace  App\Enums;
 
-class Eassess_res extends \App\Enums\Enum_base
+class Eassess_res extends \App\Core\Enum_base
 {
 	static public $field_name = "assess_res"  ;
 	static public $name = "assess_res"  ;

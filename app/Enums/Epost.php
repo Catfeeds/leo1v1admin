@@ -3,7 +3,7 @@
 //source  file: config_post.php
 namespace  App\Enums;
 
-class Epost extends \App\Enums\Enum_base
+class Epost extends \App\Core\Enum_base
 {
 	static public $field_name = "post"  ;
 	static public $name = "post"  ;

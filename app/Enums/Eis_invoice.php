@@ -3,7 +3,7 @@
 //source  file: config_is_invoice.php
 namespace  App\Enums;
 
-class Eis_invoice extends \App\Enums\Enum_base
+class Eis_invoice extends \App\Core\Enum_base
 {
 	static public $field_name = "is_invoice"  ;
 	static public $name = "is_invoice"  ;

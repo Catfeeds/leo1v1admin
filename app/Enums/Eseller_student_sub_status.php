@@ -3,7 +3,7 @@
 //source  file: config_seller_student_sub_status.php
 namespace  App\Enums;
 
-class Eseller_student_sub_status extends \App\Enums\Enum_base
+class Eseller_student_sub_status extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_student_sub_status"  ;
 	static public $name = "子状态"  ;

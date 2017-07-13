@@ -3,7 +3,7 @@
 //source  file: config_seller_level.php
 namespace  App\Enums;
 
-class Eseller_level extends \App\Enums\Enum_base
+class Eseller_level extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_level"  ;
 	static public $name = "seller_level"  ;

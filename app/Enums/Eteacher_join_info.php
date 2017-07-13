@@ -3,7 +3,7 @@
 //source  file: config_teacher_join_info.php
 namespace  App\Enums;
 
-class Eteacher_join_info extends \App\Enums\Enum_base
+class Eteacher_join_info extends \App\Core\Enum_base
 {
 	static public $field_name = "teacher_join_info"  ;
 	static public $name = "teacher_join_info"  ;

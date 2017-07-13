@@ -3,7 +3,7 @@
 //source  file: config_seller_require_change_type.php
 namespace  App\Enums;
 
-class Eseller_require_change_type extends \App\Enums\Enum_base
+class Eseller_require_change_type extends \App\Core\Enum_base
 {
 	static public $field_name = "seller_require_change_type"  ;
 	static public $name = "seller_require_change_type"  ;

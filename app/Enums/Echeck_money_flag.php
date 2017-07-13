@@ -3,7 +3,7 @@
 //source  file: config_check_money_flag.php
 namespace  App\Enums;
 
-class Echeck_money_flag extends \App\Enums\Enum_base
+class Echeck_money_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "check_money_flag"  ;
 	static public $name = "check_money_flag"  ;

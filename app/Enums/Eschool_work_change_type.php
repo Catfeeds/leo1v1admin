@@ -3,7 +3,7 @@
 //source  file: config_school_work_change_type.php
 namespace  App\Enums;
 
-class Eschool_work_change_type extends \App\Enums\Enum_base
+class Eschool_work_change_type extends \App\Core\Enum_base
 {
 	static public $field_name = "school_work_change_type"  ;
 	static public $name = "school_work_change_type"  ;

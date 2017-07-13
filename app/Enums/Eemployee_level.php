@@ -3,7 +3,7 @@
 //source  file: config_employee_level.php
 namespace  App\Enums;
 
-class Eemployee_level extends \App\Enums\Enum_base
+class Eemployee_level extends \App\Core\Enum_base
 {
 	static public $field_name = "employee_level"  ;
 	static public $name = "employee_level"  ;

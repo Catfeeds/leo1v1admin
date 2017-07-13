@@ -3,7 +3,7 @@
 //source  file: config_complaint_state.php
 namespace  App\Enums;
 
-class Ecomplaint_state extends \App\Enums\Enum_base
+class Ecomplaint_state extends \App\Core\Enum_base
 {
 	static public $field_name = "complaint_state"  ;
 	static public $name = "complaint_state"  ;

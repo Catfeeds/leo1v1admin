@@ -3,7 +3,7 @@
 //source  file: config_ency_type.php
 namespace  App\Enums;
 
-class Eency_type extends \App\Enums\Enum_base
+class Eency_type extends \App\Core\Enum_base
 {
 	static public $field_name = "ency_type"  ;
 	static public $name = "ency_type"  ;

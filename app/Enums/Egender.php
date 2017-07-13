@@ -3,7 +3,7 @@
 //source  file: config_gender.php
 namespace  App\Enums;
 
-class Egender extends \App\Enums\Enum_base
+class Egender extends \App\Core\Enum_base
 {
 	static public $field_name = "gender"  ;
 	static public $name = "gender"  ;

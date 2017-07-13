@@ -3,7 +3,7 @@
 //source  file: config_competition_flag.php
 namespace  App\Enums;
 
-class Ecompetition_flag extends \App\Enums\Enum_base
+class Ecompetition_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "competition_flag"  ;
 	static public $name = "competition_flag"  ;

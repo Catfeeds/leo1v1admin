@@ -3,7 +3,7 @@
 //source  file: config_template_type.php
 namespace  App\Enums;
 
-class Etemplate_type extends \App\Enums\Enum_base
+class Etemplate_type extends \App\Core\Enum_base
 {
 	static public $field_name = "template_type"  ;
 	static public $name = "template_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_child_class_performance_type.php
 namespace  App\Enums;
 
-class Echild_class_performance_type extends \App\Enums\Enum_base
+class Echild_class_performance_type extends \App\Core\Enum_base
 {
 	static public $field_name = "child_class_performance_type"  ;
 	static public $name = "child_class_performance_type"  ;

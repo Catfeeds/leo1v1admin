@@ -3,7 +3,7 @@
 //source  file: config_test_user.php
 namespace  App\Enums;
 
-class Etest_user extends \App\Enums\Enum_base
+class Etest_user extends \App\Core\Enum_base
 {
 	static public $field_name = "test_user"  ;
 	static public $name = "test_user"  ;

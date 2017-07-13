@@ -3,7 +3,7 @@
 //source  file: config_group_seller_student_status.php
 namespace  App\Enums;
 
-class Egroup_seller_student_status extends \App\Enums\Enum_base
+class Egroup_seller_student_status extends \App\Core\Enum_base
 {
 	static public $field_name = "group_seller_student_status"  ;
 	static public $name = "年"  ;

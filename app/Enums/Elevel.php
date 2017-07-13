@@ -3,7 +3,7 @@
 //source  file: config_level.php
 namespace  App\Enums;
 
-class Elevel extends \App\Enums\Enum_base
+class Elevel extends \App\Core\Enum_base
 {
 	static public $field_name = "level"  ;
 	static public $name = "level"  ;

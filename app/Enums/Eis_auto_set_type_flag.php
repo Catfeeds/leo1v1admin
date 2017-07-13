@@ -3,7 +3,7 @@
 //source  file: config_is_auto_set_type_flag.php
 namespace  App\Enums;
 
-class Eis_auto_set_type_flag extends \App\Enums\Enum_base
+class Eis_auto_set_type_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "is_auto_set_type_flag"  ;
 	static public $name = "is_auto_set_type_flag"  ;

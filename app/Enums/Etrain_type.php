@@ -3,7 +3,7 @@
 //source  file: config_train_type.php
 namespace  App\Enums;
 
-class Etrain_type extends \App\Enums\Enum_base
+class Etrain_type extends \App\Core\Enum_base
 {
 	static public $field_name = "train_type"  ;
 	static public $name = "train_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_question_difficulty.php
 namespace  App\Enums;
 
-class Equestion_difficulty extends \App\Enums\Enum_base
+class Equestion_difficulty extends \App\Core\Enum_base
 {
 	static public $field_name = "question_difficulty"  ;
 	static public $name = "question_difficulty"  ;

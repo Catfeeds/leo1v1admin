@@ -3,7 +3,7 @@
 //source  file: config_complaint_reject_flag.php
 namespace  App\Enums;
 
-class Ecomplaint_reject_flag extends \App\Enums\Enum_base
+class Ecomplaint_reject_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "complaint_reject_flag"  ;
 	static public $name = "complaint_reject_flag"  ;

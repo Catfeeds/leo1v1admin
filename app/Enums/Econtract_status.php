@@ -3,7 +3,7 @@
 //source  file: config_contract_status.php
 namespace  App\Enums;
 
-class Econtract_status extends \App\Enums\Enum_base
+class Econtract_status extends \App\Core\Enum_base
 {
 	static public $field_name = "contract_status"  ;
 	static public $name = "状态"  ;

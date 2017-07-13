@@ -3,7 +3,7 @@
 //source  file: config_lesson_cancel_reason_type.php
 namespace  App\Enums;
 
-class Elesson_cancel_reason_type extends \App\Enums\Enum_base
+class Elesson_cancel_reason_type extends \App\Core\Enum_base
 {
 	static public $field_name = "lesson_cancel_reason_type"  ;
 	static public $name = "取消类型"  ;

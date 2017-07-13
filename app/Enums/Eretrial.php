@@ -3,7 +3,7 @@
 //source  file: config_retrial.php
 namespace  App\Enums;
 
-class Eretrial extends \App\Enums\Enum_base
+class Eretrial extends \App\Core\Enum_base
 {
 	static public $field_name = "retrial"  ;
 	static public $name = "retrial"  ;

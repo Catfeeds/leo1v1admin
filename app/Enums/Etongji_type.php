@@ -3,7 +3,7 @@
 //source  file: config_tongji_type.php
 namespace  App\Enums;
 
-class Etongji_type extends \App\Enums\Enum_base
+class Etongji_type extends \App\Core\Enum_base
 {
 	static public $field_name = "tongji_type"  ;
 	static public $name = "分类"  ;

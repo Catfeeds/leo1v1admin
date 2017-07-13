@@ -3,7 +3,7 @@
 //source  file: config_assistant_type.php
 namespace  App\Enums;
 
-class Eassistant_type extends \App\Enums\Enum_base
+class Eassistant_type extends \App\Core\Enum_base
 {
 	static public $field_name = "assistant_type"  ;
 	static public $name = "assistant_type"  ;

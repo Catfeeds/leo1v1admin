@@ -3,7 +3,7 @@
 //source  file: config_tea_label_norm_type.php
 namespace  App\Enums;
 
-class Etea_label_norm_type extends \App\Enums\Enum_base
+class Etea_label_norm_type extends \App\Core\Enum_base
 {
 	static public $field_name = "tea_label_norm_type"  ;
 	static public $name = "tea_label_norm_type"  ;

@@ -3,7 +3,7 @@
 //source  file: config_push_status.php
 namespace  App\Enums;
 
-class Epush_status extends \App\Enums\Enum_base
+class Epush_status extends \App\Core\Enum_base
 {
 	static public $field_name = "push_status"  ;
 	static public $name = "push_status"  ;

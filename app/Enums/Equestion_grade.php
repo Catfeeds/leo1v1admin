@@ -3,7 +3,7 @@
 //source  file: config_question_grade.php
 namespace  App\Enums;
 
-class Equestion_grade extends \App\Enums\Enum_base
+class Equestion_grade extends \App\Core\Enum_base
 {
 	static public $field_name = "question_grade"  ;
 	static public $name = "question_grade"  ;

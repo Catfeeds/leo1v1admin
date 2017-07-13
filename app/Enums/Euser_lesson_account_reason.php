@@ -3,7 +3,7 @@
 //source  file: config_user_lesson_account_reason.php
 namespace  App\Enums;
 
-class Euser_lesson_account_reason extends \App\Enums\Enum_base
+class Euser_lesson_account_reason extends \App\Core\Enum_base
 {
 	static public $field_name = "user_lesson_account_reason"  ;
 	static public $name = "user_lesson_account_reason"  ;

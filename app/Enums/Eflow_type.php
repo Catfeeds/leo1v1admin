@@ -3,7 +3,7 @@
 //source  file: config_flow_type.php
 namespace  App\Enums;
 
-class Eflow_type extends \App\Enums\Enum_base
+class Eflow_type extends \App\Core\Enum_base
 {
 	static public $field_name = "flow_type"  ;
 	static public $name = "类型"  ;

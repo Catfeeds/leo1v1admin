@@ -3,7 +3,7 @@
 //source  file: config_env.php
 namespace  App\Enums;
 
-class Eenv extends \App\Enums\Enum_base
+class Eenv extends \App\Core\Enum_base
 {
 	static public $field_name = "env"  ;
 	static public $name = "env"  ;

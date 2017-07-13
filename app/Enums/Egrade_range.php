@@ -3,7 +3,7 @@
 //source  file: config_grade_range.php
 namespace  App\Enums;
 
-class Egrade_range extends \App\Enums\Enum_base
+class Egrade_range extends \App\Core\Enum_base
 {
 	static public $field_name = "grade_range"  ;
 	static public $name = "grade_range"  ;

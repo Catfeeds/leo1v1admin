@@ -3,7 +3,7 @@
 //source  file: config_question_type.php
 namespace  App\Enums;
 
-class Equestion_type extends \App\Enums\Enum_base
+class Equestion_type extends \App\Core\Enum_base
 {
 	static public $field_name = "question_type"  ;
 	static public $name = "question_type"  ;

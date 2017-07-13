@@ -3,7 +3,7 @@
 //source  file: config_freetime.php
 namespace  App\Enums;
 
-class Efreetime extends \App\Enums\Enum_base
+class Efreetime extends \App\Core\Enum_base
 {
 	static public $field_name = "freetime"  ;
 	static public $name = "freetime"  ;

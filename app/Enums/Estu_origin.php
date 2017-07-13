@@ -3,7 +3,7 @@
 //source  file: config_stu_origin.php
 namespace  App\Enums;
 
-class Estu_origin extends \App\Enums\Enum_base
+class Estu_origin extends \App\Core\Enum_base
 {
 	static public $field_name = "stu_origin"  ;
 	static public $name = "stu_origin"  ;

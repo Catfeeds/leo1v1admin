@@ -3,7 +3,7 @@
 //source  file: config_flow_check_flag.php
 namespace  App\Enums;
 
-class Eflow_check_flag extends \App\Enums\Enum_base
+class Eflow_check_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "flow_check_flag"  ;
 	static public $name = "审核"  ;

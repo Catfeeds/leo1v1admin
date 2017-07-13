@@ -3,7 +3,7 @@
 //source  file: config_test_lesson_level.php
 namespace  App\Enums;
 
-class Etest_lesson_level extends \App\Enums\Enum_base
+class Etest_lesson_level extends \App\Core\Enum_base
 {
 	static public $field_name = "test_lesson_level"  ;
 	static public $name = "test_lesson_level"  ;

@@ -3,7 +3,7 @@
 //source  file: config_sh_page_grade.php
 namespace  App\Enums;
 
-class Esh_page_grade extends \App\Enums\Enum_base
+class Esh_page_grade extends \App\Core\Enum_base
 {
 	static public $field_name = "sh_page_grade"  ;
 	static public $name = "sh_page_grade"  ;

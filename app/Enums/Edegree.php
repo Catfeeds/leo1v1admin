@@ -3,7 +3,7 @@
 //source  file: config_degree.php
 namespace  App\Enums;
 
-class Edegree extends \App\Enums\Enum_base
+class Edegree extends \App\Core\Enum_base
 {
 	static public $field_name = "degree"  ;
 	static public $name = "degree"  ;

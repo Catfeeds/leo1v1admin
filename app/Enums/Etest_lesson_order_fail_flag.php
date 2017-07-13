@@ -3,7 +3,7 @@
 //source  file: config_test_lesson_order_fail_flag.php
 namespace  App\Enums;
 
-class Etest_lesson_order_fail_flag extends \App\Enums\Enum_base
+class Etest_lesson_order_fail_flag extends \App\Core\Enum_base
 {
 	static public $field_name = "test_lesson_order_fail_flag"  ;
 	static public $name = "test_lesson_order_fail_flag"  ;

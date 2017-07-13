@@ -3,7 +3,7 @@
 //source  file: config_praise.php
 namespace  App\Enums;
 
-class Epraise extends \App\Enums\Enum_base
+class Epraise extends \App\Core\Enum_base
 {
 	static public $field_name = "praise"  ;
 	static public $name = "praise"  ;

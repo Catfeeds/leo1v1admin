@@ -3,7 +3,7 @@
 //source  file: config_push_type.php
 namespace  App\Enums;
 
-class Epush_type extends \App\Enums\Enum_base
+class Epush_type extends \App\Core\Enum_base
 {
 	static public $field_name = "push_type"  ;
 	static public $name = "push_type"  ;

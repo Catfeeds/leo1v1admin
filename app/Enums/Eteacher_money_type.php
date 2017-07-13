@@ -3,7 +3,7 @@
 //source  file: config_teacher_money_type.php
 namespace  App\Enums;
 
-class Eteacher_money_type extends \App\Enums\Enum_base
+class Eteacher_money_type extends \App\Core\Enum_base
 {
 	static public $field_name = "teacher_money_type"  ;
 	static public $name = "teacher_money_type"  ;
