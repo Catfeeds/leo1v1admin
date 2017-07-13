@@ -1,1 +1,1 @@
-git add app/ config/ database/ migrations_bak/ public/ resources/ tests/ 
+git add app/ config/ database/  public/ resources/ tests/
