@@ -7,6 +7,7 @@ if [ $?  -ne 0 ] ;then
 fi
 
 # 加入新文件
+
 git add app/ config/ database/  public/ resources/ tests/
 
 msg=$1

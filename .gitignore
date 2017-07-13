@@ -1,4 +1,4 @@
-app/Enums/*
+app/Enums/*.php
 app/Models/Zgen/*
 app/Http/Controllers/ControllerEx.php
 old
