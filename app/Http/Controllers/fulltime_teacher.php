@@ -88,11 +88,11 @@ class fulltime_teacher extends Controller
              $account_info["stu_lesson_total_score"]=0;
         }
                
-        /* if($adminid==349){
+        if($adminid==349 || $adminid==99){
             $account_info["order_per_score"]=20;
             $account_info["stu_num_score"]=15;
             $account_info["stu_lesson_total_score"]=5; 
-            }*/
+        }
         $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
 
 

@@ -627,10 +627,12 @@ class teacher_money extends Controller
     }
 
     public function grade_wages_list(){
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,1);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
-        $list = $this->t_lesson_info_b2->get_lesson_list_for_wages(-1,$start_time,$end_time);
-        dd($list);
+        $list      = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
+        $full_list = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,1);
+        $lesson_list = array_merge($list,$full_list);
+        dd($lesson_list);
         foreach($list as $val){
             
         }

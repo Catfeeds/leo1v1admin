@@ -72,6 +72,9 @@ class agent extends Controller
 
 
     public function check(){
+        $lessonid = 62815;
+        $ret = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid_by_lessonid($lessonid);
+        dd($ret['set_lesson_adminid']);
         // $openid = 'orwGAswh6yMByNDpPz8ToUPNhRpQ';
         // $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
         // $wx_data["first"]    = '1';

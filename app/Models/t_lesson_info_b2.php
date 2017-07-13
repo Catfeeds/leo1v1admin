@@ -1479,20 +1479,37 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_grade_wages_list($start_time,$end_time){
+    public function get_grade_wages_list($start_time,$end_time,$full_flag){
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
         ];
-        $sql = $this->gen_sql_new("select lesson_count,money"
+        if($full_flag==0){
+            $where_arr[] = "t.teacher_type!=3 or t.teacherid in (51094,99504,97313)"
+        }else{
+            $where_arr[] = "t.teacher_type=3 and t.teacherid not in (51094,99504,97313)"
+        }
+        $sql = $this->gen_sql_new("select l.lesson_count,l.lesson_type,l.grade,sum(o.price) as lesson_price,m.money"
                                   ." from %s l"
+                                  ." left join %s o on l.lessonid=o.lessonid"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on l.level=m.level "
+                                  ." and m.grade=(case when "
+                                  ." l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ." else l.grade"
+                                  ." end )"
+                                  ." and l.teacher_money_type=m.teacher_money_type"
                                   ." left join %s"
                                   ." where %s"
-                                  ." group by l.grade"
                                   ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item['lessonid'];
+        });
     }
 
 
