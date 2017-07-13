@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LoginTest extends TestCase
 {
-    
+
     public function test_index()
     {
         echo "login test_index\n";
@@ -69,9 +69,9 @@ class LoginTest extends TestCase
     }
     public function test_check_power() {
         echo "login test_check_power\n";
-        $this->withSession(["acc"=>"jim","power_list"=>"{}"]); 
+        $this->withSession(["acc"=>"jim","power_list"=>"{}"]);
         $this->visit("/supervisor/monitor");
-        
+
         $this->see("没有权限");
 
 
