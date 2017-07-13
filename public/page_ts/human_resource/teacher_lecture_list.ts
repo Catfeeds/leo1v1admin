@@ -326,11 +326,14 @@ $(function(){
         var start     = opt_data.real_begin_time;
         var phone    = $(this).get_opt_data("phone");
         var subject  = $(this).get_opt_data("subject");
+        var grade   = $(this).get_opt_data("grade");
         $.do_ajax("/tea_manage_new/get_re_submit_num",{
             "phone"   : phone,
-            "subject" : subject
+            "subject" : subject,
+            "grade"   : grade
         },function(result){
             var num = result.num;
+            console.log(num);
             if(num>1 && account==""){
                 BootstrapDialog.alert("该老师重审次数超过1次,不能再审核,请联系技术人员处理!!");
                 return;
@@ -700,13 +703,16 @@ $(function(){
         var phone    = $(this).get_opt_data("phone");
         var identity = $(this).get_opt_data("identity");
         var subject  = $(this).get_opt_data("subject");
+        var grade   = $(this).get_opt_data("grade");
         $.do_ajax("/tea_manage_new/get_re_submit_num",{
             "phone" : phone,
-            "subject":subject
+            "subject":subject,
+            "grade":grade
         },function(result){
             var num = result.num;
+            console.log(num);
             if(num>2){
-                BootstrapDialog.alert("没有审核机会了!!");
+                BootstrapDialog.alert("该老师没有审核机会了!!");
                 return;
             }else{
                 var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label> ");

@@ -620,7 +620,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s tal on tt.phone_spare = tal.phone and not exists ("
                                   ." select 1 from %s taa where taa.phone=tal.phone and tal.answer_begin_time<taa.answer_begin_time)"
-                                  ." where %s and l.subject>0 group by tal.teacher_type ",
+                                  ." where %s and l.subject>0 group by identity ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,

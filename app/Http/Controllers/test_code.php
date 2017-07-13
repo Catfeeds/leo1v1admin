@@ -1271,9 +1271,18 @@ class test_code extends Controller
                     "wx_use_flag"=>1,
                 ]);
                 // $user_info = $this->t_student_info->get_student_info_by_phone($t_v[2]);
+                $this->cache_get_assistant_nick($assistantid);
             }
         }
     }
 
+    public function reset_teacher_ref_type(){
+        $list = $this->t_teacher_info->get_admin_teacher_list();
+        foreach($list as $val){
+            $this->t_teacher_info->field_update_list($val['teacherid'],[
+                "teacher_ref_type" => 41
+            ]);
+        }
+    }
 
 }

@@ -101,5 +101,5 @@ class z_t_weixin_msg  extends  \App\Models\NewModel
   `receive_content` varchar(1024) NOT NULL COMMENT '服务返回内容',
   `is_success` tinyint(4) NOT NULL DEFAULT '0' COMMENT '消息发送是否成功',
   PRIMARY KEY (`recordid`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8
  */

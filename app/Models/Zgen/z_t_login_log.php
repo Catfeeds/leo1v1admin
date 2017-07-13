@@ -68,5 +68,5 @@ class z_t_login_log  extends  \App\Models\NewModel
   PRIMARY KEY (`id`),
   KEY `account` (`account`),
   KEY `login_time` (`login_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=195129 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=195780 DEFAULT CHARSET=utf8
  */

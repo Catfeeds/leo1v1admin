@@ -149,6 +149,7 @@
                             <a class="fa-headphones opt-test-room" title="设置试听"></a>
                             @if($master_adminid >0)
                                 <a class="fa-deviantart opt-change-type" title="设置学员类型"></a>
+                                <a class="fa-deviantart opt-change-type-new" title="设置学员类型"></a>
                             @endif
                             <a class="fa-list-alt opt-type-change-list" title="学员类型变更列表"></a>
                             <a class="fa-refresh opt-left-time" title="重置课时"></a>

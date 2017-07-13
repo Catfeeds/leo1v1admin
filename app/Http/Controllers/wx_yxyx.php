@@ -25,12 +25,22 @@ use OSS\Core\OssException;
 
 class wx_yxyx extends Controller
 {
-
-    var $appid="wx0e046235d4632c3b";
-    var $appsecret="6635bf93476620f103102d34aa16b3ae";
     var $check_login_flag =false;
+    var $appid;
+    var $appsecret ;
+    public function  __construct() {
+        parent::__construct();
+        $config=\App\Helper\Config::get_config("yxyx_wx");
+        $this->appid = $config["appid"] ;
+        $this->appsecret = $config['appseret'];
+    }
 
     public function get_token() {
+        /*
+        "appid"     => "wxb4f28794ec117af0" ,
+                    "appsecret" => "4a4bc7c543698b8ac499e5c72c22f242",
+                    "url" => "http://wx-yxyx.leo1v1.com",
+        */
         $appid     = $this->appid;
         $appsecret = $this->appsecret;
         $wx        = new \App\Helper\Wx();

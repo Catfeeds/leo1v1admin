@@ -1208,7 +1208,7 @@ trait  TeaPower {
         \App\Helper\Utils::set_default_value($subject,$teacher_info,0,"subject");
         \App\Helper\Utils::set_default_value($tea_nick,$teacher_info,$phone,"tea_nick");
         \App\Helper\Utils::set_default_value($realname,$teacher_info,$tea_nick,"realname");
-        \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,$phone,"phone_spare");
+        \App\Helper\Utils::set_default_value($phone_spare,$teacher_info,"","phone_spare");
         \App\Helper\Utils::set_default_value($not_grade,$teacher_info,"","not_grade");
         \App\Helper\Utils::set_default_value($identity,$teacher_info,0,"identity");
         \App\Helper\Utils::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
@@ -1224,13 +1224,24 @@ trait  TeaPower {
         \App\Helper\Utils::set_default_value($transfer_teacherid,$teacher_info,0,"transfer_teacherid");
         \App\Helper\Utils::set_default_value($transfer_time,$teacher_info,0,"transfer_time");
         \App\Helper\Utils::set_default_value($interview_access,$teacher_info,"","interview_access");
+        $train_through_new_time = $train_through_new==1?time():0;
 
-        $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
-        $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
-        if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
-            $teacher_ref_type = $reference_info['teacher_ref_type'];
-            if(in_array($reference_info['teacher_type'],[21,22])){
-                $teacher_money_type = 5;
+        $adminid = $this->t_manager_info->get_id_by_phone($phone);
+        if($adminid>0){
+            if($tea_nick==$phone){
+                $tea_nick = $this->t_manager_info->get_name($adminid);
+                $realname = $tea_nick;
+            }
+            $teacher_type     = E\Eteacher_type::V_41;
+            $teacher_ref_type = E\Eteacher_ref_type::V_41;
+        }else{
+            $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
+            $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
+            if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
+                $teacher_ref_type = $reference_info['teacher_ref_type'];
+                if(in_array($reference_info['teacher_type'],[21,22])){
+                    $teacher_money_type = E\Eteacher_money_type::V_5;
+                }
             }
         }
 
@@ -1246,8 +1257,6 @@ trait  TeaPower {
             $passwd = substr($passwd,0,6);
         }
 
-        $train_through_new_time = $train_through_new==1?time():0;
-
         $passwd_md5 = md5($passwd);
         $this->t_user_info->start_transaction();
         $this->t_user_info->row_insert([
@@ -1258,14 +1267,13 @@ trait  TeaPower {
             $this->t_user_info->rollback();
             return "老师账号生成失败！请重试！";
         }
-
         $ret = $this->t_phone_to_user->add($phone,E\Erole::V_TEACHER,$teacherid) ;
         if (!$ret)  {
             $this->t_user_info->rollback();
             return false;
         }
-
         $this->t_teacher_info->add_teacher_info_to_ejabberd($teacherid,$passwd_md5);
+
         if($grade_start!=0 && $grade_end!=0){
             $grade_range = ["grade_start"=>$grade_start,"grade_end"=>$grade_end];
         }else{

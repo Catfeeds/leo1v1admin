@@ -1271,14 +1271,48 @@ class stu_manage extends Controller
      */
     public function  score_list () { 
         $userid = $this->sid;
-        if($userid<>0)
-        $ret_info=$this->t_student_score_info->get_list($page_info,$sid);
-
+        // dd($userid);
         $page_info=$this->get_in_page_info();
-        
-        dd($sid);
+        if($userid<>0){
+                       // dd($userid);
+            $ret_info=$this->t_student_score_info->get_list($userid,$page_info);
+        }
+        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
+    /**
+     *@author    sam
+     *@function  新增学生分数信息
+     *
+     */
+    public function score_add_new(){
+        $userid           = $this->get_in_int_val("userid");
+        //$create_time      = $this->get_in_int_val("create_time");
+        $create_time      = time();
+        $create_adminid   = $this->get_in_int_val("create_adminid");
+        $subject          = $this->get_in_int_val("subject");
+        $stu_score_type   = $this->get_in_int_val("stu_score_type");
+        $stu_score_time   = $this->get_in_int_val("stu_score_time");
+        //$stu_score_time   = time();
+        $score            = $this->get_in_int_val("score");
+        $rank             = $this->get_in_str_val("rank");
+        $file_url         = $this->get_in_str_val("file_url");
+
+        $this->t_student_score_info->row_insert([
+            "userid"                => $userid,
+            "create_time"           => $create_time,
+            "create_adminid"        => $create_adminid,
+            "subject"               => $subject,
+            "stu_score_type"        => $stu_score_type,
+            "stu_score_time"        => $stu_score_time,
+            "score"                 => $score,
+            "rank"                  => $rank,
+            "file_url"              => $file_url
+        ]);
+
+        return $this->output_succ();
+    }
+
 
     /**
      *@author    kevin
@@ -1288,16 +1322,24 @@ class stu_manage extends Controller
     public function  todo_list() {
         //: dd($sid);
         $userid = $this->sid;
+        //dd(this->pageView(__METHOD__,$table_data_list );
         //dd($userid);
-        /*
-        if($userid<>0)
-            $ret_info=$this->t_student_score_info->get_list($page_info,$sid);
+        $page_info=$this->get_in_page_info();
+        $login_list = $this->t_user_login_log->login_list($userid,$page_info);
+        // dd($login_list);
+        return $this->pageView(__METHOD__,$login_list);
+        
+       
+    }
 
-        $page_info=$this->get_in_page_info();/
-        */
-        //dd($sid);
-        return $this->pageView(__METHOD__,$userid);
-   
+
+    public function login_log_list() {
+        $userid = $this->sid;
+        dd($userid);
+        //$res = $this->t_user_login_log->login_list($userid);
+        //dd($res);
+
+
     }
 
 }

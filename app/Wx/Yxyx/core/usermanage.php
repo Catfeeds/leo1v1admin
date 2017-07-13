@@ -1,5 +1,5 @@
 <?php
-namespace Teacher\Core;
+namespace Yxyx\Core;
 /**
  * 用户管理 类
  * Created by Lane.

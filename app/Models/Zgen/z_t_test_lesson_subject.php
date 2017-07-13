@@ -181,5 +181,5 @@ class z_t_test_lesson_subject  extends  \App\Models\NewModel
   UNIQUE KEY `t_test_lesson_subject_current_require_id_unique` (`current_require_id`),
   KEY `t_test_lesson_subject_userid_index` (`userid`),
   KEY `t_test_lesson_subject_stu_request_test_lesson_time_index` (`stu_request_test_lesson_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=6281 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=6306 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

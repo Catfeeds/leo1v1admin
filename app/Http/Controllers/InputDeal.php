@@ -154,7 +154,6 @@ trait  InputDeal {
         return $page_count;
     }
 
-
     public function get_in_grade( $def_value=-1){
         return  $this->get_in_int_val('grade',$def_value,E\Egrade::class );
     }

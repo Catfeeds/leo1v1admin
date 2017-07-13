@@ -140,4 +140,12 @@ class ss_deal2 extends Controller
         return $this->output_ajax_table ($ret_info);
     }
 
+
+    public function get_tmk_assign_time(){
+        $tmk_adminid = $this->get_in_int_val('tmk_adminid');
+
+
+
+    }
+
 }

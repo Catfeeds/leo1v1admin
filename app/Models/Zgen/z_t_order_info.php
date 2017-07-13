@@ -238,6 +238,9 @@ class z_t_order_info  extends  \App\Models\NewModel
 
 	/*int(11) */
 	const C_is_send_flag='is_send_flag';
+
+	/*varchar(64) */
+	const C_channel='channel';
 	function get_is_new_stu($orderid ){
 		return $this->field_get_value( $orderid , self::C_is_new_stu );
 	}
@@ -469,6 +472,9 @@ class z_t_order_info  extends  \App\Models\NewModel
 	function get_is_send_flag($orderid ){
 		return $this->field_get_value( $orderid , self::C_is_send_flag );
 	}
+	function get_channel($orderid ){
+		return $this->field_get_value( $orderid , self::C_channel );
+	}
 
 
   public function __construct()
@@ -576,6 +582,7 @@ class z_t_order_info  extends  \App\Models\NewModel
   `mail_code` varchar(255) DEFAULT NULL,
   `mail_code_url` varchar(255) NOT NULL COMMENT '运单号截图',
   `is_send_flag` int(11) NOT NULL COMMENT '是否邮寄合同',
+  `channel` varchar(64) NOT NULL COMMENT '付款渠道',
   PRIMARY KEY (`orderid`),
   UNIQUE KEY `db_weiyi_t_order_info_from_key_unique` (`from_key`),
   KEY `order_time` (`order_time`),

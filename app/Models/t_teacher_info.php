@@ -2237,4 +2237,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function get_admin_teacher_list(){
+        $sql = $this->gen_sql_new("select teacherid,phone "
+                                  ." from %s t"
+                                  ." where exists (select 1 from %s where t.phone=phone)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

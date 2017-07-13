@@ -3943,8 +3943,6 @@ class human_resource extends Controller
                 "transfer_time"         => time(),
             ];
             $new_teacherid = $this->add_teacher_common($add_info);
-        }else{
-            return $this->output_err("新手机老师账号已存在！");
         }
 
         return $this->output_succ(["new_teacherid"=>$new_teacherid]);

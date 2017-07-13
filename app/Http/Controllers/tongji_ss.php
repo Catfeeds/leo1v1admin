@@ -5792,8 +5792,8 @@ class tongji_ss extends Controller
         $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
         $groupid           = $this->get_in_int_val("groupid",-1);
-        $tmk_adminid       =  $this->get_account_id();
-        $origin_level     =  $this->get_in_el_origin_level();
+        $tmk_adminid       = $this->get_account_id();
+        $origin_level      = $this->get_in_el_origin_level();
 
         $tmk_access_adminid = [60,188,68,186,349,684,384,323,282,896];
 

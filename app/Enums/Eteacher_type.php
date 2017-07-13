@@ -12,44 +12,44 @@ class Eteacher_type extends \App\Enums\Enum_base
 		1 => "全职老师",
 		2 => "兼职老师",
 		3 => "公司全职老师",
+		4 => "公司教研老师",
 		21 => "平台总代理",
 		22 => "平台助理",
 		31 => "公众号渠道",
 		32 => "微信号代理老师",
-		41 => "企业招聘",
 	);
 	 static $simple_desc_map= array(
 		0 => "",
 		1 => "",
 		2 => "",
 		3 => "",
+		4 => "",
 		21 => "",
 		22 => "",
 		31 => "",
 		32 => "",
-		41 => "",
 	);
 	 static $s2v_map= array(
 		"" => 0,
 		"" => 1,
 		"" => 2,
 		"" => 3,
+		"" => 4,
 		"" => 21,
 		"" => 22,
 		"" => 31,
 		"" => 32,
-		"" => 41,
 	);
 	 static $v2s_map= array(
 		 0=>  "",
 		 1=>  "",
 		 2=>  "",
 		 3=>  "",
+		 4=>  "",
 		 21=>  "",
 		 22=>  "",
 		 31=>  "",
 		 32=>  "",
-		 41=>  "",
 	);
 
 	//未设置
@@ -60,6 +60,8 @@ class Eteacher_type extends \App\Enums\Enum_base
 	const V_2=2;
 	//公司全职老师
 	const V_3=3;
+	//公司教研老师
+	const V_4=4;
 	//平台总代理
 	const V_21=21;
 	//平台助理
@@ -68,8 +70,6 @@ class Eteacher_type extends \App\Enums\Enum_base
 	const V_31=31;
 	//微信号代理老师
 	const V_32=32;
-	//企业招聘
-	const V_41=41;
 
 	//未设置
 	const S_0="";
@@ -79,6 +79,8 @@ class Eteacher_type extends \App\Enums\Enum_base
 	const S_2="";
 	//公司全职老师
 	const S_3="";
+	//公司教研老师
+	const S_4="";
 	//平台总代理
 	const S_21="";
 	//平台助理
@@ -87,8 +89,6 @@ class Eteacher_type extends \App\Enums\Enum_base
 	const S_31="";
 	//微信号代理老师
 	const S_32="";
-	//企业招聘
-	const S_41="";
 
 
 

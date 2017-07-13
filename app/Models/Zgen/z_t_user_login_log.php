@@ -89,5 +89,5 @@ class z_t_user_login_log  extends  \App\Models\NewModel
   PRIMARY KEY (`id`),
   UNIQUE KEY `db_weiyi_t_user_login_log_userid_login_time_ip_unique` (`userid`,`login_time`,`ip`),
   KEY `db_weiyi_t_user_login_log_userid_index` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

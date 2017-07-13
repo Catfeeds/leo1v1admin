@@ -2577,62 +2577,19 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        for($i=0;$i<=7;$i++){
-            $start_time = strtotime("2017-07-01")+86400*$i;
-            $end_time = $start_time + 86400;
-            $lesson_info = $this->t_lesson_info_b2->get_qz_tea_lesson_info($start_time,$end_time);
-            $list=[];
-            foreach($lesson_info as $val){
-                if($val["lesson_type"]==1100 && $val["train_type"]==5){
-                    @$list[$val["uid"]] += 0.8;
-                }elseif($val["lesson_type"]==2){
-                    @$list[$val["uid"]] += 1.5;
-                }else{
-                    @$list[$val["uid"]] += $val["lesson_count"]/100;
-                }
+        $start= strtotime("2017-06-18");
+        $end_time= time();
+        $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start,$end_time);
+        $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start,$end_time);
+        foreach($teacher_arr as $k=>$val){
+            if(!isset($teacher_list[$k])){
+                $teacher_list[$k]=$k; 
             }
-            $name_list ="";
-            $num=0;
-            $name_list_research="";
-            $num_research=0;
-            foreach($list as $k=>$item){
-                if($item>=8){
-                    $account_role = $this->t_manager_info->get_account_role($k);
-                    if($account_role==4){
-                        //$task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"在家办公通知","明天课时满8课时可在家办公","老师您好,您明天的课时满8小时,可以在家办公","");
-              
-                        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($k);                   
-                        $teacherid = $teacher_info["teacherid"];
-                        $realname = $this->t_teacher_info->get_realname($teacherid);
-                        $this->t_fulltime_teacher_attendance_list->row_insert([
-                            "teacherid"  =>$teacherid,
-                            "add_time"   =>time(),
-                            "attendance_type" =>1,
-                            "attendance_time"  =>$start_time,
-                            "day_num"           =>1,
-                            "adminid"           =>$k
-                        ]);
-
-                    }
- 
-                }
-            }
-  
         }
-       
-        dd(111);
 
-        $orderid     = 15758;
-        $apply_time  = 1495781631;
-        $list        = $this->t_refund_analysis->get_ass_list($orderid,$apply_time);
-        dd($list);
+        $train_all = $this->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,-1);
 
-
-        $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid(192);
-        $department = $this->t_order_refund_confirm_config->get_department_name_by_configid(192);
-
-        dd($department);
-        $ret        = $this->t_order_refund_confirm_config->get_refund_str_by_keys($keys);
+        dd($train_all);
 
         $ret = dispatch( new \App\Jobs\SendEmailNew(
             "jhp0416@163.com","【理优1对1】试讲邀请和安排","尊敬的".$realname."老师：<br>
@@ -3242,6 +3199,24 @@ class user_deal extends Controller
         return $this->output_succ($arr);
     }
 
+    public function get_student_type_change_list(){
+        $userid = $this->get_in_int_val("userid",0);
+        $data = $this->t_student_type_change_list->get_info_by_userid($userid);
+        foreach($data as &$val){
+            $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
+            $val["nick"] = $this->t_student_info->get_nick($val["userid"]);
+            E\Estudent_type::set_item_value_str($val,"type_before");
+            E\Estudent_type::set_item_value_str($val,"type_cur");
+            $val["change_type_str"] = $val["change_type"]==1?"系统":"手动";
+            $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+        }
+        if(empty($data)){
+            return $this->output_err("该老师没有更改类型记录!");
+        }else{
+            return $this->output_succ(["data"=>$data]);
+        }
+
+    }
     public function get_teacher_free_list(){
         $teacherid = $this->get_in_int_val("teacherid",0);
         $type      = $this->get_in_int_val("type",1);

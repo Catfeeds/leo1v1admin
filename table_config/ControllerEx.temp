@@ -1,0 +1,14 @@
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller as BaseController;
+
+/**
+ * @property  \App\Models\t_lesson_info_b2       $t_lesson_info_b2
+
+__MODEL_DEFINE__
+*/
+class ControllerEx extends BaseController
+{
+
+}

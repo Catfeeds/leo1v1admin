@@ -1,5 +1,5 @@
 <?php
-namespace Teacher\Core;
+namespace Yxyx\Core;
 /**
  * 智能接口
  * User: lane

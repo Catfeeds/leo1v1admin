@@ -1,5 +1,5 @@
 <?php
-namespace Teacher\Core;
+namespace Yxyx\Core;
 /**
  * 微信Access_Token的获取与过期检查
  * Created by Lane.
@@ -18,7 +18,7 @@ class AccessToken  {
         //在获取token的过程中先判断环境
         \App\Helper\Utils::logger('accx');
 
-        if(\Teacher\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_TEC'],@$_SERVER['HTTP_ACCESSKEY_TEC'])){
+        if(\Yxyx\Core\Environment::isSae(@$_SERVER['HTTP_APPNAME_TEC'],@$_SERVER['HTTP_ACCESSKEY_TEC'])){
             return self::_getSae();
         }
 

@@ -14,6 +14,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         parent::__construct();
     }
 
+    public function tt() {
+        $this->main_get_value($sql);
+        $this->main_get_row($sql);
+        $this->main_get_list($sql);
+        $this->main_get_list_by_page($sql,$page_info);
+        //t_adid_to_adminid::DB_TABLE_NAME
+        //t_student_info::DB_TABLE_NAME
+    }
     public function get_info_by_tquin($tquin) {
         $sql=$this->gen_sql_new("select * from %s where tquin=%u ", self::DB_TABLE_NAME,$tquin );
         return $this->main_get_row($sql);
@@ -30,6 +38,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   $this->ensql($nick_phone));
         }
         $where_arr[]=["account_role=%u", $main_type, -1];
+
         $sql =  $this->gen_sql_new( "select uid as id ,  account as  nick,   name as realname,  phone,'' as gender  from %s    where %s ",
                        self::DB_TABLE_NAME,  $where_arr );
         return $this->main_get_list_by_page($sql,$page_num,10);
@@ -95,6 +104,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
         return $this->main_get_list( $sql );
     }
+
     public function get_xx( ) {
         $sql= $this->gen_sql_new(
             "select * from %s where %s ",
@@ -103,10 +113,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
     }
 
-
     public function check_permission( $account,$permission ) {
-
-
         $sql = $this->gen_sql("select permission from %s where account = '%s' ",
                        self::DB_TABLE_NAME,
                        $account
@@ -125,10 +132,9 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if(in_array($permission, $perm_arr))
             return true;
         return false;
-
     }
 
-    public function get_all_manager( $page_num,$uid, $user_info, $has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1)
+    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1)
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
@@ -143,9 +149,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $where_arr[]=[  "t1.account like '%%%s%%'", $user_info, "" ] ;
         }
         if ( !$has_question_user  ) {
-            $where_arr[]= [  "t1.account not like 'c\_%s%%'", "",  1] ;
-            $where_arr[]=     [  "t1.account not like 'q\_%s%%'", "",  1] ;
-
+            $where_arr[] = [  "t1.account not like 'c\_%s%%'", "",  1] ;
+            $where_arr[] = [  "t1.account not like 'q\_%s%%'", "",  1] ;
         }
 
         $this->where_arr_add_int_or_idlist($where_arr,"seller_level", $seller_level);
@@ -269,8 +274,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-
-
     public function del_ass_manager($uid)
     {
         $sql = sprintf("delete from %s  where uid = %u ",
@@ -300,7 +303,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_value($sql);
     }
-
 
     public function set_only_role($account,$role){
         $sql   =    $this->gen_sql("update %s set account_role = %u where account = '%s'",
@@ -643,7 +645,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_teacher_info_by_adminid($adminid){
-        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.second_subject,t.third_subject,m.account_role,t.grade_part_ex,t.train_through_new_time "
+        $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.second_subject,t.third_subject,m.account_role,"
+                                  ." t.grade_part_ex,t.train_through_new_time "
                                   ." from %s m "
                                   ." join %s t on m.phone = t.phone "
                                   ." where m.uid = %u"

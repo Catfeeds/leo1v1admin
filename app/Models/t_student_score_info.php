@@ -7,7 +7,16 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 	{
 		parent::__construct();
 	}
-
+	public function get_list($user_id, $page_num){
+               // dd($user_id);
+		$sql = $this->gen_sql("select * from %s where userid = %d",
+                              self::DB_TABLE_NAME,
+                              // t_student_score_info::DB_TABLE_NAME,
+                              $user_id);
+        // dd($sql);
+		//return $this->main_gen_list_as_page($sql, $page_num,10);
+        return $this->main_get_list_as_page($sql);
+	}
 }
 
 

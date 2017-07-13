@@ -1,5 +1,5 @@
 <?php
-namespace App\Wx\Teacher\Core;
+namespace App\Wx\Yxyx\Core;
 
 use LaneWeChat\Core\ResponsePassive;
 

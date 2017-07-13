@@ -12,6 +12,91 @@ class login extends Controller
 {
     var $check_login_flag=false;
 
+    function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ) {
+
+        $menu_str        = "";
+        $item_count      = 0;
+        $item_1          = "";
+        $role_str        = "";
+        $role_item_count = 0;
+
+        foreach ($menu as $item) {
+            $item_name=$item["name"];
+            $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+            if($tmp) {
+                $item_count++;
+                if(is_array($tmp)) {
+                    $item_1=$tmp[1];
+                    $menu_str.=$tmp[0];
+                }else{
+                    $menu_str.=$tmp;
+                }
+            }
+        }
+
+        if ($item_count==1) {
+            $menu_str=$item_1;
+        }
+        return $menu_str;
+    }
+
+    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
+        //\App\Helper\Utils::logger("do:".$node["name"]);
+
+        if (isset($node["list"])) {
+            $sub_list_str="";
+            $add_count=0 ;
+            $item_1="" ;
+            $sub_list_str_tmp="";
+            foreach ($node["list"] as $item) {
+                $tmp=$this->gen_account_role_one_item( $item, $power_map, $url_power_map);
+                if($tmp) {
+                    $add_count++;
+                    if ( is_array( $tmp)  ) {
+                        $sub_list_str_tmp.= $tmp[0];
+                        $item_1=$tmp[1];
+                    }else{
+                        $sub_list_str_tmp.= $tmp;
+                    }
+                }
+            }
+            if ($add_count==1 && $item_1) {
+                $sub_list_str.= $item_1;
+            }else{
+                $sub_list_str.= $sub_list_str_tmp;
+            }
+
+            if ($sub_list_str) {
+                return  array('<li class="treeview " > <a href="#"> <i class="fa fa-folder-o "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
+
+            }else{
+                return "";
+            }
+
+        }else{
+
+
+            $check_powerid = $url_power_map[$node["url"]] ;
+            if (isset($power_map[$check_powerid ])) {
+                //不再显示
+                unset($power_map[$check_powerid ]);
+
+                $icon=@$node["icon"];
+                if (!$icon) {
+                    $icon="fa-circle-o";
+                }
+
+
+                return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
+                                       $node["name"].'</span></a></li>';
+            }else{
+
+                //\App\Helper\Utils::logger("do:".$node["name"].":null--$power_id");
+                return "";
+            }
+        }
+    }
+
     function  gen_one_item ($node,$power_fix,$level,$power_map) {
         //\App\Helper\Utils::logger("do:".$node["name"]);
 
@@ -161,9 +246,15 @@ class login extends Controller
         foreach( $power_list as $item ){
             $arr[$item] = true;
         }
+        $power_map=$arr;
+        
+        $url_power_map=\App\Config\url_power_map::get_config();
+        $menu_html ="";
+
+        //$menu_html=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map  );
 
         $menu      = \App\Helper\Config::get_menu();
-        $menu_html = $this->gen_menu( $arr,$menu,1,1);
+        $menu_html .= $this->gen_menu( $arr,$menu,1,1);
 
         $stu_menu = \App\Helper\Config::get_stu_menu();
         $tea_menu = \App\Helper\Config::get_tea_menu();
@@ -174,7 +265,7 @@ class login extends Controller
         $_SESSION['menu_html']     = $menu_html;
         $_SESSION['stu_menu_html'] = $stu_menu_html;
         $_SESSION['tea_menu_html'] = $tea_menu_html;
-        $_SESSION['power_list']    = json_encode($arr);
+        $_SESSION['power_list']    = json_encode($power_map);
 
         session($_SESSION) ;
 

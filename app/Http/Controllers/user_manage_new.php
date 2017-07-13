@@ -3354,4 +3354,14 @@ class user_manage_new extends Controller
         }
     }
 
+    public function get_last_change_type_info(){
+        $userid = $this->get_in_int_val("userid",0);
+        $data = $this->t_student_type_change_list->get_info_by_userid_last($userid);
+        if($data){
+            $data["recover_time"] = date("Y-m-d", $data["recover_time"]);
+        }
+ 
+        return $this->output_succ(["data"=>$data]);
+    }
+
 }

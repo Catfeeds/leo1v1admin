@@ -1,0 +1,22 @@
+<?php
+namespace App\Models;
+use \App\Enums as E;
+class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+

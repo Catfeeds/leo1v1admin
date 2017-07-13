@@ -79,7 +79,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_small_class_user_login_time($lessonid, $userid)
     {
-        $sql =sprintf("select count(*) from %s where lessonid= %u and userid = %u and server_type=2 and opt_type = 1",
+        $sql =sprintf("select count(1) from %s where lessonid= %u and userid = %u and server_type=2 and opt_type = 1",
                       self::DB_TABLE_NAME,
                       // Z\z_t_student_info::DB_TABLE_NAME,
 
@@ -92,7 +92,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
      public function get_stu_valid_lesson_num($userid) {
-        $sql = sprintf("select count(*) as num from %s where userid = %u and lesson_status = 0 and lesson_type != 2",
+        $sql = sprintf("select count(1) as num from %s where userid = %u and lesson_status = 0 and lesson_type != 2",
                        self::DB_TABLE_NAME,
                        $userid
         );
@@ -323,11 +323,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
                      ."    LEFT JOIN db_weiyi.t_teacher_info as tt"
                      ."    ON tt.teacherid = l.teacherid "
-
                      ."    LEFT JOIN db_weiyi_admin.t_manager_info as m"
                      ."    ON tt.phone = m.phone "
-
-
                      ."    where"
                      ."    %s  "
                      ."    order by lesson_start asc, l.lessonid asc "
@@ -500,7 +497,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_book_user_lesson_count($userid){
-        $sql = $this->gen_sql("select count(*) from %s where userid=%u"
+        $sql = $this->gen_sql("select count(1) from %s where userid=%u"
                               ,self::DB_TABLE_NAME
                               ,$userid);
         return $this->main_get_value($sql);
@@ -522,7 +519,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_info_by_userid($userid){
         $sql = $this->gen_sql("select *,( "
-                              ."select count(*) from %s where userid = %u and lesson_type=2 "
+                              ."select count(1) from %s where userid = %u and lesson_type=2 "
                               .") as lesson_count from %s "
                               ." where userid                        = %u and lesson_type=2 "
                               ." order by lesson_start desc"
@@ -1802,7 +1799,7 @@ lesson_type in (0,1) "
     }
 
     public function get_course_lesson_count( $courseid ) {
-        $sql =$this->gen_sql_new("select count(*) from %s where courseid=%u",
+        $sql =$this->gen_sql_new("select count(1) from %s where courseid=%u",
                                  self::DB_TABLE_NAME,
                                  $courseid);
         return $this->main_get_value($sql);
@@ -2011,7 +2008,7 @@ lesson_type in (0,1) "
     public function get_succ_test_lesson_count($userid) {
 
         $sql=$this->gen_sql_new(
-            "select count(*) from %s where userid=%u and lesson_del_flag=0 ",
+            "select count(1) from %s where userid=%u and lesson_del_flag=0 ",
             self::DB_TABLE_NAME,
             $userid
         );
@@ -4518,7 +4515,7 @@ lesson_type in (0,1) "
 
         $this->where_arr_teacherid($where_arr,"t.teacherid",$teacher_list);
 
-        $sql = $this->gen_sql_new("select count(*) all_lesson,"
+        $sql = $this->gen_sql_new("select count(1) all_lesson,"
                                   ." sum(if(o.orderid>0,1,0)) have_order "
                                   ." from %s l "
                                   ." left join %s o on (l.lessonid = o.from_test_lesson_id and order_status >0)"
@@ -4555,7 +4552,7 @@ lesson_type in (0,1) "
             $where_arr[] = ["ta.reference= '%s'",$reference,""];
         }
 
-        $sql = $this->gen_sql_new("select count(*) all_lesson,"
+        $sql = $this->gen_sql_new("select count(1) all_lesson,"
                                   ." sum(if(o.orderid>0,1,0)) have_order "
                                   ." from %s l "
                                   ." left join %s o on (l.lessonid = o.from_test_lesson_id and order_status >0)"
@@ -4824,7 +4821,7 @@ lesson_type in (0,1) "
             $where_arr[] = "create_time>=".$time;
         }
 
-        $sql = $this->gen_sql_new("select count(*) all_lesson, "
+        $sql = $this->gen_sql_new("select count(1) all_lesson, "
                                   ." sum(if(tl.first_lesson_time >0,1,0)) have_order,tl.teacherid,t.nick,t.create_time,t.level,"
                                   ." t.teacher_money_type,t.identity,t.school "
                                   ." from %s tl "
@@ -5395,7 +5392,7 @@ lesson_type in (0,1) "
             "lesson_del_flag = 0",
             "((l.lesson_status =2 and (tss.success_flag=1 or l.lesson_user_online_status=1)) or (l.lesson_status < 2 and tss.success_flag in (0,1)))"
         ];
-        $sql = $this->gen_sql_new("select count(*) num from %s l ".
+        $sql = $this->gen_sql_new("select count(1) num from %s l ".
                                   "join %s tss on l.lessonid = tss.lessonid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
@@ -5415,7 +5412,7 @@ lesson_type in (0,1) "
             "((l.lesson_status =2 and (tss.success_flag=1 or l.lesson_user_online_status=1)) or (l.lesson_status < 2 and tss.success_flag in (0,1)))"
         ];
         $this->where_arr_teacherid($where_arr,"l.grade", $grade_arr);
-        $sql = $this->gen_sql_new("select count(*) num from %s l ".
+        $sql = $this->gen_sql_new("select count(1) num from %s l ".
                                   "join %s tss on l.lessonid = tss.lessonid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
@@ -5435,7 +5432,7 @@ lesson_type in (0,1) "
             "lesson_del_flag = 0",
             "tss.success_flag in (0,1)"
         ];
-        $sql = $this->gen_sql_new("select count(*) num from %s l ".
+        $sql = $this->gen_sql_new("select count(1) num from %s l ".
                                   "join %s tss on l.lessonid = tss.lessonid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
@@ -5659,7 +5656,7 @@ lesson_type in (0,1) "
             "order_time >0",
             "ll.lesson_start >0"
         ];
-        $sql = $this->gen_sql_new("select count(*) all_count,sum(o.order_time) order_time,sum(ll.lesson_start) lesson_time"
+        $sql = $this->gen_sql_new("select count(1) all_count,sum(o.order_time) order_time,sum(ll.lesson_start) lesson_time"
                                   ." from %s l "
                                   ." left join %s o on (l.lessonid = o.from_test_lesson_id and order_status>0)"
                                   ." left join %s ll on "
@@ -5789,7 +5786,7 @@ lesson_type in (0,1) "
         }else if($record_flag==1){
             $where_arr[]="r.add_time>0";
         }
-        $sql = $this->gen_sql_new("select count(*) all_lesson,l.teacherid,t.realname,t.create_time,t.level,t.school,t.identity,t.subject,t.grade_part_ex,r.add_time,r.acc "
+        $sql = $this->gen_sql_new("select count(1) all_lesson,l.teacherid,t.realname,t.create_time,t.level,t.school,t.identity,t.subject,t.grade_part_ex,r.add_time,r.acc "
                                   ." from %s l "
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tss on tss.lessonid = l.lessonid"
@@ -7106,7 +7103,7 @@ lesson_type in (0,1) "
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(*) from %s l left join %s tss on l.lessonid = tss.lessonid where %s and stu_attend < (lesson_start+1200) and l.stu_attend >0",
+        $sql = $this->gen_sql_new("select count(1) from %s l left join %s tss on l.lessonid = tss.lessonid where %s and stu_attend < (lesson_start+1200) and l.stu_attend >0",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   $where_arr
@@ -7551,7 +7548,7 @@ lesson_type in (0,1) "
         ];
         $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_arr);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(*) lesson_count,sum(if(o.orderid>0,1,0)) order_count from %s l".
+        $sql = $this->gen_sql_new("select count(1) lesson_count,sum(if(o.orderid>0,1,0)) order_count from %s l".
                                   " left join %s tss on l.lessonid = tss.lessonid".
                                   " left join %s o on l.lessonid = o.from_test_lesson_id".
                                   " left join %s tq on tq.require_id = tss.require_id" .
@@ -8806,7 +8803,7 @@ lesson_type in (0,1) "
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $where_arr[]= $this->where_get_in_str("userid", $user_list);
-        $sql = $this->gen_sql_new("select count(*) num,userid from %s where %s group by userid",
+        $sql = $this->gen_sql_new("select count(1) num,userid from %s where %s group by userid",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

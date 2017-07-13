@@ -916,9 +916,10 @@ class tea_manage_new extends Controller
     }
 
     public function get_re_submit_num(){
-        $phone             = $this->get_in_phone();
-        $subject           = $this->get_in_subject();
-        $num = $this->t_teacher_lecture_info->get_re_submit_num($phone,$subject);      
+        $phone   = $this->get_in_phone();
+        $subject = $this->get_in_subject();
+        $grade   = $this->get_in_grade();
+        $num = $this->t_teacher_lecture_info->get_re_submit_num($phone,$subject,$grade);      
         return $this->output_succ(["num"=>$num]);
     }
 

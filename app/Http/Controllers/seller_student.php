@@ -88,7 +88,7 @@ class seller_student extends Controller
         if ($page_num==4294967296) {
             $number = 1;
         } else {
-            $number = ($page_num-1)*$page_count+1;
+            $number = ($page_num["page_num"]-1)*$page_count+1;
         }
 
         $this->t_seller_student_info->switch_tongji_database();

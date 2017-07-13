@@ -105,7 +105,8 @@ class fulltime_teacher_kaoqin extends Command
                         "attendance_type" =>1,
                         "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
                         "day_num"           =>1,
-                        "adminid"           =>$k
+                        "adminid"           =>$k,
+                        "lesson_count"      =>$item*100
                     ]);
  
                     $name_list .= $realname.",";
@@ -122,7 +123,8 @@ class fulltime_teacher_kaoqin extends Command
                         "attendance_type" =>1,
                         "attendance_time"  =>strtotime(date("Y-m-d",$time+86400)),
                         "day_num"           =>1,
-                        "adminid"           =>$k
+                        "adminid"           =>$k,
+                        "lesson_count"      =>$item*100
                     ]);
 
                     $name_list_research .= $realname.",";

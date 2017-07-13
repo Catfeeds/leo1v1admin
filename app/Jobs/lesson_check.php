@@ -47,35 +47,47 @@ class lesson_check extends Job implements ShouldQueue
         $teacher_openid = $this->teacher_openid;
         $assistantid    = $this->assistantid;
         $cc_id          = $this->cc_id;
-        if($work_type == 0){
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher, $data,$url);
-            // $task->t_manager_info->send_wx_todo_msg($teacher_account,'主题','头信息','内容');
-        }elseif($work_type == 1){
+        if($work_type == 0){ //课前5分钟
+            $this->send_wx_to_teacher($teacher_openid);
+        }elseif($work_type == 1){//上课1分钟
             $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
-        }elseif($work_type == 2){
-            
-        }elseif($work_type == 3){
-            
-        }elseif($work_type == 4){
-            if(!isset($tea_attend)){
-                $task->t_manager_info->send_wx_todo_msg($teacher_account,'','');
+        }elseif($work_type == 2){//上课3分钟
+
+        }elseif($work_type == 3){//上课5分钟
+
+        }elseif($work_type == 4){//上课10分钟
+            if(!$tea_attend){
+                $this->send_wx_to_teacher($teacher_openid);
             }
-            if(!isset($stu_attend)){
+            if(!$stu_attend){
                 $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
             }
-        }elseif($work_type == 5){
-            
-        }elseif($work_type == 6){
-            if(!isset($tea_attend)){
-                $task->t_manager_info->send_wx_todo_msg($teacher_account,'','');
+        }elseif($work_type == 5){//上课20分钟
+
+        }elseif($work_type == 6){//上课40分钟
+            if(!$tea_attend){
+                $this->send_wx_to_teacher($teacher_openid);
             }
-            if(!isset($stu_attend)){
+            if(!$stu_attend){
                 $this->send_wx_to_assistant($lessonid,$assistantid,$cc_id);
                 $this->cancel_lesson($lessonid);
             }
-        }elseif($work_type == 7){
-            
+        }elseif($work_type == 7){//中途退出5分钟未再次进入
+
         }
+    }
+
+    public function send_wx_to_teacher($openid){
+        $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+        $data = [
+            'first'    => '1',
+            'keyword1' => '2',
+            'keyword2' => '3',
+            'keyword3' => '4',
+            'remark'   => '5',
+        ];
+        $url = 'www.leo1v1.com';
+        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id_teacher,$data,$url);
     }
 
     public function send_wx_to_assistant($lessonid,$assistantid,$cc_id) {
@@ -88,6 +100,7 @@ class lesson_check extends Job implements ShouldQueue
 
         $task->t_manager_info->send_wx_todo_msg_by_adminid($adminid,'','');
     }
+
     public function cancel_lesson($lessonid) {
         $task=new \App\Console\Tasks\TaskController();
         $task->t_lesson_info->field_update_list($lessonid,[

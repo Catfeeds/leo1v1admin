@@ -34,6 +34,9 @@ class z_t_fulltime_teacher_attendance_list  extends  \App\Models\NewModel
 
 	/*int(11) */
 	const C_adminid='adminid';
+
+	/*int(11) */
+	const C_lesson_count='lesson_count';
 	function get_teacherid($id ){
 		return $this->field_get_value( $id , self::C_teacherid );
 	}
@@ -60,6 +63,9 @@ class z_t_fulltime_teacher_attendance_list  extends  \App\Models\NewModel
 	}
 	function get_adminid($id ){
 		return $this->field_get_value( $id , self::C_adminid );
+	}
+	function get_lesson_count($id ){
+		return $this->field_get_value( $id , self::C_lesson_count );
 	}
 
 
@@ -100,6 +106,7 @@ class z_t_fulltime_teacher_attendance_list  extends  \App\Models\NewModel
   `cancel_flag` int(11) NOT NULL COMMENT '取消标示',
   `cancel_reason` varchar(255) COLLATE latin1_bin NOT NULL COMMENT '取消理由',
   `adminid` int(11) NOT NULL COMMENT '老师后台id',
+  `lesson_count` int(11) NOT NULL COMMENT '在家办公当日课时',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

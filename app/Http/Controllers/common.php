@@ -702,7 +702,8 @@ class common extends Controller
 
         if(is_array($msg_arr) && !empty($msg_arr)){
             extract($msg_arr);
-            $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url,$desc);
+            // $desc = '';
+            $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url,$desc='点击进入管理系统操作');
         }
     }
 

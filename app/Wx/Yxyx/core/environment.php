@@ -1,5 +1,5 @@
 <?php
-namespace Teacher\Core;
+namespace Yxyx\Core;
 /**
  *
  * 环境判断类

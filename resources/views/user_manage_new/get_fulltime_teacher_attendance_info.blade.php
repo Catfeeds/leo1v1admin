@@ -49,6 +49,7 @@
                     <td> 老师 </td>
                     <td> 类型 </td>
                     <td> 日期 </td>
+                    <td> 当日课时 </td>
                     <td> 延休天数 </td>
                     <td> 提前下班时间 </td>
                     <td> 操作  </td>
@@ -60,6 +61,11 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["attendance_type_str"]}} </td>
                         <td>{{@$var["attendance_time_str"]}} </td>
+                        <td>
+                            @if($var["attendance_type"] ==1 && $var["lesson_count"]>0)
+                                {{@$var["lesson_count"]/100}}
+                            @endif
+                        </td>
                         <td>
                             @if($var["attendance_type"] ==3)
                                 {{@$var["day_num"]}}天

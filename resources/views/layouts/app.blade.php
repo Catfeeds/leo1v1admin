@@ -70,7 +70,7 @@
         <!-- AdminLTE App -->
         <script src="/js/AdminLTE/app.js" type="text/javascript"></script>
 
-        <script type="text/javascript" src="/page_js/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
+        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
 
 
         <!-- 全局变量  -->

@@ -42,35 +42,19 @@ class  yxyx_wx_server extends Controller
 
     public function sync_menu() {
         $menuList = array(
-            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'', 'code'=>''),
-            array('id'=>'2', 'pid'=>'0', 'name'=>'理由教育', 'type'=>'', 'code'=>''),
-            array('id'=>'3', 'pid'=>'0', 'name'=>'帮助中心', 'type'=>'', 'code'=>''),
+            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'click', 'code'=>''),
+            array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
+            array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
 
-            array('id'=>'4', 'pid'=>'1', 'name'=>'关于理优', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
-            array('id'=>'6', 'pid'=>'1', 'name'=>'面试流程', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
+            array('id'=>'4', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_about_me'),
+            array('id'=>'5', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_interview'),
 
-            array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_agent'),
-
-            array('id'=>'18', 'pid'=>'1', 'name'=>'招师大奖', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_recruit'),
-
-            array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
-
-            array('id'=>'7', 'pid'=>'2', 'name'=>'荣誉榜', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/honor_rank'),
-            array('id'=>'8', 'pid'=>'2', 'name'=>'上课时间', 'type'=>'view', 'code'=>"http://wx-teacher.leo1v1.com/wx_teacher_web/course_arrange"),
-            array('id'=>'9', 'pid'=>'2', 'name'=>'课程评价', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/comment_list'),
-            array('id'=>'10', 'pid'=>'2', 'name'=>'我的收入', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/wage_summary'),
-
-            array('id'=>'11', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
-            array('id'=>'12', 'pid'=>'3', 'name'=>'优秀视频', 'type'=>'click', 'code'=>'video'),
-            array('id'=>'13', 'pid'=>'3', 'name'=>'我要投诉', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/complaint'),
-            array('id'=>'16', 'pid'=>'2', 'name'=>'邀请有奖', 'type'=>'click', 'code'=>'invitation' ),
-
-            array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
+            array('id'=>'6', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
         );
 
 
-        $ret =  \Teacher\Core\Menu::setMenu($menuList);
-        $result =  \Teacher\Core\Menu::getMenu($menuList);
+        $ret =  \Yxyx\core\Menu::setMenu($menuList);
+        $result =  \Yxyx\core\Menu::getMenu($menuList);
         dd($result);
     }
 

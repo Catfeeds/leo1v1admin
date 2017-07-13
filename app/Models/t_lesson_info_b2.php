@@ -874,6 +874,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
+    public function get_all_train_num_real($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
+        $where_arr = [
+            "l.train_type=1",
+            ["t.train_through_new=%u",$train_through_new,-1],
+            "lo.lessonid is not null"
+        ];
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct lo.userid)"
+                                  ." from %s l left join %s ta on l.lessonid = ta.lessonid"
+                                  ." left join %s t on ta.userid  = t.teacherid"
+                                  ." left join %s lo on (lo.lessonid = l.lessonid and lo.userid = ta.userid and lo.opt_type=1 and lo.opt_time=(select min(opt_time) from %s where lessonid = lo.lessonid and userid = lo.userid and opt_type=1))"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
+                                  t_lesson_opt_log::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
     public function get_one_apply_num($start_time,$end_time){
         $where_arr=[

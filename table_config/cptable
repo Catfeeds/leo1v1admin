@@ -1,0 +1,16 @@
+#!/bin/bash
+cd $(dirname $0)
+src=$1
+obj=$(echo  $1 | sed -e  's/\.\(.*\)\.temp/..\/app\/Models\/\1/' )
+
+if [ $src == $obj ];then
+    echo "文件名不对:$src"
+    exit
+fi
+
+if [ -f  $obj ]; then
+    echo "$obj 已存在"
+else
+    cp $src $obj
+    echo "$obj 生成 "
+fi

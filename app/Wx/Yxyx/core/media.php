@@ -1,5 +1,5 @@
 <?php
-namespace Teacher\Core;
+namespace Yxyx\Core;
 /**
  * 多媒体的上传与下载 本接口将会被删除,请替换为source.lib.php
  * Created by Lane.

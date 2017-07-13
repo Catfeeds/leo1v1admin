@@ -1492,10 +1492,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         });
     }
 
-    public function get_re_submit_num($phone,$subject){
+    public function get_re_submit_num($phone,$subject,$grade=-1){
         $where_arr=[
             "status =3",
             ["subject=%u",$subject,-1],
+            ["grade=%u",$grade,-1],
             ["phone='%s'",$phone,-1],            
         ];
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);

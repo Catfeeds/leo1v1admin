@@ -482,5 +482,5 @@ class z_t_teacher_record_list  extends  \App\Models\NewModel
   UNIQUE KEY `unique_record` (`teacherid`,`type`,`add_time`),
   KEY `phone_spare` (`phone_spare`),
   KEY `train_lessonid` (`train_lessonid`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

@@ -72,6 +72,33 @@ class agent extends Controller
 
 
     public function check(){
+        // $openid = 'orwGAswh6yMByNDpPz8ToUPNhRpQ';
+        // $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+        // $wx_data["first"]    = '1';
+        // $wx_data["keyword1"] = '2';
+        // $wx_data["keyword2"] = "\n 1、填写报名信息"
+        //                      ."\n 2、录制试讲视频"
+        //                      ."\n 3、进行入职培训"
+        //                      ."\n 4、成功入职";
+        // $wx_data["remark"] = "好友成功入职后，即可获得伯乐奖，"
+        //                    ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+        //                    ."请及时绑定银行卡号，如未绑定将无法发放。";
+        // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
+        // dd('a');
+
+        $teacher_openid = 'oJ_4fxFUMHpPlf-ibtKD2vuWTKp4';
+        $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+        $url = 'www.leo1v1.com';
+        $data = [
+            'first'    => '1',
+            'keyword1' => '2',
+            'keyword2' => '3',
+            'keyword3' => '4',
+            'remark'   => '5',
+        ];
+        // dd($template_id_teacher);
+        \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher,$data,$url);
+
         // $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
         $time = strtotime('2017-7-12 18:00:00');
         $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];

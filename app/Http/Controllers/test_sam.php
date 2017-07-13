@@ -7,6 +7,10 @@ use \App\Enums as E;
 class test_sam  extends Controller
 {
     use CacheNick;
+    public function tt(){
+        // $this->t_manager_info->field_update_list($uid,$set_field_arr);
+        $this->t_manager_info->row_insert($arr);
+    }
 
     public function manager_list()
     {

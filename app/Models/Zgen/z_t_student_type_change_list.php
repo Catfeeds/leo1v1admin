@@ -28,6 +28,12 @@ class z_t_student_type_change_list  extends  \App\Models\NewModel
 
 	/*varchar(255) */
 	const C_reason='reason';
+
+	/*int(11) */
+	const C_recover_time='recover_time';
+
+	/*varchar(64) */
+	const C_stop_duration='stop_duration';
 	function get_userid($id ){
 		return $this->field_get_value( $id , self::C_userid );
 	}
@@ -48,6 +54,12 @@ class z_t_student_type_change_list  extends  \App\Models\NewModel
 	}
 	function get_reason($id ){
 		return $this->field_get_value( $id , self::C_reason );
+	}
+	function get_recover_time($id ){
+		return $this->field_get_value( $id , self::C_recover_time );
+	}
+	function get_stop_duration($id ){
+		return $this->field_get_value( $id , self::C_stop_duration );
 	}
 
 
@@ -86,6 +98,8 @@ class z_t_student_type_change_list  extends  \App\Models\NewModel
   `change_type` tinyint(4) NOT NULL COMMENT '修改方式 1,系统;2,手动',
   `adminid` int(11) NOT NULL COMMENT '操作人',
   `reason` varchar(255) COLLATE latin1_bin NOT NULL COMMENT '操作原因',
+  `recover_time` int(11) NOT NULL COMMENT '复课时间',
+  `stop_duration` varchar(64) COLLATE latin1_bin NOT NULL COMMENT '时长',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_bin
  */

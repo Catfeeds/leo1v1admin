@@ -7,8 +7,8 @@ interface GargsStatic {
 	self_groupid:	number;
 	group_master_flag:	number;
 	origin:	string;
-	grade:	number;//App\Enums\Egrade 
-	subject:	number;//App\Enums\Esubject 
+	grade:	number;//App\Enums\Egrade
+	subject:	number;//App\Enums\Esubject
 	phone:	string;
 	nick:	string;
 	phone_location:	string;
@@ -18,11 +18,11 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	has_pad:	number;
-	ass_adminid_flag:	number;//App\Enums\Eboolean 
-	tq_called_flag:	number;//App\Enums\Etq_called_flag 
-	admin_assign_time_flag:	number;//App\Enums\Eboolean 
+	ass_adminid_flag:	number;//App\Enums\Eboolean
+	tq_called_flag:	number;//App\Enums\Etq_called_flag
+	admin_assign_time_flag:	number;//App\Enums\Eboolean
 	seller_resource_type:	number;
-	test_lesson_cancel_flag:	number;//App\Enums\Etest_lesson_cancel_flag 
+	test_lesson_cancel_flag:	number;//App\Enums\Etest_lesson_cancel_flag
 	sub_assign_adminid:	number;
 }
 declare module "g_args" {
@@ -109,7 +109,6 @@ $(function(){
 			admin_revisiterid:	$('#id_admin_revisiterid').val(),
 			status:	$('#id_status').val(),
 			origin_ex:	$('#id_origin_ex').val(),
-			page_count:	$('#id_page_count').val(),
 			has_pad:	$('#id_has_pad').val(),
 			ass_adminid_flag:	$('#id_ass_adminid_flag').val(),
 			tq_called_flag:	$('#id_tq_called_flag').val(),
@@ -148,7 +147,6 @@ $(function(){
 	$('#id_admin_revisiterid').val(g_args.admin_revisiterid);
 	$('#id_status').val(g_args.status);
 	$('#id_origin_ex').val(g_args.origin_ex);
-	$('#id_page_count').val(g_args.page_count);
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_ass_adminid_flag').val(g_args.ass_adminid_flag);
 	$('#id_tq_called_flag').val(g_args.tq_called_flag);
@@ -242,13 +240,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin_ex</span>
                 <input class="opt-change form-control" id="id_origin_ex" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">page_count</span>
-                <input class="opt-change form-control" id="id_page_count" />
             </div>
         </div>
 

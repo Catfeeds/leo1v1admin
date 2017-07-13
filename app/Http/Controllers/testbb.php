@@ -80,6 +80,9 @@ class testbb extends Controller
 
 
     public function test () {
+
+        $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url,$desc);
+
         $orderid=$this->get_in_int_val('orderid');
         $wx_openid = $this->t_order_info->get_master_openid_by_orderid($orderid);
         dd($wx_openid);
