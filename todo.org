@@ -1,0 +1,380 @@
+** DONE 设置 已签约                                                 :jim:
+DEADLINE: <2016-05-22 日>
+
+** DONE 老师课后反馈                                                    :ad:
+** DONE 助教回访. 首次反馈 ，日常反馈                                 :cage:
+首次 学情 月度 其他
+** DONE 有效课程,无效课程.                                            :cage:
+** DONE 销售 已签约统计                                               :cage:
+** DONE  家长 信息 - 修改密码                                         :cage:
+** DONE 课程确认无效,  可用课时不减少                                  :jim:
+DEADLINE: <2016-05-25 三>
+
+** DONE [#A] 渠道流动统计                                              :jim:
+
+** DONE 渠道分类                                                      :cage:
+ t_origin_key  key1,key2,key3,key4 (uniq)
+ mainkey( k-1-4 ) char
+
+** DONE 学员信息 课次                                                  :jim:
+CLOCK: [2016-05-22 日 22:37]--[2016-05-22 日 22:37] =>  0:00
+CLOCK: [2016-05-22 日 22:13]--[2016-05-22 日 22:16] =>  0:03
+** DONE 公共课合同                                                      :ad:
+DEADLINE: <2016-06-01 三> SCHEDULED: <2016-05-23 一>
+CLOCK: <2016-05-20 六 22:13>--<2016-05-22 日 22:14> => 48:01
+
+** DONE 排课时间今天 已内 的时间 需要确认                              :jim:
+** DONE 找到设置课时结束的代码                                        :jim:
+
+** DONE 用户加渠道信息 origin                                         :cage:
+
+** DONE 签约-> 助教分配                                                :jim:
+
+** DONE tea_manage/lesson_list  助教筛选, 课时量                       :jim:
+#+BEGIN: clocktable :maxlevel 2 :scope subtree
+#+CAPTION: Clock summary at [2016-05-22 日 22:18]
+| Headline     | Time   |
+|--------------+--------|
+| *Total time* | *0:00* |
+#+END:
+
+
+** DONE 礼包快递 标示                                                 :cage:
+
+** DONE 老师 擅长科目 年级                                            :cage:
+
+
+
+** DONE www 可以设置课后反馈                                            :ad:
+
+** DONE 题库   年级类型                                                :jim:
+
+** DONE 助教课时排序                                                   :jim:
+
+** DONE 回访预警                                                      :cage:
+SCHEDULED: <2016-05-24 二>
+
+
+** DONE 金数据API                                                      :jim:
+
+
+** DONE [#A]  试听 区分                                                :jim:
+
+
+** DONE 渠道管理  value 查找                                          :cage:
+SCHEDULED: <2016-05-24 二>
+
+
+** DONE 试听列表  按期待时间排序                                       :jim:
+
+** DONE 课时reset                                                      :jim:
+
+** DONE 结课学员倒序                                                   :jim:
+
+
+
+** DONE 家长端 临时密码                                                 :ad:
+
+
+
+** DONE admin account 设置 角色                                        :cage:
+
+
+** TODO www 上传七牛                                                   :ad:
+SCHEDULED: <2016-05-27 五>
+
+
+** DONE 资金渠道                                                       :jim:
+SCHEDULED: <2016-05-27 五>
+
+
+** TODO 老师题库报错                                                   :ad:
+SCHEDULED: <2016-05-27 五>
+
+** TODO 讲义邮件                                                       :cage:
+SCHEDULED: <2016-05-27 五>
+
+** DONE 教师常规课表                                                  :cage:
+SCHEDULED: <2016-05-27 五>
+
+** TODO 助教，老师 薪水报表                                            :jim:
+SCHEDULED: <2016-05-27 五>
+
+** DONE 确认合同时,显示金额                                           :cage:
+SCHEDULED: <2016-05-27 五>
+
+
+** DONE 权限 execl                                                    :cage:
+
+
+** TODO 资金渠道-按科目分类                                             :jim:
+
+
+** DONE 权限管理                                                       :jim:
+
+
+** DONE 金额 小数点                                                    :jim:
+
+** DONE 发票号                                                        :cage:
+
+
+** DONE 渠道的整体收入                                                 :jim:
+
+** DONE 合同分类                                                       :jim:
+新签  常规续费 转介绍 扩课续费
+
+** DONE 助教所有学员                                                  :cage:
+
+
+
+** DONE WWW 常规课表                                                  :cage:
+** DONE 常规课表 + 助教                                               :cage:
+
+** DONE admin 用户列表 显示 权限分组                                  :cage:
+** DONE 反馈-新版                                                     :cage:
+
+
+
+** DONE 通知 老师 上课                                                 :jim:
+
+
+** DONE 家长 <>学生  binding                                          :cage:
+
+** DONE 学员课时信息  (find,show)  年级 助教                          :cage:
+
+** DONE 签约管理   (find)合同类型                                     :cage:
+
+** DONE 我的用户 filter 最后一次回访                                  :jim:
+** DONE 我的用户 不可修改渠道                                         :cage:
+** DONE 分配用户 不可任何操作                                         :jim:
+
+
+
+** DONE 获赞明细                                                      :cage:
+
+** DONE 常规课表 修改                                                 :cage:
+
+** DONE 账户信息                                                      :jim:
+
+** DONE www  老师 课表                                                 :jim:
+
+** DONE www 老师端优化                                                 :jim:
+*** DONE 显示课程表
+*** DONE 老师 课堂报告
+
+** DONE 获赞的人员分布                                                 :jim:
+
+** TODO 合同 原始金额                                                  :ad:
+
+
+
+** BUG
+*** TODO  作业为空的问题                                                :jim:
+*** DONE 输入过多 出错                                                 :ad:
+*** DONE 易百 -> 理优                                                  :ad:
+*** DONE 买多次课,会多次创建家长用户                                   :ad:
+
+
+** DONE 客服独立网络                                                   :jim:
+
+302868436@qq.com leo123456
+*** TODO  老师空余时间 自己配置                                         :jim:
+
+** DONE 导流量页面                                                     :jim:
+
+** DONE 开通4根电话                                                    :jim:
+** DONE 销售 当天(时间段)呼出 统计                                      :jim:
+
+** DONE andirod app for 销售端                                          :jim:
+** DONE 人工获赞                                                        :ad:
+** DONE 统计在读情况                                                    :jim:
+** DONE 没有讲义 设置知识点                                             :jim:
+** DONE 渠道统计                                                       :jim:
+amanda
+** DONE 课堂状态 重整                                                  :jim:
+加入 试听申请人 过滤
+
+** DONE 当日需跟进资源                                                 :jim:
+我负责的用户
+
+
+
+** DONE 电话声音特别轻                                                 :jim:
+不处理
+
+** DONE 排课通知                                                       :jim:
+** DONE 学员交接单                                                     :jim:
+** DONE 多个讲义                                                        :ad:
+** DONE 状态迁移 我负责用户                                             :ad:
+** DONE 合同 原始金额                                                   :ad:
+** DONE 销售统计                                                        :jim:
+** DONE 公众号
+** DONE 手机看不到交接单                                                :jim:
+** DONE 交接表提醒 fly                                                  :jim:
+** DONE 老师学生 真实名字                                               :jim:
+** DONE 预约管理/销售产出统计 回访记录                                 :jim:
+** DONE 上完课发讲义给家长                                              :ad:
+** DONE 合同 待分配课时数                                               :ad:
+** DONE 合同渠道分布                                                   :jim:
+** DONE 老师工资计算                                                   :jim:
+** DONE 生成视频 时间                                                  :jim:
+** DONE 资源  的 销售分布                                              :jim:
+** DONE 本周消耗课时                                                   :jim:
+** DONE 赞生成, 有效用户.                                               :ad:
+升级版本 有效用户  +赞
+
+** DONE WWW重整                                                         :ad:
+** DONE 家长端2016成绩                                                  :ad:
+** DONE 试听取消统计                                                   :jim:
+
+** DONE 每日报表
+新进例子数
+消耗新例子数
+消耗前一天新进例子数
+回访旧例子数
+申请试听
+排课
+成功试听
+纯新签人数
+转介绍人数
+续费人数
+
+
+** DONE 市场查看金额权限                                               :jim:
+** TODO 语音转发                                                        :jim:
+** TODO WWW 试听 试卷下载                                               :ad:
+试听成功
+    试听成功
+    作业查看
+
+** DONE 扩课试听不用排老师                                             :jim:
+助教　可能自行安排老师
+累计课时
+
+** TODO  admin 绑定多个号                                               :jim:
+
+** TODO  Login 服务器                                                   :jim:
+
+
+** DONE 排课WX通知                                                     :jim:
+
+
+** DONE 例子每小时消耗                                                 :jim:
+
+**  助教
+扩科试听数据
+1、扩科试听→成功扩科 无法跟踪，希望增加最终扩科成功的筛选
+      逻辑：成功安排常规课 判定为成功扩科  若系统暂时无法实现，增加手动判定入口；
+2、增加“未听报试听”类目，与扩科试听区分；
+回访提醒功能
+1、学情反馈提醒功能 提醒助教本周还有多少人未做学情回访 （可以按周进行查询）
+时间逻辑：本周课程，下周日前完成回访
+2、月度反馈
+      时间逻辑：上一次月度反馈周+4周 为下一次月度反馈周
+3、停课学员
+      时间逻辑：每月回访一次
+学生分类
+1、增加自动学员分类
+逻辑：60天内未产生课时学员 判定为停课学员；90天内未产生课时学员 判定为休学学员；课时为零 判定为结课学员（包括退费学员课时清零）。
+
+t_lesson_info  lesson_type (0,1, 3 )  userid = userid ;
+
+//60
+{"userid" => true }
+// ht
+for ( ht ) {
+  no in 60 {
+  set status=1;
+}
+}
+
+t_lesson_info  lesson_type (0,1, 3 ) userid = userid ;
+//t_student_info  type
+
+1000/6
+退费
+
+1、系统退费学员退费系统流程，课时如何清零。
+
+** DONE 课程状态
+  调课	家长调课
+
+  取消类型	原因
+  请假	学生请假
+
+
+** DONE 学生对老师的评价
+teacher_comment 老师评价
+
+评价5个等级 很差 差 一般 好 很好
+teacher_effect 老师上课质量
+teacher_quality 老师课件质量
+teacher_interact 老师课堂互动
+stu_stability 学生端系统稳定性
+
+
+** DONE 合同 筛选 助教  销售 ( account_role )
+t_order_info.sys_operator= t_manager_info.account
+
+
+** DONE 转介绍未分配
+ 分配用户
+ t_seller_student_info
+ ass_adminid    >0
+ add_time  in ( 2 months )
+
+ admin_assign_time=0
+
+我负责的用户 & 分配用户
+ 转介绍是谁
+
+** DONE 科目相同,不能同时提交
+
+
+** DONE 老师上传　多个讲义
+
+** DONE 老师常规课表 ,加助教，学生详情
+ 签约管理:转介绍信息
+
+** DONE 常规课表
+老师，学生　时间不能冲突
+
+** DONE 按常规课表排课
+
+
+
+
+** DONE 常规课表 权限
+
+
+** DONE 每周 预警学员.
+
+** DONE 新学员 当周课时数
+
+**  dev.www.yb1v1.com/teacher_info/current_course
+
+18621696950 142857
+** 销售
+资源消化系统优化~
+1.系统建立三个大库：历史资源数据库、历史试听数据库、新例子数据库
+2.历史资源数据库：TQ实际接通为判定，4天未接通的资源转到【历史数据库】
+3.历史试听数据库：试听课后计时，60天后未成交自动转入【历史试听数据库】
+4.试听后分类：新增【试听-未签A类】【试听-未签B类】【试听-未签C类】
+5咨询师划分等级制：不同的等级设定后所具有的抢单权限不同
+
+seller_level enum  t_manager_info
+
+** DONE 销售 资源分配给小助长
+
+** 助教小班课
+
+
+** DONE 试讲课
+   CLOSED: [2017-03-31 五 12:34]
+
+** DONE 课前测试
+   CLOSED: [2017-03-31 五 12:34]
+
+** 组员通时
+** 家长临时密码 调整到 pc 
+

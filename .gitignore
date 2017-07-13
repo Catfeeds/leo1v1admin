@@ -10,3 +10,4 @@ public/page_ts/g_args.d.ts/.*.tmp
 .*
 node_modules/
 fonts/
+tmp/

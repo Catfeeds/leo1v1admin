@@ -43,12 +43,6 @@ class no_auto_student_change_type extends Command
 
         $user_map_60 = $task->t_lesson_info->get_user_list(60,1);
         $user_map_90 = $task->t_lesson_info->get_user_list(90,1);
-        $user_map2 = $user_map3 = [];
-        foreach ($user_map_90 as $key => $item){
-            if(!isset($user_map_60[$key])){
-                $user_map2[$key] = $item;
-            }
-        }
         $user_read = $task->t_student_info->get_no_auto_read_stu_list();
         $user_map_new = $task->t_student_info->get_student_list_new_id();
         foreach($user_map_all as $k => $v){

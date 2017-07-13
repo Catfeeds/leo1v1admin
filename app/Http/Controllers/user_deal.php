@@ -2577,6 +2577,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $user_map_60 = $this->t_lesson_info->get_user_list(60,1);
+        $user_map_90 = $this->t_lesson_info->get_user_list(90,1);
+        $user_read = $this->t_student_info->get_no_auto_read_stu_list();
+        dd($user_map_90);
+
         $start= strtotime("2017-06-18");
         $end_time= time();
         $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start,$end_time);
