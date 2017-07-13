@@ -1,0 +1,39 @@
+  
+  
+* 安装软件
+  sudo apt-get install  nginx php-cli php-fpm  redis php-mysql phpunit  mysql-client
+  
+** 安装 mysql
+  sudo apt-get install mysql-server  
+  安装时 设置root密码  ta0mee 
+  从192.168.0.6 下载 ~/admin.yb1v1.com/tmp/my.sql 
+  
+  还原数据库
+  mysqldump -uroot -p ta0mee < my.sql 
+  
+* 下载git代码
+  cd ~ 
+  git clone    git@192.168.0.5:root/admin_yb1v1.git
+  
+  生成 自动生成的代码
+  cd ~/admin_yb1v1 
+  ./gen_code.sh
+  
+  目录 
+  mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
+ 
+  文件权限
+  chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
+  
+  
+* nginx 配置  
+  
+  ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
+  
+  cd ~/admin_yb1v1 
+  sudo cp ./install_files/admin.yb1v1.conf /etc/nginx/sites-enabled/
+  sudo /etc/init.d/nginx reload
+  
+*  
+  
+* 
