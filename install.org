@@ -15,8 +15,13 @@
   cd ~ 
   git clone    git@192.168.0.5:root/admin_yb1v1.git
   
-  生成 自动生成的代码
+  
   cd ~/admin_yb1v1 
+  
+  #辅助配置文件
+  cp .env.example .env
+  
+  #生成 自动生成的代码
   ./gen_code.sh
   
   目录 
