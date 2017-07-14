@@ -1,5 +1,4 @@
   
-  
 * 安装软件
   sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client
   
@@ -18,7 +17,7 @@
   
   cd ~/admin_yb1v1 
   
-  #辅助配置文件
+  #复制配置文件
   cp .env.example .env
   
   #生成 自动生成的代码
