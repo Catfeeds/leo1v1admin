@@ -792,6 +792,14 @@ class user_deal extends Controller
         return $this->output_succ();
     }
 
+    public function set_ass_master(){
+        $userid = $this->get_in_int_val("userid");
+        $account = $this->get_in_str_val("account");
+        $this->t_student_info->noti_ass_order($userid,$account);
+        return $this->output_succ();
+
+    }
+
     public function update_admin_assign_percent(){
         $groupid = $this->get_in_int_val("groupid");
         $adminid = $this->get_in_int_val("adminid");
@@ -2577,33 +2585,33 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $time = time()-86400;
-        $date_week = \App\Helper\Utils::get_week_range($time,1);
-        $start_time = $date_week["sdate"];
-        $end_time = $date_week["edate"];
-       
-        $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
-        dd($new_info);
-
-        $user_map_60 = $this->t_lesson_info->get_user_list(60,1);
-        // $user_map_90 = $this->t_lesson_info->get_user_list(90,1);
-        $user_read = $this->t_student_info->get_no_auto_read_stu_list();
-        dd($user_map_60);
-
-        $start= strtotime("2017-06-18");
-        $end_time= time();
-        $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start,$end_time);
-        $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start,$end_time);
-        foreach($teacher_arr as $k=>$val){
-            if(!isset($teacher_list[$k])){
-                $teacher_list[$k]=$k; 
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-04-01");
+        $end_time = strtotime("2017-07-01");
+        $ret = $this->t_lesson_info_b2->get_regular_lesson_count_tongji($start_time,$end_time);
+        $arr=[];
+        foreach($ret as $val){
+            if($val["all_count"]>=3000 && $val["all_count"]<6000 ){
+                @$arr[30]++;
+            }elseif($val["all_count"]>=6000 && $val["all_count"]<9000 ){
+                @$arr[60]++;
+            }elseif($val["all_count"]>=9000 && $val["all_count"]<12000){
+                @$arr[90]++;
+            }elseif($val["all_count"]>=12000 && $val["all_count"]<15000){
+                @$arr[120]++;
+            }elseif($val["all_count"]>=15000 && $val["all_count"]<18000 ){
+                @$arr[150]++;
+            }elseif($val["all_count"]>=18000 && $val["all_count"]<21000){
+                @$arr[180]++;
+            }else{
+                @$arr[210]++;
             }
+
+
+
         }
-
-        $train_all = $this->t_lesson_info_b2->get_all_train_num_real($start,$end_time,$teacher_list,-1);
-
-        dd($train_all);
-
+        dd($arr);
+       
 
         $phone=13817759346;        
         $flag=0;
@@ -4712,8 +4720,8 @@ class user_deal extends Controller
         ]);
 
 
-        // $account=$this->get_account();
-        // $this->t_student_info->noti_ass_order($userid, $account );
+        $account=$this->get_account();
+        $this->t_student_info->noti_ass_order($userid, $account );
         return $this->output_succ();
     }
 

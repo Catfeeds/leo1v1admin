@@ -2037,6 +2037,39 @@ class ss_deal extends Controller
         }
     }
 
+    public function upload_psychological_lesson_from_xls(){
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0])){
+                    unset($arr[$k]);
+                }
+                // $val[-1] = strlen($val[1]);
+                if(strlen($val[1])==4){
+                    $val[1]="0".$val[1];
+                }
+            }
+
+            dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            //return outputjson_success();
+        } else {
+            return 111;
+            dd(222);
+            //return outputjson_ret(false);
+        }
+ 
+    }
+
+
     public function set_test_lesson_user_to_self(){
 
         $userid=$this->get_in_userid();
@@ -2553,6 +2586,15 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function update_lecture_revisit_type(){
+        $id = $this->get_in_int_val("id");
+        $lecture_revisit_type= $this->get_in_int_val("lecture_revisit_type");
+        $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "lecture_revisit_type" => $lecture_revisit_type,
+        ]);
+        return $this->output_succ();
+
+    }
     public function update_lecture_appointment_status(){
         $id = $this->get_in_int_val("id");
         $lecture_appointment_status= $this->get_in_int_val("lecture_appointment_status");

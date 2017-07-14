@@ -50,11 +50,11 @@
                             <input value="{{@$all_lesson_money}}">
                         @endif
                         <span class="input-group">总课时</span>
-                        <input value="{{@$all_lesson_total}}">
+                        <input class="all_lesson_total" value="{{@$all_lesson_total}}">
                         <span class="input-group">1对1</span>
-                        <input value="{{@$all_lesson_1v1}}">
+                        <input class="all_lesson_1v1" value="{{@$all_lesson_1v1}}">
                         <span class="input-group">试听</span>
-                        <input value="{{@$all_lesson_trial}}">
+                        <input class="all_lesson_trial" value="{{@$all_lesson_trial}}">
                         <span class="input-group">课程扣款</span>
                         <input id="id_teacher_cost" value="">
                         <span class="input-group">工资扣税</span>

@@ -80,13 +80,10 @@
                 </select>
             </div>
         </div>
-
         <div class="col-xs-6 col-md-4">
             <button class="btn" id="id_have_wx_flag"  > {{@$wx_num["all_user"]}}/{{@$all_num["all_user"]}}/{{@$all_num["all_num"]}}</button>
             <button class="btn" id="id_send_email_flag"  >{{@$email_num["all_user"]}}/{{@$all_num["all_user"]}}/{{@$all_num["all_num"]}} </button>
-           
         </div>
-
     </div>
     <hr />
     <table class="common-table">

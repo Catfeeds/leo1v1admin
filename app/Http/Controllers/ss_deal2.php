@@ -152,13 +152,27 @@ class ss_deal2 extends Controller
         foreach($ret as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time",'_str');
             \App\Helper\Utils::unixtime2date_for_item($item,"first_call_time",'_str');
-
-           $item['global_tq_called_flag_str'] = \App\Enums\Etq_called_flag::get_desc($item['global_tq_called_flag']);
+            $item['global_tq_called_flag_str'] = \App\Enums\Etq_called_flag::get_desc($item['global_tq_called_flag']);
+            $item['nick'] = $this->t_student_info->get_nick($item['userid']);
         }
 
         return $this->output_succ(['data'=>$ret]);
 
     }
+
+    public function set_mail_photo(){
+        $orderid  = $this->get_in_int_val("orderid");
+        $mail_code_url = $this->get_in_str_val("mail_url");
+        $domain = config('admin')['qiniu']['public']['url'];
+        $face = $domain.'/'.$face;
+        dd($mail_code_url);
+
+        $this->t_order_info->field_update_list($orderid,[
+            "mail_code_url" => $mail_code_url
+        ]);
+        return $this->output_succ();
+    }
+
 
 
 }

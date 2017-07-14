@@ -30,6 +30,30 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">财务确认</span>
+                    <select class="opt-change form-control " id="id_check_money_flag" >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">交接单</span>
+                    <select class="opt-change form-control " id="id_have_init" >
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-2">
+                <div class="input-group ">
+                    <span class="input-group-addon">分配组长</span>
+                    <select class="opt-change form-control " id="id_have_master" >
+                    </select>
+                </div>
+            </div>
+
+
+
         </div>
         <hr/>
         <table   class="common-table"   >
@@ -96,6 +120,9 @@
                                 <a class="fa-user opt-user " title="个人信息" ></a>
                                 <a class="fa-list opt-init_info " title="销售交接单" ></a>
                                 <a class="fa-user-md  opt-set_ass " title="分配助教" ></a>
+                                @if($account_id==349)
+                                    <a class=" opt-set_ass_master " title="分配助教组长" >分配组长</a>
+                                @endif
                                 @if($var["init_info_pdf_url_str"]=="有")
                                     <a class="fa-edit  opt-edit " title="修改交接单课时" ></a>
                                 @endif

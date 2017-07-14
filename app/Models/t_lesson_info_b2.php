@@ -14,7 +14,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 {
     public function lesson_common_where_arr($others_arr=[]) {
         $others_arr[] ="lesson_del_flag=0" ;
-        $others_arr[] ="confirm_flag<2" ;
+        $others_arr[] ="confirm_flag!=2" ;
         return $others_arr;
     }
 
@@ -1384,15 +1384,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_lesson_total_list($start_time,$end_time,$teacher_money_type){
+    public function get_lesson_total_list($start_time,$end_time,$teacher_money_type,$level){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             ["t.teacher_money_type in (%s)",$teacher_money_type,""],
+            ["t.level in (%s)",$level,""],
             "is_test_user=0",
         ];
         $where_arr = $this->lesson_common_where_arr($where_arr);
-        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.teacher_ref_type,t.nick,"
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.teacher_ref_type,t.nick,t.level,"
                                   ." t.create_time,t.test_transfor_per,"
                                   ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_total,"
                                   ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as lesson_total"
@@ -1479,7 +1480,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_grade_wages_list($start_time,$end_time,$full_flag){
+    public function get_grade_wages_list($start_time,$end_time,$teacher_type){
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
@@ -1488,12 +1489,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "t.is_test_user=0",
         ];
         $where_arr = $this->lesson_common_where_arr($where_arr);
-        if($full_flag==0){
-            $where_arr[] = "(t.teacher_type!=3 or t.teacherid in (51094,99504,97313))";
+        if($teacher_type!=3){
+            $where_arr[] = "(t.teacher_type!=3 or l.teacherid in (51094,99504,97313))";
         }else{
-            $where_arr[] = "(t.teacher_type=3 and t.teacherid not in (51094,99504,97313))";
+            $where_arr[] = "(t.teacher_type=3 and l.teacherid not in (51094,99504,97313))";
         }
-        $sql = $this->gen_sql_new("select l.lesson_count,l.lesson_type,l.grade,sum(o.price) as lesson_price,m.money,t.teacher_type,"
+        $sql = $this->gen_sql_new("select l.lesson_count,l.lesson_type,l.grade,"
+                                  ." sum(o.price) as lesson_price,m.money,"
+                                  ." t.teacher_type,"
                                   ." l.lesson_start,l.teacher_money_type,l.lessonid,l.level"
                                   ." from %s l"
                                   ." left join %s o on l.lessonid=o.lessonid"
@@ -1517,5 +1520,57 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function test_lesson_total($start,$end,$teacher_type){
+        $where_arr = [
+            ["l.lesson_start>%u",$start,0],
+            ["l.lesson_start<%u",$end,0],
+        ];
+        if($teacher_type!=3){
+            $where_arr[] = "(t.teacher_type!=3 or l.teacherid in (51094,99504,97313))";
+        }else{
+            $where_arr[] = "(t.teacher_type=3 and l.teacherid not in (51094,99504,97313))";
+        }
+        $where_arr = $this->lesson_common_where_arr($where_arr);
+        $sql = $this->gen_sql_new("select l.lessonid"
+                                  ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,t.test_transfor_per,"
+                                  ." t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type,t.teacher_money_flag,"
+                                  ." t.idcard,"
+                                  ." sum(if(l.lesson_type in (0,1,3),l.lesson_count,0)) as lesson_1v1,"
+                                  ." sum(if(l.lesson_type=2,l.lesson_count,0)) as lesson_trial,"
+                                  ." sum(if(l.lesson_type<1000,l.lesson_count,0)) as lesson_total"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s"
+                                  ." and l.lesson_type<1000"
+                                  ." and l.lesson_status=2"
+                                  ." and t.is_test_user=0"
+                                  ." group by l.lessonid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['lessonid'];
+        });
+    }
+
+    public function get_regular_lesson_count_tongji($start_time,$end_time){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type <>2",
+            "lesson_del_flag=0",
+            "confirm_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select sum(lesson_count) all_count,teacherid "
+                                  ." from %s where %s group by teacherid having(all_count>=3000)",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+
+    }
 
 }

@@ -135,7 +135,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$check_money_flag=-1,$assistantid=-1,$origin="",$stu_from_type=-1,$sys_operator=""
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1,
-        $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
+        $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc",$have_init=-1,
+        $have_master=-1
     ){
         $where_arr=[];
         if($userid>=0){
@@ -181,6 +182,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                $where_arr[]="price>0" ;
             }
             $where_arr[]=$this->where_get_in_str("m2.uid", $require_adminid_list );
+            if($have_init==0){
+                $where_arr[] = "(t2.init_info_pdf_url='' or t2.init_info_pdf_url is null)";
+            }elseif($have_init==1){
+                $where_arr[] = "t2.init_info_pdf_url <> ''";
+            }
+
+            if($have_master==0){
+                $where_arr[] = "(t2.ass_master_adminid=0 or t2.init_info_pdf_url is null)";
+            }elseif($have_master==1){
+                $where_arr[] = "t2.ass_master_adminid>0'";
+            }
+
 
         }
         if($up_master_adminid != -1){

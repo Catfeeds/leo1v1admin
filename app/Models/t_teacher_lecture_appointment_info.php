@@ -50,7 +50,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
     public function get_all_info($page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
                                  $user_name,$status,$adminid=-1,$record_status=-1,$grade=-1,$subject=-1,
-                                 $teacher_ref_type,$interview_type=-1,$have_wx=-1
+                                 $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1
     ){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
@@ -58,6 +58,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["lecture_appointment_status=%u", $lecture_appointment_status, -1 ],
             ["t.teacherid=%u", $teacherid, -1 ],
             ["la.accept_adminid=%u", $adminid, -1 ],
+            ["la.lecture_revisit_type=%u", $lecture_revisit_type, -1 ],
         ];
 
         if($interview_type==0){
@@ -127,7 +128,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.grade_ex,la.subject_ex,la.textbook,la.school,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
-                                  ." if(l.status is null,'-2',l.status) as status,"
+                                  ." if(l.status is null,'-2',l.status) as status,la.lecture_revisit_type,"
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"

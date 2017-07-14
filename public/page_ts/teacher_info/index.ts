@@ -124,9 +124,9 @@ $(function(){
             url: '/teacher_info/set_teacher_face',
             type: 'POST',
             data: {
-				'face':  res.key,
+				        'face':  res.key,
                 'teacherid':g_teacherid
-			},
+			      },
             dataType: 'json',
             success: function(data) {
                 window.location.reload();

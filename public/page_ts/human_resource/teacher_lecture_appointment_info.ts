@@ -16,6 +16,7 @@ $(function(){
 			subject                    : $('#id_subject').val(),
 			teacher_ref_type           : $('#id_teacher_ref_type').val(),
 			interview_type             : $('#id_interview_type').val(),
+			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
 			have_wx                    : $('#id_have_wx').val(),
         });
     }
@@ -35,6 +36,7 @@ $(function(){
     Enum_map.append_option_list("grade", $('#id_grade'),false,[100,200,300]);
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
+    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status')); 
     }else if(g_args.interview_type==0){
@@ -58,6 +60,7 @@ $(function(){
     $("#id_teacher_ref_type").val(g_args.teacher_ref_type);
 	$('#id_interview_type').val(g_args.interview_type);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -139,6 +142,28 @@ $(function(){
     
     upload_func("id_upload_csv_cp","/seller_student/upload_from_csv_cp");
 
+    $(".opt-set-lecture-revisit-type").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_lecture_revisit_type = $("<select/>");   
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true );
+        var arr=[
+            ["回访状态", id_lecture_revisit_type],
+        ];
+        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        $.show_key_value_table("修改状态", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/ss_deal/update_lecture_revisit_type',{
+                    "id" : opt_data.id,
+                    "lecture_revisit_type" : id_lecture_revisit_type.val()
+                });
+            }
+        });
+
+
+
+    });
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id       = opt_data.id;

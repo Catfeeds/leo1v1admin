@@ -25,9 +25,9 @@ class user_manage_new extends Controller
 
     public function ass_lesson_count_list() {
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-        $ret_list  = $this->t_lesson_info->get_confirm_lesson_list($start_time,$end_time);
-        $ret_total = $this->t_lesson_info->get_confirm_lesson_total($start_time,$end_time);
-        $date_week                         = \App\Helper\Utils::get_week_range($start_time,1);
+        $ret_list   = $this->t_lesson_info->get_confirm_lesson_list($start_time,$end_time);
+        $ret_total  = $this->t_lesson_info->get_confirm_lesson_total($start_time,$end_time);
+        $date_week  = \App\Helper\Utils::get_week_range($start_time,1);
         $week_total = $this->t_lesson_info->get_confirm_lesson_total($date_week["sdate"],$date_week["edate"]);
 
 
@@ -608,6 +608,8 @@ class user_manage_new extends Controller
         $is_test_user      = 0;
         $studentid         = $this->get_in_studentid(-1);
         $check_money_flag  = $this->get_in_int_val("check_money_flag", -1);
+        $have_init  = $this->get_in_int_val("have_init", -1);
+        $have_master  = $this->get_in_int_val("have_master", -1);
         $assistantid = $this->get_in_int_val("assistantid", -1);
         $page_num          = $this->get_in_page_num();
         $has_money         = -1;
@@ -629,7 +631,7 @@ class user_manage_new extends Controller
         }
         //$up_master_adminid=-1;
 
-        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str);
+        $ret_list=$this->t_order_info->get_order_list($page_num,$start_time,$end_time,$contract_type,$contract_status,$studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,$check_money_flag ,$assistantid,"",-1,"",-1,-1,-1,-1,-1,-1,$up_master_adminid,$account_id, [],  -1, $opt_date_str," t2.assistantid asc , order_time desc",$have_init,$have_master);
 
         $money_all=0;
 
@@ -694,7 +696,10 @@ class user_manage_new extends Controller
 
         }
 
-        return $this->Pageview(__METHOD__,$ret_list, ["money_all"=>$money_all]);
+        return $this->Pageview(__METHOD__,$ret_list, [
+            "money_all"=>$money_all,
+            "account_id" =>$account_id
+        ]);
 
 
     }
@@ -3368,6 +3373,13 @@ class user_manage_new extends Controller
         return $this->output_succ(["data"=>$data]);
     }
 
+    //心里辅导课排课
+    public function get_ass_psychological_lesson(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,2);
+        $ret_info = \App\Helper\Utils::list_to_page_info([]);
+        return $this->pageView(__METHOD__,$ret_info);
 
+    }
 
+   
 }

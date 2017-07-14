@@ -772,6 +772,28 @@ class agent extends Controller
         return $data;
     }
 
+    public function get_bank_info(){
+        $phone = $this->get_in_str_val('phone');
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
+        }
+        $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        $data = [
+            "bankcard"      => $ret['bankcard'],
+            "bank_address"  => $ret['bank_address'],
+            "bank_account"  => $ret['bank_account'],
+            "bank_phone"    => $ret['bank_phone'],
+            "bank_type"     => $ret['bank_type'],
+            "idcard"        => $ret['idcard'],
+            "bank_city"     => $ret['bank_city'],
+            "bank_province" => $ret['bank_province'],
+            "zfb_name"      => $ret['zfb_name'],
+            "zfb_account"   => $ret['zfb_account'],
+        ];
+
+        return $data;
+    }
+
     public function update_agent_bank_info(){
         // $teacherid     = session("login_userid");
         $phone         = $this->get_in_str_val("phone");

@@ -77,6 +77,15 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >电话回访状态</span>
+                        <select id="id_lecture_revisit_type" class ="opt-change" >
+                        </select>
+                    </div>
+                </div>
+
+
                 <!--  <div class="col-xs-6 col-md-2">
                      <div class="input-group ">
                      <span class="input-group-addon">推荐渠道</span>
@@ -138,6 +147,7 @@
                     <td>审核状态</td>
                     <td>推荐人</td>
                     <td>状态</td>
+                    <td>回访状态</td>
                     <td style="display:none">招师</td>
                     <td>操作</td>
                 </tr>
@@ -183,6 +193,7 @@
                         </td>
                         <td>{{@$var["reference_name"]}} </td>
                         <td>{{@$var["lecture_appointment_status_str"]}} </td>
+                        <td>{{@$var["lecture_revisit_type_str"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
@@ -192,6 +203,7 @@
                                 <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                 <a class="opt-more_grade">邮</a>
                                 <a class="opt-plan-train_lesson">1v1</a>
+                                <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
                             </div>
                         </td>
                     </tr>

@@ -12,6 +12,10 @@ $(function(){
 
             studentid:	$('#id_studentid').val(),
             assistantid:	$('#id_assistantid').val(),
+		    check_money_flag:	$('#id_check_money_flag').val(),
+			have_init:	$('#id_have_init').val(),
+			have_master:	$('#id_have_master').val(),
+
             contract_type:	$('#id_contract_type').val()
         });
     }
@@ -28,11 +32,18 @@ $(function(){
     });
 
     Enum_map.append_option_list( "contract_type", $("#id_contract_type"));
+    Enum_map.append_option_list( "boolean", $("#id_check_money_flag"));
+    Enum_map.append_option_list( "boolean", $("#id_have_init"));
+    Enum_map.append_option_list( "boolean", $("#id_have_master"));
 
     $('#id_studentid').val(g_args.studentid);
     $('#id_check_money_flag').val(g_args.check_money_flag);
     $('#id_assistantid').val(g_args.assistantid);
     $('#id_contract_type').val(g_args.contract_type);
+	$('#id_check_money_flag').val(g_args.check_money_flag);
+	$('#id_have_init').val(g_args.have_init);
+	$('#id_have_master').val(g_args.have_master);
+
 
     $.admin_select_user($("#id_studentid"),"student", load_data);
     $.admin_select_user($("#id_assistantid"),"assistant", load_data
@@ -133,6 +144,18 @@ $(function(){
             }
         });
     });
+
+    $(".opt-set_ass_master").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+       // alert(opt_data.userid);
+       // alert(opt_data.sys_operator);
+        $.do_ajax("/user_deal/set_ass_master",{
+            "userid" :opt_data.userid,
+            "account" : opt_data.sys_operator,
+        });
+
+    });
+
 
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();

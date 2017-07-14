@@ -633,7 +633,7 @@ class teacher_money extends Controller
         $list        = $this->t_lesson_info_b2->get_grade_wages_list($start_time,$end_time,0);
         $full_start  = strtotime("-1 month",$start_time);
         $full_end    = strtotime("-1 month",$end_time);
-        $full_list   = $this->t_lesson_info_b2->get_grade_wages_list($full_start,$full_end,1);
+        $full_list   = $this->t_lesson_info_b2->get_grade_wages_list($full_start,$full_end,3);
         $lesson_list = array_merge($list,$full_list);
 
         $count[0]  = [];
@@ -651,6 +651,7 @@ class teacher_money extends Controller
             }
             $val['lesson_count'] /= 100;
             $val['lesson_price'] /= 100;
+            \App\Helper\Utils::check_isset_data($all_count['all_count'],$val['lesson_count']);
             \App\Helper\Utils::check_isset_data($count[$grade]['trial_money'],0);
             \App\Helper\Utils::check_isset_data($count[$grade]['trial_count'],0);
             \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],0);
@@ -667,7 +668,7 @@ class teacher_money extends Controller
                 \App\Helper\Utils::check_isset_data($all_count['trial_money'],$trial_base);
                 \App\Helper\Utils::check_isset_data($all_count['trial_count'],$val['lesson_count']);
             }else{
-                $normal_money = $val['lesson_count']*$val['money']/100;
+                $normal_money = $val['lesson_count']*$val['money'];
                 \App\Helper\Utils::check_isset_data($count[$grade]['normal_money'],$normal_money);
                 \App\Helper\Utils::check_isset_data($count[$grade]['normal_count'],$val['lesson_count']);
                 \App\Helper\Utils::check_isset_data($all_count['normal_money'],$normal_money);
