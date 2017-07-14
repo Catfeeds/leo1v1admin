@@ -1,0 +1,15 @@
+	id	:any;
+	teacherid	:any;
+	cc_id	:any;
+	lessonid	:any;
+	question_type	:any;
+	question_content	:any;
+	teacher_flag	:any;
+	teacher_time	:any;
+	cc_flag	:any;
+	cc_time	:any;
+	create_time	:any;
+	realname	:any;
+	phone	:any;
+	lesson_name	:any;
+	lesson_type	:any;

@@ -1,0 +1,4 @@
+	user_count	:any;
+	avg_call_interval	:any;
+	admin_revisiterid	:any;
+	admin_nick	:any;

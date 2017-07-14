@@ -1,0 +1,6 @@
+	id	:any;
+	opt_time	:any;
+	adminid	:any;
+	sql_str	:any;
+	change_count	:any;
+	admin_nick	:any;

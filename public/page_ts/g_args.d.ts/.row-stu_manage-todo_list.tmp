@@ -1,0 +1,8 @@
+	id	:any;
+	userid	:any;
+	login_time	:any;
+	nick	:any;
+	ip	:any;
+	role	:any;
+	login_type	:any;
+	dymanic_flag	:any;

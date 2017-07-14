@@ -1,0 +1,10 @@
+	parentid	:any;
+	nick	:any;
+	phone	:any;
+	gender	:any;
+	face	:any;
+	last_modified_time	:any;
+	has_login	:any;
+	email	:any;
+	wx_openid	:any;
+	time	:any;

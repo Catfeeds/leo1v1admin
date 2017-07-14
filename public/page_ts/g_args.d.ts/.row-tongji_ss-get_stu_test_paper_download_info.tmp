@@ -1,0 +1,5 @@
+	realname	:any;
+	download_per	:any;
+	have_download_per	:any;
+	no_download_per	:any;
+	no_paper_per	:any;

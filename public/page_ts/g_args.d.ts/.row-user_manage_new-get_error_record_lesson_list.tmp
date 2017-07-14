@@ -1,0 +1,13 @@
+	lessonid	:any;
+	lesson_type	:any;
+	draw	:any;
+	audio	:any;
+	lesson_upload_time	:any;
+	lesson_start	:any;
+	lesson_end	:any;
+	userid	:any;
+	teacherid	:any;
+	lesson_time	:any;
+	student_nick	:any;
+	teacher_nick	:any;
+	lesson_type_str	:any;

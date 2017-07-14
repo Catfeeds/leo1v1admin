@@ -1,0 +1,9 @@
+	Field	:any;
+	Type	:any;
+	Collation	:any;
+	Null	:any;
+	Key	:any;
+	Default	:any;
+	Extra	:any;
+	Privileges	:any;
+	Comment	:any;

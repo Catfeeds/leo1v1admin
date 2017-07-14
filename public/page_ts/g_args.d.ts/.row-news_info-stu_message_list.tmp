@@ -1,0 +1,3 @@
+	messageid	:any;
+	message_type	:any;
+	message_content	:any;

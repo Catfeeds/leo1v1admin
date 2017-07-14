@@ -1,0 +1,6 @@
+	assistantid	:any;
+	userid	:any;
+	lesson_count	:any;
+	count	:any;
+	student_nick	:any;
+	assistant_nick	:any;

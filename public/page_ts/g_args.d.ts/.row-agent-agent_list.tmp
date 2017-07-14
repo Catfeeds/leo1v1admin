@@ -1,0 +1,16 @@
+	id	:any;
+	parentid	:any;
+	userid	:any;
+	phone	:any;
+	wx_openid	:any;
+	create_time	:any;
+	bank_address	:any;
+	bank_account	:any;
+	bank_phone	:any;
+	bank_province	:any;
+	bank_city	:any;
+	bank_type	:any;
+	bankcard	:any;
+	idcard	:any;
+	zfb_name	:any;
+	zfb_account	:any;

@@ -1,0 +1,13 @@
+	lessonid	:any;
+	courseid	:any;
+	userid	:any;
+	lesson_type	:any;
+	lesson_start	:any;
+	lesson_end	:any;
+	tea_nick	:any;
+	lesson_time	:any;
+	lesson_type_str	:any;
+	course_name	:any;
+	user_login	:any;
+	user_all	:any;
+	user_rate	:any;

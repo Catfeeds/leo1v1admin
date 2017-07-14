@@ -1,0 +1,9 @@
+	teacherid	:any;
+	assess_time	:any;
+	assess_adminid	:any;
+	content	:any;
+	assess_res	:any;
+	advise_reason	:any;
+	assess_nick	:any;
+	assess_res_str	:any;
+	assess_time_str	:any;

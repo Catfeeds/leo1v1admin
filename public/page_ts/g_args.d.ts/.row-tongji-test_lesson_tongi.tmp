@@ -1,0 +1,6 @@
+	st_application_nick	:any;
+	all_count	:any;
+	bad_count	:any;
+	before_4_bad_count	:any;
+	succ_count	:any;
+	after_4_bak_count	:any;

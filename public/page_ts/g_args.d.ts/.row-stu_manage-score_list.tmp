@@ -1,0 +1,13 @@
+	id	:any;
+	userid	:any;
+	create_time	:any;
+	create_adminid	:any;
+	subject	:any;
+	stu_score_type	:any;
+	stu_score_time	:any;
+	score	:any;
+	rank	:any;
+	file_url	:any;
+	subject_str	:any;
+	stu_score_type_str	:any;
+	create_admin_nick	:any;

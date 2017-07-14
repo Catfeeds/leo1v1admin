@@ -1,0 +1,4 @@
+	groupid	:any;
+	adminid	:any;
+	number	:any;
+	admin_nick	:any;

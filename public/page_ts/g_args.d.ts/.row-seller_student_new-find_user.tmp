@@ -1,0 +1,13 @@
+	add_time	:any;
+	phone	:any;
+	userid	:any;
+	require_adminid	:any;
+	admin_revisiterid	:any;
+	nick	:any;
+	subject	:any;
+	seller_resource_type	:any;
+	sub_assign_adminid_2	:any;
+	subject_str	:any;
+	seller_resource_type_str	:any;
+	sub_assign_admin_2_nick	:any;
+	admin_revisiter_nick	:any;

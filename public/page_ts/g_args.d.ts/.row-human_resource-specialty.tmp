@@ -1,0 +1,10 @@
+	teacherid	:any;
+	subject	:any;
+	grade	:any;
+	degree	:any;
+	introduction	:any;
+	nick	:any;
+	grade_str	:any;
+	subject_str	:any;
+	degree_str	:any;
+	number	:any;

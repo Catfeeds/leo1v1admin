@@ -1,0 +1,16 @@
+	main_type	:any;
+	up_group_name	:any;
+	group_name	:any;
+	account	:any;
+	main_type_class	:any;
+	up_group_name_class	:any;
+	group_name_class	:any;
+	account_class	:any;
+	level	:any;
+	main_type_str	:any;
+	non_green_count	:any;
+	non_green_order	:any;
+	order_per	:any;
+	green_order_per	:any;
+	green_per	:any;
+	non_green_order_per	:any;

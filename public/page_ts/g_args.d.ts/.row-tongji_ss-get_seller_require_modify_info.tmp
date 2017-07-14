@@ -1,0 +1,16 @@
+	add_time	:any;
+	acc	:any;
+	teacherid	:any;
+	limit_plan_lesson_type	:any;
+	seller_require_flag	:any;
+	limit_plan_lesson_type_old	:any;
+	realname	:any;
+	limit_week_lesson_num_new	:any;
+	limit_week_lesson_num_old	:any;
+	lesson_info	:any;
+	lesson_flag	:any;
+	order_info	:any;
+	order_flag	:any;
+	limit_plan_lesson_type_str	:any;
+	limit_plan_lesson_type_old_str	:any;
+	add_time_str	:any;

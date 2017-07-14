@@ -1,0 +1,9 @@
+	add_userid	:any;
+	userid	:any;
+	ts	:any;
+	reason	:any;
+	praise_num	:any;
+	lessonid	:any;
+	type	:any;
+	name	:any;
+	add_user_name	:any;

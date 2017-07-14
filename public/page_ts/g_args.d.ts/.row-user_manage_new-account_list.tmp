@@ -1,0 +1,5 @@
+	phone	:any;
+	role	:any;
+	userid	:any;
+	nick	:any;
+	role_str	:any;

@@ -1,0 +1,8 @@
+	ass_nick	:any;
+	valid_count	:any;
+	family_change_count	:any;
+	teacher_change_count	:any;
+	fix_change_count	:any;
+	internet_change_count	:any;
+	student_leave_count	:any;
+	teacher_leave_count	:any;
