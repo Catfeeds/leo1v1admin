@@ -11,6 +11,8 @@ $(function(){
 
 
     $('#id_add_login_new').click(function(){
+       
+        //var opt_data = $(this).get_opt_data();
         var $userid = $("<input/>");
         var $login = $("<input/>");
         var $nick = $("<input/>");
@@ -18,6 +20,12 @@ $(function(){
         var $role = $("<input/>");
         var $login_type = $("<input/>");
         var $flag = $("<input/>");
+            
+       $login.datetimepicker({
+            lang:'ch',
+            timepicker:false,
+            format:'Y-m-d'
+        });
 
 
         var arr=[

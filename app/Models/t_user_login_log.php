@@ -15,8 +15,10 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+    
+    
 
-
+    
 }
 
 
