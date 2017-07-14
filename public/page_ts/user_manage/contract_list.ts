@@ -2023,6 +2023,7 @@ $(function(){
                 //[ "", btn_add_new_no_test_lesson ],
                 [ "", btn_add_new_no_test_lesson_1 ],
                 [ "", btn_add_3 ],
+                [ "", btn_add_5 ],
             ];
         }else if ( window.location.pathname== "/user_manage/contract_list_ass") {
             arr=[
@@ -2036,6 +2037,7 @@ $(function(){
 
                 [ "", btn_add_3 ],
                 [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_5 ],
             ];
 
         }
