@@ -2409,10 +2409,8 @@ $(function(){
         var main_send_admin  = $('<input/>');
         var mail_send_time   = $('<input/>');
         var mail_code        = $('<input/>');
-        // var mail_code_url    = $('<input/>');
-        var mail_code_url    = $('<button id="id_upload_mail_photo">上传图片</button>');
+        var mail_code_url    = $('<button id="id_upload_mail_photo">上传图片</button>  <a id="id_show_mail_url"></a>');
 
-        // id_upload_mail_photo
         var is_send_flag     = $('<select/>');
 
         Enum_map.append_option_list( "boolean", is_send_flag ,true);
@@ -2438,8 +2436,10 @@ $(function(){
             main_send_admin.val(data.main_send_admin);
             mail_send_time.val(data.mail_send_time_str);
             mail_code.val(data.mail_code);
-            mail_code_url.val(data.mail_code_url);
+            // mail_code_url.val(data.mail_code_url);
+            $('#id_show_mail_url').html(data.mail_code_url);
 
+            // alert(data.mail_code_url);
             is_send_flag.val(data.is_send_flag);
 
 
@@ -2459,7 +2459,6 @@ $(function(){
             },function(){
                 $.custom_upload_file('id_upload_mail_photo',1,function (up, info, file) {
                     var res = $.parseJSON(info);
-                    alert(res.key);
                     $.ajax({
                         url: '/ss_deal2/set_mail_photo',
                         type: 'POST',

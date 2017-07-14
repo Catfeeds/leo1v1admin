@@ -3526,7 +3526,7 @@ class user_deal extends Controller
         }elseif($subject==4){
             $accept_adminid=770;
         }else{
-            $accept_adminid = 478;
+            $accept_adminid = 486;
         }
         $res =  $this->t_change_teacher_list->row_insert([
             "teacherid"  =>$teacherid,
