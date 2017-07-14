@@ -2455,23 +2455,23 @@ $(function(){
                     })
                 }
             },function(){
-                // $.custom_upload_file('id_upload_mail_photo',1,function (up, info, file) {
-                //     var res = $.parseJSON(info);
-                //     alert(res.key);
-                //     $.ajax({
-                //         url: '/ss_deal2/set_mail_photo',
-                //         type: 'POST',
-                //         data: {
-                //             'mail_url'  : res.key,
-                //             'orderid'   : opt_data.orderid
-                //         },
-                //         dataType: 'json',
-                //         success: function(data) {
-                //             window.location.reload();
-                //         }
-                //     });
+                $.custom_upload_file('id_upload_mail_photo',1,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    alert(res.key);
+                    $.ajax({
+                        url: '/ss_deal2/set_mail_photo',
+                        type: 'POST',
+                        data: {
+                            'mail_url'  : res.key,
+                            'orderid'   : opt_data.orderid
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            window.location.reload();
+                        }
+                    });
 
-                // }, null,["png", "jpg",'jpeg','bmp','gif']);
+                }, null,["png", "jpg",'jpeg','bmp','gif']);
             });
         }
                  );
