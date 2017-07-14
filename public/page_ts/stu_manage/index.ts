@@ -30,7 +30,7 @@ $(function(){
                         data : {
                             'studentid' : studentid,
                             'phone'     : $phone.val()
-			            },
+                  },
                         success: function(data) {
                             if(data.ret==0){
                                 window.location.reload();
@@ -44,22 +44,22 @@ $(function(){
         });
     });
 
-	$(' .opt-select-teacher').on('click',function(){
+  $(' .opt-select-teacher').on('click',function(){
         var courseid =  $(this).parent().data("courseid");
 
         $.admin_select_user($(this),"teacher",function(id){
             $.do_ajax( '/stu_manage/change_manage_id',
                        {
-				           'courseid' : courseid, 
-				           'opt_type' : "teacher",
+                   'courseid' : courseid,
+                   'opt_type' : "teacher",
                            'userid'   : g_sid,
-				           'opt_id'   : id 
-			           });
+                   'opt_id'   : id
+                 });
         } );
     });
 
 
-	$('.opt-select-assistant  ').on('click',function(){
+  $('.opt-select-assistant  ').on('click',function(){
         var courseid =  $(this).parent().data("courseid");
         $(this).admin_select_user({
             "show_select_flag":true,
@@ -68,16 +68,16 @@ $(function(){
                 var id = val;
                 $.do_ajax( '/stu_manage/change_manage_id',
                     {
-				        'courseid': courseid, 
-				        'opt_type': "assistant",
+                'courseid': courseid,
+                'opt_type': "assistant",
                         'userid'  : g_sid,
-				        'opt_id': id 
-			        },function(){
-                        
+                'opt_id': id
+              },function(){
+
                     });
             }
         });
-	});
+  });
 
 
 
@@ -98,17 +98,17 @@ $(function(){
 
         html_node.find("#id_textbook").val(opt_data.editionid );
         html_node.find("#id_region").val(opt_data.region);
-        
+
         html_node.find("#id_birth").datetimepicker({
-		    lang:'ch',
-		    timepicker:false,
-		    format:'Ymd'
-	    });
-        
+        lang:'ch',
+        timepicker:false,
+        format:'Ymd'
+      });
+
         BootstrapDialog.show({
             title: '修改用户数据',
             message :html_node ,
-            closable: false, 
+            closable: false,
             buttons: [{
                 label: '返回',
                 action: function(dialog) {
@@ -156,25 +156,25 @@ $(function(){
                             }else{
                                 window.location.reload();
                             }
-                            
+
                         }
                     });
                 }
             }]
-        }); 
+        });
     });
 
 
-	
-	
+
+
     $(".opt-lesson-require").on("click", function(){
         var orderid = $(this).parent().data('orderid');
         $.ajax({
             url: '/stu_manage/get_arrange_require',
             type: 'POST',
             data: {
-				'orderid':orderid
-			},
+        'orderid':orderid
+      },
             dataType: 'json',
             success: function(data) {
                 if (data['ret'] == 0) {
@@ -182,7 +182,7 @@ $(function(){
                     BootstrapDialog.show({
                         title: '排课要求',
                         message : $("<textarea id=\"id_note\" class=\"form-control\" style=\"height:150px\" />").val( data['requirement']),
-                        closable: false, 
+                        closable: false,
                         buttons: [{
                             label: '返回',
                             action: function(dialog) {
@@ -192,14 +192,14 @@ $(function(){
                             label: '确认',
                             cssClass: 'btn-warning',
                             action: function(dialog) {
-		                        var note = $.trim($("#id_note").val() );
+                            var note = $.trim($("#id_note").val() );
                                 $.ajax({
                                     url: '/stu_manage/set_arrange_require',
                                     type: 'POST',
                                     data: {
-				                        'orderid':orderid,
+                                'orderid':orderid,
                                         'requirement':note
-			                        },
+                              },
                                     dataType: 'json',
                                     success: function(data) {
                                         if (data['ret'] == 0) {
@@ -209,21 +209,21 @@ $(function(){
                                 });
                             }
                         }]
-                    }); 
+                    });
 
                 }
             }
         });
     });
-    
 
-    
+
+
     $(".opt-lesson-bell").on("click", function(){
         var orderid = $(this).parent().data('orderid');
         BootstrapDialog.show({
             title: '课前音频',
             message : "确认插入课前视频?!",
-            closable: false, 
+            closable: false,
             buttons: [{
                 label: '返回',
                 action: function(dialog) {
@@ -237,8 +237,8 @@ $(function(){
                         url: '/stu_manage/set_course_begin_audio',
                         type: 'POST',
                         data: {
-				            'orderid':orderid
-			            },
+                    'orderid':orderid
+                  },
                         dataType: 'json',
                         success: function(data) {
                             if (data['ret'] == 0) {
@@ -251,7 +251,7 @@ $(function(){
                     });
                 }
             }]
-        }); 
+        });
 
 
     });
@@ -263,8 +263,8 @@ $(function(){
             url: '/stu_manage/get_course_server',
             type: 'POST',
             data: {
-				'courseid':courseid
-			},
+        'courseid':courseid
+      },
             dataType: 'json',
             success: function(data) {
                 if(data['ret'] == 0){
@@ -273,7 +273,7 @@ $(function(){
                     html_node.find("#id_server").val(data['info'][1]);
                     BootstrapDialog.show({
                         title: '选择服务器',
-                        message : html_node, 
+                        message : html_node,
                         buttons: [{
                             label: '返回',
                             action: function(dialog) {
@@ -293,10 +293,10 @@ $(function(){
                                     url: '/stu_manage/set_course_server',
                                     type: 'POST',
                                     data: {
-				                        'courseid':courseid,
+                                'courseid':courseid,
                                         'region'  :region,
                                         'id'  :server
-			                        },
+                              },
                                     dataType: 'json',
                                     success: function(data) {
                                         if (data['ret'] == 0) {
@@ -309,7 +309,7 @@ $(function(){
 
                             }
                         }]
-                    }); 
+                    });
 
 
                 }
@@ -317,15 +317,15 @@ $(function(){
         });
     });
 
-    
+
     $(".opt-set-course-name").on("click",function(){
 
         var courseid=$(this).get_opt_data("courseid");
-	    //
+      //
         $.show_input( "设置课程名称" , ""  , function(val){
             $.do_ajax('/course_manage/set_course_name', {
                 'courseid': courseid,
-                'course_name': val 
+                'course_name': val
             });
         });
     });
@@ -340,12 +340,12 @@ $(function(){
                 $.do_ajax( '/user_deal/student_set_seller',
                     {
                         'studentid'  : g_sid,
-				        'seller_adminid': id 
-			        });
+                'seller_adminid': id
+              });
             }
         });
 
-        
+
     }) ;
 
     $("#id_set_assistantid").on("click",function(){
@@ -357,23 +357,23 @@ $(function(){
                 $.do_ajax( '/stu_manage/set_assistantid',
                     {
                         'sid'  : g_sid,
-				        'assistantid': id
-			        });
+                'assistantid': id
+              });
             }
         });
 
-        
+
     }) ;
 
-    
+
     $(".opt-set-status").on("click",function(){
         var orderid = $(this).get_opt_data("orderid");
         var contract_status = $(this).get_opt_data("contract_status");
         if ( contract_status ==1 || contract_status ==2  ) {
-            
+
             /*
- 		     1 => "执行中",
-		     2 => "已结束",
+         1 => "执行中",
+         2 => "已结束",
              */
             var $contract_status=$("<select/>");
 
@@ -406,19 +406,19 @@ $(function(){
         }else{
             alert("不是正式合同");
         }
-        
-	    
+
+
     });
-    
+
     var set_upload_complete_for_init_info_pdf_url = function(up, info, file, lesson_info) {
         var res = $.parseJSON(info);
         if (res.key) {
             $.do_ajax ('/user_manage_new/stu_set_init_info_pdf_url',
-        	           {
+                     {
                            'init_info_pdf_url' : res.key,
                            'userid':g_sid
-                       }); 
-            
+                       });
+
         }else{
             alert("上传失败");
         }
@@ -427,14 +427,14 @@ $(function(){
     $.custom_upload_file( 'id_set_init_info_pdf_url',
                           false , set_upload_complete_for_init_info_pdf_url, null,
                           ["pdf"] );
-    
+
     $("#id_show_init_info_pdf").on("click",function(){
         var opt_data=$("#id_stu_info").data();
         var init_info_pdf_url=opt_data.init_info_pdf_url;
         $.custom_show_pdf(init_info_pdf_url);
     });
 
-    
+
     $("#id_tmp_passwd").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var id_tmp_passwd=$("<input/>");
@@ -448,11 +448,11 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-		        $.ajax({
-			        type     :"post",
-			        url      :"/user_manage/set_dynamic_passwd",
-			        dataType :"json",
-			        data     :{
+            $.ajax({
+              type     :"post",
+              url      :"/user_manage/set_dynamic_passwd",
+              dataType :"json",
+              data     :{
                         "phone"  :  g_phone,
                         "passwd" : id_tmp_passwd.val(),
                         "role"   : 1
@@ -460,14 +460,14 @@ $(function(){
                     success : function(result){
                         BootstrapDialog.alert(result['info']);
                         window.location.reload();
-			        }
+              }
                 });
             }
         });
 
     });
 
-    
+
     $("#id_set_grade").on("click",function(){
         var opt_data=$("#id_stu_info").data();
         var $grade=$("<select/>");
@@ -482,7 +482,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-	            $.do_ajax("/user_deal/set_stu_grade", {
+              $.do_ajax("/user_deal/set_stu_grade", {
                     userid  : g_args.sid,
                     grade : $grade.val()
                 });
@@ -502,7 +502,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-	            $.do_ajax("/user_deal/set_stu_account", {
+              $.do_ajax("/user_deal/set_stu_account", {
                     userid    : g_args.sid,
                     old_phone : opt_data.phone,
                     stu_phone : $stu_phone.val(),
@@ -511,7 +511,7 @@ $(function(){
         });
 
     });
-    
+
     $("#id_add_mypraise").on("click",function(){
         var id_praise_num = $("<input/>");
         var id_reason     = $("<textarea />");
@@ -557,6 +557,5 @@ $(function(){
             }
         });
     });
-    
-});
 
+});

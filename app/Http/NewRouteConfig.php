@@ -25,6 +25,8 @@ class NewRouteConfig {
         "lesson_info"       => true,
         "yxyx_wx_server"       => true,
         "wx_yxyx_common"       => true,
+        "wx_yxyx_web"       => true,
+        "wx_yxyx"       => true,
         "test_kevin"       => true,
         "test_sam"       => true,
         "ss_deal2"          => true,

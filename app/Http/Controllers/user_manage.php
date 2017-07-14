@@ -1871,4 +1871,31 @@ class user_manage extends Controller
     }
 
 
+
+    public function do_qiniu ( $public_flag )  {
+
+        $config=\App\Helper\Config::get_config("qiniu");
+        // 构建鉴权对象
+        $auth = new Auth($config["access_key"], $config["secret_key"]);
+
+        if ($public_flag ) {
+            $bucket_info=$config["public" ];
+        }else{
+            $bucket_info=$config["private_url" ];
+        }
+        $bucket=$bucket_info["bucket"];
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+
+
+        return  $this->output_succ([
+            "bucket" =>  $bucket,
+            "token" =>$token,
+            "url"=> $bucket_info["url"]
+        ] );
+    }
+
+
+
 }

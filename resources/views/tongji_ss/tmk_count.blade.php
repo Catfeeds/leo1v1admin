@@ -277,7 +277,7 @@
      <div style="display:none;" >
          <div id="id_assign_log">
              <table   class="table table-bordered "   >
-                 <tr>  <th> 分配时间 <th>第一次拨打时间 <th>是否接通 </tr>
+                 <tr><th>学生姓名  <th> 分配时间 <th>第一次拨打时间 <th>是否接通 </tr>
                      <tbody class="data-body">
                      </tbody>
              </table>

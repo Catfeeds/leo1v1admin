@@ -9,7 +9,7 @@
         "laravel/framework": "5.2.*",
         "predis/predis": "^1.0",
         "phpoffice/phpexcel": "dev-develop",
-         "doctrine/dbal": "~2.3"
+        "doctrine/dbal": "~2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

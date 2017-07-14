@@ -396,13 +396,12 @@ class wx_parent_api extends Controller
             ];
             $url = '';
             $wx=new \App\Helper\Wx();
-            // orwGAswyJC8JUxMxOVo35um7dE8M // QC openid
-            // orwGAsxTqusFBCbI6QqR8oxkwwMg //QC yunyan
-            // $qc_openid = "orwGAs_IqKFcTuZcU1xwuEtV3Kek"; // james
 
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsxTqusFBCbI6QqR8oxkwwMg"  // QC yunyan
+                "orwGAsxTqusFBCbI6QqR8oxkwwMg",  // QC yunyan
+                "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
+                "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
             ];
 
             foreach($qc_openid_arr as $qc_item){

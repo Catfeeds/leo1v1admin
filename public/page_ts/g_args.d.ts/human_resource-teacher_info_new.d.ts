@@ -161,6 +161,8 @@ interface RowData {
 	user_agent_wx_update	:any;
 	bank_province	:any;
 	bank_city	:any;
+	transfer_teacherid	:any;
+	transfer_time	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;

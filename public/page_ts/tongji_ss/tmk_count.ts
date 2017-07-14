@@ -197,7 +197,7 @@ $(function(){
                 $.each(data, function (i, item) {
                     var cls = "success";
 
-                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.tmk_assign_time_str + "<td>" + item.first_call_time_str + "<td>" + item.global_tq_called_flag_str  + "</tr>";
+                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.nick + " <td>" + item.tmk_assign_time_str + "<td>" + item.first_call_time_str + "<td>" + item.global_tq_called_flag_str  + "</tr>";
                 });
 
                 html_node.find(".data-body").html(html_str);

@@ -1182,25 +1182,28 @@ class test_code extends Controller
     public function get_pingtai(){
         $num                = $this->get_in_int_val("num");
         $teacher_money_type = $this->get_in_str_val("teacher_money_type","5");
+        $level              = $this->get_in_str_val("level","");
 
         $start_date = strtotime("2017-4-1");
         $start_time = strtotime("+$num month",$start_date);
         $end_time   = strtotime("+1 month",$start_time);
         $this->t_lesson_info_b2->switch_tongji_database();
-        $list = $this->t_lesson_info_b2->get_lesson_total_list($start_time,$end_time,$teacher_money_type);
-        echo "姓名|工资类型|创建时间|转化率|常规课时|试听课时|总课时|学生数";
+        $list = $this->t_lesson_info_b2->get_lesson_total_list($start_time,$end_time,$teacher_money_type,$level);
+        echo "姓名|工资类型|等级|创建时间|转化率|常规课时|试听课时|总课时|学生数";
         echo "<br>";
 
         foreach($list as $val){
             $ref_str            = E\Eteacher_ref_type::get_desc($val['teacher_ref_type']);
-            $teacher_money_type_str =E\Eteacher_money_type::get_desc($val['teacher_money_type']);
+            $level_str          = E\Elevel::get_desc($val['level']);
+            $teacher_money_type_str = E\Eteacher_money_type::get_desc($val['teacher_money_type']);
             $create_time        = date("Y-m-d",$val['create_time']);
             $trial_lesson_total = $val['trial_lesson_total']/100;
             $lesson_total       = $val['lesson_total']/100;
             $all_total          = $trial_lesson_total+$lesson_total;
             $stu_num            = $this->t_lesson_info_b2->get_stu_num($val['teacherid'],$start_time,$end_time);
-            echo $val['nick']."|".$teacher_money_type_str."|".$create_time."|".$val['test_transfor_per']
-                             ."|".$lesson_total."|".$trial_lesson_total."|".$all_total."|".$stu_num;
+            echo $val['nick']."|".$teacher_money_type_str."|".$level_str."|".$create_time
+                             ."|".$val['test_transfor_per']."|".$lesson_total."|".$trial_lesson_total
+                             ."|".$all_total."|".$stu_num;
             echo "<br>";
         }
     }
@@ -1284,5 +1287,61 @@ class test_code extends Controller
             ]);
         }
     }
+
+    public function test_teacher_qr(){
+        header("Content-type:image/jpeg");
+        $phone = $this->get_in_str_val("phone","18790256265");
+
+        $phone_qr_name  = $phone."_qr_summer.png";
+        $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
+        $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation.png";
+        $qr_url         = "/tmp/".$phone.".png";
+        $teacher_qr_url = "/tmp/".$phone_qr_name;
+        \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+        
+        $image_1 = imagecreatefrompng($bg_url);
+        $image_2 = imagecreatefrompng($qr_url);
+        $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
+        imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+        imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
+        imagepng($image_3,$teacher_qr_url);
+        imagedestroy($image_1);
+        imagedestroy($image_2);
+        imagedestroy($image_3);
+    }
+
+    public function test_lesson_total(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $this->switch_tongji_database();
+        $list = $this->t_lesson_info_b2->test_lesson_total($start_time,$end_time,0);
+        echo count($list);
+        echo "<br>";
+        $full_start  = strtotime("-1 month",$start_time);
+        $full_end    = strtotime("-1 month",$end_time);
+        $full_list = $this->t_lesson_info_b2->test_lesson_total($full_start,$full_end,3);
+        echo count($full_list);
+    }
+
+    public function add_lesson_for_11(){
+        $arr=$this->get_b_txt();
+        $today_date=date("Y-m-d",time());
+        foreach($arr as $val){
+            if($val != ""){
+                $lesson_info = explode("\t",$val);
+                /* 0 上课老师 1 上课时间段 2 学生 3 上课老师手机号 */
+                $lesson_time  = explode("-",$val[1]);
+                
+                $start_time = strtotime($today_date." ".$lesson_time[0]); 
+                $end_time   = strtotime($today_date." ".$lesson_time[1]); 
+                $teacherid  = $this->t_teacher_info->get_teacherid_by_phone($val[3]);
+                $userid     = $this->t_student_info->get_userid_by_realname($val[2]);
+
+            }
+        }
+
+
+    }
+
+
 
 }

@@ -64,12 +64,12 @@ $(function(){
 
             $tr.find(".lesson_price_tax").text(data.lesson_price_tax);
             $tr.find(".lesson_price").text(data.lesson_price);
-            // $tr.find(".lesson_normal").text(data.lesson_normal);
-            // $tr.find(".lesson_trial").text(data.lesson_trial);
-            // $tr.find(".lesson_reward").text(data.lesson_reward);
-            // $tr.find(".lesson_reward_ex").text(data.lesson_reward_ex);
+            $tr.find(".lesson_normal").text(data.lesson_normal);
+            $tr.find(".lesson_trial").text(data.lesson_trial);
+            $tr.find(".lesson_reward").text(data.lesson_reward);
+            $tr.find(".lesson_reward_ex").text(data.lesson_reward_ex);
             $tr.find(".lesson_cost").text(data.lesson_cost);
-            // $tr.find(".lesson_cost_tax").text(data.lesson_cost_tax);
+            $tr.find(".lesson_cost_tax").text(data.lesson_cost_tax);
             $tr.find(".lesson_total").text(data.lesson_total);
 
             if(opt_data.lesson_total != data.lesson_total){

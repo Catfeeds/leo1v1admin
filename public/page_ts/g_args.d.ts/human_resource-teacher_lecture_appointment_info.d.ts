@@ -15,6 +15,7 @@ interface GargsStatic {
 	grade:	number;
 	subject:	number;
 	have_wx:	number;
+	lecture_revisit_type:	number;
 	teacher_ref_type:	string;//枚举列表: App\Enums\Eteacher_ref_type
  	tea_adminid:	number;
 }
@@ -42,12 +43,14 @@ interface RowData {
 	answer_begin_time	:any;
 	answer_end_time	:any;
 	status	:any;
+	lecture_revisit_type	:any;
 	trial_train_status	:any;
 	subject	:any;
 	grade	:any;
 	acc	:any;
 	reason	:any;
 	record_info	:any;
+	train_lessonid	:any;
 	reference_name	:any;
 	teacherid	:any;
 	account	:any;
@@ -63,6 +66,7 @@ interface RowData {
 	answer_time	:any;
 	lecture_appointment_status_str	:any;
 	teacher_type_str	:any;
+	lecture_revisit_type_str	:any;
 	status_str	:any;
 	trans_grade_str	:any;
 	subject_num	:any;
@@ -99,6 +103,7 @@ $(function(){
 			grade:	$('#id_grade').val(),
 			subject:	$('#id_subject').val(),
 			have_wx:	$('#id_have_wx').val(),
+			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
 			tea_adminid:	$('#id_tea_adminid').val()
         });
@@ -124,6 +129,7 @@ $(function(){
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);
 	$.enum_multi_select( $('#id_teacher_ref_type'), 'teacher_ref_type', function(){load_data();} )
 	$('#id_tea_adminid').val(g_args.tea_adminid);
@@ -197,6 +203,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">have_wx</span>
                 <input class="opt-change form-control" id="id_have_wx" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lecture_revisit_type</span>
+                <input class="opt-change form-control" id="id_lecture_revisit_type" />
             </div>
         </div>
 

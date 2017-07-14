@@ -197,6 +197,7 @@ class teacher_info extends Controller
         $this->t_teacher_info->field_update_list($teacherid,[
             "face" => $face,
         ]);
+        // dd();
         return $this->output_succ();
 
     }

@@ -79,7 +79,11 @@ $(function(){
         var id_stu_score_time = $("<input/>");   //输入考试日期
         var id_score          = $("<input/>");   //输入考试分数
         var id_rank           = $("<input/>");   //输入考试排名
-        var id_file_url       = $("<input/>");   //文件url
+        var $upload_div       = $("<div> <button id=\" id_upload_from_url\"> 上传</button> <a href=\"\" target=\"_blank\">查看</a> </div>");
+        var $upload_btn       = $upload_div.find("button");
+        var $upload_link      = $upload_div.find("a");
+        //var id_file_url       = $("<input/>");   //文件url
+        //$upl
 
         Enum_map.append_option_list("subject", id_subject, true);
         Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
@@ -96,7 +100,7 @@ $(function(){
             ["考试日期", id_stu_score_time],
             ["考试分数",id_score],
             ["考试排名",id_rank],
-            ["文件附件",id_file_url],
+            ["文件附件",$upload_div],
         ];
 
         $.show_key_value_table("增加考试记录", arr, {
@@ -107,7 +111,7 @@ $(function(){
                     alert("请填写完整!");
                     return;
                 }
-          $.do_ajax("/ajax_deal2/score_add_new",{
+       	        $.do_ajax("/ajax_deal2/score_add_new",{
                     "userid"        : g_sid,
                     "create_time"   : '1',
                     "create_adminid": '1',
@@ -117,10 +121,8 @@ $(function(){
                     "score"         : id_score.val(),
                     "rank"          : id_rank.val(),
                     "file_url"      : id_file_url.val()
-                });
-            }
-        }, function(){
-
-        });
+	        }, function(){		
+	
+	});
     });
-});
+ });
