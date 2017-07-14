@@ -1,7 +1,6 @@
   
-  
 * 安装软件
-  sudo apt-get install  nginx php-cli php-fpm  redis php-mysql phpunit  mysql-client
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
@@ -15,8 +14,13 @@
   cd ~ 
   git clone    git@192.168.0.5:root/admin_yb1v1.git
   
-  生成 自动生成的代码
+  
   cd ~/admin_yb1v1 
+  
+  #复制配置文件
+  cp .env.example .env
+  
+  #生成 自动生成的代码
   ./gen_code.sh
   
   目录 
@@ -28,14 +32,14 @@
   
 * nginx 配置  
   
-  ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
+  sudo ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
   
   cd ~/admin_yb1v1 
   sudo cp ./install_files/admin.yb1v1.conf /etc/nginx/sites-enabled/
   sudo /etc/init.d/nginx reload
 
   /etc/hosts 加入
-  self.admin.yb1v1.com 127.0.0.1
+ 127.0.0.1  self.admin.yb1v1.com 
   
 *  
   
