@@ -2589,7 +2589,28 @@ class user_deal extends Controller
         $start_time = strtotime("2017-04-01");
         $end_time = strtotime("2017-07-01");
         $ret = $this->t_lesson_info_b2->get_regular_lesson_count_tongji($start_time,$end_time);
-        dd($ret);
+        $arr=[];
+        foreach($ret as $val){
+            if($val["all_count"]>=3000 && $val["all_count"]<6000 ){
+                @$arr[30]++;
+            }elseif($val["all_count"]>=6000 && $val["all_count"]<9000 ){
+                @$arr[60]++;
+            }elseif($val["all_count"]>=9000 && $val["all_count"]<12000){
+                @$arr[90]++;
+            }elseif($val["all_count"]>=12000 && $val["all_count"]<15000){
+                @$arr[120]++;
+            }elseif($val["all_count"]>=15000 && $val["all_count"]<18000 ){
+                @$arr[150]++;
+            }elseif($val["all_count"]>=18000 && $val["all_count"]<21000){
+                @$arr[180]++;
+            }else{
+                @$arr[210]++;
+            }
+
+
+
+        }
+        dd($arr);
        
 
         $phone=13817759346;        
