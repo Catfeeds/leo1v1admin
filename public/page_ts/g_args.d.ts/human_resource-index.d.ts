@@ -130,6 +130,8 @@ interface RowData {
 	second_subject_str	:any;
 	third_subject_str	:any;
 	grade_part_ex_str	:any;
+	second_grade_str	:any;
+	third_grade_str	:any;
 	identity_str	:any;
 	age	:any;
 	level_str	:any;

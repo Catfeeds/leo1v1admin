@@ -1458,7 +1458,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_month_money_info(){
         $sql = $this->gen_sql_new("select sum(price)/100 as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
                                   ." count(*) as count,sum(lesson_total*default_lesson_count) as order_total "
-                                  ." from  %s o , %s s "
+                                  ." from %s o,%s s "
                                   ." where o.userid=s.userid "
                                   ." and s.is_test_user=0 "
                                   ." and contract_status>0 "
@@ -1622,9 +1622,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
     public function get_relation_order_list ($orderid) {
-
         $sql=$this->gen_sql_new(
-            "select orderid,contract_type, sys_operator,userid, price,  default_lesson_count,lesson_total,order_time , from_parent_order_type "
+            "select orderid,contract_type,sys_operator,userid,price,default_lesson_count,"
+            ." lesson_total,order_time,from_parent_order_type,from_parent_order_lesson_count "
             ." from %s where (orderid=$orderid or  parent_order_id = $orderid ) ",
             self::DB_TABLE_NAME
         );
@@ -2440,4 +2440,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_user_split_total($userid){
+    }
+
+
 }

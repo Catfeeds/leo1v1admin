@@ -485,6 +485,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
         $where_arr[]= $this->where_get_not_in_str("t.teacherid",  $teacherid_arr);
+        $where_arr[]= $this->where_get_subject_grade_str($grade_plan,$subject_plan);
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";

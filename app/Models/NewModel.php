@@ -807,7 +807,7 @@ abstract class NewModel
         }
     }
 
-    public function get_subject_grade_str($grade,$subject){
+    public function where_get_subject_grade_str($grade,$subject){
         if($grade==-1 && $subject==-1){
             return true;
         }elseif($grade==-1 && $subject != -1){
@@ -834,15 +834,17 @@ abstract class NewModel
             }elseif($grade==104 || $grade==105){
                 return "((((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4)) and t.subject=".$subject.") or (t.second_grade in (1,4) and t.second_subject =".$subject.") or (t.third_grade in (1,4) and t.third_subject=".$subject."))";
             }elseif($grade==106){
-                return "((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4,6) or t.second_grade in (1,4,6) or t.third_grade in (1,4,6))";
+                return "((((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4,6)) and t.subject=".$subject.") or (t.second_grade in (1,4,6) and t.second_subject =".$subject.") or (t.third_grade in (1,4,6) and t.third_subject=".$subject."))";
+
             }elseif($grade==201 || $grade==202){
-                return "((t.grade_start>0 and t.grade_start<=3 and t.grade_end>=3) or t.grade_part_ex in (2,4,5,6) or t.second_grade in (2,4,5,6) or t.third_grade in (2,4,5,6))";
+                return "((((t.grade_start>0 and t.grade_start<=3 and t.grade_end>=3) or t.grade_part_ex in (2,4,5,6)) and t.subject=".$subject.") or (t.second_grade in (2,4,5,6) and t.second_subject =".$subject.") or (t.third_grade in (2,4,5,6) and t.third_subject=".$subject."))";
             }elseif($grade==203){
-                return "((t.grade_start>0 and t.grade_start<=4 and t.grade_end>=4) or t.grade_part_ex in (2,4,5,6,7) or t.second_grade in (2,4,5,6,7) or t.third_grade in (2,4,5,6,7))";
+                return "((((t.grade_start>0 and t.grade_start<=4 and t.grade_end>=4) or t.grade_part_ex in (2,4,5,6,7)) and t.subject=".$subject.") or (t.second_grade in (2,4,5,6,7) and t.second_subject =".$subject.") or (t.third_grade in (2,4,5,6,7) and t.third_subject=".$subject."))";
             }elseif($grade==301 || $grade==302){
-                return "((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+                return "((((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";                               
+
             }elseif($grade==303){
-                return "((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+                return "((((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";       
             }
 
         }

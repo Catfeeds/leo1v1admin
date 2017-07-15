@@ -316,7 +316,9 @@
                     <td>年级段</td>
                     <td>第一科目</td>
                     <td>第二科目</td>
+                    <td style="display:none;">第二年级段</td>
                     <td style="display:none;">第三科目</td>
+                    <td style="display:none;">第三年级段</td>
                     <td style="width:320px">面试评价</td>
                     <td style="display:none;">教务备注</td>
                     <td >教研备注</td>
@@ -381,7 +383,9 @@
                         </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["second_subject_str"]}} </td>
+                        <td>{{@$var["second_grade_str"]}} </td>
                         <td>{{@$var["third_subject_str"]}} </td>
+                        <td>{{@$var["third_grade_str"]}} </td>
                         @if($var["interview_access"])
                             <td class="content_show" data-content="{{@$var["interview_access"]}}">
                                 {{@$var["interview_access"]}}

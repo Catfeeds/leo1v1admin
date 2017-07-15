@@ -4211,8 +4211,7 @@ class user_deal extends Controller
             return $this->output_succ();
         }else{
             $ret=$this->t_flow->add_flow(
-                $flow_type,
-                $this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
+                $flow_type,$this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
             );
 
             if (!$ret) {

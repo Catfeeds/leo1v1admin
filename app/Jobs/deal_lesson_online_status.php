@@ -67,9 +67,6 @@ class deal_lesson_online_status extends Job implements ShouldQueue
                 }
                 unlink($savePathFile);
             }
-
         }
-
-
     }
 }

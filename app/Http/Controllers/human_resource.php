@@ -826,6 +826,8 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"second_subject");
             E\Esubject::set_item_value_str($item,"third_subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_part_ex::set_item_value_str($item,"second_grade");
+            E\Egrade_part_ex::set_item_value_str($item,"third_grade");
             E\Eidentity::set_item_value_str($item);
             $item['user_agent'] = \App\Helper\Utils::get_user_agent_info($item['user_agent']);
             $item['age']        = $age;

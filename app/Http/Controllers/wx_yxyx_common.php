@@ -29,15 +29,15 @@ class wx_yxyx_common extends Controller
         session(["wx_yxyx_openid" => $openid]);
 
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_yxyx_openid:$openid ");
-        \App\Helper\Utils::logger("sessionid:".  session_id());
+        \App\Helper\Utils::logger("wx_yxyx_openid:$openid");
+        \App\Helper\Utils::logger("sessionid:".session_id());
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr = preg_split("/\//", $goto_url);
         $action       = @$goto_url_arr[2];
         $web_html_url = "http://wx-yxyx-web.leo1v1.com";
         if($action=="bind"){
-            //$url="$web_html_url/bind?l=/";
+            $url="$web_html_url/index.html#bind";
         }else{
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
@@ -89,23 +89,20 @@ class wx_yxyx_common extends Controller
     }
 
     public function bind(){
-        $goto_url = $this->get_in_str_val('goto_url');
+        $wx_openid  = session("wx_yxyx_openid");
         $phone      = $this->get_in_str_val("phone");
         $code       = $this->get_in_str_val("code");
-
-        \App\Helper\Utils::logger("bind sessionid:".  session_id());
-
-        $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
-        \App\Helper\Utils::logger("wx_yxyx_openid_new:".session('wx_yxyx_openid'));
-        \App\Helper\Utils::logger("yxyx_phone:".$phone);
-        \App\Helper\Utils::logger("yxyx_code:".$code);
-        \App\Helper\Utils::logger("yxyx_goto_url:".$goto_url);
-        $wx_openid  = session("wx_yxyx_openid" ) ;
+        $check_code = session("wx_yxyx_code");
+        \App\Helper\Utils::logger("bind_openid:".session('wx_yxyx_openid'));
+        \App\Helper\Utils::logger("bind_sessionid:".session_id());
+        \App\Helper\Utils::logger("bind_phone:".$phone);
+        \App\Helper\Utils::logger("bind_code:".$code);
+        \App\Helper\Utils::logger("bind_check_code:".$check_code);
         if(!$wx_openid){
-            return $this->output_err('无openid');
+            return $this->output_err('请先登录微信!');
         }
-        if(!$phone){
-            return $this->output_err('无手机号');
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
         }
 
         if($code==$check_code){

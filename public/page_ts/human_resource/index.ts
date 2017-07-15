@@ -33,7 +33,9 @@ $(function(){
             teacher_type             : $('#id_teacher_type').val(),
             teacher_ref_type         : $('#id_teacher_ref_type').val(),
             reference_teacherid      : $('#id_reference_teacherid').val(),
-			have_wx:	$('#id_have_wx').val()
+			have_wx:	$('#id_have_wx').val(),
+            grade_plan:	$('#id_grade_plan').val(),
+			subject_plan:	$('#id_subject_plan').val()
         });
     }
 
@@ -55,6 +57,9 @@ $(function(){
     Enum_map.append_option_list("boolean", $("#id_is_quit") );
     Enum_map.append_option_list("boolean", $("#id_set_leave_flag") );
     Enum_map.append_option_list("boolean", 	$('#id_have_wx') );
+    Enum_map.append_option_list("grade", $("#id_grade_plan"),false,[101,102,103,104,105,106,201,202,203,301,302,303] );
+    Enum_map.append_option_list("subject", $("#id_subject_plan") );
+
 
     $('#id_teacher_type').val(g_args.teacher_type);
     $('#id_teacher_ref_type').val(g_args.teacher_ref_type);
@@ -82,6 +87,9 @@ $(function(){
     $('#id_second_interview_score').val(g_args.second_interview_score);
     $('#id_lesson_hold_flag_adminid').val(g_args.lesson_hold_flag_adminid);
     $('#id_set_leave_flag').val(g_args.set_leave_flag);
+	$('#id_grade_plan').val(g_args.grade_plan);
+	$('#id_subject_plan').val(g_args.subject_plan);
+
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $.admin_select_user($("#id_reference_teacherid"), "teacher", load_data);
@@ -726,6 +734,8 @@ $(function(){
         $("#id_free_time").parent().parent().show();
         $(".test_transfor_per").show();
     }else{
+        $("#id_grade_plan").parent().parent().hide();
+        $("#id_subject_plan").parent().parent().hide();
         $(".opt-return-back-new").hide();
         $(".opt-return-back-list").hide();
         $(".opt-complaints-teacher").hide();
@@ -775,13 +785,7 @@ $(function(){
         $(".opt-edit").show();
     }
     
-    if(acc=="jim" || acc=="jack"){
-        
-    }else{
-        $("#id_grade_plan").parent().parent().hide();
-        $("#id_subject_plan").parent().parent().hide();
-    }
-
+   
 
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();

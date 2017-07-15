@@ -56,29 +56,24 @@
                       <input class="opt-change form-control" id="id_seller_groupid_ex" />
                   </div>
               </div>
-
-
-
               <div class="col-xs-1 col-md-2">
                   <div class="input-group ">
                       <span >学生</span>
                       <input id="id_studentid"  />
                   </div>
               </div>
-
-            <div class="col-xs-6 col-md-2">
-                <div class="input-group ">
-                    <span class="input-group-addon">转介绍_组员</span>
-                    <input class="opt-change form-control" id="id_referral_adminid" />
-                </div>
-            </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">助教</span>
-                <input class="opt-change form-control" id="id_assistantid" />
-            </div>
-        </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">转介绍_组员</span>
+                      <input class="opt-change form-control" id="id_referral_adminid" />
+                  </div>
+              </div>
+              <div class="col-xs-6 col-md-2">
+                  <div class="input-group ">
+                      <span class="input-group-addon">助教</span>
+                      <input class="opt-change form-control" id="id_assistantid" />
+                  </div>
+              </div>
 
 
             <div class="col-xs-6 col-md-2">
@@ -265,7 +260,7 @@
                                 <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
                                 <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a>
                                 <a class="fa-arrow-right  opt-next " title="课时包详情"> </a>
-                                <a class=" fa-link opt-relation-order" title="关联的合同信息"> </a>
+                                <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
                                 <a class="opt-set-origin" title="设置对应的试听课">试听</a>
                                 <a class="fa  opt-flow-def-list fa-facebook-square" title="审核预期流程" >   </a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="审核进度"></a>

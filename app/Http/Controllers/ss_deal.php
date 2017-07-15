@@ -2269,9 +2269,9 @@ class ss_deal extends Controller
 
 
     public function get_relation_order_list_js() {
-        $orderid = $this->get_in_int_val("orderid");
-        $contract_type= $this->get_in_int_val("contract_type");
-        $old_orderid=$orderid;
+        $orderid       = $this->get_in_int_val("orderid");
+        $contract_type = $this->get_in_int_val("contract_type");
+        $old_orderid   = $orderid;
         if ($contract_type ==1 ) {
             $orderid=$this->t_order_info->get_parent_order_id($orderid);
             if(!$orderid) {
