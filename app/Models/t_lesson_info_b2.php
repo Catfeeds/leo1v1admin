@@ -1444,7 +1444,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
-    public function get_all_train_interview_lesson_info($time){
+    public function get_all_train_interview_lesson_info($start_time,$end_time){
         $where_arr=[
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
@@ -1452,9 +1452,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             "l.confirm_flag <2",
             "l.train_email_flag=0",
-            "l.lesson_start>".$time
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<=".$end_time
         ];
-        $sql = $this->gen_sql_new("select l.lessonid,t.phone_spare,l.train_email_flag,t.realname,l.lesson_start,l.lesson_end,t.teacherid "
+        $sql = $this->gen_sql_new("select l.lessonid,t.phone,l.train_email_flag,t.realname,l.lesson_start,l.lesson_end,t.teacherid "
                                   ." from %s l left join %s ta on l.lessonid = ta.lessonid"
                                   ." left join %s t on t.teacherid = ta.userid"
                                   ." where %s",
@@ -1562,7 +1563,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "lesson_del_flag=0",
             "confirm_flag <2"
         ];
-        $sql = $this->gen_sql_new("select sum(lesson_count) all_count,teacherid "
+        $sql = $this->gen_sql_new("select sum(lesson_count/3) all_count,teacherid "
                                   ." from %s where %s group by teacherid having(all_count>=3000)",
                                   self::DB_TABLE_NAME,
                                   $where_arr
@@ -1570,6 +1571,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });
+
+    }
+
+    public function check_psychological_lesson($teacherid,$lesson_start){
+        $where_arr=[
+            ["lesson_start=%u",$lesson_start,0],
+            ["teacherid = %u",$teacherid,-1],
+            "lesson_del_flag=0",
+            "confirm_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
 
     }
 

@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
         Commands\get_ass_weekly_info::class,
         Commands\get_ass_month_info::class,
         Commands\update_teacher_leave_info::class,
+        Commands\update_train_lesson_email_send_info::class,
         Commands\teacher_train_interview_lesson_wx::class,
         Commands\all_type_interview_info_send_wx::class,
         Commands\all_type_interview_info_send_wx_today::class,

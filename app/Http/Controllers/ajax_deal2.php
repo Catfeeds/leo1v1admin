@@ -127,6 +127,7 @@ class ajax_deal2 extends Controller
     //$from_key_int  = $userid;
     //$from_key2_int = $next_revisit_time;
     //            \App\Todo\todo_base::add($todo_type,$next_revisit_time ,$next_revisit_time+7200,$adminid,$from_key_int,$from_key2_int);
+
     /**
      *@author    sam
      *@function  更新学生考试成绩信息
@@ -155,15 +156,15 @@ class ajax_deal2 extends Controller
 
 	$ret = $this->t_student_score_info->field_update_list($id,$data);
 	//dd($ret);
-        return $this->output_succ();
+    return $this->output_succ();
     }
+
     /**
      *@author    sam
      *@function  新增学生考试成绩信息
      *
      */
     public function score_add_new(){
-
         $userid           = $this->get_in_int_val("userid");
         $create_time      = time();
         $subject          = $this->get_in_int_val("subject");
@@ -184,9 +185,10 @@ class ajax_deal2 extends Controller
             "score"                 => $score,
             "rank"                  => $rank,
             "file_url"              => $file_url
-        ]);
+        ],false,false,true); 
         return $this->output_succ();
     }
+
     /**
      *@author   sam
      *@function 删除学生考试成绩信息
@@ -217,11 +219,6 @@ class ajax_deal2 extends Controller
             "login_type" => $login_type,
             "dymanic_flag"       => $flag,
         ]);
- 
-
         return $this->output_succ();
-
    }
-
-
 }

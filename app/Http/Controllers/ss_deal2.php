@@ -166,10 +166,10 @@ class ss_deal2 extends Controller
         $domain = config('admin')['qiniu']['public']['url'];
         $mail_code_url = $domain.'/'.$mail_code_url;
 
-        $this->t_order_info->field_update_list($orderid,[
-            "mail_code_url" => $mail_code_url
-        ]);
-        return $this->output_succ();
+        // $this->t_order_info->field_update_list($orderid,[
+        //     "mail_code_url" => $mail_code_url
+        // ]);
+        return $this->output_succ(['data'=>$mail_code_url]);
     }
 
 

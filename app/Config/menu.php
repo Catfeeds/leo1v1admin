@@ -538,6 +538,7 @@ class menu{
                 ["power_id"=>6, "name"=>"兑换管理-助教",   "url"=>"/user_manage_new/commodity_exchange_management_assistant"],
                 ["power_id"=>20, "name"=>"课程管理-助教",   "url"=>"/tea_manage/lesson_list_ass"],
                 ["power_id"=>59, "name"=>"讲师申请帮助",   "url"=>"/teacher_apply/teacher_apply_list_two" ],
+                ["power_id"=>60, "name"=>"教育课排课",   "url"=>"/user_manage_new/get_ass_psychological_lesson" ],
                 ["power_id"=>26, "name"=>"排课",   "url"=>"/tea_manage/course_plan"],
                 ["power_id"=>27, "name"=>"按常规课程排课",   "url"=>"/tea_manage/course_plan_stu_ass"],
                 ["power_id"=>21, "name"=>"教师档案",   "url"=>"/human_resource/index_ass"],
