@@ -221,4 +221,9 @@ class ajax_deal2 extends Controller
         ]);
         return $this->output_succ();
    }
+    public function query_sql_data(){
+        $sql=$this->get_in_str_val("sql");
+        //$db_name= 
+
+    }
 }
