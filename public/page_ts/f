@@ -1,0 +1,30 @@
+g_args.d.ts/teacher_info-teacher_meeting_info.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/teacher_meeting_info.ts
+g_args.d.ts/teacher_info-teacher_meeting_info.d.ts:/// <reference path="../g_args.d.ts/teacher_info-teacher_meeting_info.d.ts" />
+g_args.d.ts/human_resource-teacher_info_new.d.ts:	 mkdir -p ../human_resource; vi  ../human_resource/teacher_info_new.ts
+g_args.d.ts/teacher_info_admin-get_lesson_list.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/get_lesson_list.ts
+g_args.d.ts/teacher_info_admin-get_lesson_list.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-get_lesson_list.d.ts" />
+g_args.d.ts/teacher_info_admin-index.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/index.ts
+g_args.d.ts/teacher_info_admin-index.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-index.d.ts" />
+g_args.d.ts/human_resource-teacher_info_for_seller.d.ts:	 mkdir -p ../human_resource; vi  ../human_resource/teacher_info_for_seller.ts
+g_args.d.ts/teacher_info-get_lesson_list.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/get_lesson_list.ts
+g_args.d.ts/teacher_info-get_lesson_list.d.ts:/// <reference path="../g_args.d.ts/teacher_info-get_lesson_list.d.ts" />
+g_args.d.ts/teacher_info_admin-free_time.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/free_time.ts
+g_args.d.ts/teacher_info_admin-free_time.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-free_time.d.ts" />
+g_args.d.ts/teacher_info_admin-common_time_new.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/common_time_new.ts
+g_args.d.ts/teacher_info_admin-common_time_new.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-common_time_new.d.ts" />
+g_args.d.ts/teacher_info-lesson_list.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/lesson_list.ts
+g_args.d.ts/teacher_info-lesson_list.d.ts:/// <reference path="../g_args.d.ts/teacher_info-lesson_list.d.ts" />
+g_args.d.ts/teacher_info-free_time.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/free_time.ts
+g_args.d.ts/teacher_info-free_time.d.ts:/// <reference path="../g_args.d.ts/teacher_info-free_time.d.ts" />
+g_args.d.ts/teacher_info-teacher_assess.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/teacher_assess.ts
+g_args.d.ts/teacher_info-teacher_assess.d.ts:/// <reference path="../g_args.d.ts/teacher_info-teacher_assess.d.ts" />
+g_args.d.ts/teacher_info-index.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/index.ts
+g_args.d.ts/teacher_info-index.d.ts:/// <reference path="../g_args.d.ts/teacher_info-index.d.ts" />
+g_args.d.ts/teacher_info_admin-teacher_assess.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/teacher_assess.ts
+g_args.d.ts/teacher_info_admin-teacher_assess.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-teacher_assess.d.ts" />
+g_args.d.ts/teacher_info_admin-lesson_list.d.ts:	 mkdir -p ../teacher_info_admin; vi  ../teacher_info_admin/lesson_list.ts
+g_args.d.ts/teacher_info_admin-lesson_list.d.ts:/// <reference path="../g_args.d.ts/teacher_info_admin-lesson_list.d.ts" />
+g_args.d.ts/teacher_info-common_time.d.ts:	 mkdir -p ../teacher_info; vi  ../teacher_info/common_time.ts
+g_args.d.ts/teacher_info-common_time.d.ts:/// <reference path="../g_args.d.ts/teacher_info-common_time.d.ts" />
+g_args.d.ts/teacher_info-.d.ts:	 mkdir -p ../teacher_info ; vi  ../teacher_info/.ts
+g_args.d.ts/teacher_info-.d.ts:/// <reference path="../g_args.d.ts/teacher_info-.d.ts" />
