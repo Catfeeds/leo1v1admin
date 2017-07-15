@@ -76,7 +76,7 @@ class self_manage extends Controller
     }
 
     public function flow_list(){
-        list($start_time,$end_time)=$this->get_in_date_range(-30,0);
+        list($start_time,$end_time)=$this->get_in_date_range(-60,0);
         $adminid         = $this->get_account_id();
 
         $post_adminid    = $this->get_in_int_val("post_adminid",-1);

@@ -34,6 +34,20 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_value($sql);
     }
 
+    public function get_id_by_phone($phone){
+        $where_arr = [
+            ["phone='%s'",$phone,""]
+        ];
+        $sql = $this->gen_sql_new("select id"
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function reset_teacher_identity_by_phone($phone,$identity){
         $where_arr = [
             ["phone='%s'",$phone,""]

@@ -101,7 +101,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.phone,tl.score"
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.phone,max(tl.score) as score,t.create_time"
                                   ." from %s tl"
                                   ." left join %s t on tl.userid=t.teacherid"
                                   ." where %s"

@@ -2,6 +2,7 @@
 /// <reference path="../g_args.d.ts/stu_manage-score_list.d.ts" />
 
 $(function(){
+    //
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_subject        = $("<select/>");  //选择考试科目
@@ -11,15 +12,13 @@ $(function(){
         var id_rank           = $("<input/>");   //输入考试排名
         var id_file_url       = $("<input/>");   //文件url
 
-         id_stu_score_time.datetimepicker({
+        id_stu_score_time.datetimepicker({
             lang:'ch',
             timepicker:false,
             format:'Y-m-d'
         });
-	Enum_map.append_option_list("subject", id_subject, true);
-	Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
-
-
+        Enum_map.append_option_list("subject", id_subject, true);
+        Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
 
         id_subject.val(opt_data.subject);
         id_stu_score_type.val(opt_data.stu_score_type);
@@ -27,18 +26,13 @@ $(function(){
         id_score.val(opt_data.score);
         id_rank.val(opt_data.rank);
         id_file_url.val(opt_data.file_url);
-
-	//Enum_map.append_option_list("subject", id_subject, true);
-	//Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
-
-
         var arr = [
             ["考试科目", id_subject],
             ["考试类型", id_stu_score_type],
             ["考试日期", id_stu_score_time],
             ["考试分数",id_score],
             ["考试排名",id_rank],
-            ["文件附件",id_file_url],
+            ["文件附件",id_file_url]
         ];
 
         $.show_key_value_table("修改考试记录", arr, {
@@ -56,13 +50,9 @@ $(function(){
                 });
             }
         },function(){
-
         });
-
-
-
-
     }) ;
+
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
         BootstrapDialog.confirm("要删除学生是["+opt_data.userid+"]的考试信息吗?",function(val){
@@ -73,17 +63,20 @@ $(function(){
             }
         });
     });
+    
     $("#id_add_score_new").on("click", function(){
+        var opt_data = $(this).get_opt_data;
         var id_subject        = $("<select/>");  //选择考试科目
         var id_stu_score_type = $("<select/>");  //选择考试类型
         var id_stu_score_time = $("<input/>");   //输入考试日期
         var id_score          = $("<input/>");   //输入考试分数
         var id_rank           = $("<input/>");   //输入考试排名
-        var $upload_div       = $("<div> <button id=\" id_upload_from_url\"> 上传</button> <a href=\"\" target=\"_blank\">查看</a> </div>");
-        var $upload_btn       = $upload_div.find("button");
-        var $upload_link      = $upload_div.find("a");
-        //var id_file_url       = $("<input/>");   //文件url
-        //$upl
+        //var id_file_url       = $("<input/>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">查看 </a>   </div>");
+        var $upload_btn  = $upload_div.find("button") ;
+        var $upload_link = $upload_div.find("a") ;
+        $upload_link.attr('href',"");
+        //$upload_link.attr('href',opt_data.from_url);
 
         Enum_map.append_option_list("subject", id_subject, true);
         Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
@@ -100,9 +93,8 @@ $(function(){
             ["考试日期", id_stu_score_time],
             ["考试分数",id_score],
             ["考试排名",id_rank],
-            ["文件附件",$upload_div],
-        ];
-
+            ];
+        arr.push(['考试文件',$upload_div]);
         $.show_key_value_table("增加考试记录", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
@@ -111,7 +103,7 @@ $(function(){
                     alert("请填写完整!");
                     return;
                 }
-       	        $.do_ajax("/ajax_deal2/score_add_new",{
+                $.do_ajax("/ajax_deal2/score_add_new",{
                     "userid"        : g_sid,
                     "create_time"   : '1',
                     "create_adminid": '1',
@@ -120,9 +112,13 @@ $(function(){
                     "stu_score_time": id_stu_score_time.val(),
                     "score"         : id_score.val(),
                     "rank"          : id_rank.val(),
-                    "file_url"      : id_file_url.val()
-	        }, function(){		
-	
-	});
+                    "file_url"      : $upload_link.attr('href'),
+                });
+            }
+        })
     });
- });
+
+
+    //
+
+})

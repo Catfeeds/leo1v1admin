@@ -2248,4 +2248,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_tea_subject_count(){
+        $sql = $this->gen_sql_new("select count(*) num,subject from %s where is_test_user=0 and is_quit=0 group by subject",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 }

@@ -2585,6 +2585,22 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $ret = $this->t_teacher_record_list->get_teacher_limit_num_by_month(5);
+        dd($ret);
+        //$ret = $this->t_psychological_teacher_time_list->get_all_info();
+        //dd($ret);
+        $ret= $this->t_teacher_info->get_tea_subject_count();
+        foreach($ret as &$item){
+            E\Esubject::set_item_value_str($item); 
+        }
+        dd($ret);
+        $phone = 15202856835;
+        $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
+        dd($id);
+        $start_time = strtotime("2017-06-01");
+        $end_time = strtotime("2017-07-01");
+        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time,[],386);
+        dd($assistant_renew_list);
         $this->switch_tongji_database();
         $start_time = strtotime("2017-04-01");
         $end_time = strtotime("2017-07-01");
@@ -3282,6 +3298,12 @@ class user_deal extends Controller
             }else{
                 $val['recover_time_str']=""; 
             }
+            if($val['wx_remind_time']>0){
+                $val['wx_remind_time_str']=date("Y-m-d",$val['wx_remind_time']);
+            }else{
+                $val['wx_remind_time_str']=""; 
+            }
+
         }
         if(empty($data)){
             return $this->output_err("该老师没有更改类型记录!");
@@ -4168,10 +4190,10 @@ class user_deal extends Controller
     }
 
     public function  flow_add_flow() {
-        $from_key_int=$this->get_in_int_val("from_key_int",0);
-        $from_key2_int=$this->get_in_int_val("from_key2_int",0);
-        $flow_type = $this->get_in_e_flow_type(0);
-        $reason = $this->get_in_str_val("reason");
+        $from_key_int    = $this->get_in_int_val("from_key_int",0);
+        $from_key2_int   = $this->get_in_int_val("from_key2_int",0);
+        $flow_type       = $this->get_in_e_flow_type(0);
+        $reason          = $this->get_in_str_val("reason");
 
 
         $lesson_end_time = $this->t_lesson_info->get_lesson_end($from_key_int);

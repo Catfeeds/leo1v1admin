@@ -531,17 +531,23 @@ class user_manage extends Controller
         $is_auto_set_type_flag   = $this->get_in_int_val('is_auto_set_type_flag',0);
         $lesson_stop_reason   = trim($this->get_in_str_val('lesson_stop_reason'));
         $recover_time   = $this->get_in_str_val('recover_time');
+        $wx_remind_time   = $this->get_in_str_val('wx_remind_time');
         $stop_duration   = trim($this->get_in_str_val('stop_duration'));
         if(empty($lesson_stop_reason)){
             return $this->output_err("请填写原因");
-        }
+        }        
         if($type>1){
             if(empty($recover_time) || empty($stop_duration)){
                 return $this->output_err("请填写完整");
             }
             $recover_time = strtotime($recover_time);
+            $wx_remind_time = strtotime($wx_remind_time);
+            if($wx_remind_time>0 && ($wx_remind_time>$recover_time || $wx_remind_time<time())){
+                return $this->output_err("微信提醒时间不能早于当前时间,不能大于复课时间");
+            }
         }else{
             $recover_time =0;
+            $wx_remind_time =0;
             $stop_duration="";
         }
 
@@ -562,6 +568,7 @@ class user_manage extends Controller
                 "adminid"     =>$this->get_account_id(),
                 "reason"      =>$lesson_stop_reason,
                 "recover_time"=>$recover_time,
+                "wx_remind_time"=>$wx_remind_time,
                 "stop_duration"=>$stop_duration
             ]);
         }
@@ -1869,33 +1876,6 @@ class user_manage extends Controller
             $item['phone']      = $this->t_manager_info->get_operation_phone($item['userid']);
         }
     }
-
-
-
-    public function do_qiniu ( $public_flag )  {
-
-        $config=\App\Helper\Config::get_config("qiniu");
-        // 构建鉴权对象
-        $auth = new Auth($config["access_key"], $config["secret_key"]);
-
-        if ($public_flag ) {
-            $bucket_info=$config["public" ];
-        }else{
-            $bucket_info=$config["private_url" ];
-        }
-        $bucket=$bucket_info["bucket"];
-
-        // 生成上传 Token
-        $token = $auth->uploadToken($bucket);
-
-
-        return  $this->output_succ([
-            "bucket" =>  $bucket,
-            "token" =>$token,
-            "url"=> $bucket_info["url"]
-        ] );
-    }
-
 
 
 }

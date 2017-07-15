@@ -181,6 +181,7 @@ $(function(){
         var lesson_stop_reason   = $(this).parent().data("reason");
         var student_type   = $(this).parent().data("type");
         var recover_time="";
+        var wx_remind_time="";
         var stop_duration="";
 
         
@@ -193,6 +194,7 @@ $(function(){
                 lesson_stop_reason = data.reason;
                 student_type = data.type_cur;
                 recover_time = data.recover_time;
+                wx_remind_time = data.wx_remind_time;
                 stop_duration = data.stop_duration;
             }
             
@@ -200,6 +202,7 @@ $(function(){
             var id_student_type = $("<select />");
             var id_lesson_stop_reason = $("<textarea />");
             var id_recover_time = $("<input />");
+            var id_wx_remind_time = $("<input />");
             var id_stop_duration = $("<input />");
             Enum_map.append_option_list( "student_type",  id_student_type,true);
             id_recover_time.datetimepicker({
@@ -211,19 +214,32 @@ $(function(){
 
                 }
             });
+            
+            id_recover_time.datetimepicker({
+                datepicker:true,
+                timepicker:false,
+                format:'Y-m-d',
+                step:30,
+                onChangeDateTime :function(){
+
+                }
+            });
+
 
             var arr = [
                 [ "是否系统自动更新：",  id_auto_set_flag] ,
                 [ "学员类型",  id_student_type] ,
                 [ "原因",  id_lesson_stop_reason] ,
                 ["时长",  id_stop_duration ],
-                ["预计复课时间",  id_recover_time ]
+                ["预计复课时间",  id_recover_time ],
+                ["微信提醒时间",  id_wx_remind_time ],
             ];
             id_auto_set_flag.val(is_auto_set_type_flag);
             id_student_type.val(student_type);
             id_lesson_stop_reason.val(lesson_stop_reason);
             id_stop_duration.val(stop_duration);
             id_recover_time.val(recover_time);
+            id_wx_remind_time.val(wx_remind_time);
 
             var show_field=function (jobj,show_flag) {
                 if ( show_flag ) {
@@ -238,9 +254,11 @@ $(function(){
                 if (val>1) {
                     show_field( id_recover_time ,true);
                     show_field( id_stop_duration,true);
+                    show_field( id_wx_remind_time,true);
                 }else{
                     show_field( id_recover_time ,false );
                     show_field( id_stop_duration,false );
+                    show_field( id_wx_remind_time,false);
                 }
                
 
@@ -266,6 +284,7 @@ $(function(){
                             "is_auto_set_type_flag":id_auto_set_flag.val(),
                             "lesson_stop_reason":id_lesson_stop_reason.val(),
                             "recover_time"  :id_recover_time.val(),
+                            "wx_remind_time"  :id_wx_remind_time.val(),
                             "stop_duration" :id_stop_duration.val()
                         },
                         success  : function(result){
@@ -778,7 +797,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var userid = opt_data.userid;
         var title = "学生类型修改记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>操作人</td><td>是否手动修改</td><tr></table></div>");                     
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>微信提醒时间</td><td>操作人</td><td>是否手动修改</td><tr></table></div>");                     
 
         $.do_ajax("/user_deal/get_student_type_change_list",{
             "userid" : userid
@@ -789,7 +808,7 @@ $(function(){
             }
 
             $.each(result.data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['type_before_str']+"</td><td>"+item['type_cur_str']+"</td><td>"+item['reason']+"</td><td>"+item['stop_duration']+"</td><td>"+item['recover_time_str']+"</td><td>"+item['account']+"</td><td>"+item['change_type_str']+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['type_before_str']+"</td><td>"+item['type_cur_str']+"</td><td>"+item['reason']+"</td><td>"+item['stop_duration']+"</td><td>"+item['recover_time_str']+"</td><td>"+item['wx_remind_time_str']+"</td><td>"+item['account']+"</td><td>"+item['change_type_str']+"</td></tr>");
                 
 
             });

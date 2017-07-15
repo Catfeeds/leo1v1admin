@@ -999,7 +999,7 @@ class ss_deal extends Controller
             );
         }
 
-        $ret_row2=$this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
             return $this->output_err(
@@ -1047,7 +1047,6 @@ class ss_deal extends Controller
             "history_accept_adminid" => $require_info["accept_adminid"]
         ]);
 
-
         if (\App\Helper\Utils::check_env_is_release()){
             $require_adminid  = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
             $userid           = $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
@@ -1057,7 +1056,6 @@ class ss_deal extends Controller
             $require_phone    = $this->t_manager_info->get_phone($require_adminid);
             $stu_request_info = $this->t_test_lesson_subject->get_stu_request($lessonid);
             $demand           = $stu_request_info['stu_request_test_lesson_demand'];
-
             $lesson_time_str    = \App\Helper\Utils::fmt_lesson_time($lesson_start,$lesson_end);
             $require_admin_nick = $this->cache_get_account_nick($require_adminid);
             $this->t_manager_info->send_wx_todo_msg(
@@ -1066,7 +1064,6 @@ class ss_deal extends Controller
 
             $parentid = $this->t_student_info->get_parentid($userid);
             $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
-
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -1077,7 +1074,6 @@ class ss_deal extends Controller
              * 日期：{{keyword3.DATA}}
              * {{remark.DATA}}
              */
-
             $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
             $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
@@ -2048,26 +2044,93 @@ class ss_deal extends Controller
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
-                if(empty($val[0])){
+                if(empty($val[0]) || $k==0){
                     unset($arr[$k]);
                 }
                 // $val[-1] = strlen($val[1]);
                 if(strlen($val[1])==4){
                     $val[1]="0".$val[1];
                 }
+                if(strlen($val[2])==4){
+                    $val[2]="0".$val[2];
+                }
+
             }
 
-            dd($arr);
+            foreach($arr as $item){
+                $day = strtotime($item[0]);
+                $this->t_psychological_teacher_time_list->row_insert([
+                    "day"  =>$day,
+                    "start"=>$item[1],
+                    "end"  =>$item[2],
+                    "teacher_phone_list"=>$item[3]
+                ]);
+            }
+
+            // dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
-            //return outputjson_success();
+            return outputjson_success();
         } else {
-            return 111;
-            dd(222);
-            //return outputjson_ret(false);
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
         }
- 
+
     }
+
+    public function upload_lecture_from_xls(){
+        $type_arr=[
+            "未联系"=>0,
+            "未接通" =>1,
+            "待跟进" =>2,
+            "无意向" =>3,
+            "没意向" =>3,
+            "已预约"=>4
+        ];
+
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0){
+                    unset($arr[$k]);
+                }
+
+            }
+            foreach($arr as $t=>&$v){
+                $v[0] = intval($v[0]);
+                $v[1] = $type_arr[$v[1]];
+                if($t<2000 && $t>=1500){
+                    $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($v[0]);
+
+                    if($id>0){
+                        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+                            "lecture_revisit_type" =>$v[1]
+                        ]);
+                    }
+                }
+
+            }
+
+            // dd($arr);
+            //(new common_new()) ->upload_from_xls_data( $realPath);
+
+            return outputjson_success();
+        } else {
+            //return 111;
+            // dd(222);
+            return outputjson_ret(false);
+        }
+
+    }
+
 
 
     public function set_test_lesson_user_to_self(){
@@ -4394,7 +4457,6 @@ class ss_deal extends Controller
             'app_time'         => $app_time,
         ]);
 
-        // dd($ret);
 
         if($ret){
             return $this->output_succ();
@@ -4407,10 +4469,11 @@ class ss_deal extends Controller
     public function write_contract_mail(){
         $orderid         = $this->get_in_int_val('orderid');
         $main_send_admin = $this->get_in_str_val('main_send_admin');
-        $mail_send_time  = strtotime($this->get_in_str_val('mail_send_time'));
+        $mail_send_time  = strtotime($this->get_in_str_val('mail_send_time',0));
         $mail_code       = $this->get_in_str_val('mail_code');
-        $mail_code_url   = $this->get_in_str_val('mail_code_url');
         $is_send_flag    = $this->get_in_int_val('is_send_flag');
+        $mail_code_url   = $this->get_in_str_val('mail_code_url','0');
+
 
         $ret = $this->t_order_info->field_update_list($orderid,[
             'main_send_admin'  => $main_send_admin,
@@ -4420,12 +4483,7 @@ class ss_deal extends Controller
             'is_send_flag'     => $is_send_flag
         ]);
 
-        if($ret){
-            return $this->output_succ();
-        }else{
-            return $this->output_err('合同运单信息输入失败!请联系系统管理人员!');
-        }
-
+        return $this->output_succ();
     }
 
 

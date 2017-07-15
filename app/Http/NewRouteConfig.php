@@ -32,6 +32,7 @@ class NewRouteConfig {
         "ss_deal2"          => true,
         "ajax_deal2"       => true,
         "wx_teacher_common" => true,
+        "teacher_info_admin" => true,
         "agent"             => true,
         "user"              => true,
         "wx_test"           => true,

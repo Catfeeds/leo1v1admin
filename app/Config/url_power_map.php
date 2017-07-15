@@ -351,6 +351,7 @@ class url_power_map {
 			'/user_manage_new/commodity_exchange_management_assistant'	=>1120600,
 			'/tea_manage/lesson_list_ass'	=>1122000,
 			'/teacher_apply/teacher_apply_list_two'	=>1125900,
+			'/user_manage_new/get_ass_psychological_lesson'	=>1126000,
 			'/tea_manage/course_plan'	=>1122600,
 			'/tea_manage/course_plan_stu_ass'	=>1122700,
 			'/human_resource/index_ass'	=>1122100,

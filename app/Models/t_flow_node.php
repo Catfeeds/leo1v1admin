@@ -91,7 +91,7 @@ class t_flow_node extends \App\Models\Zgen\z_t_flow_node
                                   ." f.flow_type ,f.from_key_int, f.from_key_str, f.from_key2_int "
                                   ." from %s n ,%s f "
                                   ." where f.flowid=n.flowid and %s "
-                                  ." order by add_time desc"
+                                  ." order  by flow_status asc,  add_time desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_flow::DB_TABLE_NAME
                                   ,$where_arr

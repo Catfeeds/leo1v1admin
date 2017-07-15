@@ -868,8 +868,8 @@ class common extends Controller
     public function send_charge_info(){
         $orderid = $this->get_in_int_val("orderid");
         $channel = $this->get_in_str_val("channel");
-        // $channel = "cmb_wallet";
-        //$orderid = 17819;
+        $channel = "jdpay_wap";
+        $orderid = 17819;
         $order_info = $this->t_order_info->field_get_list($orderid,"price,userid,lesson_total,default_lesson_count");
         $amount = $order_info["price"];
         /*  if (empty($channel) || empty($amount)) {
@@ -952,7 +952,8 @@ class common extends Controller
                  *token 为用户交易令牌，用于识别用户信息，支付成功后会调用 success_url 返回给商户。
                  *商户可以记录这个 token 值，当用户再次支付的时候传入该 token，用户无需再次输入银行卡信息
                  */
-              'token' => 'dsafadsfasdfadsjuyhfnhujkijunhaf' // 选填
+                'token' => 'dsafadsfasdfadsjuyhfnhujkijunhaf', // 选填
+                'user_id'=>'110337689002'
                   );
             break;
         case 'cmb_wallet':
@@ -1045,6 +1046,29 @@ class common extends Controller
                 "pay_time"       =>time(),
                 "channel"        =>$channel
             ]);
+            $userid = $this->t_order_info->get_userid($orderid);
+            $sys_operator = $this->t_order_info->get_sys_operator($orderid);
+            $nick = $this->t_student_info->get_nick($userid);
+            /*$this->t_manager_info->send_wx_todo_msg(
+                "echo",
+                "合同付款通知",
+                "合同付款通知",
+                "学生:".$nick." 合同付款成功",
+                "/user_manage_new/money_contract_list?studentid=$userid");
+            $this->t_manager_info->send_wx_todo_msg(
+                $sys_operator,
+                "合同付款通知",
+                "合同付款通知",
+                "学生:".$nick." 合同付款成功",
+                "");*/
+            $this->t_manager_info->send_wx_todo_msg(
+                "jack",
+                "合同付款通知",
+                "合同付款通知",
+                "学生:".$nick." 合同付款成功",
+                "");
+
+
             break;
         case "refund.succeeded":
             // 开发者在此处加入对退款异步通知的处理代码
