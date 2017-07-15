@@ -238,6 +238,7 @@ class menu{
 
                 ["power_id"=>8, "name"=>"数据库", "list"=>[
                     ["power_id"=>1, "name"=>"数据库-表管理",   "url"=>"/table_manage/index"],
+                    ["power_id"=>10, "name"=>"数据库-查询",   "url"=>"/table_manage/query"],
                     ["power_id"=>2, "name"=>"数据库-数据修改",   "url"=>"/table_manage/edit_table_data"],
                     ["power_id"=>3, "name"=>"数据库-数据修改记录",   "url"=>"/table_manage/opt_table_log"],
                     ["power_id"=>5, "name"=>"tq wsdl生成",   "url"=>"/table_manage/tq_wsdl"],

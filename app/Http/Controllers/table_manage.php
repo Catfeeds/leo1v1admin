@@ -25,7 +25,7 @@ class table_manage extends Controller
     }
     public function select_list() {
         $this->get_in_str_val($field_name);
-        
+
 
     }
     public function edit_table_data()
@@ -341,6 +341,12 @@ class table_manage extends Controller
         } catch (\SOAPFault $e) {
             print $e;
         }
+    }
+    public function query()  {
+
+        $db_name=$this->get_in_str_val("db_name","db_weiyi");
+        $sql = $this->get_in_str_val("sql");
+        return $this->pageView(__METHOD__, null);
     }
 
 }

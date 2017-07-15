@@ -159,8 +159,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
 
             if ($contract_type==-2) {
-                // $where_arr[]="contract_type in(0,1,3)" ;
-                $where_arr[]="contract_type in(0,3)" ;
+                $where_arr[]="contract_type in(0,1,3)" ;
+                //$where_arr[]="contract_type in(0,3)" ;
             }else if ( $contract_type==-3){
                 $where_arr[]="contract_type in(0,3)" ;
             }else {
