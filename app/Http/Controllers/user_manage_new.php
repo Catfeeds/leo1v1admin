@@ -3387,5 +3387,107 @@ class user_manage_new extends Controller
 
     }
 
-   
+    //获取心理课排课信息
+    public function get_ass_psychological_lesson_detail(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,2);
+        $date      = \App\Helper\Utils::get_week_range(time(NULL),1);
+        $week_start = $date["sdate"];
+
+        // $start_time = $start_time+7*86400;
+        //  $end_time = $end_time+7*86400;
+        $list= $this->t_psychological_teacher_time_list->get_info_by_time($start_time,$end_time);
+        //$ret = $this->t_psychological_teacher_time_list->get_all_info();
+        // dd(date("Y-m-d",1500652800));
+        foreach($list as &$val){
+            $teacher_phone_list =  explode(",",$val['teacher_phone_list']);
+            $lesson_start = strtotime(date("Y-m-d",$val["day"])." ".$val["start"]);
+            $tea_arr=[];
+            $val["realname"]="";
+            foreach($teacher_phone_list as $item){
+                $teacherid = $this->t_teacher_info->get_teacherid_by_phone($item);
+                $realname = $this->t_teacher_info->get_realname($teacherid);
+                $check_lesson = $this->t_lesson_info_b2->check_psychological_lesson($teacherid,$lesson_start);
+                if($check_lesson ==1){
+                    //@$val["realname"] .= "<font color='#FF0000'>".$realname."<font>,";
+                }else{
+                    @$val["realname"] .= $realname.",";
+                    $tea_arr[] = $teacherid;
+                }
+            }
+            $val["realname"] = trim($val["realname"],",");
+            $val["tea_list"] = json_encode($tea_arr);
+            $val["lesson_start"] = strtotime(date("Y-m-d",$val["day"])." ".$val["start"]);
+            $val["lesson_end"]   = strtotime(date("Y-m-d",$val["day"])." ".$val["end"]);
+
+            $w = date("w",$val["lesson_start"]);
+            if($w==0){
+                $w=7;
+            }
+            $week_day = $week_start+($w-1)*86400;
+            $val["start_time_ex"] = strtotime(date("Y-m-d",$week_day)." ".$val["start"])*1000;
+            $val["end_time_ex"]   = strtotime(date("Y-m-d",$week_day)." ".$val["end"])*1000;
+
+            $val["start_time"] = $w."-".$val["start"];
+ 
+        }
+        return  outputjson_success( [ "common_lesson_config" => $list] );
+
+        //dd($list);
+        
+            
+        
+ 
+    }
+
+
+    //心里辅导课排课
+    public function set_psychological_lesson(){
+        $lesson_start  = $this->get_in_int_val("lesson_start");
+        $lesson_end = $this->get_in_int_val("lesson_end");
+        $userid = $this->get_in_int_val("userid");
+        $tea_list = $this->get_in_str_val("tea_list");
+        $tea_list = json_decode($tea_list,true);
+        $orderid      = 1;
+        if(empty($userid) || empty($tea_list)){
+             return $this->output_err("未选择学生或老师已经用完");
+        }
+        $teacherid = $tea_list[0];
+        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+        //检查时间是否冲突
+        if ($ret_row1) {
+            $error_lessonid=$ret_row1["lessonid"];
+            return $this->output_err(
+                "<div>有现存的学生课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+        if($ret_row2){
+            $error_lessonid = $ret_row2["lessonid"];
+            return $this->output_err(
+                "<div>有现存的老师课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $teacher_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
+        $grade = $this->t_student_info->get_grade($userid);
+        $subject=11;
+        $courseid     = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,150,2,0,1,1,0,$teacherid);
+        $lessonid     = $this->t_lesson_info->add_lesson(
+            $courseid,0,$userid,0,2,
+            $teacherid,0,$lesson_start,$lesson_end,$grade,
+            $subject,150,$teacher_info["teacher_money_type"],$teacher_info["level"]
+        );
+        $this->t_homework_info->add(
+            $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
+        );
+       
+        $this->t_lesson_info->reset_lesson_list($courseid);
+       
+        return $this->output_succ();
+    }
+
+
 }

@@ -237,7 +237,6 @@ class ajax_deal2 extends Controller
             "login_type"   => $login_type,
             "dymanic_flag" => $flag,
         ]);
-<<<<<<< HEAD
          return $this->output_succ();
    }
 
