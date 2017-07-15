@@ -2399,4 +2399,45 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_row($sql);
     }
 
+    public function get_origin_order($start,$end,$origin){
+        $where_arr = [
+            ["pay_time>%u",$start,0],
+            ["pay_time<%u",$end,0],
+            ["o.origin like '%%%s%%'",$origin,""],
+            "contract_status=1",
+            "contract_type in (0,1,3)",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.nick,s.phone,s.phone_location,s.grade,"
+                                  ." o.orderid,o.lesson_total,o.default_lesson_count,o.origin,o.price,o.pay_time,o.contract_type,"
+                                  ." o.sys_operator,o.origin"
+                                  ." from %s o"
+                                  ." left join %s s on o.userid=s.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_origin_user_list(){
+        $sql = $this->gen_sql_new("select s1.origin_userid,s2.phone,s2.nick,m.name as seller_nick,a.nick as ass_nick"
+                                  ." from %s s1"
+                                  ." left join %s s2 on s1.origin_userid=s2.userid"
+                                  ." left join %s a on s2.assistantid=a.assistantid"
+                                  ." left join %s m on s2.seller_adminid=m.uid"
+                                  ." where exists ("
+                                  ." select 1 from %s where s1.userid=userid and contract_type=0 and contract_status>0 "
+                                  ." )"
+                                  ." and s1.is_test_user=0"
+                                  ." and s2.is_test_user=0"
+                                  ." group by s1.origin_userid"
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_assistant_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 }

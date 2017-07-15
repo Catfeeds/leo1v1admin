@@ -696,4 +696,39 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+
+    public function get_teacher_freeze_num_by_month(){
+        $where_arr=[
+            "type =4",
+            "is_freeze =1"
+        ];
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-07-01");
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(add_time,'%%m') month,count(distinct teacherid) num"
+                                  ." from %s where %s group by month",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_limit_num_by_month($type){
+        $where_arr=[
+            "type =3",
+            "limit_plan_lesson_type =".$type
+        ];
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-07-01");
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(add_time,'%%m') month,count(distinct teacherid) num"
+                                  ." from %s "
+                                  ." where %s and (limit_plan_lesson_type<limit_plan_lesson_type_old or limit_plan_lesson_type_old=0) group by month",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

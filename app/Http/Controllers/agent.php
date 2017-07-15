@@ -73,6 +73,8 @@ class agent extends Controller
 
     public function check(){
         $lessonid = 62815;
+        session(["wx_lessonid" => $lessonid]);
+        dd(session('wx_lessonid'));
         $ret = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid_by_lessonid($lessonid);
         dd($ret['set_lesson_adminid']);
         // $openid = 'orwGAswh6yMByNDpPz8ToUPNhRpQ';
@@ -412,6 +414,7 @@ class agent extends Controller
     public function agent_add(){
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
+
         if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
@@ -777,7 +780,11 @@ class agent extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
         }
+        $ret = [];
         $ret = $this->t_agent->get_agent_info_by_phone($phone);
+        if(!$ret){
+            return $this->output_err('请先绑定优学优享账号!');
+        }
         $data = [
             "bankcard"      => $ret['bankcard'],
             "bank_address"  => $ret['bank_address'],
@@ -791,7 +798,7 @@ class agent extends Controller
             "zfb_account"   => $ret['zfb_account'],
         ];
 
-        return $data;
+        return $this->output_succ(["data" =>$data]);
     }
 
     public function update_agent_bank_info(){

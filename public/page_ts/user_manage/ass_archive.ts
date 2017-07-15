@@ -181,6 +181,7 @@ $(function(){
         var lesson_stop_reason   = $(this).parent().data("reason");
         var student_type   = $(this).parent().data("type");
         var recover_time="";
+        var wx_remind_time="";
         var stop_duration="";
 
         
@@ -200,6 +201,7 @@ $(function(){
             var id_student_type = $("<select />");
             var id_lesson_stop_reason = $("<textarea />");
             var id_recover_time = $("<input />");
+            var id_wx_remind_time = $("<input />");
             var id_stop_duration = $("<input />");
             Enum_map.append_option_list( "student_type",  id_student_type,true);
             id_recover_time.datetimepicker({
@@ -211,19 +213,32 @@ $(function(){
 
                 }
             });
+            
+            id_recover_time.datetimepicker({
+                datepicker:true,
+                timepicker:false,
+                format:'Y-m-d',
+                step:30,
+                onChangeDateTime :function(){
+
+                }
+            });
+
 
             var arr = [
                 [ "是否系统自动更新：",  id_auto_set_flag] ,
                 [ "学员类型",  id_student_type] ,
                 [ "原因",  id_lesson_stop_reason] ,
                 ["时长",  id_stop_duration ],
-                ["预计复课时间",  id_recover_time ]
+                ["预计复课时间",  id_recover_time ],
+                ["微信提醒时间",  id_wx_remind_time ],
             ];
             id_auto_set_flag.val(is_auto_set_type_flag);
             id_student_type.val(student_type);
             id_lesson_stop_reason.val(lesson_stop_reason);
             id_stop_duration.val(stop_duration);
             id_recover_time.val(recover_time);
+            id_wx_remind_time.val(recover_time);
 
             var show_field=function (jobj,show_flag) {
                 if ( show_flag ) {
@@ -238,9 +253,11 @@ $(function(){
                 if (val>1) {
                     show_field( id_recover_time ,true);
                     show_field( id_stop_duration,true);
+                    show_field( id_wx_remind_time,true);
                 }else{
                     show_field( id_recover_time ,false );
                     show_field( id_stop_duration,false );
+                    show_field( id_wx_remind_time,false);
                 }
                
 

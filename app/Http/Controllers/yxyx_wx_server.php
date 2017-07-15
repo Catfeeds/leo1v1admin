@@ -79,7 +79,6 @@ class  yxyx_wx_server extends Controller
     public function ceshi () {
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
 
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -91,12 +90,6 @@ class  yxyx_wx_server extends Controller
         $content = $output;
         // dd($output);
         var_dump( $output );
-
-    }
-
-
-    public function send_img_by_fansList_once_week () {
-
 
     }
 

@@ -2409,8 +2409,9 @@ $(function(){
         var main_send_admin  = $('<input/>');
         var mail_send_time   = $('<input/>');
         var mail_code        = $('<input/>');
-        var mail_code_url    = $('<button id="id_upload_mail_photo">上传图片</button>  <a id="id_show_mail_url"></a>');
+        var mail_code_url    = $('<button id="id_upload_mail_photo">上传图片</button>');
 
+        var show_mail_url    = $('<input/>');
         var is_send_flag     = $('<select/>');
 
         Enum_map.append_option_list( "boolean", is_send_flag ,true);
@@ -2429,17 +2430,15 @@ $(function(){
                 [ "发件人"  , main_send_admin ],
                 [ "发件时间"  , mail_send_time],
                 [ "运单号"  , mail_code],
-                [ "运单号照片"  , mail_code_url],
+                [ "上传运单号照片"  , mail_code_url],
+                [ "生成运单号照片链接"  , show_mail_url],
                 [ "是否已邮寄", is_send_flag],
             ];
 
             main_send_admin.val(data.main_send_admin);
             mail_send_time.val(data.mail_send_time_str);
             mail_code.val(data.mail_code);
-            // mail_code_url.val(data.mail_code_url);
-            $('#id_show_mail_url').html(data.mail_code_url);
-
-            // alert(data.mail_code_url);
+            show_mail_url.val(data.mail_code_url);
             is_send_flag.val(data.is_send_flag);
 
 
@@ -2451,7 +2450,7 @@ $(function(){
                         "main_send_admin"  : main_send_admin.val(),
                         "mail_send_time"   : mail_send_time.val(),
                         "mail_code"        : mail_code.val(),
-                        "mail_code_url"    : mail_code_url.val(),
+                        'mail_code_url'    : show_mail_url.val(),
                         "is_send_flag"     : is_send_flag.val(),
                         "orderid"          : opt_data.orderid,
                     })
@@ -2468,7 +2467,8 @@ $(function(){
                         },
                         dataType: 'json',
                         success: function(data) {
-                            window.location.reload();
+                            var mail_url = data.data;
+                            show_mail_url.val(mail_url);
                         }
                     });
 

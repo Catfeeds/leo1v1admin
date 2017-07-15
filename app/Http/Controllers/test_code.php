@@ -1165,18 +1165,17 @@ class test_code extends Controller
                              ."|".($val['free_lesson_total']/100);
             echo "<br>";
         }
-
     }
 
     public function get_not_through_user(){
         $start_time = strtotime("2017-6-17");
         $end_time   = time();
         $list = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time);
+        
         foreach($list as $val){
-            echo $val['nick']."|".$val['phone']."|".$val['score'];
+            echo $val['nick']."|".$val['phone']."|".$val['score']."|".date("Y-m-d H:i",$val['create_time']);
             echo "<br>";
         }
-
     }
 
     public function get_pingtai(){
@@ -1325,23 +1324,75 @@ class test_code extends Controller
     public function add_lesson_for_11(){
         $arr=$this->get_b_txt();
         $today_date=date("Y-m-d",time());
+        $stu_arr=[
+            "肖芸"   => "241094",
+            "董瑞雯" => "241096",
+        ];
         foreach($arr as $val){
             if($val != ""){
                 $lesson_info = explode("\t",$val);
                 /* 0 上课老师 1 上课时间段 2 学生 3 上课老师手机号 */
-                $lesson_time  = explode("-",$val[1]);
+                $lesson_time  = explode("-",$lesson_info[1]);
                 
-                $start_time = strtotime($today_date." ".$lesson_time[0]); 
-                $end_time   = strtotime($today_date." ".$lesson_time[1]); 
-                $teacherid  = $this->t_teacher_info->get_teacherid_by_phone($val[3]);
-                $userid     = $this->t_student_info->get_userid_by_realname($val[2]);
+                $lesson_start  = strtotime($today_date." ".$lesson_time[0]); 
+                $lesson_end    = strtotime($today_date." ".$lesson_time[1]); 
+                $teacherid     = $this->t_teacher_info->get_teacherid_by_phone($lesson_info[3]);
+                $check_teacher = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+                if($check_teacher){
+                    echo "老师".$lesson_info[0]."时间冲突！上课时间:".$lesson_info[1]."冲突id：".$check_teacher['lessonid'];
+                    echo "<br>";
+                    continue;
+                }
+                $userid     = $stu_arr[$lesson_info[2]];
+                $check_user = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+                if($check_user){
+                    echo "学生".$lesson_info[2]."时间冲突！上课时间:".$lesson_info[1]."冲突id:".$check_user['lessonid'];
+                    echo "<br>";
+                    continue;
+                }
 
+                // $lessonid = $this->t_lesson_info->add_lesson(
+                //     0,0,$userid,0,2,
+                //     $teacherid,0,$lesson_start,$lesson_end,100,
+                //     11,100
+                // );
+                echo $lesson_info[0]."|".$lesson_info[2];
+                echo "<br>";
             }
         }
 
-
     }
 
+    public function get_origin_order(){
+        $origin     = $this->get_in_str_val("origin","问卷星");
+        $start_time = strtotime("2017-5-1");
+        $end_time   = time();
 
+        $list = $this->t_order_info->get_origin_order($start_time,$end_time,$origin);
+        echo "姓名|年级|手机|学生城市|签单课时|金额|下单人|合同生效时间|合同类型|渠道";
+        echo "<br>";
 
+        foreach($list as $val){
+            $grade_str    = E\Egrade::get_desc($val['grade']);
+            $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
+            $price        = $val['price']/100;
+            $pay_time = date("Y-m-d H:i",$val['pay_time']);
+            $contract_str = E\Econtract_type::get_desc($val['contract_type']);
+
+            echo $val['nick']."|".$grade_str."|".$val['phone']."|".$val['phone_location']
+                             ."|".$lesson_total
+                             ."|".$price."|".$val['sys_operator']
+                             ."|".$pay_time."|".$contract_str."|".$val['origin'];
+            echo "<br>";
+
+        }
+    }
+
+    public function get_origin_user_list(){
+        $list = $this->t_order_info->get_origin_user_list();
+        foreach($list as $val){
+            echo $val['nick']."|".$val['phone']."|".$val['ass_nick']."|".$val['seller_nick'];
+            echo "<br>";
+        }
+    }
 }
