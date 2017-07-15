@@ -4,11 +4,11 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	confirm_flag:	number;//App\Enums\Eboolean 
-	pay_flag:	number;//App\Enums\Eboolean 
+	confirm_flag:	number;//App\Enums\Eboolean
+	pay_flag:	number;//App\Enums\Eboolean
 	show_add_money_flag:	number;
 	check_adminid:	number;
-	has_check_adminid_flag:	number;//App\Enums\Eboolean 
+	has_check_adminid_flag:	number;//App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;

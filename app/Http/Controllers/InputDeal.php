@@ -428,8 +428,7 @@ trait  InputDeal {
         return $this->get_in_date_range($init_start_date,0, $date_type, $date_type_config, 3 );
     }
 
-    public function get_in_date_range($init_start_date,$init_end_date,$date_type=0,$date_type_config=[],
-                                      $opt_date_type=0,$date_field_index=0
+    public function get_in_date_range($init_start_date,$init_end_date,$date_type=0,$date_type_config=[], $opt_date_type=0,$date_field_index=0
     ){
         $now=time(NULL);
         if (is_int($init_start_date)) {

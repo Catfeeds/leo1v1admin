@@ -902,8 +902,13 @@ class human_resource extends Controller
                 }else{
                     $item["interview_acc"]="";
                 }
-
+                
             }
+
+            if(empty($item["address"])){
+                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+            }
+
         }
 
         $account_role    = $this->t_manager_info->get_account_role($this->get_account_id());

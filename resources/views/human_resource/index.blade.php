@@ -272,6 +272,19 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >排课年级</span>
+                        <select id="id_grade_plan" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >排课科目</span>
+                        <select id="id_subject_plan" class ="opt-change" ></select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>                
                 <div class="col-xs-6 col-md-1">
@@ -433,7 +446,7 @@
                         <td>{{@$var["interview_acc"]}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="fa-user opt-user-info div_show" href="/teacher_info/index?teacherid={{$var["teacherid"]}}"
+                                <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="老师信息"> </a>
                                 <a class="fa-edit opt-edit div_show"  title="编辑"> </a>
                                 <a class="fa-hand-o-up opt-tea-note div_show"  title="修改教务备注"> </a>

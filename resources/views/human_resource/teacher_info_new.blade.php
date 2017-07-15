@@ -191,7 +191,7 @@
                      
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!} >
-                                <a class="fa-user opt-user-info" href="/teacher_info/index?teacherid={{$var["teacherid"]}}"
+                                <a class="fa-user opt-user-info" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="老师信息"> </a>
                                 <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
                                 <a class="div_show" href="/teacher_info/free_time?teacherid={{$var["teacherid"]}}"

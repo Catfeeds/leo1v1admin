@@ -41,126 +41,26 @@ class no_auto_student_change_type extends Command
 
         $task = new \App\Console\Tasks\TaskController ();
 
-        $user_read = $task->t_student_info->get_no_auto_read_stu_list();
-        foreach($user_read as $val){
-            $userid = $val["userid"];
-            if(!isset($user_map_90[$userid])){
-                $task->t_student_info->get_student_type_update($userid,3);
-                $task->t_student_type_change_list->row_insert([
-                    "userid"    =>$userid,
-                    "add_time"  =>time(),
-                    "type_before" =>0,
-                    "type_cur"    =>3,
-                    "change_type" =>1,
-                    "adminid"     =>0,
-                    "reason"      =>"系统更新"
+        $time = strtotime(date("Y-m-d",time()));        
+        $user_stop = $task->t_student_info->get_no_auto_stop_stu_list($time);
+        foreach($user_stop as $item){
+            $check_lesson = $task->t_lesson_info_b2->check_have_regular_lesson($time,time(),$item["userid"]);
+            if($check_lesson==1){
+                $task->t_student_info->get_student_type_update($item["userid"],0);
+                $task->t_student_info->field_update_list($item["userid"],[
+                   "is_auto_set_type_flag" =>0 
                 ]);
-
-            }else if(isset($user_map_90[$userid]) && !isset($user_map_60[$userid])){
-                $task->t_student_info->get_student_type_update($userid,2);
                 $task->t_student_type_change_list->row_insert([
-                    "userid"    =>$userid,
-                    "add_time"  =>time(),
-                    "type_before" =>0,
-                    "type_cur"    =>3,
-                    "change_type" =>1,
-                    "adminid"     =>0,
-                    "reason"      =>"系统更新"
-                ]);
- 
-            }
-        }
-
-
-        $user_map_new = $task->t_student_info->get_student_list_new_id();
-        foreach($user_map_all as $k => $v){
-            if(!isset($user_map_new[$k]) && !isset($user_map_90[$k])){
-                $user_map3[$k]= $v;
-            }
-        }
-         #dd($user_map3);
-
-        $ret_student_info = $task->t_student_info->get_student_list_id();
-        $ret_student_end_info = $task->t_student_info->get_student_list_end_id();
-        #dd($ret_student_info);
-        foreach ($ret_student_info as $item) {
-            $userid=$item["userid"];
-            if ( isset( $user_map_60[$userid]) || isset($user_map_new[$userid] )) {
-                if($item["type"] != 0){
-                    $task->t_student_info->get_student_type_update($userid,0);
-                    $task->t_student_type_change_list->row_insert([
-                        "userid"    =>$userid,
-                        "add_time"  =>time(),
-                        "type_before" =>$item["type"],
-                        "type_cur"    =>0,
-                        "change_type" =>1,
-                        "adminid"     =>0,
-                        "reason"      =>"系统更新"
-                    ]);
-
-                }
-            }
-            if ( isset( $user_map2[$userid]  )) {
-                if($item["type"] != 2){
-                    $task->t_student_info->get_student_type_update($userid,2);
-                    $task->t_student_type_change_list->row_insert([
-                        "userid"    =>$userid,
-                        "add_time"  =>time(),
-                        "type_before" =>$item["type"],
-                        "type_cur"    =>2,
-                        "change_type" =>1,
-                        "adminid"     =>0,
-                        "reason"      =>"系统更新"
-                    ]);
-
-                }
-            }
-            if ( isset( $user_map3[$userid]  )) {
-                if($item["type"] != 3){
-                    $task->t_student_info->get_student_type_update($userid,3);
-                    $task->t_student_type_change_list->row_insert([
-                        "userid"    =>$userid,
-                        "add_time"  =>time(),
-                        "type_before" =>$item["type"],
-                        "type_cur"    =>3,
-                        "change_type" =>1,
-                        "adminid"     =>0,
-                        "reason"      =>"系统更新"
-                    ]);
-
-                }
-            }
-        }
-        foreach ($ret_student_end_info as $item) {
-            $userid=$item["userid"];
-            if($item["type"] != 1){
-                $task->t_student_info->get_student_type_update($userid,1);
-                $task->t_student_type_change_list->row_insert([
-                    "userid"    =>$userid,
+                    "userid"    =>$item["userid"],
                     "add_time"  =>time(),
                     "type_before" =>$item["type"],
-                    "type_cur"    =>1,
+                    "type_cur"    =>0,
                     "change_type" =>1,
                     "adminid"     =>0,
                     "reason"      =>"系统更新"
                 ]);
 
-                /*$seller_adminid = $task->t_seller_student_new->get_admin_revisiterid($userid);
-                $nick = $task->t_student_info->get_nick($userid);                      
-                $task->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"理优教育","结课学员通知","您的一个学生".$nick."已经结课,请关注","");*/
-
             }
         }
-
-        /*
-          $ret_lesson_stop_info = $task->t_lesson_info->get_lesson_list_stop_id();
-          unset($ret_lesson_stop_info[0]);
-          $ret_lesson_end_info = $task->t_lesson_info->get_lesson_list_end_id();
-          unset($ret_lesson_end_info[0]);
-
-        */
-
-        //$list=$task->t_lesson_info-> //60
-        //
     }
 }

@@ -771,9 +771,17 @@ $(function(){
         $(".opt-set-teacher-record-new").hide();
     }
 
-    if(acc=="adrian" || acc=="seven"){
+    if(acc=="adrian" || acc=="seven" || acc=="jack"){
         $(".opt-edit").show();
     }
+    
+    if(acc=="jim" || acc=="jack"){
+        
+    }else{
+        $("#id_grade_plan").parent().parent().hide();
+        $("#id_subject_plan").parent().parent().hide();
+    }
+
 
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();
@@ -1654,6 +1662,7 @@ $(function(){
         $(".opt-edit").show();
     }
 
+   
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
     });

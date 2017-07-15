@@ -1596,4 +1596,23 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_value($sql);
     }
+
+    public function check_have_regular_lesson($start_time,$end_time,$userid){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            ["userid = %u",$userid,-1],
+            "lesson_type <>2",
+            "lesson_del_flag=0",
+            "confirm_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
+
+
+    }
 }

@@ -10,6 +10,8 @@ declare module "g_args" {
 }
 declare var g_args: GargsStatic;
 declare var g_account: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
 interface RowData {
 	userid	:any;
 	grade_count	:any;
@@ -28,6 +30,7 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
@@ -41,6 +44,7 @@ $(function(){
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
         'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
         onQuery :function() {
             load_data();
         }

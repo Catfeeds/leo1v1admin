@@ -80,14 +80,26 @@ class testbb extends Controller
 
 
     public function test () {
-        $url = 'http://wx-yxyx-web.leo1v1.com/#/bind?goto_url=/&wx_openid=oAJiDwBbbqiTwnU__f6ce5tNpWYs&_k=tb940q';
-        header("Location: $url");
 
+        // $item      = $this->get_nick_phone_by_account_type(2,0);
+
+
+        $item = $this->t_teacher_info->get_phone_by_nick('');
+
+        dd($item);
 
     }
     public function lesson_send_msg(){
         $start_time = time(null);
-        $this->t_lesson_info->get_lesson_info_by_time($start_time,$end_time);
+        $this->t_teacher_info->get_lesson_info_by_time($start_time,$end_time);
     }
+
+
+    public function get_nick_phone_by_account_type($account_type,&$item){
+            $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
+            $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+    }
+
+
 
 }

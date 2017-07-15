@@ -737,7 +737,6 @@ class tongji2 extends Controller
         }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_list)  , [
             "week_info" =>  $week_info,
-            //"adminid_right"     => $adminid_right,
             "adminid"           => $adminid,
         ]);
     }

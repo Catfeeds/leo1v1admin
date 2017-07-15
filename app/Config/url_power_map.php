@@ -170,6 +170,7 @@ class url_power_map {
 			'/seller_student_new/seller_student_ws'	=>1067100,
 			'/user_manage_new/user_power_group_edit'	=>1061000,
 			'/table_manage/index'	=>1060801,
+			'/table_manage/query'	=>1060810,
 			'/table_manage/edit_table_data'	=>1060802,
 			'/table_manage/opt_table_log'	=>1060803,
 			'/table_manage/tq_wsdl'	=>1060805,
@@ -473,13 +474,13 @@ class url_power_map {
 			'/stu_manage/init_info_tmp'	=>2011700,
 			'/stu_manage/score_list'	=>2011800,
 			'/stu_manage/todo_list'	=>2011900,
-			'/teacher_info/index'	=>2020100,
-			'/teacher_info/teacher_assess'	=>2020700,
-			'/teacher_info/get_lesson_list'	=>2020600,
-			'/teacher_info/lesson_list'	=>2020200,
-			'/teacher_info/free_time'	=>2020300,
-			'/teacher_info/common_time_new'	=>2020400,
-			'/teacher_info/avoid'	=>2020500,
+			'/teacher_info_admin/index'	=>2020100,
+			'/teacher_info_admin/teacher_assess'	=>2020700,
+			'/teacher_info_admin/get_lesson_list'	=>2020600,
+			'/teacher_info_admin/lesson_list'	=>2020200,
+			'/teacher_info_admin/free_time'	=>2020300,
+			'/teacher_info_admin/common_time_new'	=>2020400,
+			'/teacher_info_admin/avoid'	=>2020500,
 		];
  	}
  }

@@ -7,19 +7,22 @@ declare module "g_args" {
 }
 declare var g_args: GargsStatic;
 declare var g_account: string;
-declare var g_account_role: string;
-declare var g_adminid: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
 interface RowData {
 	lesson_count	:any;
+	f_100	:any;
 	f_101	:any;
 	f_102	:any;
 	f_103	:any;
 	f_104	:any;
 	f_105	:any;
 	f_106	:any;
+	f_200	:any;
 	f_201	:any;
 	f_202	:any;
 	f_203	:any;
+	f_300	:any;
 	f_301	:any;
 	f_302	:any;
 	f_303	:any;

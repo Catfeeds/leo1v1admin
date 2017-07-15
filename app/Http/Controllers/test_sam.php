@@ -110,7 +110,7 @@ class test_sam  extends Controller
             E\Elesson_cancel_reason_type::set_item_value_str($item);
             \App\Helper\Common::set_item_enum_flow_status($item ,"require_lesson_success_flow_status" );
 
-            $item['audio']                  = "http://admin_yb1v1.com/common_ex/get_qiniu_file?file=".\App\Helper\Common::encode_str($item['audio']);    //audio加密
+            $item['audio']                  = "http://admin.yb1v1.com/common_new/get_qiniu_file?file=".\App\Helper\Common::encode_str($item['audio']);    //audio加密
             $item['lesson_end_str' ]        = date('Y-m-d H:i',$item['lesson_end']);
             $item['real_begin_time_str' ]   = date('Y-m-d H:i',$item['real_begin_time']);
             $item['lesson_status_str']      = $lesson_status_cfg[ $item['lesson_status' ] ];

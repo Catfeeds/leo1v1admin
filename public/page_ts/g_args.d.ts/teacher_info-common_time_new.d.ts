@@ -1,7 +1,5 @@
 interface GargsStatic {
 	teacherid:	number;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -11,24 +9,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	teacherid	:any;
-	assess_time	:any;
-	assess_adminid	:any;
-	content	:any;
-	assess_res	:any;
-	advise_reason	:any;
-	assess_nick	:any;
-	assess_res_str	:any;
-	assess_time_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../teacher_info; vi  ../teacher_info/teacher_assess.ts
+	 mkdir -p ../teacher_info; vi  ../teacher_info/common_time_new.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_info-teacher_assess.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_info-common_time_new.d.ts" />
 
 $(function(){
     function load_data(){

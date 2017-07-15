@@ -45,8 +45,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			page_count:	$('#id_page_count').val()
+			teacherid:	$('#id_teacherid').val()
         });
     }
 
@@ -62,7 +61,6 @@ $(function(){
         }
     });
 	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_page_count').val(g_args.page_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -77,13 +75,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">page_count</span>
-                <input class="opt-change form-control" id="id_page_count" />
             </div>
         </div>
 */

@@ -4198,7 +4198,6 @@ class user_deal extends Controller
         $flow_type       = $this->get_in_e_flow_type(0);
         $reason          = $this->get_in_str_val("reason");
 
-
         $lesson_end_time = $this->t_lesson_info->get_lesson_end($from_key_int);
         if (strtotime(date('Y-m-d',time(NULL)))<$lesson_end_time) {
             return $this->output_err( "只能申请今天之前的课程!" );

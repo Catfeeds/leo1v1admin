@@ -70,8 +70,33 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function send_phone_code(){
+        $phone = trim($this->get_in_str_val('phone'));
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+
+        $msg_num= \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
+        $code = rand(1000,9999);
+        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
+            "code" => $code,
+            "index" => $msg_num
+        ] );
+
+        session([
+            'wx_yxyx_code'=>$code,
+            'wx_yxyx_phone'=>$phone
+        ]);
+
+        return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
+    }
 
     public function check(){
+        $phone      = $this->get_in_str_val("phone");
+        // $code       = $this->get_in_str_val("code");
+        // $wx_openid  = $this->get_in_str_val("wx_openid");
+        $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
+        dd($phone,$check_code);
         $url = $this->get_in_str_val('goto_url');
         $openid = $this->get_in_str_val('wx_openid');
         dd($openid);

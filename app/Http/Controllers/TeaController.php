@@ -13,12 +13,20 @@ use \App\Enums as E;
 class TeaController extends Controller
 {
 
+    var $check_login_flag = true;
 
     function __construct()  {
+        parent::__construct();
+        if (!$this->get_login_teacher ()) {
+            header("Location: /login/teacher");
+            exit;
+
+        }
+
     }
 
 
-    public function get_teacherid() {
+    public function get_login_teacher() {
         $role      = $this->get_in_int_val("_role",2 );
         $teacherid = $this->get_in_int_val("_userid",60008);
 

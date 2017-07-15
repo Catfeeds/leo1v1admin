@@ -539,7 +539,7 @@ class user_manage extends Controller
         $stop_duration   = trim($this->get_in_str_val('stop_duration'));
         if(empty($lesson_stop_reason)){
             return $this->output_err("请填写原因");
-        }        
+        }
         if($type>1){
             if(empty($recover_time) || empty($stop_duration)){
                 return $this->output_err("请填写完整");
@@ -562,7 +562,7 @@ class user_manage extends Controller
             $ret_note= $this->t_student_info->field_update_list($userid,[
                 "type_change_time"  =>time()
             ]);
-            
+
             $this->t_student_type_change_list->row_insert([
                 "userid"    =>$userid,
                 "add_time"  =>time(),
@@ -1789,6 +1789,8 @@ class user_manage extends Controller
                 $item['follow_state_str'] = '<font color="blue">未分配</font>';
             }
         }
+
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1874,12 +1876,20 @@ class user_manage extends Controller
             $item["user_nick"]  = $this->cache_get_parent_nick ($item["userid"] );
         } elseif($account_type == 2) { // 老师
             $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
-            $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+            if($item['user_nick']){
+                $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
+            }else{
+                $item['phone']      = "";
+            }
         } elseif($account_type == 3) { // QC
             $item["user_nick"]  = $this->cache_get_account_nick($item["userid"] );
             $item['phone']      = $this->t_manager_info->get_operation_phone($item['userid']);
         }
     }
+
+
+
+
 
 
 }

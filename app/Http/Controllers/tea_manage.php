@@ -2049,7 +2049,7 @@ class tea_manage extends Controller
     public function train_lecture_lesson(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
             1 => array("l.lesson_start","面试时间"),
-            2 => array( "tl.add_time", "邀约时间"),
+            2 => array("tl.add_time", "邀约时间"),
         ],1);
         $lesson_status    = $this->get_in_int_val("lesson_status",-1);
         $subject          = $this->get_in_int_val("subject",-1);

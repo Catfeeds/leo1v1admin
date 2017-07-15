@@ -1438,7 +1438,7 @@ trait  TeaPower {
             $update_arr["nick"]     = $appointment_info['name'];
             $update_arr["realname"] = $appointment_info['name'];
         }
-        if($teacher_info['teacher_type']==0){
+        if(in_array($teacher_info['teacher_type'],[32])){
             $update_arr['teacher_type']=0;
         }
         if($teacher_info['level']==0){
