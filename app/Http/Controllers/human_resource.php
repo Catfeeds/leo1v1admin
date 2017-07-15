@@ -754,6 +754,9 @@ class human_resource extends Controller
         $teacher_type             = $this->get_in_int_val("teacher_type",-1);
         $seller_hold_flag         = $this->get_in_int_val("seller_hold_flag",-1);
         $have_wx                  = $this->get_in_int_val("have_wx",-1);
+        $grade_plan               = $this->get_in_int_val("grade_plan",-1);
+        $subject_plan             = $this->get_in_int_val("subject_plan",-1);
+
 
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
@@ -787,7 +790,7 @@ class human_resource extends Controller
             $test_lesson_full_flag,$lstart,$lend,$train_through_new,$lesson_hold_flag,$test_transfor_per,
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
-            $teacher_ref_type,$have_wx
+            $teacher_ref_type,$have_wx,$grade_plan,$subject_plan
         );
 
         $tea_list = [];

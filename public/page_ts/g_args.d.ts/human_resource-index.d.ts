@@ -36,6 +36,8 @@ interface GargsStatic {
 	teacher_type:	number;
 	seller_hold_flag:	number;
 	have_wx:	number;
+	grade_plan:	number;
+	subject_plan:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -205,7 +207,9 @@ $(function(){
 			fulltime_flag:	$('#id_fulltime_flag').val(),
 			teacher_type:	$('#id_teacher_type').val(),
 			seller_hold_flag:	$('#id_seller_hold_flag').val(),
-			have_wx:	$('#id_have_wx').val()
+			have_wx:	$('#id_have_wx').val(),
+			grade_plan:	$('#id_grade_plan').val(),
+			subject_plan:	$('#id_subject_plan').val()
         });
     }
 
@@ -245,6 +249,8 @@ $(function(){
 	$('#id_teacher_type').val(g_args.teacher_type);
 	$('#id_seller_hold_flag').val(g_args.seller_hold_flag);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_grade_plan').val(g_args.grade_plan);
+	$('#id_subject_plan').val(g_args.subject_plan);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -497,6 +503,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">have_wx</span>
                 <input class="opt-change form-control" id="id_have_wx" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">grade_plan</span>
+                <input class="opt-change form-control" id="id_grade_plan" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject_plan</span>
+                <input class="opt-change form-control" id="id_subject_plan" />
             </div>
         </div>
 */

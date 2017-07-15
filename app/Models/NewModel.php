@@ -807,4 +807,45 @@ abstract class NewModel
         }
     }
 
+    public function get_subject_grade_str($grade,$subject){
+        if($grade==-1 && $subject==-1){
+            return true;
+        }elseif($grade==-1 && $subject != -1){
+            return "t.subject=".$subject;
+        }elseif($grade!=-1 && $subject == -1){
+            if($grade==101 || $grade==102 || $grade==103){
+                return "((t.grade_start=1 and t.grade_end>=1) or t.grade_part_ex in (1,4) or t.second_grade in (1,4) or t.third_grade in (1,4))";
+            }elseif($grade==104 || $grade==105){
+                return "((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4) or t.second_grade in (1,4) or t.third_grade in (1,4))";
+            }elseif($grade==106){
+                 return "((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4,6) or t.second_grade in (1,4,6) or t.third_grade in (1,4,6))";
+            }elseif($grade==201 || $grade==202){
+                return "((t.grade_start>0 and t.grade_start<=3 and t.grade_end>=3) or t.grade_part_ex in (2,4,5,6) or t.second_grade in (2,4,5,6) or t.third_grade in (2,4,5,6))";
+            }elseif($grade==203){
+                 return "((t.grade_start>0 and t.grade_start<=4 and t.grade_end>=4) or t.grade_part_ex in (2,4,5,6,7) or t.second_grade in (2,4,5,6,7) or t.third_grade in (2,4,5,6,7))";
+            }elseif($grade==301 || $grade==302){
+                return "((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+            }elseif($grade==303){
+                 return "((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+            }
+        }else{
+            if($grade==101 || $grade==102 || $grade==103){
+                return "((((t.grade_start=1 and t.grade_end>=1) or t.grade_part_ex in (1,4)) and t.subject=".$subject.") or (t.second_grade in (1,4) and t.second_subject=".$subject.") or (t.third_grade in (1,4) and t.third_subject=".$subject."))";
+            }elseif($grade==104 || $grade==105){
+                return "((((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4)) and t.subject=".$subject.") or (t.second_grade in (1,4) and t.second_subject =".$subject.") or (t.third_grade in (1,4) and t.third_subject=".$subject."))";
+            }elseif($grade==106){
+                return "((t.grade_start>0 and t.grade_start<=2 and t.grade_end>=2) or t.grade_part_ex in (1,4,6) or t.second_grade in (1,4,6) or t.third_grade in (1,4,6))";
+            }elseif($grade==201 || $grade==202){
+                return "((t.grade_start>0 and t.grade_start<=3 and t.grade_end>=3) or t.grade_part_ex in (2,4,5,6) or t.second_grade in (2,4,5,6) or t.third_grade in (2,4,5,6))";
+            }elseif($grade==203){
+                return "((t.grade_start>0 and t.grade_start<=4 and t.grade_end>=4) or t.grade_part_ex in (2,4,5,6,7) or t.second_grade in (2,4,5,6,7) or t.third_grade in (2,4,5,6,7))";
+            }elseif($grade==301 || $grade==302){
+                return "((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+            }elseif($grade==303){
+                return "((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7) or t.second_grade in (3,5,7) or t.third_grade in (3,5,7))";
+            }
+
+        }
+    }
+
 }

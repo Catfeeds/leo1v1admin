@@ -92,7 +92,7 @@ class wx_yxyx_common extends Controller
         $code       = $this->get_in_str_val("code");
         $wx_openid  = $this->get_in_str_val("wx_openid");
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
-        \App\Helper\Utils::logger("wx_yxyx_openid_new:".$wx_openid);
+        \App\Helper\Utils::logger("wx_yxyx_openid_new:".session('wx_yxyx_openid'));
         \App\Helper\Utils::logger("yxyx_phone:".$phone);
         \App\Helper\Utils::logger("yxyx_code:".$code);
         \App\Helper\Utils::logger("yxyx_goto_url:".$goto_url);

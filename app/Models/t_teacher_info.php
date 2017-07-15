@@ -444,7 +444,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $lesson_hold_flag=-1,$test_transfor_per=-1,$week_liveness=-1,$interview_score=-1,
                                                 $second_interview_score=-1, $teacherid_arr=[],$seller_flag=0,$qz_flag=0,
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
-                                                $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1
+                                                $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
+                                                $grade_plan=-1,$subject_plan=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
