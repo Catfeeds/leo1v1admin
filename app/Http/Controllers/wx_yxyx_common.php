@@ -37,7 +37,7 @@ class wx_yxyx_common extends Controller
         $action       = @$goto_url_arr[2];
         $web_html_url = "http://wx-yxyx-web.leo1v1.com";
         if($action=="bind"){
-            $url="$web_html_url/#bind?goto_url=/&wx_openid=".$openid;
+            //$url="$web_html_url/bind?l=/";
         }else{
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
@@ -49,7 +49,7 @@ class wx_yxyx_common extends Controller
                 ]);
                 $url = "/wx_yxyx_web/$action";
             }else{
-                $url = "$web_html_url/#bind?goto_url=/$action&wx_openid=".$openid;
+                $url = "$web_html_url/index.html#bind?".$action;
             }
         }
         \App\Helper\Utils::logger("JUMP URL:$url");
