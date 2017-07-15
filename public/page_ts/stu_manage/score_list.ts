@@ -71,7 +71,13 @@ $(function(){
         var id_stu_score_time = $("<input/>");   //输入考试日期
         var id_score          = $("<input/>");   //输入考试分数
         var id_rank           = $("<input/>");   //输入考试排名
-        var id_file_url       = $("<input/>");
+        //var id_file_url       = $("<input/>");
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">查看 </a>   </div>");
+        var $upload_btn  = $upload_div.find("button") ;
+        var $upload_link = $upload_div.find("a") ;
+        $upload_link.attr('href',"");
+        //$upload_link.attr('href',opt_data.from_url);
+
         Enum_map.append_option_list("subject", id_subject, true);
         Enum_map.append_option_list("stu_score_type", id_stu_score_type, true);
 
@@ -87,9 +93,8 @@ $(function(){
             ["考试日期", id_stu_score_time],
             ["考试分数",id_score],
             ["考试排名",id_rank],
-            ["文件附件",id_file_url]
-        ];
-
+            ];
+        arr.push(['考试文件',$upload_div]);
         $.show_key_value_table("增加考试记录", arr, {
             label    :  "确认",
             cssClass :  'btn-waring',
@@ -107,7 +112,7 @@ $(function(){
                     "stu_score_time": id_stu_score_time.val(),
                     "score"         : id_score.val(),
                     "rank"          : id_rank.val(),
-                    "file_url"      : id_file_url.val(),
+                    "file_url"      : $upload_link.attr('href'),
                 });
             }
         })

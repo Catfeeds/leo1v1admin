@@ -284,6 +284,7 @@ $(function(){
                             "is_auto_set_type_flag":id_auto_set_flag.val(),
                             "lesson_stop_reason":id_lesson_stop_reason.val(),
                             "recover_time"  :id_recover_time.val(),
+                            "wx_remind_time"  :id_wx_remind_time.val(),
                             "stop_duration" :id_stop_duration.val()
                         },
                         success  : function(result){
@@ -796,7 +797,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var userid = opt_data.userid;
         var title = "学生类型修改记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>操作人</td><td>是否手动修改</td><tr></table></div>");                     
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前类型</td><td>修改后类型</td><td>理由</td><td>时长</td><td>预计复课时间</td><td>微信提醒时间</td><td>操作人</td><td>是否手动修改</td><tr></table></div>");                     
 
         $.do_ajax("/user_deal/get_student_type_change_list",{
             "userid" : userid
@@ -807,7 +808,7 @@ $(function(){
             }
 
             $.each(result.data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['type_before_str']+"</td><td>"+item['type_cur_str']+"</td><td>"+item['reason']+"</td><td>"+item['stop_duration']+"</td><td>"+item['recover_time_str']+"</td><td>"+item['account']+"</td><td>"+item['change_type_str']+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['type_before_str']+"</td><td>"+item['type_cur_str']+"</td><td>"+item['reason']+"</td><td>"+item['stop_duration']+"</td><td>"+item['recover_time_str']+"</td><td>"+item['wx_remind_time_str']+"</td><td>"+item['account']+"</td><td>"+item['change_type_str']+"</td></tr>");
                 
 
             });
