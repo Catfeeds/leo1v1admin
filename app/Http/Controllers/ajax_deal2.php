@@ -173,7 +173,8 @@ class ajax_deal2 extends Controller
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-	    $create_adminid   =  $this->get_account_id();
+	$create_adminid   =  $this->get_account_id();
+
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
             "create_time"           => $create_time,
@@ -200,23 +201,23 @@ class ajax_deal2 extends Controller
 
     //测试增加 
     public function todo_list_add(){
-        $userid = $this->get_in_int_val("userid");
-        $login = $this->get_in_int_val("login");
-        $nick = $this->get_in_str_val("nick");
-        $ip = $this->get_in_str_val("ip");
-        $role = $this->get_in_str_val("role");
+        $userid     = $this->get_in_int_val("userid");
+        $login      = strtotime($this->get_in_int_val("login"));
+
+        $nick       = $this->get_in_str_val("nick");
+        $ip         = $this->get_in_str_val("ip");
+        $role       = $this->get_in_str_val("role");
         $login_type = $this->get_in_int_val("login_type");
-        $flag = $this->get_in_int_val("flag");
-        $ret_info = $this->t_student_score_info->row_insert([
-            "userid"                => $userid,
-            "create_time"           => $create_time,
-            "create_adminid"        => $create_adminid,
-            "subject"               => $subject,
-            "stu_score_type"        => $stu_score_type,
-            "stu_score_time"        => $stu_score_time,
-            "score"                 => $score,
-            "rank"                  => $rank,
-            "file_url"              => $file_url
+        $flag       = $this->get_in_int_val("flag");
+
+        $ret_info = $this->t_user_login_log->row_insert([
+            "userid"     => $userid,
+            "login_time" => $login,
+            "nick"       => $nick,
+            "ip"         => $ip,
+            "role"       => $role,
+            "login_type" => $login_type,
+            "dymanic_flag"       => $flag,
         ]);
         return $this->output_succ();
    }

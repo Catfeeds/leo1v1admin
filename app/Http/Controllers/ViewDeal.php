@@ -145,7 +145,11 @@ trait  ViewDeal {
                 }
             }
 
-            file_put_contents( $row_file_name, $row_str);
+            $row_old_data=@file_get_contents( $row_file_name);
+            if( $row_old_data != $row_str ) {
+                file_put_contents( $row_file_name, $row_str);
+            }
+
         }else{
             $row_str=@file_get_contents($row_file_name);
         }

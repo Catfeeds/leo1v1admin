@@ -2456,7 +2456,7 @@ $(function(){
                     })
                 }
             },function(){
-                $.custom_upload_file('id_upload_mail_photo',1,function (up, info, file) {
+                $.custom_upload_file('id_upload_mail_photo',true,function (up, info, file) {
                     var res = $.parseJSON(info);
                     $.ajax({
                         url: '/ss_deal2/set_mail_photo',

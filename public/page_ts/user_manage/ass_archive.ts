@@ -194,6 +194,7 @@ $(function(){
                 lesson_stop_reason = data.reason;
                 student_type = data.type_cur;
                 recover_time = data.recover_time;
+                wx_remind_time = data.wx_remind_time;
                 stop_duration = data.stop_duration;
             }
             
@@ -238,7 +239,7 @@ $(function(){
             id_lesson_stop_reason.val(lesson_stop_reason);
             id_stop_duration.val(stop_duration);
             id_recover_time.val(recover_time);
-            id_wx_remind_time.val(recover_time);
+            id_wx_remind_time.val(wx_remind_time);
 
             var show_field=function (jobj,show_flag) {
                 if ( show_flag ) {
