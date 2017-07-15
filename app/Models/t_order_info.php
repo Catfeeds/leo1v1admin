@@ -2441,7 +2441,22 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_user_split_total($userid){
+    public function get_user_split_total($userid,$competition_flag){
+        $where_arr = [
+            ["o1.userid=%u",$userid,0],
+            ["o1.competition_flag=%u",$competition_flag,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count)/100 "
+                                  ." from %s o1"
+                                  ." left join %s o2 on o1.orderid=o2.parent_order_id "
+                                  ." and o2.contract_type=3 "
+                                  ." and o2.from_parent_order_type=5"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 

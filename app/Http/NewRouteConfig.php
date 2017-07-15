@@ -96,6 +96,7 @@ class NewRouteConfig {
         "seller_student_new2"         => true,
         "tongji_ss"                   => true,
         "teacher_feedback"            => true,
+        "teacher_level"               => true,
         "fulltime_teacher"            => true,
     ];
 

@@ -109,15 +109,12 @@ class wx_yxyx_common extends Controller
             $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
             if(!isset($agent_info['id'])){
                 $data = $this->t_agent->add_agent_row_new($phone,$wx_openid);
-                if(!$data || !is_int($data)){
-                    if($data === false){
-                        $data="生成失败！请退出重试！";
-                    }
-                    return $this->output_err($data);
+                if(!$data){
+                    return $this->output_err("生成失败！请退出重试！");
                 }
                 $agent_info['id'] = $data;
             }
-            \App\Helper\Utils::logger("wx_openid189:$wx_openid,phone:$phone,id:".$agent_info['id']);
+            \App\Helper\Utils::logger("bind_openid_add:$wx_openid,bind_phone_add:$phone,bind_id_add:".$agent_info['id']);
 
             if($wx_openid){
                 $id = $this->t_agent->get_agent_info_by_openid($wx_openid);

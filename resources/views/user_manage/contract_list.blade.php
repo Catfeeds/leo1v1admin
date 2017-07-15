@@ -132,17 +132,12 @@
                     <input class="opt-change form-control" id="id_tmk_adminid" />
                 </div>
             </div>
-
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">老师</span>
                     <input class="opt-change form-control" id="id_teacherid" />
                 </div>
             </div>
-
-
-
-
             <div class="col-xs-4 col-md-3">
                 <div class="input-group ">
                     <div class=" input-group-btn ">
@@ -152,7 +147,6 @@
                         <button id="id_add_seller_contract" type="submit"  class="btn  btn-warning">
                             <i class="fa fa-plus"></i>合同
                         </button>
-
                     </div>
                 </div>
             </div>
