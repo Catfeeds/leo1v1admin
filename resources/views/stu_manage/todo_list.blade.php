@@ -12,9 +12,8 @@
             <thead>
                 <tr>
                     <td>ID</td>
-                    <td>学生ID</td>
+                    <td>nick</td>
                     <td>登录时间</td>
-                    <td>昵称</td>
                     <td>ip</td>
                     <td>role</td>
                     <td>登录方式</td>
@@ -26,11 +25,10 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
-                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["student_nick"]}} </td>
                         <td>{{@$var["login_time"]}} </td>
-                        <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["ip"]}} </td>
-                        <td>{{@$var["role"]}} </td>
+                        <td>{{@$var["role_str"]}} </td>
                         <td>{{@$var["login_type"]}} </td >
                         <td>{{@$var["dymanic_flag"]}} </td>
 
@@ -39,6 +37,8 @@
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
+                                <a class="fa fa-edit opt-set-login-log" title="修改"> </a>
+                                <a class="fa fa-trash-o opt-del" title="删除空课程包"> </a>
 
                             </div>
                         </td>

@@ -28,7 +28,7 @@ class stu_menu{
             [ "power_id"=>17, "name"=>"交接单-临时", "icon" => "fa-dashboard", "url"=> "/stu_manage/init_info_tmp?sid={sid}"],
             [ "power_id"=>18, "name"=>"成绩记录",  "url"=> "/stu_manage/score_list?sid={sid}"],
             
-            [ "power_id"=>19, "name"=>"个人记录回访",  "url"=> "/stu_manage/todo_list?sid={sid}"],
+            [ "power_id"=>19, "name"=>"个人登录记录",  "url"=> "/stu_manage/user_login_list?sid={sid}"],
         ];
 
     }

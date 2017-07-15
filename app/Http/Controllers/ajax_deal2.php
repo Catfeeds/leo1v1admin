@@ -153,8 +153,8 @@ class ajax_deal2 extends Controller
             'file_url'      =>   $file_url,
         ];
 
-	$ret = $this->t_student_score_info->field_update_list($id,$data);
-	//dd($ret);
+    $ret = $this->t_student_score_info->field_update_list($id,$data);
+    //dd($ret);
         return $this->output_succ();
     }
     /**
@@ -172,7 +172,7 @@ class ajax_deal2 extends Controller
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-	$create_adminid   =  $this->get_account_id();
+    $create_adminid   =  $this->get_account_id();
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
@@ -195,33 +195,104 @@ class ajax_deal2 extends Controller
         $id = $this->get_in_int_val('id');
         $this->t_student_score_info->row_delete($id);
         return $this->output_succ();
-    } 
+    }
 
-    //测试增加 
-    public function todo_list_add(){
+    //测试login_log增加
+    public function login_log_add(){
         $userid     = $this->get_in_int_val("userid");
         $login      = strtotime($this->get_in_int_val("login"));
 
         $nick       = $this->get_in_str_val("nick");
-        $ip         = $this->get_in_str_val("ip");
-        $role       = $this->get_in_str_val("role");
+
+        $ip         = $this->get_in_int_val ("ip");
+        $role       = $this->get_in_int_val ("role");
         $login_type = $this->get_in_int_val("login_type");
         $flag       = $this->get_in_int_val("flag");
+        \App\Helper\Utils::logger("role:$role");
 
-        $ret_info = $this->t_user_login_log->row_insert([
-            "userid"     => $userid,
-            "login_time" => $login,
-            "nick"       => $nick,
-            "ip"         => $ip,
-            "role"       => $role,
-            "login_type" => $login_type,
-            "dymanic_flag"       => $flag,
+        if ($ip>100)  {
+            return $this->output_err("ip出错");
+        }
+        if ($role>100)  {
+            return $this->output_err("出错");
+        }
+
+        if ($login_type>100)  {
+            return $this->output_err("登录方式出错");
+        }
+
+        if ($flag>100)  {
+            return $this->output_err("方式出错");
+        }
+
+
+        $ret = $this->t_user_login_log->row_insert([
+            "userid"       => $userid,
+            "login_time"   => $login,
+            "nick"         => $nick,
+            "ip"           => $ip,
+            "role"         => $role,
+            "login_type"   => $login_type,
+            "dymanic_flag" => $flag,
         ]);
- 
-
-        return $this->output_succ();
-
+         return $this->output_succ();
    }
+
+    //测试删除login_id
+    public function login_log_del(){
+        $id = $this->get_in_id();
+        //
+        $res = $this->t_user_login_log->row_delete($id);
+        if($res){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('login删除失败');
+        }
+     }
+
+    //测试login_log修改
+    public function set_login_log(){
+        $id     = $this->get_in_int_val('id');
+       
+        $userid     = $this->get_in_int_val("userid");
+        $login_time = strtotime($this->get_in_int_val("login_time"));
+
+        $nick         = $this->get_in_str_val("nick");
+        $ip           = $this->get_in_int_val("ip");
+        $role       = $this->get_in_int_val("role");
+        $login_type   = $this->get_in_int_val("login_type");
+        $dymanic_flag = $this->get_in_int_val("dymanic_flag");
+
+       
+        if ($ip>100)  {
+            return $this->output_err("ip出错");
+        }
+        if ($role>100)  {
+            return $this->output_err("出错");
+        }
+
+        if ($login_type>100)  {
+            return $this->output_err("登录方式出错");
+        }
+
+        if ($dymanic_flag>100)  {
+            return $this->output_err("方式出错");
+        }
+
+
+        $arr = [];
+        $arr['userid'] = $userid;
+        $arr['login_time'] = $login_time;
+        $arr['nick'] = $nick;
+        $arr['ip'] = $ip;
+        $arr['role'] = $role;
+        $arr['login_type'] = $login_type;
+        $arr['dymanic_flag'] = $dymanic_flag;
+        $ret = $this->t_user_login_log->field_update_list($id,$arr);
+        return $this->output_succ();
+    }
+
+
 
 
 }

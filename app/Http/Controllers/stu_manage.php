@@ -82,7 +82,8 @@ class stu_manage extends Controller
         );
 
         $l_1v1_list = [];
-        $data_list  = $this->t_order_info->get_order_info($sid);
+
+        $data_list  = [] ;//$this->t_order_info->get_order_info($sid);
 
         foreach ( $data_list as $item )
         {
@@ -1288,29 +1289,23 @@ class stu_manage extends Controller
 
     /**
      *@author    kevin
-     *@function  学生助教反馈列表显示
+     *@function  学生登录反馈列表显示
      *
      */
-    public function  todo_list() {
-        //: dd($sid);
+    public function  user_login_list() {
         $userid = $this->sid;
-        //dd(this->pageView(__METHOD__,$table_data_list );
-        //dd($userid);
         $page_info=$this->get_in_page_info();
-        $login_list = $this->t_user_login_log->login_list($page_info,$userid);
-        // dd($login_list);
-        return $this->pageView(__METHOD__,$login_list);
 
+        $ret_info = $this->t_user_login_log->login_list($page_info,$userid);
+        // dd($ret_info);
+        foreach($ret_info['list'] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
+            E\Erole::set_item_value_str($item);
+            $this->cache_set_item_student_nick($item);
+            $item["ip"]=long2ip($item["ip"]);
+        }
+       return $this->pageView(__METHOD__,$ret_info);
     }
-     
 
-    public function login_log_list() {
-        $userid = $this->sid;
-        dd($userid);
-        //$res = $this->t_user_login_log->login_list($userid);
-        //dd($res);
-
-
-    }
 
 }
