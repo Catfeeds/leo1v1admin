@@ -7,26 +7,21 @@ foreach ($file_arr as $file_name ) {
         ."  * @method integer get_in_el_{$arr[1]}( \$def_value=[-1] , \$filed_name=\"\" );\n";
 }
 put_control_define($str);
+
+
 function  put_control_define( $php_define_str ) {
-    $file_name= '../app/Http/Controllers/Controller.php';
-    $control_data=file_get_contents($file_name);
-    if ($control_data) {
+    echo "00000\n";
+    $tmp_file_name= './ControllerEnums.temp';
+    $file_name= '../app/Http/Controllers/ControllerEnums.php';
+    $control_data=file_get_contents($tmp_file_name);
 
-        $start_pos= strpos($control_data ,   "ENUM_GET_IN_DEFINE_DEGIN");
-        $end_pos= strpos($control_data ,   "ENUM_GET_IN_DEFINE_END");
-        if ($start_pos && $end_pos && $start_pos<$end_pos ) {
-            $control_new_data= substr($control_data,0, intval($start_pos) ).
-                "ENUM_GET_IN_DEFINE_DEGIN\n".$php_define_str ."\n//".
-                substr($control_data,intval($end_pos) );
+    $control_new_data=preg_replace('/__MODEL_DEFINE__/',$php_define_str,$control_data);
 
+    save_file_check_data($file_name, $control_new_data);
 
-            save_file_check_data($file_name, $control_new_data);
-        }
-
-
-    }
 
 }
+
 
 function save_file_check_data( $file_name, $data ) {
     if (file_exists($file_name) ) {
