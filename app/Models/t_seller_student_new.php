@@ -1450,13 +1450,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num ){
+    public function get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag ){
 
         $where_arr=[];
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
         $where_arr[] =  't.seller_student_status in (1,2,101,102)';
         $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
+        $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
         $order_by_str= " order by ss.add_time desc";
 
         $sql=$this->gen_sql_new(

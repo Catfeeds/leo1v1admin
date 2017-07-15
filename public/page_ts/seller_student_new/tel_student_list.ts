@@ -7,6 +7,7 @@ $(function(){
             date_type:	$('#id_date_type').val(),
             opt_date_type:	$('#id_opt_date_type').val(),
             start_time:	$('#id_start_time').val(),
+			      global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
             end_time:	$('#id_end_time').val(),
             seller_student_status:	$('#id_seller_student_status').val(),
             page_count: g_args.page_count ,
@@ -28,6 +29,9 @@ $(function(){
     Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"), false, [1,2,101,102]);
 
     $('#id_seller_student_status').val(g_args.seller_student_status);
+
+	  $('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
+	  $.enum_multi_select( $('#id_global_tq_called_flag'), 'tq_called_flag', function(){load_data();} )
 
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-publish-flag").on("click",function(){

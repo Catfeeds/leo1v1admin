@@ -952,11 +952,11 @@ class seller_student_new extends Controller
 
     public function tel_student_list(){
 
-        $self_groupid  = $this->get_in_int_val("self_groupid",-1);
-        $userid        = $this->get_in_userid(-1);
-        $page_num      = $this->get_in_page_num();
-        //$global_tq_called_flag = $this->get_in_el
-        list($start_time,$end_time) = $this->get_in_date_range(-20,1);
+        $self_groupid          = $this->get_in_int_val("self_groupid",-1);
+        $userid                = $this->get_in_userid(-1);
+        $page_num              = $this->get_in_page_num();
+        $global_tq_called_flag = $this->get_in_el_tq_called_flag("-1", "global_tq_called_flag");
+        list($start_time,$end_time) = $this->get_in_date_range(-120,1);
 
         /*
         $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
@@ -967,7 +967,7 @@ class seller_student_new extends Controller
 
         $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
-        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num);
+        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag );
 
         // dd($ret_info);
 

@@ -27,6 +27,14 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <span class="input-group-addon">TQ状态</span>
+                        <input class="opt-change form-control" id="id_global_tq_called_flag" />
+                    </div>
+                </div>
+
+
             </div>
         </div>
         <hr/>
