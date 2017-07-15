@@ -383,8 +383,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                      ." and b.contract_type<100 "
                      ." and b.from_type=0 "
                      ." and lesson_del_flag=0 "
-                     ." group by b.orderid "
-                     ." order by b.orderid desc "
+                     ." group by a.orderid "
+                     ." order by a.orderid desc "
                      ,self::DB_TABLE_NAME
                      ,t_course_order::DB_TABLE_NAME
                      ,t_lesson_info::DB_TABLE_NAME
