@@ -725,6 +725,7 @@ class common_new extends Controller
     }
     public function get_qiniu_file ()  {
         $file=$this->get_in_str_val("file");
+        $file=\App\Helper\Utils::decode_str($file);
         $url= \App\Helper\Utils::gen_download_url($file);
         header ( "Location: $url");
     }
