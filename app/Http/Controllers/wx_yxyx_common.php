@@ -27,8 +27,10 @@ class wx_yxyx_common extends Controller
             exit;
         }
         session(["wx_yxyx_openid" => $openid]);
+
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
         \App\Helper\Utils::logger("wx_yxyx_openid:$openid ");
+        \App\Helper\Utils::logger("sessionid:".  session_id());
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr = preg_split("/\//", $goto_url);
@@ -90,12 +92,15 @@ class wx_yxyx_common extends Controller
         $goto_url = $this->get_in_str_val('goto_url');
         $phone      = $this->get_in_str_val("phone");
         $code       = $this->get_in_str_val("code");
-        $wx_openid  = $this->get_in_str_val("wx_openid");
+
+        \App\Helper\Utils::logger("bind sessionid:".  session_id());
+
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
         \App\Helper\Utils::logger("wx_yxyx_openid_new:".session('wx_yxyx_openid'));
         \App\Helper\Utils::logger("yxyx_phone:".$phone);
         \App\Helper\Utils::logger("yxyx_code:".$code);
         \App\Helper\Utils::logger("yxyx_goto_url:".$goto_url);
+        $wx_openid  = session("wx_yxyx_openid" ) ;
         if(!$wx_openid){
             return $this->output_err('无openid');
         }
