@@ -1,0 +1,12 @@
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller as BaseController;
+
+/**
+__MODEL_DEFINE__
+*/
+class ControllerEnums extends BaseController
+{
+
+}

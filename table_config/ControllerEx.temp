@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
 
 /**
 __MODEL_DEFINE__
 */
-class ControllerEx extends BaseController
+class ControllerEx extends ControllerEnums
 {
+
 }

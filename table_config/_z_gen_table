@@ -18,7 +18,7 @@ foreach ($t_config as $item) {
     }
 
     echo "deal $table_name ..\n";
-    $url= "http://self.admin.yb1v1.com/common/show_create_table?db_name=$db_name&table_name=$table_name";
+    $url= "http://dev.admin.yb1v1.com/common/show_create_table?db_name=$db_name&table_name=$table_name";
     //echo $url;
     echo "deal  $url \n";
     $json_data=file_get_contents($url);

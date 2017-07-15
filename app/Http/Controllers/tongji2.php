@@ -992,6 +992,11 @@ class tongji2 extends Controller
         ]);
 
     }
+    public function kaoqin_admin_list() {
+        list($start_time,$end_time)= $this->get_in_date_range_month( -20 );
+        $ret_info=$this->t_admin_card_log->get_list( null, $start_time,$end_time,-1,0);
+
+    }
 
 
 }

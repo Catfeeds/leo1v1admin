@@ -955,7 +955,9 @@ class seller_student_new extends Controller
         $self_groupid  = $this->get_in_int_val("self_groupid",-1);
         $userid        = $this->get_in_userid(-1);
         $page_num      = $this->get_in_page_num();
+        //$global_tq_called_flag = $this->get_in_el
         list($start_time,$end_time) = $this->get_in_date_range(-20,1);
+
         /*
         $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
         if ($end_time > $max_end_time) {

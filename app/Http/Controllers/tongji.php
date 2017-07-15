@@ -387,6 +387,7 @@ class tongji extends Controller
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
 
+
         foreach ($ret_info["list"] as $item ) {
             $logtime=$item["logtime"];
             $opt_date=date("Y-m-d",$logtime);
