@@ -10,8 +10,13 @@ $(function(){
         var id_stu_score_time = $("<input/>");   //输入考试日期
         var id_score          = $("<input/>");   //输入考试分数
         var id_rank           = $("<input/>");   //输入考试排名
-        var id_file_url       = $("<input/>");   //文件url
+        //var id_file_url       = $("<input/>");   //文件url
 
+        var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">查看 </a>   </div>");
+        var $upload_btn  = $upload_div.find("button") ;
+        var $upload_link = $upload_div.find("a") ;
+
+        $upload_link.attr('href',opt_data.file_url);
         id_stu_score_time.datetimepicker({
             lang:'ch',
             timepicker:false,
@@ -25,16 +30,15 @@ $(function(){
         id_stu_score_time.val(opt_data.stu_score_time);
         id_score.val(opt_data.score);
         id_rank.val(opt_data.rank);
-        id_file_url.val(opt_data.file_url);
         var arr = [
             ["考试科目", id_subject],
             ["考试类型", id_stu_score_type],
             ["考试日期", id_stu_score_time],
             ["考试分数",id_score],
             ["考试排名",id_rank],
-            ["文件附件",id_file_url]
         ];
 
+        arr.push(['考试文件',$upload_div]);
         $.show_key_value_table("修改考试记录", arr, {
             label    :   "确认",
             cssClass :   "btn-warning",
@@ -46,10 +50,24 @@ $(function(){
                     "stu_score_time": id_stu_score_time.val(),
                     "score"         : id_score.val(),
                     "rank"          : id_rank.val(),
-                    "file_url"      : id_file_url.val()
+                    "file_url"      : $upload_link.attr('href'),
                 });
             }
         },function(){
+            $.custom_upload_file(
+                "id_upload_from_url" ,
+                true,function( up, info, file ){
+                    var res = $.parseJSON(info);
+                    var url=res.key;
+                    $.do_ajax("/common_new/get_qiniu_download",{
+                        "file_url" :res.key ,
+                        "public_flag" :1,
+                    }, function(resp){
+                        $upload_link.attr("href", resp.url);
+                    })
+                },null,
+                ["png","jpg","zip","rar","gz","pdf","doc"] );
+
         });
     }) ;
 
@@ -63,14 +81,15 @@ $(function(){
             }
         });
     });
-    
+
     $("#id_add_score_new").on("click", function(){
         var opt_data = $(this).get_opt_data;
         var id_subject        = $("<select/>");  //选择考试科目
         var id_stu_score_type = $("<select/>");  //选择考试类型
         var id_stu_score_time = $("<input/>");   //输入考试日期
-        var id_score          = $("<input/>");   //输入考试分数
-        var id_rank           = $("<input/>");   //输入考试排名
+        var id_score          = $("<input placeholder=\"\" />");   //输入考试分数
+        var id_rank           = $("<input  placeholder=\"排名/总人数(1/50)\" />");   //输入考试排名
+
         //var id_file_url       = $("<input/>");
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">查看 </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
@@ -115,6 +134,20 @@ $(function(){
                     "file_url"      : $upload_link.attr('href'),
                 });
             }
+        },function(){
+            $.custom_upload_file(
+                "id_upload_from_url" ,
+                true,function( up, info, file ){
+                    var res = $.parseJSON(info);
+                    var url=res.key;
+                    $.do_ajax("/common_new/get_qiniu_download",{
+                        "file_url" :res.key ,
+                        "public_flag" :1,
+                    }, function(resp){
+                        $upload_link.attr("href", resp.url);
+                    })
+                },null,
+                ["png","jpg","zip","rar","gz","pdf","doc"] );
         })
     });
 

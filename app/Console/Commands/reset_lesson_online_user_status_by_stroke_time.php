@@ -46,18 +46,16 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
         $day=$this->option('day');
 
         if ( $day == null ){
-            $day=date("Y-m-d",strtotime("-1 day"));
+            $day=date("Y-m-d");
+            // $day=date("Y-m-d",strtotime("-1 day"));
         }
 
-        $start_time  = strtotime( $day) ;
+        $start_time  = strtotime( $day); 
         $end_time    = $start_time+86400;
 
         // 获取系统判断无效的资源
 
         $invalid_list = $this->task->t_lesson_info_b2->get_lesson_user_online_status_invalid($start_time, $end_time);
-
-        // $invalid_list['0']['lessonid'] = 189117;
-        // $invalid_list['1']['lessonid'] = 189229;
 
         foreach($invalid_list as &$item){
 

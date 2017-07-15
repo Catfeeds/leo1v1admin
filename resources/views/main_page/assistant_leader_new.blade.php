@@ -182,6 +182,13 @@
                                         <td>{{@$stu_info["except_num"]}} </td>
                                         <td>{{@$stu_info["except_count"]/100}} </td>
                                     </tr>
+                                    <tr>
+                                        <td>新签学生信息</td> 
+                                        <td>新签人数/购买课时</td>
+                                        <td>{{@$stu_info["new_student"]}} </td>
+                                        <td>{{@$stu_info["new_lesson_count"]}} </td>
+                                    </tr>
+
 
                                 </tbody>
                             </table>

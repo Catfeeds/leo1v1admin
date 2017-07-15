@@ -28,7 +28,7 @@ class wx_yxyx_common extends Controller
         }
         session(["wx_yxyx_openid" => $openid]);
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_yxyx_openid:".session("wx_yxyx_openid"));
+        \App\Helper\Utils::logger("wx_yxyx_openid:$openid ");
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr = preg_split("/\//", $goto_url);

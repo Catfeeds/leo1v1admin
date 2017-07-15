@@ -167,6 +167,10 @@ class user_manage extends Controller
         if ($assistantid<=0) {
             $assistantid=1; //no find
         }
+        $adminid = $this->get_account_id();
+        if($adminid==349){
+            $assistantid = 240321;
+        }
         $this->set_in_value("assistantid",$assistantid );
         return $this->ass_archive();
     }

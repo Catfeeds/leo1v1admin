@@ -1,17 +1,15 @@
 @extends('layouts.stu_header')
 @section('content')
-    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
+      <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+      <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
     <section class="content ">
         <div class="row">
-            <div class="col-xs-6 col-md-2">
-                <div class="input-group" >
-                    <span class="input">考试科目</span>
-                    <select id="" class="opt-chang">
-                        <option value="0">语文</option>
-                        <option value="1">数学</option>
-                    </select>
-                </div>
-            </div>
            <div class="col-xs-6 col-md-2">
                 <button class="btn btn-warning" id="id_add_score_new">增加学生考试成绩</button>
             </div>

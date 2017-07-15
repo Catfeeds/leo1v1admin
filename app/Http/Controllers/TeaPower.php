@@ -1239,7 +1239,7 @@ trait  TeaPower {
             $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
                 $teacher_ref_type = $reference_info['teacher_ref_type'];
-                if(in_array($reference_info['teacher_type'],[21,22])){
+                if(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
                     $teacher_money_type = E\Eteacher_money_type::V_5;
                 }
             }

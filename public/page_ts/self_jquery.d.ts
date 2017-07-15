@@ -77,6 +77,8 @@ interface JQueryStatic {
     do_ajax_get_nick(user_type:string,userid:number,call_func:( id:number,nick:string)=>void):void;
 
     fiter_obj_field( obj:Object,field_name_list:Array<string> ): any ;
+    custom_show_pdf(file_url):void ;
+
     /*
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -86,7 +88,6 @@ interface JQueryStatic {
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
     */
 
-    custom_show_pdf(file_url):void ;
     custom_upload_file (btn_id:string,  is_public_bucket :boolean, complete_func , ctminfo , ext_file_list, noti_process? ):void;
     dlg_set_width(width):void;
 

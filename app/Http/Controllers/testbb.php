@@ -80,12 +80,10 @@ class testbb extends Controller
 
 
     public function test () {
+        $url = 'http://wx-yxyx-web.leo1v1.com/#/bind?goto_url=/&wx_openid=oAJiDwBbbqiTwnU__f6ce5tNpWYs&_k=tb940q';
+        header("Location: $url");
 
-        $this->t_manager_info->send_wx_todo_msg(urldecode($account),urldecode($from_user),urldecode($header_msg),$msg,$url,$desc);
 
-        $orderid=$this->get_in_int_val('orderid');
-        $wx_openid = $this->t_order_info->get_master_openid_by_orderid($orderid);
-        dd($wx_openid);
     }
     public function lesson_send_msg(){
         $start_time = time(null);

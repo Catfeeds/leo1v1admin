@@ -72,6 +72,11 @@ class agent extends Controller
 
 
     public function check(){
+        $url = $this->get_in_str_val('goto_url');
+        $openid = $this->get_in_str_val('wx_openid');
+        dd($openid);
+        $url = 'http://wx-yxyx-web.leo1v1.com/#/bind?goto_url=&wx_openid=oAJiDwBbbqiTwnU__f6ce5tNpWYs&_k=p6ydgr';
+        header("Location: $url");
         $lessonid = 62815;
         session(["wx_lessonid" => $lessonid]);
         dd(session('wx_lessonid'));

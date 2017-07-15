@@ -2585,13 +2585,16 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $time= strtotime("2017-07-16");
+        $list = $this->t_student_info->get_stu_wx_remind_info($time);
+        dd($list);
         $ret = $this->t_teacher_record_list->get_teacher_limit_num_by_month(5);
         dd($ret);
         //$ret = $this->t_psychological_teacher_time_list->get_all_info();
         //dd($ret);
         $ret= $this->t_teacher_info->get_tea_subject_count();
         foreach($ret as &$item){
-            E\Esubject::set_item_value_str($item); 
+            E\Esubject::set_item_value_str($item);
         }
         dd($ret);
         $phone = 15202856835;
@@ -2627,9 +2630,9 @@ class user_deal extends Controller
 
         }
         dd($arr);
-       
 
-        $phone=13817759346;        
+
+        $phone=13817759346;
         $flag=0;
         $record_info=9999;
         $data=[];
@@ -2645,7 +2648,7 @@ class user_deal extends Controller
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
             $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
-  
+
         }else if($flag==0){
             $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
             $data['keyword1'] = "未通过";
@@ -2654,7 +2657,7 @@ class user_deal extends Controller
             $data['keyword3'] = date("Y-m-d H:i",time());
             $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
             $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
- 
+
         }
 
         $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
@@ -2667,7 +2670,7 @@ class user_deal extends Controller
         $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start,$end_time);
         foreach($teacher_arr as $k=>$val){
             if(!isset($teacher_list[$k])){
-                $teacher_list[$k]=$k; 
+                $teacher_list[$k]=$k;
             }
         }
 
@@ -3109,7 +3112,7 @@ class user_deal extends Controller
     public function set_account() {
         $uid= $this->get_in_int_val("uid");
         $account= trim($this->get_in_str_val("account"));
-        if (!$this->check_account_in_arr(["jim","李子璇"])) {
+        if (!$this->check_account_in_arr(["jim","李子璇","jack"])) {
             return $this->output_err("没有权限");
         }
         $db_uid=$this->t_manager_info->get_adminid_by_account($account);
@@ -3296,12 +3299,12 @@ class user_deal extends Controller
             if($val['recover_time']>0){
                 $val['recover_time_str']=date("Y-m-d",$val['recover_time']);
             }else{
-                $val['recover_time_str']=""; 
+                $val['recover_time_str']="";
             }
             if($val['wx_remind_time']>0){
                 $val['wx_remind_time_str']=date("Y-m-d",$val['wx_remind_time']);
             }else{
-                $val['wx_remind_time_str']=""; 
+                $val['wx_remind_time_str']="";
             }
 
         }
@@ -4201,17 +4204,21 @@ class user_deal extends Controller
             return $this->output_err( "只能申请今天之前的课程!" );
         }
 
-        $ret=$this->t_flow->add_flow(
-            $flow_type,
-            $this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
-        );
+        dispatch(new deal_lesson_online_status($from_key_int));
 
+        $is_lesson_user_online_status = $this->t_lesson_info_b2->get_online_status_by_lessonid($from_key_int);
 
-        if (!$ret) {
-            return $this->output_err( "已经申请过了" );
+        if($is_lesson_user_online_status == 1 ){
+            return $this->output_succ();
         }else{
-            dispatch(new deal_lesson_online_status($from_key_int));
-            return $this->output_succ( );
+            $ret=$this->t_flow->add_flow(
+                $flow_type,
+                $this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
+            );
+
+            if (!$ret) {
+                return $this->output_err( "已经申请过了" );
+            }
         }
     }
 
@@ -4436,9 +4443,9 @@ class user_deal extends Controller
     public function set_fulltime_teacher_self_assessment(){
         $id = $this->get_in_int_val("id");
         $self_assessment = trim($this->get_in_str_val("self_assessment"));
-        
+
         $this->t_fulltime_teacher_positive_require_list->field_update_list($id,[
-           "self_assessment"  =>$self_assessment 
+           "self_assessment"  =>$self_assessment
         ]);
 
         return $this->output_succ();

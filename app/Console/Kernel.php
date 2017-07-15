@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         Commands\seller_new_count_day_gen::class,
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
+        Commands\ass_wx_remind_send_day::class,
         Commands\send_teacher_train_interview_info_day::class,
         Commands\send_teacher_train_interview_before::class,
         Commands\fulltime_teacher_lesson_count_send_wx::class,

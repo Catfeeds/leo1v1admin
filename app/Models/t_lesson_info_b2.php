@@ -82,6 +82,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             "lesson_status >=2 ",
             "lesson_end  <  $now  ",
+            "del_flag = 0"
         ];
         if (!$always_reset) {
             $where_arr[]=" lesson_user_online_status =0 ";
@@ -330,7 +331,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr =[
             ["lesson_start>%d",$start_time],
             ["lesson_end<%d",$end_time],
-            "lesson_user_online_status = 2"
+            "lesson_user_online_status <> 1",
+            "del_flag = 0"
         ];
 
         $sql=$this->gen_sql_new("select lessonid, courseid "
@@ -785,7 +787,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] ="t.wx_openid <> '' and t.wx_openid is not null";
         }
         if($lecture_status==-2){
-            $where_arr[] = "tli.status is null"; 
+            $where_arr[] = "tli.status is null";
         }else{
             $where_arr[] =["tli.status= %u",$lecture_status,-1];
         }
@@ -1207,7 +1209,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.assistantid>0",
             "s.is_test_user=0",
             "m.account_role=1",
-            "m.del_flag=0"            
+            "m.del_flag=0"
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
         $sql=$this->gen_sql_new("select distinct l.userid,m.uid "
@@ -1586,4 +1588,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_online_status_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new("select lesson_user_online_status from %s where lessonid=%d ",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

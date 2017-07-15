@@ -407,6 +407,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_no_auto_stop_stu_list($time)
+    {
+        $where_arr = [
+            "type>1",
+            "is_auto_set_type_flag = 1",
+            "type_change_time<".$time
+        ];
+        $sql = $this->gen_sql_new("select userid,type from %s  ".
+                                  "  where  %s  ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr);
+
+
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_student_list_new_id()
     {
         $sql = $this->gen_sql_new("select userid as userid,type from %s  ".
@@ -2407,5 +2424,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
+    public function get_stu_wx_remind_info($time){
+        $where_arr=[
+            "s.type>1",
+            ["ct.wx_remind_time = %u",$time,0]
+        ];
+        $sql = $this->gen_sql_new("select s.nick,ct.wx_remind_time,m.uid,a.nick name,ct.recover_time "
+                                  ." from %s s "
+                                  ."join %s ct on s.userid = ct.userid and ct.add_time=(select max(add_time) from %s where userid=ct.userid)"
+                                  ." join %s a on s.assistantid = a.assistantid"
+                                  ." join %s m on a.phone = m.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_type_change_list::DB_TABLE_NAME,
+                                  t_student_type_change_list::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

@@ -41,9 +41,37 @@ class no_auto_student_change_type extends Command
 
         $task = new \App\Console\Tasks\TaskController ();
 
-        $user_map_60 = $task->t_lesson_info->get_user_list(60,1);
-        $user_map_90 = $task->t_lesson_info->get_user_list(90,1);
         $user_read = $task->t_student_info->get_no_auto_read_stu_list();
+        foreach($user_read as $val){
+            $userid = $val["userid"];
+            if(!isset($user_map_90[$userid])){
+                $task->t_student_info->get_student_type_update($userid,3);
+                $task->t_student_type_change_list->row_insert([
+                    "userid"    =>$userid,
+                    "add_time"  =>time(),
+                    "type_before" =>0,
+                    "type_cur"    =>3,
+                    "change_type" =>1,
+                    "adminid"     =>0,
+                    "reason"      =>"系统更新"
+                ]);
+
+            }else if(isset($user_map_90[$userid]) && !isset($user_map_60[$userid])){
+                $task->t_student_info->get_student_type_update($userid,2);
+                $task->t_student_type_change_list->row_insert([
+                    "userid"    =>$userid,
+                    "add_time"  =>time(),
+                    "type_before" =>0,
+                    "type_cur"    =>3,
+                    "change_type" =>1,
+                    "adminid"     =>0,
+                    "reason"      =>"系统更新"
+                ]);
+ 
+            }
+        }
+
+
         $user_map_new = $task->t_student_info->get_student_list_new_id();
         foreach($user_map_all as $k => $v){
             if(!isset($user_map_new[$k]) && !isset($user_map_90[$k])){

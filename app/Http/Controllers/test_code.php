@@ -1328,6 +1328,7 @@ class test_code extends Controller
             "肖芸"   => "241094",
             "董瑞雯" => "241096",
         ];
+
         foreach($arr as $val){
             if($val != ""){
                 $lesson_info = explode("\t",$val);
@@ -1360,7 +1361,39 @@ class test_code extends Controller
                 echo "<br>";
             }
         }
+    }
 
+    public function add_trial_lesson(){
+        $userid    = $this->get_in_int_val("userid",241094);
+        $teacherid = $this->get_in_int_val("teacherid",240469);
+
+        $grade   = 100;
+        $subject = 11;
+        $lesson_start = strtotime("2017-7-15 21:00");
+        $lesson_end = strtotime("2017-7-15 22:00");
+
+        $ret_row1 = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+        //检查时间是否冲突
+        if ($ret_row1) {
+            $error_lessonid=$ret_row1["lessonid"];
+            return $this->output_err(
+                "<div>有现存的学生课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+        $ret_row2 = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+        if($ret_row2){
+            $error_lessonid = $ret_row2["lessonid"];
+            return $this->output_err(
+                "<div>有现存的老师课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
+        $courseid = $this->t_course_order->add_course_info_new(1,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
+        $lessonid = $this->t_lesson_info->add_lesson(
+            $courseid,0,$userid,0,2,
+            $teacherid,0,$lesson_start,$lesson_end,$grade,
+            $subject,100,4,1
+        );
     }
 
     public function get_origin_order(){
@@ -1395,4 +1428,11 @@ class test_code extends Controller
             echo "<br>";
         }
     }
+
+    public function get_zhujiao(){
+        $list=$this->t_test_lesson_subject_require->get_zhujiao();
+    }
+
+
+
 }

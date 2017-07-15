@@ -215,7 +215,7 @@ $(function(){
                 }
             });
             
-            id_recover_time.datetimepicker({
+            id_wx_remind_time.datetimepicker({
                 datepicker:true,
                 timepicker:false,
                 format:'Y-m-d',

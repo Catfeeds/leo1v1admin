@@ -3368,6 +3368,12 @@ class user_manage_new extends Controller
             }else{
                 $data["recover_time"]="";
             }
+            if($data["wx_remind_time"]>0){
+                $data["wx_remind_time"] = date("Y-m-d", $data["wx_remind_time"]);
+            }else{
+                $data["wx_remind_time"]="";
+            }
+
         }
  
         return $this->output_succ(["data"=>$data]);
