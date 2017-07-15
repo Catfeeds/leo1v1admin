@@ -115,7 +115,7 @@
                         </td>
                         <td    >
                             @if ( $_origin_act=="/supervisor/monitor_seller" )
-                                <a href="/teacher_info/index?teacherid={{$var["teacherid"]}}" target="_blank" > {{$var["teacher_nick"]}} </a>
+                                <a href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" > {{$var["teacher_nick"]}} </a>
                             @else
                             <a href="/human_resource?teacherid={{$var["teacherid"]}}" target="_blank" > {{$var["teacher_nick"]}} </a>
                             @endif

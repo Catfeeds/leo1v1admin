@@ -236,7 +236,7 @@
                         </td>
                         <td class="tea_nick" data-teacherid="{{$var["teacherid"]}}" >
                             @if ( $_origin_act == "lesson_list_seller"  )
-                                <a href="/teacher_info/index?teacherid={{$var["teacherid"]}}" target="_blank" >{{$var["tea_nick"]}}</a>
+                                <a href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" >{{$var["tea_nick"]}}</a>
                             @else
                                 @if(@$is_tea == 0)
                                     <a href="/human_resource/index?teacherid={{$var["teacherid"]}}" target="_blank" >{{$var["tea_nick"]}}</a>
