@@ -291,17 +291,9 @@ class ajax_deal2 extends Controller
         $arr['login_type'] = $login_type;
         $arr['dymanic_flag'] = $dymanic_flag;
         $ret = $this->t_user_login_log->field_update_list($id,$arr);
-        return $this->output_succ();
-    }
-
-
-=======
-        return $this->output_succ();
    }
     public function query_sql_data(){
         $sql=$this->get_in_str_val("sql");
-        //$db_name= 
->>>>>>> a5b0316527a9b63b390e9e90237b3a5d10100361
 
     }
 }

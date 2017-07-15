@@ -473,7 +473,7 @@ class url_power_map {
 			'/stu_manage/init_info_by_contract_cr'	=>2011600,
 			'/stu_manage/init_info_tmp'	=>2011700,
 			'/stu_manage/score_list'	=>2011800,
-			'/stu_manage/todo_list'	=>2011900,
+			'/stu_manage/user_login_list'	=>2011900,
 			'/teacher_info_admin/index'	=>2020100,
 			'/teacher_info_admin/teacher_assess'	=>2020700,
 			'/teacher_info_admin/get_lesson_list'	=>2020600,
