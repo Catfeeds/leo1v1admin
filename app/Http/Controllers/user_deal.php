@@ -3298,6 +3298,12 @@ class user_deal extends Controller
             }else{
                 $val['recover_time_str']=""; 
             }
+            if($val['wx_remind_time']>0){
+                $val['wx_remind_time_str']=date("Y-m-d",$val['wx_remind_time']);
+            }else{
+                $val['wx_remind_time_str']=""; 
+            }
+
         }
         if(empty($data)){
             return $this->output_err("该老师没有更改类型记录!");
