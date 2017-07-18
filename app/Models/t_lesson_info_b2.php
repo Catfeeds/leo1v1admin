@@ -1660,5 +1660,73 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_lesson_list_www($teacherid,$userid,$start_time,$end_time,$lesson_type_in_str)
+    {
+        $where_arr = [
+            ["lesson_start>=%d",$start_time, -1 ] ,
+            ["lesson_start<=%d",$end_time, -1 ] ,
+            ["l.lesson_type in (%s)",$lesson_type_in_str, "" ] ,
+            ["l.userid=%u",$userid, -1 ] ,
+            ["l.teacherid=%u",$teacherid, 0 ] ,
+            "l.lesson_del_flag=0",
+        ];
 
+        $sql =$this->gen_sql_new("select t.test_lesson_subject_id,l.lessonid,l.lesson_type,lesson_start,lesson_end,"
+                                 ." lesson_intro,l.grade,l.subject,l.confirm_flag,l.assistantid,ta.phone as ass_phone,"
+                                 ." l.lesson_num,l.userid,lesson_name,lesson_status,ass_comment_audit,l.userid,"
+                                 ." if(h.work_status>0,1,0) as homework_status,stu_cw_status as stu_status,"
+                                 ." tea_cw_status as tea_status, editionid,t.textbook,l.train_type, "
+                                 ." h.finish_url,h.check_url,l.tea_cw_url,l.tea_cw_upload_time,l.tea_cw_pic_flag,l.tea_cw_pic,"
+                                 ." l.stu_cw_url,l.stu_cw_upload_time,h.issue_url,h.issue_time,"
+                                 ." h.pdf_question_count ,tea_more_cw_url,  "
+                                 ." t.stu_test_paper,t.require_adminid, "
+                                 ." tm.name as cc_account,tm.phone as cc_phone,"
+                                 ." tr.accept_adminid,"
+                                 ." t.stu_request_test_lesson_demand"
+                                 ." from %s l "
+                                 ." left join %s h on l.lessonid=h.lessonid "
+                                 ." left join %s s on l.userid=s.userid"
+                                 ." left join %s tr on l.lessonid=tr.current_lessonid"
+                                 ." left join %s t on tr.require_id=t.current_require_id"
+                                 ." left join %s tm on t.require_adminid=tm.uid"
+                                 ." left join %s ta on l.assistantid=ta.assistantid"
+                                 ." where %s"
+                                 ." and confirm_flag!=2"
+                                 ." and l.lesson_type!=4001"
+                                 ." order by lesson_start ",
+                                 self::DB_TABLE_NAME ,
+                                 t_homework_info::DB_TABLE_NAME ,
+                                 t_student_info::DB_TABLE_NAME ,
+                                 t_test_lesson_subject_require::DB_TABLE_NAME ,
+                                 t_test_lesson_subject::DB_TABLE_NAME ,
+                                 t_manager_info::DB_TABLE_NAME,
+                                 t_assistant_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item['lessonid'];
+        });
+    }
+
+    public function get_student_list($teacherid,$start,$end){
+        $where_arr=[
+            ["teacherid=%u",$teacherid,0],
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+        ];
+        $sql=$this->gen_sql_new("select s.userid,if(s.nick!='',s.nick,s.realname) as nick "
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." where %s"
+                                ." and lesson_type<1000"
+                                ." and confirm_flag<2"
+                                ." and lesson_del_flag=0"
+                                ." group by s.userid"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

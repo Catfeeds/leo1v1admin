@@ -729,5 +729,32 @@ class common_new extends Controller
         $url= \App\Helper\Utils::gen_download_url($file);
         header ( "Location: $url");
     }
+    public function show_create_table_list() {
+        if ( !\App\Helper\Utils::check_env_is_local() ){
+            return $this->output_err("没有权限");
+        }
+        $table_list=json_decode($this->get_in_str_val("table_list"));
+        $ret_map=[];
+        foreach ($table_list as $db_table_name) {
+
+            $create_sql=sprintf("show create table %s", $db_table_name );
+            $desc_sql=sprintf("desc %s", $db_table_name );
+            $tmp_arr= preg_split("/\./",$db_table_name);
+            $db_name=$tmp_arr[0];
+            if ($db_name=="db_question") {
+                $this->question_model->main_get_value(  "set names utf8" );
+                $row=$this->question_model->main_get_row($create_sql);
+                $list=$this->question_model->main_get_list($desc_sql);
+            }else{
+                $this->t_lesson_info ->main_get_value(  "set names utf8" );
+                $row=$this->t_lesson_info ->main_get_row($create_sql);
+                $list=$this->t_lesson_info->main_get_list($desc_sql);
+            }
+            $ret_map[$db_table_name]= ["table_desc" => $row["Create Table"],
+                  "desc_list" =>$list
+            ];
+        }
+        return $this->output_succ(["table_desc_list"  =>$ret_map ] );
+    }
 
 }

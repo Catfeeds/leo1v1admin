@@ -60,14 +60,16 @@ class teacher_info extends Controller
             $desc = E\Eboolean::get_desc($v);
             return "<font color=$color>$desc</font>";
         };
-        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
-        ); dd(3);
+        ); 
+        /*
         if($teacherid==50728 || \App\Helper\Utils::check_env_is_local()){
             $trial_train_list = $this->t_lesson_info_b2->get_trial_train_list($teacherid);
             $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
         }
-       
+        */
+
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info["list"] as &$item){
             $lessonid    = $item["lessonid"];
@@ -1192,13 +1194,16 @@ class teacher_info extends Controller
     }
 
     public function teacher_lecture_appointment_info(){
+
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $page_num  = $this->get_in_page_num();
         $teacherid = $this->get_login_teacher();
         $status    = $this->get_in_int_val("status",-1);
 
         $phone    = $this->t_teacher_info->get_phone($teacherid);
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info($page_num,$start_time,$end_time,$phone,$status);
+        //dd($phone);
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_b1($page_num,$start_time,$end_time,$phone,$status);
+        //dd($ret_info);
 
         if($phone=="15366667766"){
              $show_teacher_info=1;
@@ -1207,6 +1212,7 @@ class teacher_info extends Controller
         }
 
         if(!empty($ret_info)){
+
             foreach($ret_info["list"] as &$item){
                 $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
                 if($item['confirm_time']!=0){
@@ -1226,9 +1232,10 @@ class teacher_info extends Controller
                 }
             }
         }else{
-            return $this->pageView(__METHOD__,[],[
-                "lecture_status" => 0
-            ]);
+
+           // return $this->pageView(__METHOD__,[],[
+             //   "lecture_status" => 0
+            //]);
         }
 
         $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
@@ -1291,6 +1298,7 @@ class teacher_info extends Controller
         }
 
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "err_info"=>$err_info
         ]);
@@ -1789,7 +1797,7 @@ class teacher_info extends Controller
 
         $post_url = "http://admin.yb1v1.com/common/send_wx_todo_msg?data=".base64_encode(json_encode($data));
         $qc_log   =  $this->send_curl_post($post_url);
-        
+
     }
 
 }

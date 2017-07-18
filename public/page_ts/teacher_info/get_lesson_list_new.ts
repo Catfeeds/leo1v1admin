@@ -6,6 +6,8 @@ $(function(){
     $('#id_lesson_type').val(g_args.lesson_type);
     $('#id_student').val(g_args.userid);
 
+
+
     //时间插件
     $("#id_start_date").datetimepicker({
         lang:'ch',

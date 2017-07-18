@@ -105,6 +105,7 @@ $(function(){
                 var pre_homework_info = result.homework_info;
                 
                 html_node.find(".opt-homework-url").attr('id','optid-homework-url'+lessonid);
+                html_node.find(".opt-server-homework-url").attr('id','optid-server-homework-url'+lessonid);
                 html_node.find(".homework_url").data('pdfurl', pre_homework_info.homework_url);
                 html_node.find(".homework_url").data('homework_status', pre_homework_info.work_status);
                 
@@ -114,12 +115,34 @@ $(function(){
                     message         : html_node,
                     closeByBackdrop : false,
                     onshown         : function(){
+                        
+                        try {
+                            
                         custom_upload_file( 'optid-homework-url'+lessonid,
                                             false , setCompleteHomework, {
                                                 "lessonid" : lessonid,
                                                 "type"     : "homework"
                                             },
                                             ["pdf","zip"], setProgress );
+                        } catch(err) {
+                            html_node.find(".opt-homework-url").hide();
+                        }finally {
+                            
+                        }
+
+                        self_upload('optid-server-homework-url'+lessonid,
+                                    "/common/upload_qiniu",{
+                                        "lessonid" : lessonid,
+                                        "type"     : "homework"
+                                    },
+                                    ["pdf","zip"],
+                                    {
+                                        "file_name_fix":"l_cw_"+lessonid
+                                    },  setProgress,  self_upload_complete_homework 
+                                        
+                                    );
+
+
                     },
                     buttons : [{
                         label    : '关闭',
@@ -411,6 +434,7 @@ $(function(){
                 html_node.find(".opt-teacher-url").attr('id', 'optid-teacher-url'+lessonid);
                 html_node.find(".opt-student-url").attr('id', 'optid-student-url'+lessonid);
                 html_node.find(".opt-teacher-url-server").attr('id', 'optid-teacher-url-server'+lessonid);
+                html_node.find(".opt-student-url-server").attr('id', 'optid-student-url-server'+lessonid);
 
                 html_node.find(".tea_cw_url").data('pdfurl', pre_lesson_info.tea_cw_url);
                 html_node.find(".tea_cw_url").data('tea_status', pre_lesson_info.tea_cw_status);
@@ -430,14 +454,14 @@ $(function(){
                                                     "lessonid" : lessonid,
                                                     "type"     : "handout"
                                                 },
-                                                ["pdf","zip"], setProgress ,self_upload_complete);
+                                                ["pdf","zip"], setProgress );
                             
                             custom_upload_file('optid-student-url'+lessonid,
                                                false , setCompleteStudentCW, {
                                                    "lessonid" : lessonid,
                                                    "type"     : "handout"
                                                },
-                                               ["pdf","zip"], setProgress ,self_upload_complete);
+                                               ["pdf","zip"], setProgress );
 
                         } catch(err) {
                             html_node.find(".opt-teacher-url").hide();
@@ -454,6 +478,17 @@ $(function(){
                                     {
                                         "file_name_fix":"l_"+lessonid
                                     },  setProgress, self_upload_complete);
+
+                        self_upload('optid-student-url-server'+lessonid,
+                                    "/common/upload_qiniu",{
+                                        "lessonid" : lessonid,
+                                        "type"     : "handout"
+                                    },
+                                    ["pdf","zip"],
+                                    {
+                                        "file_name_fix":"l_stu_"+lessonid
+                                    },  setProgress, self_upload_complete);
+
                     },
                     buttons : [{
                         label: '关闭',
@@ -466,11 +501,18 @@ $(function(){
             }
         });
     };
+    var self_upload_complete_student= function(ret, ctminfo) {
+        $('.bootstrap-dialog-body .stu_cw_url').data('pdfurl', ret.file_name);
+        $('.bootstrap-dialog-body .stu_cw_url').data('stu_status', 1);
+        $('.bootstrap-dialog-body .stu_cw_url').show();
+        set_lesson_info(ctminfo.lessonid);
+    };
+
 
     var self_upload_complete=function(ret,ctminfo){
         var html_node= $('<div></div>').html(dlg_get_html_by_class('dlg_upload_'+ctminfo.type+'_ex'));
         
-        $('.bootstrap-dialog-body .tea_cw_url').data('pdfurl',ret.file_name  );
+        $('.bootstrap-dialog-body .tea_cw_url').data('pdfurl',ret.student  );
         $('.bootstrap-dialog-body .tea_cw_url').data('tea_status', 1);
         $('.bootstrap-dialog-body .tea_cw_url').show();
         
@@ -502,7 +544,18 @@ $(function(){
             }
         }
     };
-    
+    var self_upload_complete_homework = function(ret,ctminfo) {
+        var html_txt  = $('<div></div>').html(dlg_get_html_by_class('dlg_upload_'+ctminfo.type+'_ex'));
+        var html_node = $('<div></div>').html(html_txt);
+        $('.bootstrap-dialog-body .homework_url').data('pdfurl', ret.file_name);
+        $('.bootstrap-dialog-body .homework_url').data('homework_status', 1);
+        $('.bootstrap-dialog-body .homework_url').show();
+
+        get_lesson_info(ctminfo.lessonid,ctminfo.type,html_node);
+        show_lesson_info(ctminfo.lessonid,ctminfo.type,html_node);
+    };
+   
+
     var setCompleteHomework = function(up,info,file,ctminfo) {
         var html_txt  = $('<div></div>').html(dlg_get_html_by_class('dlg_upload_'+ctminfo.type+'_ex'));
         var html_node = $('<div></div>').html(html_txt);
@@ -591,31 +644,25 @@ $(function(){
         if(lesson_type!=2){
             set_stu_performance(lessonid);
         }else{
-            /**
-             * var url="/teacher_info/tea_comment?lessonid="+lessonid;
-             * window.open(url);
-             */
+            set_stu_performance_for_seller(lessonid);
         }
     });
 
     var set_stu_performance=function(lessonid){
-        var $total_judgement        = $("<select></select>");
-        var $homework_situation     = $("<select></select>");
-        var $content_grasp          = $("<select></select>");
-        var $lesson_interact        = $("<select></select>");
-        var $point_note_list        = $("<textarea/> ");
-        var $point_note_list2       = $("<textarea/> ");
-        var $stu_comment            = $("<textarea/> ");
-        var point_name      = '';
-        var point_name2     = '';
-        var point_stu_desc  = '';
-        var point_stu_desc2 = '';
+        var $total_judgement    = $("<select> </select> ");
+        var $homework_situation = $("<input/> ");
+        var $content_grasp      = $("<input/> ");
+        var $lesson_interact    = $("<input/> ");
+        var $point_note_list    = $("<textarea/> ");
+        var $point_note_list2   = $("<textarea/> ");
+        var $stu_comment        = $("<textarea/> ");
+        var point_name          = '';
+        var point_name2         = '';
+        var point_stu_desc      = '';
+        var point_stu_desc2     = '';
 
         Enum_map.append_option_list( "performance", $total_judgement,true);
-        Enum_map.append_option_list( "homework_situation", $homework_situation,true);
-        Enum_map.append_option_list( "content_grasp", $content_grasp,true);
-        Enum_map.append_option_list( "lesson_interact", $lesson_interact,true);
-        $.do_ajax("/tea_manage/get_stu_performance",{
+        do_ajax("/tea_manage/get_stu_performance",{
             "lessonid":lessonid
         },function(result){
             if(result.total_judgement){
@@ -624,7 +671,6 @@ $(function(){
                 $content_grasp.val(result.content_grasp);
                 $lesson_interact.val(result.lesson_interact);
                 $stu_comment.val(result.stu_comment);
-
                 if(result.point_note_list!=''){
                     point_name      = result.point_name[0];
                     point_stu_desc  = result.point_stu_desc[0];
@@ -658,11 +704,11 @@ $(function(){
                 }
             }
 
-            $.show_key_value_table("课堂评价", arr ,{
+            show_key_value_table("课堂评价", arr ,{
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
-                    $.do_ajax("/tea_manage/set_stu_performance", {
+                    do_ajax("/tea_manage/set_stu_performance", {
                         "lessonid"           : lessonid,
                         "total_judgement"    : $total_judgement.val(),
                         "homework_situation" : $homework_situation.val(),
@@ -672,7 +718,7 @@ $(function(){
                         "point_stu_desc"     : $point_note_list.val(),
                         "point_name2"        : point_name2,
                         "point_stu_desc2"    : $point_note_list2.val(),
-                        "stu_comment"        : $stu_comment.val()
+                        "stu_comment"        : $point_note_list2.val()
                     },function(result){
                         window.location.reload();
                     });
@@ -688,5 +734,102 @@ $(function(){
         });
     };
 
+    var set_stu_performance_for_seller =function(lessonid){
+        var html_node = $.dlg_need_html_by_id( "id_dlg_set_user_info");
+
+        var id_stu_lesson_content     = html_node.find("#id_stu_lesson_content");
+        var id_stu_lesson_status      = html_node.find("#id_stu_lesson_status");
+        var id_stu_study_status       = html_node.find("#id_stu_study_status");
+        var id_stu_advantages         = html_node.find("#id_stu_advantages");
+        var id_stu_disadvantages      = html_node.find("#id_stu_disadvantages");
+        var id_stu_lesson_plan        = html_node.find("#id_stu_lesson_plan");
+        var id_stu_teaching_direction = html_node.find("#id_stu_teaching_direction");
+        var id_stu_textbook_info      = html_node.find("#id_stu_textbook_info");
+        var id_stu_teaching_aim       = html_node.find("#id_stu_teaching_aim");
+        var id_stu_lesson_count       = html_node.find("#id_stu_lesson_count");
+        var id_stu_advice             = html_node.find("#id_stu_advice");
+
+        $.do_ajax("/tea_manage/get_stu_performance_for_seller",{
+            lessonid : lessonid
+        },function(result){
+            var data=result.data;
+            id_stu_lesson_content.val(data.stu_lesson_content);
+            id_stu_lesson_status.val(data.stu_lesson_status);
+            id_stu_study_status.val(data.stu_study_status);
+            id_stu_advantages.val(data.stu_advantages);
+            id_stu_disadvantages.val(data.stu_disadvantages);
+            id_stu_lesson_plan.val(data.stu_lesson_plan);
+            id_stu_teaching_direction.val(data.stu_teaching_direction);
+            id_stu_textbook_info.val(data.stu_textbook_info);
+            id_stu_teaching_aim.val(data.stu_teaching_aim);
+            id_stu_lesson_count.val(data.stu_lesson_count);
+            id_stu_advice.val(data.stu_advice);
+
+            var dlg=BootstrapDialog.show({
+                title: "试听课堂反馈",
+                size: "size-wide", 
+                message : html_node, 
+                closable: true, 
+                buttons: [{
+                    label: '返回',
+                    action: function(dialog) {
+                        dialog.close();
+                    }
+                },{
+                    label: '提交',
+                    cssClass: 'btn-warning',
+                    action: function(dialog) {
+                        var stu_advice       = id_stu_advice.val();
+                        var stu_lesson_count = id_stu_lesson_count.val();
+                        console.log(stu_lesson_count);
+                        var check_flag = true;
+                        
+                        $.each(html_node.find("input"),function(i,item){
+                            if($(this).val()==''){
+                                check_flag=false;
+                                BootstrapDialog.alert("请检查每个数据是否完整");
+                                return false;
+                            }
+                        });
+                         
+                        if(check_flag){
+                            if(isNaN(stu_lesson_count)){
+                                BootstrapDialog.alert("推荐课时数应该为数字");
+                                return false;
+                            }
+                            
+                            if(stu_advice.length<50 && check_flag){
+                                BootstrapDialog.alert("意见，建议内容不能少于50字");
+                                return false;
+                            }
+                            
+                            $.do_ajax("/tea_manage/set_stu_performance_for_seller",{
+                                lessonid               : lessonid,
+                                stu_lesson_content     : id_stu_lesson_content.val(),
+                                stu_lesson_status      : id_stu_lesson_status.val(),
+                                stu_study_status       : id_stu_study_status.val(),
+                                stu_advantages         : id_stu_advantages.val(),
+                                stu_disadvantages      : id_stu_disadvantages.val(),
+                                stu_lesson_plan        : id_stu_lesson_plan.val(),
+                                stu_teaching_direction : id_stu_teaching_direction.val(),
+                                stu_textbook_info      : id_stu_textbook_info.val(),
+                                stu_teaching_aim       : id_stu_teaching_aim.val(),
+                                stu_lesson_count       : id_stu_lesson_count.val(),
+                                stu_advice             : stu_advice
+                            },function(result){
+                                if(result.ret==0){
+                                    window.location.reload();
+			                        dialog.close();
+                                }else{
+                                    BootstrapDialog.alert(result.info);
+                                }
+                            });
+                        }
+                    }
+                }]
+            });
+            dlg.getModalDialog().css("width","98%");
+        });
+    };
 });
 
