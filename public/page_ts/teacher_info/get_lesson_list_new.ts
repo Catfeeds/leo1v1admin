@@ -807,6 +807,10 @@ $(function(){
             action   : function(dialog) {
                 $.do_ajax("/teacher_info/add_complaint_info",{
                     "complaint_info"    : id_complaint_info.val(),
+<<<<<<< HEAD
+=======
+                    "lessonid"          : data.lessonid
+>>>>>>> ca1b4dab1b43e7d57c0898d737112381cea26524
                 },function(result){
                     BootstrapDialog.alert(result.info);
                     dialog.close();

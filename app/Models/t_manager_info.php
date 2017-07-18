@@ -134,7 +134,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return false;
     }
 
-    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1)
+    public function get_all_manager($page_num,$uid,$user_info,$has_question_user,$creater_adminid,$account_role,$del_flag,$cardid,$tquin ,$day_new_user_flag,$seller_level=-1,$adminid=-1,$fulltime_teacher_type=-1)
     {
         $where_arr=[
             [  "t1.creater_adminid =%u ", $creater_adminid,  -1] ,
@@ -142,6 +142,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "t1.cardid =%u ", $cardid,  -1] ,
             [  "t1.tquin =%u ", $tquin,  -1] ,
             [  "t1.day_new_user_flag =%u ", $day_new_user_flag ,  -1] ,
+            [  "t1.fulltime_teacher_type =%u ", $fulltime_teacher_type ,  -1] ,
         ];
         if ($user_info >0 ) {
             $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
@@ -893,7 +894,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.price >0"
         ];
         $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type=3,price,0)) renw_price,sum(if(contract_type=3,1,0)) renw_num ".
+        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type=3,1,0)) renw_num ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
                                  " where %s group by uid",

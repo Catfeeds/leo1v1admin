@@ -125,6 +125,21 @@ abstract class NewModel
             throw new \Exception('SQL ERROR >1 row ".count." : '.$sql);
         }
     }
+    public function main_get_list_b2( $sql ,$list_key_func=null )
+	{
+        $result = $this->db_query($sql);
+        $list=[];
+        if ( ! $list_key_func ) {
+            foreach( $result as $item ) {
+                $list[] = $item;
+            }
+        }else{
+            foreach( $result as $item ) {
+                $list[ $list_key_func($item ) ] = $item;
+            }
+        }
+        return $list;
+	}
 
     public function main_get_list( $sql ,$list_key_func=null )
     {
@@ -162,7 +177,7 @@ abstract class NewModel
             "per_page_count" => 100000,
             "page_num"       => 1,
         );
-        $ret_arr["list"]=$this->main_get_list($sql ,$list_key_func);
+        $ret_arr["list"]=$this->main_get_list_b2($sql ,$list_key_func);
         return $ret_arr;
     }
 

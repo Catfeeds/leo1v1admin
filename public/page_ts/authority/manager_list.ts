@@ -25,6 +25,7 @@ $(function(){
             seller_level      :	$('#id_seller_level').val(),
             day_new_user_flag :	$('#id_day_new_user_flag').val(),
             del_flag          : $('#id_del_flag').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
             adminid           :	$('#id_adminid').val()
         });
     }
@@ -40,12 +41,14 @@ $(function(){
 
     Enum_map.append_option_list("boolean",$("#id_day_new_user_flag"));
     Enum_map.append_option_list("account_role", $('#id_account_role'));
+    Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'));
     $('#id_account_role').val(g_args.account_role);
     $("#id_user_info").val(g_args.user_info);
     $("#id_has_question_user").val(g_args.has_question_user);
     $("#id_del_flag").val(g_args.del_flag);
     $('#id_cardid').val(g_args.cardid);
     $('#id_tquin').val(g_args.tquin);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
@@ -59,6 +62,12 @@ $(function(){
     $('#id_day_new_user_flag').val(g_args.day_new_user_flag);
 
 
+
+    if (window.location.pathname=="/authority/manager_list_for_qz" || window.location.pathname=="/authority/manager_list_for_qz/"){       
+    }else{
+        $("#id_fulltime_teacher_type").parent().parent().hide();
+        $(".opt-set-fulltime-teacher-type").hide();
+    }
 
     $("#id_add_manager").on("click",function(){
         var account = $("#id_account").val();

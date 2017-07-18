@@ -27,6 +27,7 @@ class NewRouteConfig {
         "wx_yxyx_common"       => true,
         "wx_yxyx_web"       => true,
         "wx_yxyx"       => true,
+        "wx_yxyx_api"       => true,
         "test_kevin"       => true,
         "test_sam"       => true,
         "ss_deal2"          => true,

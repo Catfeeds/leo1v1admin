@@ -145,15 +145,12 @@
                         </select>
                     </div>
                 </div>
-
-              
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >是否反馈</span>
                         <select id="id_is_record_flag" class ="opt-change" ></select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >新入职培训</span>
@@ -283,7 +280,6 @@
                         <select id="id_subject_plan" class ="opt-change" ></select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>                

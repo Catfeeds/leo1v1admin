@@ -3370,20 +3370,22 @@ class human_resource extends Controller
         $page_num    = $this->get_in_page_num();
         list($start_time,$end_time)=$this->get_in_date_range( 0,0,0,[],3);
 
-        $teacherid                  = $this->get_in_int_val('teacherid', -1);
-        $subject                    = $this->get_in_int_val('subject', -1);
-        $teacher_subject            = $this->get_in_int_val('teacher_subject', -1);
-        $identity                   = $this->get_in_int_val('identity', -1);
-        $grade_part_ex              =$this->get_in_int_val('grade_part_ex',-1);
-        $tea_status                 =$this->get_in_int_val('tea_status',-1);
-        $teacher_account            = $this->get_in_int_val('teacher_account', -1);
-        $qzls_flag                  = $this->get_in_int_val('qzls_flag', -1);
-        $fulltime_flag                  = $this->get_in_int_val('fulltime_flag', -1);
-        $adminid      = $this->get_account_id();
-        $right_list = $this->get_tea_subject_and_right_by_adminid($adminid);
+        $teacherid       = $this->get_in_int_val('teacherid', -1);
+        $subject         = $this->get_in_int_val('subject', -1);
+        $teacher_subject = $this->get_in_int_val('teacher_subject', -1);
+        $identity        = $this->get_in_int_val('identity', -1);
+        $grade_part_ex   = $this->get_in_int_val('grade_part_ex',-1);
+        $tea_status      = $this->get_in_int_val('tea_status',-1);
+        $teacher_account = $this->get_in_int_val('teacher_account', -1);
+        $qzls_flag       = $this->get_in_int_val('qzls_flag', -1);
+        $fulltime_flag   = $this->get_in_int_val('fulltime_flag', -1);
+        $create_now      = $this->get_in_int_val('create_now', -1);
+        $adminid         = $this->get_account_id();
+        $right_list      = $this->get_tea_subject_and_right_by_adminid($adminid);
+
         $tea_subject = $right_list["tea_subject"];
-        $tea_right  = $right_list["tea_right"];
-        $qz_flag = $right_list["qz_flag"];
+        $tea_right   = $right_list["tea_right"];
+        $qz_flag     = $right_list["qz_flag"];
         if($adminid==478){
             $tea_subject="";
         }
@@ -3392,7 +3394,7 @@ class human_resource extends Controller
         $this->t_teacher_info->switch_tongji_database();
         $this->t_lesson_info->switch_tongji_database();
 
-        $ret_info = $this->t_teacher_info->get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag,$fulltime_flag);
+        $ret_info = $this->t_teacher_info->get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag,$fulltime_flag,$create_now,$start_time,$end_time);
 
         $teacherid_list=[];
         foreach($ret_info['list'] as $t_item) {

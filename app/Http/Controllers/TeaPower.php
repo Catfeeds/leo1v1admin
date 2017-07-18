@@ -548,11 +548,6 @@ trait  TeaPower {
             }
         }
 
-        //检查老师是否暂停接试听课
-        /*  if($week_freeze_info["lesson_hold_flag"]==1 && $is_test==0){
-            return $this->output_err("该老师被暂停排试听课,请确认!");
-            }*/
-
         //老师需满足培训通过的条件才能排试听课
         $teacher_type_train_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,train_through_new");
         if( $teacher_type_train_info["train_through_new"]==0 && $is_test==0){
@@ -578,22 +573,21 @@ trait  TeaPower {
         if( $subject==$teacher_subject["subject"]){
             if($teacher_subject['grade_start']==0){
                 $check_subject = $this->check_teacher_subject_and_grade_new(
-                    $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
-                    $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
-                    $teacher_subject["not_grade"]
+                   $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
+                   $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
+                   $teacher_subject["not_grade"]
                 );
             }else{
-                $check_subject=$this->check_teacher_grade_range_new($tt_item,$teacher_subject);
+                $check_subject = $this->check_teacher_grade_range_new($tt_item,$teacher_subject);
             }
- 
         }else{
             $check_subject = $this->check_teacher_subject_and_grade_new(
                 $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
                 $teacher_subject["grade_part_ex"],$teacher_subject["second_grade"],$teacher_subject["third_grade"],$is_test,
                 $teacher_subject["not_grade"]
             );
-
         }
+
         if($check_subject != 1){
             return $check_subject;
         }
@@ -640,7 +634,10 @@ trait  TeaPower {
 
     }
 
-    public function check_teacher_subject_and_grade_new($subject,$grade,$first_subject,$second_subject,$third_subject,$grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade){
+    public function check_teacher_subject_and_grade_new(
+        $subject,$grade,$first_subject,$second_subject,$third_subject,
+        $grade_part_ex,$second_grade,$third_grade,$is_test,$not_grade
+    ){
         if($is_test ==0){
             if($subject != $first_subject && $subject != $second_subject && $subject != $third_subject){
                 return $this->output_err(
@@ -661,7 +658,6 @@ trait  TeaPower {
                             "请安排与老师年级段相符合的课程!"
                         );
                     }
-
                 }elseif($grade>=100 && $grade <200){
                     if($grade_part_ex !=1 && $grade_part_ex!=4 ){
                         return $this->output_err(
@@ -1619,6 +1615,19 @@ trait  TeaPower {
         }
         return $refund_score;
     }
+
+    public function get_tea_refund_info($start_time,$end_time,$tea_arr){
+        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,$tea_arr);
+        $arr=[];
+        foreach($list as $val){
+            if($val["value"]=="教学部" && $val["score"]>0){
+                @$arr[$val["teacherid"]]++;
+            }
+        }
+
+        return $arr;
+    }
+
 
 
 }
