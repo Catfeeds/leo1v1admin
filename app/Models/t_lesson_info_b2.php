@@ -532,6 +532,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function get_tea_stu_num_list($qz_tea_arr,$start_time,$end_time){
+        $where_arr=[
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "s.type <> 1",
+            "l.lesson_type<>2",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
+        ]; 
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $qz_tea_arr );
+        $sql = $this->gen_sql_new("select count(distinct l.userid) num,sum(l.lesson_count) lesson_all,l.teacherid "
+                                  ." from %s l left join %s s on l.userid = s.userid"
+                                  ." where %s group by l.teacherid",                                 
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+ 
+    }
+    
     public function get_train_list($start_time,$end_time,$type){
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
@@ -1624,6 +1647,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $time
         );
         return $this->main_update($sql);
+    }
+
+    public function get_teacher_time_by_lessonid($lessonid){
+
+        $sql = $this->gen_sql_new("select lesson_start,lesson_end from %s l left join %s t on t.teacherid=l.teacherid  where lessonid = %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_list($sql);
     }
 
 

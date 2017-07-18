@@ -6074,7 +6074,11 @@ class tongji_ss extends Controller
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
 
-        $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"];
+        $week_end = $week_start+21*86400;
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
 
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
@@ -6118,7 +6122,7 @@ class tongji_ss extends Controller
         }
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["num"]:0;
-            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["lesson_all"]/100:0;
+            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?round($normal_stu_num[$val["teacherid"]]["lesson_all"]/300):0;
             $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
             $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
             $grade = $this->t_teacher_info->get_grade_part_ex($val["teacherid"]);

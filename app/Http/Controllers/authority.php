@@ -452,4 +452,13 @@ class authority extends Controller
 
     }
 
+    public function set_fulltime_teacher_type(){
+        $uid   = $this->get_in_int_val('uid');
+        $fulltime_teacher_type   = $this->get_in_int_val('fulltime_teacher_type');
+        $this->t_manager_info->field_update_list($uid,[
+            "fulltime_teacher_type"=>$fulltime_teacher_type
+        ]);
+        return $this->output_succ();
+    }
+
 }

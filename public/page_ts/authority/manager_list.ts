@@ -147,6 +147,29 @@ $(function(){
         });
     });
 
+    $(".opt-set-fulltime-teacher-type").on("click", function(){
+        var opt_data=$(this).get_opt_data();
+        var uid= opt_data.uid;
+       
+        var $fulltime_teacher_type =$("<select/>");
+        Enum_map.append_option_list("fulltime_teacher_type",$fulltime_teacher_type,true);
+        var arr =[
+            ["全职老师类型", $fulltime_teacher_type]
+        ];
+        $fulltime_teacher_type.val(opt_data.fulltime_teacher_type);
+        $.show_key_value_table("设置全职老师类型", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax('/authority/set_fulltime_teacher_type', {
+                    'uid': uid,
+                    'fulltime_teacher_type': $fulltime_teacher_type.val()
+                });
+            }
+        });
+    });
+
+
     $("#id_fix_passwd").on("click",function(){
         var account = $(this).data("account");
         var new_passwd = $("#id_new_passwd").val();

@@ -18,7 +18,7 @@ class teacher_level extends Controller
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
         
-        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",2);
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",1);
         $list = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
         $tea_list=[];
         foreach($list as $val){
@@ -38,6 +38,7 @@ class teacher_level extends Controller
         $teacher_record_score = $this->t_teacher_record_list->get_test_lesson_record_score($start_time,$end_time,$tea_arr);
         $tea_refund_info =$this->get_tea_refund_info($start_time,$end_time,$tea_arr);
         foreach($ret_info["list"] as &$item){
+            E\Elevel::set_item_value_str($item,"level");
             $teacherid = $item["teacherid"];
             $item["lesson_count"] = round($list[$teacherid]["lesson_count"]/300,1);
             $item["lesson_count_score"] = $this->get_score_by_lesson_count($item["lesson_count"]);
@@ -45,19 +46,22 @@ class teacher_level extends Controller
             $item["cc_order_num"] = isset($test_person_num[$teacherid])?$test_person_num[$teacherid]["have_order"]:0;
             $item["cc_order_per"] = !empty($item["cc_test_num"])?round($item["cc_order_num"]/$item["cc_test_num"]*100,2):0;
             $item["cc_order_score"] = $this->get_cc_order_score($item["cc_order_num"],$item["cc_order_per"]);
-            $item["other_test_num"] = isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_num"]:0+isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_num"]:0;
-            $item["other_order_num"] = isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_order"]:0+isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_order"]:0;
+            $item["other_test_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_num"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_num"]:0);
+            $item["other_order_num"] = (isset($kk_test_person_num[$teacherid])?$kk_test_person_num[$teacherid]["kk_order"]:0)+(isset($change_test_person_num[$teacherid])?$change_test_person_num[$teacherid]["change_order"]:0);
             $item["other_order_per"] = !empty($item["other_test_num"])?round($item["other_order_num"]/$item["other_test_num"]*100,2):0;
             $item["other_order_score"] = $this->get_other_order_score($item["other_order_num"],$item["other_order_per"]);
             $item["record_num"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["num"]:0;
             $item["record_score"] = isset($teacher_record_score[$teacherid])?$teacher_record_score[$teacherid]["score"]:0;
-            $item["record_final_score"] = !empty($item["record_num"])?ceil($item["record_score"]/$item["record_num"]*20):12;
+            $item["record_score_avg"] = !empty($item["record_num"])?round($item["record_score"]/$item["record_num"],1):0;
+            $item["record_final_score"] = !empty($item["record_num"])?ceil($item["record_score_avg"]*0.2):12;
             $item["is_refund"] = (isset($tea_refund_info[$teacherid]) && $tea_refund_info[$teacherid]>0)?1:0;
-            $item["is_refund_str"] = $item["is_refund"]==1?"有":"无";
+            $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
+            $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
             
         }
+        return $this->pageView(__METHOD__,$ret_info);
 
-        dd($tea_refund_info);
+        //dd($ret_info);
 
     }
 

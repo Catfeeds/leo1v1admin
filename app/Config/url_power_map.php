@@ -421,6 +421,7 @@ class url_power_map {
 			'/tea_manage_new/get_seller_ass_record_info'	=>1321800,
 			'/tea_manage_new/get_seller_require_commend_teacher_info'	=>1322700,
 			'/tongji_ss/teacher_trial_count'	=>1322400,
+			'/teacher_level/get_teacher_level_quarter_info'	=>1323400,
 			'/human_resource/teacher_lecture_list_research'	=>1320900,
 			'/tea_manage/trial_train_lesson_list'	=>1322900,
 			'/tea_manage/train_lecture_lesson'	=>1323000,

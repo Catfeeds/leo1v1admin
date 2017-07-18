@@ -595,15 +595,6 @@ $(function(){
         });
     });
 
-
-    $(".opt-old").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        opt_data.teacherid
-        $.wopen("/human_resource/index_old?teacherid="+opt_data.teacherid ) ;
-
-    });
-
-
     $('.opt-meeting').on('click', function(){
     var opt_data= $(this).get_opt_data();
         get_create_meeting(opt_data.teacherid);
@@ -964,18 +955,20 @@ $(function(){
     });
 
 
-
     $(".opt-test-user").on("click",function(){
-        var teacherid  = $(this).get_opt_data("teacherid");
+        var data = $(this).get_opt_data();
+        set_test_user(data);
+    });
+
+    var set_test_user = function(data){
         var id_is_test = $("<select/>");
         var arr        = [
             ["测试老师",id_is_test]
         ];
-
         Enum_map.append_option_list("boolean",id_is_test,true);
 
         $.do_ajax("/tea_manage_new/get_teacher_info_by_teacherid",{
-            "teacherid" : teacherid
+            "teacherid" : data.teacherid
         },function(result){
             if(result.ret!=0){
                 BootstrapDialog.alert(result.info);
@@ -987,7 +980,7 @@ $(function(){
                     cssClass : "btn-warning",
                     action   : function(dialog) {
                         $.do_ajax("/human_resource/set_teacher_is_test",{
-                            "teacherid"    : teacherid,
+                            "teacherid"    : data.teacherid,
                             "is_test_user" : id_is_test.val(),
                         },function(result){
                             BootstrapDialog.alert(result.info);
@@ -997,7 +990,7 @@ $(function(){
                 });
             }
         })
-    });
+    }
 
     $(".opt-set-research-note").on("click",function(){
         var opt_data  = $(this).get_opt_data();
@@ -1681,6 +1674,25 @@ $(function(){
    
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
+        var id_subject_info      = ("<button class='btn btn-primary'>年级/科目修改</button>");
+        var id_change_tea_to_new = ("<button class='btn btn-primary'>账号转移</button>");
+        var id_update_tea_level  = ("<button class='btn btn-primary'>老师等级相关修改</button>");
+        var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
+
+        var arr = [
+            ["",id_subject_info],
+            ["",id_change_tea_to_new],
+            ["",id_update_tea_level],
+            ["",id_update_tea_week_num],
+        ];
+
+        $.show_key_value_table("账号信息修改",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
     });
 
 });
