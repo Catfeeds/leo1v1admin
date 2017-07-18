@@ -15,7 +15,7 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">总课时</span>
-                    <input value="{{$lesson_total}}"/>
+                    <input value="{{$lesson_left}}"/>
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">

@@ -333,6 +333,8 @@ $(function(){
 
     $(".opt-desc").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data.orderid);
+
         $.show_key_value_table("明细",[
             ["退费课时" , opt_data.should_refund],
             ["退费金额" , opt_data.real_refund ],

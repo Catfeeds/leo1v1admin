@@ -27,6 +27,7 @@ class NewRouteConfig {
         "wx_yxyx_common"       => true,
         "wx_yxyx_web"       => true,
         "wx_yxyx"       => true,
+        "wx_yxyx_api"       => true,
         "test_kevin"       => true,
         "test_sam"       => true,
         "ss_deal2"          => true,
@@ -96,6 +97,7 @@ class NewRouteConfig {
         "seller_student_new2"         => true,
         "tongji_ss"                   => true,
         "teacher_feedback"            => true,
+        "teacher_level"               => true,
         "fulltime_teacher"            => true,
     ];
 
@@ -112,6 +114,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"           => true,
 
         "/common/get_teacher_hornor_list"           => true,
+        "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
         "/common/get_comment_tags"             => true,
@@ -474,6 +477,8 @@ class NewRouteConfig {
         "/authority/delete_member"    => true,
         "/authority/get_member_info"  => true,
         "/authority/edit_member_info" => true,
+        "/authority/set_fulltime_teacher_type" => true,
+        
 
         "/revisit/get_revisit_info"     => true,
         "/revisit/get_revisit_info_new" => true,

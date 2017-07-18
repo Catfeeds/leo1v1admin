@@ -377,11 +377,13 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         });
     }
 
-    public function get_student_list_end_id()
+    public function get_student_list_end_id($is_auto_set_type_flag=0)
     {
         $where_arr = [
+            ["is_auto_set_type_flag=%u",$is_auto_set_type_flag,-1],
             "lesson_count_left <100",
-            "is_auto_set_type_flag = 0",
+            "type <>1"
+            //"is_auto_set_type_flag = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".
                                   "  where  %s  ",
@@ -410,8 +412,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_no_auto_stop_stu_list($time)
     {
         $where_arr = [
-            "type>1",
-            "is_auto_set_type_flag = 1",
+            "type>0",
+            // "is_auto_set_type_flag = 1",
             "type_change_time<".$time
         ];
         $sql = $this->gen_sql_new("select userid,type from %s  ".
@@ -665,7 +667,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $lesson_total_all  = $this->t_order_info->get_lesson_total_all($studentid);
         $lesson_use_all    = $this->t_lesson_info->get_lesson_use_all($studentid);
         $lesson_refund_all = $this->t_order_refund->get_order_refund_all($studentid);
-        $lesson_left_all   = (int)$lesson_total_all - (int)$lesson_use_all - (int)$lesson_refund_all;
+        $lesson_split_all  = $this->t_order_info->get_order_split_all($studentid);
+        $lesson_left_all   = (int)$lesson_total_all-(int)$lesson_use_all-(int)$lesson_refund_all-(int)$lesson_split_all;
 
         $last_lesson_time = $this->t_lesson_info->get_last_lesson_time($studentid);
         $money_all        = $this->t_order_info->get_money_all($studentid);
@@ -673,6 +676,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         //得到phone
         $phone=$this->get_phone($studentid);
+        $is_test_user=$this->get_is_test_user($studentid);
         $this->t_seller_student_info->set_money_all($phone,$money_all,$first_money);
 
         $this->field_update_list($studentid,[
@@ -682,7 +686,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "money_all"         => $money_all,
         ]);
 
-        if($lesson_left_all<0 && $studentid!=61737){
+        if($lesson_left_all<0 && $studentid!=61737 && $is_test_user=0){
             $message = $studentid."学生课时为负!";
             \App\Helper\Common::send_mail("xcwenn@qq.com","学生课时出错!",$message);
             \App\Helper\Common::send_mail("wg392567893@163.com","学生课时出错!",$message);
@@ -1275,7 +1279,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             if(!empty($master_adminid)){
                 $r = $this->field_update_list($userid,[
                     "ass_master_adminid"=>$master_adminid,
-                    "master_assign_time"=>time()
+                    "master_assign_time"=>time(),
+                    "type"=>0
                 ]);
                 if($r){
                     $ass_account = $this->t_manager_info->get_account($master_adminid);
@@ -2045,7 +2050,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select s.nick,s.userid,s.grade,a.nick name,s.phone,s.stu_lesson_stop_reason "
+        $sql = $this->gen_sql_new(" select s.nick,s.userid,s.grade,a.nick name,s.phone,s.stu_lesson_stop_reason,lesson_count_left "
                                   ." from %s s  "
                                   ." left join %s a on s.assistantid = a.assistantid "
                                   ." where %s",

@@ -227,7 +227,7 @@ $(function(){
 
 
             var arr = [
-                [ "是否系统自动更新：",  id_auto_set_flag] ,
+               // [ "是否系统自动更新：",  id_auto_set_flag] ,
                 [ "学员类型",  id_student_type] ,
                 [ "原因",  id_lesson_stop_reason] ,
                 ["时长",  id_stop_duration ],
@@ -281,7 +281,7 @@ $(function(){
                         data     :{
                             "userid":userid,
                             "type":id_student_type.val(),
-                            "is_auto_set_type_flag":id_auto_set_flag.val(),
+                            "is_auto_set_type_flag":1,
                             "lesson_stop_reason":id_lesson_stop_reason.val(),
                             "recover_time"  :id_recover_time.val(),
                             "wx_remind_time"  :id_wx_remind_time.val(),

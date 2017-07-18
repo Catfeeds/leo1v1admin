@@ -50,6 +50,7 @@ class  yxyx_wx_server extends Controller
             array('id'=>'7', 'pid'=>'2', 'name'=>'理优教育', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
 
             array('id'=>'13', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'),
+            array('id'=>'13', 'pid'=>'3', 'name'=>'注销账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_common/logout'),
             array('id'=>'16', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/index' ),
 
             array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),

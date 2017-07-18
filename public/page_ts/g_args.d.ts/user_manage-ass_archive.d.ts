@@ -48,6 +48,7 @@ interface RowData {
 	type_str	:any;
 	user_agent_simple	:any;
 	ass_assign_time_str	:any;
+	lesson_count_done	:any;
 	assistant_nick	:any;
 	ass_revisit_week_flag	:any;
 	ass_revisit_month_flag	:any;

@@ -68,12 +68,13 @@ class authority extends Controller
         $cardid            = $this->get_in_int_val("cardid",-1);
         $day_new_user_flag = $this->get_in_boolean_val("day_new_user_flag",-1);
         $tquin             = $this->get_in_int_val("tquin", -1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $seller_level      = $this->get_in_el_seller_level();
         if (!$cardid) {
             $cardid = -1;
         }
 
-        $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid);
+        $ret_info = $this->t_manager_info->get_all_manager( $page_info,$uid,$user_info,$has_question_user, $creater_adminid,$account_role,$del_flag,$cardid,$tquin,$day_new_user_flag,$seller_level,$adminid,$fulltime_teacher_type);
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
         foreach($group_list as $group_item) {
@@ -449,6 +450,15 @@ class authority extends Controller
     public function account_menu_list() {
         $uid=$this->get_in_int_val("uid");
 
+    }
+
+    public function set_fulltime_teacher_type(){
+        $uid   = $this->get_in_int_val('uid');
+        $fulltime_teacher_type   = $this->get_in_int_val('fulltime_teacher_type');
+        $this->t_manager_info->field_update_list($uid,[
+            "fulltime_teacher_type"=>$fulltime_teacher_type
+        ]);
+        return $this->output_succ();
     }
 
 }

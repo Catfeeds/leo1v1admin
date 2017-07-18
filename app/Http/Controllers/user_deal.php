@@ -590,14 +590,6 @@ class user_deal extends Controller
             $old_date   = date("Y-m-d",$lesson_info['lesson_start']);
             $start_date = date("Y-m-d",$lesson_start);
             $end_date   = date("Y-m-d",$lesson_end);
-            // $acc     = $this->get_account();
-            // $to      = "wg392567893@163.com";
-            // $title   = "非正常修改试听时间！";
-            // $content = $acc."用户非正常修改试听时间！"
-            //          ."时间：".date("Y-m-d H:i:s",time())
-            //          ."lessonid:".$lessonid;
-            // \App\Helper\Utils::logger($content);
-            // \App\Helper\Utils::send_error_email($to,$title,$content);
 
             if($old_date!=$start_date || $old_date!=$end_date){
                 return $this->output_err("不能更改到其他日期的时间");
@@ -619,15 +611,18 @@ class user_deal extends Controller
             }
         }
 
-        $userid  = $this->t_lesson_info->get_userid($lessonid);
+        $userid = $this->t_lesson_info->get_userid($lessonid);
         if ($userid) {
             $ret_row = $this->t_lesson_info->check_student_time_free(
-                $userid,$lessonid,$lesson_start,$lesson_end);
+                $userid,$lessonid,$lesson_start,$lesson_end
+            );
 
             if($ret_row) {
                 $error_lessonid=$ret_row["lessonid"];
                 return $this->output_err(
-                    "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                    "<div>有现存的<div color=\"red\">学生</div>课程与该课程时间冲突！"
+                    ."<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>"
+                    ."查看[lessonid=$error_lessonid]<a/><div> "
                 );
             }
         }
@@ -638,7 +633,9 @@ class user_deal extends Controller
         if($ret_row) {
             $error_lessonid=$ret_row["lessonid"];
             return $this->output_err(
-                "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！<a href='/teacher_info/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                "<div>有现存的<div color=\"red\">老师</div>课程与该课程时间冲突！"
+                ."<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>"
+                ."查看[lessonid=$error_lessonid]<a/><div> "
             );
         }
 
@@ -2585,6 +2582,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $teacherid = 180795 ;
+        $level = 1;
+        $ret = $this->t_lesson_info_b2->update_teacher_level($teacherid,$level);
+        dd(111);
         $time= strtotime("2017-07-16");
         $list = $this->t_student_info->get_stu_wx_remind_info($time);
         dd($list);
@@ -4203,7 +4204,42 @@ class user_deal extends Controller
             return $this->output_err( "只能申请今天之前的课程!" );
         }
 
-        dispatch(new deal_lesson_online_status($from_key_int));
+        // dispatch(new deal_lesson_online_status($from_key_int));
+
+        $ret_video_arr = $this->t_lesson_info_b2->get_lesson_url($from_key_int);
+
+        $ret_video = $ret_video_arr['0'];
+        if(!empty($ret_video['draw'])){
+            $item['draw_url']  =  \App\Helper\Utils::gen_download_url($ret_video['draw']);
+            $savePathFile = public_path('wximg').'/'.$ret_video['draw'];
+
+            \App\Helper\Utils::savePicToServer($item['draw_url'],$savePathFile);
+
+            $xml = file_get_contents($savePathFile);
+
+            $xmlstring = simplexml_load_string($xml);
+
+            $svgLists = json_decode(json_encode($xmlstring),true);
+
+            $stroke_time = 0;
+
+            if (!empty($svgLists['svg'])) {
+                foreach($svgLists['svg'] as $svg){
+                    if (array_key_exists('path',$svg)) {
+                        $stroke_time = $svg['@attributes']['timestamp'];
+                    }
+                }
+
+                if ($ret_video['real_begin_time']<($stroke_time-30*60)) {
+                    $this->t_lesson_info_b2->field_update_list($lessonid,[
+                        "lesson_user_online_status" =>  1
+                    ]);
+                }
+                unlink($savePathFile);
+            }
+        }
+
+
 
         $is_lesson_user_online_status = $this->t_lesson_info_b2->get_online_status_by_lessonid($from_key_int);
 
@@ -4211,8 +4247,7 @@ class user_deal extends Controller
             return $this->output_succ();
         }else{
             $ret=$this->t_flow->add_flow(
-                $flow_type,
-                $this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
+                $flow_type,$this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
             );
 
             if (!$ret) {
@@ -4476,9 +4511,9 @@ class user_deal extends Controller
             "self_assessment"           =>$self_assessment
         ]);
         if($ret){
-             $name = $this->t_manager_info->get_name($adminid);
+            $name = $this->t_manager_info->get_name($adminid);
             $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            // $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通知","转正申请通知",$name."老师的已提交转正申请,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
 
         }
@@ -4499,11 +4534,11 @@ class user_deal extends Controller
         if($master_deal_flag==2){
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-            //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请驳回","转正申请驳回通知",$name."老师,您的转正申请经主管审核,已经被驳回!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
         }elseif($master_deal_flag==1){
             $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
-            // $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请提交","转正申请提交",$name."老师的转正申请经主管审核已同意,请审核!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info_master?adminid=".$adminid);
         }
         return $this->output_succ();
     }
@@ -4524,13 +4559,13 @@ class user_deal extends Controller
             if($main_master_deal_flag==1){
                 //微信通知主管和老师
                  $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
-                //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师,您的延期转正申请经主管和总监审核,已经通过","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请通过","延期转正申请通过通知",$name."老师的延期转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
 
             }elseif($main_master_deal_flag==2){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                // $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"延期转正申请未通过","延期转正申请驳回通知",$name."老师的延期转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }else{
@@ -4545,22 +4580,26 @@ class user_deal extends Controller
                 $teacherid = $teacher_info["teacherid"];
                 $this->t_teacher_info->field_update_list($teacherid,["level"=>1]);
 
-                //邮件发送给hr
-                $email = "leohr@leoedu.cn";
-                //$email = "jack@leoedu.cn";
-                dispatch( new \App\Jobs\SendEmailNew(
-                    $email,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
-                ));
+                $this->t_lesson_info_b2->update_teacher_level($teacherid,1);
 
+                //邮件发送给hr
+                $email = ["sherry@leoedu.com","hr@leoedu.com","low-key@leoedu.com","erick@leoedu.com","jhp0416@163.com"];
+                //$email = "jack@leoedu.cn";
+                foreach($email as $e){
+                    dispatch( new \App\Jobs\SendEmailNew(
+                        $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
+                    )); 
+                }
+                
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
-                //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师的转正申请经总监审核,已经通过!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid."become_full_member_flag=1");
 
             }elseif($main_master_deal_flag==2){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid (480,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
-                //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请未通过","转正申请驳回通知",$name."老师的转正申请经总监审核,已经被驳回,请确认!","http://admin.yb1v1.com/fulltime_teacher/fulltime_teacher_assessment_positive_info?adminid=".$adminid);
             }
 
         }

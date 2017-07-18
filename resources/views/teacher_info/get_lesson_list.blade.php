@@ -1,5 +1,6 @@
-﻿@extends('layouts.tea_header')
+@extends('layouts.app')
 @section('content')
+
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
 <script type="text/javascript" src="/js/qiniu/ui.js"></script>
@@ -7,14 +8,14 @@
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <style>
- textarea{
-     resize:both;
+ .ml30 a{
+     margin-left:15px;
  }
- table {
-     font-size :14px;
+ .input-group{
+     width:100%;
  }
- .false{
-     color:red;
+ .input-group-w145{
+     width:145px !important;
  }
 </style>
 <section class="content">
@@ -23,7 +24,12 @@
         <div class="col-xs-6 col-md-3">
             <div class="input-group ">
                 <span class="input-group-addon">班级类型</span>
-                <input class="opt-change form-control" id="id_lesson_type" />
+                <select class="opt-change form-control" id="id_lesson_type" >
+                    <option value="-1">全部 </option>
+                    <option value="0">1对1 </option>
+                    <option value="1001">公开课 </option>
+                    <option value="3001">小班课</option>
+                </select>
             </div>
         </div>
 
@@ -35,10 +41,9 @@
                 <input type="text" id="id_end_date" class="opt-change"/>
             </div>
         </div>
-
     </div>
-    <hr/>
-    <table class="common-table">
+    <hr/> 
+    <table class="common-table"   >
         <thead>
             <tr>
                 <td style="width:50px;display:none">课堂数</td>
@@ -48,11 +53,7 @@
                 <td style="min-width:100px">课程标题</td>
                 <td style="min-width:100px">知识点</td>
                 <td style="min-width:100px">教材版本</td>
-                <td style="min-width:60px">已传PDF(老师/学生/作业)</td>
-                <td style="min-width:60px">已评价</td>
-                <td style="min-width:60px">签单状态</td>
-                <td style="min-width:60px">签单说明</td>
-                <td style="min-width:300px">操作</td>
+                <td style="min-width:500px">操作</td>
             </tr>
         </thead>
         <tbody>
@@ -60,168 +61,258 @@
                 <tr>
                     <td >{{$var["lesson_num_str"]}}</td>
                     <td >{{$var["lesson_type_str"]}}</td>
-                    <td >
-                        {{$var["lesson_course_name"]}} <br/>
-                        {{$var["phone"]}} 
-                    </td>
+                    <td >{{$var["lesson_course_name"]}}</td>
                     <td >{{$var["lesson_time"]}}</td>
                     <td >{{$var["lesson_name"]}}</td>
                     <td >{{$var["lesson_intro"]}}</td>
                     <td >{{$var["textbook"]}}</td>
-                    <td >{!!  $var["pdf_status_str"]!!}</td>
-                    <td >{!!  $var["tea_comment_str"]!!}</td>
-                    <td >{!!  $var["pay_flag_str"]!!}</td>
-                    <td >{!!  $var["pay_info"]!!}</td>
                     <td >
-                        <div
-                            {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                        <div class="lesson_data ml30"
+                             data-lesson_status="{{$var["lesson_status"]}}" data-lessonid="{{$var["lessonid"]}}"
+                             data-grade="{{$var["grade"]}}" data-lesson_type="{{$var["lesson_type"]}}"
+                             data-subject="{{$var["subject"]}}" data-homework_status="{{$var["homework_status"]}}"
+                             data-tea_status="{{$var["tea_status"]}}" data-stu_status="{{$var["stu_status"]}}"
+                             data-finishurl="{{$var["finish_url"]}}" data-checkurl="{{$var["check_url"]}}"
+                             data-ass_comment_audit="{{$var["ass_comment_audit"]}}"
                         >
-                            <a class="fa-list-alt opt-lesson-all  btn fa" title="课程信息汇总"></a>
+                            <a href="javascript:;" class="opt-up-homework" title="作业PDF">上传作业</a>
+                            <a href="javascript:;" class="opt-up-handout_tea" title="老师讲义PDF">上传老师讲义</a>
+                            <a href="javascript:;" class="opt-up-handout_stu" title="学生讲义PDF">上传学生讲义</a>
                         </div>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    @include("layouts.page")
+	<include: file="../al_common/page.html"/>
+	<!-- <include: file="../al_common/return_record_add.html"/> -->
 
-    <div style="display:none;" class="dlg_set_stu_performance_for_seller" >
-        <table class="table table-bordered table-striped" >
-            <tbody>
+    <div class="dlg_upload_homework_info" style="display:none">
+        <div class="row">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">40% 完成</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:5px;">
+            <table class="table table-bordered table-striped">
                 <tr>
-              <td style="text-align:right;width:30%;">试听情况</td>
+                    <td>作业</td>
+                    <td>PDF</td>
+                </tr>
+                <tr class="homework_info">
                     <td>
-                        <select id="stu_lesson_content">
-                            <option value="顺利完成">顺利完成</option>
-                            <option value="未顺利完成">未顺利完成</option>
-                        </select>
-                        <input type="text" id="stu_lesson_content_more" class="form-control" style="display:none"/>
+                        <input class="btn btn-primary opt-up-homework_list" value="选择题库" type="button"/>
+                    </td>
+                    <td class="pdfurl homework_url" data-pdfurl="" data-finishurl="" data-checkurl="" data-homework_status="">
+                        <a href="javascript:;" class="btn btn-danger opt-up opt-homework-url">上传</a>
+                        <a href="javascript:;" class="btn btn-danger opt-up-server opt-server-homework-url">中转上传</a>
+                        <a href="javascript:;" class="btn btn-danger homework_cw homework_preview">上传预览</a>
                     </td>
                 </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">学习态度</td>
-                    <td>
-                        <select id="stu_lesson_status">
-                            <option value="积极配合，兴趣浓厚">积极配合，兴趣浓厚</option>
-                            <option value="较好配合，互动较多">较好配合，互动较多</option>
-                            <option value="配合度一般，但愿意回答问题">配合度一般，但愿意回答问题</option>
-                            <option value="不太愿意配合">不太愿意配合</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">学习基础情况</td>
-                    <td>
-                        <select id="stu_study_status">
-                            <option value="较好，紧跟老师节奏，完美消化所学">较好，紧跟老师节奏，完美消化所学</option>
-                            <option value="中等，但可以较好吸收当堂所学">中等，但可以较好吸收当堂所学</option>
-                            <option value="一般，部分内容需要再学习">一般，部分内容需要再学习</option>
-                            <option value="较差，试听内容基本听不懂">较差，试听内容基本听不懂</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">学生优点(可多选)</td>
-                    <td>
-                        <div id="stu_advantages">
-                            <input name="stu_advantages" type="checkbox" value="理解能力强"/>理解能力强<br/>
-                            <input name="stu_advantages" type="checkbox" value="表达能力强"/>表达能力强<br/>
-                            <input name="stu_advantages" type="checkbox" value="思路清晰"/>思路清晰<br/>
-                            <input name="stu_advantages" type="checkbox" value="自信十足"/>自信十足<br/>
-                            <input name="stu_advantages" type="checkbox" value="其他"/>其他<br/>
-                        </div>
-                        <input type="text" id="stu_advantages_more" class="form-control" style="display:none"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">学生有待提高(可多选)</td>
-                    <td>
-                        <div id="stu_disadvantages" >
-                            <input name="stu_disadvantages" type="checkbox" value="思维能力的培养"/>思维能力的培养<br/>
-                            <input name="stu_disadvantages" type="checkbox" value="知识系统化学习"/>知识系统化学习<br/>
-                            <input name="stu_disadvantages" type="checkbox" value="语言表达能力的提高"/>语言表达能力的提高<br/>
-                            <input name="stu_disadvantages" type="checkbox" value="举一反三的能力"/>举一反三的能力<br/>
-                            <input name="stu_disadvantages" type="checkbox" value="其他"/>其他<br/>
-                        </div>
-                        <input type="text" id="stu_disadvantages_more" class="form-control" style="display:none"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">培训计划</td>
-                    <td>
-                        <select id="stu_lesson_plan">
-                            <option value="从基础内容学习">从基础内容学习</option>
-                            <option value="系统性巩固">系统性巩固</option>
-                            <option value="提高学习">提高学习</option>
-                            <option value="其他">其他</option>
-                        </select>
-                        <div class="stu_lesson_plan_select">
-                            <select id="stu_lesson_plan_grade">
-                                <option value="一">一</option>
-                                <option value="二">二</option>
-                                <option value="三">三</option>
-                                <option value="四">四</option>
-                                <option value="五">五</option>
-                                <option value="六">六</option>
-                                <option value="七">七</option>
-                                <option value="八">八</option>
-                                <option value="九">九</option>
-                                <option value="高一">高一</option>
-                                <option value="高二">高二</option>
-                                <option value="高三">高三</option>
-                            </select>年级
-                            <select id="stu_lesson_plan_book">
-                                <option value="上">上</option>
-                                <option value="下">下</option>
-                            </select>册
-                        </div>
-                        <input type="text" id="stu_lesson_plan_more" class="form-control" style="display:none"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">教学方向</td>
-                    <td>
-                        <select id="stu_teaching_direction">
-                            <option value="课内知识">课内知识</option>
-                            <option value="课外知识">课外知识</option>
-                        </select>
-                        <div class="stu_teaching_direction_select">
-                            <select id="stu_teaching_direction_grade">
-                                <option value="一">一</option>
-                                <option value="二">二</option>
-                                <option value="三">三</option>
-                                <option value="四">四</option>
-                                <option value="五">五</option>
-                                <option value="六">六</option>
-                                <option value="七">七</option>
-                                <option value="八">八</option>
-                                <option value="九">九</option>
-                                <option value="高一">高一</option>
-                                <option value="高二">高二</option>
-                                <option value="高三">高三</option>
-                            </select>年级
-                            <select id="stu_teaching_direction_book">
-                                <option value="上">上</option>
-                                <option value="下">下</option>
-                            </select>册
-                        </div>
-                        <input type="text" id="stu_teaching_direction_more" class="form-control" style="display:none"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;width:30%;">意见、建议等 <br/>（不少于50字）</td>
-                    <td>
-                        <textarea class="form-control" style="height:150px;" id="stu_advice"  > </textarea>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            </table>
+        </div>
     </div>
-</section>
+    
+    <div class="dlg_upload_homework_ex" style="display:none">
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">本次作业题目数</span>
+                            <input class="pdf_question_count" type="text" >
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="dlg_upload_handout_tea_info" style="display:none">
+        <div class="row">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">40% 完成</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>讲义</td>
+                    <td>老师PDF</td>
+                </tr>
+                <tr class="homework_info">
+                    <td >
+                        <input class="btn btn-primary opt-up-handout_list" value="选择题库" type="button"/>
+                    </td>
+                    <td class="pdfurl tea_cw_url" data-pdfurl="" data-tea_status="">
+                        <a href="javascript:;" class="btn btn-danger opt-up opt-teacher-url">上传</a>
+                        <a href="javascript:;" class="btn btn-danger opt-up-server opt-teacher-url-server">中转上传</a>
+                        <a href="javascript:;" class="btn btn-danger tea_cw courseware_preview">预览</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="dlg_upload_handout_stu_info" style="display:none">
+        <div class="row">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span class="sr-only">40% 完成</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>学生PDF</td>
+                </tr>
+                <tr class="homework_info">
+                    <td class="pdfurl stu_cw_url" data-pdfurl="" data-stu_status="">
+                        <a href="javascript:;" class="btn btn-danger opt-up opt-student-url">上传</a>
+                        <a href="javascript:;" class="btn btn-danger opt-up-server opt-student-url-server">中转上传</a>
+                        <a href="javascript:;" class="btn btn-danger stu_cw courseware_preview">预览</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="dlg_upload_handout_ex" style="display:none">
+        <div class="row">
+            <table class="table table-bordered table-striped set_lesson_info">
+                <tr>
+                    <td>本次课名称</td>
+                    <td>
+                        <input class="lesson_name" type="text" >
+                    </td>
+                </tr>
+                <tr class="lesson_point">
+                    <td>添加课堂知识点</td>
+                    <td>点击添加课堂知识点</td>
+                    <td><button class="btn btn-warning fa form-control fa-plus add_lesson_point "></button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="dlg_upload_lesson_name" style="display:none">
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-addon">本次课名称</span>
+                            <input class="lesson_name" type="text" >
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
+    <div style="display:none;" id="id_dlg_set_user_info" >
+        <div class="row">
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6  ">
+                        <div class="input-group ">
+                            <span class="input-group-w145" >本节课内容：</span>
+                            <input type="text" class=" form-control "  id="id_stu_lesson_content"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="input-group ">
+                            <span class="input-group-w145">大致推荐课时数:</span>
+                            <input type="text" id="id_stu_lesson_count" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-w145">学生优点：</span>
+                            <input type="text" id="id_stu_advantages"  class="form-control"  />
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 ">
+                        <div class="input-group ">
+                            <span class="input-group-w145">学生缺点：</span>
+                            <input type="text" id="id_stu_disadvantages"  class="form-control"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-w145">学生课堂状态：</span>
+                            <input type="text" id="id_stu_lesson_status"  class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-w145">学生吸收情况：</span>
+                            <input type="text" id="id_stu_study_status"  class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span class="input-group-w145">培训计划（简述）:</span>
+                            <input type="text" id="id_stu_lesson_plan" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span class="input-group-w145">教学方向:</span>
+                            <input type="text" id="id_stu_teaching_direction" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6  ">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span class="input-group-w145">教材及内容:</span>
+                            <input type="text" id="id_stu_textbook_info" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="input-group ">
+                            <span class="input-group-w145">教学目标:</span>
+                            <input type="text" id="id_stu_teaching_aim" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 ">
+                        <div class="input-group ">
+                            <span class="input-group-w145" >意见、建议等 <br/>（不少于50字）：</span>
+                            <textarea class="form-control" style="height:150px;" id="id_stu_advice"  > </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
 @endsection
 
-<div class="row">
-    <div class="col-xs-6 col-md-2">
-    </div>
-</div>
+

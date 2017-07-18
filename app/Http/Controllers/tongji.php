@@ -387,6 +387,7 @@ class tongji extends Controller
         $date_list=\App\Helper\Common::get_date_time_list($start_time, $end_time-1);
         $ret_info=$this->t_admin_card_log->get_list( 1, $start_time,$end_time,$adminid,100000 );
 
+
         foreach ($ret_info["list"] as $item ) {
             $logtime=$item["logtime"];
             $opt_date=date("Y-m-d",$logtime);
@@ -708,12 +709,8 @@ class tongji extends Controller
         return $this->pageView(__METHOD__,null, $row);
     }
 
-    public function get_month_money_info () {
-        $year       = $this->get_in_int_val("year",2016);
-        $start_time = strtotime("$year-01-01");
-        $year++;
-        $end_time   = strtotime("$year-01-01");
-        $ret_list   = $this->t_order_info->get_month_money_info($start_time,$end_time);
+    public function get_month_money_info(){
+        $ret_list = $this->t_order_info->get_month_money_info();
 
         return $this->pageView(__METHOD__, $ret_list);
     }

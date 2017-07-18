@@ -73,7 +73,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span>新教师筛选</span>
@@ -145,15 +144,12 @@
                         </select>
                     </div>
                 </div>
-
-              
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >是否反馈</span>
                         <select id="id_is_record_flag" class ="opt-change" ></select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >新入职培训</span>
@@ -283,7 +279,6 @@
                         <select id="id_subject_plan" class ="opt-change" ></select>
                     </div>
                 </div>
-
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
                 </div>                
@@ -316,7 +311,9 @@
                     <td>年级段</td>
                     <td>第一科目</td>
                     <td>第二科目</td>
+                    <td style="display:none;">第二年级段</td>
                     <td style="display:none;">第三科目</td>
+                    <td style="display:none;">第三年级段</td>
                     <td style="width:320px">面试评价</td>
                     <td style="display:none;">教务备注</td>
                     <td >教研备注</td>
@@ -381,7 +378,9 @@
                         </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["second_subject_str"]}} </td>
+                        <td>{{@$var["second_grade_str"]}} </td>
                         <td>{{@$var["third_subject_str"]}} </td>
+                        <td>{{@$var["third_grade_str"]}} </td>
                         @if($var["interview_access"])
                             <td class="content_show" data-content="{{@$var["interview_access"]}}">
                                 {{@$var["interview_access"]}}
@@ -468,11 +467,10 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["adrian","jim","ted","jack"]))
-                                    <a class="opt-account-number" title="老师账号修改功能">账号功能</a>
+                                @if(in_array($acc,["adrian","jim","ted","jack","alan"]))
+                                    <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
-                                    <a class="opt-old ">旧版</a>
                                     <a class="opt-level fa-lock" title="编辑工资分类,等级"></a>
                                     <a class="opt-change-phone" title="更换老师手机">手机</a>
                                     <a class="opt-change-level" title="更改老师等级">等级</a>

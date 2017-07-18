@@ -3,7 +3,8 @@ interface GargsStatic {
 	userid:	number;
 	page_num:	number;
 	page_count:	number;
-	date_type_config:	string;
+	global_tq_called_flag:	string;//枚举列表: \App\Enums\Etq_called_flag
+ 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
@@ -71,6 +72,7 @@ $(function(){
         $.reload_self_page ( {
 			self_groupid:	$('#id_self_groupid').val(),
 			userid:	$('#id_userid').val(),
+			global_tq_called_flag:	$('#id_global_tq_called_flag').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -94,6 +96,8 @@ $(function(){
     });
 	$('#id_self_groupid').val(g_args.self_groupid);
 	$('#id_userid').val(g_args.userid);
+	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
+	$.enum_multi_select( $('#id_global_tq_called_flag'), 'tq_called_flag', function(){load_data();} )
 	$('#id_seller_student_status').val(g_args.seller_student_status);
 
 
@@ -116,6 +120,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">userid</span>
                 <input class="opt-change form-control" id="id_userid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">global_tq_called_flag</span>
+                <input class="opt-change form-control" id="id_global_tq_called_flag" />
             </div>
         </div>
 

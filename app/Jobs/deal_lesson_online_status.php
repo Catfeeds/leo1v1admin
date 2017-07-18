@@ -35,7 +35,7 @@ class deal_lesson_online_status extends Job implements ShouldQueue
         //
         $t_lesson_info = new  \App\Models\t_lesson_info_b2();
 
-        $lessonid  = $this->lessonid;
+        $lessonid      = $this->lessonid;
         $ret_video_arr = $t_lesson_info->get_lesson_url($lessonid);
 
         $ret_video = $ret_video_arr['0'];
@@ -67,8 +67,9 @@ class deal_lesson_online_status extends Job implements ShouldQueue
                 }
                 unlink($savePathFile);
             }
-
         }
+
+
 
 
     }

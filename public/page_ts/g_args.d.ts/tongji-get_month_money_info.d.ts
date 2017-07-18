@@ -1,5 +1,4 @@
 interface GargsStatic {
-	year:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -26,12 +25,11 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			year:	$('#id_year').val()
+
         });
     }
 
 
-	$('#id_year').val(g_args.year);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -41,11 +39,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">year</span>
-                <input class="opt-change form-control" id="id_year" />
-            </div>
-        </div>
 */

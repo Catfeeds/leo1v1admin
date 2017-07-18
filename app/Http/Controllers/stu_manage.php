@@ -619,10 +619,11 @@ class stu_manage extends Controller
         $userid           = $this->sid;
         $competition_flag = $this->get_in_int_val("competition_flag");
 
-        $lesson_total  = $this->t_order_info->get_user_lesson_total($userid,$competition_flag);
-        $lesson_refund = $this->t_order_refund->get_user_lesson_refund($userid,$competition_flag);
+        $lesson_total            = $this->t_order_info->get_user_lesson_total($userid,$competition_flag);
+        $lesson_refund           = $this->t_order_refund->get_user_lesson_refund($userid,$competition_flag);
         $g_assigned_lesson_count = $this->t_course_order->get_user_assigned_lesson_count($userid,$competition_flag);
-        $lesson_left   = $lesson_total-$lesson_refund;
+        $lesson_split            = $this->t_order_info->get_user_split_total($userid,$competition_flag);
+        $lesson_left             = $lesson_total-$lesson_refund-$lesson_split;
 
         if ($userid<>0) {
             $list = $this->t_course_order->get_list($userid,-1,$competition_flag);
@@ -654,7 +655,7 @@ class stu_manage extends Controller
         }
 
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),[
-            "lesson_total"            => sprintf("%.1f", $lesson_left),
+            "lesson_left"            => sprintf("%.1f", $lesson_left),
             "assigned_lesson_count"   => sprintf("%.1f", $g_assigned_lesson_count),
             "unassigned_lesson_count" => sprintf("%.1f", $lesson_left-$g_assigned_lesson_count),
         ]);

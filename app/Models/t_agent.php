@@ -41,7 +41,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     {
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"phone",$phone);
-        
+
         $sql=$this->gen_sql_new ("select * "
                                  ." from %s where %s "
                                  ,self::DB_TABLE_NAME
@@ -54,7 +54,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_info_by_openid($wx_openid){
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"wx_openid",$wx_openid);
-        
+
         $sql=$this->gen_sql_new ("select * "
                                  ." from %s where %s "
                                  ,self::DB_TABLE_NAME
@@ -73,6 +73,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->main_get_list("select f,s from Ts where uid=12");
         $this->main_get_list_by_page("select f,s from Ts where uid=12", 0,10);
         */
+    }
+
+    public function agent_row_del($wx_openid){
+        $ret = $this->row_delete($wx_openid);
+        return $ret;
     }
 
     public function get_agent_list_by_phone($phone){
@@ -106,6 +111,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "wx_openid"    => $wx_openid,
             "create_time" => time(null),
         ],true);
+        if($ret){
+            $ret = $this->get_last_insertid();
+        }
         return $ret;
     }
 

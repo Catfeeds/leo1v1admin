@@ -1,4 +1,4 @@
-﻿@extends('layouts.tea_header')
+﻿@extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -19,21 +19,17 @@
      var g_base_intro = "{{@$tea_info["base_intro"]}}";
      var g_advantage= "{{@$tea_info["advantage"]}}";
      var g_face= "{{@$tea_info["face"]}}";
-     var g_textbook_type= "{{@$tea_info["textbook_type"]}}";
      var g_grade_part_ex= "{{@$tea_info["grade_part_ex"]}}";
      var g_subject= "{{@$tea_info["subject"]}}";
      var g_putonghua_is_correctly= "{{@$tea_info["putonghua_is_correctly"]}}";
      var g_dialect_notes= "{{@$tea_info["dialect_notes"]}}";
-     var g_jianli= "{{@$tea_info["jianli"]}}";
      var g_is_good_flag= "{{@$tea_info["is_good_flag"]}}";
-     var account_role={{@$account_role}};
     </script>  
     
     <style type="text/css">
      .row-td-field-name {
          padding-right: 0px; 
      }
-
      .row-td-field-value {
          padding-left:0px;
          padding-right: 0px;
@@ -54,7 +50,6 @@
          width: 1%;
          height: 26pt;
      }
-
      .row-td-field-value >  span {
          border: 1px solid #ccc;
          border-collapse: separate;
@@ -69,12 +64,12 @@
          width: 1%;
          text-align:left ;
          background-color: #FFF;
+
      }
+
 
      p {margin-left: 20px}
     </style>
-    <script type="text/javascript" src="/page_js/select_user.js"></script>
-    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <script type="text/javascript" src="/js/jquery.query.js"></script>
     <script src="/page_js/enum_map.js" type="text/javascript"></script>
     <section class="content">
@@ -82,12 +77,11 @@
             <div class="col-xs-12 col-md-2">
                 <div class="row" >
                     <div class="col-xs-6 col-md-12" style="text-align:center;" >
-                        <div class="header_img">
-                            <img style="border-radius:130px;width:120px; border: 3px solid #ccc;"  src="{{@$tea_info["face"]}}" />
-                        </div>
+                        <div class="header_img"><img  style="border-radius:130px;width:120px; border: 3px solid #ccc;"  src="{{@$tea_info["face"]}}" /></div>
                     </div>
                 </div>
             </div>
+
             <div class="col-xs-12 col-md-10"   >
                 <div style="width:98%" id="id_tea_info"
                      {!!  \App\Helper\Utils::gen_jquery_data($tea_info)  !!}
@@ -96,20 +90,20 @@
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >teacherid:</span>
+                                    <span >实名:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["teacherid"]}} </span>
+                                    <span>{{@$tea_info["realname"]}} </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >实名:</span>
+                                    <span >昵称:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["realname"]}} </span>
+                                    <span  >{{@$tea_info["nick"]}} </span>
                                 </div>
                             </div>
                         </div>
@@ -128,22 +122,20 @@
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >昵称:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["nick"]}} </span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
                                     <span >性别:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
                                     <span  >{{@$tea_info["gender_str"]}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-4"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
+                                    <span >手机号:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-7  row-td-field-value">
+                                    <span  >{{@$tea_info["phone"]}} </span>
                                 </div>
                             </div>
                         </div>
@@ -159,48 +151,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >联系方式:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["phone"]}} </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >教龄:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["work_year"]}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >评价:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["rate_score"]}} </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >教材版本:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["textbook_type_str"]}}</span>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
@@ -222,94 +172,60 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-xs-6 col-md-4"  >
+                            <div class="row">
+                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
+                                    <span>教龄:</span>
+                                </div>
+                                <div class="col-xs-6 col-md-7  row-td-field-value">
+                                    <span>{{@$tea_info["work_year"]}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >老师信息创建时间:</span>
+                                    <span>普通话是否标准:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["create_time"]}}</span>
+                                    <span>{{@$tea_info["putonghua_is_correctly_str"]}} </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-6 col-md-4"  >
                             <div class="row">
                                 <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >普通话是否标准:</span>
+                                    <span>方言备注:</span>
                                 </div>
                                 <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["putonghua_is_correctly_str"]}} </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xs-6 col-md-4"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-5 row-td-field-name"  >
-                                    <span >方言备注:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-7  row-td-field-value">
-                                    <span  >{{@$tea_info["dialect_notes"]}}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-xs-12 col-md-12"  >
-                            <div class="row">
-                                <div class="col-xs-6 col-md-2 row-td-field-name"  >
-                                    <span >教学特长:</span>
-                                </div>
-                                <div class="col-xs-6 col-md-10  row-td-field-value">
-                                    <span  >{{@$tea_info["advantage"]}} </span>
+                                    <span>{{@$tea_info["dialect_notes"]}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 col-md-12"  >
+                        <div class="col-xs-12 col-md-12">
                             <div class="row">
-                                <div class="col-xs-6 col-md-2 row-td-field-name"  >
+                                <div class="col-xs-6 col-md-2 row-td-field-name">
                                     <span >教师介绍:</span>
                                 </div>
-                                <div class="col-xs-6 col-md-10  row-td-field-value">
-                                    <span  >{{@$tea_info["base_intro"]}} </span>
+                                <div class="col-xs-6 col-md-10 row-td-field-value">
+                                    <span>{{@$tea_info["base_intro"]}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-xs-6 col-md-2  row-td-field-name"   > <span>操作:</span></div>
-                        <div class="col-xs-6 col-md-10  row-td-field-value"  data-teacherid="{{@$tea_info['teacherid']}}">
-                            @if(in_array($account_role,[4,5]) || in_array($adminid,[72,349,186,74]))
-                            <button style="margin-left:10px" id="id_set_teacher" type="button" class="btn btn-warning" >修改资料</button>
-                            <button style="margin-left:10px"  id="id_upload_quiz_analyse" type="button" class="btn btn-danger" >更改经典试题(图片)</button> 
-                            <button style="margin-left:10px"  id="id_upload_jianli" type="button" class="btn btn-info" >上传简历</button>
-                            @endif
+                        <div class="col-xs-6 col-md-2 row-td-field-name"><span>操作:</span></div>
+                        <div class="col-xs-6 col-md-10 row-td-field-value" data-teacherid="{{@$tea_info['teacherid']}}">
+                            <button style="margin-left:10px"  id="id_set_teacher" type="button" class="btn btn-warning" >修改资料</button>
                             <button style="margin-left:10px"  id="id_upload_face" type="button" class="btn btn-primary" >上传头像</button> 
-                            <button style="margin-left:10px"  id="id_read_jianli" type="button" class="btn btn-success" >查看简历</button> 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-md-12 row-td-field-name"  > <span style="text-align:left">经典试题分析如下（图片）:</span></div>
-                    <div class="col-xs-6 col-md-12 " >
-                        <div class="header_img"><img  style="width:100%; border: 3px solid #ccc;"  src="{{@$tea_info["quiz_analyse"]}}" /></div>
-                    </div>
-                </div>
-
             </div>
         </div>
-
     </section>
-
-
 @endsection
-
-

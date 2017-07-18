@@ -17,13 +17,12 @@ function load_data(){
 		grade_part_ex:	$('#id_grade_part_ex').val(),
 		tea_status:	$('#id_tea_status').val(),
 		qzls_flag:	$('#id_qzls_flag').val(),
+		create_now:	$('#id_create_now').val(),
 		teacher_account:	$('#id_teacher_account').val()
     });
 }
 
 $(function(){
-   
-
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
@@ -38,9 +37,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject") );
     Enum_map.append_option_list("subject", $("#id_teacher_subject") );
     Enum_map.append_option_list("identity", $("#id_identity") );
-
-
-
+    Enum_map.append_option_list("boolean", $("#id_create_now") ,false,[1]);
 
 	$('#id_page_count').val(g_args.page_count);
 	$('#id_teacherid').val(g_args.teacherid);
@@ -50,6 +47,7 @@ $(function(){
 	$('#id_grade_part_ex').val(g_args.grade_part_ex);
 	$('#id_tea_status').val(g_args.tea_status);
 	$('#id_qzls_flag').val(g_args.qzls_flag);
+	$('#id_create_now').val(g_args.create_now);
 
 	$('#id_teacher_account').val(g_args.teacher_account);
     

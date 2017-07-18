@@ -983,6 +983,8 @@ $(function(){
         var id       = $(this).get_opt_data("id");
         var tea_nick = $(this).get_opt_data("nick");
         var identity = $(this).get_opt_data("identity");
+        console.log(id);
+
 
         BootstrapDialog.show({
             title   : "添加老师",

@@ -88,6 +88,7 @@
                     ["年级","grade"],
                     ["签约课时","lesson_count_all" ],
                     ["剩余课时","lesson_count_left" ],
+                    ["已上课时","lesson_count_done" ],
                     ["每周总课时","lesson_total" ],
                     ["赞","praise" ],
                    ])  !!}
@@ -115,6 +116,7 @@
                     <td class="td-grade" data-v="{{$var["grade"]}}"  ></td>
                     <td >{{$var["lesson_count_all"]}}</td>
                     <td >{{$var["lesson_count_left"]}}</td>
+                    <td >{{$var["lesson_count_done"]}}</td>
                     <td >{{$var["lesson_total"]}}</td>
                     <td >{{$var["praise"]}}</td>
                     <td >

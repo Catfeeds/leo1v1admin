@@ -914,10 +914,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in (0,1,3)",
             "contract_status in (1,2,3)"
         ];
-
         $sql = $this->gen_sql_new("select sum(lesson_total*default_lesson_count) "
                                   ." from %s "
                                   ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_order_split_all($userid)
+    {
+        $where_arr=[
+            ["o1.userid=%u",$userid,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count) "
+                                  ." from %s o1"
+                                  ." left join %s o2 on o1.orderid=o2.parent_order_id "
+                                  ." and o2.contract_type=1 "
+                                  ." and o2.contract_status>0"
+                                  ." and o2.from_parent_order_type=5"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -1458,7 +1476,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function get_month_money_info(){
         $sql = $this->gen_sql_new("select sum(price)/100 as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
                                   ." count(*) as count,sum(lesson_total*default_lesson_count) as order_total "
-                                  ." from  %s o , %s s "
+                                  ." from %s o,%s s "
                                   ." where o.userid=s.userid "
                                   ." and s.is_test_user=0 "
                                   ." and contract_status>0 "
@@ -1622,9 +1640,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
     public function get_relation_order_list ($orderid) {
-
         $sql=$this->gen_sql_new(
-            "select orderid,contract_type, sys_operator,userid, price,  default_lesson_count,lesson_total,order_time , from_parent_order_type "
+            "select orderid,contract_type,sys_operator,userid,price,default_lesson_count,"
+            ." lesson_total,order_time,from_parent_order_type,from_parent_order_lesson_count "
             ." from %s where (orderid=$orderid or  parent_order_id = $orderid ) ",
             self::DB_TABLE_NAME
         );
@@ -2440,4 +2458,24 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_user_split_total($userid,$competition_flag){
+        $where_arr = [
+            ["o1.userid=%u",$userid,0],
+            ["o1.competition_flag=%u",$competition_flag,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count)/100 "
+                                  ." from %s o1"
+                                  ." left join %s o2 on o1.orderid=o2.parent_order_id "
+                                  ." and o2.contract_type=1 "
+                                  ." and o2.from_parent_order_type=5"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 }
