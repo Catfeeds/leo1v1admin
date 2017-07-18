@@ -77,7 +77,6 @@ return array(
     ["db_weiyi","t_taobao_item","open_iid"] ,
     ["db_weiyi","t_taobao_type_list","cid"] ,
 
-    ["db_ejabberd","users","username"] ,
 
     ["db_weiyi","t_audio_record_server","ip"] ,
     ["db_weiyi","t_baidu_msg","messageid"] ,
@@ -189,5 +188,5 @@ return array(
     // ["db_question","t_question","id"] ,
 
 
-    ["db_ejabberd","users","username"] ,
+    //["db_ejabberd","users","username"] ,
 );

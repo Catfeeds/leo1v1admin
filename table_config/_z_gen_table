@@ -13,8 +13,14 @@ foreach ($t_config as $item) {
     $table_list[]="$db_name.$table_name";
 }
 
-$url= "http://dev.admin.yb1v1.com/common_new/show_create_table_list?table_list=". urlencode(json_encode($table_list) );
 
+echo "start url\n";
+$url= "http://self.admin.yb1v1.com/common_new/show_create_table_list?table_list=". urlencode(json_encode($table_list) );
+//echo $url."\n";
+echo "end url\n";
+$json_data=file_get_contents($url);
+$table_map=json_decode($json_data,true);
+$table_map=$table_map["table_desc_list"];
 
 $define_str="";
 foreach ($t_config as $item) {
@@ -25,15 +31,12 @@ foreach ($t_config as $item) {
     if (count($item)==4 ) {
         $key_2_name=$item[3];
     }
+    $db_table_name="$db_name.$table_name";
 
     echo "deal $table_name ..\n";
-    $url= "http://dev.admin.yb1v1.com/common/show_create_table?db_name=$db_name&table_name=$table_name";
+
     //echo $url;
-    echo "deal  $url \n";
-    $json_data=file_get_contents($url);
-    echo "deal  11\n";
-    $arr=json_decode($json_data,true);
-    echo" get end\n";
+    $arr=$table_map[$db_table_name];
     $table_desc=$arr["table_desc"];
     $table_desc=preg_replace_callback("/'([a-f0-9]+)'/",function($matches ){
         if (strlen( $matches[1]) %2 ==0 ) {
