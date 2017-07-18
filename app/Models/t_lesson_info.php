@@ -6506,7 +6506,8 @@ lesson_type in (0,1) "
         }
 
         $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_list);
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,count(distinct l.lessonid) success_lesson,l.teacherid"
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_number,"
+                                  ." count(distinct l.lessonid) success_lesson,l.teacherid"
                                   ." from %s l "
                                   ." left join %s tss on l.lessonid = tss.lessonid"
                                   ." left join %s c on "
@@ -6523,7 +6524,6 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql,function($item){
             return $item["teacherid"];
         });
-
     }
 
     public function get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){

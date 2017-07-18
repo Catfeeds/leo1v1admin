@@ -27,6 +27,7 @@ class NewRouteConfig {
         "wx_yxyx_common"       => true,
         "wx_yxyx_web"       => true,
         "wx_yxyx"       => true,
+        "wx_yxyx_api"       => true,
         "test_kevin"       => true,
         "test_sam"       => true,
         "ss_deal2"          => true,
@@ -113,6 +114,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"           => true,
 
         "/common/get_teacher_hornor_list"           => true,
+        "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
         "/common/get_comment_tags"             => true,

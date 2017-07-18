@@ -730,5 +730,23 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
     }
 
+    public function get_test_lesson_record_score($start_time,$end_time,$tea_arr){
+        $where_arr=[
+            "type =1",
+            "record_score>0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+        $this->where_arr_teacherid($where_arr,"teacherid", $tea_arr);
+        $sql = $this->gen_sql_new("select count(*) num,sum(record_score) score,teacherid"
+                                  ." from %s  where %s group by teacherid",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+
+    }
+
 
 }

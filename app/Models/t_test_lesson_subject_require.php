@@ -2371,5 +2371,15 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             $require_id_list.join(",")  );
         return $this->main_get_list($sql);
     }
-
+     public function get_lesson_content($lessonid){
+        $sql=$this->gen_sql_new("select stu_lesson_content"
+                                ." from %s t"
+                                ." left join %s l on l.require_id=t.require_id"
+                                ." where l.lessonid=%u"
+                                ,self::DB_TABLE_NAME
+                                ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                ,$lessonid
+        );
+        return $this->main_get_value($sql);
+    }
 }

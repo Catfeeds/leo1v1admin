@@ -55,8 +55,6 @@ class reset_lesson_count_when_lesson_start extends Command
             }
         }
 
-
-
         if ($all_flag) {
             $list = $task->t_course_order->get_userid_list();
         }else{

@@ -1,11 +1,21 @@
   
 * 安装软件
+<<<<<<< HEAD
   sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client gawk
+=======
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl
+>>>>>>> fe906e009a9b8e14bfbb99fc3db11b814a563b71
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
   安装时 设置root密码  ta0mee 
   从192.168.0.6 下载 ~/admin.yb1v1.com/tmp/my.sql 
+  
+  mysql  sql 5.7 调整:
+  /etc/mysql/mysql.conf.d/mysqld.cnf
+  [mysqld]
+  sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+  
   
   还原数据库
   mysqldump -uroot -p ta0mee < my.sql 
@@ -44,3 +54,4 @@
 *  
   
 * 
+  

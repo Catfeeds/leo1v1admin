@@ -26,7 +26,7 @@ $(function(){
 
     $(".end_stu_num").on("click",function(){
         var title = "结课学生详情";
-        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>账号</td><td>年级</td><td>助教</td><td>结课原因</td><tr></table></div>");
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>userid</td><td>学生</td><td>账号</td><td>年级</td><td>助教</td><td>结课原因</td><td>剩余课时</td><tr></table></div>");
 
         $.do_ajax('/tongji_ss/get_ass_end_stu_list',{
             "start_time" : g_args.start_time,
@@ -39,8 +39,9 @@ $(function(){
                 var phone     = item["phone"];
                 var grade  = item["grade_str"];
                 var name    = item["name"];
+                var lesson_left    = item["lesson_left"];
                 var reason = item["stu_lesson_stop_reason"];
-                html_node.find("table").append("<tr><td>"+userid+"</td><td>"+nick+"</td><td>"+phone+"</td><td>"+grade+"</td><td>"+name+"</td><td>"+reason+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+userid+"</td><td>"+nick+"</td><td>"+phone+"</td><td>"+grade+"</td><td>"+name+"</td><td>"+reason+"</td><td>"+lesson_left+"</td></tr>");
             });
         });
 

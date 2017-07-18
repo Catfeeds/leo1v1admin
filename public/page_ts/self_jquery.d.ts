@@ -1,5 +1,7 @@
 interface JQueryStatic {
 
+    self_upload_process(id,url,ctminfo,ext_file_list,ex_args,complete_func ):void;
+
     enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
 
     reload( ):void;

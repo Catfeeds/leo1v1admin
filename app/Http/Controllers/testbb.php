@@ -81,14 +81,9 @@ class testbb extends Controller
 
     public function test () {
 
-        // $item      = $this->get_nick_phone_by_account_type(2,0);
-
-
-        $item = $this->t_teacher_info->get_phone_by_nick('');
-
-        dd($item);
 
     }
+
     public function lesson_send_msg(){
         $start_time = time(null);
         $this->t_teacher_info->get_lesson_info_by_time($start_time,$end_time);

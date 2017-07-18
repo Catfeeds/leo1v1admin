@@ -18,6 +18,7 @@ class test_code extends Controller
 
     public function __construct(){
 
+        $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->div="</div>";
@@ -1433,6 +1434,40 @@ class test_code extends Controller
         $list=$this->t_test_lesson_subject_require->get_zhujiao();
     }
 
+    public function get_split_lesson_count(){
+        $userid = "91935";
+        $val    = $this->t_order_info->get_lesson_split_all($userid);
+        echo $val;
+    }
 
+    public function get_create_teacher(){
+        $num = $this->get_in_int_val("num",0);
+        $start_time = strtotime("2017-4-1");
+        $end_time = strtotime("2017-7-1");
+        
+        $list = $this->t_teacher_info->get_trial_teacher_month($start_time,$end_time);
+        echo "姓名|手机|入职日期|试听课时|成功数|常规课时|转化率";
+        echo "<br>";
+
+        foreach($list as &$val){
+            $create_start = $val['create_time'];
+            $create_end   = $val['create_time']+30*86400;
+            $create_date = date("Y-m-d",$val['create_time']);
+            $success = $this->t_lesson_info->get_teacher_test_person_num_list( $create_start,$create_end,-1,-1,[$val['teacherid']]);
+            \App\Helper\Utils::check_isset_data($success[$val['teacherid']]['have_order'],0);
+            $succ_trial = $success[$val['teacherid']]['have_order'];
+            $trial_count  = $val['trial_count']/100;
+            $normal_count = $val['normal_count']/100;
+            if($trial_count==0){
+                $succ_per="0%";
+            }else{
+                $succ_per = (round($succ_trial/$trial_count,2)*100)."%";
+            }
+            echo $val['nick']."|".$val['phone']."|".$create_date."|".$trial_count."|".$succ_trial."|".$normal_count."|".$succ_per;
+            echo "<br>";
+
+        }
+
+    }
 
 }

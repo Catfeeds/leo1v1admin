@@ -142,7 +142,7 @@ $(function(){
 
     $(".opt-set-course-status").on("click",function(){
         var opt_data                = $(this).get_opt_data();
-       // alert(opt_data.courseid);
+        console.log(opt_data.courseid);
         var id_course_status        = $("<select/>");
         var id_subject              = $("<select/>");
          var id_grade                = $("<select/>");

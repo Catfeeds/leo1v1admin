@@ -93,6 +93,10 @@ class agent extends Controller
 
     public function check(){
         $phone      = $this->get_in_str_val("phone");
+        $phone = '152511';
+        $wx_openid = 'Sdsdgdeq12';
+        $ret = $this->t_agent->add_agent_row_new($phone,$wx_openid);
+        dd($ret);
         // $code       = $this->get_in_str_val("code");
         // $wx_openid  = $this->get_in_str_val("wx_openid");
         $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );

@@ -5816,7 +5816,6 @@ class tongji_ss extends Controller
         $field_name       = $check_item[1];
         $field_class_name = $check_item[2];
 
-
         list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
             0 => array("tmk_assign_time","微信运营时间"),
             1 => array("add_time","资源进来时间"),
@@ -6048,6 +6047,7 @@ class tongji_ss extends Controller
         $ret = $this->t_student_info->get_end_lesson_stu_list($start_time,$end_time);
         foreach($ret as &$item){
             E\Egrade::set_item_value_str($item); 
+            $item["lesson_left"] = $item["lesson_count_left"]/100;
         }
  
         return  $this->output_succ( [ "data" =>$ret] );
@@ -6061,11 +6061,15 @@ class tongji_ss extends Controller
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
         $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
-        $list = $ret_info;
         $qz_tea_arr=[];
-        foreach($ret_info as $item){
-            $qz_tea_arr[] =$item["teacherid"];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
         }
+        $list = $ret_info;
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);

@@ -462,7 +462,7 @@ trait  ViewDeal {
 
         if ($ctrl=="stu_manage" || $view=="common.stu_errors" ) {
             $data["_stu_menu_html"] = session("stu_menu_html") ;
-        }else if ( $ctrl == "teacher_info"  || $ctrl == "teacher_info_admin"  ) {
+        }else if (  $ctrl == "teacher_info_admin"  ) {
             $data["_tea_menu_html"] = session("tea_menu_html") ;
         }else{
             $data["_menu_html"] = session("menu_html") ;
