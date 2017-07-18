@@ -15,6 +15,31 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	lessonid	:any;
+	require_adminid	:any;
+	account	:any;
+	userid	:any;
+	teacherid	:any;
+	assistantid	:any;
+	lesson_start	:any;
+	lesson_end	:any;
+	courseid	:any;
+	lesson_type	:any;
+	lesson_num	:any;
+	current_server	:any;
+	server_type	:any;
+	st_application_nick	:any;
+	index	:any;
+	region	:any;
+	ip	:any;
+	port	:any;
+	room_id	:any;
+	lesson_time	:any;
+	lesson_type_str	:any;
+	assistant_nick	:any;
+	teacher_nick	:any;
+	student_nick	:any;
+	server_type_str	:any;
 }
 
 /*

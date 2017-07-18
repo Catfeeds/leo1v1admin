@@ -60,16 +60,14 @@ class teacher_info extends Controller
             $desc = E\Eboolean::get_desc($v);
             return "<font color=$color>$desc</font>";
         };
-
-        $ret_info = $this->t_lesson_info->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_new(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
-        );
-
+        ); dd(3);
         if($teacherid==50728 || \App\Helper\Utils::check_env_is_local()){
-            $trial_train_list = $this->t_lesson_info->get_trial_train_list($teacherid);
+            $trial_train_list = $this->t_lesson_info_b2->get_trial_train_list($teacherid);
             $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
         }
-
+       
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info["list"] as &$item){
             $lessonid    = $item["lessonid"];
@@ -133,7 +131,7 @@ class teacher_info extends Controller
                 $item['stu_request_test_lesson_demand']="<font color=red>-</font>";
             }
         }
-        $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+        $student_list = $this->t_lesson_info_b2->get_student_list($teacherid,$start_time,$end_time);
         // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list
@@ -259,7 +257,7 @@ class teacher_info extends Controller
             }
             $lesson_info['cc_account'] = mb_substr($lesson_info['cc_account'],0,1,"utf8")."老师";
         }else{
-            $tea_comment = $this->t_lesson_info->get_stu_performance($lesson_info['lessonid']);
+            $tea_comment = $this->t_lesson_info_b2->get_stu_performance($lesson_info['lessonid']);
         }
         $lesson_info['tea_comment'] = $tea_comment==""?0:1;
     }
@@ -289,7 +287,7 @@ class teacher_info extends Controller
             break;
         }
 
-        $ret_info=$this->t_lesson_info->get_teacher_lesson_list($teacherid,$start_time,$end_time,$lesson_type_in_str, $page_num);
+        $ret_info=$this->t_lesson_info_b2->get_teacher_lesson_list($teacherid,$start_time,$end_time,$lesson_type_in_str, $page_num);
         foreach($ret_info["list"] as &$item){
             $item["lesson_time"]     = \App\Helper\Utils::fmt_lesson_time($item["lesson_start"],$item["lesson_end"]);
             $item["lesson_type_str"] = E\Econtract_type::get_desc( $item["lesson_type"]);
@@ -433,7 +431,7 @@ class teacher_info extends Controller
             $end_time=$ret_week["edate"];
         }
 
-        $lesson_list=$this->t_lesson_info->get_teacher_lesson_info($teacherid,$start_time,$end_time);
+        $lesson_list=$this->t_lesson_info_b2->get_teacher_lesson_info($teacherid,$start_time,$end_time);
         foreach($lesson_list as &$item) {
             $nick=$this->cache_get_student_nick($item["userid"]);
             $item["month_title"]= $nick  ;
@@ -442,9 +440,9 @@ class teacher_info extends Controller
         return $this->output_succ(["lesson_list"=>$lesson_list]);
     }
 
-    public function get_lesson_info(){
+    public function get_lesson_info_b2(){
         $lessonid = $this->get_in_int_val('lessonid',-1);
-        $ret_info = $this->t_lesson_info->get_lesson_info($lessonid);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_b2($lessonid);
 
         $ret_info["lesson_time"] = Utils::fmt_lesson_time($ret_info["lesson_start"],$ret_info["lesson_end"]);
         $ret_info["lesson_type_str"] = Econtract_type::get_desc( $ret_info["lesson_type"]) ;
@@ -509,7 +507,7 @@ class teacher_info extends Controller
         $old_tea_cw_url     = trim($this->get_in_str_val("old_tea_cw_url"));
 
         $now = time(NULL);
-        $db_teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $db_teacherid = $this->t_lesson_info_b2->get_teacherid($lessonid);
         if ($db_teacherid != $teacherid) {
             $this->output_err("你不是该课程的老师");
         }
@@ -537,7 +535,7 @@ class teacher_info extends Controller
             $issue_time  = $old_issue_time==0?$now:$old_issue_time;
         }
 
-        $this->t_lesson_info->field_update_list($lessonid,[
+        $this->t_lesson_info_b2->field_update_list($lessonid,[
             "tea_cw_status"      => $tea_cw_status ,
             "tea_cw_url"         => $tea_cw_url ,
             "tea_cw_upload_time" => $tea_cw_upload_time,
@@ -550,7 +548,7 @@ class teacher_info extends Controller
             "tea_cw_pic_flag"    => $tea_cw_pic_flag,
         ]);
 
-        $lesson_type=$this->t_lesson_info->get_lesson_type($lessonid);
+        $lesson_type=$this->t_lesson_info_b2->get_lesson_type($lessonid);
         if($lesson_type >=3000 && $lesson_type<4000){
             $ret = $this->t_small_lesson_info->update_pdf($lessonid,$issue_url,$work_status,$pdf_question_count,$issue_time);
         }else{
@@ -583,7 +581,7 @@ class teacher_info extends Controller
             $year++;
         }
         $end_time = strtotime("$year-$month-01");
-        $old_list = $this->t_lesson_info->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
+        $old_list = $this->t_lesson_info_b2->get_1v1_lesson_list_by_teacher($teacherid,$studentid,$start_time,$end_time);
 
         global $cur_key_index;
         $check_init_map_item=function (&$item,$key,$key_class,$value="") {
@@ -875,12 +873,12 @@ class teacher_info extends Controller
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
         $teacher_honor      = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,1);
         $teacher_trial      = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
-        $old_list           = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
+        $old_list           = $this->t_lesson_info_b2->get_lesson_list_for_wages($teacherid,$start_time,$end_time);
 
         if($teacher_money_type==4){
             $start = strtotime("-1 month",strtotime(date("Y-m-01",$start_time)));
             $end   = strtotime("+1 month",$start);
-            $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
+            $already_lesson_count = $this->t_lesson_info_b2->get_teacher_last_month_lesson_count($teacherid,$start,$end);
         }
 
         global $cur_key_index;
@@ -1364,7 +1362,7 @@ class teacher_info extends Controller
         }
 
         //系统限课
-        $test_lesson_num = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
+        $test_lesson_num = $this->t_lesson_info_b2->get_limit_type_teacher_lesson_num($teacherid,$lstart,$lend);
         if($test_lesson_num >= $teacher_subject["limit_plan_lesson_type"]
            && $is_test==0
            && $teacher_subject["limit_plan_lesson_type"] !=0
@@ -1377,7 +1375,7 @@ class teacher_info extends Controller
 
         //新入职老师当周限排6节课,其他老师每周限排8节课,一天限排4节课
         $limit_num_info = $this->t_teacher_info->field_get_list($teacherid,"limit_day_lesson_num,limit_week_lesson_num");
-        $ret = $this->t_lesson_info->check_teacher_have_test_lesson_pre_week($teacherid,$lstart);
+        $ret = $this->t_lesson_info_b2->check_teacher_have_test_lesson_pre_week($teacherid,$lstart);
         if($ret ==1){
             if($test_lesson_num>=$limit_num_info["limit_week_lesson_num"] && $is_test==0){
                 return $this->output_err("您试听课一周限排".$limit_num_info["limit_week_lesson_num"]."节!");
@@ -1391,7 +1389,7 @@ class teacher_info extends Controller
         $day_st    = date("Y-m-d",$lesson_start);
         $day_start = strtotime($day_st);
         $day_end   = strtotime("+1 day",$day_start);
-        $test_lesson_num_day = $this->t_lesson_info->get_limit_type_teacher_lesson_num($teacherid,$day_start,$day_end);
+        $test_lesson_num_day = $this->t_lesson_info_b2->get_limit_type_teacher_lesson_num($teacherid,$day_start,$day_end);
         if($test_lesson_num_day>=$limit_num_info["limit_day_lesson_num"] && $is_test==0){
             return $this->output_err(
                 "试听课一天限排".$limit_num_info["limit_day_lesson_num"]."节!"
@@ -1399,12 +1397,12 @@ class teacher_info extends Controller
         }
 
         //检查时间是否冲突
-        $stu_free = $this->t_lesson_info->check_student_time_free($userid,0,$lesson_start,$lesson_end);
+        $stu_free = $this->t_lesson_info_b2->check_student_time_free($userid,0,$lesson_start,$lesson_end);
         if($stu_free) {
             $error_lessonid = $stu_free["lessonid"];
             return $this->output_err("有现存的学生课程与该课程时间冲突！请联系教务老师！");
         }
-        $tea_free=$this->t_lesson_info->check_teacher_time_free(
+        $tea_free=$this->t_lesson_info_b2->check_teacher_time_free(
             $teacherid,0,$lesson_start,$lesson_end);
         if($tea_free) {
             $error_lessonid=$tea_free["lessonid"];
@@ -1414,13 +1412,13 @@ class teacher_info extends Controller
 
         $this->t_course_order->start_transaction();
         $courseid = $this->t_course_order->add_course_info_new($orderid,$userid,$grade,$subject,100,2,0,1,1,0,$teacherid);
-        $lessonid = $this->t_lesson_info->add_lesson(
+        $lessonid = $this->t_lesson_info_b2->add_lesson(
             $courseid,0,$userid,0,2,
             $teacherid,0,$lesson_start,$lesson_end,$grade,
             $subject,100,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
 
-        $stu_free = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
+        $stu_free = $this->t_lesson_info_b2->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
         if($stu_free){
             $this->t_course_order->rollback();
             $error_lessonid = $stu_free["lessonid"];
@@ -1453,7 +1451,7 @@ class teacher_info extends Controller
         $this->t_test_lesson_subject_require->set_test_lesson_status(
             $require_id,E\Eseller_student_status::V_210,$account);
 
-        $this->t_lesson_info->reset_lesson_list($courseid);
+        $this->t_lesson_info_b2->reset_lesson_list($courseid);
         $this->t_seller_student_new->field_update_list($userid,[
             "global_tq_called_flag" => 2,
             "tq_called_flag"        => 2,
@@ -1662,13 +1660,13 @@ class teacher_info extends Controller
                 }
             }
 
-            $tea_list = $this->t_lesson_info->get_tea_month_list($start_time,$end_time,trim($teacherid_str,","));
+            $tea_list = $this->t_lesson_info_b2->get_tea_month_list($start_time,$end_time,trim($teacherid_str,","));
             foreach($tea_list as &$val){
                 $tid          = $val['teacherid'];
                 $lesson_count = $val['lesson_count']/100;
                 if(!isset($already_lesson_count[$tid])){
                     $already_lesson_count[$tid] =
-                        $this->t_lesson_info->get_teacher_last_month_lesson_count($tid,$last_start_time,$last_end_time);
+                        $this->t_lesson_info_b2->get_teacher_last_month_lesson_count($tid,$last_start_time,$last_end_time);
                 }
 
                 $val['already_lesson_count'] = $already_lesson_count[$tid];
@@ -1709,7 +1707,7 @@ class teacher_info extends Controller
         $lesson_start = strtotime($start_date);
         $lesson_end   = $lesson_start+1800;
 
-        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+        $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
             "lesson_start" => $lesson_start,
             "lesson_end"   => $lesson_end,
         ]);

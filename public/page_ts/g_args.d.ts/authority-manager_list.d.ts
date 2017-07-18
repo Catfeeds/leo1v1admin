@@ -13,6 +13,7 @@ interface GargsStatic {
 	cardid:	number;
 	day_new_user_flag:	number;//App\Enums\Eboolean
 	tquin:	number;
+	fulltime_teacher_type:	number;
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  }
 declare module "g_args" {
@@ -81,6 +82,7 @@ $(function(){
 			cardid:	$('#id_cardid').val(),
 			day_new_user_flag:	$('#id_day_new_user_flag').val(),
 			tquin:	$('#id_tquin').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 			seller_level:	$('#id_seller_level').val()
         });
     }
@@ -99,6 +101,7 @@ $(function(){
 	$('#id_cardid').val(g_args.cardid);
 	$('#id_day_new_user_flag').val(g_args.day_new_user_flag);
 	$('#id_tquin').val(g_args.tquin);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_seller_level').val(g_args.seller_level);
 	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 
@@ -193,6 +196,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">tquin</span>
                 <input class="opt-change form-control" id="id_tquin" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 

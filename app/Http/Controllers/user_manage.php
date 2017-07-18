@@ -188,6 +188,7 @@ class user_manage extends Controller
             "grade",
             "lesson_count_all",
             "lesson_count_left",
+            "lesson_count_done",
             "lesson_total",
             "praise"
         ];
@@ -280,6 +281,7 @@ class user_manage extends Controller
             $item['ass_assign_time_str']   = unixtime2date( $item['ass_assign_time']);
             $item['lesson_count_all']  = $item['lesson_count_all']/100;
             $item['lesson_count_left'] = $item['lesson_count_left']/100;
+            $item['lesson_count_done'] = $item['lesson_count_all']-$item['lesson_count_left'];
             $item['lesson_total'] = $item['lesson_total']/100;
             $item["assistant_nick"]    = $this->cache_get_assistant_nick ($item["assistantid"] );
             $ass_revisit_last_week_time = $item ["ass_revisit_last_week_time"];

@@ -624,7 +624,6 @@ class menu{
                 ["power_id"=>1, "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info"],
                 ["power_id"=>21, "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                 ["power_id"=>14, "name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua"],
-                ["power_id"=>9, "name"=>"新老师面试反馈","url"=>"/human_resource/teacher_lecture_list_research"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new"],
                 ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list"],
@@ -634,7 +633,8 @@ class menu{
                 ["power_id"=>18, "name"=>"老师教学投诉",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info"],
                 ["power_id"=>24, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
-                ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list"],
+                ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
+                ["power_id"=>29, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>30, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson"],
 
 

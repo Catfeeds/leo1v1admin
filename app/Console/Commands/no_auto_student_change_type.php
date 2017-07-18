@@ -62,5 +62,21 @@ class no_auto_student_change_type extends Command
 
             }
         }
+
+        $ret_student_end_info = $task->t_student_info->get_student_list_end_id(-1);
+        foreach($ret_student_end_info as $val){
+            $task->t_student_info->get_student_type_update($val["userid"],1);
+            $task->t_student_type_change_list->row_insert([
+                "userid"    =>$val["userid"],
+                "add_time"  =>time(),
+                "type_before" =>$val["type"],
+                "type_cur"    =>1,
+                "change_type" =>1,
+                "adminid"     =>0,
+                "reason"      =>"系统更新"
+            ]);
+
+        }
+
     }
 }

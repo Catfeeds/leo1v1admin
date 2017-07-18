@@ -914,10 +914,28 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "contract_type in (0,1,3)",
             "contract_status in (1,2,3)"
         ];
-
         $sql = $this->gen_sql_new("select sum(lesson_total*default_lesson_count) "
                                   ." from %s "
                                   ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_order_split_all($userid)
+    {
+        $where_arr=[
+            ["o1.userid=%u",$userid,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count) "
+                                  ." from %s o1"
+                                  ." left join %s o2 on o1.orderid=o2.parent_order_id "
+                                  ." and o2.contract_type=1 "
+                                  ." and o2.contract_status>0"
+                                  ." and o2.from_parent_order_type=5"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -2449,7 +2467,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = $this->gen_sql_new("select sum(o2.from_parent_order_lesson_count)/100 "
                                   ." from %s o1"
                                   ." left join %s o2 on o1.orderid=o2.parent_order_id "
-                                  ." and o2.contract_type=3 "
+                                  ." and o2.contract_type=1 "
                                   ." and o2.from_parent_order_type=5"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME

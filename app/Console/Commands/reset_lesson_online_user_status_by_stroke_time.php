@@ -91,7 +91,8 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
                     }
                 }
             }
-            if(file_exists($savePathFile)){
+
+            if(isset($savePathFile) && file_exists($savePathFile)){
                 $unlink_re = @unlink($savePathFile);
             }
 

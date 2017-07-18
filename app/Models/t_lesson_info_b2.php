@@ -1612,7 +1612,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
 
         return $this->main_get_value($sql);
-
-
     }
+
+
+    public function update_teacher_level($teacherid,$level){
+        $time = time();
+        $sql = $this->gen_sql_new("update %s set level = %u where teacherid = %u and lesson_status=0 and lesson_start >=%u",
+                                  self::DB_TABLE_NAME,
+                                  $level,
+                                  $teacherid,
+                                  $time
+        );
+        return $this->main_update($sql);
+    }
+
+
 }
