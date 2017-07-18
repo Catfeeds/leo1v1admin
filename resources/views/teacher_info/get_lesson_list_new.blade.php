@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 @extends('layouts.teacher_header')
-=======
-@extends('layouts.app')
->>>>>>> ca1b4dab1b43e7d57c0898d737112381cea26524
 @section('content')
 <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>

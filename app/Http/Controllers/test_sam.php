@@ -234,7 +234,8 @@ class test_sam  extends Controller
 
     public function tt(){
         // $this->t_manager_info->field_update_list($uid,$set_field_arr);
-        $this->t_manager_info->row_insert($arr);
+        new       \App\Http\Controllers\common();
+
     }
 
     public function manager_list()

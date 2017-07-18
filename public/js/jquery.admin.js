@@ -1,5 +1,7 @@
 jQuery.fn.extend({
 
+
+
     table_admin_level_4_init:function(show_flag) {
 
         var $table=$(this);
@@ -493,6 +495,93 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+
+    self_upload_process:function(id,url,ctminfo,ext_file_list,ex_args,complete_func ) {
+        var html_node=$('        <div class="row">'+
+                        '            <div class="progress">'+
+                        '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
+                        '                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">'+
+                        '                    <span class="sr-only">40% 完成</span>'+
+                        '                </div>'+
+                        '            </div>'+
+                        '        </div>');
+        var dlg=null;
+
+        $.self_upload( id,  url, ctminfo, ext_file_list,ex_args,
+                              function(percentage){
+                                  if (percentage==101) { //succ
+                                      alert("上传完成");
+                                      dlg.close();
+                                  }
+                                  html_node.find(".progress-bar") .css('width', percentage+'%');
+                              },complete_func ,function(){ //before_upload
+                                  dlg=BootstrapDialog.show({
+                                      title: "上传进度",
+                                      message: html_node
+                                  });
+                              });
+    },
+    self_upload :function (id,url,ctminfo,ext_file_list,ex_args,process_func,complete_func, before_upload  ){
+        var uploader = new plupload.Uploader({
+            browse_button : id, //触发文件选择对话框的按钮，为那个元素id
+            url : url, //服务器端的上传页面地址
+            flash_swf_url : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
+            silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
+            filters: {
+                mime_types : [ //只允许上传图片和zip文件
+                    {title : "", extensions: ext_file_list.join(",") }
+                ],
+                max_file_size : '40m',
+                prevent_duplicates : true //不允许选取重复文件
+            },
+            multipart_params : ex_args
+        });
+
+        uploader.init({
+            'BeforeUpload': function(up, file) {
+                if(before_upload) {
+                    before_upload();
+                }
+                return true;
+
+            }
+        });
+        uploader.bind('FilesAdded',
+                      function(up, files) {
+                          uploader.start();
+                      });
+        uploader.bind('BeforeUpload',
+                      function() {
+                          if(before_upload){
+                              before_upload();
+                          }
+                      });
+
+        uploader.bind(
+            'FileUploaded',
+            function( uploader,file,responseObject) {
+                if(process_func) {
+                    process_func(101);
+                }
+
+                console.log('Things below are from FileUploaded');
+
+                if (complete_func) {
+                    complete_func(JSON.parse( responseObject.response),ctminfo );
+                    console.log(ctminfo);
+                }
+            });
+
+        uploader.bind(
+            'UploadProgress',
+            function(up,file) {
+                if(process_func) {
+                    process_func(file.percent);
+                }
+                console.log(file.percent);
+                console.log('upload progress');
+            });
+    },
 
     filed_init_date_range:function(date_type,  opt_date_type, start_time,  end_time) {
         $('#id_date_type').val(date_type);

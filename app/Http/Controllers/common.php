@@ -881,7 +881,7 @@ class common extends Controller
 
 
         // $orderNo = $orderid+1000000000;
-        if($channel=="cmb_wallet"){            
+        if($channel=="cmb_wallet"){
             $orderNo = substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 10);
         }else{
             $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
@@ -1207,6 +1207,45 @@ class common extends Controller
 
         return $this->output_succ(['default_comment_tags'=>$default_comment_tags]);
     }
+    public function get_token($bucket){
+
+        $qiniu     = \App\Helper\Config::get_config("qiniu");
+
+        $accessKey = $qiniu['access_key'];
+        $secretKey = $qiniu['secret_key'];
+
+        // 构建鉴权对象
+        $auth = new \Qiniu\Auth ($accessKey, $secretKey);
+
+        // 上传到七牛后保存的文件名
+         return $auth->uploadToken($bucket);
+    }
+
+    public function get_bucket_info() {
+        $is_public      = $this->get_in_int_val( "is_public", 0 );
+
+        $qiniu_config=\App\Helper\Config::get_config("qiniu");;
+
+        $public_bucket = $qiniu_config["public"] ['bucket'];
+        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+
+        if ($is_public) {
+            $ret_arr = [
+                "bucket" => $public_bucket,
+                "domain" =>  $qiniu_config["public"] ["url"],
+                "token"  => $this->get_token($public_bucket),
+            ];
+        }else{
+            $ret_arr = [
+                "domain" => $qiniu_config["private_url"] ["url"],
+                "token"  => $this->get_token($private_bucket),
+                "bucket" => $private_bucket,
+            ];
+        }
+        return $this->output_succ($ret_arr);
+    }
+
+
 
 
 }

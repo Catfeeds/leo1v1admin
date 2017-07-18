@@ -44,7 +44,8 @@
 
 
         <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{$_publish_version}}"></script>
-
+        <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script src="/page_js/header.js?{{@$_publish_version}}" type="text/javascript"></script>
 
         <!-- 全局变量  -->
         {!!  @$js_values_str !!}

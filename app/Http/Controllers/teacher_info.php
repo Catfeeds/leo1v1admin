@@ -60,13 +60,15 @@ class teacher_info extends Controller
             $desc = E\Eboolean::get_desc($v);
             return "<font color=$color>$desc</font>";
         };
-        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         ); 
+        /*
         if($teacherid==50728 || \App\Helper\Utils::check_env_is_local()){
             $trial_train_list = $this->t_lesson_info_b2->get_trial_train_list($teacherid);
             $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
         }
+        */
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info["list"] as &$item){
