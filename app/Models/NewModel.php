@@ -52,6 +52,7 @@ abstract class NewModel
     function switch_readonly_database() {
         $this->readony_on_tongji_flag=false;
         if ($this->config_fix){
+           
             $this->db=NewDB::get($this->config_fix."_readonly");
         }else{
             $this->db=NewDB::get("readonly");
@@ -127,12 +128,14 @@ abstract class NewModel
 
     public function main_get_list( $sql ,$list_key_func=null )
     {
+
         $old_db=$this->db;
         if (  $this->check_change_select_db()   ) {
             $this->switch_readonly_database();
         }
 
         $result = $this->db_query($sql);
+        
         $list=[];
 
         if ( ! $list_key_func ) {
@@ -144,6 +147,7 @@ abstract class NewModel
                 $list[ $list_key_func($item) ] = $item;
             }
         }
+
 
         if (  $this->check_change_select_db() ) {
             $this->db=$old_db;
@@ -291,7 +295,9 @@ abstract class NewModel
         if ( !$use_group_by_flag ){
             $count=$this->main_get_value($count_query,0);
         }else{
+            
             $count=count($this->main_get_list($sql ));
+
         }
 
         //for old
@@ -307,6 +313,7 @@ abstract class NewModel
         $limit_start=($page_num-1)*$page_count;
 
         $sql.=" $order_str limit $limit_start,$page_count";
+
         $ret_arr["list"]=$this->main_get_list($sql,$list_key_func);
 
         return $ret_arr;

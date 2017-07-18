@@ -13,12 +13,27 @@
         <link href="/css/AdminLTE.css" rel="stylesheet" type="text/css" />
 
         <link href="/css/header.css" rel="stylesheet" type="text/css" />
+        <link type="text/css" rel="stylesheet" href="/css/jquery.datetimepicker.css" />
+
+        <style>
+         .content  .row  .input-group >select {
+             display:table-cell;
+         }
+         .content  .row  .input-group >input{
+             display:table-cell;
+         }
+
+        </style>
+
         <!-- jQuery 2.0.2 -->
         <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
         <script src="/js/jquery.admin.js?{{$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/header_new.js?{{$_publish_version}}" type="text/javascript"></script>
+
         <!-- jQuery UI 1.10.3 -->
 
+        <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
+        <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
         <!-- Bootstrap -->
         <script src="/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/bootstrap-dialog.js" type="text/javascript"></script>
@@ -99,9 +114,12 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li class="active"> <a href="/wx_teacher_info/index"  > <i class="fa "></i><span>个人信息</span></a></li>
-                        <li class="active"> <a href="/wx_teacher_info/current_course"  > <i class="fa "></i><span>课程表</span></a></li>
-                        <li class="active"> <a href="/wx_teacher_info/test_lesson_list"  > <i class="fa "></i><span>试听抢单</span></a></li>
+                        <li class="active"> <a href="/teacher_info/index"  > <i class="fa "></i><span>课程列表</span></a></li>
+                        <li class="active"> <a href="/teacher_info/current_course"  > <i class="fa "></i><span>当前课表</span></a></li>
+                        <li class="active"> <a href="http://www.leo1v1.com/common/download"  target="_blank" > <i class="fa "></i><span>老师端下载</span></a></li>
+                        <li class="active"> <a href="/teacher_info/teacher_lecture_appointment_info"  > <i class="fa "></i><span>招师代理</span></a></li>
+                        <li class="active"> <a href="/teacher_info/tea_ref_money_list"  > <i class="fa "></i><span>代理老师工资</span></a></li>             <li class="active"> <a href="/teacher_info/teacher_apply_list"  > <i class="fa "></i><span>申请帮助列表</span></a></li>
+
                     </ul>
                 </section>
                 <!-- /.sidebar -->

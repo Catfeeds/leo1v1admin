@@ -61,7 +61,7 @@ class teacher_info extends Controller
             return "<font color=$color>$desc</font>";
         };
 
-        $ret_info = $this->t_lesson_info->get_teacher_lesson_list_new(
+        $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         );
 
@@ -133,7 +133,7 @@ class teacher_info extends Controller
                 $item['stu_request_test_lesson_demand']="<font color=red>-</font>";
             }
         }
-        $student_list = $this->t_lesson_info->get_student_list($teacherid,$start_time,$end_time);
+        $student_list = $this->t_lesson_info_b2->get_student_list($teacherid,$start_time,$end_time);
         // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "student_list" => $student_list
@@ -1194,13 +1194,16 @@ class teacher_info extends Controller
     }
 
     public function teacher_lecture_appointment_info(){
+
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $page_num  = $this->get_in_page_num();
         $teacherid = $this->get_login_teacher();
         $status    = $this->get_in_int_val("status",-1);
 
         $phone    = $this->t_teacher_info->get_phone($teacherid);
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info($page_num,$start_time,$end_time,$phone,$status);
+        //dd($phone); 
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info_b1($page_num,$start_time,$end_time,$phone,$status);
+        //dd($ret_info);
 
         if($phone=="15366667766"){
              $show_teacher_info=1;
@@ -1209,6 +1212,7 @@ class teacher_info extends Controller
         }
 
         if(!empty($ret_info)){
+
             foreach($ret_info["list"] as &$item){
                 $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
                 if($item['confirm_time']!=0){
@@ -1228,9 +1232,10 @@ class teacher_info extends Controller
                 }
             }
         }else{
-            return $this->pageView(__METHOD__,[],[
-                "lecture_status" => 0
-            ]);
+            
+           // return $this->pageView(__METHOD__,[],[
+             //   "lecture_status" => 0
+            //]);
         }
 
         $all_info  = $this->t_teacher_lecture_appointment_info->get_lecture_count_info($start_time,$end_time,$phone);
@@ -1247,7 +1252,7 @@ class teacher_info extends Controller
             }
             $count_num["all"]++;
         }
-
+     
         return $this->pageView(__METHOD__,$ret_info,[
             "lecture_status"    => 1,
             "count_num"         => $count_num
@@ -1293,6 +1298,7 @@ class teacher_info extends Controller
         }
 
         $ret_info = \App\Helper\Utils::list_to_page_info($ret_info);
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "err_info"=>$err_info
         ]);
