@@ -5,6 +5,7 @@
 	competition_call_adminid	:any;
 	competition_call_time	:any;
 	sys_invaild_flag	:any;
+	wx_invaild_flag	:any;
 	return_publish_count	:any;
 	tmk_adminid	:any;
 	test_lesson_subject_id	:any;
