@@ -6,6 +6,15 @@ $g_php_data=file_get_contents("./_z_t_1.temp");
 $g_php_data_2=file_get_contents("./_z_t_2.temp");
 $g_php_d=file_get_contents("./_z_d.temp");
 
+$table_list=[];
+foreach ($t_config as $item) {
+    $db_name=$item[0];
+    $table_name=$item[1];
+    $table_list[]="$db_name.$table_name";
+}
+
+$url= "http://dev.admin.yb1v1.com/common_new/show_create_table_list?table_list=". urlencode(json_encode($table_list) );
+
 
 $define_str="";
 foreach ($t_config as $item) {

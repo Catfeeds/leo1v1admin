@@ -1,6 +1,6 @@
   
 * 安装软件
-  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client gawk
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
