@@ -1656,7 +1656,7 @@ class ss_deal extends Controller
             if($openid!=''){
                 $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
                 $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
-                 $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
+                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
                 //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
 
                 $data['first']    = $first_info;
@@ -2107,7 +2107,7 @@ class ss_deal extends Controller
             foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
-                if($t<2000 && $t>=1500){
+                if($t<500 && $t>=0){
                     $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($v[0]);
 
                     if($id>0){

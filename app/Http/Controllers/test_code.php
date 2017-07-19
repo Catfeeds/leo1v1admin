@@ -1169,7 +1169,8 @@ class test_code extends Controller
     }
 
     public function get_not_through_user(){
-        $start_time = strtotime("2017-6-17");
+        $start_date = $this->get_in_str_val("start_date","2017-6-17");
+        $start_time = strtotime($start_date);
         $end_time   = time();
         $list = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time);
         
@@ -1465,9 +1466,8 @@ class test_code extends Controller
             }
             echo $val['nick']."|".$val['phone']."|".$create_date."|".$trial_count."|".$succ_trial."|".$normal_count."|".$succ_per;
             echo "<br>";
-
         }
-
     }
+
 
 }

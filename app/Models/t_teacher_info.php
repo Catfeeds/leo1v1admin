@@ -2212,7 +2212,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function ccc(){
-        $sql = $this->gen_sql_new("select nick from %s where teacherid =139081",self::DB_TABLE_NAME); 
+        $sql = $this->gen_sql_new("select nick from %s where teacherid =139081",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 
@@ -2288,15 +2288,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_level_info($page_info,$tea_list){
+    public function get_teacher_level_info($page_info,$tea_list,$start_time){
         $where_arr=[];
-        $where_arr[]= $this->where_get_in_str("teacherid",  $tea_list,false);
-        $sql = $this->gen_sql_new("select teacherid,realname,level,teacher_money_type,phone,train_through_new_time "
-                                  ." from %s where %s order by teacherid",self::DB_TABLE_NAME,$where_arr
+        $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
+                                  ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
+                                  ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"
+                                  ." where %s order by t.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_advance_list::DB_TABLE_NAME,
+                                  $start_time,
+                                  $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
 
-            
+
     }
 
     public function get_trial_teacher_month($start_time,$end_time){
@@ -2322,5 +2328,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+
+    public function get_wx_openid_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select wx_openid from %s t ".
+                                  " left join %s l on l.teacherid = t.teacherid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 }

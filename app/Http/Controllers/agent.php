@@ -48,6 +48,8 @@ class agent extends Controller
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
         foreach($ret_info['list'] as &$item){
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            $item['p_price'] = $item['p_price']/100;
+            $item['pp_price'] = $item['pp_price']/100;
         }
 
         return $this->pageView(__METHOD__,$ret_info);

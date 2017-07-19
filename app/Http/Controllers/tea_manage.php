@@ -1587,6 +1587,19 @@ class tea_manage extends Controller
         }
     }
 
+    public function train_not_through_list(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time);
+        
+        foreach($ret_info['list'] as &$val){
+            \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+
     private function gen_server_map($list){
         $id_list = [];
         foreach ($list as $item) {

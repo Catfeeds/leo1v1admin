@@ -38,6 +38,7 @@
                     
                     <td>有无退费</td>
                     <td>总得分</td>
+                    <td>晋升情况</td>
                    
                     <td> 操作  </td>
                 </tr>
@@ -61,13 +62,38 @@
                         <td>{{@$var["record_num"]}} </td>
                         <td>{{@$var["record_score_avg"]}} </td>
                         <td>{{@$var["record_final_score"]}} </td>
-                        <td >{!! $var['is_refund_str'] !!}</td>
+                        <td >
+                            @if($var["is_refund"]==1)
+                                <a href="javascript:;" class="show_refund_detail" data-teacherid="{{$var["teacherid"]}}" >
+                                    {!! $var['is_refund_str'] !!}
+                                </a>
+                            @else
+                                {!! $var['is_refund_str'] !!}
+                            @endif
+                        </td>
                         <td>{{@$var["total_score"]}} </td>
+                        <td>
+                            @if(empty($var["require_time"]))
+                                状态:未申请
+                            @elseif(empty($var["accept_time"]))
+                                状态:已申请,未审核<br>
+                                时间:{{$var["require_time_str"]}}
+                            @else
+                                状态:已审核<br>
+                                结果:{{$var["accept_flag_str"]}}<br>
+                                @if($var["accept_flag"]==2)
+                                    理由:{{$var["accept_info"]}}<br>
+                                @endif
+                                时间:{{$var["accept_time_str"]}}
+                            @endif
+                        </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="opt-edit" title="晋升申请">晋升申请</a>
+                                @if(empty($var["require_time"]))
+                                    <a class="opt-advance-require" title="晋升申请">晋升申请</a>
+                                @endif
 
                             </div>
                         </td>

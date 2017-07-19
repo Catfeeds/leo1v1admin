@@ -56,14 +56,20 @@ class fulltime_teacher extends Controller
         if($account_info["order_per_score"]>=20){
             $account_info["order_per_score"]=20;
         }
-        $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list_new($teacherid);
+
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"];
+        $week_end = $week_start+21*86400;
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list_personal($teacherid,$week_start,$week_end);
+ 
+        // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list_new($teacherid);
         $account_info["stu_num"] = $normal_stu_num["num"];
         if( $account_info["stu_num"]>=15){
             $account_info["stu_num_score"] =15;
         }else{
             $account_info["stu_num_score"] =$account_info["stu_num"];
         }
-        $account_info["stu_lesson_total"] = $normal_stu_num["lesson_all"]/100;
+        $account_info["stu_lesson_total"] = round($normal_stu_num["lesson_all"]/300);
         /* $rate_info = $this->t_teacher_label->get_parent_rate_info($teacherid);
         if($rate_info["num"] >0){
             $account_info["lesson_level"] = $rate_info["level"];

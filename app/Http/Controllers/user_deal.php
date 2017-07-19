@@ -250,11 +250,11 @@ class user_deal extends Controller
             $lesson_time = date("Y-m-d H:i:s",$lesson_info["lesson_start"]);
             $record_info = "上课完成:".E\Econfirm_flag::get_desc($confirm_flag)."<br>无效类型:".E\Elesson_cancel_reason_type::get_desc($lesson_cancel_reason_type)."<br>课堂确认情况:".E\Elesson_cancel_time_type::get_desc($lesson_cancel_time_type)."<br>无效说明:".$confirm_reason."<br>老师:".$realname."<br>上课时间:".$lesson_time;
             $this->t_revisit_info->row_insert([
-                "userid"  =>$lesson_info["userid"],
-                "revisit_time" =>time(),
-                "sys_operator" =>$this->get_account(),
-                "operator_note" =>$record_info,
-                "revisit_type" =>3
+                "userid"        => $lesson_info["userid"],
+                "revisit_time"  => time(),
+                "sys_operator"  => $this->get_account(),
+                "operator_note" => $record_info,
+                "revisit_type"  => 3
             ]);
         }
 
@@ -269,8 +269,12 @@ class user_deal extends Controller
             $lesson_end = strtotime($day." ".$lesson_end);
 
             if($lesson_type!=2){
-                $item         = $this->t_course_order->field_get_list($courseid,"*");
-                $grade        = $this->t_student_info->get_grade($item["userid"]);
+                $item = $this->t_course_order->field_get_list($courseid,"*");
+                if($item['lesson_grade_type']==1){
+                    $grade = $item['grade'];
+                }else{
+                    $grade = $this->t_student_info->get_grade($item["userid"]);
+                }
                 $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
                 $default_lesson_count=0;
                 $lessonid = $this->t_lesson_info->add_lesson_new(
@@ -2582,7 +2586,19 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $teacherid = 180795 ;
+        $master_adminid = $this->get_tea_adminid_by_subject(0);
+        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
+        $jy_teacherid = $teacher_info["teacherid"];
+        $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
+        dd($wx_openid);
+
+        $teacherid = 164488  ;
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"];
+        $week_end = $week_start+21*86400;
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list_personal($teacherid,$week_start,$week_end);
+        dd($normal_stu_num);
+
         $level = 1;
         $ret = $this->t_lesson_info_b2->update_teacher_level($teacherid,$level);
         dd(111);

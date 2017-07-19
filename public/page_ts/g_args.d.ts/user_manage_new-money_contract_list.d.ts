@@ -88,6 +88,7 @@ interface RowData {
 	ass_master_adminid	:any;
 	master_nick	:any;
 	master_assign_time	:any;
+	pdf_url	:any;
 	order_time_1_day_flag	:any;
 	check_money_time_1_day_flag	:any;
 	order_time_1_day_flag_str	:any;

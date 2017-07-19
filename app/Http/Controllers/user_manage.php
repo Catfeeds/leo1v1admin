@@ -408,8 +408,8 @@ class user_manage extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
         $show_yueyue_flag = false;
-        if ($account =="yueyue" || $account=="jim") {
-            $show_yueyue_flag= true;
+        if ($account == "yueyue" || $account == "jim") {
+            $show_yueyue_flag = true;
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
@@ -422,6 +422,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
         );
+
         $all_lesson_count = 0;
         foreach($ret_list['list'] as &$item ){
             E\Eboolean::set_item_value_str($item,"is_new_stu");

@@ -102,14 +102,10 @@ class menu{
 
                 ["power_id"=>21, "name"=>"统计-助教", "list"=>[
                     ["power_id"=>1, "name"=>"助教组-整体统计",   "url"=>"/tongji2/ass_all"],
-
                 ]],
-
             ]],
-
             ["power_id"=>2, "name"=>"教学管理", "list"=> [
                 ["power_id"=>1, "name"=>"课程管理",   "url"=>"/tea_manage/lesson_list"],
-
                 ["power_id"=>12, "name"=>"error 课程视频",   "url"=>"/user_manage_new/get_error_record_lesson_list"],
                 ["power_id"=>13, "name"=>"当前录音服务器分布",   "url"=>"/tea_manage_new/lesson_record_server_list"],
                 ["power_id"=>11, "name"=>"课程列表", "list"=> [
@@ -125,7 +121,8 @@ class menu{
                     ["power_id"=>5, "name"=>"小班学生列表-new",   "url"=>"/small_class/student_list_new"]
                 ]],
                 ["power_id"=>14, "name"=>"培训课堂",   "url"=>"/tea_manage/train_lesson_list"],
-                ["power_id"=>8, "name"=>"课程错误报告",   "url"=>"/lesson_manage/error_info"],
+                ["power_id"=>15, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list"],
+                ["power_id"=>8, "name"=>"课程错误报告",  "url"=>"/lesson_manage/error_info"],
                 ["power_id"=>9, "name"=>"课程统计信息",   "url"=>"/tea_manage/lesson_account"],
                 ["power_id"=>10, "name"=>"登陆过多统计",   "url"=>"/lesson_manage/stu_login_count"]
             ]],
@@ -634,6 +631,7 @@ class menu{
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info"],
                 ["power_id"=>24, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
                 ["power_id"=>34, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
+                ["power_id"=>35, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
                 ["power_id"=>29, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>30, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson"],

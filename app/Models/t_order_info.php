@@ -2026,9 +2026,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-
-
-
     public function get_order_list_require_adminid(
         $page_num,$start_time,$end_time,$contract_type,$contract_status
         ,$userid,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money
@@ -2130,7 +2127,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m on t2.ass_master_adminid = m.uid"
                                   ." left join %s m2 on t1.sys_operator = m2.account"
                                   ." left join %s ti on t1.userid = ti.userid"
-                                  ." where %s  order by $order_by_str ",
+                                  ." where %s "
+                                  ." order by $order_by_str ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,

@@ -117,6 +117,7 @@ class NewRouteConfig {
         "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
+        "/common/get_agent_qr"             => true,
         "/common/get_comment_tags"             => true,
         "/common/get_finish_lessons"         => true,
         "/common/train_user_answer"          => true,
@@ -222,6 +223,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/set_teacher_part_remark"     => true,
         "/tea_manage/set_train_lecture_status"    => true,
         "/tea_manage/train_lecture_lesson_zs"     => true,

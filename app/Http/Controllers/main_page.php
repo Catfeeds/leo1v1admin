@@ -865,7 +865,7 @@ class main_page extends Controller
         unset($ass_group[0]);
 
         // dd($ass_group);
-        $account_id=297;
+        // $account_id=297;
         $stu_info=@$ass_group[$account_id];
         $ass_list_group=[];
         foreach($ass_list3 as $k=>$item2){

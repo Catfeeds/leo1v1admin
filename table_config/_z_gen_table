@@ -8,32 +8,32 @@ if(@$argv[1]=="dev"){
 echo "from  $url_fix \n";
 $t_config=require("./_z_config.php");
 
-$g_php_data=file_get_contents("./_z_t_1.temp");
-$g_php_data_2=file_get_contents("./_z_t_2.temp");
-$g_php_d=file_get_contents("./_z_d.temp");
+$g_php_data   = file_get_contents("./_z_t_1.temp");
+$g_php_data_2 = file_get_contents("./_z_t_2.temp");
+$g_php_d      = file_get_contents("./_z_d.temp");
 
-$table_list=[];
+$table_list = [];
 foreach ($t_config as $item) {
-    $db_name=$item[0];
-    $table_name=$item[1];
-    $table_list[]="$db_name.$table_name";
+    $db_name      = $item[0];
+    $table_name   = $item[1];
+    $table_list[] = "$db_name.$table_name";
 }
-
 
 echo "start url\n";
 $url= "http://$url_fix.admin.yb1v1.com/common_new/show_create_table_list?table_list=". urlencode(json_encode($table_list) );
 //echo $url."\n";
 echo "end url\n";
 $json_data=file_get_contents($url);
-$table_map=json_decode($json_data,true);
-$table_map=$table_map["table_desc_list"];
+
+$table_map = json_decode($json_data,true);
+$table_map = $table_map["table_desc_list"];
 
 $define_str="";
 foreach ($t_config as $item) {
-    $db_name=$item[0];
-    $table_name=$item[1];
-    $key_1_name=$item[2];
-    $key_2_name="";
+    $db_name    = $item[0];
+    $table_name = $item[1];
+    $key_1_name = $item[2];
+    $key_2_name = "";
     if (count($item)==4 ) {
         $key_2_name=$item[3];
     }
@@ -58,14 +58,11 @@ foreach ($t_config as $item) {
     // * @property tpl  $tpl
     $define_str.= " * @property  \\App\\Models\\$table_name  \t \$$table_name\n";
 
-
-
     $key_1_flag=true;
     if (count($item )==4) { //2 key
         $key_1_flag=false;
     }
     $field_get_str="";
-
 
 
     foreach($arr["desc_list"] as $desc_item ) {
@@ -90,7 +87,6 @@ foreach ($t_config as $item) {
     }
 
     gen_table_d($g_php_d, $table_name);
-
 }
 
 put_control_define( $define_str );

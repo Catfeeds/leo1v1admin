@@ -14,7 +14,6 @@ use \App\Enums as E;
  * @property t_assistant_info  $t_assistant_info
  * @property t_admin_group_user  $t_admin_group_user
  * @property t_admin_group_name  $t_admin_group_name
-
  */
 
 
@@ -1962,7 +1961,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             return $item["uid"];
         });
 
-            
+
     }
     public function get_refund_info($start_time,$end_time,$type=-1){
         $where_arr=[];
@@ -2450,4 +2449,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+
+    public function get_stu_nick_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select nick from %s s ".
+                                  " left join %s l on l.userid = s.userid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+
+        return $this->main_get_value($sql);
+    }
 }

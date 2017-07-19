@@ -136,7 +136,7 @@
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
                                         <tr>
-                                            <td> {{@$list["warning_student"]}} </td> 
+                                            <td class="warning_student_detail" > <a href="javascript:;" >{{@$list["warning_student"]}}</a> </td> 
                                             <td> {{@$list["renw_num"]}} </td> 
                                             <td> {{@$list["renw_num_plan"]}} </td> 
                                             <td> {{@$list["renw_num_other"]}} </td> 
@@ -199,7 +199,8 @@
                                 </thead>
                                 <tbody >
                                     <tr>
-                                        <td> {{@$list["kk_lesson"]}} </td> 
+                                        <td class="kk_lesson_detail" > <a href="javascript:;" >  {{@$list["kk_lesson"]}}</a> </td> 
+
                                         <td> {{@$list["kk_succ"]}} </td> 
                                         <td> {{@$list["kk_fail"]}} </td> 
                                         <td> {{@$list["kk_other"]}} </td> 

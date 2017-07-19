@@ -6053,6 +6053,66 @@ class tongji_ss extends Controller
         return  $this->output_succ( [ "data" =>$ret] );
     }
 
+    public function get_kk_lesson_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret= $this->t_test_lesson_subject_sub_list->get_kk_require_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            if($item["status"]==1){
+                $item["status_str"]="成功";
+            }elseif($item["status"]==2){
+                $item["status_str"]="失败";
+            }else{
+                $item["status_str"]="跟进中";
+            }
+
+            E\Egrade::set_item_value_str($item); 
+            E\Esubject::set_item_value_str($item); 
+
+        }
+        
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+    public function get_warning_student_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2);
+        $week_info = $this->t_ass_weekly_info->get_all_info($start_time);
+        $userid_list=[];
+        foreach($week_info as $val){
+            $user = $val["warning_student_list"];
+            $arr = json_decode($user,true);
+            if(!empty($arr)){
+                foreach($arr as $v){
+                    $userid_list[]=$v;
+                }
+            }
+        }
+        $ret = $this->t_student_info->get_stu_renw_info($userid_list);
+        dd($userid_list);
+
+        $ret= $this->t_test_lesson_subject_sub_list->get_kk_require_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            if($item["status"]==1){
+                $item["status_str"]="成功";
+            }elseif($item["status"]==2){
+                $item["status_str"]="失败";
+            }else{
+                $item["status_str"]="跟进中";
+            }
+
+            E\Egrade::set_item_value_str($item); 
+            E\Esubject::set_item_value_str($item); 
+
+        }
+        
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+
     public function tongji_fulltime_teacher_test_lesson_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         //$end_time = time();

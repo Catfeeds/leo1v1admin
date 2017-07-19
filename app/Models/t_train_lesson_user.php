@@ -110,7 +110,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_as_page($sql);
     }
 
 }

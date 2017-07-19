@@ -37,8 +37,14 @@ class wx_yxyx_api extends Controller
     }
 
     public function agent_add(){
-        $p_phone = $this->get_in_str_val('p_phone');
+        $wx_openid  = session("wx_yxyx_openid");
         $phone   = $this->get_in_str_val('phone');
+        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        if(isset($agent_info['phone'])){
+            $p_phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
         if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
@@ -141,7 +147,7 @@ class wx_yxyx_api extends Controller
         $data = [
             'level'     => $level,
             'nick'      => $nick,
-            'pay'       => $pay,
+            'pay'       => $pay/100,
             'cash'      => $cash,
             'have_cash' => $have_cash,
             'num'       => $num,

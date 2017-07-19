@@ -65,6 +65,88 @@ $(function(){
         dlg.getModalDialog().css("width","1024px");
         
     });
+    
+    $(".kk_lesson_detail").on("click",function(){
+        var title = "扩课学生详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>学生</td><td>年级</td><td>科目</td><td>助教</td><td>状态</td><tr></table></div>");
+
+        $.do_ajax('/tongji_ss/get_kk_lesson_detail_list',{
+            "start_time" : g_args.start_time,
+            "end_time"   : g_args.end_time
+        },function(resp) {
+            var userid_list = resp.data;
+            $.each(userid_list,function(i,item){
+                var nick     = item["nick"];
+                var grade  = item["grade_str"];
+                var subject  = item["subject_str"];
+                var name    = item["ass_name"];
+                var status    = item["status_str"];
+                html_node.find("table").append("<tr><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+name+"</td><td>"+status+"</td></tr>");
+            });
+        });
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+        
+    });
+
+    $(".warning_student_detail").on("click",function(){
+        var title = "应续费学生详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>学生</td><td>年级</td><td>剩余课时</td><td>助教</td><td>续费状态</td><tr></table></div>");
+
+        $.do_ajax('/tongji_ss/get_warning_student_detail_list',{
+            "start_time" : g_args.start_time,
+            "end_time"   : g_args.end_time
+        },function(resp) {
+            var userid_list = resp.data;
+            $.each(userid_list,function(i,item){
+                var nick     = item["nick"];
+                var grade  = item["grade_str"];
+                var subject  = item["subject_str"];
+                var name    = item["ass_name"];
+                var status    = item["status_str"];
+                html_node.find("table").append("<tr><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+name+"</td><td>"+status+"</td></tr>");
+            });
+        });
+
+        var dlg=BootstrapDialog.show({
+            title:title, 
+            message :  html_node   ,
+            closable: true, 
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+
+                }
+            }],
+            onshown:function(){
+                
+            }
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+        
+    });
+
+
     $("#id_opt_date_type").hide();
 
 

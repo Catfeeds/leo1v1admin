@@ -94,7 +94,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
-        $sql = $this->gen_sql_new("select distinct r.real_refund,ra.id,t.teacherid,occ.value,ra.score,r.orderid,r.apply_time "
+        $sql = $this->gen_sql_new("select distinct r.real_refund,ra.id,t.teacherid,occ.value,ra.score,r.orderid,r.apply_time,s.nick "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s o on r.orderid = o.orderid"

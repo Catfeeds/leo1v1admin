@@ -116,6 +116,7 @@ return array(
     ["db_weiyi","t_test_subject_free_list", "userid","adminid"],
     ["db_weiyi","t_send_wx_template_record_list", "template_id","send_time"],
     ["db_weiyi","t_research_teacher_kpi_info", "kid","month"],
+    ["db_weiyi","t_teacher_advance_list", "start_time","teacherid"],
 
     ["db_weiyi","t_origin_key", "value"],
     ["db_weiyi","t_wx_openid_bind","openid","role"] ,
@@ -168,7 +169,6 @@ return array(
     ["db_weiyi_admin","t_group_user_month","groupid","adminid","month"] ,
     ["db_weiyi_admin","t_main_group_name_month","groupid","month"] ,
 
-
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,
 
@@ -182,11 +182,9 @@ return array(
     ["db_tool","t_scores_info","id"] ,
     ["db_tool","t_scores_min","id"] ,
     ["db_message","t_sms_msg","recordid"] ,
-    ["db_message","t_weixin_msg","recordid"] ,
+    ["db_message","t_weixin_msg","recordid"] 
     // ["db_question","t_lesson_note_list","id"] ,
     //["db_question","t_lesson_note","note_id"] ,
     // ["db_question","t_question","id"] ,
-
-
     //["db_ejabberd","users","username"] ,
 );
