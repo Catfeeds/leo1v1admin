@@ -12,12 +12,21 @@ use Illuminate\Support\Facades\Session ;
 class wx_yxyx_web extends Controller
 {
     var $check_login_flag=false;
+
+    public function get_agent_id(){
+        $agent_id= $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
+        return $agent_id;
+    }
+
     public function __construct() {
         parent::__construct();
         \App\Helper\Utils::logger("sessionid:".session_id());
         \App\Helper\Utils::logger("web login_user_role:xueji".session("login_user_role"));
         \App\Helper\Utils::logger("web agent_id:".session("agent_id"));
-        if(session("login_user_role") ==10 && session("agent_id")){
+
+        $agent_id= $this->get_agent_id();
+
+        if($agent_id){
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);

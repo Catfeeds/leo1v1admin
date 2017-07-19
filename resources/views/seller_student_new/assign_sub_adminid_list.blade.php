@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-<script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-<script type="text/javascript" src="/js/qiniu/ui.js"></script>
-<script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-<script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-<script type="text/javascript" src="/js/jquery.md5.js"></script>
-<script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
 
     <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
     <section class="content ">
@@ -202,6 +202,18 @@
                         <input class="opt-change form-control" id="id_seller_level" />
                     </div>
                 </div>
+                
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">微信可见</span>
+                       
+                        <select class="opt-change form-control" id="id_wx_invaild_flag" >
+                        </select>
+
+
+                    </div>
+                </div>
+
 
             </div>
 
@@ -280,9 +292,9 @@
                     <td style="width:70px">子状态</td>
                     <td >全局TQ状态</td>
                     <td >系统判定无效</td>
-                        {!!\App\Helper\Utils::th_order_gen([
-                            ["回公海次数","return_publish_count" ],
-                           ])!!}
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["回公海次数","return_publish_count" ],
+                       ])!!}
 
 
                     <td >用户备注</td>
@@ -305,7 +317,7 @@
                         <td>
                             {{$var["phone"]}} <br/>
                             {{$var["phone_location"]}} <br/>
-                                {{$var["nick"]}}
+                            {{$var["nick"]}}
                         </td>
 
                         <td>
@@ -316,7 +328,7 @@
                             @endif
                         </td>
                         <td>
-{{$var['first_call_time']}}
+                            {{$var['first_call_time']}}
                         </td>
 
                         <td>
@@ -388,7 +400,9 @@
                                 <a class="fa fa-list   opt-seller-list " title="拨打cc列表"> </a>
                                 <a class="fa fa-refresh  opt-reset-sys_invaild_flag" title="刷新无效状态"> </a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
-
+                               
+                                <a class="fa fa-flag wx-invaild-flag " title="设置微信可见"> </a>
+                                
                             </div>
                         </td>
                     </tr>

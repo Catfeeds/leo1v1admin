@@ -32,7 +32,7 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_agent_id(){
-        $agent_id= $this->get_in_int_val("agent_id")?$this->get_in_int_val("agent_id"):session("agent_id");
+        $agent_id= $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
         return $agent_id;
     }
 
