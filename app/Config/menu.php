@@ -633,6 +633,7 @@ class menu{
                 ["power_id"=>18, "name"=>"老师教学投诉",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>27, "name"=>"老师推荐申请",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info"],
                 ["power_id"=>24, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
+                ["power_id"=>34, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
                 ["power_id"=>29, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>30, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson"],

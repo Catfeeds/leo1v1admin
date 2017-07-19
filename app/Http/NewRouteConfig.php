@@ -477,6 +477,8 @@ class NewRouteConfig {
         "/authority/delete_member"    => true,
         "/authority/get_member_info"  => true,
         "/authority/edit_member_info" => true,
+        "/authority/set_fulltime_teacher_type" => true,
+        
 
         "/revisit/get_revisit_info"     => true,
         "/revisit/get_revisit_info_new" => true,

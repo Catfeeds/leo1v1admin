@@ -442,4 +442,16 @@ class wx_parent_api extends Controller
         }
     }
 
+
+    //此处处理家长调整时间功能
+
+    public function change_lesson_time_by_parent(){
+        $change_time = $this->get_in_str_val('change_time');
+    }
+
+    public function get_free_time(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $teacher_free_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid);
+        dd($teacher_free_time);
+    }
 }

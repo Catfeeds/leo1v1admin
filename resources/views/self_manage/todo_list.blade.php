@@ -24,8 +24,13 @@
                         <input class="opt-change form-control" id="id_todo_status" />
                     </div>
                 </div>
+                 <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-warning" id="id_self_todo_new">增加回访</button>
             </div>
 
+
+            </div>
+          
         </div>
         <hr/>
         <table     class="common-table"  >
@@ -36,7 +41,6 @@
                     <td>结束时间</td>
                     <td> 信息 </td>
                     <td> 状态 </td>
-
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -46,7 +50,7 @@
                         <td>{{@$var["todo_type_str"]}} </td>
                         <td>{{@$var["start_time"]}} </td>
                         <td>{{@$var["end_time"]}} </td>
-                        <td>{{@$var["line_info"]}} </td>
+                        <td>{{@$var["msg"]}} </td>
                         <td>{!! @$var["todo_status_str"] !!} </td>
                         <td>
                             <div

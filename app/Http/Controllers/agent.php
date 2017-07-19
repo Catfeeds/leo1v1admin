@@ -90,60 +90,12 @@ class agent extends Controller
 
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
     }
-
+    
     public function check(){
-        $phone      = $this->get_in_str_val("phone");
-        $phone = '152511';
-        $wx_openid = 'Sdsdgdeq12';
-        $ret = $this->t_agent->add_agent_row_new($phone,$wx_openid);
-        dd($ret);
-        // $code       = $this->get_in_str_val("code");
-        // $wx_openid  = $this->get_in_str_val("wx_openid");
-        $check_code = \App\Helper\Common::redis_get("JOIN_USER_PHONE_$phone" );
-        dd($phone,$check_code);
-        $url = $this->get_in_str_val('goto_url');
-        $openid = $this->get_in_str_val('wx_openid');
-        dd($openid);
-        $url = 'http://wx-yxyx-web.leo1v1.com/#/bind?goto_url=&wx_openid=oAJiDwBbbqiTwnU__f6ce5tNpWYs&_k=p6ydgr';
-        header("Location: $url");
-        $lessonid = 62815;
-        session(["wx_lessonid" => $lessonid]);
-        dd(session('wx_lessonid'));
-        $ret = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid_by_lessonid($lessonid);
-        dd($ret['set_lesson_adminid']);
-        // $openid = 'orwGAswh6yMByNDpPz8ToUPNhRpQ';
-        // $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-        // $wx_data["first"]    = '1';
-        // $wx_data["keyword1"] = '2';
-        // $wx_data["keyword2"] = "\n 1、填写报名信息"
-        //                      ."\n 2、录制试讲视频"
-        //                      ."\n 3、进行入职培训"
-        //                      ."\n 4、成功入职";
-        // $wx_data["remark"] = "好友成功入职后，即可获得伯乐奖，"
-        //                    ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-        //                    ."请及时绑定银行卡号，如未绑定将无法发放。";
-        // \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$wx_data);
-        // dd('a');
-
-        // $teacher_openid = 'oJ_4fxFUMHpPlf-ibtKD2vuWTKp4';
-        // $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
-        // $url = 'www.leo1v1.com';
-        // $data = [
-        //     'first'    => '1',
-        //     'keyword1' => '2',
-        //     'keyword2' => '3',
-        //     'keyword3' => '4',
-        //     'remark'   => '5',
-        // ];
-        // dd($template_id_teacher);
-        // \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher,$data,$url);
-
-        // $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
-        $time = strtotime('2017-7-12 18:00:00');
+        $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
+        $time = strtotime('2017-7-18 14:00:00');
         $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];
         $lesson_info = $this->t_lesson_info_b2->get_check_lesson($lesson_start);
-        $lesson_time = date('Y-m-d H:s',$lesson_info[0]['lesson_start']).'-'.date('H:s',$lesson_info[0]['lesson_end']);
-        dd($lesson_start,$lesson_time);
         if(count($lesson_info)>0){
             foreach($lesson_info as $key=>$l_item){
                 $ret = [
@@ -154,102 +106,31 @@ class agent extends Controller
                     'teacher_openid' => $l_item['teacher_openid'],
                     'assistantid'    => $l_item['assistantid'],
                     'cc_id'          => $l_item['cc_id'],
+                    'teacher_nick'   => $l_item['teacher_nick'],
+                    'student_nick'   => $l_item['student_nick'],
+                    'lesson_time'    => date('Y-m-d H:i',$l_item['lesson_start']).'-'.date('H:i',$l_item['lesson_end']),
                 ];
                 if($l_item['lesson_start'] == $time+300){//课前5分钟
                     $ret['work_type'] = 0;
-                    dd($ret);
-                    if(!isset($l_item['tea_attend'])){
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
                 }elseif($l_item['lesson_start'] == $time-60){//上课1分钟
                     $ret['work_type'] = 1;
-                    dd($ret);
-                    if(!isset($l_item['stu_attend'])){
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
                 }elseif($l_item['lesson_start'] == $time-180){//上课3分钟
                     $ret['work_type'] = 2;
-                    dd($ret);
                 }elseif($l_item['lesson_start'] == $time-300){//上课5分钟
                     $ret['work_type'] = 3;
-                    dd($ret);
                 }elseif($l_item['lesson_start'] == $time-600){//上课10分钟
                     $ret['work_type'] = 4;
-                    dd($ret);
-                    if(!isset($l_item['tea_attend'])){
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
-                    if(!isset($l_item['stu_attend'])){
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
                 }elseif($l_item['lesson_start'] == $time-1200){//上课20分钟
                     $ret['work_type'] = 5;
-                    dd($ret);
                 }elseif($l_item['lesson_start'] == $time-2400){//上课40分钟
                     $ret['work_type'] = 6;
-                    if(isset($l_item['tea_attend'])){
-                        $this->lessonid       = $ret['lessonid'];
-                        $this->lesson_type    = $ret['lesson_type'];
-                        $this->tea_attend     = $ret['tea_attend'];
-                        $this->stu_attend     = $ret['stu_attend'];
-                        $this->teacher_openid = $ret['teacher_openid'];
-                        $this->assistantid    = $ret['assistantid'];
-                        $this->cc_id          = $ret['cc_id'];
-                        $this->work_type      = $ret['work_type'];
-
-                        $lessonid       = $this->lessonid;
-                        dd($lessonid);
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
-                    if(!isset($l_item['stu_attend'])){
-                        $job=(new \App\Jobs\lesson_check($ret))->delay(60);
-                        dispatch($job);
-                    }
                 }else{//学生中途退出超过5分钟
                     $ret['work_type'] = 7;
-                    dd($ret);
                 }
+                $list[] = $ret;
             }
-            list($this->lessonid,$this->lesson_type,
-                 $this->tea_attend,$this->stu_attend,$this->teacher_openid,
-                 $this->$assistantid,$this->$cc_id,$this->work_type) = $ret;
-
         }
-
-
-        // $phone = '13022221195';
-        // $phone = '13902236712';   //1
-        // $phone = '13818732888';      //2
-        // $phone = '13162561667';
-        // $pay = $this->check_agent_level($phone);
-        // $pay = $this->add_agent_order();
-        // $phone = trim($this->get_in_str_val('phone'));
-        // $code_flag= $this->get_in_int_val("code_flag",0) ;
-        // $phone = '15251318621';
-        // $code_flag = 1;
-        // if ( strlen($phone) != 11) {
-        //     return $this->output_err("电话号码出错");
-        // }
-        // \App\Helper\Utils::logger("sessionid:".session_id());
-
-        // $msg_num = \App\Helper\Common::redis_set_json_date_add("STU_PHONE_$phone",1000000);
-        // $code    = rand(1000,9999);
-
-        // \App\Helper\Common::redis_set("JOIN_USER_PHONE_$phone", $code );
-        // $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
-        //     "code" => $code,
-        //     "index" => $msg_num
-        // ] );
-        // $ret_arr= ["msg_num" =>$msg_num  ];
-        // if ( $code_flag ) {
-        //     $ret_arr["code"] =  $code;
-        // }
-        // return $this->output_succ($ret_arr);
+        dd($list);
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0

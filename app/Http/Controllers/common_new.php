@@ -236,7 +236,7 @@ class common_new extends Controller
         if($check_flag){
             return $this->output_err("该手机号已提交过了,不能重新提交!");
         }
-        if($qq!="" && !ctype_digit($qq)){
+        if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");
         }
         if($subject_ex==0){

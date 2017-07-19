@@ -31,6 +31,7 @@ interface GargsStatic {
 	publish_flag:	number;//\App\Enums\Eboolean
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  	admin_del_flag:	number;//\App\Enums\Eboolean
+	wx_invaild_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -47,6 +48,7 @@ interface RowData {
 	competition_call_adminid	:any;
 	competition_call_time	:any;
 	sys_invaild_flag	:any;
+	wx_invaild_flag	:any;
 	return_publish_count	:any;
 	tmk_adminid	:any;
 	test_lesson_subject_id	:any;
@@ -131,7 +133,8 @@ $(function(){
 			sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
 			publish_flag:	$('#id_publish_flag').val(),
 			seller_level:	$('#id_seller_level').val(),
-			admin_del_flag:	$('#id_admin_del_flag').val()
+			admin_del_flag:	$('#id_admin_del_flag').val(),
+			wx_invaild_flag:	$('#id_wx_invaild_flag').val()
         });
     }
 
@@ -146,6 +149,7 @@ $(function(){
 	Enum_map.append_option_list("boolean",$("#id_sys_invaild_flag"));
 	Enum_map.append_option_list("boolean",$("#id_publish_flag"));
 	Enum_map.append_option_list("boolean",$("#id_admin_del_flag"));
+	Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -186,6 +190,7 @@ $(function(){
 	$('#id_seller_level').val(g_args.seller_level);
 	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 	$('#id_admin_del_flag').val(g_args.admin_del_flag);
+	$('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -378,6 +383,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_admin_del_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_wx_invaild_flag" >
                 </select>
             </div>
         </div>

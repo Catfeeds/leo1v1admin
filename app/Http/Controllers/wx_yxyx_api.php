@@ -214,49 +214,6 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["list" =>$ret_list]);
     }
 
-    public function get_user_pay(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $pay          = 0;
-        if($student_info){
-            //orderid,pay,学生家长,order_time,order_price,count(lessonid),level1_cash,level2_cash,level1_flag,level2_flag
-            $ret = $this->get_pp_pay_cash($phone);
-        }else{
-            $agent_lsit = [];
-            $agent_item = [];
-            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            foreach($agent_list as $item){
-                if($phone == $item['phone']){
-                    $agent_item = $item;
-                }
-            }
-            if($agent_item){
-                $test_lesson = [];
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    $ret = $this->get_pp_pay_cash($phone);
-                }else{
-                    $ret = $this->get_p_pay_cash($phone);
-                }
-            }else{
-                return $this->output_err("您暂无资格!");
-            }
-        }
-        $ret_list      = $ret['list'];
-        return $this->output_succ(["list" =>$ret_list]);
-    }
-
     public function get_user_cash(){
         $wx_openid  = session("wx_yxyx_openid");
         $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
@@ -309,11 +266,15 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_have_cash(){
-        $phone = $this->get_in_str_val('phone');
-        // $phone = '13022221195';
-        // $phone = '4445';
+        $wx_openid  = session("wx_yxyx_openid");
+        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
         if(!preg_match("/^1\d{10}$/",$phone)){
-            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
+            return $this->output_err("请输入规范的手机号!");
         }
         $ret_list = [];
         $ret = $this->t_agent_cash->get_cash_list_by_phone($phone);
@@ -442,9 +403,15 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_bank_info(){
-        $phone = $this->get_in_str_val('phone');
+        $wx_openid  = session("wx_yxyx_openid");
+        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
         if(!preg_match("/^1\d{10}$/",$phone)){
-            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
+            return $this->output_err("请输入规范的手机号!");
         }
         $ret = [];
         $ret = $this->t_agent->get_agent_info_by_phone($phone);
@@ -468,8 +435,16 @@ class wx_yxyx_api extends Controller
     }
 
     public function update_agent_bank_info(){
-        // $teacherid     = session("login_userid");
-        $phone         = $this->get_in_str_val("phone");
+        $wx_openid  = session("wx_yxyx_openid");
+        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
         $bankcard      = $this->get_in_str_val("bankcard");
         $idcard        = $this->get_in_str_val("idcard");
         $bank_address  = $this->get_in_str_val("bank_address");
@@ -481,22 +456,6 @@ class wx_yxyx_api extends Controller
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $cash   = $this->get_in_int_val("cash");
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
-        }
-        // $phone = '889';
-        // $bankcard = '6210984910004164835';
-        // $idcard = '410185201111260509';
-        // $bank_address = '中国邮政';
-        // $bank_account = '张三';
-        // $bank_phone = '889';
-        // $bank_province = '上海';
-        // $bank_city = '上海';
-        // $bank_type = '邮政';
-        // $zfb_name = '王五';
-        // $zfb_account = 'wangwu@126.com';
-        // $cash = 3000;
-
         $row = $this->t_agent->get_id_row_by_phone($phone);
         if(!$row){
             return $this->output_err("请先注册优学优享！");

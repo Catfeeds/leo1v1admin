@@ -1282,6 +1282,8 @@ class stu_manage extends Controller
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
+
+        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -1301,7 +1303,7 @@ class stu_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
             E\Erole::set_item_value_str($item);
             $this->cache_set_item_student_nick($item);
-            //$item["ip"]=long2ip($item["ip"]);
+            $item["ip"] = long2ip($item["ip"]);
         }
        return $this->pageView(__METHOD__,$ret_info);
     }
