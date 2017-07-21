@@ -83,7 +83,7 @@ class seller_student_new extends Controller
         $admin_del_flag  = $this->get_in_e_boolean(-1 ,"admin_del_flag");
         //wx
         $wx_invaild_flag  =$this->get_in_e_boolean(-1,"wx_invaild_flag");
-        //dd($wx_invaild_flag); 
+        //dd($wx_invaild_flag);
         $this->t_seller_student_new->switch_tongji_database();
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,
@@ -94,7 +94,7 @@ class seller_student_new extends Controller
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag);
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         // dd($ret_info);
-        
+
         foreach( $ret_info["list"] as $index=> &$item ) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
