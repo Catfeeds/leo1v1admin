@@ -93,8 +93,8 @@ class seller_student_new extends Controller
         //wx
         $wx_invaild_flag  =$this->get_in_e_boolean(-1,"wx_invaild_flag");
         //dd($wx_invaild_flag);
-        $do_filter = $this->get_in_int_val('filter_flag',-1);
-
+        // $do_filter = $this->get_in_int_val('filter_flag',-1);
+        $do_filter = session('do_filter');
         dd($do_filter);
         session(['filter_flag'=>-1]);
 
