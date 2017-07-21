@@ -734,7 +734,7 @@ $(function(){
 
 
     $('#id_set_shaixuan').on('click',function(){
-        $.do_ajax("/seller_student_new/do_filter",{"filter_flag": 1},function(result){
+        $.do_ajax("/seller_student_new/assign_sub_adminid_list",{"filter_flag": 1},function(result){
             load_data();
         });
 
