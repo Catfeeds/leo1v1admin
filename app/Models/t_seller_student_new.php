@@ -1642,4 +1642,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         return $this->main_get_list($sql);
     }
+    //通过userid得到seller_student_new相应一条记录
+    public function get_userid_row($userid){
+        
+        $sql = $this->gen_sql_new("select *  "
+                                   ." from %s where userid=%u "
+                                   ,self::DB_TABLE_NAME,  $userid);
+        
+        return $this->main_get_row($sql);
+
+    }
+    
+
+
+
 }

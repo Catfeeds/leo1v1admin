@@ -185,7 +185,7 @@ class ajax_deal2 extends Controller
             "score"                 => $score,
             "rank"                  => $rank,
             "file_url"              => $file_url
-        ],false,false,true); 
+        ],false,false,true);
         return $this->output_succ();
     }
 
@@ -255,7 +255,7 @@ class ajax_deal2 extends Controller
     //测试login_log修改
     public function set_login_log(){
         $id     = $this->get_in_int_val('id');
-       
+
         $userid     = $this->get_in_int_val("userid");
         $login_time = strtotime($this->get_in_int_val("login_time"));
 
@@ -265,7 +265,7 @@ class ajax_deal2 extends Controller
         $login_type   = $this->get_in_int_val("login_type");
         $dymanic_flag = $this->get_in_int_val("dymanic_flag");
 
-       
+
         if ($ip>100)  {
             return $this->output_err("ip出错");
         }
@@ -296,4 +296,63 @@ class ajax_deal2 extends Controller
         $sql=$this->get_in_str_val("sql");
 
     }
+
+    //手机绑定注册学生，家长
+    public function phone_bdregister(){
+        $phone = $this->get_in_str_val('phone');
+        $nick = $this->get_in_str_val('account');
+
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
+        // dd($userid);
+        if($userid > 0){
+            //return $this->output_err('学生以绑定');
+        }else {
+            $passwd = md5(123456);
+            $reg_channel = '后台添加';
+            $ip = 0;
+            $grade = 101;
+            $region = '后台添加';
+            $userid = $this->t_student_info->register($phone,$passwd,$reg_channel,$grade,$ip,$nick,$region);
+            if(!$userid){
+                // return $this->output_err('学生绑定失败');
+            }
+
+        }
+
+        //家长
+        $parentlist = $this->t_parent_child->get_stu_parent_info_list($userid);
+        dd($parentlist);
+        if($parentlist){
+            $have_stu_parent = 0;
+            foreach($parentlist as $v){
+                if($userid == $v['userid']){
+                    $have_stu_parent = 1;
+                    break;
+                }
+
+            }
+            if($have_stu_parent == 0){
+                $parentid = $this->t_parent_info->get_parentid_by_phone($phone);
+                if($parentid){
+                    $this->t_parent_child->set_student_parent($parentid,$userid);
+
+                }else{
+                    //建家长
+                    $parid = $this->t_parent_info->register_parent($userid,$phone,$nick);
+                }
+            }
+
+        }else{
+
+              $parid = $this->t_parent_info->register_parent($userid,$phone,$nick);
+
+        }
+
+
+        //return $this->output_succ('绑定成功');
+
+    }
+
+
+
 }

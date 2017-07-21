@@ -628,67 +628,55 @@ $(function(){
 
 
     $(".opt-publish-flag").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        //alert( opt_data.html()); 
+        var opt_data               = $(this).get_opt_data();
+        var $seller_student_status = $("<select></selelct>");
+        var $wx_invaild_flag       = $("<select></selelct>");
+        //var res = JSON.stringify(opt_data); 
+        //alert(res);
 
-        var $seller_student_status=$("<select></selelct>");
+        Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
+        Enum_map.append_option_list("boolean",$wx_invaild_flag,true, need_wx );
+
         var need_list=[];
         if (opt_data.seller_student_status==50) {
             need_list=[0,50];
         }else{
             need_list=[ opt_data.seller_student_status, 50];
         }
-        Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
+
         $seller_student_status.val(opt_data.seller_student_status );
+
+        var need_wx=[];
+        if (opt_data.wx_invaild_flag==50) {
+            need_wx=[0,50];
+        }else{
+            need_wx=[ opt_data.wx_invaild_flag,50];
+        }
+
+       $wx_invaild_flag.val(opt_data.wx_invaild_flag);
+
         var arr=[
             ["回访状态",  $seller_student_status],
+            ["微信可见",  $wx_invaild_flag],
+        
+           
         ];
-
+        
         $.show_key_value_table("设置是否公海可见", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/ss_deal/set_seller_student_status",{
                     "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
-                    "seller_student_status" : $seller_student_status.val()
+                    "seller_student_status" : $seller_student_status.val(),
+                    "wx_invaild_flag" : $wx_invaild_flag.val()
+                                        
                 });
             }
         });
 
     });
-    //微信可见
-        $(".wx-invaild-flag").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-            //alert(opt_data);
-           
-            
-        var $seller_student_status=$("<select></selelct>");
-        var need_list=[];
-        if (opt_data.seller_student_status==50) {
-            need_list=[0,50];
-        }else{
-            need_list=[ opt_data.seller_student_status, 50];
-        }
-        Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
-        $seller_student_status.val(opt_data.seller_student_status );
-        var arr=[
-            ["微信状态",  $seller_student_status],
-        ];
-
-        $.show_key_value_table("设置微信可见", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                $.do_ajax("/ss_deal/set_seller_student_status",{
-                    "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
-                    "seller_student_status" : $seller_student_status.val()
-                });
-            }
-        });
-
-    });
-
-    
+       
 
 
     if ($.get_action_str()=="tmk_assign_sub_adminid_list") {
@@ -744,7 +732,7 @@ $(function(){
     });
 
 
-    //opt-publish-flag
+    
 
 
 });

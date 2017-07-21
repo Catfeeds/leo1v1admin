@@ -400,9 +400,7 @@
                                 <a class="fa fa-list   opt-seller-list " title="拨打cc列表"> </a>
                                 <a class="fa fa-refresh  opt-reset-sys_invaild_flag" title="刷新无效状态"> </a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
-                               
-                                <a class="fa fa-flag wx-invaild-flag " title="设置微信可见"> </a>
-                                
+                              
                             </div>
                         </td>
                     </tr>

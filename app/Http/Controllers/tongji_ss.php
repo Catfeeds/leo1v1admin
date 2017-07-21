@@ -5796,6 +5796,8 @@ class tongji_ss extends Controller
         $origin_level      = $this->get_in_el_origin_level();
 
         $tmk_access_adminid = [60,188,68,186,349,684,384,323,282,896];
+        //wx
+        $wx_invaild_flag  = $this->get_in_e_boolean(-1,"wx_invaild_flag");
 
         if (in_array($tmk_adminid,$tmk_access_adminid)) {
             $tmk_adminid = -1;
@@ -5821,15 +5823,15 @@ class tongji_ss extends Controller
             1 => array("add_time","资源进来时间"),
         ] );
 
-        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level );
+        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level ,-1,$wx_invaild_flag);
 
 
-        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level );
+        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level,$wx_invaild_flag);
         $data_map=&$ret_info["list"];
 
-        // dd($ret_info);
+        //dd($ret_info);
         // 处理tmk课程的数量
-        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level);
+        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level,$wx_invaild_flag);
         // dd($tmk_lesson_num);
         foreach ($tmk_lesson_num as  $tmk_item ) {
             $check_value=$tmk_item["check_value"];
@@ -5839,7 +5841,7 @@ class tongji_ss extends Controller
         }
 
         //合同
-        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level);
+        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level,$wx_invaild_flag);
 
         // dd($order_list);
 
@@ -5924,7 +5926,7 @@ class tongji_ss extends Controller
     }
 
 
-    public function ass_month_info(){        
+    public function ass_month_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $week_info = $this->t_ass_weekly_info->get_all_info($start_time,2);
         dd($week_info);
@@ -6046,10 +6048,10 @@ class tongji_ss extends Controller
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $ret = $this->t_student_info->get_end_lesson_stu_list($start_time,$end_time);
         foreach($ret as &$item){
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
             $item["lesson_left"] = $item["lesson_count_left"]/100;
         }
- 
+
         return  $this->output_succ( [ "data" =>$ret] );
     }
 
