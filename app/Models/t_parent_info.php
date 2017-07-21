@@ -190,6 +190,31 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         );
         return $this->main_get_value($sql);
     }
+    //添加家长
+    public function register_parent($parentid,$phone,$nick){
+        // $userid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
+        // if($userid>0){
+        //     return $userid;
+        // }
+
+        // $userid= $this->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
+        // if(!$userid){
+        //     return false;
+        // }
+
+        // $ret = $this->t_phone_to_user->add($phone,E\Erole::V_STUDENT,$userid);
+        // if(!$ret){
+        //     return false;
+        // }
+        
+        return $this->row_insert([
+            "parentid"           => $parentid,
+            "phone"              => $phone,
+            "nick"               => $nick,
+            "last_modified_time" => time(NULL),
+            "email"              => ' ',
+        ]);
+    }
 
     public function get_parent_wx_openid($lessonid){
         $sql = $this->gen_sql_new(" select wx_openid from %s p ".

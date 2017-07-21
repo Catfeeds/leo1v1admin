@@ -2174,7 +2174,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
 
-    public function tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex="", $origin_level=-1) {
+    public function tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex="", $origin_level=-1,$wx_invaild_flag=-1) {
 
         $this->switch_tongji_database();
 
@@ -2208,7 +2208,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
         $sql = $this->gen_sql_new(
             "select $field_name as check_value ,count(*) as order_count,sum(price)/100 as order_all_money "

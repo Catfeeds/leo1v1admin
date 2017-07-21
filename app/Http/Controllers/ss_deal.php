@@ -44,7 +44,7 @@ class ss_deal extends Controller
                 "tmk_join_time"  => time(NULL),
                 "tmk_student_status"  => 0,
             ]);
-            $account=$this->get_account();
+                $account=$this->get_account();
             $ret_update = $this->t_book_revisit->add_book_revisit(
                 $phone,
                 "操作者: 状态:  TMK新增例子  :$account ",
@@ -479,11 +479,27 @@ class ss_deal extends Controller
     public function  set_seller_student_status( ) {
         $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
         $seller_student_status= $this->get_in_e_seller_student_status();
-        $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"seller_student_status");
+
+        $wx_invaild_flag= $this->get_in_int_val("wx_invaild_flag");
+        $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
+        
+        //dd($db_tt_item);
+        $db_seller_student_new = $this->t_seller_student_new->get_userid_row($db_tt_item['userid']);
+        
+        //dd($db_seller_student_new);
         //更新 seller_student_status
-        if ($db_tt_item["seller_student_status"] != $seller_student_status) {
-            $this->t_test_lesson_subject->set_seller_student_status( $test_lesson_subject_id, $seller_student_status,  $this->get_account() );
+        if ($db_tt_item["seller_student_status"] != $seller_student_status ) {
+            $this->t_test_lesson_subject->set_seller_student_status( $test_lesson_subject_id,$seller_student_status,$this->get_account() );
         }
+      
+        //更新 wx_invaild_flag
+        $arrwx = [];
+        $arrwx['wx_invaild_flag'] = $wx_invaild_flag;
+        if ($db_seller_student_new["wx_invaild_flag"] != $wx_invaild_flag ) {
+            $this->t_seller_student_new->field_update_list( $db_seller_student_new["userid"],$arrwx);
+        }
+
+
         return $this->output_succ();
 
 
@@ -3712,12 +3728,27 @@ class ss_deal extends Controller
         if($ass_renw_flag==2 && empty($no_renw_reason)){
              return $this->output_err("不续费原因不能为空!");
         }
+        if(in_array($ass_renw_flag,[1,3]) && $renw_week<=0){
+            return $this->output_err("计划续费周不能为空!");
+        }
+        $ass_renw_flag_old= $this->t_month_ass_warning_student_info->get_ass_renw_flag($id);
+        if($ass_renw_flag_old >0 && $ass_renw_flag==0){
+             return $this->output_err("不能设置为未设置状态");
+        }
+
         $this->t_month_ass_warning_student_info->field_update_list($id,[
             "ass_renw_flag"         =>$ass_renw_flag,
             "renw_price"            =>$renw_price,
             "no_renw_reason"        =>$no_renw_reason,
             "renw_week"             =>$renw_week
         ]);
+        if($ass_renw_flag==2){
+            $this->t_month_ass_warning_student_info->field_update_list($id,[
+                "done_flag"             =>1,
+                "done_time"             =>time(),
+            ]);
+
+        }
         return $this->output_succ();
     }
 

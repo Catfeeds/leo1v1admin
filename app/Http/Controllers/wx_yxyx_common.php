@@ -66,13 +66,14 @@ class wx_yxyx_common extends Controller
 
     public function send_phone_code() {
         $phone = trim($this->get_in_str_val('phone'));
+        $wx_openid  = session("wx_yxyx_openid");
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }else{
-            $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
+            $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+            // $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
             if(isset($agent_info['id'])){
                 $id = $agent_info['id'];
-                \App\Helper\Utils::logger("is_bind:$id");
                 return $this->output_err("您已绑定过！");
             }
         }

@@ -5,7 +5,8 @@ interface GargsStatic {
 	admin_revisiterid:	number;
 	groupid:	number;
 	origin_level:	string;//枚举列表: \App\Enums\Eorigin_level
- 	date_type_config:	string;
+ 	wx_invaild_flag:	number;//\App\Enums\Eboolean
+	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
@@ -53,6 +54,7 @@ $(function(){
 			admin_revisiterid:	$('#id_admin_revisiterid').val(),
 			groupid:	$('#id_groupid').val(),
 			origin_level:	$('#id_origin_level').val(),
+			wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -61,6 +63,7 @@ $(function(){
         });
     }
 
+	Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -79,6 +82,7 @@ $(function(){
 	$('#id_groupid').val(g_args.groupid);
 	$('#id_origin_level').val(g_args.origin_level);
 	$.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();} )
+	$('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -128,6 +132,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin_level</span>
                 <input class="opt-change form-control" id="id_origin_level" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_wx_invaild_flag" >
+                </select>
             </div>
         </div>
 */

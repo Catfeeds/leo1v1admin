@@ -12,13 +12,20 @@ function load_data(){
         groupid:	$('#id_groupid').val(),
         tmk_adminid:	$('#id_tmk_adminid').val(),
         origin_ex:	$('#id_origin_ex').val(),
-			  origin_level:	$('#id_origin_level').val(),
+        origin_level:	$('#id_origin_level').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-        origin:	$('#id_origin').val()
+        origin:	$('#id_origin').val(),
+        //wx
+        wx_invaild_flag:$('#id_wx_invaild_flag').val(),
+ 
+
     });
 }
 
 $(function(){
+    //wx
+    Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
+
 
     $(".common-table").tbody_scroll_table(500);
 
@@ -38,10 +45,14 @@ $(function(){
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
+    //wx
+    $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 
 
-	  $('#id_origin_level').val(g_args.origin_level);
-	  $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
+    
+
+    $('#id_origin_level').val(g_args.origin_level);
+    $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "T类" : [90],
         "非T类" : [0,1,2,3,4,100],
     }  );
@@ -112,11 +123,6 @@ $(function(){
         });
 
     };
-    // gen_data( g_subject_map,"subject","id_subject_pic");
-    // gen_data( g_grade_map,"grade","id_grade_pic",true);
-    // gen_data( g_has_pad_map,"pad_type","id_has_pad_pic");
-    // gen_data( g_area_map,"","id_area_pic");
-    // gen_data( g_origin_level_map,"origin_level","id_origin_level_pic");
 
 
     $('#id_origin').val(g_args.origin);
@@ -175,6 +181,43 @@ $(function(){
 
 
 
+    $('.opt-get_assign_time').on("click",function(){
+        var tmk_adminid = $(this).attr('data-tmk_adminid');
+        var start_time  =  g_args.start_time;
+        var end_time    =  g_args.end_time;
+
+        var html_node    = $.obj_copy_node("#id_assign_log");
+
+         BootstrapDialog.show({
+            title: "已回访时间列表",
+            message: html_node,
+            closable: true
+        });
+
+
+        $.do_ajax('/ss_deal2/get_tmk_assign_time',{
+            'tmk_adminid' : tmk_adminid,
+            'start_time'  : start_time,
+            'end_time'    : end_time
+
+        },function(result){
+            if (result['ret'] == 0) {
+                var data = result['data'];
+
+                var html_str = "";
+                $.each(data, function (i, item) {
+                    var cls = "success";
+
+                    html_str += "<tr class=\"" + cls + "\" > <td>" + item.nick + " <td>" + item.tmk_assign_time_str + "<td>" + item.first_call_time_str + "<td>" + item.global_tq_called_flag_str  + "</tr>";
+                });
+
+                html_node.find(".data-body").html(html_str);
+            }
+
+        });
+    });
+    
+        
 
 
 });

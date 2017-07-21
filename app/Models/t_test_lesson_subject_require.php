@@ -2230,7 +2230,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
 
-    public function get_tmk_lesson_count( $field_name, $start_time,$end_time,$tmk_adminid=-1,$origin_level=-1){
+    public function get_tmk_lesson_count( $field_name, $start_time,$end_time,$tmk_adminid=-1,$origin_level=-1,$wx_invaild_flag){
 
         $this->switch_tongji_database();
 
@@ -2244,6 +2244,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
+
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , count(*) as tmk_count, "
             ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count  "
