@@ -22,9 +22,9 @@ class wx_yxyx_web extends Controller
         parent::__construct();
         \App\Helper\Utils::logger("sessionid:".session_id());
         \App\Helper\Utils::logger("web login_user_role:xueji".session("login_user_role"));
-        \App\Helper\Utils::logger("web agent_id:".session("agent_id"));
 
         $agent_id= $this->get_agent_id();
+        \App\Helper\Utils::logger("web agent_id:".$agent_id);
         if($agent_id){
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");

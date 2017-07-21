@@ -29,7 +29,7 @@ class wx_yxyx_common extends Controller
         session(["wx_yxyx_openid" => $openid]);
 
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_yxyx_openid:$openid");
+        \App\Helper\Utils::logger("new_openid:$openid");
         \App\Helper\Utils::logger("sessionid:".session_id());
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
@@ -70,9 +70,13 @@ class wx_yxyx_common extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }else{
-            $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
-            // $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
-            if(isset($agent_info['id'])){
+            $openid = '';
+            // $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+            $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
+            if(isset($agent_info['wx_openid'])){
+                $openid = $agent_info['wx_openid'];
+            }
+            if($openid){
                 $id = $agent_info['id'];
                 return $this->output_err("您已绑定过！");
             }
@@ -111,7 +115,13 @@ class wx_yxyx_common extends Controller
         }
 
         if($code==$check_code){
-            $id = $this->t_agent->add_agent_row_new($phone,$wx_openid);
+            $agent_info = [];
+            $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
+            if(isset($agent_info['id'])){
+                $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid],'id',$agent_info['id']);
+            }else{
+                $id = $this->t_agent->add_agent_row_new($phone,$wx_openid);
+            }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
             }

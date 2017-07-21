@@ -3264,6 +3264,23 @@ class user_deal extends Controller
         return $this->output_succ($arr);
     }
 
+    public function get_renw_flag_change_list(){
+        $id = $this->get_in_int_val("id",0);
+        $data = $this->t_ass_warning_renw_flag_modefiy_list->get_info_by_warning_id($id);
+        foreach($data as &$val){
+            E\Erenw_type::set_item_value_str($val,"ass_renw_flag_before");
+            E\Erenw_type::set_item_value_str($val,"ass_renw_flag_cur");
+            $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
+            $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+
+        }
+        if(empty($data)){
+            return $this->output_err("没有修改记录!");
+        }else{
+            return $this->output_succ(["data"=>$data]);
+        }
+
+    }
     public function get_student_type_change_list(){
         $userid = $this->get_in_int_val("userid",0);
         $data = $this->t_student_type_change_list->get_info_by_userid($userid);

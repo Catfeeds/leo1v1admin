@@ -3742,12 +3742,24 @@ class ss_deal extends Controller
             "no_renw_reason"        =>$no_renw_reason,
             "renw_week"             =>$renw_week
         ]);
+        
         if($ass_renw_flag==2){
             $this->t_month_ass_warning_student_info->field_update_list($id,[
                 "done_flag"             =>1,
                 "done_time"             =>time(),
             ]);
 
+        }
+        if($ass_renw_flag != $ass_renw_flag_old){
+            $this->t_ass_warning_renw_flag_modefiy_list->row_insert([
+                "add_time"   =>time(),
+                "userid"     =>$userid,
+                "ass_renw_flag_before"  =>$ass_renw_flag_old,
+                "ass_renw_flag_cur"     =>$ass_renw_flag,
+                "no_renw_reason"        =>$no_renw_reason,
+                "adminid"               =>$this->get_account_id(),
+                "warning_id"            =>$id
+            ]);
         }
         return $this->output_succ();
     }
@@ -3765,6 +3777,26 @@ class ss_deal extends Controller
         ]);
         return $this->output_succ();
     }
+    
+    public function update_ass_student_renw_info_master_new(){
+        $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
+        $start_time     = strtotime($this->get_in_str_val("start_time"));
+        $master_renw_flag  = $this->get_in_int_val("master_renw_flag");
+        $master_no_renw_reason = $this->get_in_str_val("master_no_renw_reason");
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
+            "master_renw_flag"         =>$master_renw_flag,
+            "master_no_renw_reason"        =>$master_no_renw_reason,
+        ]);
+        if($master_renw_flag==1){
+            $this->t_month_ass_warning_student_info->field_update_list($id,[
+                "done_flag"             =>1,
+                "done_time"             =>time(),
+            ]);
+        }
+        return $this->output_succ();
+    }
+
 
     public function sync_tq() {
         $now=time(NULL);

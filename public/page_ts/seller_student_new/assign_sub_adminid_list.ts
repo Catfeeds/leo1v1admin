@@ -6,7 +6,7 @@ function load_data(){
         order_by_str                   : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
-			  seller_level:	$('#id_seller_level').val(),
+        seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
         admin_del_flag:	$('#id_admin_del_flag').val(),
@@ -111,8 +111,8 @@ $(function(){
     });
 
 
-	  $('#id_seller_level').val(g_args.seller_level);
-	  $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
+    $('#id_seller_level').val(g_args.seller_level);
+    $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_admin_del_flag').val(g_args.admin_del_flag);
@@ -128,7 +128,7 @@ $(function(){
 
 
     $('#id_account_role').val(g_args.account_role);
-    
+
     $.enum_multi_select( $('#id_account_role'), "account_role", function(){load_data();} );
 
     $.admin_select_user(
@@ -426,7 +426,7 @@ $(function(){
                 select_userid_list.push( $item.data("userid") ) ;
             }
         } ) ;
-       
+
         var do_post= function (opt_adminid) {
             $.do_ajax(
                 '/ss_deal/set_adminid',
@@ -631,7 +631,7 @@ $(function(){
         var opt_data               = $(this).get_opt_data();
         var $seller_student_status = $("<select></selelct>");
         var $wx_invaild_flag       = $("<select></selelct>");
-        //var res = JSON.stringify(opt_data); 
+        //var res = JSON.stringify(opt_data);
         //alert(res);
 
         Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
@@ -658,10 +658,10 @@ $(function(){
         var arr=[
             ["回访状态",  $seller_student_status],
             ["微信可见",  $wx_invaild_flag],
-        
-           
+
+
         ];
-        
+
         $.show_key_value_table("设置是否公海可见", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
@@ -670,13 +670,13 @@ $(function(){
                     "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
                     "seller_student_status" : $seller_student_status.val(),
                     "wx_invaild_flag" : $wx_invaild_flag.val()
-                                        
+
                 });
             }
         });
 
     });
-       
+
 
 
     if ($.get_action_str()=="tmk_assign_sub_adminid_list") {
@@ -732,7 +732,18 @@ $(function(){
     });
 
 
-    
+
+    $('#id_set_shaixuan').on('click',function(){
+        $.do_ajax("/seller_student_new/do_filter",{"filter_flag": 1},function(result){
+            load_data();
+        });
+
+    });
+
+
+
+
+
 
 
 });

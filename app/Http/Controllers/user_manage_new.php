@@ -2719,6 +2719,16 @@ class user_manage_new extends Controller
 
         return $this->ass_warning_stu_info();
     }
+    
+    public function ass_warning_stu_info_leader_new()
+    {
+        $leader_flag = 1;
+
+        $this->set_in_value("leader_flag",$leader_flag);
+
+        return $this->ass_warning_stu_info_new();
+    }
+
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();

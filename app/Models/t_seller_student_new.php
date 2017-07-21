@@ -497,7 +497,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1
     ) {
 
 
@@ -513,13 +513,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr=[
                 ["t.subject=%u",$subject, -1],
                 ["s.origin like '%%%s%%'", $this->ensql( $origin), ""],
-                "s.lesson_count_all=0",
+                // "s.lesson_count_all=0",
                 ["ss.phone_location like '%%%s%%'",$phone_location, ""],
                 ["ss.seller_resource_type = %d " ,$seller_resource_type, -1],
                 ["ss.tq_called_flag = %d " ,$tq_called_flag, -1],
                 ["ss.global_tq_called_flag = %d " ,$global_tq_called_flag, -1],
-                "t.require_admin_type=2",
+                // "t.require_admin_type=2",
             ];
+
+            if($do_filter == -1){
+                $where_arr = [
+                    "t.require_admin_type=2",
+                    "s.lesson_count_all=0",
+                ];
+            }
+
             $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);
 
             $where_arr[]=$this->where_get_in_str_query("s.grade",$grade);

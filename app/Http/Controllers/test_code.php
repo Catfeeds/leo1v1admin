@@ -1458,10 +1458,6 @@ class test_code extends Controller
         }
     }
 
-    public function check_teacher_subject(){
-
-    }
-
     public function get_amanda(){
         $start_time=strtotime("2017-6-1");
         $end_time=strtotime("2017-7-1");
@@ -1472,6 +1468,11 @@ class test_code extends Controller
             echo "<br>";
         }
     }
+
+    public function get_order_5(){
+        $list=$this->t_order_info->get_order_5();
+    }
+
 
 
 }
