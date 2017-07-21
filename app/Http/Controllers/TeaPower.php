@@ -570,7 +570,7 @@ trait  TeaPower {
         $userid  = $tt_item["userid"];
         $subject = $tt_item["subject"];
 
-        if( $subject==$teacher_subject["subject"]){
+        if($subject==$teacher_subject["subject"]){
             if($teacher_subject['grade_start']==0){
                 $check_subject = $this->check_teacher_subject_and_grade_new(
                    $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
@@ -745,7 +745,6 @@ trait  TeaPower {
         if($stu_info['subject']!=$tea_info['subject']){
             return $this->output_err("学生科目与老师科目不匹配!");
         }
-
         if(in_array($stu_info['grade'],$not_grade)){
             return $this->output_err("该老师对应年级段已被冻结!");
         }
@@ -1134,20 +1133,22 @@ trait  TeaPower {
              * 日期：{{keyword3.DATA}}
              * {{remark.DATA}}
              */
-            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
-            $data['keyword1'] = "备课通知";
-            $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                              ."\n教务电话：$require_phone"
-                              ."\n试听需求：$demand"
-                              ."\n1、请及时确认试听需求并备课"
-                              ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-                              ."\n3、老师可提前15分钟进入课堂进行上课准备";
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "";
-            $url = "http://www.leo1v1.com/login/teacher";
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            if($wx_openid!=""){
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+                $data['keyword1'] = "备课通知";
+                $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                                  ."\n教务电话：$require_phone"
+                                  ."\n试听需求：$demand"
+                                  ."\n1、请及时确认试听需求并备课"
+                                  ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+                                  ."\n3、老师可提前15分钟进入课堂进行上课准备";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "http://www.leo1v1.com/login/teacher";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
         }
 
         return $this->output_succ();

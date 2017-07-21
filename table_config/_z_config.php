@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_lesson_time_modify","lessonid"],
     ["db_weiyi","t_user_login_log","id"],
     ["db_weiyi","t_student_score_info","id"],
     ["db_weiyi","t_student_cc_to_cr","id"],
@@ -62,7 +63,8 @@ return array(
     ["db_weiyi","t_teacher_month_money","logtime","teacherid"] ,
     ["db_weiyi","t_month_ass_student_info","adminid","month","kpi_type"] ,
     ["db_weiyi","t_jw_teacher_month_plan_lesson_info","adminid","month"] ,
-    ["db_weiyi","t_month_ass_warning_student_info","userid","month"] ,
+    ["db_weiyi","t_month_ass_warning_student_info","id"] ,
+    ["db_weiyi","t_ass_warning_renw_flag_modefiy_list","id"] ,
     ["db_weiyi","t_teacher_phone_click_info","adminid","click_time"] ,
     ["db_weiyi","t_ass_weekly_info","id"] ,
     ["db_weiyi","t_teacher_money_type","teacher_money_type"] ,

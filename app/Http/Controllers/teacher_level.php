@@ -218,13 +218,16 @@ class teacher_level extends Controller
             "accept_info"    =>$accept_info
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        if($accept_flag==1){            
+        if($accept_flag==1 && $teacherid==50158){            
             $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
             $level_degree = E\Elevel::v2s($level_after);
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
             // $this->t_lesson_info_b2->update_teacher_level($teacherid,$level_after);
+            // $level_start = strtotime("2017-08-01");
+            //$teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
+            // $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 
             
             //微信通知老师

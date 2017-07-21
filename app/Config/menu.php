@@ -204,6 +204,8 @@ class menu{
                 ["power_id"=>20, "name"=>"用户管理-销售",   "url"=>"/authority/manager_list_for_seller"],
                 ["power_id"=>30, "name"=>"用户管理-助教",   "url"=>"/authority/manager_list_for_ass"],
                 ["power_id"=>34, "name"=>"用户管理-全职老师",   "url"=>"/authority/manager_list_for_qz"],
+                ["power_id"=>37, "name"=>"用户管理-全职老师(上海)",   "url"=>"/authority/manager_list_for_qz_shanghai"],
+                ["power_id"=>38, "name"=>"用户管理-全职老师(武汉)",   "url"=>"/authority/manager_list_for_qz_wuhan"],
 
                 ["power_id"=>31, "name"=>"部门管理",   "url"=>"/user_manage_new/admin_group_manage"],
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
@@ -518,6 +520,7 @@ class menu{
                 ["power_id"=>26, "name"=>"常规课表",   "url"=>"/human_resource/regular_course_all"],
                 ["power_id"=>8, "name"=>"寒假课表",   "url"=>"/human_resource/winter_regular_course_all"],
                 ["power_id"=>27, "name"=>"按常规课程排课",   "url"=>"/tea_manage/course_plan_stu"],
+                ["power_id"=>28, "name"=>"教育学排课表",   "url"=>"/tea_manage/course_plan_psychological"],
                 ["power_id"=>40, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_teacher_info"],
                 ["power_id"=>41, "name"=>"学情回访预警信息",   "url"=>"/user_manage_new/ass_revisit_warning_info"],
                 ["power_id"=>75, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_ass_leader"],
@@ -632,9 +635,9 @@ class menu{
                 ["power_id"=>24, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
                 ["power_id"=>34, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 ["power_id"=>35, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
-                ["power_id"=>29, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/trial_train_lesson_list"],
-                ["power_id"=>30, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson"],
+                ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson"],
 
 
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[

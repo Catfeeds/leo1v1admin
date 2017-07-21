@@ -26,7 +26,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_student_list_search( $page_num,$all_flag, $userid,$grade, $status,
                                              $user_name, $phone, $teacherid, $assistantid, $test_user,
-                                             $originid, $seller_adminid,$order_type
+                                             $originid, $seller_adminid,$order_type,$student_type
     ){
         $where_arr=[
             ["userid=%u", $userid, -1] ,
@@ -36,6 +36,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["is_test_user=%u ", $test_user , -1] ,
             ["originid=%u ", $originid , -1] ,
             ["seller_adminid=%u ", $seller_adminid, -1] ,
+            ["type=%u ", $student_type, -1] ,
         ];
         if ($user_name) {
             $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
@@ -2462,4 +2463,43 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         return $this->main_get_value($sql);
     }
+
+    public function get_stu_renw_info($start_time,$end_time,$userid_list){
+        $where_arr=[];
+        $where_arr[] = $this->where_get_in_str("s.userid",$userid_list,true);
+        $sql =$this->gen_sql_new("select s.nick,if(o.orderid>0,o.price,0) status,a.nick ass_name,s.grade,s.lesson_count_left,s.userid ".
+                                 " from  %s s ".
+                                 " left join %s o on o.userid  = s.userid and o.contract_type in (3,3001) and o.contract_status in (1,2,3) and o.order_time >= %u and o.order_time <= %u".
+                                 " left join %s a on s.assistantid = a.assistantid".
+                                 " where %s ",
+                                 self::DB_TABLE_NAME,
+                                 t_order_info::DB_TABLE_NAME,
+                                 $start_time,
+                                 $end_time,
+                                 t_assistant_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_has_lesson($start,$end){
+        $where_arr=[
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.type"
+                                  ." from %s s "
+                                  ." where type in (1,2,3) "
+                                  ." and grade=203"
+                                  ." and is_test_user=0"
+                                  ." and exists (select 1 from %s where s.userid=userid and lesson_type in (0,1,3) and %s)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

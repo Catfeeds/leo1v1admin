@@ -669,6 +669,36 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         });
     }
 
+    public function get_tran_require_detail_info($start_time,$end_time){
+        $where_arr=[
+            "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status in (0,1)",
+            "l.lesson_del_flag=0",
+            "tr.origin like '%%转介绍%%'",
+            "m.account_role=1",
+            "m.del_flag=0",
+            "tr.accept_flag <>2"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.userid,l.grade,tr.cur_require_adminid,o.price order_money,m.account,s.nick "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." left join %s o on o.from_test_lesson_id = tss.lessonid "
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_kk_require_info($start_time,$end_time,$str="l.lesson_start"){
         $where_arr=[
             "tss.success_flag in (0,1)",
@@ -758,6 +788,18 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         );
 
         return $this->main_get_row($sql);
+    }
+
+    public function get_jiaowu_wx_openid($lessonid){
+        $sql = $this->gen_sql_new(" select m.wx_openid from %s tls ".
+                                  " left join %s m on m.uid = tls.set_lesson_adminid".
+                                  " where tls.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
     }
 
 

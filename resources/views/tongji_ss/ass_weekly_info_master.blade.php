@@ -169,7 +169,7 @@
                                 </thead>
                                 <tbody >
                                         <tr>
-                                            <td> {{@$list["tran_lesson"]}} </td> 
+                                            <td class="tran_lesson_detail" > <a href="javascript:;" >  {{@$list["tran_lesson"]}}</a> </td> 
                                             <td> {{@$list["tran_order"]}} </td> 
                                             <td> {{@$list["tran_money"]}} </td> 
                                             <td> {{@$list["tran_money_one"]}} </td> 
@@ -230,7 +230,7 @@
                                 <tbody >
                                     <tr>
                                         <td></td> 
-                                        <td> {{@$list["refund_student"]}} </td> 
+                                        <td class="refund_student_detail" > <a href="javascript:;" >  {{@$list["refund_student"]}}</a> </td> 
                                         <td> {{@$list["refund_money"]}} </td> 
 
                                     </tr>

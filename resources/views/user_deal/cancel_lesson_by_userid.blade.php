@@ -30,13 +30,8 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>学生</td>
-                    <td>年级</td>
-                    <td>分配时间</td>
-                    <td>常规合同时间</td>
-                    <td>续费</td>
-                    <td>状态</td>
-                    <td>剩余课时</td>
+                    <td>userid</td>
+                    <td>退费课时</td>
                                                   
                     <td>操作 </td>
                 </tr>
@@ -44,19 +39,8 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["nick"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
-                        <td>{{@$var["ass_assign_time"]}} </td>
-                        <td>{{@$var["order_time"]}} </td>
-                        <td>
-                            @if($var["orderid"])
-                                是
-                            @else
-                                否
-                            @endif
-                        </td>
-                        <td>{{@$var["type"]}} </td>
-                        <td>{{@$var["lesson_count_left"]/100}} </td>
+                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["should_refund"]/100}} </td>
                                         
                         <td>
                             <div class="row-data"

@@ -464,7 +464,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
         $sub_arr_2 = [
             ["s.assistantid=%u", $assistantid,-1] ,
-            ["require_adminid=%u", $assistantid ,-1] ,
         ];
         $sub_where_str_2 = "(".$this->where_str_gen($sub_arr_2, "or").")";
 
@@ -1057,7 +1056,6 @@ lesson_type in (0,1) "
             E\Econtract_type::V_1,
             E\Econtract_type::V_3,
             E\Econtract_type::V_1003
-
         ]);
         $where_arr=[
             $lesson_status,
@@ -2116,12 +2114,15 @@ lesson_type in (0,1) "
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    public function get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid){
+    public function get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject=-1,$lesson_type=-1){
         $where_arr=[
             ["lesson_start>=%d",$start_time, -1 ] ,
             ["lesson_start<=%d",$end_time, -1 ] ,
             ["l.assistantid",$assistantid, -1 ] ,
             ["l.userid = %u",$userid, -1 ] ,
+            ["l.subject = %u",$subject, -1 ] ,
+            ["l.lesson_type = %u",$lesson_type, -1 ] ,
+            // "l.lesson_del_flag=0"
            # "lesson_status = 0",
            # "lesson_type in (0,1,3)",
            # "confirm_flag in (0,1)"
@@ -6729,7 +6730,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.realname as tea_nick,lesson_start,lesson_end,lesson_type,"
                                   ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,courseid,lesson_num,"
                                   ." tea_cw_url,count(distinct(tl.userid)) as user_num,count(distinct(lo.userid)) as login_num,"
-                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type"
+                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s tl on l.lessonid=tl.lessonid"

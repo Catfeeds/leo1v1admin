@@ -45,6 +45,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
         );
         return $this->main_get_row($sql);
     }
+
 }
 
 

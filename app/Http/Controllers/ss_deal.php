@@ -2104,7 +2104,14 @@ class ss_deal extends Controller
                 }
 
             }
-            foreach($arr as $t=>&$v){
+            $userid_list="";
+            foreach($arr as $v){
+               $userid = intval($v[0]);
+               $userid_list .= $userid.","; 
+            }
+            $aa= trim($userid_list,",");
+            $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
+            /* foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
                 if($t<500 && $t>=0){
@@ -2117,9 +2124,9 @@ class ss_deal extends Controller
                     }
                 }
 
-            }
+                }*/
 
-            // dd($arr);
+            //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
             return outputjson_success();
@@ -3679,12 +3686,13 @@ class ss_deal extends Controller
 
     public function update_ass_student_renw_info(){
         $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
         $start_time     = strtotime($this->get_in_str_val("start_time"));
         $ass_renw_flag  = $this->get_in_int_val("ass_renw_flag");
         $renw_price     = $this->get_in_int_val("renw_price");
         $renw_week      = $this->get_in_int_val("renw_week");
         $no_renw_reason = $this->get_in_str_val("no_renw_reason");
-        $this->t_month_ass_warning_student_info->field_update_list_2($userid,$start_time,[
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
             "ass_renw_flag"         =>$ass_renw_flag,
             "renw_price"            =>$renw_price,
             "no_renw_reason"        =>$no_renw_reason,
@@ -3693,12 +3701,34 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function update_ass_student_renw_info_new(){
+        $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
+        $start_time     = strtotime($this->get_in_str_val("start_time"));
+        $ass_renw_flag  = $this->get_in_int_val("ass_renw_flag");
+        $renw_price     = $this->get_in_int_val("renw_price");
+        $renw_week      = $this->get_in_int_val("renw_week");
+        $no_renw_reason = trim($this->get_in_str_val("no_renw_reason"));
+        if($ass_renw_flag==2 && empty($no_renw_reason)){
+             return $this->output_err("不续费原因不能为空!");
+        }
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
+            "ass_renw_flag"         =>$ass_renw_flag,
+            "renw_price"            =>$renw_price,
+            "no_renw_reason"        =>$no_renw_reason,
+            "renw_week"             =>$renw_week
+        ]);
+        return $this->output_succ();
+    }
+
+
     public function update_ass_student_renw_info_master(){
         $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
         $start_time     = strtotime($this->get_in_str_val("start_time"));
         $master_renw_flag  = $this->get_in_int_val("master_renw_flag");
         $master_no_renw_reason = $this->get_in_str_val("master_no_renw_reason");
-        $this->t_month_ass_warning_student_info->field_update_list_2($userid,$start_time,[
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
             "master_renw_flag"         =>$master_renw_flag,
             "master_no_renw_reason"        =>$master_no_renw_reason,
         ]);

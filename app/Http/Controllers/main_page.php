@@ -134,7 +134,11 @@ class main_page extends Controller
         $end_time_date = date("Y-m-d") ;
         $start_time   = $end_time-100*86400;
         $start_time_date  = date("Y-m-d",$start_time);
-        $assistantid=$this->t_assistant_info->get_assistantid( $this->get_account() );
+        $account = $this->get_account();
+        if($account=="jack"){
+            $account="zenghui";
+        }
+        $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){
             $assistantid = -1;
         }

@@ -80,7 +80,6 @@ class testbb extends Controller
 
 
     public function test () {
-        dd(date('H',1500331800));
         // 时间调整功能 数据修改 [勿删]
         /*
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
@@ -94,6 +93,15 @@ class testbb extends Controller
             t_field($table->integer("is_modify_time_flag"),"上课时间调整是否成功 0:未成功 1:已成功");
         });
         */
+
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $original_lesson_time = $lesson_old_start.','.$lesson_old_end;
+
+        dd($original_lesson_time);
+
     }
 
     public function lesson_send_msg(){

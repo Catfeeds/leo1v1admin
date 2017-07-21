@@ -219,7 +219,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = $this->gen_sql_new("select from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
                                   ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
                                   ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
-                                  ." contract_type,contract_status,invoice,is_invoice, "
+                                  ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
                                   ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
                                   ." contract_endtime,t1.grade,t1.lesson_total,price,discount_price,discount_reason,"
                                   ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"

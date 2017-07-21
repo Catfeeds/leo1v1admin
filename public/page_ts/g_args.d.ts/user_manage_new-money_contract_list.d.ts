@@ -44,6 +44,7 @@ interface RowData {
 	contract_status	:any;
 	invoice	:any;
 	is_invoice	:any;
+	channel	:any;
 	contract_starttime	:any;
 	taobao_orderid	:any;
 	default_lesson_count	:any;

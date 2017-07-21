@@ -2586,69 +2586,30 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $master_adminid = $this->get_tea_adminid_by_subject(0);
-        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
-        $jy_teacherid = $teacher_info["teacherid"];
-        $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
-        dd($wx_openid);
-
-        $teacherid = 164488  ;
-        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
-        $week_start = $date_week["sdate"];
-        $week_end = $week_start+21*86400;
-        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list_personal($teacherid,$week_start,$week_end);
-        dd($normal_stu_num);
-
-        $level = 1;
-        $ret = $this->t_lesson_info_b2->update_teacher_level($teacherid,$level);
-        dd(111);
-        $time= strtotime("2017-07-16");
-        $list = $this->t_student_info->get_stu_wx_remind_info($time);
-        dd($list);
-        $ret = $this->t_teacher_record_list->get_teacher_limit_num_by_month(5);
-        dd($ret);
-        //$ret = $this->t_psychological_teacher_time_list->get_all_info();
-        //dd($ret);
-        $ret= $this->t_teacher_info->get_tea_subject_count();
-        foreach($ret as &$item){
-            E\Esubject::set_item_value_str($item);
-        }
-        dd($ret);
-        $phone = 15202856835;
-        $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
-        dd($id);
-        $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2017-07-01");
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time,[],386);
-        dd($assistant_renew_list);
-        $this->switch_tongji_database();
-        $start_time = strtotime("2017-04-01");
-        $end_time = strtotime("2017-07-01");
-        $ret = $this->t_lesson_info_b2->get_regular_lesson_count_tongji($start_time,$end_time);
-        $arr=[];
-        foreach($ret as $val){
-            if($val["all_count"]>=3000 && $val["all_count"]<6000 ){
-                @$arr[30]++;
-            }elseif($val["all_count"]>=6000 && $val["all_count"]<9000 ){
-                @$arr[60]++;
-            }elseif($val["all_count"]>=9000 && $val["all_count"]<12000){
-                @$arr[90]++;
-            }elseif($val["all_count"]>=12000 && $val["all_count"]<15000){
-                @$arr[120]++;
-            }elseif($val["all_count"]>=15000 && $val["all_count"]<18000 ){
-                @$arr[150]++;
-            }elseif($val["all_count"]>=18000 && $val["all_count"]<21000){
-                @$arr[180]++;
+        
+        $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2);
+        $warning_list = $this->t_student_info->get_warning_stu_list();
+        foreach($warning_list as $item){
+            $userid= $item["userid"];
+            if(!isset($list[$userid])){
+                $this->t_month_ass_warning_student_info->row_insert([
+                    "adminid"        =>$item["uid"],
+                    "userid"         =>$userid,
+                    "groupid"        =>$item["groupid"],
+                    "group_name"     =>$item["group_name"],
+                    "warning_type"   =>2,
+                    "month"  =>time()
+                ]);
+ 
             }else{
-                @$arr[210]++;
+                $id = $list[$userid]["id"];
+                $this->t_month_ass_warning_student_info->field_update_list($id,[
+                    "month"  =>time()
+                ]);
             }
-
-
-
         }
-        dd($arr);
-
-
+        dd($list);
+        
         $phone=13817759346;
         $flag=0;
         $record_info=9999;

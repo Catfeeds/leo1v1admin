@@ -60,6 +60,22 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         });
     }
 
+    public function get_ass_refund_detail_info($start_time,$end_time){        
+        $where_arr = [];
+        $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select r.real_refund,s.nick,s.grade,o.lesson_total,o.default_lesson_count,s.lesson_count_left,r.refund_userid  "
+                                  ." from %s r left join %s o on r.orderid = o.orderid"
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_ass_refund_info_new($start_time,$end_time){        
         $where_arr = [
             "ra.id is not null",
@@ -268,5 +284,14 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
+    public function get_rufund_info_by_userid($arr){
+        $where_arr=[
+            "should_refund>0"
+        ];
+
+        $this->where_arr_adminid_in_list($where_arr,"userid", $arr);
+        $sql = $this->gen_sql_new("select should_refund,userid from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
 
 }

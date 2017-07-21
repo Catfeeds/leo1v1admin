@@ -1427,6 +1427,8 @@ class human_resource extends Controller
         $qz_flag     = $right_list["qz_flag"];
         if($adminid==486){
             $tea_subject="";
+        }elseif($adminid==952){
+            $tea_subject="(6)";   
         }
 
         $grade        = $this->get_in_int_val("grade",-1);

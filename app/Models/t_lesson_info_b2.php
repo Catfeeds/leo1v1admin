@@ -848,7 +848,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
-                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id  "
+                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type  "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -1777,8 +1777,71 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_parent_modify_time_by_lessonid($lessonid){
-        
+
+    public function get_seller_phone_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select m.phone from %s l ".
+                                  " left join %s s on s.userid = l.userid".
+                                  " left join %s m on m.uid = s.seller_adminid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_ass_wx_openid($lessonid){
+        $sql = $this->gen_sql_new(" select wx_openid from %s l ".
+                                  " left join %s ai on ai.assistantid = l.assistantid".
+                                  " left join %s m on m.phone = ai.phone ".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_seller_wx_openid($lessonid){
+        $sql = $this->gen_sql_new(" select m.wx_openid from %s l ".
+                                  " left join %s s on s.userid = l.userid ".
+                                  " left join %s m on m.uid = s.seller_adminid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function get_modify_lesson_time($lessonid){
+        $sql = $this->gen_sql_new(" select lesson_start, lesson_end from %s l ".
+                                  " left join %s tlm on tlm.lessonid = l.lessonid".
+                                  " where lessonid = $lessonid and is_modify_time_flag = 1",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_time_modify::DB_TABLE_NAME
+
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+    public function get_modify_flag($lessonid){
+        $sql = $this->gen_sql_new(" select is_modify_time_flag from %s l ".
+                                  " where lessonid = $lessonid",
+                                  self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_value($sql);
     }
 
 }

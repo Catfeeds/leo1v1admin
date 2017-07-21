@@ -213,6 +213,8 @@ class NewRouteConfig {
         "/authority/manager_list_for_seller" => true,
         "/authority/manager_list_for_ass"    => true,
         "/authority/manager_list_for_qz"    => true,
+        "/authority/manager_list_for_qz_shanghai" => true,
+        "/authority/manager_list_for_qz_wuhan"    => true,
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
 
@@ -276,6 +278,7 @@ class NewRouteConfig {
         "/tea_manage/course_plan_stu"              => true,
         "/tea_manage/course_plan_stu_ass"          => true,
         "/tea_manage/course_plan_stu_summer"       => true,
+        "/tea_manage/course_plan_psychological"    => true,
         "/tea_manage/course_set_new"               => true,
         "/tea_manage/get_course_list"              => true,
         "/tea_manage/get_course_list_new"          => true,

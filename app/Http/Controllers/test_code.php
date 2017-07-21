@@ -1419,7 +1419,6 @@ class test_code extends Controller
                              ."|".$price."|".$val['sys_operator']
                              ."|".$pay_time."|".$contract_str."|".$val['origin'];
             echo "<br>";
-
         }
     }
 
@@ -1429,16 +1428,6 @@ class test_code extends Controller
             echo $val['nick']."|".$val['phone']."|".$val['ass_nick']."|".$val['seller_nick'];
             echo "<br>";
         }
-    }
-
-    public function get_zhujiao(){
-        $list=$this->t_test_lesson_subject_require->get_zhujiao();
-    }
-
-    public function get_split_lesson_count(){
-        $userid = "91935";
-        $val    = $this->t_order_info->get_lesson_split_all($userid);
-        echo $val;
     }
 
     public function get_create_teacher(){
@@ -1465,6 +1454,21 @@ class test_code extends Controller
                 $succ_per = (round($succ_trial/$trial_count,2)*100)."%";
             }
             echo $val['nick']."|".$val['phone']."|".$create_date."|".$trial_count."|".$succ_trial."|".$normal_count."|".$succ_per;
+            echo "<br>";
+        }
+    }
+
+    public function check_teacher_subject(){
+
+    }
+
+    public function get_amanda(){
+        $start_time=strtotime("2017-6-1");
+        $end_time=strtotime("2017-7-1");
+        $list = $this->t_student_info->get_has_lesson($start_time,$end_time);
+        foreach($list as $val){
+            $str=E\Estudent_type::get_desc($val['type']);
+            echo $val['nick']."|".$val['phone']."|".$str;
             echo "<br>";
         }
     }

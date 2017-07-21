@@ -982,6 +982,13 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
+    public function course_plan_psychological(){
+        $this->set_in_value("assistantid",-1);
+        $this->set_in_value("subject",11);
+        $this->set_in_value("lesson_type",2);
+        return $this->course_plan();
+ 
+    }
     public function course_plan(){
         list($start_time,$end_time)=$this->get_in_date_range(0,3);
         $page_num    = $this->get_in_page_num();
@@ -989,9 +996,12 @@ class tea_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
+        $assistantid = $this->get_in_int_val("assistantid",$assistantid);
+        $subject = $this->get_in_int_val("subject",-1);
+        $lesson_type = $this->get_in_int_val("lesson_type",-1);
         $userid   = $this->get_in_int_val("studentid",-1);
 
-        $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid);
+        $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject,$lesson_type);
         foreach ($ret_info['list'] as &$item){
             $item['teacher_nick'] = $this->t_teacher_info->get_nick($item['teacherid']);
             $item['user_nick'] = $this->t_student_info->get_nick($item['userid']);

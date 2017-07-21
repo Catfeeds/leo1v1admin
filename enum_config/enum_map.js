@@ -6826,6 +6826,37 @@ opt_type : {
 
 },
 
+order_channel : {
+	desc_map : {
+		'1' : "微信支付",
+		'2' : "京东支付"
+	},
+	simple_desc_map: {
+		'1' : "",
+		'2' : ""
+	},
+	s2v_map:{
+		"wx" : 1,
+		"jdpay_wap" : 2
+	},
+	v2s_map:{
+		 '1':  "wx",
+		 '2':  "jdpay_wap"
+	},
+
+		//微信支付
+		V_WX:1,
+		//京东支付
+		V_JDPAY_WAP:2,
+
+		//微信支付
+		S_WX:"wx",
+		//京东支付
+		S_JDPAY_WAP:"jdpay_wap"
+
+
+},
+
 order_price_type : {
 	desc_map : {
 		'20170101' : "17年1月调价",

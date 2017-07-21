@@ -2341,4 +2341,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
+    public function get_teacher_nick_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select s.nick from %s s ".
+                                  " left join %s l on l.teacherid = s.teacherid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

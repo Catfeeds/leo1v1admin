@@ -171,7 +171,6 @@ class user extends TeaWxController
             foreach($format_arr as $item_for){
                 $time_arr[] = $item_for;
                 $time_start_hour = date('G',strtotime($item_for));
-                \App\Helper\Utils::logger("shjian3:".$time_start_hour.",time:".strtotime($item_for));
                 $hour = $time_start_hour.':59';
                 $time_arr[] = $hour;
             }

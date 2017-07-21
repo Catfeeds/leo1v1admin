@@ -304,6 +304,17 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         return $this->main_get_value($sql);
     }
 
+    public function get_ass_phone_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select phone from %s ai ".
+                                  " left join %s l on l.assistantid = ai.assistantid ".
+                                  " where lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 
 }

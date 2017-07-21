@@ -529,6 +529,25 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         }elseif ($eventKey == 'invitation') {
             $openid = $request['fromusername'];
             $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+            }
+            if ( !$phone ){
+                $content="
+【绑定提醒】
+您还未绑定手机，请绑定成功后重试
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+                $_SESSION['wx_openid'] =   $request['fromusername'];
+                session(['wx_openid'=> $request['fromusername']]);
+                \App\Helper\Utils::logger("guanzhu1".session('wx_openid'));
+                \App\Helper\Common::redis_set("agent_wx_openid", $request['fromusername'] );
+
+                return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+            }
+
             $img_url = self::get_img_url($url);
             \App\Helper\Utils::logger('yxyx_curl:'.$img_url);
             $type = 'image';
