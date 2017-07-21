@@ -38,6 +38,22 @@ $(function(){
         }
     });
 
+    $("#id_select_all").on("click", function() {
+        $(".opt-select-item").iCheck("check");
+    });
+
+    $("#id_select_other").on("click", function() {
+        $(".opt-select-item").each(function() {
+            var $item = $(this);
+            if ($item.iCheckValue()) {
+                $item.iCheck("uncheck");
+            } else {
+                $item.iCheck("check");
+            }
+        });
+    });
+
+
    
     $(".course_plan,.plan_regular_course").on("click",function(){
         alert("抱歉,该功能未开发!"); 
@@ -75,51 +91,57 @@ $(function(){
         function do_one() {
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
-                if($tr.find(".is_col_str").html()=="是"){
-                    $tr.find(".status").text("有时间冲突的排课,请确认");
-                    $tr.find(".status").css("color","red");
-                    do_index++;
-                    do_one();                
-                }else{
-                    var opt_data=$tr.find(".course_plan").get_opt_data();
-                    if(opt_data.lesson_start == "undefined"){
-                        var lesson_start = "";
-                    }else{
-                        var lesson_start = opt_data.lesson_start;
-                    }
+                if($tr.find(".opt-select-item").iCheckValue()){
 
-                    $tr.find(".status").text("开始．．．");
-                    $.do_ajax("/user_deal/regular_lesson_plan_count_summer",{
-                        "userid"           : opt_data.userid,
-                        "old_lesson_total" : opt_data.lesson_total,
-                        "start_time"       : g_args.start_time,
-                        "end_time"         : g_args.end_time,
-                        "lesson_start"     : JSON.stringify(lesson_start)
-                    },function(resp){
-                        console.log(resp);
-                        if(resp.ret == -1){
-                            $tr.find(".status").html(resp.info);
-                            $tr.find(".status").css("color","red");
-                            if(resp.hasOwnProperty('data')){
-                                $tr.find(".opt-info").text(resp.data/100); 
-                            }
-                            do_index++;
-                            do_one();
+                    if($tr.find(".is_col_str").html()=="是"){
+                        $tr.find(".status").text("有时间冲突的排课,请确认");
+                        $tr.find(".status").css("color","red");
+                        do_index++;
+                        do_one();                
+                    }else{
+                        var opt_data=$tr.find(".course_plan").get_opt_data();
+                        if(opt_data.lesson_start == "undefined"){
+                            var lesson_start = "";
                         }else{
-                            $tr.find(".status").text("已完成排课");
-                            $tr.find(".opt-info").text(resp/100);
-                            $tr.find(".status").css("color","green");
-                            if($tr.find(".regular_total").text() == resp/100 ){
-                                $tr.find(".is_con").text("是"); 
-                                $tr.find(".is_con").css("color","green");
-                            }else{
-                                $tr.find(".is_con").text("否"); 
-                                $tr.find(".is_con").css("color","red");
-                            }
-                            do_index++;
-                            do_one();
+                            var lesson_start = opt_data.lesson_start;
                         }
-                    }); 
+
+                        $tr.find(".status").text("开始．．．");
+                        $.do_ajax("/user_deal/regular_lesson_plan_count_summer",{
+                            "userid"           : opt_data.userid,
+                            "old_lesson_total" : opt_data.lesson_total,
+                            "start_time"       : g_args.start_time,
+                            "end_time"         : g_args.end_time,
+                            "lesson_start"     : JSON.stringify(lesson_start)
+                        },function(resp){
+                            console.log(resp);
+                            if(resp.ret == -1){
+                                $tr.find(".status").html(resp.info);
+                                $tr.find(".status").css("color","red");
+                                if(resp.hasOwnProperty('data')){
+                                    $tr.find(".opt-info").text(resp.data/100); 
+                                }
+                                do_index++;
+                                do_one();
+                            }else{
+                                $tr.find(".status").text("已完成排课");
+                                $tr.find(".opt-info").text(resp/100);
+                                $tr.find(".status").css("color","green");
+                                if($tr.find(".regular_total").text() == resp/100 ){
+                                    $tr.find(".is_con").text("是"); 
+                                    $tr.find(".is_con").css("color","green");
+                                }else{
+                                    $tr.find(".is_con").text("否"); 
+                                    $tr.find(".is_con").css("color","red");
+                                }
+                                do_index++;
+                                do_one();
+                            }
+                        }); 
+                    }
+                }else{
+                    do_index++;
+                    do_one();
                 }
             }else{
             }

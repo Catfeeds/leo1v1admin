@@ -2,9 +2,9 @@
 namespace App\Models\Zgen;
 class z___TABLE_NAME__ extends \App\Models\NewModel
 {
-    const DB_TABLE_NAME="__DB_NAME__.__TABLE_NAME__";
+  const DB_TABLE_NAME="__DB_NAME__.__TABLE_NAME__";
 
-__FIELD_LIST__
+  __FIELD_LIST__
 
   public function __construct()
   {

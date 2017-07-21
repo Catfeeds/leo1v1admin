@@ -250,11 +250,11 @@ class user_deal extends Controller
             $lesson_time = date("Y-m-d H:i:s",$lesson_info["lesson_start"]);
             $record_info = "上课完成:".E\Econfirm_flag::get_desc($confirm_flag)."<br>无效类型:".E\Elesson_cancel_reason_type::get_desc($lesson_cancel_reason_type)."<br>课堂确认情况:".E\Elesson_cancel_time_type::get_desc($lesson_cancel_time_type)."<br>无效说明:".$confirm_reason."<br>老师:".$realname."<br>上课时间:".$lesson_time;
             $this->t_revisit_info->row_insert([
-                "userid"  =>$lesson_info["userid"],
-                "revisit_time" =>time(),
-                "sys_operator" =>$this->get_account(),
-                "operator_note" =>$record_info,
-                "revisit_type" =>3
+                "userid"        => $lesson_info["userid"],
+                "revisit_time"  => time(),
+                "sys_operator"  => $this->get_account(),
+                "operator_note" => $record_info,
+                "revisit_type"  => 3
             ]);
         }
 
@@ -269,8 +269,12 @@ class user_deal extends Controller
             $lesson_end = strtotime($day." ".$lesson_end);
 
             if($lesson_type!=2){
-                $item         = $this->t_course_order->field_get_list($courseid,"*");
-                $grade        = $this->t_student_info->get_grade($item["userid"]);
+                $item = $this->t_course_order->field_get_list($courseid,"*");
+                if($item['lesson_grade_type']==1){
+                    $grade = $item['grade'];
+                }else{
+                    $grade = $this->t_student_info->get_grade($item["userid"]);
+                }
                 $teacher_info = $this->t_teacher_info->field_get_list($item["teacherid"],"teacher_money_type,level");
                 $default_lesson_count=0;
                 $lessonid = $this->t_lesson_info->add_lesson_new(
@@ -2582,57 +2586,30 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $teacherid = 180795 ;
-        $level = 1;
-        $ret = $this->t_lesson_info_b2->update_teacher_level($teacherid,$level);
-        dd(111);
-        $time= strtotime("2017-07-16");
-        $list = $this->t_student_info->get_stu_wx_remind_info($time);
-        dd($list);
-        $ret = $this->t_teacher_record_list->get_teacher_limit_num_by_month(5);
-        dd($ret);
-        //$ret = $this->t_psychological_teacher_time_list->get_all_info();
-        //dd($ret);
-        $ret= $this->t_teacher_info->get_tea_subject_count();
-        foreach($ret as &$item){
-            E\Esubject::set_item_value_str($item);
-        }
-        dd($ret);
-        $phone = 15202856835;
-        $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
-        dd($id);
-        $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2017-07-01");
-        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time,[],386);
-        dd($assistant_renew_list);
-        $this->switch_tongji_database();
-        $start_time = strtotime("2017-04-01");
-        $end_time = strtotime("2017-07-01");
-        $ret = $this->t_lesson_info_b2->get_regular_lesson_count_tongji($start_time,$end_time);
-        $arr=[];
-        foreach($ret as $val){
-            if($val["all_count"]>=3000 && $val["all_count"]<6000 ){
-                @$arr[30]++;
-            }elseif($val["all_count"]>=6000 && $val["all_count"]<9000 ){
-                @$arr[60]++;
-            }elseif($val["all_count"]>=9000 && $val["all_count"]<12000){
-                @$arr[90]++;
-            }elseif($val["all_count"]>=12000 && $val["all_count"]<15000){
-                @$arr[120]++;
-            }elseif($val["all_count"]>=15000 && $val["all_count"]<18000 ){
-                @$arr[150]++;
-            }elseif($val["all_count"]>=18000 && $val["all_count"]<21000){
-                @$arr[180]++;
+        
+        $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2);
+        $warning_list = $this->t_student_info->get_warning_stu_list();
+        foreach($warning_list as $item){
+            $userid= $item["userid"];
+            if(!isset($list[$userid])){
+                $this->t_month_ass_warning_student_info->row_insert([
+                    "adminid"        =>$item["uid"],
+                    "userid"         =>$userid,
+                    "groupid"        =>$item["groupid"],
+                    "group_name"     =>$item["group_name"],
+                    "warning_type"   =>2,
+                    "month"  =>time()
+                ]);
+ 
             }else{
-                @$arr[210]++;
+                $id = $list[$userid]["id"];
+                $this->t_month_ass_warning_student_info->field_update_list($id,[
+                    "month"  =>time()
+                ]);
             }
-
-
-
         }
-        dd($arr);
-
-
+        dd($list);
+        
         $phone=13817759346;
         $flag=0;
         $record_info=9999;
@@ -3287,6 +3264,23 @@ class user_deal extends Controller
         return $this->output_succ($arr);
     }
 
+    public function get_renw_flag_change_list(){
+        $id = $this->get_in_int_val("id",0);
+        $data = $this->t_ass_warning_renw_flag_modefiy_list->get_info_by_warning_id($id);
+        foreach($data as &$val){
+            E\Erenw_type::set_item_value_str($val,"ass_renw_flag_before");
+            E\Erenw_type::set_item_value_str($val,"ass_renw_flag_cur");
+            $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
+            $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+
+        }
+        if(empty($data)){
+            return $this->output_err("没有修改记录!");
+        }else{
+            return $this->output_succ(["data"=>$data]);
+        }
+
+    }
     public function get_student_type_change_list(){
         $userid = $this->get_in_int_val("userid",0);
         $data = $this->t_student_type_change_list->get_info_by_userid($userid);

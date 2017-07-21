@@ -1427,6 +1427,8 @@ class human_resource extends Controller
         $qz_flag     = $right_list["qz_flag"];
         if($adminid==486){
             $tea_subject="";
+        }elseif($adminid==952){
+            $tea_subject="(6)";   
         }
 
         $grade        = $this->get_in_int_val("grade",-1);
@@ -2511,7 +2513,7 @@ class human_resource extends Controller
         $this->t_teacher_record_list->switch_tongji_database();
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $subject   = $this->get_in_int_val("subject",-1);
-        $page_num  = $this->get_in_page_num();
+        $page_num  = $this->get_in_page_info();
         list($start_time,$end_time) = $this->get_in_date_range(-31,date("2017-05-31"));
         $ret_info = $this->t_teacher_record_list->get_all_record_info_time($teacherid,1,$start_time,$end_time,$page_num,$subject);
 

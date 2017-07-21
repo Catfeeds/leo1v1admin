@@ -1641,7 +1641,7 @@ class ss_deal extends Controller
             if($openid!=''){
                 $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
                 $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
-                 $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
+                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
                 //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
 
                 $data['first']    = $first_info;
@@ -2089,10 +2089,17 @@ class ss_deal extends Controller
                 }
 
             }
-            foreach($arr as $t=>&$v){
+            $userid_list="";
+            foreach($arr as $v){
+               $userid = intval($v[0]);
+               $userid_list .= $userid.","; 
+            }
+            $aa= trim($userid_list,",");
+            $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
+            /* foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
-                if($t<2000 && $t>=1500){
+                if($t<500 && $t>=0){
                     $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($v[0]);
 
                     if($id>0){
@@ -2102,9 +2109,9 @@ class ss_deal extends Controller
                     }
                 }
 
-            }
+                }*/
 
-            // dd($arr);
+            //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
 
             return outputjson_success();
@@ -3664,12 +3671,13 @@ class ss_deal extends Controller
 
     public function update_ass_student_renw_info(){
         $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
         $start_time     = strtotime($this->get_in_str_val("start_time"));
         $ass_renw_flag  = $this->get_in_int_val("ass_renw_flag");
         $renw_price     = $this->get_in_int_val("renw_price");
         $renw_week      = $this->get_in_int_val("renw_week");
         $no_renw_reason = $this->get_in_str_val("no_renw_reason");
-        $this->t_month_ass_warning_student_info->field_update_list_2($userid,$start_time,[
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
             "ass_renw_flag"         =>$ass_renw_flag,
             "renw_price"            =>$renw_price,
             "no_renw_reason"        =>$no_renw_reason,
@@ -3678,17 +3686,86 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function update_ass_student_renw_info_new(){
+        $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
+        $start_time     = strtotime($this->get_in_str_val("start_time"));
+        $ass_renw_flag  = $this->get_in_int_val("ass_renw_flag");
+        $renw_price     = $this->get_in_int_val("renw_price");
+        $renw_week      = $this->get_in_int_val("renw_week");
+        $no_renw_reason = trim($this->get_in_str_val("no_renw_reason"));
+        if($ass_renw_flag==2 && empty($no_renw_reason)){
+             return $this->output_err("不续费原因不能为空!");
+        }
+        if(in_array($ass_renw_flag,[1,3]) && $renw_week<=0){
+            return $this->output_err("计划续费周不能为空!");
+        }
+        $ass_renw_flag_old= $this->t_month_ass_warning_student_info->get_ass_renw_flag($id);
+        if($ass_renw_flag_old >0 && $ass_renw_flag==0){
+             return $this->output_err("不能设置为未设置状态");
+        }
+
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
+            "ass_renw_flag"         =>$ass_renw_flag,
+            "renw_price"            =>$renw_price,
+            "no_renw_reason"        =>$no_renw_reason,
+            "renw_week"             =>$renw_week
+        ]);
+        
+        if($ass_renw_flag==2){
+            $this->t_month_ass_warning_student_info->field_update_list($id,[
+                "done_flag"             =>1,
+                "done_time"             =>time(),
+            ]);
+
+        }
+        if($ass_renw_flag != $ass_renw_flag_old){
+            $this->t_ass_warning_renw_flag_modefiy_list->row_insert([
+                "add_time"   =>time(),
+                "userid"     =>$userid,
+                "ass_renw_flag_before"  =>$ass_renw_flag_old,
+                "ass_renw_flag_cur"     =>$ass_renw_flag,
+                "no_renw_reason"        =>$no_renw_reason,
+                "adminid"               =>$this->get_account_id(),
+                "warning_id"            =>$id
+            ]);
+        }
+        return $this->output_succ();
+    }
+
+
     public function update_ass_student_renw_info_master(){
         $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
         $start_time     = strtotime($this->get_in_str_val("start_time"));
         $master_renw_flag  = $this->get_in_int_val("master_renw_flag");
         $master_no_renw_reason = $this->get_in_str_val("master_no_renw_reason");
-        $this->t_month_ass_warning_student_info->field_update_list_2($userid,$start_time,[
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
             "master_renw_flag"         =>$master_renw_flag,
             "master_no_renw_reason"        =>$master_no_renw_reason,
         ]);
         return $this->output_succ();
     }
+    
+    public function update_ass_student_renw_info_master_new(){
+        $userid         = $this->get_in_int_val("userid");
+        $id         = $this->get_in_int_val("id");
+        $start_time     = strtotime($this->get_in_str_val("start_time"));
+        $master_renw_flag  = $this->get_in_int_val("master_renw_flag");
+        $master_no_renw_reason = $this->get_in_str_val("master_no_renw_reason");
+        $this->t_month_ass_warning_student_info->field_update_list($id,[
+            "master_renw_flag"         =>$master_renw_flag,
+            "master_no_renw_reason"        =>$master_no_renw_reason,
+        ]);
+        if($master_renw_flag==1){
+            $this->t_month_ass_warning_student_info->field_update_list($id,[
+                "done_flag"             =>1,
+                "done_time"             =>time(),
+            ]);
+        }
+        return $this->output_succ();
+    }
+
 
     public function sync_tq() {
         $now=time(NULL);

@@ -1086,21 +1086,21 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/user_deal/lesson_set_confirm", {
-                    "lessonid"       : lessonid,
-                    "confirm_flag"   : $confirm_flag.val(),
-                    "confirm_reason" : $confirm_reason.val(),
+                    "lessonid"                                  : lessonid,
+                    "confirm_flag"                              : $confirm_flag.val(),
+                    "confirm_reason"                            : $confirm_reason.val(),
                     "lesson_cancel_reason_next_lesson_time"     : $lesson_cancel_reason_next_lesson_time.val(),
                     "lesson_cancel_reason_next_lesson_end_time" : $lesson_cancel_reason_next_lesson_end_time.val(),
-                    "lesson_cancel_reason_type" : $lesson_cancel_reason_type.val(),
-                    "lesson_cancel_time_type"   : $lesson_cancel_time_type.val(),
-                    "lesson_count" : $lesson_count.val(),
-                    "courseid"     : opt_data.courseid,
-                    "lesson_type"  : opt_data.lesson_type,
-                    "subject"      : opt_data.subject,
-                    "grade"        : opt_data.grade,
-                    "teacherid"    : opt_data.teacherid,
-                    "userid"       : opt_data.stu_id,
-                    "phone"        : opt_data.stu_phone
+                    "lesson_cancel_reason_type"                 : $lesson_cancel_reason_type.val(),
+                    "lesson_cancel_time_type"                   : $lesson_cancel_time_type.val(),
+                    "lesson_count"                              : $lesson_count.val(),
+                    "courseid"                                  : opt_data.courseid,
+                    "lesson_type"                               : opt_data.lesson_type,
+                    "subject"                                   : opt_data.subject,
+                    "grade"                                     : opt_data.grade,
+                    "teacherid"                                 : opt_data.teacherid,
+                    "userid"                                    : opt_data.stu_id,
+                    "phone"                                     : opt_data.stu_phone
                 });
             }
         },function(){

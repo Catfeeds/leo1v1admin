@@ -740,6 +740,7 @@ class tea_manage_new extends Controller
             "lessonid" => $lessonid,
             "add_time" => time(),
             "userid"   => $teacherid,
+            "train_type"=>5
         ]);
 
 

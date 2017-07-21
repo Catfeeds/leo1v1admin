@@ -134,7 +134,11 @@ class main_page extends Controller
         $end_time_date = date("Y-m-d") ;
         $start_time   = $end_time-100*86400;
         $start_time_date  = date("Y-m-d",$start_time);
-        $assistantid=$this->t_assistant_info->get_assistantid( $this->get_account() );
+        $account = $this->get_account();
+        if($account=="jack"){
+            $account="zenghui";
+        }
+        $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){
             $assistantid = -1;
         }
@@ -865,7 +869,7 @@ class main_page extends Controller
         unset($ass_group[0]);
 
         // dd($ass_group);
-        $account_id=297;
+        // $account_id=297;
         $stu_info=@$ass_group[$account_id];
         $ass_list_group=[];
         foreach($ass_list3 as $k=>$item2){

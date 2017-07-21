@@ -894,7 +894,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.price >0"
         ];
         $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type=3,1,0)) renw_num ".
+        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type in (3,3001),1,0)) renw_num ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
                                  " where %s group by uid",
@@ -1024,11 +1024,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
-    public function get_research_teacher_list_new($account_role){
+    public function get_research_teacher_list_new($account_role,$fulltime_teacher_type=-1){
+        $where_arr=[
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]  
+        ];
         $sql = $this->gen_sql_new("select teacherid,t.realname from %s m".
-                                  " join %s t on m.phone=t.phone where account_role=%u and del_flag =0",
+                                  " join %s t on m.phone=t.phone where %s and account_role=%u and del_flag =0",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
                                   $account_role
         );
         return $this->main_get_list($sql);

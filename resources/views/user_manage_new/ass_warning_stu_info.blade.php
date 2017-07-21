@@ -9,7 +9,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-3">
+                <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">助教</span>
                         <input class="opt-change form-control" id="id_assistantid"/>

@@ -55,7 +55,8 @@ class get_ass_warning_stu_info_update extends Command
                 "userid"         =>$item["userid"],
                 "groupid"        =>$item["groupid"],
                 "group_name"     =>$item["group_name"],
-                "left_count"     =>$item["lesson_count_left"]            
+                "left_count"     =>$item["lesson_count_left"],
+                "warning_type"   =>1
             ]);
             @$warning_stu_list[$item["uid"]]["warning_student"]++;
             @$warning_stu_list[$item["uid"]]["userid_list"][]=$item["userid"];

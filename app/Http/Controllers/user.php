@@ -52,9 +52,6 @@ class user extends TeaWxController
         $free_time_str = $this->t_teacher_freetime_for_week->get_vacant_arr($teacherid);
 
         $free_time_arr = json_decode($free_time_str,true);
-        \App\Helper\Utils::logger("free_time_str:".$free_time_str);
-
-        \App\Helper\Utils::logger('tea_lessons_arr1:'.json_encode($tea_lessons_arr));
 
         if($free_time_str){
             $ret_info=[];
@@ -84,8 +81,6 @@ class user extends TeaWxController
                     }
                 }
             }
-
-            \App\Helper\Utils::logger("xxx11:".json_encode($ret_info));
 
             return $this->output_succ([
                 'data'=>$ret_info
@@ -176,7 +171,6 @@ class user extends TeaWxController
             foreach($format_arr as $item_for){
                 $time_arr[] = $item_for;
                 $time_start_hour = date('G',strtotime($item_for));
-                \App\Helper\Utils::logger("shjian3:".$time_start_hour.",time:".strtotime($item_for));
                 $hour = $time_start_hour.':59';
                 $time_arr[] = $hour;
             }

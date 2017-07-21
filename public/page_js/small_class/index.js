@@ -1,5 +1,5 @@
 $(function(){
-    var load_data=function(){
+    var load_data = function(){
         var start_date  = $("#id_date_start").val();
         var end_date    = $("#id_date_end").val();
         var teacherid   = $("#id_teacherid").val();

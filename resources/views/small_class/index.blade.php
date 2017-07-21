@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 <section class="content">
     <div class="row">
-        <div class=" col-md-2">
+        <div class="col-md-2">
             <div class="input-group ">
                 <span>老师</span>
                 <input type="text" id="id_teacherid" />
@@ -27,13 +27,12 @@
         </div>
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <a id="add_small_class_course" class="btn btn-warning" > <li  class="fa fa-plus">课程</li></a>
+                <a id="add_small_class_course" class="btn btn-warning" > <li class="fa fa-plus">课程</li></a>
             </div>
         </div>
     </div>
     <hr/>
-
-    <table class="table table-bordered table-striped"   >
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <td >课程id</td>
@@ -63,7 +62,7 @@
 					<td>{{$var["lesson_left"]}}</td>
 					<td>{{$var["stu_total"]}}</td>
 					<td>{{$var["stu_current"]}}</td>
-                    <td class=" remove-for-xs " >
+                    <td class="remove-for-xs">
                         <div class="opt"
                              {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                         >

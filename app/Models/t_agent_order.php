@@ -173,4 +173,18 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         return $this->main_get_list($sql);
     }
 
+    public function get_row_by_orderid($orderid){
+        $where_arr = [
+            ['orderid = %s ',$orderid],
+        ];
+        $sql = $this->gen_sql_new(
+            " select * ".
+            " from %s ".
+            " where %s ",
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 }
