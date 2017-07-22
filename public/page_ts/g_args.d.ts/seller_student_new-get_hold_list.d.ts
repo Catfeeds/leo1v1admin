@@ -1,11 +1,11 @@
 interface GargsStatic {
-	hold_flag:	number;//App\Enums\Eboolean 
+	hold_flag:	number;//App\Enums\Eboolean
 	phone_name:	string;
 	page_num:	number;
-	seller_student_status:	number;//App\Enums\Eseller_student_status 
-	subject:	number;//App\Enums\Esubject 
-	grade:	number;//App\Enums\Egrade 
 	page_count:	number;
+	seller_student_status:	number;//App\Enums\Eseller_student_status
+	subject:	number;//App\Enums\Esubject
+	grade:	number;//App\Enums\Egrade
 }
 declare module "g_args" {
     export = g_args;
@@ -83,8 +83,7 @@ $(function(){
 			phone_name:	$('#id_phone_name').val(),
 			seller_student_status:	$('#id_seller_student_status').val(),
 			subject:	$('#id_subject').val(),
-			grade:	$('#id_grade').val(),
-			page_count:	$('#id_page_count').val()
+			grade:	$('#id_grade').val()
         });
     }
 
@@ -98,7 +97,6 @@ $(function(){
 	$('#id_seller_student_status').val(g_args.seller_student_status);
 	$('#id_subject').val(g_args.subject);
 	$('#id_grade').val(g_args.grade);
-	$('#id_page_count').val(g_args.page_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -145,13 +143,6 @@ $(function(){
                 <span class="input-group-addon">年级</span>
                 <select class="opt-change form-control" id="id_grade" >
                 </select>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">page_count</span>
-                <input class="opt-change form-control" id="id_page_count" />
             </div>
         </div>
 */

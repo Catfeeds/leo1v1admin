@@ -813,7 +813,7 @@ class seller_student_new extends Controller
         }
         $seller_level=$this->t_manager_info->get_seller_level($admin_revisiterid);
         $hold_config=\App\Helper\Config::get_seller_hold_user_count();
-
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "hold_define_count"  =>  $hold_config[$seller_level],
             "hold_cur_count"  => $this->t_seller_student_new->get_hold_count($admin_revisiterid) ,
@@ -847,6 +847,7 @@ class seller_student_new extends Controller
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
         }
+
         return $ret_info;
     }
 
@@ -970,7 +971,9 @@ class seller_student_new extends Controller
         $userid                = $this->get_in_userid(-1);
         $page_num              = $this->get_in_page_num();
         $global_tq_called_flag = $this->get_in_el_tq_called_flag("-1", "global_tq_called_flag");
-        list($start_time,$end_time) = $this->get_in_date_range(-120,1);
+        $grade    = $this->get_in_el_grade();
+        $subject = $this->get_in_el_subject();
+        list($start_time,$end_time) = $this->get_in_date_range(-60,1);
 
         /*
         $max_end_time= strtotime(date( "Y-m-d" ))  -1*86400;
@@ -981,7 +984,7 @@ class seller_student_new extends Controller
 
         $seller_student_status      = $this->get_in_int_val('seller_student_status', -1, E\Eseller_student_status::class);
 
-        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag );
+        $ret_info = $this->t_seller_student_new->get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag , $grade,$subject);
 
         // dd($ret_info);
 

@@ -1238,6 +1238,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_lesson_info::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
 
     }
@@ -1254,6 +1255,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+
+    //
+    public function get_user_info_for_free($userid) {
+        $sql=$this->gen_sql_new(
+            "select n.userid,phone, seller_student_status from %s n  join %s t  on  n.userid=t.userid    "
+            ."  where  n.userid=%u limit 1 ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_row($sql);
     }
 
     public function get_no_hold_list($admin_revisiterid) {
@@ -1277,6 +1291,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
+    public function set_user_free($userid) {
+        $sql=$this->gen_sql_new(
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            ."  where   n.userid=%u  and require_admin_type=2  ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $userid
+        );
+        //dd($sql);
+        return $this->main_update($sql);
+    }
+
+
     public function set_no_hold_free($admin_revisiterid) {
         $sql=$this->gen_sql_new(
             "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
@@ -1285,6 +1312,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_lesson_subject::DB_TABLE_NAME,
             $admin_revisiterid
         );
+        //dd($sql);
         return $this->main_update($sql);
     }
 
@@ -1536,21 +1564,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag ){
+    public function get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ){
 
         $where_arr=[];
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
         $where_arr[] =  't.seller_student_status in (1,2,101,102)';
-        $this->where_arr_add_time_range($where_arr,"ss.add_time",$start_time,$end_time);
+        $where_arr[] =  'n.tmk_student_status<>3 ';
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
-        $order_by_str= " order by ss.add_time desc";
+        $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade);
+        $this->where_arr_add_int_or_idlist($where_arr,"t.subject",$subject);
+
+        $order_by_str= " order by n.add_time desc";
 
         $sql=$this->gen_sql_new(
-            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, ss.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,ss.user_desc, ss.has_pad  ".
+            "select tmk_student_status, tmk_next_revisit_time, tmk_desc ,return_publish_count, tmk_adminid, t.test_lesson_subject_id ,seller_student_sub_status, n.add_time,  global_tq_called_flag, seller_student_status,  s.userid,s.nick, s.origin, s.origin_level,n.phone_location,n.phone,n.userid,n.sub_assign_adminid_2,n.admin_revisiterid, n.admin_assign_time, n.sub_assign_time_2 , s.origin_assistantid , s.origin_userid ,  t.subject, s.grade,n.user_desc, n.has_pad  ".
             " from %s t "
-            ." left join %s ss on  ss.userid = t.userid "
-            ." left join %s s on ss.userid=s.userid "
+            ." left join %s n on  n.userid = t.userid "
+            ." left join %s s on n.userid=s.userid "
             ." where  %s  $order_by_str "
             , t_test_lesson_subject::DB_TABLE_NAME
             , self::DB_TABLE_NAME
@@ -1559,6 +1591,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_list_by_page($sql,$page_num);
     }
+
     public function get_user_list_by_add_time($start_time,$end_time){
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);

@@ -35,6 +35,21 @@
                 </div>
 
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">年级</span>
+                        <input class="opt-change form-control" id="id_grade" />
+                    </div>
+                </div>
+
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">科目</span>
+                        <input class="opt-change form-control" id="id_subject" />
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
