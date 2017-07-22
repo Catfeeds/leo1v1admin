@@ -15,6 +15,7 @@ class wx_teacher_common extends Controller
 
     public function wx_jump_page () {
 
+
         $code       = $this->get_in_str_val("code");
         /**  @var  \App\Helper\Wx  $wx */
         $wx_config=\App\Helper\Config::get_config("teacher_wx");
@@ -29,10 +30,6 @@ class wx_teacher_common extends Controller
         }
         session(["wx_parent_openid" => $openid ] );
 
-        \App\Helper\Utils::logger("HOST:" . $_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_parent_openid:$openid ");
-        \App\Helper\Utils::logger("wx_parent_openid:".session("wx_parent_openid"));
-
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
         $goto_url_arr=preg_split("/\//", $goto_url);
         $action=@$goto_url_arr[2];
@@ -41,8 +38,8 @@ class wx_teacher_common extends Controller
         if ($action=="binding" ){
             $url="$web_html_url/login.html?goto_url=/&wx_openid=".$openid;
         }else{
-            $teacherid = $this->t_teacher_info->get_teacherid_by_openid($openid);
-            $wx_use_flag= $this->t_teacher_info->get_wx_use_flag($teacherid);
+            $teacherid   = $this->t_teacher_info->get_teacherid_by_openid($openid);
+            $wx_use_flag = $this->t_teacher_info->get_wx_use_flag($teacherid);
             if ($teacherid) {
                 session([
                     "login_user_role" => 2,

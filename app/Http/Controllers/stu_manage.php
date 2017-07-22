@@ -610,9 +610,7 @@ class stu_manage extends Controller
         $stat_time=$date["sdate"];
 
         $ret_info=\App\Helper\Utils::list_to_page_info([]);
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info,["userid"=>$userid]);
-
     }
 
     public function course_list() {
@@ -1168,7 +1166,7 @@ class stu_manage extends Controller
             return $this->output_err("更新课程包出错！请重试！");
         }
 
-        $lesson_num=$this->t_lesson_info->get_course_lesson_num($courseid);
+        $lesson_num = $this->t_lesson_info->get_course_lesson_num($courseid);
         if($lesson_num>0){
             $ret = $this->t_lesson_info->set_lesson_enable_video($courseid,$enable_video);
             if(!$ret){
@@ -1181,16 +1179,13 @@ class stu_manage extends Controller
         return $this->output_succ();
     }
 
-
     public function call_list () {
         $userid= $this->sid;
         $phone= $this->t_student_info->get_phone ($userid);
         header("Location: /tq/get_list_by_phone?phone=$phone");
-
     }
 
     public function init_info_by_contract_cr(){
-
         $orderid = $this->get_in_int_val('orderid');
         $sid     = $this->get_in_int_val('sid');
         if(!$orderid){
@@ -1259,17 +1254,15 @@ class stu_manage extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,null,
-                               [
-                                   "init_data"=> $row,
-                                   "show_post_flag"=> $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),
-                               ]
-        );
+        return $this->pageView(__METHOD__,null,[
+            "init_data"      => $row,
+            "show_post_flag" => $this->check_power(E\Epower::V_POST_STU_INIT_INFO ),
+        ]);
     }
+
     /**
-     *@author    sam
-     *@function  学生分数列表显示
-     *
+     * @author    sam
+     * @function  学生分数列表显示
      */
     public function  score_list () {
         $userid = $this->sid;
@@ -1283,30 +1276,28 @@ class stu_manage extends Controller
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
 
-        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
-
     /**
-     *@author    kevin
-     *@function  学生登录反馈列表显示
-     *
+     * @author    kevin
+     * @function  学生登录反馈列表显示
      */
     public function  user_login_list() {
-        $userid = $this->sid;
-        $page_info=$this->get_in_page_info();
+        $userid    = $this->sid;
+        $page_info = $this->get_in_page_info();
 
         $ret_info = $this->t_user_login_log->login_list($page_info,$userid);
-        // dd($ret_info);
+
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
             E\Erole::set_item_value_str($item);
             $this->cache_set_item_student_nick($item);
-            $item["ip"] = long2ip($item["ip"]);
         }
        return $this->pageView(__METHOD__,$ret_info);
     }
+
+
 
 
 }

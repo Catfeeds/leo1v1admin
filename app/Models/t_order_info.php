@@ -2476,6 +2476,27 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_value($sql);
     }
 
+    public function get_order_5(){
+        $where_arr = [
+            "contract_type in (0,3)",
+            "contract_status > 0",
+            "is_test_user= 0",
+        ];
+        $sql = $this->gen_sql_new("select count(1) as have_order,s.userid,s.phone,s.nick,s.assistantid,m.name as seller_name"
+                                  ." from %s o"
+                                  ." left join %s s on o.userid=s.userid"
+                                  ." left join %s m on seller_adminid=uid"
+                                  ." where %s"
+                                  ." group by o.userid"
+                                  ." having have_order>=5"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 
 }

@@ -42,6 +42,7 @@ class get_ass_month_info extends Command
         $time = time()-86400;
         $start_time = strtotime(date("Y-m-01",$time));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
+        //  $month_info = $task->t_ass_weekly_info->get_all_info($start_time,2);
         $stu_info_all = $task->t_student_info->get_ass_stu_info_new();
         $lesson_info = $task->t_lesson_info_b2->get_ass_stu_lesson_list($start_time,$end_time);
         $no_lesson_info = $task->t_lesson_info_b2->get_no_lesson_tongji($start_time,$end_time);

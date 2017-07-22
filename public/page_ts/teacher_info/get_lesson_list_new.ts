@@ -32,8 +32,9 @@ $(function(){
         $cc_id.val(opt_data.ass_nick);
      }
      $lesson_id.val(opt_data.lessonid);
-     $question_type.val(opt_data.question_type);
-     $question_content.val(opt_data.question_content);
+     //TODO
+     //$question_type.val(opt_data.question_type);
+     //$question_content.val(opt_data.question_content);
      var arr=[
          ["联系人",  $cc_id],
          ["问题类型",  $question_type],
@@ -45,7 +46,8 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/teacher_info/teacher_apply_add",
                           {
-                              "cc_id"            : opt_data.cc_id,
+                              //TODO
+                              //"cc_id"            : opt_data.cc_id,
                               "stu_nick"         : opt_data.stu_nick,
                               "lesson_time"      : opt_data.lesson_time,
                               "lesson_type"      : opt_data.lesson_type,
@@ -114,7 +116,6 @@ $(function(){
                 "</div>"+
                 "</div>"
         );
-
         id_item.find(".show").on("click",function(){
             $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
         });
@@ -136,6 +137,7 @@ $(function(){
                 });
             }else{
                 try {
+                    console.log(up,info,file,lesson_info);
                     $.custom_upload_file_process(
                         btn_id, 0,
                         function(up, info, file, lesson_info) {
@@ -158,6 +160,7 @@ $(function(){
                 }
             }
         }
+        //console.log(id_item);
         return id_item;
     };
 
@@ -180,7 +183,6 @@ $(function(){
         var btn_issue_upload_id   = "id_issue_upload";
 
         var tea_cw_url_list = tea_more_cw_url;
-
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
@@ -191,7 +193,6 @@ $(function(){
                 function(url) {stu_cw_url=url;}, ret ,function(file_name) {
                 },back_flag
             );
-
             var id_teacher_list      = [];
             var id_teacher_desc_list = [];
             for (var i=0;i<5;i++) {
@@ -207,7 +208,6 @@ $(function(){
                         tea_cw_url_list[i]=["",""];
                     }
                     id_teacher_desc.find("input").val(tea_cw_url_list[i][1]);
-
                     var item = gen_upload_item(
                         btn_teacher_upload_id+"_"+i,
                         !! tea_cw_url_list[i][0],
@@ -239,7 +239,6 @@ $(function(){
                 },ret,function(origin_file_name) {
                 },back_flag
             );
-
             var id_show_teacher_list_btn = $("<button class=\"btn btn-primary\"> 显示更多</button>");
             id_show_teacher_list_btn.on("click",function(){
                 $.each(id_teacher_list,function(i,item){
@@ -251,14 +250,12 @@ $(function(){
                     }
                 });
             });
-
             var id_issue = gen_upload_item(
                 btn_issue_upload_id ,homework_status, "l_hw_" + opt_data.lessonid,
                 function(){return issue_url; },
                 function(url){issue_url=url;},ret,function(origin_file_name) {
                 },back_flag
             );
-
             var id_lesson_name        = $("<input/>");
             var id_point1             = $("<input/>");
             var id_point2             = $("<input/>");
@@ -302,7 +299,7 @@ $(function(){
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
-                    var point1  = $.trim( id_point1.val());
+                    var point1  = $.trim(id_point1.val());
                     var point2  = $.trim(id_point2.val());
                     lesson_name = $.trim(id_lesson_name.val());
                     var pdf_question_count = id_pdf_question_count.val()*1;
@@ -364,7 +361,7 @@ $(function(){
                         item.parent().parent().hide();
                     });
                 }
-            },900);
+            },false,900);
         });
     };
 
@@ -409,9 +406,10 @@ $(function(){
 
     $(".opt-get_stu_performance").on("click",function(){
         var opt_data    = $(this).get_opt_data();
+        //console.log(opt_data);
         var lessonid    = opt_data.lessonid;
         var lesson_type = opt_data.lesson_type;
-        var tea_comment = opt_data.tea_comment;
+        var tea_comment = opt_data.tea_comment_str;
         if(lesson_type!=2){
             set_stu_performance(lessonid);
         }else{
@@ -730,7 +728,7 @@ $(function(){
 
     $.each($(".opt-download-test-paper"),function(i,item){
         var opt_data= $(this).get_opt_data();
-        if( opt_data.st_test_paper|| opt_data.stu_test_paper ){
+        if( opt_data["st_test_paper"] || opt_data.stu_test_paper ){
             $(this).show();
         }else{
             $(this).hide();
@@ -819,6 +817,5 @@ $(function(){
         });
 
     });
-
 
 });

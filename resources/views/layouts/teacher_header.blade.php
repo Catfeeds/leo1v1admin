@@ -28,7 +28,6 @@
         <!-- jQuery 2.0.2 -->
         <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
         <script src="/js/jquery.admin.js?{{$_publish_version}}" type="text/javascript"></script>
-        <script src="/page_js/header_new.js?{{$_publish_version}}" type="text/javascript"></script>
 
         <!-- jQuery UI 1.10.3 -->
 
@@ -98,7 +97,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-warning btn-flat" id="id_bind_off">解绑账号</a>
+                                        <a href="#" class="btn btn-warning btn-flat" id="id_system_logout_teacher">退出</a>
                                     </div>
                                 </li>
                             </ul>
@@ -125,21 +124,6 @@
                 </section>
                 <!-- /.sidebar -->
             </aside>
-
-            <script type="text/javascript" >
-             $(function(){
-                 $("#id_bind_off").on("click",function(){
-                     $.do_ajax("/wx_teacher/bind_off",function(rep){
-                         if ( rep.ret !=0 ) {
-                            alert(rep.info) ;
-                         }else{
-                             alert("解绑成功");
-                             window.location.reload();
-                         }
-                     });
-                 });
-             });
-            </script>
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">

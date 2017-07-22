@@ -50,4 +50,14 @@ class t_user_info extends \App\Models\Zgen\z_t_user_info
         }
 
     }
+    public function check_login_userid($phone, $passwd, $role = \App\Enums\Erole::V_TEACHER  )
+    {
+        $sql = $this->gen_sql("select p.userid ".
+                       "from %s u, %s p where u.userid = p.userid and p.phone = '%s' and u.passwd = '%s' ".
+                       "and role = %u",
+                       self::DB_TABLE_NAME,
+                       t_phone_to_user::DB_TABLE_NAME,
+                       $phone, $passwd, $role );
+        return $this->main_get_value( $sql  );
+    }
 }

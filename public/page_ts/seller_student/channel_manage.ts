@@ -89,7 +89,7 @@ $(function(){
         var $key4_s=$("<select/>");
         var origin_level=$("<select/>");
 
-        Enum_map.append_option_list("origin_level",origin_level ,true,[1,2,3,4,5] );
+        Enum_map.append_option_list("origin_level",origin_level ,true,[1,2,3,4,5,90] );
         var bind_item = function($input,$select, $d ) {
             $d.append($input).append($select);
             $select.on("change",function(){

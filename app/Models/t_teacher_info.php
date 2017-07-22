@@ -2352,4 +2352,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_value($sql);
     }
+
+    public function get_all_train_pass_teacher_info($page_info,$teacherid){
+        $where_arr = [
+            "is_quit=0",
+            "is_test_user=0",
+            "train_through_new=1",
+            ["teacherid=%u",$teacherid,-1]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,realname,subject,grade,grade_start,grade_end,not_grade"
+                                  ." from %s where %s order by teacherid desc",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 }

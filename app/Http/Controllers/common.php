@@ -2,7 +2,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use LaneWeChat\Core\UserManage;
 use \App\Enums as E;
+use Illuminate\Support\Facades\Input ;
+
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
 require_once  app_path("Libs/Pingpp/init.php");
 
 class common extends Controller
@@ -831,6 +841,8 @@ class common extends Controller
             return "";
         }
 
+        $user_info = $this->get_wx_user_info($wx_openid);
+
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         $phone_qr_name = $phone."_qr_agent_n.png";
         $qiniu_url     = $qiniu['public']['url'];
@@ -1160,6 +1172,27 @@ class common extends Controller
         return (new common_ex )->send_phone_code();
     }
 
+    public function get_wx_user_info($wx_openid){ //获取用户微信个人信息
+        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
+        $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
+        \App\Helper\Utils::logger('yxyx_url:'.$url);
+        // $info = json_decode(file_get_contents($url));
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HEADER, 0);
+        // $output = curl_exec($ch);
+        // curl_close($ch);
+        // $ret_arr = json_decode($output,true);
+        // $data['name'] = $info->nickname;
+        // $data['image'] = $info->headimgurl;
+        // \App\Helper\Utils::logger('yxyx_data:'.$data);
+
+        // return $data;
+    }
+
     public function get_teacher_hornor_list(){ //1016
         $url = "http://admin.yb1v1.com/teacher_money/get_teacher_lesson_total_list";
         $post_data = [];
@@ -1259,5 +1292,50 @@ class common extends Controller
 
 
 
+
+    public function upload_qiniu() {
+        $file = Input::file('file');
+        $file_name_fix=$this->get_in_str_val("file_name_fix");
+
+        $qiniu_config=\App\Helper\Config::get_config("qiniu");;
+
+        $accessKey = $qiniu_config['access_key'];
+        $secretKey = $qiniu_config['secret_key'];
+
+        // 构建鉴权对象
+
+        $private_bucket = $qiniu_config["private_url"] ['bucket'];
+
+        if($file->isValid()){
+            //处理列
+            $tmpName       = $file ->getFileName();
+            $realPath      = $file ->getRealPath();
+            $original_name = $file->getClientOriginalName();
+            //$objPHPExcel = $objReader->load( $realPath );
+            preg_match('/.*\.([^.]*)$/',$original_name , $matches);
+            $qiniu_file_name = $file_name_fix.".".$matches[1];
+            // 构建鉴权对象
+            $auth = new Auth( $accessKey, $secretKey );
+
+            // 要上传的空间
+            $bucket = $private_bucket ;
+            //delete old file
+            $bucketMgr = new BucketManager($auth);
+            $bucketMgr->delete($bucket, $qiniu_file_name);
+
+            // 生成上传 Token
+            $token = $auth->uploadToken($bucket);
+
+            // 初始化 UploadManager 对象并进行文件的上传。
+            $uploadMgr = new UploadManager();
+            \App\Helper\Utils::logger("start...");
+            list($ret, $err) = $uploadMgr->putFile($token, $qiniu_file_name,  $realPath );
+            \App\Helper\Utils::logger( "error:" . json_encode($err) );
+
+            \App\Helper\Utils::logger("end ...");
+            return $this->output_succ(["file_name" => $qiniu_file_name]);
+        }
+        return $this->output_err("上传失败");
+    }
 
 }

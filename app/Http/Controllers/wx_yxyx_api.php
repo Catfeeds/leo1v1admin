@@ -68,8 +68,6 @@ class wx_yxyx_api extends Controller
 
     public function get_user_info(){
         $agent_id   = $this->get_agent_id();
-        \App\Helper\Utils::logger('new_agent_id'.$agent_id);
-
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -87,7 +85,7 @@ class wx_yxyx_api extends Controller
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($student_info){
+        if(isset($student_info['userid'])){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level     = 2;
             $nick      = $student_info['nick'];
@@ -144,7 +142,7 @@ class wx_yxyx_api extends Controller
             'level'     => $level,
             'nick'      => $nick,
             'pay'       => $pay,
-            'cash'      => $cash/100,
+            'cash'      => $cash,
             'have_cash' => $have_cash/100,
             'num'       => $num,
             'my_num'    => $my_num,
@@ -182,16 +180,20 @@ class wx_yxyx_api extends Controller
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
-                $ret_list[$key]['name'] = $item['nick'];
+                $ret_list[$key]['name'] = $item['phone'];
+                if($item['nick']){
+                    $ret_list[$key]['name'] = $item['nick'];
+                }
+                $ret_list[$key]['status'] = 0;
                 if($item['order_status']){
                     $ret_list[$key]['status'] = 2;
                 }else{
-                    $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
-                    $count_test = $count_item['count'];
-                    if(0<$count_test){
-                        $ret_list[$key]['status'] = 1;
-                    }else{
-                        $ret_list[$key]['status'] = 0;
+                    if(isset($item['userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
+                        $count_test = $count_item['count'];
+                        if(0<$count_test){
+                            $ret_list[$key]['status'] = 1;
+                        }   
                     }
                 }
                 foreach($p_count as $k=>$i){
@@ -204,10 +206,10 @@ class wx_yxyx_api extends Controller
                 }else{
                     $ret_list[$key]['time'] = '';
                 }
-                foreach($ret_new as $info){
+                foreach($ret_new as $k=>$info){
                     if($info['pid'] == $item['p_id']){
-                        $ret_list[$key]['list'][]['name'] = $info['nick'];
-                        $ret_list[$key]['list'][]['price'] = $info['price']/100;
+                        $ret_list[$key]['list'][$k]['name'] = $info['nick'];
+                        $ret_list[$key]['list'][$k]['price'] = $info['price']/100;
                     }
                 }
             }
@@ -219,8 +221,8 @@ class wx_yxyx_api extends Controller
 
     public function get_user_cash(){
         $agent_id = $this->get_agent_id();
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $type = $this->get_in_int_val('type');
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -235,7 +237,6 @@ class wx_yxyx_api extends Controller
         $pay          = 0;
         $cash         = 0;
         if($student_info){
-            //orderid,cash,order_cash,parent_name,pay_time,count(lessonid),level1_cash,level2_cash
             $ret = $this->get_pp_pay_cash($phone);
             $cash = $ret['cash'];
         }else{
@@ -390,7 +391,7 @@ class wx_yxyx_api extends Controller
             $count   = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
-            $ret_list[$key]['level2_cash'] = $pay;
+            $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
             if(8<=$count){
                 $cash += $pay;
                 $ret_list[$key]['order_cash'] = $pay;
@@ -446,9 +447,6 @@ class wx_yxyx_api extends Controller
         }else{
             return $this->output_err("请先绑定优学优享账号!");
         }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
         $bankcard      = $this->get_in_str_val("bankcard");
         $idcard        = $this->get_in_str_val("idcard");
         $bank_address  = $this->get_in_str_val("bank_address");
@@ -461,14 +459,17 @@ class wx_yxyx_api extends Controller
         $zfb_account   = $this->get_in_str_val("zfb_account");
         $cash          = $this->get_in_int_val("cash"); //要提现
         $id            = $agent_id;
+        if(!preg_match("/^1\d{10}$/",$bank_phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
         if(!isset($cash)){
             return $this->output_err("请输入提现金额!");
         }
-        $check_cash = $this->check_user_cash($agent_info['phone']);
-        $total_cash = $check_cash['cash']; //可提现
+        $check_cash = $this->check_user_cash($phone);
+        $total_cash = $check_cash['cash'];      //可提现
         $have_cash = $check_cash['have_cash'];  //已提现
         $cash_new = $cash + $have_cash;
-        if($cash_new > $have_cash){
+        if($cash_new > $total_cash){
             return $this->output_err("超出可提现金额!");
         }
         if($bankcard){

@@ -20,10 +20,8 @@ class wx_yxyx_web extends Controller
 
     public function __construct() {
         parent::__construct();
-        \App\Helper\Utils::logger("sessionid:".session_id());
-        \App\Helper\Utils::logger("web login_user_role:xueji".session("login_user_role"));
-
         $agent_id= $this->get_agent_id();
+        \App\Helper\Utils::logger("sessionid:".session_id());
         \App\Helper\Utils::logger("web agent_id:".$agent_id);
         if($agent_id){
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
@@ -34,6 +32,8 @@ class wx_yxyx_web extends Controller
             if($action == 'bind'){
                 $url = "$web_html_url/index.html#bind";
             }
+            \App\Helper\Utils::logger("yxyx_oid:".session('wx_yxyx_openid'));
+
             header("Location: $url");
         }else{
             $wx_config=\App\Helper\Config::get_config("yxyx_wx");

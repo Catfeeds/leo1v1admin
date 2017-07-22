@@ -521,11 +521,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 // "t.require_admin_type=2",
             ];
 
-            if($do_filter == -1){
-                $where_arr = [
-                    "t.require_admin_type=2",
-                    "s.lesson_count_all=0",
-                ];
+            if($do_filter <1){
+                $where_arr[] = "t.require_admin_type=2";
+                $where_arr[] = "s.lesson_count_all=0";
             }
 
             $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);

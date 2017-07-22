@@ -214,4 +214,14 @@ class t_phone_to_user extends \App\Models\Zgen\z_t_phone_to_user
             return $item['phone'];
         });
     }
+    public function get_teacherid($phone )
+    {
+        $sql = $this->gen_sql("select  userid ".
+                       " from  %s ".
+                       " where phone= '%s' and role = %u",
+                       self::DB_TABLE_NAME,
+                       $phone,  \App\Enums\Erole::V_TEACHER );
+        return $this->main_get_value( $sql );
+    }
+
 }

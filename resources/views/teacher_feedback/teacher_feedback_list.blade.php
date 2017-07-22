@@ -50,7 +50,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td>老师</td>
+                    <td width="100px">老师信息</td>
                     <td>课程信息</td>
                     <td>反馈类型</td>
                     <td>老师反馈原因</td>
@@ -66,7 +66,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{$var["nick"]}}</td>
+                        <td>
+                            {{$var["nick"]}}
+                            <br/>
+                            {{$var["teacher_money_type_str"]}}
+                            <br/>
+                            {{$var["level_str"]}}级
+                        </td>
                         <td>
                             上课时间:{{$var["lesson_time"]}}
                             <br/>
@@ -95,7 +101,7 @@
                                     <a class="opt-trial_reward" title="老师的额外奖励">奖</a>
                                     <a class="opt-teacher_money" title="老师上月工资">工</a>
                                     <a class="opt-add_reward_90" title="本节课添加10分钟的课时补偿">90</a>
-                                    <a class="opt-check_trial_lesson" title="查看此学生试听课">试</a>
+                                    <a class="opt-check_trial_lesson" title="检测试听签单奖">试</a>
                                     <a class="opt-update-lesson-info" title="修改课程信息">课</a>
                                 @endif
                                 @if(in_array($acc,["adrian","jim"]))

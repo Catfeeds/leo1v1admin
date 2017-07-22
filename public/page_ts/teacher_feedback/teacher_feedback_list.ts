@@ -373,5 +373,20 @@ $(function(){
         });
     });
 
+    $(".opt-check_trial_lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+	    $.do_ajax("/teacher_feedback/check_teacher_trial_lesson",{
+            "teacherid" : opt_data.teacherid,
+            "lessonid"  : opt_data.lessonid,
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+
+    });
+
 
 });

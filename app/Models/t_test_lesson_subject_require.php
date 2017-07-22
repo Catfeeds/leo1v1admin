@@ -1489,7 +1489,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         });
     }
 
-    public function get_teat_lesson_transfor_info_type($start_time,$end_time,$require_admin_type=-1){
+    public function get_teat_lesson_transfor_info_type($start_time,$end_time,$require_admin_type=-1,$is_green_flag=-1){
         $where_arr = [
             "accept_adminid > 0",
             "m.account_role = 3",
@@ -1497,6 +1497,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             // "ll.lesson_user_online_status in (0,1)",
             "ll.lesson_del_flag=0",
             ["t.require_admin_type=%u",$require_admin_type,-1],
+            ["tr.is_green_flag=%u",$is_green_flag,-1],
             "l.lessonid >0"
         ];
 
