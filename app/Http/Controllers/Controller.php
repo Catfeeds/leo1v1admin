@@ -90,7 +90,6 @@ class Controller extends ControllerEx
 
 
     function check_login() {
-
         if (!session("acc")){
             Log::debug(" DO: Location: / ");
             if (!\App\Helper\Utils::check_env_is_test()) {

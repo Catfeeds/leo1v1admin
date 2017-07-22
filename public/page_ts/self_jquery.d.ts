@@ -2,6 +2,8 @@ interface JQueryStatic {
 
     self_upload_process(id,url,ctminfo,ext_file_list,ex_args,complete_func ):void;
 
+    custom_upload_file_process (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ):void;
+
     enum_multi_select ( $element, enum_name, onChange , id_list?, select_group_list? ):void ;
 
     reload( ):void;
@@ -27,7 +29,7 @@ interface JQueryStatic {
 
     flow_dlg_show(title, add_func , flow_type, from_key_int,  from_key2_int?, from_key_str? ):void;
 
-    show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ):void;
+    show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 
     //<script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     /*
@@ -79,7 +81,9 @@ interface JQueryStatic {
     do_ajax_get_nick(user_type:string,userid:number,call_func:( id:number,nick:string)=>void):void;
 
     fiter_obj_field( obj:Object,field_name_list:Array<string> ): any ;
-    custom_show_pdf(file_url):void ;
+    custom_show_pdf(file_url ,get_abs_url?):void ;
+
+
 
     /*
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>

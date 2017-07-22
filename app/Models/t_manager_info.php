@@ -22,6 +22,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         //t_adid_to_adminid::DB_TABLE_NAME
         //t_student_info::DB_TABLE_NAME
     }
+    public function get_account_by_uid($uid) {
+        $sql = $this->gen_sql_new("select account from %s where uid='%s'",
+                                  self::DB_TABLE_NAME, $uid);
+        return $this->main_get_value($sql);
+    }
     public function get_info_by_tquin($tquin) {
         $sql=$this->gen_sql_new("select * from %s where tquin=%u ", self::DB_TABLE_NAME,$tquin );
         return $this->main_get_row($sql);
