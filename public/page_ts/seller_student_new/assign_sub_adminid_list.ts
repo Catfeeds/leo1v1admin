@@ -6,7 +6,7 @@ function load_data(){
         order_by_str                   : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
-			  seller_level:	$('#id_seller_level').val(),
+        seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
         admin_del_flag:	$('#id_admin_del_flag').val(),
@@ -31,7 +31,10 @@ function load_data(){
         tmk_adminid:	$('#id_tmk_adminid').val(),
         tmk_student_status:	$('#id_tmk_student_status').val(),
 
-        seller_resource_type:	$('#id_seller_resource_type').val()
+        seller_resource_type:	$('#id_seller_resource_type').val(),
+        //wx
+        wx_invaild_flag:$('#id_wx_invaild_flag').val(),
+
     });
 }
 
@@ -71,6 +74,9 @@ $(function(){
 
     Enum_map.append_option_list("boolean",$("#id_publish_flag"));
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
+    //wx
+    Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
+
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
 
     var is_assign_group=g_args.self_groupid ==-1 ;
@@ -93,16 +99,20 @@ $(function(){
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_seller_student_status').val(g_args.seller_student_status);
-  $('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
+    $('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
     $('#id_seller_student_sub_status').val(g_args.seller_student_sub_status);
     $('#id_origin_level').val(g_args.origin_level);
+    $('#id_seller_student_status').val(g_args.seller_student_status);
+    //wx
+    $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
+
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]
     });
 
 
-	  $('#id_seller_level').val(g_args.seller_level);
-	  $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
+    $('#id_seller_level').val(g_args.seller_level);
+    $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_admin_del_flag').val(g_args.admin_del_flag);
@@ -113,9 +123,12 @@ $(function(){
     $('#id_origin_assistantid').val(g_args.origin_assistantid);
     $('#id_tq_called_flag').val(g_args.tq_called_flag);
     $('#id_publish_flag').val(g_args.publish_flag);
+    //wx
+    $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 
 
     $('#id_account_role').val(g_args.account_role);
+
     $.enum_multi_select( $('#id_account_role'), "account_role", function(){load_data();} );
 
     $.admin_select_user(
@@ -615,20 +628,38 @@ $(function(){
 
 
     $(".opt-publish-flag").on("click",function(){
-        var opt_data=$(this).get_opt_data();
+        var opt_data               = $(this).get_opt_data();
+        var $seller_student_status = $("<select></selelct>");
+        var $wx_invaild_flag       = $("<select></selelct>");
+        //var res = JSON.stringify(opt_data);
+        //alert(res);
 
+        Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
+        Enum_map.append_option_list("boolean",$wx_invaild_flag,true, need_wx );
 
-        var $seller_student_status=$("<select></selelct>");
         var need_list=[];
         if (opt_data.seller_student_status==50) {
             need_list=[0,50];
         }else{
             need_list=[ opt_data.seller_student_status, 50];
         }
-        Enum_map.append_option_list("seller_student_status",$seller_student_status,true, need_list );
+
         $seller_student_status.val(opt_data.seller_student_status );
+
+        var need_wx=[];
+        if (opt_data.wx_invaild_flag==50) {
+            need_wx=[0,50];
+        }else{
+            need_wx=[ opt_data.wx_invaild_flag,50];
+        }
+
+       $wx_invaild_flag.val(opt_data.wx_invaild_flag);
+
         var arr=[
             ["回访状态",  $seller_student_status],
+            ["微信可见",  $wx_invaild_flag],
+
+
         ];
 
         $.show_key_value_table("设置是否公海可见", arr ,{
@@ -637,7 +668,9 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/ss_deal/set_seller_student_status",{
                     "test_lesson_subject_id" : opt_data.test_lesson_subject_id,
-                    "seller_student_status" : $seller_student_status.val()
+                    "seller_student_status" : $seller_student_status.val(),
+                    "wx_invaild_flag" : $wx_invaild_flag.val()
+
                 });
             }
         });
@@ -699,7 +732,18 @@ $(function(){
     });
 
 
-    //opt-publish-flag
+
+    $('#id_set_shaixuan').on('click',function(){
+        $.do_ajax("/seller_student_new/do_filter",{"filter_flag": 1},function(result){
+            load_data();
+        });
+
+    });
+
+
+
+
+
 
 
 });

@@ -17,7 +17,7 @@ $(function(){
 
 
     $('#id_date_range').select_date_range({
-        'date_type' : g_args.date_type,
+        'date_type'     : g_args.date_type,
         'opt_date_type' : g_args.opt_date_type,
         'start_time'    : g_args.start_time,
         'end_time'      : g_args.end_time,
@@ -47,5 +47,43 @@ $(function(){
         });
 
     });
+    //添加
+    $('#id_self_todo_new').click(function(){
+       // var opt_data   = $(this).get_opt_data();
+        var $userid     = $("<input/>");
+        var $start_time = $("<input/>");
+        $start_time.datetimepicker({
+            lang:'ch',
+            timepicker:true,
+            format:'Y-m-d H:i'
+        });
 
-});
+
+        var arr=[
+            ["学生id",$userid],
+            ["开始时间",$start_time],
+          ];
+
+       // Enum_map.append_option_list("userid",userid, true);
+        //Enum_map.append_option_list("subject",$subject, true);
+
+        $.show_key_value_table("新增回访", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/self_manage/todo_add",{
+                    "userid"     : $userid.val(),
+                    "start_time" : $start_time.val(),
+                });
+            }
+        }, function (){
+            $.admin_select_user($userid,"student");
+        });
+
+
+
+
+    }); 
+}); 
+
+

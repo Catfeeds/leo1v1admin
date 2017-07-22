@@ -195,7 +195,7 @@ class self_manage extends Controller
             E\Etodo_status::set_item_value_color_str($item);
             $msg_arr=\App\Helper\Utils::json_decode_as_array($item["msg"] );
             $item["line_info"]=@$msg_arr[0];
-            $item["jump_url"]=@$msg_arr[1];
+            //$item["jump_url"]=@$msg_arr[1];
             \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"end_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
@@ -203,4 +203,25 @@ class self_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
 
     }
+
+    //添加回访
+    public function todo_add(){
+        $next_revisit_time = $this->get_in_start_time_from_str("","start_time");
+        $userid            = $this->get_in_userid();
+
+        $todo_type     = 1001;
+        $adminid       = $this->get_account_id();
+        $from_key_int  = $userid;
+        $from_key2_int = $next_revisit_time;
+        $ret=\App\Todo\todo_base::add($todo_type,$next_revisit_time,$next_revisit_time+7200,$adminid,
+                                      $from_key_int,$from_key2_int);
+        return $this->output_succ();
+
+    }
+    //回访结束
+
+
+
+
+
 }

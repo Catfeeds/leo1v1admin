@@ -280,9 +280,7 @@ $(function(){
         },function(){
             update_show_status();
         });
-
     });
-
 
     $(".opt-lesson-list").on("click",function(){
         var opt_data=$(this).get_opt_data();

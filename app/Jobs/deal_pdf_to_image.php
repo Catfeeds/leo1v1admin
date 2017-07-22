@@ -60,9 +60,8 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
         chmod($savePathFile, 0777);
 
-        $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
+        @$imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
 
-        \App\Helper\Utils::logger('savePathFile'.$savePathFile);
 
         $file_name_origi = array();
         foreach($imgs_url_list as $item){
@@ -109,7 +108,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
         $IM->setResolution(100,100);
         $IM->setCompressionQuality(100);
 
-        $IM->readImage($pdf);
+        @$IM->readImage($pdf);
         foreach($IM as $key => $Var){
             $Var->setImageFormat('png');
             $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;

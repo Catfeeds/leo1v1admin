@@ -2687,7 +2687,7 @@ class user_manage_new extends Controller
         //  $account_id = 297;
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
-        if($is_master>0 || $account_id==349 ){
+        if($is_master>0 || in_array($account_id,[349,188,74]) ){
             $up_master_adminid=-1;
         }else{
             $up_master_adminid=0;
@@ -2702,7 +2702,7 @@ class user_manage_new extends Controller
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month(
-            $start_time,$page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week);
+            $start_time,$page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,1);
 
         foreach($ret_info["list"] as &$item){
              E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
@@ -2719,6 +2719,45 @@ class user_manage_new extends Controller
 
         return $this->ass_warning_stu_info();
     }
+    
+    public function ass_warning_stu_info_leader_new()
+    {
+        $leader_flag = 1;
+
+        $this->set_in_value("leader_flag",$leader_flag);
+
+        return $this->ass_warning_stu_info_new();
+    }
+
+
+    public function ass_warning_stu_info_new(){
+        $account_id = $this->get_account_id();
+        //  $account_id = 297;
+        $main_type = 1;
+        $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
+        if($is_master>0 || in_array($account_id,[349,188,74]) ){
+            $up_master_adminid=-1;
+        }else{
+            $up_master_adminid=0;
+        }
+
+        $page_num    = $this->get_in_page_num();
+        $leader_flag = $this->get_in_int_val("leader_flag",0);
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $ass_renw_flag = $this->get_in_int_val("ass_renw_flag",-1);
+        $master_renw_flag = $this->get_in_int_val("master_renw_flag",-1);
+        $renw_week = $this->get_in_int_val("renw_week",-1);
+        $end_week = $this->get_in_int_val("end_week",-1);
+        $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2);
+
+        foreach($ret_info["list"] as &$item){
+            E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
+            E\Erenw_type::set_item_value_str($item,"master_renw_flag");
+        }
+        return $this->Pageview(__METHOD__,$ret_info);
+    }
+
 
     public function get_order_info(){
         $orderid = $this->get_in_int_val("orderid");
@@ -3165,7 +3204,6 @@ class user_manage_new extends Controller
         $list["department_list"] = $department_list;
         $list["department_group_list"] = $department_group_list;
         return  $this->output_succ( [ "data" =>$list] );
-
     }
 
     /**
@@ -3410,7 +3448,7 @@ class user_manage_new extends Controller
                 $realname = $this->t_teacher_info->get_realname($teacherid);
                 $check_lesson = $this->t_lesson_info_b2->check_psychological_lesson($teacherid,$lesson_start);
                 if($check_lesson ==1){
-                    //@$val["realname"] .= "<font color='#FF0000'>".$realname."<font>,";
+                    // @$val["realname"] .= $realname."(排),";
                 }else{
                     @$val["realname"] .= $realname.",";
                     $tea_arr[] = $teacherid;

@@ -8,10 +8,14 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
+			end_time:	$('#id_end_time').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
+
+    Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,

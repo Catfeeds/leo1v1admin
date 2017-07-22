@@ -5796,6 +5796,8 @@ class tongji_ss extends Controller
         $origin_level      = $this->get_in_el_origin_level();
 
         $tmk_access_adminid = [60,188,68,186,349,684,384,323,282,896];
+        //wx
+        $wx_invaild_flag  = $this->get_in_e_boolean(-1,"wx_invaild_flag");
 
         if (in_array($tmk_adminid,$tmk_access_adminid)) {
             $tmk_adminid = -1;
@@ -5821,15 +5823,15 @@ class tongji_ss extends Controller
             1 => array("add_time","资源进来时间"),
         ] );
 
-        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level );
+        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level ,-1,$wx_invaild_flag);
 
 
-        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level );
+        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level,$wx_invaild_flag);
         $data_map=&$ret_info["list"];
 
-        // dd($ret_info);
+        //dd($ret_info);
         // 处理tmk课程的数量
-        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level);
+        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level,$wx_invaild_flag);
         // dd($tmk_lesson_num);
         foreach ($tmk_lesson_num as  $tmk_item ) {
             $check_value=$tmk_item["check_value"];
@@ -5839,7 +5841,7 @@ class tongji_ss extends Controller
         }
 
         //合同
-        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level);
+        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level,$wx_invaild_flag);
 
         // dd($order_list);
 
@@ -5924,7 +5926,7 @@ class tongji_ss extends Controller
     }
 
 
-    public function ass_month_info(){        
+    public function ass_month_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $week_info = $this->t_ass_weekly_info->get_all_info($start_time,2);
         dd($week_info);
@@ -6041,26 +6043,130 @@ class tongji_ss extends Controller
 
     }
 
+    public function get_refund_student_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret = $this->t_order_refund->get_ass_refund_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            E\Egrade::set_item_value_str($item); 
+            $item["lesson_left"] = $item["lesson_count_left"]/100;
+            $item["real_refund"] = $item["real_refund"]/100;
+            $item["order_lesson"] = $item["lesson_total"]*$item["default_lesson_count"]/100;
+            $item["sys_operator"] = $this->t_manager_info->get_account($item["refund_userid"]);
+        }
+
+        return  $this->output_succ( [ "data" =>$ret] );
+ 
+    }
+
     public function get_ass_end_stu_list(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $ret = $this->t_student_info->get_end_lesson_stu_list($start_time,$end_time);
         foreach($ret as &$item){
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
             $item["lesson_left"] = $item["lesson_count_left"]/100;
         }
- 
+
         return  $this->output_succ( [ "data" =>$ret] );
     }
 
+    public function get_kk_lesson_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret= $this->t_test_lesson_subject_sub_list->get_kk_require_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            if($item["status"]==1){
+                $item["status_str"]="成功";
+            }elseif($item["status"]==2){
+                $item["status_str"]="失败";
+            }else{
+                $item["status_str"]="跟进中";
+            }
+
+            E\Egrade::set_item_value_str($item); 
+            E\Esubject::set_item_value_str($item); 
+
+        }
+        
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+    public function get_tran_lesson_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret = $this->t_test_lesson_subject_sub_list->get_tran_require_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            if($item["order_money"]<=0){
+                $item["status_str"]="未签";
+            }else{
+                $item["status_str"]= $item["order_money"]/100;
+            }
+
+            E\Egrade::set_item_value_str($item); 
+        }
+        
+        return  $this->output_succ( [ "data" =>$ret] );
+
+
+ 
+    }
+    
+    public function get_warning_student_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        /*list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2);
+        $start_time = $start_time-21*86400;
+        $end_time = $end_time-21*86400;*/
+        $week_info = $this->t_ass_weekly_info->get_all_info($start_time);
+        $userid_list=[];
+        foreach($week_info as $val){
+            $user = $val["warning_student_list"];
+            $arr = json_decode($user,true);
+            if(!empty($arr)){
+                foreach($arr as $v){
+                    $userid_list[]=$v;
+                }
+            }
+        }
+        $ret = $this->t_student_info->get_stu_renw_info($start_time,$end_time,$userid_list);
+
+
+        foreach($ret as &$item){
+            $item["lesson_count_left"] = $item["lesson_count_left"]/100;
+            if($item["status"]==0){               
+                $status = $this->t_month_ass_warning_student_info->get_ass_renw_flag_master_by_userid($item["userid"],$start_time,1);
+                if($status==1){
+                   $item["status"]="续费"; 
+                }elseif($status==2){
+                    $item["status"]="不续费";
+                }else{
+                    $item["status"]="待跟进";
+                }
+
+            }else{
+                $item["status"] =  $item["status"]/100;
+            }
+
+            E\Egrade::set_item_value_str($item); 
+
+        }
+        
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+
     public function tongji_fulltime_teacher_test_lesson_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         //$end_time = time();
         // $start_time = time()-30*86400;
         // $d = date("m",$end_time-100)- date("m",$start_time+100)+1;
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
-        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
         $qz_tea_arr=[];
         foreach($ret_info as $yy=>$item){
             if($item["teacherid"] != 97313){
@@ -6074,7 +6180,11 @@ class tongji_ss extends Controller
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
 
-        $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"];
+        $week_end = $week_start+21*86400;
+        $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
 
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
@@ -6118,7 +6228,7 @@ class tongji_ss extends Controller
         }
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["num"]:0;
-            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["lesson_all"]/100:0;
+            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?round($normal_stu_num[$val["teacherid"]]["lesson_all"]/300):0;
             $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
             $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
             $grade = $this->t_teacher_info->get_grade_part_ex($val["teacherid"]);

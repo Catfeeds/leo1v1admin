@@ -120,6 +120,7 @@ class NewRouteConfig {
         "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
+        "/common/get_agent_qr"             => true,
         "/common/get_comment_tags"             => true,
         "/common/get_finish_lessons"         => true,
         "/common/train_user_answer"          => true,
@@ -215,6 +216,8 @@ class NewRouteConfig {
         "/authority/manager_list_for_seller" => true,
         "/authority/manager_list_for_ass"    => true,
         "/authority/manager_list_for_qz"    => true,
+        "/authority/manager_list_for_qz_shanghai" => true,
+        "/authority/manager_list_for_qz_wuhan"    => true,
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
 
@@ -227,6 +230,7 @@ class NewRouteConfig {
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
+        "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/set_teacher_part_remark"     => true,
         "/tea_manage/set_train_lecture_status"    => true,
         "/tea_manage/train_lecture_lesson_zs"     => true,
@@ -280,6 +284,7 @@ class NewRouteConfig {
         "/tea_manage/course_plan_stu"              => true,
         "/tea_manage/course_plan_stu_ass"          => true,
         "/tea_manage/course_plan_stu_summer"       => true,
+        "/tea_manage/course_plan_psychological"    => true,
         "/tea_manage/course_set_new"               => true,
         "/tea_manage/get_course_list"              => true,
         "/tea_manage/get_course_list_new"          => true,
@@ -483,6 +488,8 @@ class NewRouteConfig {
         "/authority/delete_member"    => true,
         "/authority/get_member_info"  => true,
         "/authority/edit_member_info" => true,
+        "/authority/set_fulltime_teacher_type" => true,
+        
 
         "/revisit/get_revisit_info"     => true,
         "/revisit/get_revisit_info_new" => true,

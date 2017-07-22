@@ -11,7 +11,7 @@ namespace LaneWeChat;
  * WebSite: http://www.lanecn.com
  */
 class Autoloadertec extends \LaneWeChat\Autoloader{
-    const NAMESPACE_PREFIX_TEC = 'Teacher\\';
+    const NAMESPACE_PREFIX_YXYX = 'Yxyx\\';
     /**
      * 向PHP注册在自动载入函数
      */
@@ -23,8 +23,8 @@ class Autoloadertec extends \LaneWeChat\Autoloader{
      * 根据类名载入所在文件
      */
     public static function autoload($className){
-        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_TEC);
-        if(strncmp(self::NAMESPACE_PREFIX_TEC, $className, $namespacePrefixStrlen) === 0){
+        $namespacePrefixStrlen = strlen(self::NAMESPACE_PREFIX_YXYX);
+        if(strncmp(self::NAMESPACE_PREFIX_YXYX, $className, $namespacePrefixStrlen) === 0){
             $className = strtolower($className);
             $filePath = str_replace('\\', DIRECTORY_SEPARATOR, substr($className, $namespacePrefixStrlen));
             $filePath = realpath(__DIR__ . (empty($filePath) ? '' : DIRECTORY_SEPARATOR) . $filePath . '.lib.php');

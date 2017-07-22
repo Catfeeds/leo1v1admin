@@ -595,15 +595,6 @@ $(function(){
         });
     });
 
-
-    $(".opt-old").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        opt_data.teacherid
-        $.wopen("/human_resource/index_old?teacherid="+opt_data.teacherid ) ;
-
-    });
-
-
     $('.opt-meeting').on('click', function(){
     var opt_data= $(this).get_opt_data();
         get_create_meeting(opt_data.teacherid);
@@ -654,7 +645,10 @@ $(function(){
 
     $(".opt-level").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        set_teacher_level(opt_data);
+    });
 
+    var set_teacher_level = function(opt_data){
         var id_teacher_money_type = $("<select/>");
         var id_level              = $("<select/>");
         var id_start_time         = $("<input/>");
@@ -677,11 +671,12 @@ $(function(){
             ["时间不填则不会重置课程时间",""],
             ["重置课程开始时间", id_start_time],
         ];
+
         $.show_key_value_table("修改等级", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax( '/tea_manage_new/update_teacher_level', {
+                $.do_ajax('/tea_manage_new/update_teacher_level',{
                     "teacherid"          : opt_data.teacherid,
                     "start_time"         : id_start_time.val(),
                     "level"              : id_level.val(),
@@ -689,7 +684,7 @@ $(function(){
                 });
             }
         });
-    });
+    }
 
     $(".opt-trial-pass").on("click",function(){
         var opt_data                 = $(this).get_opt_data();
@@ -964,14 +959,17 @@ $(function(){
     });
 
 
-
     $(".opt-test-user").on("click",function(){
-        var teacherid  = $(this).get_opt_data("teacherid");
+        var data = $(this).get_opt_data();
+        set_test_user(data);
+    });
+
+    var set_test_user = function(data){
+        var teacherid = data.teacherid;
         var id_is_test = $("<select/>");
         var arr        = [
             ["测试老师",id_is_test]
         ];
-
         Enum_map.append_option_list("boolean",id_is_test,true);
 
         $.do_ajax("/tea_manage_new/get_teacher_info_by_teacherid",{
@@ -997,7 +995,7 @@ $(function(){
                 });
             }
         })
-    });
+    }
 
     $(".opt-set-research-note").on("click",function(){
         var opt_data  = $(this).get_opt_data();
@@ -1208,12 +1206,12 @@ $(function(){
         }
     });
 
-
-
-
-
     $(".opt-change-phone").on("click",function(){
-        var opt_data     = $(this).get_opt_data();
+        var opt_data = $(this).get_opt_data();
+        change_phone(opt_data);
+    });
+
+    var change_phone = function(opt_data){
         var id_new_phone = $("<input/>");
         var arr          = [
             ["新的手机号",id_new_phone],
@@ -1237,7 +1235,7 @@ $(function(){
                 });
             }
         });
-    });
+    }
 
     $(".opt-change-level").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -1587,7 +1585,11 @@ $(function(){
     });
 
     $(".opt-change_tea_to_new").on("click",function(){
-        var data            = $(this).get_opt_data();
+        var data = $(this).get_opt_data();
+        opt_change_tea_to_new(data);
+    });
+
+    var opt_change_tea_to_new = function(data){
         var id_new_phone    = $("<input/>");
         var id_lesson_start = $("<input/>");
 
@@ -1599,7 +1601,7 @@ $(function(){
 
         var arr = [
             ["老师新账号",id_new_phone],
-            ["需要转移的课程时间选择","如果不填则默认当天之后的未上课程"],
+            ["需要转移的课程开始时间","如果不填则默认当天之后的未上课程"],
             ["开始时间",id_lesson_start],
         ];
 
@@ -1609,12 +1611,11 @@ $(function(){
             action   : function(dialog) {
                 var lesson_start  = id_lesson_start.val();
                 data.lesson_start = lesson_start;
-
                 var new_phone = id_new_phone.val();
                 check_new_phone(new_phone,data);
             }
         });
-    });
+    }
 
     var check_new_phone = function(new_phone,old_info){
         $.do_ajax("/human_resource/change_teacher_to_new",{
@@ -1681,6 +1682,25 @@ $(function(){
    
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
+        var id_subject_info      = ("<button class='btn btn-primary'>年级/科目修改</button>");
+        var id_change_tea_to_new = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_update_tea_level  = ("<button class='btn btn-primary'>老师等级相关修改</button>");
+        var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
+
+        var arr = [
+            ["",id_subject_info],
+            ["",id_change_tea_to_new],
+            ["",id_update_tea_level],
+            ["",id_update_tea_week_num],
+        ];
+
+        $.show_key_value_table("账号信息修改",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
     });
 
 });

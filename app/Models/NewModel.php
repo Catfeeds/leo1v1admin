@@ -429,7 +429,6 @@ abstract class NewModel
         if ($update_on_existed) {
             $sql.=" ON DUPLICATE KEY UPDATE ". $this->get_sql_set_str( $arr);
         }
-
         return $this->main_insert($sql);
     }
 

@@ -27,6 +27,8 @@ class wx_login extends Controller
         }else{
             //得到user_info
             $token_info = $wx->get_token_from_code($code);
+
+            \App\Helper\Utils::logger("token_info:". json_encode($token_info) );
             $openid=@$token_info["openid"];
             if ($openid) {
                 $token=$token_info["access_token"];
@@ -55,6 +57,8 @@ class wx_login extends Controller
                         $message= "出错：[".$account ."]账号已注销:<";
                     }
                 }else{
+
+            		\App\Helper\Utils::logger("wx_openid_no_find" );
                     $message="这是你第一次登录，请让管理员[jim] 绑定你的账号，需要告诉管理员你的微信姓名［".$user_info["nickname"]."］ 和你的后台账号 , 拨打电话联系:15601830297" ;
                 }
                 return $this->pageView(__METHOD__,[],[

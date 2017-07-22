@@ -79,7 +79,7 @@ class reset_lesson_online_user_status_by_stroke_time extends Command
 
                 if (!empty($svgLists['svg'])) {
                     foreach($svgLists['svg'] as $svg){
-                        if (array_key_exists('path',$svg)) {
+                        if(is_array($svg) && array_key_exists('path',$svg)) {
                             $stroke_time = $svg['@attributes']['timestamp'];
                         }
                     }

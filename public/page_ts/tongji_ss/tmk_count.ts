@@ -14,11 +14,18 @@ function load_data(){
         origin_ex:	$('#id_origin_ex').val(),
         origin_level:	$('#id_origin_level').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-        origin:	$('#id_origin').val()
+        origin:	$('#id_origin').val(),
+        //wx
+        wx_invaild_flag:$('#id_wx_invaild_flag').val(),
+ 
+
     });
 }
 
 $(function(){
+    //wx
+    Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
+
 
     $(".common-table").tbody_scroll_table(500);
 
@@ -38,7 +45,11 @@ $(function(){
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_check_field_id').val(g_args.check_field_id);
+    //wx
+    $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 
+
+    
 
     $('#id_origin_level').val(g_args.origin_level);
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
@@ -205,7 +216,8 @@ $(function(){
 
         });
     });
-
+    
+        
 
 
 });

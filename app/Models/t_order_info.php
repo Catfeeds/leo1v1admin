@@ -219,7 +219,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = $this->gen_sql_new("select from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
                                   ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
                                   ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
-                                  ." contract_type,contract_status,invoice,is_invoice, "
+                                  ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
                                   ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
                                   ." contract_endtime,t1.grade,t1.lesson_total,price,discount_price,discount_reason,"
                                   ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
@@ -2026,9 +2026,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-
-
-
     public function get_order_list_require_adminid(
         $page_num,$start_time,$end_time,$contract_type,$contract_status
         ,$userid,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money
@@ -2130,7 +2127,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." left join %s m on t2.ass_master_adminid = m.uid"
                                   ." left join %s m2 on t1.sys_operator = m2.account"
                                   ." left join %s ti on t1.userid = ti.userid"
-                                  ." where %s  order by $order_by_str ",
+                                  ." where %s "
+                                  ." order by $order_by_str ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
@@ -2176,7 +2174,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
 
-    public function tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex="", $origin_level=-1) {
+    public function tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex="", $origin_level=-1,$wx_invaild_flag=-1) {
 
         $this->switch_tongji_database();
 
@@ -2210,7 +2208,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
         $sql = $this->gen_sql_new(
             "select $field_name as check_value ,count(*) as order_count,sum(price)/100 as order_all_money "
@@ -2476,6 +2475,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         );
         return $this->main_get_value($sql);
     }
+
 
 
 }

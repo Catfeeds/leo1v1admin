@@ -334,7 +334,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
 
-    public function get_tmk_tongji_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1, $origin_level=-1){
+    public function get_tmk_tongji_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1, $origin_level=-1,$wx_invaild_flag){
 
         $this->switch_tongji_database();
 
@@ -344,13 +344,14 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             $field_name="s.grade";
             break;
         default:
-            break;
+            // break;
         }
 
         $where_arr=[
             ["origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
             'tmk_adminid>0'
+
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
@@ -358,6 +359,8 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
 
 

@@ -124,7 +124,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     }
 
 
-    public function get_seller_new_user_count ($start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1) {
+    public function get_seller_new_user_count ($start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag) {
         $where_arr=[
             "t.require_adminid= n.admin_revisiterid ",
         ];
@@ -134,6 +134,10 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
+        
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
+
 
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(

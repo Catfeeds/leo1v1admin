@@ -439,6 +439,19 @@ class authority extends Controller
 
     }
 
+    public function manager_list_for_qz_shanghai(){
+        $this->set_in_value("fulltime_teacher_type",1);
+        return $this->manager_list_for_qz();
+    }
+
+    public function manager_list_for_qz_wuhan(){
+        $this->set_in_value("fulltime_teacher_type",2);
+        return $this->manager_list_for_qz();
+    }
+
+        
+
+
     public function manager_list_for_ass() {
         $this->set_in_value("account_role", E\Eaccount_role::V_1);
         $this->set_in_value("assign_account_role",E\Eaccount_role::V_1);
@@ -450,6 +463,15 @@ class authority extends Controller
     public function account_menu_list() {
         $uid=$this->get_in_int_val("uid");
 
+    }
+
+    public function set_fulltime_teacher_type(){
+        $uid   = $this->get_in_int_val('uid');
+        $fulltime_teacher_type   = $this->get_in_int_val('fulltime_teacher_type');
+        $this->t_manager_info->field_update_list($uid,[
+            "fulltime_teacher_type"=>$fulltime_teacher_type
+        ]);
+        return $this->output_succ();
     }
 
 }

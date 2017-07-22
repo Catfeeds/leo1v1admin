@@ -1,6 +1,6 @@
   
 * 安装软件
-  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
@@ -11,6 +11,8 @@
   /etc/mysql/mysql.conf.d/mysqld.cnf
   [mysqld]
   sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+  
+  sudo /etc/init.d/mysql restart
   
   
   还原数据库

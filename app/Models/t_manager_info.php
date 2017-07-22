@@ -163,7 +163,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $this->where_arr_add_int_or_idlist($where_arr,"t1.del_flag", $del_flag);
         $this->where_arr_add_int_or_idlist($where_arr,"t1.uid", $adminid);
 
-        $sql =$this->gen_sql_new("select  call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
+        $sql =$this->gen_sql_new("select  call_phone_type, call_phone_passwd, fingerprint1 ,ytx_phone,wx_id,up_adminid,day_new_user_flag, account_role,creater_adminid,t1.uid,t1.del_flag,t1.account,t1.seller_level, name,nickname, email, phone,password, permission,tquin,wx_openid ,cardid,become_full_member_flag,main_department,fulltime_teacher_type from %s t1  left join %s t2 on t1.uid=t2.id    left join %s t_wx on t1.wx_openid =t_wx.openid  where  %s  order by t1.uid desc",
                                  self::DB_TABLE_NAME,
                                  t_admin_users::DB_TABLE_NAME,
                                  t_wx_user_info::DB_TABLE_NAME,
@@ -899,7 +899,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             "o.price >0"
         ];
         $where_arr[] = $this->where_get_in_str("o.userid",$warning_stu_list,true);
-        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type=3,1,0)) renw_num ".
+        $sql =$this->gen_sql_new("select  uid,count(distinct userid) all_student,sum(o.price) all_price,sum(if(contract_type=0,price,0)) tran_price,sum(if(contract_type=0,1,0)) tran_num,sum(if(contract_type in (3,3001),price,0)) renw_price,sum(if(contract_type in (3,3001),1,0)) renw_num ".
                                  " from  %s m ".
                                  " left join %s o on o.sys_operator  = m.account".
                                  " where %s group by uid",
@@ -1029,11 +1029,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
 
-    public function get_research_teacher_list_new($account_role){
+    public function get_research_teacher_list_new($account_role,$fulltime_teacher_type=-1){
+        $where_arr=[
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]  
+        ];
         $sql = $this->gen_sql_new("select teacherid,t.realname from %s m".
-                                  " join %s t on m.phone=t.phone where account_role=%u and del_flag =0",
+                                  " join %s t on m.phone=t.phone where %s and account_role=%u and del_flag =0",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
                                   $account_role
         );
         return $this->main_get_list($sql);

@@ -234,4 +234,8 @@ class Controller extends ControllerEx
     public function del( $userid) {
         $this->t_seller_student_new->row_delete($userid);
     }
+
+    
+
 }
+

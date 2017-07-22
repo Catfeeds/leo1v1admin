@@ -55,6 +55,13 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span>学生类型</span>
+                <select id="id_student_type"  class="opt-change" >
+                </select>
+            </div>
+        </div>
     </div>
     <hr/>
         <table   class=" common-table "    >

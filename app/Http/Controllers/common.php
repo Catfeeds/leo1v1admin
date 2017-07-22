@@ -435,72 +435,123 @@ class common extends Controller
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y年m月d日");
+        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
         $group_html = $this->get_qq_group_html($teacher_info['subject']);
         $html       = "
+<!DOCTYPE html>
 <html>
     <head>
-        <meta charset='utf-8'>
+        <meta charset='utf8'>
+        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1,user-scalable=true'>
         <style>
-         .indent{text-indent:2em;}
-         .line-through{border-bottom:2px solid #4f8dc7;height:20px;width:30%;}
-         .left{float:left;}
-         .right{float:right;}
-         .qq_group li{margin-top:30px;}
-         .qq_group li:last-child{margin-bottom:40px;}
+         *{margin:0 auto;padding:0 auto;}
+         body{opacity:100%;color:#666;}
+         html{font-size:10px;}
+         .color333{color:#333;}
+         .fl{float:left;}
+         .fr{float:right;}
+         
+         .top-line{margin-top:24px;}
+         .tea_name{position:relative;z-index:1;top:321px;}
+         .tea_level{position:relative;z-index:1;top:410px;}
+         .date{position:relative;z-index:1;top:-215px;left:165px;}
+         
+         .todo{margin:20px 0 10px 0;}
+         .todo li{margin:10px 0;}
+         
+         .about_us{margin:30px 0 0;}
+         .us_title{margin:0 0 10px;}
+         .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
+         
+         .join-us{margin:40px 0;}
+         .join-us-content{width:44%;}
+         .middle-line{
+             width:28%;
+             height:4rem;
+             background:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/7854b16d86652ff547354f84b119d7a51496676904532.png) repeat-x;
+             background-position:0 50%;
+         }
+
+         .size12{font-size:2.4rem;}
+         .size14{font-size:2.8rem;}
+         .size18{font-size:3.6rem;}
+         .size20{font-size:4rem;}
+         .size24{font-size:4.8rem;}
+         .content{width:700px;}
+         .img_position{position:relative;width:700px;}
+
+         @media screen and (max-width: 720px) {
+             .size12{font-size:1.5rem;}
+             .size14{font-size:1.75rem;}
+             .size18{font-size:2.25rem;}
+             .size20{font-size:2.5rem;}
+             .size24{font-size:3rem;}
+             .content{width:400px;}
+             .img_position{width:400px;}
+             .tea_name{top:199px;}
+             .tea_level{top:241px;}
+             .date{top:-135px;left:90px;}
+             .middle-line{height:2.5rem;}
+         }
         </style>
     </head>
-    <body>
-        <div align='center' style='font-size:24px !important;color:#4F8DC7;line-height:44px;font-family:Helvetica Neue;letter-spacing:2px;'>
-            <div style='background-image:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/61b746f3979d529c274e4d98c8bb19251489629000345.png);width:750px;'>
-                <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/4b91eec01fb0d728fb46997a5948a30a1489628974587.png' width='750'/>
-                <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/3caca5452b153cbf9e15f7940c7375851489628939312.png' width='340' height='150' style='margin-top:85px'/>
-                <div style='width:80%;margin:60px 0px 60px;' align='left'>
-                    <section>
-                        <div>
-                            <span style='border-bottom:2px solid #4F8DC7;color:#0BCEFF'>&nbsp;".$name."&nbsp;</span>
-                            您好!
-                        </div>
-                        <div class='indent'>
-                            恭喜您已经通过理优入职培训，成为理优正式授课老师，等级为：
-                            <span style='border-bottom:2px solid #4F8DC7;color:#0BCEFF;'>
-                                &nbsp;".$level_str."&nbsp;
-                            </span>
-                            。
-                        </div>
-                        <div class='indent'>
-                            愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。
-                        </div>
-                        <div style='margin-right:20px;background-image:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/28b6db45f0e9250f091ec210cc966aad1489629122034.png);background-repeat:no-repeat;max-width:40%;min-width:202px;height:55px;padding:115px 0px 10px;float:right;font-size:21px;' align='right'>
-                            ".$date_str."
-                        </div>
-                    </section>
-                    <div style='clear:both;'></div>
-                    <section>
-                        <div align='center' style='margin-top:55px;'>
-                            <div class='line-through left'>&nbsp;</div>
-                            相关QQ群
-                            <div class='line-through right'>&nbsp;</div>
-                        </div>
-                        <div style='margin:30px 0 60px;line-height:40px'>
-                            <ul class='qq_group'>".$group_html."</ul>
-                        </div>
-                        <div align='center' style='margin-top:55px;'>
-                            <div class='line-through left'>&nbsp;</div>
-                            关于我们
-                            <div class='line-through right'>&nbsp;</div>
-                        </div>
-                        <div class='indent' style='margin:30px 0 60px;'>
-                            理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
-                        </div>
-                    </section>
-                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/a7a6e938c69224b94773b8dc2322bda31489629079827.png' width='592'/>
-                    <div style='margin-bottom:40px;'></div>
+<body>
+    <div style='width:100%' align='center'>
+        <div class='content'>
+            <div class='logo top-line' align='left'>
+                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+            </div>
+            <div>
+                <div class='size24 top-line color:#333'>
+                    您的加入,我们期待已久
                 </div>
-                <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/d5bfd710eea50fb942dbacea8a6a29cc1489629035801.png' width='750'/>
+                <div class='size14' style='margin:20px 0 0'>
+                    以下是您的理优教育兼职讲师入职通知
+                    <br/>
+                    请仔细阅读通知书下方待办事项
+                </div>
+            </div>
+            <div>
+                <div class='size12' style='line-height:24px'>
+                    <name class='tea_name'>".$name."</name>
+                    <br/>
+                    <level class='tea_level'>老师等级:".$level_str."</level>
+                    <img class='img_position' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ae57036b08deb686fc7d52b8463a075e1496669999943.png'>
+                     <date class='date'>&nbsp;&nbsp;".$date_str."</date>
+                </div>
+            </div>
+            <div class='todo size12' align='left'>
+                <div class='size20 color333'>待办事项</div>
+                <div class='ul_title size14 color333'>
+                    -加入相关QQ群(请备注 科目-年纪-姓名)
+                </div>
+                <ul>".$group_html."</ul>
+                <div class='ul_title size14 color333'>
+                    -理优老师后台链接
+                </div>
+                <ul>
+                    <li>
+                        后台连接:<br>
+                        http://www.leo1v1.com/login/teacher
+                    </li>
+                </ul>
+            </div>
+            <div class='about_us' align='left'>
+                <div class='us_title size20 color333'>关于我们</div>
+                <div class='size14' style='text-indent:2em'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
+                    获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
+                    GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
+                </div>
+                <div class='join-us'>
+                    <div class='middle-line fl'></div>
+                    <div class='join-us-content size14 color333 fl' align='center'>我们欢迎您的加入</div>
+                    <div class='middle-line fr'></div>
+                    <div style='clear:both'></div>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
 ";
         return $html;
@@ -514,7 +565,7 @@ class common extends Controller
         }
 
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $html = $this->get_ruzhi_html($teacher_info);
+        $html = $this->get_offer_html($teacher_info);
 
         if($is_test){
             $teacher_info['email']   = "wg392567893@163.com";
@@ -530,105 +581,6 @@ class common extends Controller
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
         }
-        return $html;
-    }
-
-    public function get_ruzhi_html($teacher_info){
-        $name       = $teacher_info['nick'];
-        $level_str  = E\Elevel::$v2s_map[$teacher_info['level']]."讲师";
-        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
-        $group_html = $this->get_qq_group_html($teacher_info['subject']);
-        $html       = "
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf8'>
-        <style>
-            *{margin:0 auto;padding:0 auto;}
-            body{opacity:100%;color:#666;}
-            .content{width:800px;}
-            .size12{font-size:24px;}
-            .size14{font-size:28px;}
-            .size18{font-size:36px;}
-            .size20{font-size:40px;}
-            .size24{font-size:48px;}
-            .color333{color:#333;}
-            .fl{float:left;}
-            .fr{float:right;}
-            .logo{margin-top:30px;}
-            .top-line{margin-top:24px;}
-            .img_position{position:relative;width:800px;}
-            .tea_name{position:relative;z-index:1;top:366px;}
-            .tea_level{position:relative;z-index:1;top:472px;}
-            .date{position:relative;z-index:1;top:-245px;left:175px;}
-            .todo{margin:20px 0 10px 40px;}
-            .todo li{margin:10px 0;font-size:24px;}
-            .about_us{margin:30px 0 0 40px;}
-            .us_title{margin:0 0 10px;}
-            .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
-            .join-us{margin:40px 0 40px;}
-            .join-us-content{width:44%;}
-            .middle-line{width:28%;height:48px;background:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/7854b16d86652ff547354f84b119d7a51496676904532.png) repeat-x;background-position:0 50%;}
-        </style>
-    </head>
-<body>
-    <div style='width:100%' align='center'>
-        <div class='content'>
-            <div class='logo' align='left'>
-                <img height='83px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
-            </div>
-            <div>
-                <div class='size24 top-line color:#333'>
-                    您的加入,我们期待已久
-                </div>
-                <div class='size14' style='margin:20px 0 0'>
-                    以下是您的理优教育兼职讲师入职通知
-                    <br/>
-                    请仔细阅读通知书下方待办事项
-                </div>
-            </div>
-            <div>
-                <div class='size12' style='line-height:24px'>
-                    <name class='tea_name size14 color333'>".$name."</name>
-                    <br/>
-                    <level class='tea_level size12'>老师等级:".$level_str."</level>
-                    <img class='img_position' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ae57036b08deb686fc7d52b8463a075e1496669999943.png'>
-                     <date class='date size12 color333'>&nbsp;&nbsp;".$date_str."</date>
-                </div>
-            </div>
-            <div class='todo' align='left'>
-                <div class='size20 color333'>待办事项</div>
-                <div class='ul_title size14 color333'>
-                    -加入相关QQ群(请备注 科目-年纪-姓名)
-                </div>
-                <ul>".$group_html."</ul>
-                <div class='ul_title size14 color333'>
-                    -理优老师后台链接
-                </div>
-                <ul>
-                    <li>
-                        后台链接:<a href='http://www.leo1v1.com/login/teacher'>http://www.leo1v1.com/login/teacher</a>
-                    </li>
-                </ul>
-            </div>
-            <div class='about_us' align='left'>
-                <div class='us_title size20 color333'>关于我们</div>
-                <div class='size12' style='text-indent:2em'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
-                    获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
-                    GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
-                </div>
-                <div class='join-us'>
-                    <div class='middle-line fl'></div>
-                    <div class='join-us-content size18 color333 fl' align='center'>我们欢迎您的加入</div>
-                    <div class='middle-line fr'></div>
-                    <div style='clear:both'></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
-";
         return $html;
     }
 
@@ -843,10 +795,11 @@ class common extends Controller
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
+            //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
-            $teacher_qr_url = "/tmp/".$phone_qr_name;
             $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation.png";
+            $teacher_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);
@@ -873,6 +826,56 @@ class common extends Controller
         return $file_url;
     }
 
+    /**
+     * 优学优享 我要邀请生成二维码图片
+     */
+    public function get_agent_qr(){
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $phone = '';
+        if(isset($row['phone'])){
+            $phone = $row['phone'];
+        }
+        if(!$phone || $wx_openid==""){
+            return "";
+        }
+
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $phone_qr_name = $phone."_qr_agent_n.png";
+        $qiniu_url     = $qiniu['public']['url'];
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        if(!$is_exists){
+            $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
+            $qr_url       = "/tmp/".$phone.".png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
+            $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
+            imagepng($image_3,$agent_qr_url);
+
+            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
+
+            if($file_name!=''){
+                $cmd_rm = "rm /tmp/".$phone."*.png";
+                \App\Helper\Utils::exec_cmd($cmd_rm);
+            }
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+        }else{
+            $file_name=$phone_qr_name;
+        }
+
+        $file_url = $qiniu_url."/".$file_name;
+        return $file_url;
+    }
 
     public function send_charge_info(){
         $orderid = $this->get_in_int_val("orderid");
@@ -1048,6 +1051,9 @@ class common extends Controller
             header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK');
             $orderNo = $event->data->object->order_no;
             $channel = $event->data->object->channel;
+            $aa = E\Eorder_channel::s2v($channel);
+            $channel_name = E\Eorder_channel::get_desc($aa);
+
             $orderid=  $this->t_orderid_orderno_list->get_orderid($orderNo);
             $this->t_order_info->field_update_list($orderid,[
                 "order_status" =>1,
@@ -1062,20 +1068,27 @@ class common extends Controller
                 "echo",
                 "合同付款通知",
                 "合同付款通知",
-                "学生:".$nick." 合同付款成功",
+                "学生:".$nick." 合同付款成功,支付方式".$channel_name,
                 "/user_manage_new/money_contract_list?studentid=$userid");
             $this->t_manager_info->send_wx_todo_msg(
                 $sys_operator,
                 "合同付款通知",
                 "合同付款通知",
-                "学生:".$nick." 合同付款成功",
+                "学生:".$nick." 合同付款成功,支付方式".$channel_name,
                 "");*/
             $this->t_manager_info->send_wx_todo_msg(
                 "jack",
                 "合同付款通知",
                 "合同付款通知",
-                "学生:".$nick." 合同付款成功",
+                "学生:".$nick." 合同付款成功,支付方式:".$channel_name,
                 "");
+            $this->t_manager_info->send_wx_todo_msg(
+                "alan",
+                "合同付款通知",
+                "合同付款通知",
+                "学生:".$nick." 合同付款成功,支付方式:".$channel_name,
+                "");
+
 
 
             break;
@@ -1231,9 +1244,8 @@ class common extends Controller
     }
 
     public function get_bucket_info() {
-        $is_public      = $this->get_in_int_val( "is_public", 0 );
-
-        $qiniu_config=\App\Helper\Config::get_config("qiniu");;
+        $is_public = $this->get_in_int_val( "is_public", 0 );
+        $qiniu_config = \App\Helper\Config::get_config("qiniu");;
 
         $public_bucket = $qiniu_config["public"] ['bucket'];
         $private_bucket = $qiniu_config["private_url"] ['bucket'];
