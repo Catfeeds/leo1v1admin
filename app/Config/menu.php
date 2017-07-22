@@ -82,7 +82,6 @@ class menu{
                     ["power_id"=>19, "name"=>"老师-试听统计-old",   "url"=>"/tongji_ss/get_teacher_test_lesson_info_old"],
 
 
-                    ["power_id"=>20, "name"=>"重复报名统计",   "url"=>"/tongji_ss/rejion_count_list"],
                     ["power_id"=>21, "name"=>"试听申请-时间间隔",   "url"=>"/tongji_ss/require_time_test_lesson_require_time_date_info"],
                     ["power_id"=>22,"name"=>"学生续费统计", "url"=>"/tongji_ss/stu_lesson_total_list"],
 
@@ -256,6 +255,8 @@ class menu{
                     ["power_id"=>50, "name"=>"渠道统计-微信运营/tmk", "url"=>"/tongji_ss/origin_count_tmk"],
                     ["power_id"=>10, "name"=>"渠道cc产出统计", "url"=>"/tongji2/seller_origin_info"],
                     ["power_id"=>60, "name"=>"渠道用户明细", "url"=>"/seller_student_new2/origin_user_list"],
+
+                    ["power_id"=>20, "name"=>"重复报名统计",   "url"=>"/tongji_ss/rejion_count_list"],
                 ]],
 
                 ["power_id"=>2, "name"=>"渠道配置", "list"=>[

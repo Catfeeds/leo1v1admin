@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
+
+    <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
     <section class="content ">
 
         <div>
