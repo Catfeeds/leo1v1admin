@@ -204,7 +204,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
     public function get_rejoin_user_list( $page_num,$origin_ex, $start_time, $end_time, $need_count,$seller_student_status )  {
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"a.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"b.origin");
         $where_arr=[
             $ret_in_str,
         ];
