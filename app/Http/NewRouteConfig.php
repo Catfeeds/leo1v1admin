@@ -39,6 +39,7 @@ class NewRouteConfig {
         "wx_test"                     => true,
         "wx_teacher_web"              => true,
         "jump_page"                   => true,
+        "pdf_viewer"    => true,
         "order_refund_confirm_config" => true,
         "wx_parent_api"               => true,
         "wx_teacher_api"              => true,
@@ -112,8 +113,10 @@ class NewRouteConfig {
         "/supervisor/get_lesson_conditions"    => true,
         "/supervisor/get_lesson_conditions_js" => true,
         "/supervisor/add_error_info"           => true,
+        "/login/teacher"           => true,
 
         "/common/get_teacher_hornor_list"           => true,
+        "/common/upload_qiniu"           => true,
         "/common/get_bucket_info" =>true,
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
@@ -219,9 +222,11 @@ class NewRouteConfig {
         "/authority/set_permission"          => true,
 
         "/login/login"                   => true,
+        "/login/login_teacher"           => true,
         "/login/login_other"             => true,
         "/login/login_ex"                => true,
         "/login/logout"                  => true,
+        "/login/logout_teacher"          => true,
         "/login/login_check_verify_code" => true,
         "/login/get_verify_code"         => true,
 
@@ -256,6 +261,7 @@ class NewRouteConfig {
         "/tea_manage/update_tea_money"             => true,
         "/tea_manage/get_lesson_name_and_intro"    => true,
         "/tea_manage/set_lesson_info"              => true,
+        "/tea_manage/set_stu_performance_for_seller"=> true,
         "/tea_manage/set_course_name"              => true,
         "/tea_manage/lesson_list"                  => true,
         "/tea_manage/tea_lesson_list"              => true,

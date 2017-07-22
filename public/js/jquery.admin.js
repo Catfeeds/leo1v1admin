@@ -495,6 +495,144 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
+custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
+
+        var html_node=$('        <div class="row">'+
+                        '            <div class="progress">'+
+                        '                <div class="progress-bar" role="progressbar" aria-valuenow="60" '+
+                        '                     aria-valuemin="0" aria-valuemax="100" style="width: 0%;">'+
+                        '                    <span class="sr-only">40% 完成</span>'+
+                        '                </div>'+
+                        '            </div>'+
+                        '        </div>');
+        var dlg=null;
+
+        $.custom_upload_file( btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list,
+                              function(percentage){
+                                  if (percentage==101) { //succ
+                                      alert("上传完成");
+                                      dlg.close();
+                                  }
+                                  html_node.find(".progress-bar") .css('width', percentage+'%');
+                              },function(){ //before_upload
+                                  dlg=BootstrapDialog.show({
+                                      title: "上传进度",
+                                      message: html_node
+                                  });
+                              }, bucket_info ,noti_origin_file_func  );
+
+    },
+
+    custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
+        var init_upload=function( ret ) {
+
+            var domain_name=ret.domain;
+            var token=ret.token;
+
+            var uploader = Qiniu.uploader({
+            runtimes: 'html5, flash, html4',
+            browse_button: btn_id , //choose files id
+            uptoken: token,
+            domain: "http://"+domain_name,
+            max_file_size: '30mb',
+            dragdrop: true,
+            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+            chunk_size: '4mb',
+            unique_names: false,
+            save_key: false,
+            auto_start: true,
+                multi_selection: false,
+                filters: {
+                    mime_types: [
+                        {title: "", extensions: ext_file_list.join(",") }
+                    ]
+                },
+            init: {
+              'FilesAdded': function(up, files) {
+                plupload.each(files, function(file) {
+                            console.log('waiting...'+file.name );
+                        });
+              },
+              'BeforeUpload': function(up, file) {
+                console.log('before uplaod the file 11111');
+                        var match = file.name.match(/.*\.(.*)?/);
+                        var file_ext=match[1];
+                        var check_flag=false;
+                        $.each ( ext_file_list,  function(i,item) {
+                            if ( item.toLowerCase() ==file_ext.toLowerCase()) {
+                                check_flag=true;
+                            }
+                        });
+                        if (!check_flag  ) {
+                            BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
+                            return false;
+                        }
+                console.log('before uplaod the file');
+                        if(before_upload) {
+                            before_upload();
+                        }
+                        return true;
+
+              },
+              'UploadProgress': function(up,file) {
+                        if(noti_process) {
+                            noti_process (file.percent);
+                        }
+                        console.log(file.percent);
+                console.log('upload progress');
+              },
+              'UploadComplete': function() {
+                console.log(' UploadComplete .. end ');
+              },
+              'FileUploaded' : function(up, file, info) {
+                        if(noti_process) {
+                            noti_process (101);
+                        }
+                console.log('Things below are from FileUploaded');
+
+                        if (noti_origin_file_func) {
+                            noti_origin_file_func(this.origin_file_name);
+                        }
+
+                        complete_func(up, info, file, ctminfo);
+              },
+              'Error': function(up, err, errTip) {
+                console.log('Things below are from Error');
+                        BootstrapDialog.alert(errTip);
+              },
+              'Key': function(up, file) {
+                var key = "";
+                        var time = (new Date()).valueOf();
+                        var match = file.name.match(/.*\.(.*)?/);
+                        /*
+                        if( uploader.on_noti_origin_file_func) {
+                            uploader.on_noti_origin_file_func(file.name);
+                        }
+                        */
+                        this.origin_file_name=file.name;
+                var file_name=$.md5(file.name) +time +'.' + match[1];
+                console.log('gen file_name:'+file_name);
+                        return file_name;
+
+              }
+            }
+
+          });
+
+        };
+        if (bucket_info) {
+            init_upload(bucket_info);
+
+        }else{
+            do_ajax( "/common/get_bucket_info",{
+                is_public: is_public_bucket ? 1:0
+            },function(ret){
+                init_upload(ret);
+            });
+        }
+
+    },
+
 
     self_upload_process:function(id,url,ctminfo,ext_file_list,ex_args,complete_func ) {
         var html_node=$('        <div class="row">'+
@@ -594,10 +732,11 @@ jQuery.extend({
         return "date_type="+date_type +"&opt_date_type=" + opt_date_type + "&start_time="+ $.DateFormat(start_time , "yyyy-MM-dd" ) + "&end_time=" +$.DateFormat(end_time, "yyyy-MM-dd" );
     },
 
-    custom_show_pdf: function (file_url) {
+
+    teacher_custom_show_pdf: function (file_url) {
 
         $.ajax({
-            url: "/tea_manage/get_pdf_download_url",
+            url: "/teacher_info/get_pdf_download_url",
             type: 'GET',
             dataType: 'json',
             data: {'file_url': file_url},
@@ -618,6 +757,42 @@ jQuery.extend({
                         }
 
 
+                        return;
+                    }
+                    window.open('/pdf_viewer/?file='+ret.file, '_blank');
+                }
+            }
+        });
+    },
+
+    custom_show_pdf: function (file_url, get_abs_url) {
+        if (!get_abs_url) {
+            get_abs_url= "/tea_manage/get_pdf_download_url";
+        }
+
+        $.ajax({
+            url: get_abs_url,
+            type: 'GET',
+            dataType: 'json',
+            data: {'file_url': file_url},
+            success: function(ret) {
+                if (ret.ret != 0) {
+                    BootstrapDialog.alert(ret.info);
+                } else {
+                    var match = file_url.match(/.*\.(.*)?/);
+                    if (match[1].toLowerCase() != "pdf" ||  $.check_in_phone() )  {
+                        var file = "";
+                        if(ret.file_ex!="" && ret.file_ex!=undefined){
+                            file = ret.file_ex;
+                        }else{
+                            file = ret.file;
+                        }
+
+                        if ($.check_in_wx()) {
+                            BootstrapDialog.alert("复制,在其他浏览器打开<br/>  "+file);
+                        }else{
+                            window.open(file, '_self');
+                        }
                         return;
                     }
                     window.open('/pdf_viewer/?file='+ret.file, '_blank');
@@ -1241,7 +1416,7 @@ jQuery.extend({
     },
 
 
-    show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag){
+    show_key_value_table :function (title,arr ,btn_config,onshownfunc, close_flag, width ){
 
         var table_obj=$("<table class=\"table table-bordered table-striped\"  > <tr> <thead> <td style=\"text-align:right;\">属性  </td>  <td> 值 </td> </thead></tr></table>");
 
@@ -1291,6 +1466,10 @@ jQuery.extend({
             close_btn.on("click",function(){
                 dlg.close();
             } );
+        }
+
+        if (width) {
+            dlg.getModalDialog().css("width", ""+width+"px");
         }
 
     }

@@ -21,6 +21,8 @@ class teacher_info extends Controller
         return self::get_lesson_list_new();
     }
 
+
+
     public function get_lesson_list_new() {
         $teacherid   = $this->get_login_teacher();
         $userid      = $this->get_in_int_val("userid",-1);
@@ -63,13 +65,6 @@ class teacher_info extends Controller
         $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
         ); 
-        /*
-        if($teacherid==50728 || \App\Helper\Utils::check_env_is_local()){
-            $trial_train_list = $this->t_lesson_info_b2->get_trial_train_list($teacherid);
-            $ret_info['list'] = array_merge($trial_train_list,$ret_info['list']);
-        }
-        */
-
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info["list"] as &$item){
             $lessonid    = $item["lessonid"];
@@ -471,6 +466,7 @@ class teacher_info extends Controller
             return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
         } else {
             $new_url=$this->gen_download_url($file_url);
+            //dd($new_url);
             return $this->output_succ(array('ret' => 0, 'info' => '成功',
                              'file' => urlencode($new_url),
                              'file_ex' => $new_url,
@@ -1614,6 +1610,7 @@ class teacher_info extends Controller
     }
 
     public function tea_ref_money_list() {
+
         $start_date      = $this->get_in_str_val("start_date",date("Y-m",time()));
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $start_time      = strtotime($start_date);
@@ -1688,6 +1685,13 @@ class teacher_info extends Controller
                 $all_money['teacher_money']               += $money;
                 $all_money['all_money']                   += $teacher_ref_money;
             }
+        }else{
+              $show_teacher_money = [];
+             return $this->pageView(__METHOD__,$show_teacher_money,[
+                    "teacher_ref_type" => 1,
+                    "all_money"        => 0,
+                    "uid"              => $uid,
+                ]);
         }
 
         $order_money_list   = [];
@@ -1698,9 +1702,13 @@ class teacher_info extends Controller
                 $order_money_list[]   = $money_val['money'];
             }
         }
+
         array_multisort($order_money_list,SORT_DESC,$show_teacher_money);
         $all_money['all_money'] = round($all_money['all_money'],2);
+
         $show_teacher_money = \App\Helper\Utils::list_to_page_info($show_teacher_money);
+
+
         return $this->pageView(__METHOD__,$show_teacher_money,[
             "teacher_ref_type" => $teacher_ref_type,
             "all_money"        => $all_money,
@@ -1732,9 +1740,7 @@ class teacher_info extends Controller
         $teacherid      = $this->get_login_teacher();
         $complaint_type = 2;//课程投诉
 
-        // * 插入到投诉数据库中
         $account_type   = '2'; // 老师类型
-
         $ret_info_qc = $this->t_complaint_info->row_insert([
             'complaint_type' => $complaint_type,
             'userid'         => $teacherid,

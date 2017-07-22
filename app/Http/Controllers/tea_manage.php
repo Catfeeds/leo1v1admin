@@ -2278,4 +2278,57 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
+     public function set_stu_performance_for_seller(){
+        $lessonid               = $this->get_in_int_val("lessonid");
+        $stu_lesson_content     = $this->get_in_str_val("stu_lesson_content");
+        $stu_lesson_status      = $this->get_in_str_val("stu_lesson_status");
+        $stu_study_status       = $this->get_in_str_val("stu_study_status");
+        $stu_advantages         = trim($this->get_in_str_val("stu_advantages"),",");
+        $stu_disadvantages      = trim($this->get_in_str_val("stu_disadvantages"),",");
+        $stu_lesson_plan        = $this->get_in_str_val("stu_lesson_plan");
+        $stu_teaching_direction = $this->get_in_str_val("stu_teaching_direction");
+        $stu_advice             = $this->get_in_str_val("stu_advice");
+
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        if(!empty($require_id)){
+            $ret_info = $this->t_test_lesson_subject_require->field_update_list(
+                [["require_id=%u",$require_id]],
+                [
+                    "stu_lesson_content"     => $stu_lesson_content,
+                    "stu_lesson_status"      => $stu_lesson_status,
+                    "stu_study_status"       => $stu_study_status,
+                    "stu_advantages"         => $stu_advantages,
+                    "stu_disadvantages"      => $stu_disadvantages,
+                    "stu_lesson_plan"        => $stu_lesson_plan,
+                    "stu_teaching_direction" => $stu_teaching_direction,
+                    "stu_advice"             => $stu_advice,
+                ]
+            );
+        }else{
+            $ret_info = $this->t_seller_student_info->field_update_list(
+                [["st_arrange_lessonid=%u",$lessonid]],
+                [
+                    "stu_lesson_content"     => $stu_lesson_content,
+                    "stu_lesson_status"      => $stu_lesson_status,
+                    "stu_study_status"       => $stu_study_status,
+                    "stu_advantages"         => $stu_advantages,
+                    "stu_disadvantages"      => $stu_disadvantages,
+                    "stu_lesson_plan"        => $stu_lesson_plan,
+                    "stu_teaching_direction" => $stu_teaching_direction,
+                    "stu_advice"             => $stu_advice,
+                ]
+            );
+        }
+
+
+        if(!$ret_info){
+            return outputjson_error("评价失败,请稍后再试");
+        }else{
+            $this->t_lesson_info->field_update_list($lessonid,[
+                'ass_comment_audit' => 3,
+                'tea_rate_time'     => time(),
+            ]);
+            return outputjson_success();
+        }
+    }
 }

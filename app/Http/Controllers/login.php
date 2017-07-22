@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
-
+use Illuminate\Support\Facades\Redis ;
 
 use Illuminate\Support\Facades\Session;
 
 class login extends Controller
 {
-    var $check_login_flag=false;
 
+    var $check_login_flag=false;
     function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ) {
 
         $menu_str        = "";
@@ -324,14 +324,68 @@ class login extends Controller
 
         $permission = $this->reset_power($account);
         session($_SESSION) ;
-
-        /*
         $this->t_admin_users->set_last_ip( $account,$ip );
-        */
+        
 
         return $this->output_succ( array(
             'permission' => $permission,
         ));
+    }
+    private function login_with_dymanic_passwd($phone, $role, $passwd)
+    {
+        Redis::select(10);
+        $key = $phone."_".$role;
+        $ret_redis=Redis::get($key);
+        if (strcmp($ret_redis, $passwd) == 0) {
+            return true;
+        }
+        \App\Helper\Utils::logger("[$key]ret_redis:$ret_redis");
+        return false;
+    }
+
+    public function login_teacher()
+    {
+        global $_SESSION;
+        $account  = strtolower(trim($this->get_in_str_val("account")));
+        $password = $this->get_in_str_val('password');
+        $seccode  = $this->get_in_str_val('seccode') ;
+        $ip       = $this->get_in_client_ip();
+
+        if (\App\Helper\Utils::check_env_is_release()) {
+            $need_verify_flag = $this->t_admin_users->check_need_verify($account,$ip);
+        }else{
+            $need_verify_flag = false;
+        }
+
+        if ($need_verify_flag){
+            if (  empty($seccode) || $seccode !== session('verify')) {
+                return outputJson_error( E\Eerror::V_WRONG_VERIFY_CODE ,
+                                         array( 'code' =>  session('verify')));
+            }
+        }
+
+        $userid = $this->t_user_info->check_login_userid($account, $password);
+        //dd($userid);
+        if($userid>0){
+            $teacherid = $userid;
+        }else{
+            $ret_dynamic = $this->login_with_dymanic_passwd($account, E\Erole::V_TEACHER , $password  );
+            if ($ret_dynamic == false) {
+                return $this->output_err("用户名密码出错");
+            }
+            $teacherid= $this->t_phone_to_user->get_teacherid($account);
+        }
+        //dd("success");
+        $_SESSION['phone'] = $account;
+        $_SESSION['acc']   = $account;
+        $_SESSION['tid']   = $teacherid;
+        $_SESSION['role']  = E\Erole::V_TEACHER;
+
+        session($_SESSION) ;
+
+        return $this->output_succ([
+            //"permission" => $permission,
+        ]);
     }
 
     public function login_other() {
@@ -358,6 +412,7 @@ class login extends Controller
 
     public function logout()
     {
+       
         global $_SESSION;
         $_SESSION = array();
         Session::clear();
@@ -366,6 +421,21 @@ class login extends Controller
             //WX 退出
             \App\Helper\Utils::logger("WX_LOGOUT");
             //return outputjson_success();
+
+        }else{
+            return outputjson_success();
+        }
+
+    }
+    public function logout_teacher()
+    {
+        global $_SESSION;
+        $_SESSION = array();
+        Session::clear();
+        if (strpos(@$_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false )  {
+            //WX 退出
+            //\App\Helper\Utils::logger("WX_LOGOUT");
+            return outputjson_success();
 
         }else{
             return outputjson_success();
@@ -416,4 +486,9 @@ class login extends Controller
     }
 
 
+    public function teacher() {
+        global $_SESSION;
+        
+        return $this->pageView(__METHOD__);
+    }
 }

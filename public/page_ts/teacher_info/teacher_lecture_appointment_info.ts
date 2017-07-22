@@ -26,8 +26,8 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("lecture_status", $('#id_status'));
-	$('#id_status').val(g_args.status);
-
-	$('.opt-change').set_input_change_event(load_data);
+    Enum_map.append_option_list("check_status", $('#id_status'));
+	  $('#id_status').val(g_args.status);
+    
+	  $('.opt-change').set_input_change_event(load_data);
 });
