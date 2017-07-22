@@ -813,7 +813,7 @@ class seller_student_new extends Controller
         }
         $seller_level=$this->t_manager_info->get_seller_level($admin_revisiterid);
         $hold_config=\App\Helper\Config::get_seller_hold_user_count();
-
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "hold_define_count"  =>  $hold_config[$seller_level],
             "hold_cur_count"  => $this->t_seller_student_new->get_hold_count($admin_revisiterid) ,
@@ -847,6 +847,7 @@ class seller_student_new extends Controller
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
         }
+
         return $ret_info;
     }
 

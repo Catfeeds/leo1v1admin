@@ -1238,6 +1238,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             , t_lesson_info::DB_TABLE_NAME
             ,$where_arr
         );
+        //dd($sql);
         return $this->main_get_list_by_page($sql,$page_num,$page_count);
 
     }
@@ -1254,6 +1255,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+
+    //
+    public function get_user_info_for_free($userid) {
+        $sql=$this->gen_sql_new(
+            "select n.userid,phone, seller_student_status from %s n  join %s t  on  n.userid=t.userid    "
+            ."  where  n.userid=%u limit 1 ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_row($sql);
     }
 
     public function get_no_hold_list($admin_revisiterid) {
@@ -1277,6 +1291,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
+    public function set_user_free($userid) {
+        $sql=$this->gen_sql_new(
+            "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
+            ."  where   n.userid=%u  and require_admin_type=2  ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $userid
+        );
+        //dd($sql);
+        return $this->main_update($sql);
+    }
+
+
     public function set_no_hold_free($admin_revisiterid) {
         $sql=$this->gen_sql_new(
             "update %s n  join %s t  on  n.userid=t.userid  set  sub_assign_time_1=0,sub_assign_adminid_1=0, sub_assign_time_2=0,sub_assign_adminid_2=0,  admin_assign_time=0,admin_revisiterid=0, seller_resource_type=1, require_adminid=0 , return_publish_count=return_publish_count +1 "
@@ -1285,6 +1312,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_lesson_subject::DB_TABLE_NAME,
             $admin_revisiterid
         );
+        //dd($sql);
         return $this->main_update($sql);
     }
 

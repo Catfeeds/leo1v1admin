@@ -563,6 +563,17 @@ $(function(){
 
     });
 
+    $(".opt-set_user_free").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "设置释放到公海:" + opt_data.phone ,
+            function(val){
+                $.do_ajax("/ss_deal2/set_user_free",{
+                    "userid" :  opt_data.userid
+                });
+            });
+    });
+
     if (g_args.account_seller_level !=9000 ) {
         $(".opt-tmk-valid").hide();
     }
