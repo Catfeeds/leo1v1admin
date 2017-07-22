@@ -2586,6 +2586,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_info->get_all_train_pass_teacher_info($page_info);
+        dd($ret_info);
         
         $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2);
         $warning_list = $this->t_student_info->get_warning_stu_list();

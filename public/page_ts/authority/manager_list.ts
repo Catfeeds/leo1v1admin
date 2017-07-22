@@ -668,32 +668,27 @@ $(function(){
     });
 
     //用户手机号绑定
-   $(".opt-set-user-phone").on("click", function(){
-       var opt_data = $(this).get_opt_data();
-       var account  = $(this).get_opt_data("account");
-       var phone    = $(this).get_opt_data("phone");
-       var arr =[
-           ["account", account ] ,
-           ["电话",phone],
-           ['说明','绑定相应的学生，家长信息']
+    $(".opt-set-user-phone").on("click", function(){
+        var opt_data = $(this).get_opt_data();
+        var account  = $(this).get_opt_data("account");
+        var phone    = $(this).get_opt_data("phone");
+        var arr = [
+            ["account", account ] ,
+            ["电话",phone],
+            ['说明','生成相应的学生，家长信息']
         ];
-       //var me=this;
-        $.show_key_value_table("用户手机绑定", arr ,{
+
+        $.show_key_value_table("生成相应的学生，家长信息", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                
                 $.do_ajax('/ajax_deal2/phone_bdregister', {
                     'account' : account,
                     'phone'   : phone, 
-                }
-                         ,function(resp){
-                              alert(resp);
-                              alert(JSON.stringify(resp));
-                   }
-                   
-               );
-                
+                },function(resp){
+                    alert(resp);
+                    alert(JSON.stringify(resp));
+                });
             }
         });
     });

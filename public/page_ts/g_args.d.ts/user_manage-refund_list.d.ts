@@ -20,6 +20,35 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	userid	:any;
+	phone	:any;
+	discount_price	:any;
+	orderid	:any;
+	contract_type	:any;
+	lesson_total	:any;
+	flow_status	:any;
+	flow_status_time	:any;
+	flowid	:any;
+	should_refund	:any;
+	price	:any;
+	invoice	:any;
+	order_time	:any;
+	sys_operator	:any;
+	pay_account	:any;
+	real_refund	:any;
+	refund_status	:any;
+	apply_time	:any;
+	refund_userid	:any;
+	contractid	:any;
+	save_info	:any;
+	refund_info	:any;
+	file_url	:any;
+	user_nick	:any;
+	refund_user	:any;
+	apply_time_str	:any;
+	refund_status_str	:any;
+	flow_status_str	:any;
+	contract_type_str	:any;
 }
 
 /*

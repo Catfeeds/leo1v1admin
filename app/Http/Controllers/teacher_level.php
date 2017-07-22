@@ -375,4 +375,36 @@ class teacher_level extends Controller
 
     }
 
+
+    public function get_teacher_first_five_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid=53289;
+        $lesson_type=2;
+        $data=[];
+        $data["first"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,0);
+        $data["first"]["num"] = "第一次课";
+        $data["five"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,4);
+        $data["five"]["num"] = "第五次课";
+        foreach($data as &$item){
+             E\Esubject::set_item_value_str($item,"subject");
+             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+             $item["nick"] = $this->t_student_info->get_nick($item["userid"]);
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+    public function teacher_lesson_record_info(){
+        $page_info = $this->get_in_page_info();
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $ret_info = $this->t_teacher_info->get_all_train_pass_teacher_info($page_info,$teacherid);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+  
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
 }

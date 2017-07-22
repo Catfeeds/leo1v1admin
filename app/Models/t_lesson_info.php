@@ -1077,6 +1077,8 @@ lesson_type in (0,1) "
                             ." where userid=%u "
                             ." and lesson_status=2 "
                             ." and lesson_type in (0,1,3) "
+                            ." and confirm_flag not in (2,4)"
+                            ." and lesson_del_flag=0"
                             ,self::DB_TABLE_NAME
                             ,$userid
         );

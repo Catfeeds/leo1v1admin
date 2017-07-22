@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use LaneWeChat\Core\UserManage;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Input ;
 
@@ -840,6 +841,8 @@ class common extends Controller
             return "";
         }
 
+        $user_info = $this->get_wx_user_info($wx_openid);
+
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         $phone_qr_name = $phone."_qr_agent_n.png";
         $qiniu_url     = $qiniu['public']['url'];
@@ -1167,6 +1170,27 @@ class common extends Controller
         \App\Helper\Utils::logger("send_er_wei");
 
         return (new common_ex )->send_phone_code();
+    }
+
+    public function get_wx_user_info($wx_openid){ //获取用户微信个人信息
+        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
+        $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
+        \App\Helper\Utils::logger('yxyx_url:'.$url);
+        // $info = json_decode(file_get_contents($url));
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HEADER, 0);
+        // $output = curl_exec($ch);
+        // curl_close($ch);
+        // $ret_arr = json_decode($output,true);
+        // $data['name'] = $info->nickname;
+        // $data['image'] = $info->headimgurl;
+        // \App\Helper\Utils::logger('yxyx_data:'.$data);
+
+        // return $data;
     }
 
     public function get_teacher_hornor_list(){ //1016

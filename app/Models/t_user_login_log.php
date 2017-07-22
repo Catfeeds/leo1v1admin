@@ -9,10 +9,6 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
     }
 
     public function login_list($page_info, $userid){
-        /*$sql = $this->gen_sql_new("select *  "
-                                  ." from %s where userid=%u "
-                                  ,self::DB_TABLE_NAME,  $userid);
-        */
         $sql = $this->gen_sql_new("select *  "
                                   ." from %s where userid=%u "
                                   ,self::DB_TABLE_NAME, $userid  );

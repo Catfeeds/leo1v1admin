@@ -11,7 +11,7 @@ class jump_page extends Controller
     var $check_login_flag=false;
 
     function index()  {
-        \App\Helper\Utils::logger("cccc345");
+        \App\Helper\Utils::logger("xiwjys");
 
         $url=$this->get_in_str_val("url");
 
@@ -21,7 +21,6 @@ class jump_page extends Controller
     }
 
     public function jump(){
-        // $code = $_GET["code"];
         $url  = $this->get_in_str_val("url");
         $code = $this->get_in_str_val("code");
 
@@ -38,11 +37,5 @@ class jump_page extends Controller
 
 
     }
-    /*
-      public function wx_user_list()  {
-      list($start_time,$end_time)=$this->get_in_date_range(0,0,0);
-      $this->t_wx_user_info->
-      }
-    */
 
 }

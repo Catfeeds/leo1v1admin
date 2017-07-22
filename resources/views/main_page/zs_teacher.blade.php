@@ -280,7 +280,7 @@
                                 <tbody >
                                     @foreach ( $res_identity as $key=> $var )
                                         <tr>
-                                            <td>{{@$var["identity_str"]}} </td> 
+                                            <td>{{@$var["identity_ex_str"]}} </td> 
                                             <td>{{@$var["all_num"]}} </td> 
                                             <td>{{@$var["all_count"]}} </td>
                                             <td>{{@$var["succ_num"]}} </td> 

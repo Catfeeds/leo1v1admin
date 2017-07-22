@@ -259,7 +259,6 @@
                                 <a class="fa  opt-flow-def-list fa-facebook-square" title="审核预期流程" >   </a>
                                 <a class="fa  opt-flow-node-list fa-facebook " title="审核进度"></a>
                                 <a class="fa  opt-get_package_time   fa-gift  " title="发放礼包时间"></a>
-                                <a class="opt-split-order" title="分离合同">分离</a>
                                 <a class="opt-from-data" title="外部订单信息">外 </a>
                                 <a class="opt-build-contrat" title="合同pdf">pdf</a>
                                 <a class="opt-mail-contrat" title="合同运单">运单 </a>

@@ -38,7 +38,8 @@ class seller_student_new extends Controller
 
 
     public function do_filter(){
-        $this->set_in_value("filter_flag", 1);
+        // $this->set_in_value("filter_flag", 1);
+        session(['filter_flag'=>1]);
         return $this->output_succ();
         // return $this->assign_sub_adminid_list();
     }
@@ -92,7 +93,8 @@ class seller_student_new extends Controller
         //wx
         $wx_invaild_flag  =$this->get_in_e_boolean(-1,"wx_invaild_flag");
         //dd($wx_invaild_flag);
-        $do_filter = $this->get_in_int_val('filter_flag',-1);
+        $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
+
         $this->t_seller_student_new->switch_tongji_database();
         $ret_info = $this->t_seller_student_new->get_assign_list(
             $page_num,$page_count,$userid,$admin_revisiterid,$seller_student_status,

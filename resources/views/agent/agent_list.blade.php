@@ -48,9 +48,9 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
-                    <td>用户id</td>
+                    <td>userid</td>
                     <td>手机号</td>
-                    <td>微信openid</td>
+                    <td>wx_openid</td>
                     <td>银行卡号</td>
                     <td>身份证号码</td>
                     <td>开户行和支行</td>
