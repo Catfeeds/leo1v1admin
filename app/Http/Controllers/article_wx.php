@@ -144,6 +144,10 @@ class  article_wx extends Controller
         return $this->Pageview(__METHOD__,'' );
     }
 
+    public function yxyx_leo_about() { // 优学优享-理优简介
+        return $this->Pageview(__METHOD__,'' );
+    }
+
 
 
 

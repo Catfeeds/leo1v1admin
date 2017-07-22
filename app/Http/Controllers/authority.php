@@ -103,18 +103,6 @@ class authority extends Controller
                 $item["seller_level_str"] = "未设置";
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-
-
-            // e\eaccount_role::set_item_value_str($item);
-            // e\eseller_level::set_item_value_str($item);
-            // e\edepartment::set_item_value_str($item);
-            // e\eboolean::set_item_value_str($item,"become_full_member_flag");
-            // $item['del_flag_str'] = ($item['del_flag']==0)?'在职':'离职';
-            // if($item["seller_level_str"] == -1){
-            //     $item["seller_level_str"] = "未设置";
-            // }
-            // e\eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-
         }
 
         return $this->pageView(__METHOD__,$ret_info);

@@ -669,6 +669,9 @@ $(function(){
 
     //用户手机号绑定
     $(".opt-set-user-phone").on("click", function(){
+       
+
+
         var opt_data = $(this).get_opt_data();
         var account  = $(this).get_opt_data("account");
         var phone    = $(this).get_opt_data("phone");
@@ -686,6 +689,7 @@ $(function(){
                     'account' : account,
                     'phone'   : phone, 
                 },function(resp){
+
                     alert(resp);
                     alert(JSON.stringify(resp));
                 });

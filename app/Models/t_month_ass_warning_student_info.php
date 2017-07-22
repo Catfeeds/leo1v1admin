@@ -106,7 +106,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
     }
 
 
-    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2){
+    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2,$adminid){
         $where_arr=[
             ["a.assistantid = %u",$assistantid,-1],
             ["ass_renw_flag = %u",$ass_renw_flag,-1],
@@ -118,7 +118,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         ];
         if($up_master_adminid !=-1){
             if($leader_flag==1){
-                $where_arr[]=["n.master_adminid = %u",$account_id,-1];
+                $where_arr[]=["n.master_adminid = %u",$adminid,-1];
             }else if($leader_flag==0){
                 $where_arr[]=["w.adminid = %u",$account_id,-1];
             }
@@ -139,6 +139,25 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function get_week_warning_info($lstart){
+        $where_arr=[
+            "warning_type =1",
+            ["month=%u",$lstart,-1]
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_warning_info_by_userid($userid,$month){
+        $where_arr=[
+            "warning_type =2",
+            ["month>=%u",$month,-1],
+            ["userid=%u",$userid,-1]
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_row($sql);
+
+    }
 }
 
 

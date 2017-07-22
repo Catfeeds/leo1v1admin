@@ -1003,7 +1003,12 @@ class tea_manage extends Controller
 
         $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject,$lesson_type);
         foreach ($ret_info['list'] as &$item){
+
+            if($item["subject"]==11){
+                $item['teacher_nick'] = $this->t_teacher_info->get_realname($item['teacherid']);
+            }else{
             $item['teacher_nick'] = $this->t_teacher_info->get_nick($item['teacherid']);
+            }
             $item['user_nick'] = $this->t_student_info->get_nick($item['userid']);
             $item['level'] = $this->t_teacher_info->get_level($item['teacherid']);
             $item['teacher_money_type'] = $this->t_teacher_info->get_teacher_money_type($item['teacherid']);
@@ -1599,16 +1604,21 @@ class tea_manage extends Controller
 
     public function train_not_through_list(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
-        $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time);
-        
+        $is_all     = $this->get_in_int_val("is_all",-1);
+        $has_openid = $this->get_in_int_val("has_openid",-1);
+
+        if($is_all==1){
+            $start_time = 0;
+            $end_time   = 0;
+        }
+
+        $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,$has_openid);
         foreach($ret_info['list'] as &$val){
             \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
         }
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-
-
 
     private function gen_server_map($list){
         $id_list = [];

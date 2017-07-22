@@ -67,6 +67,31 @@ class update_ass_warning_list extends Command
             }
         }
 
+
+        //周预警信息同步更新
+        $month = time()-30*86400;        
+        $time = time()+86400;
+        $date_week = \App\Helper\Utils::get_week_range($time,1);
+        $lstart = $date_week["sdate"];
+        $lend = $date_week["edate"];
+        $ret_info = $task->t_month_ass_warning_student_info->get_week_warning_info($lstart);
+        foreach($ret_info as $v){
+            $userid = $v["userid"];
+            $info = $task->t_month_ass_warning_student_info->get_warning_info_by_userid($userid,$month);
+            if(!empty($info)  && $info["ass_renw_flag"] >0){
+                $task->t_month_ass_warning_student_info->field_update_list($v["id"],[
+                    "ass_renw_flag"  =>$info["ass_renw_flag"],
+                    "no_renw_reason" =>$info["no_renw_reason"],
+                    "renw_price"     =>$info["renw_price"],
+                    "renw_week"      =>$info["renw_week"],
+                    "master_renw_flag" =>$info["master_renw_flag"],
+                    "master_no_renw_reason"=>$info["master_no_renw_reason"]
+                ]);
+            }
+
+        }
+
+
        
               
     }

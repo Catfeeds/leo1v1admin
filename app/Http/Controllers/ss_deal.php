@@ -1347,7 +1347,9 @@ class ss_deal extends Controller
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
-        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur( $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count );
+        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+        );
         return $this->output_succ(["data"=>$ret]);
     }
 

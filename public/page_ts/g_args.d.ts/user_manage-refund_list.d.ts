@@ -43,12 +43,16 @@ interface RowData {
 	save_info	:any;
 	refund_info	:any;
 	file_url	:any;
+	grade	:any;
+	need_receipt	:any;
 	user_nick	:any;
 	refund_user	:any;
 	apply_time_str	:any;
 	refund_status_str	:any;
 	flow_status_str	:any;
 	contract_type_str	:any;
+	need_receipt_str	:any;
+	grade_str	:any;
 }
 
 /*

@@ -1629,6 +1629,16 @@ trait  TeaPower {
         return $arr;
     }
 
+    public function get_ass_leader_account_id($adminid){
+        if($adminid==503){
+            $adminid = 297;
+        }elseif($adminid==512){
+            $adminid =702;
+        }elseif($adminid==349){
+            $adminid=297;
+        }
+        return $adminid;
+    }
 
 
 }

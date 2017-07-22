@@ -1883,4 +1883,47 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function tongji_1v1_lesson_time($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME( l.lesson_start, '%%Y%%m%%d' ) day,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid,t.realname   "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,day  having(week=1 or week=0)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    
+    public function tongji_1v1_lesson_time_late($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,hour having(hour>=20)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

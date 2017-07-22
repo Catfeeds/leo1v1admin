@@ -61,8 +61,8 @@ class order_price_20170701 extends order_price_base
         return [
              "price"                => $old_price,
              "present_lesson_count" => $present_lesson_count ,
-             "discount_price"       => $price ,
-             "discount_count"       => $old_price?  floor(($price/$old_price)*10000)/100: 100 ,
+             "discount_price"       => $price,
+             "discount_count"       => $old_price?floor(($price/$old_price)*10000)/100:100,
              "order_promotion_type" => $order_promotion_type,
              "contract_type"        => $contract_type,
              "grade"                => $grade,

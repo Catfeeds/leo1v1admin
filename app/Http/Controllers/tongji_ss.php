@@ -6033,6 +6033,7 @@ class tongji_ss extends Controller
         /* if($adminid==349){
             $adminid=297;
             }*/
+        $adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("adminid",$adminid);
         return $this-> ass_weekly_info_master();
     }
@@ -6465,5 +6466,82 @@ class tongji_ss extends Controller
     }
 
 
+    public function tongji_teacher_1v1_lesson_time(){
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-06-18");
+        $end_time = strtotime("2017-08-01");
+        $ret= $this->t_lesson_info_b2->tongji_1v1_lesson_time($start_time,$end_time);
+        $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
+        $late_list=[];
+        foreach($late as $e){
+            @$late_list[$e["teacherid"]] +=$e["time"];
+        }
+        $arr=[];$week=[];
+        foreach($ret as $val){
+            $teacherid = $val["teacherid"];
+            @$arr[$teacherid][$val["day"]] = $val["time"];
+            @$arr[$teacherid]["realname"] = $val["realname"];
+            if($val["week"]==0){
+                
+                @$week[$teacherid]["seven"] +=$val["time"];
+            }elseif($val["week"]==1){
+                @$week[$teacherid]["one"] +=$val["time"];
+            }
+            @$week[$teacherid]["all"] +=$val["time"];
+
+
+        }
+
+        $all=["realname"=>"全部"];
+        foreach($arr as $k=>&$item){
+            $item["seven"] = @$week[$k]["seven"];
+            $item["one"] = @$week[$k]["one"];
+            $item["all"] = @$week[$k]["all"];
+            $item["late"] = @$late_list[$k];
+            $item["total"] = $item["all"]+$item["late"];
+            @$all["20170618"] += @$item["20170618"];
+            @$all["20170619"] += @$item["20170619"];
+            @$all["20170625"] += @$item["20170625"];
+            @$all["20170626"] += @$item["20170626"];
+            @$all["20170702"] += @$item["20170702"];
+            @$all["20170703"] += @$item["20170703"];
+            @$all["20170709"] += @$item["20170709"];
+            @$all["20170710"] += @$item["20170710"];
+            @$all["20170716"] += @$item["20170716"];
+            @$all["20170717"] += @$item["20170717"];
+            @$all["20170717"] += @$item["20170723"];
+            @$all["20170717"] += @$item["20170724"];
+            @$all["20170717"] += @$item["20170730"];
+            @$all["20170717"] += @$item["20170731"];
+            @$all["seven"] += @$item["seven"];
+            @$all["one"] += @$item["one"];
+            @$all["all"] += @$item["all"];
+            @$all["late"] += @$item["late"];
+            @$all["total"] += @$item["total"];
+        }
+        array_unshift($arr,$all);
+
+        foreach($arr as &$v){
+            foreach($v as $s=>$kk){
+                if(!in_array($s,["realname","one","seven","all","late","total"])){
+                    $v[$s] = !empty($kk)?round($kk/3600,1)."小时":"";
+                }
+            }
+            $v["seven_hour"] =  !empty($v["seven"])?round($v["seven"]/3600,1)."小时":"";
+            $v["seven_day"] = !empty($v["seven"])?round($v["seven"]/3600/8,2)."天":"";
+            $v["one_hour"] = !empty($v["one"])?round($v["one"]/3600,1)."小时":"";
+            $v["one_day"] = !empty($v["one"])?round($v["one"]/3600/8,2)."天":"";
+            $v["all_hour"] = !empty($v["all"])?round($v["all"]/3600,1)."小时":"";
+            $v["all_day"] = !empty($v["all"])?round($v["all"]/3600/8,2)."天":"";
+            $v["late_hour"] = !empty($v["late"])?round($v["late"]/3600,1)."小时":"";
+            $v["late_day"] = !empty($v["late"])?round($v["late"]/3600/8,2)."天":"";
+            $v["total_hour"] = !empty($v["total"])?round($v["total"]/3600,1)."小时":"";
+            $v["total_day"] = !empty($v["total"])?round($v["total"]/3600/8,2)."天":"";
+
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($arr);
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
 
 }

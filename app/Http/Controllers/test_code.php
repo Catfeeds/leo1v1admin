@@ -1481,10 +1481,21 @@ class test_code extends Controller
             echo "<br>";
         }
 
-
-
+        $userid=$this->t_student_info->register($phone,$passwd,$reg_channel,$grade,$ip,$nick,$region);
     }
 
+    public function test_push_wx_to_teacher(){
+        $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $teacherid   = 58052;
+        $openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        $nick   = $this->t_teacher_info->get_realname($teacherid);
+        $data['first']    = $nick."老师您好！";
+        $data['keyword1'] = "邀请参训通知";
+        $data['keyword2'] = "近期我们通过数据调取，发现您试讲通过多日后培训依旧未有通过。考虑到近期入职老师较多，为方便各位老师顺利参加培训课程，我们的新师培训业已增设到每周4期，分别定于：周三周四晚19点，周五晚18点30，周六下午15点，老师可按照您的时间安排自由选择参训时间；如若时间冲突，亦可登录理优教师端后，点击【我的培训】，选择最新一期的新师培训，点击【播放视频】按钮观看回放，并在录像学习完毕后，点击【自我测评】按钮进行问卷答题。";
+        $data['keyword3'] = date("Y-m-d",time());
+        $data['remark']   = "此问卷可多次递交至90分即培训通过，通过后老师可收到公司正式【入职offer】并开启您在理优的线上教学之旅。若测评答题过程中有任何问题可以加入新师培训QQ群：315540732，并私聊管理员【师训】沈老师即可获得1对1小灶指导~ 暑期课程多多，福利多多~理优期待老师的加入，老师加油！";
+        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+    }
 
 
 }

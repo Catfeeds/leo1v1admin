@@ -802,5 +802,33 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_value($sql);
     }
 
+    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            ["l.lesson_start>=%u",$start_time,0],
+            ["tr.cur_require_adminid = %u",$require_adminid,-1],
+            "m.account_role=1",
+            "tss.success_flag <2"
+        ];
+        $sql = $this->gen_sql_new("select s.nick,l.lesson_start,l.grade,l.subject,tr.origin,tt.ass_test_lesson_type,"
+                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 
 }

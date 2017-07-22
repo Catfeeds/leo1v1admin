@@ -44,8 +44,8 @@ class UpdateTeacherLectureAudio extends Command
         $list = $task->t_teacher_lecture_info->get_audio_build_list();
 
         if(is_array($list) && !empty($list)){
-            $flag = @file_get_contents($list[0]['audio'], null, null, -1, 1) ? true : false;
-            if($flag!=1){
+            $flag = $this->check_file_is_exists($list[0]['audio']);
+            if($flag!=true){
                 $task->t_teacher_lecture_info->field_update_list($list[0]["id"],[
                     "audio_build"=>"文件不存在!"
                 ]);
@@ -58,21 +58,32 @@ class UpdateTeacherLectureAudio extends Command
                         $file = "/tmp/".substr($val['audio'],-17);
                         $cmd_ffmpeg  = "ffmpeg -i ".$val['audio']." -f mp3 ".$file;
                         \App\Helper\Utils::exec_cmd($cmd_ffmpeg);
-
-                        $file_name = \App\Helper\Utils::qiniu_upload($file);
-
-                        if($file_name!=''){
-                            $audio_build = $url.$file_name;
-                            $task->t_teacher_lecture_info->field_update_list(["id"=>$val['id']],[
-                                "audio_build" => $audio_build
+                        $flag = $this->check_file_is_exists($file);
+                        if($flag!=true){
+                            $task->t_teacher_lecture_info->field_update_list($list[0]['id'],[
+                                "audio_build" => "此视频已损坏!"
                             ]);
+                        }else{
+                            $file_name = \App\Helper\Utils::qiniu_upload($file);
+                            if($file_name!=''){
+                                $audio_build = $url.$file_name;
+                                $task->t_teacher_lecture_info->field_update_list(["id"=>$val['id']],[
+                                    "audio_build" => $audio_build
+                                ]);
 
-                            $cmd_rm = "rm ".$file;
-                            \App\Helper\Utils::exec_cmd($cmd_rm);
+                                $cmd_rm = "rm ".$file;
+                                \App\Helper\Utils::exec_cmd($cmd_rm);
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    public function check_file_is_exists($file){
+        $flag = @file_get_contents($file, null, null, -1, 1) ? true : false;
+        return $flag;
+    }
+
 }
