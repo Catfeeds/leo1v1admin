@@ -145,45 +145,14 @@ class ss_deal extends Controller
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
-        $this->t_seller_student_new->set_admin_info(
-            $opt_type, $userid_list,  $opt_adminid, $this->get_account_id() );
-
         $account=$this->get_account();
         $opt_account=$this->t_manager_info->get_account($opt_adminid);
 
         $this->t_manager_info->send_wx_todo_msg( $opt_account ,"来自:".$account, "分配给你". count($userid_list)."个例子"  );
 
         foreach ( $userid_list as $userid ) {
-            $phone=$this->t_seller_student_new->get_phone($userid);
-            if($opt_type==0) { //set admin
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
-                    "system"
-                );
-                $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT
-                                         ,$opt_adminid,$userid);
-            }else if($opt_type==1) { //set admin
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者: $account 状态: 分配给主管 [ $opt_account ] ",
-                    "system"
-                );
-
-            }else if($opt_type==2) { //set admin
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者: $account 状态: 分配给TMK [ $opt_account ] ",
-                    "system"
-                );
-
-            }else if($opt_type==3) { //set admin
-                $ret_update = $this->t_book_revisit->add_book_revisit(
-                    $phone,
-                    "操作者: $account 状态:  TMK 分配给 cc [ $opt_account ] ",
-                    "system"
-                );
-            }
+            $this->t_seller_student_new->set_admin_info_new(
+                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account  );
         }
 
         return $this->output_succ();
@@ -482,16 +451,16 @@ class ss_deal extends Controller
 
         $wx_invaild_flag= $this->get_in_int_val("wx_invaild_flag");
         $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
-        
+
         //dd($db_tt_item);
         $db_seller_student_new = $this->t_seller_student_new->get_userid_row($db_tt_item['userid']);
-        
+
         //dd($db_seller_student_new);
         //更新 seller_student_status
         if ($db_tt_item["seller_student_status"] != $seller_student_status ) {
             $this->t_test_lesson_subject->set_seller_student_status( $test_lesson_subject_id,$seller_student_status,$this->get_account() );
         }
-      
+
         //更新 wx_invaild_flag
         $arrwx = [];
         $arrwx['wx_invaild_flag'] = $wx_invaild_flag;

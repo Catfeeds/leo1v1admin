@@ -48,6 +48,8 @@ class teacher_feedback extends Controller
             E\Efeedback_type::set_item_value_str($tea_val);
             E\Echeck_status::set_item_value_str($tea_val,"status");
             E\Egrade::set_item_value_str($tea_val,"grade");
+            E\Elevel::set_item_value_str($tea_val,"level");
+            E\Eteacher_money_type::set_item_value_str($tea_val,"teacher_money_type");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"check_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($tea_val,"lesson_start","_str","Y-m-d");
@@ -229,5 +231,7 @@ class teacher_feedback extends Controller
             return $this->output_err("更改失败!请重试!");
         }
     }
+
+
 
 }

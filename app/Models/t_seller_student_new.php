@@ -521,11 +521,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 // "t.require_admin_type=2",
             ];
 
-            if($do_filter == -1){
-                $where_arr = [
-                    "t.require_admin_type=2",
-                    "s.lesson_count_all=0",
-                ];
+            if($do_filter <1){
+                $where_arr[] = "t.require_admin_type=2";
+                $where_arr[] = "s.lesson_count_all=0";
             }
 
             $where_arr[]=$this->where_get_in_str_query("m.account_role",$account_role);
@@ -611,6 +609,85 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                      $origin_level,
                      $in_str );
         return $this->main_update($sql);
+    }
+
+    public function set_admin_info_new( $opt_type, $userid, $opt_adminid ,$self_adminid ,  $opt_account, $account ) {
+
+        $ss_info= $this->task->t_seller_student_new->field_get_list($userid,"tmk_student_status,phone ");
+        $tmk_student_status=$ss_info["tmk_student_status"];
+        $phone=$ss_info["phone"];
+
+        $set_arr=[];
+        if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
+
+
+            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $set_arr=[
+                "admin_revisiterid"  => $opt_adminid,
+                "admin_assign_time"  => time(NULL),
+                "sub_assign_adminid_2"  => $up_adminid,
+                "sub_assign_time_2"  => time(NULL) ,
+                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
+                "first_seller_adminid" => $opt_adminid,
+                "sub_assign_time_1"  => time(NULL),
+                "hold_flag" => 1,
+
+            ];
+
+            if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
+                $set_arr["tmk_set_seller_time"]=time(NULL);
+                $set_arr["tmk_set_seller_adminid"]=$opt_adminid;
+            }
+            $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
+
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account 状态: 分配给组员 [ $opt_account ] ",
+                "system"
+            );
+            $this->t_id_opt_log->add(E\Edate_id_log_type::V_SELLER_ASSIGNED_COUNT
+                                     ,$opt_adminid,$userid);
+
+        }else if ( $opt_type ==1){ //分配主管
+            $set_arr=[
+                "admin_assignerid"  => $self_adminid,
+                "sub_assign_adminid_2"  => $opt_adminid,
+                "sub_assign_time_2"  => time(NULL),
+                "admin_revisiterid"  => 0,
+                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
+                "sub_assign_time_1"  => time(NULL),
+            ];
+
+
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account 状态: 分配给主管 [ $opt_account ] ",
+                "system"
+            );
+
+
+        }else if ( $opt_type==2) { //TMK
+            $set_arr=[
+                "tmk_assign_time"  => time(NULL) ,
+                "tmk_adminid"  => $opt_adminid,
+                "tmk_join_time"  => time(NULL),
+                "tmk_student_status"  => 0,
+                "hold_flag" => 1,
+            ];
+            $ret_update = $this->t_book_revisit->add_book_revisit(
+                $phone,
+                "操作者: $account 状态: 分配给TMK [ $opt_account ] ",
+                "system"
+            );
+
+        }
+        $set_str=$this-> get_sql_set_str( $set_arr);
+        $sql=sprintf("update %s set %s where userid=%u",
+                            self::DB_TABLE_NAME,
+                            $set_str,
+                            $userid );
+        return $this->main_update($sql);
+
     }
 
     public function set_admin_info( $opt_type, $userid_list, $opt_adminid ,$self_adminid ) {
@@ -1652,15 +1729,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
     //通过userid得到seller_student_new相应一条记录
     public function get_userid_row($userid){
-        
+
         $sql = $this->gen_sql_new("select *  "
                                    ." from %s where userid=%u "
                                    ,self::DB_TABLE_NAME,  $userid);
-        
+
         return $this->main_get_row($sql);
 
     }
-    
+
 
 
 

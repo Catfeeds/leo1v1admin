@@ -5929,7 +5929,104 @@ class tongji_ss extends Controller
     public function ass_month_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $week_info = $this->t_ass_weekly_info->get_all_info($start_time,2);
-        dd($week_info);
+        $last_month = strtotime(date('Y-m-01',$start_time-100));
+        $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($last_month);
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
+        $kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time);
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+
+
+        $account_id = $this->get_in_int_val("adminid",-1);
+        foreach($ass_list as $k=>&$item){
+            $item["warning_student"] = isset($ass_last_month[$k])?$ass_last_month[$k]["warning_student"]:0;
+            $item["renw_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_num"]:0;
+            $item["renw_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+            $item["all_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["all_price"]/100:0;
+            $item["renw_money_one"] = !empty($item["renw_num"])?round($item["renw_money"]/$item["renw_num"],2):0;
+            $item["lesson_target"] = $lesson_target ;
+            $item["read_student"] = isset($week_info[$k])?$week_info[$k]["read_student"]:0;
+            $item["lesson_student"] =  isset($week_info[$k])?$week_info[$k]["lesson_student"]:0;
+            $item["lesson_count"] =  isset($week_info[$k])?$week_info[$k]["lesson_count"]/100:0;
+            $item["lesson_count_target"] =  $item["read_student"]*$item["lesson_target"];
+            $item["teacher_leave_count"] = isset($week_info[$k])?$week_info[$k]["tea_leave_lesson_count"]/100:0;
+            $item["student_leave_count"] = isset($week_info[$k])?$week_info[$k]["stu_leave_lesson_count"]/100:0;
+            $item["other_count"] = isset($week_info[$k])?$week_info[$k]["other_lesson_count"]/100:0;
+            $item["lesson_count_per"] =  isset($week_info[$k])?$week_info[$k]["lesson_count_per"]:0;
+
+            $item["stu_lesson_per"] = isset($week_info[$k])?$week_info[$k]["lesson_per"]:0;
+
+            $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
+            $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
+            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0;
+            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0;
+            $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
+            $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
+            $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;
+            $item["kk_fail"] = isset($kk_require_info[$k])?$kk_require_info[$k]["fail_num"]:0;
+            $item["kk_other"] =  $item["kk_lesson"]-$item["kk_succ"] - $item["kk_fail"];
+            $item["refund_student"] = isset($week_info[$k])?$week_info[$k]["refund_student"]:0;
+            $item["new_stu_num"] = isset($week_info[$k])?$week_info[$k]["new_stu_num"]:(isset($new_info[$k])?$new_info[$k]["num"]:0);
+            $item["end_stu_num"] = isset($week_info[$k])?$week_info[$k]["end_stu_num"]:(isset($end_info[$k])?$end_info[$k]["num"]:0);
+            $item["refund_money"] = isset($week_info[$k])?$week_info[$k]["refund_money"]/100:0;
+            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
+            if($account_id==-1){
+
+            }else{
+                if($ass_master_adminid != $account_id){
+                    unset($ass_list[$k]);
+                }
+
+            }
+
+
+
+        }
+
+        $arr=["account"=>"全部"];
+        foreach($ass_list as $val){
+            @$arr["warning_student"] +=$val["warning_student"];
+            @$arr["renw_num"] +=$val["renw_num"];
+            @$arr["renw_money"] +=$val["renw_money"];
+            @$arr["lesson_target"] =$val["lesson_target"];
+            @$arr["read_student"] +=$val["read_student"];
+            @$arr["lesson_student"] +=$val["lesson_student"];
+            @$arr["lesson_count"] +=$val["lesson_count"];
+            @$arr["lesson_count_target"] +=$val["lesson_count_target"];
+            @$arr["teacher_leave_count"] +=$val["teacher_leave_count"];
+            @$arr["student_leave_count"] +=$val["student_leave_count"];
+            @$arr["other_count"] +=$val["other_count"];
+            @$arr["lesson_money"] +=$val["lesson_money"];
+            @$arr["tran_lesson"] +=$val["tran_lesson"];
+            @$arr["tran_order"] +=$val["tran_order"];
+            @$arr["tran_money"] +=$val["tran_money"];
+            @$arr["kk_lesson"] +=$val["kk_lesson"];
+            @$arr["kk_succ"] +=$val["kk_succ"];
+            @$arr["kk_fail"] +=$val["kk_fail"];
+            @$arr["kk_other"] +=$val["kk_other"];
+            @$arr["refund_student"] +=$val["refund_student"];
+            @$arr["refund_money"] +=$val["refund_money"];
+            @$arr["new_stu_num"] +=$val["new_stu_num"];
+            @$arr["end_stu_num"] +=$val["end_stu_num"];
+            @$arr["all_money"] +=$val["all_money"];
+        }
+
+        $arr["renw_per"] = !empty($arr["warning_student"])?round($arr["renw_num"]/$arr["warning_student"]*100,2):0;
+        $arr["renw_money_one"] = !empty($arr["renw_num"])?round($arr["renw_money"]/$arr["renw_num"],2):0;
+        $arr["lesson_count_per"] =  !empty($arr["lesson_count_target"])?round($arr["lesson_count"]/$arr["lesson_count_target"]*100,2):0;
+
+        $arr["stu_lesson_per"] = !empty($arr["read_student"])?round($arr["lesson_student"]/$arr["read_student"]*100,2):0;
+        $arr["tran_money_one"] = !empty($arr["tran_order"])?round($arr["tran_money"]/$arr["tran_order"],2):0;
+        $arr["lesson_personal"] = !empty($arr["lesson_student"])?round($arr["lesson_count"]/$arr["lesson_student"],2):0;
+        $arr["refund_per"] = !empty($arr["read_student"])?round($arr["refund_student"]/$arr["read_student"]*100,2):0;
+        $arr["renw_target"] = $arr["warning_student"]*0.8*7000;
+        $arr["all_money_per"] = !empty($arr["renw_target"])?round($arr["all_money"]/$arr["renw_target"]*100,2):0;
+
+        return $this->pageView(__METHOD__,null,["list"=>$arr]);
+
+
+        //dd($arr);
     }
     public function ass_weekly_info(){
         $adminid = $this->get_account_id();
@@ -5957,11 +6054,22 @@ class tongji_ss extends Controller
         $account_id = $this->get_in_int_val("adminid",-1);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"] = isset($week_info[$k])?$week_info[$k]["warning_student"]:0;
-            $item["renw_num_plan"] = isset($week_info[$k])?$week_info[$k]["renw_student_in_plan"]:0;
-            $item["renw_num"] = isset($week_info[$k])?$week_info[$k]["renw_student"]:0;
+            $userid_list = isset($week_info[$k])?$week_info[$k]["warning_student_list"]:"";
+            $userid_list = json_decode($userid_list,true);
+            if(empty($userid_list)){
+                $userid_list=[];
+            }
+            $assistant_renew_list_plan = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time,$userid_list,$k);
+            $item["renw_num_plan"] = isset($assistant_renew_list_plan[$k]["renw_num"])?$assistant_renew_list_plan[$k]["renw_num"]:0;
+            $item["renw_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_num"]:0;
+            $item["renw_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+
+
+            // $item["renw_num_plan"] = isset($week_info[$k])?$week_info[$k]["renw_student_in_plan"]:0;
+            // $item["renw_num"] = isset($week_info[$k])?$week_info[$k]["renw_student"]:0;
             $item["renw_num_other"] = $item["renw_num"]-$item["renw_num_plan"];
             $item["renw_per"] = !empty($item["warning_student"])?round($item["renw_num"]/$item["warning_student"]*100,2):0;
-            $item["renw_money"] = isset($week_info[$k])?$week_info[$k]["renw_price"]/100:0;
+            // $item["renw_money"] = isset($week_info[$k])?$week_info[$k]["renw_price"]/100:0;
             $item["renw_money_one"] = !empty($item["renw_num"])?round($item["renw_money"]/$item["renw_num"],2):0;
             $item["lesson_target"] = $lesson_target ;
             $item["read_student"] = isset($week_info[$k])?$week_info[$k]["read_student"]:0;

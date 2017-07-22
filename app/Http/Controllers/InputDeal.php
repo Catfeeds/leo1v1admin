@@ -140,7 +140,7 @@ trait  InputDeal {
     }
     public function get_in_page_info() {
         return [
-            "page_num" => $this->get_in_page_num_ex(),
+            "page_num"   => $this->get_in_page_num_ex(),
             "page_count" => $this->get_in_page_count(),
         ];
     }

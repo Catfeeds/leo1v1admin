@@ -15,19 +15,16 @@ class wx_yxyx_common extends Controller
 
     public function wx_jump_page () {
         $code       = $this->get_in_str_val("code");
-        /**  @var  \App\Helper\Wx  $wx */
         $wx_config=\App\Helper\Config::get_config("yxyx_wx");
         $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-
-        global $_SERVER;
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
         if(!$openid) {
             dd("请关闭 重进");
             exit;
         }
+        global $_SERVER;
         session(["wx_yxyx_openid" => $openid]);
-
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
         \App\Helper\Utils::logger("new_openid:$openid");
         \App\Helper\Utils::logger("sessionid:".session_id());

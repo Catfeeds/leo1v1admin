@@ -118,7 +118,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "t.teacherid not in (51094,53289,59896,130462,61828,55161,90732)"
         ];
         
-        $sql=$this->gen_sql_new("select distinct t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score  "
+        $sql=$this->gen_sql_new("select  t.nick,t.subject,t.create_time,r.record_monitor_class,r.record_info,r.acc,courseware_flag_score ,lesson_preparation_content_score ,courseware_quality_score ,tea_process_design_score ,class_atm_score ,tea_method_score ,knw_point_score,dif_point_score,teacher_blackboard_writing_score,tea_rhythm_score ,content_fam_degree_score ,answer_question_cre_score ,language_performance_score ,tea_attitude_score ,tea_concentration_score ,tea_accident_score ,tea_operation_score ,tea_environment_score ,class_abnormality_score ,record_rank,record_score,r.record_lesson_list,r.no_tea_related_score  "
                                 ." from %s r "
                                 ." left join %s t on r.teacherid = t.teacherid"
                                 ." where %s "
@@ -129,6 +129,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list_by_page($sql,$page_num);
 
     }
+
 
     public function get_all_info_list(){
         
@@ -614,13 +615,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["tr.trial_train_status=%u",$trial_train_status,-1]
         ];
         $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,l.subject,count(*) all_num,"
-                                  ." if(tal.teacher_type>0,tal.teacher_type,tt.identity) identity "
+                                  ." tt.identity identity_ex "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
                                   ." left join %s tal on tt.phone_spare = tal.phone and not exists ("
                                   ." select 1 from %s taa where taa.phone=tal.phone and tal.answer_begin_time<taa.answer_begin_time)"
-                                  ." where %s and l.subject>0 group by identity ",
+                                  ." where %s and l.subject>0 group by identity_ex ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -630,7 +631,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item["identity"];
+            return $item["identity_ex"];
         });
     }
 

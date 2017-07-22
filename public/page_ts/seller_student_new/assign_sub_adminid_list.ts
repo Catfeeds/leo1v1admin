@@ -34,6 +34,8 @@ function load_data(){
         seller_resource_type:	$('#id_seller_resource_type').val(),
         //wx
         wx_invaild_flag:$('#id_wx_invaild_flag').val(),
+        filter_flag:	$('#id_filter_flag').val()
+
 
     });
 }
@@ -76,6 +78,7 @@ $(function(){
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
     //wx
     Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
+    Enum_map.append_option_list("boolean",$("#id_filter_flag"));
 
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
 
@@ -105,6 +108,8 @@ $(function(){
     $('#id_seller_student_status').val(g_args.seller_student_status);
     //wx
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
+    $('#id_filter_flag').val(g_args.filter_flag);
+
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]
@@ -125,6 +130,8 @@ $(function(){
     $('#id_publish_flag').val(g_args.publish_flag);
     //wx
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
+    $('#id_filter_flag').val(g_args.filter_flag);
+
 
 
     $('#id_account_role').val(g_args.account_role);
@@ -734,7 +741,7 @@ $(function(){
 
 
     $('#id_set_shaixuan').on('click',function(){
-        $.do_ajax("/seller_student_new/assign_sub_adminid_list",{"filter_flag": 1},function(result){
+        $.do_ajax("/seller_student_new/do_filter",{"filter_flag": 1},function(result){
             load_data();
         });
 

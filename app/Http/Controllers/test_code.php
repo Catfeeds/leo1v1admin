@@ -1470,7 +1470,19 @@ class test_code extends Controller
     }
 
     public function get_order_5(){
-        $list=$this->t_order_info->get_order_5();
+        $this->switch_tongji_database();
+        $list = $this->t_order_info->get_order_5();
+
+        foreach($list as $val){
+            $ass_nick    = $this->cache_get_assistant_nick($val['assistantid']);
+            $last_lesson = $this->t_lesson_info->get_last_lesson_time($val['userid']);
+            $last_lesson = date("Y-m-d",$last_lesson);
+            echo $val['nick']."|".$val['phone']."|".$val['have_order']."|".$ass_nick."|".$val['seller_name']."|".$last_lesson;
+            echo "<br>";
+        }
+
+
+
     }
 
 

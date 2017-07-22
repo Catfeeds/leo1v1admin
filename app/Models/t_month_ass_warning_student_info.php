@@ -87,6 +87,25 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
 
     }
 
+    public function get_end_stu_warning_info(){
+        $where_arr=[
+            "warning_type=2",
+            "done_flag =0",
+            "ass_renw_flag=0",
+            "s.lesson_count_left <100"
+        ];
+        $sql = $this->gen_sql_new("select w.id "
+                                  ." from %s w left join %s s on w.userid = s.userid"
+                                  ." where  %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);     
+
+    }
+
+
     public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2){
         $where_arr=[
             ["a.assistantid = %u",$assistantid,-1],

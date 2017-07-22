@@ -362,13 +362,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_count_by_phone($phone){
         $where_arr=[
-            ['phone = %s ',$phone],
+            ['a1.phone = %s ',$phone],
         ];
 
         $sql= $this->gen_sql_new(
-            "select count(id) count "
-            . " from %s "
+            "select count(a.id) count "
+            . " from %s a "
+            . " left join %s a1 on a1.id = a.parentid "
             . " where %s ",
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
         );
@@ -433,7 +435,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_int_or_idlist($where_arr,'a.id',$p_id);
         }
         $sql = $this->gen_sql_new(
-            " select a.id p_id,o.userid,s.nick,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
+            " select a.id p_id,a.phone,o.userid,s.nick,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
             ." from %s a "
             ." left join %s ao on ao.aid=a.id "
             ." left join %s o on o.orderid=ao.orderid "

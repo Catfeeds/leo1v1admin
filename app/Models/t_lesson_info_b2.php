@@ -1835,13 +1835,41 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
-    public function get_modify_flag($lessonid){
-        $sql = $this->gen_sql_new(" select is_modify_time_flag from %s l ".
-                                  " where lessonid = $lessonid",
-                                  self::DB_TABLE_NAME
+    public function check_teacher_lesson($teacherid,$userid,$subject,$lesson_type){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            ["userid=%u",$userid,0],
+            ["subject=%u",$subject,0],
+        ];
+        if($lesson_type==2){
+            $where_arr[] = "lesson_type in (0,1,3)";
+        }else{
+            $where_arr[] = "lesson_type=2";
+        }
+        $sql = $this->gen_sql_new("select 1"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
-
         return $this->main_get_value($sql);
+    }
+
+    public function get_lesson_row_info($teacherid,$lesson_type,$num){
+        $where_arr = [
+            ["lesson_type= %u",$lesson_type,-1],  
+            ["teacherid= %u",$teacherid,-1],
+            "lesson_status>1",
+            "lesson_del_flag=0",
+            "lesson_user_online_status=1"
+        ];
+        $sql = $this->gen_sql_new("select lessonid,userid,subject,lesson_start from %s"
+                                  ." where %s order by lesson_start limit %u,1",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $num
+        );
+        return $this->main_get_row($sql);
     }
 
 }
