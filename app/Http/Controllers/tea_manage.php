@@ -211,6 +211,7 @@ class tea_manage extends Controller
         $lessonid          = $this->get_in_lessonid(-1);
         $origin            = $this->get_in_str_val("origin");
         $page_num          = $this->get_in_page_num();
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         if ($lessonid ==0) {
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
         }
@@ -220,7 +221,8 @@ class tea_manage extends Controller
             $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
             $confirm_flag,$assistantid,$lesson_status,$test_seller_id,$has_performance,
             $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
-            $has_video_flag, $lesson_user_online_status,$fulltime_flag,$lesson_del_flag
+            $has_video_flag, $lesson_user_online_status,$fulltime_flag,
+            $lesson_del_flag,$fulltime_teacher_type
         );
 
         $lesson_list       = array();

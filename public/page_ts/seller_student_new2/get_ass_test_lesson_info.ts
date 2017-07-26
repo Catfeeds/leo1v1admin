@@ -12,11 +12,7 @@ $(function(){
 	$('#id_require_adminid').val(g_args.require_adminid);
     $(".opt-confirm").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        if(!( opt_data.lessonid )) {
-            alert("还没有排课,无需确认");
-            return;
-        }
-
+       
         var $fail_greater_4_hour_flag = $("<select> <option value=0>否</option> <option value=1>是</option>  </select>") ;
         var $success_flag = $("<select><option value=0>未设置</option><option value=1>成功</option><option value=2>失败</option></select>") ;
         var $test_lesson_fail_flag=$("<select></select>") ;
@@ -29,8 +25,8 @@ $(function(){
 
         var arr=[
             ["学生", opt_data.nick  ],
-            ["老师", opt_data.teacher_nick ],
-            ["上课时间", opt_data.lesson_start   ],
+            ["老师", opt_data.realname],
+            ["上课时间", opt_data.lesson_start_str   ],
             ["是否成功",  $success_flag ],
             ["是否离上课4个小时以前(不付老师工资)", $fail_greater_4_hour_flag],
             ["失败类型", $test_lesson_fail_flag],
@@ -60,8 +56,8 @@ $(function(){
             label    : '提交',
             cssClass : 'btn-danger',
             action   : function(dialog) {
-                $.do_ajax("/ss_deal/confirm_test_lesson", {
-                    "require_id"             : opt_data.require_id ,
+                $.do_ajax("/ss_deal/confirm_test_lesson_ass", {
+                    "lessonid"                 : opt_data.lessonid ,
                     "success_flag"             : $success_flag.val(),
                     "fail_reason"              : $fail_reason.val(),
                     "test_lesson_fail_flag"    : $test_lesson_fail_flag.val(),
@@ -73,6 +69,114 @@ $(function(){
         });
     });
 
+    $(" .opt-set-success ").on("click", function() {
+        var opt_data = $(this).get_opt_data();
+
+        $("<div></div>").admin_select_dlg_ajax({
+            "opt_type": "select", // or "list"
+            "url": "/ss_deal/get_course_list_js",
+            select_primary_field: "courseid",
+            select_display: "",
+            select_no_select_value: -1, // 没有选择是，设置的值
+            select_no_select_title: "[全部]", // "未设置"
+
+            //其他参数
+            "args_ex": {
+                userid: opt_data.userid,
+                teacherid: opt_data.teacherid
+            },
+            //字段列表
+            'field_list': [
+                {
+                    title: "科目",
+                    render: function(val, item) {
+                        return item.subject_str;
+                    }
+                }, {
+                    title: "课时数",
+                    render: function(val, item) {
+                        return item.assigned_lesson_count / 100;
+                    }
+
+                }
+            ],
+            filter_list: [],
+
+            "auto_close": true,
+            //选择
+            "onChange": function(v) {
+                $.do_ajax("/ss_deal/course_order_set_test_lessonid", {
+                    "courseid": v,
+                    "lessonid": opt_data.lessonid
+                });
+
+            },
+            //加载数据后，其它的设置
+            "onLoadData": null,
+
+        });
+
+
+
+    });
+    
+
+    $(".opt-set-fail").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var fail_type = opt_data.ass_fail_type;
+
+        var $ass_test_lesson_order_fail_flag=$("<select/>");
+        var $ass_test_lesson_order_fail_desc =$("<textarea/>");
+        var arr=[
+            ["上课时间", opt_data.lesson_start_str] ,
+            ["学生", opt_data.nick ] ,
+            ["老师", opt_data.realname] ,
+            ["失败分类", $ass_test_lesson_order_fail_flag ] ,
+            ["失败说明", $ass_test_lesson_order_fail_desc ] ,
+        ];
+
+        var t2=new Array(); 
+        if(fail_type==1){
+            for(var i=0;i<1605;i++) {
+                t2[i]=i; 
+            }
+            t2[2000]=2000;
+            console.log(t2);
+            Enum_map.append_option_list("ass_test_lesson_order_fail_flag",$ass_test_lesson_order_fail_flag, true,t2);
+        }else if(fail_type==2){
+            t2[0]=0;
+            for(var i=1700;i<2001;i++) {
+                t2[i]=i; 
+            }
+            console.log(t2);
+            Enum_map.append_option_list("ass_test_lesson_order_fail_flag",$ass_test_lesson_order_fail_flag, true,t2);
+        }
+        $ass_test_lesson_order_fail_flag.val( opt_data.ass_test_lesson_order_fail_flag);
+        $ass_test_lesson_order_fail_desc.val( opt_data.ass_test_lesson_order_fail_desc);
+
+        var dlg=$.show_key_value_table( "失败设置", arr , {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax( "/ss_deal/set_order_fail_info_ass", {
+                    "lessonid" : opt_data.lessonid,
+                    "ass_test_lesson_order_fail_flag" : $ass_test_lesson_order_fail_flag.val(),
+                    "ass_test_lesson_order_fail_desc" : $ass_test_lesson_order_fail_desc.val(),
+                });
+            }});
+
+    });
+
+    $(".opt-success-info-list").on("click",function(){
+        var lessonid = $(this).data("lessonid");
+        alert(lessonid); 
+        $.do_ajax( "/ss_deal/get_test_lesson_confirm_info", {
+            "lessonid" : lessonid,
+        },function(res){
+            console.log(res);
+        });
+
+    });
 
 
 	$('.opt-change').set_input_change_event(load_data);

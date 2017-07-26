@@ -614,16 +614,20 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__, $ret_info);
     }
 
+    public function get_ass_test_lesson_info_master(){
+        $this->set_in_value("master_flag",1);
+        return $this->get_ass_test_lesson_info();
+
+    }
+
     public function get_ass_test_lesson_info(){
         $this->switch_tongji_database();
-        $start_time = strtotime("2017-06-19");
+        $start_time = strtotime("2017-07-20");
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
-        if($account_id==349){
-            $account_id=-1;
-        }
         $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid);
+        $master_flag = $this->get_in_int_val("master_flag",-1);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -635,12 +639,19 @@ class seller_student_new2 extends Controller
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
             E\Eass_test_lesson_type::set_item_value_str($item);
-            if(strpos($item["origin"],"转介绍") !== false){
+            E\Esuccess_flag::set_item_value_str($item);
+            E\Esuccess_flag::set_item_value_str($item,"order_confirm_flag");
+            if(strpos($item["origin"],"转介绍") !== false ){
                 $item["ass_test_lesson_type_str"]=$item["origin"];
+                $item["ass_fail_type"]=1;
+            }elseif($item["ass_test_lesson_type"]==0){
+                $item["ass_test_lesson_type_str"]=$item["origin"];
+                $item["ass_fail_type"]=2;
+            }else{
+                $item["ass_fail_type"]=2;
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
-            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["success_flag"] );
  
         }
         //dd($ret_info);

@@ -47,6 +47,8 @@
                     <td>0731</td>
                     <td>星期一</td>
                     <td>星期天</td>
+                    <td>合计</td>
+                    <td>晚八点后</td>
                     <td>总计</td>
                    
                    
@@ -87,6 +89,17 @@
                                 {{@$var["all_day"]}}&nbsp&nbsp/&nbsp&nbsp{{@$var["all_hour"]}}
                             @endif
                         </td>
+                        <td>
+                            @if(!empty($var["late_day"]))
+                                {{@$var["late_day"]}}&nbsp&nbsp/&nbsp&nbsp{{@$var["late_hour"]}}
+                            @endif
+                        </td>
+                        <td>
+                            @if(!empty($var["total_day"]))
+                                {{@$var["total_day"]}}&nbsp&nbsp/&nbsp&nbsp{{@$var["total_hour"]}}
+                            @endif
+                        </td>
+
 
                        
                                         

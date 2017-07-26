@@ -334,9 +334,9 @@ class user_deal extends Controller
                     return $this->output_err( "时间不对,不能比当前时间晚");
                 }
 
-                $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
-                $lesson_type= $this->t_lesson_info->get_lesson_type($lessonid);
-                $userid  = $this->t_lesson_info->get_userid($lessonid);
+                $teacherid   = $this->t_lesson_info->get_teacherid($lessonid);
+                $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+                $userid      = $this->t_lesson_info->get_userid($lessonid);
                 if ($userid) {
                     $ret_row = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
                     if($ret_row) {
@@ -2587,6 +2587,22 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
       
+        $page_num = $this->get_in_page_num();
+        $userid   = $this->get_in_userid();
+        $userid= 57676;
+        $teacherid = $this->get_in_teacherid();
+        $teacherid = 85081;
+        $ret_list = $this->t_course_order-> get_all_list($page_num,$userid, $teacherid ,1);
+        foreach ($ret_list["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            E\Esubject::set_item_value_str($item);
+        }
+
+
+        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
+        dd($ret_list);
+        return $this->output_succ(["data"=> $ret_list]);
+
         $month = time()-30*86400;        
         $time = time()-86400;
         $date_week = \App\Helper\Utils::get_week_range($time,1);

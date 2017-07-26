@@ -5,14 +5,17 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			adminid:	$('#id_adminid').val(),
-			become_full_member_flag:	$('#id_become_full_member_flag').val()
+			become_full_member_flag:	$('#id_become_full_member_flag').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
 
     Enum_map.append_option_list("boolean", $("#id_become_full_member_flag") );
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
 	$('#id_adminid').val(g_args.adminid);
 	$('#id_become_full_member_flag').val(g_args.become_full_member_flag);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $.admin_select_user(
         $('#id_adminid'),
         "admin", load_data,false,{"main_type":5});

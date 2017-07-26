@@ -96,9 +96,6 @@
                 <div class="input-group ">
                     <span class="input-group-addon">课时设置</span>
                     <input id="id_confirm_flag"  placeholder="课时" >
-                    <!-- <select class="opt-change form-control " id="id_confirm_flag" >
-                         <option value=-2>所有无效课程</option>
-                         </select> -->
                 </div>
             </div>
             <div class="col-xs-6 col-md-2">
@@ -149,6 +146,14 @@
                 <div class="input-group ">
                     <span class="input-group-addon">删除标识</span>
                     <select class="opt-change form-control" id="id_lesson_del_flag" >
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-md-2" >
+                <div class="input-group ">
+                    <span class="input-group-addon">全职老师分类</span>
+                    <select class="opt-change form-control" id="id_fulltime_teacher_type" >
                     </select>
                 </div>
             </div>
@@ -345,6 +350,7 @@
                                 @endif
                                 <a class="opt-seller-ass-record" title="教学质量反馈" >馈</a>
                                 <a class="fa fa-list-alt opt-manage-all" title="课程管理信息汇总" ></a>
+                                <a class="fa opt-modify-lesson-time" title="处理调课申请" >调课</a>
                             </div>
                         </td>
                     </tr>

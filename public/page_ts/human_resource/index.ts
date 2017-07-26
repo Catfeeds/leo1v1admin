@@ -35,7 +35,8 @@ $(function(){
             reference_teacherid      : $('#id_reference_teacherid').val(),
 			have_wx:	$('#id_have_wx').val(),
             grade_plan:	$('#id_grade_plan').val(),
-			subject_plan:	$('#id_subject_plan').val()
+			subject_plan:	$('#id_subject_plan').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -59,6 +60,7 @@ $(function(){
     Enum_map.append_option_list("boolean", 	$('#id_have_wx') );
     Enum_map.append_option_list("grade", $("#id_grade_plan"),false,[101,102,103,104,105,106,201,202,203,301,302,303] );
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
 
 
     $('#id_teacher_type').val(g_args.teacher_type);
@@ -89,6 +91,7 @@ $(function(){
     $('#id_set_leave_flag').val(g_args.set_leave_flag);
 	$('#id_grade_plan').val(g_args.grade_plan);
 	$('#id_subject_plan').val(g_args.subject_plan);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
@@ -781,6 +784,12 @@ $(function(){
         $(".opt-set-research_note").hide();
         $(".opt-limit-plan-lesson").hide();
     }
+
+    if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    }else{
+         $("#id_fulltime_teacher_type").parent().parent().hide();
+    }
+
 
     if(tea_right==0 ){
         $(".opt-teacher-freeze").hide();

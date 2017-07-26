@@ -1,6 +1,6 @@
   
 * 安装软件
-  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
@@ -35,7 +35,7 @@
   mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
  
   文件权限
-  chmod a+wr -R ./storage/ ./bootstrap/cache ./public/page_ts/g_args.d.ts
+  chmod a+wr -R ./storage/ ./bootstrap/cache #./public/page_ts/g_args.d.ts
   
   
 * nginx 配置  

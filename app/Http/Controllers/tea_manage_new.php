@@ -684,6 +684,9 @@ class tea_manage_new extends Controller
         }
 
         $lesson_end = $lesson_start+1800;
+
+
+      
         $ret_row2   = $this->t_lesson_info->check_teacher_time_free($record_teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
@@ -710,6 +713,16 @@ class tea_manage_new extends Controller
                 "passwd" => md5(123456) 
             ]); 
         }
+
+        //检查面试老师时间是否冲突
+        $ret_row1 = $this->t_lesson_info->check_train_lesson_time_free($teacherid,0,$lesson_start,$lesson_end);
+        if ($ret_row1) {
+            $error_lessonid=$ret_row1["lessonid"];
+            return $this->output_err(
+                "<div>有现存的面试老师课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
       
         $grade_str   = E\Egrade::get_desc($grade);
         $subject_str = E\Esubject::get_desc($subject);

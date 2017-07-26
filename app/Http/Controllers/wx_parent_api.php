@@ -667,6 +667,7 @@ class wx_parent_api extends Controller
         $ret2 = $this->t_lesson_time_modify->field_update_list($lessonid,[
             'is_modify_time_flag' =>1,// 调课成功
             'original_time' => $original_lesson_time,
+            'teacher_deal_time' => time(NULL)
         ]);
 
         if($ret1 && $ret2){
@@ -677,27 +678,6 @@ class wx_parent_api extends Controller
             return $this->output_err('提交失败,请稍后重试....');
         }
     }
-
-
-    // public function get_modify_status(){ // 老师同意家长调整时间后 [家长详情] [老师详情]
-    //     $lessonid = $this->get_in_int_val('lessonid');
-    //     $lesson_status_info = [];
-    //     //获取原上课时间
-    //     $original_time = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
-    //     $original_time_arr = explode(',',$original_time);
-    //     $lesson_status_info['original_time_str'] = date('Y年m月d日 H:i:s',$original_time_arr[0]).'-'.date('H:i:s',$original_time_arr[1]);
-
-    //     // 修改后的时间
-    //     $modify_lesson_time_arr = $this->t_lesson_info_b2->get_modify_lesson_time($lessonid);
-    //     $lesson_status_info['modify_lesson_time_str'] = date('Y年m月d日 H:i:s',$modify_lesson_time_arr['lesson_start']).'-'.date('H:i:s',$modify_lesson_time_arr['lesson_end']);
-
-    //     $lesson_status_info['ass_phone']     = $this->t_assistant_info->get_ass_phone_by_lessonid($lessonid);
-    //     $lesson_status_info['seller_phone']  = $this->t_lesson_info_b2->get_seller_phone_by_lessonid($lessonid);
-
-    //     // 获取 处理进度
-    //     $lesson_status_info['is_modify_time_flag'] = $this->t_lesson_info_b2->get_modify_flag($lessonid);
-    //     return $this->output_succ(['data'=>$lesson_status_info]);
-    // }
 
     public function keep_lesson_time(){ // 1029 // 老师|家长  维持原有时间 [提交原因]
         $lessonid        = $this->get_in_int_val('lessonid');
@@ -714,6 +694,7 @@ class wx_parent_api extends Controller
             $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
                 'teacher_keep_original_remark' => $teacher_keep_original_remark,
                 'is_modify_time_flag'  => 2,// 老师维持有时间
+                'teacher_deal_time'    => time(NULL)
             ]);
         }
 
@@ -722,42 +703,6 @@ class wx_parent_api extends Controller
             return $this->output_succ();
         }
     }
-
-
-    // public function get_keep_lesson_time_info(){ //老师保持原时间后详情内容
-    //     $lessonid = $this->get_in_int_val('lessonid');
-
-    //     $lesson_status_info['ass_phone']     = $this->t_assistant_info->get_ass_phone_by_lessonid($lessonid);
-    //     $lesson_status_info['seller_phone']  = $this->t_lesson_info_b2->get_seller_phone_by_lessonid($lessonid);
-
-    //     // 原有上课时间
-    //     $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
-    //     $lesson_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
-
-    //     $lesson_status_info['lesson_time_str'] = date('Y年m月d日 H:i:s',$lesson_start).'-'.date('H:i:s',$lesson_end);
-    //     $lesson_status_info['is_modify_time_flag'] = $this->t_lesson_time_modify->get_modify_flag($lessonid);
-
-    //     return $this->output_succ(['data'=>$lesson_status_info]);
-    // }
-
-
-    // public function jiaowu_deal_modify(){ // 教务处理 [老师保持时间] 推送 家长 老师 销售 咨询 教务
-    //     $lessonid          = $this->get_in_int_val('lessonid');
-    //     $lesson_name       = $this->t_lesson_info_b2->get_lesson_name($lessonid);
-    //     $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
-    //     $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
-
-    //     $lesson_time_arr   = $this->t_lesson_info_b2->get_modify_lesson_time($lessonid);
-    //     $lesson_new_time   = date('m月d日',$lesson_time_arr[0]).'-'.date('H:i:s',$lesson_time_arr[1]);
-
-    //     $lesson_old_time_str   = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
-
-    //     $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
-
-    //     $lesson_old_time = date('m月d日 H:i:s',$lesson_old_time_arr[0]);
-
-
-    // }
 
 
     public function teacher_get_modify_lesson_time(){  // 1030 // 老师更换时间

@@ -2,6 +2,7 @@ interface GargsStatic {
 	adminid:	number;
 	main_flag:	number;
 	become_full_member_flag:	number;
+	fulltime_teacher_type:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -57,7 +58,8 @@ $(function(){
         $.reload_self_page ( {
 			adminid:	$('#id_adminid').val(),
 			main_flag:	$('#id_main_flag').val(),
-			become_full_member_flag:	$('#id_become_full_member_flag').val()
+			become_full_member_flag:	$('#id_become_full_member_flag').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -65,6 +67,7 @@ $(function(){
 	$('#id_adminid').val(g_args.adminid);
 	$('#id_main_flag').val(g_args.main_flag);
 	$('#id_become_full_member_flag').val(g_args.become_full_member_flag);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -93,6 +96,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">become_full_member_flag</span>
                 <input class="opt-change form-control" id="id_become_full_member_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 */

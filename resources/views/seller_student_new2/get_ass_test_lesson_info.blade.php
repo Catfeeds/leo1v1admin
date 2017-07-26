@@ -43,9 +43,12 @@
                     @foreach ($table_data_list as $var)
                         <tr>
                            
-                            <td >
-                               {{$var["nick"]}}
-                            </td>
+                          
+                            <td> 
+                                <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
+                                    target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                            </td >
+                           
                             <td >
                                 {{$var["grade_str"]}} 
                             </td>
@@ -54,20 +57,39 @@
                             </td>
                             <td>{{$var["editionid_str"]}}</td>
                             <td>{{$var["ass_test_lesson_type_str"]}}</td>
-                            <td>{{$var["realname"]}}</td>
+                            <td>
+                                <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
+                                    target="_blank" title="老师信息">{{@$var["realname"]}} </a>
+                            </td>
                             <td>{{$var["lesson_start_str"]}}</td>
-                            <td>{!!$var["success_flag_str"]!!}</td>
-                            <td></td>
+                            <td>
+                                @if($var["success_flag"]<2)
+                                    {!!$var["success_flag_str"]!!}
+                                @elseif($var["success_flag"]==2)
+                                    {!!$var["success_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a class="fa fa-info opt-success-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($var["order_confirm_flag"]<2)
+                                    {!!$var["order_confirm_flag_str"]!!}
+                                @elseif($var["order_confirm_flag"]==2)
+                                    {!!$var["order_confirm_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a class="fa fa-info opt-order_confirm-info-list" title="点击查看详情"></a>
+                                @endif
+
+                            </td>
 
                            
                             <td>
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
-                                   
-                                    <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
-                                    <a title="设置成功" class="fa fa-heart opt-set-success show_flag"> </a>
-                                    <a title="设置失败" class="fa fa-heart-o opt-set-fail show_flag"></a>
+                                    @if($var["success_flag"]==0 )
+                                        <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
+                                    @endif
+                                    @if($var["success_flag"]==1 && $var["order_confirm_flag"]==0)
+                                        <a title="设置成功" class="fa fa-heart opt-set-success show_flag"> </a>
+                                        <a title="设置失败" class="fa fa-heart-o opt-set-fail show_flag"></a>
+                                    @endif
                                    
 
                                 </div>

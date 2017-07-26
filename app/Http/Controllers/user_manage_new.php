@@ -3054,7 +3054,8 @@ class user_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $account_role = $this->get_in_int_val("account_role",-1);
-        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             $item["off_time_str"] = date("H:i",$item["off_time"]);

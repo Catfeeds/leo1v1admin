@@ -1306,12 +1306,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_row($sql);
     }
 
-    public function get_fulltime_teacher_assessment_positive_info($page_info,$adminid,$become_full_member_flag,$main_flg){
+    public function get_fulltime_teacher_assessment_positive_info($page_info,$adminid,$become_full_member_flag,$main_flg,$fulltime_teacher_type=-1){
         $where_arr=[
             "m.account_role =5 ",
             "m.del_flag =0 ",
             ["m.uid = %u",$adminid,-1],
             ["m.become_full_member_flag = %u",$become_full_member_flag,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
         ];
         if($main_flg==1){
             $where_arr[] = "(p.master_deal_flag=1 or p.main_master_deal_flag>0)";

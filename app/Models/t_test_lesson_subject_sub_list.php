@@ -802,16 +802,23 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_value($sql);
     }
 
-    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid){
+    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag){
         $where_arr=[
             "l.lesson_del_flag=0",
             ["l.lesson_start>=%u",$start_time,0],
-            ["tr.cur_require_adminid = %u",$require_adminid,-1],
-            "m.account_role=1",
-            "tss.success_flag <2"
+            "(m.account_role=1 or m.uid=349) ",
         ];
+        if($master_flag==1){
+            
+        }else{
+            $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
+        }
         $sql = $this->gen_sql_new("select s.nick,l.lesson_start,l.grade,l.subject,tr.origin,tt.ass_test_lesson_type,"
-                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag "
+                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
+                                  ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
+                                  ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
+                                  ." tss.order_confirm_flag "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
