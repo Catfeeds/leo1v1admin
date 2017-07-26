@@ -967,6 +967,7 @@ class seller_student_new extends Controller
 
     public function tel_student_list(){
 
+        $this->switch_tongji_database();
         $self_groupid          = $this->get_in_int_val("self_groupid",-1);
         $userid                = $this->get_in_userid(-1);
         $page_num              = $this->get_in_page_num();
