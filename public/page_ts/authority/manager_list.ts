@@ -673,6 +673,7 @@ $(function(){
 
 
         var opt_data = $(this).get_opt_data();
+        console.log(opt_data);
         var account  = $(this).get_opt_data("account");
         var phone    = $(this).get_opt_data("phone");
         var arr = [
@@ -681,17 +682,16 @@ $(function(){
             ['说明','生成相应的学生，家长信息']
         ];
 
-        $.show_key_value_table("生成相应的学生，家长信息", arr ,{
+        $.show_key_value_table("生成对应的相应的学生，家长信息", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                $.do_ajax('/ajax_deal2/phone_bdregister', {
+                $.do_ajax('/ajax_deal2/register_student_parent_account', {
                     'account' : account,
                     'phone'   : phone, 
                 },function(resp){
-
-                    alert(resp);
-                    alert(JSON.stringify(resp));
+                    //alert(JSON.stringify(resp));
+                    alert(resp['success']);
                 });
             }
         });

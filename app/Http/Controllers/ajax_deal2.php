@@ -166,7 +166,7 @@ class ajax_deal2 extends Controller
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-    $create_adminid   =  $this->get_account_id();
+        $create_adminid   =  $this->get_account_id();
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
@@ -191,5 +191,41 @@ class ajax_deal2 extends Controller
         $this->t_student_score_info->row_delete($id);
         return $this->output_succ();
     }
+
+     /**
+     *@author   sam
+     *@function 创建学生和家长账号
+     */
+     public function register_student_parent_account()
+     {
+        $account = $this->get_in_str_val("account");
+        $phone   = $this->get_in_int_val("phone");
+        $ret=[];
+        $ret_student = $this->t_student_info->get_userid_by_phone($phone);
+        $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
+        if($ret_student != 0 && $ret_parent != 0){
+            $ret['success'] =  "此手机号已经注册学生账号和家长账号";
+        }else if($ret_student == 0 && $ret_parent != 0){
+            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
+            if($ret_student){
+                $ret['success'] =  "注册学生账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            }
+        }else if($ret_student != 0 && $ret_parent == 0){
+            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+            if($ret_parent){
+                $ret['success'] =  "注册家长账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            }
+        }else if($ret_student == 0 && $ret_parent == 0){
+            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
+            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+            if($ret_student && $ret_parent){
+                $ret['success'] =  "注册学生账号和家长账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student); 
+            }
+        }
+        return $this->output_succ($ret);
+     }
 
 }

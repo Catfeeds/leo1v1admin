@@ -1033,6 +1033,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
     public function register( $phone, $passwd, $reg_channel , $grade , $ip, $nick,  $region)
     {
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);

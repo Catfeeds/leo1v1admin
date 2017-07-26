@@ -169,7 +169,6 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                  t_wx_user_info::DB_TABLE_NAME,
                                  $where_arr
         );
-
         return $this->main_get_list_by_page( $sql,$page_num,10);
     }
 

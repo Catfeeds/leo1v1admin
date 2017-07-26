@@ -1497,5 +1497,4 @@ class test_code extends Controller
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
     }
 
-
 }
