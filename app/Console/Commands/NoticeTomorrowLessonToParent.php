@@ -80,7 +80,11 @@ class NoticeTomorrowLessonToParent extends Command
             ];
 
             if ($phone) {
-                \App\Helper\Utils::sms_common($phone,$sms_id,$arr,0,$sign_name);
+                try {
+                    \App\Helper\Utils::sms_common($phone,$sms_id,$arr,0,$sign_name);
+                }catch(\Exception $e){
+
+                }
             }
 
         }

@@ -204,7 +204,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
     public function get_rejoin_user_list( $page_num,$origin_ex, $start_time, $end_time, $need_count,$seller_student_status )  {
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"a.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"b.origin");
         $where_arr=[
             $ret_in_str,
         ];
@@ -230,7 +230,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
     public function get_rejoin_count_list($origin_ex, $start_time, $end_time)  {
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"a.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"b.origin");
         $where_arr=[
             $ret_in_str,
         ];
@@ -238,7 +238,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $sql=$this->gen_sql_new(
             "select  userid , count(*) as count  "
             ." from  %s a "
-            . " where  a.userid in (select userid from %s b where %s  )     group by a.userid   ",
+            . " where  a.userid in (select b.userid from %s b where %s  )     group by a.userid   ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
