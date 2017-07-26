@@ -18,7 +18,7 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td>ID</td>
+                    <td>#</td>
                     <td>学生ID</td>
                     <td>创建时间</td>
                     <td>添加人</td>
