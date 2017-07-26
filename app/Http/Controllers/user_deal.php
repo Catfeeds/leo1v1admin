@@ -97,7 +97,10 @@ class user_deal extends Controller
             }
         }
 
-        $this->t_lesson_info->del_if_no_start($lessonid);
+        //$this->t_lesson_info->del_if_no_start($lessonid);
+        $this->t_lesson_info->field_update_list($lessonid,[
+           "lesson_del_flag" =>1 
+        ]);
 
         return outputjson_success();
     }
@@ -2586,6 +2589,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+                $this->switch_tongji_database();
+        $start_time = strtotime("2017-06-18");
+        $end_time = strtotime("2017-08-01");
+
+        $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
+        dd($late);
+
         $list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
         dd($list);
         

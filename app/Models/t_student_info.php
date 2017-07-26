@@ -155,6 +155,45 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $ret_info;
     }
 
+    public function get_student_search_two_weeks_list( $start_time, $end_time,$all_flag, $userid,$grade, $status,
+                                                       $user_name, $phone, $teacherid, $assistantid, $test_user,
+                                                       $originid, $seller_adminid,$ass_adminid_list=[]
+    ){
+        $last_two_weeks_time = time(NULL)-86400*14;
+        $where_arr=[
+            ["s.userid=%u", $userid, -1] ,
+            ["s.grade=%u", $grade, -1] ,
+            ["s.status=%u", $status, -1] ,
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.is_test_user=%u ", $test_user , -1] ,
+            ["s.originid=%u ", $originid , -1] ,
+            ["s.seller_adminid=%u ", $seller_adminid, -1] ,
+            "s.lesson_count_all>0",
+            "s.lesson_count_left<100",
+            "s.last_lesson_time<$last_two_weeks_time"
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $ass_adminid_list );
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+
+        $sql = $this->gen_sql("select s.userid from %s s left join %s a on s.assistantid =a.assistantid".
+                              " left join %s m on a.phone = m.phone".
+                              "  where  %s  ",
+                              self::DB_TABLE_NAME,
+                              t_assistant_info::DB_TABLE_NAME,
+                              t_manager_info::DB_TABLE_NAME,
+                              [$this->where_str_gen($where_arr)]
+        );
+        return $this->main_get_list($sql);    
+        
+    }
+
+
     public function get_student_list_count($userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num)
     {
         $where_arr=[

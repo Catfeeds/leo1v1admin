@@ -841,24 +841,31 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_n.png";
+        $phone_qr_name = $phone."_qr_agent_x.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
-        //if(!$is_exists){
+        if(!$is_exists){
             $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
-            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            $headimg_name = $phone."_headimg.png";
+            $headimg_is_exists = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$headimg_name);
+            //$headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            $headimgurl = "http://wx.qlogo.cn/mmopen/PiajxSqBRaEJoPibGVibKEI3M7McRZZ9Q2q4qv7VG3ZY4zgZ4SEicbEwZZDKV6q4uGuxTliafvXMNxLEfI7X8L4JtRw/0";
+            $image_4 = imagecreatefromjpeg($headimgurl);     //微信头像
+            //if($row['headimgurl']){
+              // $headimgurl = $row['headimgurl'];
+               //$image_4 = imagecreatefromjpeg($headimgurl);     //微信头像
+            //}           
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_4 = imagecreatefrompng($headimgurl);     //微信头像
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
-            imagecopymerge($image_3,$image_4,0,0,0,0,180,180,100);
+            imagecopymerge($image_3,$image_4,0,0,0,0,80,80,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -872,9 +879,9 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
-        //}else{
-         //   $file_name=$phone_qr_name;
-        //}
+        }else{
+            $file_name=$phone_qr_name;
+        }
 
         $file_url = $qiniu_url."/".$file_name;
         return $file_url;

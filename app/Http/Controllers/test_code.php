@@ -1491,9 +1491,9 @@ class test_code extends Controller
         $nick   = $this->t_teacher_info->get_realname($teacherid);
         $data['first']    = $nick."老师您好！";
         $data['keyword1'] = "邀请参训通知";
-        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加培训课程，特将培训增设到每周4期：周中晚19点，周末下午15点，老师可自由选择时间参训；若时间冲突，亦可登录教师端，在【我的培训】中观看回放，完成后，点击【自我测评】回答问卷，在考核通过后即收到【入职offer】开启您在理优的线上教学之旅。";
+        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
         $data['keyword3'] = date("Y-m-d",time());
-        $data['remark']   = "答题过程中有任何问题亦可私聊【师训】沈老师获得小灶指导~暑期课程多多，福利多多~理优期待老师的加入！";
+        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
     }
 

@@ -78,6 +78,13 @@ class common_ex extends Controller
         if($origin_phone!="" && $origin_phone==$phone){
             return $this->output_err("推荐人手机号不能和报名手机相同！");
         }
+        $origin_userid = 0;
+        if($origin_phone!=""){
+            $origin_userid = $this->t_student_info->get_userid_by_phone($origin_phone);
+            if($origin_userid == 0){
+                return $this->output_err("不存在此推荐人！请重新填写！");
+            }
+        }
         $client_ip = $this->get_in_client_ip();
         if ($phone == "15601830297" || $phone == "13917746147" ) {
             $max_user_count=1000;
@@ -121,10 +128,12 @@ class common_ex extends Controller
         ];
         \App\Helper\Utils::sms_common($phone,$sms_id,$arr);
 
-        $userid  = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
-
-
-
+        $userid = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
+        if($origin_userid!=0){
+            $this->t_student_info->field_update_list($userid,[
+               "origin_userid" => $origin_userid 
+            ]);
+        }
 
         $name    = $phone;
         $name[4] = "*";

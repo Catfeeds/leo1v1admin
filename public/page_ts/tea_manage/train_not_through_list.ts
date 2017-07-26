@@ -23,6 +23,20 @@ $(function(){
         }
     });
 
+    $("#id_wx_notice").on("click",function(){
+	    $.do_ajax("/tea_manage_new/send_not_through_notice",{
+            "start_time" : g_args.start_time,
+            "end_time"   : g_args.end_time,
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+
+    });
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

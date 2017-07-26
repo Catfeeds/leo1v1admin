@@ -6561,8 +6561,46 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_change_teacher_list->get_change_teacher_info($change_teacher_reason_type,$start_time,$end_time,$page_num);
 
-        dd($ret_info);
-        return $this->pageView(__METHOD__,$ret_info);
+        // dd($ret_info);
+        foreach($ret_info['list'] as &$item){
+            $item['stu_nick']= $this->t_student_info->get_nick($item['userid']);
+
+            if(!$item['old_teacherid']){
+                $item['old_teacher_nick']  = '无' ;
+            }else{
+                $item['old_teacher_nick']  = $this->t_teacher_info->get_nick($item['old_teacherid']);
+            }
+
+            if(!$item['teacherid']){
+                $item['teacher_nick']  = '无' ;
+            }else{
+                $item['teacher_nick']  = $this->t_teacher_info->get_nick($item['teacherid']);
+            }
+
+            E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Eset_boolean::set_item_value_str($item,"success_flag");
+
+            $item['ass_nick'] = $this->t_assistant_info->get_nick($item['assistantid']);
+            $item['test_lesson_time'] = date('m-d H:i:s',$item['lesson_start']).' - '.date('H:i:s',$item['lesson_end']);
+            $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
+
+            if($item['is_done_flag'] == 0){
+                $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['is_done_flag'] == 1){
+                $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
+            }elseif($item['is_done_flag'] == 2){
+                $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
+            }
+
+            // $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid'],$item['old_teacherid']);
+
+
+        }
+
+            // dd($ret_info);
+            return $this->pageView(__METHOD__,$ret_info);
     }
 
 }

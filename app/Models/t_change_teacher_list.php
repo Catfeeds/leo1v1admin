@@ -106,27 +106,33 @@ class t_change_teacher_list extends \App\Models\Zgen\z_t_change_teacher_list
 
     public function get_change_teacher_info($change_teacher_reason_type,$start_time,$end_time,$page_num){
 
-        $where_arr = [];
+        $where_arr = [
+            'tc.userid > 0',
+            ' (tc.teacherid >0 or tl.teacherid >0)',
+        ];
         if($change_teacher_reason_type != -1){
             $where_arr[] = ["change_teacher_reason_type = %d",$change_teacher_reason_type];
+
         }
         $this->where_arr_add_time_range($where_arr,"tc.add_time",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tc.userid, tc.change_teacher_reason_type, tc.subject, tc.grade, tsl.order_confirm_flag, tsl.confirm_adminid, tl.lesson_start , tl.lesson_end, tl.assistantid from %s tc ".
+        $sql = $this->gen_sql_new(" select tc.userid, tc.teacherid as old_teacherid, tc.is_done_flag, tc.change_teacher_reason_type, tc.subject, tc.grade, tsl.confirm_adminid, tsl.success_flag, tl.lesson_start, tl.teacherid, tl.lesson_end, s.assistantid  from %s tc ".
                                   " left join %s tls on tls.userid = tc.userid ".
                                   " left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s tsl on tsl.require_id = tlsr.require_id".
                                   " left join %s tl on tl.lessonid = tsl.lessonid".
-                                  " where %s",
+                                  " left join %s s on s.userid = tc.userid".
+                                  " where %s  group by tc.userid order by tc.add_time ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,30);
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
     }
 }
 

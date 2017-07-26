@@ -681,6 +681,17 @@ class teacher_money extends Controller
         return $this->PageView(__METHOD__,$ret_info);
     }
 
+    public function get_teacher_bank_info(){
+        $teacherid = $this->get_wx_teacherid();
+
+        $bank_info = $this->t_lesson_info->field_get_list($teacherid,"bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
+
+        return $this->output_succ(["data"=>$bank_info]);
+    }
+
+
+
+
     public function check_teacher_trial_lesson(){
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");
@@ -704,8 +715,6 @@ class teacher_money extends Controller
                 $this->set_in_value("money_info",$teacherid);
             }
         }
-
-
     }
 
 }

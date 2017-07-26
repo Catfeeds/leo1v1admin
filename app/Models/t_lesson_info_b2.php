@@ -1913,10 +1913,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.confirm_flag<2",
             "tr.trial_train_status in (0,1)"
         ];
-        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
-                                  ." where %s group  by l.teacherid,hour having(hour>=20)",
+                                  ." where %s group  by l.teacherid,hour,week having(hour>=20 and week >1)",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
