@@ -334,9 +334,9 @@ class user_deal extends Controller
                     return $this->output_err( "时间不对,不能比当前时间晚");
                 }
 
-                $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
-                $lesson_type= $this->t_lesson_info->get_lesson_type($lessonid);
-                $userid  = $this->t_lesson_info->get_userid($lessonid);
+                $teacherid   = $this->t_lesson_info->get_teacherid($lessonid);
+                $lesson_type = $this->t_lesson_info->get_lesson_type($lessonid);
+                $userid      = $this->t_lesson_info->get_userid($lessonid);
                 if ($userid) {
                     $ret_row = $this->t_lesson_info->check_student_time_free($userid,$lessonid,$lesson_start,$lesson_end);
                     if($ret_row) {
@@ -2586,9 +2586,145 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_all_train_pass_teacher_info($page_info);
+      
+        $page_num = $this->get_in_page_num();
+        $userid   = $this->get_in_userid();
+        $userid= 57676;
+        $teacherid = $this->get_in_teacherid();
+        $teacherid = 85081;
+        $ret_list = $this->t_course_order-> get_all_list($page_num,$userid, $teacherid ,1);
+        foreach ($ret_list["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            E\Esubject::set_item_value_str($item);
+        }
+
+
+        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
+        dd($ret_list);
+        return $this->output_succ(["data"=> $ret_list]);
+
+        $month = time()-30*86400;        
+        $time = time()-86400;
+        $date_week = \App\Helper\Utils::get_week_range($time,1);
+        $lstart = $date_week["sdate"];
+        $lend = $date_week["edate"];
+        $ret_info = $this->t_month_ass_warning_student_info->get_week_warning_info($lstart);
+        foreach($ret_info as $v){
+            $userid = $v["userid"];
+            $info = $this->t_month_ass_warning_student_info->get_warning_info_by_userid($userid,$month);
+            if(!empty($info)  && $info["ass_renw_flag"] >0){
+                $this->t_month_ass_warning_student_info->field_update_list($v["id"],[
+                    "ass_renw_flag"  =>$info["ass_renw_flag"],
+                    "no_renw_reason" =>$info["no_renw_reason"],
+                    "renw_price"     =>$info["renw_price"],
+                    "renw_week"      =>$info["renw_week"],
+                    "master_renw_flag" =>$info["master_renw_flag"],
+                    "master_no_renw_reason"=>$info["master_no_renw_reason"]
+                ]);
+            }
+
+        }
         dd($ret_info);
+
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-06-18");
+        $end_time = strtotime("2017-08-01");
+        $ret= $this->t_lesson_info_b2->tongji_1v1_lesson_time($start_time,$end_time);
+        $arr=[];$week=[];
+        foreach($ret as $val){
+            $teacherid = $val["teacherid"];
+            @$arr[$teacherid][$val["day"]] = $val["time"];
+            @$arr[$teacherid]["realname"] = $val["realname"];
+            if($val["week"]==0){
+                
+                @$week[$teacherid]["seven"] +=$val["time"];
+            }elseif($val["week"]==1){
+                @$week[$teacherid]["one"] +=$val["time"];
+            }
+            @$week[$teacherid]["all"] +=$val["time"];
+
+
+        }
+
+        $all=["realname"=>"全部"];
+        foreach($arr as $k=>&$item){
+            $item["seven"] = @$week[$k]["seven"];
+            $item["one"] = @$week[$k]["one"];
+            @$all["20170618"] += @$item["20170618"];
+            @$all["20170619"] += @$item["20170619"];
+            @$all["20170625"] += @$item["20170625"];
+            @$all["20170626"] += @$item["20170626"];
+            @$all["20170702"] += @$item["20170702"];
+            @$all["20170703"] += @$item["20170703"];
+            @$all["20170709"] += @$item["20170709"];
+            @$all["20170710"] += @$item["20170710"];
+            @$all["20170716"] += @$item["20170716"];
+            @$all["20170717"] += @$item["20170717"];
+            @$all["20170717"] += @$item["20170723"];
+            @$all["20170717"] += @$item["20170724"];
+            @$all["20170717"] += @$item["20170730"];
+            @$all["20170717"] += @$item["20170731"];
+            @$all["seven"] += @$item["seven"];
+            @$all["one"] += @$item["one"];
+            @$all["all"] += @$item["all"];
+        }
+        array_unshift($arr,$all);
+
+        foreach($arr as &$v){
+            foreach($v as $s=>$kk){
+                if(!in_array($s,["realname","one","seven"])){
+                    $v[$s] = !empty($kk)?round($kk/3600,1)."小时":"";
+                }
+            }
+            $v["seven_hour"] =  !empty($v["seven"])?round($v["seven"]/3600,1)."小时":"";
+            $v["seven_day"] = !empty($v["seven"])?round($v["seven"]/3600*8,2)."天":"";
+            $v["one_hour"] = !empty($v["one"])?round($v["one"]/3600,1)."小时":"";
+            $v["one_day"] = !empty($v["one"])?round($v["one"]/3600*8,2)."天":"";
+            $v["all_hour"] = !empty($v["all"])?round($v["all"]/3600,1)."小时":"";
+            $v["all_day"] = !empty($v["all"])?round($v["all"]/3600*8,2)."天":"";
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($arr);
+        return $this->pageView(__METHOD__,$ret_info);
+
+        dd($arr);
+        $page_info = $this->get_in_page_info();
+        $end_time = strtotime("2017-07-01");
+        $ret_list=$this->t_order_info->get_order_list_caiwu(
+            $page_info,$start_time,$end_time);
+        foreach($ret_list['list'] as &$item ){
+            if(empty($item["lesson_start"]) && $item["order_time"] < strtotime(date("2016-11-01")) && $item["contract_type"]==0){
+                $userid= $item["userid"];
+                $item["lesson_start"] = $this->t_lesson_info->get_user_test_lesson_start($userid,$item["order_time"]);
+            }
+            $item['price']= $item['price']/100;
+            $item['contract_status'] = E\Econtract_status::get_desc($item["contract_status"]);
+            E\Egrade::set_item_value_str($item);
+            E\Econtract_type::set_item_value_str($item);
+            E\Econtract_from_type::set_item_value_str($item,"stu_from_type");
+            E\Efrom_type::set_item_value_str($item);
+            E\Ecompetition_flag::set_item_value_str($item);
+            if (!$item["stu_nick"]) {
+                $item["stu_nick"]=$item["stu_self_nick"];
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
+            if($item["grade"]>=100 && $item["grade"] <200){
+                $item["grade_part"]="小学";
+            }else if($item["grade"]>=200 && $item["grade"] <300){
+                $item["grade_part"]="初中";
+            }else if($item["grade"]>=300 && $item["grade"] <400){
+                $item["grade_part"]="高中";
+            }
+            $item["lesson_count_all"] = $item["lesson_total"]*$item["default_lesson_count"]/100;
+
+
+
+        }
+
+        return $this->Pageview(__METHOD__,$ret_list);
+
+        dd($ret_list);
         
         $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2);
         $warning_list = $this->t_student_info->get_warning_stu_list();

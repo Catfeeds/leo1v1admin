@@ -42,7 +42,8 @@ class get_jw_lesson_info_update extends Command
 
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-
+       
+       
         //教务数据更新
         $res        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info($start_time,$end_time);
         //$res        = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info($start_time,$end_time);

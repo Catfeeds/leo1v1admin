@@ -26,6 +26,7 @@ interface GargsStatic {
 	origin:	string;
 	page_num:	number;
 	page_count:	number;
+	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -200,7 +201,8 @@ $(function(){
 			has_video_flag:	$('#id_has_video_flag').val(),
 			is_with_test_user:	$('#id_is_with_test_user').val(),
 			lessonid:	$('#id_lessonid').val(),
-			origin:	$('#id_origin').val()
+			origin:	$('#id_origin').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -239,6 +241,7 @@ $(function(){
 	$('#id_is_with_test_user').val(g_args.is_with_test_user);
 	$('#id_lessonid').val(g_args.lessonid);
 	$('#id_origin').val(g_args.origin);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -388,6 +391,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin</span>
                 <input class="opt-change form-control" id="id_origin" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 */

@@ -756,6 +756,7 @@ class human_resource extends Controller
         $have_wx                  = $this->get_in_int_val("have_wx",-1);
         $grade_plan               = $this->get_in_int_val("grade_plan",-1);
         $subject_plan             = $this->get_in_int_val("subject_plan",-1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
 
 
         if(!empty($free_time)){
@@ -790,7 +791,7 @@ class human_resource extends Controller
             $test_lesson_full_flag,$lstart,$lend,$train_through_new,$lesson_hold_flag,$test_transfor_per,
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
-            $teacher_ref_type,$have_wx,$grade_plan,$subject_plan
+            $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type
         );
 
         $tea_list = [];
@@ -3382,6 +3383,7 @@ class human_resource extends Controller
         $qzls_flag       = $this->get_in_int_val('qzls_flag', -1);
         $fulltime_flag   = $this->get_in_int_val('fulltime_flag', -1);
         $create_now      = $this->get_in_int_val('create_now', -1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $adminid         = $this->get_account_id();
         $right_list      = $this->get_tea_subject_and_right_by_adminid($adminid);
 
@@ -3396,7 +3398,7 @@ class human_resource extends Controller
         $this->t_teacher_info->switch_tongji_database();
         $this->t_lesson_info->switch_tongji_database();
 
-        $ret_info = $this->t_teacher_info->get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag,$fulltime_flag,$create_now,$start_time,$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag,$fulltime_flag,$create_now,$start_time,$end_time,$fulltime_teacher_type);
 
         $teacherid_list=[];
         foreach($ret_info['list'] as $t_item) {
@@ -3525,6 +3527,7 @@ class human_resource extends Controller
         $tea_status                 =$this->get_in_int_val('tea_status',-1);
         $teacher_account            = $this->get_in_int_val('teacher_account', -1);
         $fulltime_flag            = $this->get_in_int_val('fulltime_flag', -1);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
 
         $adminid      = $this->get_account_id();
         $right_list = $this->get_tea_subject_and_right_by_adminid($adminid);
@@ -3539,15 +3542,15 @@ class human_resource extends Controller
         $rr = $this->t_lesson_info->get_order_add_time();
         $order_lesson_day = !empty($rr["all_count"])?round(($rr["lesson_time"]-$rr["order_time"])/$rr["all_count"]/86400,1):0;
 
-        $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
-        $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
-        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
+        $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
+        $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
-        $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
-        $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
-        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag);
+        $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $total_arr=[];
         $total_arr["all_lesson"] = $all_lesson_total;
         $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];

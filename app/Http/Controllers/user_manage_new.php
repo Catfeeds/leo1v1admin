@@ -9,6 +9,7 @@ use \App\Enums as E;
 class user_manage_new extends Controller
 {
     use CacheNick;
+    use TeaPower;
     var $change_num = 0;
     var $late_num   = 0;
 
@@ -2732,6 +2733,7 @@ class user_manage_new extends Controller
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();
+        $adminid = $this->get_ass_leader_account_id($account_id);
         //  $account_id = 297;
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
@@ -2749,7 +2751,7 @@ class user_manage_new extends Controller
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
@@ -3052,7 +3054,8 @@ class user_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $account_role = $this->get_in_int_val("account_role",-1);
-        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             $item["off_time_str"] = date("H:i",$item["off_time"]);

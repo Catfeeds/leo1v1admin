@@ -1067,7 +1067,7 @@ class common extends Controller
             $userid = $this->t_order_info->get_userid($orderid);
             $sys_operator = $this->t_order_info->get_sys_operator($orderid);
             $nick = $this->t_student_info->get_nick($userid);
-            /*$this->t_manager_info->send_wx_todo_msg(
+            $this->t_manager_info->send_wx_todo_msg(
                 "echo",
                 "合同付款通知",
                 "合同付款通知",
@@ -1078,7 +1078,7 @@ class common extends Controller
                 "合同付款通知",
                 "合同付款通知",
                 "学生:".$nick." 合同付款成功,支付方式".$channel_name,
-                "");*/
+                "");
             $this->t_manager_info->send_wx_todo_msg(
                 "jack",
                 "合同付款通知",

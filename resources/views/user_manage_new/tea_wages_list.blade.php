@@ -136,7 +136,8 @@
                     <tr>
                         <td>No.</td>
                         <td width="100px">姓名</td>
-                        <td>科目</td>
+                        <td >手机号</td>
+                        <td >科目</td>
                         <td style="display:none">持卡人</td>
                         <td style="display:none">身份证</td>
                         <td style="display:none">银行卡</td>
@@ -158,6 +159,7 @@
                         <tr>
                             <td>{{$var['id']}}</td>
                             <td>{{$var['tea_nick']}}</td>
+                            <td>{{$var['phone']}}</td>
                             <td>{{$var['subject_str']}}</td>
                             <td>{{$var['bank_account']}}</td>
                             <td>身份证:{{$var['idcard']}}</td>

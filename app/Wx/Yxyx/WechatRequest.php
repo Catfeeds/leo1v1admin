@@ -242,22 +242,17 @@ class WechatRequest  {
      */
     public static function eventSubscribe(&$request){
         $content =
+            self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2utf8('\ue032')."
-
-【绑定地址】
-立刻绑定你上课时使用的账号，即可使用所有功能
-绑定链接：<a href='http://t.cn/RcQGnPX'>http://t.cn/RcQGnPX</a>
+【分享】它使快乐增大，它使悲伤减小。
 
 【菜单栏功能介绍】
--[讲师报名]-
-可查看理优1对1简介、面试流程并报名讲师
--[个人中心]-
-[设置时间]、[评价学生]、[我的收入]可查看收入详情并申诉、[邀请有奖]中可生成个人专属二维码，分享海报邀请好友报名，领取伯乐奖".self::unicode2utf8('\ue12f')."
--[帮助中心]-
-可以获取[使用手册]、[优秀视频]、[我要投诉]、[常见问题]等相关帮助
-
-
+-[我要邀请]-:生成邀请海报。
+-[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
+-[账号管理]-:
+(1)绑定账号：绑定手机号即可开启优学优享功能。
+(2)个人中心：查询用户等级、邀请人数、奖励情况等。
+(3)常见问题：自助解决问题。
 ";
 
         $_SESSION['wx_openid'] = $request['fromusername'];
@@ -504,16 +499,15 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         } elseif ($eventKey == 'question') {
             $tuwenList[] = array(
 
-                'title' => '[老师] 常见问题处理方法',
+                'title' => '常见问题Q&A',
 
                 'description' => '',
 
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5ticciaEDNHDsQ66rd1sibEhSVp4uUk6ZuzuwGByOLricbBloLr1qUOEIaIjOMBENrWdpqtGZpuoab7Q/0?wx_fmt=png',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_deal_question',
-
-            );
-
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
+           );
+/*
             $tuwenList[] = array(
 
                 'title' => '[新师培训] 常见问题处理方法',
@@ -525,7 +519,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
 
             );
-
+*/
         }elseif ($eventKey == 'invitation') {
             $openid = $request['fromusername'];
             $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
@@ -560,6 +554,59 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+        }elseif ($eventKey == 'introduction') {
+            $openid = $request['fromusername'];
+
+            //使用客服接口发送消息
+            $img_url_item = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f54aa5957c19f2adc08df6c1cca5a70d1500964333408.png";
+            $type_item = 'image';
+            $num_item = rand();
+            $img_Long_item = file_get_contents($img_url_item);
+            file_put_contents(public_path().'/wximg/'.$num_item.'.png',$img_Long_item);
+            $img_url_item = public_path().'/wximg/'.$num_item.'.png';
+            $img_url_item = realpath($img_url_item);
+            $mediaId_item = Media::upload($img_url_item, $type_item);
+	    $mediaId_item = $mediaId_item['media_id'];
+	    \App\Helper\Utils::logger('mediaid1:'.$mediaId_item);
+	    unlink($img_url_item);
+            $img_arr = [
+                'touser'  => $openid,
+                'msgtype' => 'image',
+                'image'   => [
+                    'media_id' => $mediaId_item,
+                ]
+            ];
+            $img_item = self::ch_json_encode($img_arr);
+            $token = AccessToken::getAccessToken();
+	    $url_item = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+	    $txt_ret = self::https_post($url_item,$img_item);
+
+/*
+            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
+            $img_url = self::get_img_url($url);
+ */
+            $img_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/31d8d88bfea1deba47fed581060c5bb41500964258036.png';
+            $type = 'image';
+            $num = rand();
+            $img_Long = file_get_contents($img_url);
+            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+            $img_url = public_path().'/wximg/'.$num.'.png';
+            $img_url = realpath($img_url);
+	    $mediaId = Media::upload($img_url, $type);
+	    $mediaId = $mediaId['media_id'];
+	    \App\Helper\Utils::logger('mediaid2:'.$mediaId);
+	    unlink($img_url);
+	    $img_arr_new = [
+		    'touser'  => $openid,
+		    'msgtype' => 'image',
+		    'image'   => [
+			    'media_id' => $mediaId,
+		    ]
+			    ];
+	    $img_new = self::ch_json_encode($img_arr_new);
+	    $url_new = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+	    return self::https_post($url_new,$img_new);
+            //return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }
         $item = array();
         foreach($tuwenList as $tuwen){

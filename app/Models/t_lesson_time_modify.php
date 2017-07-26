@@ -59,5 +59,14 @@ class t_lesson_time_modify extends \App\Models\Zgen\z_t_lesson_time_modify
     }
 
 
+    public function get_need_notice_lessonid($now){
+        $sql = $this->gen_sql_new(" select lessonid, parent_deal_time from %s lt ".
+                                  " where is_modify_time_flag = 0 and ((parent_deal_time+3600)<$now) and teacher_deal_time = '' ",
+                                  self::DB_TABLE_NAME
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 
 }

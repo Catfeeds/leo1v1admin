@@ -62,8 +62,8 @@ $(function(){
                 show_field( $renw_price ,false );
                 show_field( $renw_week ,false );
             }else if(val==3){
-                show_field( $no_renw_reason ,true );
-                show_field( $renw_price ,true );
+                show_field( $no_renw_reason ,false );
+                show_field( $renw_price ,false );
                 show_field( $renw_week ,true );
             }else{
                 show_field( $no_renw_reason ,false );

@@ -79,6 +79,9 @@ class NoticeTeacher extends Command
         case 13:
             $wx->late_for_rate_normal_by_week_num($type);
             break;
+        case 14:
+            $wx->notice_teacher_not_through_list($type);
+            break;
         default:
             break;
         }
