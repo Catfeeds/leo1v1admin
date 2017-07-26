@@ -6594,7 +6594,7 @@ class tongji_ss extends Controller
                 $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
             }
 
-            // $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid'],$item['old_teacherid']);
+            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid'],$item['old_teacherid']);
 
 
         }

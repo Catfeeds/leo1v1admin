@@ -128,24 +128,28 @@ class ajax_deal2 extends Controller
      */
     public function score_edit(){
         $id               = $this->get_in_int_val("id");
-        $userid           = $this->get_in_int_val("userid");
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
-        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-        $create_adminid   =  $this->get_account_id();
 
-        $id = $this->get_in_int_val('id');
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
         $data = [
+            'id'            =>   $id,
             'subject'       =>   $subject,
             'stu_score_type'=>   $stu_score_type,
-            'stu_score_time'=>   $stu_score_time,
             'score'         =>   $score,
             'rank'          =>   $rank,
             'file_url'      =>   $file_url,
-        ];
+            'semester'      =>   $semester,
+            'total_score'   =>   $total_score,
+            'grade'         =>   $grade,
+            'grade_rank'    =>   $grade_rank,
+         ];
 
         $ret = $this->t_student_score_info->field_update_list($id,$data);
         //dd($ret);
@@ -160,13 +164,18 @@ class ajax_deal2 extends Controller
     public function score_add_new(){
         $userid           = $this->get_in_int_val("userid");
         $create_time      = time();
+        $create_adminid   =  $this->get_account_id();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-        $create_adminid   =  $this->get_account_id();
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
+
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
@@ -177,7 +186,11 @@ class ajax_deal2 extends Controller
             "stu_score_time"        => $stu_score_time,
             "score"                 => $score,
             "rank"                  => $rank,
-            "file_url"              => $file_url
+            "file_url"              => $file_url,
+            "semester"              => $semester,
+            "total_score"           => $total_score,
+            "grade"                 => $grade,
+            "grade_rank"            => $grade_rank,
         ],false,false,true);
         return $this->output_succ();
     }

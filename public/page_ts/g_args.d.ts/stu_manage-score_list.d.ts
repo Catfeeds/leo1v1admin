@@ -23,7 +23,12 @@ interface RowData {
 	file_url	:any;
 	semester	:any;
 	total_score	:any;
+	grade	:any;
+	grade_rank	:any;
+	num	:any;
 	subject_str	:any;
+	semester_str	:any;
+	grade_str	:any;
 	stu_score_type_str	:any;
 	create_admin_nick	:any;
 }

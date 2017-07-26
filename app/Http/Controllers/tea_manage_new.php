@@ -1003,9 +1003,9 @@ class tea_manage_new extends Controller
         $end_time   = $this->get_in_int_val("end_time");
 
         $list = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,1);
-        $job = new \App\Jobs\;
-        dispatch($job);
-        $job = new \App\Jobs\; dispatch($job);
+        //$job = new \App\Jobs\;
+        //dispatch($job);
+        // $job = new \App\Jobs\; dispatch($job);
 
 
     }
