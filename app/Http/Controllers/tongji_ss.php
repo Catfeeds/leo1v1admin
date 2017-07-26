@@ -6157,7 +6157,7 @@ class tongji_ss extends Controller
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $ret = $this->t_order_refund->get_ass_refund_detail_info($start_time,$end_time);
         foreach($ret as &$item){
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
             $item["lesson_left"] = $item["lesson_count_left"]/100;
             $item["real_refund"] = $item["real_refund"]/100;
             $item["order_lesson"] = $item["lesson_total"]*$item["default_lesson_count"]/100;
@@ -6165,7 +6165,7 @@ class tongji_ss extends Controller
         }
 
         return  $this->output_succ( [ "data" =>$ret] );
- 
+
     }
 
     public function get_ass_end_stu_list(){
@@ -6193,11 +6193,11 @@ class tongji_ss extends Controller
                 $item["status_str"]="跟进中";
             }
 
-            E\Egrade::set_item_value_str($item); 
-            E\Esubject::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
 
         }
-        
+
         return  $this->output_succ( [ "data" =>$ret] );
 
     }
@@ -6221,16 +6221,16 @@ class tongji_ss extends Controller
                 $val["status_str"]= $val["order_money"]/100;
             }
 
-            E\Egrade::set_item_value_str($val); 
- 
+            E\Egrade::set_item_value_str($val);
+
         }
-        
+
         return  $this->output_succ( [ "data" =>$arr] );
 
 
- 
+
     }
-    
+
     public function get_warning_student_detail_list(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
@@ -6253,10 +6253,10 @@ class tongji_ss extends Controller
 
         foreach($ret as &$item){
             $item["lesson_count_left"] = $item["lesson_count_left"]/100;
-            if($item["status"]==0){               
+            if($item["status"]==0){
                 $status = $this->t_month_ass_warning_student_info->get_ass_renw_flag_master_by_userid($item["userid"],$start_time,1);
                 if($status==1){
-                   $item["status"]="续费"; 
+                   $item["status"]="续费";
                 }elseif($status==2){
                     $item["status"]="不续费";
                 }else{
@@ -6267,10 +6267,10 @@ class tongji_ss extends Controller
                 $item["status"] =  $item["status"]/100;
             }
 
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
 
         }
-        
+
         return  $this->output_succ( [ "data" =>$ret] );
 
     }
@@ -6491,7 +6491,7 @@ class tongji_ss extends Controller
             @$arr[$teacherid][$val["day"]] = $val["time"];
             @$arr[$teacherid]["realname"] = $val["realname"];
             if($val["week"]==0){
-                
+
                 @$week[$teacherid]["seven"] +=$val["time"];
             }elseif($val["week"]==1){
                 @$week[$teacherid]["one"] +=$val["time"];
@@ -6556,9 +6556,12 @@ class tongji_ss extends Controller
 
     public function tongji_change_teacher_info(){
         $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type');
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num= $this->get_in_page_num();
 
-        $ret_info = '';
+        $ret_info = $this->t_change_teacher_list->get_change_teacher_info($change_teacher_reason_type,$start_time,$end_time,$page_num);
+
+        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 

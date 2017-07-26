@@ -3885,7 +3885,7 @@ class ss_deal extends Controller
         if($ret){
             if($ass_renw_flag==2){
                 $this->t_month_ass_warning_student_info->field_update_list($id,[
-                    "done_flag"             =>1,
+                    "done_flag"             =>2,
                     "done_time"             =>time(),
                 ]);
 

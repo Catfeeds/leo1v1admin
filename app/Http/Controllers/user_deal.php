@@ -2586,9 +2586,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $time = strtotime("2017-08-19");
-        $list = $this->t_month_ass_warning_student_info->get_no_renw_end_time_list($time);
+        $list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
         dd($list);
+        
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;

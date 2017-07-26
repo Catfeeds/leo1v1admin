@@ -162,7 +162,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
     public function get_done_info(){
         $where_arr=[
             "warning_type =2",
-            "done_flag =1"
+            "done_flag >0"
         ];
         $sql = $this->gen_sql_new("select  userid,id from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
@@ -179,13 +179,32 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         ];
         $sql = $this->gen_sql_new("select m.id,m.userid,a.add_time,a.renw_end_day,m.month "
                                   ." from %s m left join %s a on (m.id = a.warning_id and a.add_time = (select max(add_time) from %s where warning_id = a.warning_id))"
-                                  ." left join %s o on (m.userid = o.userid and o.order_time>m.month and o.contract_status>0 and o.contract_type =3)"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_ass_warning_renw_flag_modefiy_list::DB_TABLE_NAME,
                                   t_ass_warning_renw_flag_modefiy_list::DB_TABLE_NAME,
-                                  t_order_info::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_done_stu_info_seller(){
+        $last_two_weeks_time = time(NULL)-86400*14;
+        $where_arr=[
+            "s.last_lesson_time<$last_two_weeks_time"
+        ];
+
+        $where_arr=[
+            "m.warning_type=2",
+            "m.done_flag=2",
+            "(s.type <>1 or s.last_lesson_time<".$last_two_weeks_time.")"
+        ];
+        $sql =$this->gen_sql_new("select distinct m.userid,s.nick,s.seller_adminid "
+                                 ." from %s m left join %s s on m.userid = s.userid"
+                                 ." where %s",
+                                 self::DB_TABLE_NAME,
+                                 t_student_info::DB_TABLE_NAME,
+                                 $where_arr
         );
         return $this->main_get_list($sql);
     }
