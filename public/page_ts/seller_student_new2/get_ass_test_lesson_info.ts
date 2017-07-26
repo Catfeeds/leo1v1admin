@@ -169,14 +169,44 @@ $(function(){
 
     $(".opt-success-info-list").on("click",function(){
         var lessonid = $(this).data("lessonid");
-        alert(lessonid); 
+        console.log(lessonid); 
         $.do_ajax( "/ss_deal/get_test_lesson_confirm_info", {
             "lessonid" : lessonid,
         },function(res){
-            console.log(res);
+            var data= res.data;
+            var arr=[
+                ["是否课前4小时取消",  data.fail_greater_4_hour_flag_str ],
+                ["失败类型", data.test_lesson_fail_flag_str ],
+                ["失败说明", data.fail_reason ],
+                ["设置时间", data.confirm_time_str ],
+                ["设置人", data.confirm_adminid_account ],
+            ];
+
+            $.show_key_value_table("试听失败详情", arr, "");
+
         });
 
     });
+
+    $(".opt-order_confirm-info-list").on("click",function(){
+        var lessonid = $(this).data("lessonid"); 
+        $.do_ajax( "/ss_deal/get_test_lesson_confirm_info", {
+            "lessonid" : lessonid,
+        },function(res){
+            var data= res.data;
+            var arr=[
+                ["失败分类", data.ass_test_lesson_order_fail_flag_str ],
+                ["失败说明", data.ass_test_lesson_order_fail_desc  ],
+                ["设置时间", data.ass_test_lesson_order_fail_set_time_str ],
+                ["设置人", data.fail_set_adminid_account ],
+            ];
+
+            $.show_key_value_table("失败详情", arr, "");
+
+        });
+
+    });
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

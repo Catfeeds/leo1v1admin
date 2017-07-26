@@ -2586,7 +2586,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-      
+        $time = strtotime("2017-08-19");
+        $list = $this->t_month_ass_warning_student_info->get_no_renw_end_time_list($time);
+        dd($list);
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;
@@ -3411,6 +3413,11 @@ class user_deal extends Controller
             E\Erenw_type::set_item_value_str($val,"ass_renw_flag_cur");
             $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
             $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+            if(!empty($val["renw_week"])){
+                $val["renw_end_day"] = date("Y-m-d",$val["add_time"]+$val["renw_week"]*7*86400);
+            }else{
+                $val["renw_end_day"]="";
+            }
 
         }
         if(empty($data)){

@@ -143,6 +143,7 @@ class NewRouteConfig {
         "/common/get_webhooks_notice"        => true,
         "/common/dev_teacher_qr"        => true,
 
+        "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,

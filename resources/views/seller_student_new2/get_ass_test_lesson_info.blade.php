@@ -66,14 +66,14 @@
                                 @if($var["success_flag"]<2)
                                     {!!$var["success_flag_str"]!!}
                                 @elseif($var["success_flag"]==2)
-                                    {!!$var["success_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a class="fa fa-info opt-success-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
+                                    {!!$var["success_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a href="javascript:;"  class="fa fa-info opt-success-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
                                 @endif
                             </td>
                             <td>
                                 @if($var["order_confirm_flag"]<2)
                                     {!!$var["order_confirm_flag_str"]!!}
                                 @elseif($var["order_confirm_flag"]==2)
-                                    {!!$var["order_confirm_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a class="fa fa-info opt-order_confirm-info-list" title="点击查看详情"></a>
+                                    {!!$var["order_confirm_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a href="javascript:;"  class="fa fa-info opt-order_confirm-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
                                 @endif
 
                             </td>

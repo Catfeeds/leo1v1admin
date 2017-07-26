@@ -40,13 +40,13 @@ class update_ass_warning_list extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         //更新未设置续费状态,但是课时小于1的人的完成状态
-        /* $ret = $task->t_month_ass_warning_student_info->get_end_stu_warning_info(2);
+        $ret = $task->t_month_ass_warning_student_info->get_end_stu_warning_info(2);
         foreach($ret as $v){
             $task->t_month_ass_warning_student_info->field_update_list($v["id"],[
                 "done_flag"   =>1,
                 "done_time"   =>time()
             ]);
-            }*/
+        }
 
 
         //更新信息

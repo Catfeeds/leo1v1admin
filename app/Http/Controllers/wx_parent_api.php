@@ -399,7 +399,7 @@ class wx_parent_api extends Controller
 
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsxTqusFBCbI6QqR8oxkwwMg",  // QC yunyan
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
             ];

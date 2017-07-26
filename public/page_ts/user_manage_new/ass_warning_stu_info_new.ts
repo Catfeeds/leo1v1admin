@@ -28,7 +28,7 @@ $(function(){
         var $ass_renw_flag  = $("<select />") ;
         var $renw_price=$("<input></input>") ;
         var $no_renw_reason =$("<textarea></textarea>") ;
-        var $renw_week  = $("<select><option value=\"0\">无</option><option value=\"1\">第一周</option><option value=\"2\">第二周</option><option value=\"3\">第三周</option><option value=\"4\">第四周</option><option value=\"5\">第五周</option></select>");
+        var $renw_week  = $("<select><option value=\"0\">无</option><option value=\"1\">第一周</option><option value=\"2\">第二周</option><option value=\"3\">第三周</option><option value=\"4\">第四周</option></select>");
         
         Enum_map.append_option_list("renw_type", $ass_renw_flag, true );
         $ass_renw_flag.val(opt_data.ass_renw_flag );
@@ -40,7 +40,7 @@ $(function(){
             ["是否续费", $ass_renw_flag  ],
             ["续费金额", $renw_price ],
             ["未续费原因", $no_renw_reason   ],
-            ["计划续约周",$renw_week]
+            ["续费截止日期",$renw_week]
         ];
 
         var show_field=function (jobj,show_flag) {
@@ -62,7 +62,7 @@ $(function(){
                 show_field( $renw_price ,false );
                 show_field( $renw_week ,false );
             }else if(val==3){
-                show_field( $no_renw_reason ,false );
+                show_field( $no_renw_reason ,true );
                 show_field( $renw_price ,false );
                 show_field( $renw_week ,true );
             }else{
@@ -153,7 +153,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var id = opt_data.id;
         var title = "学生类型修改记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前状态</td><td>修改后状态</td><td>不续费理由</td><td>操作人</td></tr></table></div>");                     
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>修改前状态</td><td>修改后状态</td><td>不续费理由</td><td>续费截止日期</td><td>操作人</td></tr></table></div>");                     
 
         $.do_ajax("/user_deal/get_renw_flag_change_list",{
             "id" : id
@@ -164,7 +164,7 @@ $(function(){
             }
 
             $.each(result.data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['ass_renw_flag_before_str']+"</td><td>"+item['ass_renw_flag_cur_str']+"</td><td>"+item['no_renw_reason']+"</td><td>"+item['account']+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['ass_renw_flag_before_str']+"</td><td>"+item['ass_renw_flag_cur_str']+"</td><td>"+item['no_renw_reason']+"</td><td>"+item['renw_end_day']+"</td><td>"+item['account']+"</td></tr>");
                 
 
             });

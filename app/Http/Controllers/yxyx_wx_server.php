@@ -49,7 +49,7 @@ class  yxyx_wx_server extends Controller
             array('id'=>'10', 'pid'=>'2', 'name'=>'每日卡片', 'type'=>'view', 'code'=>'https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'),
             array('id'=>'15', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/index' ),
             array('id'=>'16', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'),
-            array('id'=>'17', 'pid'=>'3', 'name'=>'注销账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_common/logout'),
+         //   array('id'=>'17', 'pid'=>'3', 'name'=>'注销账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_common/logout'),
             array('id'=>'18', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'click', 'code'=>'question'),
         );
 

@@ -6206,17 +6206,26 @@ class tongji_ss extends Controller
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $ret = $this->t_test_lesson_subject_sub_list->get_tran_require_detail_info($start_time,$end_time);
-        foreach($ret as &$item){
-            if($item["order_money"]<=0){
-                $item["status_str"]="未签";
+        $arr=[];
+        foreach($ret as $item){
+            @$arr[$item["userid"]]["userid"] = $item["userid"];
+            @$arr[$item["userid"]]["grade"] = $item["grade"];
+            @$arr[$item["userid"]]["nick"] = $item["nick"];
+            @$arr[$item["userid"]]["account"] = $item["account"];
+            @$arr[$item["userid"]]["order_money"] +=$item["order_money"];
+        }
+        foreach($arr as &$val){
+            if($val["order_money"]<=0){
+                $val["status_str"]="未签";
             }else{
-                $item["status_str"]= $item["order_money"]/100;
+                $val["status_str"]= $val["order_money"]/100;
             }
 
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($val); 
+ 
         }
         
-        return  $this->output_succ( [ "data" =>$ret] );
+        return  $this->output_succ( [ "data" =>$arr] );
 
 
  
@@ -6542,6 +6551,15 @@ class tongji_ss extends Controller
         $ret_info = \App\Helper\Utils::list_to_page_info($arr);
         return $this->pageView(__METHOD__,$ret_info);
 
+    }
+
+
+    public function tongji_change_teacher_info(){
+        $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type');
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+
+        $ret_info = '';
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 }

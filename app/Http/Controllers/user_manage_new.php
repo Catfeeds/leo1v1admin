@@ -2756,6 +2756,13 @@ class user_manage_new extends Controller
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
             E\Erenw_type::set_item_value_str($item,"master_renw_flag");
+            $change_info = $this->t_ass_warning_renw_flag_modefiy_list->get_new_renw_list($item["id"]);
+            if(!empty($change_info["renw_week"])){
+                $item["renw_end_day"] = date("Y-m-d", $change_info["add_time"]+ $change_info["renw_week"]*7*86400);
+            }else{
+                $item["renw_end_day"]="";
+            }
+
         }
         return $this->Pageview(__METHOD__,$ret_info);
     }
