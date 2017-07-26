@@ -1868,7 +1868,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_row_info($teacherid,$lesson_type,$num){
         $where_arr = [
-            ["lesson_type= %u",$lesson_type,-1],  
+            ["lesson_type= %u",$lesson_type,-1],
             ["teacherid= %u",$teacherid,-1],
             "lesson_status>1",
             "lesson_del_flag=0",
@@ -1903,7 +1903,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_list($sql);
     }
-    
+
     public function tongji_1v1_lesson_time_late($start_time,$end_time){
         $where_arr=[
             "l.lesson_type=1100",
@@ -1926,8 +1926,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-    public function get_lesson_time_flag($item['userid'],$item['teacherid'],$old_teacherid){
-        
+    public function get_lesson_time_flag($userid,$teacherid,$old_teacherid){
+
     }
 
 

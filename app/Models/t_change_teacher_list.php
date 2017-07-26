@@ -108,6 +108,7 @@ class t_change_teacher_list extends \App\Models\Zgen\z_t_change_teacher_list
 
         $where_arr = [
             'tc.userid > 0',
+            'tl.lesson_type =2 ',
             ' (tc.teacherid >0 or tl.teacherid >0)',
         ];
         if($change_teacher_reason_type != -1){
