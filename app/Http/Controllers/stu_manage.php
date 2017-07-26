@@ -1268,10 +1268,15 @@ class stu_manage extends Controller
         $userid = $this->sid;
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
-        foreach( $ret_info["list"] as &$item ) {
+        
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y-m-d");
             E\Esubject::set_item_value_str($item);
+            E\Esemester::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
