@@ -220,6 +220,7 @@ class NewRouteConfig {
         "/authority/manager_list_for_qz_wuhan"    => true,
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
+        "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
         "/login/login_teacher"           => true,

@@ -1474,7 +1474,7 @@ Enum_map = {
     };
   },
   append_option_list : function (group_name, $select , not_add_all_option, id_list ){
-      console.log(group_name);
+      //console.log(group_name);
       var desc_map=g_enum_map[group_name]["desc_map"];
 
         var html_str="";

@@ -116,7 +116,7 @@ class authority extends Controller
             // e\eboolean::set_item_value_simple_str($item,"day_new_user_flag");
 
         }
-
+        //        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
