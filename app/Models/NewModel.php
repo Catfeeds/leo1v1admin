@@ -150,7 +150,6 @@ abstract class NewModel
         }
 
         $result = $this->db_query($sql);
-
         $list=[];
 
         if ( ! $list_key_func ) {
@@ -162,7 +161,6 @@ abstract class NewModel
                 $list[ $list_key_func($item) ] = $item;
             }
         }
-
 
         if (  $this->check_change_select_db() ) {
             $this->db=$old_db;
@@ -301,9 +299,7 @@ abstract class NewModel
             $page_num   = 1;
             $page_count = 10000;
         }
-
         $count_query = "select count(1) " . $count_query;
-
         $ret_arr=array();
         if ( !$use_group_by_flag ){
             $count=$this->main_get_value($count_query,0);
@@ -312,6 +308,7 @@ abstract class NewModel
             $count=count($this->main_get_list($sql ));
 
         }
+
 
         //for old
         $ret_arr["total_num"]=$count;

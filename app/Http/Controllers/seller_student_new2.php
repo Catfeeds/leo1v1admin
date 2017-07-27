@@ -374,7 +374,7 @@ class seller_student_new2 extends Controller
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
         );
-        dd($ret_info);
+        dd('a');
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;

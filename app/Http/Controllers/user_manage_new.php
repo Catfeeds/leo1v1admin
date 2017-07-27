@@ -3490,7 +3490,7 @@ class user_manage_new extends Controller
             }
 
         }
- 
+
         return $this->output_succ(["data"=>$data]);
     }
 
@@ -3545,15 +3545,15 @@ class user_manage_new extends Controller
             $val["end_time_ex"]   = strtotime(date("Y-m-d",$week_day)." ".$val["end"])*1000;
 
             $val["start_time"] = $w."-".$val["start"];
- 
+
         }
         return  outputjson_success( [ "common_lesson_config" => $list] );
 
         //dd($list);
-        
-            
-        
- 
+
+
+
+
     }
 
 
@@ -3598,10 +3598,29 @@ class user_manage_new extends Controller
         $this->t_homework_info->add(
             $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
         );
-       
+
         $this->t_lesson_info->reset_lesson_list($courseid);
-       
+
         return $this->output_succ();
+    }
+
+    public function stu_lesson_info() {
+        $user_name = trim($this->get_in_str_val('user_name',''));
+        $page_num  = $this->get_in_page_num();
+        $ret_info  = $this->t_lesson_info_b2->get_student_lesson( $page_num,$user_name);
+        return $this->Pageview(__METHOD__,$ret_info);
+
+    }
+
+    public function get_stu_lesson_count_info() {
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $parentid = 60004; 
+        $parentid = 60436;
+        // $page_num  = $this->get_in_page_num();
+        $ret_info  = $this->t_lesson_info_b2->get_stu_lesson_info($parentid);
+        return $this->Pageview(__METHOD__,$ret_info);
+
+        echo 3;
     }
 
 
