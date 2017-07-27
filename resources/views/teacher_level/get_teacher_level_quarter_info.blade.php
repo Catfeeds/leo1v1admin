@@ -12,6 +12,10 @@
                         </select>
                     </div>
                 </div>               
+                <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
+                </div>                
+
 
 
             </div>
