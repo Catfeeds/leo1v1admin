@@ -2386,4 +2386,37 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         );
         return $this->main_get_value($sql);
     }
+    public function get_teacher_cancel_count(){
+        //$sql = $this->get_sql_new("");
+        $sql = "SELECT test_lesson_order_fail_flag, test_lesson_order_fail_desc, test_lesson_order_fail_set_time, tmk_adminid, tss.confirm_time, tss.confirm_adminid, l.lessonid, tr.accept_flag, t.require_admin_type, s.origin_userid
+    , t.ass_test_lesson_type, stu_score_info, stu_character_info, s.school, s.editionid
+    , stu_test_lesson_level, stu_test_ipad_flag, stu_request_lesson_time_info, stu_request_test_lesson_time_info, tr.require_id
+    , t.test_lesson_subject_id, ss.add_time, test_lesson_student_status, s.userid, s.nick
+    , tr.origin, ss.phone_location, ss.phone, ss.userid, t.require_adminid
+    , tr.curl_stu_request_test_lesson_time AS stu_request_test_lesson_time, test_stu_request_test_lesson_demand AS stu_request_test_lesson_demand, s.origin_assistantid, s.origin_userid, t.subject
+    , tr.test_stu_grade AS grade, ss.user_desc, ss.has_pad, ss.last_revisit_time, ss.last_revisit_msg
+    , tq_called_flag, next_revisit_time, l.lesson_start, l.lesson_del_flag, tr.require_time
+    , l.teacherid, t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag
+    , tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason, tr.seller_require_change_flag, tr.require_change_lesson_time
+    , tr.seller_require_change_time, assigned_lesson_count, tr.accept_adminid, jw_test_lesson_status, set_lesson_time
+    , tr.green_channel_teacherid, tc.cancel_time, t.textbook, tr.cur_require_adminid, tr.grab_status
+    , tr.current_lessonid, tr.is_green_flag, tr.limit_require_flag, tr.limit_require_teacherid, tr.limit_require_lesson_start
+    , tr.limit_require_time, tr.limit_require_adminid, tr.limit_require_send_adminid, tr.limit_accept_flag, tr.limit_require_reason
+    , tr.limit_accept_time
+FROM db_weiyi.t_test_lesson_subject_require tr
+    LEFT JOIN db_weiyi.t_test_lesson_subject t ON t.test_lesson_subject_id = tr.test_lesson_subject_id
+    LEFT JOIN db_weiyi.t_seller_student_new ss ON t.userid = ss.userid
+    LEFT JOIN db_weiyi.t_student_info s ON t.userid = s.userid
+    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list tss ON tr.current_lessonid = tss.lessonid
+    LEFT JOIN db_weiyi.t_lesson_info l ON tss.lessonid = l.lessonid
+    LEFT JOIN db_weiyi.t_course_order c ON tss.lessonid = c.ass_from_test_lesson_id
+    LEFT JOIN db_weiyi.t_teacher_cancel_lesson_list tc ON tr.current_lessonid = tc.lessonid
+WHERE s.is_test_user = 0
+    AND tr.accept_flag <> 2
+    AND require_time >= 1501084800
+    AND require_time < 1501776000
+ORDER BY require_time ASC";
+    dd($sql);
+        return $this->main_get_list_by_page($sql,10);
+    }
 }
