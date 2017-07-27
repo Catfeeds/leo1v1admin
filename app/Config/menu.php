@@ -11,6 +11,7 @@ class menu{
                 ["power_id"=>3, "name"=>"合同管理",   "url"=>"/user_manage/contract_list"],
                 ["power_id"=>4, "name"=>"家长档案",   "url"=>"/user_manage/parent_archive"],
                 ["power_id"=>8, "name"=>"家长<>学生",   "url"=>"/user_manage/pc_relationship"],
+                ["power_id"=>19, "name"=>"学生上课信息",   "url"=>"/user_manage_new/stu_lesson_info"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
                     ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysia"],
@@ -391,7 +392,8 @@ class menu{
                     ["power_id"=>5, "name"=>"电话统计-个人",   "url"=>"/tq/ass_self_tongji_list"],
                     ["power_id"=>6, "name"=>"换老师统计",   "url"=>"/tongji_ss/tongji_change_teacher_info"],
                     ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
-                    ["power_id"=>8, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
+                    ["power_id"=>8, "name"=>"转介绍统计",   "url"=>"/tongji_ss/tongji_referral"],
+                    ["power_id"=>9, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],

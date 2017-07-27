@@ -433,6 +433,35 @@ class common extends Controller
         return $html;
     }
 
+    public function show_level_up_html(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $is_test   = $this->get_in_int_val("is_test");
+
+        if($teacherid==0){
+            return $this->output_err("老师id出错！");
+        }
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $html = $this->teacher_level_up_html($teacher_info);
+        if($is_test){
+            // $teacher_info['email']   = "wg392567893@163.com";
+            // $teacher_info['subject'] = 4;
+            $ret = \App\Helper\Common::send_paper_mail($teacher_info['email'],"上海理优教研室",$html);
+            if($teacher_info['wx_openid']!=""){
+                $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
+                $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：B等";
+                $data["keyword1"] = "教职老师";
+                $data["keyword2"] = "理优教育";
+                $data["keyword3"] = date("Y-m-d",time());
+                $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+                $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacherid;
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+            }
+        }
+
+        return $html;
+    }
+
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
@@ -451,19 +480,19 @@ class common extends Controller
          .color333{color:#333;}
          .fl{float:left;}
          .fr{float:right;}
-
+         
          .top-line{margin-top:24px;}
          .tea_name{position:relative;z-index:1;top:321px;}
          .tea_level{position:relative;z-index:1;top:410px;}
          .date{position:relative;z-index:1;top:-215px;left:165px;}
-
+         
          .todo{margin:20px 0 10px 0;}
          .todo li{margin:10px 0;}
-
+         
          .about_us{margin:30px 0 0;}
          .us_title{margin:0 0 10px;}
          .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
-
+         
          .join-us{margin:40px 0;}
          .join-us-content{width:44%;}
          .middle-line{
@@ -841,7 +870,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_f.png";
+        $phone_qr_name = $phone."_qr_agent_j.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -857,7 +886,8 @@ class common extends Controller
                $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
-            }
+            }           
+            \App\Helper\Utils::logger('img4:'.$image_4);
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
@@ -865,9 +895,9 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             $image_5 = imageCreatetruecolor(160,160);     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopyresampled($image_5,$image_4,0,0,0,0,160,160,imagesx($image_4),imagesy($image_4));
+            imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
-            imagecopymerge($image_3,$image_4,295,160,0,0,200,200,100);
+            imagecopymerge($image_3,$image_5,295,160,0,0,160,160,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);

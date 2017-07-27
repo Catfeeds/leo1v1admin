@@ -99,7 +99,7 @@ class user_deal extends Controller
 
         //$this->t_lesson_info->del_if_no_start($lessonid);
         $this->t_lesson_info->field_update_list($lessonid,[
-           "lesson_del_flag" =>1 
+           "lesson_del_flag" =>1
         ]);
 
         return outputjson_success();
@@ -2589,11 +2589,34 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $userid = 60022 ;$teacherid= 60011;     
-        $list = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $userid = 60022 ;$teacherid= 60011;
+        $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $nick = $this->t_student_info->get_nick($userid);
         $str ="学生:".$nick.";";
         $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        $list=[];
+        foreach($list1 as $v){
+            @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+            @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+        }
+        foreach($list2 as $v){
+            if(!isset($list[$v["start_time"]])){
+                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+        }
+        foreach($list3 as $v){
+            if(!isset($list[$v["start_time"]])){
+                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+        }
+
+
+        // dd($list);
+        
         if(!empty($list)){
             foreach($list as $val){
                 $arr=explode("-",$val["start_time"]);
@@ -2601,7 +2624,7 @@ class user_deal extends Controller
                 $start_time=@$arr[1];
                 $week = $arr_week[$week];
                 $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
- 
+
             }
             $str = trim($str,",");
         }
@@ -2623,10 +2646,10 @@ class user_deal extends Controller
                     "renw_end_day" =>$val["renw_end_day"]
                 ]);
             }
- 
+
         }
         dd($list);
-        
+
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;
@@ -2643,7 +2666,7 @@ class user_deal extends Controller
         dd($ret_list);
         return $this->output_succ(["data"=> $ret_list]);
 
-        $month = time()-30*86400;        
+        $month = time()-30*86400;
         $time = time()-86400;
         $date_week = \App\Helper\Utils::get_week_range($time,1);
         $lstart = $date_week["sdate"];
@@ -2676,7 +2699,7 @@ class user_deal extends Controller
             @$arr[$teacherid][$val["day"]] = $val["time"];
             @$arr[$teacherid]["realname"] = $val["realname"];
             if($val["week"]==0){
-                
+
                 @$week[$teacherid]["seven"] +=$val["time"];
             }elseif($val["week"]==1){
                 @$week[$teacherid]["one"] +=$val["time"];
@@ -2765,7 +2788,7 @@ class user_deal extends Controller
         return $this->Pageview(__METHOD__,$ret_list);
 
         dd($ret_list);
-        
+
         $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2);
         $warning_list = $this->t_student_info->get_warning_stu_list();
         foreach($warning_list as $item){
@@ -2779,7 +2802,7 @@ class user_deal extends Controller
                     "warning_type"   =>2,
                     "month"  =>time()
                 ]);
- 
+
             }else{
                 $id = $list[$userid]["id"];
                 $this->t_month_ass_warning_student_info->field_update_list($id,[
@@ -2788,7 +2811,7 @@ class user_deal extends Controller
             }
         }
         dd($list);
-        
+
         $phone=13817759346;
         $flag=0;
         $record_info=9999;
@@ -4371,18 +4394,11 @@ class user_deal extends Controller
 
     }
 
-    public function  flow_add_flow() {
-        $from_key_int    = $this->get_in_int_val("from_key_int",0);
-        $from_key2_int   = $this->get_in_int_val("from_key2_int",0);
-        $flow_type       = $this->get_in_e_flow_type(0);
-        $reason          = $this->get_in_str_val("reason");
-
+    public function check_lesson_status($from_key_int){
         $lesson_end_time = $this->t_lesson_info->get_lesson_end($from_key_int);
         if (strtotime(date('Y-m-d',time(NULL)))<$lesson_end_time) {
             return $this->output_err( "只能申请今天之前的课程!" );
         }
-
-        // dispatch(new deal_lesson_online_status($from_key_int));
 
         $ret_video_arr = $this->t_lesson_info_b2->get_lesson_url($from_key_int);
 
@@ -4409,7 +4425,7 @@ class user_deal extends Controller
                 }
 
                 if ($ret_video['real_begin_time']<($stroke_time-30*60)) {
-                    $this->t_lesson_info_b2->field_update_list($lessonid,[
+                    $this->t_lesson_info_b2->field_update_list($from_key_int,[
                         "lesson_user_online_status" =>  1
                     ]);
                 }
@@ -4417,21 +4433,34 @@ class user_deal extends Controller
             }
         }
 
-
-
         $is_lesson_user_online_status = $this->t_lesson_info_b2->get_online_status_by_lessonid($from_key_int);
 
         if($is_lesson_user_online_status == 1 ){
             return $this->output_succ();
-        }else{
-            $ret=$this->t_flow->add_flow(
-                $flow_type,$this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
-            );
-
-            if (!$ret) {
-                return $this->output_err( "已经申请过了" );
-            }
         }
+    }
+
+    public function  flow_add_flow() {
+        $from_key_int    = $this->get_in_int_val("from_key_int",0);
+        $from_key2_int   = $this->get_in_int_val("from_key2_int",0);
+        $flow_type       = $this->get_in_e_flow_type(0);
+        $reason          = $this->get_in_str_val("reason");
+
+        if($flow_type == 2003){
+            // 处理 seller课时有效性
+            $this->check_lesson_status($from_key_int);
+        }
+
+        $ret=$this->t_flow->add_flow(
+            $flow_type,$this->get_account_id(),$reason,$from_key_int,NULL,$from_key2_int
+        );
+        if($ret) {
+            return $this->output_succ();
+        }else{
+            return $this->output_err( "已经申请过了" );
+        }
+
+
     }
 
     public function add_complaints_teacher_info(){
@@ -4766,9 +4795,9 @@ class user_deal extends Controller
                 foreach($email as $e){
                     dispatch( new \App\Jobs\SendEmailNew(
                         $e,"全职老师转正通知","Dear all：<br>  ".$name."老师转正考核已通过,请调整该老师底薪,谢谢!!"
-                    )); 
+                    ));
                 }
-                
+
                 //微信通知主管和老师
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($adminid,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");
                 //$this->t_manager_info->send_wx_todo_msg_by_adminid (349,"转正申请通过","转正申请通过通知",$name."老师,您的转正申请经主管和总监审核,已经通过,恭喜您!","");

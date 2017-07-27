@@ -24,6 +24,21 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_advance_success_list($start_time){
+        $where_arr=[
+            ["start_time = %u",$start_time,0],
+            "accept_flag =1"
+        ];
+        $sql = $this->gen_sql_new("select * "
+                                  ." from %s "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 }
 
 

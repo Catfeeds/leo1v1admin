@@ -33,17 +33,9 @@
             <thead>
                 <tr>
                     <td>编号</td>
-                    <td>学生姓名</td>
-                    <td>年纪</td>
-                    <td>科目 </td>
-                    <td>换后老师 </td>
-                    <td>原来老师 </td>
-                    <td>助教 </td>
-                    <td>试听时间 </td>
-                    <td>课时确认 </td>
-                    <td>试听结果</td>
-                    <td>换老师原因</td>
-                    <td>是否完成</td>
+                    <td>老师名称</td>
+                    <td>课时数</td>
+                    <td>课时确认</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -51,17 +43,9 @@
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
                         <td>{{@$index}}</td>
-                        <td>{{@$var["stu_nick"]}} </td>
-                        <td>{{@$var["grade_str"]}} </td>
-                        <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["teacher_nick"]}}</td>
-                        <td>{{@$var["old_teacher_nick"]}}</td>
-                        <td>{{@$var["ass_nick"]}} </td>
-                        <td>{{@$var["test_lesson_time"]}} </td>
-                        <td>{!!@$var["success_flag_str"]!!} </td>
-                        <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
-                        <td>{{$var["change_teacher_reason_type_str"]}}</td>
-                        <td>{!!$var["is_done_flag_str"]!!}</td>
+                        <td><a>{{@$var["lesson_count"]}}</a></td>
+                        <td>{!!@$var["lesson_cancel_reason_type_str"]!!}</td>
 
                         <td>
                             <div
