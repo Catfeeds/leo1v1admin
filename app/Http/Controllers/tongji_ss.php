@@ -6703,12 +6703,14 @@ class tongji_ss extends Controller
         // dd($ret_info);
         foreach($ret_info['list'] as $item){
             if($item['teacherid'] == 240468){
-
+                echo $item['lesson_count'];
 
             }
 
 
         }
+
+        return ;
 
 
         if($ret_info['list']){

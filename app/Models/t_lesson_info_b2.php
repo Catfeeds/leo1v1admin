@@ -2059,7 +2059,7 @@ dd($ret_info);
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,30,true);
+        return $this->main_get_list_by_page($sql,$page_num,1000,true);
 
     }
 
