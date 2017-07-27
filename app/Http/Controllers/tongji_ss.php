@@ -6701,26 +6701,26 @@ class tongji_ss extends Controller
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
 
         // dd($ret_info);
-        foreach($ret_info['list'] as $item){
-            if($item['teacherid'] == 240468){
-                echo $item['lesson_count'];
+        // foreach($ret_info as $item){
+        //     if($item['teacherid'] == 240468){
+        //         echo $item['lesson_count'];
 
-            }
-
-
-        }
-
-        return ;
+        //     }
 
 
+        // }
+
+        // return ;
+
+        $ret_info['list'] = $ret_info;
         if($ret_info['list']){
             $arr_new = [];
             foreach( $ret_info['list'] as &$item){
                 $arr_new['list'][$item['teacherid']]['lesson_count']=0;
             }
-            $arr_new['total_num'] = $ret_info['total_num'];
-            $arr_new['per_page_count'] = $ret_info['per_page_count'];
-            $arr_new['page_info'] = $ret_info['page_info'];
+            // $arr_new['total_num'] = $ret_info['total_num'];
+            // $arr_new['per_page_count'] = $ret_info['per_page_count'];
+            // $arr_new['page_info'] = $ret_info['page_info'];
 
             foreach( $ret_info['list'] as &$item){
                 foreach( $arr_new['list'] as $i=>&$val){
