@@ -313,67 +313,7 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_new()
     {
-        $cur_page = $this->get_in_str_val("cur_page");
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
-            1 => array("require_time","申请时间"),
-            2 => array("stu_request_test_lesson_time", "期待试听时间"),
-            4 => array("lesson_start", "上课时间"),
-            5 => array("seller_require_change_time ", "销售申请更换时间"),
-        ]);
-
-        $adminid      = $this->get_account_id();
-        $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
-        if(!empty($account_info)){
-            if($account_info["teacherid"]==61828 ){
-                $tea_subject= "(4,5)";
-            }else if(!empty($account_info["subject"])){
-                $tea_subject = "(".$account_info["subject"].")";
-            }else{
-                $tea_subject= "";
-            }
-        }else{
-            $tea_subject = "";
-        }
-
-        $grade                      = $this->get_in_grade();
-        $subject                    = $this->get_in_subject();
-        $test_lesson_student_status = $this->get_in_int_val('test_lesson_student_status', -1,E\Eseller_student_status::class);
-        $lessonid                   = $this->get_in_lessonid(-1);
-        $page_num                   = $this->get_in_page_num();
-        $userid                     = $this->get_in_userid(-1);
-        $accept_flag                = $this->get_in_int_val("accept_flag", -2, E\Eset_boolean::class);
-        $success_flag               = $this->get_in_int_val("success_flag", -1, E\Eset_boolean::class);
-        $teacherid                  = $this->get_in_teacherid(-1);
-        $jw_teacher                 = $this->get_in_int_val("jw_teacher",-1);
-        $is_test_user               = $this->get_in_int_val("is_test_user",0, E\Eboolean::class);
-        $jw_test_lesson_status      = $this->get_in_int_val("jw_test_lesson_status",-1,E\Ejw_test_lesson_status::class);
-
-        $require_admin_type   = $this->get_in_int_val("require_admin_type", -1,E\Eaccount_role::class);
-        $require_adminid      = $this->get_in_int_val("require_adminid",-1);
-        $require_assign_flag  = $this->get_in_int_val("require_assign_flag",-1);
-        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
-        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-
-        $tmk_adminid                = $this->get_in_int_val("tmk_adminid",-1);
-        $seller_require_change_flag = $this->get_in_int_val("seller_require_change_flag",-1);
-        $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
-        $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
-        $adminid_right              = $this->get_seller_adminid_and_right();
-        $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
-        $is_jw                      = $this->get_in_int_val("is_jw",0);
-        $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
-        $limit_require_flag         = $this->get_in_int_val("limit_require_flag",-1);
-        $limit_require_send_adminid = $this->get_in_int_val("limit_require_send_adminid",-1);
-        $require_id                 = $this->get_in_int_val("require_id",-1);
-        $has_1v1_lesson_flag        = $this->get_in_int_val("has_1v1_lesson_flag",-1,E\Eboolean::class);
-        $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new(
-            $page_num, $opt_date_str, $start_time,$end_time ,$grade,
-            $subject, $test_lesson_student_status,$teacherid, $userid,$lessonid ,
-            $require_admin_type , $require_adminid ,$ass_test_lesson_type, $test_lesson_fail_flag,$accept_flag ,
-            $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list,$adminid_all=[],
-            $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
-            $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
-        );
+        $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new();
         dd($ret_info);
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
