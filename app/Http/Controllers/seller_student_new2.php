@@ -314,102 +314,14 @@ class seller_student_new2 extends Controller
     public function test_lesson_plan_list_new()
     {
         $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new();
-        dd($ret_info);
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
-            $item['id'] = $start_index+$id;
-            $item["lesson_time"] = $item["lesson_start"];
-            $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
-            \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start");
-            \App\Helper\Utils::unixtime2date_for_item($item, "confirm_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "limit_require_time","_str");
-            \App\Helper\Utils::unixtime2date_for_item($item, "limit_accept_time","_str");
             E\Egrade::set_item_value_str($item);
-            E\Eregion_version::set_item_value_str($item,"editionid");
-            if(!empty($item["textbook"])){
-                $item["editionid_str"] = $item["textbook"];
-            }
             E\Esubject::set_item_value_str($item);
-            if($item['current_lessonid']>0){
-                $item['grab_status']=2;
-            }
-            E\Egrab_status::set_item_value_str($item);
-            E\Epad_type::set_item_value_str($item,"has_pad");
-            E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
-            E\Etest_lesson_level::set_item_value_str($item,"stu_test_lesson_level");
-            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
-            E\Eboolean::set_item_value_str($item,"stu_test_ipad_flag");
-            E\Eset_boolean::set_item_value_str($item,"accept_flag");
-            E\Eaccept_flag::set_item_value_str($item,"limit_accept_flag");
-
-            $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["accept_flag"] );
-            $this->cache_set_item_teacher_nick($item);
-            $this->cache_set_item_account_nick($item,"confirm_adminid","confirm_admin_nick");
-            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
-
-            $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($item["stu_request_lesson_time_info"], true);
-            $str_arr=[];
-            foreach ($stu_request_lesson_time_info as $p_item) {
-                $str_arr[]=E\Eweek::get_desc($p_item["week"])." "
-                    .date('H:i',@$p_item["start_time"])
-                    .date('~H:i', $p_item["end_time"]);
-            }
-
-            $item["stu_request_lesson_time_info_str"]= join("<br/>", $str_arr);
-            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["success_flag"] );
-            $item["lesson_used_flag_str"]=\App\Helper\Common::get_boolean_color_str(!$item["lesson_del_flag"]);
-
-            E\Eboolean::set_item_value_str($item,"fail_greater_4_hour_flag");
-            E\Etest_lesson_fail_flag::set_item_value_str($item);
-            E\Eass_test_lesson_type::set_item_value_str($item);
-
-            $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
-                $item["stu_request_test_lesson_time_info"],true
-            );
-
-            $str_arr=[];
-            foreach ($stu_request_test_lesson_time_info as $p_item) {
-                $str_arr[]= \App\Helper\Utils::fmt_lesson_time(@$p_item["start_time"], $p_item["end_time"]);
-            }
-
-            $item["stu_request_test_lesson_time_info_str"] = join("<br/>", $str_arr);
-            $item["stu_test_paper_flag_str"] = \App\Helper\Common::get_test_pager_boolean_color_str(
-                $item["stu_test_paper"], $item['tea_download_paper_time']
-            );
-
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
-            $this->cache_set_item_account_nick($item, "limit_require_adminid", "limit_require_account");
-            $this->cache_set_item_account_nick($item, "limit_require_send_adminid", "limit_require_send_account");
-            $this->cache_set_item_teacher_nick($item, "limit_require_teacherid", "limit_require_tea_nick");
-            if($item['seller_require_change_flag'] > 0){
-                $item['require_change_lesson_time_str'] = date("Y-m-d H:i",$item['require_change_lesson_time']);
-                $item['seller_require_change_time_str'] = date("Y-m-d H:i",$item['seller_require_change_time']);
-                E\Eseller_require_change_flag::set_item_value_str($item);
-                $item['is_require_change']="1";
-            }else{
-                $item['is_require_change']="0";
-            }
-            if($item['accept_adminid'] > 0){
-                $item['is_accept_adminid']="1";
-                $item['accept_account'] = $this->t_manager_info->get_account($item['accept_adminid']);
-            }else{
-                $item['is_accept_adminid']="0";
-            }
-            $item["cur_require_adminid_role"] = $this->t_manager_info->get_account_role($item["cur_require_adminid"]);
-            $item["limit_plan_lesson_reason"] = $this->t_teacher_info->get_limit_plan_lesson_reason($item["limit_require_teacherid"]);
+            \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
         }
-
-        $adminid           = $this->get_account_id();
-        $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
-
-        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
-
-       //  var_dump($ret_info['list']);
-        // dd($ret_info['list']);
-
+        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
