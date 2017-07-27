@@ -90,104 +90,29 @@ $(function(){
     });
 
     $("#id_add_teacher").on("click",function(){
-        var id_tea_nick           = $("<input/>");
-        var id_teacher_money_type = $("<select/>");
-        var id_level              = $("<select/>");
-        var id_teacher_ref_type   = $("<select/>");
-        var id_identity           = $("<select/>");
-        var id_gender             = $("<select/>");
-        var id_birth              = $("<input/>");
-        var id_work_year          = $("<input/>");
-        var id_phone              = $("<input/>");
-        var id_phone_spare        = $("<input/>");
-        var id_email              = $("<input/>");
-        var id_address            = $("<input/>");
-        var id_school             = $("<input/>");
-        var id_subject            = $("<select/>");
-        var id_grade_part_ex      = $("<select/>");
-        var id_interview_assess   = $("<textarea/>")
-        var id_teacher_type       = $("<select/>");
-        var id_trial_lecture_is_pass = $("<select/>");
-        var id_train_through_new     = $("<select/>");
-        var id_is_test_user          = $("<select/>");
+        var id_teacherid           = $("<input/>");
+       
+        var id_score            = $("<input/>");
 
-        Enum_map.append_option_list("teacher_money_type", id_teacher_money_type );
-        Enum_map.append_option_list("level", id_level );
-        Enum_map.append_option_list("teacher_ref_type", id_teacher_ref_type,true);
-        Enum_map.append_option_list("identity", id_identity,true,[0,5,6,7,8]);
-
-        Enum_map.append_option_list("gender", id_gender, true );
-        Enum_map.append_option_list("subject", id_subject, true );
-        Enum_map.append_option_list("grade_part_ex", id_grade_part_ex, true );
-        Enum_map.append_option_list("teacher_type", id_teacher_type, true );
-        Enum_map.append_option_list("boolean", id_trial_lecture_is_pass, true );
-        Enum_map.append_option_list("boolean", id_train_through_new, true );
-        Enum_map.append_option_list("boolean", id_is_test_user, true );
-
-        id_work_year.val("1");
-        id_birth.val("1989-01-01");
-
-        id_birth.datetimepicker({
-            lang:'ch',
-            timepicker:false,
-            format:'Y-m-d',
-            "onChangeDateTime" : function() {
-            }
-        });
+       
 
         var arr = [
-            ["电话", id_phone],
-            ["备用电话", id_phone_spare],
-            ["姓名", id_tea_nick],
-            ["性别", id_gender],
-            ["工资类别", id_teacher_money_type],
-            ["等级", id_level],
-            ["推荐人类型", id_teacher_ref_type],
-            ["老师类型", id_teacher_type],
-            ["身份", id_identity],
-            ["出生年月", id_birth],
-            ["工作年限", id_work_year],
-            ["电子邮件", id_email],
-            ["所在地", id_address],
-            ["学校", id_school],
-            ["年级段", id_grade_part_ex],
-            ["第一科目", id_subject],
-            ["试讲是否通过", id_trial_lecture_is_pass],
-            ["培训是否通过", id_train_through_new],
-            ["是否为测试账号", id_is_test_user],
-            ["面试评价", id_interview_assess],
+            ["老师", id_teacherid],
+            ["总得分", id_score],           
         ];
 
-        $.show_key_value_table("新增老师", arr ,{
+        $.show_key_value_table("新增晋升老师", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
-            action   : function(dialog) {
-                var birth = ""+id_birth.val();
-                birth     = birth.substr(0,4)+birth.substr(5,2)+birth.substr(8,2);
+            action   : function(dialog) {               
 
-                $.do_ajax('/tea_manage/add_teacher',{
-                    "tea_nick"              : id_tea_nick.val(),
-                    "gender"                : id_gender.val(),
-                    "level"                 : id_level.val(),
-                    "teacher_money_type"    : id_teacher_money_type.val(),
-                    "teacher_ref_type"      : id_teacher_ref_type.val(),
-                    "identity"              : id_identity.val(),
-                    "birth"                 : birth,
-                    "work_year"             : id_work_year.val(),
-                    "phone"                 : id_phone.val(),
-                    "phone_spare"           : id_phone_spare.val(),
-                    "email"                 : id_email.val(),
-                    "address"               : id_address.val(),
-                    "school"                : id_school.val(),
-                    "subject"               : id_subject.val(),
-                    "interview_access"      : id_interview_assess.val(),
-                    "grade_part_ex"         : id_grade_part_ex.val(),
-                    "teacher_type"          : id_teacher_type.val(),
-                    "trial_lecture_is_pass" : id_trial_lecture_is_pass.val(),
-                    "train_through_new"     : id_train_through_new.val(),
-                    "is_test_user"          : id_is_test_user.val(),
+                $.do_ajax('/teacher_level/add_teacher_advance_info',{
+                    "teacherid"              : id_teacherid.val(),
+                    "total_score"                : id_score.val(),
                 });
             }
+        },function(){
+            $.admin_select_user(id_teacherid,"teacher");
         });
     });
 

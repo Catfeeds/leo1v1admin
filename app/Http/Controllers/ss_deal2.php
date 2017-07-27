@@ -222,10 +222,8 @@ class ss_deal2 extends Controller
             E\Egrade::set_item_value_str($item);
             E\Elesson_cancel_reason_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
-            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'m-d');
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'','H:i:s');
         }
-        dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
-
     }
 }
