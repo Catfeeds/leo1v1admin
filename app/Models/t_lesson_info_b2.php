@@ -2052,7 +2052,7 @@ dd($ret_info);
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select l.teacherid,l.userid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   $where_arr

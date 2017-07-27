@@ -44,7 +44,7 @@
                     <tr>
                         <td>{{@$index}}</td>
                         <td>{{@$var["teacher_nick"]}}</td>
-                        <td class="show_detail"><a>{{@$var["lesson_count"]}}</a></td>
+                        <td class="show_detail" date-teacherid="{{$var['teacherid']}}"><a>{{@$var["lesson_count"]}}</a></td>
                         <td>{!!@$var["lesson_cancel_reason_type_str"]!!}</td>
 
                         <td>

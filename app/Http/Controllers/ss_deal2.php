@@ -207,4 +207,8 @@ class ss_deal2 extends Controller
         return $this->output_succ();
 
     }
+
+    public function show_change_lesson_by_teacher(){
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+    }
 }

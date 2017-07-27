@@ -1774,4 +1774,58 @@ trait  TeaPower {
         return $html;
     }
 
+    //学员结课,清空常规课表
+    public function delete_teacher_regular_lesson($userid){
+        //$userid = 60022 ;$teacherid= 60011;
+        $list1 = $this->t_week_regular_course->get_teacher_student_time(-1,$userid);
+        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time(-1,$userid);
+        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time(-1,$userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        $list=[];
+        foreach($list1 as $v){
+            @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+            @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        foreach($list2 as $v){
+            if(!isset($list[$v["teacherid"]][$v["start_time"]])){
+                @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+            $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        foreach($list3 as $v){
+            if(!isset($list[$v["teacherid"]][$v["start_time"]])){
+                @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+            $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        
+        if(!empty($list)){
+            foreach($list as $k=>$item){
+                $str ="学生:".$nick.";";
+                foreach($item as $val){
+                    $arr=explode("-",$val["start_time"]);
+                    $week=$arr[0];
+                    $start_time=@$arr[1];
+                    $week = $arr_week[$week];
+                    $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
+
+                }
+                $str = trim($str,",");
+                $this->t_teacher_record_list->row_insert([
+                    "teacherid"  =>$k,
+                    "type"       =>11,
+                    "record_info"=>$str,
+                    "add_time"   =>time(),
+                    "acc"        =>$this->get_account()
+                ]);
+            }
+
+        }
+
+    }
+
 }
