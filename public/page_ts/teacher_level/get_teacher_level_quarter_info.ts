@@ -40,7 +40,8 @@ $(function(){
                     'record_score_avg':opt_data.record_score_avg,
                     'record_final_score':opt_data.record_final_score,
                     'is_refund'  :opt_data.is_refund ,
-                    'total_score':opt_data.total_score
+                    'total_score':opt_data.total_score,
+                    'hand_flag':opt_data.hand_flag
                 });
             } 
         });

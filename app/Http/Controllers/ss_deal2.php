@@ -202,7 +202,6 @@ class ss_deal2 extends Controller
             "test_subject_free_type" => $test_subject_free_type,
         ],false,true);
 
-        //
         $this->t_seller_student_new->set_user_free($userid);
         return $this->output_succ();
 
@@ -211,12 +210,19 @@ class ss_deal2 extends Controller
     public function show_change_lesson_by_teacher(){
         $start_time = strtotime($this->get_in_str_val('start_time'));
         $end_time   = strtotime($this->get_in_str_val('end_time'));
+
+        if($start_time == $end_time){
+            $end_time = $end_time+86400;
+        }
+
         $teacherid = $this->get_in_int_val('teacherid');
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
 
         foreach($ret_info as &$item){
             $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['lesson_count'] = $item['lesson_count']/100;
             E\Econtract_type::set_item_value_str($item,'lesson_type');
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);

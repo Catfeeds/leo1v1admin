@@ -51,9 +51,8 @@ $(function(){
             var html_str = "";
             $.each(data, function (i, item) {
                 var cls = "success";
-                //                    <tr>  <th> 老师 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>学生 <th>助教 <th>课时数 <th>课时确认</tr>
 
-                html_str += "<tr class=\"" + cls + "\" > <td>" + item.teacher_nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.assign_remarks+ "</tr>";
+                html_str += "<tr class=\"" + cls + "\" > <td>" + item.teacher_nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.grade_str+ "<td>"+item.subject_str+"<td>"+item.nick+"<td>"+item.ass_nick+ "<td>" +item.lesson_count+ "<td>" + item.lesson_cancel_reason_type_str+ "</tr>";
             });
 
             html_node.find(".data-body").html(html_str);

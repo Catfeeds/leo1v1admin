@@ -282,7 +282,11 @@ class common_new extends Controller
         if($ret){
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($email!=""){
-                $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                if($full_time==1){
+                    $html = $this->get_full_time_html($data);
+                }else{
+                    $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
             }

@@ -2047,7 +2047,8 @@ dd($ret_info);
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
         $where_arr = [
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
-            "l.teacherid>0"
+            "l.teacherid>0",
+            "lesson_del_flag = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2066,7 +2067,8 @@ dd($ret_info);
     public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
         $where_arr = [
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
-            ["l.teacherid=%d",$teacherid]
+            ["l.teacherid=%d",$teacherid],
+            "lesson_del_flag = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);

@@ -73,9 +73,18 @@ class teacher_level extends Controller
             $item["is_refund"] = (isset($tea_refund_info[$teacherid]) && $tea_refund_info[$teacherid]>0)?1:0;
             $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
+            $item["hand_flag"]=0;
             
         }
         $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1);
+        foreach($hand_info as &$h){
+            $h["realname"] = $this->t_teacher_info->get_realname($h["teacherid"]);
+            $h["level"]  = $this->t_teacher_info->get_level($h["teacherid"]);
+            $h["level_str"] =E\Elevel::get_desc($h["level"]);
+            $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
+            $h["is_refund_str"] = $h["is_refund"]==1?"<font color='red'>有</font>":"无";
+            array_unshift($ret_info["list"],$h);
+        }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
@@ -90,6 +99,7 @@ class teacher_level extends Controller
         $erick["lesson_count"] =$erick["lesson_count_score"]=$erick["cc_test_num"]=$erick["cc_order_num"]= $erick["cc_order_per"]= $erick["cc_order_score"]=$erick["other_test_num"] =$erick["other_order_num"]= $erick["other_order_per"]=$erick["other_order_score"]= $erick["record_num"]= $erick["record_score"]= $erick["record_score_avg"]= $erick["record_final_score"]= $erick["total_score"]=0;
         $erick["is_refund_str"]="无";
         $erick["is_refund"]=0;
+        $erick["hand_flag"]=0;
 
         array_unshift($ret_info["list"],$erick);
         return $this->pageView(__METHOD__,$ret_info);
@@ -204,6 +214,7 @@ class teacher_level extends Controller
         $record_final_score  = $this->get_in_int_val("record_final_score");
         $is_refund  = $this->get_in_int_val("is_refund");
         $total_score = $this->get_in_int_val("total_score");
+        $hand_flag = $this->get_in_int_val("hand_flag");
         $this->t_teacher_advance_list->row_insert([
             "start_time" =>$start_time,
             "teacherid"  =>$teacherid,

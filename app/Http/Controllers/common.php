@@ -480,19 +480,19 @@ class common extends Controller
          .color333{color:#333;}
          .fl{float:left;}
          .fr{float:right;}
-         
+
          .top-line{margin-top:24px;}
          .tea_name{position:relative;z-index:1;top:321px;}
          .tea_level{position:relative;z-index:1;top:410px;}
          .date{position:relative;z-index:1;top:-215px;left:165px;}
-         
+
          .todo{margin:20px 0 10px 0;}
          .todo li{margin:10px 0;}
-         
+
          .about_us{margin:30px 0 0;}
          .us_title{margin:0 0 10px;}
          .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
-         
+
          .join-us{margin:40px 0;}
          .join-us-content{width:44%;}
          .middle-line{

@@ -36,6 +36,7 @@ interface RowData {
 	lesson_count	:any;
 	is_refund_str	:any;
 	is_refund	:any;
+	hand_flag	:any;
 }
 
 /*
