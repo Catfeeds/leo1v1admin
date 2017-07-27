@@ -507,10 +507,13 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
         return $lesson_unassigned;
     }
 
-    public function get_all_list($page_num,$userid,$teacherid= -1 ){
+    public function get_all_list($page_num,$userid,$teacherid= -1,$course_type=-1 ){
         $where_arr=[
-            ["teacherid=%u", $teacherid, -1]
+            ["teacherid=%u", $teacherid, -1],
         ];
+        if($course_type >=0){
+            $where_arr[]="course_type <>2";
+        }
 
         $sql = $this->gen_sql_new("select * from %s where userid = %u and %s",
                                   self::DB_TABLE_NAME,

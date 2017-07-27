@@ -30,8 +30,23 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>userid</td>
-                    <td>退费课时</td>
+                    <td>老师</td>
+                    <td>2017-06-18</td>
+                    <td>2017-06-19</td>
+                    <td>2017-06-25</td>
+                    <td>2017-06-26</td>
+                    <td>2017-07-02</td>
+                    <td>2017-07-03</td>
+                    <td>2017-07-09</td>
+                    <td>2017-07-10</td>
+                    <td>2017-07-16</td>
+                    <td>2017-07-17</td>
+                    <td>星期一(天)</td>
+                    <td>星期一(小时)</td>
+                    <td>星期天(天)</td>
+                    <td>星期天(小时)</td>
+                   
+                   
                                                   
                     <td>操作 </td>
                 </tr>
@@ -39,8 +54,23 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["should_refund"]/100}} </td>
+                        <td>{{@$var["realname"]}} </td>
+                        <td>{{@$var["20170618"]}}</td>
+                        <td>{{@$var["20170619"]}}</td>
+                        <td>{{@$var["20170625"]}}</td>
+                        <td>{{@$var["20170626"]}}</td>
+                        <td>{{@$var["20170702"]}}</td>
+                        <td>{{@$var["20170703"]}}</td>
+                        <td>{{@$var["20170709"]}}</td>
+                        <td>{{@$var["20170710"]}}</td>
+                        <td>{{@$var["20170716"]}}</td>
+                        <td>{{@$var["20170717"]}}</td>
+                        <td>{{@$var["one_day"]}}</td>
+                        <td>{{@$var["one_hour"]}}</td>
+                        <td>{{@$var["seven_day"]}}</td>
+                        <td>{{@$var["seven_hour"]}}</td>
+
+                       
                                         
                         <td>
                             <div class="row-data"

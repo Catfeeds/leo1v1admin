@@ -138,14 +138,17 @@ class wx_yxyx_api extends Controller
                 return $this->output_err("您暂无资格!");
             }
         }
+        $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
         $data = [
-            'level'     => $level,
-            'nick'      => $nick,
-            'pay'       => $pay,
-            'cash'      => $cash,
-            'have_cash' => $have_cash/100,
-            'num'       => $num,
-            'my_num'    => $my_num,
+            'level'      => $level,
+            'nick'       => $nick,
+            'pay'        => $pay,
+            'cash'       => $cash_new,
+            'have_cash'  => $have_cash/100,
+            'num'        => $num,
+            'my_num'     => $my_num,
+            'headimgurl' => $agent_info['headimgurl'],
+            'nickname'   => $agent_info['nickname'],
         ];
         return $this->output_succ(["user_info_list" =>$data]);
     }
@@ -457,11 +460,8 @@ class wx_yxyx_api extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
-        $cash          = $this->get_in_int_val("cash"); //要提现
+        $cash          = $this->get_in_str_val("cash"); //要提现
         $id            = $agent_id;
-        if(!preg_match("/^1\d{10}$/",$bank_phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
         if(!isset($cash)){
             return $this->output_err("请输入提现金额!");
         }
@@ -478,6 +478,9 @@ class wx_yxyx_api extends Controller
                || $bank_city==""
             ){
                 return $this->output_err("请完善所有数据后重新提交！");
+            }
+            if(!preg_match("/^1\d{10}$/",$bank_phone)){
+                return $this->output_err("请输入规范的手机号!");
             }
             if($bank_account){
                 $ret = $this->t_agent->field_update_list($id,[
@@ -497,6 +500,7 @@ class wx_yxyx_api extends Controller
                     $ret = 1;
                 }
                 if($ret){
+                    \App\Helper\Utils::logger('yxyx_cash:'.$cash*100);
                     $ret_new = $this->t_agent_cash->row_insert([
                         "aid"         => $id,
                         "cash"        => $cash*100,
@@ -584,7 +588,7 @@ class wx_yxyx_api extends Controller
             }
         }
         $data = [
-            'cash'      => $cash/100,
+            'cash'      => $cash,
             'have_cash' => $have_cash/100,
         ];
         return $data;

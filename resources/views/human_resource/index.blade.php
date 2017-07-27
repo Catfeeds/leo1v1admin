@@ -243,6 +243,14 @@
                         <input id="id_reference_teacherid" class ="opt-change"/>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span class="input-group-addon">全职老师分类</span>
+                        <select class="opt-change form-control" id="id_fulltime_teacher_type" >
+                        </select>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group " >

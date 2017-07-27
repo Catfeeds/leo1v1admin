@@ -1744,7 +1744,7 @@ class teacher_info_www extends TeaController
 
             $qc_openid_arr = [
                 "wenbin",
-                "yunyan",
+                "李珉劼",
                 "夏宏东",
                 "ted"
             ];

@@ -445,7 +445,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $second_interview_score=-1, $teacherid_arr=[],$seller_flag=0,$qz_flag=0,
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
-                                                $grade_plan=-1,$subject_plan=-1
+                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -466,6 +466,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.is_record_flag=%u ", $is_record_flag, -1 ),
             array( "t.is_quit=%u ", $is_quit, -1 ),
             array( "t.lesson_hold_flag_adminid=%u ", $lesson_hold_flag_adminid, -1 ),
+            array( "m.fulltime_teacher_type=%u ", $fulltime_teacher_type, -1 ),
         );
 
         if($teacher_ref_type==-2){
@@ -1452,12 +1453,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1){
+    public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1,$fulltime_teacher_type=-1){
         $where_arr=[
             ["t.teacherid=%u",$teacherid,-1],
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             "t.trial_lecture_is_pass =1",
         ];
 

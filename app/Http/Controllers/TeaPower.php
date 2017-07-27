@@ -865,7 +865,7 @@ trait  TeaPower {
         }
 
         //申请数量限制
-        $require_month=["05"=>"2000","06"=>"35000","07"=>"35000","08"=>"30000","09"=>"7500","10"=>"8000","11"=>"8500","12"=>"9000"];
+        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"8000","11"=>"8500","12"=>"9000"];
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
@@ -1235,8 +1235,10 @@ trait  TeaPower {
             $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
             $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
-                $teacher_ref_type = $reference_info['teacher_ref_type'];
-                if(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                if($reference_info['teacher_type']>30){
+                    $teacher_ref_type = $reference_info['teacher_ref_type'];
+                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                    $teacher_ref_type = $reference_info['teacher_ref_type'];
                     $teacher_money_type = E\Eteacher_money_type::V_5;
                 }
             }
@@ -1629,6 +1631,19 @@ trait  TeaPower {
         return $arr;
     }
 
+    public function get_ass_leader_account_id($adminid){
+        if($adminid==503){
+            $adminid = 297;
+        }elseif($adminid==512){
+            $adminid =702;
+        }elseif($adminid==349){
+            $adminid=297;
+        }
+        return $adminid;
+    }
 
+    public function get_level_up_html(){
+
+    }
 
 }

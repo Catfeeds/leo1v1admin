@@ -56,6 +56,7 @@ class common_ex extends Controller
     {
         $nick     = $this->get_in_str_val("nick");
         $phone    = $this->get_in_str_val("phone");
+        $origin_phone = $this->get_in_str_val("origin_phone");
         $sms_type = $this->get_in_str_val("sms_type");
         $grade    = $this->get_in_grade();
         $origin   = urldecode( $this->get_in_str_val("origin")) ;
@@ -74,8 +75,16 @@ class common_ex extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return outputJson(array('ret' => -1, 'info' => "请输入规范的手机号!"));
         }
-
-
+        if($origin_phone!="" && $origin_phone==$phone){
+            return $this->output_err("推荐人手机号不能和报名手机相同！");
+        }
+        $origin_userid = 0;
+        if($origin_phone!=""){
+            $origin_userid = $this->t_student_info->get_userid_by_phone($origin_phone);
+            if($origin_userid == 0){
+                return $this->output_err("不存在此推荐人！请重新填写！");
+            }
+        }
         $client_ip = $this->get_in_client_ip();
         if ($phone == "15601830297" || $phone == "13917746147" ) {
             $max_user_count=1000;
@@ -95,48 +104,37 @@ class common_ex extends Controller
             return outputJson(array('ret' => -1, 'info' => "您预约的次数太多了!"));
         }
 
-        $msg= "资源:手机:$phone<br/>"
+        $msg = "资源:手机:$phone<br/>"
             ."渠道:$origin<br/>"
             ."年级:".E\Egrade::get_desc($grade) ."<br/>"
             ."科目:".E\Esubject::get_desc($subject) ."<br/>"
             ."pad:".E\Epad_type::get_desc($has_pad) ."<br/>"
             ."";
         $this->t_book_revisit->add_book_revisit($phone,"COMMING:$msg","system");
-
         $user_ip = $this->get_in_client_ip();
-        if($sms_type=="mogu"){
-            /**
-             * 蘑菇报名
-             * SMS_14745184
-             * 家长您好！恭喜您成功报名参加由蘑菇培优与理优教育联合举办的小学奥数杯赛备考讲座！
-             * 您的专属顾问老师将尽快与您取得联系，请注意接听021（上海）或400开头的电话。
-             * 如果您想实时掌握讲座动态及杯赛的相关时讯，请加微信客服（微信号：leoedu008）
-             * 或拨打全国免费咨询电话${public_telphone}
-             */
-            $public_telphone = "400-680-6180";
-            $sms_id          = 14745184;
-            $arr=[
-                "public_telphone" => $public_telphone,
-            ];
-        }else{
-            /*
-             * 预约完成4-28
-             * SMS_63750218
-             * ${name}家长您好，恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系，
-             * 请注意接听${public_num}开头的上海号码。如果您有任何疑问需要咨询，请加微信客服（微信号：leoedu058）
-             * 或拨打全国免费咨询电话${public_telphone}。
-             */
-            $public_telphone = "400-680-6180";
-            $sms_id          = 63750218;
-            $arr = [
-                "name"            => " ",
-                "public_num"      => "021或158",
-                "public_telphone" => $public_telphone,
-            ];
-        }
+        /*
+         * 预约完成4-28
+         * SMS_63750218
+         * ${name}家长您好，恭喜您成功预约1节0元名师1对1辅导课！您的专属顾问老师将尽快与您取得联系，
+         * 请注意接听${public_num}开头的上海号码。如果您有任何疑问需要咨询，请加微信客服（微信号：leoedu058）
+         * 或拨打全国免费咨询电话${public_telphone}。
+         */
+        $public_telphone = "400-680-6180";
+        $sms_id          = 63750218;
+        $arr = [
+            "name"            => " ",
+            "public_num"      => "021或158",
+            "public_telphone" => $public_telphone,
+        ];
         \App\Helper\Utils::sms_common($phone,$sms_id,$arr);
 
-        $userid  = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
+        $userid = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
+        if($origin_userid!=0){
+            $this->t_student_info->field_update_list($userid,[
+               "origin_userid" => $origin_userid 
+            ]);
+        }
+
         $name    = $phone;
         $name[4] = "*";
         $name[5] = "*";

@@ -10,6 +10,7 @@ interface GargsStatic {
 	teacherid:	number;
 	adminid:	number;
 	account_role:	number;
+	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -40,7 +41,8 @@ $(function(){
 			attendance_type:	$('#id_attendance_type').val(),
 			teacherid:	$('#id_teacherid').val(),
 			adminid:	$('#id_adminid').val(),
-			account_role:	$('#id_account_role').val()
+			account_role:	$('#id_account_role').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -59,6 +61,7 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_adminid').val(g_args.adminid);
 	$('#id_account_role').val(g_args.account_role);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -94,6 +97,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">account_role</span>
                 <input class="opt-change form-control" id="id_account_role" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 */

@@ -389,7 +389,9 @@ class menu{
                     ["power_id"=>3, "name"=>"回访统计-助教",   "url"=>"/tongji/revisit_info_tongji_ass"],
                     ["power_id"=>4, "name"=>"电话统计-助教",   "url"=>"/tq/ass_tongji_list"],
                     ["power_id"=>5, "name"=>"电话统计-个人",   "url"=>"/tq/ass_self_tongji_list"],
-
+                    ["power_id"=>6, "name"=>"换老师统计",   "url"=>"/tongji_ss/tongji_change_teacher_info"],
+                    ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
+                    ["power_id"=>8, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
@@ -512,6 +514,7 @@ class menu{
                 ["power_id"=>14, "name"=>"学员档案-全部",   "url"=>"/user_manage/ass_archive"],
                 ["power_id"=>60, "name"=>"每月学员科目统计",   "url"=>"/user_manage/user_info_by_month"],
                 ["power_id"=>12, "name"=>"转介绍例子",   "url"=>"/seller_student/ass_add_student_list"],
+                ["power_id"=>11, "name"=>"试听课跟进-主管",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_master"],
                 ["power_id"=>1, "name"=>"签约管理",   "url"=>"/user_manage_new/ass_contract_list"],
                 ["power_id"=>2, "name"=>"助教课时统计",   "url"=>"/user_manage_new/ass_lesson_count_list"],
                 ["power_id"=>3, "name"=>"老师课时统计",   "url"=>"/user_manage_new/tea_lesson_count_list"],
@@ -562,6 +565,7 @@ class menu{
                 ]],
                 ["power_id"=>50, "name"=>"new-试听申请(常规)",   "url"=>"/seller_student_new2/ass_test_lesson_list"],
                 ["power_id"=>56, "name"=>"new-试听申请(转介绍)",   "url"=>"/seller_student_new2/ass_test_lesson_list_tran"],
+                ["power_id"=>11, "name"=>"试听课跟进",   "url"=>"/seller_student_new2/get_ass_test_lesson_info"],
 
                 ["power_id"=>51, "name"=>"new-转介绍例子",   "url"=>"/seller_student_new/ass_seller_student_list"],
                 ["power_id"=>52, "name"=>"老师反馈","url"=>"/teacher_feedback/teacher_feedback_list_ass"],
@@ -642,6 +646,7 @@ class menu{
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_research"],
                 ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson"],
+                ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
 
 
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[

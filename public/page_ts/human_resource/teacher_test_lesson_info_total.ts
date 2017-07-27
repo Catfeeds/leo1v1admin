@@ -16,7 +16,8 @@ $(function(){
 			identity:	$('#id_identity').val(),
 			grade_part_ex:	$('#id_grade_part_ex').val(),
 			tea_status:	$('#id_tea_status').val(),
-			teacher_account:	$('#id_teacher_account').val()
+			teacher_account:	$('#id_teacher_account').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -35,6 +36,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_subject") );
     Enum_map.append_option_list("subject", $("#id_teacher_subject") );
     Enum_map.append_option_list("identity", $("#id_identity") );
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
 
 
 
@@ -48,6 +50,7 @@ $(function(){
 	$('#id_tea_status').val(g_args.tea_status);
 
 	$('#id_teacher_account').val(g_args.teacher_account);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     
     $.admin_select_user($("#id_teacher_account"), "interview_teacher", load_data);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);

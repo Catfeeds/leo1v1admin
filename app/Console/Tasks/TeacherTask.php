@@ -15,16 +15,10 @@ class TeacherTask extends TaskController
         parent::__construct();
         $this->teacher_wx_url = \App\Helper\Config::get_teacher_wx_url();
         $this->teacher_money  = \App\Helper\Config::get_config("teacher_money");
-
-        /**
-         $appId     = \App\Helper\Config::get_teacher_wx_appid();
-         $appSecret = \App\Helper\Config::get_teacher_wx_appsecret();
-         $this->teacher_wx = new \App\Helper\Wx($appId,$appSecret);
-        */
     }
     
     /**
-     * 微信模板格式 
+     * 与课程相关内容的老师微信推送
      * @param openid 老师微信绑定id 
      * @param lesson_info 课堂信息
      * @param type 1 课堂未评价通知 2-6 扣款通知 7 课堂结算通知 8 提醒上传学生讲义
@@ -56,7 +50,7 @@ class TeacherTask extends TaskController
              * {{first.DATA}}
              * 课程名称：{{keyword1.DATA}}
              * 结束时间：{{keyword2.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "kCX3Vcbs_72dZdh1paHJZN1fgCBVc7_4obcSbovTrec";//old
             $data['keyword1'] = $lesson_type_str;
@@ -71,7 +65,7 @@ class TeacherTask extends TaskController
              * {{first.DATA}}
              * 扣款金额：{{keyword1.DATA}}
              * 扣款原因：{{keyword2.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id = "2yt4M2mJD7LMLcphWp6PS7VhC0Gv1mXG5zpHAyaeLEU";//old
             if(isset($lesson_info['cost'])){
@@ -91,7 +85,7 @@ class TeacherTask extends TaskController
              * 课程类型：{{keyword1.DATA}}
              * 上课时间：{{keyword2.DATA}}
              * 课时金额：{{keyword3.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "hZuApkEoPF16pIiyTSbpJZvGLfDgaOWNuBRSpVokFaY";//old
             $data['keyword1'] = $lesson_type_str;
@@ -105,7 +99,7 @@ class TeacherTask extends TaskController
              * 上课时间：{{keyword1.DATA}}
              * 课程类型：{{keyword2.DATA}}
              * 教师姓名：{{keyword3.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
             $data['keyword1'] = $lesson_time;
@@ -630,5 +624,36 @@ class TeacherTask extends TaskController
         }
     }
 
+    /**
+     * 每3天给培训未通过的老师推送
+     * @param type=14
+     */
+    public function notice_teacher_not_through_list($type){
+        $list = $this->t_train_lesson_user->get_not_through_user(0,0);
+
+        /**
+         * 标题   待处理通知
+         * template_id 9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU
+         * {{first.DATA}}
+         * 待办主题：{{keyword1.DATA}}
+         * 待办内容：{{keyword2.DATA}}
+         * 日期：{{keyword3.DATA}}
+         * {{remark.DATA}}
+         */
+        $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+        foreach($list as $l_val){
+            $data = [];
+            if($l_val['wx_openid']!=""){
+                $data['first']    = $l_val['nick']."老师您好！";
+                $data['keyword1'] = "邀请参训通知";
+                $data['keyword2'] = "近期我们通过数据调取，发现您试讲通过多日后培训依旧未有通过。考虑到近期入职老师较多，为方便各位老师顺利参加培训课程，我们的新师培训业已增设到每周4期，分别定于：周三周四晚19点，周五晚18点30，周六下午15点，老师可按照您的时间安排自由选择参训时间；如若时间冲突，亦可登录理优教师端后，点击【我的培训】，选择最新一期的新师培训，点击【播放视频】按钮观看回放，并在录像学习完毕后，点击【自我测评】按钮进行问卷答题。";
+                $data['keyword3'] = date("Y-m-d",time());
+                $data['remark']   = "此问卷可多次递交至90分即培训通过，通过后老师可收到公司正式【入职offer】并开启您在理优的线上教学之旅。若测评答题过程中有任何问题可以加入新师培训QQ群：315540732，并私聊管理员【师训】沈老师即可获得1对1小灶指导~ 暑期课程多多，福利多多~理优期待老师的加入，老师加油！";
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+            }
+        }
+
+    }
 
 }

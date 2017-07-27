@@ -1268,10 +1268,15 @@ class stu_manage extends Controller
         $userid = $this->sid;
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
-        foreach( $ret_info["list"] as &$item ) {
+        
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y-m-d");
             E\Esubject::set_item_value_str($item);
+            E\Esemester::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
@@ -1284,17 +1289,19 @@ class stu_manage extends Controller
      * @function  学生登录反馈列表显示
      */
     public function  user_login_list() {
-        $userid    = $this->sid;
-        $page_info = $this->get_in_page_info();
+        $userid       = $this->sid;
+        $dymanic_flag = $this->get_in_int_val("dymanic_flag",-1);
+        $page_info    = $this->get_in_page_info();
 
-        $ret_info = $this->t_user_login_log->login_list($page_info,$userid);
+        $ret_info = $this->t_user_login_log->login_list($page_info,$userid,$dymanic_flag);
 
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
             E\Erole::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"dymanic_flag");
             $this->cache_set_item_student_nick($item);
         }
-       return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 

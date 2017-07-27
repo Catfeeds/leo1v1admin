@@ -3,14 +3,14 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            date_type     :	$('#id_date_type').val(),
-            opt_date_type :	$('#id_opt_date_type').val(),
-            start_time    :	$('#id_start_time').val(),
-            end_time      :	$('#id_end_time').val(),
-            refund_type   : $("#id_refund_type").val(),
-            userid        : $("#id_userid").val(),
-            is_test_user  : $("#id_is_test_user").val(),
-      seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+            date_type         :	$('#id_date_type').val(),
+            opt_date_type     :	$('#id_opt_date_type').val(),
+            start_time        :	$('#id_start_time').val(),
+            end_time          :	$('#id_end_time').val(),
+            refund_type       : $("#id_refund_type").val(),
+            userid            : $("#id_userid").val(),
+            is_test_user      : $("#id_is_test_user").val(),
+            seller_groupid_ex :	$('#id_seller_groupid_ex').val()
         });
     }
 
@@ -358,7 +358,7 @@ $(function(){
 
         var adminid = $("#adminid").attr('data-adminid');
 
-        var allow_adminid = ['60','68','186','349','540','684','818'];
+        var allow_adminid = ['60','68','186','349','540','684','968'];
 
         var is_allow = $.inArray(adminid,allow_adminid);
 
@@ -732,6 +732,37 @@ $(function(){
             $teacher_adminid.parent().parent().css('display','none');
             $.admin_select_user($teacher_adminid, "teacher");
         });
+    });
+
+    $(".opt-set-money").on("click",function(){
+	    var data            = $(this).get_opt_data();
+        var id_refund_money = $("<input/>");
+        var arr = [
+            ["退费金额",id_refund_money],
+        ];
+
+        id_refund_money.val(data.real_refund);
+
+        $.show_key_value_table("修改退费金额",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage/set_refund_money",{
+                    "orderid"     : data.orderid,
+                    "apply_time"  : data.apply_time,
+                    "real_refund" : id_refund_money.val()
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+
+            }
+        });
+
+
     });
 
 

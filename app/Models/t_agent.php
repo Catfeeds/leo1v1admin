@@ -117,11 +117,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $ret;
     }
 
-    public function add_agent_row_new($phone,$wx_openid){
+    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid){
         $ret = $this->row_insert([
-            "parentid" => 0,
-            "phone"    => $phone,
-            "wx_openid"    => $wx_openid,
+            "parentid"    => 0,
+            "phone"       => $phone,
+            "wx_openid"   => $wx_openid,
+            "headimgurl"  => $headimgurl,
+            "nickname"    => $nickname,
             "create_time" => time(null),
         ],true);
         if($ret){

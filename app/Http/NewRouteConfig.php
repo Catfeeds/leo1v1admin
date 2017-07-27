@@ -143,6 +143,7 @@ class NewRouteConfig {
         "/common/get_webhooks_notice"        => true,
         "/common/dev_teacher_qr"        => true,
 
+        "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,
@@ -220,6 +221,7 @@ class NewRouteConfig {
         "/authority/manager_list_for_qz_wuhan"    => true,
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
+        "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
         "/login/login_teacher"           => true,

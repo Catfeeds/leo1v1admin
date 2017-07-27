@@ -1347,7 +1347,9 @@ class ss_deal extends Controller
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
-        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur( $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count );
+        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+        );
         return $this->output_succ(["data"=>$ret]);
     }
 
@@ -1658,6 +1660,125 @@ class ss_deal extends Controller
 
         return $this->output_succ();
     }
+
+    public function confirm_test_lesson_ass() {
+        $lessonid   = $this->get_in_lessonid();
+        $success_flag = $this->get_in_str_val("success_flag");
+        $fail_reason  = $this->get_in_str_val("fail_reason");
+        $test_lesson_fail_flag    = $this->get_in_str_val("test_lesson_fail_flag");
+        $fail_greater_4_hour_flag = $this->get_in_str_val("fail_greater_4_hour_flag");
+        if ($success_flag==1 || $success_flag==0 ) {
+            $fail_reason="";
+            $test_lesson_fail_flag=0;
+            $fail_greater_4_hour_flag=0;
+        }
+
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
+            "confirm_adminid"  =>  $this->get_account_id(),
+            "confirm_time"  =>  time(NULL),
+            "success_flag"             => $success_flag,
+            "fail_reason"              => $fail_reason,
+            "test_lesson_fail_flag"    => $test_lesson_fail_flag,
+            "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
+        ]);
+
+        // set lesson_del_flag
+        // E\Etest_lesson_fail_flago( )
+        //103 => "[不付] 换时间 ",
+        //104 => "[不付] 换老师",
+        //105 => "[不付] 排课出错 ",
+        if ($fail_greater_4_hour_flag ==1 ) {
+            $lesson_del_flag=1;
+        }else{
+            $lesson_del_flag=0;
+        }
+
+        $this->t_lesson_info->field_update_list($lessonid,[
+            "lesson_del_flag" => $lesson_del_flag,
+        ]);
+
+        $lesson_info      = $this->t_lesson_info->field_get_list($lessonid,"userid,teacherid,lesson_start,lesson_end");
+        $phone            = $this->t_seller_student_new->get_phone($lesson_info["userid"]);
+        $nick             = $this->cache_get_student_nick($lesson_info["userid"]);
+        $lesson_start_str = \App\Helper\Utils::unixtime2date($lesson_info["lesson_start"],'m-d H:i');
+
+        $lesson_time  = \App\Helper\Utils::fmt_lesson_time($lesson_info["lesson_start"],$lesson_info["lesson_end"]);
+        $teacherid    = $lesson_info["teacherid"] ;
+        $teacher_nick = $this->cache_get_teacher_nick($teacherid);
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+
+        if($test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_100 || $test_lesson_fail_flag == E\Etest_lesson_fail_flag::V_1){
+            $this->t_test_lesson_subject_require->set_test_lesson_status(
+                $require_id,
+                E\Eseller_student_status::V_120 , $this->get_account() );
+
+            $set_lesson_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+            $teacher_phone      = $this->t_teacher_info->get_phone($lesson_info["teacherid"]);
+
+            $this->t_manager_info->send_wx_todo_msg_by_adminid(
+                $set_lesson_adminid,
+                "来自:".$this->get_account(),
+                "课程取消--[$phone][$nick],老师[$teacher_nick][$teacher_phone] 上课时间[ $lesson_start_str]","","");
+
+            $remark_ex = "";
+            if($fail_greater_4_hour_flag ) {
+                /**
+                 * 试听取消-不付工资2-14
+                 * SMS_46785153
+                 * 课程取消通知：${name}老师您好，您在${lesson_time} 的试听课由于${reason}无法如期进行，故作取消；
+                 我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+                */
+                \App\Helper\Utils::sms_common($teacher_phone,46785153,[
+                    "name"        => $teacher_nick,
+                    "lesson_time" => $lesson_time." ".$nick,
+                    "reason"      => "学生原因",
+                ]);
+            }else{
+                /**
+                 * 通知老师课程取消-付工资2-14
+                 * SMS_46680138
+                 * 课程取消通知：${name}老师您好，您在${lesson_time}时间，${student_nick}学生的试听课由于${reason}无法如期进行，
+                 故作取消。本次课的课时费将照常如数结算给您！我们会尽快给您安排新的试听课机会，请及时留意理优的推送通知。
+                */
+                \App\Helper\Utils::sms_common($teacher_phone, 46680138,[
+                    "name"         => $teacher_nick,
+                    "lesson_time"  => $lesson_time,
+                    "student_nick" => $nick,
+                    "reason"       => "学生原因",
+                ]);
+                $remark_ex = "本次课的课时费将照常如数结算给您！";
+            }
+
+            /**
+             * 模板ID : eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4
+             * 标题   : 课程取消通知
+             * {{first.DATA}}
+             * 课程类型：{{keyword1.DATA}}
+             * 上课时间：{{keyword2.DATA}}
+             * {{remark.DATA}}
+             */
+            $openid = $this->t_teacher_info->get_wx_openid($lesson_info["teacherid"]);
+            if($openid!=''){
+                $first_info  = $teacher_nick."老师您好！您在".$lesson_time.",".$nick."学生的试听课由于学生无法如期进行,故作取消";
+                $remark_info = $remark_ex."理优教务老师会尽快给您再次安排适合的试听课机会，请您及时留意理优的推送通知";
+                $template_id = "eHa4a9BoAbEycjIYSakPHx7zkqXDLoHbwEy6HDj4Gb4";//old
+                //$template_id = "YKGjtHUG20pS9RGBmTWm8_wYx4f30amrGv-F5NnBk8w";
+
+                $data['first']    = $first_info;
+                $data['keyword1'] = "试听课";
+                $data['keyword2'] = $lesson_time;
+                $data['remark']   = $remark_info;
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+            }
+        }else{
+            $this->t_test_lesson_subject_require->set_test_lesson_status(
+                $require_id,
+                E\Eseller_student_status::V_290 , $this->get_account() );
+        }
+
+        return $this->output_succ();
+    }
+
 
     public function get_lesson_list_by_require_id_js() {
         $page_num=$this->get_in_page_num();
@@ -2092,7 +2213,7 @@ class ss_deal extends Controller
             $userid_list="";
             foreach($arr as $v){
                $userid = intval($v[0]);
-               $userid_list .= $userid.","; 
+               $userid_list .= $userid.",";
             }
             $aa= trim($userid_list,",");
             $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
@@ -2537,7 +2658,7 @@ class ss_deal extends Controller
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $teacherid = $this->get_in_teacherid();
-        $ret_list = $this->t_course_order-> get_all_list($page_num,$userid, $teacherid );
+        $ret_list = $this->t_course_order-> get_all_list($page_num,$userid, $teacherid,1 );
         foreach ($ret_list["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             E\Esubject::set_item_value_str($item);
@@ -2552,9 +2673,16 @@ class ss_deal extends Controller
         $courseid=$this->get_in_courseid();
         $lessonid=$this->get_in_lessonid();
 
+        if ($courseid <=0  ) {
+            return $this->output_err("请选择课程包!");
+        }
+
         $this->t_course_order-> clean_ass_from_test_lesson_id($lessonid);
         $this->t_course_order->field_update_list($courseid,[
             "ass_from_test_lesson_id"=>$lessonid,
+        ]);
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
+           "order_confirm_flag" =>1
         ]);
         return $this->output_succ();
     }
@@ -3163,6 +3291,48 @@ class ss_deal extends Controller
 
         return $this->output_succ();
     }
+
+    public function  set_order_fail_info_ass () {
+        $lessonid                    = $this->get_in_lessonid();
+        $ass_test_lesson_order_fail_flag = $this->get_in_int_val("ass_test_lesson_order_fail_flag");
+        $ass_test_lesson_order_fail_desc = $this->get_in_str_val("ass_test_lesson_order_fail_desc");
+
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        $test_lesson_subject_id=$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+        $userid= $this->t_test_lesson_subject->get_userid($test_lesson_subject_id);
+        if (!$userid) {
+            return $this->output_err("这个数据有问题!");
+        }
+        if(empty($ass_test_lesson_order_fail_flag)){
+             return $this->output_err("请选择失败原因");
+        }
+
+        if($ass_test_lesson_order_fail_flag==2000 && empty($ass_test_lesson_order_fail_desc)){
+             return $this->output_err("原因说明不能为空");
+        }
+        $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
+            "ass_test_lesson_order_fail_flag" =>$ass_test_lesson_order_fail_flag,
+            "ass_test_lesson_order_fail_set_time" =>time(NULL),
+            "ass_test_lesson_order_fail_set_adminid" =>$this->get_account_id(),
+            "ass_test_lesson_order_fail_desc" =>$ass_test_lesson_order_fail_desc,
+            "order_confirm_flag"              =>2
+        ]);
+
+        $phone=$this->t_seller_student_new->get_phone($userid);
+        $account=$this->get_account();
+        $ass_test_lesson_order_fail_flag_str= E\Etest_lesson_order_fail_flag::get_desc($ass_test_lesson_order_fail_desc );
+        /*if($ass_test_lesson_order_fail_flag==2000){
+            $test_lesson_order_fail_flag_str=$ass_test_lesson_order_fail_desc;
+            }*/
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: $account 状态: 签到失败 : $ass_test_lesson_order_fail_flag_str| $ass_test_lesson_order_fail_desc ",
+            "system"
+        );
+
+        return $this->output_succ();
+    }
+
     public function set_order_get_package_time() {
         $orderid= $this->get_in_int_val("orderid");
         $get_packge_flag= $this->get_in_int_val("get_packge_flag");
@@ -3705,21 +3875,28 @@ class ss_deal extends Controller
              return $this->output_err("不能设置为未设置状态");
         }
 
-        $this->t_month_ass_warning_student_info->field_update_list($id,[
+        $ret = $this->t_month_ass_warning_student_info->field_update_list($id,[
             "ass_renw_flag"         =>$ass_renw_flag,
             "renw_price"            =>$renw_price,
             "no_renw_reason"        =>$no_renw_reason,
             "renw_week"             =>$renw_week
         ]);
-        
-        if($ass_renw_flag==2){
-            $this->t_month_ass_warning_student_info->field_update_list($id,[
-                "done_flag"             =>1,
-                "done_time"             =>time(),
-            ]);
 
-        }
-        if($ass_renw_flag != $ass_renw_flag_old){
+        if($ret){
+            if($ass_renw_flag==2){
+                $this->t_month_ass_warning_student_info->field_update_list($id,[
+                    "done_flag"             =>2,
+                    "done_time"             =>time(),
+                ]);
+
+            }
+
+            if(!empty($renw_week)){
+                $renw_end_day = strtotime(date("Y-m-d", time()+ $renw_week*7*86400));
+            }else{
+                $renw_end_day=0;
+            }
+
             $this->t_ass_warning_renw_flag_modefiy_list->row_insert([
                 "add_time"   =>time(),
                 "userid"     =>$userid,
@@ -3727,9 +3904,12 @@ class ss_deal extends Controller
                 "ass_renw_flag_cur"     =>$ass_renw_flag,
                 "no_renw_reason"        =>$no_renw_reason,
                 "adminid"               =>$this->get_account_id(),
-                "warning_id"            =>$id
+                "warning_id"            =>$id,
+                "renw_week"             =>$renw_week,
+                "renw_end_day"          =>$renw_end_day
             ]);
         }
+
         return $this->output_succ();
     }
 
@@ -3746,7 +3926,7 @@ class ss_deal extends Controller
         ]);
         return $this->output_succ();
     }
-    
+
     public function update_ass_student_renw_info_master_new(){
         $userid         = $this->get_in_int_val("userid");
         $id         = $this->get_in_int_val("id");
@@ -4328,7 +4508,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsxTqusFBCbI6QqR8oxkwwMg",  // QC yunyan
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 ];
 
@@ -4576,6 +4756,70 @@ class ss_deal extends Controller
 
     }
 
+    public function get_lesson_time(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $lesson_time_arr = $this->t_lesson_info_b2->get_lesson_time($lessonid);
 
+        $lesson_arr['lesson_start'] = date('Y-m-d H:i:s',$lesson_time_arr[0]['lesson_start']);
+        $lesson_arr['lesson_end']   = date('Y-m-d H:i:s',$lesson_time_arr[0]['lesson_end']);
+        return $this->output_succ(['data'=>$lesson_arr]);
+    }
+
+    public function set_lesson_time(){
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $lesson_start = strtotime($this->get_in_str_val('lesson_start'));
+        $lesson_end   = strtotime($this->get_in_str_val('lesson_end'));
+        $account_id   = $this->get_account_id();
+
+        // 做身份判断 [只有教务可以更改时间]
+        $jiaowu_adminid = $this->t_test_lesson_subject_sub_list->get_set_lesson_adminid($lessonid);
+        $root_arr = ['60','188','68','186','349','684','831','944'];
+
+        if($jiaowu_adminid != $account_id ||  !in_array($account_id,$root_arr)){
+            return $this->output_err('您没有权限修改时间!');
+        }
+
+        $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+
+        //检查家长是否发起调课申请
+        $is_has_apply = $this->t_lesson_time_modify->get_parent_deal_time($lessonid);
+        if(!$is_has_apply){
+            return $this->output_err("该家长没有申请调课时!");
+        }
+
+        $ret1 = $this->t_lesson_time_modify->field_update_list($lessonid,[
+            'deal_jiaowu'      => $account_id,
+            'deal_jiaowu_time' => time(NULL),
+            'is_modify_time_flag' =>1,
+            'original_time'    => "$lesson_old_start,$lesson_old_end"
+        ]);
+
+        $ret2 = $this->t_lesson_info_b2->field_update_list($lessonid,[
+            'lesson_start' => $lesson_start,
+            'lesson_end'   => $lesson_end
+        ]);
+
+        if($ret1 && $ret2){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('提交失败,请稍后重试!');
+        }
+
+    }
+
+    public function get_test_lesson_confirm_info(){
+        
+        $lessonid     = $this->get_in_int_val('lessonid');
+        $data = $this->t_test_lesson_subject_sub_list->field_get_list($lessonid,"confirm_adminid,confirm_time,success_flag,fail_greater_4_hour_flag,test_lesson_fail_flag,fail_reason,ass_test_lesson_order_fail_flag,ass_test_lesson_order_fail_desc,ass_test_lesson_order_fail_set_time,ass_test_lesson_order_fail_set_adminid,order_confirm_flag");
+        $data["confirm_adminid_account"] = $this->t_manager_info->get_account($data["confirm_adminid"]);
+        $data["fail_set_adminid_account"] = $this->t_manager_info->get_account($data["ass_test_lesson_order_fail_set_adminid"]);
+        $data["confirm_time_str"] = date("Y-m-d H:i:s",$data["confirm_time"]);
+        $data["ass_test_lesson_order_fail_set_time_str"] = date("Y-m-d H:i:s",$data["ass_test_lesson_order_fail_set_time"]);
+        $data["ass_test_lesson_order_fail_flag_str"]= E\Etest_lesson_order_fail_flag::get_desc($data["ass_test_lesson_order_fail_flag"]);
+        $data["test_lesson_fail_flag_str"]= E\Etest_lesson_fail_flag::get_desc($data["test_lesson_fail_flag"]);
+        $data["fail_greater_4_hour_flag_str"]= E\Eboolean::get_desc($data["fail_greater_4_hour_flag"]);
+        return $this->output_succ(["data"=>$data]);
+    }
 
 }

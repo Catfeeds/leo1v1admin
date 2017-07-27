@@ -38,6 +38,7 @@ interface GargsStatic {
 	have_wx:	number;
 	grade_plan:	number;
 	subject_plan:	number;
+	fulltime_teacher_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -211,7 +212,8 @@ $(function(){
 			seller_hold_flag:	$('#id_seller_hold_flag').val(),
 			have_wx:	$('#id_have_wx').val(),
 			grade_plan:	$('#id_grade_plan').val(),
-			subject_plan:	$('#id_subject_plan').val()
+			subject_plan:	$('#id_subject_plan').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -253,6 +255,7 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_grade_plan').val(g_args.grade_plan);
 	$('#id_subject_plan').val(g_args.subject_plan);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -519,6 +522,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">subject_plan</span>
                 <input class="opt-change form-control" id="id_subject_plan" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 */

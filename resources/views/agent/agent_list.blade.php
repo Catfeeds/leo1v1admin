@@ -50,7 +50,7 @@
                     <td>上级id</td>
                     <td>userid</td>
                     <td>手机号</td>
-                    <td>wx_openid</td>
+                    <!-- <td>wx_openid</td> -->
                     <td>银行卡号</td>
                     <td>身份证号码</td>
                     <td>开户行和支行</td>
@@ -61,6 +61,8 @@
                     <td>银行卡类型</td>
                     <td>支付宝姓名</td>
                     <td>支付宝账号</td>
+                    <!-- <td>微信头像</td> -->
+                    <td>微信昵称</td>
                     <td>创建时间</td>
                     <td>操作</td>
                 </tr>
@@ -72,7 +74,7 @@
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["wx_openid"]}} </td>
+                        <!-- <td>{{@$var["wx_openid"]}} </td> -->
                         <td>{{@$var["bankcard"]}} </td>
                         <td>{{@$var["idcard"]}} </td>
                         <td>{{@$var["bank_address"]}} </td>
@@ -83,6 +85,8 @@
                         <td>{{@$var["bank_type"]}} </td>
                         <td>{{@$var["zfb_name"]}} </td>
                         <td>{{@$var["zfb_account"]}} </td>
+                        <!-- <td>{{@$var["headimgurl"]}} </td> -->
+                        <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div

@@ -5,6 +5,9 @@
             <div class="col-xs-12 col-md-4" data-title="时间段">
                 <div id="id_date_range"></div>
             </div>
+            <div class="col-xs-3 col-md-1">
+                <button class="btn btn-primary" id="id_wx_notice">微信推送</button>
+            </div>
         </div>
         <hr />
         <table class="common-table">

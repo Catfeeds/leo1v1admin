@@ -63,7 +63,7 @@ $(function(){
 
 
 
-    
+
     $(".opt-del").on("click",function(){
         var id = $(this).attr("id-item");
         $.do_ajax('/order_refund_confirm_config/delete_refund_info', {

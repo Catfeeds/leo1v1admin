@@ -9,6 +9,7 @@ use \App\Enums as E;
 class user_manage_new extends Controller
 {
     use CacheNick;
+    use TeaPower;
     var $change_num = 0;
     var $late_num   = 0;
 
@@ -2732,6 +2733,7 @@ class user_manage_new extends Controller
 
     public function ass_warning_stu_info_new(){
         $account_id = $this->get_account_id();
+        $adminid = $this->get_ass_leader_account_id($account_id);
         //  $account_id = 297;
         $main_type = 1;
         $is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
@@ -2749,11 +2751,25 @@ class user_manage_new extends Controller
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
             E\Erenw_type::set_item_value_str($item,"master_renw_flag");
+            $change_info = $this->t_ass_warning_renw_flag_modefiy_list->get_new_renw_list($item["id"]);
+            if(!empty($change_info["renw_week"])){
+                $item["renw_end_day"] = date("Y-m-d", $change_info["add_time"]+ $change_info["renw_week"]*7*86400);
+            }else{
+                $item["renw_end_day"]="";
+            }
+            $item["month_str"] = date("Y-m-d H:i:s",$item["month"]);
+            $first_time = $this->t_ass_warning_renw_flag_modefiy_list->get_first_renw_time($item["id"]);
+            if(empty($first_time)){
+                $item["first_time"]="无";
+            }else{
+                $item["first_time"] = date("Y-m-d H:i:s",$first_time);
+            }
+
         }
         return $this->Pageview(__METHOD__,$ret_info);
     }
@@ -3045,6 +3061,66 @@ class user_manage_new extends Controller
 
     }
 
+    public function get_two_weeks_old_stu_seller(){
+
+        $grade          = $this->get_in_grade();
+        $all_flag       = $this->get_in_int_val('all_flag',0);
+        $test_user      = $this->get_in_int_val('test_user',-1);
+        $originid       = $this->get_in_int_val('originid',-1);
+        $user_name      = trim($this->get_in_str_val('user_name',''));
+        $phone          = trim($this->get_in_str_val('phone',''));
+        $assistantid    = $this->get_in_int_val("assistantid",-1);
+        $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
+        $order_type     = $this->get_in_int_val("order_type",-1);
+        $page_num       = $this->get_in_page_num();
+        $status         = -1;
+        $userid         = $this->get_in_userid(-1);
+        $ass_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $ass_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($ass_groupid_ex);
+        $adminid_right              = $this->get_seller_adminid_and_right();
+
+
+        $teacherid = -1;
+        if (is_numeric($user_name) && $user_name< 10000000 ) {
+            $userid    = $user_name;
+            $user_name = "";
+        }
+        // if ($assistantid >0 && $order_type == -1) {
+        $order_type = 3;
+        // }
+
+        list($start_time,$end_time)= $this->get_in_date_range(-100 ,0, 0 );
+
+        $list = $this->t_student_info->get_student_search_two_weeks_list( $start_time,$end_time,$all_flag,
+                                                                              $userid, $grade, $status,
+                                                                              $user_name, $phone, $teacherid,
+                                                                              $assistantid, $test_user, $originid,
+                                                                              $seller_adminid,$ass_adminid_list);
+        dd($list);
+
+        foreach($ret_info['list'] as &$item) {
+            $item['originid']          = E\Estu_origin::get_desc($item['originid']);
+            $item['is_test_user']      = E\Etest_user::get_desc($item['is_test_user']);
+            $item['user_agent_simple'] = get_machine_info_from_user_agent($item["user_agent"] );
+            $item['last_login_ip']     = long2ip( $item['last_login_ip'] );
+            \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"last_login_time");
+            $item['lesson_count_all']  = $item['lesson_count_all']/100;
+            $item['lesson_count_left'] = $item['lesson_count_left']/100;
+            $item["seller_admin_nick"] = $this->cache_get_account_nick($item["seller_adminid"] );
+            $item["assistant_nick"]    = $this->cache_get_assistant_nick ($item["assistantid"] );
+            $item["ss_assign_time"]    = $item["ass_assign_time"]==0?'未分配':date('Y-m-d H:i:s',$item["ass_assign_time"]);
+            $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
+            \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");
+        }
+
+        return $this->Pageview(__METHOD__,$ret_info,[
+            "adminid_right" =>$adminid_right
+        ]);
+
+    }
+
+
     public function get_fulltime_teacher_attendance_info(){
         $page_num       = $this->get_in_page_num();
         list($start_time,$end_time)= $this->get_in_date_range(0,0,0,[],3 );
@@ -3052,7 +3128,8 @@ class user_manage_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $adminid = $this->get_in_int_val("adminid",-1);
         $account_role = $this->get_in_int_val("account_role",-1);
-        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $ret_info = $this->t_fulltime_teacher_attendance_list->get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role,$fulltime_teacher_type);
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             $item["off_time_str"] = date("H:i",$item["off_time"]);

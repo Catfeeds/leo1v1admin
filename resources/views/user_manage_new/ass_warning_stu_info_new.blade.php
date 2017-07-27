@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">计划续费周</span>
+                        <span class="input-group-addon">续费截止日期</span>
                         <select class="opt-change form-control " id="id_renw_week" >
                             <option value="-1">全部</option>
                             <option value="0">未设置</option>
@@ -29,7 +29,6 @@
                             <option value="2">第二周</option>
                             <option value="3">第三周</option>
                             <option value="4">第四周</option>
-                            <option value="5">第五周</option>
                         </select>
                     </div>
                 </div>
@@ -49,6 +48,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>数据生成时间 </td>
                     <td>组别 </td>
                     <td>助教</td>
                     <td>学生</td>
@@ -56,7 +56,8 @@
                     <td>是否续费</td>
                     <td>续费金额</td>
                     <td>未续费原因</td>
-                    <td>计划续费周</td>
+                    <td>续费截止日期</td>
+                    <td>首次设置状态时间</td>
                     <td>是否成功(组长)</td>
                     <td>未续费原因(组长)</td>
                     <td> 操作  </td>
@@ -65,6 +66,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["month_str"]}} </td>
                         <td>{{@$var["group_name"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["nick"]}} </td>
@@ -76,11 +78,8 @@
                             <td></td>
                         @endif
                         <td>{{@$var["no_renw_reason"]}} </td>
-                        @if($var["renw_week"]>0)
-                            <td>第{{@$var["renw_week"]}}周 </td>
-                        @else
-                            <td></td>
-                        @endif
+                        <td>{{@$var["renw_end_day"]}}</td>
+                        <td>{{@$var["first_time"]}}</td>
                         <td>{{@$var["master_renw_flag_str"]}} </td>
                         <td>{{@$var["master_no_renw_reason"]}} </td>
                         <td>

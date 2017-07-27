@@ -93,7 +93,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         return $this->main_get_value($sql);
     }
 
-    public function get_not_through_user($start_time,$end_time){
+    public function get_not_through_user($start_time,$end_time,$has_openid=-1){
         $where_arr = [
             ["add_time>%u",$start_time,0],
             ["add_time<%u",$end_time,0],
@@ -101,7 +101,13 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
             "t.trial_lecture_is_pass=1",
             "t.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.phone,max(tl.score) as score,t.create_time"
+        if($has_openid==0){
+            $where_arr[]="wx_openid=''";
+        }elseif($has_openid>0){
+            $where_arr[]="wx_openid!=''";
+        }
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.nick,t.phone,t.wx_openid,max(tl.score) as score,t.create_time"
                                   ." from %s tl"
                                   ." left join %s t on tl.userid=t.teacherid"
                                   ." where %s"

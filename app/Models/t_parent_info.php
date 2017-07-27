@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use \App\Enums as E;
 class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 {
     public function __construct()
@@ -64,8 +65,17 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         );
         return $this->main_get_row($sql);
     }
-
-
+    /**
+     *@author sam
+     *@function 查询parentid
+     */
+    public function get_parentid_by_phone_b1($phone){
+        $sql=$this->gen_sql_new("select parentid from %s where phone='%s'"
+                                ,self::DB_TABLE_NAME
+                                ,$phone
+        );
+        return $this->main_get_value($sql);
+    }
 
     public function get_parent_email_list($parentid){
         $sql=$this->gen_sql("select email from %s where parentid=%u"
@@ -204,5 +214,36 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         );
         return $this->main_get_value($sql);
     }
+    public function register($phone, $passwd, $reg_channel , $ip,$nick){
 
+        $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT);
+        
+        if($parentid>0){
+            return $parentid;
+        }
+        $parentid= $this->t_user_info->user_reg($passwd,$reg_channel,ip2long($ip));
+        if(!$parentid){
+            return false;
+        }
+
+        $ret = $this->t_phone_to_user->add($phone,E\Erole::V_PARENT,$parentid);
+        if(!$ret){
+            return false;
+        }
+
+        $rets = $this->add_parent($parentid,$phone,$nick);
+        if(!$rets){
+            return false;
+        }
+        return $parentid;
+    }
+
+    public function add_parent($userid,$phone,$nick){
+        return $this->row_insert([
+            "parentid"           => $userid,
+            "phone"              => $phone,
+            "nick"               => $nick,
+            "last_modified_time" => time(),
+        ]);
+    }
 }

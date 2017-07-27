@@ -18,7 +18,8 @@ function load_data(){
 		tea_status:	$('#id_tea_status').val(),
 		qzls_flag:	$('#id_qzls_flag').val(),
 		create_now:	$('#id_create_now').val(),
-		teacher_account:	$('#id_teacher_account').val()
+		teacher_account:	$('#id_teacher_account').val(),
+		fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
     });
 }
 
@@ -38,6 +39,7 @@ $(function(){
     Enum_map.append_option_list("subject", $("#id_teacher_subject") );
     Enum_map.append_option_list("identity", $("#id_identity") );
     Enum_map.append_option_list("boolean", $("#id_create_now") ,false,[1]);
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type") ,false,[1,2]);
 
 	$('#id_page_count').val(g_args.page_count);
 	$('#id_teacherid').val(g_args.teacherid);
@@ -50,6 +52,7 @@ $(function(){
 	$('#id_create_now').val(g_args.create_now);
 
 	$('#id_teacher_account').val(g_args.teacher_account);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     
     $.admin_select_user($("#id_teacher_account"), "interview_teacher", load_data);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);

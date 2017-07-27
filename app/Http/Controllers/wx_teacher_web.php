@@ -31,8 +31,6 @@ class wx_teacher_web extends Controller
         }
 
 
-
-
         if ( session("login_user_role") ==2 && session("login_userid")   ) {
             $web_html_url="http://wx-teacher-web.leo1v1.com";
 
@@ -55,8 +53,6 @@ class wx_teacher_web extends Controller
             header("Location: $url");
 
         }else{
-
-            \App\Helper\Utils::logger("wx_teacher_web1::jump");
 
             $wx_config=\App\Helper\Config::get_config("teacher_wx");
             $to_url=bin2hex($this->get_in_str_val("_url"));

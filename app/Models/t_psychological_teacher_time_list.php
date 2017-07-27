@@ -22,6 +22,17 @@ class t_psychological_teacher_time_list extends \App\Models\Zgen\z_t_psychologic
         return $this->main_get_list($sql);
  
     }
+
+    public function get_info_by_time_row($day,$start_time){
+        $where_arr=[
+            ["day=%u",$day,0],
+            ["start='%s'",$start_time,0],
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_row($sql);
+ 
+    }
+
 }
 
 

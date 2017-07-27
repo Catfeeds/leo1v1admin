@@ -1868,7 +1868,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_row_info($teacherid,$lesson_type,$num){
         $where_arr = [
-            ["lesson_type= %u",$lesson_type,-1],  
+            ["lesson_type= %u",$lesson_type,-1],
             ["teacherid= %u",$teacherid,-1],
             "lesson_status>1",
             "lesson_del_flag=0",
@@ -1899,4 +1899,74 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function tongji_1v1_lesson_time($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME( l.lesson_start, '%%Y%%m%%d' ) day,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid,t.realname   "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,day  having(week=1 or week=0)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function tongji_1v1_lesson_time_late($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,hour,week having(hour>=20 and week >1)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_lesson_time_flag($userid,$teacherid){
+        $where_arr = [
+            ['userid = %d',$userid],
+            ['teacherid = %d',$teacherid],
+            'lesson_type = 0 '
+        ];
+
+        $sql = $this->gen_sql_new("select 1 from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+    public function check_have_regular_lesson_new($userid,$lesson_time){
+        $where_arr=[
+            ["userid= %u",$userid,-1],
+            ["lesson_start>%u",$lesson_time,0],
+            "lesson_type<>2",
+            "lesson_status=0",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
 }

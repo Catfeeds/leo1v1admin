@@ -16,7 +16,7 @@ $app = new Illuminate\Foundation\Application(realpath(__DIR__.'/../'));
 
 $app->configureMonologUsing(function(Monolog\Logger $monolog) use ($app) {
     if ( $app->environment('testing')) {
-        
+
         $filename = storage_path('logs/testing-laravel-'.php_sapi_name().'.log');
         $handler = new Monolog\Handler\RotatingFileHandler($filename);
 

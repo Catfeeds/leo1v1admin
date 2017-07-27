@@ -11,6 +11,172 @@ class agent extends Controller
 {
     var $check_login_flag=false;
     public function agent_list() {
+        $cur_page = $this->get_in_str_val("cur_page");
+        $start_time = '2017-07-01';
+        $end_time = '2017-07-31';
+        $date_type = 1;
+        $opt_date_type = 3;
+        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0, 7, 1, [
+            1 => array("require_time","申请时间"),
+            2 => array("stu_request_test_lesson_time", "期待试听时间"),
+            4 => array("lesson_start", "上课时间"),
+            5 => array("seller_require_change_time ", "销售申请更换时间"),
+        ]);
+
+        $adminid      = $this->get_account_id();
+        $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        if(!empty($account_info)){
+            if($account_info["teacherid"]==61828 ){
+                $tea_subject= "(4,5)";
+            }else if(!empty($account_info["subject"])){
+                $tea_subject = "(".$account_info["subject"].")";
+            }else{
+                $tea_subject= "";
+            }
+        }else{
+            $tea_subject = "";
+        }
+
+        $grade                      = $this->get_in_grade();
+        $subject                    = $this->get_in_subject();
+        $test_lesson_student_status = $this->get_in_int_val('test_lesson_student_status', -1,E\Eseller_student_status::class);
+        $lessonid                   = $this->get_in_lessonid(-1);
+        $page_num                   = $this->get_in_page_num();
+        $userid                     = $this->get_in_userid(-1);
+        $accept_flag                = $this->get_in_int_val("accept_flag", -2, E\Eset_boolean::class);
+        $success_flag               = $this->get_in_int_val("success_flag", -1, E\Eset_boolean::class);
+        $teacherid                  = $this->get_in_teacherid(-1);
+        $jw_teacher                 = $this->get_in_int_val("jw_teacher",-1);
+        $is_test_user               = $this->get_in_int_val("is_test_user",0, E\Eboolean::class);
+        $jw_test_lesson_status      = $this->get_in_int_val("jw_test_lesson_status",-1,E\Ejw_test_lesson_status::class);
+
+        $require_admin_type   = $this->get_in_int_val("require_admin_type", -1,E\Eaccount_role::class);
+        $require_adminid      = $this->get_in_int_val("require_adminid",-1);
+        $require_assign_flag  = $this->get_in_int_val("require_assign_flag",-1);
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+
+        $tmk_adminid                = $this->get_in_int_val("tmk_adminid",-1);
+        $seller_require_change_flag = $this->get_in_int_val("seller_require_change_flag",-1);
+        $ass_test_lesson_type       = $this->get_in_int_val("ass_test_lesson_type",-1, E\Eass_test_lesson_type::class);
+        $test_lesson_fail_flag      = $this->get_in_int_val("test_lesson_fail_flag", -1, E\Etest_lesson_fail_flag::class);
+        $adminid_right              = $this->get_seller_adminid_and_right();
+        $accept_adminid             = $this->get_in_int_val("accept_adminid",-1);
+        $is_jw                      = $this->get_in_int_val("is_jw",0);
+        $is_ass_tran                = $this->get_in_int_val("is_ass_tran",0);
+        $limit_require_flag         = $this->get_in_int_val("limit_require_flag",-1);
+        $limit_require_send_adminid = $this->get_in_int_val("limit_require_send_adminid",-1);
+        $require_id                 = $this->get_in_int_val("require_id",-1);
+        $has_1v1_lesson_flag        = $this->get_in_int_val("has_1v1_lesson_flag",-1,E\Eboolean::class);
+
+        $ret_info = $this->t_test_lesson_subject_require->get_plan_list(
+            $page_num, $opt_date_str, $start_time,$end_time ,$grade,
+            $subject, $test_lesson_student_status,$teacherid, $userid,$lessonid ,
+            $require_admin_type , $require_adminid ,$ass_test_lesson_type, $test_lesson_fail_flag,$accept_flag ,
+            $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list,$adminid_all=[],
+            $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
+            $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
+        );
+        $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
+        foreach($ret_info["list"] as $id => &$item){
+            $item['id'] = $start_index+$id;
+            $item["lesson_time"] = $item["lesson_start"];
+            $item["except_lesson_time"] = $item["stu_request_test_lesson_time"];
+            \App\Helper\Utils::unixtime2date_for_item($item, "stu_request_test_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "set_lesson_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start");
+            \App\Helper\Utils::unixtime2date_for_item($item, "confirm_time");
+            \App\Helper\Utils::unixtime2date_for_item($item, "limit_require_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item, "limit_accept_time","_str");
+            E\Egrade::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,"editionid");
+            if(!empty($item["textbook"])){
+                $item["editionid_str"] = $item["textbook"];
+            }
+            E\Esubject::set_item_value_str($item);
+            if($item['current_lessonid']>0){
+                $item['grab_status']=2;
+            }
+            E\Egrab_status::set_item_value_str($item);
+            E\Epad_type::set_item_value_str($item,"has_pad");
+            E\Eseller_student_status::set_item_value_str($item,"test_lesson_student_status");
+            E\Etest_lesson_level::set_item_value_str($item,"stu_test_lesson_level");
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"stu_test_ipad_flag");
+            E\Eset_boolean::set_item_value_str($item,"accept_flag");
+            E\Eaccept_flag::set_item_value_str($item,"limit_accept_flag");
+
+            $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["accept_flag"] );
+            $this->cache_set_item_teacher_nick($item);
+            $this->cache_set_item_account_nick($item,"confirm_adminid","confirm_admin_nick");
+            $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+
+            $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($item["stu_request_lesson_time_info"], true);
+            $str_arr=[];
+            foreach ($stu_request_lesson_time_info as $p_item) {
+                $str_arr[]=E\Eweek::get_desc($p_item["week"])." "
+                    .date('H:i',@$p_item["start_time"])
+                    .date('~H:i', $p_item["end_time"]);
+            }
+
+            $item["stu_request_lesson_time_info_str"]= join("<br/>", $str_arr);
+            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str( $item["success_flag"] );
+            $item["lesson_used_flag_str"]=\App\Helper\Common::get_boolean_color_str(!$item["lesson_del_flag"]);
+
+            E\Eboolean::set_item_value_str($item,"fail_greater_4_hour_flag");
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+            E\Eass_test_lesson_type::set_item_value_str($item);
+
+            $stu_request_test_lesson_time_info=\App\Helper\Utils::json_decode_as_array(
+                $item["stu_request_test_lesson_time_info"],true
+            );
+
+            $str_arr=[];
+            foreach ($stu_request_test_lesson_time_info as $p_item) {
+                $str_arr[]= \App\Helper\Utils::fmt_lesson_time(@$p_item["start_time"], $p_item["end_time"]);
+            }
+
+            $item["stu_request_test_lesson_time_info_str"] = join("<br/>", $str_arr);
+            $item["stu_test_paper_flag_str"] = \App\Helper\Common::get_test_pager_boolean_color_str(
+                $item["stu_test_paper"], $item['tea_download_paper_time']
+            );
+
+            $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
+            $this->cache_set_item_account_nick($item, "limit_require_adminid", "limit_require_account");
+            $this->cache_set_item_account_nick($item, "limit_require_send_adminid", "limit_require_send_account");
+            $this->cache_set_item_teacher_nick($item, "limit_require_teacherid", "limit_require_tea_nick");
+            if($item['seller_require_change_flag'] > 0){
+                $item['require_change_lesson_time_str'] = date("Y-m-d H:i",$item['require_change_lesson_time']);
+                $item['seller_require_change_time_str'] = date("Y-m-d H:i",$item['seller_require_change_time']);
+                E\Eseller_require_change_flag::set_item_value_str($item);
+                $item['is_require_change']="1";
+            }else{
+                $item['is_require_change']="0";
+            }
+            if($item['accept_adminid'] > 0){
+                $item['is_accept_adminid']="1";
+                $item['accept_account'] = $this->t_manager_info->get_account($item['accept_adminid']);
+            }else{
+                $item['is_accept_adminid']="0";
+            }
+            $item["cur_require_adminid_role"] = $this->t_manager_info->get_account_role($item["cur_require_adminid"]);
+            $item["limit_plan_lesson_reason"] = $this->t_teacher_info->get_limit_plan_lesson_reason($item["limit_require_teacherid"]);
+        }
+
+        $adminid           = $this->get_account_id();
+        $admin_work_status = $this->t_manager_info->get_admin_work_status($adminid);
+
+        $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
+
+        dd($ret_info);
+
+
+
+
+
+
+/*
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $grade         = $this->get_in_grade(-1);
@@ -34,6 +200,7 @@ class agent extends Controller
         }
 
         return $this->pageView(__METHOD__,$ret_info);
+*/
     }
 
     public function agent_order_list() {
@@ -67,180 +234,29 @@ class agent extends Controller
             }else{
                 $item['create_time'] = '';
             }
+            if($item['cash']){
+                $item['cash'] = $item['cash']/100;
+            }
         }
 
         return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function check(){
-        // $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
-        // $wx_config=\App\Helper\Config::get_config("yxyx_wx");
-        // $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
-        // $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        // $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL, $url);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_HEADER, 0);
-        // $output = curl_exec($ch);
-        // curl_close($ch);
-        // $ret_arr = json_decode($output,true);
-        // return $data;
-
-        // $agent_id = $this->get_agent_id();
-        $agent_id = 42;
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
-        $bankcard      = '6210984910004164835';
-        $idcard        = '410185201111260509';
-        $bank_address  = '邮政';
-        $bank_account  = '张三';
-        $bank_phone    = '15251318621';
-        $bank_province = '上海';
-        $bank_city     = '上海';
-        $bank_type     = '张三';
-        $zfb_name      = '';
-        $zfb_account   = '';
-        $cash          = 81.666; //要提现
-        $id            = $agent_id;
-        if(!preg_match("/^1\d{10}$/",$bank_phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        if(!isset($cash)){
-            return $this->output_err("请输入提现金额!");
-        }
-        $check_cash = $this->check_user_cash($phone);
-        $total_cash = $check_cash['cash'];      //可提现
-        $have_cash = $check_cash['have_cash'];  //已提现
-        $cash_new = $cash + $have_cash;
-        dd($cash_new,$total_cash);
-        if($cash_new > $total_cash){
-            return $this->output_err("超出可提现金额!");
-        }
-        dd('a');
-        if($bankcard){
-            if($phone=='' || $bankcard==0 || $bank_address=="" || $bank_account==""
-               || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
-               || $bank_city==""
-            ){
-                return $this->output_err("请完善所有数据后重新提交！");
-            }
-            if($bank_account){
-                $ret = $this->t_agent->field_update_list($id,[
-                    "bankcard"      => $bankcard,
-                    "bank_address"  => $bank_address,
-                    "bank_account"  => $bank_account,
-                    "bank_phone"    => $bank_phone,
-                    "bank_type"     => $bank_type,
-                    "idcard"        => $idcard,
-                    "bank_city"     => $bank_city,
-                    "bank_province" => $bank_province,
-                ]);
-                if(($bankcard == $agent_info['bankcard']) && ($bank_address == $agent_info['bank_address'])
-                   && ($bank_account == $agent_info['bank_account']) && ($bank_phone == $agent_info['bank_phone'])
-                   && ($bank_type == $agent_info['bank_type']) && ($idcard == $agent_info['idcard'])
-                   && ($bank_city == $agent_info['bank_city']) && ($bank_province == $agent_info['bank_province'])){
-                    $ret = 1;
-                }
-                if($ret){
-                    $ret_new = $this->t_agent_cash->row_insert([
-                        "aid"         => $id,
-                        "cash"        => $cash*100,
-                        "is_suc_flag" => 0,
-                        "type"        => 1,
-                        "create_time" => time(null),
-                    ]);
-                    if(!$ret_new){
-                        return $this->output_err('更新失败！请重试！');
-                    }
-                }else{
-                    return $this->output_err("更新失败！请重试！");
-                }
-            }
-        }elseif($zfb_account){
-            if($zfb_name=='' || $zfb_account==''){
-                return $this->output_err("请完善所有数据后重新提交！");
-            }
-            $ret = $this->t_agent->field_update_list($id,[
-                "zfb_name"     => $zfb_name,
-                "zfb_account"     => $zfb_account,
-            ]);
-            if(($zfb_account == $agent_info['zfb_account']) && ($zfb_name == $agent_info['zfb_name'])){
-                $ret = 1;
-            }
-            if($ret){
-                $ret_new = $this->t_agent_cash->row_insert([
-                    "aid"         => $id,
-                    "cash"        => $cash*100,
-                    "is_suc_flag" => 0,
-                    "type"        => 2,
-                    "create_time" => time(null),
-                ]);
-                if(!$ret_new){
-                    return $this->output_err('更新失败！请重试！');
-                }
-            }else{
-                return $this->output_err("更新失败！请重试！");
-            }
-        }
-        return $this->output_succ('成功');
+        $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
+        $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        dd($data['headimgurl']);
     }
-
-    public function check_user_cash($phone){
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $cash       = 0;
-        $have_cash  = 0;
-        if($student_info){
-            $ret       = $this->get_pp_pay_cash($phone);
-            $cash      = $ret['cash'];
-            $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
-            if($cash_item['have_cash']){
-                $have_cash = $cash_item['have_cash'];
-            }
-        }else{
-            $agent_lsit = [];
-            $agent_item = [];
-            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            foreach($agent_list as $item){
-                if($phone == $item['phone']){
-                    $agent_item = $item;
-                }
-            }
-            if($agent_item){
-                $test_lesson = [];
-                $cash_item   = [];
-                $count       = 0;
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
-                if($cash_item['have_cash']){
-                    $have_cash = $cash_item['have_cash'];
-                }
-                if(2<=$count){
-                    $level = 2;
-                    $ret = $this->get_pp_pay_cash($phone);
-                }else{
-                    $level = 1;
-                    $ret = $this->get_p_pay_cash($phone);
-                }
-                $cash = $ret['cash'];
-            }else{
-                return $this->output_err("您暂无资格!");
-            }
-        }
-        $data = [
-            'cash'      => $cash/100,
-            'have_cash' => $have_cash/100,
-        ];
-        return $data;
-    }
-
-
 
     public function update_agent_order($orderid,$userid,$order_price){
         $agent_order = [];
