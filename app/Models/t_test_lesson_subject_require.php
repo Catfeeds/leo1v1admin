@@ -268,6 +268,139 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
+    public function get_plan_list_new(
+        $page_num, $opt_date_str, $start_time,$end_time ,$grade,
+        $subject, $test_lesson_student_status ,$teacherid, $userid,$lessonid,
+        $require_admin_type,$require_adminid,$ass_test_lesson_type,$test_lesson_fail_flag,$accept_flag,
+        $success_flag,$is_test_user,$tmk_adminid,$require_adminid_list=[],$adminid_all=[],
+        $seller_require_change_flag=-1,$require_assign_flag=-1,$has_1v1_lesson_flag=-1,$accept_adminid=-1,$is_jw=0,
+        $jw_test_lesson_status=-1,$jw_teacher=-1,$tea_subject="",$is_ass_tran=0,$limit_require_flag=-1,
+        $limit_require_send_adminid=-1,$require_id=-1
+    ){
+        if($require_id>0){
+            $where_arr=[
+                ['tr.require_id=%d', $require_id,-1],
+            ];
+        }else if($userid>0){
+            $where_arr=[
+                ["ss.userid=%u",$userid, -1],
+            ];
+        }else{
+            $where_arr=[
+                ["t.subject=%u",$subject, -1],
+                ["t.require_admin_type=%u",$require_admin_type, -1],
+                ["tr.cur_require_adminid=%u",$require_adminid, -1],
+                ['test_lesson_student_status=%d', $test_lesson_student_status,-1],
+                ['t.ass_test_lesson_type=%d', $ass_test_lesson_type,-1],
+                ['s.is_test_user=%d', $is_test_user,-1],
+                ['l.teacherid=%d', $teacherid,-1],
+                ['tr.jw_test_lesson_status=%d', $jw_test_lesson_status,-1],
+                ['tr.seller_require_change_flag=%d', $seller_require_change_flag,-1],
+                ['tr.accept_adminid=%d', $jw_teacher,-1],
+                ['tr.limit_require_flag=%d', $limit_require_flag,-1],
+                ['tr.limit_require_send_adminid=%d', $limit_require_send_adminid,-1],
+            ];
+            if($grade !=100 && $grade !=200 && $grade!=300){
+                $where_arr[]= ['s.grade=%u',$grade,-1];
+            }else if($grade==100){
+                $where_arr[]="s.grade>=100 and s.grade <200";
+            }else if($grade==200){
+                $where_arr[]="s.grade>=200 and s.grade <300";
+            }else if($grade==300){
+                $where_arr[]="s.grade>=300";
+            }
+
+            $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+            $this->where_arr_adminid_in_list($where_arr,"tr.cur_require_adminid", $require_adminid_list );
+            $this->where_arr_adminid_in_list($where_arr,"tr.cur_require_adminid", $adminid_all );
+            $this->where_arr_add_set_boolean_flag($where_arr, "tr.accept_flag",$accept_flag   );
+            $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            if ($has_1v1_lesson_flag==1) {
+                $where_arr[]="assigned_lesson_count>0";
+            }else if ($has_1v1_lesson_flag==0)  { //没有
+                $where_arr[]="test_lesson_order_fail_flag>0 ";
+            }else if ($has_1v1_lesson_flag == -3) { //未设置
+                $where_arr[]="(test_lesson_order_fail_flag=0 and  assigned_lesson_count is null  ) ";
+            }
+
+            if($tmk_adminid ==-2){
+                $where_arr[]="ss.tmk_student_status =3";
+            }
+            if ($test_lesson_fail_flag == -2 ) {
+                $where_arr[]="tss.test_lesson_fail_flag in (1,2,3)";
+            }else{
+                $where_arr[]=["tss.test_lesson_fail_flag =%u ",  $test_lesson_fail_flag,-1];
+            }
+
+            if ($success_flag==-2) {
+                $where_arr[]="tss.success_flag in (0,1)";
+            }else{
+                $where_arr[]=["tss.success_flag=%u ",  $success_flag,-1];
+            }
+            if($require_assign_flag == 0){
+                $where_arr[]="tr.accept_adminid <=0";
+            }else if($require_assign_flag == 1){
+                 $where_arr[]="tr.accept_adminid >0";
+            }
+            if($is_jw ==1){
+                $where_arr[]=["tr.accept_adminid =%u ",  $accept_adminid,-1];
+            }
+
+            if(!empty($tea_subject) && $accept_adminid !=343){
+                $where_arr[]="t.subject in ".$tea_subject;
+            }
+            if($is_ass_tran==1){
+                $where_arr[]="tr.origin not like '%%转介绍%%'";
+            }else if($is_ass_tran==2){
+                $where_arr[]="tr.origin like '%%转介绍%%'";
+            }
+
+        }
+
+
+        $sql = $this->gen_sql_new(
+            "select test_lesson_order_fail_flag, test_lesson_order_fail_desc,  test_lesson_order_fail_set_time ,tmk_adminid, "
+            ." tss.confirm_time,tss.confirm_adminid , l.lessonid, tr.accept_flag , t.require_admin_type, s.origin_userid ,"
+            ." t.ass_test_lesson_type, stu_score_info, stu_character_info , s.school, s.editionid, stu_test_lesson_level,"
+            ." stu_test_ipad_flag, stu_request_lesson_time_info,  stu_request_test_lesson_time_info, tr.require_id,"
+            ." t.test_lesson_subject_id ,ss.add_time, test_lesson_student_status,  s.userid,s.nick, tr.origin, ss.phone_location,"
+            ." ss.phone,ss.userid, t.require_adminid,  tr.curl_stu_request_test_lesson_time stu_request_test_lesson_time ,  test_stu_request_test_lesson_demand as  stu_request_test_lesson_demand , "
+            ." s.origin_assistantid , s.origin_userid  ,  t.subject, tr.test_stu_grade as grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,"
+            ." ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag,tr.require_time,l.teacherid,"
+            ." t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag,"
+            ." tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason,tr.seller_require_change_flag,"
+            ." tr.require_change_lesson_time,tr.seller_require_change_time , assigned_lesson_count ,tr.accept_adminid,"
+            ." jw_test_lesson_status,set_lesson_time,tr.green_channel_teacherid,tc.cancel_time,t.textbook,tr.cur_require_adminid,"
+            ." tr.grab_status,tr.current_lessonid,tr.is_green_flag,tr.limit_require_flag,tr.limit_require_teacherid , "
+            ." tr.limit_require_lesson_start ,tr.limit_require_time,tr.limit_require_adminid ,tr.limit_require_send_adminid,"
+            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time "
+            ." from  %s tr "
+            ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
+            ." left join %s ss on  t.userid = ss.userid "
+            ." left join %s s on  t.userid = s.userid "
+            ." left join %s tss on  tr.current_lessonid = tss.lessonid "
+            ." left join %s l on  tss.lessonid = l.lessonid "
+            ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
+            ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." where  %s order by %s asc "
+            , t_test_lesson_subject_require::DB_TABLE_NAME
+            , t_test_lesson_subject::DB_TABLE_NAME
+            , t_seller_student_new::DB_TABLE_NAME
+            , t_student_info::DB_TABLE_NAME
+            , t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            , t_lesson_info::DB_TABLE_NAME
+            , t_course_order::DB_TABLE_NAME
+            , t_teacher_cancel_lesson_list::DB_TABLE_NAME
+            ,$where_arr
+            ,$opt_date_str
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+
+
+
+
     public function get_expect_lesson_info_by_adminid($adminid, $timestamp){
 
         $week = intval(date('w', $timestamp));
