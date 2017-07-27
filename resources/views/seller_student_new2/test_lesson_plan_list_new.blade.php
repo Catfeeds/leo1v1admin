@@ -25,6 +25,7 @@
             <table class="common-table ">
                 <thead>
                     <tr>
+                        <td style="">id</td>
                         <td style="">客户电话</td>
                         <td style="">年级</td>
                         <td style="">科目</td>
@@ -35,6 +36,7 @@
                 <tbody>
                     @foreach ($table_data_list as $var)
                         <tr>
+                            <td >{{$var["id"]}} </td>
                             <td >客户电话:{{$var["phone"]}} </td>
                             <td >年级：{{$var["grade_str"]}} </td>
                             <td >科目: {{$var["subject_str"]}} </td>
