@@ -570,7 +570,7 @@ trait  TeaPower {
         $userid  = $tt_item["userid"];
         $subject = $tt_item["subject"];
 
-        if( $subject==$teacher_subject["subject"]){
+        if($subject==$teacher_subject["subject"]){
             if($teacher_subject['grade_start']==0){
                 $check_subject = $this->check_teacher_subject_and_grade_new(
                    $subject,$grade,$teacher_subject["subject"],$teacher_subject["second_subject"],$teacher_subject["third_subject"],
@@ -745,7 +745,6 @@ trait  TeaPower {
         if($stu_info['subject']!=$tea_info['subject']){
             return $this->output_err("学生科目与老师科目不匹配!");
         }
-
         if(in_array($stu_info['grade'],$not_grade)){
             return $this->output_err("该老师对应年级段已被冻结!");
         }
@@ -866,7 +865,7 @@ trait  TeaPower {
         }
 
         //申请数量限制
-        $require_month=["05"=>"2000","06"=>"35000","07"=>"35000","08"=>"30000","09"=>"7500","10"=>"8000","11"=>"8500","12"=>"9000"];
+        $require_month=["05"=>"2000","06"=>"35000","07"=>"6500","08"=>"7000","09"=>"7500","10"=>"8000","11"=>"8500","12"=>"9000"];
         $m = date("m",time());
         $start_time = strtotime(date("Y-m-01",time()));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
@@ -1134,20 +1133,22 @@ trait  TeaPower {
              * 日期：{{keyword3.DATA}}
              * {{remark.DATA}}
              */
-            $wx_openid        = $this->t_teacher_info->get_wx_openid($teacherid);
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
-            $data['keyword1'] = "备课通知";
-            $data['keyword2'] = "\n上课时间：$lesson_time_str "
-                              ."\n教务电话：$require_phone"
-                              ."\n试听需求：$demand"
-                              ."\n1、请及时确认试听需求并备课"
-                              ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
-                              ."\n3、老师可提前15分钟进入课堂进行上课准备";
-            $data['keyword3'] = date("Y-m-d H:i",time());
-            $data['remark']   = "";
-            $url = "http://www.leo1v1.com/login/teacher";
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            if($wx_openid!=""){
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = $nick."同学的试听课已排好，请尽快完成课前准备工作";
+                $data['keyword1'] = "备课通知";
+                $data['keyword2'] = "\n上课时间：$lesson_time_str "
+                                  ."\n教务电话：$require_phone"
+                                  ."\n试听需求：$demand"
+                                  ."\n1、请及时确认试听需求并备课"
+                                  ."\n2、请尽快上传教师讲义、学生讲义（用于学生预习）和作业"
+                                  ."\n3、老师可提前15分钟进入课堂进行上课准备";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "http://www.leo1v1.com/login/teacher";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
         }
 
         return $this->output_succ();
@@ -1234,8 +1235,10 @@ trait  TeaPower {
             $reference      = $this->t_teacher_lecture_appointment_info->get_reference_by_phone($phone);
             $reference_info = $this->t_teacher_info->get_teacher_info_by_phone($reference);
             if(isset($reference_info['teacher_type']) && $reference_info['teacher_type']>20){
-                $teacher_ref_type = $reference_info['teacher_ref_type'];
-                if(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                if($reference_info['teacher_type']>30){
+                    $teacher_ref_type = $reference_info['teacher_ref_type'];
+                }elseif(in_array($reference_info['teacher_type'],[21,22]) && in_array($teacher_ref_type,[1,2,3,4,5])){
+                    $teacher_ref_type = $reference_info['teacher_ref_type'];
                     $teacher_money_type = E\Eteacher_money_type::V_5;
                 }
             }
@@ -1628,6 +1631,19 @@ trait  TeaPower {
         return $arr;
     }
 
+    public function get_ass_leader_account_id($adminid){
+        if($adminid==503){
+            $adminid = 297;
+        }elseif($adminid==512){
+            $adminid =702;
+        }elseif($adminid==349){
+            $adminid=297;
+        }
+        return $adminid;
+    }
 
+    public function get_level_up_html(){
+
+    }
 
 }

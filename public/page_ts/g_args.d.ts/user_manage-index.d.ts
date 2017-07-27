@@ -8,6 +8,7 @@ interface GargsStatic {
 	assistantid:	number;
 	seller_adminid:	number;
 	order_type:	number;
+	student_type:	number;
 	page_num:	number;
 	page_count:	number;
 	userid:	number;
@@ -71,6 +72,7 @@ $(function(){
 			assistantid:	$('#id_assistantid').val(),
 			seller_adminid:	$('#id_seller_adminid').val(),
 			order_type:	$('#id_order_type').val(),
+			student_type:	$('#id_student_type').val(),
 			userid:	$('#id_userid').val()
         });
     }
@@ -86,6 +88,7 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_seller_adminid').val(g_args.seller_adminid);
 	$('#id_order_type').val(g_args.order_type);
+	$('#id_student_type').val(g_args.student_type);
 	$('#id_userid').val(g_args.userid);
 
 
@@ -158,6 +161,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">order_type</span>
                 <input class="opt-change form-control" id="id_order_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">student_type</span>
+                <input class="opt-change form-control" id="id_student_type" />
             </div>
         </div>
 

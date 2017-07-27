@@ -5796,6 +5796,8 @@ class tongji_ss extends Controller
         $origin_level      = $this->get_in_el_origin_level();
 
         $tmk_access_adminid = [60,188,68,186,349,684,384,323,282,896];
+        //wx
+        $wx_invaild_flag  = $this->get_in_e_boolean(-1,"wx_invaild_flag");
 
         if (in_array($tmk_adminid,$tmk_access_adminid)) {
             $tmk_adminid = -1;
@@ -5821,15 +5823,15 @@ class tongji_ss extends Controller
             1 => array("add_time","资源进来时间"),
         ] );
 
-        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level );
+        $new_user_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time ,-1,"", $origin_level ,-1,$wx_invaild_flag);
 
 
-        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level );
+        $ret_info = $this->t_seller_student_origin->get_tmk_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid,$origin_level,$wx_invaild_flag);
         $data_map=&$ret_info["list"];
 
-        // dd($ret_info);
+        //dd($ret_info);
         // 处理tmk课程的数量
-        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level);
+        $tmk_lesson_num = $this->t_test_lesson_subject_require->get_tmk_lesson_count($field_name,$start_time,$end_time,$tmk_adminid,$origin_level,$wx_invaild_flag);
         // dd($tmk_lesson_num);
         foreach ($tmk_lesson_num as  $tmk_item ) {
             $check_value=$tmk_item["check_value"];
@@ -5839,7 +5841,7 @@ class tongji_ss extends Controller
         }
 
         //合同
-        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level);
+        $order_list= $this->t_order_info->tongji_tmk_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$origin_level,$wx_invaild_flag);
 
         // dd($order_list);
 
@@ -5924,16 +5926,114 @@ class tongji_ss extends Controller
     }
 
 
-    public function ass_month_info(){        
+    public function ass_month_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $week_info = $this->t_ass_weekly_info->get_all_info($start_time,2);
-        dd($week_info);
+        $last_month = strtotime(date('Y-m-01',$start_time-100));
+        $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($last_month);
+        $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
+        $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
+        $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
+        $kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time);
+        $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+
+
+        $account_id = $this->get_in_int_val("adminid",-1);
+        foreach($ass_list as $k=>&$item){
+            $item["warning_student"] = isset($ass_last_month[$k])?$ass_last_month[$k]["warning_student"]:0;
+            $item["renw_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_num"]:0;
+            $item["renw_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+            $item["all_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["all_price"]/100:0;
+            $item["renw_money_one"] = !empty($item["renw_num"])?round($item["renw_money"]/$item["renw_num"],2):0;
+            $item["lesson_target"] = $lesson_target ;
+            $item["read_student"] = isset($week_info[$k])?$week_info[$k]["read_student"]:0;
+            $item["lesson_student"] =  isset($week_info[$k])?$week_info[$k]["lesson_student"]:0;
+            $item["lesson_count"] =  isset($week_info[$k])?$week_info[$k]["lesson_count"]/100:0;
+            $item["lesson_count_target"] =  $item["read_student"]*$item["lesson_target"];
+            $item["teacher_leave_count"] = isset($week_info[$k])?$week_info[$k]["tea_leave_lesson_count"]/100:0;
+            $item["student_leave_count"] = isset($week_info[$k])?$week_info[$k]["stu_leave_lesson_count"]/100:0;
+            $item["other_count"] = isset($week_info[$k])?$week_info[$k]["other_lesson_count"]/100:0;
+            $item["lesson_count_per"] =  isset($week_info[$k])?$week_info[$k]["lesson_count_per"]:0;
+
+            $item["stu_lesson_per"] = isset($week_info[$k])?$week_info[$k]["lesson_per"]:0;
+
+            $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
+            $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
+            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0;
+            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0;
+            $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
+            $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
+            $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;
+            $item["kk_fail"] = isset($kk_require_info[$k])?$kk_require_info[$k]["fail_num"]:0;
+            $item["kk_other"] =  $item["kk_lesson"]-$item["kk_succ"] - $item["kk_fail"];
+            $item["refund_student"] = isset($week_info[$k])?$week_info[$k]["refund_student"]:0;
+            $item["new_stu_num"] = isset($week_info[$k])?$week_info[$k]["new_stu_num"]:(isset($new_info[$k])?$new_info[$k]["num"]:0);
+            $item["end_stu_num"] = isset($week_info[$k])?$week_info[$k]["end_stu_num"]:(isset($end_info[$k])?$end_info[$k]["num"]:0);
+            $item["refund_money"] = isset($week_info[$k])?$week_info[$k]["refund_money"]/100:0;
+            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
+            if($account_id==-1){
+
+            }else{
+                if($ass_master_adminid != $account_id){
+                    unset($ass_list[$k]);
+                }
+
+            }
+
+
+
+        }
+
+        $arr=["account"=>"全部"];
+        foreach($ass_list as $val){
+            @$arr["warning_student"] +=$val["warning_student"];
+            @$arr["renw_num"] +=$val["renw_num"];
+            @$arr["renw_money"] +=$val["renw_money"];
+            @$arr["lesson_target"] =$val["lesson_target"];
+            @$arr["read_student"] +=$val["read_student"];
+            @$arr["lesson_student"] +=$val["lesson_student"];
+            @$arr["lesson_count"] +=$val["lesson_count"];
+            @$arr["lesson_count_target"] +=$val["lesson_count_target"];
+            @$arr["teacher_leave_count"] +=$val["teacher_leave_count"];
+            @$arr["student_leave_count"] +=$val["student_leave_count"];
+            @$arr["other_count"] +=$val["other_count"];
+            @$arr["lesson_money"] +=$val["lesson_money"];
+            @$arr["tran_lesson"] +=$val["tran_lesson"];
+            @$arr["tran_order"] +=$val["tran_order"];
+            @$arr["tran_money"] +=$val["tran_money"];
+            @$arr["kk_lesson"] +=$val["kk_lesson"];
+            @$arr["kk_succ"] +=$val["kk_succ"];
+            @$arr["kk_fail"] +=$val["kk_fail"];
+            @$arr["kk_other"] +=$val["kk_other"];
+            @$arr["refund_student"] +=$val["refund_student"];
+            @$arr["refund_money"] +=$val["refund_money"];
+            @$arr["new_stu_num"] +=$val["new_stu_num"];
+            @$arr["end_stu_num"] +=$val["end_stu_num"];
+            @$arr["all_money"] +=$val["all_money"];
+        }
+
+        $arr["renw_per"] = !empty($arr["warning_student"])?round($arr["renw_num"]/$arr["warning_student"]*100,2):0;
+        $arr["renw_money_one"] = !empty($arr["renw_num"])?round($arr["renw_money"]/$arr["renw_num"],2):0;
+        $arr["lesson_count_per"] =  !empty($arr["lesson_count_target"])?round($arr["lesson_count"]/$arr["lesson_count_target"]*100,2):0;
+
+        $arr["stu_lesson_per"] = !empty($arr["read_student"])?round($arr["lesson_student"]/$arr["read_student"]*100,2):0;
+        $arr["tran_money_one"] = !empty($arr["tran_order"])?round($arr["tran_money"]/$arr["tran_order"],2):0;
+        $arr["lesson_personal"] = !empty($arr["lesson_student"])?round($arr["lesson_count"]/$arr["lesson_student"],2):0;
+        $arr["refund_per"] = !empty($arr["read_student"])?round($arr["refund_student"]/$arr["read_student"]*100,2):0;
+        $arr["renw_target"] = $arr["warning_student"]*0.8*7000;
+        $arr["all_money_per"] = !empty($arr["renw_target"])?round($arr["all_money"]/$arr["renw_target"]*100,2):0;
+
+        return $this->pageView(__METHOD__,null,["list"=>$arr]);
+
+
+        //dd($arr);
     }
     public function ass_weekly_info(){
         $adminid = $this->get_account_id();
         /* if($adminid==349){
             $adminid=297;
             }*/
+        $adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("adminid",$adminid);
         return $this-> ass_weekly_info_master();
     }
@@ -5955,11 +6055,22 @@ class tongji_ss extends Controller
         $account_id = $this->get_in_int_val("adminid",-1);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"] = isset($week_info[$k])?$week_info[$k]["warning_student"]:0;
-            $item["renw_num_plan"] = isset($week_info[$k])?$week_info[$k]["renw_student_in_plan"]:0;
-            $item["renw_num"] = isset($week_info[$k])?$week_info[$k]["renw_student"]:0;
+            $userid_list = isset($week_info[$k])?$week_info[$k]["warning_student_list"]:"";
+            $userid_list = json_decode($userid_list,true);
+            if(empty($userid_list)){
+                $userid_list=[];
+            }
+            $assistant_renew_list_plan = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time,$userid_list,$k);
+            $item["renw_num_plan"] = isset($assistant_renew_list_plan[$k]["renw_num"])?$assistant_renew_list_plan[$k]["renw_num"]:0;
+            $item["renw_num"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_num"]:0;
+            $item["renw_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["renw_price"]/100:0;
+
+
+            // $item["renw_num_plan"] = isset($week_info[$k])?$week_info[$k]["renw_student_in_plan"]:0;
+            // $item["renw_num"] = isset($week_info[$k])?$week_info[$k]["renw_student"]:0;
             $item["renw_num_other"] = $item["renw_num"]-$item["renw_num_plan"];
             $item["renw_per"] = !empty($item["warning_student"])?round($item["renw_num"]/$item["warning_student"]*100,2):0;
-            $item["renw_money"] = isset($week_info[$k])?$week_info[$k]["renw_price"]/100:0;
+            // $item["renw_money"] = isset($week_info[$k])?$week_info[$k]["renw_price"]/100:0;
             $item["renw_money_one"] = !empty($item["renw_num"])?round($item["renw_money"]/$item["renw_num"],2):0;
             $item["lesson_target"] = $lesson_target ;
             $item["read_student"] = isset($week_info[$k])?$week_info[$k]["read_student"]:0;
@@ -6041,26 +6152,139 @@ class tongji_ss extends Controller
 
     }
 
+    public function get_refund_student_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret = $this->t_order_refund->get_ass_refund_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            E\Egrade::set_item_value_str($item);
+            $item["lesson_left"] = $item["lesson_count_left"]/100;
+            $item["real_refund"] = $item["real_refund"]/100;
+            $item["order_lesson"] = $item["lesson_total"]*$item["default_lesson_count"]/100;
+            $item["sys_operator"] = $this->t_manager_info->get_account($item["refund_userid"]);
+        }
+
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
     public function get_ass_end_stu_list(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
         $ret = $this->t_student_info->get_end_lesson_stu_list($start_time,$end_time);
         foreach($ret as &$item){
-            E\Egrade::set_item_value_str($item); 
+            E\Egrade::set_item_value_str($item);
             $item["lesson_left"] = $item["lesson_count_left"]/100;
         }
- 
+
         return  $this->output_succ( [ "data" =>$ret] );
     }
 
+    public function get_kk_lesson_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret= $this->t_test_lesson_subject_sub_list->get_kk_require_detail_info($start_time,$end_time);
+        foreach($ret as &$item){
+            if($item["status"]==1){
+                $item["status_str"]="成功";
+            }elseif($item["status"]==2){
+                $item["status_str"]="失败";
+            }else{
+                $item["status_str"]="跟进中";
+            }
+
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+
+        }
+
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+    public function get_tran_lesson_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $ret = $this->t_test_lesson_subject_sub_list->get_tran_require_detail_info($start_time,$end_time);
+        $arr=[];
+        foreach($ret as $item){
+            @$arr[$item["userid"]]["userid"] = $item["userid"];
+            @$arr[$item["userid"]]["grade"] = $item["grade"];
+            @$arr[$item["userid"]]["nick"] = $item["nick"];
+            @$arr[$item["userid"]]["account"] = $item["account"];
+            @$arr[$item["userid"]]["order_money"] +=$item["order_money"];
+        }
+        foreach($arr as &$val){
+            if($val["order_money"]<=0){
+                $val["status_str"]="未签";
+            }else{
+                $val["status_str"]= $val["order_money"]/100;
+            }
+
+            E\Egrade::set_item_value_str($val);
+
+        }
+
+        return  $this->output_succ( [ "data" =>$arr] );
+
+
+
+    }
+
+    public function get_warning_student_detail_list(){
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        /*list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2);
+        $start_time = $start_time-21*86400;
+        $end_time = $end_time-21*86400;*/
+        $week_info = $this->t_ass_weekly_info->get_all_info($start_time);
+        $userid_list=[];
+        foreach($week_info as $val){
+            $user = $val["warning_student_list"];
+            $arr = json_decode($user,true);
+            if(!empty($arr)){
+                foreach($arr as $v){
+                    $userid_list[]=$v;
+                }
+            }
+        }
+        $ret = $this->t_student_info->get_stu_renw_info($start_time,$end_time,$userid_list);
+
+
+        foreach($ret as &$item){
+            $item["lesson_count_left"] = $item["lesson_count_left"]/100;
+            if($item["status"]==0){
+                $status = $this->t_month_ass_warning_student_info->get_ass_renw_flag_master_by_userid($item["userid"],$start_time,1);
+                if($status==1){
+                   $item["status"]="续费";
+                }elseif($status==2){
+                    $item["status"]="不续费";
+                }else{
+                    $item["status"]="待跟进";
+                }
+
+            }else{
+                $item["status"] =  $item["status"]/100;
+            }
+
+            E\Egrade::set_item_value_str($item);
+
+        }
+
+        return  $this->output_succ( [ "data" =>$ret] );
+
+    }
+
+
     public function tongji_fulltime_teacher_test_lesson_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         //$end_time = time();
         // $start_time = time()-30*86400;
         // $d = date("m",$end_time-100)- date("m",$start_time+100)+1;
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
-        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5);
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
         $qz_tea_arr=[];
         foreach($ret_info as $yy=>$item){
             if($item["teacherid"] != 97313){
@@ -6250,6 +6474,171 @@ class tongji_ss extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
+
+    public function tongji_teacher_1v1_lesson_time(){
+        $this->switch_tongji_database();
+        $start_time = strtotime("2017-06-18");
+        $end_time = strtotime("2017-08-01");
+        $ret= $this->t_lesson_info_b2->tongji_1v1_lesson_time($start_time,$end_time);
+        $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
+        $late_list=[];
+        foreach($late as $e){
+            @$late_list[$e["teacherid"]] +=$e["time"];
+        }
+        $arr=[];$week=[];
+        foreach($ret as $val){
+            $teacherid = $val["teacherid"];
+            @$arr[$teacherid][$val["day"]] = $val["time"];
+            @$arr[$teacherid]["realname"] = $val["realname"];
+            if($val["week"]==0){
+
+                @$week[$teacherid]["seven"] +=$val["time"];
+            }elseif($val["week"]==1){
+                @$week[$teacherid]["one"] +=$val["time"];
+            }
+            @$week[$teacherid]["all"] +=$val["time"];
+
+
+        }
+
+        $all=["realname"=>"全部"];
+        foreach($arr as $k=>&$item){
+            $item["seven"] = @$week[$k]["seven"];
+            $item["one"] = @$week[$k]["one"];
+            $item["all"] = @$week[$k]["all"];
+            $item["late"] = @$late_list[$k];
+            $item["total"] = $item["all"]+$item["late"];
+            @$all["20170618"] += @$item["20170618"];
+            @$all["20170619"] += @$item["20170619"];
+            @$all["20170625"] += @$item["20170625"];
+            @$all["20170626"] += @$item["20170626"];
+            @$all["20170702"] += @$item["20170702"];
+            @$all["20170703"] += @$item["20170703"];
+            @$all["20170709"] += @$item["20170709"];
+            @$all["20170710"] += @$item["20170710"];
+            @$all["20170716"] += @$item["20170716"];
+            @$all["20170717"] += @$item["20170717"];
+            @$all["20170717"] += @$item["20170723"];
+            @$all["20170717"] += @$item["20170724"];
+            @$all["20170717"] += @$item["20170730"];
+            @$all["20170717"] += @$item["20170731"];
+            @$all["seven"] += @$item["seven"];
+            @$all["one"] += @$item["one"];
+            @$all["all"] += @$item["all"];
+            @$all["late"] += @$item["late"];
+            @$all["total"] += @$item["total"];
+        }
+        array_unshift($arr,$all);
+
+        foreach($arr as &$v){
+            foreach($v as $s=>$kk){
+                if(!in_array($s,["realname","one","seven","all","late","total"])){
+                    $v[$s] = !empty($kk)?round($kk/3600,1)."小时":"";
+                }
+            }
+            $v["seven_hour"] =  !empty($v["seven"])?round($v["seven"]/3600,1)."小时":"";
+            $v["seven_day"] = !empty($v["seven"])?round($v["seven"]/3600/8,2)."天":"";
+            $v["one_hour"] = !empty($v["one"])?round($v["one"]/3600,1)."小时":"";
+            $v["one_day"] = !empty($v["one"])?round($v["one"]/3600/8,2)."天":"";
+            $v["all_hour"] = !empty($v["all"])?round($v["all"]/3600,1)."小时":"";
+            $v["all_day"] = !empty($v["all"])?round($v["all"]/3600/8,2)."天":"";
+            $v["late_hour"] = !empty($v["late"])?round($v["late"]/3600,1)."小时":"";
+            $v["late_day"] = !empty($v["late"])?round($v["late"]/3600/8,2)."天":"";
+            $v["total_hour"] = !empty($v["total"])?round($v["total"]/3600,1)."小时":"";
+            $v["total_day"] = !empty($v["total"])?round($v["total"]/3600/8,2)."天":"";
+
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($arr);
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+
+    public function tongji_change_teacher_info(){
+        $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type',-1);
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num= $this->get_in_page_num();
+
+        $ret_info = $this->t_change_teacher_list->get_change_teacher_info($change_teacher_reason_type,$start_time,$end_time,$page_num);
+
+        // dd($ret_info);
+        foreach($ret_info['list'] as &$item){
+            $item['stu_nick']= $this->t_student_info->get_nick($item['userid']);
+
+            if(!$item['old_teacherid']){
+                $item['old_teacher_nick']  = '无' ;
+            }else{
+                $item['old_teacher_nick']  = $this->t_teacher_info->get_nick($item['old_teacherid']);
+            }
+
+            if(!$item['teacherid']){
+                $item['teacher_nick']  = '无' ;
+            }else{
+                $item['teacher_nick']  = $this->t_teacher_info->get_nick($item['teacherid']);
+            }
+
+            E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+
+            if($item['success_flag'] == 0){
+                $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['success_flag'] == 1){
+                $item['success_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['success_flag'] == 2){
+                $item['success_flag_str'] = "<font color=\"red\">失败</font>";
+            }
+
+            $item['ass_nick'] = $this->t_assistant_info->get_nick($item['assistantid']);
+            $item['test_lesson_time'] = date('m-d H:i:s',$item['lesson_start']).' - '.date('H:i:s',$item['lesson_end']);
+            $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
+
+            if($item['is_done_flag'] == 0){
+                $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['is_done_flag'] == 1){
+                $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
+            }elseif($item['is_done_flag'] == 2){
+                $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
+            }
+
+            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
+            if($is_lesson_time_flag == 1){
+                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
+            }else{
+                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";;
+            }
+        }
+            return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function tongji_kuoke_info(){// 待确认['暂停']
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num = $this->get_in_page_num();
+
+        $ret_info = $this->t_test_lesson_subject->get_test_lesson_info($start_time,$end_time,$page_num);
+
+        foreach( $ret_info['list'] as &$item){
+            $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
+
+        }
+
+        dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+    public function tongji_change_lesson_by_teacher(){
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num = $this->get_in_page_num();
+
+        $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
+
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+        $ret_info = '';
+
+        return $this->pageView(__METHOD__,$ret_info);
+
+   }
 
 
 }

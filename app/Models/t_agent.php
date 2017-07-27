@@ -64,6 +64,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_agent_info_by_id($id){
+        $where_arr = array();
+        $this->where_arr_add_str_field($where_arr,"id",$id);
+
+        $sql=$this->gen_sql_new ("select * "
+                                 ." from %s where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
     public function xx(){
         $sql="update xx set f=10";
         /*
@@ -95,20 +107,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function add_agent_row($parentid,$phone){
+    public function add_agent_row($parentid,$phone,$userid){
         $ret = $this->row_insert([
             "parentid" => $parentid,
             "phone"    => $phone,
+            "userid"    => $userid,
             "create_time" => time(null),
         ],true);
         return $ret;
     }
 
-    public function add_agent_row_new($phone,$wx_openid){
+    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid){
         $ret = $this->row_insert([
-            "parentid" => 0,
-            "phone"    => $phone,
-            "wx_openid"    => $wx_openid,
+            "parentid"    => 0,
+            "phone"       => $phone,
+            "wx_openid"   => $wx_openid,
+            "headimgurl"  => $headimgurl,
+            "nickname"    => $nickname,
             "create_time" => time(null),
         ],true);
         if($ret){
@@ -349,13 +364,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_count_by_phone($phone){
         $where_arr=[
-            ['phone = %s ',$phone],
+            ['a1.phone = %s ',$phone],
         ];
 
         $sql= $this->gen_sql_new(
-            "select count(id) count "
-            . " from %s "
+            "select count(a.id) count "
+            . " from %s a "
+            . " left join %s a1 on a1.id = a.parentid "
             . " where %s ",
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
         );
@@ -415,14 +432,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_agent_order_by_phone($p_id){
-        $where_arr = [
-            // 'a.id in ('.$p_id_str.')',
-        ];
+        $where_arr = [];
         if($p_id){
             $this->where_arr_add_int_or_idlist($where_arr,'a.id',$p_id);
         }
         $sql = $this->gen_sql_new(
-            " select a.id p_id,o.userid,if(s.nick,s.nick,'') nick,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
+            " select a.id p_id,a.phone,o.userid,s.nick,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
             ." from %s a "
             ." left join %s ao on ao.aid=a.id "
             ." left join %s o on o.orderid=ao.orderid "
@@ -437,4 +452,30 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    public function update_agent_order(){
+        $where_arr = [];
+        $sql = $this->gen_sql_new(
+            " select a.phone ".
+            " from %s ".
+            " left join %s "
+        );
+    }
+
+    public function get_p_pp_id_by_phone($phone){
+        $where_arr = [
+            ['a.phone = %s',$phone],
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.phone,a.parentid pid,a1.phone p_phone,a1.parentid ppid,a2.phone pp_phone".
+            " from %s a ".
+            " left join %s a1 on a1.id=a.parentid".
+            " left join %s a2 on a2.id=a1.parentid".
+            " where %s ",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 }

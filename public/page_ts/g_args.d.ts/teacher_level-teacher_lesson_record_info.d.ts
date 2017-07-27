@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 	teacherid:	number;
 }
 declare module "g_args" {
@@ -9,15 +11,26 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	teacherid	:any;
+	realname	:any;
+	subject	:any;
+	grade	:any;
+	grade_start	:any;
+	grade_end	:any;
+	not_grade	:any;
+	subject_str	:any;
+	grade_part_ex_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../teacher_info; vi  ../teacher_info/index.ts
+	 mkdir -p ../teacher_level; vi  ../teacher_level/teacher_lesson_record_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_info-index.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-teacher_lesson_record_info.d.ts" />
 
 $(function(){
     function load_data(){

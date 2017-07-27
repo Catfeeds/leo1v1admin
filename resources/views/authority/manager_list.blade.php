@@ -147,6 +147,7 @@
                                     <a href="javascript:;" title="同步考勤" class="fa fa-refresh opt-sync-kaoqin  "> </a>
                                     <a href="javascript:;" title="邮箱配置" class="opt-email"> 邮箱 </a>
                                     <a href="javascript:;" title="设置全职老师类型" class="opt-set-fulltime-teacher-type"> 全</a>
+                                    <a href="javascript:;" title="生成学生和家长账号" class="opt-set-user-phone">生成账号</a>
                                 </div>
                             </td>
                         </tr>

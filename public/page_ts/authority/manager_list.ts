@@ -25,7 +25,7 @@ $(function(){
             seller_level      :	$('#id_seller_level').val(),
             day_new_user_flag :	$('#id_day_new_user_flag').val(),
             del_flag          : $('#id_del_flag').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+      fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
             adminid           :	$('#id_adminid').val()
         });
     }
@@ -48,7 +48,7 @@ $(function(){
     $("#id_del_flag").val(g_args.del_flag);
     $('#id_cardid').val(g_args.cardid);
     $('#id_tquin').val(g_args.tquin);
-	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
@@ -63,7 +63,7 @@ $(function(){
 
 
 
-    if (window.location.pathname=="/authority/manager_list_for_qz" || window.location.pathname=="/authority/manager_list_for_qz/"){       
+    if (window.location.pathname=="/authority/manager_list_for_qz" || window.location.pathname=="/authority/manager_list_for_qz/"){
     }else{
         $("#id_fulltime_teacher_type").parent().parent().hide();
         $(".opt-set-fulltime-teacher-type").hide();
@@ -150,7 +150,7 @@ $(function(){
     $(".opt-set-fulltime-teacher-type").on("click", function(){
         var opt_data=$(this).get_opt_data();
         var uid= opt_data.uid;
-       
+
         var $fulltime_teacher_type =$("<select/>");
         Enum_map.append_option_list("fulltime_teacher_type",$fulltime_teacher_type,true);
         var arr =[
@@ -307,8 +307,7 @@ $(function(){
 
             ["-","-"],
             ["打电话类型",$call_phone_type ],
-            ["打电话账号id",$tquin],
-            ["打电话密码",$call_phone_passwd ],
+            ["打电话账号id",$tquin], ["打电话密码",$call_phone_passwd ],
             ["-","-"],
 
             ["咨询师等级",$seller_level] ,
@@ -666,6 +665,36 @@ $(function(){
                 } );
             }
         }]);
+    });
+
+    //用户手机号绑定
+    $(".opt-set-user-phone").on("click", function(){
+       
+
+
+        var opt_data = $(this).get_opt_data();
+        console.log(opt_data);
+        var account  = $(this).get_opt_data("account");
+        var phone    = $(this).get_opt_data("phone");
+        var arr = [
+            ["account", account ] ,
+            ["电话",phone],
+            ['说明','生成相应的学生，家长信息']
+        ];
+
+        $.show_key_value_table("生成对应的相应的学生，家长信息", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax('/ajax_deal2/register_student_parent_account', {
+                    'account' : account,
+                    'phone'   : phone, 
+                },function(resp){
+                    //alert(JSON.stringify(resp));
+                    alert(resp['success']);
+                });
+            }
+        });
     });
 
 

@@ -32,6 +32,7 @@ interface GargsStatic {
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  	admin_del_flag:	number;//\App\Enums\Eboolean
 	wx_invaild_flag:	number;//\App\Enums\Eboolean
+	filter_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -134,7 +135,8 @@ $(function(){
 			publish_flag:	$('#id_publish_flag').val(),
 			seller_level:	$('#id_seller_level').val(),
 			admin_del_flag:	$('#id_admin_del_flag').val(),
-			wx_invaild_flag:	$('#id_wx_invaild_flag').val()
+			wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
+			filter_flag:	$('#id_filter_flag').val()
         });
     }
 
@@ -150,6 +152,7 @@ $(function(){
 	Enum_map.append_option_list("boolean",$("#id_publish_flag"));
 	Enum_map.append_option_list("boolean",$("#id_admin_del_flag"));
 	Enum_map.append_option_list("boolean",$("#id_wx_invaild_flag"));
+	Enum_map.append_option_list("boolean",$("#id_filter_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -191,6 +194,7 @@ $(function(){
 	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 	$('#id_admin_del_flag').val(g_args.admin_del_flag);
 	$('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
+	$('#id_filter_flag').val(g_args.filter_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -391,6 +395,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_wx_invaild_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_filter_flag" >
                 </select>
             </div>
         </div>

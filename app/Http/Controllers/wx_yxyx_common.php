@@ -15,21 +15,18 @@ class wx_yxyx_common extends Controller
 
     public function wx_jump_page () {
         $code       = $this->get_in_str_val("code");
-        /**  @var  \App\Helper\Wx  $wx */
-        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
-        $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
-
-        global $_SERVER;
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
         $token_info = $wx->get_token_from_code($code);
         $openid     = @$token_info["openid"];
         if(!$openid) {
-            dd( "请关闭 重进");
+            dd("请关闭 重进");
             exit;
         }
+        global $_SERVER;
         session(["wx_yxyx_openid" => $openid]);
-
         \App\Helper\Utils::logger("HOST:".$_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("wx_yxyx_openid:$openid");
+        \App\Helper\Utils::logger("new_openid:$openid");
         \App\Helper\Utils::logger("sessionid:".session_id());
 
         $goto_url     = urldecode(hex2bin($this->get_in_str_val("goto_url")));
@@ -66,13 +63,18 @@ class wx_yxyx_common extends Controller
 
     public function send_phone_code() {
         $phone = trim($this->get_in_str_val('phone'));
+        $wx_openid  = session("wx_yxyx_openid");
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }else{
+            $openid = '';
+            // $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
             $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
-            if(isset($agent_info['id'])){
+            if(isset($agent_info['wx_openid'])){
+                $openid = $agent_info['wx_openid'];
+            }
+            if($openid){
                 $id = $agent_info['id'];
-                \App\Helper\Utils::logger("is_bind:$id");
                 return $this->output_err("您已绑定过！");
             }
         }
@@ -97,11 +99,6 @@ class wx_yxyx_common extends Controller
         $code       = $this->get_in_str_val("code");
         $check_code = session("wx_yxyx_code");
         $wx_openid  = session("wx_yxyx_openid");
-        \App\Helper\Utils::logger("bind_openid:".session('wx_yxyx_openid'));
-        \App\Helper\Utils::logger("bind_sessionid:".session_id());
-        \App\Helper\Utils::logger("bind_phone:".$phone);
-        \App\Helper\Utils::logger("bind_code:".$code);
-        \App\Helper\Utils::logger("bind_check_code:".$check_code);
         if(!$wx_openid){
             return $this->output_err('微信绑定失败!请重新登录后绑定!"');
         }
@@ -110,18 +107,72 @@ class wx_yxyx_common extends Controller
         }
 
         if($code==$check_code){
-            $id = $this->t_agent->add_agent_row_new($phone,$wx_openid);
+            $agent_info = [];
+            $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
+            $user_info  = $this->get_wx_user_info($wx_openid);
+            $headimgurl = $user_info['headimgurl'];
+            $nickname   = $user_info['nickname'];
+            if(isset($agent_info['id'])){
+                $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
+            }else{
+                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid);
+            }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
             }
 
             session(["agent_id"=>$id]);
             session(["login_user_role"=>10]);
-            \App\Helper\Utils::logger("bind_openid_add:$wx_openid,bind_phone_add:$phone,bind_id_add:".$id);
             return $this->output_succ("绑定成功!");
         }else{
             return $this->output_err ("验证码错误");
         }
     }
 
+    public function get_wx_user_info($wx_openid){
+        $wx_config    = \App\Helper\Config::get_config("yxyx_wx");
+        $wx           = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_cn";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+
+        return $data;
+    }
+
+    public function agent_add(){
+        $p_phone = $this->get_in_str_val('p_phone');
+        $phone   = $this->get_in_str_val('phone');
+        if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        if($p_phone == $phone){
+            return $this->output_err("不能邀请自己!");
+        }
+        $phone_str = implode(',',[$phone,$p_phone]);
+        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+        foreach($ret_list as $item){
+            if($phone == $item['phone']){
+                return $this->output_err("您已被邀请过!");
+            }
+            if($p_phone = $item['phone']){
+                $parentid = $item['id'];
+            }
+        }
+        if(!isset($parentid)){
+            $parentid = 0;
+        }
+        $userid = $this->t_student_info->get_userid_by_phone($phone);
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid);
+        if($ret){
+            return $this->output_succ("邀请成功!");
+        }else{
+            return $this->output_err("数据请求异常!");
+        }
+    }
 }

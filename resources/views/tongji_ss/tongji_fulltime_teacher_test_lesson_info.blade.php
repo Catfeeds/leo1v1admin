@@ -62,6 +62,14 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-3" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">全职老师分类</span>
+                        <select class="opt-change form-control" id="id_fulltime_teacher_type" >
+                        </select>
+                    </div>
+                </div>
+
             </div>
             <hr/>      
 

@@ -14,7 +14,6 @@ use \App\Enums as E;
  * @property t_assistant_info  $t_assistant_info
  * @property t_admin_group_user  $t_admin_group_user
  * @property t_admin_group_name  $t_admin_group_name
-
  */
 
 
@@ -27,7 +26,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_student_list_search( $page_num,$all_flag, $userid,$grade, $status,
                                              $user_name, $phone, $teacherid, $assistantid, $test_user,
-                                             $originid, $seller_adminid,$order_type
+                                             $originid, $seller_adminid,$order_type,$student_type
     ){
         $where_arr=[
             ["userid=%u", $userid, -1] ,
@@ -37,6 +36,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ["is_test_user=%u ", $test_user , -1] ,
             ["originid=%u ", $originid , -1] ,
             ["seller_adminid=%u ", $seller_adminid, -1] ,
+            ["type=%u ", $student_type, -1] ,
         ];
         if ($user_name) {
             $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
@@ -154,6 +154,45 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
         return $ret_info;
     }
+
+    public function get_student_search_two_weeks_list( $start_time, $end_time,$all_flag, $userid,$grade, $status,
+                                                       $user_name, $phone, $teacherid, $assistantid, $test_user,
+                                                       $originid, $seller_adminid,$ass_adminid_list=[]
+    ){
+        $last_two_weeks_time = time(NULL)-86400*14;
+        $where_arr=[
+            ["s.userid=%u", $userid, -1] ,
+            ["s.grade=%u", $grade, -1] ,
+            ["s.status=%u", $status, -1] ,
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.is_test_user=%u ", $test_user , -1] ,
+            ["s.originid=%u ", $originid , -1] ,
+            ["s.seller_adminid=%u ", $seller_adminid, -1] ,
+            "s.lesson_count_all>0",
+            "s.lesson_count_left<100",
+            "s.last_lesson_time<$last_two_weeks_time"
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $ass_adminid_list );
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+
+        $sql = $this->gen_sql("select s.userid from %s s left join %s a on s.assistantid =a.assistantid".
+                              " left join %s m on a.phone = m.phone".
+                              "  where  %s  ",
+                              self::DB_TABLE_NAME,
+                              t_assistant_info::DB_TABLE_NAME,
+                              t_manager_info::DB_TABLE_NAME,
+                              [$this->where_str_gen($where_arr)]
+        );
+        return $this->main_get_list($sql);    
+        
+    }
+
 
     public function get_student_list_count($userid,$grade, $status, $user_name, $phone, $teacherid, $assistantid, $test_user, $originid, $page_num)
     {
@@ -1033,6 +1072,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
     public function register( $phone, $passwd, $reg_channel , $grade , $ip, $nick,  $region)
     {
         $userid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT);
@@ -1683,7 +1723,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s m on a.phone = m.phone"
                                   ." left join %s u on m.uid = u.adminid"
                                   ." left join %s n on u.groupid = n.groupid"
-                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count) - sum(s.lesson_count_left)/count(*)/1) >=0)"
+                                  ."  where s.type=0 and  s.is_test_user=0 and s.lesson_count_left>0 group by s.userid having ((sum(b.lesson_count) - sum(s.lesson_count_left)/count(*)/1.2) >=0)"
                                   ,self::DB_TABLE_NAME
                                   ,t_week_regular_course::DB_TABLE_NAME
                                   ,t_assistant_info::DB_TABLE_NAME
@@ -1962,7 +2002,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             return $item["uid"];
         });
 
-            
+
     }
     public function get_refund_info($start_time,$end_time,$type=-1){
         $where_arr=[];
@@ -2446,6 +2486,58 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   t_assistant_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+    public function get_stu_nick_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select nick from %s s ".
+                                  " left join %s l on l.userid = s.userid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_stu_renw_info($start_time,$end_time,$userid_list){
+        $where_arr=[];
+        $where_arr[] = $this->where_get_in_str("s.userid",$userid_list,true);
+        $sql =$this->gen_sql_new("select s.nick,if(o.orderid>0,o.price,0) status,a.nick ass_name,s.grade,s.lesson_count_left,s.userid ".
+                                 " from  %s s ".
+                                 " left join %s o on o.userid  = s.userid and o.contract_type in (3,3001) and o.contract_status in (1,2,3) and o.order_time >= %u and o.order_time <= %u".
+                                 " left join %s a on s.assistantid = a.assistantid".
+                                 " where %s ",
+                                 self::DB_TABLE_NAME,
+                                 t_order_info::DB_TABLE_NAME,
+                                 $start_time,
+                                 $end_time,
+                                 t_assistant_info::DB_TABLE_NAME,
+                                 $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+    public function get_has_lesson($start,$end){
+        $where_arr=[
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.type"
+                                  ." from %s s "
+                                  ." where type =0  "
+                                  // ." and grade=203"
+                                  ." and is_test_user=0"
+                                  ." and lesson_count_left>1"
+                                  ." and exists (select 1 from %s where s.userid=userid and lesson_type in (0,1,3) and %s)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

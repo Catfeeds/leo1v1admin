@@ -222,7 +222,6 @@ class Common {
         }
         $url= "https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=$phone";
 
-
         $data= preg_replace("/__GetZoneResult_ = /","",
                             Net::send_post_data($url,[] )
         );
@@ -232,8 +231,8 @@ class Common {
         $data = iconv("GBK","utf-8",$data);
         $arr  = json_decode($data,true);
         return  isset($arr["carrier"])?$arr["carrier"]:"";
-
     }
+
     static function dispache_mail(  $address ,$title ,$message  ) {
         $job=new \App\Jobs\SendEmail( $address,
                                       $title,

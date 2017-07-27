@@ -23,17 +23,19 @@ $(function(){
             is_with_test_user : $("#id_is_with_test_user").val(),
             has_performance   : $("#id_has_performance").val(),
             lesson_count      : $("#id_lesson_count").val(),
-			lesson_del_flag:	$('#id_lesson_del_flag').val(),
+      lesson_del_flag:	$('#id_lesson_del_flag').val(),
 
             origin : $("#id_origin").val(),
 
             has_video_flag            :	$('#id_has_video_flag').val(),
             lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type').val(),
             lesson_user_online_status :	$('#id_lesson_user_online_status').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
     Enum_map.append_option_list( "boolean", $('#id_lesson_del_flag'));
+    Enum_map.append_option_list( "fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     $(".opt-change-price").on("click",function(){
         var lessonid     = $(this).parent().data("lessonid");
         var tea_money    = $(this).parent().data("teacher_price");
@@ -72,6 +74,7 @@ $(function(){
 
 
     $('#id_lesson_user_online_status').val(g_args.lesson_user_online_status);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $('#id_origin').val(g_args.origin);
 
 
@@ -970,7 +973,7 @@ $(function(){
 
     $("#id_studentid").val(g_args.studentid);
     $("#id_seller_adminid").val(g_args.seller_adminid);
-	$('#id_lesson_del_flag').val(g_args.lesson_del_flag);
+  $('#id_lesson_del_flag').val(g_args.lesson_del_flag);
 
 
     $.admin_select_user( $("#id_studentid"), "student", load_data);
@@ -1086,21 +1089,21 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax("/user_deal/lesson_set_confirm", {
-                    "lessonid"       : lessonid,
-                    "confirm_flag"   : $confirm_flag.val(),
-                    "confirm_reason" : $confirm_reason.val(),
+                    "lessonid"                                  : lessonid,
+                    "confirm_flag"                              : $confirm_flag.val(),
+                    "confirm_reason"                            : $confirm_reason.val(),
                     "lesson_cancel_reason_next_lesson_time"     : $lesson_cancel_reason_next_lesson_time.val(),
                     "lesson_cancel_reason_next_lesson_end_time" : $lesson_cancel_reason_next_lesson_end_time.val(),
-                    "lesson_cancel_reason_type" : $lesson_cancel_reason_type.val(),
-                    "lesson_cancel_time_type"   : $lesson_cancel_time_type.val(),
-                    "lesson_count" : $lesson_count.val(),
-                    "courseid"     : opt_data.courseid,
-                    "lesson_type"  : opt_data.lesson_type,
-                    "subject"      : opt_data.subject,
-                    "grade"        : opt_data.grade,
-                    "teacherid"    : opt_data.teacherid,
-                    "userid"       : opt_data.stu_id,
-                    "phone"        : opt_data.stu_phone
+                    "lesson_cancel_reason_type"                 : $lesson_cancel_reason_type.val(),
+                    "lesson_cancel_time_type"                   : $lesson_cancel_time_type.val(),
+                    "lesson_count"                              : $lesson_count.val(),
+                    "courseid"                                  : opt_data.courseid,
+                    "lesson_type"                               : opt_data.lesson_type,
+                    "subject"                                   : opt_data.subject,
+                    "grade"                                     : opt_data.grade,
+                    "teacherid"                                 : opt_data.teacherid,
+                    "userid"                                    : opt_data.stu_id,
+                    "phone"                                     : opt_data.stu_phone
                 });
             }
         },function(){
@@ -1353,6 +1356,11 @@ $(function(){
     if (window.location.pathname =="/tea_manage/lesson_list_seller" ||  window.location.pathname =="/tea_manage/lesson_list_seller/" || window.location.pathname =="/tea_manage/lesson_list_ass" || window.location.pathname =="/tea_manage/lesson_list_ass/") {
         $(".opt-seller-ass-record").show();
     }
+    
+    if (window.location.pathname =="/tea_manage/lesson_list_fulltime" ||  window.location.pathname =="/tea_manage/lesson_list_fulltime/") {
+         $("#id_fulltime_teacher_type").parent().parent().hide();
+    }
+
 
     $(".opt-user-video-info").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -1767,5 +1775,55 @@ $(function(){
                 });
             }
         });
+    });
+
+
+    $('.opt-modify-lesson-time').on("click",function(){
+        var opt_data        = $(this).get_opt_data();
+        var id_modify_time_start  = $('<input/>');
+        var id_modify_time_end    = $('<input/>');
+        $.do_ajax("/ss_deal/get_lesson_time",{
+            'lessonid' : opt_data.lessonid
+        },function(result){
+            var data = result.data;
+
+            id_modify_time_start.datetimepicker({
+                lang:'ch',
+                timepicker:true,
+                format:'Y-m-d H:i'
+            });
+
+            id_modify_time_end.datetimepicker({
+                lang:'ch',
+                timepicker:true,
+                format:'Y-m-d H:i'
+            });
+
+            id_modify_time_start.val(data.lesson_start);
+            id_modify_time_end.val(data.lesson_end);
+
+            var arr=[
+                [ "课程开始时间", id_modify_time_start],
+                [ "课程结束时间", id_modify_time_end],
+            ];
+
+            $.show_key_value_table("调换上课时间", arr,{
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.do_ajax("/ss_deal/set_lesson_time",{
+                        'lessonid' :  opt_data.lessonid,
+                        'lesson_start' : id_modify_time_start.val(),
+                        'lesson_end'   : id_modify_time_end.val()
+                    },function(result){
+                        alert(result.info);
+                        load_data();
+                    });
+                }
+            },function(){
+            });
+        }
+       );
+
     });
 });

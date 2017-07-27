@@ -101,7 +101,8 @@ $(function(){
                     "ass_renw_flag"            : $ass_renw_flag.val(),
                     "renw_price"               : $renw_price.val()*100,
                     "no_renw_reason"           : $no_renw_reason.val(),
-                    "renw_week"                : $renw_week.val()
+                    "renw_week"                : $renw_week.val(),
+                    "id"                       : opt_data.id
                 });
             }
         },function(){
@@ -154,6 +155,7 @@ $(function(){
                     "start_time"               : g_args.start_time,
                     "master_renw_flag"         : $master_renw_flag.val(),
                     "master_no_renw_reason"    : $master_no_renw_reason.val(),
+                    "id"                       : opt_data.id
                 });
             }
         },function(){

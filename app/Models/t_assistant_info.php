@@ -180,7 +180,17 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
 
     public function get_assistantid($name)
     {
-        $where_str=$this->where_str_gen([
+        $uid = $this->task->t_manager_info->get_id_by_account($name);
+        $sql = $this->gen_sql_new("select assistantid from %s a"
+                                  ." join %s m on a.phone = m.phone"
+                                  ." where m.uid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $uid
+        );
+        return $this->main_get_value($sql);
+
+        /*$where_str=$this->where_str_gen([
             [ "email like '%%%s@%%'", $name ],
         ]);
 
@@ -188,7 +198,7 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
                        self::DB_TABLE_NAME,
                        [$where_str]
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_value($sql);*/
 
     }
     public function get_ass_list_for_select($id,$gender, $nick_phone,  $page_num)
@@ -304,6 +314,17 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         return $this->main_get_value($sql);
     }
 
+    public function get_ass_phone_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select phone from %s ai ".
+                                  " left join %s l on l.assistantid = ai.assistantid ".
+                                  " where lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
 
 
 }

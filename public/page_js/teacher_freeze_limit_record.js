@@ -164,7 +164,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var title = "冻结/解冻记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>年级</td><td>操作</td><td>理由</td><td>操作人</td><td>是否CC要求</td><tr></table></div>");                     
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>年级</td><td>操作</td><td>理由</td><td>操作人</td><td>是否CC要求</td></tr></table></div>");                     
 
         $.do_ajax("/user_deal/get_teacher_free_list",{
             "teacherid" : teacherid,
@@ -211,7 +211,7 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var title = "限课记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>年级</td><td>操作前</td><td>操作后</td><td>理由</td><td>操作人</td><td>是否CC要求</td><tr></table></div>");
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>时间</td><td>年级</td><td>操作前</td><td>操作后</td><td>理由</td><td>操作人</td><td>是否CC要求</td></tr></table></div>");
         
         
 

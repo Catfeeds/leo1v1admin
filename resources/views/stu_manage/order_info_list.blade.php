@@ -47,7 +47,6 @@
 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa-unlink opt-back-money " title="退费" ></a>
                                 <a class="fa fa-list-alt opt-hand-over btn" title="新建交接单"></a>
                                 <a class="btn fa fa-th-list opt-hand-over_info" title="交接单详情"></a>
                             </div>

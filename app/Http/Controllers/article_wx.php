@@ -144,7 +144,17 @@ class  article_wx extends Controller
         return $this->Pageview(__METHOD__,'' );
     }
 
+    public function leo_yxyx_question() { // 优学优享-常见问题
+        return $this->Pageview(__METHOD__,'' );
+    }
 
+    public function leo_yxyx_introduction() { // 优学优享-公司简介
+        return $this->Pageview(__METHOD__,'' );
+    }
+
+    public function leo_yxyx_guide(){ // 优学优享-用户指南
+        return $this->Pageview(__METHOD__,'' );
+    }
 
 
 

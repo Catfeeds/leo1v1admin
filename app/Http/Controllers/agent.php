@@ -48,6 +48,8 @@ class agent extends Controller
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
         foreach($ret_info['list'] as &$item){
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            $item['p_price'] = $item['p_price']/100;
+            $item['pp_price'] = $item['pp_price']/100;
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -65,87 +67,87 @@ class agent extends Controller
             }else{
                 $item['create_time'] = '';
             }
+            if($item['cash']){
+                $item['cash'] = $item['cash']/100;
+            }
         }
 
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function send_phone_code(){
-        $phone = trim($this->get_in_str_val('phone'));
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-
-        $msg_num= \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
-        $code = rand(1000,9999);
-        $ret=\App\Helper\Utils::sms_common($phone, 10671029,[
-            "code" => $code,
-            "index" => $msg_num
-        ] );
-
-        session([
-            'wx_yxyx_code'=>$code,
-            'wx_yxyx_phone'=>$phone
-        ]);
-
-        return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
-    }
-    
     public function check(){
-        $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
-        $time = strtotime('2017-7-18 14:00:00');
-        $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];
-        $lesson_info = $this->t_lesson_info_b2->get_check_lesson($lesson_start);
-        if(count($lesson_info)>0){
-            foreach($lesson_info as $key=>$l_item){
-                $ret = [
-                    'lessonid'       => $l_item['lessonid'],
-                    'lesson_type'    => $l_item['lesson_type'],
-                    'tea_attend'     => $l_item['tea_attend'],
-                    'stu_attend'     => $l_item['stu_attend'],
-                    'teacher_openid' => $l_item['teacher_openid'],
-                    'assistantid'    => $l_item['assistantid'],
-                    'cc_id'          => $l_item['cc_id'],
-                    'teacher_nick'   => $l_item['teacher_nick'],
-                    'student_nick'   => $l_item['student_nick'],
-                    'lesson_time'    => date('Y-m-d H:i',$l_item['lesson_start']).'-'.date('H:i',$l_item['lesson_end']),
-                ];
-                if($l_item['lesson_start'] == $time+300){//课前5分钟
-                    $ret['work_type'] = 0;
-                }elseif($l_item['lesson_start'] == $time-60){//上课1分钟
-                    $ret['work_type'] = 1;
-                }elseif($l_item['lesson_start'] == $time-180){//上课3分钟
-                    $ret['work_type'] = 2;
-                }elseif($l_item['lesson_start'] == $time-300){//上课5分钟
-                    $ret['work_type'] = 3;
-                }elseif($l_item['lesson_start'] == $time-600){//上课10分钟
-                    $ret['work_type'] = 4;
-                }elseif($l_item['lesson_start'] == $time-1200){//上课20分钟
-                    $ret['work_type'] = 5;
-                }elseif($l_item['lesson_start'] == $time-2400){//上课40分钟
-                    $ret['work_type'] = 6;
-                }else{//学生中途退出超过5分钟
-                    $ret['work_type'] = 7;
+        $wx_openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
+        $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
+        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
+        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($output,true);
+        dd($data['headimgurl']);
+    }
+
+    public function update_agent_order($orderid,$userid,$order_price){
+        $agent_order = [];
+        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
+        if(!isset($agent_order['orderid'])){
+            $phone    = $this->t_student_info->get_phone($userid);
+            $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
+            if(isset($ret_info['id'])){
+                $level1 = 0;
+                $level2 = 0;
+                if($ret_info['p_phone']){
+                    $level1 = $this->check_agent_level($ret_info['p_phone']);
                 }
-                $list[] = $ret;
+                if($ret_info['pp_phone']){
+                    $level2 = $this->check_agent_level($ret_info['pp_phone']);
+                }
+                $price           = $order_price/100;
+                $level1_price    = $price/20;
+                $level2_p_price  = $price/10>1000?1000:$price/10;
+                $level2_pp_price = $price/20>500?500:$price/20;
+                $pid = $ret_info['pid'];
+                $ppid = $ret_info['ppid'];
+                $p_price = 0;
+                $pp_price = 0;
+                if($level1 == 1){//黄金
+                    $p_price = $level1_price*100;
+                }elseif($level1 == 2){//水晶
+                    $p_price = $level2_p_price*100;
+                }
+                if($level2 == 2){//水晶
+                    $pp_price = $level2_pp_price*100;
+                }
+                $this->t_agent_order->row_insert([
+                    'orderid'     => $orderid,
+                    'aid'         => $ret_info['id'],
+                    'pid'         => $pid,
+                    'p_price'     => $p_price,
+                    'ppid'        => $ppid,
+                    'pp_price'    => $pp_price,
+                    'create_time' => time(null),
+                ]);
             }
         }
-        dd($list);
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
-        $phone = $this->get_in_str_val('phone',$phone,-1);
         $student_info = [];
         $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        if($student_info){
+        if(isset($student_info['userid'])){
             return 2;
         }else{
             $agent_item = [];
             $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
-            if($agent_item){
+            if(count($agent_item)>0){
                 $test_lesson = [];
                 $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                if(2<=$test_lesson['count']){
+                $count       = count(array_unique(array_column($test_lesson,'id')));
+                if(2<=$count){
                     return 2;
                 }else{
                     return 1;
@@ -155,6 +157,7 @@ class agent extends Controller
             }
         }
     }
+
 
     public function get_my_pay($phone){
         $pay = 0;
@@ -211,7 +214,7 @@ class agent extends Controller
             $count   = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
-            $ret_list[$key]['level2_cash'] = $pay;
+            $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
             if(8<=$count){
                 $cash += $pay;
                 $ret_list[$key]['order_cash'] = $pay;

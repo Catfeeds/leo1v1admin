@@ -30,13 +30,23 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>学生</td>
-                    <td>年级</td>
-                    <td>分配时间</td>
-                    <td>常规合同时间</td>
-                    <td>续费</td>
-                    <td>状态</td>
-                    <td>剩余课时</td>
+                    <td>老师</td>
+                    <td>2017-06-18</td>
+                    <td>2017-06-19</td>
+                    <td>2017-06-25</td>
+                    <td>2017-06-26</td>
+                    <td>2017-07-02</td>
+                    <td>2017-07-03</td>
+                    <td>2017-07-09</td>
+                    <td>2017-07-10</td>
+                    <td>2017-07-16</td>
+                    <td>2017-07-17</td>
+                    <td>星期一(天)</td>
+                    <td>星期一(小时)</td>
+                    <td>星期天(天)</td>
+                    <td>星期天(小时)</td>
+                   
+                   
                                                   
                     <td>操作 </td>
                 </tr>
@@ -44,19 +54,23 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["nick"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
-                        <td>{{@$var["ass_assign_time"]}} </td>
-                        <td>{{@$var["order_time"]}} </td>
-                        <td>
-                            @if($var["orderid"])
-                                是
-                            @else
-                                否
-                            @endif
-                        </td>
-                        <td>{{@$var["type"]}} </td>
-                        <td>{{@$var["lesson_count_left"]/100}} </td>
+                        <td>{{@$var["realname"]}} </td>
+                        <td>{{@$var["20170618"]}}</td>
+                        <td>{{@$var["20170619"]}}</td>
+                        <td>{{@$var["20170625"]}}</td>
+                        <td>{{@$var["20170626"]}}</td>
+                        <td>{{@$var["20170702"]}}</td>
+                        <td>{{@$var["20170703"]}}</td>
+                        <td>{{@$var["20170709"]}}</td>
+                        <td>{{@$var["20170710"]}}</td>
+                        <td>{{@$var["20170716"]}}</td>
+                        <td>{{@$var["20170717"]}}</td>
+                        <td>{{@$var["one_day"]}}</td>
+                        <td>{{@$var["one_hour"]}}</td>
+                        <td>{{@$var["seven_day"]}}</td>
+                        <td>{{@$var["seven_hour"]}}</td>
+
+                       
                                         
                         <td>
                             <div class="row-data"

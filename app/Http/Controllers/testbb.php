@@ -81,17 +81,23 @@ class testbb extends Controller
 
     public function test () {
 
-
     }
 
     public function lesson_send_msg(){
         $start_time = time(null);
         $this->t_teacher_info->get_lesson_info_by_time($start_time,$end_time);
     }
-    public function get_free_time(){
-        $lessonid = $this->get_in_int_val('lessonid');
-        $teacher_free_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid);
-        dd($teacher_free_time);
+
+
+
+
+
+
+
+    public function set_teacher_free_time(){
+        $free_time = $this->get_in_str_val('parent_modify_time');
+
+        // 加一个时间的限制
     }
 
 
@@ -99,6 +105,62 @@ class testbb extends Controller
             $item["user_nick"]  = $this->cache_get_teacher_nick ($item["userid"] );
             $item['phone']      = $this->t_teacher_info->get_phone_by_nick($item['user_nick']);
     }
+
+
+
+
+
+
+    public function get_modify_lesson_time_by_teacher(){//1027 // 老师 点击家长调课 推送详情
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid);
+        $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+
+
+        $lesson_time_arr = [];
+        $t = [];
+        $t2 = [];
+        $t3 = [];
+        $t4 = [];
+        $t5 = [];
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+        foreach($all_tea_stu_lesson_time  as $item){
+            $t['time'][0] = date('Y-m-d',$item['lesson_start']);
+            $t['time'][1] = date('H',$item['lesson_start']).':59:00';
+            $t['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+            array_push($lesson_time_arr,$t);
+            $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
+            $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
+            $t2['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+            array_push($lesson_time_arr,$t2);
+        }
+
+        foreach($lesson_time as $item){
+            $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
+            $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
+            $t4['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+            array_push($lesson_time_arr,$t4);
+            $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
+            $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
+            $t3['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+            array_push($lesson_time_arr,$t3);
+        }
+
+        $parent_modify_time_arr = explode(',',$parent_modify_time);
+        // dd($parent_modify_time);
+        // foreach($parent_modify_time as $item){
+        //     $t5['time'][0] = date('Y-m-d',$item);
+        //     $t5['time'][1] = date('H',$item).':59:00';
+        //     $t5['can_edit'] = 3;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑 3:家长填写的调课时间
+        //     array_push($lesson_time_arr,$t5);
+        // }
+        return $this->output_succ(['data'=>$lesson_time_arr]);
+    }
+
+
 
 
 

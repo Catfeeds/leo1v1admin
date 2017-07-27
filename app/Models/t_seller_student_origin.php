@@ -204,7 +204,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
     public function get_rejoin_user_list( $page_num,$origin_ex, $start_time, $end_time, $need_count,$seller_student_status )  {
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"a.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"b.origin");
         $where_arr=[
             $ret_in_str,
         ];
@@ -230,7 +230,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
     public function get_rejoin_count_list($origin_ex, $start_time, $end_time)  {
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"a.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"b.origin");
         $where_arr=[
             $ret_in_str,
         ];
@@ -238,7 +238,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $sql=$this->gen_sql_new(
             "select  userid , count(*) as count  "
             ." from  %s a "
-            . " where  a.userid in (select userid from %s b where %s  )     group by a.userid   ",
+            . " where  a.userid in (select b.userid from %s b where %s  )     group by a.userid   ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
@@ -334,7 +334,7 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
     }
 
 
-    public function get_tmk_tongji_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1, $origin_level=-1){
+    public function get_tmk_tongji_info( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1, $origin_level=-1,$wx_invaild_flag){
 
         $this->switch_tongji_database();
 
@@ -344,13 +344,14 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             $field_name="s.grade";
             break;
         default:
-            break;
+            // break;
         }
 
         $where_arr=[
             ["origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
             'tmk_adminid>0'
+
         ];
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
@@ -358,6 +359,8 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
 
 

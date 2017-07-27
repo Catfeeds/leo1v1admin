@@ -134,7 +134,11 @@ class main_page extends Controller
         $end_time_date = date("Y-m-d") ;
         $start_time   = $end_time-100*86400;
         $start_time_date  = date("Y-m-d",$start_time);
-        $assistantid=$this->t_assistant_info->get_assistantid( $this->get_account() );
+        $account = $this->get_account();
+        if($account=="jack"){
+            $account="zenghui";
+        }
+        $assistantid=$this->t_assistant_info->get_assistantid( $account );
         if($assistantid==0){
             $assistantid = -1;
         }
@@ -314,6 +318,7 @@ class main_page extends Controller
             $item["tra_count"] = @$tra_info[$item["accept_adminid"]]["tran_count"];
             $item["tra_count_ass"] = @$tra_info[$item["accept_adminid"]]["tran_count_ass"];
             $item["tra_count_seller"] = @$tra_info[$item["accept_adminid"]]["tran_count_seller"];
+            $item["tra_count_green"] = @$tra_info[$item["accept_adminid"]]["tran_count_green"];
             $item["tra_per_str"] = @$tra_info[$item["accept_adminid"]]["tran_per"];
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
 
@@ -503,8 +508,8 @@ class main_page extends Controller
             }
         }
                 
-        foreach($list["list"] as &$item){
-            $account = $item["account"];
+        foreach($list["list"] as &$item2){
+            $account = $item2["account"];
             $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time);
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time);
             foreach($teacher_arr as $k=>$val){
@@ -513,13 +518,13 @@ class main_page extends Controller
                 }
             }
                 
-            $item["suc_count"] = count($teacher_list);
-            $item["pass_per"] = (round($item["suc_count"]/$item["all_count"],2))*100;
-            $item["all_pass_per"] = (round($item["suc_count"]/$item["all_num"],2))*100;
+            $item2["suc_count"] = count($teacher_list);
+            $item2["pass_per"] = (round($item2["suc_count"]/$item2["all_count"],2))*100;
+            $item2["all_pass_per"] = (round($item2["suc_count"]/$item2["all_num"],2))*100;
             $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
-            $item["all_lesson"] = $res["all_lesson"];
-            $item["have_order"] = $res["have_order"];
-            $item["order_per"] =  $item["all_lesson"]==0?0:((round($item["have_order"]/$item["all_lesson"],2))*100);
+            $item2["all_lesson"] = $res["all_lesson"];
+            $item2["have_order"] = $res["have_order"];
+            $item2["order_per"] =  $item2["all_lesson"]==0?0:((round($item2["have_order"]/$item2["all_lesson"],2))*100);
         }
         
         $all_item=["account" => "全部"];
@@ -548,14 +553,14 @@ class main_page extends Controller
         $all_tea_ex = count($teacher_list_ex);
         $train_all = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list_ex,-1);
         $train_succ = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list_ex,1);
-        $train_succ_per = round($train_succ/$train_all*100,2)."%";
+        $train_succ_per = !empty($train_all)?round($train_succ/$train_all*100,2)."%":"";
 
 
         foreach($list["list"] as &$item1){
             if($item1["account"]=="全部"){
                 $item1["pass_per"] = @$item1["all_count"]==0?0:(round($all_tea_ex/@$item1["all_count"],2))*100;
                 $item1["order_per"] =@$item1["all_lesson"]==0?0:(round(@$item1["have_order"]/@$item1["all_lesson"],2))*100;
-                $item1["all_pass_per"] = (round( @$item1["suc_count"]/$item1["all_num"],2))*100;
+                $item1["all_pass_per"] = !empty(@$item1["all_num"])?(round( @$item1["suc_count"]/$item1["all_num"],2))*100:0;
                 $item1["succ_num"] =  $all_tea_ex;
                 $item1["train_all"] = $train_all;
                 $item1["train_succ"] = $train_succ;
@@ -579,10 +584,10 @@ class main_page extends Controller
         foreach($lecture_identity as $key=>&$n){
             @$n["succ"] +=$lecture_identity_succ[$key]["all_count"];
             @$n["succ"] +=$train_identity_succ[$key]["all_count"];
-            @$n["succ_num"] +=$lecture_identity_succ["all_num"];
+            @$n["succ_num"] +=$lecture_identity_succ[$key]["all_num"];
             @$n["succ_num"] +=$train_identity_succ[$key]["all_num"];
-            $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,-1,-1,-1,$n["identity"]);
-            $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,$n["identity"]);
+            $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,-1,-1,-1,$n["identity_ex"]);
+            $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,$n["identity_ex"]);
             foreach($teacher_arr as $k=>$l){
                 if(!isset($teacher_list[$k])){
                     $teacher_list[$k]=$k; 
@@ -594,8 +599,8 @@ class main_page extends Controller
             $n["succ_num_per"] = !empty($n["all_num"])?round($n["succ_num"]/$n["all_num"]*100,2):0;
             $n["train_per"] = !empty($n["train_num"])?round($n["train_succ"]/$n["train_num"]*100,2):0;
 
-            E\Eidentity::set_item_value_str($n,"identity");
-            if($n["identity"]==127){
+            E\Eidentity::set_item_value_str($n,"identity_ex");
+            if(in_array($n["identity_ex"],[1,2,127])){
                 unset($lecture_identity[$key]);
             }
         }
@@ -865,7 +870,7 @@ class main_page extends Controller
         unset($ass_group[0]);
 
         // dd($ass_group);
-        $account_id=297;
+        // $account_id=297;
         $stu_info=@$ass_group[$account_id];
         $ass_list_group=[];
         foreach($ass_list3 as $k=>$item2){

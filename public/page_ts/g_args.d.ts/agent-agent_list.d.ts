@@ -41,6 +41,8 @@ interface RowData {
 	idcard	:any;
 	zfb_name	:any;
 	zfb_account	:any;
+	headimgurl	:any;
+	nickname	:any;
 }
 
 /*

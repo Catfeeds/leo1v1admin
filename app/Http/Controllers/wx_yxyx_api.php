@@ -32,14 +32,14 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_agent_id(){
-        $agent_id= $this->get_in_int_val("agent_id")?$this->get_in_int_val("agent_id"):session("agent_id");
+        $agent_id= $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
         return $agent_id;
     }
 
     public function agent_add(){
-        $p_phone = $this->get_in_str_val('p_phone');
+        $p_phone   = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
-        if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
         if($p_phone == $phone){
@@ -67,8 +67,8 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_user_info(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -85,7 +85,7 @@ class wx_yxyx_api extends Controller
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($student_info){
+        if(isset($student_info['userid'])){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level     = 2;
             $nick      = $student_info['nick'];
@@ -138,21 +138,25 @@ class wx_yxyx_api extends Controller
                 return $this->output_err("您暂无资格!");
             }
         }
+        $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
         $data = [
-            'level'     => $level,
-            'nick'      => $nick,
-            'pay'       => $pay,
-            'cash'      => $cash,
-            'have_cash' => $have_cash,
-            'num'       => $num,
-            'my_num'    => $my_num,
+            'level'      => $level,
+            'nick'       => $nick,
+            'pay'        => $pay,
+            'cash'       => $cash_new,
+            'have_cash'  => $have_cash/100,
+            'num'        => $num,
+            'my_num'     => $my_num,
+            'headimgurl' => $agent_info['headimgurl'],
+            'nickname'   => $agent_info['nickname'],
         ];
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
+    
     public function get_my_num(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id   = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -169,7 +173,7 @@ class wx_yxyx_api extends Controller
             foreach($p_id as $item){
                 $count = 0;
                 foreach($ret as $info){
-                    if($info['p_id'] == $item){
+                    if($info['p_id'] == $item && $info['id']){
                         $count++;
                     }
                 }
@@ -179,16 +183,20 @@ class wx_yxyx_api extends Controller
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
-                $ret_list[$key]['name'] = $item['nick'];
+                $ret_list[$key]['name'] = $item['phone'];
+                if($item['nick']){
+                    $ret_list[$key]['name'] = $item['nick'];
+                }
+                $ret_list[$key]['status'] = 0;
                 if($item['order_status']){
                     $ret_list[$key]['status'] = 2;
                 }else{
-                    $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
-                    $count_test = $count_item['count'];
-                    if(0<$count_test){
-                        $ret_list[$key]['status'] = 1;
-                    }else{
-                        $ret_list[$key]['status'] = 0;
+                    if(isset($item['userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
+                        $count_test = $count_item['count'];
+                        if(0<$count_test){
+                            $ret_list[$key]['status'] = 1;
+                        }   
                     }
                 }
                 foreach($p_count as $k=>$i){
@@ -201,10 +209,10 @@ class wx_yxyx_api extends Controller
                 }else{
                     $ret_list[$key]['time'] = '';
                 }
-                foreach($ret_new as $info){
+                foreach($ret_new as $k=>$info){
                     if($info['pid'] == $item['p_id']){
-                        $ret_list[$key]['list'][]['name'] = $info['nick'];
-                        $ret_list[$key]['list'][]['price'] = $info['price']/100;
+                        $ret_list[$key]['list'][$k]['name'] = $info['nick'];
+                        $ret_list[$key]['list'][$k]['price'] = $info['price']/100;
                     }
                 }
             }
@@ -215,8 +223,9 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_user_cash(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id = $this->get_agent_id();
+        $type = $this->get_in_int_val('type');
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -225,13 +234,12 @@ class wx_yxyx_api extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
-        $type = $this->get_in_int_val('type');
+
         $student_info = [];
         $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $pay          = 0;
         $cash         = 0;
         if($student_info){
-            //orderid,cash,order_cash,parent_name,pay_time,count(lessonid),level1_cash,level2_cash
             $ret = $this->get_pp_pay_cash($phone);
             $cash = $ret['cash'];
         }else{
@@ -266,8 +274,8 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_have_cash(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -279,7 +287,7 @@ class wx_yxyx_api extends Controller
         $ret_list = [];
         $ret = $this->t_agent_cash->get_cash_list_by_phone($phone);
         foreach($ret as $key=>$item){
-            $ret_list[$key]['cash'] = $item['cash'];
+            $ret_list[$key]['cash'] = $item['cash']/100;
             $ret_list[$key]['is_suc_flag'] = $item['is_suc_flag'];
             $ret_list[$key]['create_time'] = date('Y-m-d',$item['create_time']);
         }
@@ -293,17 +301,17 @@ class wx_yxyx_api extends Controller
         $pay_list = $this->t_agent_order->get_price_by_phone($phone);
         foreach($pay_list as $key=>$item){
             if($phone == $item['p_phone']){
-                $pay += $item['p_price'];
-                $ret_list[$key]['price'] = $item['p_price'];
+                $pay += $item['p_price']/100;
+                $ret_list[$key]['price'] = $item['p_price']/100;
             }
             if($phone == $item['pp_phone']){
-                $pay += $item['pp_price'];
-                $ret_list[$key]['price'] = $item['pp_price'];
+                $pay += $item['pp_price']/100;
+                $ret_list[$key]['price'] = $item['pp_price']/100;
             }
             $ret_list[$key]['userid'] = $item['userid'];
             $ret_list[$key]['orderid'] = $item['orderid'];
             if($item['pay_price']){
-                $ret_list[$key]['pay_price'] = $item['pay_price'];
+                $ret_list[$key]['pay_price'] = $item['pay_price']/100;
             }else{
                 $ret_list[$key]['pay_price'] = 0;
             }
@@ -340,13 +348,13 @@ class wx_yxyx_api extends Controller
         $pay_list  = $this->t_agent_order->get_p_price_by_phone($phone);
         foreach($pay_list as $key=>$item){
             if($phone == $item['p_phone']){
-                $pay += $item['p_price'];
-                $ret_list[$key]['price'] = $item['p_price'];
+                $pay += $item['p_price']/100;
+                $ret_list[$key]['price'] = $item['p_price']/100;
             }
             $ret_list[$key]['userid'] = $item['userid'];
             $ret_list[$key]['orderid'] = $item['orderid'];
             if($item['pay_price']){
-                $ret_list[$key]['pay_price'] = $item['pay_price'];
+                $ret_list[$key]['pay_price'] = $item['pay_price']/100;
             }else{
                 $ret_list[$key]['pay_price'] = 0;
             }
@@ -364,7 +372,7 @@ class wx_yxyx_api extends Controller
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){
             $ret_list[$key]['count'] = $item['count'];
-            $ret_list[$key]['order_cash'] = $item['order_cash'];
+            $ret_list[$key]['order_cash'] = $item['order_cash']/100;
             $ret_list[$key]['level1_cash'] = $item['level1_cash'];
             $ret_list[$key]['level2_cash'] = $item['level2_cash'];
         }
@@ -386,7 +394,7 @@ class wx_yxyx_api extends Controller
             $count   = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
-            $ret_list[$key]['level2_cash'] = $pay;
+            $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
             if(8<=$count){
                 $cash += $pay;
                 $ret_list[$key]['order_cash'] = $pay;
@@ -403,8 +411,8 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_bank_info(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
@@ -435,15 +443,12 @@ class wx_yxyx_api extends Controller
     }
 
     public function update_agent_bank_info(){
-        $wx_openid  = session("wx_yxyx_openid");
-        $agent_info = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $agent_id = $this->get_agent_id();
+        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
         }else{
             return $this->output_err("请先绑定优学优享账号!");
-        }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
         }
         $bankcard      = $this->get_in_str_val("bankcard");
         $idcard        = $this->get_in_str_val("idcard");
@@ -455,19 +460,27 @@ class wx_yxyx_api extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $zfb_name      = $this->get_in_str_val("zfb_name");
         $zfb_account   = $this->get_in_str_val("zfb_account");
-        $cash   = $this->get_in_int_val("cash");
-        $row = $this->t_agent->get_id_row_by_phone($phone);
-        if(!$row){
-            return $this->output_err("请先注册优学优享！");
+        $cash          = $this->get_in_str_val("cash"); //要提现
+        $id            = $agent_id;
+        if(!isset($cash)){
+            return $this->output_err("请输入提现金额!");
         }
-        $id = $row['id'];
-
+        $check_cash = $this->check_user_cash($phone);
+        $total_cash = $check_cash['cash'];      //可提现
+        $have_cash = $check_cash['have_cash'];  //已提现
+        $cash_new = $cash + $have_cash;
+        if($cash_new > $total_cash){
+            return $this->output_err("超出可提现金额!");
+        }
         if($bankcard){
             if($phone=='' || $bankcard==0 || $bank_address=="" || $bank_account==""
                || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
                || $bank_city==""
             ){
                 return $this->output_err("请完善所有数据后重新提交！");
+            }
+            if(!preg_match("/^1\d{10}$/",$bank_phone)){
+                return $this->output_err("请输入规范的手机号!");
             }
             if($bank_account){
                 $ret = $this->t_agent->field_update_list($id,[
@@ -480,10 +493,17 @@ class wx_yxyx_api extends Controller
                     "bank_city"     => $bank_city,
                     "bank_province" => $bank_province,
                 ]);
+                if(($bankcard == $agent_info['bankcard']) && ($bank_address == $agent_info['bank_address'])
+                   && ($bank_account == $agent_info['bank_account']) && ($bank_phone == $agent_info['bank_phone'])
+                   && ($bank_type == $agent_info['bank_type']) && ($idcard == $agent_info['idcard'])
+                   && ($bank_city == $agent_info['bank_city']) && ($bank_province == $agent_info['bank_province'])){
+                    $ret = 1;
+                }
                 if($ret){
+                    \App\Helper\Utils::logger('yxyx_cash:'.$cash*100);
                     $ret_new = $this->t_agent_cash->row_insert([
                         "aid"         => $id,
-                        "cash"        => $cash,
+                        "cash"        => $cash*100,
                         "is_suc_flag" => 0,
                         "type"        => 1,
                         "create_time" => time(null),
@@ -503,11 +523,13 @@ class wx_yxyx_api extends Controller
                 "zfb_name"     => $zfb_name,
                 "zfb_account"     => $zfb_account,
             ]);
-
+            if(($zfb_account == $agent_info['zfb_account']) && ($zfb_name == $agent_info['zfb_name'])){
+                $ret = 1;
+            }
             if($ret){
                 $ret_new = $this->t_agent_cash->row_insert([
                     "aid"         => $id,
-                    "cash"        => $cash,
+                    "cash"        => $cash*100,
                     "is_suc_flag" => 0,
                     "type"        => 2,
                     "create_time" => time(null),
@@ -519,7 +541,57 @@ class wx_yxyx_api extends Controller
                 return $this->output_err("更新失败！请重试！");
             }
         }
-        return $this->output_succ();
+        return $this->output_succ('成功');
+    }
+
+    public function check_user_cash($phone){
+        $student_info = [];
+        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        $cash       = 0;
+        $have_cash  = 0;
+        if($student_info){
+            $ret       = $this->get_pp_pay_cash($phone);
+            $cash      = $ret['cash'];
+            $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
+            if($cash_item['have_cash']){
+                $have_cash = $cash_item['have_cash'];
+            }
+        }else{
+            $agent_lsit = [];
+            $agent_item = [];
+            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
+            foreach($agent_list as $item){
+                if($phone == $item['phone']){
+                    $agent_item = $item;
+                }
+            }
+            if($agent_item){
+                $test_lesson = [];
+                $cash_item   = [];
+                $count       = 0;
+                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                $count       = count(array_unique(array_column($test_lesson,'id')));
+                $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
+                if($cash_item['have_cash']){
+                    $have_cash = $cash_item['have_cash'];
+                }
+                if(2<=$count){
+                    $level = 2;
+                    $ret = $this->get_pp_pay_cash($phone);
+                }else{
+                    $level = 1;
+                    $ret = $this->get_p_pay_cash($phone);
+                }
+                $cash = $ret['cash'];
+            }else{
+                return $this->output_err("您暂无资格!");
+            }
+        }
+        $data = [
+            'cash'      => $cash,
+            'have_cash' => $have_cash/100,
+        ];
+        return $data;
     }
 
 }

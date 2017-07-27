@@ -94,7 +94,7 @@ class Wechat extends \LaneWeChat\Core\Wechat   {
      */
     public function run() {
 
-        \App\Helper\Utils::logger('mediaid'.json_encode($this->mediaId));
+        \App\Helper\Utils::logger('yxyx_mediaid'.json_encode($this->mediaId));
 
         // return  \App\Wx\Yxyx\WechatRequest::switchType($this->request,$this->mediaId);
         return  \App\Wx\Yxyx\WechatRequest::switchType($this->request);

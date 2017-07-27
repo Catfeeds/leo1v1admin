@@ -684,6 +684,9 @@ class tea_manage_new extends Controller
         }
 
         $lesson_end = $lesson_start+1800;
+
+
+      
         $ret_row2   = $this->t_lesson_info->check_teacher_time_free($record_teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
@@ -710,6 +713,16 @@ class tea_manage_new extends Controller
                 "passwd" => md5(123456) 
             ]); 
         }
+
+        //检查面试老师时间是否冲突
+        $ret_row1 = $this->t_lesson_info->check_train_lesson_time_free($teacherid,0,$lesson_start,$lesson_end);
+        if ($ret_row1) {
+            $error_lessonid=$ret_row1["lessonid"];
+            return $this->output_err(
+                "<div>有现存的面试老师课程与该课程时间冲突！<a href='/tea_manage/lesson_list?lessonid=$error_lessonid/' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+            );
+        }
+
       
         $grade_str   = E\Egrade::get_desc($grade);
         $subject_str = E\Esubject::get_desc($subject);
@@ -740,6 +753,7 @@ class tea_manage_new extends Controller
             "lessonid" => $lessonid,
             "add_time" => time(),
             "userid"   => $teacherid,
+            "train_type"=>5
         ]);
 
 
@@ -984,6 +998,23 @@ class tea_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function send_not_through_notice(){
+        $start_time = $this->get_in_int_val("start_time");
+        $end_time   = $this->get_in_int_val("end_time");
+
+        $list = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,1);
+
+        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $data['first']    = "老师您好！";
+        $data['keyword1'] = "邀请参训通知";
+        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
+        $data['keyword3'] = date("Y-m-d",time());
+        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
+
+        $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
+        dispatch($job);
+        return $this->output_succ();
+    }
 
 
 }

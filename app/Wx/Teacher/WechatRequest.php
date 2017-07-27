@@ -554,7 +554,6 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
             );
 
         } elseif ($eventKey == 'invitation') {
-
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa99d0de03f407627&redirect_uri=http%3A%2F%2Fwx-teacher.leo1v1.com%2Fcommon%2Fgoto_url%3Furl%3Dhttp%3A%2F%2Fadmin.yb1v1.com%2Farticle_wx%2Fget_openid%3F&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect';
 
             $openid = $request['fromusername'];
@@ -584,6 +583,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
             $url = "http://admin.yb1v1.com/common/get_teacher_qr?wx_openid=".$openid;
 
             $img_url = self::get_img_url($url);
+
             $type = 'image';
 
             $num = rand();

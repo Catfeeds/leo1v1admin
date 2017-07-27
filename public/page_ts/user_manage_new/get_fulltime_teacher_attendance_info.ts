@@ -13,6 +13,7 @@ $(function(){
 			teacherid:	$('#id_teacherid').val(),
 			adminid:	$('#id_adminid').val(),
 			account_role:	$('#id_account_role').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -29,6 +30,7 @@ $(function(){
     });
     
     Enum_map.append_option_list("attendance_type", $("#id_attendance_type"));
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2]);
     Enum_map.append_option_list("account_role", $("#id_account_role"),false,[4,5]);
    
 
@@ -37,6 +39,7 @@ $(function(){
 	$('#id_attendance_type').val(g_args.attendance_type);
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_account_role').val(g_args.account_role);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_adminid').val(g_args.adminid);
        $.admin_select_user($('#id_teacherid'),
                         "teacher", load_data);

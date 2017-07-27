@@ -12,6 +12,7 @@ class test_sam  extends Controller
 {
     use CacheNick;
     use TeaPower;
+    
     public function lesson_list()
     {
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
@@ -352,5 +353,12 @@ class test_sam  extends Controller
 
         }
         return $this->pageView(__METHOD__, $ret_info);
+    }
+    public function test(){
+        $a = 10;
+        $b = 12;
+       $c = 20;
+          $d = 20;
+        $e = 90;
     }
 }

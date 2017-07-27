@@ -17,20 +17,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	todoid	:any;
-	todo_type	:any;
-	create_time	:any;
-	start_time	:any;
-	end_time	:any;
-	adminid	:any;
-	msg	:any;
-	from_key_int	:any;
-	from_key2_int	:any;
-	todo_status	:any;
-	todo_status_time	:any;
-	todo_type_str	:any;
-	todo_status_str	:any;
-	line_info	:any;
 }
 
 /*

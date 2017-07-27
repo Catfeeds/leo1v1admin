@@ -13,7 +13,7 @@ use App\Models\Zgen as Z;
 /**
  *
  * @property   \App\Console\Tasks\TaskController $task
- */ 
+ */
 
 abstract class NewModel
 {
@@ -52,7 +52,7 @@ abstract class NewModel
     function switch_readonly_database() {
         $this->readony_on_tongji_flag=false;
         if ($this->config_fix){
-           
+
             $this->db=NewDB::get($this->config_fix."_readonly");
         }else{
             $this->db=NewDB::get("readonly");
@@ -126,7 +126,7 @@ abstract class NewModel
         }
     }
     public function main_get_list_b2( $sql ,$list_key_func=null )
-	{
+    {
         $result = $this->db_query($sql);
         $list=[];
         if ( ! $list_key_func ) {
@@ -139,7 +139,7 @@ abstract class NewModel
             }
         }
         return $list;
-	}
+    }
 
     public function main_get_list( $sql ,$list_key_func=null )
     {
@@ -271,13 +271,11 @@ abstract class NewModel
         }
 
         return \App\Helper\Utils::list_to_page_info($ret_list);
-
     }
-
 
     public function main_get_list_by_page($sql,$page_info,$page_count=10,$use_group_by_flag=false,$order_str="",$list_key_func=null)
     {
-        if (is_array( $page_info) ){
+        if(is_array($page_info)){
             $page_num= $page_info["page_num"];
             if ($page_count==10) {
                 $page_count= $page_info["page_count"];
@@ -306,7 +304,7 @@ abstract class NewModel
         if ( !$use_group_by_flag ){
             $count=$this->main_get_value($count_query,0);
         }else{
-            
+
             $count=count($this->main_get_list($sql ));
 
         }
@@ -426,7 +424,6 @@ abstract class NewModel
         if ($update_on_existed) {
             $sql.=" ON DUPLICATE KEY UPDATE ". $this->get_sql_set_str( $arr);
         }
-
         return $this->main_insert($sql);
     }
 
@@ -860,10 +857,10 @@ abstract class NewModel
             }elseif($grade==203){
                 return "((((t.grade_start>0 and t.grade_start<=4 and t.grade_end>=4) or t.grade_part_ex in (2,4,5,6,7)) and t.subject=".$subject.") or (t.second_grade in (2,4,5,6,7) and t.second_subject =".$subject.") or (t.third_grade in (2,4,5,6,7) and t.third_subject=".$subject."))";
             }elseif($grade==301 || $grade==302){
-                return "((((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";                               
+                return "((((t.grade_start>0 and t.grade_start<=5 and t.grade_end>=5) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";
 
             }elseif($grade==303){
-                return "((((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";       
+                return "((((t.grade_start>0 and t.grade_start<=6 and t.grade_end>=6) or t.grade_part_ex in (3,5,7)) and t.subject=".$subject.") or (t.second_grade in (3,5,7) and t.second_subject =".$subject.") or (t.third_grade in (3,5,7) and t.third_subject=".$subject."))";
             }
 
         }

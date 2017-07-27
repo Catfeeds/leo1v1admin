@@ -91,12 +91,5 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         return $this->main_get_list($sql);
     }
 
-    public function get_children_ids($parentid) {
-        $sql = $this->gen_sql_new("select userid from %s where parentid = %u"
-                                  ,self::DB_TABLE_NAME
-                                  ,$parentid
-        );
-        return $this->main_get_list($sql);
-    }
 
 }

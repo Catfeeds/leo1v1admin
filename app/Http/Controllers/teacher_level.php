@@ -17,7 +17,9 @@ class teacher_level extends Controller
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
-        
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",1);
         $list = $this->t_teacher_info->get_teacher_info_by_money_type($teacher_money_type,$start_time,$end_time);
         $tea_list=[];
@@ -25,7 +27,7 @@ class teacher_level extends Controller
             $tea_list[] = $val["teacherid"];
         }
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_info->get_teacher_level_info($page_info,$tea_list);
+        $ret_info = $this->t_teacher_info->get_teacher_level_info($page_info,$tea_list,$start_time);
         $tea_arr=[];
         foreach($ret_info["list"] as $val){
             $tea_arr[]=$val["teacherid"];
@@ -39,6 +41,13 @@ class teacher_level extends Controller
         $tea_refund_info =$this->get_tea_refund_info($start_time,$end_time,$tea_arr);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level");
+            $item["level_after"] = $item["level"]+1;
+            E\Elevel::set_item_value_str($item,"level_after");
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+
+            E\Eaccept_flag::set_item_value_str($item);
+
             $teacherid = $item["teacherid"];
             $item["lesson_count"] = round($list[$teacherid]["lesson_count"]/300,1);
             $item["lesson_count_score"] = $this->get_score_by_lesson_count($item["lesson_count"]);
@@ -59,6 +68,18 @@ class teacher_level extends Controller
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
             
         }
+        $erick =[];
+        $erick["teacherid"]=50158;
+        $erick["realname"]="刘辉";
+        $erick["level"]  = $this->t_teacher_info->get_level($erick["teacherid"]);
+        $erick["level_after"] =  $erick["level"]+1;
+        $erick["level_str"] =E\Elevel::get_desc($erick["level"]);
+        $erick["level_after_str"] =E\Elevel::get_desc($erick["level_after"]);
+        $erick["lesson_count"] =$erick["lesson_count_score"]=$erick["cc_test_num"]=$erick["cc_order_num"]= $erick["cc_order_per"]= $erick["cc_order_score"]=$erick["other_test_num"] =$erick["other_order_num"]= $erick["other_order_per"]=$erick["other_order_score"]= $erick["record_num"]= $erick["record_score"]= $erick["record_score_avg"]= $erick["record_final_score"]= $erick["total_score"]=0;
+        $erick["is_refund_str"]="无";
+        $erick["is_refund"]=0;
+
+        array_unshift($ret_info["list"],$erick);
         return $this->pageView(__METHOD__,$ret_info);
 
         //dd($ret_info);
@@ -132,6 +153,387 @@ class teacher_level extends Controller
 
 
     }
+
+    public function set_teacher_advance_require(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        $level_before = $this->get_in_int_val("level_before");
+        $level_after = $this->get_in_int_val("level_after");
+        $lesson_count = $this->get_in_int_val("lesson_count");
+        $lesson_count_score  = $this->get_in_int_val("lesson_count_score");
+        $cc_test_num = $this->get_in_int_val("cc_test_num");
+        $cc_order_num = $this->get_in_int_val("cc_order_num");
+        $cc_order_per = $this->get_in_str_val("cc_order_per");
+        $cc_order_score = $this->get_in_int_val("cc_order_score");
+        $other_test_num = $this->get_in_int_val("other_test_num");
+        $other_order_num = $this->get_in_int_val("other_order_num");
+        $other_order_per = $this->get_in_str_val("other_order_per");
+        $other_order_score = $this->get_in_int_val("other_order_score");
+        $record_num = $this->get_in_int_val("record_num");
+        $record_score_avg = $this->get_in_str_val("record_score_avg");
+        $record_final_score  = $this->get_in_int_val("record_final_score");
+        $is_refund  = $this->get_in_int_val("is_refund");
+        $total_score = $this->get_in_int_val("total_score");
+        $this->t_teacher_advance_list->row_insert([
+            "start_time" =>$start_time,
+            "teacherid"  =>$teacherid,
+            "level_before"=>$level_before,
+            "level_after" =>$level_after,
+            "lesson_count"=>$lesson_count,
+            "lesson_count_score"=>$lesson_count_score,
+            "cc_test_num"=>$cc_test_num,
+            "cc_order_num" =>$cc_order_num,
+            "cc_order_per" =>$cc_order_per,
+            "cc_order_score" =>$cc_order_score,
+            "other_test_num"=>$other_test_num,
+            "other_order_num" =>$other_order_num,
+            "other_order_per" =>$other_order_per,
+            "other_order_score" =>$other_order_score,
+            "record_final_score"=>$record_final_score,
+            "record_score_avg" =>$record_score_avg,
+            "record_num"     =>$record_num,
+            "is_refund"      =>$is_refund,
+            "total_score"    =>$total_score,
+            "require_time"   =>time(),
+            "require_adminid"=>$this->get_account_id()
+        ]);
+        $realname  = $this->t_teacher_info->get_realname($teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
+
+
+        return $this->output_succ();
+    }
+
+    public function set_teacher_advance_require_master(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        $level_after = $this->get_in_int_val("level_after");
+        $accept_flag = $this->get_in_int_val("accept_flag");
+        $accept_info = trim($this->get_in_str_val("accept_info"));
+        $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+            "accept_flag"  =>$accept_flag,
+            "accept_time"  =>time(),
+            "accept_adminid" =>$this->get_account_id(),
+            "accept_info"    =>$accept_info
+        ]);
+        $realname  = $this->t_teacher_info->get_realname($teacherid);
+        if($accept_flag==1 && $teacherid==50158){            
+            $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
+            $level_degree = E\Elevel::v2s($level_after);
+            $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
+            
+            //已排課程工資等級更改
+            // $this->t_lesson_info_b2->update_teacher_level($teacherid,$level_after);
+            // $level_start = strtotime("2017-08-01");
+            //$teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
+            // $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
+
+            
+            //微信通知老师
+            /**
+             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+             * 标题课程 : 等级升级通知
+             * {{first.DATA}}
+             * 用户昵称：{{keyword1.DATA}}
+             * 最新等级：{{keyword2.DATA}}
+             * 生效时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜您获得了晋升";
+                $data['keyword1'] = $realname;
+                $data['keyword2'] = $level_degree;
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "晋升分数:".$score
+                                  ."\n请您继续加油,理优期待与你一起共同进步,提供高品质教学服务";
+                $url = "";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
+
+           
+            //微信通知教研
+            $subject = $this->t_teacher_info->get_subject($teacherid);
+            $master_adminid = $this->get_tea_adminid_by_subject($subject);
+            $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
+            $jy_teacherid = $teacher_info["teacherid"];
+            $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
+            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜".$realname."获得了晋升";
+                $data['keyword1'] = $realname;
+                $data['keyword2'] = $level_degree;
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
+
+ 
+        }else{
+            //微信通知師資管理
+            /**
+             * 模板ID   : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+             * 标题课程 : 评估结果通知
+             * {{first.DATA}}
+             * 评估内容：{{keyword1.DATA}}
+             * 评估结果：{{keyword2.DATA}}
+             * 时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+
+            
+            $wx_openid = $this->t_teacher_info->get_wx_openid(130462);
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                $data['first']    = "晋升申请驳回";
+                $data['keyword1'] = $realname."未能通过晋升申请";
+                $data['keyword2'] = $accept_info;
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
+
+
+            
+ 
+        }
+        return $this->output_succ();
+
+    }
+    public function get_teacher_advance_info(){
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $start_time = $this->get_in_int_val("start_time",$start_time);
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid);
+        foreach($ret_info["list"] as &$item){
+            E\Elevel::set_item_value_str($item,"level_before");
+            E\Elevel::set_item_value_str($item,"level_after");
+            \App\Helper\Utils::unixtime2date_for_item($item,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time","_str");
+
+            E\Eaccept_flag::set_item_value_str($item);
+            $item["is_refund_str"] = $item["is_refund"]==1?"<font color='red'>有</font>":"无";
+ 
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function get_teacher_refund_detail_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $start_time = $this->get_in_int_val("start_time");
+        // $teacherid = 109666;
+        $tea_arr = [$teacherid];
+        // $start_time = strtotime("2017-04-01");
+        $end_time = strtotime(date("Y-m-01",$start_time+110*86400));
+        $list = $this->t_order_refund->get_tea_refund_info_new($start_time,$end_time,$tea_arr);
+        $arr =[];
+        foreach($list as $val){
+            $ss = $val["nick"]."-".$val["apply_time"];
+            @$arr[$ss][$val["value"]]=$val["score"]; 
+        }
+        $data=[];
+        foreach($arr as $k=>$item){
+            $all=0;$ass=0;
+            foreach($item as $kk=>$v){
+                if($kk=="教学部"){
+                    $ass = $v;
+                }
+                $all +=$v;
+                
+            }
+            if($all>0 && $ass >0){
+                @$data[$k]["per"]=round(100*$ass/$all,2);
+                $info = explode("-",$k);
+                $data[$k]["nick"] = @$info[0];
+                $data[$k]["apply_time"] = @$info[1];
+                $data[$k]["apply_time_str"]=!empty($data[$k]["apply_time"])?date("Y-m-d H:i:s",$data[$k]["apply_time"]):"";
+            }
+           
+
+        }
+        return $this->output_succ(["data"=>$data]);
+
+                
+
+    }
+
+
+    public function get_teacher_first_five_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid=53289;
+        $lesson_type=2;
+        $data=[];
+        $data["first"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,0);
+        $data["first"]["num"] = "第一次课";
+        $data["five"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,4);
+        $data["five"]["num"] = "第五次课";
+        foreach($data as &$item){
+             E\Esubject::set_item_value_str($item,"subject");
+             $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+             $item["nick"] = $this->t_student_info->get_nick($item["userid"]);
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
+    public function teacher_lesson_record_info(){
+        $page_info = $this->get_in_page_info();
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $ret_info = $this->t_teacher_info->get_all_train_pass_teacher_info($page_info,$teacherid);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+  
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function teacher_level_up_html($info){
+        $name          = $info['nick'];
+        $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
+        $info['level'] = $info['old_level'];
+        $level_old_str = \App\Helper\Utils::get_teacher_level_str($info);
+
+        if($level_str=="中级教师"){
+            $level_eng="Intermediate Teacher";
+        }elseif($level_str=="高级教师"){
+            $level_eng="Senior Teacher";
+        }elseif($level_str=="金牌教师"){
+            $level_eng="Golden Teacher";
+        }else{
+            $level_eng=" ";
+        }
+
+        $date_begin = date("m月d日0时",time());
+        $date       = date("Y年m月d日",time());
+
+        $html="
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf8'>
+        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1,user-scalable=true'>
+        <style>
+         *{margin:0 auto;padding:0 auto;}
+         body{opacity:100%;color:#666;font-family:'黑体';}
+         html{font-size:10px;}
+         .color333{color:#333;}
+         .fl{float:left;}
+         .fr{float:right;}
+         .cl{clear:both;}
+         .tl{text-align:left;}
+         .tr{text-align:right;}
+         .size12{font-size:2.4rem;}
+         .size14{font-size:2.8rem;}
+         .size18{font-size:3.6rem;}
+         .size20{font-size:4rem;}
+         .size24{font-size:4.8rem;}
+         .size28{font-size:5.6rem;}
+         .size36{font-size:7.2rem;}
+         .color_red{color:red;}
+         .t2em{text-indent:2em;}
+         .content{width:700px;}
+         .title{margin:6rem 0 2rem;letter-spacing:1rem;}
+         .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
+         .tea_name{font-weight:bold;}
+         .tea_level{font-weight:bold;}
+         .img_position{position:relative;z-index:0;width:100%;}
+         .img_level{position:relative;z-index:1;height:0;top:263px;}
+         .img_level_eng{position:relative;z-index:1;height:0;top:335px;}
+         .img_star{position:relative;z-index:1;height:0;top:390px;}
+         .img_name{position:relative;z-index:1;height:0;top:535px;font-family:'Helvetica','方正舒体','华文行楷','隶书';}
+         @media screen and (max-width: 720px) {
+             .size12{font-size:1.5rem;}
+             .size14{font-size:1.75rem;}
+             .size18{font-size:2.25rem;}
+             .size20{font-size:2.5rem;}
+             .size24{font-size:3rem;}
+             .size28{font-size:3.5rem;}
+             .size36{font-size:4.5rem;}
+             .content{width:400px;}
+             .img_level{top:140px;}
+             .img_level_eng{top:185px;}
+             .img_star{top:213px;}
+             .img_star img{width:30px;}
+             .img_name{top:285px;}
+         }
+        </style>
+    </head>
+    <body>
+        <div style='width:100%' align='center'>
+            <div class='content size14'>
+                <div class='title size24'>理优教育</div>
+                <div >感谢您一路对我们的支持与信任</div>
+                <div class='border tl'>
+                    尊敬的<span class='tea_name size18'>".$name."</span>老师，您好！
+                    <div class='t2em'>
+                        鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
+                        达到晋升考核标准（
+                        <span class='color_red'>课时量</span>、
+                        <span class='color_red'>转化率</span>和
+                        <span class='color_red'>教学质量</span>
+                        三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
+                    </div>
+                    <div class='t2em'>
+                        故公司经研究决定：将您由".$level_old_str."晋升为
+                        <span class='tea_level'>".$level_str."</span>。
+                        此晋升将于".$date_begin."起即行生效。
+                    </div>
+                    <div style='text-align:center'>
+                        <div class='img_level size24'>
+                            <div>".$level_str."</div>
+                        </div>
+                        <div class='img_level_eng'>
+                            <div>".$level_eng."</div>
+                        </div>
+                        <div class='img_star'>
+                            <div>
+                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
+                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
+                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
+                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
+                            </div>
+                        </div>
+                        <div class='img_name size20'>
+                            <div>庄老师</div>
+                        </div>
+                    </div>
+                    <img class='img_position' src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_certificate.png'/>
+
+                    感谢您对公司所做出的积极贡献， 希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
+                    特此通知!<br>
+                    <div class='fr tr'>
+                        理优教学管理事业部<br>
+                        ".$date."
+                    </div>
+                    <div class='cl'></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+";
+    }
+
+
 
 
 }

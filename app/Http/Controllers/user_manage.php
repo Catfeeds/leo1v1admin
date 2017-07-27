@@ -80,6 +80,7 @@ class user_manage extends Controller
         $assistantid    = $this->get_in_int_val("assistantid",-1);
         $seller_adminid = $this->get_in_int_val("seller_adminid",-1);
         $order_type     = $this->get_in_int_val("order_type",-1);
+        $student_type   = $this->get_in_int_val("student_type",-1);
         $page_num       = $this->get_in_page_num();
         $status         = -1;
         $userid         = $this->get_in_userid(-1);
@@ -93,11 +94,12 @@ class user_manage extends Controller
             $order_type = 3;
         }
 
-        $ret_info = $this->t_student_info->get_student_list_search( $page_num,$all_flag, $userid, $grade, $status,
-                                                                    $user_name, $phone, $teacherid,
-                                                                    $assistantid, $test_user, $originid,
-                                                                    $seller_adminid,$order_type);
-
+        $ret_info = $this->t_student_info->get_student_list_search(
+            $page_num,$all_flag, $userid, $grade, $status,
+            $user_name, $phone, $teacherid,
+            $assistantid, $test_user, $originid,
+            $seller_adminid,$order_type,$student_type);
+        
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
             $item['is_test_user']      = E\Etest_user::get_desc($item['is_test_user']);
@@ -408,8 +410,8 @@ class user_manage extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
         $show_yueyue_flag = false;
-        if ($account =="yueyue" || $account=="jim") {
-            $show_yueyue_flag= true;
+        if ($account == "yueyue" || $account == "jim") {
+            $show_yueyue_flag = true;
         }
 
         $ret_auth = $this->t_manager_info->check_permission($account, E\Epower::V_SHOW_MONEY );
@@ -422,6 +424,7 @@ class user_manage extends Controller
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
         );
+
         $all_lesson_count = 0;
         foreach($ret_list['list'] as &$item ){
             E\Eboolean::set_item_value_str($item,"is_new_stu");
@@ -558,6 +561,13 @@ class user_manage extends Controller
         }
 
         $old_type= $this->t_student_info->get_type($userid);
+        if($old_type !=1 && $type==1){
+            $lesson_time = time();
+            $have_lesson = $this->t_lesson_info_b2->check_have_regular_lesson_new($userid,$lesson_time);
+            if(!empty($have_lesson)){
+                return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
+            }
+        }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
         if($type != $old_type){
@@ -933,6 +943,7 @@ class user_manage extends Controller
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
+        $acc                  = $this->get_account();
 
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
@@ -962,7 +973,11 @@ class user_manage extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info,["adminid_right"=>$adminid_right,"adminid"=>$adminid]);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right" => $adminid_right,
+            "acc"           => $acc,
+            "adminid"       => $adminid
+        ]);
     }
 
     public function set_refund_order(){
@@ -1110,17 +1125,17 @@ class user_manage extends Controller
         if($orderid == -1 || $channelid == -1 || $pay_number == "") {
             return $this->output_err("参数错误");
         }
-
         /* 判断是否有尚未付款的普通合同 下一步可能会增加可付款的合同种类 */
         $ret_status = $this->t_order_info->get_contract_status($orderid);
-        if($ret_status == E\Econtract_status::V_1 ) { //
+        $channel = $this->t_order_info->get_channel($orderid);
+        if($ret_status == E\Econtract_status::V_1 && empty($channel)) { //
             return $this->output_err("已经付款！不能再手动更改！");
         }
 
         $stu_nick   = $this->t_student_info->get_realname($userid);
         $ret_type   = $this->t_order_info->get_contract_type($orderid);
         $ret_info   = $this->t_student_info->has_parent_logined($orderid);
-        $order_info = $this->t_order_info ->field_get_list($orderid,"contract_type,lesson_total,default_lesson_count");
+        $order_info = $this->t_order_info ->field_get_list($orderid,"contract_type,lesson_total,default_lesson_count,price");
 
         $lesson_total = $order_info['lesson_total']*$order_info['default_lesson_count']/100;
 
@@ -1184,7 +1199,79 @@ class user_manage extends Controller
         $job = new \App\Jobs\StdentResetLessonCount($userid);
         dispatch($job);
 
+        if($ret_type == 0){
+            $this->update_agent_order($orderid,$userid,$order_info['price']);
+        }
+
         return $this->output_succ();
+    }
+
+
+    public function update_agent_order($orderid,$userid,$order_price){
+        $agent_order = [];
+        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
+        if(!isset($agent_order['orderid'])){
+            $phone    = $this->t_student_info->get_phone($userid);
+            $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
+            if(isset($ret_info['id'])){
+                $level1 = 0;
+                $level2 = 0;
+                if($ret_info['p_phone']){
+                    $level1 = $this->check_agent_level($ret_info['p_phone']);
+                }
+                if($ret_info['pp_phone']){
+                    $level2 = $this->check_agent_level($ret_info['pp_phone']);
+                }
+                $price           = $order_price/100;
+                $level1_price    = $price/20;
+                $level2_p_price  = $price/10>1000?1000:$price/10;
+                $level2_pp_price = $price/20>500?500:$price/20;
+                $pid = $ret_info['pid'];
+                $ppid = $ret_info['ppid'];
+                $p_price = 0;
+                $pp_price = 0;
+                if($level1 == 1){//黄金
+                    $p_price = $level1_price*100;
+                }elseif($level1 == 2){//水晶
+                    $p_price = $level2_p_price*100;
+                }
+                if($level2 == 2){//水晶
+                    $pp_price = $level2_pp_price*100;
+                }
+                $this->t_agent_order->row_insert([
+                    'orderid'     => $orderid,
+                    'aid'         => $ret_info['id'],
+                    'pid'         => $pid,
+                    'p_price'     => $p_price,
+                    'ppid'        => $ppid,
+                    'pp_price'    => $pp_price,
+                    'create_time' => time(null),
+                ]);
+            }
+        }
+    }
+
+    public function check_agent_level($phone){//黄金1,水晶2,无资格0
+        $student_info = [];
+        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        if(isset($student_info['userid'])){
+            return 2;
+        }else{
+            $agent_item = [];
+            $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
+            if(count($agent_item)>0){
+                $test_lesson = [];
+                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                $count       = count(array_unique(array_column($test_lesson,'id')));
+                if(2<=$count){
+                    return 2;
+                }else{
+                    return 1;
+                }
+            }else{
+                return 0;
+            }
+        }
     }
 
     private function add_praise_by_order($orderid,$userid,$contract_type,$lesson_total){
@@ -1889,6 +1976,25 @@ class user_manage extends Controller
         }
     }
 
+    public function set_refund_money(){
+        $orderid     = $this->get_in_int_val("orderid");
+        $apply_time  = $this->get_in_int_val("apply_time");
+        $real_refund = $this->get_in_str_val("real_refund");
+        $acc         = $this->get_account();
+
+        if(!in_array($acc,["echo","jim"])){
+            return $this->output_err("你没有修改退费金额的权限!");
+        }
+        
+        $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
+            "real_refund" => ($real_refund*100)
+        ]);
+
+        if(!$ret){
+            return $this->output_err("修改失败！请重试！");
+        }
+        return $this->output_succ();
+    }
 
 
 

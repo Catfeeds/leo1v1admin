@@ -42,13 +42,15 @@ class get_jw_lesson_info_update extends Command
 
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-
+       
+       
         //教务数据更新
         $res        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info($start_time,$end_time);
         //$res        = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info($start_time,$end_time);
         $all        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
         $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
         $seller        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
+        $green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,-1,1);
         $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
         $none_total = $task->t_test_lesson_subject_require->get_none_total_info($start_time,$end_time);
         $no_assign_total = $task->t_test_lesson_subject_require->get_no_assign_total_info($start_time,$end_time);
@@ -61,8 +63,9 @@ class get_jw_lesson_info_update extends Command
                 $val["tra_count"] = $all[$val["accept_adminid"]]["num"];
                 $val["tra_count_ass"] = $ass[$val["accept_adminid"]]["num"];
                 $val["tra_count_seller"] = $seller[$val["accept_adminid"]]["num"];
+                $val["tra_count_green"] = $green[$val["accept_adminid"]]["num"];
             }else{
-                $val["tra_count"] =$val["tra_count_ass"]=$val["tra_count_seller"] = 0;
+                $val["tra_count"] =$val["tra_count_ass"]=$val["tra_count_seller"] = $val["tra_count_green"]= 0;
             }
             if($start_time == strtotime(date("2017-01-01"))){
                 $s = strtotime(date("2017-01-01 00:00:00"));
@@ -91,6 +94,7 @@ class get_jw_lesson_info_update extends Command
                     "tran_count"   =>$val["tra_count"],
                     "tran_count_seller"=>$val["tra_count_seller"],
                     "tran_count_ass"=>$val["tra_count_ass"],
+                    "tran_count_green"=>$val["tra_count_green"],
                     "tran_per"      =>$val["tra_per_str"]
                 ]);
             }else{
@@ -106,6 +110,7 @@ class get_jw_lesson_info_update extends Command
                     "tran_count"   =>$val["tra_count"],
                     "tran_count_seller"=>$val["tra_count_seller"],
                     "tran_count_ass"=>$val["tra_count_ass"],
+                    "tran_count_green"=>$val["tra_count_green"],
                     "tran_per"      =>$val["tra_per_str"]
                 ]);
 

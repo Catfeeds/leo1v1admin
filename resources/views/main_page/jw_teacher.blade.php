@@ -110,6 +110,7 @@
                                         <td>教务</td>
                                         <td>总排课量</td>
                                         <td>已排课程</td>
+                                        <td>已排课程(绿色)</td>
                                         <td>待排量</td>
                                         <td>挂起量</td>
                                         <td>退回量</td>
@@ -117,6 +118,7 @@
                                         <td>排课转化量</td>
                                         <td>排课转化量(销售)</td>
                                         <td>排课转化量(助教)</td>
+                                        <td>排课转化量(绿色通道)</td>
                                         <td>排课转化率</td>
                                     </tr>
                                 </thead>
@@ -127,6 +129,7 @@
                                             <td>{{@$var["account"]}} </td> 
                                             <td class="all_count">{{@$var["all_count"]}} </td> 
                                             <td>{{@$var["set_count"]}} </td>
+                                            <td>{{@$var["green_count"]}} </td>
                                             <td>{{@$var["un_count"]}} </td>
                                             <td>{{@$var["gz_count"]}} </td>
                                             <td>{{@$var["back_count"]}} </td>
@@ -134,6 +137,7 @@
                                             <td class="order_lesson" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["tra_count"]}}</a></td>
                                             <td class="tra_count_seller">{{@$var["tra_count_seller"]}} </td>
                                             <td class="tra_count_ass">{{@$var["tra_count_ass"]}} </td>
+                                            <td class="tra_count_green">{{@$var["tra_count_green"]}} </td>
                                             <td class="tra_per_str">{{@$var["tra_per_str"]}} </td>
                                         </tr>
                                     @endforeach

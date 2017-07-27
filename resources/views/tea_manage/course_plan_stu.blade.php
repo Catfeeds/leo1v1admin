@@ -70,6 +70,10 @@
         <table class="common-table"> 
             <thead>
                 <tr>
+                    <td style="width:10px">
+                        <a href="javascript:;" id="id_select_all" title="全选">全</a>
+                        <a href="javascript:;" id="id_select_other" title="反选">反</a>
+                    </td>
                     <td>学生</td>
                     <td>年级</td>
                     <td>常规课表总课时数</td>
@@ -84,6 +88,10 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>
+                            <input type="checkbox" class="opt-select-item " />
+                        </td>
+
                         <td>{{@$var["user_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td class="regular_total">

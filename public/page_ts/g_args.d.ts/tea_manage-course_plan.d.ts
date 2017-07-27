@@ -6,6 +6,9 @@ interface GargsStatic {
 	end_time:	string;
 	page_num:	number;
 	page_count:	number;
+	assistantid:	number;
+	subject:	number;
+	lesson_type:	number;
 	studentid:	number;
 }
 declare module "g_args" {
@@ -65,6 +68,9 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			assistantid:	$('#id_assistantid').val(),
+			subject:	$('#id_subject').val(),
+			lesson_type:	$('#id_lesson_type').val(),
 			studentid:	$('#id_studentid').val()
         });
     }
@@ -80,6 +86,9 @@ $(function(){
             load_data();
         }
     });
+	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_subject').val(g_args.subject);
+	$('#id_lesson_type').val(g_args.lesson_type);
 	$('#id_studentid').val(g_args.studentid);
 
 
@@ -90,6 +99,27 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">assistantid</span>
+                <input class="opt-change form-control" id="id_assistantid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">subject</span>
+                <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">lesson_type</span>
+                <input class="opt-change form-control" id="id_lesson_type" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

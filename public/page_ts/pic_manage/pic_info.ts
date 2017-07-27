@@ -2,20 +2,6 @@
 /// <reference path="../g_args.d.ts/pic_manage-pic_info.d.ts" />
 
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			type:	$('#id_type').val(),
-			usage_type:	$('#id_usage_type').val()
-        });
-    }
-
-
-	$('#id_type').val(g_args.type);
-	$('#id_usage_type').val(g_args.usage_type);
-
-
-	$('.opt-change').set_input_change_event(load_data);
-
     Enum_map.append_option_list("pic_type", $(".pic_type"));
     Enum_map.append_option_list("pic_type", $(".add_pic_type"),true);
     Enum_map.append_option_list("click_status", $(".add_pic_click_status"),true);
@@ -34,7 +20,7 @@ $(function(){
     $(".pic_usage_type").val(g_args.usage_type);
 
     function load_data(val){
-        reload_self_page({
+        $.reload_self_page({
             type       : $(".pic_type").val(),
 		    usage_type : val 
         });
@@ -48,8 +34,8 @@ $(function(){
 		load_data($(this).val());
 	});
 
-    var do_add_or_update=function( opt_type, item ){
-        var html_txt=dlg_get_html_by_class('dlg_add_pic_info');
+    var do_add_or_update = function( opt_type, item ){
+        var html_txt = $.dlg_get_html_by_class('dlg_add_pic_info');
         html_txt=html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" ).
@@ -95,7 +81,7 @@ $(function(){
             html_node.find(".add_end_date").val(item.end_time);
         }
         
-        var title= "";
+        var title = "";
         if (opt_type=="update"){
             title="修改信息";
         }else{

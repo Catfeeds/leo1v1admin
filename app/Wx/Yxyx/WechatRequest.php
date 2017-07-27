@@ -32,7 +32,6 @@ class WechatRequest  {
 
 
     public static function switchType(&$request){
-
         $data = array();
         switch (@$request['msgtype']) {
             //事件
@@ -59,6 +58,7 @@ class WechatRequest  {
                         break;
                     //自定义菜单 - 点击菜单拉取消息时的事件推送
                     case 'click':
+                        \App\Helper\Utils::logger('yxyx_click');
                         $data = self::eventClick($request);
                         break;
                     //自定义菜单 - 点击菜单跳转链接时的事件推送
@@ -242,22 +242,17 @@ class WechatRequest  {
      */
     public static function eventSubscribe(&$request){
         $content =
+            self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2utf8('\ue032')."
-
-【绑定地址】
-立刻绑定你上课时使用的账号，即可使用所有功能
-绑定链接：<a href='http://t.cn/RcQGnPX'>http://t.cn/RcQGnPX</a>
+【分享】它使快乐增大，它使悲伤减小。
 
 【菜单栏功能介绍】
--[讲师报名]-
-可查看理优1对1简介、面试流程并报名讲师
--[个人中心]-
-[设置时间]、[评价学生]、[我的收入]可查看收入详情并申诉、[邀请有奖]中可生成个人专属二维码，分享海报邀请好友报名，领取伯乐奖".self::unicode2utf8('\ue12f')."
--[帮助中心]-
-可以获取[使用手册]、[优秀视频]、[我要投诉]、[常见问题]等相关帮助
-
-
+-[我要邀请]-:生成邀请海报。
+-[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
+-[账号管理]-:
+(1)绑定账号：绑定手机号即可开启优学优享功能。
+(2)个人中心：查询用户等级、邀请人数、奖励情况等。
+(3)常见问题：自助解决问题。
 ";
 
         $_SESSION['wx_openid'] = $request['fromusername'];
@@ -395,7 +390,7 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         //获取该分类的信息
         $eventKey = $request['eventkey'];
         $content = '收到点击菜单事件，您设置的key是' . $eventKey;
-        \App\Helper\Utils::logger('xuejitu1');
+        \App\Helper\Utils::logger('yxyx_dianji');
 
 
         $tuwenList = array();
@@ -504,16 +499,15 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
         } elseif ($eventKey == 'question') {
             $tuwenList[] = array(
 
-                'title' => '[老师] 常见问题处理方法',
+                'title' => '常见问题Q&A',
 
                 'description' => '',
 
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5ticciaEDNHDsQ66rd1sibEhSVp4uUk6ZuzuwGByOLricbBloLr1qUOEIaIjOMBENrWdpqtGZpuoab7Q/0?wx_fmt=png',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
 
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_deal_question',
-
-            );
-
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
+           );
+/*
             $tuwenList[] = array(
 
                 'title' => '[新师培训] 常见问题处理方法',
@@ -525,93 +519,72 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
 
             );
-
-        } elseif ($eventKey == 'invitation') {
-
-            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa99d0de03f407627&redirect_uri=http%3A%2F%2Fwx-teacher.leo1v1.com%2Fcommon%2Fgoto_url%3Furl%3Dhttp%3A%2F%2Fadmin.yb1v1.com%2Farticle_wx%2Fget_openid%3F&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect';
-
+*/
+        }elseif ($eventKey == 'invitation') {
             $openid = $request['fromusername'];
-
-            $userInfo = UserManage::getUserInfo($openid);
-
-            $t_teacher_info = new \App\Models\t_teacher_info();
-            $phone = $t_teacher_info->get_phone_by_wx_openid($openid);
-
+            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+            }
             if ( !$phone ){
                 $content="
 【绑定提醒】
 您还未绑定手机，请绑定成功后重试
-绑定地址：http://t.cn/RcQGnPX ";
-
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
                 $_SESSION['wx_openid'] =   $request['fromusername'];
                 session(['wx_openid'=> $request['fromusername']]);
-
                 \App\Helper\Utils::logger("guanzhu1".session('wx_openid'));
-
-                \App\Helper\Common::redis_set("teacher_wx_openid", $request['fromusername'] );
-
+                \App\Helper\Common::redis_set("agent_wx_openid", $request['fromusername'] );
 
                 return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
             }
 
-            $url = "http://admin.yb1v1.com/common/get_teacher_qr?wx_openid=".$openid;
-
             $img_url = self::get_img_url($url);
+            \App\Helper\Utils::logger('yxyx_curl:'.$img_url);
             $type = 'image';
-
             $num = rand();
             $img_Long = file_get_contents($img_url);
-
-            file_put_contents( public_path().'/wximg/'.$num.'.png',$img_Long);
-
+            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
             $img_url = public_path().'/wximg/'.$num.'.png';
             $img_url = realpath($img_url);
-
             $mediaId = Media::upload($img_url, $type);
             $mediaId = $mediaId['media_id'];
-
             unlink($img_url);
-
-            $openid_user = $request['fromusername'];
-
-            //使用客服接口发送消息
-            $txt_arr = [
-                'touser'   => $openid_user,
-                'msgtype'  => 'text',
-                'text'     => [
-                    'content' =>
-'【分享海报邀请好友报名】
-'
-.self::unicode2utf8('\ue12f').'审核通过即可领取伯乐奖'.self::unicode2utf8('\ue12f').'
-• 邀请高校生
-第1～10人 '.self::unicode2utf8('\ue12f').'20元/人；
-第11~20人 '.self::unicode2utf8('\ue12f').'30元/人；
-第21~30人 '.self::unicode2utf8('\ue12f').'50元/人；
-第31~50人 '.self::unicode2utf8('\ue12f').'60元/人；
-• 邀请在职老师
-第1～10人 '.self::unicode2utf8('\ue12f').'40元/人；
-第11~20人 '.self::unicode2utf8('\ue12f').'50元/人；
-第21~30人 '.self::unicode2utf8('\ue12f').'70元/人；
-第31~50人 '.self::unicode2utf8('\ue12f').'80元/人；
-'.self::unicode2utf8('\ue12f').'伯乐奖通过银行卡发放
-'.self::unicode2utf8('\ue12f').'[我的收入]中可查看详情 
-'.self::unicode2utf8('\ue22f').' 分享邀请海报，领取伯乐奖！
-']
-            ];
-
-            $txt = self::ch_json_encode($txt_arr);
-            $token = AccessToken::getAccessToken();
-            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
-            $txt_ret = self::https_post($url,$txt);
-
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+        }elseif ($eventKey == 'introduction') {
+            $tuwenList[] = array(
 
+                'title' => '上海理优教育科技有限公司图片简介',
+
+                'description' => '',
+
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/eef708bdb1d02310c9ab7ba5a3605c071501040957308.jpg',
+
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_introduction',
+
+            );
+
+
+            $tuwenList[] = array(
+
+                'title' => '理优1对1用户指南',
+
+                'description' => '',
+
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
+
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_guide',
+
+            );
         }
         $item = array();
         foreach($tuwenList as $tuwen){
             $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
         }
-      return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
+        return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
     }
 
     /**
@@ -828,15 +801,12 @@ self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2u
     }
 
     public static function get_img_url($url){
-        \App\Helper\Utils::logger('curlimg1');
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $output = curl_exec($ch);
         curl_close($ch);
-        \App\Helper\Utils::logger('curlimg2');
         return $output;
     }
 

@@ -1364,6 +1364,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         ];
         $sql = $this->gen_sql_new("select accept_adminid,".
                                   "m.account,sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) set_count,".
+                                  "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1,1,0)) green_count, ".
                                   "sum(if(jw_test_lesson_status =2,1,0)) gz_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason='未排课,期待时间已到',1,0)) back_count,".
                                   "sum(if(test_lesson_student_status in(110,120) and no_accept_reason <> '未排课,期待时间已到',1,0)) back_other_count,".
@@ -1489,7 +1490,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         });
     }
 
-    public function get_teat_lesson_transfor_info_type($start_time,$end_time,$require_admin_type=-1){
+    public function get_teat_lesson_transfor_info_type($start_time,$end_time,$require_admin_type=-1,$is_green_flag=-1){
         $where_arr = [
             "accept_adminid > 0",
             "m.account_role = 3",
@@ -1497,6 +1498,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             // "ll.lesson_user_online_status in (0,1)",
             "ll.lesson_del_flag=0",
             ["t.require_admin_type=%u",$require_admin_type,-1],
+            ["tr.is_green_flag=%u",$is_green_flag,-1],
             "l.lessonid >0"
         ];
 
@@ -2230,7 +2232,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
 
-    public function get_tmk_lesson_count( $field_name, $start_time,$end_time,$tmk_adminid=-1,$origin_level=-1){
+    public function get_tmk_lesson_count( $field_name, $start_time,$end_time,$tmk_adminid=-1,$origin_level=-1,$wx_invaild_flag){
 
         $this->switch_tongji_database();
 
@@ -2244,6 +2246,9 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
+
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , count(*) as tmk_count, "
             ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count  "
@@ -2381,5 +2386,38 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                 ,$lessonid
         );
         return $this->main_get_value($sql);
+    }
+    public function get_teacher_cancel_count(){
+        //$sql = $this->get_sql_new("");
+        $sql = "SELECT test_lesson_order_fail_flag, test_lesson_order_fail_desc, test_lesson_order_fail_set_time, tmk_adminid, tss.confirm_time, tss.confirm_adminid, l.lessonid, tr.accept_flag, t.require_admin_type, s.origin_userid
+    , t.ass_test_lesson_type, stu_score_info, stu_character_info, s.school, s.editionid
+    , stu_test_lesson_level, stu_test_ipad_flag, stu_request_lesson_time_info, stu_request_test_lesson_time_info, tr.require_id
+    , t.test_lesson_subject_id, ss.add_time, test_lesson_student_status, s.userid, s.nick
+    , tr.origin, ss.phone_location, ss.phone, ss.userid, t.require_adminid
+    , tr.curl_stu_request_test_lesson_time AS stu_request_test_lesson_time, test_stu_request_test_lesson_demand AS stu_request_test_lesson_demand, s.origin_assistantid, s.origin_userid, t.subject
+    , tr.test_stu_grade AS grade, ss.user_desc, ss.has_pad, ss.last_revisit_time, ss.last_revisit_msg
+    , tq_called_flag, next_revisit_time, l.lesson_start, l.lesson_del_flag, tr.require_time
+    , l.teacherid, t.stu_test_paper, t.tea_download_paper_time, test_lesson_student_status, tss.success_flag
+    , tss.fail_greater_4_hour_flag, tss.test_lesson_fail_flag, tss.fail_reason, tr.seller_require_change_flag, tr.require_change_lesson_time
+    , tr.seller_require_change_time, assigned_lesson_count, tr.accept_adminid, jw_test_lesson_status, set_lesson_time
+    , tr.green_channel_teacherid, tc.cancel_time, t.textbook, tr.cur_require_adminid, tr.grab_status
+    , tr.current_lessonid, tr.is_green_flag, tr.limit_require_flag, tr.limit_require_teacherid, tr.limit_require_lesson_start
+    , tr.limit_require_time, tr.limit_require_adminid, tr.limit_require_send_adminid, tr.limit_accept_flag, tr.limit_require_reason
+    , tr.limit_accept_time
+FROM db_weiyi.t_test_lesson_subject_require tr
+    LEFT JOIN db_weiyi.t_test_lesson_subject t ON t.test_lesson_subject_id = tr.test_lesson_subject_id
+    LEFT JOIN db_weiyi.t_seller_student_new ss ON t.userid = ss.userid
+    LEFT JOIN db_weiyi.t_student_info s ON t.userid = s.userid
+    LEFT JOIN db_weiyi.t_test_lesson_subject_sub_list tss ON tr.current_lessonid = tss.lessonid
+    LEFT JOIN db_weiyi.t_lesson_info l ON tss.lessonid = l.lessonid
+    LEFT JOIN db_weiyi.t_course_order c ON tss.lessonid = c.ass_from_test_lesson_id
+    LEFT JOIN db_weiyi.t_teacher_cancel_lesson_list tc ON tr.current_lessonid = tc.lessonid
+WHERE s.is_test_user = 0
+    AND tr.accept_flag <> 2
+    AND require_time >= 1501084800
+    AND require_time < 1501776000
+ORDER BY require_time ASC";
+    dd($sql);
+        return $this->main_get_list_by_page($sql,10);
     }
 }

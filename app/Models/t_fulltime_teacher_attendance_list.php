@@ -8,12 +8,13 @@ class t_fulltime_teacher_attendance_list extends \App\Models\Zgen\z_t_fulltime_t
 		parent::__construct();
 	}
 
-    public function get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role=-1){
+    public function get_fulltime_teacher_attendance_list($start_time,$end_time,$attendance_type,$teacherid,$page_num,$adminid,$account_role=-1,$fulltime_teacher_type=-1){
         $where_arr=[
             ["attendance_type=%u",$attendance_type,-1],
             ["teacherid=%u",$teacherid,-1],
             ["adminid=%u",$adminid,-1],
             ["m.account_role=%u",$account_role,-1],
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"attendance_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select t.realname,f.teacherid,f.adminid,f.add_time,f.attendance_time,f.attendance_type,f.day_num,f.off_time,f.cancel_flag,f.cancel_reason,f.id,f.lesson_count from %s f"

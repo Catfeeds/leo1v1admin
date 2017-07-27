@@ -19,6 +19,19 @@ class Config{
         }
         return $ret;
     }
+    static public function get_qiniu_access_key() {
+        $config=self::get_config("qiniu");
+        return $config["access_key"];
+    }
+    static public function get_qiniu_secret_key() {
+        $config=self::get_config("qiniu");
+        return $config["secret_key"];
+    }
+    static public function get_qiniu_private_url() {
+        $config=self::get_config("qiniu");
+        return $config["private_url"]["url"];
+    }
+
 
 
     static  public function get_menu() {

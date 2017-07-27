@@ -103,20 +103,7 @@ class authority extends Controller
                 $item["seller_level_str"] = "未设置";
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-
-
-            // e\eaccount_role::set_item_value_str($item);
-            // e\eseller_level::set_item_value_str($item);
-            // e\edepartment::set_item_value_str($item);
-            // e\eboolean::set_item_value_str($item,"become_full_member_flag");
-            // $item['del_flag_str'] = ($item['del_flag']==0)?'在职':'离职';
-            // if($item["seller_level_str"] == -1){
-            //     $item["seller_level_str"] = "未设置";
-            // }
-            // e\eboolean::set_item_value_simple_str($item,"day_new_user_flag");
-
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -438,6 +425,19 @@ class authority extends Controller
         return $this->manager_list( );
 
     }
+
+    public function manager_list_for_qz_shanghai(){
+        $this->set_in_value("fulltime_teacher_type",1);
+        return $this->manager_list_for_qz();
+    }
+
+    public function manager_list_for_qz_wuhan(){
+        $this->set_in_value("fulltime_teacher_type",2);
+        return $this->manager_list_for_qz();
+    }
+
+        
+
 
     public function manager_list_for_ass() {
         $this->set_in_value("account_role", E\Eaccount_role::V_1);

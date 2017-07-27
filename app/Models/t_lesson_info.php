@@ -161,7 +161,8 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                                                  $is_with_test_user, $seller_adminid, $page_num, $confirm_flag, $assistantid=-1 ,
                                                  $lesson_status=-1, $test_seller_id=-1,$has_performance, $origin="",
                                                  $grade=-1, $lesson_count=-1,$lesson_cancel_reason_type=-1 ,$tea_subject="",
-                                                 $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,$lesson_del_flag=-1
+                                                 $has_video_flag, $lesson_user_online_status,$fulltime_flag=-1,
+                                                 $lesson_del_flag=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = [];
         if ($lessonid == -1 ) {
@@ -175,6 +176,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = [ "l.lesson_count=%u ", $lesson_count,-1];
             $where_arr[] = [ "l.lesson_del_flag=%u ", $lesson_del_flag,-1];
             $where_arr[] = [ "l.lesson_cancel_reason_type=%u ", $lesson_cancel_reason_type,-1];
+            $where_arr[] = [ "m.fulltime_teacher_type=%u ", $fulltime_teacher_type,-1];
             if ($lesson_type==-2) {
                 $where_arr[] = "l.lesson_type in(0,1,3 )";
             }else{
@@ -464,7 +466,6 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
         $sub_arr_2 = [
             ["s.assistantid=%u", $assistantid,-1] ,
-            ["require_adminid=%u", $assistantid ,-1] ,
         ];
         $sub_where_str_2 = "(".$this->where_str_gen($sub_arr_2, "or").")";
 
@@ -1057,7 +1058,6 @@ lesson_type in (0,1) "
             E\Econtract_type::V_1,
             E\Econtract_type::V_3,
             E\Econtract_type::V_1003
-
         ]);
         $where_arr=[
             $lesson_status,
@@ -1079,6 +1079,8 @@ lesson_type in (0,1) "
                             ." where userid=%u "
                             ." and lesson_status=2 "
                             ." and lesson_type in (0,1,3) "
+                            ." and confirm_flag not in (2,4)"
+                            ." and lesson_del_flag=0"
                             ,self::DB_TABLE_NAME
                             ,$userid
         );
@@ -1185,6 +1187,30 @@ lesson_type in (0,1) "
         );
         return $this->main_get_row($sql);
     }
+
+    public function check_train_lesson_time_free( $userid,$cur_lessonid, $lesson_start,$lesson_end ) {
+        $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
+                            ." from %s l "
+                            ." left join %s ta on l.lessonid = ta.lessonid "
+                            ." where ta.userid=%u "
+                            ." and l.lessonid<> %d "
+                            ." and %u < lesson_end "
+                            ." and %u > lesson_start "
+                            ." and confirm_flag<2"
+                            ." and lesson_type =1100"
+                            ." and lesson_del_flag =0 "
+                            ." and l.lesson_sub_type=1"
+                            ." and l.train_type=5"
+                            ,self::DB_TABLE_NAME
+                            ,t_train_lesson_user::DB_TABLE_NAME
+                            ,$userid
+                            ,$cur_lessonid
+                            ,$lesson_start
+                            ,$lesson_end
+        );
+        return $this->main_get_row($sql);
+    }
+
 
     public function check_teacher_time_free($teacherid,$cur_lessonid, $lesson_start,$lesson_end){
         $sql=$this->gen_sql("select l.lessonid,lesson_start,lesson_end "
@@ -2116,12 +2142,15 @@ lesson_type in (0,1) "
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    public function get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid){
+    public function get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject=-1,$lesson_type=-1){
         $where_arr=[
             ["lesson_start>=%d",$start_time, -1 ] ,
             ["lesson_start<=%d",$end_time, -1 ] ,
             ["l.assistantid",$assistantid, -1 ] ,
             ["l.userid = %u",$userid, -1 ] ,
+            ["l.subject = %u",$subject, -1 ] ,
+            ["l.lesson_type = %u",$lesson_type, -1 ] ,
+            // "l.lesson_del_flag=0"
            # "lesson_status = 0",
            # "lesson_type in (0,1,3)",
            # "confirm_flag in (0,1)"
@@ -3373,7 +3402,7 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){
+    public function get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["l.lesson_start >= %u",$start_time,-1],
             ["l.lesson_start < %u",$end_time,-1],
@@ -3381,6 +3410,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             "t.trial_lecture_is_pass =1",
             "t.train_through_new =1"
         ];
@@ -3605,7 +3635,7 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){
+    public function get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -3620,6 +3650,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -3693,7 +3724,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag){
+    public function get_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -3708,6 +3739,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -3781,7 +3813,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){
+    public function get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -3796,6 +3828,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             // "t.trial_lecture_is_pass =1",
             //  "t.train_through_new =1"
         ];
@@ -4033,7 +4066,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag){
+    public function get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -4046,6 +4079,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             // "t.trial_lecture_is_pass =1",
             // "t.train_through_new =1"
         ];
@@ -4171,7 +4205,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){
+    public function get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -4184,6 +4218,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             // "t.trial_lecture_is_pass =1",
             // "t.train_through_new =1"
         ];
@@ -4957,7 +4992,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"
                                   ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,t.test_transfor_per,"
                                   ." t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type,t.teacher_money_flag,"
-                                  ." t.idcard,t.bank_city,t.bank_province,"
+                                  ." t.idcard,t.bank_city,t.bank_province,t.phone,"
                                   ." sum(if(l.lesson_type in (0,1,3),l.lesson_count,0)) as lesson_1v1,"
                                   ." sum(if(l.lesson_type=2,l.lesson_count,0)) as lesson_trial,"
                                   ." sum(if(l.lesson_type<1000,l.lesson_count,0)) as lesson_total"
@@ -6526,7 +6561,7 @@ lesson_type in (0,1) "
         });
     }
 
-    public function get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1){
+    public function get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
@@ -6536,6 +6571,7 @@ lesson_type in (0,1) "
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             "t.trial_lecture_is_pass =1",
             "t.train_through_new =1"
         ];
@@ -6729,7 +6765,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,t.realname as tea_nick,lesson_start,lesson_end,lesson_type,"
                                   ." l.subject,l.grade,lesson_name,tea_cw_url,lesson_status,l.server_type,courseid,lesson_num,"
                                   ." tea_cw_url,count(distinct(tl.userid)) as user_num,count(distinct(lo.userid)) as login_num,"
-                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type"
+                                  ." count(distinct(t2.teacherid)) as through_num,l.train_type "
                                   ." from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s tl on l.lessonid=tl.lessonid"

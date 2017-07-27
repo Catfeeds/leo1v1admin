@@ -211,6 +211,7 @@ class tea_manage extends Controller
         $lessonid          = $this->get_in_lessonid(-1);
         $origin            = $this->get_in_str_val("origin");
         $page_num          = $this->get_in_page_num();
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         if ($lessonid ==0) {
             $lessonid= $this->t_lesson_info->get_lessonid_by_lesson_str( $this->get_in_str_val("lessonid"));
         }
@@ -220,7 +221,8 @@ class tea_manage extends Controller
             $lesson_type ,$subject,$is_with_test_user,$seller_adminid,$page_num,
             $confirm_flag,$assistantid,$lesson_status,$test_seller_id,$has_performance,
             $origin,$grade,$lesson_count,$lesson_cancel_reason_type,$tea_subject,
-            $has_video_flag, $lesson_user_online_status,$fulltime_flag,$lesson_del_flag
+            $has_video_flag, $lesson_user_online_status,$fulltime_flag,
+            $lesson_del_flag,$fulltime_teacher_type
         );
 
         $lesson_list       = array();
@@ -982,6 +984,13 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
+    public function course_plan_psychological(){
+        $this->set_in_value("assistantid",-1);
+        $this->set_in_value("subject",11);
+        $this->set_in_value("lesson_type",2);
+        return $this->course_plan();
+ 
+    }
     public function course_plan(){
         list($start_time,$end_time)=$this->get_in_date_range(0,3);
         $page_num    = $this->get_in_page_num();
@@ -989,11 +998,19 @@ class tea_manage extends Controller
         if($assistantid == 0){
             $assistantid = -1;
         }
+        $assistantid = $this->get_in_int_val("assistantid",$assistantid);
+        $subject = $this->get_in_int_val("subject",-1);
+        $lesson_type = $this->get_in_int_val("lesson_type",-1);
         $userid   = $this->get_in_int_val("studentid",-1);
 
-        $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid);
+        $ret_info = $this->t_lesson_info->get_lesson_info_ass($page_num,$start_time,$end_time,$assistantid,$userid,$subject,$lesson_type);
         foreach ($ret_info['list'] as &$item){
+
+            if($item["subject"]==11){
+                $item['teacher_nick'] = $this->t_teacher_info->get_realname($item['teacherid']);
+            }else{
             $item['teacher_nick'] = $this->t_teacher_info->get_nick($item['teacherid']);
+            }
             $item['user_nick'] = $this->t_student_info->get_nick($item['userid']);
             $item['level'] = $this->t_teacher_info->get_level($item['teacherid']);
             $item['teacher_money_type'] = $this->t_teacher_info->get_teacher_money_type($item['teacherid']);
@@ -1587,6 +1604,24 @@ class tea_manage extends Controller
         }
     }
 
+    public function train_not_through_list(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $is_all     = $this->get_in_int_val("is_all",-1);
+        $has_openid = $this->get_in_int_val("has_openid",-1);
+
+        if($is_all==1){
+            $start_time = 0;
+            $end_time   = 0;
+        }
+
+        $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,$has_openid);
+        foreach($ret_info['list'] as &$val){
+            \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
     private function gen_server_map($list){
         $id_list = [];
         foreach ($list as $item) {
@@ -2043,6 +2078,7 @@ class tea_manage extends Controller
     }
 
     public function train_lecture_lesson_zs(){
+        $this->set_in_value("is_all",1);
         return $this->train_lecture_lesson();   
     }
 
@@ -2064,10 +2100,11 @@ class tea_manage extends Controller
         $have_wx          = $this->get_in_int_val("have_wx",-1);
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
+        $is_all           = $this->get_in_int_val("is_all");
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby"])){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];
@@ -2111,7 +2148,6 @@ class tea_manage extends Controller
             }else{
                 $val["have_wx_flag"]="否";
             }
-
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(
@@ -2255,4 +2291,57 @@ class tea_manage extends Controller
         return $this->output_succ();
     }
 
+     public function set_stu_performance_for_seller(){
+        $lessonid               = $this->get_in_int_val("lessonid");
+        $stu_lesson_content     = $this->get_in_str_val("stu_lesson_content");
+        $stu_lesson_status      = $this->get_in_str_val("stu_lesson_status");
+        $stu_study_status       = $this->get_in_str_val("stu_study_status");
+        $stu_advantages         = trim($this->get_in_str_val("stu_advantages"),",");
+        $stu_disadvantages      = trim($this->get_in_str_val("stu_disadvantages"),",");
+        $stu_lesson_plan        = $this->get_in_str_val("stu_lesson_plan");
+        $stu_teaching_direction = $this->get_in_str_val("stu_teaching_direction");
+        $stu_advice             = $this->get_in_str_val("stu_advice");
+
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        if(!empty($require_id)){
+            $ret_info = $this->t_test_lesson_subject_require->field_update_list(
+                [["require_id=%u",$require_id]],
+                [
+                    "stu_lesson_content"     => $stu_lesson_content,
+                    "stu_lesson_status"      => $stu_lesson_status,
+                    "stu_study_status"       => $stu_study_status,
+                    "stu_advantages"         => $stu_advantages,
+                    "stu_disadvantages"      => $stu_disadvantages,
+                    "stu_lesson_plan"        => $stu_lesson_plan,
+                    "stu_teaching_direction" => $stu_teaching_direction,
+                    "stu_advice"             => $stu_advice,
+                ]
+            );
+        }else{
+            $ret_info = $this->t_seller_student_info->field_update_list(
+                [["st_arrange_lessonid=%u",$lessonid]],
+                [
+                    "stu_lesson_content"     => $stu_lesson_content,
+                    "stu_lesson_status"      => $stu_lesson_status,
+                    "stu_study_status"       => $stu_study_status,
+                    "stu_advantages"         => $stu_advantages,
+                    "stu_disadvantages"      => $stu_disadvantages,
+                    "stu_lesson_plan"        => $stu_lesson_plan,
+                    "stu_teaching_direction" => $stu_teaching_direction,
+                    "stu_advice"             => $stu_advice,
+                ]
+            );
+        }
+
+
+        if(!$ret_info){
+            return outputjson_error("评价失败,请稍后再试");
+        }else{
+            $this->t_lesson_info->field_update_list($lessonid,[
+                'ass_comment_audit' => 3,
+                'tea_rate_time'     => time(),
+            ]);
+            return outputjson_success();
+        }
+    }
 }

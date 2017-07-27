@@ -202,11 +202,11 @@
                         <input class="opt-change form-control" id="id_seller_level" />
                     </div>
                 </div>
-                
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">微信可见</span>
-                       
+
                         <select class="opt-change form-control" id="id_wx_invaild_flag" >
                         </select>
 
@@ -214,6 +214,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">非销售</span>
+                        <select class="opt-change form-control" id="id_filter_flag" >
+                        </select>
+                    </div>
+                </div>
 
             </div>
 
@@ -400,9 +407,7 @@
                                 <a class="fa fa-list   opt-seller-list " title="拨打cc列表"> </a>
                                 <a class="fa fa-refresh  opt-reset-sys_invaild_flag" title="刷新无效状态"> </a>
                                 <a class="fa fa-flag opt-publish-flag " title="设置是否出现在公海"> </a>
-                               
-                                <a class="fa fa-flag wx-invaild-flag " title="设置微信可见"> </a>
-                                
+
                             </div>
                         </td>
                     </tr>

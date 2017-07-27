@@ -736,52 +736,6 @@ class Utils  {
     static public function sms_common($phone,$type,$data,$user_ip=0,$sign_name="理优教育")
     {
         $phone = (string)$phone;
-        // if ( in_array( $phone, [
-        //     "13545096512",
-        //     "13264833258",
-        //     "13617133016",
-        //     "13476679763",
-        //     "15927348753",
-        //     "18674012082",
-        //     "13545096512",
-        //     "18601735549",
-        //     "13770868207",
-        //     "13545299625",
-        //     "13918599496",
-        //     "15994209765",
-        //     "15921544767",
-        //     "18017008608",
-        //     "18019739090",
-        //     "13816297801",
-        //     "13371812569",
-        //     "18688792764",
-        //     "13848216130",
-        //     "15044941007",
-        //     "15754725910",
-        //     "13171286842",
-        //     "15384729195",
-        //     "13273853275",
-        //     "13273853275",
-        //     "15821208225",
-        //     "13818373894",
-        //     "13918009152",
-        //     "18279808219",
-        //     "13524296040",
-        //     "13564678676",
-        //     "13705759995",
-        //     "18019399542",
-        //     "15958258032",
-        //     "18916068160",
-        //     "15901681505",
-        //     "13361908997",
-        //     "13818903771",
-        //     "18817415265",
-        //     "13788911242",
-        //     "14782323288",
-        //     "13916612415",
-        // ] )) {
-        //     return;
-        // }
 
         $is_success=0;
         if ($user_ip) {
@@ -1375,5 +1329,33 @@ class Utils  {
         }
         return (int)$grade;
     }
+
+    static public function get_teacher_level_str($teacher_info){
+        self::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
+        self::set_default_value($teacher_type,$teacher_info,4,"teacher_money_type");
+        self::set_default_value($teacher_type,$teacher_info,0,"level");
+
+        if($teacher_type>20){
+            $level_str="招师代理";
+        }else{
+            if($teacher_money_type==0){
+                if($level<3){
+                    $level_str = E\Elevel::$v2s_map[$level+1];
+                }elseif($level==3){
+                    $level_str = "明星";
+                }else{
+                    $level_str = "";
+                }
+            }elseif(in_array($teacher_money_type,[2,3])){
+                $level_str = "高级";
+            }else{
+                $level_str = E\Elevel::$v2s_map[$level];
+            }
+            $level_str.="教师";
+        }
+        return $level_str;
+    }
+
+
 
 };

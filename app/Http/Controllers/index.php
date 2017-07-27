@@ -50,6 +50,8 @@ class index extends Controller
 
         $jump_url=$this->get_in_str_val("jump_url");
 
+        \App\Helper\Utils::logger("jump_url1112:$jump_url");
+
         if (!$jump_url) {
             $jump_url="/wx_teacher_web/wage_summary";
         }
@@ -132,6 +134,7 @@ class index extends Controller
 
         global $_SESSION;
         global $_SERVER;
+
 
         if ( @$_SERVER["HTTP_HOST"] == "wx-teacher.leo1v1.com" ) {
             \App\Helper\Utils::logger("xxxxx111");

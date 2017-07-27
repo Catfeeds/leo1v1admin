@@ -399,7 +399,7 @@ class wx_parent_api extends Controller
 
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsxTqusFBCbI6QqR8oxkwwMg",  // QC yunyan
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
             ];
@@ -428,7 +428,7 @@ class wx_parent_api extends Controller
                 "keyword1"  => " $report_msg",
                 "keyword2"  => " 已提交",
                 "keyword3"  => " $log_time_date",
-                "remark"    => " 我们会在3个工作日内进行处理,感激您的反馈!"
+                "remark"    => " 我们会在3个工作日内进行处理,感谢您的反馈!"
             ];
             $url = '';
             //orwGAswyJC8JUxMxOVo35um7dE8M // QC openid
@@ -443,15 +443,649 @@ class wx_parent_api extends Controller
     }
 
 
+
+
+
+
+
     //此处处理家长调整时间功能
 
-    public function change_lesson_time_by_parent(){
-        $change_time = $this->get_in_str_val('change_time');
+    public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $filter_lesson_time_start = time(NULL)+86400;
+        $filter_lesson_time_end   = $lesson_end+3*86400;
+
+        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+
+        $lesson_time_arr = [];
+        $t = [];
+        $t2 = [];
+        $t3 = [];
+        $t4 = [];
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+        foreach($all_tea_stu_lesson_time  as $item){
+            $t['time'][0] = date('Y-m-d',$item['lesson_start']);
+            $t['time'][1] = date('H',$item['lesson_start']).':59:00';
+            $t['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+            array_push($lesson_time_arr,$t);
+            $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
+            $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
+            $t2['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+            array_push($lesson_time_arr,$t2);
+        }
+
+       foreach($lesson_time as $item){
+           $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
+           $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
+           $t4['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+           array_push($lesson_time_arr,$t4);
+           $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
+           $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
+           $t3['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+           array_push($lesson_time_arr,$t3);
+       }
+
+       return $this->output_succ(['data'=>$lesson_time_arr]);
     }
 
-    public function get_free_time(){
+
+    public function set_modify_lesson_time_by_parent(){ // 1025 // 家长设置上课时间段
+        $parent_modify_time   = $this->get_in_str_val('parent_modify_time');
+        $parent_modify_remark = $this->get_in_str_val('parent_modify_remark');
         $lessonid = $this->get_in_int_val('lessonid');
-        $teacher_free_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid);
-        dd($teacher_free_time);
+
+        $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
+
+        // 家长只能发起一次调课申请
+        $parent_modify_time = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+        if($parent_modify_time){
+            return $this->output_err('您好,本节课已经申请,请勿重复申请!');
+        }
+
+        $ret = $this->t_lesson_time_modify->row_insert([
+            'lessonid'             => $lessonid,
+            'parent_modify_time'   => $parent_modify_time,
+            'parent_modify_remark' => $parent_modify_remark,
+            'parent_deal_time'     => time(NULL)
+        ]);
+
+        if($ret){
+            // 发送微信推送[家长]
+            $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
+
+            $lesson_start_date = date('Y-m-d',$lesson_start_time );
+            $result = "原因:{".$parent_modify_remark."}";
+
+            if(!$parent_modify_remark){
+                $result = '';
+            }
+
+            $day_time = date('Y-m-d H:i:s');
+            $wx     = new \App\Helper\Wx();
+            $url = '';
+            $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+            $data_msg = [
+                "first"     => " 调课申请受理中",
+                "keyword1"  => " 调换{".$lesson_start_time."}上课时间",
+                "keyword2"  => " 原上课时间:{".$lesson_start_time."}, $result,申请受理中,请稍等!",
+                "keyword3"  => " $day_time",
+                "remark"    => " 详细进度稍后将以推送的形式发送给您,请注意查看!",
+            ];
+            $wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+
+            // 发送微信推送[老师]
+            $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']      = " 调课申请 ";
+            $data['keyword1']   = " 您的学生{".$stu_nick."}的家长申请修改{".$lesson_start_date."}上课时间";
+            $data['keyword2']   = " 原上课时间:{".$lesson_start_date."};$result";
+            $data['keyword3']   = "$day_time";
+            $data['remark']     = "请点击详情查看家长勾选的时间并进行处理!";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+            return $this->output_succ();
+        }else{
+            return $this->output_err('提交失败,请稍后再试..');
+        }
+
     }
+
+
+    public function get_modify_status(){ //1026 // 获取推送的状态 [详情]
+        $lessonid = $this->get_in_int_val('lessonid');
+        $lesson_time_arr = [];
+        $lesson_time     = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+
+        $original_time = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
+
+        if($original_time ){
+            $original_time_arr = explode(',',$original_time);
+            $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$original_time_arr[0]).'-'.date('H:i:s',$original_time_arr[1]);
+
+            $lesson_time_arr['lesson_time_new'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
+        }else{
+            $lesson_time_arr['lesson_time_old'] = date('Y年m月d日 H:i:s',$lesson_time[0]['lesson_start']).' - '.date('H:i:s',$lesson_time[0]['lesson_end']);
+        }
+
+        $lesson_time_arr['status']       = 0;
+        $lesson_modify_arr = $this->t_lesson_time_modify->get_parent_modify_time_by_lessonid($lessonid);
+
+        if($lesson_modify_arr['parent_modify_time']){
+            if(  $lesson_modify_arr['is_modify_time_flag'] == 0  ){
+                $lesson_time_arr['status'] = 1;// 已提交
+            }elseif( $lesson_modify_arr['is_modify_time_flag'] == 1){
+                $lesson_time_arr['status'] = 2;// 已完成
+            }elseif( $lesson_modify_ar['is_modify_time_flag'] == 2){
+                $lesson_time_arr['status'] = 3; // 被拒绝
+            }
+        }
+
+        $lesson_time_arr['ass_phone']     = $this->t_assistant_info->get_ass_phone_by_lessonid($lessonid);
+        $lesson_time_arr['seller_phone']  = $this->t_lesson_info_b2->get_seller_phone_by_lessonid($lessonid);
+
+        return $this->output_succ(['data'=>$lesson_time_arr]);
+    }
+
+
+    public function get_modify_lesson_time_by_teacher(){//1027 // 老师 点击家长调课 推送详情
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+
+        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $filter_lesson_time_start = time(NULL)+86400;
+        $filter_lesson_time_end   = $lesson_end+3*86400;
+
+
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+
+        $lesson_time_arr = [];
+        $t = [];
+        $t2 = [];
+        $t3 = [];
+        $t4 = [];
+        $t5 = [];
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+        foreach($all_tea_stu_lesson_time  as $item){
+            $t['time'][0] = date('Y-m-d',$item['lesson_start']);
+            $t['time'][1] = date('H',$item['lesson_start']).':59:00';
+            $t['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+            array_push($lesson_time_arr,$t);
+            $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
+            $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
+            $t2['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+            array_push($lesson_time_arr,$t2);
+        }
+
+       foreach($lesson_time as $item){
+           $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
+           $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
+           $t4['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
+           array_push($lesson_time_arr,$t4);
+           $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
+           $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
+           $t3['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
+           array_push($lesson_time_arr,$t3);
+       }
+
+       $parent_modify_time_arr = explode(',',$parent_modify_time);
+
+       if($parent_modify_time){
+           foreach($parent_modify_time as $item){
+               $t5['time'][0] = date('Y-m-d',$item);
+               $t5['time'][1] = date('H',$item).':59:00';
+               $t5['can_edit'] = 3;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑 3:家长填写的调课时间
+               array_push($lesson_time_arr,$t5);
+           }
+       }
+       return $this->output_succ(['data'=>$lesson_time_arr]);
+    }
+
+
+    public function set_lesson_time_by_teacher(){ //1028 // 老师同意时间调整 并设置了自己的时间
+        $lessonid        = $this->get_in_int_val('lessonid');
+        $lesson_time_str = $this->get_in_str_val('lesson_time_str');
+
+        $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $original_lesson_time  = $lesson_old_start.','.$lesson_old_end;
+
+        $lesson_time_arr = explode(',',$lesson_time_str);
+
+        $ret1 = $this->t_lesson_info_b2->field_update_list($lessonid,[
+            'lesson_start'  => $lesson_time_arr[0],
+            'lesson_end'    => $lesson_time_arr[1],
+        ]);
+
+        $ret2 = $this->t_lesson_time_modify->field_update_list($lessonid,[
+            'is_modify_time_flag' =>1,// 调课成功
+            'original_time' => $original_lesson_time,
+            'teacher_deal_time' => time(NULL)
+        ]);
+
+        if($ret1 && $ret2){
+            $is_teacher_agree = 2; //老师同意
+            $this->send_wx_msg_by_agree($lessonid,$is_teacher_agree);
+            return $this->output_succ();
+        }else{
+            return $this->output_err('提交失败,请稍后重试....');
+        }
+    }
+
+    public function keep_lesson_time(){ // 1029 // 老师|家长  维持原有时间 [提交原因]
+        $lessonid        = $this->get_in_int_val('lessonid');
+        $is_role_account = $this->get_in_int_val('role_account'); // 1:家长 2:老师
+
+        if($is_role_account == 1){
+            $parent_keep_original_remark  = $this->get_in_str_val('parent_keep_original_remark');
+            $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
+                'parent_keep_original_remark' => $parent_keep_original_remark,
+                'is_modify_time_flag'  => 2,// 家长维持有时间
+            ]);
+        }else{
+            $teacher_keep_original_remark = $this->get_in_str_val('teacher_keep_original_remark');
+            $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
+                'teacher_keep_original_remark' => $teacher_keep_original_remark,
+                'is_modify_time_flag'  => 2,// 老师维持有时间
+                'teacher_deal_time'    => time(NULL)
+            ]);
+        }
+
+        if($ret){
+            $this->send_wx_msg_by_keep($lessonid,$is_role_account );
+            return $this->output_succ();
+        }
+    }
+
+
+    public function teacher_get_modify_lesson_time(){  // 1030 // 老师更换时间
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_time         = $this->t_lesson_info_b2->get_lesson_time($lessonid);
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid,$filter_lesson_time_start, $filter_lesson_time_end);
+        $parent_modify_time  = $this->t_lesson_time_modify->get_parent_modify_time($lessonid);
+        $parent_modify_time_arr = explode(',',$parent_modify_time);
+
+        $lesson_time_arr = [];
+        $t = [];
+        $t2 = [];
+        $t3 = [];
+        $t4 = [];
+        $t5 = [];
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+
+        foreach($all_tea_stu_lesson_time  as $item){
+            $t['time'][0] = date('Y-m-d',$item['lesson_start']);
+            $t['time'][1] = date('H',$item['lesson_start']).':59:00';
+            $t['can_edit'] = 1;// 0:可编辑 1:老师/学生的有课时间 2:课时本来的时间 3:家长填写的调课时间 4:老师填写的调课时间
+            array_push($lesson_time_arr,$t);
+            $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
+            $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
+            $t2['can_edit'] = 1;
+            array_push($lesson_time_arr,$t2);
+        }
+
+       foreach($lesson_time as $item){
+           $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
+           $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
+           $t4['can_edit'] = 2;
+           array_push($lesson_time_arr,$t4);
+           $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
+           $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
+           $t3['can_edit'] = 2;
+           array_push($lesson_time_arr,$t3);
+       }
+
+       foreach($parent_modify_time_arr as $item_parent_modify){
+           $t5['time'][0] = date('Y-m-d',$item_parent_modify);
+           $t5['time'][1] = date('H',$item_parent_modify).':59:00';
+           $t5['can_edit'] = 3;
+           array_push($lesson_time_arr,$t5);
+       }
+
+       return $this->output_succ(['data'=>$lesson_time_arr]);
+    }
+
+
+    public function set_modify_lesson_time_by_teacher(){ // 1031  老师提交选择的时间段
+        $lessonid = $this->get_in_int_val('lessonid');
+        $teacher_modify_remark = $this->get_in_str_val('teacher_modify_remark');
+        $teacher_modify_time   = $this->get_in_str_val('teacher_modify_time');
+
+        $lesson_old_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+
+        $ret = $this->t_lesson_time_modify->field_update_list($lessonid,[
+            'teacher_modify_remark' => $teacher_modify_remark,
+            'teacher_modify_time'   => $teacher_modify_time
+        ]);
+
+        if($ret){
+            // 微信推送给老师
+            $day_date = date('Y-m-d H:i:s');
+            $lesson_old_date = date('m月d日 H:i:s',$lesson_old_time);
+
+            if($teacher_modify_remark){
+                $result   = " 原因: { $teacher_modify_remark } ";
+            }else{
+                $result   = '';
+            }
+
+            $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
+
+            $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']      = "您申请修改学生{ $stu_nick } 的家长发起的申请修改{ $lesson_old_date } 的上课时间 ";
+            $data['keyword1']   = " 调换{ $stu_nick } 的家长发起的换时间申请";
+            $data['keyword2']   = "原上课时间:{ $lesson_old_date } ,$result";
+            $data['keyword3']   = " $day_date";
+            $data['remark']     = "详细进度稍后将以推送形式发给您,请注意查看!";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+            // 给家长推送结果
+            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
+            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+            $data_parent = [
+                'first' => "{ $teacher_nick } 老师要求调换您发起的换时间申请",
+                'keyword1' =>"调换{ $lesson_old_date }上课时间",
+                'keyword2' => "原上课时间:{ $lesson_old_date },$result",
+                'keyword3' => "$day_date",
+                'remark'   => "请点击详情查看老师勾选的时间并进行处理!"
+            ];
+            $url_parent = '';
+            $wx = new \App\Helper\Wx();
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+        }
+
+        return $this->output_succ();
+    }
+
+
+    public function set_lesson_time_by_parent(){ // 1032 // 家长同意老师申请的时间
+        $lessonid = $this->get_in_int_val('lessonid');
+        $lesson_time_str = $this->get_in_str_val('lesson_time_str');
+
+        $lesson_time_arr = explode(',',$lesson_time_str);
+
+        $lesson_old_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_old_end   = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $original_lesson_time = $lesson_old_start.','.$lesson_old_end;
+
+        $ret1 = $this->t_lesson_info_b2->field_update_list($lessonid,[
+            'lesson_start'  => $lesson_time_arr[0],
+            'lesson_end'    => $lesson_time_arr[1],
+        ]);
+
+        $ret2 = $this->t_lesson_time_modify->field_update_list($lessonid,[
+            'is_modify_time_flag' =>1, // 0:默认值 未设置 1:成功 2:拒绝
+            'original_time' => $original_lesson_time,
+        ]);
+
+        if($ret1 && $ret2){
+            $is_teacher_agree = 1; //家长同意
+            $this->send_wx_msg_by_agree($lessonid,$is_teacher_agree);
+            return $this->output_succ();
+        }else{
+            return $this->output_err('提交失败,请稍后重试....');
+        }
+    }
+
+
+
+    public function send_wx_msg_by_agree($lessonid,$is_teacher_agree){ // 家长或老师 同意了时间后 发送微信推送
+
+        $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
+        $lesson_name       = $this->t_lesson_info_b2->get_lesson_name($lessonid);
+        $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
+        $lesson_time_arr   = $this->t_lesson_info_b2->get_modify_lesson_time($lessonid);
+        $lesson_new_time   = date('m月d日',$lesson_time_arr[0]).' - '.date('H:i:s',$lesson_time_arr[1]);
+
+        $lesson_old_time_str  = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
+        $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
+        $lesson_old_time      = date('m月d日 H:i:s',$lesson_old_time_arr[0]).' - '.date('H:i:s',$lesson_old_time_arr[1]);
+
+        if($is_teacher_agree == 1){ // 家长同意
+            $data['first']        = "$teacher_nick 老师您好, { $stu_nick }的家长同意将时间做出如下修改,原课程时间:{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
+
+            $data_parent['first'] = "$stu_nick 的家长您好,您发起的调课申请更改如下: 原课程时间:{ $lesson_old_time }; 最终时间调整至{ $lesson_new_time }";
+
+            $data_leo['first'] = "{ $teacher_nick } 老师申请调整{ $stu_nick }的家长发起的调课申请,已获得{ $stu_nick }家长的同意,原课程时间{ $lesson_old_time },最终时间调整至{ $lesson_new_time }";
+        }elseif($is_teacher_agree == 2){ //老师同意
+            $data['first']      = " $teacher_nick 老师您好,您于{".$lesson_old_time."的".$lesson_name."},已调整至{".$lesson_new_time."} ";
+
+            $data_parent['first'] = "$stu_nick 的家长您好,您的调课申请已经得到 $teacher_nick 老师的同意,{ $lesson_old_time }已调整至{ $lesson_new_time }";
+
+            $data_leo['first']    = "$stu_nick 的家长的调课申请,已经得到{ $teacher_nick }老师的同意,{ $lesson_old_time }已经调整至{ $lesson_new_time }";
+
+        }
+
+
+        // 给老师推送结果
+
+        /**
+           {{first.DATA}}
+           课程名称：{{keyword1.DATA}}
+           课程时间：{{keyword2.DATA}}
+           学生姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+           //J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o
+           **/
+
+        $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+        $teacher_url = ''; //待定
+        $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
+        $data['keyword1']   = " {".$lesson_name."}";
+        $data['keyword2']   = " {".$lesson_new_time."}";
+        $data['keyword3']   = " {".$stu_nick."}";
+        $data['remark']     = "感谢老师的支持!";
+
+        \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+
+        // 给家长推送结果
+
+        /**
+           {{first.DATA}}
+           课程名称：{{keyword1.DATA}}
+           课程时间：{{keyword2.DATA}}
+           学生姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+           // Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+
+           **/
+        $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
+        $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+        $data_parent = [
+            'keyword1' =>"$lesson_name",
+            'keyword2' => "$lesson_new_time",
+            'keyword3' => "$stu_nick",
+            'remark'   => '请注意调整后的时间,感谢家长的支持!'
+        ];
+        $url_parent = '';
+        $wx = new \App\Helper\Wx();
+        $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+
+        // 给助教// 销售 // 教务 推送结果
+
+        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+        $data_leo = [
+            'keyword1' => "$lesson_name",
+            'keyword2' => "$lesson_new_time",
+            'keyword3' => "$stu_nick",
+            'remark'   => "请注意调整您的时间安排!"
+        ];
+
+        $url_leo = '';
+
+        foreach($wx_openid_arr as $item_openid ){
+            $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
+        }
+
+    }
+
+
+    public function send_wx_msg_by_keep($lessonid,$is_teacher_keep){ // 家长或老师维持原有时间 发送微信推送
+
+        $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_start_date = date('m月d日',$lesson_start_time );
+        $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
+        $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
+
+        $wx = new \App\Helper\Wx();
+        $day_date = date('Y-m-d H:i:s');
+
+        if($is_teacher_keep == 1){ // 1:家长
+
+            $teacher_keep_original_remark = $this->t_lesson_time_modify->get_teacher_keep_original_remark($lessonid);
+            $result = "原因: $teacher_keep_original_remark";
+
+            $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $teacher_nick }老师拒绝!";
+            $keyword1 = "老师拒绝调课申请";
+            $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
+
+            // 给家长推送结果
+            $parent_wx_openid    = $this->t_parent_info->get_parent_wx_openid($lessonid);
+            $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+            $data_parent = [
+                'first' => "您已拒绝{ $teacher_nick } 老师要求调换您发起的换时间申请",
+                'keyword1' =>"拒绝调课申请",
+                'keyword2' => "原上课时间:{ $lesson_old_date },您已拒绝",
+                'keyword3' => "$day_date",
+                'remark'   => "详细进度稍后将以推送的形式发给您,请注意查看!"
+            ];
+            $url_parent = '';
+            $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+        } elseif($is_teacher_keep == 2){ // 2:老师
+            //推送给老师
+
+            $parent_keep_original_remark = $this->t_lesson_time_modify->get_parent_keep_original_remark($lessonid);
+            $result = "原因: $parent_keep_original_remark ";
+
+
+            $first    = "您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间被{ $teacher_nick }老师拒绝!";
+            $keyword1 = "老师拒绝调课申请";
+
+            $keyword2 = "原上课时间:{ $lesson_start_date }; $result";
+
+            $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+            $teacher_url = ''; //待定
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data['first']      = " 您的学生{ $stu_nick }的家长申请修改{ $lesson_start_date }上课时间,您已拒绝! ";
+            $data['keyword1']   = " 拒绝调课申请";
+            $data['keyword2']   = " 原上课时间:{".$lesson_start_date."};您已拒绝";
+            $data['keyword3']   = "$day_date";
+            $data['remark']     = "详细进度稍后将以推送的形式发给您,请注意查收!";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+        }
+
+        //推送给 助教 / 咨询
+        $parent_template_id  = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU';
+        $wx_openid_arr[0]    = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        $wx_openid_arr[1]    = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+
+        $data_leo = [
+            'first'    => "$first",
+            'keyword1' => "$keyword1",
+            'keyword2' => "$keyword2",
+            'keyword3' => "$day_date",
+            'remark'   => "请尽快联系家长和老师进行处理!"
+        ];
+        $url_leo = '';
+
+        foreach($wx_openid_arr as $item_openid ){
+            $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
+        }
+
+    }
+
+
+    public function deal_keep_lesson_time_by_jiaowu_send_wx_msg($lessonid){ // 教务处理完成后 推送微信消息
+
+        $teacher_nick      = $this->t_teacher_info->get_teacher_nick_lessonid($lessonid);
+        $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
+
+        $lesson_old_time_str  = $this->t_lesson_time_modify->get_original_time_by_lessonid($lessonid);
+        $lesson_old_time_arr  = explode(',',$lesson_old_time_str);
+        $lesson_old_time      = date('m月d日 H:i:s',$lesson_old_time_arr[0]);
+
+        $lesson_time_arr   = $this->t_lesson_info_b2->get_modify_lesson_time($lessonid);
+        $lesson_new_time   = date('m月d日',$lesson_time_arr[0]).'-'.date('H:i:s',$lesson_time_arr[1]);
+
+        //推送给老师
+        $teacher_wx_openid = $this->t_teacher_info->get_wx_openid_by_lessonid($lessonid);
+        $teacher_url = ''; //待定
+        $template_id_teacher  = "J57C9QLB-K3SeKgIwdvBMz1RfjUinhwWsN3lEM-Xo5o";
+        $data['first']      = " $teacher_nick 老师您好,由$stu_nick 的家长发起的调课申请最终更改如下, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}";
+        $data['keyword1']   = " { $lesson_name }";
+        $data['keyword2']   = "$lesson_new_time";
+        $data['keyword3']   = " $stu_nick";
+        $data['remark']     = "请注意调整后的时间,感谢老师的支持!";
+        \App\Helper\Utils::send_teacher_msg_for_wx($teacher_wx_openid,$template_id_teacher, $data,$teacher_url);
+
+        // 给家长推送结果
+
+        /**
+           {{first.DATA}}
+           课程名称：{{keyword1.DATA}}
+           课程时间：{{keyword2.DATA}}
+           学生姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+           // Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+
+           **/
+        $parent_wx_openid = $this->t_parent_info->get_parent_wx_openid($lessonid);
+        $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+        $data_parent = [
+            'first' => "$stu_nick 的家长您好, 您的调课申请经过协商已经做出修改, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}",
+            'keyword1' =>"$lesson_name",
+            'keyword2' => "$lesson_new_time",
+            'keyword3' => "$stu_nick",
+            'remark'   => "请注意调整后的时间,感谢家长的支持!"
+        ];
+        $url_parent = '';
+        $wx = new \App\Helper\Wx();
+        $wx->send_template_msg($parent_wx_openid, $parent_template_id, $data_parent, $url_parent);
+
+
+        // 给助教// 销售 // 教务 推送结果
+        $parent_template_id      = 'Wch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+
+        $wx_openid_arr[0] = $this->t_lesson_info_b2->get_ass_wx_openid($lessonid);
+        $wx_openid_arr[1] = $this->t_lesson_info_b2->get_seller_wx_openid($lessonid);
+        $wx_openid_arr[2] = $this->t_test_lesson_subject_sub_list->get_jiaowu_wx_openid($lessonid);
+
+        $data_leo = [
+            'first'    => "由 $stu_nick 的家长发起的调课申请已经处理完成, 原课程时间:{ $lesson_old_time  } , 最终时间调整至{".date('m月d日',$lesson_time_arr[0])."}",
+            'keyword1' => "$lesson_name",
+            'keyword2' => "$lesson_new_time",
+            'keyword3' => "$stu_nick",
+            'remark'   => "请注意调整您的时间安排!"
+        ];
+        $url_leo = '';
+        foreach($wx_openid_arr as $item_openid ){
+            $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
+        }
+
+    }
+
+
+
+
+
+
+
+
 }

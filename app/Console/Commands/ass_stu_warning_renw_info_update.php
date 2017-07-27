@@ -48,7 +48,7 @@ class ass_stu_warning_renw_info_update extends Command
         foreach($ret_info as $item){
             $price=  $task->t_order_info->check_order_info_new($item["userid"],$item["account"],$lstart,$lend);
             if($price){
-                $task->t_month_ass_warning_student_info->field_update_list_2($item["userid"],$lstart,[
+                $task->t_month_ass_warning_student_info->field_update_list($item["id"],[
                     "ass_renw_flag"     =>1,
                     "master_renw_flag"  =>1,
                     "renw_price"        =>$price

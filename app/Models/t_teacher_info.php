@@ -445,7 +445,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $second_interview_score=-1, $teacherid_arr=[],$seller_flag=0,$qz_flag=0,
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
-                                                $grade_plan=-1,$subject_plan=-1
+                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -466,6 +466,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.is_record_flag=%u ", $is_record_flag, -1 ),
             array( "t.is_quit=%u ", $is_quit, -1 ),
             array( "t.lesson_hold_flag_adminid=%u ", $lesson_hold_flag_adminid, -1 ),
+            array( "m.fulltime_teacher_type=%u ", $fulltime_teacher_type, -1 ),
         );
 
         if($teacher_ref_type==-2){
@@ -1452,12 +1453,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1){
+    public function get_teacher_test_lesson_info_by_time($page_num,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$qzls_flag=-1,$fulltime_flag=-1,$create_now=-1,$start_time=-1,$end_time=-1,$fulltime_teacher_type=-1){
         $where_arr=[
             ["t.teacherid=%u",$teacherid,-1],
             ["t.subject=%u",$teacher_subject,-1],
             ["t.identity=%u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
+            ["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
             "t.trial_lecture_is_pass =1",
         ];
 
@@ -2212,7 +2214,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function ccc(){
-        $sql = $this->gen_sql_new("select nick from %s where teacherid =139081",self::DB_TABLE_NAME); 
+        $sql = $this->gen_sql_new("select nick from %s where teacherid =139081",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 
@@ -2288,15 +2290,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_level_info($page_info,$tea_list){
+    public function get_teacher_level_info($page_info,$tea_list,$start_time){
         $where_arr=[];
-        $where_arr[]= $this->where_get_in_str("teacherid",  $tea_list,false);
-        $sql = $this->gen_sql_new("select teacherid,realname,level,teacher_money_type,phone,train_through_new_time "
-                                  ." from %s where %s order by teacherid",self::DB_TABLE_NAME,$where_arr
+        $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);
+        $sql = $this->gen_sql_new("select t.teacherid,t.realname,t.level,t.teacher_money_type,t.phone,t.train_through_new_time "
+                                  ." ,a.require_time,a.require_adminid,a.accept_adminid,a.accept_time,a.accept_flag,a.accept_info "
+                                  ." from %s t left join %s a on (a.start_time = %u and t.teacherid = a.teacherid)"
+                                  ." where %s order by t.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_advance_list::DB_TABLE_NAME,
+                                  $start_time,
+                                  $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
 
-            
+
     }
 
     public function get_trial_teacher_month($start_time,$end_time){
@@ -2323,4 +2331,42 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_wx_openid_by_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select wx_openid from %s t ".
+                                  " left join %s l on l.teacherid = t.teacherid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_teacher_nick_lessonid($lessonid){
+        $sql = $this->gen_sql_new(" select s.nick from %s s ".
+                                  " left join %s l on l.teacherid = s.teacherid".
+                                  " where l.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $lessonid
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+    public function get_all_train_pass_teacher_info($page_info,$teacherid){
+        $where_arr = [
+            "is_quit=0",
+            "is_test_user=0",
+            "train_through_new=1",
+            ["teacherid=%u",$teacherid,-1]
+        ];
+        $sql = $this->gen_sql_new("select teacherid,realname,subject,grade,grade_start,grade_end,not_grade"
+                                  ." from %s where %s order by teacherid desc",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 }

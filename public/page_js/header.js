@@ -928,6 +928,40 @@ $(function(){
         });
 
     });
+        //logout
+    $("#id_system_logout_teacher").on("click",function(){
+        BootstrapDialog.show({
+            title: '退出系统',
+            message: '要退出系统吗',
+            buttons: [{
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }, {
+                label: '确认',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                $.ajax({
+                  'url': '/login/logout_teacher',
+                  'type': 'POST',
+                  'data': {},
+                  'dataType': 'jsonp',
+                  success: function(data) {
+                    if (data['ret'] == 0) {
+                        //window.location.href = "http://www.baidu.com" ;
+                        window.location.href = "http://teacher.leo1v1.com/login/teacher" ;
+                    } else {
+                       window.location.href = "/teacher_info/index" ;
+                    }
+                  }
+                });
+                }
+            }]
+        });
+
+    });
+
     if ($.query){
         if ( $.query.get("return_url") ){
             $("#id_header_return_back").attr("href" ,  $.query.get("return_url")   );
@@ -1440,7 +1474,8 @@ Enum_map = {
     };
   },
   append_option_list : function (group_name, $select , not_add_all_option, id_list ){
-        var desc_map=g_enum_map[group_name]["desc_map"];
+      //console.log(group_name);
+      var desc_map=g_enum_map[group_name]["desc_map"];
 
         var html_str="";
         if (!not_add_all_option  ){

@@ -18,31 +18,38 @@
         <table class="common-table"> 
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>学生ID</td>
-                    <td>创建时间</td>
-                    <td>添加人</td>
-                    <td>考试科目</td>
-                    <td>测试分类</td>
-                    <td>测试时间</td>
+                    <td>#</td>
+                    <td>科目</td>
+                    <td>学期</td>
+                    <td>类型</td>
                     <td>分数</td>
-                    <td>排名 </td>
-                    <td>附件</td>
+                    <td>班级排名</td>
+                    <td>年级排名</td>
+                    <td>试卷</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td> {{$var["id"]}} </td>
-                        <td> {{$var["userid"]}} </td>
-                        <td> {{$var["create_time"]}} </td>
-                        <td> {{$var["create_admin_nick"]}} </td>
+                        <td> {{$var['num']}}</td>
                         <td> {{$var["subject_str"]}} </td>
+                        <td> {{$var["grade_str"]}}{{$var["semester_str"]}} </td>
                         <td> {{$var["stu_score_type_str"]}} </td>
-                        <td> {{$var["stu_score_time"]}} </td>
-                        <td> {{$var["score"]}} </td>
+                        <td>
+                            @if($var['total_score'] != 0)
+                                {{intval(100*$var["score"]/$var['total_score'])}} </td>
+                            @else
+                                {{$var['score']}}
+                            @endif
                         <td> {{$var["rank"]}} </td>
-                        <td> {{$var["file_url"]}} </td>
+                        <td> {{$var["grade_rank"]}} </td>                       
+                        <td> 
+                            @if($var['file_url'] === '')
+                                 无
+                            @else
+                                <a href={{$var["file_url"]}} target= _blank>查看</a> 
+                            @endif
+                        </td>
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

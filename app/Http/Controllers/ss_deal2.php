@@ -172,6 +172,39 @@ class ss_deal2 extends Controller
         return $this->output_succ(['data'=>$mail_code_url]);
     }
 
+    /**
+    *
+    *
+    */
 
+    public function set_user_free () {
 
+        $userid=$this->get_in_userid();
+        $item=$this->t_seller_student_new->get_user_info_for_free($userid);
+        $account = $this->get_account();
+
+        $phone=$item["phone"];
+        $seller_student_status= $item["seller_student_status"];
+        $ret_update = $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者:$account 状态: 回到公海 ",
+            "system"
+        );
+        $test_subject_free_type=0;
+        if ($seller_student_status==1) {
+            $test_subject_free_type=3;
+        }
+
+        $this->t_test_subject_free_list ->row_insert([
+            "add_time" => time(NULL),
+            "userid" =>   $item["userid"],
+            "adminid" => $this->get_account_id(),
+            "test_subject_free_type" => $test_subject_free_type,
+        ],false,true);
+
+        //
+        $this->t_seller_student_new->set_user_free($userid);
+        return $this->output_succ();
+
+    }
 }

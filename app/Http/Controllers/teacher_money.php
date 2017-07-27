@@ -681,4 +681,40 @@ class teacher_money extends Controller
         return $this->PageView(__METHOD__,$ret_info);
     }
 
+    public function get_teacher_bank_info(){
+        $teacherid = $this->get_wx_teacherid();
+
+        $bank_info = $this->t_lesson_info->field_get_list($teacherid,"bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
+
+        return $this->output_succ(["data"=>$bank_info]);
+    }
+
+
+
+
+    public function check_teacher_trial_lesson(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $lessonid  = $this->get_in_int_val("lessonid");
+
+        if($teacherid==0 || $lessonid==0){
+            return $this->output_err("老师和课程id都不能为0！");
+        }
+        $lesson_info = $this->t_lesson_info->get_lesson_info($lessonid);
+        $lesson_type = $lesson_info['lesson_type'];
+        $userid      = $lesson_info['userid'];
+        if($lesson_type<1000){
+            $check_flag = $this->t_lesson_info_b2->check_teacher_lesson($teacherid,$userid,$subject,$lesson_type);
+        }else{
+            return $this->output_err("课程类型出错！试听签单奖只能是由试听或常规来申诉！");
+        }
+        if(isset($check_flag) && $check_flag==1){
+            return $this->output_err("符合签单奖！");
+            if($lesson_type==2){
+                $this->set_in_value("type",2);
+                $this->set_in_value("teacherid",$teacherid);
+                $this->set_in_value("money_info",$teacherid);
+            }
+        }
+    }
+
 }

@@ -122,37 +122,34 @@ class ajax_deal2 extends Controller
         return $this->output_succ(["pdf_file_url" => $pdf_file_url] );
     }
 
-
-    //$todo_type= E\Etodo_type::V_SELLER_NEXT_CALL;
-    //$from_key_int  = $userid;
-    //$from_key2_int = $next_revisit_time;
-    //            \App\Todo\todo_base::add($todo_type,$next_revisit_time ,$next_revisit_time+7200,$adminid,$from_key_int,$from_key2_int);
-
     /**
-     *@author    sam
-     *@function  更新学生考试成绩信息
-     *
+     * @author    sam
+     * @function  更新学生考试成绩信息
      */
     public function score_edit(){
         $id               = $this->get_in_int_val("id");
-        $userid           = $this->get_in_int_val("userid");
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
-        $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-        $create_adminid   =  $this->get_account_id();
 
-        $id = $this->get_in_int_val('id');
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
         $data = [
+            'id'            =>   $id,
             'subject'       =>   $subject,
             'stu_score_type'=>   $stu_score_type,
-            'stu_score_time'=>   $stu_score_time,
             'score'         =>   $score,
             'rank'          =>   $rank,
             'file_url'      =>   $file_url,
-        ];
+            'semester'      =>   $semester,
+            'total_score'   =>   $total_score,
+            'grade'         =>   $grade,
+            'grade_rank'    =>   $grade_rank,
+         ];
 
         $ret = $this->t_student_score_info->field_update_list($id,$data);
         //dd($ret);
@@ -167,13 +164,18 @@ class ajax_deal2 extends Controller
     public function score_add_new(){
         $userid           = $this->get_in_int_val("userid");
         $create_time      = time();
+        $create_adminid   =  $this->get_account_id();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
         $score            = $this->get_in_int_val("score");
         $rank             = $this->get_in_str_val("rank");
         $file_url         = $this->get_in_str_val("file_url");
-    $create_adminid   =  $this->get_account_id();
+        $semester         = $this->get_in_int_val("semester");
+        $total_score      = $this->get_in_int_val("total_score");
+        $grade            = $this->get_in_int_val("grade");
+        $grade_rank       = $this->get_in_str_val("grade_rank");
+
 
         $ret_info = $this->t_student_score_info->row_insert([
             "userid"                => $userid,
@@ -184,8 +186,12 @@ class ajax_deal2 extends Controller
             "stu_score_time"        => $stu_score_time,
             "score"                 => $score,
             "rank"                  => $rank,
-            "file_url"              => $file_url
-        ],false,false,true); 
+            "file_url"              => $file_url,
+            "semester"              => $semester,
+            "total_score"           => $total_score,
+            "grade"                 => $grade,
+            "grade_rank"            => $grade_rank,
+        ],false,false,true);
         return $this->output_succ();
     }
 
@@ -199,101 +205,40 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
-    //测试login_log增加
-    public function login_log_add(){
-        $userid     = $this->get_in_int_val("userid");
-        $login      = strtotime($this->get_in_int_val("login"));
-
-        $nick       = $this->get_in_str_val("nick");
-
-        $ip         = $this->get_in_int_val ("ip");
-        $role       = $this->get_in_int_val ("role");
-        $login_type = $this->get_in_int_val("login_type");
-        $flag       = $this->get_in_int_val("flag");
-        \App\Helper\Utils::logger("role:$role");
-
-        if ($ip>100)  {
-            return $this->output_err("ip出错");
+     /**
+     *@author   sam
+     *@function 创建学生和家长账号
+     */
+     public function register_student_parent_account()
+     {
+        $account = $this->get_in_str_val("account");
+        $phone   = $this->get_in_int_val("phone");
+        $ret=[];
+        $ret_student = $this->t_student_info->get_userid_by_phone($phone);
+        $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
+        if($ret_student != 0 && $ret_parent != 0){
+            $ret['success'] =  "此手机号已经注册学生账号和家长账号";
+        }else if($ret_student == 0 && $ret_parent != 0){
+            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
+            if($ret_student){
+                $ret['success'] =  "注册学生账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            }
+        }else if($ret_student != 0 && $ret_parent == 0){
+            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+            if($ret_parent){
+                $ret['success'] =  "注册家长账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
+            }
+        }else if($ret_student == 0 && $ret_parent == 0){
+            $ret_student = $this->t_student_info->register($phone,md5("123456"),0,101,0,$account,"后台");
+            $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
+            if($ret_student && $ret_parent){
+                $ret['success'] =  "注册学生账号和家长账号成功";
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student); 
+            }
         }
-        if ($role>100)  {
-            return $this->output_err("出错");
-        }
-
-        if ($login_type>100)  {
-            return $this->output_err("登录方式出错");
-        }
-
-        if ($flag>100)  {
-            return $this->output_err("方式出错");
-        }
-
-
-        $ret = $this->t_user_login_log->row_insert([
-            "userid"       => $userid,
-            "login_time"   => $login,
-            "nick"         => $nick,
-            "ip"           => $ip,
-            "role"         => $role,
-            "login_type"   => $login_type,
-            "dymanic_flag" => $flag,
-        ]);
-         return $this->output_succ();
-   }
-
-    //测试删除login_id
-    public function login_log_del(){
-        $id = $this->get_in_id();
-        //
-        $res = $this->t_user_login_log->row_delete($id);
-        if($res){
-            return $this->output_succ();
-        }else{
-            return $this->output_err('login删除失败');
-        }
+        return $this->output_succ($ret);
      }
 
-    //测试login_log修改
-    public function set_login_log(){
-        $id     = $this->get_in_int_val('id');
-       
-        $userid     = $this->get_in_int_val("userid");
-        $login_time = strtotime($this->get_in_int_val("login_time"));
-
-        $nick         = $this->get_in_str_val("nick");
-        $ip           = $this->get_in_int_val("ip");
-        $role       = $this->get_in_int_val("role");
-        $login_type   = $this->get_in_int_val("login_type");
-        $dymanic_flag = $this->get_in_int_val("dymanic_flag");
-
-       
-        if ($ip>100)  {
-            return $this->output_err("ip出错");
-        }
-        if ($role>100)  {
-            return $this->output_err("出错");
-        }
-
-        if ($login_type>100)  {
-            return $this->output_err("登录方式出错");
-        }
-
-        if ($dymanic_flag>100)  {
-            return $this->output_err("方式出错");
-        }
-
-
-        $arr = [];
-        $arr['userid'] = $userid;
-        $arr['login_time'] = $login_time;
-        $arr['nick'] = $nick;
-        $arr['ip'] = $ip;
-        $arr['role'] = $role;
-        $arr['login_type'] = $login_type;
-        $arr['dymanic_flag'] = $dymanic_flag;
-        $ret = $this->t_user_login_log->field_update_list($id,$arr);
-   }
-    public function query_sql_data(){
-        $sql=$this->get_in_str_val("sql");
-
-    }
 }
