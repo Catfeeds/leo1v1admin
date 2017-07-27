@@ -55,6 +55,7 @@
                 @endforeach
             </tbody>
         </table>
+        @include("layouts.page")
 
         <div style="display:none;" >
             <div id="id_assign_log">

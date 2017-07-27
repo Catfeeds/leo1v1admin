@@ -6712,15 +6712,14 @@ class tongji_ss extends Controller
 
         // return ;
 
-        $ret_info['list'] = $ret_info;
         if($ret_info['list']){
             $arr_new = [];
             foreach( $ret_info['list'] as &$item){
                 $arr_new['list'][$item['teacherid']]['lesson_count']=0;
             }
-            // $arr_new['total_num'] = $ret_info['total_num'];
-            // $arr_new['per_page_count'] = $ret_info['per_page_count'];
-            // $arr_new['page_info'] = $ret_info['page_info'];
+            $arr_new['total_num'] = $ret_info['total_num'];
+            $arr_new['per_page_count'] = $ret_info['per_page_count'];
+            $arr_new['page_info'] = $ret_info['page_info'];
 
             foreach( $ret_info['list'] as &$item){
                 foreach( $arr_new['list'] as $i=>&$val){
@@ -6739,6 +6738,9 @@ class tongji_ss extends Controller
         }else{
             $arr_new = $ret_info;
         }
+
+        // dd($arr_new);
+        // $arr_new = $arr_new['list'];
 
         return $this->pageView(__METHOD__,$arr_new);
     }
