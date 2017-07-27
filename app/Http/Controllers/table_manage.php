@@ -343,10 +343,39 @@ class table_manage extends Controller
         }
     }
     public function query()  {
-
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
         $sql = $this->get_in_str_val("sql");
-        return $this->pageView(__METHOD__, null);
+        $page_info= $this->get_in_page_info();
+        $this->t_admin_group->switch_tongji_database();
+        $this->t_admin_group->db_query("use $db_name");
+        $ret_info=null;
+        $sql=trim($sql);
+        $len=strlen($sql);
+        if ($sql[$len-1]==";" ) {
+            $sql=substr($sql,0,$len-1);
+        }
+        $col_name_list=[];
+        if ($sql) {
+            $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
+            if (@$ret_info["list"][0] ) {
+               foreach ( $ret_info["list"][0] as $key=>$v ) {
+                   $col_name_list[]= $key;
+               }
+            }
+        }
+        return $this->pageView(__METHOD__, $ret_info, ["col_name_list"=>$col_name_list] );
     }
 
+    public function check_query() {
+        $db_name=$this->get_in_str_val("db_name","db_weiyi");
+        $sql = $this->get_in_str_val("sql");
+        $this->t_admin_group->switch_tongji_database();
+        $this->t_admin_group->db_query("use $db_name");
+        try {
+            $this->t_admin_group->db_query("explain ". $sql);
+        }catch( \Exception $e ) {
+            return $this->output_err(  $e->getMessage() );
+        }
+        return $this->output_succ();
+    }
 }

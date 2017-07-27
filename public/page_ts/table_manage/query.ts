@@ -5,6 +5,7 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
             db_name:	$('#id_db_name').val(),
+            "sql" : $('#id_sql').val()
         });
     }
 
@@ -13,10 +14,15 @@ $(function(){
     $('#id_sql').val(g_args.sql);
 
     $("#id_query").on("click",function(){
-        $.do_ajax( "/ajax_deal2/query_sql_data",{
+        $.do_ajax_t( "/table_manage/check_query",{
             "db_name" :$('#id_db_name').val(),
             "sql" : $('#id_sql').val()
         },function(resp){
+            if (resp.ret!=0 ) {
+                alert(resp.info );
+            }else{
+                load_data();
+            }
         });
     });
 

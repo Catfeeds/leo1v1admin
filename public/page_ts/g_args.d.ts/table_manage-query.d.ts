@@ -1,6 +1,8 @@
 interface GargsStatic {
 	db_name:	string;
 	sql:	string;
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -10,6 +12,39 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	first_call_time	:any;
+	first_contact_time	:any;
+	first_revisit_time	:any;
+	tmk_assign_time	:any;
+	competition_call_adminid	:any;
+	competition_call_time	:any;
+	sys_invaild_flag	:any;
+	wx_invaild_flag	:any;
+	return_publish_count	:any;
+	tmk_adminid	:any;
+	test_lesson_subject_id	:any;
+	seller_student_sub_status	:any;
+	add_time	:any;
+	global_tq_called_flag	:any;
+	seller_student_status	:any;
+	userid	:any;
+	nick	:any;
+	origin	:any;
+	origin_level	:any;
+	phone_location	:any;
+	phone	:any;
+	sub_assign_adminid_2	:any;
+	admin_revisiterid	:any;
+	admin_assign_time	:any;
+	sub_assign_time_2	:any;
+	origin_assistantid	:any;
+	origin_userid	:any;
+	subject	:any;
+	grade	:any;
+	user_desc	:any;
+	has_pad	:any;
+	require_adminid	:any;
+	tmk_student_status	:any;
 }
 
 /*
