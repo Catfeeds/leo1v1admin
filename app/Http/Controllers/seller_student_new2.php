@@ -323,6 +323,7 @@ class seller_student_new2 extends Controller
             $data[$key]['年级'] = $item['grade_str'];
             $data[$key]['科目'] = $item['subject_str'];
             $data[$key]['申请人'] = $item['require_admin_nick'];
+
             $data[$key]['申请时间'] = $item['require_time'];
         }
         dd($data);
