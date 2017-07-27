@@ -131,6 +131,7 @@ class NewRouteConfig {
         "/common/email_open_address"         => true,
         "/common/send_paper_email"           => true,
         "/common/show_offer_html"            => true,
+        "/common/show_level_up_html"         => true,
         "/common/show_ruzhi_html"            => true,
         "/common_ex/book_free_lesson"        => true,
         "/common_ex/book_free_lesson_with_code"        => true,

@@ -248,7 +248,7 @@ class teacher_level extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
@@ -265,7 +265,7 @@ class teacher_level extends Controller
             //邮件推送
             $html = $this->teacher_level_up_html($info);
             $email = $this->t_teacher_info->get_email($teacherid);
-            $email = "jack@leoedu.com";
+            //  $email = "jack@leoedu.com";
             if($email){
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
@@ -281,7 +281,7 @@ class teacher_level extends Controller
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
             $jy_teacherid = $teacher_info["teacherid"];
             $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";

@@ -1643,25 +1643,30 @@ trait  TeaPower {
     }
 
     /**
-     * @param info 中需要teacher_type,teacher_money_type,level,old_level
+     * @param info 中需要teacher_type,teacher_money_type,level
      */
     public function teacher_level_up_html($info){
         $name          = $info['nick'];
         $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
-        $info['level'] = $info['old_level'];
-        $level_old_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         if($level_str=="中级教师"){
             $level_eng="Intermediate Teacher";
+            $star_num=2;
         }elseif($level_str=="高级教师"){
             $level_eng="Senior Teacher";
+            $star_num=3;
         }elseif($level_str=="金牌教师"){
             $level_eng="Golden Teacher";
+            $star_num=4;
         }else{
             $level_eng=" ";
+            $star_num=1;
         }
-
-        $star_html = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
+        $show_star = "<img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>";
+        $star_html = $show_star;
+        for($i=2;$i<=$star_num;$i++){
+            $star_html.=$show_star;
+        }
         $date_begin = date("m月d日0时",time());
         $date       = date("Y年m月d日",time());
 
@@ -1733,7 +1738,7 @@ trait  TeaPower {
                         三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
                     </div>
                     <div class='t2em'>
-                        故公司经研究决定：将您由".$level_old_str."晋升为
+                        故公司经研究决定：将您晋升为
                         <span class='tea_level'>".$level_str."</span>。
                         此晋升将于".$date_begin."起即行生效。
                     </div>
@@ -1745,15 +1750,15 @@ trait  TeaPower {
                             <div>".$level_eng."</div>
                         </div>
                         <div class='img_star'>
-                            <div>".$star_html."                            </div>
+                            <div>".$star_html."</div>
                         </div>
                         <div class='img_name size20'>
-                            <div>庄老师</div>
+                            <div>".$name."</div>
                         </div>
                     </div>
                     <img class='img_position' src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_certificate.png'/>
 
-                    感谢您对公司所做出的积极贡献， 希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
+                    感谢您对公司所做出的积极贡献，希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
                     特此通知!<br>
                     <div class='fr tr'>
                         理优教学管理事业部<br>

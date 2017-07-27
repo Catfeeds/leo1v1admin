@@ -6603,10 +6603,15 @@ class tongji_ss extends Controller
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
             if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
+                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
             }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";;
+                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
             }
+
+            if($item['lesson_start'] > time()){
+                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }
+
         }
             return $this->pageView(__METHOD__,$ret_info);
     }
@@ -6619,7 +6624,6 @@ class tongji_ss extends Controller
 
         foreach( $ret_info['list'] as &$item){
             $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
-            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
@@ -6635,13 +6639,58 @@ class tongji_ss extends Controller
             if($is_lesson_time_flag == 1){
                 $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
             }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";;
+                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
             }
+
+            if($item['lesson_start'] > time()){
+                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+
 
         }
 
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+
+    public function tongji_referral(){// 转介绍
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num = $this->get_in_page_num();
+
+        $ret_info = $this->t_test_lesson_subject->get_test_lesson_info_by_referral($start_time,$end_time,$page_num);
+
+        foreach( $ret_info['list'] as &$item){
+            $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+
+            if($item['success_flag'] == 0){
+                $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['success_flag'] == 1){
+                $item['success_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['success_flag'] == 2){
+                $item['success_flag_str'] = "<font color=\"red\">失败</font>";
+            }
+
+            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
+            if($is_lesson_time_flag == 1){
+                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
+            }else{
+                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
+            }
+
+            if($item['lesson_start'] > time()){
+                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+
+
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
     public function tongji_change_lesson_by_teacher(){
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
@@ -6655,7 +6704,6 @@ class tongji_ss extends Controller
             $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
             $item['lesson_count'] = $item['lesson_count']/100;
             E\Elesson_cancel_reason_type::set_item_value_str($item);
-
         }
 
         return $this->pageView(__METHOD__,$ret_info);

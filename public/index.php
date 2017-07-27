@@ -29,7 +29,8 @@ if ($method == "OPTIONS") {
 
 ob_start();
 //check in url
-$url=$_REQUEST["_url"];
+$url=@$_REQUEST["_url"];
+if (!$url) { $url="";}
 
 
 
