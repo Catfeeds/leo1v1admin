@@ -6692,7 +6692,7 @@ class tongji_ss extends Controller
     }
 
 
-    public function tongji_change_lesson_by_teacher(){ // 调课统计-老师
+    public function tongji_change_lesson_by_teacher(){
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_num = $this->get_in_page_num();
 
@@ -6705,8 +6705,10 @@ class tongji_ss extends Controller
             $item['lesson_count'] = $item['lesson_count']/100;
             E\Elesson_cancel_reason_type::set_item_value_str($item);
         }
+
         return $this->pageView(__METHOD__,$ret_info);
-    }
+
+   }
 
 
 }
