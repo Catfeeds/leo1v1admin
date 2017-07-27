@@ -2226,7 +2226,7 @@ class tea_manage extends Controller
              * {{remark.DATA}}
              */
             $data=[];
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $url = "";
             if($flag==1){
                 $data['first']    = "老师您好,恭喜您已经成功通过试讲";
@@ -2238,7 +2238,6 @@ class tea_manage extends Controller
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
                 $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
-  
             }else if($flag==0){
                 $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
                 $data['keyword1'] = "未通过";
@@ -2247,7 +2246,6 @@ class tea_manage extends Controller
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
                 $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
- 
             }
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
