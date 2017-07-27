@@ -135,6 +135,7 @@
                 <thead>
                     <tr>
                         <td>No.</td>
+                        <td width="100px">老师id</td>
                         <td width="100px">姓名</td>
                         <td >手机号</td>
                         <td >科目</td>
@@ -158,6 +159,7 @@
                     @foreach($table_data_list as $var)
                         <tr>
                             <td>{{$var['id']}}</td>
+                            <td>{{$var['teacherid']}}</td>
                             <td>{{$var['tea_nick']}}</td>
                             <td>{{$var['phone']}}</td>
                             <td>{{$var['subject_str']}}</td>

@@ -18,7 +18,7 @@
             </div>
             <div class="col-xs-6 col-md-3">
                 <div class="input-group ">
-                    <button id="id_query"  > 查询 </button>
+                    <button id="id_query" class="btn btn-primary"  > 查询 </button>
                 </div>
             </div>
         </div>
@@ -33,12 +33,33 @@
 
         <hr/>
 
-        <table   class=" common-table "   >
+        <div  style="overflow: auto;"  >
+        <table     class="common-table"  >
             <thead>
+                <tr>
+                    @foreach( $col_name_list as $col_name  )
+                    <td> {{$col_name}}  </td>
+                    @endforeach
+                    <td> 操作  </td>
+                </tr>
             </thead>
-
-            <tbody>
+            <tbody >
+                @foreach ( $table_data_list as $var )
+                    <tr>
+                        @foreach( $col_name_list as $col_name  )
+                            <td> {{$var["$col_name"]}}  </td>
+                        @endforeach
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
-@endsection
+        </div>
+        @include("layouts.page")
 
+@endsection

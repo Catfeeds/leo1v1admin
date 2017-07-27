@@ -46,7 +46,7 @@ class seller_student_new extends Controller
 
     //分配例子
     public function assign_sub_adminid_list(){
-        $self_groupid=$this->get_in_int_val("self_groupid",-1);
+        $self_groupid = $this->get_in_int_val("self_groupid",-1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
             -30*6, 0, 0, [
@@ -57,10 +57,7 @@ class seller_student_new extends Controller
             ], 0
         );
 
-        // dd($opt_date_str);
-
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str( );
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
 
         $userid            = $this->get_in_userid(-1);
         $origin            = trim($this->get_in_str_val('origin', ''));

@@ -43,6 +43,7 @@ class order_price_20170701 extends order_price_base
         $per_price_0     = static::get_value_from_config($discount_config, 0,1000 )/3;
         $old_per_price   = $lesson_count>=60? $per_price_20: $per_price_0;
         $old_price       = $old_per_price * $lesson_count ;
+        $price= $old_price ;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             $present_lesson_config= static::$new_present_lesson_config;

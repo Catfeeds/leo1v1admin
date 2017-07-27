@@ -103,7 +103,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         ];
         if($has_openid==0){
             $where_arr[]="wx_openid=''";
-        }else{
+        }elseif($has_openid>0){
             $where_arr[]="wx_openid!=''";
         }
 

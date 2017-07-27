@@ -561,6 +561,13 @@ class user_manage extends Controller
         }
 
         $old_type= $this->t_student_info->get_type($userid);
+        if($old_type !=1 && $type==1){
+            $lesson_time = time();
+            $have_lesson = $this->t_lesson_info_b2->check_have_regular_lesson_new($userid,$lesson_time);
+            if(!empty($have_lesson)){
+                return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
+            }
+        }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
         if($type != $old_type){
@@ -936,6 +943,7 @@ class user_manage extends Controller
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
+        $acc                  = $this->get_account();
 
         $ret_info = $this->t_order_refund->get_order_refund_list($page_num,$opt_date_str,$refund_type,$userid,$start_time,$end_time,
                                                                  $is_test_user,$refund_userid,$require_adminid_list);
@@ -965,7 +973,11 @@ class user_manage extends Controller
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info,["adminid_right"=>$adminid_right,"adminid"=>$adminid]);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "adminid_right" => $adminid_right,
+            "acc"           => $acc,
+            "adminid"       => $adminid
+        ]);
     }
 
     public function set_refund_order(){
@@ -1964,6 +1976,25 @@ class user_manage extends Controller
         }
     }
 
+    public function set_refund_money(){
+        $orderid     = $this->get_in_int_val("orderid");
+        $apply_time  = $this->get_in_int_val("apply_time");
+        $real_refund = $this->get_in_str_val("real_refund");
+        $acc         = $this->get_account();
+
+        if(!in_array($acc,["echo","jim"])){
+            return $this->output_err("你没有修改退费金额的权限!");
+        }
+        
+        $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
+            "real_refund" => ($real_refund*100)
+        ]);
+
+        if(!$ret){
+            return $this->output_err("修改失败！请重试！");
+        }
+        return $this->output_succ();
+    }
 
 
 

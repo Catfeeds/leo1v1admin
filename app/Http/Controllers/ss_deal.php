@@ -3875,21 +3875,28 @@ class ss_deal extends Controller
              return $this->output_err("不能设置为未设置状态");
         }
 
-        $this->t_month_ass_warning_student_info->field_update_list($id,[
+        $ret = $this->t_month_ass_warning_student_info->field_update_list($id,[
             "ass_renw_flag"         =>$ass_renw_flag,
             "renw_price"            =>$renw_price,
             "no_renw_reason"        =>$no_renw_reason,
             "renw_week"             =>$renw_week
         ]);
 
-        if($ass_renw_flag==2){
-            $this->t_month_ass_warning_student_info->field_update_list($id,[
-                "done_flag"             =>1,
-                "done_time"             =>time(),
-            ]);
+        if($ret){
+            if($ass_renw_flag==2){
+                $this->t_month_ass_warning_student_info->field_update_list($id,[
+                    "done_flag"             =>2,
+                    "done_time"             =>time(),
+                ]);
 
-        }
-        if($ass_renw_flag != $ass_renw_flag_old){
+            }
+
+            if(!empty($renw_week)){
+                $renw_end_day = strtotime(date("Y-m-d", time()+ $renw_week*7*86400));
+            }else{
+                $renw_end_day=0;
+            }
+
             $this->t_ass_warning_renw_flag_modefiy_list->row_insert([
                 "add_time"   =>time(),
                 "userid"     =>$userid,
@@ -3897,9 +3904,12 @@ class ss_deal extends Controller
                 "ass_renw_flag_cur"     =>$ass_renw_flag,
                 "no_renw_reason"        =>$no_renw_reason,
                 "adminid"               =>$this->get_account_id(),
-                "warning_id"            =>$id
+                "warning_id"            =>$id,
+                "renw_week"             =>$renw_week,
+                "renw_end_day"          =>$renw_end_day
             ]);
         }
+
         return $this->output_succ();
     }
 
@@ -4498,7 +4508,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsxTqusFBCbI6QqR8oxkwwMg",  // QC yunyan
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 ];
 

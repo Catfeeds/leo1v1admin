@@ -806,7 +806,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             ["l.lesson_start>=%u",$start_time,0],
-            "(m.account_role=1 or m.uid=349) ",
+            "m.account_role=1",
         ];
         if($master_flag==1){
             

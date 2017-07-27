@@ -50,7 +50,7 @@ class TeacherTask extends TaskController
              * {{first.DATA}}
              * 课程名称：{{keyword1.DATA}}
              * 结束时间：{{keyword2.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "kCX3Vcbs_72dZdh1paHJZN1fgCBVc7_4obcSbovTrec";//old
             $data['keyword1'] = $lesson_type_str;
@@ -65,7 +65,7 @@ class TeacherTask extends TaskController
              * {{first.DATA}}
              * 扣款金额：{{keyword1.DATA}}
              * 扣款原因：{{keyword2.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id = "2yt4M2mJD7LMLcphWp6PS7VhC0Gv1mXG5zpHAyaeLEU";//old
             if(isset($lesson_info['cost'])){
@@ -85,7 +85,7 @@ class TeacherTask extends TaskController
              * 课程类型：{{keyword1.DATA}}
              * 上课时间：{{keyword2.DATA}}
              * 课时金额：{{keyword3.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "hZuApkEoPF16pIiyTSbpJZvGLfDgaOWNuBRSpVokFaY";//old
             $data['keyword1'] = $lesson_type_str;
@@ -99,7 +99,7 @@ class TeacherTask extends TaskController
              * 上课时间：{{keyword1.DATA}}
              * 课程类型：{{keyword2.DATA}}
              * 教师姓名：{{keyword3.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
             $data['keyword1'] = $lesson_time;
