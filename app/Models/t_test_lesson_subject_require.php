@@ -394,6 +394,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ,$where_arr
             ,$opt_date_str
         );
+        dd($sql);
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
