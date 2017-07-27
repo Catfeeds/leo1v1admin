@@ -451,19 +451,19 @@ class common extends Controller
          .color333{color:#333;}
          .fl{float:left;}
          .fr{float:right;}
-         
+
          .top-line{margin-top:24px;}
          .tea_name{position:relative;z-index:1;top:321px;}
          .tea_level{position:relative;z-index:1;top:410px;}
          .date{position:relative;z-index:1;top:-215px;left:165px;}
-         
+
          .todo{margin:20px 0 10px 0;}
          .todo li{margin:10px 0;}
-         
+
          .about_us{margin:30px 0 0;}
          .us_title{margin:0 0 10px;}
          .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
-         
+
          .join-us{margin:40px 0;}
          .join-us-content{width:44%;}
          .middle-line{
@@ -841,7 +841,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_e.png";
+        $phone_qr_name = $phone."_qr_agent_f.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -849,8 +849,6 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
-            $headimgurl = $row['headimgurl'];           //微信头像
-            $headimg_name = $phone."_headimg.png";
             $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
             $image_4 = imagecreatefrompng($headimgurl);     //微信头像
             if($row['headimgurl']){
@@ -859,17 +857,17 @@ class common extends Controller
                $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
-            }           
-            \App\Helper\Utils::logger('img4:'.$image_4);
+            }
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_4 = imagecreatefromjpeg($headimgurl);     //二维码
+            $image_5 = imageCreatetruecolor(160,160);     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_5,$image_4,0,0,0,0,160,160,imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
-            imagecopymerge($image_3,$image_4,200,400,0,0,200,200,100);
+            imagecopymerge($image_3,$image_4,295,160,0,0,200,200,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);

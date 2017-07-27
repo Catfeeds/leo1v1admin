@@ -166,7 +166,6 @@ class seller_student_new2 extends Controller
         }else{
             $tea_subject = "";
         }
-
         $grade                      = $this->get_in_grade();
         $subject                    = $this->get_in_subject();
         $test_lesson_student_status = $this->get_in_int_val('test_lesson_student_status', -1,E\Eseller_student_status::class);
@@ -207,7 +206,6 @@ class seller_student_new2 extends Controller
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
         );
-
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
@@ -302,7 +300,7 @@ class seller_student_new2 extends Controller
 
        //  var_dump($ret_info['list']);
         // dd($ret_info['list']);
-
+        //dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "cur_page"          => $cur_page,
             "adminid_right"     => $adminid_right,
@@ -377,7 +375,7 @@ class seller_student_new2 extends Controller
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
         );
-
+        dd($ret_info);
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
@@ -828,8 +826,6 @@ class seller_student_new2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
  
         }
-        //dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
-
 }
