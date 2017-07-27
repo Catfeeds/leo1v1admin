@@ -6700,40 +6700,26 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
 
+        foreach($ret_info['list'] as &$item_list){
+            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
+            $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
-        foreach($ret_info['list'] as $item_list){
-            
         }
 
-        if($ret_info['list']){
-            $arr_new = [];
-            foreach( $ret_info['list'] as &$item){
-                $arr_new['list'][$item['teacherid']]['lesson_count']=0;
-            }
-            $arr_new['total_num'] = $ret_info['total_num'];
-            $arr_new['per_page_count'] = $ret_info['per_page_count'];
-            $arr_new['page_info'] = $ret_info['page_info'];
+        // dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 
-            foreach( $ret_info['list'] as &$item){
-                foreach( $arr_new['list'] as $i=>&$val){
-                    if($i == $item['teacherid']){
-                        $val['lesson_count'] += $item['lesson_count']/100;
-                        $val['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-                    }
-                }
-            }
 
-            $index = 0;
-            foreach($arr_new['list'] as &$item_new){
-                $item_new['index'] = $index;
-                $index++;
-            }
-        }else{
-            $arr_new = $ret_info;
+    public function get_total_lesson_count_by_teacher($teacherid,$start_time,$end_time,$lesson_cancel_reason_type){
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
+
+        $lesson_count = 0;
+        foreach($ret_info as $item){
+            $lesson_count += $item['lesson_count']/100;
         }
 
-
-        return $this->pageView(__METHOD__,$arr_new);
+        return $lesson_count;
     }
 
 

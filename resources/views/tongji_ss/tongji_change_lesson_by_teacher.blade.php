@@ -44,7 +44,7 @@
                     <tr>
                         <td>{{@$var['index']}}</td>
                         <td>{{@$var["teacher_nick"]}}</td>
-                        <td class="show_detail" date-teacherid="{{$index}}"><a>{{@$var["lesson_count"]}}</a></td>
+                        <td class="show_detail" date-teacherid="{{$index}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
