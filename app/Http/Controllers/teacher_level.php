@@ -218,9 +218,16 @@ class teacher_level extends Controller
             "accept_info"    =>$accept_info
         ]);
         $realname  = $this->t_teacher_info->get_realname($teacherid);
-        if($accept_flag==1 && $teacherid==50158){            
+        if($accept_flag==1 && $teacherid==50158){
+            $old_level = $this->t_teacher_info->get_level($teacherid);
             $this->t_teacher_info->field_update_list($teacherid,["level"=>$level_after]);
-            $level_degree = E\Elevel::v2s($level_after);
+            // $level_degree = E\Elevel::v2s($level_after);
+            $info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,teacher_type,nick");
+            $info["level"] = $level_after;
+            $info["old_level"] = $old_level;
+ 
+            $level_degree    = \App\Helper\Utils::get_teacher_level_str($info);
+
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
@@ -241,7 +248,7 @@ class teacher_level extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
@@ -255,6 +262,18 @@ class teacher_level extends Controller
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
 
+            //邮件推送
+            $html = $this->teacher_level_up_html($info);
+            $email = $this->t_teacher_info->get_email($teacherid);
+            //  $email = "jack@leoedu.com";
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+
+ 
+            }
+
            
             //微信通知教研
             $subject = $this->t_teacher_info->get_subject($teacherid);
@@ -262,7 +281,7 @@ class teacher_level extends Controller
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($master_adminid);
             $jy_teacherid = $teacher_info["teacherid"];
             $wx_openid = $this->t_teacher_info->get_wx_openid($jy_teacherid);
-            $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
                 $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
@@ -406,132 +425,6 @@ class teacher_level extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function teacher_level_up_html($info){
-        $name          = $info['nick'];
-        $level_str     = \App\Helper\Utils::get_teacher_level_str($info);
-        $info['level'] = $info['old_level'];
-        $level_old_str = \App\Helper\Utils::get_teacher_level_str($info);
-
-        if($level_str=="中级教师"){
-            $level_eng="Intermediate Teacher";
-        }elseif($level_str=="高级教师"){
-            $level_eng="Senior Teacher";
-        }elseif($level_str=="金牌教师"){
-            $level_eng="Golden Teacher";
-        }else{
-            $level_eng=" ";
-        }
-
-        $date_begin = date("m月d日0时",time());
-        $date       = date("Y年m月d日",time());
-
-        $html="
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf8'>
-        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1,user-scalable=true'>
-        <style>
-         *{margin:0 auto;padding:0 auto;}
-         body{opacity:100%;color:#666;font-family:'黑体';}
-         html{font-size:10px;}
-         .color333{color:#333;}
-         .fl{float:left;}
-         .fr{float:right;}
-         .cl{clear:both;}
-         .tl{text-align:left;}
-         .tr{text-align:right;}
-         .size12{font-size:2.4rem;}
-         .size14{font-size:2.8rem;}
-         .size18{font-size:3.6rem;}
-         .size20{font-size:4rem;}
-         .size24{font-size:4.8rem;}
-         .size28{font-size:5.6rem;}
-         .size36{font-size:7.2rem;}
-         .color_red{color:red;}
-         .t2em{text-indent:2em;}
-         .content{width:700px;}
-         .title{margin:6rem 0 2rem;letter-spacing:1rem;}
-         .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
-         .tea_name{font-weight:bold;}
-         .tea_level{font-weight:bold;}
-         .img_position{position:relative;z-index:0;width:100%;}
-         .img_level{position:relative;z-index:1;height:0;top:263px;}
-         .img_level_eng{position:relative;z-index:1;height:0;top:335px;}
-         .img_star{position:relative;z-index:1;height:0;top:390px;}
-         .img_name{position:relative;z-index:1;height:0;top:535px;font-family:'Helvetica','方正舒体','华文行楷','隶书';}
-         @media screen and (max-width: 720px) {
-             .size12{font-size:1.5rem;}
-             .size14{font-size:1.75rem;}
-             .size18{font-size:2.25rem;}
-             .size20{font-size:2.5rem;}
-             .size24{font-size:3rem;}
-             .size28{font-size:3.5rem;}
-             .size36{font-size:4.5rem;}
-             .content{width:400px;}
-             .img_level{top:140px;}
-             .img_level_eng{top:185px;}
-             .img_star{top:213px;}
-             .img_star img{width:30px;}
-             .img_name{top:285px;}
-         }
-        </style>
-    </head>
-    <body>
-        <div style='width:100%' align='center'>
-            <div class='content size14'>
-                <div class='title size24'>理优教育</div>
-                <div >感谢您一路对我们的支持与信任</div>
-                <div class='border tl'>
-                    尊敬的<span class='tea_name size18'>".$name."</span>老师，您好！
-                    <div class='t2em'>
-                        鉴于您在上一季度的教学过程中，工作态度认真负责，教学方法灵活高效，并在学生和家长群体中赢得了广泛好评，
-                        达到晋升考核标准（
-                        <span class='color_red'>课时量</span>、
-                        <span class='color_red'>转化率</span>和
-                        <span class='color_red'>教学质量</span>
-                        三个考核维度的评分俱皆达标），且无一起有效教学事故类退费或投诉。
-                    </div>
-                    <div class='t2em'>
-                        故公司经研究决定：将您由".$level_old_str."晋升为
-                        <span class='tea_level'>".$level_str."</span>。
-                        此晋升将于".$date_begin."起即行生效。
-                    </div>
-                    <div style='text-align:center'>
-                        <div class='img_level size24'>
-                            <div>".$level_str."</div>
-                        </div>
-                        <div class='img_level_eng'>
-                            <div>".$level_eng."</div>
-                        </div>
-                        <div class='img_star'>
-                            <div>
-                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
-                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
-                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
-                                <img src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_star.png'>
-                            </div>
-                        </div>
-                        <div class='img_name size20'>
-                            <div>庄老师</div>
-                        </div>
-                    </div>
-                    <img class='img_position' src='http://leowww.oss-cn-shanghai.aliyuncs.com/image/pic_certificate.png'/>
-
-                    感谢您对公司所做出的积极贡献， 希望您在以后的教学过程中再接再厉、超越自我、不忘初心、不负重托！<br>
-                    特此通知!<br>
-                    <div class='fr tr'>
-                        理优教学管理事业部<br>
-                        ".$date."
-                    </div>
-                    <div class='cl'></div>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
-";
-    }
 
 
 

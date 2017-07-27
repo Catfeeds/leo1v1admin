@@ -2042,4 +2042,24 @@ dd($ret_info);
         $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
     }
+
+
+    public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            "l.teacherid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
+
+    }
+
 }
