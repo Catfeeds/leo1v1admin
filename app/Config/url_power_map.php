@@ -10,6 +10,7 @@ class url_power_map {
 			'/user_manage/contract_list'	=>1010300,
 			'/user_manage/parent_archive'	=>1010400,
 			'/user_manage/pc_relationship'	=>1010800,
+			'/user_manage_new/stu_lesson_info'	=>1011900,
 			'/user_manage/refund_list'	=>1010707,
 			'/user_manage/refund_analysia'	=>1010708,
 			'/user_manage_new/notify_phone'	=>1010706,
