@@ -319,13 +319,12 @@ class seller_student_new2 extends Controller
             E\Esubject::set_item_value_str($item);
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
-            $data[$key]['phone'] = $item['phone'];
-            $data[$key]['grade_str'] = $item['grade_str'];
-            $data[$key]['subject_str'] = $item['subject_str'];
-            $data[$key]['require_admin_nick'] = $item['require_admin_nick'];
-            $data[$key]['require_time'] = $item['require_time'];
+            $ret_info[$key]['phone'] = $item['phone'];
+            $ret_info[$key]['grade_str'] = $item['grade_str'];
+            $ret_info[$key]['subject_str'] = $item['subject_str'];
+            $ret_info[$key]['require_admin_nick'] = $item['require_admin_nick'];
+            $ret_info[$key]['require_time'] = $item['require_time'];
         }
-        $ret_info['list'] = $data;
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
