@@ -75,6 +75,7 @@ class teacher_level extends Controller
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
             
         }
+        $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1);
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
