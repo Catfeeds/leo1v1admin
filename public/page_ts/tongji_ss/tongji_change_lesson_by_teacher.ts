@@ -33,6 +33,16 @@ $(function(){
         var lesson_cancel_reason_type = $('#id_lesson_cancel_reason_type option:selected').val();
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
+
+        var html_node    = $.obj_copy_node("#id_assign_log");
+
+        BootstrapDialog.show({
+            title: "分配列表",
+            message: html_node,
+            closable: true
+        });
+
+
         $.do_ajax('/ss_deal2/show_change_lesson_by_teacher',{
             'teacherid' : teacherid,
             'start_time':start_time,

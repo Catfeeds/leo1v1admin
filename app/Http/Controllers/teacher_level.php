@@ -97,6 +97,13 @@ class teacher_level extends Controller
 
     }
 
+    public function add_teacher_advance_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $total_score = $this->get_in_int_val("total_score");
+        $level = $this->t_teacher_info->get_level($teacherid);
+        $level_after = $level+1;
+
+    }
     public function get_other_order_score($num,$per){
         if($num<=0){
             return 5;
