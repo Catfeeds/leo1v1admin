@@ -1334,25 +1334,66 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function get_list_test( $page_info, $nick_phone) {
+    public function get_list_test( $page_info, $nick_phone, $account_role) {
         $where_arr=array();
 
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "account like '%%%s%%'  ", $this->ensql($nick_phone));
         }
-
-        $sql =  $this->gen_sql_new( "select uid ,  account ,   account_role, name ,  phone "
+        //print_r($where_arr); 
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        $where_arr[]=" create_time > 1010111";
+        $where_arr[]=" create_time < 101011122222";
+        //print_r( $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role) );
+    
+        $sql =  $this->gen_sql_new( "select uid ,  account ,   account_role, name ,  phone, create_time "
                                     . " from %s "
                                     . "  where %s  ",
                                     self::DB_TABLE_NAME,
                                     $where_arr );
+            //print_r($sql);
+        //dd($this->main_get_list_by_page($sql,$page_info));
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
 
-    public function test_ff() {
-        $where_arr=[];
-        $this->where_arr_add_int_or_idlist($where_arr,"seller_flag",$seller_flag);
+    public function test_ff( $page_info, $nick_phone, $account_role) {
+        $where_arr=array();
+
+        if ($nick_phone!=""){
+            $where_arr[]=sprintf( "account like '%%%s%%'  ", $this->ensql($nick_phone));
+        }
+        //print_r($where_arr); 
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        $where_arr[]=" create_time > 1010111";
+        $where_arr[]=" create_time < 101011122222";
+        //print_r( $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role) );
+    
+        $sql =  $this->gen_sql_new( "select uid ,  account ,   account_role, name ,  phone, create_time "
+                                    . " from %s "
+                                    . "  where %s  ",
+                                    self::DB_TABLE_NAME,
+                                    $where_arr );
+        //print_r($sql);
+        // dd($this->main_update($sql));
+        // dd($this->row_delete($sql));
+        // dd($this->row_delete($sql));
+
+
+        dd($this->main_get_list_by_page($sql,$page_info));
+        return $this->main_get_list_by_page($sql,$page_info);
+
+
+        $this->main_update($sql);//返回影响行数
+        $this->row_delete($uid);//返回影响行数
+        $this->row_insert([
+        ]);
+
+        $this->main_get_list($sql);
+        $this->main_get_list_by_page($sql,$page_info);
+        $this->main_get_row($sql);
+        $this->main_get_value($sql);
+
 
         $sql =  $this->gen_sql_new(
             "select uid ,  account ,   account_role, name ,  phone "

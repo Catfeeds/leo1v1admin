@@ -1799,5 +1799,4 @@ class teacher_info extends Controller
         $qc_log   =  $this->send_curl_post($post_url);
 
     }
-
 }

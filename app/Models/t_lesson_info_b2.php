@@ -1729,4 +1729,77 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_list($sql);
     }
-}
+    public function get_student_lesson( $page_num,$user_name){
+        $where_arr=[
+        ];
+        if ($user_name !== '' ) {
+            $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+
+        $sql=$this->gen_sql_new("select s.userid, s.nick, s.realname,"
+                                ." SUM( if(l.lesson_type in (0,1,3),1,0) ) as normal_nums, "
+                                ." SUM( if(l.lesson_type=2,1,0) ) as free_nums,SUM(l.lesson_count) as lesson_count,"
+                                ." SUM( if(l.lesson_type in (1001,1002,1003),1,0) ) as board_nums"
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." where %s "
+                                ." group by s.userid",
+                                self::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret_info = $this->main_get_list_by_page($sql,$page_num,10, true);
+        foreach ($ret_info["list"] as $k => $v ) {
+            $ret_info["list"][$k]["lesson_count"] = $v["lesson_count"]/100;
+        }
+
+        return $ret_info;
+
+    }
+    public function get_stu_lesson_info( $parentid){
+        $where_arr = [
+            ["p.parentid=%u",$parentid,0],
+        ];
+        //查出该家长下有最大常规课的userid
+        $sql=$this->gen_sql_new("select s.userid, "
+                                ." SUM( if(l.lesson_type in (0,1,3),1,0) ) as normal_nums "
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." left join %s p on p.userid=s.userid"
+                                ." where %s "
+                                ." order by normal_nums",
+                                self::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME,
+                                t_parent_child::DB_TABLE_NAME,
+                                $where_arr
+        );
+        $ret_info = $this->main_get_row($sql);
+        $userid = $ret_info["userid"];
+        //P1：我的理优学习之路  理优称号：全科大师、数学能手、语文勇士等（在读时间）
+        //2016-8-6     2017-8-6 之间
+        $start_time = strtotime("2016-08-06");
+        $end_time = strtotime("2017-08-06");
+        $where_arr = [
+            "userid=".$userid,
+            "lesson_start>".$start_time,
+            "lesson_end<".$end_time,
+            "lesson_type in (0,1,2)",
+        ];
+        $sql=$this->gen_sql_new("select subject"
+                                ." from %s"
+                                ." where %s",
+                                // order by normal_nums",
+                                self::DB_TABLE_NAME,
+                                $where_arr
+        );
+echo $sql;
+        $ret_info = $this->main_get_list($sql);
+dd($ret_info);
+        exit;
+    }
+
+
+
+   }
