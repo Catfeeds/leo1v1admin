@@ -313,27 +313,20 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_new()
     {
-        $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new();
-        foreach($ret_info as $key => &$item){
+        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        foreach($ret as $key => &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
-            $data[$key]['手机'] = $item['phone'];
-            $data[$key]['年级'] = $item['grade_str'];
-            $data[$key]['科目'] = $item['subject_str'];
-            $data[$key]['申请人'] = $item['require_admin_nick'];
-
-            $data[$key]['申请时间'] = $item['require_time'];
+            $data[$key]['phone'] = $item['phone'];
+            $data[$key]['grade_str'] = $item['grade_str'];
+            $data[$key]['subject_str'] = $item['subject_str'];
+            $data[$key]['require_admin_nick'] = $item['require_admin_nick'];
+            $data[$key]['require_time'] = $item['require_time'];
         }
-        dd($data);
-        return $this->pageView(__METHOD__,$ret_info,[
-            "cur_page"          => $cur_page,
-            "adminid_right"     => $adminid_right,
-            "admin_work_status" => $admin_work_status,
-            "jw_teacher_list"   => $jw_teacher_list,
-            "adminid"           => $adminid
-        ]);
+        $ret_info['list'] = $data;
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 
