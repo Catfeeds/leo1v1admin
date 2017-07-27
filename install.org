@@ -1,6 +1,6 @@
   
 * 安装软件
-  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd
+  sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd php-zip
   
 ** 安装 mysql
   sudo apt-get install mysql-server  
@@ -49,7 +49,5 @@
   /etc/hosts 加入
  127.0.0.1  self.admin.yb1v1.com 
   
-*  
   
-* 
   
