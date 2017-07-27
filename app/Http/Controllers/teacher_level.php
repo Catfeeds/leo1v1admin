@@ -83,6 +83,11 @@ class teacher_level extends Controller
             $h["level_str"] =E\Elevel::get_desc($h["level"]);
             $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
             $h["is_refund_str"] = $h["is_refund"]==1?"<font color='red'>有</font>":"无";
+            \App\Helper\Utils::unixtime2date_for_item($h,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($h,"require_time","_str");
+
+            E\Eaccept_flag::set_item_value_str($h);
+
             array_unshift($ret_info["list"],$h);
         }
         if (!$order_in_db_flag) {
@@ -215,29 +220,36 @@ class teacher_level extends Controller
         $is_refund  = $this->get_in_int_val("is_refund");
         $total_score = $this->get_in_int_val("total_score");
         $hand_flag = $this->get_in_int_val("hand_flag");
-        $this->t_teacher_advance_list->row_insert([
-            "start_time" =>$start_time,
-            "teacherid"  =>$teacherid,
-            "level_before"=>$level_before,
-            "level_after" =>$level_after,
-            "lesson_count"=>$lesson_count,
-            "lesson_count_score"=>$lesson_count_score,
-            "cc_test_num"=>$cc_test_num,
-            "cc_order_num" =>$cc_order_num,
-            "cc_order_per" =>$cc_order_per,
-            "cc_order_score" =>$cc_order_score,
-            "other_test_num"=>$other_test_num,
-            "other_order_num" =>$other_order_num,
-            "other_order_per" =>$other_order_per,
-            "other_order_score" =>$other_order_score,
-            "record_final_score"=>$record_final_score,
-            "record_score_avg" =>$record_score_avg,
-            "record_num"     =>$record_num,
-            "is_refund"      =>$is_refund,
-            "total_score"    =>$total_score,
-            "require_time"   =>time(),
-            "require_adminid"=>$this->get_account_id()
-        ]);
+        if($hand_flag==0){
+            $this->t_teacher_advance_list->row_insert([
+                "start_time" =>$start_time,
+                "teacherid"  =>$teacherid,
+                "level_before"=>$level_before,
+                "level_after" =>$level_after,
+                "lesson_count"=>$lesson_count,
+                "lesson_count_score"=>$lesson_count_score,
+                "cc_test_num"=>$cc_test_num,
+                "cc_order_num" =>$cc_order_num,
+                "cc_order_per" =>$cc_order_per,
+                "cc_order_score" =>$cc_order_score,
+                "other_test_num"=>$other_test_num,
+                "other_order_num" =>$other_order_num,
+                "other_order_per" =>$other_order_per,
+                "other_order_score" =>$other_order_score,
+                "record_final_score"=>$record_final_score,
+                "record_score_avg" =>$record_score_avg,
+                "record_num"     =>$record_num,
+                "is_refund"      =>$is_refund,
+                "total_score"    =>$total_score,
+                "require_time"   =>time(),
+                "require_adminid"=>$this->get_account_id()
+            ]);
+        }else{
+            $this->t_teacher_advance_list->field_update_list_2($start_time,$teacherid,[
+                "require_time"   =>time(),
+                "require_adminid"=>$this->get_account_id()
+            ]);
+        }
         $realname  = $this->t_teacher_info->get_realname($teacherid);
         $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);
         $this->t_manager_info->send_wx_todo_msg_by_adminid (72,"兼职老师晋升申请","兼职老师晋升申请待处理",$realname."老师的晋升申请已提交,请尽快审核","http://admin.yb1v1.com/teacher_level/get_teacher_advance_info?start_time=".$start_time."&teacherid=".$teacherid);

@@ -6700,7 +6700,7 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
 
-        // dd($ret_info);
+        dd($ret_info);
         if($ret_info['list']){
             $arr_new = [];
             foreach( $ret_info['list'] as &$item){
