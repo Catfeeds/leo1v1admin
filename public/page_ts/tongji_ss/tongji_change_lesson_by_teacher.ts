@@ -30,9 +30,16 @@ $(function(){
 
     $('.show_detail').on("click",function(){
         var teacherid = $(this).attr('date-teacherid');
-        // alert(teacherid);
-        $.do_ajax('/ss_deal2/show_change_lesson_by_teacher',{},function(){
-            
+        var lesson_cancel_reason_type = $('#id_lesson_cancel_reason_type option:selected').val();
+        var start_time = $('#id_start_time').val();
+        var end_time   = $('#id_end_time').val();
+        $.do_ajax('/ss_deal2/show_change_lesson_by_teacher',{
+            'teacherid' : teacherid,
+            'start_time':start_time,
+            'end_time'  : end_time,
+            'lesson_cancel_reason_type':lesson_cancel_reason_type
+        },function(result){
+
         });
 
     });

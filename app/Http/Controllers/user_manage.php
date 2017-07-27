@@ -6,6 +6,7 @@ use \App\Enums as E;
 class user_manage extends Controller
 {
     use CacheNick;
+    use TeaPower;
     public function all_users(){
         global $g_request;
         $g_request->offsetSet("all_flag",1);
@@ -567,6 +568,7 @@ class user_manage extends Controller
             if(!empty($have_lesson)){
                 return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
             }
+            $this->delete_teacher_regular_lesson($userid);
         }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);

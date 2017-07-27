@@ -6700,17 +6700,34 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
 
+        if($ret_info['list']){
+            $arr_new = [];
+            foreach( $ret_info['list'] as &$item){
+                $arr_new['list'][$item['teacherid']]['lesson_count']=0;
+            }
+            $arr_new['total_num'] = $ret_info['total_num'];
+            $arr_new['per_page_count'] = $ret_info['per_page_count'];
+            $arr_new['page_info'] = $ret_info['page_info'];
 
+            foreach( $ret_info['list'] as &$item){
+                foreach( $arr_new['list'] as $i=>&$val){
+                    if($i == $item['teacherid']){
+                        $val['lesson_count'] += $item['lesson_count']/100;
+                        $val['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+                    }
+                }
+            }
 
-
-        foreach( $ret_info['list'] as &$item){
-
-
-            $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-            $item['lesson_count'] = $item['lesson_count']/100;
-            // E\Elesson_cancel_reason_type::set_item_value_str($item);
+            $index = 0;
+            foreach($arr_new['list'] as &$item_new){
+                $item_new['index'] = $index;
+                $index++;
+            }
+        }else{
+            $arr_new = $ret_info;
         }
-        return $this->pageView(__METHOD__,$ret_info);
+
+        return $this->pageView(__METHOD__,$arr_new);
     }
 
 

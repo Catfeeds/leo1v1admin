@@ -2590,7 +2590,7 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $userid = 60022 ;$teacherid= 60011;
-        $this->delete_teacher_regular_lesson($userid);
+        $this->delete_teacher_regular_lesson($userid,1);
         dd(111);
         $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
@@ -3439,6 +3439,26 @@ class user_deal extends Controller
             return $this->output_succ(["data"=>$list]);
         }
     }
+
+    public function get_teacher_regular_lesson_del_list(){
+        $teacherid = $this->get_in_int_val("teacherid",0);
+        $type      = $this->get_in_int_val("type",1);
+        if($teacherid==0){
+            return $this->output_err("老师id出错!");
+        }
+
+        $list = $this->t_teacher_record_list->get_teacher_record_list($teacherid,$type);
+        foreach($list as &$val){
+            $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+        }
+
+        if(empty($list)){
+            return $this->output_err("无相关记录!");
+        }else{
+            return $this->output_succ(["data"=>$list]);
+        }
+    }
+
 
     public function get_teacher_week_lesson_num_change_list(){
         $teacherid = $this->get_in_int_val("teacherid",0);

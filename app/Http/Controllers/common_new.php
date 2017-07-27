@@ -230,6 +230,7 @@ class common_new extends Controller
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
         $qq                           = $this->get_in_str_val("qq","");
+        $full_time                    = $this->get_in_int_val("full_time");
 
         $phone      = substr($phone,0,11);
         $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
@@ -274,6 +275,7 @@ class common_new extends Controller
             "lecture_appointment_status"   => $lecture_appointment_status,
             "lecture_appointment_origin"   => $lecture_appointment_origin,
             "qq"                           => $qq,
+            "full_time"                    => $full_time,
         ];
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);

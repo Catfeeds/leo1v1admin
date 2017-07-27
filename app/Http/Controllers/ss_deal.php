@@ -2210,14 +2210,7 @@ class ss_deal extends Controller
                 }
 
             }
-            $userid_list="";
-            foreach($arr as $v){
-               $userid = intval($v[0]);
-               $userid_list .= $userid.",";
-            }
-            $aa= trim($userid_list,",");
-            $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
-            /* foreach($arr as $t=>&$v){
+            foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
                 if($t<500 && $t>=0){
@@ -2230,7 +2223,7 @@ class ss_deal extends Controller
                     }
                 }
 
-                }*/
+            }
 
             //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);

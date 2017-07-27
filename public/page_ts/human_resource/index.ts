@@ -1716,11 +1716,11 @@ $(function(){
         var opt_data  = $(this).get_opt_data();
         var teacherid = opt_data.teacherid;
         var title = "常规课表删除记录";
-        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>操作人</td></tr></table></div>");
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>学生</td><td>操作人</td></tr></table></div>");
         
         
 
-        $.do_ajax("/user_deal/get_teacher_limit_change_list",{
+        $.do_ajax("/user_deal/get_teacher_regular_lesson_del_list",{
             "teacherid" : teacherid,
             "type"      : 11
         },function(result){
@@ -1730,7 +1730,7 @@ $(function(){
             }
 
             $.each(result.data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['record_info']+"</td><td>"+item['acc']+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['record_info']+"</td><td>"+item['current_acc']+"</td><td>"+item['acc']+"</td></tr>");
 
             });
             var dlg=BootstrapDialog.show({

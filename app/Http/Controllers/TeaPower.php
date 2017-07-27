@@ -1693,10 +1693,12 @@ trait  TeaPower {
          .size24{font-size:4.8rem;}
          .size28{font-size:5.6rem;}
          .size36{font-size:7.2rem;}
+         .hl{line-height:4.2rem;}
+         .top-line{margin-top:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
-         .title{margin:6rem 0 2rem;letter-spacing:1rem;}
+         .title{margin:2rem 0;}
          .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
          .tea_name{font-weight:bold;}
          .tea_level{font-weight:bold;}
@@ -1719,12 +1721,16 @@ trait  TeaPower {
              .img_star{top:213px;}
              .img_star img{width:30px;}
              .img_name{top:285px;}
+             .hl{line-height:2.625rem;}
          }
         </style>
     </head>
     <body>
         <div style='width:100%' align='center'>
             <div class='content size14'>
+            <div class='logo top-line' align='center'>
+                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+            </div>
                 <div class='title size24'>理优教育</div>
                 <div >感谢您一路对我们的支持与信任</div>
                 <div class='border tl'>
@@ -1775,8 +1781,13 @@ trait  TeaPower {
     }
 
     //学员结课,清空常规课表
-    public function delete_teacher_regular_lesson($userid){
+    public function delete_teacher_regular_lesson($userid,$flag=0){
         //$userid = 60022 ;$teacherid= 60011;
+        if($flag==1){
+            $account="system";
+        }elseif($flag==0){
+            $account = $this->get_account();
+        }
         $list1 = $this->t_week_regular_course->get_teacher_student_time(-1,$userid);
         $list2 = $this->t_summer_week_regular_course->get_teacher_student_time(-1,$userid);
         $list3 = $this->t_winter_week_regular_course->get_teacher_student_time(-1,$userid);
@@ -1786,43 +1797,53 @@ trait  TeaPower {
         foreach($list1 as $v){
             @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
             @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
-            // $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list2 as $v){
             if(!isset($list[$v["teacherid"]][$v["start_time"]])){
                 @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
             }
-            //$this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list3 as $v){
             if(!isset($list[$v["teacherid"]][$v["start_time"]])){
                 @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
             }
-            // $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         
         if(!empty($list)){
             foreach($list as $k=>$item){
                 \App\Helper\Utils::order_list( $item,"start_time", 1);
 
+                $num_arr=[];
                 $str ="";
                 foreach($item as $val){
                     $arr=explode("-",$val["start_time"]);
                     $week=$arr[0];
                     $start_time=@$arr[1];
                     $week = $arr_week[$week];
-                    $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
+
+                    if(isset($num_arr[$week])){
+                        $num_arr[$week] .=  $start_time."-".$val["end_time"].",";
+                    }else{
+                        $num_arr[$week]="周".$week.":";
+                        $num_arr[$week] .=  $start_time."-".$val["end_time"].",";
+                    }
 
                 }
-                $str = trim($str,",");
+                foreach($num_arr as $s){
+                    $s = trim($s,",");
+                    $str .=$s.";";
+                }
                 $this->t_teacher_record_list->row_insert([
                     "teacherid"  =>$k,
                     "type"       =>11,
                     "record_info"=>$str,
                     "add_time"   =>time(),
-                    "acc"        =>$this->get_account(),
+                    "acc"        =>$account,
                     "current_acc"=>$nick
                 ]);
             }

@@ -444,8 +444,8 @@ class common extends Controller
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
         $html = $this->teacher_level_up_html($teacher_info);
         if($is_test){
-            // $teacher_info['email']   = "wg392567893@163.com";
-            // $teacher_info['subject'] = 4;
+            $teacher_info['email']   = "wg392567893@163.com";
+            $teacher_info['subject'] = 4;
             $ret = \App\Helper\Common::send_paper_mail($teacher_info['email'],"上海理优教研室",$html);
             if($teacher_info['wx_openid']!=""){
                 $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
@@ -454,7 +454,7 @@ class common extends Controller
                 $data["keyword2"] = "理优教育";
                 $data["keyword3"] = date("Y-m-d",time());
                 $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-                $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacherid;
+                $offer_url        = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
             }
         }
@@ -528,7 +528,7 @@ class common extends Controller
 <body>
     <div style='width:100%' align='center'>
         <div class='content'>
-            <div class='logo top-line' align='left'>
+            <div class='logo top-line' align='center'>
                 <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
             </div>
             <div>

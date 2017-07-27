@@ -14,6 +14,13 @@ class teacher_level extends Controller
 
     public function get_teacher_level_quarter_info(){
         $this->switch_tongji_database();
+        $sum_field_list = [
+            "total_score"
+        ];
+        $order_field_arr = array_merge(["teacherid"],$sum_field_list);
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr,"teacherid ");
+
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
@@ -68,6 +75,10 @@ class teacher_level extends Controller
             $item["total_score"] = $item["lesson_count_score"]+$item["cc_order_score"]+ $item["other_order_score"]+$item["record_final_score"];
             
         }
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
+        }
+
         $erick =[];
         $erick["teacherid"]=50158;
         $erick["realname"]="刘辉";
