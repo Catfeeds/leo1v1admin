@@ -60,7 +60,7 @@
         <div style="display:none;" >
             <div id="id_assign_log">
                 <table   class="table table-bordered "   >
-                    <tr>  <th> 分配时间 <th>分配人 <th>接受人 <th>分配备注  </tr>
+                    <tr>  <th> 老师 <th>类型 <th>上课时段 <th>年级  <th>科目 学生 助教 课时数 课时确认</tr>
                         <tbody class="data-body">
                         </tbody>
                 </table>

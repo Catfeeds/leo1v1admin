@@ -109,8 +109,10 @@ class teacher_level extends Controller
             "teacherid"  =>$teacherid,
             "level_before" =>$level,
             "level_after"  =>$level_after,
-            "total_score"  =>$total_score
+            "total_score"  =>$total_score,
+            "hand_flag"    =>1
         ]);
+        return $this->output_succ();
 
     }
     public function get_other_order_score($num,$per){
