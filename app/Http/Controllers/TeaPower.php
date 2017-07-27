@@ -1786,26 +1786,28 @@ trait  TeaPower {
         foreach($list1 as $v){
             @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
             @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
-            $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            // $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list2 as $v){
             if(!isset($list[$v["teacherid"]][$v["start_time"]])){
                 @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
             }
-            $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            //$this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list3 as $v){
             if(!isset($list[$v["teacherid"]][$v["start_time"]])){
                 @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
             }
-            $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+            // $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         
         if(!empty($list)){
             foreach($list as $k=>$item){
-                $str ="学生:".$nick.";";
+                \App\Helper\Utils::order_list( $item,"start_time", 1);
+
+                $str ="";
                 foreach($item as $val){
                     $arr=explode("-",$val["start_time"]);
                     $week=$arr[0];
@@ -1820,7 +1822,8 @@ trait  TeaPower {
                     "type"       =>11,
                     "record_info"=>$str,
                     "add_time"   =>time(),
-                    "acc"        =>$this->get_account()
+                    "acc"        =>$this->get_account(),
+                    "current_acc"=>$nick
                 ]);
             }
 
