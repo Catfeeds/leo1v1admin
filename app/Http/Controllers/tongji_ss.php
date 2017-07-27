@@ -6568,13 +6568,13 @@ class tongji_ss extends Controller
             if(!$item['old_teacherid']){
                 $item['old_teacher_nick']  = '无' ;
             }else{
-                $item['old_teacher_nick']  = $this->t_teacher_info->get_nick($item['old_teacherid']);
+                $item['old_teacher_nick']  = $this->cache_get_teacher_nick($item['old_teacherid']);
             }
 
             if(!$item['teacherid']){
                 $item['teacher_nick']  = '无' ;
             }else{
-                $item['teacher_nick']  = $this->t_teacher_info->get_nick($item['teacherid']);
+                $item['teacher_nick']  = $this->cache_get_teacher_nick($item['teacherid']);
             }
 
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
@@ -6589,7 +6589,7 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            $item['ass_nick'] = $this->t_assistant_info->get_nick($item['assistantid']);
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
             $item['test_lesson_time'] = date('m-d H:i:s',$item['lesson_start']).' - '.date('H:i:s',$item['lesson_end']);
             $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
 
@@ -6634,7 +6634,13 @@ class tongji_ss extends Controller
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
-        $ret_info = '';
+
+        foreach( $ret_info['list'] as &$item){
+            $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            $item['lesson_count'] = $item['lesson_count']/100;
+            E\Elesson_cancel_reason_type::set_item_value_str($item);
+
+        }
 
         return $this->pageView(__METHOD__,$ret_info);
 

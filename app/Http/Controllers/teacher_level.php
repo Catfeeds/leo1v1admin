@@ -531,6 +531,7 @@ class teacher_level extends Controller
     </body>
 </html>
 ";
+        return $html;
     }
 
 
