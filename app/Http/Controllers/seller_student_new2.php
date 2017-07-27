@@ -314,7 +314,7 @@ class seller_student_new2 extends Controller
     public function test_lesson_plan_list_new()
     {
         $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new();
-        foreach($ret_info["list"] as $id => &$item){
+        foreach($ret_info as $id => &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
