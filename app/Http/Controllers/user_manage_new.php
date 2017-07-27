@@ -2762,6 +2762,13 @@ class user_manage_new extends Controller
             }else{
                 $item["renw_end_day"]="";
             }
+            $item["month_str"] = date("Y-m-d H:i:s",$item["month"]);
+            $first_time = $this->t_ass_warning_renw_flag_modefiy_list->get_first_renw_time($item["id"]);
+            if(empty($first_time)){
+                $item["first_time"]="无";
+            }else{
+                $item["first_time"] = date("Y-m-d H:i:s",$first_time);
+            }
 
         }
         return $this->Pageview(__METHOD__,$ret_info);

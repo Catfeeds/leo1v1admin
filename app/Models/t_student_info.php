@@ -2530,9 +2530,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         ];
         $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.type"
                                   ." from %s s "
-                                  ." where type in (1,2,3) "
-                                  ." and grade=203"
+                                  ." where type =0  "
+                                  // ." and grade=203"
                                   ." and is_test_user=0"
+                                  ." and lesson_count_left>1"
                                   ." and exists (select 1 from %s where s.userid=userid and lesson_type in (0,1,3) and %s)"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME

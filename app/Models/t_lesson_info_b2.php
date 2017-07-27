@@ -1926,11 +1926,33 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-    public function get_lesson_time_flag($userid,$teacherid,$old_teacherid){
+    public function get_lesson_time_flag($userid,$teacherid){
+        $where_arr = [
+            ['userid = %d',$userid],
+            ['teacherid = %d',$teacherid],
+            'lesson_type = 0 '
+        ];
 
+        $sql = $this->gen_sql_new("select 1 from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 
 
+    public function check_have_regular_lesson_new($userid,$lesson_time){
+        $where_arr=[
+            ["userid= %u",$userid,-1],
+            ["lesson_start>%u",$lesson_time,0],
+            "lesson_type<>2",
+            "lesson_status=0",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
 
 
 }

@@ -2589,14 +2589,42 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-                $this->switch_tongji_database();
-        $start_time = strtotime("2017-06-18");
-        $end_time = strtotime("2017-08-01");
+        $userid = 60022 ;$teacherid= 60011;     
+        $list = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $str ="学生:".$nick.";";
+        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        if(!empty($list)){
+            foreach($list as $val){
+                $arr=explode("-",$val["start_time"]);
+                $week=$arr[0];
+                $start_time=@$arr[1];
+                $week = $arr_week[$week];
+                $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
+ 
+            }
+            $str = trim($str,",");
+        }
+        dd($str);
+        //$list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
+        $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2,-1);
+        foreach($list as $val){
+            $change_info = $this->t_ass_warning_renw_flag_modefiy_list->get_new_renw_list($val["id"]);
+            if(!empty($change_info)){
 
-        $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
-        dd($late);
+                if(!empty($val["renw_week"])){
+                    $val["renw_end_day"] = date("Y-m-d",$change_info["add_time"]+$val["renw_week"]*7*86400);
+                }else{
+                    $val["renw_end_day"]=0;
+                }
 
-        $list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
+                $this->t_ass_warning_renw_flag_modefiy_list->field_update_list($change_info["id"],[
+                    "renw_week"  =>$val["renw_week"],
+                    "renw_end_day" =>$val["renw_end_day"]
+                ]);
+            }
+ 
+        }
         dd($list);
         
         $page_num = $this->get_in_page_num();

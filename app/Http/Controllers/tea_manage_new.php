@@ -1003,11 +1003,17 @@ class tea_manage_new extends Controller
         $end_time   = $this->get_in_int_val("end_time");
 
         $list = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,1);
-        //$job = new \App\Jobs\;
-        //dispatch($job);
-        // $job = new \App\Jobs\; dispatch($job);
 
+        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        $data['first']    = "老师您好！";
+        $data['keyword1'] = "邀请参训通知";
+        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
+        $data['keyword3'] = date("Y-m-d",time());
+        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
 
+        $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
+        dispatch($job);
+        return $this->output_succ();
     }
 
 

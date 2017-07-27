@@ -143,6 +143,16 @@ class t_summer_week_regular_course extends \App\Models\Zgen\z_t_summer_week_regu
         ]);
  
     }
+
+    public function get_teacher_student_time($teacherid,$userid){
+        $where_arr =[
+            ["teacherid=%u",$teacherid,-1],  
+            ["userid=%u",$userid,-1],  
+        ];
+        $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
    
 
 }

@@ -48,6 +48,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>数据生成时间 </td>
                     <td>组别 </td>
                     <td>助教</td>
                     <td>学生</td>
@@ -56,6 +57,7 @@
                     <td>续费金额</td>
                     <td>未续费原因</td>
                     <td>续费截止日期</td>
+                    <td>首次设置状态时间</td>
                     <td>是否成功(组长)</td>
                     <td>未续费原因(组长)</td>
                     <td> 操作  </td>
@@ -64,6 +66,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["month_str"]}} </td>
                         <td>{{@$var["group_name"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["nick"]}} </td>
@@ -76,6 +79,7 @@
                         @endif
                         <td>{{@$var["no_renw_reason"]}} </td>
                         <td>{{@$var["renw_end_day"]}}</td>
+                        <td>{{@$var["first_time"]}}</td>
                         <td>{{@$var["master_renw_flag_str"]}} </td>
                         <td>{{@$var["master_no_renw_reason"]}} </td>
                         <td>

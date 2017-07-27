@@ -115,7 +115,7 @@ class t_change_teacher_list extends \App\Models\Zgen\z_t_change_teacher_list
             $where_arr[] = ["change_teacher_reason_type = %d",$change_teacher_reason_type];
 
         }
-        $this->where_arr_add_time_range($where_arr,"tc.add_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tl.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(" select tc.userid, tc.teacherid as old_teacherid, tc.is_done_flag, tc.change_teacher_reason_type, tc.subject, tc.grade, tsl.confirm_adminid, tsl.success_flag, tl.lesson_start, tl.teacherid, tl.lesson_end, s.assistantid  from %s tc ".
                                   " left join %s tls on tls.userid = tc.userid ".
@@ -123,7 +123,7 @@ class t_change_teacher_list extends \App\Models\Zgen\z_t_change_teacher_list
                                   " left join %s tsl on tsl.require_id = tlsr.require_id".
                                   " left join %s tl on tl.lessonid = tsl.lessonid".
                                   " left join %s s on s.userid = tc.userid".
-                                  " where %s  group by tc.userid order by tc.add_time ",
+                                  " where %s  group by tc.userid order by tl.lesson_start ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,

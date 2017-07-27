@@ -15,14 +15,6 @@
                     <div id="id_date_range" >
                     </div>
                 </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">换老师原因</span>
-                        <select class="opt-change form-control" id="id_change_teacher_reason_type" >
-                        </select>
-                    </div>
-                </div>
             </div>
         </div>
         <hr/>

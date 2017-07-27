@@ -561,6 +561,13 @@ class user_manage extends Controller
         }
 
         $old_type= $this->t_student_info->get_type($userid);
+        if($old_type !=1 && $type==1){
+            $lesson_time = time();
+            $have_lesson = $this->t_lesson_info_b2->check_have_regular_lesson_new($userid,$lesson_time);
+            if(!empty($have_lesson)){
+                return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
+            }
+        }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
         if($type != $old_type){

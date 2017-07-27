@@ -265,6 +265,8 @@ class url_power_map {
 			'/tq/ass_tongji_list'	=>1100604,
 			'/tq/ass_self_tongji_list'	=>1100605,
 			'/tongji_ss/tongji_change_teacher_info'	=>1100606,
+			'/tongji_ss/tongji_kuoke_info'	=>1100607,
+			'/tongji_ss/tongji_change_lesson_by_teacher'	=>1100608,
 			'/tongji/sms'	=>1100201,
 			'/tongji/sms_type'	=>1100202,
 			'/user_manage/count_zan'	=>1100401,

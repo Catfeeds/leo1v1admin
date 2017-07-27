@@ -1330,4 +1330,32 @@ class Utils  {
         return (int)$grade;
     }
 
+    static public function get_teacher_level_str($teacher_info){
+        self::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
+        self::set_default_value($teacher_type,$teacher_info,4,"teacher_money_type");
+        self::set_default_value($teacher_type,$teacher_info,0,"level");
+
+        if($teacher_type>20){
+            $level_str="招师代理";
+        }else{
+            if($teacher_money_type==0){
+                if($level<3){
+                    $level_str = E\Elevel::$v2s_map[$level+1];
+                }elseif($level==3){
+                    $level_str = "明星";
+                }else{
+                    $level_str = "";
+                }
+            }elseif(in_array($teacher_money_type,[2,3])){
+                $level_str = "高级";
+            }else{
+                $level_str = E\Elevel::$v2s_map[$level];
+            }
+            $level_str.="教师";
+        }
+        return $level_str;
+    }
+
+
+
 };

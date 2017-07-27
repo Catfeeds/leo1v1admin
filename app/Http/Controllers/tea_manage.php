@@ -2078,6 +2078,7 @@ class tea_manage extends Controller
     }
 
     public function train_lecture_lesson_zs(){
+        $this->set_in_value("is_all",1);
         return $this->train_lecture_lesson();   
     }
 
@@ -2099,10 +2100,11 @@ class tea_manage extends Controller
         $have_wx          = $this->get_in_int_val("have_wx",-1);
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
+        $is_all           = $this->get_in_int_val("is_all");
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby"])){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];
@@ -2146,7 +2148,6 @@ class tea_manage extends Controller
             }else{
                 $val["have_wx_flag"]="否";
             }
-
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(

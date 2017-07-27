@@ -24,6 +24,7 @@ $(function(){
 
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data.renw_week);
      
         var $ass_renw_flag  = $("<select />") ;
         var $renw_price=$("<input></input>") ;

@@ -300,7 +300,7 @@ class seller_student_new2 extends Controller
 
         $jw_teacher_list = $this->t_manager_info->get_jw_teacher_list_new();
 
-        // var_dump($ret_info['list']);
+       //  var_dump($ret_info['list']);
         // dd($ret_info['list']);
 
         return $this->pageView(__METHOD__,$ret_info,[
