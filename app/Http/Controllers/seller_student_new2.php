@@ -314,7 +314,6 @@ class seller_student_new2 extends Controller
     public function test_lesson_plan_list_new()
     {
         $ret_info = $this->t_test_lesson_subject_require->get_plan_list_new();
-        $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
