@@ -281,7 +281,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." sum(tmk_adminid =0) as all_unallot_count , "
             ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level >0  ) as all_uncall_count , "
             ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level =0  ) as by_hand_all_uncall_count , "
-            ." sum(tmk_student_status=3 ) as tmk_unallot_count  "
+            ." sum(tmk_student_status=3  and  origin_level=90 ) as tmk_unallot_count  " //T类
             ." from %s t  "
             ." join %s s on  t.userid=s.userid  "
             ." join %s n  on t.userid=n.userid  "
@@ -290,6 +290,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             t_student_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             $where_arr);
+        //E\Eorigin_level::V_90
 
         return $this->main_get_row($sql);
     }
