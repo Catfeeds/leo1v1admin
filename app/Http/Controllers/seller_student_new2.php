@@ -326,7 +326,7 @@ class seller_student_new2 extends Controller
             $data[$key]['require_time'] = $item['require_time'];
         }
         $ret_info['list'] = $data;
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
 
