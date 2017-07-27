@@ -215,6 +215,15 @@ class ss_deal2 extends Controller
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
 
+        foreach($ret_info as &$item){
+            $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            E\Econtract_type::set_item_value_str($item,'lesson_type');
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            E\Elesson_cancel_reason_type::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'m-d');
+        }
         dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
 

@@ -256,7 +256,7 @@ $(function(){
         });
     });
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
         var id_tea_nick               = $("<input/>");
