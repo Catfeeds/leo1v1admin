@@ -407,7 +407,7 @@ $(function(){
 
     $(".opt-del").on("click",function(){
 	    var opt_data = $(this).get_opt_data();
-        console.log(opt_data.lessonid);
+        console.log(opt_data.trial_train_status);
         BootstrapDialog.show({
 	        title   : "取消课程",
 	        message : "确定取消该课程？",

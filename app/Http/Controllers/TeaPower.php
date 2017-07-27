@@ -1642,5 +1642,8 @@ trait  TeaPower {
         return $adminid;
     }
 
+    public function get_level_up_html(){
+
+    }
 
 }

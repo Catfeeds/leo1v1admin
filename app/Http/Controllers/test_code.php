@@ -1459,14 +1459,23 @@ class test_code extends Controller
     }
 
     public function get_amanda(){
-        $start_time=strtotime("2017-6-1");
-        $end_time=strtotime("2017-7-1");
+        // $start_time = strtotime("2017-6-1");
+        // $end_time   = strtotime("2017-7-1");
+        $end_time   = time();
+        $start_time = strtotime("-1 year",$end_time);
         $list = $this->t_student_info->get_has_lesson($start_time,$end_time);
+        echo count($list);
         foreach($list as $val){
             $str=E\Estudent_type::get_desc($val['type']);
             echo $val['nick']."|".$val['phone']."|".$str;
             echo "<br>";
         }
+
+
+
+
+
+
     }
 
     public function get_order_5(){
@@ -1491,10 +1500,12 @@ class test_code extends Controller
         $nick   = $this->t_teacher_info->get_realname($teacherid);
         $data['first']    = $nick."老师您好！";
         $data['keyword1'] = "邀请参训通知";
-        $data['keyword2'] = "近期我们通过数据调取，发现您试讲通过多日后培训依旧未有通过。考虑到近期入职老师较多，为方便各位老师顺利参加培训课程，我们的新师培训业已增设到每周4期，分别定于：周三周四晚19点，周五晚18点30，周六下午15点，老师可按照您的时间安排自由选择参训时间；如若时间冲突，亦可登录理优教师端后，点击【我的培训】，选择最新一期的新师培训，点击【播放视频】按钮观看回放，并在录像学习完毕后，点击【自我测评】按钮进行问卷答题。";
+        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
         $data['keyword3'] = date("Y-m-d",time());
-        $data['remark']   = "此问卷可多次递交至90分即培训通过，通过后老师可收到公司正式【入职offer】并开启您在理优的线上教学之旅。若测评答题过程中有任何问题可以加入新师培训QQ群：315540732，并私聊管理员【师训】沈老师即可获得1对1小灶指导~ 暑期课程多多，福利多多~理优期待老师的加入，老师加油！";
-        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data);
+        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
+        $list[0]['wx_openid'] = $openid;
+        $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
+        dispatch($job);
     }
 
 }

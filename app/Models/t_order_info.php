@@ -2525,5 +2525,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
+    public function get_stu_renw_order($userid,$time){
+        $where_arr = [
+            "contract_type in (3,3001)",
+            "contract_status > 0",
+            ["userid = %u",$userid,-1],
+            ["order_time>%u",$time,0]
+        ];
+        $sql = $this->gen_sql_new("select 1 from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
 
 }

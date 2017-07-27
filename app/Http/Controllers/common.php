@@ -840,11 +840,8 @@ class common extends Controller
         if(!$phone || $wx_openid==""){
             return "";
         }
-
-        $user_info = $this->get_wx_user_info($wx_openid);
-
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_n.png";
+        $phone_qr_name = $phone."_qr_agent_e.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -852,6 +849,17 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            $headimg_name = $phone."_headimg.png";
+            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            $image_4 = imagecreatefrompng($headimgurl);     //微信头像
+            if($row['headimgurl']){
+               $headimgurl = $row['headimgurl'];
+               $datapath ="/tmp/".$phone."_headimg.png";
+               $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
+               shell_exec($wgetshell);
+               $image_4 = imagecreatefromjpeg($datapath);     //微信头像
+            }           
+            \App\Helper\Utils::logger('img4:'.$image_4);
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
@@ -859,6 +867,7 @@ class common extends Controller
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
+            imagecopymerge($image_3,$image_4,200,400,0,0,200,200,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -872,6 +881,7 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
+            imagedestroy($image_4);
         }else{
             $file_name=$phone_qr_name;
         }
@@ -1170,27 +1180,6 @@ class common extends Controller
         \App\Helper\Utils::logger("send_er_wei");
 
         return (new common_ex )->send_phone_code();
-    }
-
-    public function get_wx_user_info($wx_openid){ //获取用户微信个人信息
-        $wx_config=\App\Helper\Config::get_config("yxyx_wx");
-        $wx= new \App\Helper\Wx($wx_config["appid"] , $wx_config["appsecret"] );
-        $access_token = $wx->get_wx_token($wx_config["appid"],$wx_config["appsecret"]);
-        $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$wx_openid."&lang=zh_CN";
-        \App\Helper\Utils::logger('yxyx_url:'.$url);
-        // $info = json_decode(file_get_contents($url));
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL, $url);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_HEADER, 0);
-        // $output = curl_exec($ch);
-        // curl_close($ch);
-        // $ret_arr = json_decode($output,true);
-        // $data['name'] = $info->nickname;
-        // $data['image'] = $info->headimgurl;
-        // \App\Helper\Utils::logger('yxyx_data:'.$data);
-
-        // return $data;
     }
 
     public function get_teacher_hornor_list(){ //1016

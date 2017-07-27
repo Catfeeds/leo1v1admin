@@ -120,6 +120,15 @@ $(function(){
         $(".limit-require-info").hide();
     }
 
+    if (window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list_tran/" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list" || window.location.pathname=="/seller_student_new2/ass_test_lesson_list/") {
+        $(".opt-binding-course-order").hide();
+        $(".opt-test_lesson_order_fail").hide();
+    }else{
+        $(".opt-binding-course-order").show();
+        $(".opt-test_lesson_order_fail").show();
+    }
+
+
     $(".opt-download-test-paper").on("click",function(){
         var opt_data = $(this).get_opt_data();
         $.custom_show_pdf(opt_data.stu_test_paper);

@@ -389,7 +389,9 @@ class menu{
                     ["power_id"=>3, "name"=>"回访统计-助教",   "url"=>"/tongji/revisit_info_tongji_ass"],
                     ["power_id"=>4, "name"=>"电话统计-助教",   "url"=>"/tq/ass_tongji_list"],
                     ["power_id"=>5, "name"=>"电话统计-个人",   "url"=>"/tq/ass_self_tongji_list"],
-
+                    ["power_id"=>6, "name"=>"换老师统计",   "url"=>"/tongji_ss/tongji_change_teacher_info"],
+                    ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
+                    ["power_id"=>8, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],

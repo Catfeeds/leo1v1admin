@@ -110,6 +110,7 @@
                                         <td>教务</td>
                                         <td>总排课量</td>
                                         <td>已排课程</td>
+                                        <td>已排课程(绿色)</td>
                                         <td>待排量</td>
                                         <td>挂起量</td>
                                         <td>退回量</td>
@@ -128,6 +129,7 @@
                                             <td>{{@$var["account"]}} </td> 
                                             <td class="all_count">{{@$var["all_count"]}} </td> 
                                             <td>{{@$var["set_count"]}} </td>
+                                            <td>{{@$var["green_count"]}} </td>
                                             <td>{{@$var["un_count"]}} </td>
                                             <td>{{@$var["gz_count"]}} </td>
                                             <td>{{@$var["back_count"]}} </td>

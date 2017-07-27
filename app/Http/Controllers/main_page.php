@@ -553,14 +553,14 @@ class main_page extends Controller
         $all_tea_ex = count($teacher_list_ex);
         $train_all = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list_ex,-1);
         $train_succ = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list_ex,1);
-        $train_succ_per = round($train_succ/$train_all*100,2)."%";
+        $train_succ_per = !empty($train_all)?round($train_succ/$train_all*100,2)."%":"";
 
 
         foreach($list["list"] as &$item1){
             if($item1["account"]=="全部"){
                 $item1["pass_per"] = @$item1["all_count"]==0?0:(round($all_tea_ex/@$item1["all_count"],2))*100;
                 $item1["order_per"] =@$item1["all_lesson"]==0?0:(round(@$item1["have_order"]/@$item1["all_lesson"],2))*100;
-                $item1["all_pass_per"] = (round( @$item1["suc_count"]/$item1["all_num"],2))*100;
+                $item1["all_pass_per"] = !empty(@$item1["all_num"])?(round( @$item1["suc_count"]/$item1["all_num"],2))*100:0;
                 $item1["succ_num"] =  $all_tea_ex;
                 $item1["train_all"] = $train_all;
                 $item1["train_succ"] = $train_succ;

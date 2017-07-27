@@ -97,7 +97,10 @@ class user_deal extends Controller
             }
         }
 
-        $this->t_lesson_info->del_if_no_start($lessonid);
+        //$this->t_lesson_info->del_if_no_start($lessonid);
+        $this->t_lesson_info->field_update_list($lessonid,[
+           "lesson_del_flag" =>1 
+        ]);
 
         return outputjson_success();
     }
@@ -2586,7 +2589,44 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-      
+        $userid = 60022 ;$teacherid= 60011;     
+        $list = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $str ="学生:".$nick.";";
+        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        if(!empty($list)){
+            foreach($list as $val){
+                $arr=explode("-",$val["start_time"]);
+                $week=$arr[0];
+                $start_time=@$arr[1];
+                $week = $arr_week[$week];
+                $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
+ 
+            }
+            $str = trim($str,",");
+        }
+        dd($str);
+        //$list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
+        $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2,-1);
+        foreach($list as $val){
+            $change_info = $this->t_ass_warning_renw_flag_modefiy_list->get_new_renw_list($val["id"]);
+            if(!empty($change_info)){
+
+                if(!empty($val["renw_week"])){
+                    $val["renw_end_day"] = date("Y-m-d",$change_info["add_time"]+$val["renw_week"]*7*86400);
+                }else{
+                    $val["renw_end_day"]=0;
+                }
+
+                $this->t_ass_warning_renw_flag_modefiy_list->field_update_list($change_info["id"],[
+                    "renw_week"  =>$val["renw_week"],
+                    "renw_end_day" =>$val["renw_end_day"]
+                ]);
+            }
+ 
+        }
+        dd($list);
+        
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;
@@ -3411,6 +3451,11 @@ class user_deal extends Controller
             E\Erenw_type::set_item_value_str($val,"ass_renw_flag_cur");
             $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
             $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+            if(!empty($val["renw_week"])){
+                $val["renw_end_day"] = date("Y-m-d",$val["add_time"]+$val["renw_week"]*7*86400);
+            }else{
+                $val["renw_end_day"]="";
+            }
 
         }
         if(empty($data)){

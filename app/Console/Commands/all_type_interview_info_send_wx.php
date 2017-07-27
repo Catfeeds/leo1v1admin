@@ -175,7 +175,7 @@ class all_type_interview_info_send_wx extends Command
         $train_succ = $task->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,1);
         $train_real = $task->t_lesson_info_b2->get_all_train_num_real($start,$end_time,$teacher_list,-1);
         $train_all_per = round($train_all/650*100,2)."%";
-        $train_succ_per = round($train_succ/650*100,2)."%";
+        $train_succ_per = round($train_succ/$train_all*100,2)."%";
         $arr2=["72","478","486","448","871"];
         //$arr2=["349"];
 
