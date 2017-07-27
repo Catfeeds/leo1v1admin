@@ -6700,17 +6700,10 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
 
-        // dd($ret_info);
-        // foreach($ret_info as $item){
-        //     if($item['teacherid'] == 240468){
-        //         echo $item['lesson_count'];
 
-        //     }
-
-
-        // }
-
-        // return ;
+        foreach($ret_info['list'] as $item_list){
+            
+        }
 
         if($ret_info['list']){
             $arr_new = [];
@@ -6739,8 +6732,6 @@ class tongji_ss extends Controller
             $arr_new = $ret_info;
         }
 
-        // dd($arr_new);
-        // $arr_new = $arr_new['list'];
 
         return $this->pageView(__METHOD__,$arr_new);
     }
