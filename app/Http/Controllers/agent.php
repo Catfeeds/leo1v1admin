@@ -11,7 +11,7 @@ class agent extends Controller
 {
     var $check_login_flag=false;
     public function agent_list() {
-        dd("a");
+        dd("b");
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $grade         = $this->get_in_grade(-1);
