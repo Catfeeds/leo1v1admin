@@ -6448,45 +6448,6 @@ lesson_work_status : {
 
 },
 
-level_eng : {
-	desc_map : {
-		'1' : "Intermediate Teacher",
-		'2' : "Senior Teacher",
-		'3' : "Golden Teacher"
-	},
-	simple_desc_map: {
-		'1' : "",
-		'2' : "",
-		'3' : ""
-	},
-	s2v_map:{
-		"中级教师" : 1,
-		"高级教师" : 2,
-		"金牌教师" : 3
-	},
-	v2s_map:{
-		 '1':  "中级教师",
-		 '2':  "高级教师",
-		 '3':  "金牌教师"
-	},
-
-		//Intermediate Teacher
-		V_中级教师:1,
-		//Senior Teacher
-		V_高级教师:2,
-		//Golden Teacher
-		V_金牌教师:3,
-
-		//Intermediate Teacher
-		S_中级教师:"中级教师",
-		//Senior Teacher
-		S_高级教师:"高级教师",
-		//Golden Teacher
-		S_金牌教师:"金牌教师"
-
-
-},
-
 level : {
 	desc_map : {
 		'0' : "C",
