@@ -1883,6 +1883,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_new(){
+        $where_arr = [
+            ' l.lesson_type<1000 and l.lesson_type!=2 ',
+        ];
+        $sql=$this->gen_sql_new("select s.userid,s.nick,s.phone,l.lesson_count,l.userid "
+                                ." from %s l"
+                                ." left join %s s on l.userid=s.userid"
+                                ." where %s group by l.userid "
+                                ,SELF::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
     public function tongji_1v1_lesson_time($start_time,$end_time){
         $where_arr=[
             "l.lesson_type=1100",

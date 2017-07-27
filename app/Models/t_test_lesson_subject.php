@@ -731,18 +731,19 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     public function get_test_lesson_info($start_time,$end_time,$page_num){
         $where_arr = [
             " tl.lesson_type = 2",
-            " tls.ass_test_lesson_type = 1"
+            " tls.ass_test_lesson_type = 1",
+            " tl.lesson_del_flag=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tl.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tl.userid,tls.subject, tls.grade, ts.nick, tt.nick as teacher_nick, ts.assistantid, tl.lesson_start, tl.lesson_end, tll.success_flag from %s tls ".
+        $sql = $this->gen_sql_new(" select tl.userid,tls.subject, tls.grade, ts.nick, tt.teacherid,tt.nick as teacher_nick, ts.assistantid, tl.lesson_start, tl.lesson_end, tll.success_flag from %s tls ".
                                   " left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id ".
                                   " left join %s tll on tll.require_id = tlsr.require_id ".
                                   " left join %s tl on tl.lessonid = tll.lessonid".
                                   " left join %s ts on tl.userid = ts.userid".
                                   " left join %s tt on tt.teacherid = tl.teacherid".
-                                  " where %s group by tl.userid order by tl.lesson_start",
+                                  " where %s order by tl.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,

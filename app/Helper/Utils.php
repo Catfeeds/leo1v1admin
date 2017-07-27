@@ -1332,8 +1332,8 @@ class Utils  {
 
     static public function get_teacher_level_str($teacher_info){
         self::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
-        self::set_default_value($teacher_type,$teacher_info,4,"teacher_money_type");
-        self::set_default_value($teacher_type,$teacher_info,0,"level");
+        self::set_default_value($teacher_money_type,$teacher_info,4,"teacher_money_type");
+        self::set_default_value($level,$teacher_info,0,"level");
 
         if($teacher_type>20){
             $level_str="招师代理";

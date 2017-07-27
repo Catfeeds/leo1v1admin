@@ -6590,7 +6590,7 @@ class tongji_ss extends Controller
             }
 
             $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
-            $item['test_lesson_time'] = date('m-d H:i:s',$item['lesson_start']).' - '.date('H:i:s',$item['lesson_end']);
+            $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
             $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
 
             if($item['is_done_flag'] == 0){
@@ -6611,7 +6611,7 @@ class tongji_ss extends Controller
             return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function tongji_kuoke_info(){// 待确认['暂停']
+    public function tongji_kuoke_info(){
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_num = $this->get_in_page_num();
 
@@ -6619,12 +6619,28 @@ class tongji_ss extends Controller
 
         foreach( $ret_info['list'] as &$item){
             $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+            E\Egrade::set_item_value_str($item,"grade");
+            E\Esubject::set_item_value_str($item,"subject");
+
+            if($item['success_flag'] == 0){
+                $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['success_flag'] == 1){
+                $item['success_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['success_flag'] == 2){
+                $item['success_flag_str'] = "<font color=\"red\">失败</font>";
+            }
+
+            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
+            if($is_lesson_time_flag == 1){
+                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
+            }else{
+                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";;
+            }
 
         }
 
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
-
     }
 
     public function tongji_change_lesson_by_teacher(){

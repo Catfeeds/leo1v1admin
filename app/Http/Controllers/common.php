@@ -849,6 +849,7 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            $headimgurl = $row['headimgurl'];           //微信头像
             $headimg_name = $phone."_headimg.png";
             $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
             $image_4 = imagecreatefrompng($headimgurl);     //微信头像
@@ -865,6 +866,7 @@ class common extends Controller
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            $image_4 = imagecreatefromjpeg($headimgurl);     //二维码
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
             imagecopymerge($image_3,$image_4,200,400,0,0,200,200,100);

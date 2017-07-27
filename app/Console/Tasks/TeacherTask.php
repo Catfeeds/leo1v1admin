@@ -476,7 +476,7 @@ class TeacherTask extends TaskController
         if(!$openid){
             \App\Helper\Utils::logger("The teacher is not bound.".$lesson_info['teacherid']." lessonid ".$lesson_info['lessonid']);
         }else{
-            $lesson_info['info']      = "您有一名学生提交了作业,请尽快批改!";
+            $lesson_info['info'] = "您有一名学生提交了作业,请尽快批改!";
             $this->teacher_wx_data($openid,$lesson_info,$type);
         }
     }
@@ -524,7 +524,6 @@ class TeacherTask extends TaskController
                     "remark"   => "请点击[详情],进入管理系统查看",
                 ],$url);
             }
-
         }
     }
 

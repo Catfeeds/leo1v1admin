@@ -21,7 +21,7 @@ class menu{
                     ["power_id"=>10, "name"=>"转介绍列表",   "url"=>"/agent/agent_list"],
                     ["power_id"=>8, "name"=>"转介绍订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"转介绍提现列表",   "url"=>"/agent/agent_cash_list"],
-                    ["power_id"=>13, "name"=>"test_kevin",   "url"=>"/test_kevin/p_list"],
+                    ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
                 ]
                 ],
             ]

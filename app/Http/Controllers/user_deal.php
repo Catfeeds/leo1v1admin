@@ -2589,11 +2589,40 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $teacherid = 50158;
+        $info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,teacher_type,nick,level");
+         
+        $level_degree    = \App\Helper\Utils::get_teacher_level_str($info);
+        dd($level_degree);
+
         $userid = 60022 ;$teacherid= 60011;
-        $list = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $nick = $this->t_student_info->get_nick($userid);
         $str ="学生:".$nick.";";
         $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        $list=[];
+        foreach($list1 as $v){
+            @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+            @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+        }
+        foreach($list2 as $v){
+            if(!isset($list[$v["start_time"]])){
+                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+        }
+        foreach($list3 as $v){
+            if(!isset($list[$v["start_time"]])){
+                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+        }
+
+
+        // dd($list);
+        
         if(!empty($list)){
             foreach($list as $val){
                 $arr=explode("-",$val["start_time"]);
