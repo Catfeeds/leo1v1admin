@@ -17,9 +17,9 @@ class teacher_level extends Controller
         $sum_field_list = [
             "total_score"
         ];
-        $order_field_arr = array_merge(["teacherid"],$sum_field_list);
+        $order_field_arr = array_merge(["realname"],$sum_field_list);
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr,"teacherid ");
+            =$this->get_in_order_by_str($order_field_arr,"realname desc ");
 
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));

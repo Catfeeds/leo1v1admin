@@ -209,7 +209,8 @@ class ss_deal2 extends Controller
     }
 
     public function show_change_lesson_by_teacher(){
-        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $start_time = strtotime($this->get_in_str_val('start_time'));
+        $end_time   = strtotime($this->get_in_str_val('end_time'));
         $teacherid = $this->get_in_int_val('teacherid');
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
