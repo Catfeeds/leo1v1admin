@@ -25,24 +25,20 @@
             <table class="common-table ">
                 <thead>
                     <tr>
-                        <td style="display:none;">客户电话</td>
-                        <td style="display:none;">年级</td>
-                        <td style="display:none;">科目</td>
-                        <td style="display:none;">申请人</td>
-                        <td style="display:none;">申请时间</td>
+                        <td style="">客户电话</td>
+                        <td style="">年级</td>
+                        <td style="">科目</td>
+                        <td style="">申请人</td>
+                        <td style="">申请时间</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
                         <tr>
                             <td >客户电话:{{$var["phone"]}} </td>
-                            <td >
-                                年级：{{$var["grade_str"]}}
-                            </td>
+                            <td >年级：{{$var["grade_str"]}} </td>
                             <td >科目: {{$var["subject_str"]}} </td>
-                            <td >
-                                申请人：{{$var["require_admin_nick"]}}<br/>
-                            </td>
+                            <td >申请人：{{$var["require_admin_nick"]}}</td>
                             <td >申请时间：{{$var["require_time"]}}</td>
                         </tr>
                     @endforeach
