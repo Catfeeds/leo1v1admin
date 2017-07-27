@@ -98,10 +98,19 @@ class teacher_level extends Controller
     }
 
     public function add_teacher_advance_info(){
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
         $teacherid = $this->get_in_int_val("teacherid");
         $total_score = $this->get_in_int_val("total_score");
         $level = $this->t_teacher_info->get_level($teacherid);
         $level_after = $level+1;
+        $this->t_teacher_advance_list->row_insert([
+            "start_time" =>$start_time,
+            "teacherid"  =>$teacherid,
+            "level_before" =>$level,
+            "level_after"  =>$level_after,
+            "total_score"  =>$total_score
+        ]);
 
     }
     public function get_other_order_score($num,$per){
