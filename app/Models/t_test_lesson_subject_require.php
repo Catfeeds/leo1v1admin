@@ -271,8 +271,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     public function get_plan_list_new(){
         $sql = 
             "select"
-            ." ss.phone,tr.test_stugrade_str,t.subject,t.cur_require_adminid,tr.require_time"
-            ." from  db_weiyi.t_test_lesson_subject_require tr" 
+            ." ss.phone,tr.test_stu_grade,t.subject,t.cur_require_adminid,tr.require_time"
+            ." from  db_weiyi.t_test_lesson_subject_require tr " 
             ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"  
             ." left join db_weiyi.t_seller_student_new ss on  t.userid = ss.userid" 
             ." left join db_weiyi.t_student_info s on  t.userid = s.userid" 
