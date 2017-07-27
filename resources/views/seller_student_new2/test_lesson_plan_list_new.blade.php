@@ -7,10 +7,6 @@
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-    <script type="text/javascript" >
-     var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
-     var g_adminid= "{{$adminid}}" ;
-    </script>
     <style>
      .input-group{
          width:100%;
