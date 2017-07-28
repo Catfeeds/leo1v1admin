@@ -491,6 +491,7 @@ $(function(){
         var $stu_request_test_lesson_demand = $("<textarea/>") ;
         var $id_grade_select = $("<select />");
         var $id_stu_request_test_lesson_time =  $("<input/>") ;
+        var $id_lesson_cancel_reason_type = $("<select />");
 
         $id_stu_request_test_lesson_time.datetimepicker( {
             lang:'ch',
@@ -504,6 +505,7 @@ $(function(){
         Enum_map.append_option_list("subject",$id_subject,true);
         Enum_map.append_option_list("ass_test_lesson_type",$id_ass_test_lesson_type,true);
         Enum_map.append_option_list("grade", $id_grade_select, true);
+        Enum_map.append_option_list("lesson_cancel_reason_type", $id_lesson_cancel_reason_type, true);
 
         $id_subject.on("change",function(){
             // alert($id_userid.val());
