@@ -2589,8 +2589,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $item["not_grade_str"] = trim($not_grade_str,",");
 
+        $ret= $this->t_week_regular_course->get_end_userid();
+        dd($ret);
         $userid = 60022 ;$teacherid= 60011;
         $this->delete_teacher_regular_lesson($userid,1);
         dd(111);
