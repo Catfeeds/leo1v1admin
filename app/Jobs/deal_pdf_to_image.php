@@ -62,7 +62,11 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             chmod($savePathFile, 0777);
 
+<<<<<<< HEAD
             $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+=======
+            $imgs_url_list = $this->pdf2png($savePathFile,$path,$lessonid);
+>>>>>>> e9e11af1ffd05dc63bdbf26afd53bbd3298070c3
 
             $file_name_origi = array();
             foreach($imgs_url_list as $item){

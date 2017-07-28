@@ -6554,7 +6554,7 @@ class tongji_ss extends Controller
     }
 
 
-    public function tongji_change_teacher_info(){
+    public function tongji_change_teacher_info(){// 换老师统计
         $this->switch_tongji_database();
 
         $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type',-1);
@@ -6623,19 +6623,19 @@ class tongji_ss extends Controller
         foreach($ret_info['list'] as &$item){
             $item['stu_nick']= $this->t_student_info->get_nick($item['userid']);
 
-            if(!$item['old_teacherid']){
-                $item['old_teacher_nick']  = '无' ;
-            }else{
-                $item['old_teacher_nick']  = $this->cache_get_teacher_nick($item['old_teacherid']);
-            }
+            // if(!$item['old_teacherid']){
+            //     $item['old_teacher_nick']  = '无' ;
+            // }else{
+            //     $item['old_teacher_nick']  = $this->cache_get_teacher_nick($item['old_teacherid']);
+            // }
 
-            if(!$item['teacherid']){
-                $item['teacher_nick']  = '无' ;
-            }else{
-                $item['teacher_nick']  = $this->cache_get_teacher_nick($item['teacherid']);
-            }
+            // if(!$item['teacherid']){
+            //     $item['teacher_nick']  = '无' ;
+            // }else{
+            //     $item['teacher_nick']  = $this->cache_get_teacher_nick($item['teacherid']);
+            // }
 
-            E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
+            // E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
@@ -6647,17 +6647,17 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
+            // $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
 
-            if($item['is_done_flag'] == 0){
-                $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
-            }elseif($item['is_done_flag'] == 1){
-                $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
-            }elseif($item['is_done_flag'] == 2){
-                $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
-            }
+            // if($item['is_done_flag'] == 0){
+            //     $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
+            // }elseif($item['is_done_flag'] == 1){
+            //     $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
+            // }elseif($item['is_done_flag'] == 2){
+            //     $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
+            // }
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
             if($is_lesson_time_flag == 1){
@@ -6697,14 +6697,19 @@ class tongji_ss extends Controller
             if(!empty($item["textbook"])){
                 $item["editionid_str"] = $item["textbook"];
             }
-
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
-            // $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
-
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
             E\Eass_test_lesson_type::set_item_value_str($item);
-            E\Esuccess_flag::set_item_value_str($item);
+            // E\Esuccess_flag::set_item_value_str($item);
+            if($item['success_flag'] == 0){
+                $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['success_flag'] == 1){
+                $item['success_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['success_flag'] == 2){
+                $item['success_flag_str'] = "<font color=\"red\">失败</font>";
+            }
+
             E\Esuccess_flag::set_item_value_str($item,"order_confirm_flag");
             $item["ass_test_lesson_type_str"]=$item["origin"];
 
@@ -6719,7 +6724,6 @@ class tongji_ss extends Controller
                 $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
             }
 
-
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
@@ -6729,47 +6733,22 @@ class tongji_ss extends Controller
 
 
 
-
-
-        // foreach( $ret_info['list'] as &$item){
-        //     $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
-        //     E\Egrade::set_item_value_str($item,"grade");
-        //     E\Esubject::set_item_value_str($item,"subject");
-
-        //     if($item['success_flag'] == 0){
-        //         $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
-        //     }elseif($item['success_flag'] == 1){
-        //         $item['success_flag_str'] = "<font color=\"green\">成功</font>";
-        //     }elseif($item['success_flag'] == 2){
-        //         $item['success_flag_str'] = "<font color=\"red\">失败</font>";
-        //     }
-
-        //     $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-        //     if($is_lesson_time_flag == 1){
-        //         $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
-        //     }else{
-        //         $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
-        //     }
-
-        //     if($item['lesson_start'] > time()){
-        //         $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
-        //     }
-            // \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
-
-
-        // }
-
-        // return $this->pageView(__METHOD__,$ret_info);
-
-
     public function tongji_referral(){// 转介绍
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_num = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
+        $account_id = $this->get_account_id();
+        // $ret_info = $this->t_test_lesson_subject->get_test_lesson_info_by_referral($start_time,$end_time,$page_num);
 
-        $ret_info = $this->t_test_lesson_subject->get_test_lesson_info_by_referral($start_time,$end_time,$page_num);
+        $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
+        $master_flag = 0;
+        if(in_array($account_id,$root_adminid_arr)){
+            $master_flag = 1;
+        }
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
 
         foreach( $ret_info['list'] as &$item){
-            $item['ass_nick']     =  $this->cache_get_assistant_nick($item["assistantid"]) ;
+            $item['ass_nick']     =  $this->cache_get_account_nick($item["require_adminid"]) ;
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
@@ -6792,8 +6771,6 @@ class tongji_ss extends Controller
                 $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
-
-
         }
 
         return $this->pageView(__METHOD__,$ret_info);

@@ -21,7 +21,6 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>编号</td>
                     <td>学生姓名</td>
                     <td>年级</td>
                     <td>科目 </td>
@@ -36,11 +35,17 @@
             <tbody>
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
-                        <td>{{@$index}}</td>
-                        <td>{{@$var["nick"]}} </td>
+                        <td>
+                            <a  href="/user_manage/index?test_user=-1&originid=-1&grade=-1&user_name={{$var["nick"]}}"&phone=undefined&assistantid=-1&order_type=-1&seller_adminid=-1"
+                                target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                        </td>
+
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
-                        <td>{{@$var["teacher_nick"]}}</td>
+                        <td>
+                            <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
+                                target="_blank" title="老师信息">{{@$var["realname"]}} </a>
+                        </td>
                         <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>

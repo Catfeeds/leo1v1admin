@@ -669,7 +669,7 @@ $(function(){
 
     //用户手机号绑定
     $(".opt-set-user-phone").on("click", function(){
-       
+
 
 
         var opt_data = $(this).get_opt_data();
@@ -688,7 +688,7 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax('/ajax_deal2/register_student_parent_account', {
                     'account' : account,
-                    'phone'   : phone, 
+                    'phone'   : phone,
                 },function(resp){
                     //alert(JSON.stringify(resp));
                     alert(resp['success']);
@@ -696,6 +696,20 @@ $(function(){
             }
         });
     });
+
+
+    $(".opt-gen-ass").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要生成助教账号:"+opt_data.account+"?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/gen_ass_from_account', {
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+    });
+
+
 
 
 

@@ -354,7 +354,7 @@ class url_power_map {
 			'/tongji_ss/tongji_zs_teacher_info'	=>1134000,
 			'/user_manage_new/ass_revisit_warning_info'	=>1134100,
 			'/seller_student_new2/test_lesson_plan_list_ass_leader'	=>1137500,
-			'/user_manage_new/get_two_weeks_old_stu'	=>1135500,
+			'/user_manage_new/get_two_weeks_old_stu_seller'	=>1135500,
 			'/main_page/assistant'	=>1120100,
 			'/main_page/assistant_new'	=>1125300,
 			'/user_manage_new/ass_warning_stu_info'	=>1125400,

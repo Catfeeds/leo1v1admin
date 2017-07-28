@@ -29,34 +29,31 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>编号</td>
                     <td>学生姓名</td>
-                    <td>年纪</td>
+                    <td>年级</td>
                     <td>科目 </td>
-                    <td>换后老师 </td>
-                    <td>原来老师 </td>
+                    <td>老师 </td>
                     <td>助教 </td>
                     <td>试听时间 </td>
                     <td>课时确认 </td>
                     <td>试听结果</td>
-                    <td>换老师原因</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
-                        <td>{{@$index}}</td>
                         <td>{{@$var["stu_nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
-                        <td>{{@$var["teacher_nick"]}}</td>
-                        <td>{{@$var["old_teacher_nick"]}}</td>
+                        <td>
+                            <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
+                                target="_blank" title="老师信息">{{@$var["realname"]}} </a>
+                        </td>
                         <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["test_lesson_time"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
-                        <td>{{$var["change_teacher_reason_type_str"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
