@@ -491,7 +491,7 @@ $(function(){
         var $stu_request_test_lesson_demand = $("<textarea/>") ;
         var $id_grade_select = $("<select />");
         var $id_stu_request_test_lesson_time =  $("<input/>") ;
-        var $id_lesson_cancel_reason_type = $("<select />");
+        var $id_change_teacher_reason_type = $("<select />");
 
         $id_stu_request_test_lesson_time.datetimepicker( {
             lang:'ch',
@@ -505,7 +505,7 @@ $(function(){
         Enum_map.append_option_list("subject",$id_subject,true);
         Enum_map.append_option_list("ass_test_lesson_type",$id_ass_test_lesson_type,true);
         Enum_map.append_option_list("grade", $id_grade_select, true);
-        Enum_map.append_option_list("lesson_cancel_reason_type", $id_lesson_cancel_reason_type, true);
+        Enum_map.append_option_list("change_teacher_reason_type", $id_change_teacher_reason_type, true);
 
         $id_subject.on("change",function(){
             // alert($id_userid.val());
@@ -521,7 +521,7 @@ $(function(){
             ["科目",  $id_subject ]  ,
             ["年级 ", $id_grade_select]  ,
             ["分类",  $id_ass_test_lesson_type ]  ,
-            ["分类",  $id_ass_test_lesson_type ]  ,
+            ["换老师原因", $id_change_teacher_reason_type ]  ,
             ["绿色通道",$green_channel_teacherid],
             ["期望上课时间",$id_stu_request_test_lesson_time],
             ["试听需求",$stu_request_test_lesson_demand],
@@ -565,6 +565,7 @@ $(function(){
                     stu_request_test_lesson_time   : $id_stu_request_test_lesson_time.val(),
                     stu_request_test_lesson_demand : $stu_request_test_lesson_demand.val(),
                     grade                          : $id_grade_select.val(),
+                    change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
                 });
             }
         }],function(){
