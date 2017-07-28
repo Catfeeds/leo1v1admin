@@ -259,6 +259,8 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
+        console.log(opt_data.not_grade);
+        console.log(opt_data.not_grade_str);
         var id_tea_nick               = $("<input/>");
         var id_phone_spare            = $("<input/>");
         var id_teacher_money_type     = $("<select/>");

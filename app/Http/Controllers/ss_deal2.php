@@ -211,9 +211,9 @@ class ss_deal2 extends Controller
         $start_time = strtotime($this->get_in_str_val('start_time'));
         $end_time   = strtotime($this->get_in_str_val('end_time'));
 
-        if($start_time == $end_time){
-            $end_time = $end_time+86400;
-        }
+        // if($start_time == $end_time){
+        $end_time = $end_time+86400;
+        // }
 
         $teacherid = $this->get_in_int_val('teacherid');
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
@@ -232,4 +232,31 @@ class ss_deal2 extends Controller
         }
         return $this->output_succ(['data'=>$ret_info]);
     }
+
+
+
+    public function show_change_lesson_by_parent(){
+        $start_time = strtotime($this->get_in_str_val('start_time'));
+        $end_time   = strtotime($this->get_in_str_val('end_time'));
+
+        $end_time = $end_time+86400;
+
+        $teacherid = $this->get_in_int_val('userid');
+        $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
+
+        foreach($ret_info as &$item){
+            $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            $item['ass_nick'] = $this->cache_get_assistant_nick($item['assistantid']);
+            $item['lesson_count'] = $item['lesson_count']/100;
+            E\Econtract_type::set_item_value_str($item,'lesson_type');
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            E\Elesson_cancel_reason_type::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'','H:i:s');
+        }
+        return $this->output_succ(['data'=>$ret_info]);
+    }
+
 }

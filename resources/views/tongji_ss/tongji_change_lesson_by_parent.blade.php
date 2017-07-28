@@ -33,9 +33,9 @@
             <thead>
                 <tr>
                     <td>编号</td>
-                    <td>老师姓名</td>
+                    <td>姓名</td>
+                    <td>助教</td>
                     <td>课时数</td>
-                    <!-- <td>课时确认</td> -->
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -43,8 +43,9 @@
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
                         <td>{{@$index}}</td>
-                        <td>{{@$var["teacher_nick"]}}</td>
-                        <td class="show_detail" date-teacherid="{{$var['teacherid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
+                        <td>{{@$var["nick"]}}</td>
+                        <td>{{@$var["ass_nick"]}}</td>
+                        <td class="show_detail" date-teacherid="{{$var['userid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -60,7 +61,7 @@
         <div style="display:none;" >
             <div id="id_assign_log">
                 <table   class="table table-bordered "   >
-                    <tr>  <th> 老师 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>学生 <th>助教 <th>课时数 <th>课时确认</tr>
+                    <tr>  <th> 学生 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>助教 <th>课时数 <th>课时确认</tr>
                         <tbody class="data-body">
                         </tbody>
                 </table>

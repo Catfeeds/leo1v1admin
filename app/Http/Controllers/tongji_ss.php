@@ -6703,10 +6703,8 @@ class tongji_ss extends Controller
         foreach($ret_info['list'] as &$item_list){
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
-
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -6718,9 +6716,46 @@ class tongji_ss extends Controller
         foreach($ret_info as $item){
             $lesson_count += $item['lesson_count']/100;
         }
-
         return $lesson_count;
     }
 
+
+
+    public function tongji_change_lesson_by_parent(){ // 调课统计-家长
+        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        $page_num = $this->get_in_page_num();
+
+        $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
+
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+
+        // dd($ret_info);
+
+        foreach($ret_info['list'] as &$item_list){
+            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
+            $item_list['ass_nick'] = $this->cache_get_teacher_nick($item_list['assistantid']);
+
+        }
+        // dd($ret_info);
+
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+    public function get_total_lesson_count_by_parent($userid,$start_time,$end_time,$lesson_cancel_reason_type){
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid);
+
+        $lesson_count = 0;
+        foreach($ret_info as $item){
+            $lesson_count += $item['lesson_count']/100;
+        }
+        // return $ret_info;
+        return $lesson_count;
+    }
+
+
+
+
+    //
 
 }
