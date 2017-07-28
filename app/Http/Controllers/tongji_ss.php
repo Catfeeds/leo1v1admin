@@ -6699,7 +6699,7 @@ class tongji_ss extends Controller
             }
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
-            $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
+            // $item['teacher_nick'] = $this->cache_get_teacher_nick($item['teacherid']);
 
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
