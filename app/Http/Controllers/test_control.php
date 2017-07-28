@@ -37,6 +37,20 @@ class test_control extends Controller
             }
         }
 
+        $dir=dir( __DIR__ . "/../../Jobs" );
+        while (($file = $dir->read()) !== false)
+        {
+            if (  substr( $file, -4 ) == ".php" &&  $file[0] <>"."  ) {
+                $className=substr($file, 0, -4 ) ;
+                if (! in_array( $className,["NewDB" ] ) ) {
+                    $str="\\App\\Jobs\\".  $className;
+                    $name=$str::test();
+                }
+            }
+        }
+
+
+
 
         return "succ";
     }
