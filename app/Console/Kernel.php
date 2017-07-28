@@ -110,6 +110,7 @@ class Kernel extends ConsoleKernel
         Commands\gen_top_info::class,
 
         Commands\set_lesson_audio_record_server_at_time::class,
+        Commands\set_every_month_student_score::class,
         Commands\set_lesson_audio_record_server_at_time_new::class,
         Commands\tongji::class,
         Commands\log_seller_call_phone_day::class,

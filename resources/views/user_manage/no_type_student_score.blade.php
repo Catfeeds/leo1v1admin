@@ -1,24 +1,24 @@
 @extends('layouts.app')
 @section('content')
 
-    <section class="content ">
-        
-        <div>
-            <div class="row  row-query-list" >
-                <div class="col-xs-12 col-md-5"  data-title="时间段">
-                    <div  id="id_date_range" >
-                    </div>
-                </div>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+     <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+      <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+      <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+      <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+      <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+      <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
-                    </div>
+    <section class="content ">
+       <div>
+            <div class="row">
+               <div class="col-xs-12 col-md-4">
+                    <div id="id_date_range"></div>
                 </div>
             </div>
         </div>
         <hr/>
+
         <table     class="common-table"  > 
             <thead>
                 <tr>
@@ -41,7 +41,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="补充考试信息">补充考试记录</a>
-                                <a class="fa fa-times opt-del"  title="删除考试信息">删除考试记录</a>
+                                <a class="fa fa-times opt-del"  title="取消添加考试信息">取消添加考试记录</a>
 
                             </div>
                         </td>

@@ -4,26 +4,28 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+            date_type     : $('#id_date_type').val(),
+            opt_date_type : $('#id_opt_date_type').val(),
+            start_time    : $('#id_start_time').val(),
+            end_time      : $('#id_end_time').val(),
+            status        : $('#id_status').val(),
         });
     }
 
-
+    $('#id_date_range').select_date_range({
+        'date_type'      : g_args.date_type,
+        'opt_date_type'  : g_args.opt_date_type,
+        'start_time'     : g_args.start_time,
+        'end_time'       : g_args.end_time,
+        // date_type_config : JSON.parse( g_args.date_type_config), 
+        onQuery          : function() {
+            load_data();
+        }
+    });
 
 
 	$('.opt-change').set_input_change_event(load_data);
 
-	$(".opt-del").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        console.log(opt_data.id);
-        BootstrapDialog.confirm("要删除学生是["+opt_data.userid+"]的考试信息吗?",function(val){
-            if(val){
-                $.do_ajax("/ajax_deal2/score_del",{
-                    "id" : opt_data.id
-                });
-            }
-        });
-    });
 
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -69,6 +71,18 @@ $(function(){
             label    :   "确认",
             cssClass :   "btn-warning",
             action   :   function(dialog){
+                if(id_subject.val() <= 0){
+                    alert("请选择考试科目");
+                    return;
+                }
+                if(id_score.val() === ''){
+                    alert("请输入考试成绩");
+                    return;
+                }
+                if(id_total_score.val() === ''){
+                    alert("请输入试卷总分");
+                    return;
+                }
                 $.do_ajax('/ajax_deal2/score_edit',{
                     "id" : opt_data.id,
                     "subject"       : id_subject.val(),
@@ -101,4 +115,29 @@ $(function(){
 
         });
     }) ;
+
+
+    $(".opt-del").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_reason = $("<textarea/>");         
+        var arr = [
+            ["取消原因", id_reason]
+        ];
+
+        $.show_key_value_table("取消添加学生成绩", arr, {
+            label    :   "确认",
+            cssClass :   "btn-warning",
+            action   :   function(dialog){
+                if(id_reason.val() == ''){
+                    alert("请输入取消的理由");
+                    return;
+                }
+                $.do_ajax('/ajax_deal2/score_cancel',{
+                    "id" : opt_data.id,
+                    "reason" : id_reason.val(),
+                });
+            }
+        },function(){
+        });
+    });
 });
