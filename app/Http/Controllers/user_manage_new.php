@@ -3616,11 +3616,19 @@ class user_manage_new extends Controller
         $wx_openid = $this->get_in_str_val("wx_openid");
         $parentid = 60004; 
         $parentid = 60436;
-        // $page_num  = $this->get_in_page_num();
         $ret_info  = $this->t_lesson_info_b2->get_stu_lesson_info($parentid);
-        return $this->Pageview(__METHOD__,$ret_info);
-
-        echo 3;
+        // foreach ($ret_info['p1'] as &$item ) {
+        //     E\Esubject::set_item_value_str($item);
+        // }
+        // foreach ($ret_info as &$item ) {
+        //     if ( is_array($item) && array_key_exists("subject", $item)) {
+        //         E\Esubject::set_item_value_str($item);
+        //     }
+        // }
+        // $item['originid']          = E\Estu_origin::get_desc($item['originid']);
+        // $ret_info['free_info']['subject_str']  = E\Esubject::get_desc($ret_info['free_info']['subject']);
+        // $ret_info['normal_info']['subject_str']  = E\Esubject::get_desc($ret_info['normal_info']['subject']);
+        dd($ret_info);
     }
 
 
