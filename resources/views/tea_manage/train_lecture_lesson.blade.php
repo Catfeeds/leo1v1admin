@@ -133,7 +133,7 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","rolon"]))
+                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif

@@ -80,6 +80,7 @@
                     ["分配时间","ass_assign_time" ],
                     ["id","userid" ],
                     ["姓名","nick" ],
+                    ["地区","location" ],
                     ["学员类型","type" ],
                     ["家长姓名","parent_name" ],
                     ["助教","assistant_nick" ],
@@ -108,6 +109,7 @@
                     <td  >{{$var["ass_assign_time_str"]}} </td>
                     <td  >{{$var["userid"]}} </td>
                     <td class="user_nick">{{$var["nick"]}}</td>
+                    <td >{{$var["location"]}}</td>
                     <td >{{$var["type"]}}</td>
                     <td class="" >{{$var["parent_name"]}}</td>
                     <td class="" >{{$var["assistant_nick"]}}</td>

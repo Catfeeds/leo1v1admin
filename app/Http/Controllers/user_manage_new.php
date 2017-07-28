@@ -3097,6 +3097,11 @@ class user_manage_new extends Controller
                                                                               $assistantid, $test_user, $originid,
                                                                               $seller_adminid,$ass_adminid_list);
         dd($list);
+        $warning_list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller( $start_time,$end_time,$all_flag,
+                                                                              $userid, $grade, $status,
+                                                                              $user_name, $phone, $teacherid,
+                                                                              $assistantid, $test_user, $originid,
+                                                                              $seller_adminid,$ass_adminid_list);
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);

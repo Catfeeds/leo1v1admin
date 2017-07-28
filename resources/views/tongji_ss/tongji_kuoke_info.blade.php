@@ -21,7 +21,6 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>编号</td>
                     <td>学生姓名</td>
                     <td>年级</td>
                     <td>科目 </td>
@@ -36,7 +35,6 @@
             <tbody>
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
-                        <td>{{@$index}}</td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>

@@ -1505,8 +1505,18 @@ class test_code extends Controller
         dispatch($job);
     }
 
-    public function get_order_list(){
-
+    /**
+     * 获取学生第一次签约时间，科目明细
+     */
+    public function get_stu_order_list(){
+        $start_time = strtotime("2016-5-1");
+        $end_time = strtotime("2017-6-30");
+        $list = $this->t_order_info->get_stu_order_list($start_time,$end_time);
+        echo count($list);
+        exit;
+        foreach($list as $val){
+            
+        }
     }
 
 

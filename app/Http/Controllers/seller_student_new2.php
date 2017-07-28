@@ -631,7 +631,7 @@ class seller_student_new2 extends Controller
             }
             $item["teacher_info_str"] = trim($teacher_info,",");*/
             $item["realname"] = $this->t_teacher_info->get_realname($item["teacherid"]);
- 
+
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
@@ -674,7 +674,7 @@ class seller_student_new2 extends Controller
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
- 
+
         }
         return $this->pageView(__METHOD__, $ret_info);
     }

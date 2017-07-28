@@ -40,7 +40,6 @@
                     <td>课时确认 </td>
                     <td>试听结果</td>
                     <td>换老师原因</td>
-                    <td>是否完成</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -58,8 +57,6 @@
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
                         <td>{{$var["change_teacher_reason_type_str"]}}</td>
-                        <td>{!!$var["is_done_flag_str"]!!}</td>
-
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
