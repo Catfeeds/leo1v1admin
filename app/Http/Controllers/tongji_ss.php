@@ -6600,15 +6600,15 @@ class tongji_ss extends Controller
             }
 
 
-            if(strpos($item["origin"],"转介绍") !== false ){
-                $item["ass_test_lesson_type_str"]=$item["origin"];
-                $item["ass_fail_type"]=1;
-            }elseif($item["ass_test_lesson_type"]==0){
-                $item["ass_test_lesson_type_str"]=$item["origin"];
-                $item["ass_fail_type"]=2;
-            }else{
-                $item["ass_fail_type"]=2;
-            }
+            // if(strpos($item["origin"],"转介绍") !== false ){
+            //     $item["ass_test_lesson_type_str"]=$item["origin"];
+            //     $item["ass_fail_type"]=1;
+            // }elseif($item["ass_test_lesson_type"]==0){
+            //     $item["ass_test_lesson_type_str"]=$item["origin"];
+            //     $item["ass_fail_type"]=2;
+            // }else{
+            //     $item["ass_fail_type"]=2;
+            // }
 
 
         }
