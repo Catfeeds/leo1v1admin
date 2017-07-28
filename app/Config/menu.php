@@ -609,6 +609,7 @@ class menu{
                 ["power_id"=>5, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_reference"],
                 ["power_id"=>6, "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],
                 ["power_id"=>7, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
+                ["power_id"=>10, "name"=>"全职面试评审",   "url"=>"/tea_manage/train_lecture_lesson_full_time"],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
 

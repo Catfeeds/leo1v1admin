@@ -523,6 +523,8 @@ class tongji extends Controller
         array_unshift($ret_info, $all_item);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
     }
+
+
     public function revisit_info_tongji_ass(){
         list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-01',time()),0);
 

@@ -82,6 +82,8 @@ class testbb extends Controller
     public function test () {
         $type = $this->get_account_role();
         // dd($type);
+        /* ["课时损失率","lesson_lose_rate" ], */
+        /* ["课时系数","lesson_rate" ], */
 
         $ret = $this->t_test_lesson_subject_sub_list->ceshi();
         dd($ret);

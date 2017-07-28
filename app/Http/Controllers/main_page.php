@@ -640,13 +640,13 @@ class main_page extends Controller
             $item["one_account"] = @$one_account[$accept_adminid]["all_count"];
             $item["one_account_real"] = @$one_account_real[$accept_adminid]["all_count"];
             $item["one_account_pass"] = @$one_account_pass[$accept_adminid]["all_count"];
-            $item["video_per"] = !empty( $item["video_account_real"] )?round( $item["video_account_pass"]/$item["video_account_pass"]*100,2):0;
-            $item["one_per"] = !empty( $item["one_account_real"] )?round( $item["one_account_pass"]/$item["one_account_pass"]*100,2):0;
-            $item["all_per"] = !empty( $item["one_account_real"]+$item["video_account_real"] )?round( ($item["one_account_pass"]+$item["video_account_pass"])/($item["one_account_pass"]+$item["video_account_real"])*100,2):0;
+            $item["video_per"] = !empty( $item["video_account_real"] )?round( $item["video_account_pass"]/$item["video_account_real"]*100,2):0;
+            $item["one_per"] = !empty( $item["one_account_real"] )?round( $item["one_account_pass"]/$item["one_account_real"]*100,2):0;
+            $item["all_per"] = !empty( $item["one_account_real"]+$item["video_account_real"] )?round( ($item["one_account_pass"]+$item["video_account_pass"])/($item["one_account_real"]+$item["video_account_real"])*100,2):0;
 
             
         }
-        // \App\Helper\Utils::order_list( $ret_info,"suc_per", 0 );
+        \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         dd($ret_info);
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);

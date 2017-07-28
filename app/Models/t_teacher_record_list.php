@@ -448,6 +448,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }
         $sql = $this->gen_sql_new("select tr.acc account,count(*) all_num,count(distinct tt.phone_spare) all_count,".
                                   " sum(if(tr.trial_train_status =1,1,0)) suc_count,".
+                                  " sum(if(tr.trial_train_status <>2,1,0)) real_count,".
                                   " sum(l.lesson_start) all_con_time,sum(l.lesson_start) all_add_time ".
                                   " from %s tr ".
                                   " left join %s m on m.account = tr.acc ".
