@@ -2085,6 +2085,7 @@ class tea_manage extends Controller
 
     public function train_lecture_lesson_full_time(){
         $this->set_in_value("full_time",1);
+        $this->set_in_value("show_full_time",1);
         return $this->train_lecture_lesson();   
     }
 
@@ -2108,6 +2109,7 @@ class tea_manage extends Controller
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
         $is_all           = $this->get_in_int_val("is_all");
         $full_time        = $this->get_in_int_val("full_time",-1);
+        $show_full_time   = $this->get_in_int_val("show_full_time",-1);
 
         $this->switch_tongji_database();
         $teacherid = -1;
@@ -2168,13 +2170,12 @@ class tea_manage extends Controller
             $start_time,$end_time,$opt_date_str,-1,1
         );
 
-
-
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"       => $acc,
-            "all_num"   => $all_num,
-            "wx_num"    => $wx_num,
-            "email_num" => $email_num
+            "acc"            => $acc,
+            "all_num"        => $all_num,
+            "wx_num"         => $wx_num,
+            "email_num"      => $email_num,
+            "show_full_time" => $show_full_time
         ]);
     }
 
@@ -2377,4 +2378,8 @@ class tea_manage extends Controller
             return outputjson_success();
         }
     }
+
+
+
+
 }

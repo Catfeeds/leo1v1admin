@@ -6595,6 +6595,7 @@ class tongji_ss extends Controller
                 $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
+
             if($item['lesson_start'] > time()){
                 $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
             }
@@ -6656,7 +6657,6 @@ class tongji_ss extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -6747,7 +6747,11 @@ class tongji_ss extends Controller
 
         foreach($ret_info['list'] as &$item_list){
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
-            $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            if($item_list['assistantid']){
+                $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            }else{
+                $item_list['ass_nick'] = $this->cache_get_account_nick($item_list['require_adminid']);
+            }
 
         }
         // dd($ret_info);
@@ -6763,7 +6767,6 @@ class tongji_ss extends Controller
         foreach($ret_info as $item){
             $lesson_count += $item['lesson_count']/100;
         }
-        // return $ret_info;
         return $lesson_count;
     }
 

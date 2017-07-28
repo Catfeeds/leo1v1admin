@@ -2182,9 +2182,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -2202,11 +2208,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
                                   " left join %s s on s.userid = l.userid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -2225,13 +2237,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on tp.parentid = s.parentid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+
                                   " where %s group by l.userid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+
                                   $where_arr
         );
 
@@ -2251,13 +2271,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on  tp.parentid = s.parentid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
 

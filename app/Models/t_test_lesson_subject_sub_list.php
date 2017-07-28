@@ -845,7 +845,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "m.account_role=1",
-            "(tr.origin like '%%换老师%%'  or tt.ass_test_lesson_type=2)",
+            "(tt.ass_test_lesson_type=2 or (tr.origin like '%%换老师%%' and tt.ass_test_lesson_type=0))",
             ["tr.change_teacher_reason_type = %d",$change_teacher_reason_type,-1]
         ];
 
@@ -885,7 +885,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             "m.account_role=1",
-            "(tr.origin like '%%扩课%%' or tt.ass_test_lesson_type=1) "
+            " (tt.ass_test_lesson_type=1 or (tr.origin like '%%扩课%%' and tt.ass_test_lesson_type=0))",
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);

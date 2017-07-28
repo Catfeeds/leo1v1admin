@@ -625,13 +625,29 @@ class main_page extends Controller
         $all_total = $video_total=$suc_total=$fail_total=0;
         $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
       
+        $video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
+        $video_account_real = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
+        $video_account_pass = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,1);
+        $one_account = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
+        $one_account_real = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-2);
+        $one_account_pass = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,1);
         foreach($ret_info as $k=>&$item){
             $accept_adminid       = $item["accept_adminid"];
             $all_total   += $item["all_count"];
+            $item["video_account"] = @$video_account[$accept_adminid]["all_count"];
+            $item["video_account_real"] = @$video_account_real[$accept_adminid]["all_count"];
+            $item["video_account_pass"] = @$video_account_pass[$accept_adminid]["all_count"];
+            $item["one_account"] = @$one_account[$accept_adminid]["all_count"];
+            $item["one_account_real"] = @$one_account_real[$accept_adminid]["all_count"];
+            $item["one_account_pass"] = @$one_account_pass[$accept_adminid]["all_count"];
+            $item["video_per"] = !empty( $item["video_account_real"] )?round( $item["video_account_pass"]/$item["video_account_pass"]*100,2):0;
+            $item["one_per"] = !empty( $item["one_account_real"] )?round( $item["one_account_pass"]/$item["one_account_pass"]*100,2):0;
+            $item["all_per"] = !empty( $item["one_account_real"]+$item["video_account_real"] )?round( ($item["one_account_pass"]+$item["video_account_pass"])/($item["one_account_pass"]+$item["video_account_real"])*100,2):0;
+
+            
         }
         // \App\Helper\Utils::order_list( $ret_info,"suc_per", 0 );
-        $video_accout = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
-        dd($video_accout);
+        dd($ret_info);
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);
         $one_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,-1);

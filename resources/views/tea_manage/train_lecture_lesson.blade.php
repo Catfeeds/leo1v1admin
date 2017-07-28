@@ -73,7 +73,6 @@
             </div>
         </div>
         <div class="col-xs-6 col-md-2">
-        <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >绑定微信</span>
                 <select id="id_have_wx" class ="opt-change" >
@@ -148,6 +147,9 @@
                             @endif
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
+                            @endif
+                            @if($show_full_time==1)
+                                <a class="fa-edit opt-edit-full_time" title="全职老师审核"></a>
                             @endif
                         </div>
                     </td>

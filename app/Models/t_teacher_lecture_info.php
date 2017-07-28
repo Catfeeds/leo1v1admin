@@ -268,7 +268,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         }else{           
             $where_arr[] = ["tl.status=%u",$status,-1];
         }
-        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join ta on tl.phone = ta.phone"
+        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct tl.phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join %s la on tl.phone = la.phone"
                                   ." where %s  and la.accept_adminid >0  group by la.accept_adminid ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
