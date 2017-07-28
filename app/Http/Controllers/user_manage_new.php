@@ -2750,8 +2750,9 @@ class user_manage_new extends Controller
         $master_renw_flag = $this->get_in_int_val("master_renw_flag",-1);
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
+        $done_flag = $this->get_in_int_val("done_flag",0);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
@@ -3108,7 +3109,6 @@ class user_manage_new extends Controller
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
                                                                               $seller_adminid,$ass_adminid_list);
-        dd($warning_list);
         foreach($warning_list as $val){
             if(!isset($stu_list[$val["userid"]])){
                 $stu_list[$val["userid"]] = $val["userid"];
@@ -3636,11 +3636,19 @@ class user_manage_new extends Controller
         $wx_openid = $this->get_in_str_val("wx_openid");
         $parentid = 60004; 
         $parentid = 60436;
-        // $page_num  = $this->get_in_page_num();
         $ret_info  = $this->t_lesson_info_b2->get_stu_lesson_info($parentid);
-        return $this->Pageview(__METHOD__,$ret_info);
-
-        echo 3;
+        // foreach ($ret_info['p1'] as &$item ) {
+        //     E\Esubject::set_item_value_str($item);
+        // }
+        // foreach ($ret_info as &$item ) {
+        //     if ( is_array($item) && array_key_exists("subject", $item)) {
+        //         E\Esubject::set_item_value_str($item);
+        //     }
+        // }
+        // $item['originid']          = E\Estu_origin::get_desc($item['originid']);
+        // $ret_info['free_info']['subject_str']  = E\Esubject::get_desc($ret_info['free_info']['subject']);
+        // $ret_info['normal_info']['subject_str']  = E\Esubject::get_desc($ret_info['normal_info']['subject']);
+        dd($ret_info);
     }
 
 

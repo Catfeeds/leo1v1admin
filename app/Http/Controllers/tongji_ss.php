@@ -6570,72 +6570,10 @@ class tongji_ss extends Controller
 
         $page_info = $this->get_in_page_info();
 
-
-        // $ret_info = $this->t_change_teacher_list->get_change_teacher_info($change_teacher_reason_type,$start_time,$end_time,$page_num);
-
-
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$account_id,$master_flag,$change_teacher_reason_type);
 
-
-        /***
-
-        $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag);
-        foreach($ret_info["list"] as &$item){
-            E\Egrade::set_item_value_str($item);
-            E\Esubject::set_item_value_str($item);
-            E\Eregion_version::set_item_value_str($item,"editionid");
-            if(!empty($item["textbook"])){
-                $item["editionid_str"] = $item["textbook"];
-            }
-
-            E\Etest_lesson_fail_flag::set_item_value_str($item);
-
-            E\Eass_test_lesson_type::set_item_value_str($item);
-            E\Esuccess_flag::set_item_value_str($item);
-            E\Esuccess_flag::set_item_value_str($item,"order_confirm_flag");
-            if(strpos($item["origin"],"转介绍") !== false ){
-                $item["ass_test_lesson_type_str"]=$item["origin"];
-                $item["ass_fail_type"]=1;
-            }elseif($item["ass_test_lesson_type"]==0){
-                $item["ass_test_lesson_type_str"]=$item["origin"];
-                $item["ass_fail_type"]=2;
-            }else{
-                $item["ass_fail_type"]=2;
-            }
-
-            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
-
-        }
-        return $this->pageView(__METHOD__, $ret_info);
-
-
-
-         ***/
-
-
-
-
-
-
-
-        // dd($ret_info);
         foreach($ret_info['list'] as &$item){
-            $item['stu_nick']= $this->t_student_info->get_nick($item['userid']);
-
-            // if(!$item['old_teacherid']){
-            //     $item['old_teacher_nick']  = '无' ;
-            // }else{
-            //     $item['old_teacher_nick']  = $this->cache_get_teacher_nick($item['old_teacherid']);
-            // }
-
-            // if(!$item['teacherid']){
-            //     $item['teacher_nick']  = '无' ;
-            // }else{
-            //     $item['teacher_nick']  = $this->cache_get_teacher_nick($item['teacherid']);
-            // }
-
-            // E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
+            E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
