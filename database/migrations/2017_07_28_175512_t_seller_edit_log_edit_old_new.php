@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerEditLogAddAdminid extends Migration
+class TSellerEditLogEditOldNew extends Migration
 {
     /**
      * Run the migrations.
