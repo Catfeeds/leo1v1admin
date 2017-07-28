@@ -319,18 +319,18 @@ class seller_student_new2 extends Controller
             E\Esubject::set_item_value_str($item);
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
-            $id = $key+1;
-            echo $id.': '.'电话:'.$item['phone'].', '.'年级:'.$item['grade_str'].', '.'科目:'.$item['subject_str'].', '.'申请人:'.$item['require_admin_nick'].', '.'申请时间:'.$item['require_time'];
-            echo '<br/>';
-            // $ret_info[$key]['id'] = $key+1;
-            // $ret_info[$key]['phone'] = $item['phone'];
-            // $ret_info[$key]['grade_str'] = $item['grade_str'];
-            // $ret_info[$key]['subject_str'] = $item['subject_str'];
-            // $ret_info[$key]['require_admin_nick'] = $item['require_admin_nick'];
-            // $ret_info[$key]['require_time'] = $item['require_time'];
+            // $id = $key+1;
+            // echo $id.': '.'电话:'.$item['phone'].', '.'年级:'.$item['grade_str'].', '.'科目:'.$item['subject_str'].', '.'申请人:'.$item['require_admin_nick'].', '.'申请时间:'.$item['require_time'];
+            // echo '<br/>';
+            $ret_info[$key]['id'] = $key+1;
+            $ret_info[$key]['phone'] = $item['phone'];
+            $ret_info[$key]['grade_str'] = $item['grade_str'];
+            $ret_info[$key]['subject_str'] = $item['subject_str'];
+            $ret_info[$key]['require_admin_nick'] = $item['require_admin_nick'];
+            $ret_info[$key]['require_time'] = $item['require_time'];
         }
 
-        // return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 
 
