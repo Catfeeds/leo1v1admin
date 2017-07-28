@@ -2589,6 +2589,16 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $not_grade_arr = explode(",",203);
+        $not_grade_str = "";
+        if(!empty($not_grade_arr)){
+            foreach($not_grade_arr as $ss){
+                $not_grade_str  .= E\Egrade::get_desc($ss).",";
+            }
+        }
+        dd($not_grade_str);
+        $item["not_grade_str"] = trim($not_grade_str,",");
+
         $userid = 60022 ;$teacherid= 60011;
         $this->delete_teacher_regular_lesson($userid,1);
         dd(111);

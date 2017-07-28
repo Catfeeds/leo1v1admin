@@ -889,27 +889,27 @@ class human_resource extends Controller
                     $item['interview_access'] = $this->t_teacher_record_list->get_teacher_interview_access($item['teacherid']);
 
                 }
-
-                $item["label"] = @$label_list[$item["teacherid"]];
-                $not_grade_arr = explode(",",$item["not_grade"]);
-                $not_grade_str = "";
-                if(!empty($not_grade_arr)){
-                    foreach($not_grade_arr as $ss){
-                        $not_grade_str  .= E\Egrade::get_desc($ss).",";
-                    }
-                }
-                $item["not_grade_str"] = trim($not_grade_str,",");
-                $acc1 = $this->t_teacher_lecture_info->get_interview_acc($item["phone"]);
-                $acc2 = $this->t_teacher_record_list->get_interview_acc($item["phone"]);
-                if(!empty($acc1)){
-                    $item["interview_acc"]=$acc1;
-                }elseif(!empty($acc2)){
-                    $item["interview_acc"]=$acc2;
-                }else{
-                    $item["interview_acc"]="";
-                }
-                
             }
+
+            $item["label"] = @$label_list[$item["teacherid"]];
+            $not_grade_arr = explode(",",$item["not_grade"]);
+            $not_grade_str = "";
+            if(!empty($not_grade_arr)){
+                foreach($not_grade_arr as $ss){
+                    $not_grade_str  .= E\Egrade::get_desc($ss).",";
+                }
+            }
+            $item["not_grade_str"] = trim($not_grade_str,",");
+            $acc1 = $this->t_teacher_lecture_info->get_interview_acc($item["phone"]);
+            $acc2 = $this->t_teacher_record_list->get_interview_acc($item["phone"]);
+            if(!empty($acc1)){
+                $item["interview_acc"]=$acc1;
+            }elseif(!empty($acc2)){
+                $item["interview_acc"]=$acc2;
+            }else{
+                $item["interview_acc"]="";
+            }
+                
 
             if(empty($item["address"])){
                 $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
