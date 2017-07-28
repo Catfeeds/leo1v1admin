@@ -1887,6 +1887,7 @@ class ss_deal extends Controller
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
+                "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }

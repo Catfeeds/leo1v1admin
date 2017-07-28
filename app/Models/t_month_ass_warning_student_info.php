@@ -130,7 +130,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
                                   ." left join %s s on s.userid = w.userid"
                                   ." left join %s m on w.adminid = m.uid"
                                   ." left join %s n on w.groupid = n.groupid"
-                                  ." left join %s a on m.phone = a.phone"
+                                  ." left join %s a on s.assistantid = a.assistantid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
