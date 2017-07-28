@@ -3635,7 +3635,7 @@ class user_manage_new extends Controller
     public function get_stu_lesson_count_info() {
         $wx_openid = $this->get_in_str_val("wx_openid");
         $parentid = 60004; 
-        $parentid = 60436;
+        // $parentid = 60436;
         $ret_info  = $this->t_lesson_info_b2->get_stu_lesson_info($parentid);
         // foreach ($ret_info['p1'] as &$item ) {
         //     E\Esubject::set_item_value_str($item);
@@ -3650,6 +3650,47 @@ class user_manage_new extends Controller
         // $ret_info['normal_info']['subject_str']  = E\Esubject::get_desc($ret_info['normal_info']['subject']);
         dd($ret_info);
     }
+    public function get_stu_lesson_title() {
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $parentid = 60004; 
+        $wx_openid = 60004; 
+        $wx_openid = 60436;
+        $list  = $this->t_lesson_info_b2->get_stu_title($wx_openid);
+        if ( count($list) >= 3 ) {
+            $stu_lesson_title = '全能大王';
+        } else { 
+            //0未设定 1语文 2数学 3英语 4化学 5物理 6生物 7政治 8历史 9地理
+            $total = 0;
+            foreach ($list as $v) {
+                $total += $v["count"];
+            }
+            foreach ($list as $v) {
+                if ( ($v["count"]/$total) > 0.75 ) {
+                    switch( $v["subject"] ) {
+                        case 1:
+                            $stu_lesson_title = "语文巧匠";
+                            break;
+                        case 2:
+                            $stu_lesson_title = "数学能手";
+                            break;
+                        case 3:
+                            $stu_lesson_title = "英语达人";
+                            break;
+                        case 4:
+                            $stu_lesson_title = "化学大师";
+                            break;
+                        case 5:
+                            $stu_lesson_title = "物理博士";
+                            break;
+                    }
+                }
+            }
+            $stu_lesson_title = "学习勇士";
+        }
+        // dd($list);
+        dd($stu_lesson_title);
+    }
+
 
 
 }
