@@ -138,8 +138,11 @@ class ajax_deal2 extends Controller
         $total_score      = $this->get_in_int_val("total_score");
         $grade            = $this->get_in_int_val("grade");
         $grade_rank       = $this->get_in_str_val("grade_rank");
+        $status           = $this->get_in_int_val("status");
+        $create_adminid   =  $this->get_account_id();
         $data = [
             'id'            =>   $id,
+            'create_adminid'=>   $create_adminid,
             'subject'       =>   $subject,
             'stu_score_type'=>   $stu_score_type,
             'score'         =>   $score,
@@ -149,6 +152,7 @@ class ajax_deal2 extends Controller
             'total_score'   =>   $total_score,
             'grade'         =>   $grade,
             'grade_rank'    =>   $grade_rank,
+            'status'        =>   $status
          ];
 
         $ret = $this->t_student_score_info->field_update_list($id,$data);

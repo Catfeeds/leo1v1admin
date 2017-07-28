@@ -1693,10 +1693,12 @@ trait  TeaPower {
          .size24{font-size:4.8rem;}
          .size28{font-size:5.6rem;}
          .size36{font-size:7.2rem;}
+         .hl{line-height:4.2rem;}
+         .top-line{margin-top:24px;}
          .color_red{color:red;}
          .t2em{text-indent:2em;}
          .content{width:700px;}
-         .title{margin:6rem 0 2rem;letter-spacing:1rem;}
+         .title{margin:2rem 0;}
          .border{border:0.2rem solid #e8665e;border-radius:2rem;margin:4rem 0 2rem;padding:1.2rem 2.2rem 0.8rem 2rem;}
          .tea_name{font-weight:bold;}
          .tea_level{font-weight:bold;}
@@ -1719,12 +1721,16 @@ trait  TeaPower {
              .img_star{top:213px;}
              .img_star img{width:30px;}
              .img_name{top:285px;}
+             .hl{line-height:2.625rem;}
          }
         </style>
     </head>
     <body>
         <div style='width:100%' align='center'>
             <div class='content size14'>
+            <div class='logo top-line' align='center'>
+                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+            </div>
                 <div class='title size24'>理优教育</div>
                 <div >感谢您一路对我们的支持与信任</div>
                 <div class='border tl'>
@@ -1768,6 +1774,169 @@ trait  TeaPower {
                 </div>
             </div>
         </div>
+    </body>
+</html>
+";
+        return $html;
+    }
+
+    //学员结课,清空常规课表
+    public function delete_teacher_regular_lesson($userid,$flag=0){
+        //$userid = 60022 ;$teacherid= 60011;
+        if($flag==1){
+            $account="system";
+        }elseif($flag==0){
+            $account = $this->get_account();
+        }
+        $list1 = $this->t_week_regular_course->get_teacher_student_time(-1,$userid);
+        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time(-1,$userid);
+        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time(-1,$userid);
+        $nick = $this->t_student_info->get_nick($userid);
+        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
+        $list=[];
+        foreach($list1 as $v){
+            @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+            @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        foreach($list2 as $v){
+            if(!isset($list[$v["teacherid"]][$v["start_time"]])){
+                @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+            $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        foreach($list3 as $v){
+            if(!isset($list[$v["teacherid"]][$v["start_time"]])){
+                @$list[$v["teacherid"]][$v["start_time"]]["start_time"]= $v["start_time"];
+                @$list[$v["teacherid"]][$v["start_time"]]["end_time"]= $v["end_time"];
+            }
+            $this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
+        }
+        
+        if(!empty($list)){
+            foreach($list as $k=>$item){
+                \App\Helper\Utils::order_list( $item,"start_time", 1);
+
+                $num_arr=[];
+                $str ="";
+                foreach($item as $val){
+                    $arr=explode("-",$val["start_time"]);
+                    $week=$arr[0];
+                    $start_time=@$arr[1];
+                    $week = $arr_week[$week];
+
+                    if(isset($num_arr[$week])){
+                        $num_arr[$week] .=  $start_time."-".$val["end_time"].",";
+                    }else{
+                        $num_arr[$week]="周".$week.":";
+                        $num_arr[$week] .=  $start_time."-".$val["end_time"].",";
+                    }
+
+                }
+                foreach($num_arr as $s){
+                    $s    = trim($s,",");
+                    $str .= $s.";";
+                }
+                $this->t_teacher_record_list->row_insert([
+                    "teacherid"   => $k,
+                    "type"        => 11,
+                    "record_info" => $str,
+                    "add_time"    => time(),
+                    "acc"         => $account,
+                    "current_acc" => $nick
+                ]);
+            }
+        }
+    }
+
+    public function get_full_time_html($data){
+        $name = $data['name'];
+        $html = "
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <style>
+         .red{color:#ff3451;}
+         .leo_blue{color:#0bceff;}
+         body{font-size:24px;line-height:48px;color:#666;}
+         .t20{margin-top:20px;}
+         .underline{text-decoration:underline;}
+         .download-pc-url{cursor:pointer;}
+         li{list-style:none;}
+         ul{padding-inline-start:0px !important;}
+        </style>
+    </head>
+    <body>
+        <div align='center'>
+            <div style='width:800px;' align='left'>
+                <div align='left'>尊敬的".$name."老师：</div>
+                <div class='t20'>
+                    感谢您对理优1对1的关注，您的报名申请已收到！<br/>
+                    为了更好的评估您的教学能力，需要您尽快按照如下要求进行试讲。<br/>
+                    【面试需知】<br/>
+                    请下载好<span class='red'>理优老师客户端</span>并准备好<span class='red'>耳机和话筒</span>，
+                    用<span class='red'>指定内容</span>在理优老师客户端进行试讲
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            1、下载“理优老师端”<a class='leo_blue' href='http://www.leo1v1.com/common/download'>点击下载</a>
+                            <br/>
+                            （面试请务必使用电脑，暂不支持使用iPad和手机）
+                        </li>
+                        <li>
+                            2、登陆客户端，进行1对1面试试讲<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>点击下载</a><br>
+                        进入理优老师客户端预约时间，评审老师和面试老师同时进培训课堂进行面试，
+                        面试通过后，进行新师培训，完成自测即可入职<br/>
+                        <span class='red'>注意：若面试老师因个人原因需要调整1对1面试时间，请提前1天登陆理优老师端进行修改，以便招师老师安排其他面试，如未提前通知，将视为永久放弃面试机会。</span>
+                        </li>
+                        <li>
+                            3、面试内容<br>
+                            1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
+                            2)所授课程的PPT讲解<br>
+                            <span class='red'>
+                                面试账号：{本人报名手机号}<br>
+                                密码：123456<br>
+                                时间：请在1周内完成试讲（有特殊原因请及时联系招师老师）<br>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【结果通知】
+                    </div>
+                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【通关攻略】
+                    </div>
+                    <ul>
+                        <li>1、确保相对安静的录制环境和稳定的网络环境</li>
+                        <li>2、请上传讲义和板书，试讲要充分结合板书</li>
+                        <li>3、注意跟学生的互动（模拟形成一种和学生1对1讲解互动的形式）</li>
+                        <li>4、简历和PPT完善后需转成PDF格式才能上传</li>
+                        <li>5、录制前请先充分准备，面试机会只有一次，要认真对待</li>
+                    </ul>
+                </div>
+                <div class='red'>
+                    （温馨提示：请在每次翻页后在白板中画一笔，保证白板和声音同步）
+                </div>
+                <div >
+                    <div class='t20'>
+                        【面试步骤】
+                    </div>
+                    1、备课→2、在线面试→3、复试→4、入职
+                </div>
+                <div>
+                    <div class='t20'>
+                        【关于理优】
+                    </div>
+                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
+                </div>
+            </div>
     </body>
 </html>
 ";

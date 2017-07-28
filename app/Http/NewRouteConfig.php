@@ -204,6 +204,7 @@ class NewRouteConfig {
         "/user_manage/user_info_by_month"                       => true,
         "/user_manage/user_login_list"                          => true,
         "/user_manage/tongji_login_ip_info"                     => true,
+        "/user_manage/no_type_student_score"                    => true,
 
         "/authority/get_account_role" => true,
         "/authority/set_account_role"        => true,

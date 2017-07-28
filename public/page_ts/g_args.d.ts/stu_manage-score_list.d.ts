@@ -25,6 +25,9 @@ interface RowData {
 	total_score	:any;
 	grade	:any;
 	grade_rank	:any;
+	status	:any;
+	reason	:any;
+	month	:any;
 	num	:any;
 	subject_str	:any;
 	semester_str	:any;

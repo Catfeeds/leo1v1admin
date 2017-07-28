@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-tongji_change_lesson_by_teacher.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-tongji_change_lesson_by_parent.d.ts" />
 
 $(function(){
     function load_data(){
@@ -25,15 +25,15 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list('lesson_cancel_reason_type',$('#id_lesson_cancel_reason_type'),false,[2,12]);
+    Enum_map.append_option_list('lesson_cancel_reason_type',$('#id_lesson_cancel_reason_type'),false,[1,11]);
     $('#id_lesson_cancel_reason_type ').val(g_args.lesson_cancel_reason_type );
 
     $('.show_detail').on("click",function(){
-        var teacherid = $(this).attr('date-teacherid');
+        var userid     = $(this).attr('date-userid');
         var lesson_cancel_reason_type = $('#id_lesson_cancel_reason_type option:selected').val();
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
-        var html_node    = $.obj_copy_node("#id_assign_log");
+        var html_node  = $.obj_copy_node("#id_assign_log");
 
         BootstrapDialog.show({
             title: "详情列表",
@@ -41,8 +41,8 @@ $(function(){
             closable: true
         });
 
-        $.do_ajax('/ss_deal2/show_change_lesson_by_teacher',{
-            'teacherid' : teacherid,
+        $.do_ajax('/ss_deal2/show_change_lesson_by_parent',{
+            'userid'    : userid,
             'start_time':start_time,
             'end_time'  : end_time,
             'lesson_cancel_reason_type':lesson_cancel_reason_type
@@ -52,7 +52,7 @@ $(function(){
             $.each(data, function (i, item) {
                 var cls = "success";
 
-                html_str += "<tr class=\"" + cls + "\" > <td>" + item.teacher_nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.grade_str+ "<td>"+item.subject_str+"<td>"+item.nick+"<td>"+item.ass_nick+ "<td>" +item.lesson_count+ "<td>" + item.lesson_cancel_reason_type_str+ "</tr>";
+                html_str += "<tr class=\"" + cls + "\" > <td>" + item.nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.grade_str+ "<td>"+item.subject_str +"<td>"+item.teacher_nick  +"<td>"+item.ass_nick+ "<td>" +item.lesson_count+ "<td>" + item.lesson_cancel_reason_type_str+ "</tr>";
             });
 
             html_node.find(".data-body").html(html_str);

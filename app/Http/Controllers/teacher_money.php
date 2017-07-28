@@ -593,7 +593,7 @@ class teacher_money extends Controller
 
     public function update_teacher_bank_info(){
         $teacherid     = session("login_userid");
-        $bankcard      = $this->get_in_int_val("bankcard");
+        $bankcard      = $this->get_in_str_val("bankcard");
         $bank_address  = $this->get_in_str_val("bank_address");
         $bank_account  = $this->get_in_str_val("bank_account");
         $bank_phone    = $this->get_in_str_val("bank_phone");
@@ -602,11 +602,27 @@ class teacher_money extends Controller
         $bank_type     = $this->get_in_str_val("bank_type");
         $idcard        = $this->get_in_str_val("idcard");
 
-        if($teacherid==0 || $bankcard==0 || $bank_address=="" || $bank_account==""
-           || $bank_phone=="" || $bank_type=="" || $idcard=="" || $bank_province==""
-           || $bank_city==""
-        ){
-            return $this->output_err("请完善所有数据后重新提交！");
+        if($teacherid==0){
+            $error_info="老师未登录!";
+        }elseif($bank_account==""){
+            $error_info="请填写持卡人!";
+        }elseif($idcard==""){
+            $error_info="请填写身份证号!";
+        }elseif($bank_type==""){
+            $error_info="请选择银行卡类型!";
+        }elseif($bank_address==""){
+            $error_info="请填写银行支行名称!";
+        }elseif($bank_province==""){
+            $error_info="请填写开户省!";
+        }elseif($bank_city==""){
+            $error_info="请填写开户市!";
+        }elseif($bankcard==""){
+            $error_info="请填写银行卡号!";
+        }elseif($bank_phone==""){
+            $error_info="请填写银行预留手机号!";
+        }
+        if(isset($error_info) && $error_info!=""){
+            return $this->output_err($error_info);
         }
 
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
@@ -684,7 +700,7 @@ class teacher_money extends Controller
     public function get_teacher_bank_info(){
         $teacherid = $this->get_wx_teacherid();
 
-        $bank_info = $this->t_lesson_info->field_get_list($teacherid,"bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
+        $bank_info = $this->t_teacher_info->field_get_list($teacherid,"bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
 
         return $this->output_succ(["data"=>$bank_info]);
     }

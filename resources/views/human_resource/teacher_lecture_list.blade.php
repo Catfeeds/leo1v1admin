@@ -160,7 +160,7 @@
                                         @if($var['status']>0)
                                             <a class="opt-confirm-score" title="评分详情">评分详情</a>
                                         @endif
-                                        @if($acc=="jack" || $acc=="jim")                                            
+                                        @if($acc=="jack" || $acc=="jim")
                                             <a class="opt-confirm-score_new" title="设置标签">设置标签</a>
                                         @endif
                                     @endif

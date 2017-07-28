@@ -2589,7 +2589,34 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+
+        $ret1= $this->t_week_regular_course->get_end_userid();
+        $ret2= $this->t_summer_week_regular_course->get_end_userid();
+        $ret3= $this->t_winter_week_regular_course->get_end_userid();
+        $ret=[];
+        foreach($ret1 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+        foreach($ret2 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+        foreach($ret3 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+
+        foreach($ret as $val){
+            $this->delete_teacher_regular_lesson($val,1);
+        }
+        dd(11);
         $userid = 60022 ;$teacherid= 60011;
+        $this->delete_teacher_regular_lesson($userid,1);
+        dd(111);
         $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $list3 = $this->t_winter_week_regular_course->get_teacher_student_time($teacherid,$userid);
@@ -2600,18 +2627,21 @@ class user_deal extends Controller
         foreach($list1 as $v){
             @$list[$v["start_time"]]["start_time"]= $v["start_time"];
             @$list[$v["start_time"]]["end_time"]= $v["end_time"];
+            // $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list2 as $v){
             if(!isset($list[$v["start_time"]])){
                 @$list[$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["start_time"]]["end_time"]= $v["end_time"];
             }
+            // $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
         foreach($list3 as $v){
             if(!isset($list[$v["start_time"]])){
                 @$list[$v["start_time"]]["start_time"]= $v["start_time"];
                 @$list[$v["start_time"]]["end_time"]= $v["end_time"];
             }
+            //$this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
         }
 
 
@@ -2627,6 +2657,14 @@ class user_deal extends Controller
 
             }
             $str = trim($str,",");
+            $this->t_teacher_record_list->row_insert([
+                "teacherid"  =>$teacherid,
+                "type"       =>11,
+                "record_info"=>$str,
+                "add_time"   =>time(),
+                "acc"        =>$this->get_account()
+            ]);
+
         }
         dd($str);
         //$list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
@@ -3426,6 +3464,26 @@ class user_deal extends Controller
             return $this->output_succ(["data"=>$list]);
         }
     }
+
+    public function get_teacher_regular_lesson_del_list(){
+        $teacherid = $this->get_in_int_val("teacherid",0);
+        $type      = $this->get_in_int_val("type",1);
+        if($teacherid==0){
+            return $this->output_err("老师id出错!");
+        }
+
+        $list = $this->t_teacher_record_list->get_teacher_record_list($teacherid,$type);
+        foreach($list as &$val){
+            $val['add_time_str']=date("Y-m-d H:i:s",$val['add_time']);
+        }
+
+        if(empty($list)){
+            return $this->output_err("无相关记录!");
+        }else{
+            return $this->output_succ(["data"=>$list]);
+        }
+    }
+
 
     public function get_teacher_week_lesson_num_change_list(){
         $teacherid = $this->get_in_int_val("teacherid",0);

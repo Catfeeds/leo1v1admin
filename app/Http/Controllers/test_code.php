@@ -1470,14 +1470,11 @@ class test_code extends Controller
             echo $val['nick']."|".$val['phone']."|".$str;
             echo "<br>";
         }
-
-
-
-
-
-
     }
 
+    /**
+     * 有5个合同以上的名单
+     */
     public function get_order_5(){
         $this->switch_tongji_database();
         $list = $this->t_order_info->get_order_5();
@@ -1507,5 +1504,10 @@ class test_code extends Controller
         $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
         dispatch($job);
     }
+
+    public function get_order_list(){
+
+    }
+
 
 }

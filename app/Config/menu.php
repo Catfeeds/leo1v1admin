@@ -394,6 +394,7 @@ class menu{
                     ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
                     ["power_id"=>8, "name"=>"转介绍统计",   "url"=>"/tongji_ss/tongji_referral"],
                     ["power_id"=>9, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
+                    ["power_id"=>10, "name"=>"调课统计-家长",   "url"=>"/tongji_ss/tongji_change_lesson_by_parent"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
@@ -576,8 +577,7 @@ class menu{
                 ["power_id"=>94, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_ass"],
 
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],
-
-
+                ["power_id"=>95, "name"=>"未录入成绩学生列表",   "url"=>"/user_manage/no_type_student_score"],
             ]],
 
             ["power_id"=>14, "name"=>"角色-教务",  "list"=>[

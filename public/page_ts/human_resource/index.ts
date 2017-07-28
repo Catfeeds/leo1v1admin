@@ -256,9 +256,11 @@ $(function(){
         });
     });
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
+        console.log(opt_data.not_grade);
+        console.log(opt_data.not_grade_str);
         var id_tea_nick               = $("<input/>");
         var id_phone_spare            = $("<input/>");
         var id_teacher_money_type     = $("<select/>");
@@ -1711,5 +1713,53 @@ $(function(){
         });
 
     });
+
+    $(".opt-regular-lesson-detele-list").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var title = "常规课表删除记录";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>学生</td><td>操作人</td></tr></table></div>");
+        
+        
+
+        $.do_ajax("/user_deal/get_teacher_regular_lesson_del_list",{
+            "teacherid" : teacherid,
+            "type"      : 11
+        },function(result){
+            if(result.ret!=0){
+                BootstrapDialog.alert(result.info);
+                return ;
+            }
+
+            $.each(result.data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['record_info']+"</td><td>"+item['current_acc']+"</td><td>"+item['acc']+"</td></tr>");
+
+            });
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+            
+        });
+        
+
+    });
+
 
 });

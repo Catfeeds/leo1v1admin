@@ -63,6 +63,8 @@ $(function(){
                     "total_score"   : id_total_score.val(),
                     "grade"         : id_grade.val(),
                     "grade_rank"    : id_grade_rank.val(),
+                    "status"        : 0,
+
                 });
             }
         },function(){
@@ -162,7 +164,8 @@ $(function(){
                     "total_score"   : id_total_score.val(),
                     "grade"         : id_grade.val(),
                     "grade_rank"    : id_grade_rank.val(),
-                  
+                    "status"        : 0,
+
                 });
             }
         },function(){
