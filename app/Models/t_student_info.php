@@ -2542,4 +2542,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_no_type_student_score($page_info,$assistantid){
+       
+        $where_arr=[
+          ['o.assistantid=%d', $assistantid, 0],
+          'o.lesson_count_left>0',
+          's.status=2'
+        ]; 
+        $sql = $this->gen_sql_new("select s.id, s.stu_score_type ,s.grade,s.create_time,s.userid, s.subject, s.status,s.month"
+                                  ." from %s s"
+                                  ." left join %s o on o.userid = s.userid "
+                                  ." where %s "
+                                  ,t_student_score_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
 }

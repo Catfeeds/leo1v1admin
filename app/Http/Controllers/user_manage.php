@@ -1996,8 +1996,27 @@ class user_manage extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * @author    sam
+     * @function  
+     */
+    public function no_type_student_score()
+    {
+        $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+        if($assistantid <= 0){
+            $assistantid = 1;
+        }
+        $assistantid = 60078;
+        $page_info=$this->get_in_page_info();
+        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid);
+        //dd($ret_info);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            E\Esubject::set_item_value_str($item);
+            $item['create_time'] = \App\Helper\Utils::unixtime2date($item['create_time'],'Y-m');
+            $this->cache_set_item_student_nick($item,"userid","student_nick" );
 
-
-
-
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }

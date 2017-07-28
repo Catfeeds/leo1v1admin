@@ -574,8 +574,7 @@ class menu{
                 ["power_id"=>94, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_ass"],
 
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],
-
-
+                ["power_id"=>95, "name"=>"未录入成绩学生列表",   "url"=>"/user_manage/no_type_student_score"],
             ]],
 
             ["power_id"=>14, "name"=>"角色-教务",  "list"=>[
