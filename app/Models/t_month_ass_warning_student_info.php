@@ -114,7 +114,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
             ["renw_week = %u",$renw_week,-1],
             ["end_week = %u",$end_week,-1],
             ["warning_type = %u",$warning_type,-1],
-            "done_flag=0"
+            // "done_flag=0"
         ];
         if($up_master_adminid !=-1){
             if($leader_flag==1){
@@ -123,11 +123,14 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
                 $where_arr[]=["w.adminid = %u",$account_id,-1];
             }
         }
+        if($leader_flag==0){
+            $where_arr[]="done_flag=0";
+        }
         $sql = $this->gen_sql_new("select w.adminid,w.month,w.userid,w.groupid,w.group_name,s.lesson_count_left left_count,w.end_week,w.ass_renw_flag,w.no_renw_reason,w.renw_price,w.renw_week,w.master_renw_flag,w.master_no_renw_reason,s.nick,m.account,w.id from %s w"
                                   ." left join %s s on s.userid = w.userid"
                                   ." left join %s m on w.adminid = m.uid"
                                   ." left join %s n on w.groupid = n.groupid"
-                                  ." left join %s a on m.phone = a.phone"
+                                  ." left join %s a on s.assistantid = a.assistantid"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -188,22 +191,41 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         return $this->main_get_list($sql);
     }
 
-    public function get_done_stu_info_seller(){
-        $last_two_weeks_time = time(NULL)-86400*14;
+    public function get_done_stu_info_seller( $start_time, $end_time,$all_flag, $userid,$grade, $status,
+                                                       $user_name, $phone, $teacherid, $assistantid, $test_user,
+                                                       $originid, $seller_adminid,$ass_adminid_list=[]
+){
+        //  $last_two_weeks_time = time(NULL)-86400*14;
         $where_arr=[
-            "s.last_lesson_time<$last_two_weeks_time"
-        ];
-
-        $where_arr=[
+            ["s.userid=%u", $userid, -1] ,
+            ["s.grade=%u", $grade, -1] ,
+            ["s.status=%u", $status, -1] ,
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.is_test_user=%u ", $test_user , -1] ,
+            ["s.originid=%u ", $originid , -1] ,
+            ["s.seller_adminid=%u ", $seller_adminid, -1] ,
             "m.warning_type=2",
             "m.done_flag=2",
-            "(s.type <>1 or s.last_lesson_time<".$last_two_weeks_time.")"
+            // "(s.type <>1 or s.last_lesson_time<".$last_two_weeks_time.")"
         ];
-        $sql =$this->gen_sql_new("select distinct m.userid,s.nick,s.seller_adminid "
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"mm.uid", $ass_adminid_list );
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+      
+        $sql =$this->gen_sql_new("select distinct m.userid "
                                  ." from %s m left join %s s on m.userid = s.userid"
+                                 ." left join %s a on s.assistantid = a.assistantid"
+                                 ." left join %s mm on a.phone = mm.phone"
                                  ." where %s",
                                  self::DB_TABLE_NAME,
                                  t_student_info::DB_TABLE_NAME,
+                                 t_assistant_info::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME,
                                  $where_arr
         );
         return $this->main_get_list($sql);

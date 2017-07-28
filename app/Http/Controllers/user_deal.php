@@ -2589,105 +2589,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-
-        $ret1= $this->t_week_regular_course->get_end_userid();
-        $ret2= $this->t_summer_week_regular_course->get_end_userid();
-        $ret3= $this->t_winter_week_regular_course->get_end_userid();
-        $ret=[];
-        foreach($ret1 as $v){
-            if(!isset($ret[$v["userid"]])){
-                $ret[$v["userid"]] = $v["userid"];
-            }
-        }
-        foreach($ret2 as $v){
-            if(!isset($ret[$v["userid"]])){
-                $ret[$v["userid"]] = $v["userid"];
-            }
-        }
-        foreach($ret3 as $v){
-            if(!isset($ret[$v["userid"]])){
-                $ret[$v["userid"]] = $v["userid"];
-            }
-        }
-
-        foreach($ret as $val){
-            $this->delete_teacher_regular_lesson($val,1);
-        }
-        dd(11);
-        $userid = 60022 ;$teacherid= 60011;
-        $this->delete_teacher_regular_lesson($userid,1);
-        dd(111);
-        $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
-        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
-        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time($teacherid,$userid);
-        $nick = $this->t_student_info->get_nick($userid);
-        $str ="学生:".$nick.";";
-        $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
-        $list=[];
-        foreach($list1 as $v){
-            @$list[$v["start_time"]]["start_time"]= $v["start_time"];
-            @$list[$v["start_time"]]["end_time"]= $v["end_time"];
-            // $this->t_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
-        }
-        foreach($list2 as $v){
-            if(!isset($list[$v["start_time"]])){
-                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
-                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
-            }
-            // $this->t_summer_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
-        }
-        foreach($list3 as $v){
-            if(!isset($list[$v["start_time"]])){
-                @$list[$v["start_time"]]["start_time"]= $v["start_time"];
-                @$list[$v["start_time"]]["end_time"]= $v["end_time"];
-            }
-            //$this->t_winter_week_regular_course->row_delete_2($v["teacherid"],$v["start_time"]);
-        }
-
-
-        // dd($list);
-        
-        if(!empty($list)){
-            foreach($list as $val){
-                $arr=explode("-",$val["start_time"]);
-                $week=$arr[0];
-                $start_time=@$arr[1];
-                $week = $arr_week[$week];
-                $str .= "周".$week.":".$start_time."-".$val["end_time"].",";
-
-            }
-            $str = trim($str,",");
-            $this->t_teacher_record_list->row_insert([
-                "teacherid"  =>$teacherid,
-                "type"       =>11,
-                "record_info"=>$str,
-                "add_time"   =>time(),
-                "acc"        =>$this->get_account()
-            ]);
-
-        }
-        dd($str);
-        //$list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller();
-        $list = $this->t_month_ass_warning_student_info->get_stu_warning_info(2,-1);
-        foreach($list as $val){
-            $change_info = $this->t_ass_warning_renw_flag_modefiy_list->get_new_renw_list($val["id"]);
-            if(!empty($change_info)){
-
-                if(!empty($val["renw_week"])){
-                    $val["renw_end_day"] = date("Y-m-d",$change_info["add_time"]+$val["renw_week"]*7*86400);
-                }else{
-                    $val["renw_end_day"]=0;
-                }
-
-                $this->t_ass_warning_renw_flag_modefiy_list->field_update_list($change_info["id"],[
-                    "renw_week"  =>$val["renw_week"],
-                    "renw_end_day" =>$val["renw_end_day"]
-                ]);
-            }
-
-        }
-        dd($list);
-
+       
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;
@@ -3551,6 +3453,9 @@ class user_deal extends Controller
         $data = $this->t_student_type_change_list->get_info_by_userid($userid);
         foreach($data as &$val){
             $val["account"] = $this->t_manager_info->get_account($val["adminid"]);
+            if(empty( $val["account"])){
+                $val["account"]="system";
+            }
             $val["nick"] = $this->t_student_info->get_nick($val["userid"]);
             E\Estudent_type::set_item_value_str($val,"type_before");
             E\Estudent_type::set_item_value_str($val,"type_cur");
