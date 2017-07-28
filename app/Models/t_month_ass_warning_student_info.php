@@ -191,6 +191,28 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
     public function get_done_stu_info_seller(){
         $last_two_weeks_time = time(NULL)-86400*14;
         $where_arr=[
+            ["s.userid=%u", $userid, -1] ,
+            ["s.grade=%u", $grade, -1] ,
+            ["s.status=%u", $status, -1] ,
+            ["s.assistantid=%u", $assistantid, -1] ,
+            ["s.is_test_user=%u ", $test_user , -1] ,
+            ["s.originid=%u ", $originid , -1] ,
+            ["s.seller_adminid=%u ", $seller_adminid, -1] ,
+            "s.lesson_count_all>0",
+            "s.lesson_count_left<100",
+            "s.last_lesson_time<$last_two_weeks_time"
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid", $ass_adminid_list );
+        if ($user_name) {
+            $where_arr[]=sprintf( "(s.nick like '%s%%' or s.realname like '%s%%' or  s.phone like '%s%%' )",
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name),
+                                  $this->ensql($user_name));
+        }
+
+        $last_two_weeks_time = time(NULL)-86400*14;
+        $where_arr=[
             "s.last_lesson_time<$last_two_weeks_time"
         ];
 
