@@ -21,6 +21,42 @@ class ajax_deal2 extends Controller
         \App\Helper\Utils::exec_cmd($cmd);
         return $this->output_succ();
     }
+    //JIM
+    public function gen_ass_from_account() {
+        $adminid=$this->get_in_adminid();
+        $admin_info= $this->t_manager_info->field_get_list($adminid,"phone,name,email");
+        $phone=$admin_info["phone"];
+
+        $passwd = "142857";
+        $md5_passwd = md5(md5($passwd)."#Aaron");
+        $this->t_user_info->row_insert([
+
+            "passwd"  => md5($passwd)
+        ]) ;
+        $assid =  $this->t_user_info->get_last_insertid();
+        if($assid === false){
+            return outputJson(array('ret' => -1, 'info'  => '插入失败'));
+        }
+
+        //加入ejabberd 账号让助教可以进入课堂
+        //$this->users->add_ejabberd_account($assid,md5($passwd));
+        //加入ejabberd监控账号 以ad开头
+        //$this->users->add_ejabberd_account("ad_" . $assid,md5($passwd));
+
+        $ret_db = $this->t_phone_to_user->add_phone_to_ass($assid, $phone);
+        if($ret_db === false){
+            return outputJson(array('ret' => -1, 'info'  => '插入失败'));
+        }
+
+
+        $ret_db = $this->t_assistant_info->add_new_ass($admin_info["name"], 0, 0, 0, $phone, $admin_info["email"],
+                                                       0, $assid, "");
+        if($ret_db === false) {
+            return outputJson(array('ret' => -1, 'info'  => '插入失败'));
+        }
+        return $this->output_succ();
+    }
+
 
     public function set_email_passwd() {
         $email=$this->get_in_str_val( "email" );
