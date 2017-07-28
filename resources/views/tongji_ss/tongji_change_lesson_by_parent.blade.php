@@ -33,7 +33,7 @@
             <thead>
                 <tr>
                     <td>编号</td>
-                    <td>姓名</td>
+                    <td>学生</td>
                     <td>助教</td>
                     <td>课时数</td>
                     <td> 操作  </td>
@@ -43,7 +43,11 @@
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
                         <td>{{@$index}}</td>
-                        <td>{{@$var["nick"]}}</td>
+                        <td>
+                        <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
+                            target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                        </td>
+
                         <td>{{@$var["ass_nick"]}}</td>
                         <td class="show_detail" date-userid="{{$var['userid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>

@@ -2004,18 +2004,20 @@ class user_manage extends Controller
 
     /**
      * @author    sam
-     * @function  
+     * @function  未录入成绩学生列表
      */
     public function no_type_student_score()
     {
-        $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $page_num  = $this->get_in_page_num();
+        $assistantid = $this->t_assistant_info->get_assistantid($this->get_account());
         if($assistantid <= 0){
             $assistantid = 1;
+            //$assistantid = 60078;
         }
-        $assistantid = 60078;
+        
         $page_info=$this->get_in_page_info();
-        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid);
-        //dd($ret_info);
+        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             E\Esubject::set_item_value_str($item);

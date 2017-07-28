@@ -1837,6 +1837,7 @@ class human_resource extends Controller
         $subject                    = $this->get_in_int_val('subject',-1);
         $have_wx                    = $this->get_in_int_val("have_wx",-1);
         $lecture_revisit_type       = $this->get_in_int_val("lecture_revisit_type",-1);
+        $full_time                  = $this->get_in_int_val("full_time",-1);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
 
         $adminid = $this->get_account_id();
@@ -1848,7 +1849,7 @@ class human_resource extends Controller
         $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info(
             $page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
-            $interview_type,$have_wx, $lecture_revisit_type
+            $interview_type,$have_wx, $lecture_revisit_type,$full_time
         );
 
         foreach($ret_info["list"] as &$item){
@@ -1856,6 +1857,7 @@ class human_resource extends Controller
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Eidentity::set_item_value_str($item,"teacher_type");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
+            E\Eboolean::set_item_value_str($item,"full_time");
 
             if($item['status']=="-2" && empty($item["train_lessonid"])){
                 $item['status_str'] = "无试讲";

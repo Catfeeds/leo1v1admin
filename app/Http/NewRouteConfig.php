@@ -238,6 +238,7 @@ class NewRouteConfig {
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/set_teacher_part_remark"     => true,
         "/tea_manage/set_train_lecture_status"    => true,
+        "/tea_manage/train_lecture_lesson_full_time" => true,
         "/tea_manage/train_lecture_lesson_zs"     => true,
         "/tea_manage/train_lecture_lesson"        => true,
         "/tea_manage/add_train_lesson_by_xls"     => true,

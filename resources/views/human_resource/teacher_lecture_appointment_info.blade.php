@@ -51,7 +51,13 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否全职</span>
+                        <select class="opt-change form-control" id="id_full_time" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">试讲状态</span>
@@ -144,6 +150,7 @@
                     <td>科目</td>
                     <td>毕业院校</td>
                     <td>师资</td>
+                    <td>全职老师</td>
                     <td>审核状态</td>
                     <td>推荐人</td>
                     <td>状态</td>
@@ -185,6 +192,7 @@
                         <td>{{@$var["subject_ex"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
+                        <td>{{@$var["full_time_str"]}} </td>
                         <td>
                             {{@$var["status_str"]}}<br><br>
                             @if(!empty($var["reason"]) )
