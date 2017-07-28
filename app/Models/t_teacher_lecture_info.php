@@ -258,22 +258,24 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     public function get_lecture_info_by_zs($start_time,$end_time,$status=-1){
         $where_arr=[
-            ["confirm_time >= %u",$start_time,-1],
-            ["confirm_time <= %u",$end_time,-1],
-            "is_test_flag =0",
-            "account <> 'adrian'"
+            ["tl.confirm_time >= %u",$start_time,-1],
+            ["tl.confirm_time <= %u",$end_time,-1],
+            "tl.is_test_flag =0",
+            "tl.account <> 'adrian'"
         ];
         if($status==-2){
-            $where_arr[] = "status <>4";
+            $where_arr[] = "tl.status <>4";
         }else{           
-            $where_arr[] = ["status=%u",$status,-1];
+            $where_arr[] = ["tl.status=%u",$status,-1];
         }
-        $sql = $this->gen_sql_new("select subject, count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s where %s  and subject>0  group by subject",
+        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join ta on tl.phone = ta.phone"
+                                  ." where %s  and la.accept_adminid >0  group by la.accept_adminid ",
                                   self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr                                 
         );
         return $this->main_get_list($sql,function($item){
-            return $item["subject"];
+            return $item["accept_adminid"];
         });
     }
 

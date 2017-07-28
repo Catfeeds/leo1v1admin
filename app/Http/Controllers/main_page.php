@@ -630,6 +630,8 @@ class main_page extends Controller
             $all_total   += $item["all_count"];
         }
         // \App\Helper\Utils::order_list( $ret_info,"suc_per", 0 );
+        $video_accout = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
+        dd($video_accout);
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);
         $one_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,-1);
