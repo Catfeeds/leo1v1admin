@@ -735,9 +735,10 @@ class common_new extends Controller
         $url= \App\Helper\Utils::gen_download_url($file);
         header ( "Location: $url");
     }
-
+    //JIM
     public function get_office_cmd() {
-
+        $item=\App\Helper\office_cmd::do_one();
+        return $this->output_succ( ["cmd"=>$item] );
     }
 
     public function show_create_table_list() {
