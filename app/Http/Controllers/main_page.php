@@ -381,7 +381,7 @@ class main_page extends Controller
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
-        $this->t_teacher_lecture_appointment_info->switch_tongji_database();
+        $this->switch_tongji_database();
         $all_total = $video_total=$suc_total=$fail_total=0;
         $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
         $list      = $this->t_teacher_lecture_info->tongji_teacher_info_by_accept_adminid($start_time,$end_time);

@@ -7,7 +7,8 @@ $(function(){
 			assistantid:	$('#id_assistantid').val(),
 			ass_renw_flag:	$('#id_ass_renw_flag').val(),
 			master_renw_flag:	$('#id_master_renw_flag').val(),
-			renw_week:	$('#id_renw_week').val()
+			renw_week:	$('#id_renw_week').val(),
+			done_flag:	$('#id_done_flag').val()
         });
     }
 
@@ -19,6 +20,7 @@ $(function(){
 	$('#id_ass_renw_flag').val(g_args.ass_renw_flag);
 	$('#id_master_renw_flag').val(g_args.master_renw_flag);
 	$('#id_renw_week').val(g_args.renw_week);
+	$('#id_done_flag').val(g_args.done_flag);
 
     $.admin_select_user($("#id_assistantid"),"assistant", load_data);
 

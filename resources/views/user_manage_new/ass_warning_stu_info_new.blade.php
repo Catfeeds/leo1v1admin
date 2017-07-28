@@ -40,6 +40,17 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否结束</span>
+                        <select class="opt-change form-control " id="id_done_flag" >
+                            <option value="-1">全部</option>
+                            <option value="0">进行中</option>
+                            <option value="-2">结束</option>
+                        </select>
+                    </div>
+                </div>
+
 
 
             </div>
