@@ -1810,7 +1810,7 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = strtotime($this->get_in_str_val('stu_request_test_lesson_time'));
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
-        $change_teacher_reason_type      = $this->get_in_int_val("change_teacher_reason_type");
+        $change_teacher_reason_type      = $this->get_in_int_val("change_teacher_reason_type",-1);
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 

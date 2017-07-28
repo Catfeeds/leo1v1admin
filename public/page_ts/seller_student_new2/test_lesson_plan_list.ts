@@ -516,6 +516,17 @@ $(function(){
             });
         });
 
+
+        $id_ass_test_lesson_type.on("change",function(){
+            if($id_ass_test_lesson_type.val() == 2){
+                $id_change_teacher_reason_type.parent().parent().css('display','table-row');
+            }else{
+                $id_change_teacher_reason_type.parent().parent().css('display','none');
+            }
+        });
+
+
+
         var arr=[
             ["学生",  $id_userid ]  ,
             ["科目",  $id_subject ]  ,
@@ -532,6 +543,7 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
+
 
                 var require_time= $.strtotime($id_stu_request_test_lesson_time.val() );
                 var need_start_time=0;
@@ -571,6 +583,8 @@ $(function(){
         }],function(){
             $.admin_select_user($id_userid,"student");
             $.admin_select_user( $green_channel_teacherid, "teacher");
+            $id_change_teacher_reason_type.parent().parent().css('display','none');
+
         });
 
     });

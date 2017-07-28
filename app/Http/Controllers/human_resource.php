@@ -1479,6 +1479,7 @@ class human_resource extends Controller
                 }else{
                     $val["have_wx_flag"]="否";
                 }
+
             }
         }
 
