@@ -65,7 +65,14 @@
                 </select>
             </div>
         </div>
-
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span >全职老师</span>
+                <select id="id_full_time" class ="opt-change" >
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >绑定微信</span>
