@@ -15,7 +15,7 @@ class TSellerEditLogAddAdminid extends Migration
         //
         Schema::table('db_weiyi_admin.t_seller_edit_log', function( Blueprint $table)
         {
-            t_field($table->string("adminid"),"修改人id");
+            t_field($table->integer("adminid"),"修改人id");
             $table->index("adminid");
         });
     }
