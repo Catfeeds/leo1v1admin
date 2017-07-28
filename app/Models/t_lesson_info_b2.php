@@ -1793,7 +1793,52 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $ret_info;
 
     }
+
+    public function get_stu_userid($wx_openid) {
+        $where_arr = [
+            // ["p.wx_openid=%u",$wx_openid,0],
+            ["p.parentid=%u",$wx_openid,0],
+        ];
+            //查出该家长下有最大常规课的userid
+        $sql = $this->gen_sql_new("SELECT s.userid, s.nick, s.realname "
+                                  .",SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
+                                  ." FROM %s l"
+                                  ." LEFT JOIN %s s ON l.userid=s.userid"
+                                  ." LEFT JOIN %s p ON p.userid=s.userid"
+                                  ." WHERE %s "
+                                  ." GROUP BY s.userid"
+                                  ." ORDER BY normal_nums DESC"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql)['userid'];
+
+    }
+
+    public function get_stu_title($wx_openid) {
+        $userid = $this->get_stu_userid($wx_openid);
+        $start_time = strtotime("2016-08-06");
+        $end_time   = strtotime("2017-08-06");
+        $where_arr  = [
+            ["userid=%u", $userid, 0],
+            ["lesson_start>%u", $start_time, 0],
+            ["lesson_end<%u", $end_time, 0],
+            "lesson_type in (0,1,3)",
+        ];
+
+        $sql    = $this->gen_sql_new("SELECT COUNT(1) AS count,subject"
+                                     ." FROM %s"
+                                     ." WHERE %s"
+                                     ." GROUP BY subject"
+                                     , self::DB_TABLE_NAME
+                                     ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
     public function get_stu_lesson_info( $parentid){
+
         $where_arr = [
             ["p.parentid=%u",$parentid,0],
         ];
@@ -1810,6 +1855,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ,t_parent_child::DB_TABLE_NAME
                                 ,$where_arr
         );
+        // dd($sql);
         $sql = $this->gen_sql_new(
             "select count(1),subject from %s group by subject"
             ,self::DB_TABLE_NAME
