@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerEditLogDropAdminid extends Migration
+class TSellerEditLogAddAdminid extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,11 @@ class TSellerEditLogDropAdminid extends Migration
      */
     public function up()
     {
-        Schema::table('db_weiyi_admin.t_seller_edit_log', function($table){
-            $table->dropColumn('adminid'); 
+        //
+        Schema::table('db_weiyi_admin.t_seller_edit_log', function( Blueprint $table)
+        {
+            t_field($table->string("adminid"),"修改人id");
+            $table->index("adminid");
         });
     }
 
