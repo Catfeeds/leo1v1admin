@@ -6733,7 +6733,7 @@ class tongji_ss extends Controller
 
         foreach($ret_info['list'] as &$item_list){
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
-            $item_list['ass_nick'] = $this->cache_get_teacher_nick($item_list['assistantid']);
+            $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
 
         }
         // dd($ret_info);
