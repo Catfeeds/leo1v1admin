@@ -37,13 +37,17 @@
                     <td>试听时间 </td>
                     <td>课时确认 </td>
                     <td>试听结果</td>
+                    <td>换老师原因</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
-                        <td>{{@$var["stu_nick"]}} </td>
+                        <td>
+                            <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
+                                target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                        </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>
@@ -54,6 +58,7 @@
                         <td>{{@$var["test_lesson_time"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
+                        <td>{{@$var['change_teacher_reason_type_str']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

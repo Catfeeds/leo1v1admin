@@ -106,7 +106,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
     }
 
 
-    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2,$adminid){
+    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2,$adminid,$done_flag){
         $where_arr=[
             ["a.assistantid = %u",$assistantid,-1],
             ["ass_renw_flag = %u",$ass_renw_flag,-1],
@@ -116,6 +116,11 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
             ["warning_type = %u",$warning_type,-1],
             // "done_flag=0"
         ];
+        if($done_flag==-2){
+            $where_arr[]="done_flag>0";
+        }else{
+            $where_arr[]=["done_flag = %u",$done_flag,-1]; 
+        }
         if($up_master_adminid !=-1){
             if($leader_flag==1){
                 $where_arr[]=["n.master_adminid = %u",$adminid,-1];
@@ -128,15 +133,15 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         }
         $sql = $this->gen_sql_new("select w.adminid,w.month,w.userid,w.groupid,w.group_name,s.lesson_count_left left_count,w.end_week,w.ass_renw_flag,w.no_renw_reason,w.renw_price,w.renw_week,w.master_renw_flag,w.master_no_renw_reason,s.nick,m.account,w.id from %s w"
                                   ." left join %s s on s.userid = w.userid"
-                                  ." left join %s m on w.adminid = m.uid"
                                   ." left join %s n on w.groupid = n.groupid"
                                   ." left join %s a on s.assistantid = a.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
-                                  t_manager_info::DB_TABLE_NAME,
                                   t_admin_group_name::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);

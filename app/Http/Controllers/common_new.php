@@ -735,6 +735,11 @@ class common_new extends Controller
         $url= \App\Helper\Utils::gen_download_url($file);
         header ( "Location: $url");
     }
+
+    public function get_office_cmd() {
+
+    }
+
     public function show_create_table_list() {
         if ( !\App\Helper\Utils::check_env_is_local() ){
             return $this->output_err("没有权限");

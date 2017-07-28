@@ -1851,25 +1851,6 @@ class ss_deal extends Controller
 
         $test_stu_request_test_lesson_demand = $this->t_test_lesson_subject->get_stu_request_test_lesson_demand($test_lesson_subject_id);
 
-        // 如果申请换老师 插入换老师表
-        // if($ass_test_lesson_type == 2){
-        //     $phone = $this->t_seller_student_new->get_phone($userid);
-        //     $phone_location = \App\Helper\Common::get_phone_location($phone);
-        //     $ret_change_teacher = $this->t_change_teacher_list->row_insert([
-        //         "userid"  => $userid,
-        //         "subject" => $subject,
-        //         "grade"   => $grade,
-        //         "phone_location" => $phone_location,
-        //         "add_time" => time(NULL),
-        //         "ass_adminid"  =>  $this->get_account_id(),
-        //         "change_teacher_reason_type"     => $change_teacher_reason_type,
-        //         "stu_request_test_lesson_demand" => $stu_request_test_lesson_demand,
-        //         "stu_request_test_lesson_time"   => $stu_request_test_lesson_time,
-        //         "commend_type"   => $this->get_account_role(),
-        //     ]);
-        // }
-
-
         $ret=$this->t_test_lesson_subject_require->add_require(
             $this->get_account_id(),
             $this->get_account(),

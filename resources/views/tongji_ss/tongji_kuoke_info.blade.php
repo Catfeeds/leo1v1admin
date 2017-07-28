@@ -35,10 +35,12 @@
             <tbody>
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
+
                         <td>
-                            <a  href="/user_manage/index?test_user=-1&originid=-1&grade=-1&user_name={{$var["nick"]}}"&phone=undefined&assistantid=-1&order_type=-1&seller_adminid=-1"
+                            <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
                                 target="_blank" title="学生信息">{{@$var["nick"]}} </a>
                         </td>
+
 
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
