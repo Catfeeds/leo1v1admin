@@ -21,7 +21,16 @@ class ajax_deal2 extends Controller
         \App\Helper\Utils::exec_cmd($cmd);
         return $this->output_succ();
     }
+
     //JIM
+    public function office_cmd_add () {
+        $office_device_type = $this->get_in_e_office_device_type();
+        $device_opt_type    = $this->get_in_e_device_opt_type();
+        $device_id    = $this->get_in_int_val("device_id");
+        \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type);
+        return $this->output_succ();
+    }
+
     public function gen_ass_from_account() {
         $adminid=$this->get_in_adminid();
         $admin_info= $this->t_manager_info->field_get_list($adminid,"phone,name,email");
@@ -275,7 +284,7 @@ class ajax_deal2 extends Controller
             $ret_parent    = $this->t_parent_info->register($phone,md5("123456"),0,0,$account);
             if($ret_student && $ret_parent){
                 $ret['success'] =  "注册学生账号和家长账号成功";
-                $this->t_parent_child->set_student_parent($ret_parent,$ret_student); 
+                $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
             }
         }
         return $this->output_succ($ret);

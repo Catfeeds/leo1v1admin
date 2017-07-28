@@ -41,6 +41,16 @@ class admin_manage extends Controller
 
     }
 
+    public function office_cmd_list() {
+        $sync_data_list= \App\Helper\office_cmd::get_list();
+        $ret_info=\App\Helper\Utils::list_to_page_info($sync_data_list);
+        foreach( $ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            E\Eoffice_device_type::set_item_value_str($item);
+            E\Edevice_opt_type::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__, $ret_info);
 
+    }
 
 }
