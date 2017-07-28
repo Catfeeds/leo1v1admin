@@ -1,53 +1,49 @@
-  
 * 安装软件
   sudo apt-get install git nginx php-cli php-fpm  redis-server php-mysql phpunit  mysql-client php-curl gawk php-gd php-zip
-  
+
 ** 安装 mysql
-  sudo apt-get install mysql-server  
-  安装时 设置root密码  ta0mee 
-  从192.168.0.6 下载 ~/admin.yb1v1.com/tmp/my.sql 
-  
+  sudo apt-get install mysql-server
+  安装时 设置root密码  ta0mee
+  从192.168.0.6 下载 ~/admin.yb1v1.com/tmp/my.sql
+
   mysql  sql 5.7 调整:
   /etc/mysql/mysql.conf.d/mysqld.cnf
   [mysqld]
   sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-  
+
   sudo /etc/init.d/mysql restart
-  
-  
+
+
   还原数据库
-  mysql -uroot -pta0mee < my.sql 
-  
+  mysqldump -uroot -p ta0mee < my.sql
+
 * 下载git代码
-  cd ~ 
+  cd ~
   git clone    git@192.168.0.5:root/admin_yb1v1.git
-  
-  
-  cd ~/admin_yb1v1 
-  
+
+
+  cd ~/admin_yb1v1
+
   #复制配置文件
   cp .env.example .env
-  
+
   #生成 自动生成的代码
   ./gen_code.sh
-  
-  目录 
+
+  目录
   mkdir  -p ./storage/{app,framework/{cache,sessions,views,views-testing},logs}
- 
+
   文件权限
   chmod a+wr -R ./storage/ ./bootstrap/cache #./public/page_ts/g_args.d.ts
-  
-  
-* nginx 配置  
-  
+
+
+* nginx 配置
+
   sudo ln -s ~/admin_yb1v1 /var/www/admin.yb1v1.com
-  
-  cd ~/admin_yb1v1 
+
+  cd ~/admin_yb1v1
   sudo cp ./install_files/admin.yb1v1.conf /etc/nginx/sites-enabled/
   sudo /etc/init.d/nginx reload
 
   /etc/hosts 加入
- 127.0.0.1  self.admin.yb1v1.com 
-  
-  
-  
+ 127.0.0.1  self.admin.yb1v1.com
