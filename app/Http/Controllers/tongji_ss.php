@@ -6587,15 +6587,6 @@ class tongji_ss extends Controller
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            // $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
-
-            // if($item['is_done_flag'] == 0){
-            //     $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
-            // }elseif($item['is_done_flag'] == 1){
-            //     $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
-            // }elseif($item['is_done_flag'] == 2){
-            //     $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
-            // }
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
             if($is_lesson_time_flag == 1){
@@ -6607,6 +6598,18 @@ class tongji_ss extends Controller
             if($item['lesson_start'] > time()){
                 $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
             }
+
+
+            if(strpos($item["origin"],"转介绍") !== false ){
+                $item["ass_test_lesson_type_str"]=$item["origin"];
+                $item["ass_fail_type"]=1;
+            }elseif($item["ass_test_lesson_type"]==0){
+                $item["ass_test_lesson_type_str"]=$item["origin"];
+                $item["ass_fail_type"]=2;
+            }else{
+                $item["ass_fail_type"]=2;
+            }
+
 
         }
             return $this->pageView(__METHOD__,$ret_info);

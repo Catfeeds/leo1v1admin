@@ -4,20 +4,21 @@ $(function(){
     function load_data(){
         $.reload_self_page ({
             date_type                  : $('#id_date_type').val(),
-			opt_date_type              : $('#id_opt_date_type').val(),
-			start_time                 : $('#id_start_time').val(),
-			end_time                   : $('#id_end_time').val(),
+			      opt_date_type              : $('#id_opt_date_type').val(),
+			      start_time                 : $('#id_start_time').val(),
+			      end_time                   : $('#id_end_time').val(),
             lecture_appointment_status : $('#id_lecture_appointment_status').val(),
             teacherid                  : $('#id_teacherid').val(),
-			user_name                  : $('#id_user_name').val(),
-			status                     : $('#id_status').val(),
-			record_status              : $('#id_record_status').val(),
-			grade                      : $('#id_grade').val(),
-			subject                    : $('#id_subject').val(),
-			teacher_ref_type           : $('#id_teacher_ref_type').val(),
-			interview_type             : $('#id_interview_type').val(),
-			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
-			have_wx                    : $('#id_have_wx').val(),
+			      user_name                  : $('#id_user_name').val(),
+			      status                     : $('#id_status').val(),
+			      record_status              : $('#id_record_status').val(),
+			      grade                      : $('#id_grade').val(),
+			      subject                    : $('#id_subject').val(),
+			      teacher_ref_type           : $('#id_teacher_ref_type').val(),
+			      interview_type             : $('#id_interview_type').val(),
+			      lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
+			      have_wx                    : $('#id_have_wx').val(),
+			      full_time                  : $('#id_full_time').val(),
         });
     }
 
@@ -37,6 +38,7 @@ $(function(){
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'));
+    Enum_map.append_option_list("boolean", $('#id_full_time'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status')); 
     }else if(g_args.interview_type==0){
@@ -51,6 +53,7 @@ $(function(){
    
 
     $('#id_lecture_appointment_status').val(g_args.lecture_appointment_status);
+	$('#id_full_time').val(g_args.full_time);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
