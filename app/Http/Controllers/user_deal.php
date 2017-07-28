@@ -2590,8 +2590,30 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
 
-        $ret= $this->t_week_regular_course->get_end_userid();
-        dd($ret);
+        $ret1= $this->t_week_regular_course->get_end_userid();
+        $ret2= $this->t_summer_week_regular_course->get_end_userid();
+        $ret3= $this->t_winter_week_regular_course->get_end_userid();
+        $ret=[];
+        foreach($ret1 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+        foreach($ret2 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+        foreach($ret3 as $v){
+            if(!isset($ret[$v["userid"]])){
+                $ret[$v["userid"]] = $v["userid"];
+            }
+        }
+
+        foreach($ret as $val){
+            $this->delete_teacher_regular_lesson($val,1);
+        }
+        dd(11);
         $userid = 60022 ;$teacherid= 60011;
         $this->delete_teacher_regular_lesson($userid,1);
         dd(111);
