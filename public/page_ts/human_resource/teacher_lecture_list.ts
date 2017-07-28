@@ -665,17 +665,14 @@ $(function(){
                         +"<td>"+list.teacher_lecture_score+"</td>"
                         +"</tr>"
                         +"<tr>";
-                    
                 }
             }
-            
-            
-            
+
             html_node.find("table").append(html_score);
             var dlg=BootstrapDialog.show({
-                title:title, 
-                message :  html_node   ,
-                closable: true, 
+                title    : title,
+                message  : html_node,
+                closable : true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -685,7 +682,6 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
                 }
 
             });
@@ -718,13 +714,13 @@ $(function(){
                 var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label> ");
                 var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label>");
                 var id_reason_all = $("<textarea/>");
-                
+
                 var arr = [
                     ["可重审",id_re_submit],
                     ["未通过",id_lecture_out],
                     ["原因/建议",id_reason_all]
                 ];
-                
+
                 $.show_key_value_table("重审淘汰判断",arr,{
                     label    : '确认',
                     cssClass : 'btn-warning',
@@ -747,8 +743,8 @@ $(function(){
                             var id_teacher_class_atm_score  =  $("<select class=\"class_score\" />");
                             var id_teacher_explain_rhythm_score =  $("<select class=\"class_score\" />");
                             var id_teacher_blackboard_writing_score  =  $("<select class=\"class_score\" />");
-                            var id_teacher_language_performance_score  =  $("<select class=\"class_score\" />");                  
-                            
+                            var id_teacher_language_performance_score  =  $("<select class=\"class_score\" />");
+
                             var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />鼓励发言 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />善于引导 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"3\" />提问形式多样 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />关注度高 </label>");
                             var id_sshd2=$("<label><input name=\"dog\" type=\"checkbox\" value=\"5\" />空话套话过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"6\" />Yes/No问题过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"7\" />提问形式单一 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"8\" />关注度低 </label> ");
 
@@ -791,7 +787,7 @@ $(function(){
                                 grade_start = trans_grade_start;
                                 grade_end   = trans_grade_end;
                             }
-                            
+
                             var id_not_grade_list = ["101","102","103","104","105","106","201","202","203","301","302","303"];
                             Enum_map.append_checkbox_list("grade",id_not_grade,"not_grade",id_not_grade_list);
 
@@ -825,7 +821,7 @@ $(function(){
                                 ["标签-教师风格(好)",id_jsfg],
                                 ["标签-教师风格(不好)",id_jsfg2]
                             ];
-                            
+
                             $.show_key_value_table("试听评价", arr,{
                                 label    : '确认',
                                 cssClass : 'btn-warning',

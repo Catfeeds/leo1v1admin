@@ -1,13 +1,14 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_level-get_teacher_level_quarter_info.d.ts" />
+function load_data(){
+    $.reload_self_page ( {
+        order_by_str: g_args.order_by_str,
+		teacher_money_type:	$('#id_teacher_money_type').val()
+    });
+}
 
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			teacher_money_type:	$('#id_teacher_money_type').val()
-        });
-    }
-
+    
     Enum_map.append_option_list("teacher_money_type", $("#id_teacher_money_type"),true,[1,4,5]);
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
@@ -39,7 +40,8 @@ $(function(){
                     'record_score_avg':opt_data.record_score_avg,
                     'record_final_score':opt_data.record_final_score,
                     'is_refund'  :opt_data.is_refund ,
-                    'total_score':opt_data.total_score
+                    'total_score':opt_data.total_score,
+                    'hand_flag':opt_data.hand_flag
                 });
             } 
         });
@@ -87,6 +89,34 @@ $(function(){
         });
 
     });
+
+    $("#id_add_teacher").on("click",function(){
+        var id_teacherid           = $("<input/>");
+       
+        var id_score            = $("<input/>");
+
+       
+
+        var arr = [
+            ["老师", id_teacherid],
+            ["总得分", id_score],           
+        ];
+
+        $.show_key_value_table("新增晋升老师", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {               
+
+                $.do_ajax('/teacher_level/add_teacher_advance_info',{
+                    "teacherid"              : id_teacherid.val(),
+                    "total_score"                : id_score.val(),
+                });
+            }
+        },function(){
+            $.admin_select_user(id_teacherid,"teacher");
+        });
+    });
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

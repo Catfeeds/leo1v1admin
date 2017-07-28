@@ -1613,7 +1613,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on ll.userid = s.userid ".
                                   " join %s tt on ll.teacherid = tt.teacherid ".
-                                  " where %s  ",
+                                  " where %s order by ll.userid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,

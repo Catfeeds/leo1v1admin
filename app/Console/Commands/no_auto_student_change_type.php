@@ -75,6 +75,7 @@ class no_auto_student_change_type extends Command
                 "adminid"     =>0,
                 "reason"      =>"系统更新"
             ]);
+            $task->delete_teacher_regular_lesson($val["userid"],1);
 
         }
 

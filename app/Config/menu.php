@@ -221,6 +221,7 @@ class menu{
 
                 ["power_id"=>32, "name"=>"考勤机器",   "url"=>"/admin_manage/kaoqin_machine"],
                 ["power_id"=>33, "name"=>"考勤机器-人员配置",   "url"=>"/admin_manage/kaoqin_machine_adminid"],
+                ["power_id"=>34, "name"=>"开关设备",   "url"=>"/admin_manage/office_cmd_list"],
                 ["power_id"=>21, "name"=>"后台成员分组",   "url"=>"/user_manage_new/admin_group_edit"],
                 ["power_id"=>22, "name"=>"后台主管成员分组",   "url"=>"/user_manage_new/admin_main_group_edit"],
                 ["power_id"=>24, "name"=>"销售主管分组比例配置",   "url"=>"/user_manage_new/admin_main_assign_percent_edit"],
@@ -394,6 +395,7 @@ class menu{
                     ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
                     ["power_id"=>8, "name"=>"转介绍统计",   "url"=>"/tongji_ss/tongji_referral"],
                     ["power_id"=>9, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
+                    ["power_id"=>10, "name"=>"调课统计-家长",   "url"=>"/tongji_ss/tongji_change_lesson_by_parent"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
@@ -532,7 +534,7 @@ class menu{
                 ["power_id"=>40, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_teacher_info"],
                 ["power_id"=>41, "name"=>"学情回访预警信息",   "url"=>"/user_manage_new/ass_revisit_warning_info"],
                 ["power_id"=>75, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_ass_leader"],
-                ["power_id"=>55, "name"=>"结课两周用户统计",   "url"=>"/user_manage_new/get_two_weeks_old_stu"],
+                ["power_id"=>55, "name"=>"结课两周用户统计",   "url"=>"/user_manage_new/get_two_weeks_old_stu_seller"],
 
             ]],
 

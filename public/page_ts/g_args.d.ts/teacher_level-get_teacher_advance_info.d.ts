@@ -39,6 +39,7 @@ interface RowData {
 	accept_time	:any;
 	accept_flag	:any;
 	accept_info	:any;
+	hand_flag	:any;
 	realname	:any;
 	level_before_str	:any;
 	level_after_str	:any;

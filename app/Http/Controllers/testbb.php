@@ -80,7 +80,8 @@ class testbb extends Controller
 
 
     public function test () {
-
+        $type = $this->get_account_role();
+        dd($type);
     }
 
     public function lesson_send_msg(){

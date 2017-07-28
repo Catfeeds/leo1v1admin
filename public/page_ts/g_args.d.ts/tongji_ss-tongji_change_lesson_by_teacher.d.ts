@@ -19,8 +19,8 @@ interface RowData {
 	teacherid	:any;
 	lesson_count	:any;
 	lesson_cancel_reason_type	:any;
+	lesson_count_total	:any;
 	teacher_nick	:any;
-	lesson_cancel_reason_type_str	:any;
 }
 
 /*

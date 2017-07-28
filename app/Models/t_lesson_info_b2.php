@@ -1793,46 +1793,217 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $ret_info;
 
     }
+
+    public function get_stu_userid($wx_openid) {
+        $where_arr = [
+            // ["p.wx_openid=%u",$wx_openid,0],
+            ["p.parentid=%u",$wx_openid,0],
+        ];
+            //查出该家长下有最大常规课的userid
+        $sql = $this->gen_sql_new("SELECT s.userid, s.nick, s.realname "
+                                  .",SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
+                                  ." FROM %s l"
+                                  ." LEFT JOIN %s s ON l.userid=s.userid"
+                                  ." LEFT JOIN %s p ON p.userid=s.userid"
+                                  ." WHERE %s "
+                                  ." GROUP BY s.userid"
+                                  ." ORDER BY normal_nums DESC"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql)['userid'];
+
+    }
+
+    public function get_stu_title($wx_openid) {
+        $userid = $this->get_stu_userid($wx_openid);
+        $start_time = strtotime("2016-08-06");
+        $end_time   = strtotime("2017-08-06");
+        $where_arr  = [
+            ["userid=%u", $userid, 0],
+            ["lesson_start>%u", $start_time, 0],
+            ["lesson_end<%u", $end_time, 0],
+            "lesson_type in (0,1,3)",
+        ];
+
+        $sql    = $this->gen_sql_new("SELECT COUNT(1) AS count,subject"
+                                     ." FROM %s"
+                                     ." WHERE %s"
+                                     ." GROUP BY subject"
+                                     , self::DB_TABLE_NAME
+                                     ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
     public function get_stu_lesson_info( $parentid){
+
         $where_arr = [
             ["p.parentid=%u",$parentid,0],
         ];
-        //查出该家长下有最大常规课的userid
-        $sql=$this->gen_sql_new("select s.userid, "
-                                ." SUM( if(l.lesson_type in (0,1,3),1,0) ) as normal_nums "
-                                ." from %s l"
-                                ." left join %s s on l.userid=s.userid"
-                                ." left join %s p on p.userid=s.userid"
-                                ." where %s "
-                                ." order by normal_nums",
-                                self::DB_TABLE_NAME,
-                                t_student_info::DB_TABLE_NAME,
-                                t_parent_child::DB_TABLE_NAME,
-                                $where_arr
+        //查出该家长下有最大常规课的userid,还有常规课课时
+        $sql = $this->gen_sql_new("SELECT s.userid, s.nick, s.realname,"
+                                ." SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
+                                ." FROM %s l"
+                                ." LEFT JOIN %s s ON l.userid=s.userid"
+                                ." LEFT JOIN %s p ON p.userid=s.userid"
+                                ." WHERE %s "
+                                ." ORDER BY normal_nums"
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_parent_child::DB_TABLE_NAME
+                                ,$where_arr
         );
+        // dd($sql);
+        $sql = $this->gen_sql_new(
+            "select count(1),subject from %s group by subject"
+            ,self::DB_TABLE_NAME
+        );
+        // dd($sql);
+        dd($this->main_get_list($sql));
         $ret_info = $this->main_get_row($sql);
-        $userid = $ret_info["userid"];
+        $userid   = $ret_info["userid"];
         //P1：我的理优学习之路  理优称号：全科大师、数学能手、语文勇士等（在读时间）
         //2016-8-6     2017-8-6 之间
         $start_time = strtotime("2016-08-06");
-        $end_time = strtotime("2017-08-06");
-        $where_arr = [
-            "userid=".$userid,
-            "lesson_start>".$start_time,
-            "lesson_end<".$end_time,
-            "lesson_type in (0,1,2)",
+        $end_time   = strtotime("2017-08-06");
+        $where_arr  = [
+            ["userid=%u", $userid, 0],
+            ["lesson_start>%u", $start_time, 0],
+            ["lesson_end<%u", $end_time, 0],
+            "lesson_type in (0,1,3)",
         ];
-        $sql=$this->gen_sql_new("select subject"
-                                ." from %s"
-                                ." where %s",
-                                // order by normal_nums",
-                                self::DB_TABLE_NAME,
-                                $where_arr
+        $sql = $this->gen_sql_new("SELECT COUNT(subject) AS subject_count, subject"
+                                ." FROM %s"
+                                ." WHERE %s"
+                                ." GROUP BY subject"
+                                ." ORDER BY subject_count DESC"
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr
         );
-echo $sql;
-        $ret_info = $this->main_get_list($sql);
-dd($ret_info);
-        exit;
+        $ret = $this->main_get_list($sql);
+        $ret_info['p1'] = $ret;
+        //P3   第一节试听课的上课开始时间，科目，老师；第一节常规课的开始时间，科目，老师
+        //试听课
+        $where_arr = [
+            ["lesson_type=%u", 2, 0],
+            ["userid=%u", $userid, 0],
+            "lesson_start>0"
+        ];
+        $sql = $this->gen_sql_new("SELECT lesson_start, subject, teacherid"
+                                ." FROM %s"
+                                ." WHERE %s"
+                                ." ORDER BY lesson_start"
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        $free_info = $this->main_get_row($sql);
+        $ret_info["free_info"] = $free_info ;
+
+        //常规
+        $where_arr = [
+            ["lesson_type in %s", "(0,1,3)", 0],
+            ["userid=%u", $userid, 0],
+            "lesson_start>0"
+        ];
+        $sql = $this->gen_sql_new("SELECT lesson_start, subject, teacherid"
+                                ." FROM %s"
+                                ." WHERE %s"
+                                ." ORDER BY lesson_start"
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        $normal_info = $this->main_get_row($sql);
+
+        $ret_info["normal_info"] = $normal_info;
+        //P4：理优的每次“勤奋” 包含作业情况，习题反馈情况 (作业分数，) [和P7一起查]
+        $where_arr = [
+            ["l.lesson_type in %s", "(0,1,3)", 0],
+            ["l.userid=%u", $userid, 0],
+            ["l.lesson_start>%u", $start_time, 0],
+            ["l.lesson_end<%u", $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("SELECT COUNT( w.score ) AS score_count, w.score"
+                                ." FROM %s l"
+                                ." LEFT JOIN %s w ON l.lessonid=w.lessonid"
+                                ." WHERE %s"
+                                ." GROUP BY w.score"
+                                ,self::DB_TABLE_NAME
+                                ,t_homework_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        // dd($sql);
+        $homework_info = $this->main_get_list($sql);
+        // dd($homework_info);
+        $ret_info["homework_info"] = $homework_info;
+
+        //P5：最爱的老师,包含上课top3的授课老师--每个老师的消耗课时 （常规课）   取前3
+        $where_arr = [
+            ["lesson_type in %s", "(0,1,3)", 0],
+            ["userid=%u", $userid, 0],
+            ["lesson_start>%u", $start_time, 0],
+            ["lesson_end<%u", $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("SELECT teacherid, COUNT(teacherid) AS teacherid_count"
+                                ." FROM %s"
+                                ." WHERE %s"
+                                ." GROUP BY teacherid"
+                                ." ORDER BY teacherid_count DESC"
+                                ." LIMIT 3"
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        $top_teacher = $this->main_get_list($sql);
+        $ret_info["top_teacher"] = $top_teacher;
+        //P7：前进方向        包含，迟到、旷课、请假、不写作业、差评等情况
+        $where_arr = [
+            ["l.lesson_type in %s", "(0,1,3)", 0],
+            ["l.userid=%u", $userid, 0],
+            ["l.lesson_start>%u", $start_time, 0],
+            ["l.lesson_end<%u", $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("SELECT SUM( if( l.lesson_start<l.stu_attend,1,0 ) ) AS late_nums" //迟到
+                                .", SUM( if( l.confirm_flag in (2,3) and l.lesson_cancel_reason_type=20,1,0 ) ) AS miss_class_nums"                                                                                //旷课
+                                .", SUM( if( l.confirm_flag in (2,3) and l.lesson_cancel_reason_type in (1,11),1,0) ) AS leave_nums"                                                                               //请假
+                                .", SUM( if( w.work_status=1,1,0 ) )AS unfinished_nums"            //不写作业
+                                ." FROM %s l"
+                                ." LEFT JOIN %s w ON l.lessonid=w.lessonid"
+                                ." WHERE %s"
+                                ,self::DB_TABLE_NAME
+                                ,t_homework_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        $stu_msg = $this->main_get_list($sql);
+        $ret_info["stu_msg"] = $stu_msg;
+        //查询评论
+        $sql = $this->gen_sql_new("SELECT COUNT(l.teacher_score) AS score_count,l.teacher_score"
+                                  ." FROM %s l"
+                                  ." WHERE %s"
+                                  ." GROUP BY l.teacher_score "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        $score_info = $this->main_get_list($sql);
+        $ret_info["score_info"] = $score_info;
+        //P8：你的学习给世界带来美        已上课多少天，减排多少量，保护了多少绿植，增加了多少蓝天
+        $where_arr = [
+            ["lesson_type in %s", "(0,1,3)", 0],
+            ["userid=%u", $userid, 0],
+        ];
+        $sql = $this->gen_sql_new("SELECT lesson_start, lesson_end"
+                                ." FROM %s"
+                                ." WHERE %s"
+                                ,self::DB_TABLE_NAME
+                                ,$where_arr
+        );
+        $ret        = $this->main_get_list($sql);
+        $start_time = $ret[0]["lesson_start"];
+        $end_list   = count($ret) - 1;
+        $last_time  = $ret[ $end_list ]["lesson_end"];
+        $days       = number_format( ( $last_time - $start_time )/ (3600*24), 1 );
+        $ret_info["days"] = $days;
+        return $ret_info;
     }
 
 
@@ -2047,13 +2218,14 @@ dd($ret_info);
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
         $where_arr = [
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
-            "l.teacherid>0"
+            "l.teacherid>0",
+            "lesson_del_flag = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
-                                  " where %s order by l.lesson_start desc",
+                                  " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -2061,5 +2233,81 @@ dd($ret_info);
         return $this->main_get_list_by_page($sql,$page_num,30,true);
 
     }
+
+
+    public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            ["l.teacherid=%d",$teacherid],
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+
+    public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            "l.userid>0",
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " left join %s tp on tp.parentid = s.parentid".
+                                  " where %s group by l.userid order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
+
+    }
+
+
+
+
+    public function get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            ["l.userid=%d",$userid],
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " left join %s tp on  tp.parentid = s.parentid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+
 
 }

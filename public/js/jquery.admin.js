@@ -1206,32 +1206,45 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
 
 
         }
+        
+        var field_list=[];
+        if (type=="teacher" || type=="none_freeze_teacher" || type=="interview_teacher" || type=="jiaoyan_teacher" || type=="research_teacher") {
+            field_list= [
+                {
+                    title:"id",
+                    width :50,
+                    field_name:"id"
+                },{
+                    title:"性别",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.gender;
+                    }
 
+                },{
+                    title:"昵称",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.nick;
+                    }
+                },{
+                    title:"真实姓名",
+                    //width :50,
+                    render:function(val,item) {
+                        return item.realname;
+                    }
 
+                },{
+                    title:"电话",
+                    field_name:"phone"
+                },{
+                    title:"科目",
+                    field_name:"subject"
+                }
+            ];
 
-        $element.admin_select_dlg_ajax({
-            "lru_flag" : true,
-            "lru_item_desc" : function(item ) {
-                return " "+ item.nick + "-"+ item.phone ;
-            },
-            "opt_type" :  "select", // or "list"
-            select_no_select_value  :   select_no_select_value , // 没有选择是，设置的值
-            select_no_select_title  :   select_no_select_title, // "未设置"
-
-            "url"          : "/user_manage/get_user_list",
-            //其他参数
-            "args_ex" : {
-                type  : type ,
-                groupid: args_ex.groupid,
-                adminid: args_ex.adminid
-            },
-            select_primary_field : "id",
-            select_display       : "nick",
-
-
-
-            //字段列表
-            'field_list' :[
+        }else{
+            field_list= [
                 {
                     title:"id",
                     width :50,
@@ -1260,7 +1273,34 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                     title:"电话",
                     field_name:"phone"
                 }
-            ] ,
+            ];
+
+        }
+
+
+        $element.admin_select_dlg_ajax({
+            "lru_flag" : true,
+            "lru_item_desc" : function(item ) {
+                return " "+ item.nick + "-"+ item.phone ;
+            },
+            "opt_type" :  "select", // or "list"
+            select_no_select_value  :   select_no_select_value , // 没有选择是，设置的值
+            select_no_select_title  :   select_no_select_title, // "未设置"
+
+            "url"          : "/user_manage/get_user_list",
+            //其他参数
+            "args_ex" : {
+                type  : type ,
+                groupid: args_ex.groupid,
+                adminid: args_ex.adminid
+            },
+            select_primary_field : "id",
+            select_display       : "nick",
+
+
+
+            //字段列表
+            'field_list' : field_list,
             //查询列表
             filter_list: filter_list,
 

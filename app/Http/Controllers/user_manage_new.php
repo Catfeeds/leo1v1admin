@@ -2750,8 +2750,9 @@ class user_manage_new extends Controller
         $master_renw_flag = $this->get_in_int_val("master_renw_flag",-1);
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
+        $done_flag = $this->get_in_int_val("done_flag",0);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
@@ -3063,6 +3064,7 @@ class user_manage_new extends Controller
 
     public function get_two_weeks_old_stu_seller(){
 
+        $this->switch_tongji_database();
         $grade          = $this->get_in_grade();
         $all_flag       = $this->get_in_int_val('all_flag',0);
         $test_user      = $this->get_in_int_val('test_user',-1);
@@ -3090,13 +3092,31 @@ class user_manage_new extends Controller
         // }
 
         list($start_time,$end_time)= $this->get_in_date_range(-100 ,0, 0 );
+        $stu_list =[];
 
         $list = $this->t_student_info->get_student_search_two_weeks_list( $start_time,$end_time,$all_flag,
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
                                                                               $seller_adminid,$ass_adminid_list);
-        dd($list);
+        foreach($list as $val){
+            if(!isset($stu_list[$val["userid"]])){
+                $stu_list[$val["userid"]] = $val["userid"];
+            }
+        }
+        $warning_list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller( $start_time,$end_time,$all_flag,
+                                                                              $userid, $grade, $status,
+                                                                              $user_name, $phone, $teacherid,
+                                                                              $assistantid, $test_user, $originid,
+                                                                              $seller_adminid,$ass_adminid_list);
+        foreach($warning_list as $val){
+            if(!isset($stu_list[$val["userid"]])){
+                $stu_list[$val["userid"]] = $val["userid"];
+            }
+        }
+
+        $ret_info = $this->t_student_info->get_end_stu_for_seller($page_num,$stu_list,$order_type);
+
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
@@ -3615,13 +3635,62 @@ class user_manage_new extends Controller
     public function get_stu_lesson_count_info() {
         $wx_openid = $this->get_in_str_val("wx_openid");
         $parentid = 60004; 
-        $parentid = 60436;
-        // $page_num  = $this->get_in_page_num();
+        // $parentid = 60436;
         $ret_info  = $this->t_lesson_info_b2->get_stu_lesson_info($parentid);
-        return $this->Pageview(__METHOD__,$ret_info);
-
-        echo 3;
+        // foreach ($ret_info['p1'] as &$item ) {
+        //     E\Esubject::set_item_value_str($item);
+        // }
+        // foreach ($ret_info as &$item ) {
+        //     if ( is_array($item) && array_key_exists("subject", $item)) {
+        //         E\Esubject::set_item_value_str($item);
+        //     }
+        // }
+        // $item['originid']          = E\Estu_origin::get_desc($item['originid']);
+        // $ret_info['free_info']['subject_str']  = E\Esubject::get_desc($ret_info['free_info']['subject']);
+        // $ret_info['normal_info']['subject_str']  = E\Esubject::get_desc($ret_info['normal_info']['subject']);
+        dd($ret_info);
     }
+    public function get_stu_lesson_title() {
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $parentid = 60004; 
+        $wx_openid = 60004; 
+        $wx_openid = 60436;
+        $list  = $this->t_lesson_info_b2->get_stu_title($wx_openid);
+        if ( count($list) >= 3 ) {
+            $stu_lesson_title = '全能大王';
+        } else { 
+            //0未设定 1语文 2数学 3英语 4化学 5物理 6生物 7政治 8历史 9地理
+            $total = 0;
+            foreach ($list as $v) {
+                $total += $v["count"];
+            }
+            foreach ($list as $v) {
+                if ( ($v["count"]/$total) > 0.75 ) {
+                    switch( $v["subject"] ) {
+                        case 1:
+                            $stu_lesson_title = "语文巧匠";
+                            break;
+                        case 2:
+                            $stu_lesson_title = "数学能手";
+                            break;
+                        case 3:
+                            $stu_lesson_title = "英语达人";
+                            break;
+                        case 4:
+                            $stu_lesson_title = "化学大师";
+                            break;
+                        case 5:
+                            $stu_lesson_title = "物理博士";
+                            break;
+                    }
+                }
+            }
+            $stu_lesson_title = "学习勇士";
+        }
+        // dd($list);
+        dd($stu_lesson_title);
+    }
+
 
 
 }

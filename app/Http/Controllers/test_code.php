@@ -1470,14 +1470,11 @@ class test_code extends Controller
             echo $val['nick']."|".$val['phone']."|".$str;
             echo "<br>";
         }
-
-
-
-
-
-
     }
 
+    /**
+     * 有5个合同以上的名单
+     */
     public function get_order_5(){
         $this->switch_tongji_database();
         $list = $this->t_order_info->get_order_5();
@@ -1507,5 +1504,20 @@ class test_code extends Controller
         $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
         dispatch($job);
     }
+
+    /**
+     * 获取学生第一次签约时间，科目明细
+     */
+    public function get_stu_order_list(){
+        $start_time = strtotime("2016-5-1");
+        $end_time = strtotime("2017-6-30");
+        $list = $this->t_order_info->get_stu_order_list($start_time,$end_time);
+        echo count($list);
+        exit;
+        foreach($list as $val){
+            
+        }
+    }
+
 
 }

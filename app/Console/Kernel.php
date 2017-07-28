@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
         Commands\teacher_advance_send_wx::class,
+	Commands\set_every_month_student_score::class,
         Commands\ass_wx_remind_send_day::class,
         Commands\no_auto_student_change_type::class,
         Commands\send_teacher_train_interview_info_day::class,

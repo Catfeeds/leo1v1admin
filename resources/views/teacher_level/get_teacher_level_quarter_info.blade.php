@@ -12,6 +12,10 @@
                         </select>
                     </div>
                 </div>               
+                <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
+                </div>                
+
 
 
             </div>
@@ -37,7 +41,9 @@
                     <td>教学质量评估分</td>
                     
                     <td>有无退费</td>
-                    <td>总得分</td>
+                    {!!\App\Helper\Utils::th_order_gen([  
+                        ["总得分","total_score" ],
+                       ])  !!}
                     <td>晋升情况</td>
                    
                     <td> 操作  </td>
