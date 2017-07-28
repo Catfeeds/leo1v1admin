@@ -258,7 +258,7 @@ class Common {
         $mail->Password = "xcwen@142857"; // 邮局密码
 
         $mail->From = "trc@leoedu.cn"; //邮件发送者email地址
-        $mail->FromName = "理优教研室";
+        $mail->FromName = "理优教学管理部";
 
         if (is_array(  $address)) {
             foreach ( $address as $item ){

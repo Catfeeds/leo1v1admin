@@ -857,10 +857,8 @@ class tea_manage_new extends Controller
             ));
 
             $this->t_lesson_info->field_update_list($lessonid,[
-                "train_email_flag"  =>1 
+                "train_email_flag"  =>1
             ]);
-
- 
         }
 
 

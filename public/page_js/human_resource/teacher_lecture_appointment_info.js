@@ -572,7 +572,7 @@ $(function(){
         var id_grade          = $("<select/>");
         var id_record_teacher = $("<input/>");
         var id_start_time     = $("<input/>");
-        
+
         id_start_time.datetimepicker( {
             lang       : 'ch',
             timepicker : true,
@@ -584,7 +584,7 @@ $(function(){
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
         id_subject.val(opt_data.subject_num);
-       
+
         var arr = [
             ["审核老师",  id_record_teacher ]  ,
             ["科目",  id_subject ]  ,
@@ -608,10 +608,8 @@ $(function(){
         }],function(){
             $.admin_select_user( id_record_teacher, "research_teacher");
         });
-
-        
     });
-    
+
     $(".show_detail").on("click",function(){
         var val = $(this).data("value");
         BootstrapDialog.alert({

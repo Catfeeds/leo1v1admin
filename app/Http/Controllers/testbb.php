@@ -84,7 +84,8 @@ class testbb extends Controller
         // dd($type);
         /* ["课时损失率","lesson_lose_rate" ], */
         /* ["课时系数","lesson_rate" ], */
-
+        $cc = number_format(18.47,2);
+        dd($cc);
         $ret = $this->t_test_lesson_subject_sub_list->ceshi();
         dd($ret);
 

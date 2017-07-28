@@ -301,7 +301,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     public function tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time){
         $where_arr=[
             ["answer_begin_time >=%u",$start_time,-1],
-            ["answer_begin_time <=%u",$end_time,-1]
+            ["answer_begin_time <=%u",$end_time,-1],
+            "la.accept_adminid>0"
         ];
         $sql= $this->gen_sql_new("select count(*) all_count,accept_adminid,m.account "
                                  ." from %s la "

@@ -141,15 +141,14 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
+                            @if($show_full_time==1)
+                                <a class="fa-edit opt-edit-full_time" title="全职老师审核"></a>
+                            @elseif($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
-                            @endif
-                            @if($show_full_time==1)
-                                <a class="fa-edit opt-edit-full_time" title="全职老师审核"></a>
                             @endif
                         </div>
                     </td>

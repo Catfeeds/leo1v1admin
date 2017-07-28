@@ -2080,13 +2080,13 @@ class tea_manage extends Controller
 
     public function train_lecture_lesson_zs(){
         $this->set_in_value("is_all",1);
-        return $this->train_lecture_lesson();   
+        return $this->train_lecture_lesson();
     }
 
     public function train_lecture_lesson_full_time(){
         $this->set_in_value("full_time",1);
         $this->set_in_value("show_full_time",1);
-        return $this->train_lecture_lesson();   
+        return $this->train_lecture_lesson();
     }
 
     public function train_lecture_lesson(){
@@ -2123,7 +2123,7 @@ class tea_manage extends Controller
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
-            $res_teacherid,$have_wx,$lecture_status,$opt_date_str,$train_email_flag
+            $res_teacherid,$have_wx,$lecture_status,$opt_date_str,$train_email_flag,$full_time
         );
         foreach($ret_info['list'] as &$val){
             \App\Helper\Utils::unixtime2date_range($val);
