@@ -245,6 +245,7 @@ class ss_deal2 extends Controller
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid);
 
         foreach($ret_info as &$item){
+            $item['teacher_nick']     = $this->cache_get_teacher_nick($item['teacherid']);
             $item['ass_nick']     = $this->cache_get_assistant_nick($item['assistantid']);
             $item['lesson_count'] = $item['lesson_count']/100;
             E\Econtract_type::set_item_value_str($item,'lesson_type');
@@ -255,7 +256,7 @@ class ss_deal2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'','H:i:s');
         }
 
-        dd($ret_info);
+        // dd($ret_info);
         return $this->output_succ(['data'=>$ret_info]);
     }
 

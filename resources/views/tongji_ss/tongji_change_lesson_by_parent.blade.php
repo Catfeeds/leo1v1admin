@@ -45,7 +45,7 @@
                         <td>{{@$index}}</td>
                         <td>{{@$var["nick"]}}</td>
                         <td>{{@$var["ass_nick"]}}</td>
-                        <td class="show_detail" date-teacherid="{{$var['userid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
+                        <td class="show_detail" date-userid="{{$var['userid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -61,7 +61,7 @@
         <div style="display:none;" >
             <div id="id_assign_log">
                 <table   class="table table-bordered "   >
-                    <tr>  <th> 学生 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>助教 <th>课时数 <th>课时确认</tr>
+                    <tr>  <th> 学生 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>老师 <th>助教 <th>课时数 <th>课时确认</tr>
                         <tbody class="data-body">
                         </tbody>
                 </table>

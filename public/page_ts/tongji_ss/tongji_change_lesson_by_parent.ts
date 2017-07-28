@@ -52,7 +52,7 @@ $(function(){
             $.each(data, function (i, item) {
                 var cls = "success";
 
-                html_str += "<tr class=\"" + cls + "\" > <td>" + item.nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.grade_str+ "<td>"+item.subject_str+"<td>"+item.ass_nick+ "<td>" +item.lesson_count+ "<td>" + item.lesson_cancel_reason_type_str+ "</tr>";
+                html_str += "<tr class=\"" + cls + "\" > <td>" + item.nick + "<td>" + item.lesson_type_str + "<td>" + item.lesson_start+'-'+item.lesson_end + "<td>" + item.grade_str+ "<td>"+item.subject_str +"<td>"+item.teacher_nick  +"<td>"+item.ass_nick+ "<td>" +item.lesson_count+ "<td>" + item.lesson_cancel_reason_type_str+ "</tr>";
             });
 
             html_node.find(".data-body").html(html_str);

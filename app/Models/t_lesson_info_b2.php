@@ -2122,7 +2122,7 @@ dd($ret_info);
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
+        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on  tp.parentid = s.parentid".
                                   " where %s order by l.lesson_start desc",
