@@ -167,7 +167,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }
 
         $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.grade_ex,la.subject_ex,la.textbook,la.school,"
-                                  ." la.teacher_type,la.custom,la.self_introduction_experience,"
+                                  ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
                                   ." if(l.status is null,'-2',l.status) as status,"
                                   ." if(ta.lessonid is not null,4,la.lecture_revisit_type) lecture_revisit_type,"

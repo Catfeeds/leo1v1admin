@@ -964,4 +964,19 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
 
 
 
+    public function ceshi(){
+        $sql = "select tr.change_teacher_reason_type, tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject,tr.origin,tt.ass_test_lesson_type,t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid,  tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc, tss.order_confirm_flag  from db_weiyi.t_test_lesson_subject_sub_list tss left join db_weiyi.t_lesson_info l on tss.lessonid = l.lessonid left join db_weiyi.t_student_info s on l.userid = s.userid left join db_weiyi.t_teacher_info t on t.teacherid = l.teacherid left join db_weiyi.t_test_lesson_subject_require tr on tss.require_id = tr.require_id left join db_weiyi.t_test_lesson_subject tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id left join db_weiyi_admin.t_manager_info m on tr.cur_require_adminid = m.uid where l.lesson_del_flag=0 and m.account_role=1 and tr.origin like '%%换老师%%' and l.lesson_start>=1501171200 and l.lesson_start<1501257600 order by l.lesson_start  limit 0,10
+
+";
+
+
+        return $this->main_get_list($sql);
+
+
+
+
+    }
+
+
+
 }

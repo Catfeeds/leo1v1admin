@@ -260,12 +260,13 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         $where_arr=[
             ["confirm_time >= %u",$start_time,-1],
             ["confirm_time <= %u",$end_time,-1],
-            ["status=%u",$status,-1],
             "is_test_flag =0",
             "account <> 'adrian'"
         ];
         if($status==-2){
             $where_arr[] = "status <>4";
+        }else{           
+            $where_arr[] = ["status=%u",$status,-1];
         }
         $sql = $this->gen_sql_new("select subject, count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s where %s  and subject>0  group by subject",
                                   self::DB_TABLE_NAME,
