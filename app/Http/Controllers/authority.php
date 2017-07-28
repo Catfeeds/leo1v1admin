@@ -461,4 +461,18 @@ class authority extends Controller
         return $this->output_succ();
     }
 
+    public function seller_edit_log_list(){
+        $list = $this->t_seller_edit_log->get_all_list();
+        foreach ($list as &$item ) {
+            $power_list=explode(",", $item["group_authority"]);
+            foreach ( $power_list as $p) {
+                $item["l_$p"] = true;
+            }
+
+        }
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$ret_info,
+                               ["power_define_list"=> E\Epower::$desc_map ,] );
+    }
+
 }

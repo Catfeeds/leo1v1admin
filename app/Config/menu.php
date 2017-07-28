@@ -426,7 +426,6 @@ class menu{
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
-
                 ["power_id"=>60, "name"=>"排行榜",   "url"=>"/main_page/seller" ],
                 ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
                 ["power_id"=>75, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
@@ -441,9 +440,6 @@ class menu{
 
                 ["power_id"=>1, "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
                 ["power_id"=>2, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user"],
-
-
-
                 ["power_id"=>3, "name"=>"试听签单与否反馈", "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
 
                 ["power_id"=>59, "name"=>"讲师申请帮助",   "url"=>"/teacher_apply/teacher_apply_list_one" ],
@@ -468,6 +464,7 @@ class menu{
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
+                ["power_id"=>36, "name"=>"销售-修改日志",   "url"=>"/authority/seller_edit_log_list"],
 
                 ["power_id"=>91, "name"=>"状态分类",  "list"=>[
                     ["power_id"=>2, "name"=>"未回访&未接通",   "url"=>"/seller_student_new/seller_student_list_0"],
