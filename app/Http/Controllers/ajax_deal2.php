@@ -253,6 +253,21 @@ class ajax_deal2 extends Controller
         $this->t_student_score_info->row_delete($id);
         return $this->output_succ();
     }
+    /**
+     *@author  sam
+     *@function 取消添加考试成绩
+     */
+    public function score_cancel(){
+        $id = $this->get_in_int_val('id');
+        $reason = $this->get_in_str_val('reason');
+        $data = [
+            'reason' => $reason,
+            'status' => 1,
+        ];
+        $ret = $this->t_student_score_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
 
      /**
      *@author   sam
