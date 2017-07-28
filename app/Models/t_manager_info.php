@@ -1120,8 +1120,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             $auth_flag=$item["auth_flag"];
             $passwd="";
             if (!$open_door_flag) {
-                $passwd= $this->t_admin_users->get_password($ccid);
-                //$passwd= md5("123"); //$this->t_user_info->get_passwd($ccid);
+                //$passwd= $this->t_admin_users->get_password($ccid);
+                $passwd= md5("123"); //$this->t_user_info->get_passwd($ccid);
             }
             \App\Helper\Utils::logger("SN_passwd:$passwd");
 
