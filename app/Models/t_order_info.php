@@ -2537,4 +2537,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_stu_order_list($start,$end){
+        $where_arr = [
+            ["pay_time>%u",$start,0],
+            ["pay_time<%u",$end,0],
+        ];
+        $sql = $this->gen_sql_new("select s.phone,s.realname,s.grade,min(pay_time),o.subject,"
+                                  ." sum(o.lesson_total*default_lesson_count) as lesson_total"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by o.subject"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

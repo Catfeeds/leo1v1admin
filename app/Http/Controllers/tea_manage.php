@@ -2213,6 +2213,8 @@ class tea_manage extends Controller
             }
         }
 
+        $appointment_info = $this->t_teacher_lecture_appointment_info->get_simple_info($teacher_info['phone']);
+        $full_time = $appointment_info['full_time'];
         //微信通知老师
         $wx_openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
         if($wx_openid && ($flag==1 || $flag==0)){
@@ -2226,28 +2228,51 @@ class tea_manage extends Controller
              * {{remark.DATA}}
              */
             $data=[];
-            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $url = "";
-            if($flag==1){
-                $data['first']    = "老师您好,恭喜您已经成功通过试讲";
-                $data['keyword1'] = "通过";
-                $data['keyword2'] = "\n账号:".$phone
-                                  ."\n密码:123456"
-                                  ."\n新师培训群号：315540732"
-                                  ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
-                $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
-  
-            }else if($flag==0){
-                $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
-                $data['keyword1'] = "未通过";
-                $data['keyword2'] = "\n您的面试反馈情况是".$record_info
-                                  ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
-                $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
-                $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
- 
+            if($full_time==0){
+                $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                if($flag==1){
+                    $data['first']    = "老师您好,恭喜您已经成功通过试讲";
+                    $data['keyword1'] = "通过";
+                    $data['keyword2'] = "\n账号:".$phone
+                                      ."\n密码:123456"
+                                      ."\n新师培训群号：315540732"
+                                      ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+                    $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
+                }else if($flag==0){
+                    $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
+                    $data['keyword1'] = "未通过";
+                    $data['keyword2'] = "\n您的面试反馈情况是".$record_info
+                                      ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
+                    $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
+                }
+            }elseif($full_time==1){
+                /**
+                   9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                   {{first.DATA}}
+                   评估内容：{{keyword1.DATA}}
+                   评估结果：{{keyword2.DATA}}
+                   时间：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 */
+                $template_id = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                if($flag==1){
+                    $data['first']="老师您好，恭喜您已经成功通过初试。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+                }else{
+                    $data['first']="老师您好，很抱歉您没有通过面试审核。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="未通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
+                }
             }
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }

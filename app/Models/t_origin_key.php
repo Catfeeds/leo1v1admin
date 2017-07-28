@@ -118,7 +118,7 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
         }
 
         $sql = $this->gen_sql_new("update %s set origin_level=%d ".
-                              " where %s and origin_level <> 90 ",
+                                  " where %s  ", //and origin_level <> 90
                               self::DB_TABLE_NAME,
                               $origin_level,
                               $where_arr

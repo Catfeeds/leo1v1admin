@@ -39,6 +39,22 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
 
     }
 
+    public function get_hand_add_list($start_time,$hand_flag){
+        $where_arr=[
+            ["start_time = %u",$start_time,0],
+            ["hand_flag = %u",$hand_flag,0],
+        ];
+        $sql = $this->gen_sql_new("select * "
+                                  ." from %s "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+ 
+    }
+
 }
 
 

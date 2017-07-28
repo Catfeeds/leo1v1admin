@@ -394,6 +394,7 @@ class menu{
                     ["power_id"=>7, "name"=>"扩课统计",   "url"=>"/tongji_ss/tongji_kuoke_info"],
                     ["power_id"=>8, "name"=>"转介绍统计",   "url"=>"/tongji_ss/tongji_referral"],
                     ["power_id"=>9, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
+                    ["power_id"=>10, "name"=>"调课统计-家长",   "url"=>"/tongji_ss/tongji_change_lesson_by_parent"],
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
@@ -532,7 +533,7 @@ class menu{
                 ["power_id"=>40, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_teacher_info"],
                 ["power_id"=>41, "name"=>"学情回访预警信息",   "url"=>"/user_manage_new/ass_revisit_warning_info"],
                 ["power_id"=>75, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_ass_leader"],
-                ["power_id"=>55, "name"=>"结课两周用户统计",   "url"=>"/user_manage_new/get_two_weeks_old_stu"],
+                ["power_id"=>55, "name"=>"结课两周用户统计",   "url"=>"/user_manage_new/get_two_weeks_old_stu_seller"],
 
             ]],
 
@@ -576,8 +577,7 @@ class menu{
                 ["power_id"=>94, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_ass"],
 
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],
-
-
+                ["power_id"=>95, "name"=>"未录入成绩学生列表",   "url"=>"/user_manage/no_type_student_score"],
             ]],
 
             ["power_id"=>14, "name"=>"角色-教务",  "list"=>[

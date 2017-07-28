@@ -2172,13 +2172,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
         $where_arr = [
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
-            "l.teacherid>0"
+            "l.teacherid>0",
+            "lesson_del_flag = 0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
-                                  " where %s order by l.lesson_start desc",
+                                  " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -2186,5 +2187,81 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list_by_page($sql,$page_num,30,true);
 
     }
+
+
+    public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            ["l.teacherid=%d",$teacherid],
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+
+    public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            "l.userid>0",
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " left join %s tp on tp.parentid = s.parentid".
+                                  " where %s group by l.userid order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
+
+    }
+
+
+
+
+    public function get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid){
+        $where_arr = [
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            ["l.userid=%d",$userid],
+            "lesson_del_flag = 0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
+                                  " left join %s s on s.userid = l.userid".
+                                  " left join %s tp on  tp.parentid = s.parentid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+
 
 }

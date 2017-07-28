@@ -34,4 +34,9 @@ class Job
         $this->task= new \App\Console\Tasks\TaskController();
     }
 
+    static public function test()
+    {
+
+    }
+
 }

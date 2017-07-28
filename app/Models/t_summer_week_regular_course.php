@@ -152,6 +152,13 @@ class t_summer_week_regular_course extends \App\Models\Zgen\z_t_summer_week_regu
         $sql = $this->gen_sql_new("select * from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
+    public function get_end_userid(){
+        $sql = $this->gen_sql_new("select distinct w.userid from %s w left join %s s on w.userid= s.userid where s.type=1 and s.is_test_user=0",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
 
    
 

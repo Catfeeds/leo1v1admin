@@ -120,7 +120,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname from %s  where %s and is_quit=0",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject from %s  where %s and is_quit=0",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -140,7 +140,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname from %s  where %s",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject from %s  where %s",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -159,7 +159,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname from %s  where %s",
+        $sql = sprintf("select teacherid as id , nick, phone,gender ,realname,subject from %s  where %s",
                        self::DB_TABLE_NAME,  $this->where_str_gen( $where_arr));
         return $this->main_get_list_by_page($sql,$page_num,10);
 
@@ -180,7 +180,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname from %s t".
+        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,subject from %s t".
                        " left join %s m on t.phone= m.phone".
                        " where %s ",
                        self::DB_TABLE_NAME,
@@ -205,7 +205,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $this->ensql($nick_phone)));
         }
 
-        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname from %s t".
+        $sql = sprintf("select teacherid as id , nick,t.phone,t.gender ,realname,subject from %s t".
                        " left join %s m on t.phone= m.phone".
                        " where %s ",
                        self::DB_TABLE_NAME,
@@ -2302,7 +2302,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $start_time,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,100);
 
 
     }

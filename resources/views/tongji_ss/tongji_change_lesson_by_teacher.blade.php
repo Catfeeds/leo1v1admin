@@ -33,9 +33,9 @@
             <thead>
                 <tr>
                     <td>编号</td>
-                    <td>老师名称</td>
+                    <td>老师姓名</td>
                     <td>课时数</td>
-                    <td>课时确认</td>
+                    <!-- <td>课时确认</td> -->
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -44,9 +44,7 @@
                     <tr>
                         <td>{{@$index}}</td>
                         <td>{{@$var["teacher_nick"]}}</td>
-                        <td><a>{{@$var["lesson_count"]}}</a></td>
-                        <td>{!!@$var["lesson_cancel_reason_type_str"]!!}</td>
-
+                        <td class="show_detail" date-teacherid="{{$var['teacherid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -58,6 +56,17 @@
             </tbody>
         </table>
         @include("layouts.page")
+
+        <div style="display:none;" >
+            <div id="id_assign_log">
+                <table   class="table table-bordered "   >
+                    <tr>  <th> 老师 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>学生 <th>助教 <th>课时数 <th>课时确认</tr>
+                        <tbody class="data-body">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
     </section>
 
 @endsection

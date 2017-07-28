@@ -568,9 +568,11 @@ $(function(){
         BootstrapDialog.confirm(
             "设置释放到公海:" + opt_data.phone ,
             function(val){
-                $.do_ajax("/ss_deal2/set_user_free",{
-                    "userid" :  opt_data.userid
-                });
+                if (val) {
+                    $.do_ajax("/ss_deal2/set_user_free",{
+                        "userid" :  opt_data.userid
+                    });
+                }
             });
     });
 

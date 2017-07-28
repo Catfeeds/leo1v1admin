@@ -315,7 +315,7 @@ $(function(){
     $.admin_select_user($("#id_train_teacherid"),"teacher",load_data);
 
     $(".opt-edit").on("click",function(){
-	    var data           = $(this).get_opt_data();
+	      var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_identity    = $("<select/>");
         var id_record_info = $("<textarea/>");
@@ -325,6 +325,7 @@ $(function(){
         Enum_map.append_option_list("identity",id_identity,true,[5,6,7,8]);
         id_flag.append(flag_html);
 
+        
         var arr = [
             ["是否通过",id_flag],
             ["老师身份",id_identity],
@@ -406,7 +407,7 @@ $(function(){
 
     $(".opt-del").on("click",function(){
 	    var opt_data = $(this).get_opt_data();
-        console.log(opt_data.lessonid);
+        console.log(opt_data.trial_train_status);
         BootstrapDialog.show({
 	        title   : "取消课程",
 	        message : "确定取消该课程？",

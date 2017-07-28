@@ -7,6 +7,7 @@ interface GargsStatic {
 	master_renw_flag:	number;
 	renw_week:	number;
 	end_week:	number;
+	done_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -34,7 +35,8 @@ $(function(){
 			ass_renw_flag:	$('#id_ass_renw_flag').val(),
 			master_renw_flag:	$('#id_master_renw_flag').val(),
 			renw_week:	$('#id_renw_week').val(),
-			end_week:	$('#id_end_week').val()
+			end_week:	$('#id_end_week').val(),
+			done_flag:	$('#id_done_flag').val()
         });
     }
 
@@ -45,6 +47,7 @@ $(function(){
 	$('#id_master_renw_flag').val(g_args.master_renw_flag);
 	$('#id_renw_week').val(g_args.renw_week);
 	$('#id_end_week').val(g_args.end_week);
+	$('#id_done_flag').val(g_args.done_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -94,6 +97,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">end_week</span>
                 <input class="opt-change form-control" id="id_end_week" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">done_flag</span>
+                <input class="opt-change form-control" id="id_done_flag" />
             </div>
         </div>
 */

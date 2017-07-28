@@ -230,6 +230,7 @@ class common_new extends Controller
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
         $qq                           = $this->get_in_str_val("qq","");
+        $full_time                    = $this->get_in_int_val("full_time");
 
         $phone      = substr($phone,0,11);
         $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
@@ -274,13 +275,18 @@ class common_new extends Controller
             "lecture_appointment_status"   => $lecture_appointment_status,
             "lecture_appointment_origin"   => $lecture_appointment_origin,
             "qq"                           => $qq,
+            "full_time"                    => $full_time,
         ];
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);
         if($ret){
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($email!=""){
-                $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                if($full_time==1){
+                    $html = $this->get_full_time_html($data);
+                }else{
+                    $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
             }
@@ -729,6 +735,11 @@ class common_new extends Controller
         $url= \App\Helper\Utils::gen_download_url($file);
         header ( "Location: $url");
     }
+
+    public function get_office_cmd() {
+
+    }
+
     public function show_create_table_list() {
         if ( !\App\Helper\Utils::check_env_is_local() ){
             return $this->output_err("没有权限");

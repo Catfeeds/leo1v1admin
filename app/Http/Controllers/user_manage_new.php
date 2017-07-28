@@ -2750,8 +2750,9 @@ class user_manage_new extends Controller
         $master_renw_flag = $this->get_in_int_val("master_renw_flag",-1);
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
+        $done_flag = $this->get_in_int_val("done_flag",0);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");
@@ -3063,6 +3064,7 @@ class user_manage_new extends Controller
 
     public function get_two_weeks_old_stu_seller(){
 
+        $this->switch_tongji_database();
         $grade          = $this->get_in_grade();
         $all_flag       = $this->get_in_int_val('all_flag',0);
         $test_user      = $this->get_in_int_val('test_user',-1);
@@ -3090,13 +3092,31 @@ class user_manage_new extends Controller
         // }
 
         list($start_time,$end_time)= $this->get_in_date_range(-100 ,0, 0 );
+        $stu_list =[];
 
         $list = $this->t_student_info->get_student_search_two_weeks_list( $start_time,$end_time,$all_flag,
                                                                               $userid, $grade, $status,
                                                                               $user_name, $phone, $teacherid,
                                                                               $assistantid, $test_user, $originid,
                                                                               $seller_adminid,$ass_adminid_list);
-        dd($list);
+        foreach($list as $val){
+            if(!isset($stu_list[$val["userid"]])){
+                $stu_list[$val["userid"]] = $val["userid"];
+            }
+        }
+        $warning_list = $this->t_month_ass_warning_student_info->get_done_stu_info_seller( $start_time,$end_time,$all_flag,
+                                                                              $userid, $grade, $status,
+                                                                              $user_name, $phone, $teacherid,
+                                                                              $assistantid, $test_user, $originid,
+                                                                              $seller_adminid,$ass_adminid_list);
+        foreach($warning_list as $val){
+            if(!isset($stu_list[$val["userid"]])){
+                $stu_list[$val["userid"]] = $val["userid"];
+            }
+        }
+
+        $ret_info = $this->t_student_info->get_end_stu_for_seller($page_num,$stu_list,$order_type);
+
 
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);

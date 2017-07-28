@@ -268,6 +268,32 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
 
+    public function get_plan_list_new(){
+        $sql = 
+            "select"
+            ." ss.phone,tr.test_stu_grade grade,t.subject,tr.cur_require_adminid,tr.require_time"
+            ." from  db_weiyi.t_test_lesson_subject_require tr " 
+            ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"  
+            ." left join db_weiyi.t_seller_student_new ss on  t.userid = ss.userid" 
+            ." left join db_weiyi.t_student_info s on  t.userid = s.userid" 
+            ." left join db_weiyi.t_test_lesson_subject_sub_list tss on  tr.current_lessonid = tss.lessonid" 
+            ." left join db_weiyi.t_lesson_info l on  tss.lessonid = l.lessonid"  
+            // ." left join db_weiyi.t_course_order c on  tss.lessonid = c.ass_from_test_lesson_id"  
+            // ." left join db_weiyi.t_teacher_cancel_lesson_list tc on tr.current_lessonid=tc.lessonid"  
+            ." where"  
+            ." s.is_test_user=0" 
+            ." and tr.accept_flag<>2" 
+            ." and lesson_start>=1483200000"
+            ." and lesson_end<1501516800" 
+            ." order by lesson_start asc"
+            ." limit 25001,5000 ";
+        return $this->main_get_list($sql);
+    }
+
+
+
+
+
     public function get_expect_lesson_info_by_adminid($adminid, $timestamp){
 
         $week = intval(date('w', $timestamp));
@@ -1587,7 +1613,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                                   " (select min(lesson_start) from %s where teacherid=ll.teacherid and userid=ll.userid and subject = ll.subject and lesson_type <>2 and lesson_status =2 and confirm_flag in (0,1) )and l.lesson_start >= %u and l.lesson_start < %u)".
                                   " join %s s on ll.userid = s.userid ".
                                   " join %s tt on ll.teacherid = tt.teacherid ".
-                                  " where %s  ",
+                                  " where %s order by ll.userid ",
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,

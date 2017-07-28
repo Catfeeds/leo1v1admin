@@ -628,7 +628,7 @@ class stu_manage extends Controller
         }else{
             $list = [];
         }
-
+        //dd($list);
         foreach($list as &$item){
             $assigned_lesson_count          = $item["assigned_lesson_count"];
             $item["left_lesson_count"]      = ($assigned_lesson_count-$item["finish_lesson_count"])/100;

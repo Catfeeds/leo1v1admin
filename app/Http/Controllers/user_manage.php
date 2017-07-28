@@ -6,6 +6,7 @@ use \App\Enums as E;
 class user_manage extends Controller
 {
     use CacheNick;
+    use TeaPower;
     public function all_users(){
         global $g_request;
         $g_request->offsetSet("all_flag",1);
@@ -182,6 +183,7 @@ class user_manage extends Controller
         $sum_field_list=[
             "userid",
             "nick",
+            "location",
             "type",
             "parent_name",
             "assistant_nick",
@@ -338,6 +340,7 @@ class user_manage extends Controller
 
             E\Eboolean::set_item_value_str($item, "cur");
             E\Eboolean::set_item_value_str($item, "last");
+            $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
 
         }
         if (!$order_in_db_flag) {
@@ -567,6 +570,7 @@ class user_manage extends Controller
             if(!empty($have_lesson)){
                 return $this->output_err("该学生有未上的常规课,不能设置为结课学员");
             }
+            $this->delete_teacher_regular_lesson($userid);
         }
 
         $ret_note = $this->t_student_info->set_student_type($userid,$type,$is_auto_set_type_flag,$lesson_stop_reason);
@@ -670,9 +674,11 @@ class user_manage extends Controller
                 $lru_list=[];
             }
         }
-        if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher"){
+        if($type=="teacher" || $type=="none_freeze_teacher" || $type=="interview_teacher" || $type=="jiaoyan_teacher" || $type=="research_teacher"){
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
+                $item["subject"] = E\Esubject::get_desc($item["subject"]);
+;
             }
         }
         return $this->output_ajax_table($ret_list, [ "lru_list" => $lru_list ]);
@@ -1996,8 +2002,27 @@ class user_manage extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * @author    sam
+     * @function  
+     */
+    public function no_type_student_score()
+    {
+        $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+        if($assistantid <= 0){
+            $assistantid = 1;
+        }
+        $assistantid = 60078;
+        $page_info=$this->get_in_page_info();
+        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid);
+        //dd($ret_info);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            E\Esubject::set_item_value_str($item);
+            $item['create_time'] = \App\Helper\Utils::unixtime2date($item['create_time'],'Y-m');
+            $this->cache_set_item_student_nick($item,"userid","student_nick" );
 
-
-
-
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 }

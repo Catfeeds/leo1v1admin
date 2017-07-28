@@ -607,6 +607,7 @@ $(function(){
         init_field_list();
         $('#id_tmk_student_status').val(3);
         $('#id_seller_resource_type').val(0);
+        $('#id_origin_level').val(90); //T类
         if (g_args.self_groupid  >0) { //主管
             $('#id_admin_revisiterid').val(0);
         }else{

@@ -15,7 +15,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         $sql = $this->gen_sql_new("select record_info,record_score,add_time,acc,limit_plan_lesson_type,"
                                   ." is_freeze,grade_range,seller_require_flag,limit_plan_lesson_type_old,"
-                                  ." limit_week_lesson_num_new,limit_week_lesson_num_old "
+                                  ." limit_week_lesson_num_new,limit_week_lesson_num_old,current_acc "
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
