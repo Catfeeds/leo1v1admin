@@ -13,7 +13,7 @@ class TManagerInfoAddBecomeMemberTime extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_manager_info', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_manager_info', function( Blueprint $table)
         {
             t_field($table->integer("become_member_time"),"入职时间");
         });
