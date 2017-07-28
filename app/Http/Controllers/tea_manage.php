@@ -2077,8 +2077,14 @@ class tea_manage extends Controller
         // return $this->pageView(__METHOD__,$ret_info);
     }
 
+
     public function train_lecture_lesson_zs(){
         $this->set_in_value("is_all",1);
+        return $this->train_lecture_lesson();   
+    }
+
+    public function train_lecture_lesson_full_time(){
+        $this->set_in_value("full_time",1);
         return $this->train_lecture_lesson();   
     }
 
@@ -2101,6 +2107,7 @@ class tea_manage extends Controller
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
         $is_all           = $this->get_in_int_val("is_all");
+        $full_time        = $this->get_in_int_val("full_time",-1);
 
         $this->switch_tongji_database();
         $teacherid = -1;
@@ -2122,6 +2129,7 @@ class tea_manage extends Controller
             E\Egrade::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
             E\Eboolean::set_item_value_str($val,"train_email_flag");
+            E\Eboolean::set_item_value_str($val,"full_time");
             if($val['trial_train_status']==-1){
                 $status_str="未审核";
             }elseif($val['trial_train_status']==0){

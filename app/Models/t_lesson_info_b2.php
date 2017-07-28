@@ -813,7 +813,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1
     ){
         $where_arr = [
             //  ["l.lesson_start>%u",$start_time,0],
@@ -825,6 +825,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid=%u",$res_teacherid,-1],
             ["tl.userid=%u",$train_teacherid,-1],
             ["l.train_email_flag=%u",$train_email_flag,-1],
+            ["tla.full_time=%u",$full_time,-1],
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
             "l.train_type=5",
@@ -859,7 +860,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
-                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type  "
+                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type,  "
+                                  ." tla.full_time"
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -868,6 +870,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s tt on t.phone=tt.phone"
                                   ." left join %s ttt on l.teacherid=ttt.teacherid"
                                   ." left join %s m on ttt.phone = m.phone "
+                                  ." left join %s tla on t.phone=tla.phone"
                                   ." where %s"
                                   ." group by l.lessonid"
                                   ." order by l.lesson_start desc"
@@ -879,6 +882,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);

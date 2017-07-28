@@ -93,6 +93,7 @@
                 <td style="display:none">课程名称</td>
                 <td style="display:none">邀约时间</td>
                 <td >面试老师</td>
+                <td >是否全职</td>
                 <td >面试老师电话</td>
                 <td >是否绑定微信</td>
                 <td >邮件通知</td>
@@ -115,6 +116,7 @@
                     <td >{{$var['lesson_name']}}</td>
                     <td >{{$var['add_time_str']}}</td>
                     <td >{{$var['nick']}}</td>
+                    <td >{{$var['full_time_str']}}</td>
                     <td >{{$var['phone_spare']}}</td>
                     <td >{{@$var['have_wx_flag']}}</td>
                     <td >{{@$var['train_email_flag_str']}}</td>
@@ -137,11 +139,9 @@
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
-
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
                             @endif
-
                         </div>
                     </td>
                 </tr>
