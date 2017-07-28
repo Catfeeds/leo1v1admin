@@ -433,6 +433,35 @@ class common extends Controller
         return $html;
     }
 
+    public function show_level_up_html(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $is_test   = $this->get_in_int_val("is_test");
+
+        if($teacherid==0){
+            return $this->output_err("老师id出错！");
+        }
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $html = $this->teacher_level_up_html($teacher_info);
+        if($is_test){
+            // $teacher_info['email']   = "wg392567893@163.com";
+            // $teacher_info['subject'] = 4;
+            $ret = \App\Helper\Common::send_paper_mail($teacher_info['email'],"上海理优教研室",$html);
+            if($teacher_info['wx_openid']!=""){
+                $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
+                $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：B等";
+                $data["keyword1"] = "教职老师";
+                $data["keyword2"] = "理优教育";
+                $data["keyword3"] = date("Y-m-d",time());
+                $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+                $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacherid;
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+            }
+        }
+
+        return $html;
+    }
+
     public function get_offer_html($teacher_info){
         $name       = $teacher_info['nick'];
         $level_str  = E\Elevel::get_desc($teacher_info['level']);
@@ -841,7 +870,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_e.png";
+        $phone_qr_name = $phone."_qr_agent_aa.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -849,8 +878,6 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
-            $headimgurl = $row['headimgurl'];           //微信头像
-            $headimg_name = $phone."_headimg.png";
             $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
             $image_4 = imagecreatefrompng($headimgurl);     //微信头像
             if($row['headimgurl']){
@@ -866,10 +893,11 @@ class common extends Controller
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_4 = imagecreatefromjpeg($headimgurl);     //二维码
+            $image_5 = imageCreatetruecolor(160,160);     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
-            imagecopymerge($image_3,$image_4,200,400,0,0,200,200,100);
+            imagecopymerge($image_3,$image_5,297,209,0,0,160,160,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);

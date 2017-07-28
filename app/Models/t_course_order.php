@@ -410,8 +410,8 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                             ."course_status,t1.week_comment_num,t1.enable_video"
                             ." from %s t1 "
                             ." left join %s t2 on t1.courseid = t2.courseid "
-                            ." where %s "
                             ." and (lesson_del_flag=0 or lesson_del_flag is null)"
+                            ." where %s "
                             ." group by t1.courseid order by t1.courseid desc "
                             ,self::DB_TABLE_NAME
                             ,t_lesson_info::DB_TABLE_NAME

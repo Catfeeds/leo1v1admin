@@ -136,7 +136,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
-        
+
         //wx
         $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
@@ -281,7 +281,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." sum(tmk_adminid =0) as all_unallot_count , "
             ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level >0  ) as all_uncall_count , "
             ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level =0  ) as by_hand_all_uncall_count , "
-            ." sum(tmk_student_status=3 ) as tmk_unallot_count  "
+            ." sum(tmk_student_status=3  and  origin_level=90 ) as tmk_unallot_count  " //T类
             ." from %s t  "
             ." join %s s on  t.userid=s.userid  "
             ." join %s n  on t.userid=n.userid  "
@@ -290,6 +290,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             t_student_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             $where_arr);
+        //E\Eorigin_level::V_90
 
         return $this->main_get_row($sql);
     }
@@ -731,18 +732,19 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     public function get_test_lesson_info($start_time,$end_time,$page_num){
         $where_arr = [
             " tl.lesson_type = 2",
-            " tls.ass_test_lesson_type = 1"
+            " tls.ass_test_lesson_type = 1",
+            " tl.lesson_del_flag=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"tl.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tl.userid,tls.subject, tls.grade, ts.nick, tt.nick as teacher_nick, ts.assistantid, tl.lesson_start, tl.lesson_end, tll.success_flag from %s tls ".
+        $sql = $this->gen_sql_new(" select tl.userid,tls.subject, tls.grade, ts.nick, tt.teacherid,tt.nick as teacher_nick, ts.assistantid, tl.lesson_start, tl.lesson_end, tll.success_flag from %s tls ".
                                   " left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id ".
                                   " left join %s tll on tll.require_id = tlsr.require_id ".
                                   " left join %s tl on tl.lessonid = tll.lessonid".
                                   " left join %s ts on tl.userid = ts.userid".
                                   " left join %s tt on tt.teacherid = tl.teacherid".
-                                  " where %s group by tl.userid order by tl.lesson_start",
+                                  " where %s order by tl.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -753,5 +755,34 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
 
         return $this->main_get_list_by_page($sql,$page_num,30,true);
+    }
+
+    public function get_test_lesson_info_by_referral($start_time,$end_time,$page_num){
+        $where_arr = [
+            " tl.lesson_type = 2",
+            " ts.originid = 1",
+            " tl.lesson_del_flag=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tl.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select tl.userid,tls.subject, tls.grade, ts.nick, tt.teacherid,tt.nick as teacher_nick, ts.assistantid, tl.lesson_start, tl.lesson_end, tll.success_flag from %s tls ".
+                                  " left join %s tlsr on tlsr.test_lesson_subject_id = tls.test_lesson_subject_id ".
+                                  " left join %s tll on tll.require_id = tlsr.require_id ".
+                                  " left join %s tl on tl.lessonid = tll.lessonid".
+                                  " left join %s ts on tl.userid = ts.userid".
+                                  " left join %s tt on tt.teacherid = tl.teacherid".
+                                  " where %s order by tl.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
+
     }
 }
