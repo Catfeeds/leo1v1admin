@@ -1781,12 +1781,14 @@ trait  TeaPower {
     }
 
     //学员结课,清空常规课表
-    public function delete_teacher_regular_lesson($userid,$flag=0){
+    public function delete_teacher_regular_lesson($userid,$flag=0,$time=1){
         //$userid = 60022 ;$teacherid= 60011;
         if($flag==1){
             $account="system";
+            $time = $time;
         }elseif($flag==0){
             $account = $this->get_account();
+            $time = time();
         }
         $list1 = $this->t_week_regular_course->get_teacher_student_time(-1,$userid);
         $list2 = $this->t_summer_week_regular_course->get_teacher_student_time(-1,$userid);
@@ -1842,7 +1844,7 @@ trait  TeaPower {
                     "teacherid"   => $k,
                     "type"        => 11,
                     "record_info" => $str,
-                    "add_time"    => time(),
+                    "add_time"    => $time,
                     "acc"         => $account,
                     "current_acc" => $nick
                 ]);

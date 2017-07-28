@@ -522,6 +522,7 @@ $(function(){
                 $id_change_teacher_reason_type.parent().parent().css('display','table-row');
             }else{
                 $id_change_teacher_reason_type.parent().parent().css('display','none');
+                $id_change_teacher_reason_type.val(0);
             }
         });
 

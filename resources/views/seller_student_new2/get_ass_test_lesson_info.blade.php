@@ -18,7 +18,7 @@
     <section class="content ">
         <div>
             <div class="row " >
-               
+
             </div>
         </div>
         <hr/>
@@ -35,25 +35,25 @@
                         <td >试听时间 </td>
                         <td >课时确认 </td>
                         <td >结果设置</td>
-                       
+
                         <td >操作</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
                         <tr>
-                           
-                          
-                            <td> 
+
+
+                            <td>
                                 <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
                                     target="_blank" title="学生信息">{{@$var["nick"]}} </a>
                             </td >
-                           
+
                             <td >
-                                {{$var["grade_str"]}} 
+                                {{$var["grade_str"]}}
                             </td>
                             <td >
-                                {{$var["subject_str"]}} 
+                                {{$var["subject_str"]}}
                             </td>
                             <td>{{$var["editionid_str"]}}</td>
                             <td>{{$var["ass_test_lesson_type_str"]}}</td>
@@ -78,7 +78,7 @@
 
                             </td>
 
-                           
+
                             <td>
                                 <div class="opt-div"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
@@ -90,7 +90,7 @@
                                         <a title="设置成功" class="fa fa-heart opt-set-success show_flag"> </a>
                                         <a title="设置失败" class="fa fa-heart-o opt-set-fail show_flag"></a>
                                     @endif
-                                   
+
 
                                 </div>
                             </td>

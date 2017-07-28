@@ -155,6 +155,52 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $ret_info;
     }
 
+    public function get_end_stu_for_seller($page_num,$stu_list,$order_type){
+        $where_arr=[];
+        $where_arr[] = $this->where_get_in_str("s.userid", $stu_list,false ); 
+
+        $order_str="";
+        switch ( $order_type ) {
+        case 1 :
+            $order_str=" order by s.lesson_count_left  desc";
+            break;
+        case 2 :
+            $order_str=" order by s.praise desc";
+            break;
+        case 3 :
+            $order_str=" order by s.last_lesson_time desc";
+            break;
+        default:
+            break;
+        }
+
+        $sql = $this->gen_sql_new("select s.origin_userid, s.userid, s.nick,s.realname, s.spree, s.phone, s.is_test_user, s.originid, s.origin, s.grade, s.praise, s.parent_name, s.parent_type, s.last_login_ip, s.last_lesson_time, s.last_login_time,s.assistantid, s.lesson_count_all, s.lesson_count_left, s.user_agent,seller_adminid,s.ass_assign_time ,s.reg_time,s.phone_location from %s s left join %s a on s.assistantid =a.assistantid ".
+                              " left join %s m on a.phone = m.phone".
+                              "  where  %s  %s  ",
+                              self::DB_TABLE_NAME,
+                              t_assistant_info::DB_TABLE_NAME,
+                              t_manager_info::DB_TABLE_NAME,
+                              $where_arr,
+                              $order_str
+        );
+        $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
+        foreach  (  $ret_info["list"] as &$item) {
+            if (!$item["phone_location"] ) {
+                //设置到数据库
+                $arr=explode("-",$item["phone"]);
+                $phone=$arr[0];
+
+                $item["phone_location"] = \App\Helper\Common::get_phone_location($phone);
+                if ($item["phone_location"]) {
+                    $this->field_update_list($item["userid"] ,[
+                        "phone_location"  =>   $item["phone_location"]
+                    ]);
+                }
+            }
+        }
+        return $ret_info;
+ 
+    }
     public function get_student_search_two_weeks_list( $start_time, $end_time,$all_flag, $userid,$grade, $status,
                                                        $user_name, $phone, $teacherid, $assistantid, $test_user,
                                                        $originid, $seller_adminid,$ass_adminid_list=[]

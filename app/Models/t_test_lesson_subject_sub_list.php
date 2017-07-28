@@ -809,7 +809,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             "m.account_role=1",
         ];
         if($master_flag==1){
-            
+
         }else{
             $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
             $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
@@ -837,5 +837,130 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
+
+
+    public function get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$require_adminid,$master_flag){
+
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "m.account_role=1",
+            "tr.origin like '%%换老师%%'",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        if($master_flag==1){
+
+        }else{
+            $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
+        }
+        $sql = $this->gen_sql_new("select tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject,tr.origin,tt.ass_test_lesson_type,"
+                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
+                                  ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
+                                  ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
+                                  ." tss.order_confirm_flag "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$require_adminid,$master_flag){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "m.account_role=1",
+            "tr.origin like '%%扩课%%'"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        if($master_flag==1){
+
+        }else{
+            $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
+        }
+        $sql = $this->gen_sql_new("select tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject, l.teacherid, tr.origin,tt.ass_test_lesson_type,"
+                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
+                                  ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
+                                  ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
+                                  ." tss.order_confirm_flag "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
+
+    public function get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$require_adminid,$master_flag){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "m.account_role=1",
+            "tr.origin like '%%转介绍%%'",
+            "tt.require_adminid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        if($master_flag==1){
+
+        }else{
+            $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
+        }
+        $sql = $this->gen_sql_new("select tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject, l.teacherid, tr.origin,tt.ass_test_lesson_type,"
+                                  ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
+                                  ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
+                                  ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
+                                  ." tss.order_confirm_flag "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." where %s order by l.lesson_start",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
 
 }
