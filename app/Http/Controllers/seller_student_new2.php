@@ -323,7 +323,7 @@ class seller_student_new2 extends Controller
             // $id = $key+1;
             // echo $id.': '.'电话:'.$item['phone'].', '.'年级:'.$item['grade_str'].', '.'科目:'.$item['subject_str'].', '.'申请人:'.$item['require_admin_nick'].', '.'申请时间:'.$item['require_time'];
             // echo '<br/>';
-            $ret_info[$key]['id'] = $key+1;
+            $ret_info[$key]['id'] = $key+5001;
             $ret_info[$key]['phone'] = $item['phone'];
             $ret_info[$key]['grade_str'] = $item['grade_str'];
             $ret_info[$key]['subject_str'] = $item['subject_str'];
