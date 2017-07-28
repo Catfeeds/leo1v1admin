@@ -521,6 +521,7 @@ $(function(){
             ["科目",  $id_subject ]  ,
             ["年级 ", $id_grade_select]  ,
             ["分类",  $id_ass_test_lesson_type ]  ,
+            ["分类",  $id_ass_test_lesson_type ]  ,
             ["绿色通道",$green_channel_teacherid],
             ["期望上课时间",$id_stu_request_test_lesson_time],
             ["试听需求",$stu_request_test_lesson_demand],
