@@ -31,6 +31,7 @@
                         <td style="">科目</td>
                         <td style="">申请人</td>
                         <td style="">申请时间</td>
+                        <td style="">操作</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,7 @@
                             <td >科目: {{$var["subject_str"]}} </td>
                             <td >申请人：{{$var["require_admin_nick"]}}</td>
                             <td >申请时间：{{$var["require_time"]}}</td>
+                            <td ></td>
                         </tr>
                     @endforeach
                 </tbody>
