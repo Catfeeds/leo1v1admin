@@ -330,6 +330,7 @@ $(function(){
                     'account_role': $account_role.val(),
                     'tquin': $tquin.val(),
                     'email': $email.val(),
+                    'old_seller_level': opt_data.seller_level,
                     'seller_level': $seller_level.val(),
                     'up_adminid': $up_adminid.val(),
                     'become_full_member_flag': $become_full_member_flag.val(),
@@ -351,6 +352,7 @@ $(function(){
 
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        // alert(opt_data.old_permission);
         var uid= opt_data.uid;
         var show_list=[];
         if ($.get_action_str()=="manager_list_for_seller" ) {
@@ -383,7 +385,8 @@ $(function(){
                 onChange        : function( select_list,dlg) {
                     $.do_ajax("/authority/set_permission",{
                         "uid": uid,
-                        "groupid_list":JSON.stringify(select_list)
+                        "groupid_list":JSON.stringify(select_list),
+                        "old_permission": opt_data.old_permission,
                     });
                 }
             });
