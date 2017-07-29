@@ -76,7 +76,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $agent_id   = $this->get_agent_id();
+        // $agent_id   = $this->get_agent_id();
         $agent_id   = 42;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
