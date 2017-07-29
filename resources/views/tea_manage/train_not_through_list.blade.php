@@ -6,6 +6,10 @@
                 <div id="id_date_range"></div>
             </div>
             <div class="col-xs-3 col-md-1">
+                <select id="id_has_openid">
+                </select>
+            </div>
+            <div class="col-xs-3 col-md-1">
                 <button class="btn btn-primary" id="id_wx_notice">微信推送</button>
             </div>
         </div>

@@ -2222,11 +2222,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1]
         ];
 
-        // if($lesson_cancel_reason_type == -1){
-        //     $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
-        // }else{
-        //     $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
-        // }
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 

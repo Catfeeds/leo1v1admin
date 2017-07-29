@@ -6796,7 +6796,7 @@ class tongji_ss extends Controller
             }
 
         }
-        // \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
         // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);

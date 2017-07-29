@@ -4,13 +4,17 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      has_openid           : $('#id_has_openid').val()
         });
     }
+
+    Enum_map.append_option_list("boolean",$("#id_has_wx"));
+    $("#id_has_openid").val(g_args.has_openid);
 
     $('#id_date_range').select_date_range({
         'date_type'      : g_args.date_type,
@@ -50,6 +54,7 @@ $(function(){
 	          }]
         });
     });
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

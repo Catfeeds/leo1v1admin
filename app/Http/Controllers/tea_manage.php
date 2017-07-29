@@ -1616,6 +1616,11 @@ class tea_manage extends Controller
 
         $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,$has_openid);
         foreach($ret_info['list'] as &$val){
+            if($val['wx_openid']!=""){
+                $val['has_openid']="已绑定";
+            }else{
+                $val['has_openid']="未绑定";
+            }
             \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
         }
 
