@@ -8,8 +8,8 @@ declare module "g_args" {
 }
 declare var g_args: GargsStatic;
 declare var g_account: string;
-declare var g_account_role: string;
-declare var g_adminid: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
 interface RowData {
 	teacherid	:any;
 	lesson_count	:any;

@@ -1,6 +1,10 @@
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage_new-tea_lesson_count_detail_list.d.ts" />
+
+
 
 function load_data(){
-    reload_self_page({
+    $.reload_self_page({
         start_time         : $("#id_start_time").val(),
         end_time           : $("#id_end_time").val(),
         teacher_money_type : $("#id_teacher_money_type").val()

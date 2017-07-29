@@ -28,6 +28,7 @@
 
                     <td  >userid</td>
                     <td  >昵称</td>
+                    <td  >grade</td>
                     <td  >助教</td>
                     <td >课时数</td> 
                     <td >总次数</td> 
@@ -39,6 +40,7 @@
 				    <tr>
                         <td >{{$var["userid"]}}</td>
                         <td >{{$var["student_nick"]}}</td>
+                        <td >{{$var["grade"]}}</td>
                         <td >{{$var["assistant_nick"]}}</td>
                         <td >{{$var["lesson_count"]/100}}</td>
                         <td >{{$var["count"]}}</td>

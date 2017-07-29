@@ -148,6 +148,7 @@ class NewRouteConfig {
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,
+        "/user_manage/complaint_department_deal_qc"        => true,
         "/user_manage/qc_complaint"               => true,
         "/user_manage/set_graduating_lesson_time"               => true,
         "/user_manage/get_weeks"                                => true,
@@ -502,6 +503,11 @@ class NewRouteConfig {
         "/revisit/get_revisit_info_new" => true,
         "/revisit/add_revisit_record"   => true,
         "/monitor/smsmonitor"           => true,
+
+        "/customer_service/intended_user_info"           => true,
+        "/customer_service/complaint_info"               => true,
+        "/customer_service/proposal_info"                => true,
+
     ];
 
     static $dev_url_map = [

@@ -1904,6 +1904,13 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
+    public function complaint_department_deal_qc(){
+        $this->set_in_value('account_type',3);
+        return $this->complaint_department_deal();
+    }
+
+
+
 
     public function complaint_department_deal(){
         $page_num   = $this->get_in_page_num();

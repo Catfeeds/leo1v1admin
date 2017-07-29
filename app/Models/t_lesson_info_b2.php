@@ -2215,21 +2215,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
+        $lesson_cancel_reason_type = -1;
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.teacherid>0",
-            "lesson_del_flag = 0",
+            // "lesson_del_flag = 0",
             "m.account_role=1",
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1]
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
                                   " left join %s tll on tll.lessonid = l.lessonid".
                                   " left join %s tlr on tlr.require_id = tll.require_id".
                                   " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " left join %s m on tll.confirm_adminid = m.uid".
-
                                   " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
@@ -2239,17 +2239,25 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,null,30,true);
 
     }
 
 
     public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.teacherid=%d",$teacherid],
             "lesson_del_flag = 0"
         ];
+
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2274,11 +2282,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
+        $lesson_cancel_reason_type = -1;
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.userid>0",
-            "lesson_del_flag = 0",
+            // "lesson_del_flag = 0",
             "m.account_role=1",
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1],
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2303,7 +2312,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,null,30,true);
 
     }
 
@@ -2312,10 +2321,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.userid=%d",$userid],
-            "lesson_del_flag = 0"
+            // "lesson_del_flag = 0"
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2348,7 +2364,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid=%d",$userid]
         ];
 
-        $sql = $this->gen_sql_new(" select t.nick from %s l".
+        $sql = $this->gen_sql_new(" select t.nick,t.teacherid from %s l".
                                   " left join %s t on t.teacherid = l.teacherid".
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
@@ -2356,7 +2372,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 
