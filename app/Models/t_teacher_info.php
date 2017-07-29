@@ -252,7 +252,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num);
+        $list = $this->main_get_list_by_page($sql,$page_num,20);
+        foreach($list["list"] as $item){
+            if(empty($item["address"])){
+                $location = \App\Helper\Common::get_phone_location($item["phone"]);  
+                $location   = substr($location, 0, -6);
+                $this->field_update_list($item["teacherid"],[
+                    "address" =>$location
+                ]);
+            }
+
+        }
+        return $list;
     }
 
     public function get_seller_teacher_detail_list_new($page_num,$address){
@@ -2397,5 +2408,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_all_tea_phone_location(){
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,address,identity,train_through_new_time"
+                                  ." from %s where is_test_user=0 and train_through_new=1",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
     }
 }

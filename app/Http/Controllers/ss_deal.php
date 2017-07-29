@@ -4529,6 +4529,8 @@ class ss_deal extends Controller
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
                 ];
 
                 foreach($qc_openid_arr as $qc_item){
