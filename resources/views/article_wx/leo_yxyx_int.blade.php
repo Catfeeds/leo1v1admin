@@ -147,10 +147,6 @@
         <div id="js_article" class="rich_media preview_appmsg"> 
             <div id="js_top_ad_area" class="top_banner"></div> 
             <div class="rich_media_inner"> 
-                <div class="rich_media_global_msg">
-                    此为临时链接，仅用于文章预览，将在短期内失效 
-                    <a id="js_close_temp" href="##" class="icon_closed">关闭</a> 
-                </div> 
                 <div id="page-content" class="rich_media_area_primary"> 
                     <div id="img-content"> 
                         <h2 class="rich_media_title" id="activity-name"> 优学优享简介 </h2> 
@@ -173,7 +169,7 @@
                                 <section>
                                     <section class="_135editor" style="border: 0px none; box-sizing: border-box;">
                                         <section class="" style="">
-                                            <section class="" style="display: inline-block; width: 100%; vertical-align: top; box-shadow: rgb(0, 0, 0) 0px 0px 0px; border-width: 0px; box-sizing: border-box; background-image: url(http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQj3kS4NvPemFqwXRKpB6KCWNYR29Xefeb4vpyCnLdzlWlMmDYPKib4Maw/0?wx_fmt=png); background-attachment: scroll; background-color: rgb(254, 223, 225); background-size: 101.685%; background-position: 16.6678% 6.8585%; background-repeat: repeat;">
+                                            <section class="" style="display: inline-block; width: 100%; vertical-align: top; box-shadow: rgb(0, 0, 0) 0px 0px 0px; border-width: 0px; box-sizing: border-box; background-image: url(http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/485315737.jpg); background-attachment: scroll; background-color: rgb(254, 223, 225); background-size: 101.685%; background-position: 16.6678% 6.8585%; background-repeat: repeat;">
                                                 <section class="_135editor" style="border: 0px none; box-sizing: border-box;">
                                                     <section class="" style=" margin-top: 10px; margin-bottom: 10px; text-align: center; transform: translate3d(0px, 0px, 0px);-webkit-transform: translate3d(0px, 0px, 0px);-moz-transform: translate3d(0px, 0px, 0px);-ms-transform: translate3d(0px, 0px, 0px);-o-transform: translate3d(0px, 0px, 0px); ">
                                                         <section class="" style="display: inline-block; width: 85%; border-radius: 0.7em; box-shadow: rgb(204, 204, 204) 3.53553px 3.53553px 4px; border: 1px solid rgba(254, 223, 225, 0.45098); box-sizing: border-box; background-color: rgba(254, 223, 225, 0.690196);">
@@ -203,7 +199,7 @@
                                                                                     <section style="width: 5em; height: 5em; border-radius: 100%; padding: 0.2em 0.1em 0.1em 0.2em; margin-left: -0.2em; margin-top: -0.1em; box-sizing: border-box; background-color: rgba(254, 223, 225, 0.690196);">
                                                                                         <section class="" style="width: 100%; height: 100%; border-radius: 100%; box-sizing: border-box; background-image: url(http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;">
                                                                                             <section class="" style="width: 100%; height: 100%; overflow: hidden;">
-                                                                                                <img class="" style="width: 100%; height: 100%; opacity: 0;" data-src="http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png" data-ratio="1.0015625" data-w="640" width="100%" data-type="png" />
+                                                                                                <img class="" style="width: 100%; height: 100%; opacity: 0;" data-src="http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png" data-ratio="1.0015625" data-w="640" width="100%" data-type="png" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/83cfe76ea4e8ef816e9ac09ce0f830701501310436597.jpg" />
                                                                                             </section>
                                                                                         </section>
                                                                                     </section>
@@ -380,7 +376,7 @@
                                             </section>
                                             <section class="" style="width: 100%;">
                                                 <section style="display: inline-block; vertical-align: top; margin-left: 1em; margin-top: -3.8em; width: 6em;">
-                                                    <img style="width: 6em;" data-src="http://mmbiz.qpic.cn/mmbiz_jpg/JcGvGEiafrOrZF5knh8VdXsY554RLEoQj2q7qibm1PSiauickCFiabwEqK5VZy00CRiahk5aUWianHQxqG8OZJWY4YsXw/0?wx_fmt=jpeg" class="" data-ratio="1" data-w="258" width="6em" data-type="jpeg" /> 
+                                                    <img style="width: 6em;" data-src="http://mmbiz.qpic.cn/mmbiz_jpg/JcGvGEiafrOrZF5knh8VdXsY554RLEoQj2q7qibm1PSiauickCFiabwEqK5VZy00CRiahk5aUWianHQxqG8OZJWY4YsXw/0?wx_fmt=jpeg" class="" data-ratio="1" data-w="258" width="6em" data-type="jpeg" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/227520094.jpg" /> 
                                                     <img style="width: 6em;" data-src="http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjDXgsO7hoZxlvJ9r08lJRcB7Z91gUTjObRgFrytlqjHzS9mjIcARyiaQ/0?wx_fmt=png" class="" data-ratio="0.525" data-w="200" width="6em" data-type="png" />
                                                 </section>
                                                 <section class="" style="display: inline-block; vertical-align: top; padding-right: 5px; padding-left: 5px; width: 100%; line-height: 2; max-width: 60% !important; box-sizing: border-box;">
