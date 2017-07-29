@@ -2541,13 +2541,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ["pay_time>%u",$start,0],
             ["pay_time<%u",$end,0],
+            "is_test_user=0",
+            "contract_type in (0,3)",
+            "contract_status >0"
         ];
-        $sql = $this->gen_sql_new("select s.phone,s.realname,s.grade,min(pay_time),o.subject,"
+        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.realname,s.grade,min(pay_time) as first_time,o.subject,"
                                   ." sum(o.lesson_total*default_lesson_count) as lesson_total"
-                                  ." from %s "
+                                  ." from %s o"
+                                  ." left join %s s on o.userid=s.userid"
                                   ." where %s"
-                                  ." group by o.subject"
+                                  ." group by s.userid,o.subject"
                                   ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

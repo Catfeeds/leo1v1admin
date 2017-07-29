@@ -431,7 +431,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
 
-    public function get_train_teacher_interview_info($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject){
+    public function get_train_teacher_interview_info($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,$trial_train_status=-1){
         $where_arr=[
             ["l.subject=%u",$subject,-1],
             ["l.lesson_start >= %u",$start_time,-1],
@@ -445,6 +445,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         if(!empty($tea_subject)){
             $where_arr[]="l.subject in".$tea_subject;
+        }
+        if($trial_train_status==-2){
+            $where_arr[]="tr.trial_train_status<>2";
+        }else{
+            $where_arr[]=["tr.trial_train_status=%u",$trial_train_status,-1];
         }
         $sql = $this->gen_sql_new("select tr.acc account,count(*) all_num,count(distinct tt.phone_spare) all_count,".
                                   " sum(if(tr.trial_train_status =1,1,0)) suc_count,".
@@ -470,6 +475,49 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         });
 
     }
+    public function get_train_teacher_interview_info_all($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,$trial_train_status=-1){
+        $where_arr=[
+            ["l.subject=%u",$subject,-1],
+            ["l.lesson_start >= %u",$start_time,-1],
+            ["l.lesson_start <= %u",$end_time,-1],
+            // "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
+            ["t.teacherid = %u",$teacher_account,-1], 
+            // ["tt.teacherid = %u",$reference_teacherid,-1], 
+            ["tt.identity = %u",$identity,-1], 
+            "tr.type=10",
+            "(tr.acc is not null && tr.acc <> '')"
+        ];
+        if(!empty($tea_subject)){
+            $where_arr[]="l.subject in".$tea_subject;
+        }
+        if($trial_train_status==-2){
+            $where_arr[]="tr.trial_train_status<>2";
+        }else{
+            $where_arr[]=["tr.trial_train_status=%u",$trial_train_status,-1];
+        }
+        $sql = $this->gen_sql_new("select count(*) all_num,count(distinct tt.teacherid) all_count,".
+                                  " sum(if(tr.trial_train_status =1,1,0)) suc_count,".
+                                  " sum(if(tr.trial_train_status <>2,1,0)) real_count,".
+                                  " sum(l.lesson_start) all_con_time,sum(l.lesson_start) all_add_time ".
+                                  " from %s tr ".
+                                  " left join %s m on m.account = tr.acc ".
+                                  " left join %s t on m.phone = t.phone ".
+                                  " left join %s ta on tr.train_lessonid  = ta.lessonid ".
+                                  " left join %s l on tr.train_lessonid  = l.lessonid ".
+                                  " left join %s tt on ta.userid = tt.teacherid ".
+                                  " where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr                                 
+        );
+        return $this->main_get_row($sql);
+
+    }
+
 
     public function get_teacher_train_passed($account,$start_time,$end_time,$subject=-1,$teacher_account=-1,$reference_teacherid=-1,$identity=-1,$tea_subject="",$grade_ex=-1){
         $where_arr=[
@@ -596,11 +644,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
         }
-        $sql = $this->gen_sql_new("select count(distinct tr.phone_spare) all_count,la.accept_adminid,count(*) all_num "
+        $sql = $this->gen_sql_new("select count(distinct tt.phone) all_count,la.accept_adminid,count(*) all_num "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." left join %s la on tr.phone_spare = la.phone"
+                                  ." left join %s la on tt.phone = la.phone"
                                   ." where %s and la.accept_adminid>0 group by la.accept_adminid",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,

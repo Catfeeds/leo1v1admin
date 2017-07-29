@@ -1153,10 +1153,10 @@ class Utils  {
         return $money;
     }
 
-    static public function check_isset_data(&$data,$add_data=1){
+    static public function check_isset_data(&$data,$add_data=1,$type=1){
         if(!isset($data)){
             $data = $add_data;
-        }else{
+        }elseif($type==1){
             $data += $add_data;
         }
     }

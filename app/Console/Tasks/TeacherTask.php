@@ -113,7 +113,7 @@ class TeacherTask extends TaskController
              * 课程名称：{{keyword1.DATA}}
              * 作业名称：{{keyword2.DATA}}
              * 截止日期：{{keyword3.DATA}}
-             * {{remark.DATA}} 
+             * {{remark.DATA}}
              */
             $template_id      = "fDZA7CfvQ10jKxQnrdHhAZm58kJTJBLe3XVnCpbwlLI";
             $data['keyword1'] = $lesson_time."课程";
@@ -438,10 +438,10 @@ class TeacherTask extends TaskController
             ]);
         }
     }
-    
+
     /**
      * 课前提醒老师上传学生讲义(前一天晚8点提醒)
-     * @param type=8 
+     * @param type=8
      */
     public function notice_teacher_upload_stu_cw($type){
         $start_time = strtotime("tomorrow");
@@ -462,7 +462,7 @@ class TeacherTask extends TaskController
 
     /**
      * 学生上传作业提醒老师(学生端触发"/stu_lesson/syn_homework_finish",触发后台"/wx_teacher/upload_stu_homework")
-     * type=9 
+     * type=9
      * @param lessonid 需要提醒的课程id
      */
     public function notice_teacher_check_stu_homework($lessonid){
@@ -483,7 +483,7 @@ class TeacherTask extends TaskController
 
     /**
      * 课堂信息有误(学生,老师讲义,作业上传有问题)
-     * @param type=10 
+     * @param type=10
      */
     public function notice_teacher_for_lesson_info($type){
         $start   = strtotime(date("Y-m-d",time()));

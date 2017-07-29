@@ -30,8 +30,10 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>userid</td>
-                    <td>学生</td>
+                    <td>teacherid</td>
+                    <td>老师</td>
+                    <td>身份</td>
+                    <td>入职时长</td>
                     <td>地区</td>
                                                                     
                     <td>操作 </td>
@@ -40,8 +42,10 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["nick"]}}</td>
+                        <td>{{@$var["teacherid"]}} </td>
+                        <td>{{@$var["realname"]}}</td>
+                        <td>{{@$var["identity_str"]}}</td>
+                        <td>{{@$var["work_day"]}}</td>
                         <td>{{@$var["location"]}}</td>
                        
                        

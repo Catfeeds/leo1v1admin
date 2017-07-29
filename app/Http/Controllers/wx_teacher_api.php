@@ -72,8 +72,6 @@ class wx_teacher_api extends Controller
             'complaint_info' => $report_msg,
         ]);
 
-        \App\Helper\Utils::logger("charu:$ret_info_qc");
-
 
         if ($ret_info_qc) {
 
@@ -100,11 +98,13 @@ class wx_teacher_api extends Controller
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
-                // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" //james
+                // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
             ];
 
             foreach($qc_openid_arr as $qc_item){

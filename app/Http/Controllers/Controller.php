@@ -125,6 +125,10 @@ class Controller extends ControllerEx
         return session("login_user_role");
     }
 
+    function get_wx_parentid(){
+        return  session("parentid");
+    }
+
     static public function check_power($powerid){
         $power_list= json_decode(session("power_list"),true);
         return @$power_list[$powerid];

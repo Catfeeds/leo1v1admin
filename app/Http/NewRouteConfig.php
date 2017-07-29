@@ -148,6 +148,7 @@ class NewRouteConfig {
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,
+        "/user_manage/complaint_department_deal_qc"        => true,
         "/user_manage/qc_complaint"               => true,
         "/user_manage/set_graduating_lesson_time"               => true,
         "/user_manage/get_weeks"                                => true,
