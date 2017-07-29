@@ -148,6 +148,8 @@ class WechatRequest  {
      * @return array
      */
     public static function text(&$request){
+        \App\Helper\Utils::logger('yxyx_text:'.$request);
+
         $content = self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
 【分享】它使快乐增大，它使悲伤减小。
