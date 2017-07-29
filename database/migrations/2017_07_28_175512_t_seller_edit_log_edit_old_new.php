@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TSellerEditLogAddAdminid extends Migration
+class TSellerEditLogEditOldNew extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,14 @@ class TSellerEditLogAddAdminid extends Migration
     {
         //
         Schema::table('db_weiyi_admin.t_seller_edit_log', function($table){
-            $table->dropColumn('adminid'); //删除表的字段
+            $table->dropColumn('old'); //删除表的字段
+                $table->dropColumn('new'); //删除表的字段
         });
 
         Schema::table('db_weiyi_admin.t_seller_edit_log', function( Blueprint $table)
         {
-            t_field($table->integer("adminid"),"修改人id");
-            $table->index("adminid");
+            t_field($table->string("old"),"修改前的值");
+            t_field($table->string("new"),"修改后的值");
         });
     }
 

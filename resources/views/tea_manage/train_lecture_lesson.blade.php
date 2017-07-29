@@ -65,7 +65,13 @@
                 </select>
             </div>
         </div>
-
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span >全职老师</span>
+                <select id="id_full_time" class ="opt-change" >
+                </select>
+            </div>
+        </div>
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >绑定微信</span>
@@ -93,6 +99,7 @@
                 <td style="display:none">课程名称</td>
                 <td style="display:none">邀约时间</td>
                 <td >面试老师</td>
+                <td >是否全职</td>
                 <td >面试老师电话</td>
                 <td >是否绑定微信</td>
                 <td >邮件通知</td>
@@ -115,6 +122,7 @@
                     <td >{{$var['lesson_name']}}</td>
                     <td >{{$var['add_time_str']}}</td>
                     <td >{{$var['nick']}}</td>
+                    <td >{{$var['full_time_str']}}</td>
                     <td >{{$var['phone_spare']}}</td>
                     <td >{{@$var['have_wx_flag']}}</td>
                     <td >{{@$var['train_email_flag_str']}}</td>
@@ -133,15 +141,15 @@
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
-                            @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
+                            @if($show_full_time==1)
+                                <a class="fa-edit opt-edit-full_time" title="全职老师审核"></a>
+                            @elseif($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
-
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
                             @endif
-
                         </div>
                     </td>
                 </tr>

@@ -6587,15 +6587,6 @@ class tongji_ss extends Controller
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            // $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
-
-            // if($item['is_done_flag'] == 0){
-            //     $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
-            // }elseif($item['is_done_flag'] == 1){
-            //     $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
-            // }elseif($item['is_done_flag'] == 2){
-            //     $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
-            // }
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
             if($is_lesson_time_flag == 1){
@@ -6603,6 +6594,7 @@ class tongji_ss extends Controller
             }else{
                 $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
             }
+
 
             if($item['lesson_start'] > time()){
                 $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
@@ -6665,7 +6657,6 @@ class tongji_ss extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
@@ -6756,7 +6747,11 @@ class tongji_ss extends Controller
 
         foreach($ret_info['list'] as &$item_list){
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
-            $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            if($item_list['assistantid']){
+                $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            }else{
+                $item_list['ass_nick'] = $this->cache_get_account_nick($item_list['require_adminid']);
+            }
 
         }
         // dd($ret_info);
@@ -6772,7 +6767,6 @@ class tongji_ss extends Controller
         foreach($ret_info as $item){
             $lesson_count += $item['lesson_count']/100;
         }
-        // return $ret_info;
         return $lesson_count;
     }
 
