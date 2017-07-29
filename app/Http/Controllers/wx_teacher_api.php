@@ -72,8 +72,6 @@ class wx_teacher_api extends Controller
             'complaint_info' => $report_msg,
         ]);
 
-        \App\Helper\Utils::logger("charu:$ret_info_qc");
-
 
         if ($ret_info_qc) {
 

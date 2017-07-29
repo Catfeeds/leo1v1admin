@@ -1515,10 +1515,12 @@ class test_code extends Controller
         echo count($list);
         exit;
         foreach($list as $val){
-            
         }
     }
 
+    /**
+     * 今日头条渠道数据
+     */
     public function get_jr() {
         $page_info = $this->get_in_page_info();
         $start_time = strtotime("2017-5-1");

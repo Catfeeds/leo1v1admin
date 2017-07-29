@@ -53,6 +53,7 @@ class user_manage_new extends Controller
     }
 
     public function stu_lesson_count_list() {
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( 0 ,0,0,[],2 );
         $assistantid=$this->get_in_assistantid(-1);
 
@@ -83,6 +84,7 @@ class user_manage_new extends Controller
         foreach($ret_list['list'] as &$item ){
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
+            $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }
@@ -3066,7 +3068,7 @@ class user_manage_new extends Controller
 
     public function get_two_weeks_old_stu_seller(){
 
-        $this->switch_tongji_database();
+        //$this->switch_tongji_database();
         $grade          = $this->get_in_grade();
         $all_flag       = $this->get_in_int_val('all_flag',0);
         $test_user      = $this->get_in_int_val('test_user',-1);
