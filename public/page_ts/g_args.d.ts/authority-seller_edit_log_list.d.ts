@@ -1,5 +1,5 @@
 interface GargsStatic {
-	adminid:	number;
+	uid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -31,12 +31,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			adminid:	$('#id_adminid').val()
+			uid:	$('#id_uid').val()
         });
     }
 
 
-	$('#id_adminid').val(g_args.adminid);
+	$('#id_uid').val(g_args.uid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -49,8 +49,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
+                <span class="input-group-addon">uid</span>
+                <input class="opt-change form-control" id="id_uid" />
             </div>
         </div>
 */
