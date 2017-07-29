@@ -148,18 +148,19 @@ class WechatRequest  {
      * @return array
      */
     public static function text(&$request){
-        $content = self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
+//         $content = self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-【分享】它使快乐增大，它使悲伤减小。
+// 【分享】它使快乐增大，它使悲伤减小。
 
-【菜单栏功能介绍】
--[我要邀请]-:生成邀请海报。
--[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
--[账号管理]-:
-(1)绑定账号：绑定手机号即可开启优学优享功能。
-(2)个人中心：查询用户等级、邀请人数、奖励情况等。
-(3)常见问题：自助解决问题。
-";
+// 【菜单栏功能介绍】
+// -[我要邀请]-:生成邀请海报。
+// -[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
+// -[账号管理]-:
+// (1)绑定账号：绑定手机号即可开启优学优享功能。
+// (2)个人中心：查询用户等级、邀请人数、奖励情况等。
+// (3)常见问题：自助解决问题。
+// ";
+        $content = $request['content'];
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
 
     }
