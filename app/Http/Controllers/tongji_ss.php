@@ -2409,6 +2409,7 @@ class tongji_ss extends Controller
         $sum_field_list = [
             "all_num",
             "all_count",
+            "real_num",
             "suc_count",
             "pass_per",
             "all_pass_per",
@@ -2500,8 +2501,8 @@ class tongji_ss extends Controller
             }
             //$item["teacher_list"] = $teacher_list;
             $item["suc_count"] = count($teacher_list);
-            $item["pass_per"] = (round($item["suc_count"]/$item["real_num"],2))*100;
-            $item["all_pass_per"] = (round($item["suc_count"]/$item["real_num"],2))*100;
+            $item["pass_per"] = !empty($item["real_num"])?(round($item["suc_count"]/$item["real_num"],2))*100:0;
+            $item["all_pass_per"] = !empty($item["real_num"])?(round($item["suc_count"]/$item["real_num"],2))*100:0;
             $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
             $item["all_lesson"] = $res["all_lesson"];
             $item["have_order"] = $res["have_order"];
@@ -2532,10 +2533,10 @@ class tongji_ss extends Controller
 
         foreach($ret_info["list"] as &$item){
             if($item["account"]=="全部"){
-                $item["pass_per"] = @$item["all_count"]==0?0:(round($all_tea_ex/@$item["all_count"],2))*100;
+                $item["pass_per"] = @$item["real_num"]==0?0:(round($all_tea_ex/@$item["real_num"],2))*100;
                 $item["ave_time"] = @$item["all_count"]==0?0:round(($all_con_time-$all_add_time)/@$item["all_count"]/86400,1);
                 $item["order_per"] =@$item["all_lesson"]==0?0:(round(@$item["have_order"]/@$item["all_lesson"],2))*100;
-                $item["all_pass_per"] = (isset($item["all_num"]) && !empty($item["all_num"]))?(round( @$item["suc_count"]/$item["all_num"],2))*100:0;
+                $item["all_pass_per"] = (isset($item["real_num"]) && !empty($item["real_num"]))?(round( @$item["suc_count"]/$item["real_num"],2))*100:0;
             }
         }
 

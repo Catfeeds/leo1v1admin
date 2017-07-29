@@ -1516,7 +1516,7 @@ class test_code extends Controller
         foreach($list as $val){
             $userid     = $val['userid'];
             $phone      = $val['phone'];
-            $realname   = $val['realname'];
+            $realname   = $val['realname']!=""?$val['realname']:$val['nick'];
             $grade      = E\Egrade::get_desc($val['grade']);
             $first_time = date("Y-m-d H:i",$val['first_time']);
             $lesson_total = $val['lesson_total'];
