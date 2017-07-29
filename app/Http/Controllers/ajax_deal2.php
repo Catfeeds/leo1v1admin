@@ -309,7 +309,7 @@ class ajax_deal2 extends Controller
     }
     /**
      *@author   sam
-     *@function 增加老师4小时内取消课程记录
+     *@function 增加老师取消课程记录
      *@path     seller_student_new2/test_lesson_list
      */
     public function add_cancel_lesson_four_hour_list(){
@@ -327,5 +327,15 @@ class ajax_deal2 extends Controller
             "acc"          =>$acc,
         ]);
         return $this->output_succ();
+    }
+    /**
+     *@author   sam
+     *@function 老师取消课程记录
+     *@path     human_resource/index
+     */
+    public function get_teacher_cancel_lesson_list(){
+        $teacherid = $teacherid = $this->get_in_int_val("teacherid");
+        $data = $this->t_teacher_record_list->get_teacher_record_list($teacherid,13);
+        return $this->output_succ(["data"=>$data]);
     }
 }

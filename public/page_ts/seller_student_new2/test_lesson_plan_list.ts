@@ -1098,7 +1098,7 @@ $(function(){
             ["原因", id_record_info]
         ];
 
-        $.show_key_value_table("增加老师4小时内取消课程记录", arr, {
+        $.show_key_value_table("增加老师取消课程记录", arr, {
             label    :   "确认",
             cssClass :   "btn-warning",
             action   :   function(dialog){

@@ -3,11 +3,11 @@
     <section class="content ">
 
         <div>
-            <div class="row  row-query-list" >
-                <div class="col-xs-6 col-md-2">
-                    <button id="id_add"> 增加</button>
-                </div>
-            </div>
+            <!-- <div class="row  row-query-list" >
+                 <div class="col-xs-6 col-md-2">
+                 <button id="id_add"> 增加</button>
+                 </div>
+                 </div> -->
         </div>
         <hr/>
 

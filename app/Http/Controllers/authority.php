@@ -479,7 +479,8 @@ class authority extends Controller
     }
 
     public function seller_edit_log_list(){
-        $list = $this->t_seller_edit_log->get_all_list();
+        $adminid_new = $this->get_in_int_val('adminid');
+        $list = $this->t_seller_edit_log->get_all_list($adminid_new);
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
         foreach($group_list as $group_item) {
@@ -512,11 +513,10 @@ class authority extends Controller
                 $item['new'] = $item['seller_level_str'];
 
             }
-            $this->cache_set_item_account_nick($item,"adminid", "admin_nick");
+            $this->cache_set_item_account_nick($item,"adminid", "adminid_nick");
             $this->cache_set_item_account_nick($item,"uid", "uid_nick");
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-        // dd($list);
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$ret_info);
     }
