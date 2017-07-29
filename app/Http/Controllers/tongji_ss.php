@@ -6718,7 +6718,7 @@ class tongji_ss extends Controller
         // $g = $this->t_admin_group_name->get_groupid_by_master_adminid(297);
         // $arr = $this->t_admin_group_user->get_user_list(28);
 
-        $ass_list = $this->
+        $ass_list = $this->t_admin_group_user->get_group_admin_list($account_id);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
 
