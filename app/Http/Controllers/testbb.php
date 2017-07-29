@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\Mail ;
 class testbb extends Controller
 {
     var $check_login_flag = false;
-    public function get_msg_num($phone) {
-        return \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);
+    public function get_msg_num() {
+        $bt_str=" ";
+        $e=new \Exception();
+        foreach( $e->getTrace() as &$bt_item ) {
+            //$args=json_encode($bt_item["args"]);
+            $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
+                @$bt_item["file"].":".@$bt_item["line"].
+                "<br/>";
+        }
+        echo $bt_str;
 
     }
 

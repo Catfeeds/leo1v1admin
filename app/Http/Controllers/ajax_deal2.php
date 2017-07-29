@@ -247,15 +247,18 @@ class ajax_deal2 extends Controller
     /**
      *@author   sam
      *@function 删除学生考试成绩信息
+     *@path     stu_manage/score_list
      */
     public function score_del(){
         $id = $this->get_in_int_val('id');
         $this->t_student_score_info->row_delete($id);
         return $this->output_succ();
     }
+
     /**
-     *@author  sam
+     *@author   sam
      *@function 取消添加考试成绩
+     *@path     
      */
     public function score_cancel(){
         $id = $this->get_in_int_val('id');
@@ -268,13 +271,13 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
-
-     /**
-     *@author   sam
-     *@function 创建学生和家长账号
-     */
-     public function register_student_parent_account()
-     {
+    /**
+    *@author   sam
+    *@function 创建学生和家长账号
+    *@path     authority/manager_list
+    */
+    public function register_student_parent_account()
+    {
         $account = $this->get_in_str_val("account");
         $phone   = $this->get_in_int_val("phone");
         $ret=[];
@@ -303,6 +306,26 @@ class ajax_deal2 extends Controller
             }
         }
         return $this->output_succ($ret);
-     }
-
+    }
+    /**
+     *@author   sam
+     *@function 增加老师4小时内取消课程记录
+     *@path     seller_student_new2/test_lesson_list
+     */
+    public function add_cancel_lesson_four_hour_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $type = 13;
+        $record_info = $this->get_in_str_val("record_info");
+        $add_time = time();
+        $acc = $this->get_account();
+        $account = $this->get_account();
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"    =>$teacherid,
+            "type"         =>$type,
+            "record_info"  =>$record_info,
+            "add_time"     =>$add_time,
+            "acc"          =>$acc,
+        ]);
+        return $this->output_succ();
+    }
 }
