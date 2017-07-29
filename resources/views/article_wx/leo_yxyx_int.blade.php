@@ -8,26 +8,26 @@
         <meta name="apple-mobile-web-app-capable" content="yes" /> 
         <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
         <meta name="format-detection" content="telephone=no" /> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          window.logs = {
              pagetime: {}
          };
          window.logs.pagetime['html_begin'] = (+new Date());
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          var biz = "MzIyOTg0OTYwMA=="||"";
-         var sn = "" || ""|| "eaff02806230011a3bf598b1854c0656";
+         var sn = "" || ""|| "d045d879916d20aa5bdbb6887d5f6ef0";
          var mid = "100000042" || ""|| "100000042";
          var idx = "1" || "" || "1";
          window.__allowLoadResFromMp = true; 
          
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          var page_begintime=+new Date,is_rumor="",norumor="";
          1*is_rumor&&!(1*norumor)&&biz&&mid&&(document.referrer&&-1!=document.referrer.indexOf("mp.weixin.qq.com/mp/rumor")||(location.href="http://mp.weixin.qq.com/mp/rumor?action=info&__biz="+biz+"&mid="+mid+"&idx="+idx+"&sn="+sn+"#wechat_redirect")),
              document.domain="qq.com";
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          var MutationObserver=window.WebKitMutationObserver||window.MutationObserver||window.MozMutationObserver,isDangerSrc=function(t){
              if(t){
                  var e=t.match(/http(?:s)?:\/\/([^\/]+?)(\/|$)/);
@@ -86,7 +86,7 @@
         <link rel="dns-prefetch" href="//res.wx.qq.com" /> 
         <link rel="dns-prefetch" href="//mmbiz.qpic.cn" /> 
         <link rel="shortcut icon" type="image/x-icon" href="//res.wx.qq.com/mmbizwap/en_US/htmledition/images/icon/common/favicon22c41c.ico" /> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          String.prototype.html = function(encode) {
              var replace =["&#39;", "'", "&quot;", '"', "&nbsp;", " ", "&gt;", ">", "&lt;", "<", "&amp;", "&", "&yen;", "¥"];
              if (encode) {
@@ -141,7 +141,7 @@
         <![endif]--> 
     </head> 
     <body id="activity-detail" class="en_US mm_appmsg"> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          var write_sceen_time = (+new Date());
         </script> 
         <div id="js_article" class="rich_media preview_appmsg"> 
@@ -197,9 +197,9 @@
                                                                             <section class="" style=" margin-top: 10px; margin-bottom: 10px; text-align: center; font-size: 38px;  ">
                                                                                 <section class="" style="width: 5em; height: 5em; display: inline-block; vertical-align: bottom; margin-top: 0.12em; border-radius: 100%; box-sizing: border-box; background-color: rgba(254, 223, 225, 0.45098);">
                                                                                     <section style="width: 5em; height: 5em; border-radius: 100%; padding: 0.2em 0.1em 0.1em 0.2em; margin-left: -0.2em; margin-top: -0.1em; box-sizing: border-box; background-color: rgba(254, 223, 225, 0.690196);">
-                                                                                        <section class="" style="width: 100%; height: 100%; border-radius: 100%; box-sizing: border-box; background-image: url(http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;">
+                                                                                        <section class="" style="width: 100%; height: 100%; border-radius: 100%; box-sizing: border-box; background-image: url(http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/485315737.jpg); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;">
                                                                                             <section class="" style="width: 100%; height: 100%; overflow: hidden;">
-                                                                                                <img class="" style="width: 100%; height: 100%; opacity: 0;"  data-ratio="1.0015625" data-w="640" width="100%" data-type="png" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/d09638adcad47a85343ea8b54bee26051501312803393.png" />
+                                                                                                <img class="" style="width: 100%; height: 100%; opacity: 100;" data-src="http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png" src="http://7u2f5q.com2.z0.glb.qiniucdn.com/d09638adcad47a85343ea8b54bee26051501312803393.png" data-ratio="1.0015625" data-w="640" width="100%" data-type="png"  />
                                                                                             </section>
                                                                                         </section>
                                                                                     </section>
@@ -376,7 +376,7 @@
                                             </section>
                                             <section class="" style="width: 100%;">
                                                 <section style="display: inline-block; vertical-align: top; margin-left: 1em; margin-top: -3.8em; width: 6em;">
-                                                    <img style="width: 6em;" data-src="http://mmbiz.qpic.cn/mmbiz_jpg/JcGvGEiafrOrZF5knh8VdXsY554RLEoQj2q7qibm1PSiauickCFiabwEqK5VZy00CRiahk5aUWianHQxqG8OZJWY4YsXw/0?wx_fmt=jpeg" class="" data-ratio="1" data-w="258" width="6em" data-type="jpeg" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/227520094.jpg" /> 
+                                                    <img style="width: 6em;" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/227520094.jpg" class="" data-ratio="1" data-w="258" width="6em" data-type="jpeg" /> 
                                                     <img style="width: 6em;" data-src="http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjDXgsO7hoZxlvJ9r08lJRcB7Z91gUTjObRgFrytlqjHzS9mjIcARyiaQ/0?wx_fmt=png" class="" data-ratio="0.525" data-w="200" width="6em" data-type="png" />
                                                 </section>
                                                 <section class="" style="display: inline-block; vertical-align: top; padding-right: 5px; padding-left: 5px; width: 100%; line-height: 2; max-width: 60% !important; box-sizing: border-box;">
@@ -399,7 +399,7 @@
                                 </section>
                             </section> 
                         </div> 
-                        <script nonce="1903231773" type="text/javascript">
+                        <script nonce="1555899990" type="text/javascript">
                          var first_sceen__time = (+new Date());
 
                          if ("" == 1 && document.getElementById('js_content')) {
@@ -470,18 +470,18 @@
                 </div> 
             </div> 
         </div> 
-        <script nonce="1903231773">
+        <script nonce="1555899990">
          var __DEBUGINFO = {
              debug_js : "//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/debug/console34c264.js",
              safe_js : "//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/safe/moonsafe34c264.js",
              res_list: []
          };
         </script> 
-        <script nonce="1903231773">
+        <script nonce="1555899990">
          (function() {
 	           function _addVConsole(uri) {
 		             var url = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/' + uri;
-		             document.write('<script nonce="1903231773" type="text/javascript" src="' + url + '"><\/script>');
+		             document.write('<script nonce="1555899990" type="text/javascript" src="' + url + '"><\/script>');
 	           }
 	           if (
 		             (document.cookie && document.cookie.indexOf('vconsole_open=1') > -1)
@@ -495,7 +495,7 @@
 	           }
          })();
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
 
          if (!window.console) window.console = { log: function() {} };
 
@@ -752,7 +752,7 @@
              })();
          })();
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
 
          var not_in_mm_css = "//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/not_in_mm36906d.css";
          var windowwx_css = "//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/page_mp_article_improve_winwx315a9c.css";
@@ -770,7 +770,7 @@
 
          var itemidx = "";
 
-         var appmsg_token   = "915_ZnNAIwAKCKSvXCwHXaljr_1MlUy-bO1P2bHvHGlCKU2juq_IZVTzZs23yys~";
+         var appmsg_token   = "915_z08k6LK%2FAn%2F%2FcFxUXaljr_1MlUy-bO1P2bHvHEY3X5MwSdXhxEGac2y260c~";
 
          var _copyright_stat = "0";
          var _ori_article_type = "";
@@ -789,12 +789,12 @@
          var msg_title = "优学优享简介";
          var msg_desc = "理优教育优学优享        优学优享是理优教育旗下的分享社区。分享科学的教育理念。如邀请身边的好友进入理";
          var msg_cdn_url = "http://mmbiz.qpic.cn/mmbiz_png/JcGvGEiafrOrZF5knh8VdXsY554RLEoQjibgrP7ochFRnnGz811O3XFfnAWBCMQXos1vNicOt1ryDnae1DGlicibrGQ/0?wx_fmt=png";
-         var msg_link = "http://mp.weixin.qq.com/s?__biz=MzIyOTg0OTYwMA==\x26amp;tempkey=OTE1XzA5VXdFZ1cvTjNGUTF5Yjl0XzlWU0JuZzhNOXJpTUtzXy0wcFQ0dklhc2RiSkExWlN1WTJvM1d3ZnVzVElCaHY5TnJFTTUyaml4dEFNVjJfMXlLaFN4dVdIOURkbmVLRGpNMXdpOXNZamhTUVBmQTJ4U2Z6anRPREgwYm56dHRRS0hPRkpkSHZ4ZFduckJBQm5Dcy1zMklBeEFVWE8tM0ZyZFZrb1F%2Bfg%3D%3D\x26amp;chksm=68bd2e455fcaa75350cfe1793b381988294c2646f12ef5ccd2c40e4b7d4655831eab14121053#rd";
+         var msg_link = "http://mp.weixin.qq.com/s?__biz=MzIyOTg0OTYwMA==\x26amp;tempkey=OTE1X3RpSCtXQXRLQjVLUGRqSHR0XzlWU0JuZzhNOXJpTUtzXy0wcFQ0dklhc2RiSkExWlN1WTJvM1d3ZnVzVElCaHY5TnJFTTUyaml4dEFNVjJfMXlLaFN4dVdIOURkbmVLRGpNMXdpOXNZamhTUVBmQTJ4U2Z6anRPREgwYm56dHRRS0hPRkpkSHZ4ZFduckJBQlhSaDJyMzNqS1MwWmJ5eXpiUjBFSEF%2Bfg%3D%3D\x26amp;chksm=68bd2e455fcaa75350cfe1793b381988294c2646f12ef5ccd2c40e4b7d4655831eab14121053#rd";
          var user_uin = "0"*1;
          var msg_source_url = '';
          var img_format = 'png';
          var srcid = '';
-         var req_id = '2913qzHbvKDqaDaBMkKRSY8I';
+         var req_id = '2915FTTPvAeSWXibnwJwB5Xk';
          var networkType;
          var appmsgid = '' || '100000042'|| "100000042";
          var comment_id = "0" * 1;
@@ -838,11 +838,11 @@
          var friend_read_class_id = "" || "";
 
          var is_only_read = "1" * 1;
-         var read_num = "6" * 1;
+         var read_num = "13" * 1;
          var like_num = "0" * 1;
          var liked = "false" == 'true' ? true : false;
-         var is_temp_url = "OTE1X3RhMzF4NkszQWtFQS91L2l0XzlWU0JuZzhNOXJpTUtzXy0wcFQ0dklhc2RiSkExWlN1WTJvM1d3ZnVzVElCaHY5TnJFTTUyaml4dEFNVjJfMXlLaFN4dVdIOURkbmVLRGpNMXdpOXNZamhTUVBmQTJ4U2Z6anRPREgwYm56dHRRS0hPRkpkSHZ4ZFduckJBQkk4TlBtSGJzTXFFNjZBaEVTdFNsalF\x26nbsp;fg==" ? 1 : 0;
-         var send_time = "1501306667";
+         var is_temp_url = "OTE1X0lmWDQwOVZsY1N2TkRuR2N0XzlWU0JuZzhNOXJpTUtzXy0wcFQ0dklhc2RiSkExWlN1WTJvM1d3ZnVzVElCaHY5TnJFTTUyaml4dEFNVjJfMXlLaFN4dVdIOURkbmVLRGpNMXdpOXNZamhTUVBmQTJ4U2Z6anRPREgwYm56dHRRS0hPRkpkSHZ4ZFduckJBQlVGOFMwM2pDeERFV0NpRm9pR3lBSUF\x26nbsp;fg==" ? 1 : 0;
+         var send_time = "1501312466";
          var icon_emotion_switch = "//res.wx.qq.com/mmbizwap/en_US/htmledition/images/icon/appmsg/emotion/icon_emotion_switch.2x2f1273.png";
          var icon_emotion_switch_active = "//res.wx.qq.com/mmbizwap/en_US/htmledition/images/icon/appmsg/emotion/icon_emotion_switch_active.2x2f1273.png";
          var icon_loading_white = "//res.wx.qq.com/mmbizwap/en_US/htmledition/images/icon/common/icon_loading_white2805ea.gif";
@@ -868,7 +868,7 @@
          
          var ban_scene = "0" * 1;
 
-         var svr_time = "1501306668" * 1;
+         var svr_time = "1501312514" * 1;
          
          var is_transfer_msg = ""*1||0;
 
@@ -902,7 +902,7 @@
              }
          }
         </script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990" type="text/javascript">
          (function(){
              window.__logClientLog = function(msg){
                  try{
@@ -954,9 +954,9 @@
              }, 500);
          })();
         </script> 
-        <script nonce="1903231773">window.__moon_host = 'res.wx.qq.com';window.__moon_mainjs = 'appmsg/index.js';window.moon_map = {"new_video/player.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/player.html3767b8.js","biz_wap/zepto/touch.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/touch34c264.js","biz_wap/zepto/event.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/event34c264.js","biz_wap/zepto/zepto.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/zepto34c264.js","page/pages/video.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/pages/video.css3767b8.js","a/appdialog_confirm.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/appdialog_confirm.html34f0d8.js","widget/wx_profile_dialog_primary.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/widget/wx_profile_dialog_primary.css34f0d8.js","appmsg/emotion/caret.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/caret278965.js","new_video/player.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/player376c4d.js","a/appdialog_confirm.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/appdialog_confirm34c32b.js","biz_wap/jsapi/cardticket.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/jsapi/cardticket34c264.js","biz_common/utils/emoji_panel_data.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/emoji_panel_data3518c7.js","biz_common/utils/emoji_data.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/emoji_data3518c7.js","appmsg/emotion/textarea.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/textarea353f34.js","appmsg/emotion/nav.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/nav278965.js","appmsg/emotion/common.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/common3518c7.js","appmsg/emotion/slide.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/slide2a9cd9.js","pages/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/report358df0.js","pages/music_player.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/music_player36a181.js","pages/loadscript.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/loadscript30203e.js","appmsg/emotion/dom.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/dom31ff31.js","appmsg/comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/comment_tpl.html36c376.js","biz_wap/utils/fakehash.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/fakehash36c4f2.js","biz_common/utils/wxgspeedsdk.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/wxgspeedsdk3518c7.js","a/sponsor.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/sponsor364802.js","a/app_card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/app_card367ed3.js","a/ios.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/ios333f3e.js","a/android.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/android2c5484.js","a/profile.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/profile31ff31.js","a/cpc_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/cpc_a_tpl.html36f05c.js","a/sponsor_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/sponsor_a_tpl.html36c7d0.js","a/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a_tpl.html36bd0a.js","a/mpshop.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/mpshop31117a.js","a/wxopen_card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/wxopen_card36bd0a.js","a/card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/card31117a.js","biz_wap/utils/position.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/position34c264.js","a/a_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a_report32e587.js","appmsg/my_comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/my_comment_tpl.html36906d.js","appmsg/cmt_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cmt_tpl.html369d00.js","sougou/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/sougou/a_tpl.html2c6e7c.js","appmsg/emotion/emotion.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/emotion353f34.js","biz_wap/utils/wapsdk.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/wapsdk34c264.js","biz_common/utils/monitor.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/monitor3518c7.js","biz_common/utils/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/report3518c7.js","appmsg/open_url_with_webview.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/open_url_with_webview3145f1.js","biz_common/utils/http.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/http3518c7.js","biz_common/utils/cookie.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/cookie3518c7.js","appmsg/topic_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/topic_tpl.html31ff31.js","pages/weapp_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/weapp_tpl.html36906d.js","pages/voice_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/voice_tpl.html36c4aa.js","pages/voice_component.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/voice_component3767b8.js","pages/qqmusic_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/qqmusic_tpl.html37189c.js","new_video/ctl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/ctl2d441f.js","a/testdata.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/testdata36bd0a.js","appmsg/reward_entry.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/reward_entry36906d.js","appmsg/comment.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/comment36ca0d.js","appmsg/like.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/like375fea.js","pages/version4video.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/version4video358f7c.js","a/a.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a376b54.js","rt/appmsg/getappmsgext.rt.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/rt/appmsg/getappmsgext.rt2c21f7.js","biz_wap/utils/storage.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/storage34c264.js","biz_common/tmpl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/tmpl3518c7.js","appmsg/share_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/share_tpl.html36906d.js","appmsg/img_copyright_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/img_copyright_tpl.html2a2c13.js","pages/video_ctrl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/video_ctrl36ebcf.js","biz_common/ui/imgonepx.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/ui/imgonepx3518c7.js","biz_common/utils/respTypes.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/respTypes3518c7.js","biz_wap/utils/log.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/log34c264.js","sougou/index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/sougou/index36913b.js","biz_wap/safe/mutation_observer_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/safe/mutation_observer_report34c264.js","appmsg/fereport.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/fereport37166d.js","appmsg/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/report3404b3.js","appmsg/report_and_source.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/report_and_source34c49d.js","appmsg/page_pos.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/page_pos366ede.js","appmsg/cdn_speed_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cdn_speed_report3097b2.js","appmsg/wxtopic.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/wxtopic31a3be.js","appmsg/new_index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/new_index36906d.js","appmsg/weapp.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/weapp373f1a.js","appmsg/voice.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/voice371dbd.js","appmsg/qqmusic.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/qqmusic371dbd.js","appmsg/iframe.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/iframe37664e.js","appmsg/product.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/product370ce3.js","appmsg/review_image.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/review_image36e0dc.js","appmsg/outer_link.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/outer_link275627.js","appmsg/copyright_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/copyright_report2ec4b2.js","appmsg/async.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/async36ebcf.js","biz_wap/ui/lazyload_img.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/ui/lazyload_img36be04.js","biz_common/log/jserr.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/log/jserr3518c7.js","appmsg/share.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/share355afc.js","appmsg/cdn_img_lib.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cdn_img_lib373857.js","biz_common/utils/url/parse.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/url/parse36ebcf.js","page/appmsg/not_in_mm.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/not_in_mm.css36906d.js","page/appmsg/page_mp_article_improve_combo.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/page_mp_article_improve_combo.css36f05c.js","page/appmsg_new/not_in_mm.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg_new/not_in_mm.css36f05c.js","page/appmsg_new/combo.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg_new/combo.css36f05c.js","biz_wap/jsapi/core.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/jsapi/core34c264.js","biz_common/dom/event.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/event36f1bc.js","appmsg/test.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/test354009.js","biz_wap/utils/mmversion.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/mmversion34c264.js","appmsg/max_age.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/max_age2fdd28.js","biz_common/dom/attr.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/attr3518c7.js","biz_wap/utils/ajax.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/ajax34c264.js","appmsg/log.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/log300331.js","biz_common/dom/class.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/class3518c7.js","biz_wap/utils/device.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/device34c264.js","biz_common/utils/string/html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/string/html3518c7.js","appmsg/index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/index3767b8.js"};</script>
-        <script nonce="1903231773" type="text/javascript">(function(){function d(a){window.__wxgspeeds.moonls_loadjs_begin=+new Date;var c=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(c);c.type="text/javascript";c.async="async";;c.setAttribute('onerror', 'wx_loaderror');c.onload=function(){a&&f();window.__moonSucRep&&window.__moonSucRep(b)};c.onerror=function(){window.__moonSucRep&&window.____moonSucRep(b)};c.src=b;window.__wxgspeeds.moonls_loadjs_end=+new Date}function f(){window.__wxgspeeds.moonls_save_begin=+new Date;localStorage.setItem("__WXLS__moon",String(__moonf__));localStorage.setItem("__WXLS__moonarg",JSON.stringify({version:b,method:""}));window.__wxgspeeds.moonls_save_end=+new Date}var a=!!top&&!!top.window&&top.window.user_uin||0,e=0!==a&&1>Math.floor(a/100)%100;if(2876363900==a||1506075==a||942807682==a)e=!0;var b="//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/moon368f87.js";window.__loadAllResFromMp&&(b=b.replace("res.wx.qq.com","mp.weixin.qq.com"),(new Image).src=location.protocol+"//mp.weixin.qq.com/mp/jsmonitor?idkey=27613_12_1");window.__wxgspeeds||(window.__wxgspeeds={});if("function"==typeof __moonf__)__moonf__(),e&&localStorage&&f();else if(window.__wxgspeeds.moonloadtime=+new Date,e&&localStorage)try{var g=JSON.parse(localStorage.getItem("__WXLS__moonarg"))||{};if(g&&g.version==b){var h=localStorage.getItem("__WXLS__moon");localStorage.setItem("__WXLS__moonarg",JSON.stringify({version:b,method:"fromls"}));window.__moonls_fromls=!0;window.__wxgspeeds.moonls_loadls_end=+new Date;eval(h);__moonf__()}else d(!0)}catch(k){window.__moonls_fail=!0,d(!0)}else d(!1)})();</script> 
-        <script nonce="1903231773" type="text/javascript">
+        <script nonce="1555899990">window.__moon_host = 'res.wx.qq.com';window.__moon_mainjs = 'appmsg/index.js';window.moon_map = {"new_video/player.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/player.html3767b8.js","biz_wap/zepto/touch.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/touch34c264.js","biz_wap/zepto/event.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/event34c264.js","biz_wap/zepto/zepto.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/zepto/zepto34c264.js","page/pages/video.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/pages/video.css3767b8.js","a/appdialog_confirm.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/appdialog_confirm.html34f0d8.js","widget/wx_profile_dialog_primary.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/widget/wx_profile_dialog_primary.css34f0d8.js","appmsg/emotion/caret.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/caret278965.js","new_video/player.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/player376c4d.js","a/appdialog_confirm.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/appdialog_confirm34c32b.js","biz_wap/jsapi/cardticket.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/jsapi/cardticket34c264.js","biz_common/utils/emoji_panel_data.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/emoji_panel_data3518c7.js","biz_common/utils/emoji_data.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/emoji_data3518c7.js","appmsg/emotion/textarea.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/textarea353f34.js","appmsg/emotion/nav.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/nav278965.js","appmsg/emotion/common.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/common3518c7.js","appmsg/emotion/slide.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/slide2a9cd9.js","pages/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/report358df0.js","pages/music_player.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/music_player36a181.js","pages/loadscript.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/loadscript30203e.js","appmsg/emotion/dom.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/dom31ff31.js","appmsg/comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/comment_tpl.html36c376.js","biz_wap/utils/fakehash.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/fakehash36c4f2.js","biz_common/utils/wxgspeedsdk.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/wxgspeedsdk3518c7.js","a/sponsor.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/sponsor364802.js","a/app_card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/app_card367ed3.js","a/ios.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/ios333f3e.js","a/android.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/android2c5484.js","a/profile.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/profile31ff31.js","a/cpc_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/cpc_a_tpl.html36f05c.js","a/sponsor_a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/sponsor_a_tpl.html36c7d0.js","a/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a_tpl.html36bd0a.js","a/mpshop.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/mpshop31117a.js","a/wxopen_card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/wxopen_card36bd0a.js","a/card.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/card31117a.js","biz_wap/utils/position.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/position34c264.js","a/a_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a_report32e587.js","appmsg/my_comment_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/my_comment_tpl.html36906d.js","appmsg/cmt_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cmt_tpl.html369d00.js","sougou/a_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/sougou/a_tpl.html2c6e7c.js","appmsg/emotion/emotion.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/emotion/emotion353f34.js","biz_wap/utils/wapsdk.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/wapsdk34c264.js","biz_common/utils/monitor.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/monitor3518c7.js","biz_common/utils/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/report3518c7.js","appmsg/open_url_with_webview.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/open_url_with_webview3145f1.js","biz_common/utils/http.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/http3518c7.js","biz_common/utils/cookie.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/cookie3518c7.js","appmsg/topic_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/topic_tpl.html31ff31.js","pages/weapp_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/weapp_tpl.html36906d.js","pages/voice_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/voice_tpl.html36c4aa.js","pages/voice_component.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/voice_component3767b8.js","pages/qqmusic_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/qqmusic_tpl.html37189c.js","new_video/ctl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/new_video/ctl2d441f.js","a/testdata.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/testdata36bd0a.js","appmsg/reward_entry.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/reward_entry36906d.js","appmsg/comment.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/comment36ca0d.js","appmsg/like.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/like375fea.js","pages/version4video.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/version4video358f7c.js","a/a.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/a/a376b54.js","rt/appmsg/getappmsgext.rt.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/rt/appmsg/getappmsgext.rt2c21f7.js","biz_wap/utils/storage.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/storage34c264.js","biz_common/tmpl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/tmpl3518c7.js","appmsg/share_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/share_tpl.html36906d.js","appmsg/img_copyright_tpl.html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/img_copyright_tpl.html2a2c13.js","pages/video_ctrl.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/pages/video_ctrl36ebcf.js","biz_common/ui/imgonepx.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/ui/imgonepx3518c7.js","biz_common/utils/respTypes.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/respTypes3518c7.js","biz_wap/utils/log.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/log34c264.js","sougou/index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/sougou/index36913b.js","biz_wap/safe/mutation_observer_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/safe/mutation_observer_report34c264.js","appmsg/fereport.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/fereport37166d.js","appmsg/report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/report3404b3.js","appmsg/report_and_source.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/report_and_source34c49d.js","appmsg/page_pos.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/page_pos366ede.js","appmsg/cdn_speed_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cdn_speed_report3097b2.js","appmsg/wxtopic.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/wxtopic31a3be.js","appmsg/new_index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/new_index36906d.js","appmsg/weapp.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/weapp373f1a.js","appmsg/voice.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/voice371dbd.js","appmsg/qqmusic.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/qqmusic371dbd.js","appmsg/iframe.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/iframe37664e.js","appmsg/product.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/product370ce3.js","appmsg/review_image.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/review_image36e0dc.js","appmsg/outer_link.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/outer_link275627.js","appmsg/copyright_report.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/copyright_report2ec4b2.js","appmsg/async.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/async36ebcf.js","biz_wap/ui/lazyload_img.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/ui/lazyload_img36be04.js","biz_common/log/jserr.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/log/jserr3518c7.js","appmsg/share.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/share355afc.js","appmsg/cdn_img_lib.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/cdn_img_lib373857.js","biz_common/utils/url/parse.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/url/parse36ebcf.js","page/appmsg/not_in_mm.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/not_in_mm.css36906d.js","page/appmsg/page_mp_article_improve_combo.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg/page_mp_article_improve_combo.css36f05c.js","page/appmsg_new/not_in_mm.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg_new/not_in_mm.css36f05c.js","page/appmsg_new/combo.css":"//res.wx.qq.com/mmbizwap/en_US/htmledition/style/page/appmsg_new/combo.css36f05c.js","biz_wap/jsapi/core.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/jsapi/core34c264.js","biz_common/dom/event.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/event36f1bc.js","appmsg/test.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/test354009.js","biz_wap/utils/mmversion.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/mmversion34c264.js","appmsg/max_age.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/max_age2fdd28.js","biz_common/dom/attr.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/attr3518c7.js","biz_wap/utils/ajax.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/ajax34c264.js","appmsg/log.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/log300331.js","biz_common/dom/class.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/dom/class3518c7.js","biz_wap/utils/device.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/utils/device34c264.js","biz_common/utils/string/html.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_common/utils/string/html3518c7.js","appmsg/index.js":"//res.wx.qq.com/mmbizwap/en_US/htmledition/js/appmsg/index3767b8.js"};</script>
+        <script nonce="1555899990" type="text/javascript">(function(){function d(a){window.__wxgspeeds.moonls_loadjs_begin=+new Date;var c=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(c);c.type="text/javascript";c.async="async";;c.setAttribute('onerror', 'wx_loaderror');c.onload=function(){a&&f();window.__moonSucRep&&window.__moonSucRep(b)};c.onerror=function(){window.__moonSucRep&&window.____moonSucRep(b)};c.src=b;window.__wxgspeeds.moonls_loadjs_end=+new Date}function f(){window.__wxgspeeds.moonls_save_begin=+new Date;localStorage.setItem("__WXLS__moon",String(__moonf__));localStorage.setItem("__WXLS__moonarg",JSON.stringify({version:b,method:""}));window.__wxgspeeds.moonls_save_end=+new Date}var a=!!top&&!!top.window&&top.window.user_uin||0,e=0!==a&&1>Math.floor(a/100)%100;if(2876363900==a||1506075==a||942807682==a)e=!0;var b="//res.wx.qq.com/mmbizwap/en_US/htmledition/js/biz_wap/moon368f87.js";window.__loadAllResFromMp&&(b=b.replace("res.wx.qq.com","mp.weixin.qq.com"),(new Image).src=location.protocol+"//mp.weixin.qq.com/mp/jsmonitor?idkey=27613_12_1");window.__wxgspeeds||(window.__wxgspeeds={});if("function"==typeof __moonf__)__moonf__(),e&&localStorage&&f();else if(window.__wxgspeeds.moonloadtime=+new Date,e&&localStorage)try{var g=JSON.parse(localStorage.getItem("__WXLS__moonarg"))||{};if(g&&g.version==b){var h=localStorage.getItem("__WXLS__moon");localStorage.setItem("__WXLS__moonarg",JSON.stringify({version:b,method:"fromls"}));window.__moonls_fromls=!0;window.__wxgspeeds.moonls_loadls_end=+new Date;eval(h);__moonf__()}else d(!0)}catch(k){window.__moonls_fail=!0,d(!0)}else d(!1)})();</script> 
+        <script nonce="1555899990" type="text/javascript">
          var real_show_page_time = +new Date();
          if (!!window.addEventListener){
              window.addEventListener("load", function(){
@@ -965,7 +965,7 @@
          }
          
         </script>  
-        <script nonce="1903231773" type="text/javascript">document.addEventListener("touchstart", function() {},false);</script>  
+        <script nonce="1555899990" type="text/javascript">document.addEventListener("touchstart", function() {},false);</script>  
         <!--tailTrap<body></body><head></head><html></html>--> 
     </body>
 </html>
