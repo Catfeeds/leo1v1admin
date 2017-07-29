@@ -713,7 +713,9 @@ $(function(){
     });
 
 
-
-
+    $(".opt-log").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
+    });
 
 });
