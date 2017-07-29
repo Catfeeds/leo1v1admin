@@ -38,7 +38,8 @@
                     <td>试听时间 </td>
                     <td>课时确认 </td>
                     <td>试听结果</td>
-                    <td>换老师原因</td>
+                    <td>换老师原因类型</td>
+                    <td>换老师原因描述</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -61,6 +62,7 @@
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["order_confirm_flag_str"]!!} </td>
                         <td>{{@$var['change_teacher_reason_type_str']}}</td>
+                        <td>{{@$var['change_teacher_reason']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

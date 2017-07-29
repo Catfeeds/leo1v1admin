@@ -252,7 +252,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        $list = $this->main_get_list_by_page($sql,$page_num,20);
+        $list = $this->main_get_list_by_page($sql,$page_num,100);
         foreach($list["list"] as $item){
             if(empty($item["address"])){
                 $location = \App\Helper\Common::get_phone_location($item["phone"]);  
