@@ -483,7 +483,7 @@ class TeacherTask extends TaskController
 
     /**
      * 课堂信息有误(学生,老师讲义,作业上传有问题)
-     * @param type=10 
+     * @param type=10
      */
     public function notice_teacher_for_lesson_info($type){
         $start   = strtotime(date("Y-m-d",time()));

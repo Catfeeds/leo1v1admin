@@ -89,7 +89,7 @@
                         <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data["video_succ"]}}/实到{{@$data["video_real"]}}/预约{{@$data["video_count"]}}&nbsp&nbsp{{@$data["video_per"]}}%　</span>
                        
                         <font color="#333" >审核通过数:</font> 
-                        <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["succ_num"]}}　</span> 
+                        <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["all_succ"]}}　</span> 
 
 
                     </div>

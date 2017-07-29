@@ -1582,8 +1582,5 @@ class test_code extends Controller
             echo $item['phone'];
             echo "<br>";
         }
-
-
     }
-
 }

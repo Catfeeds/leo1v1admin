@@ -2219,13 +2219,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.teacherid>0",
             // "lesson_del_flag = 0",
             "m.account_role=1",
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1]
         ];
 
-        if($lesson_cancel_reason_type == -1){
-            $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
-        }else{
-            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
-        }
+        // if($lesson_cancel_reason_type == -1){
+        //     $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
+        // }else{
+        //     $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        // }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2244,7 +2245,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,30,true);
 
     }
 
@@ -2291,14 +2292,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.userid>0",
             // "lesson_del_flag = 0",
             "m.account_role=1",
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1],
         ];
 
-        if($lesson_cancel_reason_type == -1){
-            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
-        }else{
-            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        // if($lesson_cancel_reason_type == -1){
+        //     $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        // }else{
+        //     $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
 
-        }
+        // }
 
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2323,7 +2325,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,30,true);
 
     }
 
