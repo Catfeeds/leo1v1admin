@@ -636,6 +636,8 @@ $(function(){
             +"<option value='1'>通过</option>"
             +"<option value='2'>老师未到</option>";
         id_flag.append(flag_html);
+        id_flag.val(data.full_status);
+        id_record_info.val(data.full_record_info);
 
         var arr = [
             ["是否通过",id_flag],

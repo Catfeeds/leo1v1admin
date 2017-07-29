@@ -6683,8 +6683,6 @@ class tongji_ss extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
-        // dd($ret_info);
-        // \App\Helper\Utils::sortArrByField();
 
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -6702,6 +6700,7 @@ class tongji_ss extends Controller
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
         }
+        // \App\Helper\Common::sortArrByField($ret_info,lesson);
 
         return $this->pageView(__METHOD__,$ret_info);
     }

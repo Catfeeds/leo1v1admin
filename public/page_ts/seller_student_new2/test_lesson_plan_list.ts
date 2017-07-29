@@ -1043,7 +1043,7 @@ $(function(){
     });
 
 
-    $(".opt-teacher-cancel-class-confirm").on("click",function(){
+    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var lessonid=opt_data.lessonid;
         var lesson_time = opt_data.lesson_time;
@@ -1079,6 +1079,30 @@ $(function(){
         });
     });
 
+    $(".opt-teacher-cancel-class-confirm").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var id_record_info = $("<textarea/>");
+        var arr = [
+            ["原因", id_record_info]
+        ];
+
+        $.show_key_value_table("增加老师4小时内取消课程记录", arr, {
+            label    :   "确认",
+            cssClass :   "btn-warning",
+            action   :   function(dialog){
+                if(id_record_info.val() == ''){
+                    alert("请输入取消的理由");
+                    return;
+                }
+                $.do_ajax('/ajax_deal2/add_cancel_lesson_four_hour_list',{
+                    "teacherid" : opt_data.teacherid,
+                    "record_info":id_record_info.val(),
+                });
+            }
+        },function(){
+        });
+    });
     $("#id_grab_lesson").on("click",function(){
         var id_grab_url    = $("<button class='btn btn-danger'>生成抢单链接</button>");
         var id_grab_lesson = $("<button class='btn btn-danger'>添加至抢单库</button>");
