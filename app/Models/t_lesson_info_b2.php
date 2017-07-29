@@ -2216,11 +2216,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.teacherid>0",
-            "lesson_del_flag = 0",
+            // "lesson_del_flag = 0",
             "m.account_role=1",
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2246,10 +2251,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.teacherid=%d",$teacherid],
             "lesson_del_flag = 0"
         ];
+
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2275,11 +2288,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.userid>0",
-            "lesson_del_flag = 0",
+            // "lesson_del_flag = 0",
             "m.account_role=1",
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -2312,10 +2332,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.userid=%d",$userid],
-            "lesson_del_flag = 0"
+            // "lesson_del_flag = 0"
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 

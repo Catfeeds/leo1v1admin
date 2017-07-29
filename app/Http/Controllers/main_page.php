@@ -681,9 +681,27 @@ class main_page extends Controller
         }
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
+                    
+        $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
+        $one_all = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+        @$data["video_count"] =  $video_all["all_count"];
+        @$data["video_real"] =  $video_real["all_count"];
+        @$data["one_count"] = $one_all["all_count"];
+        @$data["one_real"] = $one_real["all_count"];
+
+
       
         $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
+        @$data["video_succ"] = count($teacher_list_ex);
         $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
+        @$data["one_succ"] = count($teacher_arr_ex);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
                 $teacher_list_ex[$k]=$k; 
@@ -691,6 +709,10 @@ class main_page extends Controller
         }  
 
         $data["all_succ"] = count($teacher_list_ex);       
+        \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
+        $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
+        $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
+
        
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
