@@ -2616,8 +2616,8 @@ class user_deal extends Controller
             }
 
             if(empty($item["address"])){
-                // $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
-                // $item["location"]   = substr($item["location"], 0, -6);
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+                $item["location"]   = substr($item["location"], 0, -6);
             }else{
                 $item["location"]= $item["address"];
             }
