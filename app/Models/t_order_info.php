@@ -2541,6 +2541,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ["pay_time>%u",$start,0],
             ["pay_time<%u",$end,0],
+            "is_test_user=0",
+            "contract_type in (0,1,3)",
+            "contract_status >0"
         ];
         $sql = $this->gen_sql_new("select s.userid,s.phone,s.realname,s.grade,min(pay_time) as first_time,o.subject,"
                                   ." sum(o.lesson_total*default_lesson_count) as lesson_total"

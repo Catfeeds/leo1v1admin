@@ -2439,14 +2439,25 @@ class tongji_ss extends Controller
         if($interview_type==1){
             $ret_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }elseif($interview_type==2){
             $ret_info = $this->t_teacher_record_list->get_train_teacher_interview_info(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_record_list->get_train_teacher_interview_info(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }else{
             $ret_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
             $arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
             foreach($arr["list"] as $k=>$val){
                 if(isset($ret_info["list"][$k])){
                     $ret_info["list"][$k]["all_count"] += $val["all_count"];
@@ -2454,6 +2465,14 @@ class tongji_ss extends Controller
                 }else{
                     $ret_info["list"][$k]= $val;
                 }
+            }
+            foreach($real_arr["list"] as $p=>$pp){
+                if(isset($real_info["list"][$p])){
+                    $real_info["list"][$p]["all_count"] += $pp["all_count"];
+                }else{
+                    $real_info["list"][$p]= $pp;
+                }
+
             }
         }
 
@@ -2463,6 +2482,7 @@ class tongji_ss extends Controller
             $item["ave_time"] = (isset($item["all_count_new"]) && !empty($item["all_count_new"]))?round(($item["all_con_time"]-$item["all_add_time"])/$item["all_count_new"]/86400,1):0;
             $all_con_time+=$item["all_con_time"];
             $all_add_time+=$item["all_add_time"];
+            $item["real_num"] = isset($real_info[$item["account"]])?$real_info[$item["account"]]["all_count"]:0;
             $account = $item["account"];
             if($interview_type==1){
                 $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
@@ -2480,8 +2500,8 @@ class tongji_ss extends Controller
             }
             //$item["teacher_list"] = $teacher_list;
             $item["suc_count"] = count($teacher_list);
-            $item["pass_per"] = (round($item["suc_count"]/$item["all_count"],2))*100;
-            $item["all_pass_per"] = (round($item["suc_count"]/$item["all_num"],2))*100;
+            $item["pass_per"] = (round($item["suc_count"]/$item["real_num"],2))*100;
+            $item["all_pass_per"] = (round($item["suc_count"]/$item["real_num"],2))*100;
             $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
             $item["all_lesson"] = $res["all_lesson"];
             $item["have_order"] = $res["have_order"];
@@ -6574,7 +6594,9 @@ class tongji_ss extends Controller
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
-            $item['old_teacher_nick'] = $this->t_lesson_info_b2->get_old_teacher_nick($item['lesson_start'],$item['subject'],$item['userid']);
+            $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($item['lesson_start'],$item['subject'],$item['userid']);
+            $item['old_teacher_nick'] = $old_teacher_arr['nick'];
+            $item['old_teacher_id'] = $old_teacher_arr['teacherid'];
 
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";

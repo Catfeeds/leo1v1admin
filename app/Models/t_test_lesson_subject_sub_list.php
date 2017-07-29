@@ -873,7 +873,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." left join %s tr on tss.require_id = tr.require_id"
                                   ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." left join %s m on tr.cur_require_adminid = m.uid"
-                                  ." where %s order by l.lesson_start",
+                                  ." where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

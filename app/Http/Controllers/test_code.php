@@ -1510,28 +1510,33 @@ class test_code extends Controller
      */
     public function get_stu_order_list(){
         $start_time = strtotime("2016-5-1");
-        $end_time = strtotime("2017-6-30");
-        $list = $this->t_order_info->get_stu_order_list($start_time,$end_time);
-        $stu_list=[];
+        $end_time   = strtotime("2017-6-30");
+        $list       = $this->t_order_info->get_stu_order_list($start_time,$end_time);
+        $stu_list   = [];
         foreach($list as $val){
             $userid     = $val['userid'];
             $phone      = $val['phone'];
             $realname   = $val['realname'];
-            $grade      = $val['grade'];
-            $first_time = $val['first_time'];
-            $subject    = $val['subject'];
-            if(!isset($stu_list[$userid]['phone'])){
-
+            $grade      = E\Egrade::get_desc($val['grade']);
+            $first_time = date("Y-m-d H:i",$val['first_time']);
+            $lesson_total = $val['lesson_total'];
+            $subject    = E\Esubject::get_desc($val['subject']);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['phone'],$phone,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['realname'],$realname,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['grade'],$grade,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['first_time'],$first_time,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['subject'],$subject,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['lesson_total'],$lesson_total);
+            if(isset($stu_list[$userid]['subject']) && !strstr($stu_list[$userid]['subject'],$subject)){
+                $stu_list[$userid]['subject'] .= (",".$subject);
             }
-            \App\Helper\Utils::check_isset_data($stu_list[$userid]['phone'],$phone);
-            \App\Helper\Utils::check_isset_data($stu_list[$userid]['realname'],$realname);
-            \App\Helper\Utils::check_isset_data($stu_list[$userid]['grade'],$grade);
-            \App\Helper\Utils::check_isset_data($stu_list[$userid]['first_time'],$first_time);
-            if(isset($stu_list[$userid]['subject'])){
-
-
-            }
-
+        }
+        echo "姓名|手机|首次签约时间|年级|总课时数|科目";
+        echo "<br>";
+        foreach($stu_list as $s_val){
+            echo $s_val['realname']."|".$s_val['phone']."|".$s_val['first_time']."|".$s_val['grade']."|".($s_val['lesson_total']/100)
+                                   ."|".$s_val['subject'];
+            echo "<br>";
         }
     }
 

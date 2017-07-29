@@ -2348,7 +2348,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid=%d",$userid]
         ];
 
-        $sql = $this->gen_sql_new(" select t.nick from %s l".
+        $sql = $this->gen_sql_new(" select t.nick,t.teacherid from %s l".
                                   " left join %s t on t.teacherid = l.teacherid".
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
@@ -2356,7 +2356,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 

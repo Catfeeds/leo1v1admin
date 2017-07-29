@@ -176,7 +176,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         });
     }
 
-    public function get_lecture_info_by_time_new($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject=""){
+    public function get_lecture_info_by_time_new($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject="",$status=-1){
         $where_arr=[
             ["tl.subject=%u",$subject,-1],
             ["confirm_time >= %u",$start_time,-1],
@@ -190,6 +190,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         ];
         if(!empty($tea_subject)){
             $where_arr[]="tl.subject in".$tea_subject;
+        }
+        if($status==-2){
+            $where_arr[]="tl.status <>4";
+        }else{
+            $where_arr[]= ["tl.status = %u",$status,-1];
         }
         $sql = $this->gen_sql_new("select tl.account,count(*) all_num,count(distinct tl.phone) all_count,count(distinct tl.phone) all_count_new,sum(if(tl.status=1,1,0)) suc_count,sum(if(tl.status<>4,1,0)) real_count,sum(tl.confirm_time) all_con_time,sum(tl.add_time) all_add_time from %s tl ".
                                   " left join %s m on m.account = tl.account".

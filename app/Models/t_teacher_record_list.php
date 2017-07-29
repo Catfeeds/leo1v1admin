@@ -431,7 +431,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
 
-    public function get_train_teacher_interview_info($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject){
+    public function get_train_teacher_interview_info($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,$trial_train_status=-1){
         $where_arr=[
             ["l.subject=%u",$subject,-1],
             ["l.lesson_start >= %u",$start_time,-1],
@@ -445,6 +445,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         ];
         if(!empty($tea_subject)){
             $where_arr[]="l.subject in".$tea_subject;
+        }
+        if($trial_train_status==-2){
+            $where_arr[]="tr.trial_train_status<>2";
+        }else{
+            $where_arr[]=["tr.trial_train_status=%u",$trial_train_status,-1];
         }
         $sql = $this->gen_sql_new("select tr.acc account,count(*) all_num,count(distinct tt.phone_spare) all_count,".
                                   " sum(if(tr.trial_train_status =1,1,0)) suc_count,".

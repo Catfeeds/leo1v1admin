@@ -1,6 +1,9 @@
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage_new-lesson_count_user_list.d.ts" />
+
 $(function(){
     function load_data(){
-        reload_self_page({
+        $.reload_self_page({
             lesson_count_start : $("#id_lesson_count_start").val(),
             lesson_count_end   : $("#id_lesson_count_end").val(),
             assistantid        : $("#id_assistantid").val(),
@@ -26,7 +29,7 @@ $(function(){
 	$("#id_lesson_count_end").val(g_args.lesson_count_end);
 	$("#id_type").val(g_args.type);
 
-    admin_select_user($("#id_assistantid"), "assistant",function(){
+    $.admin_select_user($("#id_assistantid"), "assistant",function(){
         load_data();
     });
  
