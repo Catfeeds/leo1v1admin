@@ -36,6 +36,9 @@ class testbb extends Controller
 
     public function test1() {
 
+        $g = $this->t_admin_group_name->get_groupid_by_master_adminid(297);
+        $arr = $this->t_admin_group_user->get_user_list(28);
+        dd($arr);
         $lesson_end_time = $this->t_lesson_info->get_lesson_end(2367);
         dd($lesson_end_time);
         dd(strtotime(date('Y-m-d',time(NULL))));
