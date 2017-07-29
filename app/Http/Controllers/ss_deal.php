@@ -1813,6 +1813,14 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = strtotime($this->get_in_str_val('stu_request_test_lesson_time'));
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
+        $change_reason = trim($this->get_in_str_val('change_reason'));
+
+        $url = $this->get_in_str_val('change_reason_url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -1821,7 +1829,7 @@ class ss_deal extends Controller
         }else{
             $is_green_flag=0;
         }
-
+        // dd(1);
         // init t_seller_student_new
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {
@@ -1870,6 +1878,9 @@ class ss_deal extends Controller
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
+                "change_reason"          => $change_reason,
+                "change_reason_url"      => $change_reason_url,
+                "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }

@@ -3691,6 +3691,7 @@ class human_resource extends Controller
     }
 
     public function teacher_info_new(){
+        $this->switch_tongji_database();
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $is_freeze              = $this->get_in_int_val('is_freeze',-1);
         $free_time              = $this->get_in_str_val("free_time","");
@@ -3782,6 +3783,7 @@ class human_resource extends Controller
             }
             if(empty($item["address"])){
                 $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+                $item["address"]   = substr($item["address"], 0, -6);
             }
 
 

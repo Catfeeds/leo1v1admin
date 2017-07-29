@@ -81,8 +81,9 @@
                     <div class="panel-heading">
                         <font color="#333" >报名数:</font> 
                         <span style="color:red ; text-decoration: underline; font-size:25px; padding:0px 20px; "  >　{{@$all_total}}　</span> 
-                        <font color="#333" >面试试讲:</font> 
+                        <font color="#333" >面试试讲:</font>
                         <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data1["one_succ"]}}/实到{{@$data1["one_real"]}}/预约{{@$data1["one_count"]}}&nbsp&nbsp{{@$data1["one_per"]}}%　</span> 
+                       
 
                         <font color="#333" >录制试讲:</font> 
                         <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data1["video_succ"]}}/实到{{@$data1["video_real"]}}/预约{{@$data1["video_count"]}}&nbsp&nbsp{{@$data1["video_per"]}}%　</span>
@@ -122,8 +123,8 @@
                                             <td> <span> {{$key+1}} </span> </td>
                                             <td>{{@$var["account"]}} </td> 
                                             <td>{{@$var["all_count"]}} </td> 
-                                            <td>{{@$var["video_account_pass"]}}/{{@$var["video_account_real"]}}/{{@$var["video_account"]}}&nbsp&nbsp{{$var["video_per"]}}% </td>
                                             <td>{{@$var["one_account_pass"]}}/{{@$var["one_account_real"]}}/{{@$var["one_account"]}}&nbsp&nbsp{{$var["one_per"]}}% </td> 
+                                            <td>{{@$var["video_account_pass"]}}/{{@$var["video_account_real"]}}/{{@$var["video_account"]}}&nbsp&nbsp{{$var["video_per"]}}% </td>
 
                                             <td>{{@$var["all_per"]}}% </td>
                                         </tr>

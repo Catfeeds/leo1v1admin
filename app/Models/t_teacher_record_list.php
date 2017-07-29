@@ -596,11 +596,11 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
         }
-        $sql = $this->gen_sql_new("select count(distinct tr.phone_spare) all_count,la.accept_adminid,count(*) all_num "
+        $sql = $this->gen_sql_new("select count(distinct tt.phone) all_count,la.accept_adminid,count(*) all_num "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." left join %s la on tr.phone_spare = la.phone"
+                                  ." left join %s la on tt.phone = la.phone"
                                   ." where %s and la.accept_adminid>0 group by la.accept_adminid",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,

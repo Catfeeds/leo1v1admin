@@ -308,7 +308,6 @@ class url_power_map {
 			'/user_manage/refund_list_seller'	=>1113200,
 			'/tongji2/self_seller_month_money_list'	=>1113100,
 			'/human_resource/regular_course_seller'	=>1113500,
-			'/authority/seller_edit_log_list'	=>1113600,
 			'/seller_student_new/seller_student_list_0'	=>1119102,
 			'/seller_student_new/seller_student_list_101'	=>1119103,
 			'/seller_student_new/seller_student_list_110'	=>1119104,

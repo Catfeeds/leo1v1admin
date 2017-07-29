@@ -1519,5 +1519,47 @@ class test_code extends Controller
         }
     }
 
+    public function get_jr() {
+        $page_info = $this->get_in_page_info();
+        $start_time = strtotime("2017-5-1");
+        $end_time = time();
+        $opt_type_str = $this->get_in_str_val("opt_type_str","all_count");
+        $key1 = $this->get_in_str_val("key1","今日头条");
+        $key2 = $this->get_in_str_val("key2");
+        $key3 = $this->get_in_str_val("key3");
+        $key4 = $this->get_in_str_val("key4");
+
+        $origin_ex_arr= preg_split("/,/", session("ORIGIN_EX"));
+
+        if (!$origin_ex_arr[0] ){
+            if ($key1!="全部") {
+                $origin_ex_arr[0]=$key1;
+            }
+        }
+
+        if (!isset($origin_ex_arr[1] )){
+            $origin_ex_arr[1]=$key2;
+        }
+
+        if (!isset($origin_ex_arr[2] )){
+            $origin_ex_arr[2]=$key3;
+        }
+
+        if (!isset($origin_ex_arr[3] )){
+            $origin_ex_arr[3]=$key4;
+        }
+
+        $origin_ex= join(",", $origin_ex_arr );
+
+
+        $ret_info= $this->t_seller_student_new->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex) ;
+        foreach($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            echo $item['phone'];
+            echo "<br>";
+        }
+
+
+    }
 
 }

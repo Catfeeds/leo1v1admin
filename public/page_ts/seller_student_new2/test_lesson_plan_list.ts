@@ -527,7 +527,10 @@ $(function(){
                 $id_change_teacher_reason_type.parent().parent().css('display','none');
                 $id_change_reason.parent().parent().css('display','none');
                 $id_change_reason_url.parent().parent().css('display','none');
+
                 $id_change_teacher_reason_type.val(0);
+                $id_change_reason.val('');
+                $id_change_reason_url.val('');
             }
         });
 
@@ -549,6 +552,11 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
+
+                if($id_ass_test_lesson_type.val()==2 && $id_change_teacher_reason_type.val() == 0){
+                    alert('请选择换老师原因!');
+                    return;
+                }
 
                 var require_time= $.strtotime($id_stu_request_test_lesson_time.val() );
                 var need_start_time=0;
@@ -584,7 +592,7 @@ $(function(){
                     grade                          : $id_grade_select.val(),
                     change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
                     change_reason : $id_change_reason.val(),
-                    change_reason_url : $id_change_reason_url.val()
+                    change_reason_url : $id_change_reason_url.find("#change_reason_url").val()
                 });
             }
         }],function(){
