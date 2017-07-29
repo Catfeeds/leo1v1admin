@@ -628,6 +628,39 @@ $(function(){
         $(".page-opt-show-all-xls").hide();
     }
 
-     
+    $(".opt-edit-full_time").on("click",function(){
+	      var data           = $(this).get_opt_data();
+        var id_flag        = $("<select/>");
+        var id_record_info = $("<textarea/>");
+        var flag_html      = "<option value='0'>不通过</option>"
+            +"<option value='1'>通过</option>"
+            +"<option value='2'>老师未到</option>";
+        id_flag.append(flag_html);
+
+        var arr = [
+            ["是否通过",id_flag],
+            ["面试评价",id_record_info],
+        ];
+
+        $.show_key_value_table("全职老师面试评价",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/set_full_time_teacher_record",{
+                    "teacherid"   : data.teacherid,
+                    "phone"       : data.phone,
+                    "flag"        : id_flag.val(),
+                    "record_info" : id_record_info.val(),
+                    "nick"        : data.name,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
 
 });

@@ -205,13 +205,17 @@
                         <td>{{@$var["account"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
-                                <a class="fa-edit opt-edit" title="编辑状态"></a>
-                                <a class="fa-times opt-del" title="删除"></a>
-                                <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
-                                <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
-                                <a class="opt-more_grade">邮</a>
-                                <a class="opt-plan-train_lesson">1v1</a>
-                                <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
+                                @if($show_full_time==1)
+                                    <a class="fa-edit opt-edit-full_time" title="全职老师审核">二面</a>
+                                @else
+                                    <a class="fa-edit opt-edit" title="编辑状态"></a>
+                                    <a class="fa-times opt-del" title="删除"></a>
+                                    <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
+                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                    <a class="opt-more_grade">邮</a>
+                                    <a class="opt-plan-train_lesson">1v1</a>
+                                    <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
+                                @endif
                             </div>
                         </td>
                     </tr>

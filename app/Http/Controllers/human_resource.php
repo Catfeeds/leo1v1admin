@@ -1818,6 +1818,11 @@ class human_resource extends Controller
         return $this->output_succ(["revisit_list"=>$ret]);
     }
 
+    public function teacher_lecture_appointment_info_full_time(){
+        $this->set_in_value("show_full_time",1);
+        $this->set_in_value("full_time",1);
+        return $this->teacher_lecture_appointment_info();
+    }
 
     public function teacher_lecture_appointment_info_zs(){
         return $this->teacher_lecture_appointment_info();
@@ -1838,6 +1843,7 @@ class human_resource extends Controller
         $have_wx                    = $this->get_in_int_val("have_wx",-1);
         $lecture_revisit_type       = $this->get_in_int_val("lecture_revisit_type",-1);
         $full_time                  = $this->get_in_int_val("full_time",-1);
+        $show_full_time             = $this->get_in_int_val("show_full_time",-1);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
 
         $adminid = $this->get_account_id();
@@ -1855,7 +1861,11 @@ class human_resource extends Controller
         foreach($ret_info["list"] as &$item){
             $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
             E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
-            E\Eidentity::set_item_value_str($item,"teacher_type");
+            if($item['full_time']==1){
+                $item['teacher_type_str']="全职老师";
+            }else{
+                E\Eidentity::set_item_value_str($item,"teacher_type");
+            }
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");
 
@@ -1916,7 +1926,10 @@ class human_resource extends Controller
         $this->set_in_value("tea_adminid",$account_id);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
 
-        return $this->pageView(__METHOD__,$ret_info,["account_id"=>$account_id]);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "account_id"     => $account_id,
+            "show_full_time" => $show_full_time
+        ]);
     }
 
     public function set_teacher_grade_range(){

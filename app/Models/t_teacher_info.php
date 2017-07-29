@@ -2290,6 +2290,35 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_teacher_info_by_money_type_new($teacher_money_type,$start_time,$end_time,$arr){
+        $where_arr=[
+            "t.is_quit=0",
+            "t.is_test_user=0",
+            ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            "t.train_through_new = 1",
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status=1"
+        ];
+        if($teacher_money_type==1){
+            $where_arr[]="l.lesson_type <>2";
+        }
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $where_arr[] = $this->where_get_in_str("t.teacherid",$arr);
+        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid"
+                                  ." where %s group by t.teacherid ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+
+
+    }
+
+
     public function get_teacher_level_info($page_info,$tea_list,$start_time){
         $where_arr=[];
         $where_arr[]= $this->where_get_in_str("t.teacherid",  $tea_list,false);

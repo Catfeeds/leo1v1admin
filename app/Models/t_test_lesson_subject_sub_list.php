@@ -802,10 +802,13 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_value($sql);
     }
 
-    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag){
+    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag){
         $where_arr=[
             "l.lesson_del_flag=0",
             ["l.lesson_start>=%u",$start_time,0],
+            ["s.assistantid=%u",$assistantid,-1],
+            ["tss.success_flag=%u",$success_flag,-1],
+            ["tss.order_confirm_flag=%u",$order_confirm_flag,-1],
             "m.account_role=1",
         ];
         if($master_flag==1){
@@ -818,13 +821,14 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
                                   ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
                                   ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
-                                  ." tss.order_confirm_flag "
+                                  ." tss.order_confirm_flag,a.nick ass_nick "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
                                   ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." left join %s m on tr.cur_require_adminid = m.uid"
+                                  ." left join %s a on a.assistantid = s.assistantid"
                                   ." where %s order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
@@ -833,6 +837,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

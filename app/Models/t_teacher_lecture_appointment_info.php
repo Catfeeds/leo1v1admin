@@ -121,7 +121,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
             $where_arr[]=["l.status=%u", $status, -1 ];
         }
-        
 
         $record_sql = $this->gen_sql_new("(select 1 from %s where la.phone=phone)",t_lecture_revisit_info::DB_TABLE_NAME);
         if($record_status==0){
@@ -140,6 +139,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                          ." or (la.grade_end<=".$grade_range['grade_end']
                          ." and la.grade_start>=".$grade_range['grade_start']."))";
         }
+
         if($subject!=-1){
             $subject_str = E\Esubject::get_desc($subject);
             $where_arr[] = "(la.subject_ex='".$subject."' "
@@ -152,8 +152,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
         }
         $where_arr[] = $this->where_get_in_str_query("t.teacher_ref_type", $teacher_ref_type );
-
-
         if ($user_name) {
             $user_name=$this->ensql($user_name);
             $where_arr = [
