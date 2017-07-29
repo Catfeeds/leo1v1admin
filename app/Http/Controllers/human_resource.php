@@ -1843,7 +1843,7 @@ class human_resource extends Controller
         $have_wx                    = $this->get_in_int_val("have_wx",-1);
         $lecture_revisit_type       = $this->get_in_int_val("lecture_revisit_type",-1);
         $full_time                  = $this->get_in_int_val("full_time",-1);
-        $show_full_time             = $this->get_in_int_val("show_full_time",-1);
+        $show_full_time             = $this->get_in_int_val("show_full_time",0);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
 
         $adminid = $this->get_account_id();
@@ -1883,9 +1883,9 @@ class human_resource extends Controller
                  E\Echeck_status::set_item_value_str($item, "status");
             }
             $full_status = $item['full_status'];
-            if($full_status==1){
+            if($full_status==="1"){
                 $item['full_status_str']="通过";
-            }elseif($full_status==0){
+            }elseif($full_status==="0"){
                 $item['full_status_str']="不通过";
             }else{
                 $item['full_status_str']="未审核";

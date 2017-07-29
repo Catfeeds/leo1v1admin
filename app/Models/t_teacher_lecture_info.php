@@ -261,17 +261,20 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["tl.confirm_time >= %u",$start_time,-1],
             ["tl.confirm_time <= %u",$end_time,-1],
             "tl.is_test_flag =0",
-            "tl.account <> 'adrian'"
+            "tl.account <> 'adrian'",
+            "(tl.account is not null && tl.account <> '')",
         ];
         if($status==-2){
             $where_arr[] = "tl.status <>4";
         }else{           
             $where_arr[] = ["tl.status=%u",$status,-1];
         }
-        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct tl.phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join %s la on tl.phone = la.phone"
+        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct tl.phone) all_count,count(distinct t.phone) tea_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join %s la on tl.phone = la.phone"
+                                  ." left join %s t on tl.phone = t.phone"
                                   ." where %s  and la.accept_adminid >0  group by la.accept_adminid ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr                                 
         );
         return $this->main_get_list($sql,function($item){
