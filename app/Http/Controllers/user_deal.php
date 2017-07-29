@@ -827,16 +827,17 @@ class user_deal extends Controller
     }
 
     public function update_admin_info() {
-        $uid               = $this->get_in_str_val("uid");
-        $phone             = $this->get_in_phone();
-        $name              = $this->get_in_str_val("name");
-        $email             = $this->get_in_str_val("email");
-        $tquin             = $this->get_in_str_val("tquin");
-        $cardid            = $this->get_in_int_val("cardid");
-        $account_role      = $this->get_in_int_val("account_role");
-        $seller_level      = $this->get_in_int_val("seller_level");
-        $wx_id             = $this->get_in_str_val("wx_id");
-        $up_adminid        = $this->get_in_int_val("up_adminid");
+        $uid                     = $this->get_in_str_val("uid");
+        $phone                   = $this->get_in_phone();
+        $name                    = $this->get_in_str_val("name");
+        $email                   = $this->get_in_str_val("email");
+        $tquin                   = $this->get_in_str_val("tquin");
+        $cardid                  = $this->get_in_int_val("cardid");
+        $account_role            = $this->get_in_int_val("account_role");
+        $old_seller_level        = $this->get_in_int_val("old_seller_level");
+        $seller_level            = $this->get_in_int_val("seller_level");
+        $wx_id                   = $this->get_in_str_val("wx_id");
+        $up_adminid              = $this->get_in_int_val("up_adminid");
         $become_full_member_flag = $this->get_in_int_val("become_full_member_flag");
         $day_new_user_flag       = $this->get_in_boolean_val("day_new_user_flag");
         $call_phone_passwd       = $this->get_in_str_val("call_phone_passwd");
@@ -888,6 +889,21 @@ class user_deal extends Controller
         $this->t_manager_info->field_update_list($uid, $set_arr);
 
         $this->t_manager_info->sync_kaoqin_user($uid);
+
+        $adminid = session('adminid');
+        $uid = $uid;
+        $type = 2;
+        $old = $old_seller_level;
+        $new = $seller_level;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "uid"         => $uid,
+            "type"        => $type,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
 
         /*
         $this->t_manager_info->sync_kaoqin([
