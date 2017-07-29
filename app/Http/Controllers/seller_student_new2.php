@@ -650,7 +650,10 @@ class seller_student_new2 extends Controller
         $account_id = $this->get_account_id();
         $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
         $master_flag = $this->get_in_int_val("master_flag",-1);
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag);
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $success_flag = $this->get_in_int_val("success_flag",-1);
+        $order_confirm_flag = $this->get_in_int_val("order_confirm_flag",-1);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -677,6 +680,8 @@ class seller_student_new2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
 
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, $ret_info,[
+            "master_flag"  =>$master_flag
+        ]);
     }
 }

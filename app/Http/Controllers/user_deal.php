@@ -2605,7 +2605,31 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $ret = $this->t_student_info->get_all_stu_phone_location();
+        foreach($ret["list"] as &$item){
+            if(empty($item["phone_location"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+            }else{
+                $item["location"]= $item["phone_location"];
+            }
+            $item["location"]   = substr($item["location"], 0, -6);
+
+
+        }
+        return $this->Pageview(__METHOD__,$ret);
+        dd($ret);
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",4);
+        $arr=[161841,167237,135045,135265,146813];
+        $list = $this->t_teacher_info->get_teacher_info_by_money_type_new($teacher_money_type,$start_time,$end_time,$arr);
+        dd($list);
+
+ 
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;

@@ -769,4 +769,8 @@ class common_new extends Controller
         return $this->output_succ(["table_desc_list" => $ret_map]);
     }
 
+
+
+
+
 }

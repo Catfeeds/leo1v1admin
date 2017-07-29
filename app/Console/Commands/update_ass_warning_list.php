@@ -49,7 +49,7 @@ class update_ass_warning_list extends Command
         }
 
         //助教确认续费或者待定的,到期组长未确认成功的,有系统判断是否续费,不成功的改成结束状态
-        $time = strtotime("Y-m-d",time()-86400);
+        $time = strtotime(date("Y-m-d",time()-86400));
         $list = $task->t_month_ass_warning_student_info->get_no_renw_end_time_list($time);
         foreach($list as $val){
             $flag = $task->t_order_info->get_stu_renw_order($val["userid"],$val["month"]);

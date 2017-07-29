@@ -18,6 +18,26 @@
     <section class="content ">
         <div>
             <div class="row " >
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span >助教</span>
+                        <input id="id_assistantid"  /> 
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">课时确认</span>
+                        <select class="opt-change form-control" id="id_success_flag" >
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">结果确认</span>
+                        <select class="opt-change form-control" id="id_order_confirm_flag" >
+                        </select>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -29,6 +49,7 @@
                         <td >学生姓名 </td>
                         <td >年级 </td>
                         <td >科目 </td>
+                        <td >助教 </td>
                         <td >教材版本 </td>
                         <td >类型 </td>
                         <td >老师 </td>
@@ -45,8 +66,13 @@
 
 
                             <td>
+                                @if($master_flag==1)
+                                    <a  href="/user_manage/ass_archive?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
+                                        target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                                @else
                                 <a  href="/user_manage/ass_archive_ass?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
                                     target="_blank" title="学生信息">{{@$var["nick"]}} </a>
+                                @endif
                             </td >
 
                             <td >
@@ -55,6 +81,7 @@
                             <td >
                                 {{$var["subject_str"]}}
                             </td>
+                            <td>{{$var["ass_nick"]}}</td>
                             <td>{{$var["editionid_str"]}}</td>
                             <td>{{$var["ass_test_lesson_type_str"]}}</td>
                             <td>

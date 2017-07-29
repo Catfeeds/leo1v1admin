@@ -56,7 +56,8 @@ class teacher_feedback extends Controller
             $tea_val['month_start_str'] = \App\Helper\Utils::unixtime2date($tea_val['lesson_start'],"Y-m-01");
             $tea_val['lesson_time']     = date("Y-m-d H:i",$tea_val['lesson_start'])."-".date("H:i",$tea_val['lesson_end']);
             $tea_val['stu_nick']        = $this->cache_get_student_nick($tea_val['userid']);
-
+            $tea_val['processing_time'] = $tea_val['check_time']-$tea_val['add_time'];
+            $tea_val['processing_time_str']=\App\Helper\Utils::seconds_to_string($tea_val['processing_time']);
             $tea_val['lesson_deduct']="";
             foreach($lesson_deduct_key as $deduct_key => $deduct_val){
                 if($tea_val[$deduct_val]>0){
