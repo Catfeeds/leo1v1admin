@@ -153,7 +153,7 @@ class WechatRequest  {
             $tuwenList[] = array(
                 'title' => '优学优享简介',
                 'description' => '优学优享是理优教育旗下的分享社区。分享科学的教育理念。如邀请身边的好友进入理优学习，可获得相应的奖励。',
-                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/83cfe76ea4e8ef816e9ac09ce0f830701501310436597.jpg',
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_int',
             );
             $item = array();
