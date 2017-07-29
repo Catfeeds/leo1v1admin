@@ -209,11 +209,22 @@ abstract class NewModel
         $diff= $end -$start ;
         if ($diff> 5 ) {
             if (!$this->readony_on_tongji_flag) {
-            \App\Helper\Utils::logger("SLOWSQL:use $diff s:$sql" );
+                \App\Helper\Utils::logger("SLOWSQL:use $diff s:$sql" );
 
-            $account=@$_SESSION["acc"];
-            $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
-            dispatch( new \App\Jobs\send_error_mail("","SLOW SQL", "$bt_str  SLOWSQL:use $diff s:$sql"   ));
+                $account=@$_SESSION["acc"];
+                $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
+                $bt_str.=" SLOWSQL:use $diff s:$sql <br/>" ;
+
+                $e=new \Exception();
+                foreach( $e->getTrace() as &$bt_item ) {
+                    //$args=json_encode($bt_item["args"]);
+                    $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
+                        @$bt_item["file"].":".@$bt_item["line"].
+                        "<br/>";
+                }
+
+
+                dispatch( new \App\Jobs\send_error_mail("","SLOW SQL", $bt_str  ));
             }
         }
         return $this->do_error($ret ,$sql);
