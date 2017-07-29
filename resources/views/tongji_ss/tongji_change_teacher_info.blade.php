@@ -62,7 +62,7 @@
                         <td>{!!@$var["success_flag_str"]!!} </td>
                         <td>{!! @$var["order_confirm_flag_str"]!!} </td>
                         <td>{{@$var['change_teacher_reason_type_str']}}</td>
-                        <td>{{@$var['change_teacher_reason']}}</td>
+                        <td>{{@$var['change_teacher_reason']}}/>{{@$var['change_teacher_reason_img_url']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

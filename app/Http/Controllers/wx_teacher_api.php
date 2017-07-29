@@ -98,7 +98,7 @@ class wx_teacher_api extends Controller
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
-                // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" //james
+                "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon

@@ -1512,9 +1512,26 @@ class test_code extends Controller
         $start_time = strtotime("2016-5-1");
         $end_time = strtotime("2017-6-30");
         $list = $this->t_order_info->get_stu_order_list($start_time,$end_time);
-        echo count($list);
-        exit;
+        $stu_list=[];
         foreach($list as $val){
+            $userid     = $val['userid'];
+            $phone      = $val['phone'];
+            $realname   = $val['realname'];
+            $grade      = $val['grade'];
+            $first_time = $val['first_time'];
+            $subject    = $val['subject'];
+            if(!isset($stu_list[$userid]['phone'])){
+
+            }
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['phone'],$phone);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['realname'],$realname);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['grade'],$grade);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['first_time'],$first_time);
+            if(isset($stu_list[$userid]['subject'])){
+
+
+            }
+
         }
     }
 
