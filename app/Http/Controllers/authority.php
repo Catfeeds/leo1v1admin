@@ -383,7 +383,6 @@ class authority extends Controller
             return $this->output_err("参数错误");
         }
 
-
         if($this->t_admin_users->get_id_by_account($account)) {
             return $this->output_err("用户已经存在 t_admin_users");
         }
@@ -407,12 +406,13 @@ class authority extends Controller
         ]);
         $uid=$this->t_admin_users->get_last_insertid();
         $this->t_manager_info->row_insert([
-            "uid" => $uid,
+            "uid" => $uid, 
             "account" => $account,
             "name" => $name,
             "email" => $email,
             "phone" => $phone,
             "create_time" => time(NULL) ,
+            "become_member_time" => time(NULL) ,
             "permission" => $groupid ,
             "account_role" => $account_role,
             "creater_adminid" => $adminid ,
