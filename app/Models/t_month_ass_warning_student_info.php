@@ -106,7 +106,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
     }
 
 
-    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2,$adminid,$done_flag){
+    public function get_all_info_by_month_new($page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,$warning_type=2,$adminid,$done_flag,$id){
         $where_arr=[
             ["a.assistantid = %u",$assistantid,-1],
             ["ass_renw_flag = %u",$ass_renw_flag,-1],
@@ -114,6 +114,7 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
             ["renw_week = %u",$renw_week,-1],
             ["end_week = %u",$end_week,-1],
             ["warning_type = %u",$warning_type,-1],
+            ["w.id = %u",$id,-1],
             // "done_flag=0"
         ];
         if($done_flag==-2){

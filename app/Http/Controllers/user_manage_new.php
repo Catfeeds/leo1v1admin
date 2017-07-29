@@ -2754,7 +2754,7 @@ class user_manage_new extends Controller
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
         $done_flag = $this->get_in_int_val("done_flag",0);
-        $is = $this->get_in_int_val("id",-1);
+        $id = $this->get_in_int_val("id",-1);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
             $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag,$id);
 
