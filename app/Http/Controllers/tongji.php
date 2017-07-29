@@ -507,6 +507,13 @@ class tongji extends Controller
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
         $ret_info = $this->t_lesson_info->get_lesson_info_ass_tongji($start_time,$end_time, $assistantid ,$require_adminid_list  );
 
+        foreach($ret_info as &$item_ret){
+            $item_ret['lesson_rate'] = $item_ret['valid_count']/($item_ret['stu_num']*100);
+            $item_ret['lesson_rate'] = number_format($item_ret['lesson_rate'],2);
+            $item_ret['lesson_lose_rate'] = ($item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'])/ ($item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count']);
+            $item_ret['lesson_lose_rate'] = number_format($item_ret['lesson_lose_rate'],2);
+        }
+
         $all_item=["ass_nick" => "全部" ];
         foreach ($ret_info as &$item) {
             foreach ($item as $key => $value) {
@@ -521,8 +528,11 @@ class tongji extends Controller
         }
 
         array_unshift($ret_info, $all_item);
+        // dd($ret_info);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
     }
+
+
     public function revisit_info_tongji_ass(){
         list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-01',time()),0);
 

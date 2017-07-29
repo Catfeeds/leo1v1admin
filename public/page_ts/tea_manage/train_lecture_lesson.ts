@@ -1,5 +1,6 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tea_manage-train_lecture_lesson.d.ts" />
+
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
 
@@ -18,7 +19,8 @@ $(function(){
 			train_teacherid  : $('#id_train_teacherid').val(),
 			have_wx:	$('#id_have_wx').val(),
 			lecture_status:	$('#id_lecture_status').val(),
-			train_email_flag:	$('#id_train_email_flag').val()
+			      train_email_flag:	$('#id_train_email_flag').val(),
+			      full_time:	$('#id_full_time').val()
         });
     }
 
@@ -303,8 +305,10 @@ $(function(){
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("boolean",$("#id_have_wx"));
     Enum_map.append_option_list("boolean",$("#id_train_email_flag"));
+    Enum_map.append_option_list("boolean",$("#id_full_time"));
     Enum_map.append_option_list("check_status",$("#id_lecture_status"));
 	$('#id_lesson_status').val(g_args.lesson_status);
+	$('#id_full_time').val(g_args.full_time);
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
 	$('#id_check_status').val(g_args.check_status);
@@ -513,8 +517,45 @@ $(function(){
         load_data();
     });
 
+    $(".opt-edit-full_time").on("click",function(){
+	      var data           = $(this).get_opt_data();
+        var id_flag        = $("<select/>");
+        var id_record_info = $("<textarea/>");
+        var flag_html      = "<option value='0'>不通过</option>"
+            +"<option value='1'>通过</option>"
+            +"<option value='2'>老师未到</option>";
+        id_flag.append(flag_html);
 
-  
+        
+        var arr = [
+            ["是否通过",id_flag],
+            ["面试评价",id_record_info],
+        ];
+
+        id_record_info.val(data.record_info);
+        id_flag.val(data.trial_train_status);
+
+        $.show_key_value_table("全职老师面试评价",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/set_full_time_teacher_record",{
+                    "teacherid"   : data.teacherid,
+                    "phone"       : data.phone_spare,
+                    "flag"        : id_flag.val(),
+                    "record_info" : id_record_info.val(),
+                    "nick"        : data.nick,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
+
    	$('.opt-change').set_input_change_event(load_data);
 });
 

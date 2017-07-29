@@ -657,6 +657,8 @@ return array(
     'TStudentInitInfoAddWeekLessonNum' => $baseDir . '/database/migrations/2017_04_01_111105_t_student_init_info_add_week_lesson_num.php',
     'TStudentScoreInfo' => $baseDir . '/database/migrations/2017_07_12_144528_t_student_score_info.php',
     'TStudentScoreInfoAddGradeGradeRank' => $baseDir . '/database/migrations/2017_07_26_161728_t_student_score_info_add_grade_grade_rank.php',
+    'TStudentScoreInfoAddMonth' => $baseDir . '/database/migrations/2017_07_27_145944_t_student_score_info_add_month.php',
+    'TStudentScoreInfoAddStatusReason' => $baseDir . '/database/migrations/2017_07_27_135514_t_student_score_info_add_status_reason.php',
     'TStudentScoreInfoAddTotalScoreSemester' => $baseDir . '/database/migrations/2017_07_26_151920_t_student_score_info_add_total_score_semester.php',
     'TStudentTypeChangeListAddStopTime' => $baseDir . '/database/migrations/2017_07_13_104517_t_student_type_change_list_add_stop_time.php',
     'TTeacherAddNotGradeString' => $baseDir . '/database/migrations/2017_04_25_161237_t_teacher_add_not_grade_string.php',

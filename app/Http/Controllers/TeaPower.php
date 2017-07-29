@@ -1945,4 +1945,22 @@ trait  TeaPower {
         return $html;
     }
 
+    public function set_full_time_teacher($teacherid){
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        if($teacher_info['teacher_money_type']!=0){
+            $update_arr['teacher_money_type']=0;
+            if($teacher_info['level']!=0){
+                $update_arr['level']=0;
+            }
+        }else{
+            $ret = true;
+        }
+
+        if(isset($update_arr) && is_array($update_arr) && !empty($update_arr)){
+            $ret = $this->t_teacher_info->field_update_list($teacherid,$update_arr);
+        }
+        return $ret;
+    }
+
 }

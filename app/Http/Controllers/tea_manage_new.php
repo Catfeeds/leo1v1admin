@@ -857,10 +857,8 @@ class tea_manage_new extends Controller
             ));
 
             $this->t_lesson_info->field_update_list($lessonid,[
-                "train_email_flag"  =>1 
+                "train_email_flag"  =>1
             ]);
-
- 
         }
 
 
@@ -1016,5 +1014,42 @@ class tea_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function set_full_time_teacher_record(){
+        $teacherid   = $this->get_in_int_val("teacherid");
+        $phone       = $this->get_in_str_val("phone");
+        $flag        = $this->get_in_int_val("flag");
+        $record_info = $this->get_in_str_val("record_info");
+        $nick        = $this->get_in_str_val("nick");
+        $account     = $this->get_in_str_val("account");
+        $acc         = $this->get_account();
+
+        if($flag==1){
+            $this->set_full_time_teacher($teacherid);
+        }
+
+        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,11);
+        if($record_id){
+            $ret = $this->t_teacher_record_list->field_update_list($record_id,[
+                "record_info"        => $record_info,
+                "trial_train_status" => $flag,
+            ]);
+        }else{
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"          => $teacherid,
+                "trial_train_status" => $flag,
+                "record_info"        => $record_info,
+                "add_time"           => time(),
+                "type"               => 11,
+                "current_acc"        => $acc,
+                "acc"                => $account,
+                "phone_spare"        => $phone
+            ]);
+        }
+
+        if(!$ret){
+            return $this->output_err("添加反馈失败！");
+        }
+        return $this->output_succ();
+    }
 
 }

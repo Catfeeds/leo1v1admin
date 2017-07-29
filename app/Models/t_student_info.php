@@ -2588,12 +2588,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_no_type_student_score($page_info,$assistantid){
+    public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
        
         $where_arr=[
           ['o.assistantid=%d', $assistantid, 0],
           'o.lesson_count_left>0',
-          's.status=2'
+          's.status=2',
+          ["create_time>=%u", $start_time, -1 ],
+          ["create_time<=%u", $end_time, -1 ],
         ]; 
         $sql = $this->gen_sql_new("select s.id, s.stu_score_type ,s.grade,s.create_time,s.userid, s.subject, s.status,s.month"
                                   ." from %s s"

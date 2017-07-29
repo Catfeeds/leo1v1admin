@@ -204,6 +204,25 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function seller_edit_log_add() {
+        $adminid=$this->get_in_int_val('adminid');
+        $uid=$this->get_in_int_val('uid');
+        $type=$this->get_in_int_val('type');
+        $old=$this->get_in_str_val('old');
+        $new=$this->get_in_str_val('new');
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "type"        => $type,
+            "uid"         => $uid,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
+        return $this->output_succ();
+    }
+
+
     public function agent_edit() {
         $id=$this->get_in_id();
         $parentid=$this->get_in_parentid();

@@ -223,6 +223,7 @@ class NewRouteConfig {
         "/authority/manager_list_for_qz_wuhan"    => true,
         "/authority/get_permission_list"     => true,
         "/authority/set_permission"          => true,
+        "/authority/seller_edit_log_list"          => true,
         "/ajax_deal2/register_student_parent_account" => true,
 
         "/login/login"                   => true,
@@ -237,6 +238,7 @@ class NewRouteConfig {
         "/tea_manage/train_not_through_list"      => true,
         "/tea_manage/set_teacher_part_remark"     => true,
         "/tea_manage/set_train_lecture_status"    => true,
+        "/tea_manage/train_lecture_lesson_full_time" => true,
         "/tea_manage/train_lecture_lesson_zs"     => true,
         "/tea_manage/train_lecture_lesson"        => true,
         "/tea_manage/add_train_lesson_by_xls"     => true,

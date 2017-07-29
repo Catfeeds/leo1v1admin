@@ -221,7 +221,7 @@ class menu{
 
                 ["power_id"=>32, "name"=>"考勤机器",   "url"=>"/admin_manage/kaoqin_machine"],
                 ["power_id"=>33, "name"=>"考勤机器-人员配置",   "url"=>"/admin_manage/kaoqin_machine_adminid"],
-                ["power_id"=>34, "name"=>"开关设备",   "url"=>"/admin_manage/office_cmd_list"],
+                ["power_id"=>84, "name"=>"开关设备",   "url"=>"/admin_manage/office_cmd_list"],
                 ["power_id"=>21, "name"=>"后台成员分组",   "url"=>"/user_manage_new/admin_group_edit"],
                 ["power_id"=>22, "name"=>"后台主管成员分组",   "url"=>"/user_manage_new/admin_main_group_edit"],
                 ["power_id"=>24, "name"=>"销售主管分组比例配置",   "url"=>"/user_manage_new/admin_main_assign_percent_edit"],
@@ -426,7 +426,6 @@ class menu{
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
-
                 ["power_id"=>60, "name"=>"排行榜",   "url"=>"/main_page/seller" ],
                 ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
                 ["power_id"=>75, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
@@ -441,9 +440,6 @@ class menu{
 
                 ["power_id"=>1, "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
                 ["power_id"=>2, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user"],
-
-
-
                 ["power_id"=>3, "name"=>"试听签单与否反馈", "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
 
                 ["power_id"=>59, "name"=>"讲师申请帮助",   "url"=>"/teacher_apply/teacher_apply_list_one" ],
@@ -468,6 +464,7 @@ class menu{
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
+                ["power_id"=>36, "name"=>"销售-修改日志",   "url"=>"/authority/seller_edit_log_list"],
 
                 ["power_id"=>91, "name"=>"状态分类",  "list"=>[
                     ["power_id"=>2, "name"=>"未回访&未接通",   "url"=>"/seller_student_new/seller_student_list_0"],
@@ -610,6 +607,7 @@ class menu{
                 ["power_id"=>5, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_reference"],
                 ["power_id"=>6, "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],
                 ["power_id"=>7, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
+                ["power_id"=>10, "name"=>"全职面试评审",   "url"=>"/tea_manage/train_lecture_lesson_full_time"],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
 
