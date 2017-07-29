@@ -49,7 +49,7 @@
                         <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>
-                        <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
+                        <td>{!! @$var["order_confirm_flag_str"]!!} </td>
 
                         <td>
                             <div

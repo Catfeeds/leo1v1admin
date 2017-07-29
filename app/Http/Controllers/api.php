@@ -65,6 +65,7 @@ class api extends Controller
             "fingerprint1" => @$data["fingerprint"][0],
             "fingerprint2" => @$data["fingerprint"][1],
         ]);
+        $this->t_manager_info->sync_kaoqin_user($ccid);
     }
 
     public function do_post_headpic($data) {
@@ -72,6 +73,7 @@ class api extends Controller
         $this->t_manager_info->field_update_list($ccid,[
             "headpic" => @$data["headpic"],
         ]);
+        $this->t_manager_info->sync_kaoqin_user($ccid);
     }
     public function do_post_user($data)  {
         $ccid = $data["ccid"];

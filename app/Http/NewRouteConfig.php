@@ -418,6 +418,7 @@ class NewRouteConfig {
         "/human_resource/index_new_seller_hold"            => true,
         "/human_resource/teacher_lecture_appointment_info" => true,
         "/human_resource/teacher_lecture_appointment_info_zs" => true,
+        "/human_resource/teacher_lecture_appointment_info_full_time" => true,
         "/human_resource/update_lecture_status"               => true,
         "/human_resource/regular_course"                   => true,
         "/human_resource/summer_regular_course"               => true,

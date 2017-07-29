@@ -29,6 +29,7 @@
                 <tr>
                     <td>老师</td>
                     <td>当前等级</td>
+                    <td>晋升后等级</td>
                     <td>课耗平均</td>
                     <td>课耗得分</td>
                     <td>试听课数(cc)</td>
@@ -55,6 +56,7 @@
                     <tr>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["level_before_str"]}} </td>
+                        <td>{{@$var["level_after_str"]}} </td>
                         <td>{{@$var["lesson_count"]/100}} </td>
                         <td>{{@$var["lesson_count_score"]}} </td>
                         <td>{{@$var["cc_test_num"]}} </td>

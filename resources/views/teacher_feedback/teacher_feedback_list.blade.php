@@ -60,6 +60,7 @@
                     <td>检查原因</td>
                     <td>负责人</td>
                     <td>审核时间</td>
+                    <td>处理时长</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -88,6 +89,7 @@
                         <td>{{$var["back_reason"]}}</td>
                         <td>{{$var["sys_operator"]}}</td>
                         <td>{{$var["check_time_str"]}}</td>
+                        <td>{{$var["processing_time_str"]}}</td>
                         <td>
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var)  !!}

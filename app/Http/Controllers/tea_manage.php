@@ -2083,12 +2083,6 @@ class tea_manage extends Controller
         return $this->train_lecture_lesson();
     }
 
-    public function train_lecture_lesson_full_time(){
-        $this->set_in_value("full_time",1);
-        $this->set_in_value("show_full_time",1);
-        return $this->train_lecture_lesson();
-    }
-
     public function train_lecture_lesson(){
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range(0,0,1,[
             1 => array("l.lesson_start","面试时间"),
@@ -2108,8 +2102,6 @@ class tea_manage extends Controller
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
         $is_all           = $this->get_in_int_val("is_all");
-        $full_time        = $this->get_in_int_val("full_time",-1);
-        $show_full_time   = $this->get_in_int_val("show_full_time",-1);
 
         $this->switch_tongji_database();
         $teacherid = -1;
@@ -2123,7 +2115,7 @@ class tea_manage extends Controller
         $ret_info = $this->t_lesson_info_b2->train_lecture_lesson(
             $page_num,$start_time,$end_time,$lesson_status,$teacherid,
             $subject,$grade,$check_status,$train_teacherid,$lessonid,
-            $res_teacherid,$have_wx,$lecture_status,$opt_date_str,$train_email_flag,$full_time
+            $res_teacherid,$have_wx,$lecture_status,$opt_date_str,$train_email_flag
         );
         foreach($ret_info['list'] as &$val){
             \App\Helper\Utils::unixtime2date_range($val);
@@ -2131,7 +2123,6 @@ class tea_manage extends Controller
             E\Egrade::set_item_value_str($val);
             E\Esubject::set_item_value_str($val);
             E\Eboolean::set_item_value_str($val,"train_email_flag");
-            E\Eboolean::set_item_value_str($val,"full_time");
             if($val['trial_train_status']==-1){
                 $status_str="未审核";
             }elseif($val['trial_train_status']==0){
@@ -2175,7 +2166,6 @@ class tea_manage extends Controller
             "all_num"        => $all_num,
             "wx_num"         => $wx_num,
             "email_num"      => $email_num,
-            "show_full_time" => $show_full_time
         ]);
     }
 

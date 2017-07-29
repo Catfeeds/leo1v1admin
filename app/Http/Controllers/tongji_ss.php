@@ -354,8 +354,6 @@ class tongji_ss extends Controller
             $this->cache_set_item_account_nick($item,"admin_revisiterid","account");
         }
 
-
-
         $ret_info = $ret_info['list'];
         $admin_info = $this->t_manager_info->get_admin_member_list();
         $admin_list= & $admin_info['list'] ;
@@ -6560,7 +6558,6 @@ class tongji_ss extends Controller
         $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type',-1);
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $account_id = $this->get_account_id();
-        // $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
 
         $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
         $master_flag = 0;
@@ -6588,23 +6585,18 @@ class tongji_ss extends Controller
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
 
-            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
-
-
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
-            }
-
         }
             return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function tongji_kuoke_info(){
+    public function tongji_kuoke_info(){ // 扩课统计
         $this->switch_tongji_database();
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info  = $this->get_in_page_info();
@@ -6615,8 +6607,6 @@ class tongji_ss extends Controller
         if(in_array($account_id,$root_adminid_arr)){
             $master_flag = 1;
         }
-
-        // $ret_info = $this->t_test_lesson_subject->get_test_lesson_info($start_time,$end_time,$page_num);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$account_id,$master_flag);
 
@@ -6630,8 +6620,6 @@ class tongji_ss extends Controller
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
-            E\Eass_test_lesson_type::set_item_value_str($item);
-            // E\Esuccess_flag::set_item_value_str($item);
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
             }elseif($item['success_flag'] == 1){
@@ -6640,18 +6628,12 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            E\Esuccess_flag::set_item_value_str($item,"order_confirm_flag");
-            $item["ass_test_lesson_type_str"]=$item["origin"];
-
-            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
-            }
-
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
@@ -6661,12 +6643,10 @@ class tongji_ss extends Controller
     }
 
 
-
     public function tongji_referral(){// 转介绍
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
-        // $ret_info = $this->t_test_lesson_subject->get_test_lesson_info_by_referral($start_time,$end_time,$page_num);
 
         $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
         $master_flag = 0;
@@ -6690,17 +6670,19 @@ class tongji_ss extends Controller
             }
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
+
+
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
-            }
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
+
 
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -6708,16 +6690,17 @@ class tongji_ss extends Controller
 
     public function tongji_change_lesson_by_teacher(){ // 调课统计-老师
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_num = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
 
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
         foreach($ret_info['list'] as &$item_list){
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
         }
+        // \App\Helper\Common::sortArrByField($ret_info,lesson);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -6737,11 +6720,11 @@ class tongji_ss extends Controller
 
     public function tongji_change_lesson_by_parent(){ // 调课统计-家长
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_num = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
 
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
         // dd($ret_info);
 

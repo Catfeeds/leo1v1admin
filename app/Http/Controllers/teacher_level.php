@@ -220,6 +220,10 @@ class teacher_level extends Controller
         $is_refund  = $this->get_in_int_val("is_refund");
         $total_score = $this->get_in_int_val("total_score");
         $hand_flag = $this->get_in_int_val("hand_flag");
+        $golden_flag = $this->get_in_int_val("golden_flag");
+        if($golden_flag==1){
+            $level_after=3;
+        }
         if($hand_flag==0){
             $this->t_teacher_advance_list->row_insert([
                 "start_time" =>$start_time,

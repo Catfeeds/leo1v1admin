@@ -629,7 +629,10 @@ class ss_deal extends Controller
     public function get_require_list_js()  {
         $page_num=$this->get_in_page_num();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
-        $userid = $this->get_in_userid();
+        $userid = $this->get_in_userid(-1);
+        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
+            return $this->output_succ( );
+        }
         $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id($page_num,$test_lesson_subject_id,$userid);
 
         foreach($ret_list["list"] as &$item) {
@@ -1810,7 +1813,6 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = strtotime($this->get_in_str_val('stu_request_test_lesson_time'));
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
-        $change_teacher_reason_type      = $this->get_in_int_val("change_teacher_reason_type",-1);
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -1868,7 +1870,6 @@ class ss_deal extends Controller
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
-                "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }
@@ -2212,7 +2213,14 @@ class ss_deal extends Controller
                 }
 
             }
-            foreach($arr as $t=>&$v){
+            $userid_list="";
+            foreach($arr as $v){
+               $userid = intval($v[0]);
+               $userid_list .= $userid.",";
+            }
+            $aa= trim($userid_list,",");
+            $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
+            /* foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
                 if($t<500 && $t>=0){
@@ -2225,7 +2233,7 @@ class ss_deal extends Controller
                     }
                 }
 
-            }
+                }*/
 
             //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
@@ -2826,6 +2834,11 @@ class ss_deal extends Controller
     }
     public function delete_lecture_appointment(){
         $id = $this->get_in_int_val("id");
+        $acc = $this->get_account();
+        if(in_array($acc,["adrian"])){
+            return $this->output_err("你没有权限");
+        }
+
         $this->t_teacher_lecture_appointment_info->row_delete($id);
         return $this->output_succ();
     }
@@ -4503,7 +4516,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 ];
 
@@ -4804,7 +4817,7 @@ class ss_deal extends Controller
     }
 
     public function get_test_lesson_confirm_info(){
-
+        
         $lessonid     = $this->get_in_int_val('lessonid');
         $data = $this->t_test_lesson_subject_sub_list->field_get_list($lessonid,"confirm_adminid,confirm_time,success_flag,fail_greater_4_hour_flag,test_lesson_fail_flag,fail_reason,ass_test_lesson_order_fail_flag,ass_test_lesson_order_fail_desc,ass_test_lesson_order_fail_set_time,ass_test_lesson_order_fail_set_adminid,order_confirm_flag");
         $data["confirm_adminid_account"] = $this->t_manager_info->get_account($data["confirm_adminid"]);

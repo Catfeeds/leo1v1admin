@@ -517,45 +517,6 @@ $(function(){
         load_data();
     });
 
-    $(".opt-edit-full_time").on("click",function(){
-	      var data           = $(this).get_opt_data();
-        var id_flag        = $("<select/>");
-        var id_record_info = $("<textarea/>");
-        var flag_html      = "<option value='0'>不通过</option>"
-            +"<option value='1'>通过</option>"
-            +"<option value='2'>老师未到</option>";
-        id_flag.append(flag_html);
-
-        
-        var arr = [
-            ["是否通过",id_flag],
-            ["面试评价",id_record_info],
-        ];
-
-        id_record_info.val(data.record_info);
-        id_flag.val(data.trial_train_status);
-
-        $.show_key_value_table("全职老师面试评价",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-                $.do_ajax("/tea_manage_new/set_full_time_teacher_record",{
-                    "teacherid"   : data.teacherid,
-                    "phone"       : data.phone_spare,
-                    "flag"        : id_flag.val(),
-                    "record_info" : id_record_info.val(),
-                    "nick"        : data.nick,
-                },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
-                })
-            }
-        });
-    });
-
    	$('.opt-change').set_input_change_event(load_data);
 });
 
