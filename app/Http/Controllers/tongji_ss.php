@@ -6574,6 +6574,8 @@ class tongji_ss extends Controller
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
+            $item['old_teacher_nick'] = $this->t_lesson_info_b2->get_old_teacher_nick($item['lesson_start'],$item['subject'],$item['userid']);
+
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
             }elseif($item['success_flag'] == 1){
@@ -6682,13 +6684,12 @@ class tongji_ss extends Controller
 
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
-
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
 
     public function tongji_change_lesson_by_teacher(){ // 调课统计-老师
+        $this->switch_tongji_database();
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info = $this->get_in_page_info();
 
@@ -6700,7 +6701,7 @@ class tongji_ss extends Controller
             $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
         }
-        // \App\Helper\Common::sortArrByField($ret_info,lesson);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -6738,6 +6739,7 @@ class tongji_ss extends Controller
 
         }
         // dd($ret_info);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
 
         return $this->pageView(__METHOD__,$ret_info);
     }

@@ -655,6 +655,8 @@ class seller_student_new extends Controller
 
     public function test_lesson_no_order_list_data() {
 
+        $this->switch_tongji_database();
+
         $page_num = $this->get_in_page_num();
         list($start_time,$end_time) = $this->get_in_date_range(-80,0 );
         $grade                      = $this->get_in_grade(-1);

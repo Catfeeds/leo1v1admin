@@ -500,19 +500,19 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
         }
 
-        $sql = $this->gen_sql_new("select distinct tt.teacherid "
+        $sql = $this->gen_sql_new("select distinct t.teacherid "
                                   ." from %s tr left join %s ta on tr.train_lessonid  = ta.lessonid"
                                   ." left join %s l on tr.train_lessonid  = l.lessonid "
                                   ." left join %s t on ta.userid = t.teacherid "
-                                  ." left join %s tt on t.phone_spare = tt.phone"
+                                  // ." left join %s tt on t.phone_spare = tt.phone"
                                   ." left join %s m on m.account = tr.acc "
                                   ." left join %s ttt on m.phone = ttt.phone "
-                                  ." where %s and tt.teacherid>0 ",
+                                  ." where %s and t.teacherid>0 ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME,
+                                  //t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr                                  
@@ -596,7 +596,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }else{
             $where_arr[]= ["tr.trial_train_status=%u",$trial_train_status,-1];
         }
-        $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,la.accept_adminid,count(*) all_num "
+        $sql = $this->gen_sql_new("select count(distinct tt.phone) all_count,la.accept_adminid,count(*) all_num "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"

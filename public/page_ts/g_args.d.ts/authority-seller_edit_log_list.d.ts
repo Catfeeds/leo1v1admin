@@ -15,6 +15,8 @@ interface RowData {
 	adminid	:any;
 	old	:any;
 	new	:any;
+	admin_nick	:any;
+	uid_nick	:any;
 }
 
 /*

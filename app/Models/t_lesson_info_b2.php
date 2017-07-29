@@ -2340,6 +2340,25 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_old_teacher_nick($lesson_start,$subject,$userid){
+        $where_arr = [
+            ["l.lesson_start<%d",time(NULL)],
+            ["l.subject=%d",$subject],
+            ["l.lesson_type=%d",0],
+            ["l.userid=%d",$userid]
+        ];
+
+        $sql = $this->gen_sql_new(" select t.nick from %s l".
+                                  " left join %s t on t.teacherid = l.teacherid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
 
 
 

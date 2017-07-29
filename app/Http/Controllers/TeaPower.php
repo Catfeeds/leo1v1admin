@@ -1953,6 +1953,10 @@ trait  TeaPower {
             if($teacher_info['level']!=0){
                 $update_arr['level']=0;
             }
+            if($teacher_info['train_through_new']==0){
+                $update_arr['train_through_new']=1;
+                $update_arr['train_through_new_time']=time();
+            }
         }else{
             $ret = true;
         }
