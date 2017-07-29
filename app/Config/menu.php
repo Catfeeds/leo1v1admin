@@ -691,7 +691,11 @@ class menu{
                 ["power_id"=>10, "name"=>"全职面试评审",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
             ]],
 
-
+            ["power_id"=>35, "name"=>"角色-客服", "list"=>[
+                ["power_id"=>1, "name"=>"意向用户信息录入",   "url"=>"/customer_service/intended_user_info"],
+                ["power_id"=>2, "name"=>"用户投诉录入",   "url"=>"/customer_service/complaint_info"],
+                ["power_id"=>3, "name"=>"用户建议录入",   "url"=>"/customer_service/proposal_info"],
+            ]],
 
 
 
