@@ -314,7 +314,8 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_new()
     {
-        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        // $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        $ret = [];
         $ret_info = [];
         foreach($ret as $key => &$item){
             E\Egrade::set_item_value_str($item);
