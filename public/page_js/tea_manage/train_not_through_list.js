@@ -13,7 +13,7 @@ $(function(){
         });
     }
 
-    Enum_map.append_option_list("boolean",$("#id_has_wx"));
+    Enum_map.append_option_list("boolean",$("#id_has_openid"));
     $("#id_has_openid").val(g_args.has_openid);
 
     $('#id_date_range').select_date_range({

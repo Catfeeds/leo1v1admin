@@ -4496,6 +4496,8 @@ class ss_deal extends Controller
                     $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                     $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+                } elseif($account_type == 3){
+
                 }
 
                 //反馈QC与上级领导

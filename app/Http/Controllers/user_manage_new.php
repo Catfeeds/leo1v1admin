@@ -1934,6 +1934,7 @@ class user_manage_new extends Controller
     }
 
     public function tea_lesson_count_total_list () {
+        $this->switch_tongji_database();
         list($start_time, $end_time)=$this->get_in_date_range(date("Y-m-01", time(NULL)-28*86400 ),0, 0,[],3 );
         $confirm_flag           = $this->get_in_int_val("confirm_flag",-1, E\Eboolean::class);
         $pay_flag               = $this->get_in_int_val("pay_flag",-1, E\Eboolean::class);
@@ -2753,8 +2754,9 @@ class user_manage_new extends Controller
         $renw_week = $this->get_in_int_val("renw_week",-1);
         $end_week = $this->get_in_int_val("end_week",-1);
         $done_flag = $this->get_in_int_val("done_flag",0);
+        $is = $this->get_in_int_val("id",-1);
         $ret_info    = $this->t_month_ass_warning_student_info->get_all_info_by_month_new(
-            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag);
+            $page_num,$up_master_adminid,$account_id,$leader_flag,$assistantid,$ass_renw_flag,$master_renw_flag,$renw_week,$end_week,2,$adminid,$done_flag,$id);
 
         foreach($ret_info["list"] as &$item){
             E\Erenw_type::set_item_value_str($item,"ass_renw_flag");

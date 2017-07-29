@@ -1412,6 +1412,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_zj(){
+        return $this->teacher_lecture_list();
+    }
+
     public function teacher_lecture_list_research(){
         return $this->teacher_lecture_list();
     }
@@ -1430,6 +1434,8 @@ class human_resource extends Controller
             $tea_subject="";
         }elseif($adminid==952){
             $tea_subject="(6)";   
+        }elseif($adminid==770){
+            $tea_subject="(4,6)";   
         }
 
         $grade        = $this->get_in_int_val("grade",-1);
@@ -2532,6 +2538,14 @@ class human_resource extends Controller
 
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info]);
     }
+    public function teacher_record_detail_info_new_zj(){
+        return $this->teacher_record_detail_info_new();
+    }
+    public function teacher_record_detail_info_zj(){
+        return $this->teacher_record_detail_info();
+    }
+
+
 
 
     public function teacher_record_detail_list(){
