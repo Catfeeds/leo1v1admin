@@ -121,7 +121,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
             $where_arr[]=["l.status=%u", $status, -1 ];
         }
-        
 
         $record_sql = $this->gen_sql_new("(select 1 from %s where la.phone=phone)",t_lecture_revisit_info::DB_TABLE_NAME);
         if($record_status==0){
@@ -140,6 +139,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                          ." or (la.grade_end<=".$grade_range['grade_end']
                          ." and la.grade_start>=".$grade_range['grade_start']."))";
         }
+
         if($subject!=-1){
             $subject_str = E\Esubject::get_desc($subject);
             $where_arr[] = "(la.subject_ex='".$subject."' "
@@ -152,8 +152,6 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             $where_arr[] ="ttt.wx_openid <> '' and ttt.wx_openid is not null";
         }
         $where_arr[] = $this->where_get_in_str_query("t.teacher_ref_type", $teacher_ref_type );
-
-
         if ($user_name) {
             $user_name=$this->ensql($user_name);
             $where_arr = [
@@ -177,16 +175,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"
                                   ." la.grade_start,la.grade_end,la.not_grade,tt.teacherid train_teacherid,"
-                                  ." la.trans_grade,la.trans_grade_start,la.trans_grade_end,la.qq,ttt.wx_openid"
+                                  ." la.trans_grade,la.trans_grade_start,la.trans_grade_end,la.qq,ttt.wx_openid,"
+                                  ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info"
                                   ." from %s la"
                                   ." left join %s l on l.phone=la.phone and not exists ("
                                   ." select 1 from %s ll where ll.phone=l.phone and l.add_time<ll.add_time)"
                                   ." left join %s t on t.phone=la.reference"
                                   ." left join %s m on la.accept_adminid=m.uid"
-                                  ." left join %s tt on  la.phone = tt.phone"
-                                  ." left join %s ta on ta.userid= tt.teacherid and ta.train_type=5 and not exists ("
+                                  ." left join %s tt on la.phone = tt.phone"
+                                  ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and not exists ("
                                   ." select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and ta.add_time<taa.add_time)"
-                                  ." left join %s tr on tr.train_lessonid = ta.lessonid and type=10"
+                                  ." left join %s tr on tr.train_lessonid = ta.lessonid and tr.type=10"
+                                  ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=11"
                                   ." left join %s ttt on  la.phone = ttt.phone"
                                   ." where %s "
                                   ." and %s"
@@ -200,6 +200,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr

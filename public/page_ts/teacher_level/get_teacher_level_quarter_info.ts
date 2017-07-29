@@ -41,12 +41,47 @@ $(function(){
                     'record_final_score':opt_data.record_final_score,
                     'is_refund'  :opt_data.is_refund ,
                     'total_score':opt_data.total_score,
-                    'hand_flag':opt_data.hand_flag
+                    'hand_flag':opt_data.hand_flag,
+                    "golden_flag":0
                 });
             } 
         });
 
     });
+    $(".opt-advance-require-golden").on("click",function(){        
+        var opt_data = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        
+        BootstrapDialog.confirm("确定要直升金牌吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/set_teacher_advance_require', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'level_before':opt_data.level,
+                    'level_after':opt_data.level_after,
+                    'lesson_count':opt_data.lesson_count*100,
+                    'lesson_count_score':opt_data.lesson_count_score,
+                    'cc_test_num':opt_data.cc_test_num,
+                    'cc_order_num':opt_data.cc_order_num,
+                    'cc_order_per':opt_data.cc_order_per,
+                    'cc_order_score':opt_data.cc_order_score,
+                    'other_test_num':opt_data.other_test_num,
+                    'other_order_num':opt_data.other_order_num,
+                    'other_order_per':opt_data.other_order_per,
+                    'other_order_score':opt_data.other_order_score,
+                    'record_num':opt_data.record_num,
+                    'record_score_avg':opt_data.record_score_avg,
+                    'record_final_score':opt_data.record_final_score,
+                    'is_refund'  :opt_data.is_refund ,
+                    'total_score':opt_data.total_score,
+                    'hand_flag':opt_data.hand_flag,
+                    "golden_flag":1                   
+                });
+            } 
+        });
+
+    });
+
 
 
     $(".show_refund_detail").on("click",function(){

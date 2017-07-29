@@ -365,7 +365,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select a.userid, count(*) lesson_num, is_auto_set_type_flag, a.stu_lesson_stop_reason, "
                                   ." phone, is_test_user, originid, grade, praise, assistantid, parent_name, parent_type, "
                                   ." last_login_ip, last_login_time, lesson_count_all, a.lesson_count_left, user_agent, type, "
-                                  ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time, "
+                                  ." ass_revisit_last_month_time, ass_revisit_last_week_time,ass_assign_time,a.phone_location, "
                                   ." if(realname='',nick,realname) as nick, "
                                   ." sum(b.lesson_count) as lesson_total "
                                   ." from %s a left join %s b on a.userid = b.userid "
@@ -2605,6 +2605,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr);
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_all_stu_phone_location(){
+        $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.phone_location "
+                                  ."from %s s where s.type=0 and s.is_test_user=0",
+                                  self::DB_TABLE_NAME                              
+        );
+        return $this->main_get_list_as_page($sql);
     }
 
 }

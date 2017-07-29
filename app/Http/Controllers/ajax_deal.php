@@ -317,6 +317,14 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function seller_edit_log_del(){
+        $id=$this->get_in_id();
+
+        $this->t_seller_edit_log->row_delete($id);
+
+        return $this->output_succ();
+    }
+
     public function teacher_apply_add() {
         $teacher_id=$this->get_in_int_val("teacher_id",0);
         $cc_id=$this->get_in_cc_id();

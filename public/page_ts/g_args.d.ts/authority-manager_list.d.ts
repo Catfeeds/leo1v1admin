@@ -49,6 +49,7 @@ interface RowData {
 	become_full_member_flag	:any;
 	main_department	:any;
 	fulltime_teacher_type	:any;
+	old_permission	:any;
 	reset_passwd_flag	:any;
 	creater_admin_nick	:any;
 	up_admin_nick	:any;

@@ -12,7 +12,8 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
         $where_arr=[
             ["start_time = %u",$start_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
-            ["a.teacherid = %u",$teacherid,-1]
+            ["a.teacherid = %u",$teacherid,-1],
+            "a.require_time>0"
         ];
         $sql = $this->gen_sql_new("select a.*,t.realname "
                                   ." from %s a left join %s t on a.teacherid = t.teacherid"

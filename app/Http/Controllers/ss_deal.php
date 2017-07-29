@@ -2834,6 +2834,11 @@ class ss_deal extends Controller
     }
     public function delete_lecture_appointment(){
         $id = $this->get_in_int_val("id");
+        $acc = $this->get_account();
+        if(in_array($acc,["adrian"])){
+            return $this->output_err("你没有权限");
+        }
+
         $this->t_teacher_lecture_appointment_info->row_delete($id);
         return $this->output_succ();
     }
