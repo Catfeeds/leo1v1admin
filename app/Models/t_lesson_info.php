@@ -1296,7 +1296,7 @@ lesson_type in (0,1) "
                             t_student_info::DB_TABLE_NAME, //
                                 $start_time,$end_time,  $where_arr);
 
-        return $this->main_get_list_by_page($sql,$page_num,5000,true);
+        return $this->main_get_list_by_page($sql,$page_num,30,true);
     }
 
     public function get_confirm_lesson_total($start_time,$end_time ) {
