@@ -390,7 +390,7 @@
                                         <a title="解除挂起" class="fa-pause opt-test-lesson-gz show_flag"></a>
                                     @endif
                                     @if ($var["teacherid"] != null)
-                                    <a title="确认老师课前4小时内取消课程" class="show_flag icon-warning-sign opt-teacher-cancel-class-confirm"></a>
+                                    <a title="增加老师取消课程记录" class="show_flag icon-warning-sign opt-teacher-cancel-class-confirm"></a>
                                     @endif
                                     <a title="限课特殊申请" class="fa-user-md opt-limit-lesson-require show_flag"></a>
                                     @if($var["limit_accept_flag"]==0)
