@@ -584,7 +584,7 @@ $(function(){
                     grade                          : $id_grade_select.val(),
                     change_teacher_reason_type   : $id_change_teacher_reason_type.val(),
                     change_reason : $id_change_reason.val(),
-
+                    change_reason_url : $id_change_reason_url.val()
                 });
             }
         }],function(){
@@ -1098,7 +1098,7 @@ $(function(){
             ["原因", id_record_info]
         ];
 
-        $.show_key_value_table("增加老师取消课程记录", arr, {
+        $.show_key_value_table("增加老师4小时内取消课程记录", arr, {
             label    :   "确认",
             cssClass :   "btn-warning",
             action   :   function(dialog){

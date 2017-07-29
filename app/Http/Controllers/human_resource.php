@@ -3780,6 +3780,11 @@ class human_resource extends Controller
             }else{
                 $item['phone_ex'] = $item['phone'];
             }
+            if(empty($item["address"])){
+                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+            }
+
+
         }
 
         $acc = $this->get_account();
