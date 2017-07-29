@@ -148,17 +148,17 @@ class WechatRequest  {
      * @return array
      */
     public static function text(&$request){
+        $content = self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-        $content = "
-老师您好，如果有什么疑问，您可以点击以下问题分类查看答案。
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_wages'>薪资问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_train'>教师培训问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_software_download'>下载／登录问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_before'>课前问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lessoning'>课堂问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_after'>课后问题【点击查看】</a>
-<a href='http://admin.yb1v1.com/article_wx/leo_teacher_lesson_equipment'>设备问题【点击查看】</a>
-如以上回答还不能解决您的问题，请添加理优问题答疑QQ群（请在入职邮件内查看群号）
+【分享】它使快乐增大，它使悲伤减小。
+
+【菜单栏功能介绍】
+-[我要邀请]-:生成邀请海报。
+-[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
+-[账号管理]-:
+(1)绑定账号：绑定手机号即可开启优学优享功能。
+(2)个人中心：查询用户等级、邀请人数、奖励情况等。
+(3)常见问题：自助解决问题。
 ";
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
 
