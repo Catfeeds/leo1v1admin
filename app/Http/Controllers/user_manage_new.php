@@ -2807,9 +2807,11 @@ class user_manage_new extends Controller
             E\Ereward_type::set_item_value_str($val,"type");
             $val['money'] /= 100;
             if(in_array($val['type'],[2,3])){
-                $val['stu_nick'] = $this->cache_get_student_nick($val['userid']);
+                $val['money_info_extra'] = $this->cache_get_student_nick($val['userid']);
+            }elseif($val['type']==6){
+                $val['money_info_extra'] = $this->cache_get_teacher_nick($val['money_info']);
             }else{
-                $val['stu_nick'] = "";
+                $val['money_info_extra'] = "";
             }
         }
 

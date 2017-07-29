@@ -396,7 +396,7 @@ class main_page extends Controller
             $all_total   += $item["all_count"];
             $item["video_account"] = isset($video_account[$accept_adminid]["all_count"])?$video_account[$accept_adminid]["all_count"]:0;
             $item["video_account_real"] =  isset($video_account_real[$accept_adminid]["all_count"])?$video_account_real[$accept_adminid]["all_count"]:0;
-            $item["video_account_pass"] =  isset($video_account_pass[$accept_adminid]["all_count"])?$video_account_pass[$accept_adminid]["all_count"]:0;
+            $item["video_account_pass"] =  isset($video_account_pass[$accept_adminid]["tea_count"])?$video_account_pass[$accept_adminid]["tea_count"]:0;
             $item["one_account"] =  isset($one_account[$accept_adminid]["all_count"])?$one_account[$accept_adminid]["all_count"]:0;
             $item["one_account_real"] = isset($one_account_real[$accept_adminid]["all_count"])?$one_account_real[$accept_adminid]["all_count"]:0;
             $item["one_account_pass"] = isset($one_account_pass[$accept_adminid]["all_count"])?$one_account_pass[$accept_adminid]["all_count"]:0;
@@ -681,17 +681,7 @@ class main_page extends Controller
         }
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
-        $list = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
-            -1,$start_time,$end_time,-1,-1,-1,"");
-        $data["video_count"] = $list["all_count"];
-        $data["video_real"] = $list["real_count"];
-        $data["video_succ"] = $list["suc_count"];
-        $arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
-            -1,$start_time,$end_time,-1,-1,-1,"");
-        $data["one_count"] = $arr["all_count"];
-        $data["one_real"] = $arr["real_count"];
-        $data["one_succ"] = $arr["suc_count"];
-
+      
         $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         foreach($teacher_arr_ex as $k=>$val){

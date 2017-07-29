@@ -7,10 +7,10 @@ class t_seller_edit_log extends \App\Models\Zgen\z_t_seller_edit_log
 	{
 		parent::__construct();
 	}
-    public function get_all_list($adminid){
+    public function get_all_list($uid){
         $where_arr = [];
-        if($adminid){
-            $this->where_arr_add_int_or_idlist($where_arr,'adminid',$adminid);
+        if($uid){
+            $this->where_arr_add_int_or_idlist($where_arr,'uid',$uid);
         }
         $sql = $this->gen_sql_new (
             " select * "

@@ -33,6 +33,7 @@
                     <td>年级</td>
                     <td>科目 </td>
                     <td>老师 </td>
+                    <td>原老师 </td>
                     <td>助教 </td>
                     <td>试听时间 </td>
                     <td>课时确认 </td>
@@ -54,6 +55,7 @@
                             <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
                                 target="_blank" title="老师信息">{{@$var["realname"]}} </a>
                         </td>
+                        <td>{{@$var["old_teacher_nick"]}} </td>
                         <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["test_lesson_time"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>
