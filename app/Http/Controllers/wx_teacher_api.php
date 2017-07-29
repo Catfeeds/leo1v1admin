@@ -104,6 +104,7 @@ class wx_teacher_api extends Controller
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
             ];
 
             foreach($qc_openid_arr as $qc_item){

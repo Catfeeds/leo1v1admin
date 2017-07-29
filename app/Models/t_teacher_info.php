@@ -252,7 +252,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_by_page($sql);
+        return $this->main_get_list_by_page($sql,$page_num);
     }
 
     public function get_seller_teacher_detail_list_new($page_num,$address){
