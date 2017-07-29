@@ -151,10 +151,10 @@ class WechatRequest  {
          $content = $request['content'];
         if($content == '优学优享'){
             $tuwenList[] = array(
-                'title' => '理优1对1用户指南',
-                'description' => '',
+                'title' => '优学优享简介',
+                'description' => '优学优享是理优教育旗下的分享社区。分享科学的教育理念。如邀请身边的好友进入理优学习，可获得相应的奖励。',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_guide',
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_int',
             );
             $item = array();
             foreach($tuwenList as $tuwen){
