@@ -88,6 +88,12 @@ class testbb extends Controller
 
 
     public function test () {
+
+        $arr = [
+            []
+        ];
+        \App\Helper\Utils::sortArrByField();
+
         $c = $this->secsToStr(10000);
         dd($c);
 

@@ -6620,10 +6620,6 @@ class tongji_ss extends Controller
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
-            // E\Eass_test_lesson_type::set_item_value_str($item);
-            // E\Esuccess_flag::set_item_value_color_str($item);
-            // E\Esuccess_flag::set_item_value_color_str($item,"order_confirm_flag");
-
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
             }elseif($item['success_flag'] == 1){
@@ -6645,7 +6641,6 @@ class tongji_ss extends Controller
 
         return $this->pageView(__METHOD__, $ret_info);
     }
-
 
 
     public function tongji_referral(){// 转介绍
@@ -6687,6 +6682,9 @@ class tongji_ss extends Controller
 
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
+
+        // dd($ret_info);
+        // \App\Helper\Utils::sortArrByField();
 
         return $this->pageView(__METHOD__,$ret_info);
     }

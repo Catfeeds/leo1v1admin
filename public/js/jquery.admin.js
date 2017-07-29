@@ -1208,19 +1208,12 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
         }
         
         var field_list=[];
-        if (type=="teacher" || type=="none_freeze_teacher" || type=="interview_teacher" || type=="jiaoyan_teacher" || type=="research_teacher") {
+        if (type=="research_teacher") {
             field_list= [
                 {
                     title:"id",
                     width :50,
                     field_name:"id"
-                },{
-                    title:"性别",
-                    //width :50,
-                    render:function(val,item) {
-                        return item.gender;
-                    }
-
                 },{
                     title:"昵称",
                     //width :50,
@@ -1240,7 +1233,11 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                 },{
                     title:"科目",
                     field_name:"subject"
+                },{
+                    title:"年级",
+                    field_name:"grade"
                 }
+
             ];
 
         }else{

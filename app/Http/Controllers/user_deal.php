@@ -2590,6 +2590,17 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $ret = $this->t_student_info->get_all_stu_phone_location();
+        foreach($ret["list"] as &$item){
+            if(empty($item["phone_location"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+            }else{
+                $item["location"]= $item["phone_location"];
+            }
+            $item["location"]   = substr($item["location"], 0, -6);
+
+
+        }
+        return $this->Pageview(__METHOD__,$ret);
         dd($ret);
         $season = ceil((date('n'))/3)-1;//上季度是第几季度
         $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));

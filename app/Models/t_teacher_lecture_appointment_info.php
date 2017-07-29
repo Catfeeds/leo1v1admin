@@ -175,16 +175,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"
                                   ." la.grade_start,la.grade_end,la.not_grade,tt.teacherid train_teacherid,"
-                                  ." la.trans_grade,la.trans_grade_start,la.trans_grade_end,la.qq,ttt.wx_openid"
+                                  ." la.trans_grade,la.trans_grade_start,la.trans_grade_end,la.qq,ttt.wx_openid,"
+                                  ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info"
                                   ." from %s la"
                                   ." left join %s l on l.phone=la.phone and not exists ("
                                   ." select 1 from %s ll where ll.phone=l.phone and l.add_time<ll.add_time)"
                                   ." left join %s t on t.phone=la.reference"
                                   ." left join %s m on la.accept_adminid=m.uid"
-                                  ." left join %s tt on  la.phone = tt.phone"
-                                  ." left join %s ta on ta.userid= tt.teacherid and ta.train_type=5 and not exists ("
+                                  ." left join %s tt on la.phone = tt.phone"
+                                  ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and not exists ("
                                   ." select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and ta.add_time<taa.add_time)"
-                                  ." left join %s tr on tr.train_lessonid = ta.lessonid and type=10"
+                                  ." left join %s tr on tr.train_lessonid = ta.lessonid and tr.type=10"
+                                  ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=11"
                                   ." left join %s ttt on  la.phone = ttt.phone"
                                   ." where %s "
                                   ." and %s"
@@ -198,6 +200,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr

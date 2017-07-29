@@ -1882,6 +1882,14 @@ class human_resource extends Controller
             }else{
                  E\Echeck_status::set_item_value_str($item, "status");
             }
+            $full_status = $item['full_status'];
+            if($full_status==1){
+                $item['full_status_str']="通过";
+            }elseif($full_status==0){
+                $item['full_status_str']="不通过";
+            }else{
+                $item['full_status_str']="未审核";
+            }
 
             if(!isset($item['reference_name']) || $item['reference_name']==""){
                 if($item['reference']==''){

@@ -245,7 +245,7 @@ class user_manage extends Controller
         $last_end =  $month_start+15*86400;
 
 
-        $cur_time_str = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
+        $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
         $ret = $this->t_student_info->get_student_sum_archive( $assistantid);
         if($d<=15){
@@ -340,7 +340,11 @@ class user_manage extends Controller
 
             E\Eboolean::set_item_value_str($item, "cur");
             E\Eboolean::set_item_value_str($item, "last");
-            $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
+            if(empty($item["phone_location"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+            }else{
+                $item["location"]= $item["phone_location"];
+            }
 
         }
         if (!$order_in_db_flag) {
@@ -678,6 +682,7 @@ class user_manage extends Controller
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
                 $item["subject"] = E\Esubject::get_desc($item["subject"]);
+                $item["grade"] = E\Egrade_part_ex::get_desc($item["grade_part_ex"]);
 ;
             }
         }
