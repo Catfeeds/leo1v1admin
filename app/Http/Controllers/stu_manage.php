@@ -1265,6 +1265,11 @@ class stu_manage extends Controller
      * @function  学生分数列表显示
      */
     public function  score_list () {
+
+
+        //$time = strtotime(date("Y-m"));
+        //$this->t_student_score_info->set_every_month_student_score($time);
+        //dd(2);
         $userid = $this->sid;
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
@@ -1303,8 +1308,4 @@ class stu_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
-
-
-
-
 }

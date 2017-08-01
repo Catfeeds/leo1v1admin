@@ -245,7 +245,7 @@ class user_manage extends Controller
         $last_end =  $month_start+15*86400;
 
 
-        $cur_time_str = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
+        $cur_time_str  = date("m.d",$cur_start)."-".date("m.d",$cur_end-300);
         $last_time_str = date("m.d",$last_start)."-".date("m.d",$last_end-300);
         $ret = $this->t_student_info->get_student_sum_archive( $assistantid);
         if($d<=15){
@@ -340,7 +340,11 @@ class user_manage extends Controller
 
             E\Eboolean::set_item_value_str($item, "cur");
             E\Eboolean::set_item_value_str($item, "last");
-            $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
+            if(empty($item["phone_location"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+            }else{
+                $item["location"]= $item["phone_location"];
+            }
 
         }
         if (!$order_in_db_flag) {
@@ -678,6 +682,7 @@ class user_manage extends Controller
             foreach($ret_list["list"] as &$item){
                 $item["phone"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
                 $item["subject"] = E\Esubject::get_desc($item["subject"]);
+                $item["grade"] = E\Egrade_part_ex::get_desc($item["grade_part_ex"]);
 ;
             }
         }
@@ -1899,9 +1904,17 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
+    public function complaint_department_deal_qc(){
+        $this->set_in_value('account_type',3);
+        return $this->complaint_department_deal();
+    }
+
+
+
 
     public function complaint_department_deal(){
-        $page_num   = $this->get_in_page_num();
+        // $page_num   = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
@@ -1932,7 +1945,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_num,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
 
 
         foreach($ret_info['list'] as $index=>&$item){
@@ -1958,7 +1971,12 @@ class user_manage extends Controller
             } else {
                 $item['follow_state_str'] = '<font color="blue">未分配</font>';
             }
+
+            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time'],1);
+
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
 
@@ -2004,18 +2022,20 @@ class user_manage extends Controller
 
     /**
      * @author    sam
-     * @function  
+     * @function  未录入成绩学生列表
      */
     public function no_type_student_score()
     {
-        $assistantid = $this->t_assistant_info->get_assistantid( $this->get_account());
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $page_num  = $this->get_in_page_num();
+        $assistantid = $this->t_assistant_info->get_assistantid($this->get_account());
         if($assistantid <= 0){
             $assistantid = 1;
+            //$assistantid = 60078;
         }
-        $assistantid = 60078;
+        
         $page_info=$this->get_in_page_info();
-        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid);
-        //dd($ret_info);
+        $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             E\Esubject::set_item_value_str($item);

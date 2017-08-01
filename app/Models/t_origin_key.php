@@ -212,10 +212,10 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
     }
 
 
-    public function get_list( $origin_ex ) {
-        //$in_str=$this->get_in_str_key_list( "value", $origin_ex);
-        //$sql=$this->gen_sql("select * from %s where  $in_str ", self::DB_TABLE_NAME );
-        $sql=$this->gen_sql("select * from %s ", self::DB_TABLE_NAME );
+    public function get_list( ) {
+        $sql=$this->gen_sql_new("select * from %s "
+                                , self::DB_TABLE_NAME
+        );
         return $this->main_get_list($sql,function($item){
             return $item["value"];
         });

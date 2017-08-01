@@ -26,6 +26,7 @@
                     <td>跟进状态</td>
                     <td>当前处理人</td>
                     <td>最新分配时间</td>
+                    <td>消耗时间</td>
                     <td>处理状态</td>
                     <td> 操作  </td>
                 </tr>
@@ -43,6 +44,7 @@
                         <td>{!!@$var["follow_state_str"]!!} </td>
                         <td>{{@$var["current_account"]}} </td>
                         <td>{{@$var["current_admin_assign_time_date"]}} </td>
+                        <td>{{@$var["time_consuming"]}} </td>
                         <td>{!! @$var["complaint_state_str"]!!} </td>
                         <td>
                             <div

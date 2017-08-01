@@ -11,6 +11,8 @@ return array(
     ["db_weiyi","t_agent","id"],
     ["db_weiyi","t_agent_order","orderid"],
     ["db_weiyi","t_agent_cash","id"],
+    ["db_weiyi","t_cs_intended_user_info", "id"],
+    ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],
@@ -27,6 +29,7 @@ return array(
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
     ["db_weiyi_admin","t_online_count_log","logtime"],
+    ["db_weiyi_admin","t_seller_edit_log","id" ],
     ["db_weiyi","t_seller_student_origin","userid","origin" ],
     ["db_weiyi","t_seller_student_new","userid" ],
     ["db_weiyi","t_test_lesson_subject","test_lesson_subject_id" ],

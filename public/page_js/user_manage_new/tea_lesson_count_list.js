@@ -1,3 +1,4 @@
+
 function load_data(){
     reload_self_page({
         start_time         : $("#id_start_time").val(),

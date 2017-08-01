@@ -55,8 +55,8 @@
                         <td>
                             {{@$var["money_info"]}}
                             <br>
-                            @if($var['stu_nick']!='')
-                                学生：{{$var['stu_nick']}}
+                            @if($var['money_info_extra']!='')
+                                {{$var['money_info_extra']}}
                             @endif
                         </td>
                         <td>{{@$var["acc"]}}</td>

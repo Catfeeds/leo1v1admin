@@ -354,8 +354,6 @@ class tongji_ss extends Controller
             $this->cache_set_item_account_nick($item,"admin_revisiterid","account");
         }
 
-
-
         $ret_info = $ret_info['list'];
         $admin_info = $this->t_manager_info->get_admin_member_list();
         $admin_list= & $admin_info['list'] ;
@@ -2411,6 +2409,7 @@ class tongji_ss extends Controller
         $sum_field_list = [
             "all_num",
             "all_count",
+            "real_num",
             "suc_count",
             "pass_per",
             "all_pass_per",
@@ -2441,14 +2440,25 @@ class tongji_ss extends Controller
         if($interview_type==1){
             $ret_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }elseif($interview_type==2){
             $ret_info = $this->t_teacher_record_list->get_train_teacher_interview_info(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_record_list->get_train_teacher_interview_info(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }else{
             $ret_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
             $arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
                 $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
             foreach($arr["list"] as $k=>$val){
                 if(isset($ret_info["list"][$k])){
                     $ret_info["list"][$k]["all_count"] += $val["all_count"];
@@ -2457,14 +2467,26 @@ class tongji_ss extends Controller
                     $ret_info["list"][$k]= $val;
                 }
             }
+            foreach($real_arr["list"] as $p=>$pp){
+                if(isset($real_info["list"][$p])){
+                    $real_info["list"][$p]["all_count"] += $pp["all_count"];
+                    $real_info["list"][$p]["all_num"] += $pp["all_num"];
+                }else{
+                    $real_info["list"][$p]= $pp;
+                }
+
+            }
         }
 
+        //dd($real_info);
         $all_con_time =0;
         $all_add_time=0;
         foreach($ret_info["list"] as &$item){
             $item["ave_time"] = (isset($item["all_count_new"]) && !empty($item["all_count_new"]))?round(($item["all_con_time"]-$item["all_add_time"])/$item["all_count_new"]/86400,1):0;
             $all_con_time+=$item["all_con_time"];
             $all_add_time+=$item["all_add_time"];
+            $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
+            $item["real_all"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_num"]:0;
             $account = $item["account"];
             if($interview_type==1){
                 $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
@@ -2482,8 +2504,8 @@ class tongji_ss extends Controller
             }
             //$item["teacher_list"] = $teacher_list;
             $item["suc_count"] = count($teacher_list);
-            $item["pass_per"] = (round($item["suc_count"]/$item["all_count"],2))*100;
-            $item["all_pass_per"] = (round($item["suc_count"]/$item["all_num"],2))*100;
+            $item["pass_per"] = !empty($item["real_num"])?(round($item["suc_count"]/$item["real_num"],2))*100:0;
+            $item["all_pass_per"] = !empty($item["real_num"])?(round($item["suc_count"]/$item["real_all"],2))*100:0;
             $res = $this->t_lesson_info->get_test_leson_info_by_teacher_list($teacher_list);
             $item["all_lesson"] = $res["all_lesson"];
             $item["have_order"] = $res["have_order"];
@@ -2496,11 +2518,23 @@ class tongji_ss extends Controller
         }
         $all_item=["account" => "全部"];
         \App\Helper\Utils::list_add_sum_item($ret_info["list"], $all_item,$sum_field_list );
+       
+ 
 
         if($interview_type==1){
             $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }elseif($interview_type==2){
             $teacher_list_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $video_all = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $video_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
         }else{
             $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
             $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
@@ -2509,15 +2543,33 @@ class tongji_ss extends Controller
                     $teacher_list_ex[$k]=$k;
                 }
             }
+            $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+
+            $one_all = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+                $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            @$video_all["all_num"] += $one_all["all_num"];
+            @$video_all["all_count"] += $one_all["all_count"];
+            @$video_real["all_num"] += $one_real["all_num"];
+            @$video_real["all_count"] += $one_real["all_count"];
+
         }
         $all_tea_ex = count($teacher_list_ex);
 
         foreach($ret_info["list"] as &$item){
             if($item["account"]=="全部"){
-                $item["pass_per"] = @$item["all_count"]==0?0:(round($all_tea_ex/@$item["all_count"],2))*100;
+                $item["all_num"] = $video_all["all_num"];
+                $item["all_count"] = $video_all["all_count"];
+                $item["real_num"] = $video_real["all_count"];
+                $item["real_all"] = $video_real["all_num"];
+                $item["pass_per"] = @$item["real_num"]==0?0:(round($all_tea_ex/@$item["real_num"],2))*100;
                 $item["ave_time"] = @$item["all_count"]==0?0:round(($all_con_time-$all_add_time)/@$item["all_count"]/86400,1);
                 $item["order_per"] =@$item["all_lesson"]==0?0:(round(@$item["have_order"]/@$item["all_lesson"],2))*100;
-                $item["all_pass_per"] = (isset($item["all_num"]) && !empty($item["all_num"]))?(round( @$item["suc_count"]/$item["all_num"],2))*100:0;
+                $item["all_pass_per"] = (isset($item["real_num"]) && !empty($item["real_num"]))?(round( @$item["suc_count"]/$item["real_all"],2))*100:0;
             }
         }
 
@@ -2809,6 +2861,9 @@ class tongji_ss extends Controller
 
     }
 
+    public function teacher_first_test_lesson_week_zj(){
+        return $this->teacher_first_test_lesson_week();
+    }
     public function teacher_first_test_lesson_week(){
         $adminid      = $this->get_account_id();
         $right_list = $this->get_tea_subject_and_right_by_adminid($adminid);
@@ -6560,7 +6615,6 @@ class tongji_ss extends Controller
         $change_teacher_reason_type  = $this->get_in_int_val('change_teacher_reason_type',-1);
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $account_id = $this->get_account_id();
-        // $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
 
         $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
         $master_flag = 0;
@@ -6577,6 +6631,10 @@ class tongji_ss extends Controller
             E\Egrade::set_item_value_str($item,"grade");
             E\Esubject::set_item_value_str($item,"subject");
 
+            $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($item['lesson_start'],$item['subject'],$item['userid']);
+            $item['old_teacher_nick'] = $old_teacher_arr['nick'];
+            $item['old_teacher_id'] = $old_teacher_arr['teacherid'];
+
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
             }elseif($item['success_flag'] == 1){
@@ -6587,32 +6645,19 @@ class tongji_ss extends Controller
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
-            // $item['confirm_adminid_nick'] = $this->t_manager_info->get_account($item['confirm_adminid']);
 
-            // if($item['is_done_flag'] == 0){
-            //     $item['is_done_flag_str'] = "<font color=\"blue\">未设置</font>";
-            // }elseif($item['is_done_flag'] == 1){
-            //     $item['is_done_flag_str'] = "<font color=\"green\">已解决</font>";
-            // }elseif($item['is_done_flag'] == 2){
-            //     $item['is_done_flag_str'] = "<font color=\"red\">未解决</font>";
-            // }
-
-            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
-
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
-            }
-
         }
             return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function tongji_kuoke_info(){
+    public function tongji_kuoke_info(){ // 扩课统计
         $this->switch_tongji_database();
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info  = $this->get_in_page_info();
@@ -6623,8 +6668,6 @@ class tongji_ss extends Controller
         if(in_array($account_id,$root_adminid_arr)){
             $master_flag = 1;
         }
-
-        // $ret_info = $this->t_test_lesson_subject->get_test_lesson_info($start_time,$end_time,$page_num);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$account_id,$master_flag);
 
@@ -6638,8 +6681,6 @@ class tongji_ss extends Controller
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             E\Etest_lesson_fail_flag::set_item_value_str($item);
 
-            E\Eass_test_lesson_type::set_item_value_str($item);
-            // E\Esuccess_flag::set_item_value_str($item);
             if($item['success_flag'] == 0){
                 $item['success_flag_str'] = "<font color=\"blue\">未设置</font>";
             }elseif($item['success_flag'] == 1){
@@ -6648,40 +6689,33 @@ class tongji_ss extends Controller
                 $item['success_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            E\Esuccess_flag::set_item_value_str($item,"order_confirm_flag");
-            $item["ass_test_lesson_type_str"]=$item["origin"];
-
-            $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";;
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
-            }
-
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
-
 
 
     public function tongji_referral(){// 转介绍
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
-        // $ret_info = $this->t_test_lesson_subject->get_test_lesson_info_by_referral($start_time,$end_time,$page_num);
 
         $root_adminid_arr = ['60','72','188','303','323','68','186','349','448','507','684','831','944'];
         $master_flag = 0;
         if(in_array($account_id,$root_adminid_arr)){
             $master_flag = 1;
         }
+
+        // $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
 
@@ -6699,86 +6733,84 @@ class tongji_ss extends Controller
             }
 
             $is_lesson_time_flag = $this->t_lesson_info_b2->get_lesson_time_flag($item['userid'],$item['teacherid']);
-            if($is_lesson_time_flag == 1){
-                $item['is_lesson_time_flag_str'] = "<font color=\"green\">成功</font>";
-            }else{
-                $item['is_lesson_time_flag_str'] = "<font color=\"red\">失败</font>";
+
+
+            if($item['order_confirm_flag'] == 0){
+                $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
+            }elseif($item['order_confirm_flag'] == 1){
+                $item['order_confirm_flag_str'] = "<font color=\"green\">成功</font>";
+            }elseif($item['order_confirm_flag'] == 2){
+                $item['order_confirm_flag_str'] = "<font color=\"red\">失败</font>";
             }
 
-            if($item['lesson_start'] > time()){
-                $item['is_lesson_time_flag_str'] = "<font color=\"blue\">未设置</font>";
-            }
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
         }
 
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
 
     public function tongji_change_lesson_by_teacher(){ // 调课统计-老师
+        $this->switch_tongji_database();
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_num = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
 
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
-        foreach($ret_info['list'] as &$item_list){
-            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
+        // dd($ret_info);
+        foreach($ret_info['list'] as $index=> &$item_list){
+            if($item_list['lesson_count_total'] == 0){
+                unset($ret_info['list'][$index]);
+            }
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+            $item_list['work_time'] =  \App\Helper\Common::secsToStr(time()-$item_list['create_time'],2);
+            E\Eteacher_money_type::set_item_value_str($item_list);
         }
 
+        // dd($ret_info);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
 
-    public function get_total_lesson_count_by_teacher($teacherid,$start_time,$end_time,$lesson_cancel_reason_type){
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
+    // public function get_total_lesson_count_by_teacher($teacherid,$start_time,$end_time,$lesson_cancel_reason_type){
+    //     $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
 
-        $lesson_count = 0;
-        foreach($ret_info as $item){
-            $lesson_count += $item['lesson_count']/100;
-        }
-        return $lesson_count;
-    }
+    //     $lesson_count = 0;
+    //     foreach($ret_info as $item){
+    //         $lesson_count += $item['lesson_count']/100;
+    //     }
+    //     return $lesson_count;
+    // }
 
 
 
     public function tongji_change_lesson_by_parent(){ // 调课统计-家长
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_num = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
 
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
-        // dd($ret_info);
+        foreach($ret_info['list'] as $index=>&$item_list){
+            if($item_list['lesson_count_total'] == 0){
+                unset($ret_info['list'][$index]);
+            }
 
-        foreach($ret_info['list'] as &$item_list){
-            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
-            $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            if($item_list['assistantid']){
+                $item_list['ass_nick'] = $this->cache_get_assistant_nick($item_list['assistantid']);
+            }else{
+                $item_list['ass_nick'] = $this->cache_get_account_nick($item_list['require_adminid']);
+            }
 
         }
-        // dd($ret_info);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-
-
-    public function get_total_lesson_count_by_parent($userid,$start_time,$end_time,$lesson_cancel_reason_type){
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid);
-
-        $lesson_count = 0;
-        foreach($ret_info as $item){
-            $lesson_count += $item['lesson_count']/100;
-        }
-        // return $ret_info;
-        return $lesson_count;
-    }
-
-
-
-
-    //
 
 }

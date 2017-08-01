@@ -51,7 +51,13 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否全职</span>
+                        <select class="opt-change form-control" id="id_full_time" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">试讲状态</span>
@@ -145,10 +151,14 @@
                     <td>毕业院校</td>
                     <td>师资</td>
                     <td>审核状态</td>
-                    <td>推荐人</td>
-                    <td>状态</td>
-                    <td>回访状态</td>
-                    <td style="display:none">招师</td>
+                    @if($show_full_time==0)
+                        <td >推荐人</td>
+                        <td >状态</td>
+                        <td>回访状态</td>
+                        <td style="display:none">招师</td>
+                    @else
+                        <td>二面状态</td>
+                    @endif
                     <td>操作</td>
                 </tr>
             </thead>
@@ -191,19 +201,32 @@
                                 原因: {{@$var["reason"]}}
                             @endif
                         </td>
-                        <td>{{@$var["reference_name"]}} </td>
-                        <td>{{@$var["lecture_appointment_status_str"]}} </td>
-                        <td>{{@$var["lecture_revisit_type_str"]}} </td>
-                        <td>{{@$var["account"]}} </td>
+                        @if($show_full_time==0)
+                            <td>{{@$var["reference_name"]}} </td>
+                            <td>{{@$var["lecture_appointment_status_str"]}} </td>
+                            <td>{{@$var["lecture_revisit_type_str"]}} </td>
+                            <td>{{@$var["account"]}} </td>
+                        @else
+                            <td>
+                                {{@$var["full_status_str"]}}<br><br>
+                                @if(!empty($var["full_record_info"]) )
+                                    原因: {{@$var["full_record_info"]}}
+                                @endif
+                            </td>
+                        @endif
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
-                                <a class="fa-edit opt-edit" title="编辑状态"></a>
-                                <a class="fa-times opt-del" title="删除"></a>
-                                <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
-                                <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
-                                <a class="opt-more_grade">邮</a>
-                                <a class="opt-plan-train_lesson">1v1</a>
-                                <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
+                                @if($show_full_time==1)
+                                    <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
+                                @else
+                                    <a class="fa-edit opt-edit" title="编辑状态"></a>
+                                    <a class="fa-times opt-del" title="删除"></a>
+                                    <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
+                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                    <a class="opt-more_grade">邮</a>
+                                    <a class="opt-plan-train_lesson">1v1</a>
+                                    <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
+                                @endif
                             </div>
                         </td>
                     </tr>

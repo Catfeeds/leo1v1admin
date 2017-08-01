@@ -101,12 +101,14 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var uid = opt_data.uid;
         var del_flag =$("<select/>");
+        var time =$("<input />");
         Enum_map.append_option_list( "boolean", del_flag,true);
         del_flag.val(opt_data.del_flag);
         var arr=[
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
-            [" 是否离职",del_flag]
+            [" 是否离职",del_flag],
+            [" 时间",time]
         ];
 
         $.show_key_value_table("更改员工状态", arr ,{
@@ -115,7 +117,8 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax('/authority/del_manager', {
                     'uid': opt_data.uid,
-                    'del_flag': del_flag.val()
+                    'del_flag': del_flag.val(),
+                    'leave_member_time': time.val()
                 });
             }
         });
@@ -330,6 +333,7 @@ $(function(){
                     'account_role': $account_role.val(),
                     'tquin': $tquin.val(),
                     'email': $email.val(),
+                    'old_seller_level': opt_data.seller_level,
                     'seller_level': $seller_level.val(),
                     'up_adminid': $up_adminid.val(),
                     'become_full_member_flag': $become_full_member_flag.val(),
@@ -351,6 +355,7 @@ $(function(){
 
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        // alert(opt_data.old_permission);
         var uid= opt_data.uid;
         var show_list=[];
         if ($.get_action_str()=="manager_list_for_seller" ) {
@@ -383,7 +388,8 @@ $(function(){
                 onChange        : function( select_list,dlg) {
                     $.do_ajax("/authority/set_permission",{
                         "uid": uid,
-                        "groupid_list":JSON.stringify(select_list)
+                        "groupid_list":JSON.stringify(select_list),
+                        "old_permission": opt_data.old_permission,
                     });
                 }
             });
@@ -710,7 +716,9 @@ $(function(){
     });
 
 
-
-
+    $(".opt-log").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
+    });
 
 });

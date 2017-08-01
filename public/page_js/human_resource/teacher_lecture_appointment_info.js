@@ -4,19 +4,21 @@ $(function(){
     function load_data(){
         $.reload_self_page ({
             date_type                  : $('#id_date_type').val(),
-			opt_date_type              : $('#id_opt_date_type').val(),
-			start_time                 : $('#id_start_time').val(),
-			end_time                   : $('#id_end_time').val(),
+			      opt_date_type              : $('#id_opt_date_type').val(),
+			      start_time                 : $('#id_start_time').val(),
+			      end_time                   : $('#id_end_time').val(),
             lecture_appointment_status : $('#id_lecture_appointment_status').val(),
             teacherid                  : $('#id_teacherid').val(),
-			user_name                  : $('#id_user_name').val(),
-			status                     : $('#id_status').val(),
-			record_status              : $('#id_record_status').val(),
-			grade                      : $('#id_grade').val(),
-			subject                    : $('#id_subject').val(),
-			teacher_ref_type           : $('#id_teacher_ref_type').val(),
-			interview_type             : $('#id_interview_type').val(),
-			have_wx                    : $('#id_have_wx').val(),
+			      user_name                  : $('#id_user_name').val(),
+			      status                     : $('#id_status').val(),
+			      record_status              : $('#id_record_status').val(),
+			      grade                      : $('#id_grade').val(),
+			      subject                    : $('#id_subject').val(),
+			      teacher_ref_type           : $('#id_teacher_ref_type').val(),
+			      interview_type             : $('#id_interview_type').val(),
+			      lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
+			      have_wx                    : $('#id_have_wx').val(),
+			      full_time                  : $('#id_full_time').val(),
         });
     }
 
@@ -35,6 +37,8 @@ $(function(){
     Enum_map.append_option_list("grade", $('#id_grade'),false,[100,200,300]);
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
+    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'));
+    Enum_map.append_option_list("boolean", $('#id_full_time'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status')); 
     }else if(g_args.interview_type==0){
@@ -49,6 +53,7 @@ $(function(){
    
 
     $('#id_lecture_appointment_status').val(g_args.lecture_appointment_status);
+	$('#id_full_time').val(g_args.full_time);
 	$('#id_user_name').val(g_args.user_name);
 	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
@@ -58,6 +63,7 @@ $(function(){
     $("#id_teacher_ref_type").val(g_args.teacher_ref_type);
 	$('#id_interview_type').val(g_args.interview_type);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -139,6 +145,28 @@ $(function(){
     
     upload_func("id_upload_csv_cp","/seller_student/upload_from_csv_cp");
 
+    $(".opt-set-lecture-revisit-type").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_lecture_revisit_type = $("<select/>");   
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true );
+        var arr=[
+            ["回访状态", id_lecture_revisit_type],
+        ];
+        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        $.show_key_value_table("修改状态", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/ss_deal/update_lecture_revisit_type',{
+                    "id" : opt_data.id,
+                    "lecture_revisit_type" : id_lecture_revisit_type.val()
+                });
+            }
+        });
+
+
+
+    });
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id       = opt_data.id;
@@ -544,7 +572,7 @@ $(function(){
         var id_grade          = $("<select/>");
         var id_record_teacher = $("<input/>");
         var id_start_time     = $("<input/>");
-        
+
         id_start_time.datetimepicker( {
             lang       : 'ch',
             timepicker : true,
@@ -556,7 +584,7 @@ $(function(){
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
         id_subject.val(opt_data.subject_num);
-       
+
         var arr = [
             ["审核老师",  id_record_teacher ]  ,
             ["科目",  id_subject ]  ,
@@ -580,10 +608,8 @@ $(function(){
         }],function(){
             $.admin_select_user( id_record_teacher, "research_teacher");
         });
-
-        
     });
-    
+
     $(".show_detail").on("click",function(){
         var val = $(this).data("value");
         BootstrapDialog.alert({
@@ -602,6 +628,41 @@ $(function(){
         $(".page-opt-show-all-xls").hide();
     }
 
-     
+    $(".opt-edit-full_time").on("click",function(){
+	      var data           = $(this).get_opt_data();
+        var id_flag        = $("<select/>");
+        var id_record_info = $("<textarea/>");
+        var flag_html      = "<option value='0'>不通过</option>"
+            +"<option value='1'>通过</option>"
+            +"<option value='2'>老师未到</option>";
+        id_flag.append(flag_html);
+        id_flag.val(data.full_status);
+        id_record_info.val(data.full_record_info);
+
+        var arr = [
+            ["是否通过",id_flag],
+            ["面试评价",id_record_info],
+        ];
+
+        $.show_key_value_table("全职老师面试评价",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/tea_manage_new/set_full_time_teacher_record",{
+                    "teacherid"   : data.teacherid,
+                    "phone"       : data.phone,
+                    "flag"        : id_flag.val(),
+                    "record_info" : id_record_info.val(),
+                    "nick"        : data.name,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
 
 });

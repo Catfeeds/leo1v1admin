@@ -1616,6 +1616,11 @@ class tea_manage extends Controller
 
         $ret_info = $this->t_train_lesson_user->get_not_through_user($start_time,$end_time,$has_openid);
         foreach($ret_info['list'] as &$val){
+            if($val['wx_openid']!=""){
+                $val['has_openid_str']="已绑定";
+            }else{
+                $val['has_openid_str']="未绑定";
+            }
             \App\Helper\Utils::unixtime2date_for_item($val,"create_time","_str");
         }
 
@@ -2008,6 +2013,10 @@ class tea_manage extends Controller
         return $this->output_ajax_table($ret_list);
     }
 
+    public function trial_train_lesson_list_zj(){
+        return $this->trial_train_lesson_list();
+    }
+
     public function trial_train_lesson_list(){
         list($start_time,$end_time) = $this->get_in_date_range(-7,7);
         $status        = $this->get_in_int_val("status",-1);
@@ -2077,9 +2086,14 @@ class tea_manage extends Controller
         // return $this->pageView(__METHOD__,$ret_info);
     }
 
+
     public function train_lecture_lesson_zs(){
         $this->set_in_value("is_all",1);
-        return $this->train_lecture_lesson();   
+        return $this->train_lecture_lesson();
+    }
+
+    public function train_lecture_lesson_zj(){
+        return $this->train_lecture_lesson();
     }
 
     public function train_lecture_lesson(){
@@ -2160,13 +2174,11 @@ class tea_manage extends Controller
             $start_time,$end_time,$opt_date_str,-1,1
         );
 
-
-
         return $this->pageView(__METHOD__,$ret_info,[
-            "acc"       => $acc,
-            "all_num"   => $all_num,
-            "wx_num"    => $wx_num,
-            "email_num" => $email_num
+            "acc"            => $acc,
+            "all_num"        => $all_num,
+            "wx_num"         => $wx_num,
+            "email_num"      => $email_num,
         ]);
     }
 
@@ -2369,4 +2381,8 @@ class tea_manage extends Controller
             return outputjson_success();
         }
     }
+
+
+
+
 }

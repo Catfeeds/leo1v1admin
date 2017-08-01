@@ -156,6 +156,9 @@ class  article_wx extends Controller
         return $this->Pageview(__METHOD__,'' );
     }
 
+    public function leo_yxyx_int(){ // 优学优享-服务号简介
+        return $this->Pageview(__METHOD__,'' );
+    }
 
 
 

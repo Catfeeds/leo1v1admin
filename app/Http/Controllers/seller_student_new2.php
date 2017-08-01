@@ -206,6 +206,7 @@ class seller_student_new2 extends Controller
             $seller_require_change_flag,$require_assign_flag, $has_1v1_lesson_flag,$accept_adminid,$is_jw,
             $jw_test_lesson_status,$jw_teacher,$tea_subject,$is_ass_tran,$limit_require_flag,$limit_require_send_adminid,$require_id
         );
+        //dd($ret_info);
         $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
         foreach($ret_info["list"] as $id => &$item){
             $item['id'] = $start_index+$id;
@@ -313,7 +314,8 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_new()
     {
-        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        // $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        $ret = [];
         $ret_info = [];
         foreach($ret as $key => &$item){
             E\Egrade::set_item_value_str($item);
@@ -649,7 +651,10 @@ class seller_student_new2 extends Controller
         $account_id = $this->get_account_id();
         $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
         $master_flag = $this->get_in_int_val("master_flag",-1);
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag);
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $success_flag = $this->get_in_int_val("success_flag",-1);
+        $order_confirm_flag = $this->get_in_int_val("order_confirm_flag",-1);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -676,6 +681,8 @@ class seller_student_new2 extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
 
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, $ret_info,[
+            "master_flag"  =>$master_flag
+        ]);
     }
 }

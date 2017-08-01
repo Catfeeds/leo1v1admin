@@ -50,20 +50,20 @@ $(function(){
         var key4= opt_div.data("old_key4") ;
 
         $(this).admin_select_dlg_ajax({
-            "opt_type" :  "list", // or "list"
-            "url"          : "/ss_deal2/get_origin_phone_list_js",
+            "opt_type" : "list", // or "list"
+            "url"      : "/ss_deal2/get_origin_phone_list_js",
             //其他参数
             "args_ex" : {
-                "opt_type_str": opt_type,
-                "start_time": g_args.start_time,
-                "end_time": g_args.end_time,
-                "key1": key1,
-                "key2": key2,
-                "key3": key3,
-                "key4": key4,
+                "opt_type_str" : opt_type,
+                "start_time"   : g_args.start_time,
+                "end_time"     : g_args.end_time,
+                "key1"         : key1,
+                "key2"         : key2,
+                "key3"         : key3,
+                "key4"         : key4,
             },
             //字段列表
-            'field_list' :[
+            'field_list' : [
                 {
                     title:"报名时间",
                     render:function(val,item) {return item.add_time;}

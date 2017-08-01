@@ -33,11 +33,13 @@
                     <td>年级</td>
                     <td>科目 </td>
                     <td>老师 </td>
+                    <td>原老师 </td>
                     <td>助教 </td>
                     <td>试听时间 </td>
                     <td>课时确认 </td>
                     <td>试听结果</td>
-                    <td>换老师原因</td>
+                    <td>换老师原因类型</td>
+                    <td>换老师原因描述</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -54,11 +56,17 @@
                             <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
                                 target="_blank" title="老师信息">{{@$var["realname"]}} </a>
                         </td>
+                        <td>
+                            <a  href="/human_resource/index_ass?teacherid={{$var["old_teacher_id"]}}"
+                                target="_blank" title="老师信息">{{@$var["old_teacher_nick"]}} </a>
+
+                        </td>
                         <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["test_lesson_time"]}} </td>
                         <td>{!!@$var["success_flag_str"]!!} </td>
-                        <td>{!! @$var["is_lesson_time_flag_str"]!!} </td>
+                        <td>{!! @$var["order_confirm_flag_str"]!!} </td>
                         <td>{{@$var['change_teacher_reason_type_str']}}</td>
+                        <td>{{@$var['change_teacher_reason']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

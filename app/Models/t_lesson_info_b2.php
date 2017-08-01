@@ -816,8 +816,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1
     ){
         $where_arr = [
-            //  ["l.lesson_start>%u",$start_time,0],
-            //  ["l.lesson_start<%u",$end_time,0],
             ["l.lesson_status=%u",$lesson_status,-1],
             ["l.subject=%u",$subject,-1],
             ["l.grade=%u",$grade,-1],
@@ -856,6 +854,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
                                   ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,"
+                                  ." tr.type as record_type,"
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
@@ -2217,40 +2216,68 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-    public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
+    public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.teacherid>0",
-            "lesson_del_flag = 0"
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] = "l.lesson_cancel_reason_type in (2,12) ";
+        }else{
+            $where_arr[] = ["l.lesson_cancel_reason_type = %d",$lesson_cancel_reason_type];
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.create_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+                                  " left join %s m on tll.confirm_adminid = m.uid".
+                                  " left join %s t on t.teacherid = l.teacherid".
                                   " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,30,true);
+        return $this->main_get_list_by_page($sql,null,30,true);
 
     }
 
 
     public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.teacherid=%d",$teacherid],
             "lesson_del_flag = 0"
         ];
 
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 2 or lesson_cancel_reason_type= 12) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick, s.grade, l.subject, s.assistantid from %s l".
                                   " left join %s s on s.userid = l.userid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -2260,26 +2287,40 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_num,$lesson_cancel_reason_type){
+    public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             "l.userid>0",
-            "lesson_del_flag = 0"
+            "s.is_test_user = 0",
+            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1],
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] = "l.lesson_cancel_reason_type in (1,11)";
+        }else{
+            $where_arr[] = ["l.lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on tp.parentid = s.parentid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+                                  " left join %s m on tll.confirm_adminid = m.uid".
                                   " where %s group by l.userid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,30,true);
+        return $this->main_get_list_by_page($sql,null,30,true);
 
     }
 
@@ -2288,25 +2329,58 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid){
         $where_arr = [
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
+            // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
             ["l.userid=%d",$userid],
-            "lesson_del_flag = 0"
+            // "lesson_del_flag = 0"
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] ="(lesson_cancel_reason_type= 1 or lesson_cancel_reason_type= 11) ";
+        }else{
+            $where_arr[] = ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.teacherid,l.lesson_type,l.lesson_start,l.lesson_end, l.lesson_count,l.lesson_cancel_reason_type, s.nick,l.userid, s.grade, l.subject, s.assistantid, tp.nick as parent_nick from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on  tp.parentid = s.parentid".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+
                                   " where %s order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
 
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_old_teacher_nick($lesson_start,$subject,$userid){
+        $where_arr = [
+            ["l.lesson_start<%d",time(NULL)],
+            ["l.subject=%d",$subject],
+            ["l.lesson_type=%d",0],
+            ["l.userid=%d",$userid]
+        ];
+
+        $sql = $this->gen_sql_new(" select t.nick,t.teacherid from %s l".
+                                  " left join %s t on t.teacherid = l.teacherid".
+                                  " where %s order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_row($sql);
     }
 
 

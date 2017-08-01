@@ -1288,7 +1288,7 @@ lesson_type in (0,1) "
         $where_arr=[
             ["s.assistantid= %u",$assistantid, -1  ],
         ];
-        $sql=$this->gen_sql_new("select s.assistantid, s.userid ,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
+        $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
                             " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid ",

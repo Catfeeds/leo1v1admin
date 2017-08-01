@@ -247,6 +247,7 @@ class ajax_deal2 extends Controller
     /**
      *@author   sam
      *@function 删除学生考试成绩信息
+     *@path     stu_manage/score_list
      */
     public function score_del(){
         $id = $this->get_in_int_val('id');
@@ -254,12 +255,29 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
-     /**
+    /**
      *@author   sam
-     *@function 创建学生和家长账号
+     *@function 取消添加考试成绩
+     *@path     
      */
-     public function register_student_parent_account()
-     {
+    public function score_cancel(){
+        $id = $this->get_in_int_val('id');
+        $reason = $this->get_in_str_val('reason');
+        $data = [
+            'reason' => $reason,
+            'status' => 1,
+        ];
+        $ret = $this->t_student_score_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
+    /**
+    *@author   sam
+    *@function 创建学生和家长账号
+    *@path     authority/manager_list
+    */
+    public function register_student_parent_account()
+    {
         $account = $this->get_in_str_val("account");
         $phone   = $this->get_in_int_val("phone");
         $ret=[];
@@ -288,6 +306,68 @@ class ajax_deal2 extends Controller
             }
         }
         return $this->output_succ($ret);
-     }
+    }
+    /**
+     *@author   sam
+     *@function 增加老师取消课程记录
+     *@path     seller_student_new2/test_lesson_list
+     */
+    public function add_cancel_lesson_four_hour_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $type = 13;
+        $record_info = $this->get_in_str_val("record_info");
+        $add_time = time();
+        $acc = $this->get_account();
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"    =>$teacherid,
+            "type"         =>$type,
+            "record_info"  =>$record_info,
+            "add_time"     =>$add_time,
+            "acc"          =>$acc,
+        ]);
+        return $this->output_succ();
+    }
+    /**
+     *@author   sam
+     *@function 老师取消课程记录
+     *@path     human_resource/index
+     */
+    public function get_teacher_cancel_lesson_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $data = $this->t_teacher_record_list->get_teacher_record_list($teacherid,13);
+        return $this->output_succ(["data"=>$data]);
+    }
+    /**
+     *@author   sam
+     *@function 老师取消课程记录
+     *@path     human_resource/index
+     */
+    public function add_intended_user_info(){
+        $phone           = $this->get_in_str_val('phone');
+        $child_realname  = $this->get_in_str_val('child_realname');
+        $parent_realname = $this->get_in_str_val('parent_realname');
+        $relation_ship   = $this->get_in_int_val('relation_ship');
+        $region          = $this->get_in_str_val('region');
+        $grade           = $this->get_in_int_val('grade');
+        $free_subject    = $this->get_in_int_val('free_subject');
+        $region_version  = $this->get_in_int_val('region_version');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = 99;
+        $create_time     = time();
 
+        $this->t_customer_service_intended_user_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'child_realname'           => $child_realname,
+            'parent_realname'          => $parent_realname,
+            'relation_ship'            => $relation_ship,
+            'region'                   => $region,
+            'grade'                    => $grade,
+            'free_subject'             => $free_subject,
+            'region_version'           => $region_version,
+            'notes'                    => $notes,
+         ]);
+        return $this->output_succ();
+    }
 }

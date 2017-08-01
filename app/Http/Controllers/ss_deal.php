@@ -629,7 +629,10 @@ class ss_deal extends Controller
     public function get_require_list_js()  {
         $page_num=$this->get_in_page_num();
         $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
-        $userid = $this->get_in_userid();
+        $userid = $this->get_in_userid(-1);
+        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
+            return $this->output_succ( );
+        }
         $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id($page_num,$test_lesson_subject_id,$userid);
 
         foreach($ret_list["list"] as &$item) {
@@ -1810,7 +1813,14 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = strtotime($this->get_in_str_val('stu_request_test_lesson_time'));
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
-        $change_teacher_reason_type      = $this->get_in_int_val("change_teacher_reason_type",-1);
+        $change_reason = trim($this->get_in_str_val('change_reason'));
+
+        $url = $this->get_in_str_val('change_reason_url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -1819,7 +1829,7 @@ class ss_deal extends Controller
         }else{
             $is_green_flag=0;
         }
-
+        // dd(1);
         // init t_seller_student_new
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {
@@ -1868,6 +1878,8 @@ class ss_deal extends Controller
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"      => $change_reason_url,
                 "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
@@ -2212,7 +2224,14 @@ class ss_deal extends Controller
                 }
 
             }
-            foreach($arr as $t=>&$v){
+            $userid_list="";
+            foreach($arr as $v){
+               $userid = intval($v[0]);
+               $userid_list .= $userid.",";
+            }
+            $aa= trim($userid_list,",");
+            $this->t_teacher_info->field_update_list(240314,["limit_plan_lesson_reason"=>$aa]);
+            /* foreach($arr as $t=>&$v){
                 $v[0] = intval($v[0]);
                 $v[1] = $type_arr[$v[1]];
                 if($t<500 && $t>=0){
@@ -2225,7 +2244,7 @@ class ss_deal extends Controller
                     }
                 }
 
-            }
+                }*/
 
             //dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
@@ -2826,6 +2845,11 @@ class ss_deal extends Controller
     }
     public function delete_lecture_appointment(){
         $id = $this->get_in_int_val("id");
+        $acc = $this->get_account();
+        if(in_array($acc,["adrian"])){
+            return $this->output_err("你没有权限");
+        }
+
         $this->t_teacher_lecture_appointment_info->row_delete($id);
         return $this->output_succ();
     }
@@ -4412,8 +4436,6 @@ class ss_deal extends Controller
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
-
-
         if ($ret) {
            $re = $this->t_complaint_info->field_update_list($complaint_id,[
                 "suggest_info"       => $suggest_info,
@@ -4474,6 +4496,8 @@ class ss_deal extends Controller
                     $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                     $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+                } elseif($account_type == 3){
+
                 }
 
                 //反馈QC与上级领导
@@ -4505,6 +4529,9 @@ class ss_deal extends Controller
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 
                 foreach($qc_openid_arr as $qc_item){

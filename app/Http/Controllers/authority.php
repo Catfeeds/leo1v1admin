@@ -80,8 +80,8 @@ class authority extends Controller
         foreach($group_list as $group_item) {
             $group_map[$group_item["groupid"]]=$group_item["group_name"];
         }
-
         foreach($ret_info['list'] as &$item){
+            $item['old_permission'] = $item['permission'];
             $arr = explode(',',$item['permission']);
             $arr_zh_yi='';
             foreach($arr as $arr_eve){
@@ -190,19 +190,45 @@ class authority extends Controller
     }
     public function set_permission(){
         $uid = $this-> get_in_int_val('uid');
+        $old_permission = $this-> get_in_str_val('old_permission');
         $groupid_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("groupid_list"));
         $permission = implode(",",$groupid_list);
         $this->t_manager_info->field_update_list($uid,[
             "permission" => $permission ,
         ] );
+
+        $adminid = session('adminid');
+        $uid = $uid;
+        $type = 1;
+        $old = $old_permission;
+        $new = $permission;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "type"        => $type,
+            "uid"         => $uid,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
         return $this->output_succ();
     }
+
     public function del_manager() {
         $uid= $this->get_in_str_val("uid","");
         $del_flag= $this->get_in_int_val("del_flag","");
-        $set_arr=[
-            "del_flag" => $del_flag ,
-        ];
+        if($del_flag == 1){
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }else{
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }
+        // $set_arr=[
+        //     "del_flag" => $del_flag ,
+        // ];
         if ($del_flag) {
             $set_arr["wx_openid"]=NULL;
         }
@@ -366,7 +392,6 @@ class authority extends Controller
             return $this->output_err("参数错误");
         }
 
-
         if($this->t_admin_users->get_id_by_account($account)) {
             return $this->output_err("用户已经存在 t_admin_users");
         }
@@ -396,6 +421,7 @@ class authority extends Controller
             "email" => $email,
             "phone" => $phone,
             "create_time" => time(NULL) ,
+            "become_member_time" => time(NULL) ,
             "permission" => $groupid ,
             "account_role" => $account_role,
             "creater_adminid" => $adminid ,
@@ -436,7 +462,7 @@ class authority extends Controller
         return $this->manager_list_for_qz();
     }
 
-        
+
 
 
     public function manager_list_for_ass() {
@@ -459,6 +485,49 @@ class authority extends Controller
             "fulltime_teacher_type"=>$fulltime_teacher_type
         ]);
         return $this->output_succ();
+    }
+
+    public function seller_edit_log_list(){
+        $uid_new = $this->get_in_int_val('adminid');
+        $list = $this->t_seller_edit_log->get_all_list($uid_new);
+        $group_list=$this->t_authority_group->get_auth_groups();
+        $group_map=[];
+        foreach($group_list as $group_item) {
+            $group_map[$group_item["groupid"]]=$group_item["group_name"];
+        }
+        foreach ($list as &$item ){
+            if($item['type'] == 1){
+                $item['type'] = '修改权限组';
+                $arr          = explode(',',$item['old']);
+                $arr_zh_yi    = '';
+                foreach($arr as $arr_eve){
+                    $int_eve    = (int)$arr_eve;
+                    $arr_zh_yi .= @$group_map[$int_eve].",";
+                }
+                $arr_new       = explode(',',$item['new']);
+                $arr_zh_yi_new = '';
+                foreach($arr_new as $arr_eve_new){
+                    $int_eve_new    = (int)$arr_eve_new;
+                    $arr_zh_yi_new .= @$group_map[$int_eve_new].",";
+                }
+                $item['old'] = $arr_zh_yi;
+                $item['new'] = $arr_zh_yi_new;
+            }elseif($item['type'] == 2){
+                $item['type'] = '修改咨询师等级';
+                $item['seller_level'] = $item['old'];
+                E\Eseller_level::set_item_value_str($item);
+                $item['old'] = $item['seller_level_str'];
+                $item['seller_level'] = $item['new'];
+                E\Eseller_level::set_item_value_str($item);
+                $item['new'] = $item['seller_level_str'];
+
+            }
+            $this->cache_set_item_account_nick($item,"adminid", "adminid_nick");
+            $this->cache_set_item_account_nick($item,"uid", "uid_nick");
+            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+        }
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$ret_info);
     }
 
 }

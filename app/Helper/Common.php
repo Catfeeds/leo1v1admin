@@ -258,7 +258,7 @@ class Common {
         $mail->Password = "xcwen@142857"; // 邮局密码
 
         $mail->From = "trc@leoedu.cn"; //邮件发送者email地址
-        $mail->FromName = "理优教研室";
+        $mail->FromName = "理优教学管理部";
 
         if (is_array(  $address)) {
             foreach ( $address as $item ){
@@ -1549,6 +1549,54 @@ class Common {
         }
         return $xs;
     }
+
+        static function secsToStr($secs,$day_flag=1) {// 将秒数转变 小时数
+       $r = '';
+        if($secs>=86400){$days=floor($secs/86400);
+            $secs=$secs%86400;
+            $r=$days.'天';
+            // if($days<>1){$r.='s';}
+            // if($secs>0){$r.=', ';}
+        }
+
+        if($day_flag == 2){
+            return $r;
+        }
+
+
+        if($secs>=3600){$hours=floor($secs/3600);
+            $secs=$secs%3600;
+            $r.=$hours.'小时';
+            // if($hours<>1){$r.='s';}
+            // if($secs>0){$r.=', ';}
+        }
+
+
+        if($secs>=60){
+            $minutes=floor($secs/60);
+            $secs=$secs%60;
+            $r.=$minutes.'分钟';
+            // if($minutes<>1){$r.='s';}
+            // if($secs>0){$r.=', ';}}
+            $r.=$secs.'秒';
+            // if($secs<>1)
+            // {$r.='s';}
+            return $r;
+        }
+
+        
+   }
+
+
+   static function sortArrByField(&$array, $field, $desc = false){
+        $fieldArr = array();
+        foreach ($array as $k => $v) {
+            $fieldArr[$k] = $v[$field];
+        }
+        $sort = $desc == false ? SORT_ASC : SORT_DESC;
+        array_multisort($fieldArr, $sort, $array);
+    }
+
 
 
 };

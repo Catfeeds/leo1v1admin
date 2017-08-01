@@ -65,7 +65,13 @@
                 </select>
             </div>
         </div>
-
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span >全职老师</span>
+                <select id="id_full_time" class ="opt-change" >
+                </select>
+            </div>
+        </div>
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span >绑定微信</span>
@@ -137,11 +143,9 @@
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
-
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
                             @endif
-
                         </div>
                     </td>
                 </tr>

@@ -553,7 +553,7 @@ class common extends Controller
             <div class='todo size12' align='left'>
                 <div class='size20 color333'>待办事项</div>
                 <div class='ul_title size14 color333'>
-                    -加入相关QQ群(请备注 科目-年纪-姓名)
+                    -加入相关QQ群(请备注 科目-年级-姓名)
                 </div>
                 <ul>".$group_html."</ul>
                 <div class='ul_title size14 color333'>

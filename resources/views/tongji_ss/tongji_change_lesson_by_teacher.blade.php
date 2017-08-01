@@ -34,8 +34,9 @@
                 <tr>
                     <td>编号</td>
                     <td>老师姓名</td>
+                    <td>老师类型</td>
+                    <td>入职时长</td>
                     <td>课时数</td>
-                    <!-- <td>课时确认</td> -->
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -43,7 +44,12 @@
                 @foreach ( $table_data_list as $index => $var )
                     <tr>
                         <td>{{@$index}}</td>
-                        <td>{{@$var["teacher_nick"]}}</td>
+                        <td>
+                            <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
+                                target="_blank" title="老师信息">{{@$var["teacher_nick"]}} </a>
+                        </td>
+                        <td>{{$var['teacher_money_type_str']}}</td>
+                        <td>{{$var['work_time']}}</td>
                         <td class="show_detail" date-teacherid="{{$var['teacherid']}}"><a>{{@$var["lesson_count_total"]}}</a></td>
                         <td>
                             <div

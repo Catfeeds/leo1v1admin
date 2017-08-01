@@ -827,16 +827,17 @@ class user_deal extends Controller
     }
 
     public function update_admin_info() {
-        $uid               = $this->get_in_str_val("uid");
-        $phone             = $this->get_in_phone();
-        $name              = $this->get_in_str_val("name");
-        $email             = $this->get_in_str_val("email");
-        $tquin             = $this->get_in_str_val("tquin");
-        $cardid            = $this->get_in_int_val("cardid");
-        $account_role      = $this->get_in_int_val("account_role");
-        $seller_level      = $this->get_in_int_val("seller_level");
-        $wx_id             = $this->get_in_str_val("wx_id");
-        $up_adminid        = $this->get_in_int_val("up_adminid");
+        $uid                     = $this->get_in_str_val("uid");
+        $phone                   = $this->get_in_phone();
+        $name                    = $this->get_in_str_val("name");
+        $email                   = $this->get_in_str_val("email");
+        $tquin                   = $this->get_in_str_val("tquin");
+        $cardid                  = $this->get_in_int_val("cardid");
+        $account_role            = $this->get_in_int_val("account_role");
+        $old_seller_level        = $this->get_in_int_val("old_seller_level");
+        $seller_level            = $this->get_in_int_val("seller_level");
+        $wx_id                   = $this->get_in_str_val("wx_id");
+        $up_adminid              = $this->get_in_int_val("up_adminid");
         $become_full_member_flag = $this->get_in_int_val("become_full_member_flag");
         $day_new_user_flag       = $this->get_in_boolean_val("day_new_user_flag");
         $call_phone_passwd       = $this->get_in_str_val("call_phone_passwd");
@@ -888,6 +889,21 @@ class user_deal extends Controller
         $this->t_manager_info->field_update_list($uid, $set_arr);
 
         $this->t_manager_info->sync_kaoqin_user($uid);
+
+        $adminid = session('adminid');
+        $uid = $uid;
+        $type = 2;
+        $old = $old_seller_level;
+        $new = $seller_level;
+        $this->t_seller_edit_log->row_insert([
+            "adminid"     => $adminid,
+            "uid"         => $uid,
+            "type"        => $type,
+            "old"         => $old,
+            "new"         => $new,
+            "create_time" => time(NULL),
+        ],false,false,true );
+
 
         /*
         $this->t_manager_info->sync_kaoqin([
@@ -2589,7 +2605,43 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-       
+        $this->switch_tongji_database();
+        $last_time = $this->t_month_ass_warning_student_info->get_last_time_by_userid(133286);
+        dd(date("Y-m-d H:i:s",$last_time));
+        
+
+        $ret = $this->t_teacher_info->get_all_tea_phone_location();
+        foreach($ret["list"] as &$item){
+            E\Eidentity::set_item_value_str($item);
+            if($item["train_through_new_time"] !=0){
+                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
+            }else{
+                $item["work_day"] ="";
+            }
+
+            if(empty($item["address"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+                $item["location"]   = substr($item["location"], 0, -6);
+            }else{
+                $item["location"]= $item["address"];
+            }
+
+
+        }
+        return $this->Pageview(__METHOD__,$ret);
+        dd($ret);
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",4);
+        $arr=[161841,167237,135045,135265,146813];
+        $list = $this->t_teacher_info->get_teacher_info_by_money_type_new($teacher_money_type,$start_time,$end_time,$arr);
+        dd($list);
+
+ 
         $page_num = $this->get_in_page_num();
         $userid   = $this->get_in_userid();
         $userid= 57676;

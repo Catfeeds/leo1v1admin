@@ -49,7 +49,7 @@ class update_ass_warning_list extends Command
         }
 
         //助教确认续费或者待定的,到期组长未确认成功的,有系统判断是否续费,不成功的改成结束状态
-        $time = strtotime("Y-m-d",time()-86400);
+        $time = strtotime(date("Y-m-d",time()-86400));
         $list = $task->t_month_ass_warning_student_info->get_no_renw_end_time_list($time);
         foreach($list as $val){
             $flag = $task->t_order_info->get_stu_renw_order($val["userid"],$val["month"]);
@@ -62,11 +62,13 @@ class update_ass_warning_list extends Command
         }
 
         //更新信息
+        $invalid_time = time()-28*86400;
         $list = $task->t_month_ass_warning_student_info->get_stu_warning_info(2);
         $warning_list = $task->t_student_info->get_warning_stu_list();
         foreach($warning_list as $item){
             $userid= $item["userid"];
-            if(!isset($list[$userid])){
+            $last_time = $task->t_month_ass_warning_student_info->get_last_time_by_userid($userid);
+            if($last_time < $invalid_time){
                 $task->t_month_ass_warning_student_info->row_insert([
                     "adminid"        =>$item["uid"],
                     "userid"         =>$userid,
@@ -75,6 +77,10 @@ class update_ass_warning_list extends Command
                     "warning_type"   =>2,
                     "month"  =>time()
                 ]);
+                $nick = $task->t_student_info->get_nick($userid);
+                $id = $task->t_month_ass_warning_student_info->get_last_insertid();
+                $task->t_manager_info->send_wx_todo_msg_by_adminid ($item["uid"],"新增预警学员","新增预警学员","学生:".$nick,"http://admin.yb1v1.com/user_manage_new/ass_warning_stu_info_new?id=".$id);
+
  
             }
         }
