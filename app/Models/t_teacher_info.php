@@ -2398,4 +2398,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
+
+    public function get_all_tea_phone_location(){
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,address,identity,train_through_new_time"
+                                  ." from %s where is_test_user=0 and train_through_new=1",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
+    }
 }

@@ -1510,14 +1510,77 @@ class test_code extends Controller
      */
     public function get_stu_order_list(){
         $start_time = strtotime("2016-5-1");
-        $end_time = strtotime("2017-6-30");
-        $list = $this->t_order_info->get_stu_order_list($start_time,$end_time);
-        echo count($list);
-        exit;
+        $end_time   = strtotime("2017-6-30");
+        $list       = $this->t_order_info->get_stu_order_list($start_time,$end_time);
+        $stu_list   = [];
         foreach($list as $val){
-            
+            $userid     = $val['userid'];
+            $phone      = $val['phone'];
+            $realname   = $val['realname']!=""?$val['realname']:$val['nick'];
+            $grade      = E\Egrade::get_desc($val['grade']);
+            $first_time = date("Y-m-d H:i",$val['first_time']);
+            $lesson_total = $val['lesson_total'];
+            $subject    = E\Esubject::get_desc($val['subject']);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['phone'],$phone,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['realname'],$realname,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['grade'],$grade,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['first_time'],$first_time,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['subject'],$subject,0);
+            \App\Helper\Utils::check_isset_data($stu_list[$userid]['lesson_total'],$lesson_total);
+            if(isset($stu_list[$userid]['subject']) && !strstr($stu_list[$userid]['subject'],$subject)){
+                $stu_list[$userid]['subject'] .= (",".$subject);
+            }
+        }
+        echo "姓名|手机|首次签约时间|年级|总课时数|科目";
+        echo "<br>";
+        foreach($stu_list as $s_val){
+            echo $s_val['realname']."|".$s_val['phone']."|".$s_val['first_time']."|".$s_val['grade']."|".($s_val['lesson_total']/100)
+                                   ."|".$s_val['subject'];
+            echo "<br>";
         }
     }
 
+    /**
+     * 今日头条渠道数据
+     */
+    public function get_jr() {
+        $page_info = $this->get_in_page_info();
+        $start_time = strtotime("2017-5-1");
+        $end_time = time();
+        $opt_type_str = $this->get_in_str_val("opt_type_str","all_count");
+        $key1 = $this->get_in_str_val("key1","今日头条");
+        $key2 = $this->get_in_str_val("key2");
+        $key3 = $this->get_in_str_val("key3");
+        $key4 = $this->get_in_str_val("key4");
 
+        $origin_ex_arr= preg_split("/,/", session("ORIGIN_EX"));
+
+        if (!$origin_ex_arr[0] ){
+            if ($key1!="全部") {
+                $origin_ex_arr[0]=$key1;
+            }
+        }
+
+        if (!isset($origin_ex_arr[1] )){
+            $origin_ex_arr[1]=$key2;
+        }
+
+        if (!isset($origin_ex_arr[2] )){
+            $origin_ex_arr[2]=$key3;
+        }
+
+        if (!isset($origin_ex_arr[3] )){
+            $origin_ex_arr[3]=$key4;
+        }
+
+        $origin_ex= join(",", $origin_ex_arr );
+
+
+        $ret_info= $this->t_seller_student_new->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex) ;
+        foreach($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
+            echo $item['phone'];
+            echo "<br>";
+        }
+    }
 }

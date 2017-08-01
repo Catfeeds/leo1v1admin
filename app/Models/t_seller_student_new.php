@@ -1630,9 +1630,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_origon_list($page_info,$start_time, $end_time, $opt_type_str, $origin_ex  ) {
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
-
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
-        $where_arr[]=$ret_in_str;
+        $ret_in_str  = $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[] = $ret_in_str;
 
         switch ( $opt_type_str  ) {
         case "tq_call_fail_count" :
@@ -1644,31 +1643,27 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         case "valid_count" :
             $where_arr[]="(global_tq_called_flag=2 and global_seller_student_status <> 1 )";
             break;
-
         case "tmk_valid_count" :
             $where_arr[]="(tmk_student_status =3 )";
             break;
-
         case "tq_no_call_count" :
             $where_arr[]="( global_tq_called_flag=0 )";
             break;
         }
 
-
         $sql = $this->gen_sql_new("select  n.add_time, s.origin, n.phone ,n.userid  ".
-                                  " from %s n "
-                                  ."left join %s s on s.userid = n.userid".
+                                  " from %s n ".
+                                  " left join %s s on s.userid = n.userid".
                                   " where %s ",
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
-                                  $where_arr );
+                                  $where_arr
+        );
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
     public function del_user( $userid ) {
-        //LOG
         $this->t_seller_student_new->row_delete($userid);
-
     }
 
 

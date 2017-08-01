@@ -490,6 +490,9 @@ $(function(){
             data     : {"lessonid":lessonid},
             success  : function(result){
                 if(result.ret == 0){
+                    console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                    +"&audio="+encodeURIComponent(result.audio_url)
+                                    +"&start="+result.real_begin_time);
                     if ( false && !$.check_in_phone() ) {
 
                         // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)

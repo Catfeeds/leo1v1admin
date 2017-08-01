@@ -92,7 +92,7 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_list($sql);
     }
 
-   
+
 
 
     public function del_by_groupid($groupid) {
@@ -214,4 +214,5 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         );
         return $this->main_get_value($sql);
     }
+
 }

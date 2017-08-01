@@ -309,7 +309,7 @@ class ajax_deal2 extends Controller
     }
     /**
      *@author   sam
-     *@function 增加老师4小时内取消课程记录
+     *@function 增加老师取消课程记录
      *@path     seller_student_new2/test_lesson_list
      */
     public function add_cancel_lesson_four_hour_list(){
@@ -318,7 +318,6 @@ class ajax_deal2 extends Controller
         $record_info = $this->get_in_str_val("record_info");
         $add_time = time();
         $acc = $this->get_account();
-        $account = $this->get_account();
         $this->t_teacher_record_list->row_insert([
             "teacherid"    =>$teacherid,
             "type"         =>$type,
@@ -326,6 +325,49 @@ class ajax_deal2 extends Controller
             "add_time"     =>$add_time,
             "acc"          =>$acc,
         ]);
+        return $this->output_succ();
+    }
+    /**
+     *@author   sam
+     *@function 老师取消课程记录
+     *@path     human_resource/index
+     */
+    public function get_teacher_cancel_lesson_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $data = $this->t_teacher_record_list->get_teacher_record_list($teacherid,13);
+        return $this->output_succ(["data"=>$data]);
+    }
+    /**
+     *@author   sam
+     *@function 老师取消课程记录
+     *@path     human_resource/index
+     */
+    public function add_intended_user_info(){
+        $phone           = $this->get_in_str_val('phone');
+        $child_realname  = $this->get_in_str_val('child_realname');
+        $parent_realname = $this->get_in_str_val('parent_realname');
+        $relation_ship   = $this->get_in_int_val('relation_ship');
+        $region          = $this->get_in_str_val('region');
+        $grade           = $this->get_in_int_val('grade');
+        $free_subject    = $this->get_in_int_val('free_subject');
+        $region_version  = $this->get_in_int_val('region_version');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = 99;
+        $create_time     = time();
+
+        $this->t_customer_service_intended_user_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'child_realname'           => $child_realname,
+            'parent_realname'          => $parent_realname,
+            'relation_ship'            => $relation_ship,
+            'region'                   => $region,
+            'grade'                    => $grade,
+            'free_subject'             => $free_subject,
+            'region_version'           => $region_version,
+            'notes'                    => $notes,
+         ]);
         return $this->output_succ();
     }
 }

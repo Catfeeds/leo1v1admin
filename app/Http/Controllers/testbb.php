@@ -35,7 +35,12 @@ class testbb extends Controller
 
 
     public function test1() {
-
+        // $ddd = $this->t_manager_info->test1(297);
+        // dd(0);
+        // dd($ddd);
+        $g = $this->t_admin_group_name->get_group_admin_list(2999);
+        dd($g);
+        $arr = $this->t_admin_group_user->get_user_list(28);
         $lesson_end_time = $this->t_lesson_info->get_lesson_end(2367);
         dd($lesson_end_time);
         dd(strtotime(date('Y-m-d',time(NULL))));

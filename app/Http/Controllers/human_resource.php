@@ -1412,6 +1412,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_zj(){
+        return $this->teacher_lecture_list();
+    }
+
     public function teacher_lecture_list_research(){
         return $this->teacher_lecture_list();
     }
@@ -1430,6 +1434,8 @@ class human_resource extends Controller
             $tea_subject="";
         }elseif($adminid==952){
             $tea_subject="(6)";   
+        }elseif($adminid==770){
+            $tea_subject="(4,6)";   
         }
 
         $grade        = $this->get_in_int_val("grade",-1);
@@ -1843,7 +1849,7 @@ class human_resource extends Controller
         $have_wx                    = $this->get_in_int_val("have_wx",-1);
         $lecture_revisit_type       = $this->get_in_int_val("lecture_revisit_type",-1);
         $full_time                  = $this->get_in_int_val("full_time",-1);
-        $show_full_time             = $this->get_in_int_val("show_full_time",-1);
+        $show_full_time             = $this->get_in_int_val("show_full_time",0);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
 
         $adminid = $this->get_account_id();
@@ -1883,9 +1889,9 @@ class human_resource extends Controller
                  E\Echeck_status::set_item_value_str($item, "status");
             }
             $full_status = $item['full_status'];
-            if($full_status==1){
+            if($full_status==="1"){
                 $item['full_status_str']="通过";
-            }elseif($full_status==0){
+            }elseif($full_status==="0"){
                 $item['full_status_str']="不通过";
             }else{
                 $item['full_status_str']="未审核";
@@ -2532,6 +2538,14 @@ class human_resource extends Controller
 
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info]);
     }
+    public function teacher_record_detail_list_new_zj(){
+        return $this->teacher_record_detail_list_new();
+    }
+    public function teacher_record_detail_list_zj(){
+        return $this->teacher_record_detail_list();
+    }
+
+
 
 
     public function teacher_record_detail_list(){
@@ -3691,6 +3705,7 @@ class human_resource extends Controller
     }
 
     public function teacher_info_new(){
+        $this->switch_tongji_database();
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $is_freeze              = $this->get_in_int_val('is_freeze',-1);
         $free_time              = $this->get_in_str_val("free_time","");
@@ -3780,6 +3795,12 @@ class human_resource extends Controller
             }else{
                 $item['phone_ex'] = $item['phone'];
             }
+            if(empty($item["address"])){
+                $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
+                $item["address"]   = substr($item["address"], 0, -6);
+            }
+
+
         }
 
         $acc = $this->get_account();

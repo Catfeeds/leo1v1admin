@@ -148,6 +148,7 @@ class NewRouteConfig {
         "/user_manage/complaint_department_deal"        => true,
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,
+        "/user_manage/complaint_department_deal_qc"        => true,
         "/user_manage/qc_complaint"               => true,
         "/user_manage/set_graduating_lesson_time"               => true,
         "/user_manage/get_weeks"                                => true,
@@ -241,9 +242,11 @@ class NewRouteConfig {
         "/tea_manage/train_lecture_lesson_full_time" => true,
         "/tea_manage/train_lecture_lesson_zs"     => true,
         "/tea_manage/train_lecture_lesson"        => true,
+        "/tea_manage/train_lecture_lesson_zj"     => true,
         "/tea_manage/add_train_lesson_by_xls"     => true,
         "/tea_manage/set_teacher_record_account"  => true,
         "/tea_manage/trial_train_lesson_list"     => true,
+        "/tea_manage/trial_train_lesson_list_zj"  => true,
         "/tea_manage/tea_imgs_show"               => true,
         "/tea_manage/get_lesson_list"              => true,
         "/tea_manage/tea_manage_all_info"          => true,
@@ -390,6 +393,7 @@ class NewRouteConfig {
         "/human_resource/set_teacher_ref_type"            => true,
         "/human_resource/teacher_lecture_list"             => true,
         "/human_resource/teacher_lecture_list_research"    => true,
+        "/human_resource/teacher_lecture_list_zj"    => true,
         "/human_resource/set_teacher_level"                => true,
         "/human_resource/set_teacher_lecture_is_test"      => true,
         "/human_resource/change_phone"                     => true,
@@ -459,7 +463,9 @@ class NewRouteConfig {
         "/human_resource/teacher_record_detail_info"          => true,
         "/human_resource/teacher_record_detail_info_new"      => true,
         "/human_resource/teacher_record_detail_list"          => true,
+        "/human_resource/teacher_record_detail_list_zj"          => true,
         "/human_resource/teacher_record_detail_list_new"      => true,
+        "/human_resource/teacher_record_detail_list_new_zj"      => true,
         "/human_resource/get_week_confirm_num"                => true,
         "/human_resource/set_teacher_limit_plan_lesson"       => true,
         "/human_resource/add_lecture_revisit_record"          => true,
@@ -502,6 +508,11 @@ class NewRouteConfig {
         "/revisit/get_revisit_info_new" => true,
         "/revisit/add_revisit_record"   => true,
         "/monitor/smsmonitor"           => true,
+
+        "/customer_service/intended_user_info"           => true,
+        "/customer_service/complaint_info"               => true,
+        "/customer_service/proposal_info"                => true,
+
     ];
 
     static $dev_url_map = [

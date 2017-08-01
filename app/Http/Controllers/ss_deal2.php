@@ -72,13 +72,13 @@ class ss_deal2 extends Controller
         $origin_ex= join(",", $origin_ex_arr );
 
 
-        $ret_info= $this->t_seller_student_new ->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex) ;
+        $ret_info= $this->t_seller_student_new->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex) ;
         foreach($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         }
 
 
-        return $this->output_ajax_table ($ret_info);
+        return $this->output_ajax_table($ret_info);
     }
 
 

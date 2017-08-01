@@ -1570,10 +1570,7 @@ $(function(){
             });
 
             dlg.getModalDialog().css("width","1024px");
-
         });
-
-
     });
 
     $(".opt-require-teacher-quit").on("click",function(){
@@ -1761,5 +1758,48 @@ $(function(){
 
     });
 
+
+
+    $(".opt-teacher-cancel-lesson-list").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var title = "老师取消课程记录";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>记录时间</td><td>记录理由</td><td>操作人</td><tr></table></div>");
+
+        $.do_ajax("/ajax_deal2/get_teacher_cancel_lesson_list",{
+            "teacherid" : teacherid
+        },function(result){
+            if(result.ret!=0){
+                BootstrapDialog.alert(result.info);
+                return ;
+            }
+
+            $.each(result.data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['add_time']+"</td><td>"+item['record_info']+"</td><td>"+item['acc']+"</td></tr>");
+
+
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+    });
 
 });

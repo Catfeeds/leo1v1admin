@@ -101,12 +101,14 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var uid = opt_data.uid;
         var del_flag =$("<select/>");
+        var time =$("<input />");
         Enum_map.append_option_list( "boolean", del_flag,true);
         del_flag.val(opt_data.del_flag);
         var arr=[
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
-            [" 是否离职",del_flag]
+            [" 是否离职",del_flag],
+            [" 时间",time]
         ];
 
         $.show_key_value_table("更改员工状态", arr ,{
@@ -115,7 +117,8 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax('/authority/del_manager', {
                     'uid': opt_data.uid,
-                    'del_flag': del_flag.val()
+                    'del_flag': del_flag.val(),
+                    'leave_member_time': time.val()
                 });
             }
         });
@@ -713,7 +716,9 @@ $(function(){
     });
 
 
-
-
+    $(".opt-log").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
+    });
 
 });

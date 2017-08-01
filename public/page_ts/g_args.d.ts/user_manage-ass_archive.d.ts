@@ -43,6 +43,7 @@ interface RowData {
 	ass_revisit_last_month_time	:any;
 	ass_revisit_last_week_time	:any;
 	ass_assign_time	:any;
+	phone_location	:any;
 	nick	:any;
 	lesson_total	:any;
 	type_str	:any;
@@ -58,6 +59,7 @@ interface RowData {
 	last	:any;
 	cur_str	:any;
 	last_str	:any;
+	location	:any;
 }
 
 /*

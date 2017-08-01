@@ -2605,14 +2605,26 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $ret = $this->t_student_info->get_all_stu_phone_location();
+        $this->switch_tongji_database();
+        $last_time = $this->t_month_ass_warning_student_info->get_last_time_by_userid(133286);
+        dd(date("Y-m-d H:i:s",$last_time));
+        
+
+        $ret = $this->t_teacher_info->get_all_tea_phone_location();
         foreach($ret["list"] as &$item){
-            if(empty($item["phone_location"])){
-                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+            E\Eidentity::set_item_value_str($item);
+            if($item["train_through_new_time"] !=0){
+                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400)."天";
             }else{
-                $item["location"]= $item["phone_location"];
+                $item["work_day"] ="";
             }
-            $item["location"]   = substr($item["location"], 0, -6);
+
+            if(empty($item["address"])){
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+                $item["location"]   = substr($item["location"], 0, -6);
+            }else{
+                $item["location"]= $item["address"];
+            }
 
 
         }

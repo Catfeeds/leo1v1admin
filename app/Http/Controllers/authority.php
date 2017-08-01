@@ -217,9 +217,18 @@ class authority extends Controller
     public function del_manager() {
         $uid= $this->get_in_str_val("uid","");
         $del_flag= $this->get_in_int_val("del_flag","");
-        $set_arr=[
-            "del_flag" => $del_flag ,
-        ];
+        if($del_flag == 1){
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }else{
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }
+        // $set_arr=[
+        //     "del_flag" => $del_flag ,
+        // ];
         if ($del_flag) {
             $set_arr["wx_openid"]=NULL;
         }
@@ -383,7 +392,6 @@ class authority extends Controller
             return $this->output_err("参数错误");
         }
 
-
         if($this->t_admin_users->get_id_by_account($account)) {
             return $this->output_err("用户已经存在 t_admin_users");
         }
@@ -413,6 +421,7 @@ class authority extends Controller
             "email" => $email,
             "phone" => $phone,
             "create_time" => time(NULL) ,
+            "become_member_time" => time(NULL) ,
             "permission" => $groupid ,
             "account_role" => $account_role,
             "creater_adminid" => $adminid ,
@@ -479,7 +488,8 @@ class authority extends Controller
     }
 
     public function seller_edit_log_list(){
-        $list = $this->t_seller_edit_log->get_all_list();
+        $uid_new = $this->get_in_int_val('adminid');
+        $list = $this->t_seller_edit_log->get_all_list($uid_new);
         $group_list=$this->t_authority_group->get_auth_groups();
         $group_map=[];
         foreach($group_list as $group_item) {
@@ -512,11 +522,10 @@ class authority extends Controller
                 $item['new'] = $item['seller_level_str'];
 
             }
-            $this->cache_set_item_account_nick($item,"adminid", "admin_nick");
+            $this->cache_set_item_account_nick($item,"adminid", "adminid_nick");
             $this->cache_set_item_account_nick($item,"uid", "uid_nick");
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-        // dd($list);
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$ret_info);
     }

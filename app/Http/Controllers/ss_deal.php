@@ -1813,6 +1813,14 @@ class ss_deal extends Controller
         $stu_request_test_lesson_time = strtotime($this->get_in_str_val('stu_request_test_lesson_time'));
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
+        $change_reason = trim($this->get_in_str_val('change_reason'));
+
+        $url = $this->get_in_str_val('change_reason_url');
+        $domain = config('admin')['qiniu']['public']['url'];
+        $change_reason_url = $domain.'/'.$url;
+
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
+
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
 
@@ -1821,7 +1829,7 @@ class ss_deal extends Controller
         }else{
             $is_green_flag=0;
         }
-
+        // dd(1);
         // init t_seller_student_new
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {
@@ -1870,6 +1878,9 @@ class ss_deal extends Controller
             $this->t_test_lesson_subject_require->field_update_list($require_id,[
                 "green_channel_teacherid"=>$green_channel_teacherid,
                 "is_green_flag"          =>$is_green_flag,
+                "change_teacher_reason"          => $change_reason,
+                "change_teacher_reason_img_url"      => $change_reason_url,
+                "change_teacher_reason_type" => $change_teacher_reason_type
             ]);
             return $this->output_succ();
         }
@@ -4425,8 +4436,6 @@ class ss_deal extends Controller
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
-
-
         if ($ret) {
            $re = $this->t_complaint_info->field_update_list($complaint_id,[
                 "suggest_info"       => $suggest_info,
@@ -4487,6 +4496,8 @@ class ss_deal extends Controller
                     $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                     $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+                } elseif($account_type == 3){
+
                 }
 
                 //反馈QC与上级领导
@@ -4516,8 +4527,11 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 
                 foreach($qc_openid_arr as $qc_item){
@@ -4817,7 +4831,7 @@ class ss_deal extends Controller
     }
 
     public function get_test_lesson_confirm_info(){
-        
+
         $lessonid     = $this->get_in_int_val('lessonid');
         $data = $this->t_test_lesson_subject_sub_list->field_get_list($lessonid,"confirm_adminid,confirm_time,success_flag,fail_greater_4_hour_flag,test_lesson_fail_flag,fail_reason,ass_test_lesson_order_fail_flag,ass_test_lesson_order_fail_desc,ass_test_lesson_order_fail_set_time,ass_test_lesson_order_fail_set_adminid,order_confirm_flag");
         $data["confirm_adminid_account"] = $this->t_manager_info->get_account($data["confirm_adminid"]);
