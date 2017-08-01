@@ -2399,19 +2399,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             "l.confirm_flag <>2",
             "l.lesson_type <>2",
-            "t.train_through_new_time >0"
+            "t.train_through_new_time >0",
+            "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid.t.realname,t.train_through_new_time,"
-                                  ."grade_part_ex,subject,grade_start,grade_end,"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,t.train_through_new_time,"
+                                  ."t.grade_part_ex,t.subject,t.grade_start,t.grade_end,"
                                   ."sum(lesson_count) lesson_count"
-                                  ." from %s t on l.teacherid=t.teacherid"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
                                   ." where %s group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list_as_page($sql);
         
     }
 

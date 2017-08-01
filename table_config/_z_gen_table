@@ -64,7 +64,6 @@ foreach ($t_config as $item) {
     }
     $field_get_str="";
 
-
     foreach($arr["desc_list"] as $desc_item ) {
         $field_name=$desc_item["Field"];
         $type_str=$desc_item["Type"];

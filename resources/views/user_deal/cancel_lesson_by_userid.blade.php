@@ -32,9 +32,10 @@
                 <tr>
                     <td>teacherid</td>
                     <td>老师</td>
-                    <td>身份</td>
                     <td>入职时长</td>
-                    <td>地区</td>
+                    <td>科目</td>
+                    <td>年级</td>
+                    <td>课时</td>
                                                                     
                     <td>操作 </td>
                 </tr>
@@ -44,9 +45,16 @@
                     <tr>                      
                         <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}}</td>
-                        <td>{{@$var["identity_str"]}}</td>
                         <td>{{@$var["work_day"]}}</td>
-                        <td>{{@$var["location"]}}</td>
+                        <td>{{@$var["subject_str"]}}</td>
+                        <td>
+                            @if(@$var["grade_start"]>0)
+                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
+                            @else
+                                {{@$var["grade_part_ex_str"]}}
+                            @endif
+                        </td>
+                        <td>{{@$var["lesson_count"]/100}}</td>
                        
                        
                                         

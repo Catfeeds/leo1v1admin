@@ -4150,17 +4150,13 @@ class human_resource extends Controller
         // $train_through_info = $this->t_teacher_lecture_appointment_info->get_train_trial_sum_by_reference($start_time,$end_time,1);
         $all=[];$list=[];
         foreach($ret_info as $k=>&$item){
-            $item["lecture_num"] =  @$lecture_info[$k]["lecture_num"];
-            $item["lecture_pass_num"] =  @$lecture_info[$k]["lecture_pass_num"];
-            // $item["lecture_trial_num"] =  @$lecture_trial_info[$k]["lecture_trial_num"];
-            //$item["lecture_trial_pass_num"] =  @$lecture_through_info[$k]["lecture_trial_num"];
-            $item["train_num"] =  @$train_info[$k]["train_num"];
-            $item["train_pass_num"] =  @$train_info[$k]["train_pass_num"];
-            // $item["train_trial_num"] =  @$train_trial_info[$k]["train_trial_num"];
-            // $item["train_trial_pass_num"] =  @$train_through_info[$k]["train_trial_num"];
-            $item["interview_num"] = $item["lecture_num"]+$item["train_num"] ;
-            $item["interview_pass_num"] = $item["lecture_pass_num"]+ $item["train_pass_num"];
-            $item["interview_trial_num"] =  @$trial_info[$k]["trial_num"];
+            $item["lecture_num"]              = @$lecture_info[$k]["lecture_num"];
+            $item["lecture_pass_num"]         = @$lecture_info[$k]["lecture_pass_num"];
+            $item["train_num"]                = @$train_info[$k]["train_num"];
+            $item["train_pass_num"]           = @$train_info[$k]["train_pass_num"];
+            $item["interview_num"]            = $item["lecture_num"]+$item["train_num"] ;
+            $item["interview_pass_num"]       = $item["lecture_pass_num"]+ $item["train_pass_num"];
+            $item["interview_trial_num"]      = @$trial_info[$k]["trial_num"];
             $item["interview_trial_pass_num"] = @$through_info[$k]["trial_num"];
             if($item["teacher_ref_type"]==""){
                 $item["teacher_ref_type"]=-1;
@@ -4175,9 +4171,8 @@ class human_resource extends Controller
             @$list[$item["teacher_ref_type"]]["interview_trial_num"] +=$item["interview_trial_num"];
             @$all["interview_trial_pass_num"] +=$item["interview_trial_pass_num"];
             @$list[$item["teacher_ref_type"]]["interview_trial_pass_num"] +=$item["interview_trial_pass_num"];
-
-
         }
+
         $index=0;
         $all["teacher_ref_type"]="全部";
         $all["reference"] ="";
@@ -4205,7 +4200,6 @@ class human_resource extends Controller
                 }
             }
             $index++;
-
         }
 
         foreach($data as &$i){
@@ -4219,7 +4213,6 @@ class human_resource extends Controller
             $i["interview_per"] = !empty($i["app_num"])?round($i["interview_num"]/$i["app_num"]*100,2):0;
             $i["interview_pass_per"] = !empty($i["interview_num"])?round($i["interview_pass_num"]/$i["interview_num"]*100,2):0;
             $i["interview_trial_pass_per"] = !empty($i["interview_trial_num"])?round($i["interview_trial_pass_num"]/$i["interview_trial_num"]*100,2):0;
-
         }
 
         $ret_list = \App\Helper\Utils::list_to_page_info($data);

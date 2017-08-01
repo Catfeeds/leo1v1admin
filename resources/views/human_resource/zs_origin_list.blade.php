@@ -29,9 +29,12 @@
             <tbody>
                 @foreach ( $table_data_list as $key=>$var )
                     <tr class="{{$var["level"]}}">
-                        <td data-class_name="{{$var["teacher_ref_type_class"]}}" class="teacher_ref_type" >{{@$var['teacher_ref_type_str']}}</td>
-                        <td  class="teacher_ref_type {{$var["teacher_ref_type_class"]}}  " >{{@$var['realname']}}</td>
-
+                        <td data-class_name="{{$var["teacher_ref_type_class"]}}" class="teacher_ref_type" >
+                            {{@$var['teacher_ref_type_str']}}
+                        </td>
+                        <td class="teacher_ref_type {{$var["teacher_ref_type_class"]}}  ">
+                            {{@$var['realname']}}
+                        </td>
                         <td>{{@$var["app_num"]}} </td>
                         <td>{{@$var["interview_num"]}} </td>
                         <td>{{@$var["interview_per"]}}% </td>

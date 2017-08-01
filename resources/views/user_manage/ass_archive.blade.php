@@ -161,6 +161,9 @@
                             <a class="fa-comments opt-return-back-list-new " title="回访列表-new" ></a>
                             <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
                             <a class=" opt-change-teacher "  >换老师</a>
+                            @if($acc=="jim" || $acc=="jack")
+                                <a class="fa-comment opt-return-back-lesson " title="回访-new" ></a>
+                            @endif
                         </div>
                     </td>
                 </tr>

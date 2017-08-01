@@ -558,6 +558,8 @@ $(function(){
 
 
     $('.opt-complaint').on("click", function (g_adminid_right) {
+        var opt_data=$(this).get_opt_data();
+
         var $main_type_name = $("<select/>");
         var $main_group_name = $("<select/>");
         var $group_name = $("<select/>");
@@ -680,6 +682,7 @@ $(function(){
                 $account.parent().parent().css('display','table-row');
                 $teacher_adminid.parent().parent().css('display','none');
                 $punish_style.parent().parent().css('display','none');
+                $punish_style.val('0');
             }
 
             if ($main_type_name.val()) {
@@ -710,6 +713,7 @@ $(function(){
             ["小组", $group_name],
             ["成员", $account],
             ["老师", $teacher_adminid],
+            ["处罚类型",$punish_style],
             ["退费投诉原因", $complaint_info],
         ];
 
@@ -717,6 +721,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function (dialog) {
+
                 if($account.val()){
                     $account_id  = '';
                     $account_str = $account.val();
@@ -730,12 +735,16 @@ $(function(){
                     'complaint_info'      : $complaint_info.val(),
                     'complained_adminid_type' : $main_type_name.find("option:selected").attr('data-type'),
                     'complained_adminid_nick' : $account_str,
+                    'punish_style' : $punish_style.val(),
+                    'order_id' : opt_data.orderid,
+                    'apply_time' : opt_data.apply_time
 
                 });
             }
         },function(){
 
             $teacher_adminid.parent().parent().css('display','none');
+            $punish_style.parent().parent().css('display','none');
             $.admin_select_user($teacher_adminid, "teacher");
         });
     });
