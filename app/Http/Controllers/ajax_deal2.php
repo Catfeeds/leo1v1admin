@@ -213,7 +213,7 @@ class ajax_deal2 extends Controller
     public function score_add_new(){
         $userid           = $this->get_in_int_val("userid");
         $create_time      = time();
-        $create_adminid   =  $this->get_account_id();
+        $create_adminid   = $this->get_account_id();
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
         $stu_score_time   = strtotime($this->get_in_str_val("stu_score_time"));
@@ -339,8 +339,8 @@ class ajax_deal2 extends Controller
     }
     /**
      *@author   sam
-     *@function 老师取消课程记录
-     *@path     human_resource/index
+     *@function 添加意向用户记录
+     *@path     customer_service/intended_user_info
      */
     public function add_intended_user_info(){
         $phone           = $this->get_in_str_val('phone');
@@ -352,10 +352,10 @@ class ajax_deal2 extends Controller
         $free_subject    = $this->get_in_int_val('free_subject');
         $region_version  = $this->get_in_int_val('region_version');
         $notes           = $this->get_in_str_val('notes');
-        $create_adminid  = 99;
+        $create_adminid  = $this->get_account_id();
         $create_time     = time();
 
-        $this->t_customer_service_intended_user_info->row_insert([
+        $this->t_cs_intended_user_info->row_insert([
             'create_time'              => $create_time,
             'create_adminid'           => $create_adminid,
             'phone'                    => $phone,
@@ -368,6 +368,181 @@ class ajax_deal2 extends Controller
             'region_version'           => $region_version,
             'notes'                    => $notes,
          ]);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author   sam
+     *@function 删除意向用户记录
+     *@path     customer_service/intended_user_info
+     */
+    public function del_intended_user_info(){
+        $id = $this->get_in_int_val('id');
+        $this->t_cs_intended_user_info->row_delete($id);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author    sam
+     *@function  修改意向用户记录
+     *@path      customer_service/intended_user_info
+     */
+    public function edit_intended_user_info(){
+
+        $id               = $this->get_in_int_val("id");
+        $phone           = $this->get_in_str_val('phone');
+        $child_realname  = $this->get_in_str_val('child_realname');
+        $parent_realname = $this->get_in_str_val('parent_realname');
+        $relation_ship   = $this->get_in_int_val('relation_ship');
+        $region          = $this->get_in_str_val('region');
+        $grade           = $this->get_in_int_val('grade');
+        $free_subject    = $this->get_in_int_val('free_subject');
+        $region_version  = $this->get_in_int_val('region_version');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = $this->get_account_id();
+        $create_time     = time();
+        $data = [
+            'id'                       => $id,
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'child_realname'           => $child_realname,
+            'parent_realname'          => $parent_realname,
+            'relation_ship'            => $relation_ship,
+            'region'                   => $region,
+            'grade'                    => $grade,
+            'free_subject'             => $free_subject,
+            'region_version'           => $region_version,
+            'notes'                    => $notes,
+         ];
+
+        $ret = $this->t_cs_intended_user_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author   sam
+     *@function 添加用户投诉信息
+     *@path     customer_service/complaint_info
+     */
+    public function add_complaint_user_info(){
+        $phone           = $this->get_in_str_val('phone');
+        $username        = $this->get_in_str_val('username');
+        $complaint_user_type = $this->get_in_int_val('complaint_user_type');
+        $content         = $this->get_in_str_val('content');
+        $create_adminid  = $this->get_account_id();
+        $create_time     = time();
+
+        $this->t_cs_complaint_user_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'username'                 => $username,
+            'complaint_user_type'      => $complaint_user_type,
+            'content'                  => $content,
+         ]);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author   sam
+     *@function 删除用户投诉信息
+     *@path     customer_service/complaint_info
+     */
+    public function del_complaint_user_info(){
+        $id = $this->get_in_int_val('id');
+        $this->t_cs_complaint_user_info->row_delete($id);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author    sam
+     *@function  修改意向用户记录
+     *@path      customer_service/complaint_info
+     */
+    public function edit_complaint_user_info(){
+
+        $id              = $this->get_in_int_val("id");
+        $phone           = $this->get_in_str_val('phone');
+        $username        = $this->get_in_str_val('username');
+        $complaint_user_type = $this->get_in_int_val('complaint_user_type');
+        $content         = $this->get_in_str_val('content');
+        $create_adminid  = $this->get_account_id();
+        $create_time     = time();
+        $data = [
+            'id'                       => $id,
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'username'                 => $username,
+            'complaint_user_type'      => $complaint_user_type,
+            'content'                  => $content,
+         ];
+
+        $ret = $this->t_cs_complaint_user_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author   sam
+     *@function 添加用户建议信息
+     *@path     customer_service/proposal_info
+     */
+    public function add_proposal_info(){
+        $phone           = $this->get_in_str_val('phone');
+        $username        = $this->get_in_str_val('username');
+        $complaint_user_type = $this->get_in_int_val('complaint_user_type');
+        $content         = $this->get_in_str_val('content');
+        $create_adminid  = $this->get_account_id();
+        $create_time     = time();
+
+        $this->t_cs_proposal_info->row_insert([
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'username'                 => $username,
+            'complaint_user_type'      => $complaint_user_type,
+            'content'                  => $content,
+         ]);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author   sam
+     *@function 删除用户建议信息
+     *@path     customer_service/proposal_info
+     */
+    public function del_proposal_info(){
+        $id = $this->get_in_int_val('id');
+        $this->t_cs_proposal_info->row_delete($id);
+        return $this->output_succ();
+    }
+
+    /**
+     *@author    sam
+     *@function  修改意向用户记录
+     *@path      customer_service/complaint_info
+     */
+    public function edit_proposal_info(){
+
+        $id              = $this->get_in_int_val("id");
+        $phone           = $this->get_in_str_val('phone');
+        $username        = $this->get_in_str_val('username');
+        $complaint_user_type = $this->get_in_int_val('complaint_user_type');
+        $content         = $this->get_in_str_val('content');
+        $create_adminid  = $this->get_account_id();
+        $create_time     = time();
+        $data = [
+            'id'                       => $id,
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'phone'                    => $phone,
+            'username'                 => $username,
+            'complaint_user_type'      => $complaint_user_type,
+            'content'                  => $content,
+         ];
+
+        $ret = $this->t_cs_proposal_info->field_update_list($id,$data);
         return $this->output_succ();
     }
 }

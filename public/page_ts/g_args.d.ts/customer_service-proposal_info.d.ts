@@ -13,31 +13,24 @@ interface RowData {
 	id	:any;
 	create_time	:any;
 	create_adminid	:any;
+	username	:any;
 	phone	:any;
-	child_realname	:any;
-	parent_realname	:any;
-	relation_ship	:any;
-	region	:any;
-	grade	:any;
-	cash	:any;
-	free_subject	:any;
-	region_version	:any;
-	notes	:any;
+	complaint_user_type	:any;
+	content	:any;
+	operator	:any;
+	assign_time	:any;
 	num	:any;
-	relation_ship_str	:any;
-	grade_str	:any;
-	free_subject_str	:any;
-	region_version_str	:any;
+	complaint_user_type_str	:any;
 	create_admin_nick	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../customer_service; vi  ../customer_service/intended_user_info.ts
+	 mkdir -p ../customer_service; vi  ../customer_service/proposal_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/customer_service-intended_user_info.d.ts" />
+/// <reference path="../g_args.d.ts/customer_service-proposal_info.d.ts" />
 
 $(function(){
     function load_data(){

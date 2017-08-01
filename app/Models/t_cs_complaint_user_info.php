@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 use \App\Enums as E;
-class t_cs_intended_user_info extends \App\Models\Zgen\z_t_cs_intended_user_info
+class t_cs_complaint_user_info extends \App\Models\Zgen\z_t_cs_complaint_user_info
 {
 	public function __construct()
 	{
@@ -13,5 +13,4 @@ class t_cs_intended_user_info extends \App\Models\Zgen\z_t_cs_intended_user_info
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
 	}
-
 }

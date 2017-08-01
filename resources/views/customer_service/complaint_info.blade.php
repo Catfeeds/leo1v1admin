@@ -5,7 +5,7 @@
     <section class="content ">
         <div class="row">
            <div class="col-xs-6 col-md-2">
-                <button class="btn btn-warning" id="id_add_indended_user_info">增加意向用户信息</button>
+                <button class="btn btn-warning" id="id_add_complaint_user_info">添加用户投诉信息</button>
             </div>
         </div>
         <hr/>
@@ -15,15 +15,15 @@
                     <td>#</td>
                     <td>创建时间</td>
                     <td>创建人</td>
-                    <td>联系电话</td>
-                    <td>孩子姓名</td>
-                    <td>家长姓名</td>
-                    <td>关系</td>
-                    <td>地区</td>
-                    <td>年级</td>
-                    <td>试听科目</td>
-                    <td>教材版本</td>
-                    <td>备注</td>
+                    <td>姓名</td>
+                    <td>联系方式</td>
+                    <td>身份</td>
+                    <td>投诉内容</td>
+                    <td>跟进状态</td>
+                    <td>处理人</td>
+                    <td>分配时间</td>
+                    <td>处理状态</td>
+                    <td>解决方案</td>
                 </tr>
             </thead>
             <tbody>
@@ -32,15 +32,15 @@
                         <td>{{$var['num']}}</td>
                         <td>{{$var['create_time']}}</td>
                         <td>{{$var['create_admin_nick']}}</td>
+                        <td>{{$var['username']}}</td>
                         <td>{{$var['phone']}}</td>
-                        <td>{{$var['child_realname']}}</td>
-                        <td>{{$var['parent_realname']}}</td>
-                        <td>{{$var['relation_ship_str']}}</td>
-                        <td>{{$var['region']}}</td>
-                        <td>{{$var['grade_str']}}</td>
-                        <td>{{$var['free_subject_str']}}</td>
-                        <td>{{$var['region_version_str']}}</td>
-                        <td>{{$var['notes']}}</td>
+                        <td>{{$var['complaint_user_type_str']}}</td>
+                        <td>{{$var['content']}}</td>
+                        <td>{{$var['status']}}</td>
+                        <td>{{$var['operator']}}</td>
+                        <td>{{$var['assign_time']}}</td>
+                        <td>{{$var['process_state']}}</td>
+                        <td>{{$var['solution']}}</td>
                         <td>
                             <div class="opt-div" 
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
