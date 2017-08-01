@@ -764,9 +764,10 @@ $(function(){
 
                 id_self_introduction.parent().parent().parent().find(".check_flag").each(function(){
                     var ss= $(this).find("input:checked").length;
-                    var name = $(this).find("input").attr("id");
-                    information_confirm[name]=ss;
+                    var tt = $(this).find("input").attr("id");
+                    information_confirm.push({fff:ss});
                 });
+                alert(information_confirm["self_intro"]);
                 console.log(information_confirm);
                 return;
                 $.do_ajax("/revisit/add_revisit_record", {

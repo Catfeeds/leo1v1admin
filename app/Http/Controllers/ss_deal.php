@@ -1814,8 +1814,31 @@ class ss_deal extends Controller
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
         $change_reason = trim($this->get_in_str_val('change_reason'));
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 
         $url = $this->get_in_str_val('change_reason_url');
+
+        /**
+           if(($id_ass_test_lesson_type.val()==2) && ($id_change_teacher_reason_type.val() == 0)){
+           alert('请选择换老师类型!');
+           return;
+           }else if(($id_ass_test_lesson_type.val()==2)  && ($id_change_reason.val() == "")){
+           alert('请选择换老师原因!');
+           return;
+           }
+
+
+         **/
+
+        if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
+            return $this->output_err('请选择换老师类型!');
+        }elseif($ass_test_lesson_type == 2 && !$change_reason){
+            return $this->output_err('请选择换老师原因!');
+        }elseif($ass_test_lesson_type == 2 && strlen(trim($change_reason))<3){
+            return $this->output_err('换老师原因不得少于3个字!');
+        }
+
+
 
         if($url){
             $domain = config('admin')['qiniu']['public']['url'];
@@ -1824,7 +1847,6 @@ class ss_deal extends Controller
             $change_reason_url = '';
         }
 
-        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
@@ -1834,7 +1856,6 @@ class ss_deal extends Controller
         }else{
             $is_green_flag=0;
         }
-        // dd(1);
         // init t_seller_student_new
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {

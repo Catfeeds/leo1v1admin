@@ -2436,8 +2436,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql);
-        
     }
 
-
+    public function reset_lesson_teacher_money_type($teacherid,$lesson_start){
+        $sql = $this->gen_sql_new("update %s set teacher_money_type=4"
+                                  ." where teacherid=%s"
+                                  ." and lesson_start>%u"
+                                  ,self::DB_TABLE_NAME
+                                  ,$teacherid
+                                  ,$lesson_start
+        );
+        return $this->main_update($sql);
+    }
 }

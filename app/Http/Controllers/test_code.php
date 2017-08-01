@@ -1588,7 +1588,16 @@ class test_code extends Controller
      * 重置田克平
      */
     public function get_tkp(){
-        $tea_list=$this->t_teacher_info->get_tkp_list();
+        $lesson_start=strtotime("2017-8-1");
+        $tea_list = $this->t_teacher_info->get_tkp();
+        echo count($tea_list);exit;
+        foreach($tea_list as $tea_val){
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_money_type"=>4
+            ]);
+            $this->t_lesson_info_b2->reset_lesson_teacher_money_type($teacherid,$lesson_start);
+        }
+
     }
 
 }

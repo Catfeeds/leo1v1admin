@@ -553,14 +553,6 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
 
-                if(($id_ass_test_lesson_type.val()==2) && ($id_change_teacher_reason_type.val() == 0)){
-                    alert('请选择换老师类型!');
-                    return;
-                }else if(($id_ass_test_lesson_type.val()==2)  && ($id_change_reason.val() == "")){
-                     alert('请选择换老师原因!');
-                    return;
-                }
-
                 var require_time= $.strtotime($id_stu_request_test_lesson_time.val() );
                 var need_start_time=0;
                 var now=(new Date()).getTime()/1000;
