@@ -927,7 +927,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
     }
 
 
-    public function get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$require_adminid,$master_flag){
+    public function get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$adminid_str,$master_flag){
         $where_arr=[
             "l.lesson_del_flag=0",
             "m.account_role=1",
@@ -940,7 +940,8 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         if($master_flag==1){
 
         }else{
-            $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            // $where_arr[]= ["tr.cur_require_adminid = %u",$require_adminid,-1];
+            $where_arr[]= "tr.cur_require_adminid in ($adminid_str)" ;
             $where_arr[]="tss.success_flag <> 2 and (tss.success_flag<>1 || tss.order_confirm_flag=0)";
         }
         $sql = $this->gen_sql_new("select tt.require_adminid, s.nick,l.lesson_start,l.grade,l.subject, l.teacherid, tr.origin,tt.ass_test_lesson_type,"

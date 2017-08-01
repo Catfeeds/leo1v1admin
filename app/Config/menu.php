@@ -121,6 +121,7 @@ class menu{
                     ["power_id"=>5, "name"=>"小班学生列表-new",   "url"=>"/small_class/student_list_new"]
                 ]],
                 ["power_id"=>14, "name"=>"培训课堂",   "url"=>"/tea_manage/train_lesson_list"],
+                ["power_id"=>15, "name"=>"培训未通过",   "url"=>"/tea_manage/train_not_through_list"],
                 ["power_id"=>8, "name"=>"课程错误报告",  "url"=>"/lesson_manage/error_info"],
                 ["power_id"=>9, "name"=>"课程统计信息",   "url"=>"/tea_manage/lesson_account"],
                 ["power_id"=>10, "name"=>"登陆过多统计",   "url"=>"/lesson_manage/stu_login_count"]

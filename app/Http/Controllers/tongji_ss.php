@@ -6715,9 +6715,17 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
-        // $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+
+        }
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$adminid_str,$master_flag);
 
         foreach( $ret_info['list'] as &$item){
             $item['ass_nick']     =  $this->cache_get_account_nick($item["require_adminid"]) ;
