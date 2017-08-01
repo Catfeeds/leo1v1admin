@@ -6538,7 +6538,13 @@ class tongji_ss extends Controller
         $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
         $late_list=[];
         foreach($late as $e){
-            @$late_list[$e["teacherid"]] +=$e["time"];
+            if(!in_array($e["teacherid"],[176999,190394])){
+                @$late_list[$e["teacherid"]] +=$e["time"];
+            }
+        }
+        $other_time = $this->t_lesson_info_b2->tongji_1v1_lesson_time_morning($start_time,$end_time);
+        foreach($other_time as $ttt){
+             @$late_list[$ttt["teacherid"]] +=$ttt["time"];
         }
         $arr=[];$week=[];
         foreach($ret as $val){

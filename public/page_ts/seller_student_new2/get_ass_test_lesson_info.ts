@@ -4,7 +4,6 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			require_adminid:	$('#id_require_adminid').val(),
             assistantid:	$('#id_assistantid').val(),
 			success_flag:	$('#id_success_flag').val(),
 			order_confirm_flag:	$('#id_order_confirm_flag').val()
@@ -15,7 +14,6 @@ $(function(){
     Enum_map.append_option_list("success_flag", $("#id_order_confirm_flag "));
 
 
-	$('#id_require_adminid').val(g_args.require_adminid);
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_success_flag').val(g_args.success_flag);
 	$('#id_order_confirm_flag').val(g_args.order_confirm_flag);

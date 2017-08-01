@@ -624,6 +624,15 @@ $(function(){
         var $other_warning_info   = $("<textarea/>");
         var $is_warning_flag  =$("<select/>");
         var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_check_lesson_time = $("<div><input type=\"checkbox\" id=\"check_lesson_time\"></div>");
+        var id_bulid_wx_qun = $("<div><input type=\"checkbox\" id=\"bulid_wx_qun\"></div>");
+        var id_parent_introduction = $("<div><input type=\"checkbox\" id=\"parent_introduction\"></div>");
+        var id_parent_wx_introduction = $("<div><input type=\"checkbox\" id=\"parent_wx_introduction\"></div>");
+        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
 
 
 
@@ -748,7 +757,7 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                console.log(id_self_introduction.find("#self_introduction").val());
+                console.log(id_self_introduction.find("input:checked").length);
                 return;
                 $.do_ajax("/revisit/add_revisit_record", {
                     "userid":userid,
