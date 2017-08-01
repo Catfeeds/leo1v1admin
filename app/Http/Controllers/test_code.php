@@ -1583,4 +1583,12 @@ class test_code extends Controller
             echo "<br>";
         }
     }
+
+    /**
+     * 重置田克平
+     */
+    public function get_tkp(){
+        $tea_list=$this->t_teacher_info->get_tkp_list();
+    }
+
 }

@@ -623,16 +623,17 @@ $(function(){
         var $other_parent_info  = $("<textarea/>");
         var $other_warning_info   = $("<textarea/>");
         var $is_warning_flag  =$("<select/>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
-        var id_check_lesson_time = $("<div><input type=\"checkbox\" id=\"check_lesson_time\"></div>");
-        var id_bulid_wx_qun = $("<div><input type=\"checkbox\" id=\"bulid_wx_qun\"></div>");
-        var id_parent_introduction = $("<div><input type=\"checkbox\" id=\"parent_introduction\"></div>");
-        var id_parent_wx_introduction = $("<div><input type=\"checkbox\" id=\"parent_wx_introduction\"></div>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
-        var id_self_introduction = $("<div><input type=\"checkbox\" id=\"self_introduction\"></div>");
+        var id_self_introduction = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"self_intro\"></div>");
+        var id_check_lesson_time = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"check_lesson\"></div>");
+        var id_bulid_wx_qun = $("<div><input type=\"checkbox\" id=\"bulid_wx\"></div>");
+        var id_parent_introduction = $("<div><input type=\"checkbox\" id=\"parent_intro\"></div>");
+        var id_parent_wx_introduction = $("<div><input type=\"checkbox\" id=\"parent_wx_intro\"></div>");
+        var id_homework_method = $("<div><input type=\"checkbox\" id=\"homework_method\"></div>");
+        var id_leave_send = $("<div><input type=\"checkbox\" id=\"leave_send\"></div>");
+        var id_educational_system = $("<div><input type=\"checkbox\" id=\"educate_system\"></div>");
+        var id_subject_confirm = $("<div><input type=\"checkbox\" id=\"subject\"></div>");
+        var id_grade_confirm = $("<div><input type=\"checkbox\" id=\"grade\"></div>");
+        var id_textbook_confirm = $("<div><input type=\"checkbox\" id=\"textbook\"></div>");
 
 
 
@@ -681,6 +682,7 @@ $(function(){
             ["家长意见或建议",  $other_parent_info ],
             ["其他预警问题",  $other_warning_info ],
             ["自我介绍", id_self_introduction ],
+            ["上课时间核对", id_check_lesson_time ],
             
         ];
 
@@ -757,7 +759,15 @@ $(function(){
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                console.log(id_self_introduction.find("input:checked").length);
+                console.log(id_self_introduction.parent().parent().parent());
+                var information_confirm=[];
+
+                id_self_introduction.parent().parent().parent().find(".check_flag").each(function(){
+                    var ss= $(this).find("input:checked").length;
+                    var name = $(this).find("input").attr("id");
+                    information_confirm[name]=ss;
+                });
+                console.log(information_confirm);
                 return;
                 $.do_ajax("/revisit/add_revisit_record", {
                     "userid":userid,

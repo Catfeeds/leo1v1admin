@@ -2431,4 +2431,18 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_tkp(){
+        $where_arr = [
+
+        ];
+        $sql = $this->gen_sql_new(""
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
