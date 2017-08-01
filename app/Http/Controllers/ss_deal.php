@@ -1816,8 +1816,13 @@ class ss_deal extends Controller
         $change_reason = trim($this->get_in_str_val('change_reason'));
 
         $url = $this->get_in_str_val('change_reason_url');
-        $domain = config('admin')['qiniu']['public']['url'];
-        $change_reason_url = $domain.'/'.$url;
+
+        if($url){
+            $domain = config('admin')['qiniu']['public']['url'];
+            $change_reason_url = $domain.'/'.$url;
+        }else{
+            $change_reason_url = '';
+        }
 
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 

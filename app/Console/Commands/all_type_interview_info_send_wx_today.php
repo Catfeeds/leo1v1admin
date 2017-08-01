@@ -75,6 +75,7 @@ class all_type_interview_info_send_wx_today extends Command
                 $teacher_list[$k]=$k; 
             }
         }
+       
 
         $all_tea = count($teacher_list);
         $succ_per = round($all_tea/650*100,2)."%";
@@ -167,6 +168,7 @@ class all_type_interview_info_send_wx_today extends Command
 
         $train_all = $task->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,-1);
         $train_succ = $task->t_lesson_info_b2->get_all_train_num($start,$end_time,$teacher_list,1);
+        dd($train_succ);
         $train_real = $task->t_lesson_info_b2->get_all_train_num_real($start,$end_time,$teacher_list,-1);
         $train_all_per = round($train_all/650*100,2)."%";
         $train_succ_per = round($train_succ/$train_all*100,2)."%";

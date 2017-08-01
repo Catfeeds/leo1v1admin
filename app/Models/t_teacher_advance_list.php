@@ -8,11 +8,12 @@ class t_teacher_advance_list extends \App\Models\Zgen\z_t_teacher_advance_list
 		parent::__construct();
 	}
 
-    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid){
+    public function get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag){
         $where_arr=[
             ["start_time = %u",$start_time,0],
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             ["a.teacherid = %u",$teacherid,-1],
+            ["a.accept_flag = %u",$accept_flag,-1],
             "a.require_time>0"
         ];
         $sql = $this->gen_sql_new("select a.*,t.realname "

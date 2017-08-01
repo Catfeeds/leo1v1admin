@@ -564,11 +564,15 @@ $(function(){
         var $account = $("<select/>");
         var $complaint_info = $("<textarea/>");
         var $teacher_adminid = $("<input/>");
+        var $punish_style = $("<select />");
         var me = $(this);
         var key_list = me.val();
 
 
-        $main_type_name.html("<option value=\"\" >[全部]</option><option data-type=\"5\" value=\"全职老师\" >全职老师</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option>")
+        $main_type_name.html("<option value=\"\" >[全部]</option><option data-type=\"5\" value=\"全职老师\" >全职老师</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option>");
+
+        $punish_style.html("<option value=\"1\" >A类</option><option value=\"2\"  >B类</option><option value=\"3\" >C类</option>");
+
         var clean_select = function ($select) {
             $select.html("<option value=\"\">[全部]</option>");
         };

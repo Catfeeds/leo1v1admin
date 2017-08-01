@@ -153,6 +153,24 @@ $(function(){
     });
 
 
+    $(".opt-add-hand").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var realname = opt_data.realname;
+        var start_time = g_args.quarter_start;
+        var teacherid = opt_data.teacherid;
+        BootstrapDialog.confirm("确定刷新数据吗？", function(val){
+            if (val) {
+                $.do_ajax( '/teacher_level/update_teacher_advance_info_hand', {
+                    'teacherid' : teacherid,
+                    'start_time' :g_args.quarter_start,
+                    'realname':opt_data.realname                
+                });
+            } 
+        });
+
+        
+
+    });
 	$('.opt-change').set_input_change_event(load_data);
 });
 

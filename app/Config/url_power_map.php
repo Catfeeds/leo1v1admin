@@ -341,6 +341,7 @@ class url_power_map {
 			'/user_manage/user_info_by_month'	=>1136000,
 			'/seller_student/ass_add_student_list'	=>1131200,
 			'/seller_student_new2/get_ass_test_lesson_info_master'	=>1131100,
+			'/seller_student_new2/get_ass_test_lesson_info_leader'	=>1131300,
 			'/user_manage_new/ass_contract_list'	=>1130100,
 			'/user_manage_new/ass_lesson_count_list'	=>1130200,
 			'/user_manage_new/tea_lesson_count_list'	=>1130300,

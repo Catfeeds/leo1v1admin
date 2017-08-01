@@ -8,6 +8,7 @@ use App\Helper\Utils;
 class seller_student_new2 extends Controller
 {
     use CacheNick;
+    use TeaPower;
     public function tmk_student_list2 () {
         $this-> check_in_not_has_and_set("publish_flag",-1);
         return $this->tmk_student_list();
@@ -643,18 +644,29 @@ class seller_student_new2 extends Controller
         return $this->get_ass_test_lesson_info();
 
     }
+    public function get_ass_test_lesson_info_leader(){
+        $adminid = $this->get_account_id();
+        $master_adminid = $this->get_ass_leader_account_id($adminid);
+        $this->set_in_value("master_adminid",$master_adminid);
+        return $this->get_ass_test_lesson_info_master();
+               
+    }
 
     public function get_ass_test_lesson_info(){
         $this->switch_tongji_database();
         $start_time = strtotime("2017-07-20");
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
+        if($account_id==349){
+            $account_id=297;
+        }
         $require_adminid = $this->get_in_int_val("require_adminid",$account_id);
         $master_flag = $this->get_in_int_val("master_flag",-1);
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $success_flag = $this->get_in_int_val("success_flag",-1);
         $order_confirm_flag = $this->get_in_int_val("order_confirm_flag",-1);
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag);
+        $master_adminid = $this->get_in_int_val("master_adminid",-1);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);

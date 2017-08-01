@@ -1550,7 +1550,7 @@ class Common {
         return $xs;
     }
 
-        static function secsToStr($secs,$day_flag=1) {// 将秒数转变 小时数
+        static function secsToStr($secs) {// 将秒数转变 小时数
        $r = '';
         if($secs>=86400){$days=floor($secs/86400);
             $secs=$secs%86400;
@@ -1558,11 +1558,6 @@ class Common {
             // if($days<>1){$r.='s';}
             // if($secs>0){$r.=', ';}
         }
-
-        if($day_flag == 2){
-            return $r;
-        }
-
 
         if($secs>=3600){$hours=floor($secs/3600);
             $secs=$secs%3600;

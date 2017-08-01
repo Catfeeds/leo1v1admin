@@ -18,6 +18,18 @@
                         <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">结果</span>
+                        <select class="opt-change form-control " id="id_accept_flag" >
+                            <option value="-1">全部</option>
+                            <option value="0">未审核</option>
+                            <option value="1">通过</option>
+                            <option value="2">驳回</option>
+                        </select>
+                    </div>
+                </div>               
+
 
 
 
@@ -100,7 +112,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if(empty($var["accept_time"]) || $var["teacherid"]==50158)
+                                @if(empty($var["accept_time"]) || $var["teacherid"]==50158 || $var["accept_flag"]==2)
                                     <a class="opt-accept" >同意</a>
                                     <a class="opt-no-accept" >驳回</a>
                                 @endif

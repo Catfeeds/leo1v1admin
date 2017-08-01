@@ -6622,9 +6622,17 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+        }
+
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$account_id,$master_flag,$change_teacher_reason_type);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type);
 
         foreach($ret_info['list'] as &$item){
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
@@ -6645,6 +6653,12 @@ class tongji_ss extends Controller
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
+
+            $replace_str = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
+            $img_url_flag = str_replace($replace_str,'',$item['change_teacher_reason_img_url']);
+            if(!$img_url_flag){
+                $item['change_teacher_reason_img_url'] = '';
+            }
 
             if($item['order_confirm_flag'] == 0){
                 $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
@@ -6669,7 +6683,17 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$account_id,$master_flag);
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+        }
+
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$adminid_str,$master_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
@@ -6722,7 +6746,6 @@ class tongji_ss extends Controller
         }else{
             $ass_list = array_column($ass_list,'adminid');
             $adminid_str = implode(',',$ass_list);
-
         }
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$adminid_str,$master_flag);
@@ -6774,7 +6797,13 @@ class tongji_ss extends Controller
                 unset($ret_info['list'][$index]);
             }
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
-            $item_list['work_time'] =  \App\Helper\Common::secsToStr(time()-$item_list['create_time'],2);
+
+            if($item_list['train_through_new_time'] !=0){
+                $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
+            }else{
+                $item_list["work_time"] = 0;
+            }
+
             E\Eteacher_money_type::set_item_value_str($item_list);
         }
 

@@ -2605,6 +2605,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+        $ret = $this->t_lesson_info_b2->get_teacher_regular_lesson_info($start_time,$end_time);
+        dd($ret);
         $this->switch_tongji_database();
         $last_time = $this->t_month_ass_warning_student_info->get_last_time_by_userid(133286);
         dd(date("Y-m-d H:i:s",$last_time));

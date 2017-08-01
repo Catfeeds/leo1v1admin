@@ -2227,7 +2227,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.create_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.train_through_new_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
                                   " left join %s tll on tll.lessonid = l.lessonid".
                                   " left join %s tlr on tlr.require_id = tll.require_id".
                                   " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
@@ -2381,7 +2381,37 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_test_lesson_success_list(){
+        $now = time();
+        $tomor_time = $now;
 
+        $where_arr = [
+            ["l.lesson_end >%d",$tomor_time]
+        ];
+        // $sql
+    }
+
+
+    public function get_teacher_regular_lesson_info($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            "l.lesson_type <>2",
+            "t.train_through_new_time >0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid.t.realname,t.train_through_new_time,"
+                                  ."grade_part_ex,subject,grade_start,grade_end,"
+                                  ."sum(lesson_count) lesson_count"
+                                  ." from %s t on l.teacherid=t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+        
+    }
 
 
 }

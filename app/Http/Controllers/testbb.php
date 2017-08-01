@@ -48,13 +48,8 @@ class testbb extends Controller
 
     public function test () {
 
-        $arr = [
-            []
-        ];
-        \App\Helper\Utils::sortArrByField();
-
-        $c = $this->secsToStr(10000);
-        dd($c);
+        $d = strtotime(date('Y-m-d 14:00:00' , strtotime('+1 day')));
+        dd($d);
 
     }
 
