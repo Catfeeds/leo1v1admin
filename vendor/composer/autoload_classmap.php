@@ -581,7 +581,7 @@ return array(
     'TCourseOrderAddEnableVideo' => $baseDir . '/database/migrations/2017_05_19_095849_t_course_order_add_enable_video.php',
     'TCourseOrderAddIsKkFlag' => $baseDir . '/database/migrations/2017_06_02_120347_t_course_order_add_is_kk_flag.php',
     'TCourseOrderLessonGrade' => $baseDir . '/database/migrations/2017_04_28_105143_t_course_order_lesson_grade.php',
-    'TDrop' => $baseDir . '/database/migrations/2017_08_01_105102_t_drop.php',
+    'TCsIntendedUserInfo' => $baseDir . '/database/migrations/2017_08_01_112742_t_cs_intended_user_info.php',
     'TFulltimeTeacherAssessmentListAddActivePartScore' => $baseDir . '/database/migrations/2017_06_22_182829_t_fulltime_teacher_assessment_list_add_active_part_score.php',
     'TFulltimeTeacherAssessmentListAddActivePartScoreNew' => $baseDir . '/database/migrations/2017_06_22_183356_t_fulltime_teacher_assessment_list_add_active_part_score_new.php',
     'TFulltimeTeacherAssessmentListAddMoralEducationScoreMaster' => $baseDir . '/database/migrations/2017_06_16_180309_t_fulltime_teacher_assessment_list_add_moral_education_score_master.php',

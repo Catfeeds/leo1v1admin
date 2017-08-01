@@ -11,7 +11,7 @@ return array(
     ["db_weiyi","t_agent","id"],
     ["db_weiyi","t_agent_order","orderid"],
     ["db_weiyi","t_agent_cash","id"],
-    ["db_weiyi","t_customer_service_intended_user_info", "id"],
+    ["db_weiyi","t_cs_intended_user_info", "id"],
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
 
     ["db_weiyi_admin","t_user_report","id"],
