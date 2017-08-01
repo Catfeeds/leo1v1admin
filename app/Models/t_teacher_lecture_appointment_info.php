@@ -533,7 +533,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         ];
         $sql = $this->gen_sql_new("select count(ta.phone) app_num,ta.reference,t.teacher_ref_type,t.realname"
                                   ." from %s ta left join %s t on ta.reference=t.phone"
-                                  ." where %s group by reference "
+                                  ." where %s group by reference order by app_num desc"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr

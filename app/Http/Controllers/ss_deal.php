@@ -1816,8 +1816,13 @@ class ss_deal extends Controller
         $change_reason = trim($this->get_in_str_val('change_reason'));
 
         $url = $this->get_in_str_val('change_reason_url');
-        $domain = config('admin')['qiniu']['public']['url'];
-        $change_reason_url = $domain.'/'.$url;
+
+        if($url){
+            $domain = config('admin')['qiniu']['public']['url'];
+            $change_reason_url = $domain.'/'.$url;
+        }else{
+            $change_reason_url = '';
+        }
 
         $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 
@@ -2086,8 +2091,20 @@ class ss_deal extends Controller
         );
 
         //分配给原来的销售
-        //$admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
-        $admin_revisiterid= $origin_assistantid;
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        if ($admin_revisiterid) {
+            $main_type= $this->t_admin_group_user->get_main_type($admin_revisiterid);
+            if ($main_type = E\Emain_type::V_2 ) {
+                $admin_revisiterid=0;
+            }
+        }
+
+        if ($admin_revisiterid) {
+            if ($this->t_manager_info->get_del_flag($admin_revisiterid)) {
+                $admin_revisiterid=0;
+            }
+        }
+        //$admin_revisiterid= $origin_assistantid;
 
         if ($admin_revisiterid) {
             $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
@@ -4599,6 +4616,10 @@ class ss_deal extends Controller
         $complained_adminid_type = $this->get_in_int_val('complained_adminid_type');
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
 
+        $punish_style = $this->get_in_int_val('punish_style',0);
+        $orderid      = $this->get_in_int_val('order_id',0);
+        $apply_time   = $this->get_in_str_val('apply_time','');
+
 
         $ret = $this->t_complaint_info->row_insert([
             'userid'             => $userid,
@@ -4608,11 +4629,100 @@ class ss_deal extends Controller
             'account_type'       => $account_type,
             'complaint_type'     => $complaint_type,
             'complained_adminid_type' => $complained_adminid_type,
-            'complained_adminid_nick' => $complained_adminid_nick
+            'complained_adminid_nick' => $complained_adminid_nick,
+            'punish_style'  => $punish_style,
+            'orderid'       => $orderid,
+            'apply_time'    => $apply_time
         ]);
 
 
         if($ret){
+
+            if($complained_adminid_type == 5){
+                // 通知QC处理
+                $log_time_date = date('Y-m-d H:i:s',time(NULL));
+                $opt_nick= $this->cache_get_teacher_nick($report_uid);
+
+                /**
+                   {{first.DATA}}
+                   待办主题：{{keyword1.DATA}}
+                   待办内容：{{keyword2.DATA}}
+                   日期：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                **/
+
+                // coco 与 sunny
+
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+                $data_msg = [
+                    "first"     => "$opt_nick 老师发布了一条投诉",
+                    "keyword1"  => "常规投诉",
+                    "keyword2"  => "老师投诉内容:$report_msg",
+                    "keyword3"  => "投诉时间 $log_time_date ",
+                ];
+                $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+                $wx=new \App\Helper\Wx();
+
+                $qc_openid_arr = [
+                    // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
+                    "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
+                    "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
+                    "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                    "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
+                ];
+
+                foreach($qc_openid_arr as $qc_item){
+                    $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                }
+
+
+
+
+
+                //反馈QC与上级领导
+
+                /**
+                   tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI
+                   反馈投诉结果通知
+                   {{first.DATA}}
+                   反馈者：{{keyword1.DATA}}
+                   反馈类型：{{keyword2.DATA}}
+                   反馈时间：{{keyword3.DATA}}
+                   问题描述：{{keyword4.DATA}}
+                   处理结果：{{keyword5.DATA}}
+                   {{remark.DATA}}
+                **/
+
+                $template_id = "tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI";//投诉反馈通知
+                $data_msg = [
+                    "first"     => "$first_qc",
+                    "keyword1"  => "$first_nick ",
+                    "keyword2"  => "$complaint_type_str",
+                    "keyword3"  => "$deal_time_date",
+                    "keyword4"  => "$complaint_info_str",
+                    "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
+                ];
+                $url = '';
+                $wx=new \App\Helper\Wx();
+                $qc_openid_arr = [
+                    "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                    "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                ];
+
+                foreach($qc_openid_arr as $qc_item){
+                    $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                }
+
+
+            }
+
+
             return $this->output_succ();
         }else{
             return $this->output_err();
@@ -4629,7 +4739,7 @@ class ss_deal extends Controller
             $item['ass_date'] = \App\Helper\Utils::unixtime2date($item['assign_time'],'Y-m-d H:i');
             $item['assign_str'] = $this->t_manager_info->get_ass_master_nick($item['assign_adminid']);
             $item['accept_str'] = $this->t_manager_info->get_ass_master_nick($item['accept_adminid']);
-         }
+        }
 
 
         return $this->output_succ(['data'=>$ass_info]);

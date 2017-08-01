@@ -5,7 +5,8 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			teacher_money_type:	$('#id_teacher_money_type').val(),
-			teacherid:	$('#id_teacherid').val()
+			teacherid:	$('#id_teacherid').val(),
+            accept_flag:	$('#id_accept_flag').val()
         });
     }
 
@@ -13,6 +14,7 @@ $(function(){
 
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_accept_flag').val(g_args.accept_flag);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
 
     $(".opt-accept").on("click",function(){        

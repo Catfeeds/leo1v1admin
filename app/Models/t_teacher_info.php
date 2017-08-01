@@ -2200,7 +2200,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             "m.account_role=4",
             "m.del_flag=0",
-            ["t.teacherid=%u",$teacherid,-1]
+            ["t.teacherid=%u",$teacherid,-1],
+            "m.uid not in (790,486,871)"
         ];
 
         $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "
@@ -2270,7 +2271,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.lesson_user_online_status=1"
+            "l.confirm_flag <>2"
         ];
         if($teacher_money_type==1){
             $where_arr[]="l.lesson_type <>2";
@@ -2290,6 +2291,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_teacher_lesson_total_realname($teacher_money_type,$start_time,$end_time,$realname){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            ["t.realname='%s'",$realname,""]
+        ];
+        if($teacher_money_type==1){
+            $where_arr[]="l.lesson_type <>2";
+        }
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select t.teacherid,sum(l.lesson_count) lesson_count "
+                                  ." from %s t left join %s l on t.teacherid=l.teacherid"
+                                  ." where %s group by t.teacherid ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+
+    }
+
+
     public function get_teacher_info_by_money_type_new($teacher_money_type,$start_time,$end_time,$arr){
         $where_arr=[
             "t.is_quit=0",
@@ -2297,7 +2321,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["t.teacher_money_type=%u",$teacher_money_type,-1],
             "t.train_through_new = 1",
             "l.lesson_del_flag=0",
-            "l.lesson_user_online_status=1"
+            "l.confirm_flag <>2"
         ];
         if($teacher_money_type==1){
             $where_arr[]="l.lesson_type <>2";
@@ -2398,6 +2422,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
 
     public function get_all_tea_phone_location(){
         $sql = $this->gen_sql_new("select teacherid,realname,phone,address,identity,train_through_new_time"
