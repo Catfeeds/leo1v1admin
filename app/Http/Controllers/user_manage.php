@@ -1913,7 +1913,8 @@ class user_manage extends Controller
 
 
     public function complaint_department_deal(){
-        $page_num   = $this->get_in_page_num();
+        // $page_num   = $this->get_in_page_num();
+        $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
@@ -1944,7 +1945,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_num,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
 
 
         foreach($ret_info['list'] as $index=>&$item){
@@ -1971,9 +1972,11 @@ class user_manage extends Controller
                 $item['follow_state_str'] = '<font color="blue">未分配</font>';
             }
 
-            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time']);
+            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time'],1);
 
         }
+
+        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
 

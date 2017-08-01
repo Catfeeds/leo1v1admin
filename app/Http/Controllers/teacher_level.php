@@ -352,7 +352,7 @@ class teacher_level extends Controller
             }
 
  
-        }else{
+        }elseif($accept_flag==2){
             //微信通知師資管理
             /**
              * 模板ID   : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ

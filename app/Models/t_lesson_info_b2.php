@@ -2215,27 +2215,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
-        $lesson_cancel_reason_type = -1;
         $where_arr = [
             "l.teacherid>0",
-            // "lesson_del_flag = 0",
-            "m.account_role=1",
-            ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1]
         ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] = "l.lesson_cancel_reason_type in (2,12) ";
+        }else{
+            $where_arr[] = ["l.lesson_cancel_reason_type = %d",$lesson_cancel_reason_type];
+        }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, l.lesson_count,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.create_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
                                   " left join %s tll on tll.lessonid = l.lessonid".
                                   " left join %s tlr on tlr.require_id = tll.require_id".
                                   " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " left join %s m on tll.confirm_adminid = m.uid".
+                                  " left join %s t on t.teacherid = l.teacherid".
                                   " where %s group by l.teacherid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
 
@@ -2282,25 +2286,27 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
-        $lesson_cancel_reason_type = -1;
         $where_arr = [
             "l.userid>0",
-            // "lesson_del_flag = 0",
-            "m.account_role=1",
+            "s.is_test_user = 0",
             ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1],
         ];
 
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] = "l.lesson_cancel_reason_type in (1,11)";
+        }else{
+            $where_arr[] = ["l.lesson_cancel_reason_type=%d",$lesson_cancel_reason_type];
+        }
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tls.require_adminid, l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select tls.require_adminid, l.userid,s.nick, tp.nick as parent_nick, s.assistantid, l.lesson_cancel_reason_type, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total from %s l".
                                   " left join %s s on s.userid = l.userid".
                                   " left join %s tp on tp.parentid = s.parentid".
                                   " left join %s tll on tll.lessonid = l.lessonid".
                                   " left join %s tlr on tlr.require_id = tll.require_id".
                                   " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
                                   " left join %s m on tll.confirm_adminid = m.uid".
-
-
                                   " where %s group by l.userid order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

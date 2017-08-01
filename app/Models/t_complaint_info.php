@@ -25,18 +25,18 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
-                                  " where %s order by tc.add_time desc",
+                                  " where %s order by complaint_state asc,tc.add_time desc ",
                                   self::DB_TABLE_NAME,
                                   t_complaint_assign_info::DB_TABLE_NAME,
                                   t_complaint_deal_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_list_by_page($sql,$page_num,30);
+        return $this->main_get_list_by_page($sql,$page_num);
     }
 
 
-    public function get_complaint_info_by_ass($page_num,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag){
+    public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag){
         $where_arr = [
             ["ta.assign_flag=%d",0],
             ["tc.account_type=%d",$account_type],
@@ -62,7 +62,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_num,30);
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 
 

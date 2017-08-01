@@ -236,6 +236,14 @@ class t_month_ass_warning_student_info extends \App\Models\Zgen\z_t_month_ass_wa
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_last_time_by_userid($userid){
+        $sql = $this->gen_sql_new("select max(month) from %s where warning_type=2 and userid = %u",
+                                  self::DB_TABLE_NAME,
+                                  $userid
+        );
+        return $this->main_get_value($sql);
+    }
 }
 
 
