@@ -4456,6 +4456,7 @@ class ss_deal extends Controller
             ]);
 
             if ($complaint_state == 1) {
+                $deal_wx_openid_list = [];
                 if ($account_type == 1) { // 1:家长
                     // 理优在线教育  // 8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I
                     /**
@@ -4495,6 +4496,11 @@ class ss_deal extends Controller
                        {{remark.DATA}}
                     */
 
+                    $deal_wx_openid_list = [
+                        "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    ];
+
 
                     $url = '';
                     $teacher_nick     = $this->cache_get_teacher_nick($complaint_info["userid"] );
@@ -4509,7 +4515,14 @@ class ss_deal extends Controller
                     $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                     $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+
+
                 } elseif($account_type == 3){
+
+                    $deal_wx_openid_list = [
+                        "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    ];
 
                 }
 
@@ -4543,9 +4556,11 @@ class ss_deal extends Controller
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    // "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
+
+                $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);
 
                 foreach($qc_openid_arr as $qc_item){
                     $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
