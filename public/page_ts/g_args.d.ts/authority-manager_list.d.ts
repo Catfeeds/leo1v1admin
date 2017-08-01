@@ -24,6 +24,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	create_time	:any;
 	leave_member_time	:any;
 	become_member_time	:any;
 	call_phone_type	:any;
@@ -60,6 +61,8 @@ interface RowData {
 	department_str	:any;
 	become_full_member_flag_str	:any;
 	del_flag_str	:any;
+	leave_time	:any;
+	become_time	:any;
 	day_new_user_flag_str	:any;
 }
 
