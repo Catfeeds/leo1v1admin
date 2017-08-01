@@ -1590,8 +1590,9 @@ class test_code extends Controller
     public function get_tkp(){
         $lesson_start=strtotime("2017-8-1");
         $tea_list = $this->t_teacher_info->get_tkp();
-        echo count($tea_list);exit;
+        $this->switch_tongji_database(false);
         foreach($tea_list as $tea_val){
+            $teacherid=$tea_val['teacherid'];
             $this->t_teacher_info->field_update_list($teacherid,[
                 "teacher_money_type"=>4
             ]);

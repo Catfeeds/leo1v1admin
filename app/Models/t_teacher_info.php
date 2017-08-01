@@ -2442,7 +2442,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s tl on t.phone=tl.phone"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
-                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);

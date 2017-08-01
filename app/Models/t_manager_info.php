@@ -891,7 +891,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
             [  "o.order_time >= %u", $start_time, -1 ] ,
             [  "o.order_time <= %u", $end_time, -1 ] ,
             ["uid=%u",$adminid,-1],
-            "o.contract_status in (1,2,3)" ,
+            "o.contract_status in (1)" ,
             "(m.uid <> 68 and m.uid <> 74)",
             "m.account_role = 1 ",
             "m.del_flag =0",

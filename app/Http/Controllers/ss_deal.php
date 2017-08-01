@@ -1818,27 +1818,14 @@ class ss_deal extends Controller
 
         $url = $this->get_in_str_val('change_reason_url');
 
-        /**
-           if(($id_ass_test_lesson_type.val()==2) && ($id_change_teacher_reason_type.val() == 0)){
-           alert('请选择换老师类型!');
-           return;
-           }else if(($id_ass_test_lesson_type.val()==2)  && ($id_change_reason.val() == "")){
-           alert('请选择换老师原因!');
-           return;
-           }
-
-
-         **/
 
         if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
             return $this->output_err('请选择换老师类型!');
         }elseif($ass_test_lesson_type == 2 && !$change_reason){
-            return $this->output_err('请选择换老师原因!');
-        }elseif($ass_test_lesson_type == 2 && strlen(trim($change_reason))<3){
+            return $this->output_err('请填写换老师原因!');
+        }elseif($ass_test_lesson_type == 2 && strlen(str_replace(" ","",$change_reason))<9){
             return $this->output_err('换老师原因不得少于3个字!');
         }
-
-
 
         if($url){
             $domain = config('admin')['qiniu']['public']['url'];

@@ -47,6 +47,7 @@ class testbb extends Controller
 
 
     public function test () {
+
         $wx_openid_arr = [
             // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
             // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
