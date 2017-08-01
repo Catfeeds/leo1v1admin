@@ -222,6 +222,16 @@ $(function(){
     });
 
 
+    if (window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info" || window.location.pathname=="/seller_student_new2/get_ass_test_lesson_info/") {
+        $(".opt-set-success").show();
+        $(".opt-set-fail").show();
+        $(".opt-confirm").show();
+    }else{
+        $(".opt-set-success").hide();
+        $(".opt-set-fail").hide();
+        $(".opt-confirm").hide();
+    }
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });
