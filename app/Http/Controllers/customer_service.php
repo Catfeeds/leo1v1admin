@@ -17,7 +17,7 @@ class customer_service extends Controller
     public function  intended_user_info () {
         $userid = 99;
         $page_info=$this->get_in_page_info();
-        $ret_info=$this->t_customer_service_intended_user_info->get_list($page_info,$userid);
+        $ret_info=$this->t_cs_intended_user_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']

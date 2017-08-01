@@ -673,11 +673,13 @@ $(function(){
                 $account.parent().parent().css('display','none');
 
                 $teacher_adminid.parent().parent().css('display','table-row');
+                $punish_style.parent().parent().css('display','table-row');
             } else {
                 $main_group_name.parent().parent().css('display','table-row');
                 $group_name.parent().parent().css('display','table-row');
                 $account.parent().parent().css('display','table-row');
                 $teacher_adminid.parent().parent().css('display','none');
+                $punish_style.parent().parent().css('display','none');
             }
 
             if ($main_type_name.val()) {

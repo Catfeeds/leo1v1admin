@@ -2200,7 +2200,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr=[
             "m.account_role=4",
             "m.del_flag=0",
-            ["t.teacherid=%u",$teacherid,-1]
+            ["t.teacherid=%u",$teacherid,-1],
+            "m.uid not in (790,486,871)"
         ];
 
         $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "
@@ -2421,6 +2422,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+
 
     public function get_all_tea_phone_location(){
         $sql = $this->gen_sql_new("select teacherid,realname,phone,address,identity,train_through_new_time"
