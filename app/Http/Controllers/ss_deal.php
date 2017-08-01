@@ -2091,8 +2091,20 @@ class ss_deal extends Controller
         );
 
         //分配给原来的销售
-        //$admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
-        $admin_revisiterid= $origin_assistantid;
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        if ($admin_revisiterid) {
+            $main_type= $this->t_admin_group_user->get_main_type($admin_revisiterid);
+            if ($main_type = E\Emain_type::V_2 ) {
+                $admin_revisiterid=0;
+            }
+        }
+
+        if ($admin_revisiterid) {
+            if ($this->t_manager_info->get_del_flag($admin_revisiterid)) {
+                $admin_revisiterid=0;
+            }
+        }
+        //$admin_revisiterid= $origin_assistantid;
 
         if ($admin_revisiterid) {
             $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
