@@ -2431,4 +2431,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_tkp(){
+        $where_arr = [
+            "teacher_money_type=5",
+            "reference='13387970861'",
+        ];
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s t"
+                                  ." left join %s tl on t.phone=tl.phone"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

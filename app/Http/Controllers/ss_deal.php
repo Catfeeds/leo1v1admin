@@ -1814,8 +1814,18 @@ class ss_deal extends Controller
         $grade  = $this->get_in_int_val("grade");
         $stu_request_test_lesson_demand  = $this->get_in_str_val("stu_request_test_lesson_demand");
         $change_reason = trim($this->get_in_str_val('change_reason'));
+        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 
         $url = $this->get_in_str_val('change_reason_url');
+
+
+        if($ass_test_lesson_type == 2 && $change_teacher_reason_type == 0){
+            return $this->output_err('请选择换老师类型!');
+        }elseif($ass_test_lesson_type == 2 && !$change_reason){
+            return $this->output_err('请填写换老师原因!');
+        }elseif($ass_test_lesson_type == 2 && strlen(str_replace(" ","",$change_reason))<9){
+            return $this->output_err('换老师原因不得少于3个字!');
+        }
 
         if($url){
             $domain = config('admin')['qiniu']['public']['url'];
@@ -1824,7 +1834,6 @@ class ss_deal extends Controller
             $change_reason_url = '';
         }
 
-        $change_teacher_reason_type = $this->get_in_int_val('change_teacher_reason_type');
 
 
         $grade=isset($grade)?$grade:$this->t_student_info->get_grade($userid);
@@ -1834,7 +1843,6 @@ class ss_deal extends Controller
         }else{
             $is_green_flag=0;
         }
-        // dd(1);
         // init t_seller_student_new
         $phone = $this->t_seller_student_new->get_phone($userid);
         if (!$phone) {
@@ -2091,20 +2099,8 @@ class ss_deal extends Controller
         );
 
         //分配给原来的销售
-        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
-        if ($admin_revisiterid) {
-            $main_type= $this->t_admin_group_user->get_main_type($admin_revisiterid);
-            if ($main_type = E\Emain_type::V_2 ) {
-                $admin_revisiterid=0;
-            }
-        }
-
-        if ($admin_revisiterid) {
-            if ($this->t_manager_info->get_del_flag($admin_revisiterid)) {
-                $admin_revisiterid=0;
-            }
-        }
-        //$admin_revisiterid= $origin_assistantid;
+        //$admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        $admin_revisiterid= $origin_assistantid;
 
         if ($admin_revisiterid) {
             $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
@@ -4460,6 +4456,7 @@ class ss_deal extends Controller
             ]);
 
             if ($complaint_state == 1) {
+                $deal_wx_openid_list = [];
                 if ($account_type == 1) { // 1:家长
                     // 理优在线教育  // 8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I
                     /**
@@ -4499,6 +4496,11 @@ class ss_deal extends Controller
                        {{remark.DATA}}
                     */
 
+                    $deal_wx_openid_list = [
+                        "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    ];
+
 
                     $url = '';
                     $teacher_nick     = $this->cache_get_teacher_nick($complaint_info["userid"] );
@@ -4513,7 +4515,14 @@ class ss_deal extends Controller
                     $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
                     $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+
+
                 } elseif($account_type == 3){
+
+                    $deal_wx_openid_list = [
+                        "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    ];
 
                 }
 
@@ -4547,9 +4556,11 @@ class ss_deal extends Controller
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                    // "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
+
+                $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);
 
                 foreach($qc_openid_arr as $qc_item){
                     $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
@@ -4643,6 +4654,32 @@ class ss_deal extends Controller
                 $log_time_date = date('Y-m-d H:i:s',time(NULL));
                 $opt_nick= $this->cache_get_teacher_nick($report_uid);
 
+                $subject = $this->t_teacher_info->get_subject($complained_adminid);
+
+                $subject_adminid_wx_openid_list = [];
+
+                if($subject == 1){ // 语文[千千 melody]
+                    $subject_adminid_wx_openid_list = [
+                        "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
+                        "oJ_4fxJqMn0pH4XQfgXYiFb_1_Iw"  // melody
+                    ];
+                }else if($subject == 3) { //[英语]
+                    $subject_adminid_wx_openid_list = [
+                        "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
+                    ];
+                }else if($subject == 5){ //[物理]
+                    $subject_adminid_wx_openid_list = [
+                        "oJ_4fxOo38y6hEisvFoSxN4T1nBs", // 李红涛
+                    ];
+                }else if($subject == 4){ //[化学]
+                    $subject_adminid_wx_openid_list = [
+                        "oJ_4fxME6lCpNAMwtEhMcpYo5N7c", // 展慧东
+                    ];
+                }else if($subject == 2){ // 数学
+                    $subject_adminid_wx_openid_list = [
+                        "oJ_4fxFE0-MHPkT-vstzEDzAfRkg", // 彭老师 [wander]
+                    ];
+                }
                 /**
                    {{first.DATA}}
                    待办主题：{{keyword1.DATA}}
@@ -4652,72 +4689,71 @@ class ss_deal extends Controller
                 **/
 
                 // coco 与 sunny
-
+                $account_nick = $this->get_account();
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
-                    "first"     => "$opt_nick 老师发布了一条投诉",
-                    "keyword1"  => "常规投诉",
-                    "keyword2"  => "老师投诉内容:$report_msg",
-                    "keyword3"  => "投诉时间 $log_time_date ",
+                    "first"     => "$account_nick 发布了一条退费投诉",
+                    "keyword1"  => "QC退费投诉",
+                    "keyword2"  => "QC投诉内容:$complaint_info",
+                    "keyword3"  => "QC投诉时间 $log_time_date ",
                 ];
                 $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
                 $wx=new \App\Helper\Wx();
 
-                $qc_openid_arr = [
+                $wx_openid_arr = [
                     // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                    "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
+                    // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                    // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
                     "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
                 ];
+                // $qc_openid_arr
+                $wx_openid_list = array_merge($wx_openid_arr,$subject_adminid_wx_openid_list);
 
-                foreach($qc_openid_arr as $qc_item){
+                foreach($wx_openid_list as $qc_item){
                     $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
                 }
 
 
+                // //反馈QC与上级领导
 
+                // /**
+                //    tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI
+                //    反馈投诉结果通知
+                //    {{first.DATA}}
+                //    反馈者：{{keyword1.DATA}}
+                //    反馈类型：{{keyword2.DATA}}
+                //    反馈时间：{{keyword3.DATA}}
+                //    问题描述：{{keyword4.DATA}}
+                //    处理结果：{{keyword5.DATA}}
+                //    {{remark.DATA}}
+                // **/
 
+                // $template_id = "tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI";//投诉反馈通知
+                // $data_msg = [
+                //     "first"     => "QC投诉通知",
+                //     "keyword1"  => "$first_nick ",
+                //     "keyword2"  => "$complaint_type_str",
+                //     "keyword3"  => "$deal_time_date",
+                //     "keyword4"  => "$complaint_info_str",
+                //     "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
+                // ];
+                // $url = '';
+                // $wx=new \App\Helper\Wx();
+                // $qc_openid_arr = [
+                //     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                //     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                //     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                //     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                //     "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                //     "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                // ];
 
-                //反馈QC与上级领导
-
-                /**
-                   tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI
-                   反馈投诉结果通知
-                   {{first.DATA}}
-                   反馈者：{{keyword1.DATA}}
-                   反馈类型：{{keyword2.DATA}}
-                   反馈时间：{{keyword3.DATA}}
-                   问题描述：{{keyword4.DATA}}
-                   处理结果：{{keyword5.DATA}}
-                   {{remark.DATA}}
-                **/
-
-                $template_id = "tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI";//投诉反馈通知
-                $data_msg = [
-                    "first"     => "$first_qc",
-                    "keyword1"  => "$first_nick ",
-                    "keyword2"  => "$complaint_type_str",
-                    "keyword3"  => "$deal_time_date",
-                    "keyword4"  => "$complaint_info_str",
-                    "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
-                ];
-                $url = '';
-                $wx=new \App\Helper\Wx();
-                $qc_openid_arr = [
-                    "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
-                    "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
-                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
-                ];
-
-                foreach($qc_openid_arr as $qc_item){
-                    $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
-                }
+                // foreach($qc_openid_arr as $qc_item){
+                //     $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                // }
 
 
             }
