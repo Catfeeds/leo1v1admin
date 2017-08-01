@@ -114,8 +114,9 @@
                                         <a title="确认课时" class="btn fa fa-gavel opt-confirm show_flag" ></a>
                                     @endif
                                     @if($var["success_flag"]==1 && $var["order_confirm_flag"]==0)
-                                        <a title="设置成功" class="fa fa-heart opt-set-success show_flag"> </a>
-                                        <a title="设置失败" class="fa fa-heart-o opt-set-fail show_flag"></a>
+                                        <a title="设置成功" class="fa fa-smile-o opt-set-success show_flag"> </a>
+                                        <a title="设置失败" class="fa fa-frown-o opt-set-fail show_flag"></a>
+
                                     @endif
 
 
