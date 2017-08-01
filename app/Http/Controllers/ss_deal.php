@@ -4517,12 +4517,15 @@ class ss_deal extends Controller
                     \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
 
 
-                } elseif($account_type == 3){
+                } elseif($account_type == 3){ // QC
+                    $complained_adminid_type = $this->t_complaint_info->get_complained_adminid_type($complaint_id);
+                    if($complained_adminid_type == 5){
+                        $deal_wx_openid_list = [
+                            "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                            "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                        ];
+                    }
 
-                    $deal_wx_openid_list = [
-                        "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                        "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
-                    ];
 
                 }
 

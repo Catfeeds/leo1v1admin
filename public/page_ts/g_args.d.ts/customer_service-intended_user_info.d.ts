@@ -19,16 +19,10 @@ interface RowData {
 	relation_ship	:any;
 	region	:any;
 	grade	:any;
-	cash	:any;
 	free_subject	:any;
 	region_version	:any;
 	notes	:any;
 	num	:any;
-	relation_ship_str	:any;
-	grade_str	:any;
-	free_subject_str	:any;
-	region_version_str	:any;
-	create_admin_nick	:any;
 }
 
 /*

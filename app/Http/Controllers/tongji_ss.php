@@ -6014,8 +6014,8 @@ class tongji_ss extends Controller
 
             $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
             $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
-            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0;
-            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0;
+            $item["tran_order"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
+            $item["tran_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_price"]/100:0;
             $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
             $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
             $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;
