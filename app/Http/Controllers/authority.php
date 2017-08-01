@@ -217,9 +217,18 @@ class authority extends Controller
     public function del_manager() {
         $uid= $this->get_in_str_val("uid","");
         $del_flag= $this->get_in_int_val("del_flag","");
-        $set_arr=[
-            "del_flag" => $del_flag ,
-        ];
+        if($del_flag == 1){
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }else{
+            $set_arr=[
+                "del_flag" => $del_flag ,
+            ];
+        }
+        // $set_arr=[
+        //     "del_flag" => $del_flag ,
+        // ];
         if ($del_flag) {
             $set_arr["wx_openid"]=NULL;
         }
@@ -406,7 +415,7 @@ class authority extends Controller
         ]);
         $uid=$this->t_admin_users->get_last_insertid();
         $this->t_manager_info->row_insert([
-            "uid" => $uid, 
+            "uid" => $uid,
             "account" => $account,
             "name" => $name,
             "email" => $email,
