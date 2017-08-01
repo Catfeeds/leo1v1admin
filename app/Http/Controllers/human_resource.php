@@ -2538,11 +2538,11 @@ class human_resource extends Controller
 
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info]);
     }
-    public function teacher_record_detail_info_new_zj(){
-        return $this->teacher_record_detail_info_new();
+    public function teacher_record_detail_list_new_zj(){
+        return $this->teacher_record_detail_list_new();
     }
-    public function teacher_record_detail_info_zj(){
-        return $this->teacher_record_detail_info();
+    public function teacher_record_detail_list_zj(){
+        return $this->teacher_record_detail_list();
     }
 
 

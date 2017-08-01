@@ -276,5 +276,24 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
 
+    public function get_group_admin_list($adminid){
+        $where_arr = [
+            ["gn.master_adminid = %d ",$adminid]
+        ];
+
+        $sql = $this->gen_sql_new(" select adminid from %s gn ".
+                                  " left join %s gu on gn.groupid = gu.groupid".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_admin_group_user::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+
 
 }

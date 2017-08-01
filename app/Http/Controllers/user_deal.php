@@ -2606,6 +2606,10 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
+        $last_time = $this->t_month_ass_warning_student_info->get_last_time_by_userid(133286);
+        dd(date("Y-m-d H:i:s",$last_time));
+        
+
         $ret = $this->t_teacher_info->get_all_tea_phone_location();
         foreach($ret["list"] as &$item){
             E\Eidentity::set_item_value_str($item);

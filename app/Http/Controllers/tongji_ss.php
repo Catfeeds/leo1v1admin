@@ -6715,10 +6715,7 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
-        // $g = $this->t_admin_group_name->get_groupid_by_master_adminid(297);
-        // $arr = $this->t_admin_group_user->get_user_list(28);
-
-        $ass_list = $this->t_admin_group_user->get_group_admin_list($account_id);
+        // $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
 
@@ -6765,29 +6762,29 @@ class tongji_ss extends Controller
 
         // dd($ret_info);
         foreach($ret_info['list'] as $index=> &$item_list){
-            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_teacher($item_list['teacherid'],$start_time,$end_time,$lesson_cancel_reason_type);
-
             if($item_list['lesson_count_total'] == 0){
                 unset($ret_info['list'][$index]);
             }
-
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+            $item_list['work_time'] =  \App\Helper\Common::secsToStr(time()-$item_list['create_time'],2);
+            E\Eteacher_money_type::set_item_value_str($item_list);
         }
-        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
 
+        // dd($ret_info);
+        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
 
-    public function get_total_lesson_count_by_teacher($teacherid,$start_time,$end_time,$lesson_cancel_reason_type){
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
+    // public function get_total_lesson_count_by_teacher($teacherid,$start_time,$end_time,$lesson_cancel_reason_type){
+    //     $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
 
-        $lesson_count = 0;
-        foreach($ret_info as $item){
-            $lesson_count += $item['lesson_count']/100;
-        }
-        return $lesson_count;
-    }
+    //     $lesson_count = 0;
+    //     foreach($ret_info as $item){
+    //         $lesson_count += $item['lesson_count']/100;
+    //     }
+    //     return $lesson_count;
+    // }
 
 
 
@@ -6799,11 +6796,7 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_parent($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
-        // dd($ret_info);
-
         foreach($ret_info['list'] as $index=>&$item_list){
-            $item_list['lesson_count_total'] = $this->get_total_lesson_count_by_parent($item_list['userid'],$start_time,$end_time,$lesson_cancel_reason_type);
-
             if($item_list['lesson_count_total'] == 0){
                 unset($ret_info['list'][$index]);
             }
@@ -6816,25 +6809,8 @@ class tongji_ss extends Controller
 
         }
         \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
-        // dd($ret_info);
 
         return $this->pageView(__METHOD__,$ret_info);
     }
-
-
-    public function get_total_lesson_count_by_parent($userid,$start_time,$end_time,$lesson_cancel_reason_type){
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail_by_parent($start_time,$end_time,$lesson_cancel_reason_type,$userid);
-
-        $lesson_count = 0;
-        foreach($ret_info as $item){
-            $lesson_count += $item['lesson_count']/100;
-        }
-        return $lesson_count;
-    }
-
-
-
-
-    //
 
 }
