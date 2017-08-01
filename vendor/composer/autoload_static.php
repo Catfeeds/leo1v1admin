@@ -1004,7 +1004,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TTestLessonSubjectSubListAddCallTime' => __DIR__ . '/../..' . '/database/migrations/2017_06_24_111932_t_test_lesson_subject_sub_list_add_call_time.php',
         'TTestLessonSubjectSubListAddOrderConfirmFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_145858_t_test_lesson_subject_sub_list_add_order_confirm_flag.php',
         'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
-        'TTodo' => __DIR__ . '/../..' . '/database/migrations/2017_06_24_143505_t_todo.php',
+        'TTodo' => __DIR__ . '/../..' . '/database/migrations/2017_06_28_175835_t_todo.php',
         'TTrainLessonUserAddTrainType' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',
         'TUserLoginLogAddDymanicFlag' => __DIR__ . '/../..' . '/database/migrations/2017_06_14_142259_t_user_login_log_add_dymanic_flag.php',
         'TUserReport' => __DIR__ . '/../..' . '/database/migrations/2017_05_19_160742_t_user_report.php',
