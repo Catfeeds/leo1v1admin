@@ -101,20 +101,23 @@ class authority extends Controller
             $item['del_flag_str'] = ($item['del_flag']==0)?'在职':'离职';
             if($item['leave_member_time']){
                 $item['leave_member_time'] = date('Y/m/d H:i',$item['leave_member_time']);
+                $item['leave_time'] = $item['leave_member_time'];
             }else{
                 $item['leave_member_time'] = '';
+                $item['leave_time'] = '';
             }
             if($item['become_member_time']){
                 $item['become_member_time'] = date('Y/m/d H:i',$item['become_member_time']);
+                $item['become_time'] = $item['become_member_time'];
             }else{
                 $item['become_member_time'] = '';
+                $item['become_time'] = date('Y/m/d H:i',$item['create_time']);
             }
             if($item["seller_level_str"] == -1){
                 $item["seller_level_str"] = "未设置";
             }
             E\Eboolean::set_item_value_simple_str($item,"day_new_user_flag");
         }
-        // dd($ret_info['list']);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
