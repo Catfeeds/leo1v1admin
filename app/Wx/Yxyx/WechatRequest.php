@@ -460,10 +460,20 @@ class WechatRequest  {
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
            );
         }elseif ($eventKey == 'invitation') {
-            $content = "
-①长按下方图片并保存
-②将图片发给朋友或朋友圈";
-            ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+            //使用客服接口发送消息
+            $txt_arr = [
+                'touser'   => $openid,
+                'msgtype'  => 'text',
+                'text'     => [
+                    'content' =>
+                    '①长按下方图片并保存
+                     ②将图片发给朋友或朋友圈'
+                ]
+            ];
+            $txt = self::ch_json_encode($txt_arr);
+            $token = AccessToken::getAccessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+            $txt_ret = self::https_post($url,$txt);
 
             $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
             $img_url = self::get_img_url($url);
