@@ -804,7 +804,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ($t_flag==1) {
             $where_arr[] = "(origin_level = 90 )";
         }else if ($t_flag==2 ){
-            $where_arr[] = "( global_tq_called_flag=1 )";
+            $where_arr[] = "( global_tq_called_flag=1 and origin_level <> 90 )";
         }else{
             $where_arr[] = "origin_level <> 90";
         }
