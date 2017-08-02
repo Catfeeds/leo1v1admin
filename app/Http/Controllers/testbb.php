@@ -50,9 +50,12 @@ class testbb extends Controller
 
         // dd(public_path()); // l_t_pdf_198963_5.png
         // $file = "../../../../public/wximg/1858145170.png";
-        $file = public_path()."/wximg/a23042faa68f7b2e616b68a8edd55ac91500889153780.pdf";
+        $file = public_path()."/wximg/l_t_pdf_198963_5.png";
         echo $file;
 
+        $c = unlink($file);
+
+        dd($c);
         $dd = file_exists($file);
         dd($dd);
 
