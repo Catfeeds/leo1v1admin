@@ -781,7 +781,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function get_new_list($page_num,$start_time,$end_time,$grade, $has_pad, $subject,$origin,$phone,$not_adminid , $t_flag=false)
+    public function get_new_list($page_num,$start_time,$end_time,$grade, $has_pad, $subject,$origin,$phone,$not_adminid , $t_flag=0)
     {
         $check_time =  time(NULL)  - 2*3600;
         $where_arr=[
@@ -801,8 +801,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "competition_call_time<$check_time",
         ];
 
-        if ($t_flag) {
-            $where_arr[] = "(origin_level = 90  or   global_tq_called_flag=1 )";
+        if ($t_flag==1) {
+            $where_arr[] = "(origin_level = 90 )";
+        }else if ($t_flag==2 ){
+            $where_arr[] = "( global_tq_called_flag=1 and origin_level <> 90 )";
         }else{
             $where_arr[] = "origin_level <> 90";
         }

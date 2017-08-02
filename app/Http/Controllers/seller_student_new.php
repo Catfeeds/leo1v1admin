@@ -609,7 +609,9 @@ class seller_student_new extends Controller
     }
 
     public function get_new_list_tmk(){
-        $this->set_in_value("t_flag",1);
+        if ($this->get_in_int_val("t_flag") ==0) {
+            $this->set_in_value("t_flag",1);
+        }
         return $this->get_new_list();
     }
 
