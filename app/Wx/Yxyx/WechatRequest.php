@@ -266,7 +266,7 @@ class WechatRequest  {
 每年帮助数以万计的学生提升成绩。学员成绩平均有30%的提高。
 
 如何邀请：
-<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>【第一步】绑定账号</a>
+【第一步】<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>绑定账号</a>
 【第二步】点击“我要邀请”生成邀请海报
 【第三步】保存图片，发给朋友或朋友圈
 
