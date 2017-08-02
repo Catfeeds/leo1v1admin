@@ -1,12 +1,13 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_level-teacher_lesson_record_info.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-teacher_regular_lesson_record_info.d.ts" />
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
 $(function(){
     function load_data(){
         $.reload_self_page ( {
 			teacherid:	$('#id_teacherid').val(),
-			subject:	$('#id_subject').val()
+            userid:	$('#id_userid').val(),
+            subject:	$('#id_subject').val(),
         });
     }
     //audiojs 时间回调, 每秒3-4次
@@ -16,16 +17,19 @@ $(function(){
         Cwhiteboard.play_next( cur_play_time );
     };
 
-    Enum_map.append_option_list("subject", $('#id_subject'));
 
+    Enum_map.append_option_list("subject", $('#id_subject'));
 	$('#id_teacherid').val(g_args.teacherid);
+	$('#id_userid').val(g_args.userid);
 	$('#id_subject').val(g_args.subject);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
+    $.admin_select_user($("#id_userid"), "student", load_data);
     $(".opt-first-lesson-video").on("click",function(){
         var opt_data = $(this).get_opt_data();
         $.do_ajax( "/teacher_level/get_teacher_test_lesson_info",{
             "teacherid" :opt_data.teacherid,
-            "lesson_type":2,
+            "userid":opt_data.userid,
+            "lesson_type":-2,
             "num":0
         },function(resp){
             var ret = resp.ret;
@@ -86,7 +90,8 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         $.do_ajax( "/teacher_level/get_teacher_test_lesson_info_record",{
             "teacherid" :opt_data.teacherid,
-            "lesson_type":2,
+            "userid":opt_data.userid,
+            "lesson_type":-2,
             "num":0
         },function(resp){
             var ret = resp.ret;
@@ -148,7 +153,8 @@ $(function(){
         var opt_data = $(this).get_opt_data();
         $.do_ajax( "/teacher_level/get_teacher_test_lesson_info",{
             "teacherid" :opt_data.teacherid,
-            "lesson_type":2,
+            "userid":opt_data.userid,
+            "lesson_type":-2,
             "num":4
         },function(resp){
             var ret = resp.ret;

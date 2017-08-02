@@ -41,6 +41,7 @@
                     <span class="input-group-addon">签单奖:{{@$teacher_trial}}</span>
                     <span class="input-group-addon">90分钟补偿:{{@$teacher_compensate}}</span>
                     <span class="input-group-addon">工资补偿:{{@$teacher_compensate_price}}</span>
+                    <span class="input-group-addon">推荐补偿:{{@$teacher_reference}}</span>
                     <span class="input-group-addon">常规课时:{{@$lesson_count['normal_total']/100}}</span>
                     <span class="input-group-addon">试听课时:{{@$lesson_count['trial_total']/100}}</span>
                 </div>
