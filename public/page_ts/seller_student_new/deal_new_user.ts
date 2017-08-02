@@ -547,6 +547,7 @@ $(function(){
                 $.do_ajax_t("/ss_deal/call_ytx_phone", {
                     "phone": phone
                 } );
+                $.reload();
 
             }else{
                 alert(resp.info);
