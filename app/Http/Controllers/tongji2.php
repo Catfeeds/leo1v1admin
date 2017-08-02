@@ -950,17 +950,16 @@ class tongji2 extends Controller
         $old_per_price = \App\Helper\Common::div_safe($old_order_money ,$old_new_user_count);
         $ret_info = $this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
         $test_info=$this->t_test_lesson_subject->get_seller_test_lesson_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
-        $last_num = 0;
-        $key = 0;
-        foreach ($ret_info['list'] as $k=> $v) {
-            $last_num = (count($v)/2)+1;
-            $key = $k;
+        $test_tmp = $test_info['list'];
+        foreach ($ret_info['list'] as $k=> &$v) {
+            echo $v['admin_revisiterid'],'--';
+            foreach ($test_tmp as $val) {
+                if ($val['require_adminid'] === $v['admin_revisiterid']) {
+                    $v['test_lesson_count'] = $val['test_count'];
+                    $v[2] = $val['test_count'];
+                }
+            }
         }
-        foreach ($test_info['list'] as $v) {
-            $ret_info['list'][$key]['test_lesson_count'] = $v['test_count'];
-            $ret_info['list'][$key][$last_num] = $v['test_count'];
-        }
-
         //order info
         $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,-1,"" , $origin_ex ,$origin_level,$tmk_student_status );
         $obj_list=&$ret_info["list"] ;

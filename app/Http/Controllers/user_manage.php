@@ -1851,8 +1851,11 @@ class user_manage extends Controller
 
     public function qc_complaint(){
         $page_num = $this->get_in_page_num();
-        $account_type = $this->get_in_int_val('account_type');
+        $account_type = $this->get_in_int_val('account_type',-1);
         $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
+        if(!$account_type){
+            
+        }
 
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "add_time", "投诉时间"),

@@ -13,10 +13,13 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
     public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type  ){
 
         $where_arr = [
-            ["complaint_state = %d",$is_complaint_state,-1]
+            ["complaint_state = %d",$is_complaint_state,-1],
+            ["account_type   = %d",$account_type ,-1],
+            //$account_type  
         ];
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+
 
         $sql = $this->gen_sql_new(" select distinct(tc.complaint_id),complaint_type, userid,account_type, complaint_info, add_time, complaint_info, current_adminid,m.account as current_account,complaint_state,current_admin_assign_time,complained_adminid,complained_adminid_type, complained_adminid_nick,suggest_info, deal_info, deal_time, deal_adminid  ".
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
