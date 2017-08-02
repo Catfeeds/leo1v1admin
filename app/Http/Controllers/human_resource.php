@@ -756,8 +756,7 @@ class human_resource extends Controller
         $have_wx                  = $this->get_in_int_val("have_wx",-1);
         $grade_plan               = $this->get_in_int_val("grade_plan",-1);
         $subject_plan             = $this->get_in_int_val("subject_plan",-1);
-        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
-
+        $fulltime_teacher_type    = $this->get_in_int_val("fulltime_teacher_type", -1);
 
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
@@ -777,10 +776,10 @@ class human_resource extends Controller
             $tea_subject= "";
         }
 
-        $account_info    = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
-        $date_week       = \App\Helper\Utils::get_week_range($time,1);
-        $lstart          = $date_week["sdate"];
-        $lend            = $date_week["edate"];
+        $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        $date_week    = \App\Helper\Utils::get_week_range($time,1);
+        $lstart       = $date_week["sdate"];
+        $lend         = $date_week["edate"];
 
         $this->t_teacher_info->switch_tongji_database();
         $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
@@ -798,8 +797,8 @@ class human_resource extends Controller
         foreach($ret_info["list"] as $val){
             $tea_list[] = $val["teacherid"];
         }
-        $lesson_tea_list           = $this->t_lesson_info->get_teacher_lesson_list_by_week($tea_list);
-        $arr_tea_list              = [];
+        $lesson_tea_list = $this->t_lesson_info->get_teacher_lesson_list_by_week($tea_list);
+        $arr_tea_list    = [];
         foreach($lesson_tea_list as &$item){
             $teacherid = $item['teacherid'];
             $start     = date('m-d H:i:s',$item['lesson_start']);
@@ -1854,7 +1853,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897]) || in_array($acc,['jim','adrian',"alan","ted","夏宏东"])){
+        if(in_array($adminid,[349,72,186,68,500,897]) || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low_key"])){
             $adminid = -1;
         }
 

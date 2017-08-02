@@ -2608,6 +2608,17 @@ class user_deal extends Controller
         $this->switch_tongji_database();
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
+        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
+        dd($kk_suc[420]["lesson_count"]);
+        $this->t_month_ass_student_info->get_field_update_arr(420,$start_time,1,[
+            "kk_num"  =>$kk_suc[420]["lesson_count"]
+        ]);
+        dd(111);
+
+        $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
+
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
         $ret = $this->t_lesson_info_b2->get_teacher_regular_lesson_info($start_time,$end_time);
         foreach($ret["list"] as &$val){
             E\Esubject::set_item_value_str($val,"subject");

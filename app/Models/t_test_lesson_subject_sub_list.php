@@ -806,7 +806,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $where_arr=[
             "l.lesson_del_flag=0",
             ["l.lesson_start>=%u",$start_time,0],
-            ["s.assistantid=%u",$assistantid,-1],
+            ["a.assistantid=%u",$assistantid,-1],
             ["tss.success_flag=%u",$success_flag,-1],
             ["tss.order_confirm_flag=%u",$order_confirm_flag,-1],
             ["n.master_adminid=%u",$master_adminid,-1],

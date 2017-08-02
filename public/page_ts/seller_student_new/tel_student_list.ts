@@ -28,7 +28,7 @@ $(function(){
         }
     });
 
-    Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"), false, [1,2,101,102]);
+    Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"), false, [1,101,102]);
 
     $('#id_seller_student_status').val(g_args.seller_student_status);
 

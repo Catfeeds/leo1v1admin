@@ -343,7 +343,7 @@ class menu{
                 // ["power_id"=>34, "name"=>"投诉处理-部门",   "url"=>"/user_manage/complaint_department_deal/"],
                 ["power_id"=>35, "name"=>"投诉处理-老师",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent/"],
-                ["power_id"=>37, "name"=>"投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
+                ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 

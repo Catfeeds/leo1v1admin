@@ -63,6 +63,7 @@
             <td >lessonid</td>
             <td >上课状态</td>
             <td >上课标题</td>
+            <td >年级</td>
             <td >课次/总课次</td>
             <td >到课率</td>
             <td >上课时间</td>
@@ -80,6 +81,7 @@
                     <td>{{$var["lessonid"]}}</td>
                     <td>{{$var["lesson_status"]}}</td>
                     <td>{{$var["course_name"]}}</td>
+                    <td>{{$var["grade_str"]}}</td>
                     <td>{{$var["lesson_num"]}}</td>
                     <td>{{$var["stu_join"]}}/{{$var["stu_total"]}}</td>
                     <td>{{$var["lesson_time"]}}</td>

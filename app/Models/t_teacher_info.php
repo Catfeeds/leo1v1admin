@@ -596,7 +596,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   ." sum(tss.lessonid >0) week_lesson_num,t.is_quit,t.part_remarks,"
                                   ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
-                                  ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num "
+                                  ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
+                                  ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
+                                  ." t.bank_province,t.bank_city"
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s l on (t.teacherid = l.teacherid"
@@ -2201,7 +2203,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role=4",
             "m.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
-            "m.uid not in (790,486,871)"
+            "m.uid not in (790,486,871,891)"
         ];
 
         $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "
@@ -2430,5 +2432,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   self::DB_TABLE_NAME
         );
         return $this->main_get_list_as_page($sql);
+    }
+
+    public function get_tkp(){
+        $where_arr = [
+            "teacher_money_type=5",
+            "reference='13387970861'",
+        ];
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s t"
+                                  ." left join %s tl on t.phone=tl.phone"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

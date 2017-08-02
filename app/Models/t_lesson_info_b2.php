@@ -1929,7 +1929,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_row($sql);
     }
-    public function get_stu_like_teacher_ass($userid, $start_time) {
+    public function get_stu_like_teacher($userid, $start_time) {
         $where_arr = [
             ["l.userid=%u", $userid, 0],
             ["l.lesson_start>=%u", $start_time, 0],
@@ -1938,18 +1938,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
         ];
-        $sql = $this->gen_sql_new("SELECT  SUM(l.lesson_count) AS teacher_lesson_count, t.realname, l.subject, l.lesson_start, if(s.lesson_count_left > 0,1,0) AS taday, l.teacherid,MAX(l.lesson_end) AS lesson_end, a.nick AS ass_nick"
+        $sql = $this->gen_sql_new("SELECT  SUM(l.lesson_count) AS teacher_lesson_count, t.realname, l.subject, l.lesson_start, if(s.lesson_count_left > 0,1,0) AS taday, l.teacherid,MAX(l.lesson_end) AS lesson_end"
                                   ." FROM %s l"
                                   ." LEFT JOIN %s t ON t.teacherid=l.teacherid"
                                   ." LEFT JOIN %s s ON s.userid=l.userid"
-                                  ." LEFT JOIN %s a ON a.assistantid=l.assistantid"
                                   ." WHERE %s"
                                   ." GROUP BY t.realname"
                                   ." ORDER BY teacher_lesson_count DESC"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
-                                  ,t_assistant_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);
@@ -2186,6 +2184,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function tongji_1v1_lesson_time_morning($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)",
+            "l.teacherid in (176999,190394)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,hour,week having(hour>=9 and week >1 and hour <11)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
     public function get_lesson_time_flag($userid,$teacherid){
         $where_arr = [
@@ -2413,8 +2434,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql);
-        
     }
 
-
+    public function reset_lesson_teacher_money_type($teacherid,$lesson_start){
+        $sql = $this->gen_sql_new("update %s set teacher_money_type=4"
+                                  ." where teacherid=%s"
+                                  ." and lesson_start>%u"
+                                  ,self::DB_TABLE_NAME
+                                  ,$teacherid
+                                  ,$lesson_start
+        );
+        return $this->main_update($sql);
+    }
 }
