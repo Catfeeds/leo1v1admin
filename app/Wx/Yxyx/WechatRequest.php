@@ -413,6 +413,8 @@ class WechatRequest  {
      */
     public static function eventClick(&$request){
         $openid = $request['fromusername'];
+        \App\Helper\Utils::logger('yxyx_new_oid:'.$openid);
+
         $this->check_bind($openid);
 
         //获取该分类的信息
