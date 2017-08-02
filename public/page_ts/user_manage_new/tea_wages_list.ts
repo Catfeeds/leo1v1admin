@@ -84,7 +84,7 @@ $(function(){
         var row_list      = $("#id_tbody tr");
         var id_money_info = $("#id_money_info");
         var do_index      = 0;
-            
+
         var teacher_money       = 0;
         var teacher_money_tax   = 0;
         var teacher_trial       = 0;

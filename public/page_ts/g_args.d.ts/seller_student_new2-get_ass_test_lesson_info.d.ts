@@ -6,6 +6,7 @@ interface GargsStatic {
 	assistantid:	number;
 	success_flag:	number;
 	order_confirm_flag:	number;
+	master_adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -32,7 +33,8 @@ $(function(){
 			master_flag:	$('#id_master_flag').val(),
 			assistantid:	$('#id_assistantid').val(),
 			success_flag:	$('#id_success_flag').val(),
-			order_confirm_flag:	$('#id_order_confirm_flag').val()
+			order_confirm_flag:	$('#id_order_confirm_flag').val(),
+			master_adminid:	$('#id_master_adminid').val()
         });
     }
 
@@ -42,6 +44,7 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_success_flag').val(g_args.success_flag);
 	$('#id_order_confirm_flag').val(g_args.order_confirm_flag);
+	$('#id_master_adminid').val(g_args.master_adminid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -84,6 +87,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">order_confirm_flag</span>
                 <input class="opt-change form-control" id="id_order_confirm_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">master_adminid</span>
+                <input class="opt-change form-control" id="id_master_adminid" />
             </div>
         </div>
 */

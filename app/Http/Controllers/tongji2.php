@@ -929,7 +929,6 @@ class tongji2 extends Controller
 
     }
     public function seller_origin_info() {
-
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
         $origin_ex           = $this->get_in_str_val("origin_ex");
         $origin_level  = $this->get_in_el_origin_level();
@@ -942,38 +941,26 @@ class tongji2 extends Controller
             $old_new_user_count+=$ol_item["new_user_count"];
         }
 
+        $old_order_info = $this->t_order_info->get_1v1_order_seller_list($end_time-90*86400,$end_time ,-1,"" , $origin_ex ,$origin_level, $tmk_student_status );
 
-        $old_order_info=$this->t_order_info->get_1v1_order_seller_list($end_time-90*86400,$end_time ,-1,"" , $origin_ex ,$origin_level, $tmk_student_status );
-
-        $old_order_money=0;
+        $old_order_money = 0;
         foreach ($old_order_info["list"] as $order_item) {
             $old_order_money+=$order_item["all_price"];
         }
-        $old_per_price=\App\Helper\Common::div_safe($old_order_money ,$old_new_user_count);
-
-
-
-        $ret_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
-
-
+        $old_per_price = \App\Helper\Common::div_safe($old_order_money ,$old_new_user_count);
+        $ret_info = $this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
 
         //order info
         $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,-1,"" , $origin_ex ,$origin_level,$tmk_student_status );
-
         $obj_list=&$ret_info["list"] ;
-
-
-
-
         foreach ($order_info["list"] as $order_item) {
             $k=$order_item["adminid"];
             \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
             $obj_list[$k]["order_count"]=$order_item["all_count"];
             $obj_list[$k]["order_money"]= intval($order_item["all_price"]);
-
         }
+        
         $admin_map= $this->t_manager_info->get_create_time_list();
-
         foreach( $obj_list  as &$item) {
             $adminid=$item["admin_revisiterid"];
             $item["adminid"] = $adminid ;
