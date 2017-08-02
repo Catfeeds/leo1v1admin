@@ -932,12 +932,10 @@ $(function(){
                                 if(id_total_score.val() <55){
                                     id_res.val("不通过");
                                 }else if(id_total_score.val() <65){
-                                    id_res.val("重审");                                    
+                                    id_res.val("重审");
                                 }else{
-                                    id_res.val("通过"); 
+                                    id_res.val("通过");
                                 }
-                                
-                                
                             });
                             arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);
                             arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("left",-200);
@@ -951,8 +949,6 @@ $(function(){
                         }
                     }
                 });
-
-                
             }
         });
     });

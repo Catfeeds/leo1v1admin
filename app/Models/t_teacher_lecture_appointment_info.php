@@ -798,4 +798,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         //dd($ret);
     }
 
+    public function get_id_by_adminid($adminid){
+        $sql = $this->gen_sql_new("select id from %s where accept_adminid=%u order by id desc limit 0,82",self::DB_TABLE_NAME,$adminid);
+        return $this->main_get_list($sql);
+    }
+
 }
