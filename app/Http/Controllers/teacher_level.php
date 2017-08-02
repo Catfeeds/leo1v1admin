@@ -537,9 +537,9 @@ class teacher_level extends Controller
     public function get_teacher_test_lesson_info(){
         $teacherid = $this->get_in_int_val("teacherid");
         $num = $this->get_in_int_val("num");
-        $teacherid=53289;
-        $lesson_type=2;
-        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,$num);
+        $userid       = $this->get_in_int_val("userid",-1);
+        $lesson_type       = $this->get_in_int_val("lesson_type");
+        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,$num,$userid);
         /*  $data["first"]["num"] = "第一次课";
         $data["five"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,4);
         $data["five"]["num"] = "第五次课";*/
@@ -559,7 +559,8 @@ class teacher_level extends Controller
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
         $teacherid       = $this->get_in_int_val("teacherid",-1);
-        $ret_info = $this->t_teacher_info->get_tea_have_test_lesson($page_info,$teacherid);
+        $subject         = $this->get_in_int_val("subject",-1);
+        $ret_info = $this->t_teacher_info->get_tea_have_test_lesson($page_info,$teacherid,$subject);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
@@ -569,6 +570,24 @@ class teacher_level extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    public function teacher_regular_lesson_record_info(){
+        $this->switch_tongji_database();
+        $page_info = $this->get_in_page_info();
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $userid       = $this->get_in_int_val("userid",-1);
+        $subject         = $this->get_in_int_val("subject",-1);
+        $ret_info = $this->t_teacher_info->get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+  
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
 
 

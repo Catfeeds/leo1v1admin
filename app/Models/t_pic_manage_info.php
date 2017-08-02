@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 use App\Models\Zgen as Z;
 class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
@@ -52,7 +53,6 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
                 self::C_order_by     => $order_by,
                 self::C_grade        => $grade,
                 self::C_subject      => $subject,
-
                 self::C_start_time  => $start_time,
                 self::C_end_time    => $end_time,
                 self::C_title_share => $title_share,
@@ -95,6 +95,5 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
         );
         return $this->main_get_list($sql);
     }
-
 
 }

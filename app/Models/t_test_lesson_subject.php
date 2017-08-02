@@ -148,18 +148,16 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." join %s n on n.userid=t.userid "
             ." join %s s on s.userid=t.userid "
             ." where %s "
-            ."  group by  first_seller_adminid "
+            ." group by first_seller_adminid "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
         );
 
-        // return $sql;
         return $this->main_get_list_as_page($sql,function($item){
             return $item["admin_revisiterid"];
         });
-
     }
     public function get_seller_test_lesson_count (
         $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1

@@ -27,11 +27,18 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span >学生 </span>
+                        <input type="text" value=""  class="opt-change"  id="id_userid"  placeholder="" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span class="input-group-addon">科目</span>
                         <select class="opt-change form-control" id="id_subject" >
                         </select>
                     </div>
                 </div>
+
 
 
 
@@ -45,6 +52,7 @@
                     <td>老师</td>
                     <td>科目</td>
                     <td>年级</td>
+                    <td>学生</td>
                     
                     <td> 操作  </td>
                 </tr>
@@ -61,6 +69,7 @@
                                 {{@$var["grade_part_ex_str"]}}
                             @endif
                         </td>
+                        <td>{{@$var["nick"]}} </td>
 
                         <td>
                             <div
