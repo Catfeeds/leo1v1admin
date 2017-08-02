@@ -60,7 +60,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $path = public_path().'/wximg';
 
-            chmod($savePathFile, 0777);
+            @chmod($savePathFile, 0777);
 
             $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
