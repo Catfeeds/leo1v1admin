@@ -325,6 +325,7 @@ class user_manage_new extends Controller
         $teacher_trial            = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,2);
         $teacher_compensate       = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,3);
         $teacher_compensate_price = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,4);
+        $teacher_reference        = $this->t_teacher_money_list->get_teacher_honor_money($teacherid,$start_time,$end_time,6);
         $old_list                 = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start_time,$end_time,$studentid);
 
         if(!in_array($teacher_money_type,[0,1,2,3])){
@@ -546,6 +547,7 @@ class user_manage_new extends Controller
             "teacher_trial"            => $teacher_trial/100,
             "teacher_compensate"       => $teacher_compensate/100,
             "teacher_compensate_price" => $teacher_compensate_price/100,
+            "teacher_reference"        => $teacher_reference/100,
             "lesson_count"             => $lesson_total_arr,
         ]);
     }

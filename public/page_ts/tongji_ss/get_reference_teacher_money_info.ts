@@ -1,0 +1,43 @@
+/// <reference path="../common.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_reference_teacher_money_info.d.ts" />
+
+$(function(){
+    function load_data(){
+        $.reload_self_page ( {
+
+        });
+    }
+    $("#id_get_money").on("click",function(){
+        var row_list=$("#id_tbody tr");
+        console.log(row_list);
+        var do_index=0;
+	    
+        function do_one() {
+            if (do_index < row_list.length ) {
+                var $tr=$(row_list[do_index]);
+                var opt_data=$tr.find(".course_plan").get_opt_data();
+                console.log(opt_data.teacherid);
+                $.do_ajax("/teacher_money/get_teacher_total_money",{
+                    "teacherid"           : opt_data.teacherid,
+                    "type" : "admin",
+                    "start_time"       : "2017-07-01",
+                    "end_time"         : "2017-08-01",
+                },function(resp){
+                    console.log(resp.data);
+                    var obj = resp.data[0];
+                    
+                   // do_index++;
+                   // do_one();
+                }); 
+            }else{
+            }
+        };
+        do_one();
+
+    });
+
+
+
+
+	$('.opt-change').set_input_change_event(load_data);
+});

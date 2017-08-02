@@ -47,6 +47,13 @@ class testbb extends Controller
 
 
     public function test () {
+
+
+        // $file = "../../../../public/wximg/1858145170.png";
+        $file = public_path()."wximg/a23042faa68f7b2e616b68a8edd55ac91500889153780.pdf";
+        $dd = file_exists($file);
+        dd($dd);
+
         $item_yes['subject'] = 1;
         dd(E\Esubject::get_desc(2));
 
