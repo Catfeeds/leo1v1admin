@@ -2404,15 +2404,94 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
-    public function get_test_lesson_success_list(){
-        $now = time();
-        $tomor_time = $now;
+    public function get_test_lesson_success_list_yes(){
+        $yesterday_day_start = strtotime(date('Y-m-d 00:00:00' , strtotime('-1 day')));
+        $yesterday_day_end   = $yesterday_day_start + 86400;
 
         $where_arr = [
-            ["l.lesson_end >%d",$tomor_time]
+            ["l.lesson_start >%d",$yesterday_day_start],
+            ["l.lesson_end <%d",$yesterday_day_end],
+            "l.lesson_type = 2",
+            "tll.success_flag = 0 "
         ];
-        // $sql
+        $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+                                  " left join %s tll on tll.lessonid = l.lessonid ".
+                                  " left join %s tls on tls.require_id = tll.require_id ".
+                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s s on s.userid = l.userid ".
+                                  " left join %s t on t.teacherid = l.teacherid ".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+
+        );
+
+        return $this->main_get_list($sql);
     }
+
+    public function get_test_lesson_success_list_two_days_ago(){
+        $two_day_start = strtotime(date('Y-m-d 00:00:00' , strtotime('-2 day')));
+        $two_day_end   = $two_day_start + 86400;
+
+        $where_arr = [
+            ["l.lesson_start >%d",$two_day_start],
+            ["l.lesson_end <%d",$two_day_end],
+            "l.lesson_type = 2",
+            "tll.order_confirm_flag = 0"
+        ];
+        $sql = $this->gen_sql_new(" select tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+                                  " left join %s tll on tll.lessonid = l.lessonid ".
+                                  " left join %s tls on tls.require_id = tll.require_id ".
+                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  $where_arr
+
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
+    public function get_test_lesson_success_list_three_days_ago(){
+        $three_day_start = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
+        $three_day_end   = $three_day_start + 86400;
+
+        $where_arr = [
+            ["l.lesson_start >%d",$three_day_start],
+            ["l.lesson_end <%d",$three_day_end],
+            "l.lesson_type = 2",
+            "(tll.success_flag = 0 or tll.order_confirm_flag = 0)"
+
+        ];
+
+        $sql = $this->gen_sql_new(" select tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+                                  " left join %s tll on tll.lessonid = l.lessonid ".
+                                  " left join %s tls on tls.require_id = tll.require_id ".
+                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  $where_arr
+
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+
 
 
     public function get_teacher_regular_lesson_info($start_time,$end_time){

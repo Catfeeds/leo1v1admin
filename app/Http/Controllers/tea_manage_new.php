@@ -16,9 +16,8 @@ class tea_manage_new extends Controller
         $teacherid=$this->get_in_teacherid();
         $start_time=$this->get_in_start_time_from_str();
         $end_time=$this->get_in_end_time_from_str();
-
-
     }
+
     public function update_teacher_level() {
         $teacherid                 = $this->get_in_teacherid();
         $account                   = $this->get_account();

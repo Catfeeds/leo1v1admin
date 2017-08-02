@@ -479,17 +479,12 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action : function(dialog) {
-
-                $.do_ajax( '/tea_manage_new/update_tea_note',
-                    {
-                        "teacherid"          : opt_data.teacherid,
-                        "tea_note"           : id_tea_note.val()
-                    });
+                $.do_ajax( '/tea_manage_new/update_tea_note',{
+                    "teacherid" : opt_data.teacherid,
+                    "tea_note"  : id_tea_note.val()
+                });
             }
         });
-
-
-
     });
 
     $(".opt-interview-assess").on("click",function(){
@@ -1813,13 +1808,50 @@ $(function(){
         var id_bank_province = $("<input/>");
         var id_bank_city     = $("<input/>");
 
+        id_idcard.val(data.idcard);
+        id_bankcard.val(data.bankcard);
+        id_bank_address.val(data.bank_address);
+        id_bank_account.val(data.bank_account);
+        id_bank_phone.val(data.bank_phone);
+        id_bank_type.val(data.bank_type);
+        id_bank_province.val(data.bank_province);
+        id_bank_city.val(data.bank_city);
+
+        var arr = [
+            ["身份证",id_idcard],
+            ["银行卡",id_bankcard],
+            ["支行地址",id_bank_address],
+            ["开户人",id_bank_account],
+            ["开户手机号",id_bank_phone],
+            ["银行类型",id_bank_type],
+            ["开户省",id_bank_province],
+            ["开户市",id_bank_city],
+        ];
+
         $.show_key_value_table("更改老师银行卡信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
+                $.do_ajax("/teacher_money/update_teacher_bank_info",{
+                    "type"          : "admin",
+                    "teacherid"     : data.teacherid,
+                    "idcard"        : id_idcard.val(),
+                    "bankcard"     : id_bankcard.val(),
+                    "bank_address"  : id_bank_address.val(),
+                    "bank_account"  : id_bank_account.val(),
+                    "bank_phone"    : id_bank_phone.val(),
+                    "bank_type"     : id_bank_type.val(),
+                    "bank_province" : id_bank_province.val(),
+                    "bank_city"     : id_bank_city.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
             }
         });
-
     });
 
 
