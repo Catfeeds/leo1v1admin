@@ -507,6 +507,8 @@ class NewRouteConfig {
         "/revisit/get_revisit_info"     => true,
         "/revisit/get_revisit_info_new" => true,
         "/revisit/add_revisit_record"   => true,
+        "/revisit/add_revisit_record_b2"   => true,
+
         "/monitor/smsmonitor"           => true,
 
         "/customer_service/intended_user_info"           => true,
