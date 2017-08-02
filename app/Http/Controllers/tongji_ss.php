@@ -27,14 +27,7 @@ class tongji_ss extends Controller
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
-
-    public function user_count()
-    {
-        $sum_field_list=[
-            "add_time_count",
-            "call_count",
-            "call_old_count",
-            "first_revisit_time_count",
+public function user_count() {$sum_field_list=["add_time_count", "call_count", "call_old_count", "first_revisit_time_count",
             "after_24_first_revisit_time_count",
             //"avg_first_time",
             "test_lesson_count",
@@ -1061,17 +1054,22 @@ class tongji_ss extends Controller
         foreach ($data_list as $a_item) {
             $subject = $a_item["subject"];
             $grade   = $a_item["grade"];
+            $phone   = $a_item["phone_location"];
             @$subject_map[$subject] =@$subject_map[$subject]+$a_item["price"]/100;
             @$grade_map[$grade] =@$grade_map[$grade]+$a_item["price"]/100;
+            @$phone_map[$phone] =@$phone_map[$phone]+$a_item["price"]/100;
             @$subject_count_map[$subject] ++;
             @$grade_count_map[$grade] ++;
+            @$phone_count_map[$phone] ++;
 
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
             "subject_map"       => $subject_map,
             "grade_map"         => $grade_map,
+            "phone_map"         => $phone_map,
             "subject_count_map" => $subject_count_map,
             "grade_count_map"   => $grade_count_map,
+            "phone_count_map"   => $phone_count_map,
             "adminid_right"     => $adminid_right
         ]);
     }
@@ -2320,7 +2318,8 @@ class tongji_ss extends Controller
 
         $adminid = $this->get_in_int_val("adminid",-1);
         $is_green_flag = $this->get_in_int_val("is_green_flag",-1);
-        $list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag);
+        $require_admin_type = $this->get_in_int_val("require_admin_type",-1);
+        $list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag,$require_admin_type);
         // $list = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid);
 
         foreach($list as &$item){
