@@ -45,6 +45,10 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
      */
     public function handle()
     {
+        $wx=new \App\Helper\Wx();
+        $now = date('Y-m-d H:i:s');
+
+
         //
         // 昨天结束的试听课 [如果没有设置“课程确认”，发送课程确认的消息]
         $test_lesson_list_yes = $this->task->t_lesson_info_b2->get_test_lesson_success_list_yes();
@@ -52,43 +56,8 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         foreach( $test_lesson_list_yes as &$item_yes){
             if($item_yes['success_flag'] == 0){
                 //课时成功未设置
-
-                /**
-                   {{first.DATA}}
-                   待办主题：{{keyword1.DATA}}
-                   待办内容：{{keyword2.DATA}}
-                   日期：{{keyword3.DATA}}
-                   {{remark.DATA}}
-                 **/
-
-                $now = date('Y-m-d H:i:s');
-
-                E\Egrade::set_item_value_str($item_yes);
-                E\Esubject::set_item_value_str($item_yes);
-
-                $lesson_start_date = date("Y-m-d H:i:s",$item_yes['lesson_start']);
-                $lesson_end_date   = date("H:i:s",$item_yes['lesson_end']);
-                $ass_wx_openid = $this->task->t_manager_info->get_wx_openid();
-
-                $lesson_info = " 试听课 课时有效性未设置 课时信息:".$item_yes['stu_nick']."同学 - 上课时间:". $lesson_start_date." ~ ".$lesson_end_date." - 科目".$item_yes['subject']." - 老师".$item_yes['teacher_nick'];
-                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
-                $data_msg = [
-                    "first"     => "未设置试听课课时有效性",
-                    "keyword1"  => "确认试听课课时有效性",
-                    "keyword2"  => "$lesson_info",
-                    "keyword3"  => "$now",
-                ];
-                $url = 'http://admin.yb1v1.com/seller_student_new2/get_ass_test_lesson_info';
-                $wx=new \App\Helper\Wx();
-
-                $wx_openid_arr = [
-                ];
-                $wx_openid_list = array_merge($wx_openid_arr,$subject_adminid_wx_openid_list);
-
-                foreach($wx_openid_list as $qc_item){
-                    $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
-                }
-
+                $is_success_flag = 1; // 课时未设置
+                $this->send_wx_msg($item_yes,$is_success_flag);
             }
         }
 
@@ -113,6 +82,44 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
                 // 助教未设置试听课结果
             }
         }
+
+    }
+
+    public function send_wx_msg($item_yes,$is_success_flag){
+
+                /**
+                   {{first.DATA}}
+                   待办主题：{{keyword1.DATA}}
+                   待办内容：{{keyword2.DATA}}
+                   日期：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 **/
+
+
+                E\Egrade::set_item_value_str($item_yes);
+                E\Esubject::set_item_value_str($item_yes);
+
+                $lesson_start_date = date("Y-m-d H:i:s",$item_yes['lesson_start']);
+                $lesson_end_date   = date("H:i:s",$item_yes['lesson_end']);
+                $ass_wx_openid = $this->task->t_manager_info->get_wx_openid($item_yes['require_adminid']);
+
+                if($is_success_flag == 1){
+                    $lesson_flag_str = "课时有效性未设置";
+                }else{
+                    $lesson_flag_str = "课时有效性未设置";
+                }
+
+                $lesson_info = " 试听课 ".$lesson_flag_str." 课时信息:".$item_yes['stu_nick']."同学 - 上课时间:". $lesson_start_date." ~ ".$lesson_end_date." - 科目".$item_yes['subject']." - 老师".$item_yes['teacher_nick'];
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+                $data_msg = [
+                    "first"     => "未设置试听课课时有效性",
+                    "keyword1"  => "确认试听课课时有效性",
+                    "keyword2"  => "$lesson_info",
+                    "keyword3"  => "$now",
+                ];
+                $url_yes = 'http://admin.yb1v1.com/seller_student_new2/get_ass_test_lesson_info';
+
+                $wx->send_template_msg($ass_wx_openid,$template_id,$data_msg_yes ,$url_yes);
 
     }
 }
