@@ -950,21 +950,22 @@ class tongji2 extends Controller
             $old_order_money+=$order_item["all_price"];
         }
         $old_per_price=\App\Helper\Common::div_safe($old_order_money ,$old_new_user_count);
-
-
-
         $ret_info=$this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
-
-
-
+        $test_info=$this->t_test_lesson_subject->get_seller_test_lesson_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
+        $last_num = 0;
+        $key = 0;
+        foreach ($ret_info['list'] as $k=> $v) {
+            $last_num = (count($v)/2)+1;
+            $key = $k;
+        }
+        foreach ($test_info['list'] as $v) {
+            $ret_info['list'][$key]['test_lesson_count'] = $v['test_count'];
+            $ret_info['list'][$key][$last_num] = $v['test_count'];
+        }
         //order info
         $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,-1,"" , $origin_ex ,$origin_level,$tmk_student_status );
 
         $obj_list=&$ret_info["list"] ;
-
-
-
-
         foreach ($order_info["list"] as $order_item) {
             $k=$order_item["adminid"];
             \App\Helper\Utils::array_item_init_if_nofind($obj_list,$k, ["admin_revisiterid"=>$k] );
@@ -973,7 +974,6 @@ class tongji2 extends Controller
 
         }
         $admin_map= $this->t_manager_info->get_create_time_list();
-
         foreach( $obj_list  as &$item) {
             $adminid=$item["admin_revisiterid"];
             $item["adminid"] = $adminid ;
@@ -986,7 +986,6 @@ class tongji2 extends Controller
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
             "old_per_price" => $old_per_price ,
         ]);
