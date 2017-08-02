@@ -122,7 +122,7 @@
                     <td >姓名</td>
                     <td style="width:60px">下次回访时间</td>
                     <td style="width:60px">试听时间</td>
-                    <td >来源</td>
+                    <!-- <td >来源</td> -->
                     <td style="width:70px">回访状态</td>
                     <td >用户备注</td>
                     <td >年级</td>
@@ -141,14 +141,13 @@
                         <td> {{$var["nick"]}} </td>
                         <td> {{$var["next_revisit_time"]}} </td>
                         <td> {{$var["lesson_start"]}} </td>
-
-                        <td>
-                            @if  ($var["origin_assistantid"]==0)
-                                {{$var["origin"]}}
-                            @else
-                                转介绍:  <br/>
-                            @endif
-                        </td>
+                        <!-- <td>
+                             @if  ($var["origin_assistantid"]==0)
+                             {{$var["origin"]}}
+                             @else
+                             转介绍:  <br/>
+                             @endif
+                             </td> -->
                         <td>
                             {{$var["seller_student_status_str"]}} <br/>
                         </td>

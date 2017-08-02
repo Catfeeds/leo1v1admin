@@ -592,7 +592,12 @@ class teacher_money extends Controller
     }
 
     public function update_teacher_bank_info(){
-        $teacherid     = session("login_userid");
+        $type = $this->get_in_str_val("type","wx");
+        if($type=="wx"){
+            $teacherid = session("login_userid");
+        }elseif($type=="admin"){
+            $teacherid = $this->get_in_int_val("teacherid");
+        }
         $bankcard      = $this->get_in_str_val("bankcard");
         $bank_address  = $this->get_in_str_val("bank_address");
         $bank_account  = $this->get_in_str_val("bank_account");

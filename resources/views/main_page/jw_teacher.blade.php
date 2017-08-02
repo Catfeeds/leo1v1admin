@@ -137,7 +137,7 @@
                                             <td class="order_lesson" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["tra_count"]}}</a></td>
                                             <td class="tra_count_seller">{{@$var["tra_count_seller"]}} </td>
                                             <td class="tra_count_ass">{{@$var["tra_count_ass"]}} </td>
-                                            <td class="tra_count_green">{{@$var["tra_count_green"]}} </td>
+                                            <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["tra_count_green"]}}</a> </td>
                                             <td class="tra_per_str">{{@$var["tra_per_str"]}} </td>
                                         </tr>
                                     @endforeach

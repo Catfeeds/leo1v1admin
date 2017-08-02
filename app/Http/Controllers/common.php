@@ -337,7 +337,7 @@ class common extends Controller
                         \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
                     }
 
-                    $this->add_trial_train_lesson($teacher_info);
+                    // $this->add_trial_train_lesson($teacher_info);
                     //$str .= "<br>您培训已通过，请登陆老师后台进行模拟试听课程。";
 
                     $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
