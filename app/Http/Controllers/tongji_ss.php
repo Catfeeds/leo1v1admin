@@ -2319,7 +2319,8 @@ class tongji_ss extends Controller
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
 
         $adminid = $this->get_in_int_val("adminid",-1);
-        $list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid);
+        $is_green_flag = $this->get_in_int_val("is_green_flag",-1);
+        $list = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag);
         // $list = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid);
 
         foreach($list as &$item){

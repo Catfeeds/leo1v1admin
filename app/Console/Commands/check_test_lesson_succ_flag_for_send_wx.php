@@ -69,7 +69,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
                 $lesson_start_date = date("Y-m-d H:i:s",$item_yes['lesson_start']);
                 $lesson_end_date   = date("H:i:s",$item_yes['lesson_end']);
 
-                $lesson_info = $item_yes['stu_nick']." - ". $lesson_start_date." ~ ".$lesson_end_date." 试听课 ";
+                $lesson_info = $item_yes['stu_nick']."同学 - 上课时间". $lesson_start_date." ~ ".$lesson_end_date." 试听课 "." - 科目".$item_yes['subject'];
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
                     "first"     => "未设置试听课课时有效性",
