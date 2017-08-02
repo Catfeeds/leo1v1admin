@@ -256,14 +256,14 @@ class WechatRequest  {
      */
     public static function eventSubscribe(&$request){
         $content =
-            self::unicode2utf8('\ue031').self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
+            self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
 【分享】它使快乐增大，它使悲伤减小。
 
-".self::unicode2utf8('\UE41F')."现在，全国公校名师等待着你的推荐。
-".self::unicode2utf8('\UE41F')."现在，你可以帮助朋友解决头痛的师资问题。
-".self::unicode2utf8('\UE12F')."现在，每月你可能有一笔零花钱
-".self::unicode2utf8('\UE12F')."更可能会成为一份教育事业月入过万
+".self::unicode2utf8('\ue41f')."现在，全国公校名师等待着你的推荐。
+".self::unicode2utf8('\ue41f')."现在，你可以帮助朋友解决头痛的师资问题。
+".self::unicode2utf8('\ue12f')."现在，每月你可能有一笔零花钱
+".self::unicode2utf8('\ue12f')."更可能会成为一份教育事业月入过万
 
 来成为人类的灵魂工程师吧
 
