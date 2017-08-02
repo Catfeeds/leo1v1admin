@@ -3642,9 +3642,8 @@ class user_manage_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        // $parentid  = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );
-        $parentid  = session('parentid')?session('parentid'):$this->get_in_str_val('parentid');
-        $parentid  = 60004;
+        $parentid  = session('parentid');
+        $parentid = $this->get_in_str_val('parentid');
         if (!$parentid) {
             return $this->output_err("请重新绑定");
         }
@@ -3706,18 +3705,22 @@ class user_manage_new extends Controller
             $list['excess_nums'] = intval( $list['stu_praise_star']*19);
             $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
             $subject     = "";
-            $normal_time = "";
+            $now_time = time();
             $list['first_free_lesson_time'] = '';
             foreach ($first_info as &$item) {
                 if ($item["lesson_type"] == 2) {
                     $list['first_free_lesson_time'] = date('Y-m-d', $item['lesson_start']);
                 } else {
-                    $normal_time = $item['lesson_start'];
+                    $normal_time = ($now_time < $item['lesson_start'])? $now_time:$item['lesson_start'];
                     E\Esubject::set_item_value_str($item);
                     $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
                 }
             }
-            $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
+            if ( @$normal_time && $normal_time<$now_time ) {
+                $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
+            } else {
+                $list['first_normal_lesson_time'] = '';
+            }
             $list['first_subject']            = $subject;
             $open_lesson = $this->t_lesson_info_b2->get_stu_first_open_lesson($userid);
             $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '';
@@ -3783,12 +3786,11 @@ class user_manage_new extends Controller
             $list['lesson_count_left'] = $list['lesson_count_left']/100;
             if ($list['lesson_count_left'] > 100) {
                 $list['last_title'] = '理优1对1永远和你在一起';
-            } else if ( $list['first_normal_time']) {
+            } else if ( $list['first_normal_lesson_time'] ) {
                 $list['last_title'] = '理优1对1十分想念你';
             } else {
                 $list['last_title'] = '理优1对1期待你的加入';
             }
-            dd($list);
             return $list;
         } else {
             return $this->output_err("请重新绑定您的学生！");

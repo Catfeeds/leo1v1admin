@@ -354,7 +354,12 @@ class ajax_deal2 extends Controller
         $notes           = $this->get_in_str_val('notes');
         $create_adminid  = $this->get_account_id();
         $create_time     = time();
-
+        $ret = $this->t_student_info->get_student_info_by_phone($phone);
+        
+        if($ret){
+            return $this->output_err('err', ['error'=>'此账号已经注册']);
+        }
+        //dd($ret);
         $this->t_cs_intended_user_info->row_insert([
             'create_time'              => $create_time,
             'create_adminid'           => $create_adminid,
@@ -520,7 +525,7 @@ class ajax_deal2 extends Controller
 
     /**
      *@author    sam
-     *@function  修改意向用户记录
+     *@function  修改用户建议记录
      *@path      customer_service/complaint_info
      */
     public function edit_proposal_info(){
