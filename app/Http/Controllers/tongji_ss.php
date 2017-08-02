@@ -2414,6 +2414,7 @@ class tongji_ss extends Controller
         $sum_field_list = [
             "all_num",
             "all_count",
+            "real_all",
             "real_num",
             "suc_count",
             "pass_per",

@@ -33,7 +33,10 @@ $(function(){
             teacher_type             : $('#id_teacher_type').val(),
             teacher_ref_type         : $('#id_teacher_ref_type').val(),
             reference_teacherid      : $('#id_reference_teacherid').val(),
-			have_wx:	$('#id_have_wx').val()
+			have_wx:	$('#id_have_wx').val(),
+            grade_plan:	$('#id_grade_plan').val(),
+			subject_plan:	$('#id_subject_plan').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
         });
     }
 
@@ -55,6 +58,10 @@ $(function(){
     Enum_map.append_option_list("boolean", $("#id_is_quit") );
     Enum_map.append_option_list("boolean", $("#id_set_leave_flag") );
     Enum_map.append_option_list("boolean", 	$('#id_have_wx') );
+    Enum_map.append_option_list("grade", $("#id_grade_plan"),false,[101,102,103,104,105,106,201,202,203,301,302,303] );
+    Enum_map.append_option_list("subject", $("#id_subject_plan") );
+    Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
+
 
     $('#id_teacher_type').val(g_args.teacher_type);
     $('#id_teacher_ref_type').val(g_args.teacher_ref_type);
@@ -82,6 +89,10 @@ $(function(){
     $('#id_second_interview_score').val(g_args.second_interview_score);
     $('#id_lesson_hold_flag_adminid').val(g_args.lesson_hold_flag_adminid);
     $('#id_set_leave_flag').val(g_args.set_leave_flag);
+	$('#id_grade_plan').val(g_args.grade_plan);
+	$('#id_subject_plan').val(g_args.subject_plan);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $.admin_select_user($("#id_reference_teacherid"), "teacher", load_data);
@@ -161,16 +172,22 @@ $(function(){
         var id_grade_part_ex      = $("<select/>");
         var id_interview_assess   = $("<textarea/>")
         var id_teacher_type       = $("<select/>");
+        var id_trial_lecture_is_pass = $("<select/>");
+        var id_train_through_new     = $("<select/>");
+        var id_is_test_user          = $("<select/>");
 
         Enum_map.append_option_list("teacher_money_type", id_teacher_money_type );
         Enum_map.append_option_list("level", id_level );
-        Enum_map.append_option_list("teacher_ref_type", id_teacher_ref_type);
-        Enum_map.append_option_list("identity", id_identity);
+        Enum_map.append_option_list("teacher_ref_type", id_teacher_ref_type,true);
+        Enum_map.append_option_list("identity", id_identity,true,[0,5,6,7,8]);
 
         Enum_map.append_option_list("gender", id_gender, true );
         Enum_map.append_option_list("subject", id_subject, true );
         Enum_map.append_option_list("grade_part_ex", id_grade_part_ex, true );
         Enum_map.append_option_list("teacher_type", id_teacher_type, true );
+        Enum_map.append_option_list("boolean", id_trial_lecture_is_pass, true );
+        Enum_map.append_option_list("boolean", id_train_through_new, true );
+        Enum_map.append_option_list("boolean", id_is_test_user, true );
 
         id_work_year.val("1");
         id_birth.val("1989-01-01");
@@ -200,6 +217,9 @@ $(function(){
             ["学校", id_school],
             ["年级段", id_grade_part_ex],
             ["第一科目", id_subject],
+            ["试讲是否通过", id_trial_lecture_is_pass],
+            ["培训是否通过", id_train_through_new],
+            ["是否为测试账号", id_is_test_user],
             ["面试评价", id_interview_assess],
         ];
 
@@ -211,31 +231,36 @@ $(function(){
                 birth     = birth.substr(0,4)+birth.substr(5,2)+birth.substr(8,2);
 
                 $.do_ajax('/tea_manage/add_teacher',{
-                    "tea_nick" : id_tea_nick.val(),
-                    "gender"   : id_gender.val(),
-                    "level"    : id_level.val(),
-                    "teacher_money_type" : id_teacher_money_type.val(),
-                    "teacher_ref_type" : id_teacher_ref_type.val(),
-                    "identity"  : id_identity.val(),
-                    "birth"     : birth,
-                    "work_year" : id_work_year.val(),
-                    "phone"     : id_phone.val(),
-                    "phone_spare": id_phone_spare.val(),
-                    "email"     : id_email.val(),
-                    "address"   : id_address.val(),
-                    "school"    : id_school.val(),
-                    "subject"   : id_subject.val(),
-                    "interview_access" : id_interview_assess.val(),
-                    "grade_part_ex"    : id_grade_part_ex.val(),
-                    "teacher_type"     : id_teacher_type.val(),
+                    "tea_nick"              : id_tea_nick.val(),
+                    "gender"                : id_gender.val(),
+                    "level"                 : id_level.val(),
+                    "teacher_money_type"    : id_teacher_money_type.val(),
+                    "teacher_ref_type"      : id_teacher_ref_type.val(),
+                    "identity"              : id_identity.val(),
+                    "birth"                 : birth,
+                    "work_year"             : id_work_year.val(),
+                    "phone"                 : id_phone.val(),
+                    "phone_spare"           : id_phone_spare.val(),
+                    "email"                 : id_email.val(),
+                    "address"               : id_address.val(),
+                    "school"                : id_school.val(),
+                    "subject"               : id_subject.val(),
+                    "interview_access"      : id_interview_assess.val(),
+                    "grade_part_ex"         : id_grade_part_ex.val(),
+                    "teacher_type"          : id_teacher_type.val(),
+                    "trial_lecture_is_pass" : id_trial_lecture_is_pass.val(),
+                    "train_through_new"     : id_train_through_new.val(),
+                    "is_test_user"          : id_is_test_user.val(),
                 });
             }
         });
     });
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
         var opt_data                  = $(this).get_opt_data();
+        console.log(opt_data.not_grade);
+        console.log(opt_data.not_grade_str);
         var id_tea_nick               = $("<input/>");
         var id_phone_spare            = $("<input/>");
         var id_teacher_money_type     = $("<select/>");
@@ -575,15 +600,6 @@ $(function(){
         });
     });
 
-
-    $(".opt-old").on("click",function(){
-        var opt_data=$(this).get_opt_data();
-        opt_data.teacherid
-        $.wopen("/human_resource/index_old?teacherid="+opt_data.teacherid ) ;
-
-    });
-
-
     $('.opt-meeting').on('click', function(){
     var opt_data= $(this).get_opt_data();
         get_create_meeting(opt_data.teacherid);
@@ -634,7 +650,10 @@ $(function(){
 
     $(".opt-level").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        set_teacher_level(opt_data);
+    });
 
+    var set_teacher_level = function(opt_data){
         var id_teacher_money_type = $("<select/>");
         var id_level              = $("<select/>");
         var id_start_time         = $("<input/>");
@@ -657,11 +676,12 @@ $(function(){
             ["时间不填则不会重置课程时间",""],
             ["重置课程开始时间", id_start_time],
         ];
+
         $.show_key_value_table("修改等级", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
-                $.do_ajax( '/tea_manage_new/update_teacher_level', {
+                $.do_ajax('/tea_manage_new/update_teacher_level',{
                     "teacherid"          : opt_data.teacherid,
                     "start_time"         : id_start_time.val(),
                     "level"              : id_level.val(),
@@ -669,7 +689,7 @@ $(function(){
                 });
             }
         });
-    });
+    }
 
     $(".opt-trial-pass").on("click",function(){
         var opt_data                 = $(this).get_opt_data();
@@ -726,6 +746,8 @@ $(function(){
         $("#id_free_time").parent().parent().show();
         $(".test_transfor_per").show();
     }else{
+        $("#id_grade_plan").parent().parent().hide();
+        $("#id_subject_plan").parent().parent().hide();
         $(".opt-return-back-new").hide();
         $(".opt-return-back-list").hide();
         $(".opt-complaints-teacher").hide();
@@ -765,15 +787,23 @@ $(function(){
         $(".opt-limit-plan-lesson").hide();
     }
 
+    if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    }else{
+         $("#id_fulltime_teacher_type").parent().parent().hide();
+    }
+
+
     if(tea_right==0 ){
         $(".opt-teacher-freeze").hide();
         $(".opt-limit-plan-lesson").hide();
         $(".opt-set-teacher-record-new").hide();
     }
 
-    if(acc=="adrian" || acc=="seven"){
+    if(acc=="adrian" || acc=="seven" || acc=="jack"){
         $(".opt-edit").show();
     }
+    
+   
 
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();
@@ -940,14 +970,17 @@ $(function(){
     });
 
 
-
     $(".opt-test-user").on("click",function(){
-        var teacherid  = $(this).get_opt_data("teacherid");
+        var data = $(this).get_opt_data();
+        set_test_user(data);
+    });
+
+    var set_test_user = function(data){
+        var teacherid = data.teacherid;
         var id_is_test = $("<select/>");
         var arr        = [
             ["测试老师",id_is_test]
         ];
-
         Enum_map.append_option_list("boolean",id_is_test,true);
 
         $.do_ajax("/tea_manage_new/get_teacher_info_by_teacherid",{
@@ -973,7 +1006,7 @@ $(function(){
                 });
             }
         })
-    });
+    }
 
     $(".opt-set-research-note").on("click",function(){
         var opt_data  = $(this).get_opt_data();
@@ -1184,12 +1217,12 @@ $(function(){
         }
     });
 
-
-
-
-
     $(".opt-change-phone").on("click",function(){
-        var opt_data     = $(this).get_opt_data();
+        var opt_data = $(this).get_opt_data();
+        change_phone(opt_data);
+    });
+
+    var change_phone = function(opt_data){
         var id_new_phone = $("<input/>");
         var arr          = [
             ["新的手机号",id_new_phone],
@@ -1213,7 +1246,7 @@ $(function(){
                 });
             }
         });
-    });
+    }
 
     $(".opt-change-level").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -1537,10 +1570,7 @@ $(function(){
             });
 
             dlg.getModalDialog().css("width","1024px");
-
         });
-
-
     });
 
     $(".opt-require-teacher-quit").on("click",function(){
@@ -1563,7 +1593,11 @@ $(function(){
     });
 
     $(".opt-change_tea_to_new").on("click",function(){
-        var data            = $(this).get_opt_data();
+        var data = $(this).get_opt_data();
+        opt_change_tea_to_new(data);
+    });
+
+    var opt_change_tea_to_new = function(data){
         var id_new_phone    = $("<input/>");
         var id_lesson_start = $("<input/>");
 
@@ -1575,7 +1609,7 @@ $(function(){
 
         var arr = [
             ["老师新账号",id_new_phone],
-            ["需要转移的课程时间选择","如果不填则默认当天之后的未上课程"],
+            ["需要转移的课程开始时间","如果不填则默认当天之后的未上课程"],
             ["开始时间",id_lesson_start],
         ];
 
@@ -1585,12 +1619,11 @@ $(function(){
             action   : function(dialog) {
                 var lesson_start  = id_lesson_start.val();
                 data.lesson_start = lesson_start;
-
                 var new_phone = id_new_phone.val();
                 check_new_phone(new_phone,data);
             }
         });
-    });
+    }
 
     var check_new_phone = function(new_phone,old_info){
         $.do_ajax("/human_resource/change_teacher_to_new",{
@@ -1654,8 +1687,141 @@ $(function(){
         $(".opt-edit").show();
     }
 
+   
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
+        var id_subject_info      = ("<button class='btn btn-primary'>年级/科目修改</button>");
+        var id_change_tea_to_new = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_update_tea_level  = ("<button class='btn btn-primary'>老师等级相关修改</button>");
+        var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
+
+        var arr = [
+            ["",id_subject_info],
+            ["",id_change_tea_to_new],
+            ["",id_update_tea_level],
+            ["",id_update_tea_week_num],
+        ];
+
+        $.show_key_value_table("账号信息修改",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
     });
+
+    $(".opt-regular-lesson-detele-list").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var title = "常规课表删除记录";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>学生</td><td>操作人</td></tr></table></div>");
+        
+        
+
+        $.do_ajax("/user_deal/get_teacher_regular_lesson_del_list",{
+            "teacherid" : teacherid,
+            "type"      : 11
+        },function(result){
+            if(result.ret!=0){
+                BootstrapDialog.alert(result.info);
+                return ;
+            }
+
+            $.each(result.data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['add_time_str']+"</td><td>"+item['record_info']+"</td><td>"+item['current_acc']+"</td><td>"+item['acc']+"</td></tr>");
+
+            });
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+            
+        });
+        
+
+    });
+
+
+
+    $(".opt-teacher-cancel-lesson-list").on("click",function(){
+        var opt_data  = $(this).get_opt_data();
+        var teacherid = opt_data.teacherid;
+        var title = "老师取消课程记录";
+        var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>记录时间</td><td>记录理由</td><td>操作人</td><tr></table></div>");
+
+        $.do_ajax("/ajax_deal2/get_teacher_cancel_lesson_list",{
+            "teacherid" : teacherid
+        },function(result){
+            if(result.ret!=0){
+                BootstrapDialog.alert(result.info);
+                return ;
+            }
+
+            $.each(result.data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['add_time']+"</td><td>"+item['record_info']+"</td><td>"+item['acc']+"</td></tr>");
+
+
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title,
+                message :  html_node   ,
+                closable: true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+    });
+
+    $(".opt-set_bank_info").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var id_idcard        = $("<input/>");
+        var id_bankcard      = $("<input/>");
+        var id_bank_address  = $("<input/>");
+        var id_bank_account  = $("<input/>");
+        var id_bank_phone    = $("<input/>");
+        var id_bank_type     = $("<input/>");
+        var id_bank_province = $("<input/>");
+        var id_bank_city     = $("<input/>");
+
+        $.show_key_value_table("更改老师银行卡信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
+    });
+
+
 
 });

@@ -822,6 +822,7 @@ class main_page extends Controller
         $kk_require        = $this->t_test_lesson_subject->get_ass_kk_tongji_all_info($start_time,$end_time);
         $lesson_money_list = $this->t_manager_info->get_assistant_lesson_money_info($start_time,$end_time);
         $stu_info_all      = $this->t_student_info->get_ass_stu_info_new();
+        $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
         $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
@@ -859,6 +860,7 @@ class main_page extends Controller
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
             $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
             $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
+            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
 
         }
 
@@ -910,6 +912,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["renw_refund_money"]       += $val["renw_refund_money"];
             @$ass_group[$master_adminid_ass]["new_student"]       += $val["new_student"];
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
+            @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
         }
 
          foreach($ass_group as $key=>&$v){
@@ -989,6 +992,7 @@ class main_page extends Controller
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
         $new_info = $this->t_student_info->get_new_assign_stu_info($start_time,$end_time);
+        $end_stu_info_new = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
         foreach($ass_list as $k=>&$item){
             $item["warning_student"]  = isset($ass_month[$k]["warning_student"])?$ass_month[$k]["warning_student"]:0;
             $item["read_student"]     = isset($ass_month[$k]["read_student"])?$ass_month[$k]["read_student"]:0;
@@ -1022,6 +1026,7 @@ class main_page extends Controller
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
             $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
             $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
+            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
 
         
 
@@ -1074,6 +1079,7 @@ class main_page extends Controller
             @$ass_group[$master_adminid_ass]["renw_refund_money"]       += $val["renw_refund_money"];
             @$ass_group[$master_adminid_ass]["new_student"]       += $val["new_student"];
             @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
+            @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
 
 
         }
@@ -1113,6 +1119,7 @@ class main_page extends Controller
             @$stu_info["renw_refund_money"]          += @$item1["renw_refund_money"];
             @$stu_info["new_student"]          += @$item1["new_student"];
             @$stu_info["new_lesson_count"]          += @$item1["new_lesson_count"];
+            @$stu_info["end_stu_num"]          += @$item1["end_stu_num"];
             //$item["lesson_per"]            = !empty($item["lesson_target"])?round($item["lesson_ratio"]/$item["lesson_target"],4)*100:0;
             @$stu_info["renw_target"]           += @$item1["renw_target"];
             //$item["renw_per"]              = !empty($item["renw_target"])?round($item["renw_price"]/$item["renw_target"],4)*100:0;

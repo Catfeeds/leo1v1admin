@@ -42,11 +42,7 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         $start_time = strtotime(date("2017-02-01"));
         // $ass_leader_arr=[1=>492,2=>513,3=>790,4=>492,5=>513,6=>790,7=>492,8=>513,9=>790,10=>513];
         // $ass_leader_arr=[1=>955,2=>917,3=>955,4=>917,5=>955];
-        if(time() > strtotime("2017-07-31 12:00:00")){
-            $ass_leader_arr=[1=>955,2=>917,3=>955,4=>917,5=>955];
-        }else{
-            $ass_leader_arr=[1=>955,2=>955,3=>955,4=>492,5=>513,6=>790]; 
-        }
+        $ass_leader_arr=[1=>955,2=>492,3=>513,4=>790]; 
         $num_all = count($ass_leader_arr);
         $id = $task->t_teacher_lecture_appointment_info->get_id_list_desc_limit_ten($start_time);
         //dd($id);
