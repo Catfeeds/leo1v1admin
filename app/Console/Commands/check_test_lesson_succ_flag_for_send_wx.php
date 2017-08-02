@@ -3,6 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Helper\Common;
+use \App\Enums as E;
+
+
 
 class check_test_lesson_succ_flag_for_send_wx extends Command
 {
@@ -45,7 +49,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         // 昨天结束的试听课 [如果没有设置“课程确认”，发送课程确认的消息]
         $test_lesson_list_yes = $this->task->t_lesson_info_b2->get_test_lesson_success_list_yes();
 
-        foreach( $test_lesson_list_yes as $item_yes){
+        foreach( $test_lesson_list_yes as &$item_yes){
             if($item_yes['success_flag'] == 0){
                 //课时成功未设置
 
@@ -59,9 +63,13 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
 
                 $now = date('Y-m-d H:i:s');
 
-                $stu_nick = $this->CacheNick();
+                E\Egrade::set_item_value_str($item_yes);
+                E\Esubject::set_item_value_str($item_yes);
 
-                $lesson_info = "";
+                $lesson_start_date = date("Y-m-d H:i:s",$item_yes['lesson_start']);
+                $lesson_end_date   = date("H:i:s",$item_yes['lesson_end']);
+
+                $lesson_info = $item_yes['stu_nick']." - ". $lesson_start_date." ~ ".$lesson_end_date." 试听课 ";
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
                     "first"     => "未设置试听课课时有效性",

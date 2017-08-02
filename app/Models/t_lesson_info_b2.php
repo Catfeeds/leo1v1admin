@@ -2414,7 +2414,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type = 2",
             "tll.success_flag = 0 "
         ];
-        $sql = $this->gen_sql_new(" select l.lessonid, l.userid, l.teacherid, l.grade, l.subject, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+        $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
                                   " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
