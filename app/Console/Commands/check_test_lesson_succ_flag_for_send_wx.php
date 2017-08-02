@@ -68,8 +68,9 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
 
                 $lesson_start_date = date("Y-m-d H:i:s",$item_yes['lesson_start']);
                 $lesson_end_date   = date("H:i:s",$item_yes['lesson_end']);
+                $ass_wx_openid = $this->task->t_manager_info->get_wx_openid();
 
-                $lesson_info = $item_yes['stu_nick']."同学 - 上课时间". $lesson_start_date." ~ ".$lesson_end_date." 试听课 "." - 科目".$item_yes['subject'];
+                $lesson_info = " 试听课 课时有效性未设置 课时信息:".$item_yes['stu_nick']."同学 - 上课时间:". $lesson_start_date." ~ ".$lesson_end_date." - 科目".$item_yes['subject']." - 老师".$item_yes['teacher_nick'];
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
                     "first"     => "未设置试听课课时有效性",
@@ -77,7 +78,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
                     "keyword2"  => "$lesson_info",
                     "keyword3"  => "$now",
                 ];
-                $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+                $url = 'http://admin.yb1v1.com/seller_student_new2/get_ass_test_lesson_info';
                 $wx=new \App\Helper\Wx();
 
                 $wx_openid_arr = [

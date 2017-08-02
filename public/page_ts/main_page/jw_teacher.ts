@@ -96,7 +96,7 @@ $(function(){
         
     });
 
-    $(".tran_count_green").on("click",function(){
+    $(".tra_count_green").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
         if(adminid > 0){           

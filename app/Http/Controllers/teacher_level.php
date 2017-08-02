@@ -534,11 +534,12 @@ class teacher_level extends Controller
     }
 
 
-    public function get_teacher_test_first_info(){
+    public function get_teacher_test_lesson_info(){
         $teacherid = $this->get_in_int_val("teacherid");
+        $num = $this->get_in_int_val("num");
         $teacherid=53289;
         $lesson_type=2;
-        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,0);
+        $data= $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,$num);
         /*  $data["first"]["num"] = "第一次课";
         $data["five"] = $this->t_lesson_info_b2->get_lesson_row_info($teacherid,$lesson_type,4);
         $data["five"]["num"] = "第五次课";*/
