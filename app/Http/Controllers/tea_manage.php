@@ -48,6 +48,7 @@ class tea_manage extends Controller
             $item['nick']            = $this->cache_get_teacher_nick($item['teacherid']);
             $item['stu_total']       = $this->t_open_lesson_user->check_lesson_has($item['lessonid']);
             $item['stu_join']        = $this->t_lesson_opt_log->get_login_user($item['lessonid']);
+            E\Egrade::set_item_value_str($item,"grade");
         }
         $qiniu_url=\App\Helper\Config::get_qiniu_public_url();
 

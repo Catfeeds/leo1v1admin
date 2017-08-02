@@ -2201,7 +2201,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "m.account_role=4",
             "m.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
-            "m.uid not in (790,486,871)"
+            "m.uid not in (790,486,871,891)"
         ];
 
         $sql = $this->gen_sql_new("select teacherid,subject,grade_part_ex,t.phone,realname "

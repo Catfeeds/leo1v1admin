@@ -12,7 +12,6 @@ $(function(){
 
     var adminid = $('#adminid').attr('data-adminid');
 
-    // alert(adminid);
 
     $("#id_qc_msg").on("click",function(){
 
@@ -20,7 +19,7 @@ $(function(){
         var qc_analysia     = $("#id_qc_analysia").val();
         var qc_reply        = $("#id_qc_reply").val();
 
-        if(adminid != 540 && adminid != 818){
+        if(adminid != 540 && adminid != 968){
             alert('您没有修改权限!');
             load_data();
         } else {

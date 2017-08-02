@@ -1413,7 +1413,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                                        ,$config_courseid,$is_test_user,$show_yueyue_flag,$has_money
                                                        ,$check_money_flag=-1,$isset_assistantid=-1,$origin="",$stu_from_type=-1
                                                        ,$sys_operator="",$account_role=-1,$adminid_list=[],$adminid_all=[]
-
     ){
         $where_arr=[];
         if($userid>0){
@@ -1453,7 +1452,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             }else if ($has_money ==1) {
                 $where_arr[]="price>0" ;
             }
-
         }
 
         if (!$show_yueyue_flag) {
@@ -1471,7 +1469,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"t3.uid",$adminid_all);
 
 
-        $sql = $this->gen_sql_new("select t1.price,t1.grade,t1.subject "
+        $sql = $this->gen_sql_new("select t1.price,t1.grade,t1.subject,t2.phone_location "
                                   ." from %s t1 "
                                   ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s t3 on t1.sys_operator = t3.account "

@@ -982,6 +982,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");
         var $test_lesson_order_fail_desc =$("<textarea/>");
@@ -1057,7 +1058,7 @@ $(function(){
     });
 
 
-    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
+    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){        
         var opt_data=$(this).get_opt_data();
         var lessonid=opt_data.lessonid;
         var lesson_time = opt_data.lesson_time;

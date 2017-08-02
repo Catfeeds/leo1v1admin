@@ -1006,25 +1006,23 @@ class tongji_ss extends Controller
 
 
     public function contract_count() {
-        $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
-        $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
-        $contract_type   = $this->get_in_int_val("contract_type",-1);
-        $contract_status = -1;
-        $config_courseid = -1;
-        $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
-        $studentid       = $this->get_in_studentid(-1);
-        $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
-        $origin           = $this->get_in_str_val("origin");
-        $from_type = $this->get_in_int_val("from_type",-1);
-        $account_role = $this->get_in_int_val("account_role",-1);
-        $has_money = -1;
-        $sys_operator = $this->get_in_str_val("sys_operator","");
-        $seller_groupid_ex         = $this->get_in_str_val('seller_groupid_ex', "");
-        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        //$adminid_right  = $this->get_seller_adminid_and_right();
-        // $adminid_all  = $this->get_seller_adminid_and_branch();
-        $adminid_right  = [] ;
-        $adminid_all  = [] ;
+        $start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
+        $end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
+        $contract_type     = $this->get_in_int_val("contract_type",-1);
+        $contract_status   = -1;
+        $config_courseid   = -1;
+        $is_test_user      = $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $studentid         = $this->get_in_studentid(-1);
+        $check_money_flag  = $this->get_in_int_val("check_money_flag", -1);
+        $origin            = $this->get_in_str_val("origin");
+        $from_type         = $this->get_in_int_val("from_type",-1);
+        $account_role      = $this->get_in_int_val("account_role",-1);
+        $has_money         = -1;
+        $sys_operator      = $this->get_in_str_val("sys_operator","");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right     = [] ;
+        $adminid_all       = [] ;
 
 
         $account=$this->get_account();
@@ -1041,7 +1039,6 @@ class tongji_ss extends Controller
             if( !isset($ret_info[$val['adminid']] ) ) {
                 unset( $admin_list[$vk] );
             }else{
-
                 $val['all_price'] = @$ret_info[$val['adminid']]['all_price']/100;
                 $val['transfer_introduction_price'] = @$ret_info[$val['adminid']]['transfer_introduction_price']/100;
                 $val['new_price'] = @$ret_info[$val['adminid']]['new_price']/100;
@@ -1059,18 +1056,26 @@ class tongji_ss extends Controller
         $grade_map=[];
         $subject_count_map=[];
         $grade_count_map=[];
+        $phone_map=[];
+        $phone_count_map=[];
         foreach ($data_list as $a_item) {
-            $subject=$a_item["subject"];
-            $grade=$a_item["grade"];
+            $subject = $a_item["subject"];
+            $grade   = $a_item["grade"];
             @$subject_map[$subject] =@$subject_map[$subject]+$a_item["price"]/100;
             @$grade_map[$grade] =@$grade_map[$grade]+$a_item["price"]/100;
             @$subject_count_map[$subject] ++;
             @$grade_count_map[$grade] ++;
 
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["subject_map"=>$subject_map,"grade_map"=>$grade_map,"subject_count_map"=>$subject_count_map,"grade_count_map"=>$grade_count_map,"adminid_right"=>$adminid_right]);
-
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
+            "subject_map"       => $subject_map,
+            "grade_map"         => $grade_map,
+            "subject_count_map" => $subject_count_map,
+            "grade_count_map"   => $grade_count_map,
+            "adminid_right"     => $adminid_right
+        ]);
     }
+
     public function test_lesson_plan_detail_list_jw() {
         $this->set_in_value("set_lesson_adminid", $this->get_account_id() );
         return $this->test_lesson_plan_detail_list();
