@@ -882,7 +882,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_subject_free_list::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_page_random($sql,2);
+        return $this->main_get_page_random($sql,1);
     }
 
     public function get_new_list_time($start_time,$end_time,$grade, $has_pad, $subject,$phone)
