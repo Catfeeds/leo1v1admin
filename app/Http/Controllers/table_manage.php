@@ -349,9 +349,9 @@ class table_manage extends Controller
         $this->t_admin_group->switch_tongji_database();
         $this->t_admin_group->db_query("use $db_name");
         $ret_info=null;
+        $len=strlen($sql);
         if ( $sql && $sql[$len-1]==";" ) {
             $sql=trim($sql);
-            $len=strlen($sql);
             $sql=substr($sql,0,$len-1);
         }
         $col_name_list=[];
