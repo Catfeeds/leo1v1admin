@@ -148,7 +148,7 @@ class WechatRequest  {
      * @return array
      */
     public static function text(&$request){
-         $content = $request['content'];
+        $content = $request['content'];
         if($content == '优学优享'){
             $tuwenList[] = array(
                 'title' => '优学优享简介',
@@ -334,10 +334,7 @@ class WechatRequest  {
      * @return array
      */
     public static function eventScan(&$request){
-
         \App\Helper\Utils::logger("WX request:" .json_encode($request) );
-
-
         $sceneid = str_replace("qrscene_","",$request['eventkey']);
         //移动用户到相应分组中去,此处的$sceneid依赖于之前创建时带的参数
         if(!empty($sceneid)){
@@ -413,14 +410,26 @@ class WechatRequest  {
      */
     public static function eventClick(&$request){
         $openid = $request['fromusername'];
-        \App\Helper\Utils::logger('yxyx_new_oid:'.$openid);
+        $t_agent = new \App\Models\t_agent();
+        $agent = $t_agent->get_agent_info_by_openid($openid);
+        $phone = '';
+        if(isset($agent['phone'])){
+            $phone = $agent['phone'];
+        }
+        if(!$phone){
+            $content="
+【绑定提醒】
+您还未绑定手机，请绑定成功后重试
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+            $_SESSION['wx_openid'] =   $request['fromusername'];
+            session(['wx_openid'=> $request['fromusername']]);
 
-        $this->check_bind($openid);
+            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+        }
 
         //获取该分类的信息
         $eventKey = $request['eventkey'];
         $content = '收到点击菜单事件，您设置的key是' . $eventKey;
-
         $tuwenList = array();
         if($eventKey == 'content') {
             $tuwenList[] = array(
