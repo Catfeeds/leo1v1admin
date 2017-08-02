@@ -435,40 +435,34 @@ class WechatRequest  {
             $tuwenList[] = array(
                 'title' => '精品内容',
                 'description' => '',
-                'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD/%E8%80%81%E5%B8%88%E7%AB%AF%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD_%E5%B0%81%E9%9D%A2.png',
+                'pic_url' => '',
                 'url' => 'http://www.xmypage.com/model2_28992.html',
             );
         }elseif($eventKey == 'feedback'){
             $tuwenList[] = array(
                 'title' => '学员反馈',
                 'description' => '',
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4sqb8Xr7LTXMyUia5bFziaqyaqfslQr5sWpTc3hqz3KF0QLpAmmLjeI6xNGlNic2PibPynJSIHrU903w/0?wx_fmt=png',
+                'pic_url' => '',
                 'url' => 'https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy',
             );
         }elseif($eventKey == 'card'){
             $tuwenList[] = array(
                 'title' => '每日卡片',
                 'description' => '',
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4sqb8Xr7LTXMyUia5bFziaqyaqfslQr5sWpTc3hqz3KF0QLpAmmLjeI6xNGlNic2PibPynJSIHrU903w/0?wx_fmt=png',
+                'pic_url' => '',
                 'url' => 'https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage',
             );
         }elseif($eventKey == 'question') {
             $tuwenList[] = array(
-
                 'title' => '常见问题Q&A',
-
                 'description' => '',
-
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
-
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
            );
         }elseif ($eventKey == 'invitation') {
-            $content="
+            $content = "
 ①长按下方图片并保存
 ②将图片发给朋友或朋友圈";
-            $_SESSION['wx_openid'] =   $request['fromusername'];
-            session(['wx_openid'=> $request['fromusername']]);
             ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
 
             $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
