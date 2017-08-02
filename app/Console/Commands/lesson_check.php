@@ -27,6 +27,7 @@ class lesson_check extends cmd_base
      */
     public function handle()
     {
+
         $task=new \App\Console\Tasks\TaskController();
         $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
         $lesson_start = [$time+300,$time-60,$time-180,$time-300,$time-600,$time-1200,$time-2400];

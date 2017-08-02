@@ -1850,9 +1850,8 @@ class user_manage extends Controller
     }
 
     public function qc_complaint(){
-
         $page_num = $this->get_in_page_num();
-
+        $account_type = $this->get_in_int_val('account_type');
         $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
 
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
@@ -1860,7 +1859,7 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state );
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type );
 
         foreach($ret_info['list'] as $index=>&$item){
 
