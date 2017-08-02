@@ -49,10 +49,18 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
             if($item_yes['success_flag'] == 0){
                 //课时成功未设置
 
+                /**
+                   {{first.DATA}}
+                   待办主题：{{keyword1.DATA}}
+                   待办内容：{{keyword2.DATA}}
+                   日期：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 **/
+
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
-                    "first"     => "$account_nick 发布了一条退费投诉",
-                    "keyword1"  => "QC退费投诉",
+                    "first"     => "未设置试听课课时有效性",
+                    "keyword1"  => "确认试听课课时有效性",
                     "keyword2"  => "QC投诉内容:$complaint_info",
                     "keyword3"  => "QC投诉时间 $log_time_date ",
                 ];
@@ -60,15 +68,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
                 $wx=new \App\Helper\Wx();
 
                 $wx_openid_arr = [
-                    "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                    // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
-                    "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
-                    "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
-                    "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
-                    "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
                 ];
-                // $qc_openid_arr
                 $wx_openid_list = array_merge($wx_openid_arr,$subject_adminid_wx_openid_list);
 
                 foreach($wx_openid_list as $qc_item){
