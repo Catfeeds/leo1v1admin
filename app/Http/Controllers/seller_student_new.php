@@ -556,7 +556,7 @@ class seller_student_new extends Controller
             }
 
 
-            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid ");
+            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
             $competition_call_adminid = $row_data["competition_call_adminid"];
             $admin_revisiterid = $row_data["admin_revisiterid"];
@@ -581,7 +581,7 @@ class seller_student_new extends Controller
 
             \App\Helper\Common::redis_set($key, $userid );
 
-            return $this->output_succ();
+            return $this->output_succ(["phone" => $row_data["phone"]] );
 
         }else{
             return $this->output_err("没有资源了");
