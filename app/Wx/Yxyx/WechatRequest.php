@@ -412,8 +412,8 @@ class WechatRequest  {
      * @return array
      */
     public static function eventClick(&$request){
-        $openid = $request['fromusername'];
-        $this->check_bind($openid);
+        // $openid = $request['fromusername'];
+        // $this->check_bind($openid);
 
         //获取该分类的信息
         $eventKey = $request['eventkey'];
