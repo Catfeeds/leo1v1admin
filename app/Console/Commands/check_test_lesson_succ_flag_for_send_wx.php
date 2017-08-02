@@ -65,9 +65,11 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         //试听课结束的第三天下午2点，如果没有设置“试听结果”，发送试听结果设置的消息
         $test_lesson_list_two_day_ago_list = $this->task->t_lesson_info_b2->get_test_lesson_success_list_two_days_ago();
 
-        foreach( $test_lesson_list_two_day_ago_list  as $item_two){
+        foreach( $test_lesson_list_two_day_ago_list  as &$item_two){
             if($item_two['order_confirm_flag'] == 0){
                 // 助教未设置试听课结果
+                $is_success_flag = 2; // 课时未设置
+                $this->send_wx_msg($item_two,$is_success_flag);
             }
         }
 
@@ -75,11 +77,16 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         // 试听课结束的第四天下午2点，如果没有设置“课程确认”或者“试听结果”，继续发送
         $test_lesson_list_three_day_ago_list  = $this->task->t_lesson_info_b2->get_test_lesson_success_list_three_days_ago();
 
-        foreach( $test_lesson_list_three_day_ago_list as $item_three){
+        foreach( $test_lesson_list_three_day_ago_list as &$item_three){
             if($item_three['success_flag'] == 0){
                 //课时成功未设置
+                $is_success_flag = 1; // 课时未设置
+                $this->send_wx_msg($item_three,$is_success_flag);
+
             }elseif($item_three['order_confirm_flag'] == 0){
                 // 助教未设置试听课结果
+                $is_success_flag = 2; // 课时未设置
+                $this->send_wx_msg($item_three,$is_success_flag);
             }
         }
 
@@ -105,15 +112,17 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
 
                 if($is_success_flag == 1){
                     $lesson_flag_str = "课时有效性未设置";
+                    $lesson_keyword1 = "未设置试听课课时有效性";
                 }else{
-                    $lesson_flag_str = "课时有效性未设置";
+                    $lesson_flag_str = "试听结果未设置";
+                    $lesson_keyword1 = "未确认试听课结果";
                 }
 
                 $lesson_info = " 试听课 ".$lesson_flag_str." 课时信息:".$item_yes['stu_nick']."同学 - 上课时间:". $lesson_start_date." ~ ".$lesson_end_date." - 科目".$item_yes['subject']." - 老师".$item_yes['teacher_nick'];
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
-                    "first"     => "未设置试听课课时有效性",
-                    "keyword1"  => "确认试听课课时有效性",
+                    "first"     => "$first",
+                    "keyword1"  => "$keyword1",
                     "keyword2"  => "$lesson_info",
                     "keyword3"  => "$now",
                 ];
