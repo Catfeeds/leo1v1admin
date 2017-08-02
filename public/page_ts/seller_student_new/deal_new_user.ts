@@ -534,7 +534,24 @@ $(function(){
     }
 
     $("#id_get_new").on("click",function(){
-        $.do_ajax("/seller_student_new/get_one_new_user",{} );
+        $.do_ajax("/seller_student_new/get_one_new_user",{},function(resp) {
+            if (resp.ret==0 ) {
+                var phone=resp.phone;
+
+                try{
+                    window.navigate(
+                        "app:1234567@"+phone+"");
+                } catch(e){
+
+                };
+                $.do_ajax_t("/ss_deal/call_ytx_phone", {
+                    "phone": phone
+                } );
+
+            }else{
+                alert(resp.info);
+            }
+        });
 
     });
 
