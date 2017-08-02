@@ -23,7 +23,7 @@ $(function(){
                     "start_time"       : "2017-07-01",
                     "end_time"         : "2017-08-01",
                 },function(resp){
-                    console.log(resp.data);
+                    console.log(resp.data[0].lesson_price);
                     var obj = resp.data[0];
                     
                    // do_index++;
