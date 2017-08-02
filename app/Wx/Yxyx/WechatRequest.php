@@ -459,7 +459,8 @@ class WechatRequest  {
                 'msgtype'  => 'text',
                 'text'     => [
                     'content' =>
-                    '①长按下方图片并保存②将图片发给朋友或朋友圈'
+                    '①长按下方图片并保存
+②将图片发给朋友或朋友圈'
                 ]
             ];
             $txt = self::ch_json_encode($txt_arr);
