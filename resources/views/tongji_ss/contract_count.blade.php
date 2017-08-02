@@ -183,6 +183,8 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div> 电话归属地-合同金额</div>
 		            <div id="id_phone_pic" class="demo-placeholder" style="height:400;"></div>
