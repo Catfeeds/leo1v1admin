@@ -1593,14 +1593,15 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_row($sql);
     }
 
-    public function get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag){
+    public function get_teat_lesson_transfor_info_by_adminid($start_time,$end_time,$adminid,$is_green_flag=-1,$require_admin_type=-1){
         $where_arr = [
             "accept_adminid =".$adminid,
             "m.account_role = 3",
             "s.is_test_user=0",
             // "ll.lesson_user_online_status in (0,1)",
             "ll.lesson_del_flag=0",
-            ["tr.is_green_flag=%u",$is_green_flag,-1]
+            ["tr.is_green_flag=%u",$is_green_flag,-1],
+            ["t.require_admin_type=%u",$require_admin_type,-1],
         ];
 
         $sql = $this->gen_sql_new("select accept_adminid,ll.userid,ll.grade,ll.subject,s.nick,tt.realname tea_name,ll.lesson_start,ll.lessonid".

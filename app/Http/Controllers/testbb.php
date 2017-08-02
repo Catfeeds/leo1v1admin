@@ -47,6 +47,10 @@ class testbb extends Controller
 
 
     public function test () {
+        $item_yes['subject'] = 1;
+        dd(E\Esubject::get_desc(2));
+
+        dd($item_yes);
 
         $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
         dd($d);

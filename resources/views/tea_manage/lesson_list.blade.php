@@ -295,11 +295,19 @@
                         <td > {{$var["lesson_del_flag_str"]}}  </td>
                         <td > {!!  $var["lesson_user_online_status_str"]!!} </td>
                         <td > {!!  $var["require_lesson_success_flow_status_str"]!!} </td>
+                        @if($var["lesson_type"]==2)
+                            <td > {{$var["success_flag_str"]}} </td>
+                            <td > {{$var["test_lesson_fail_flag_str"]}} </td>
+                            <td > {{$var["test_confirm_admin_nick"]}} </td>
+                            <td > {{$var["test_confirm_time"]}} </td>
+                            <td > {{$var["fail_reason"]}} </td>
+                        @else
                         <td > {{$var["confirm_flag_str"]}} </td>
                         <td > {{$var["lesson_cancel_reason_type_str"]}} </td>
                         <td > {{$var["confirm_admin_nick"]}} </td>
                         <td > {{$var["confirm_time"]}} </td>
                         <td > {{$var["confirm_reason"]}} </td>
+                        @endif
                         <td > {{$var["lesson_name"]}} </td>
                         <td > {{$var["tea_cw_name"]}} </td>
                         <td > {{$var["lesson_intro"]}} </td>
@@ -332,7 +340,11 @@
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
                                 <a class="btn fa fa-print opt-add-error" title="写入错误信息"></a>
-                                <a class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+                                @if($var['lesson_type']==2)
+                                    <a class="btn fa fa-gavel opt-confirm-test" title="确认课时"></a>
+                                @else
+                                    <a class="btn fa fa-gavel opt-confirm" title="确认课时"></a>
+                                @endif
                                 <a class="btn fa fa-money opt-change-price" title="修改老师金额"></a>
                                 <a class="btn fa fa-th-list opt-set_lesson_info" title="修改课堂信息"></a>
                                 <a class="btn fa fa-th-list opt-set_teacher_comment" title="学生评价"></a>

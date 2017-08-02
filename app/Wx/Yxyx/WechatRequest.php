@@ -258,25 +258,24 @@ class WechatRequest  {
         $content =
             self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-【分享】它使快乐增大，它使悲伤减小。
+诚挚地邀请您，推荐身边朋友的孩子来理优学习。
+每月轻松获得奖金过万。
 
-".self::unicode2utf8('\ue41f')."现在，全国公校名师等待着你的推荐。
-".self::unicode2utf8('\ue41f')."现在，你可以帮助朋友解决头痛的师资问题。
-".self::unicode2utf8('\ue12f')."现在，每月你可能有一笔零花钱
-".self::unicode2utf8('\ue12f')."更可能会成为一份教育事业月入过万
+理优1对1是专注于中小学1对1辅导的在线教育机构。
+现有6000多名全国公校老师，以及40万注册用户。
+每年帮助数以万计的学生提升成绩。学员成绩平均有30%的提高。
 
-来成为人类的灵魂工程师吧
+如何邀请：
+<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>【第一步】绑定账号<a/>
+【第二步】点击“我要邀请”生成邀请海报
+【第三步】保存图片，发给朋友或朋友圈
 
-全国名师都在这儿，你为什么不推荐儿
-
-【菜单栏功能介绍】
--[我要邀请]-:生成邀请海报。
--[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
--[账号管理]-:
-(1)绑定账号：绑定手机号即可开启优学优享功能。
-(2)个人中心：查询用户等级、邀请人数、奖励情况等。
-(3)常见问题：自助解决问题。
-";
+推广材料：
+点击下方蓝字，将内容转发给好友或朋友圈
+<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】<a/>
+<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】<a/>
+<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】<a/>
+<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】<a/>";
         $_SESSION['wx_openid'] = $request['fromusername'];
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
@@ -429,21 +428,21 @@ class WechatRequest  {
             $tuwenList[] = array(
                 'title' => '精品内容',
                 'description' => '',
-                'pic_url' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png',
                 'url' => 'http://www.xmypage.com/model2_28992.html',
             );
         }elseif($eventKey == 'feedback'){
             $tuwenList[] = array(
                 'title' => '学员反馈',
                 'description' => '',
-                'pic_url' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/799bad5a3b514f096e69bbc4a7896cd91501667344751.jpg',
                 'url' => 'https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy',
             );
         }elseif($eventKey == 'card'){
             $tuwenList[] = array(
                 'title' => '每日卡片',
                 'description' => '',
-                'pic_url' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/a7ee56745585a55a4703baadfbd9f5c11501667371977.JPG',
                 'url' => 'https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage',
             );
         }elseif($eventKey == 'question') {

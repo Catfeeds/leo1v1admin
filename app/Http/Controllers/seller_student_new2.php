@@ -649,7 +649,7 @@ class seller_student_new2 extends Controller
         $master_adminid = $this->get_ass_leader_account_id($adminid);
         $this->set_in_value("master_adminid",$master_adminid);
         return $this->get_ass_test_lesson_info_master();
-               
+
     }
 
     public function get_ass_test_lesson_info(){

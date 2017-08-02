@@ -167,4 +167,88 @@ class revisit extends Controller
     }
 
 
+    public function add_revisit_record_b2()
+    {
+        $userid         = intval($this->get_in_int_val('userid',-1));
+        $revisit_type   = $this->get_in_int_val('revisit_type',0);
+        $revisit_person = trim($this->get_in_str_val('revisit_person'));
+        $revisit_time = $this->get_in_str_val('revisit_time');
+        $operator_note  = trim($this->get_in_str_val('operator_note'));
+        $operation_satisfy_flag =$this->get_in_int_val("operation_satisfy_flag",0);
+        $operation_satisfy_type =$this->get_in_int_val("operation_satisfy_type",0);
+        $record_tea_class_flag =$this->get_in_int_val("record_tea_class_flag",0);
+        $tea_content_satisfy_flag =$this->get_in_int_val("tea_content_satisfy_flag",0);
+        $tea_content_satisfy_type=$this->get_in_int_val("tea_content_satisfy_type",0);
+        $operation_satisfy_info= trim($this->get_in_str_val("operation_satisfy_info",""));
+        $child_performance = trim($this->get_in_str_val("child_performance",""));
+        $tea_content_satisfy_info= trim($this->get_in_str_val("tea_content_satisfy_info",""));
+        $other_parent_info= trim($this->get_in_str_val("other_parent_info",""));
+        $other_warning_info= trim($this->get_in_str_val("other_warning_info",""));
+        $child_class_performance_flag =$this->get_in_int_val("child_class_performance_flag",0);
+        $child_class_performance_type =$this->get_in_int_val("child_class_performance_type",0);
+        $child_class_performance_info = trim($this->get_in_str_val("child_class_performance_info",""));
+        $school_score_change_flag  =$this->get_in_int_val("school_score_change_flag",0);
+        $school_score_change_info = trim($this->get_in_str_val("school_score_change_info",""));
+        $school_work_change_flag  =$this->get_in_int_val("school_work_change_flag",0);
+        $school_work_change_type =$this->get_in_int_val("school_work_change_type",0);
+        $school_work_change_info = trim($this->get_in_str_val("school_work_change_info",""));
+        if($operation_satisfy_flag>1 || $child_class_performance_flag>2 || $school_score_change_flag>1 || $school_work_change_flag==1 || $tea_content_satisfy_flag>2){
+            $is_warning_flag=1;
+        }else{
+            $is_warning_flag=0;
+        }
+        $acc = $this->get_account();
+
+        if(empty($revisit_time)){
+            $revisit_time = time();
+        }else{
+            $revisit_time = strtotime($revisit_time);
+        }
+
+        $ret_stu      = $this->t_student_info->get_student_simple_info($userid);
+        if(count($ret_stu) == 0){
+            return  $this->output_err( "系统出错");
+        }
+
+
+        if ( $this->t_revisit_info->check_add_existed($userid,$revisit_time) ) {
+            return  $this->output_succ();
+        }
+        $information_confirm = $this->get_in_str_val('information_confirm','');
+        $information_confirm = json_encode($information_confirm);
+        $recover_time = $this->get_in_int_val('id_recover_time',0);
+        $revisit_path = $this->get_in_int_val('id_revisit_path',0);
+        $parent_guidance_except = $this->get_in_str_val('id_parent_guidance_except','');
+        $tutorial_subject_info = $this->get_in_str_val('id_tutorial_subject_info','');
+        $other_subject_info = $this->get_in_str_val('id_other_subject_info','');
+        $recent_learn_info = $this->get_in_str_val('id_recent_learn_info','');
+        //dd($information_confirm);
+        $ret_add = $this->t_revisit_info->add_revisit_record($userid, $revisit_time, $ret_stu['nick'], $revisit_person,
+                                                             $acc, $operator_note, $revisit_type,null, $operation_satisfy_flag,$operation_satisfy_type,$record_tea_class_flag,$tea_content_satisfy_flag,$tea_content_satisfy_type,$operation_satisfy_info,$child_performance,$tea_content_satisfy_info,$other_parent_info,$other_warning_info,$child_class_performance_flag,$child_class_performance_info,$child_class_performance_type,$school_work_change_flag,$school_score_change_flag,$school_work_change_info,$school_work_change_type,$school_score_change_info,$is_warning_flag,
+                                                                $recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info);
+        $week_info=\App\Helper\Utils::get_week_range(time(NULL),1);
+        $week_start_time=$week_info["sdate"];
+
+        //E\Erevisit_type
+        $max_revisit_time = $this->t_revisit_info->get_max_revisit_time($userid);
+
+        if ( $revisit_type==0 ||  $revisit_type==2 ){
+            $set_arr=[];
+            if($revisit_time >= $max_revisit_time){
+                $set_arr["ass_revisit_last_week_time"]= $revisit_time ;
+            }
+            if ( $revisit_type==2  ) {
+                $set_arr["ass_revisit_last_month_time"]=  $week_start_time;
+            }
+            if (count ($set_arr) >0)   {
+                $this->t_student_info->field_update_list($userid, $set_arr);
+            }
+        }
+
+        return  $this->output_succ();
+
+    }
+
+
+
 }

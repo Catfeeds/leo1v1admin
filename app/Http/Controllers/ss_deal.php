@@ -4623,7 +4623,7 @@ class ss_deal extends Controller
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
+                    // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
 
                     // "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
                     // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
@@ -4808,7 +4808,7 @@ class ss_deal extends Controller
                 $wx=new \App\Helper\Wx();
 
                 $wx_openid_arr = [
-                    "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
+                    // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                     // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                     // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon

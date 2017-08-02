@@ -854,11 +854,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
                                   ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,"
-                                  ." tr.type as record_type,"
+                                  ." tr.type as record_type,ap.reference,ap.teacher_type ,tp.realname reference_name,"
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
-                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type  "
+                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -867,6 +867,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s tt on t.phone=tt.phone"
                                   ." left join %s ttt on l.teacherid=ttt.teacherid"
                                   ." left join %s m on ttt.phone = m.phone "
+                                  ." left join %s ap on t.phone = ap.phone"
+                                  ." left join %s tp on ap.reference=tp.phone"
                                   ." where %s"
                                   ." group by l.lessonid"
                                   ." order by l.lesson_start desc"
@@ -878,6 +880,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
+                                  ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
@@ -2444,15 +2448,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type = 2",
             "tll.order_confirm_flag = 0"
         ];
-        $sql = $this->gen_sql_new(" select tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+
+
+        $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
                                   " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s s on s.userid = l.userid ".
+                                  " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
 
         );
@@ -2474,21 +2484,24 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         ];
 
-        $sql = $this->gen_sql_new(" select tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
+        $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
                                   " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s s on s.userid = l.userid ".
+                                  " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
 
         );
 
         return $this->main_get_list($sql);
-
     }
 
 

@@ -322,7 +322,13 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
                      ."    l.deduct_check_homework,"
                      ."    l.lesson_full_num,"
                      ."    t.ass_test_lesson_type, "
-                     ."    f.flow_status as require_lesson_success_flow_status  "
+                     ."    f.flow_status as require_lesson_success_flow_status,  "
+                     ."    tts.success_flag,"
+                     ."    tts.confirm_adminid test_confirm_adminid,"
+                     ."    tts.confirm_time test_confirm_time,"
+                     ."    tts.test_lesson_fail_flag ,"
+                     ."    tts.fail_greater_4_hour_flag ,"
+                     ."    tts.fail_reason "
                      ."    from"
                      ."    db_weiyi.t_lesson_info as l"
                      ."    LEFT JOIN db_weiyi.t_homework_info as h"
@@ -6136,7 +6142,7 @@ lesson_type in (0,1) "
             "l.lesson_del_flag = 0",
             "tss.success_flag in (0,1)",
             "l.lesson_user_online_status =1",
-            "m.account_role=2",
+            "(m.account_role=2 or tq.origin like '%%转介绍%%' )",
             "m.del_flag=0"
             //"require_admin_type =2"
         ];

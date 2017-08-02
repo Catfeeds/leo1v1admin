@@ -111,6 +111,8 @@
                 <td >状态</td>
                 <td style="display:none">审核人</td>
                 <td style="display:none">通过后老师id</td>
+                <td style="display:none">老师身份</td>
+                <td style="display:none">推荐人</td>
                 <td >操作</td>
             </tr>
         </thead>
@@ -135,6 +137,9 @@
                         {{$var['acc']}}
                     </td>
                     <td >{{$var['real_teacherid']}}</td>
+                    <td >{{$var['teacher_type_str']}}</td>
+                    <td >{{$var['reference_name']}}</td>
+
                     <td >
                         <div
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}

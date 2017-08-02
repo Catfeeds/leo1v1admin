@@ -1494,6 +1494,7 @@ class user_manage_new extends Controller
             "group_name"  => "99 角色",
             "create_time"  => time(NULL)
         ]);
+
         return $this->output_succ();
     }
     public function power_group_set_name() {
@@ -3641,7 +3642,7 @@ class user_manage_new extends Controller
     public function get_stu_lesson_title() {
         // $parentid  = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );
         $parentid  = session('parentid')?session('parentid'):$this->get_in_str_val('parentid');
-        // $parentid  = $this->get_in_str_val('parentid');
+        $parentid  = 60004;
         if (!$parentid) {
             return $this->output_err("请重新绑定");
         }
@@ -3698,12 +3699,13 @@ class user_manage_new extends Controller
             $list['stu_title'] = $stu_lesson_title;
             $stu_praise = $this->t_lesson_info_b2->get_stu_praise_total($userid);
             //现在最高的是21849,最低1(以95%为满级（20755），除以5，等分为五个级别,每级加4151)
-            $list['praise']          = $stu_praise;
-            $list['stu_praise_star'] = intval( ceil( $stu_praise/4151 ) <5?ceil( $stu_praise/4151 ):5 );
-            $list['excess_nums']     = intval( $list['stu_praise_star']*19);
-            $first_info              = $this->t_lesson_info_b2->get_stu_first($userid);
+            $list['praise'] = $stu_praise;
+            $list['stu_praise_star'] = intval( ceil( $stu_praise/4151 ) <5?ceil( $stu_praise/4151 ):5 ).'星学员';
+            $list['excess_nums'] = intval( $list['stu_praise_star']*19);
+            $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
             $subject     = "";
             $normal_time = "";
+            $list['first_free_lesson_time'] = '';
             foreach ($first_info as &$item) {
                 if ($item["lesson_type"] == 2) {
                     $list['first_free_lesson_time'] = date('Y-m-d', $item['lesson_start']);
@@ -3718,16 +3720,20 @@ class user_manage_new extends Controller
             $open_lesson = $this->t_lesson_info_b2->get_stu_first_open_lesson($userid);
             $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '';
             $homework_info  = $this->t_lesson_info_b2->get_stu_homework($userid, $start_time);
-            $list['A'] = 0;
-            $list['B'] = 0;
-            $list['C'] = 0;
-            $list['D'] = 0;
+            $a = 0;
+            $b = 0;
+            $c = 0;
+            $d = 0;
             foreach ($homework_info as $v) {
-                $list['A'] = ($v['score'] == "A")?$v['score_count']:$list['A'];
-                $list['B'] = ($v['score'] == "B")?$v['score_count']:$list['B'];
-                $list['C'] = ($v['score'] == "C")?$v['score_count']:$list['C'];
-                $list['D'] = ($v['score'] == "未完成")?$v['score_count']:$list['D'];
+                $a = ($v['score'] == "A")?$v['score_count']:$a;
+                $b = ($v['score'] == "B")?$v['score_count']:$b;
+                $c = ($v['score'] == "C")?$v['score_count']:$c;
+                $d = ($v['score'] == "未完成")?$v['score_count']:$d;
             }
+            $list['A'] = "A级作业{$a}次";
+            $list['B'] = "B级作业{$b}次";
+            $list['C'] = "C级作业{$c}次";
+            $list['D'] = "未完成作业{$d}次";
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
                 $list['finish_rate']  = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
@@ -3735,9 +3741,9 @@ class user_manage_new extends Controller
                 $list['finish_rate'] = 0;
             }
             if ( $list['finish_rate'] > 50 ) {
-                $list['homework_title'] = '勤劳的小蜜蜂';
+                $list['homework_title'] = 'hard';
             } else {
-                $list['homework_title'] = '懒惰的小猪猪';
+                $list['homework_title'] = 'lazy';
             }
             $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
             if ($like_teacher) {
@@ -3748,7 +3754,7 @@ class user_manage_new extends Controller
                 $list['teacher_for_stu_lesson']  = $like_teacher['teacher_lesson_count']/100;
                 $list['teacher']                 = mb_substr($like_teacher['realname'], 0, 1, 'utf-8');
                 $list['teacher_for_stu_subject'] = $like_teacher['subject_str'];
-                $list['teacher_for_stu_days']    = round(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600));
+                $list['teacher_for_stu_days']    = intval( round(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600)) );
             } else {
                 $list['teacher_for_stu_lesson']  = 0;
                 $list['teacher']                 = "";
@@ -3773,6 +3779,14 @@ class user_manage_new extends Controller
             $list['add_greenland'] = number_format($lesson_total * 0.63/3, 2);
             $list['add_sky']       = number_format($lesson_total * 0.92/3, 2);
             $list['lesson_count_left'] = $list['lesson_count_left']/100;
+            if ($list['lesson_count_left'] > 100) {
+                $list['last_title'] = '理优1对1永远和你在一起';
+            } else if ( $list['first_normal_time']) {
+                $list['last_title'] = '理优1对1十分想念你';
+            } else {
+                $list['last_title'] = '理优1对1期待你的加入';
+            }
+            dd($list);
             return $list;
         } else {
             return $this->output_err("请重新绑定您的学生！");
