@@ -3639,13 +3639,17 @@ class user_manage_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        $parentid      = $this->get_in_str_val("parentid");
-        $parentid      = 60004;
-        $list          = $this->t_lesson_info_b2->get_stu_id_face_left($parentid);
+        // $parentid  = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );
+        $parentid  = session('parentid')?session('parentid'):$this->get_in_str_val('parentid');
+        // $parentid  = $this->get_in_str_val('parentid');
+        if (!$parentid) {
+            return $this->output_err("请重新绑定");
+        }
+        $list = $this->t_lesson_info_b2->get_stu_id_face_left($parentid);
         if ($list) {
             $userid = $list['userid'];
             if ($userid === '') {
-                return '未查到学生信息';
+                return $this->output_err("未查到学生信息,请重新绑定您的学生！");
             }
             $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
             $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
@@ -3735,7 +3739,7 @@ class user_manage_new extends Controller
             } else {
                 $list['homework_title'] = '懒惰的小猪猪';
             }
-            $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher_ass($userid, $start_time);
+            $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
             if ($like_teacher) {
                 if($like_teacher['taday'] == 1) {
                     $like_teacher['lesson_end'] = time();
@@ -3743,13 +3747,11 @@ class user_manage_new extends Controller
                 E\Esubject::set_item_value_str($like_teacher);
                 $list['teacher_for_stu_lesson']  = $like_teacher['teacher_lesson_count']/100;
                 $list['teacher']                 = mb_substr($like_teacher['realname'], 0, 1, 'utf-8');
-                $list['assistant']               = mb_substr($like_teacher['ass_nick'], 0, 1, 'utf-8');
                 $list['teacher_for_stu_subject'] = $like_teacher['subject_str'];
                 $list['teacher_for_stu_days']    = round(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600));
             } else {
                 $list['teacher_for_stu_lesson']  = 0;
                 $list['teacher']                 = "";
-                $list['assistant']               = "";
                 $list['teacher_for_stu_subject'] = "";
                 $list['teacher_for_stu_days']    = 0;
 
@@ -3770,10 +3772,10 @@ class user_manage_new extends Controller
             $list['reduce_gas']    = number_format($lesson_total * 200/3, 2);
             $list['add_greenland'] = number_format($lesson_total * 0.63/3, 2);
             $list['add_sky']       = number_format($lesson_total * 0.92/3, 2);
-            dd($list);
+            $list['lesson_count_left'] = $list['lesson_count_left']/100;
             return $list;
         } else {
-            return '未绑定学员';
+            return $this->output_err("请重新绑定您的学生！");
         }
     }
 }

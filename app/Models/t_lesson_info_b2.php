@@ -1929,7 +1929,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_row($sql);
     }
-    public function get_stu_like_teacher_ass($userid, $start_time) {
+    public function get_stu_like_teacher($userid, $start_time) {
         $where_arr = [
             ["l.userid=%u", $userid, 0],
             ["l.lesson_start>=%u", $start_time, 0],
@@ -1938,18 +1938,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
         ];
-        $sql = $this->gen_sql_new("SELECT  SUM(l.lesson_count) AS teacher_lesson_count, t.realname, l.subject, l.lesson_start, if(s.lesson_count_left > 0,1,0) AS taday, l.teacherid,MAX(l.lesson_end) AS lesson_end, a.nick AS ass_nick"
+        $sql = $this->gen_sql_new("SELECT  SUM(l.lesson_count) AS teacher_lesson_count, t.realname, l.subject, l.lesson_start, if(s.lesson_count_left > 0,1,0) AS taday, l.teacherid,MAX(l.lesson_end) AS lesson_end"
                                   ." FROM %s l"
                                   ." LEFT JOIN %s t ON t.teacherid=l.teacherid"
                                   ." LEFT JOIN %s s ON s.userid=l.userid"
-                                  ." LEFT JOIN %s a ON a.assistantid=l.assistantid"
                                   ." WHERE %s"
                                   ." GROUP BY t.realname"
                                   ." ORDER BY teacher_lesson_count DESC"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
-                                  ,t_assistant_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);
