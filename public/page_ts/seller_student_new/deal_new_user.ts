@@ -528,5 +528,15 @@ $(function(){
             $.wopen("/seller_student_new/get_new_list",true);
         }
     });
+    if ($.get_action_str()=="deal_new_user") {
+        $("#id_goto_new_list").hide();
+        $("#id_get_new").show();
+    }
+
+    $("#id_get_new").on("click",function(){
+        $.do_ajax("/seller_student_new/get_one_new_user",{} );
+
+    });
+
 
 });

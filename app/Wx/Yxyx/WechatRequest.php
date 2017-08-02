@@ -272,10 +272,10 @@ class WechatRequest  {
 
 推广材料：
 点击下方蓝字，将内容转发给好友或朋友圈
-<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】<a/>
-<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】<a/>
-<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】<a/>
-<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】<a/>";
+<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】</a>
+<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】</a>
+<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】</a>
+<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】</a>";
         $_SESSION['wx_openid'] = $request['fromusername'];
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
