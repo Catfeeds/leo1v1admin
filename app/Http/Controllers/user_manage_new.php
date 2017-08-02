@@ -1496,6 +1496,7 @@ class user_manage_new extends Controller
             "group_name"  => "99 角色",
             "create_time"  => time(NULL)
         ]);
+
         return $this->output_succ();
     }
     public function power_group_set_name() {
