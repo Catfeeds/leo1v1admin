@@ -552,9 +552,10 @@ class teacher_level extends Controller
     }
 
     public function teacher_lesson_record_info(){
+        $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
         $teacherid       = $this->get_in_int_val("teacherid",-1);
-        $ret_info = $this->t_teacher_info->get_all_train_pass_teacher_info($page_info,$teacherid);
+        $ret_info = $this->t_teacher_info->get_tea_have_test_lesson($page_info,$teacherid);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");

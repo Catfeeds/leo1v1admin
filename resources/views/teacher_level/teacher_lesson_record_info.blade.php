@@ -44,7 +44,10 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                
-                                    <a class="opt-test-lesson" >试听</a>
+                                    <a class="opt-first-lesson-video" >第一次视频</a>
+                                    <a class="opt-first-lesson-record" >第一次反馈</a>
+                                    <a class="opt-fifth-lesson-video" >第五次视频</a>
+                                    <a class="opt-ffith-lesson-record" >第五次反馈</a>
 
                             </div>
                         </td>
