@@ -222,6 +222,13 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">首cc</span>
+                        <input class="opt-change form-control" id="id_first_seller_adminid" />
+                    </div>
+                </div>
+
             </div>
 
             <div class="row  " >
