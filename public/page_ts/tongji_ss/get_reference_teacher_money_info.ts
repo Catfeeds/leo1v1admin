@@ -24,10 +24,13 @@ $(function(){
                     "end_time"         : "2017-08-01",
                 },function(resp){
                     console.log(resp.data[0].lesson_price);
-                    var obj = resp.data[0];
+                    var lesson_price = resp.data[0].lesson_price;
+                    var final_price = lesson_price*0.9;
+                    $tr.find(".lesson_money").text(lesson_price); 
+                    $tr.find(".final_money").text(final_price); 
                     
-                   // do_index++;
-                   // do_one();
+                   do_index++;
+                   do_one();
                 }); 
             }else{
             }

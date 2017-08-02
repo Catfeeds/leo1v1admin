@@ -50,7 +50,8 @@ class testbb extends Controller
 
         // dd(public_path()); // l_t_pdf_198963_5.png
         // $file = "../../../../public/wximg/1858145170.png";
-        $file = public_path()."/wximg/l_t_pdf_198963_5.png";
+        $png = $this->get_in_str_val('img');
+        $file = public_path()."/wximg/".$png;
         echo $file;
 
         $c = unlink($file);
