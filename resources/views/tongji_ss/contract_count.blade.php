@@ -93,11 +93,7 @@
                     </select>
                 </div>
             </div>
-
-
         </div>
-
-  
         <hr />
         <div class="body">
             <table class="common-table ">
@@ -111,31 +107,32 @@
                         <td>新签 </td>
                         <td>转介绍 </td>
                         <td>常规续费 </td>
-                        <td>扩课续费 </td>                    
+                        <td>扩课续费 </td>
                         <td> 操作  </td> </tr>
-
                  </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
-                       
                         <tr class="{{$var["level"]}}">
-                            <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["main_type_str"]}}</td>
-                            <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
-                            <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
-                            <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
-
-
-
+                            <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
+                                {{$var["main_type_str"]}}
+                            </td>
+                            <td data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
+                                {{$var["up_group_name"]}}
+                            </td>
+                            <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}">
+                                {{$var["group_name"]}}
+                            </td>
+                            <td data-class_name="{{$var["account_class"]}}" class="account {{$var["group_name_class"]}} {{$var["account_class"]}}"  >
+                                {{$var["account"]}}
+                            </td>
                             <td> {{@$var["all_price"]}} </td>
                             <td> {{@$var["new_price"]}}</td>
                             <td> {{@$var["transfer_introduction_price"]}}</td>
                             <td> {{@$var["normal_price"]}}</td>
                             <td> {{@$var["extend_price"]}}</td>
-                           
                             <td><div class=" row-data"
                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
-
                                 <a class="fa-comments opt-comments" > </a> 
                             </div></td>
                         </tr>
@@ -183,11 +180,7 @@
                     <tbody>
                     </tbody>
                 </table>
-
             </div>
-
-          
-
         </div>
 
     <script src="/js/qiniu/plupload/plupload.full.min.js"></script>

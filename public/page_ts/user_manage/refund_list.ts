@@ -558,17 +558,23 @@ $(function(){
 
 
     $('.opt-complaint').on("click", function (g_adminid_right) {
+        var opt_data=$(this).get_opt_data();
+
         var $main_type_name = $("<select/>");
         var $main_group_name = $("<select/>");
         var $group_name = $("<select/>");
         var $account = $("<select/>");
         var $complaint_info = $("<textarea/>");
         var $teacher_adminid = $("<input/>");
+        var $punish_style = $("<select />");
         var me = $(this);
         var key_list = me.val();
 
 
-        $main_type_name.html("<option value=\"\" >[全部]</option><option data-type=\"5\" value=\"全职老师\" >全职老师</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option>")
+        $main_type_name.html("<option value=\"\" >[全部]</option><option data-type=\"5\" value=\"全职老师\" >全职老师</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option>");
+
+        $punish_style.html("<option value=\"1\" >A类</option><option value=\"2\"  >B类</option><option value=\"3\" >C类</option>");
+
         var clean_select = function ($select) {
             $select.html("<option value=\"\">[全部]</option>");
         };
@@ -669,11 +675,14 @@ $(function(){
                 $account.parent().parent().css('display','none');
 
                 $teacher_adminid.parent().parent().css('display','table-row');
+                $punish_style.parent().parent().css('display','table-row');
             } else {
                 $main_group_name.parent().parent().css('display','table-row');
                 $group_name.parent().parent().css('display','table-row');
                 $account.parent().parent().css('display','table-row');
                 $teacher_adminid.parent().parent().css('display','none');
+                $punish_style.parent().parent().css('display','none');
+                $punish_style.val('0');
             }
 
             if ($main_type_name.val()) {
@@ -704,6 +713,7 @@ $(function(){
             ["小组", $group_name],
             ["成员", $account],
             ["老师", $teacher_adminid],
+            ["处罚类型",$punish_style],
             ["退费投诉原因", $complaint_info],
         ];
 
@@ -711,6 +721,7 @@ $(function(){
             label: '确认',
             cssClass: 'btn-warning',
             action: function (dialog) {
+
                 if($account.val()){
                     $account_id  = '';
                     $account_str = $account.val();
@@ -724,12 +735,16 @@ $(function(){
                     'complaint_info'      : $complaint_info.val(),
                     'complained_adminid_type' : $main_type_name.find("option:selected").attr('data-type'),
                     'complained_adminid_nick' : $account_str,
+                    'punish_style' : $punish_style.val(),
+                    'order_id' : opt_data.orderid,
+                    'apply_time' : opt_data.apply_time
 
                 });
             }
         },function(){
 
             $teacher_adminid.parent().parent().css('display','none');
+            $punish_style.parent().parent().css('display','none');
             $.admin_select_user($teacher_adminid, "teacher");
         });
     });

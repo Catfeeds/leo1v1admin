@@ -1583,4 +1583,22 @@ class test_code extends Controller
             echo "<br>";
         }
     }
+
+    /**
+     * 重置田克平
+     */
+    public function get_tkp(){
+        $lesson_start=strtotime("2017-8-1");
+        $tea_list = $this->t_teacher_info->get_tkp();
+        $this->switch_tongji_database(false);
+        foreach($tea_list as $tea_val){
+            $teacherid=$tea_val['teacherid'];
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_money_type"=>4
+            ]);
+            $this->t_lesson_info_b2->reset_lesson_teacher_money_type($teacherid,$lesson_start);
+        }
+
+    }
+
 }

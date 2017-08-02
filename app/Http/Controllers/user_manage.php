@@ -1909,11 +1909,7 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
-
-
-
     public function complaint_department_deal(){
-        // $page_num   = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         $account_role = $this->get_account_role();
@@ -1972,14 +1968,10 @@ class user_manage extends Controller
                 $item['follow_state_str'] = '<font color="blue">未分配</font>';
             }
 
-            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time'],1);
+            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time']);
 
         }
-
-        // dd($ret_info);
-
         return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 

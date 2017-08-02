@@ -595,6 +595,210 @@ $(function(){
 
     });
 
+    $(".opt-return-back-lesson").on("click", function(){
+        var userid = $(this).parent().data("userid");
+        var id_recover_time = $("<input />");
+        var id_parent_guidance_except  = $("<input />");
+        var id_tutorial_subject_info = $("<input />");
+        var id_other_subject_info = $("<input />");
+        var id_return_record_type = $("<select />");
+        var id_return_record_person = $("<select />");
+        var id_return_record_record = $("<textarea />");
+        var $operation_satisfy_flag =$("<select/>");
+        var $operation_satisfy_type =$("<select/>");
+        var $operation_satisfy_info  = $("<textarea/>");
+        var $child_class_performance_flag =$("<select/>");
+        var $child_class_performance_type =$("<select/>");
+        var $child_class_performance_info  = $("<textarea/>");
+        var $school_score_change_flag  =$("<select/>");
+        var $school_score_change_info   = $("<textarea/>");
+        var $school_work_change_flag =$("<select/>");
+        var $school_work_change_type =$("<select/>");
+        var $school_work_change_info  = $("<textarea/>");
+        var $tea_content_satisfy_flag  =$("<select/>");
+        var $tea_content_satisfy_type =$("<select/>");
+        var $tea_content_satisfy_info  = $("<textarea/>");
+        var id_recent_learn_info  = $("<textarea/>");
+
+        var $other_parent_info  = $("<textarea/>");
+        var $other_warning_info   = $("<textarea/>");
+        var $is_warning_flag  =$("<select/>");
+        var id_self_introduction = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"self_intro\"></div>");
+        var id_check_lesson_time = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"check_lesson\"></div>");
+        var id_bulid_wx_qun = $("<div><input type=\"checkbox\" id=\"bulid_wx\"></div>");
+        var id_parent_introduction = $("<div><input type=\"checkbox\" id=\"parent_intro\"></div>");
+        var id_parent_wx_introduction = $("<div><input type=\"checkbox\" id=\"parent_wx_intro\"></div>");
+        var id_homework_method = $("<div><input type=\"checkbox\" id=\"homework_method\"></div>");
+        var id_leave_send = $("<div><input type=\"checkbox\" id=\"leave_send\"></div>");
+        var id_educational_system = $("<div><input type=\"checkbox\" id=\"educate_system\"></div>");
+        var id_subject_confirm = $("<div><input type=\"checkbox\" id=\"subject\"></div>");
+        var id_grade_confirm = $("<div><input type=\"checkbox\" id=\"grade\"></div>");
+        var id_textbook_confirm = $("<div><input type=\"checkbox\" id=\"textbook\"></div>");
+
+
+
+        Enum_map.append_option_list( "set_boolean",  $operation_satisfy_flag,true);
+        Enum_map.append_option_list( "set_boolean",  $school_work_change_flag,true);
+        Enum_map.append_option_list( "child_class_performance_type",  $child_class_performance_type,true);
+        Enum_map.append_option_list( "operation_satisfy_type", $operation_satisfy_type,true);
+        Enum_map.append_option_list( "child_class_performance_flag", $child_class_performance_flag,true);
+        Enum_map.append_option_list( "school_score_change_flag", $school_score_change_flag,true);
+        Enum_map.append_option_list( "school_work_change_type", $school_work_change_type,true);
+        Enum_map.append_option_list( "tea_content_satisfy_type", $tea_content_satisfy_type,true);
+        Enum_map.append_option_list( "tea_content_satisfy_flag", $tea_content_satisfy_flag,true);
+        Enum_map.append_option_list("revisit_type",id_return_record_type,true,[4,5,0,3,6]);
+        Enum_map.append_option_list("revisit_person",id_return_record_person,true,[0,1,2,3]);
+        id_recover_time.datetimepicker({
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+
+        });
+
+
+        var arr = [
+            //  [ "回访时间",  id_return_record_time] ,
+            [ "回访类型",  id_return_record_type] ,
+            [ "回访对象",  id_return_record_person] ,
+            [ "回访记录",  id_return_record_record] ,
+            ["软件操作是否满意",  $operation_satisfy_flag ],
+            ["软件操作不满意的类型",  $operation_satisfy_type ],
+            ["软件操作不满意的具体描述",  $operation_satisfy_info ],
+            ["孩子课堂表现",  $child_class_performance_flag ],
+            ["孩子课堂表现不好的类型",  $child_class_performance_type ],
+            ["孩子课堂表现不好的具体描述",  $child_class_performance_info ],
+            ["学校成绩变化",  $school_score_change_flag ],
+            ["学校成绩变差的具体描述",  $school_score_change_info ],
+            ["学业变化",  $school_work_change_flag ],
+            ["学业变化的类型",  $school_work_change_type ],
+            ["学业变化的具体描述",  $school_work_change_info ],
+            ["对于老师or教学是否满意",  $tea_content_satisfy_flag ],
+            ["对于老师or教学不满意的类型",  $tea_content_satisfy_type ],
+            ["对于老师or教学不满意的具体描述",  $tea_content_satisfy_info ],
+            ["家长意见或建议",  $other_parent_info ],
+            ["其他预警问题",  $other_warning_info ],
+            ["自我介绍", id_self_introduction ],
+            ["上课时间核对", id_check_lesson_time ],
+            
+        ];
+
+        var show_field=function (jobj,show_flag) {
+            if ( show_flag ) {
+                jobj.parent().parent().show();
+            }else{
+                jobj.parent().parent().hide();
+            }
+        };
+
+        var reset_ui=function() {
+            var val1=$operation_satisfy_flag.val();
+            var val2=$tea_content_satisfy_flag.val();
+            var val3=$child_class_performance_flag.val();
+            var val4=$school_score_change_flag.val();
+            var val5=$school_work_change_flag.val();
+            if (val1==1 || val1==0) {
+                show_field( $operation_satisfy_type ,false );
+                show_field( $operation_satisfy_info,false );
+            }else{
+                show_field( $operation_satisfy_type ,true);
+                show_field( $operation_satisfy_info,true);
+            }
+            if (val2==1 || val2==0 || val2==2) {
+                show_field( $tea_content_satisfy_type ,false );
+                show_field( $tea_content_satisfy_info,false );
+            }else{
+                show_field( $tea_content_satisfy_type ,true);
+                show_field( $tea_content_satisfy_info,true);
+            }
+            if (val3==1 || val3==0 || val3==2) {
+                show_field( $child_class_performance_type ,false );
+                show_field( $child_class_performance_info,false );
+            }else{
+                show_field( $child_class_performance_type ,true);
+                show_field( $child_class_performance_info,true);
+            }
+            if (val4==1 || val4==0) {
+                show_field( $school_score_change_info,false );
+            }else{
+                show_field( $school_score_change_info,true);
+            }
+
+            if (val5==2 || val5==0) {
+                show_field( $school_work_change_type ,false );
+                show_field( $school_work_change_info,false );
+            }else{
+                show_field( $school_work_change_type ,true);
+                show_field( $school_work_change_info,true);
+            }
+
+
+        };
+
+        $operation_satisfy_flag.on("change",function(){
+            reset_ui();
+        });
+        $tea_content_satisfy_flag.on("change",function(){
+            reset_ui();
+        });
+        $child_class_performance_flag.on("change",function(){
+            reset_ui();
+        });
+        $school_score_change_flag.on("change",function(){
+            reset_ui();
+        });
+        $school_work_change_flag.on("change",function(){
+            reset_ui();
+        });
+
+
+        $.show_key_value_table("修改", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                console.log(id_self_introduction.parent().parent().parent());
+                var information_confirm=[];
+
+                id_self_introduction.parent().parent().parent().find(".check_flag").each(function(){
+                    var ss= $(this).find("input:checked").length;
+                    var name = $(this).find("input").attr("id");
+                    information_confirm.push("{"+name+":"+ss+"}");
+                });
+                console.log(information_confirm);
+                return;
+                $.do_ajax("/revisit/add_revisit_record", {
+                    "userid":userid,
+                    "operator_note":id_return_record_record.val(),
+                    "revisit_person":id_return_record_person.find("option:selected").text(),
+                    "revisit_type":id_return_record_type.val(),
+                    "operation_satisfy_flag": $operation_satisfy_flag.val(),
+                    "operation_satisfy_type": $operation_satisfy_type.val(),
+                    "operation_satisfy_info": $operation_satisfy_info.val(),
+                    "child_class_performance_flag": $child_class_performance_flag.val(),
+                    "child_class_performance_type": $child_class_performance_type.val(),
+                    "child_class_performance_info": $child_class_performance_info.val(),
+                    "tea_content_satisfy_flag": $tea_content_satisfy_flag.val(),
+                    "tea_content_satisfy_type": $tea_content_satisfy_type.val(),
+                    "tea_content_satisfy_info": $tea_content_satisfy_info.val(),
+                    "other_parent_info": $other_parent_info.val(),
+                    "other_warning_info": $other_warning_info.val(),
+                    "school_score_change_flag": $school_score_change_flag.val(),
+                    "school_score_change_info": $school_score_change_info.val(),
+                    "school_work_change_flag": $school_work_change_flag.val(),
+                    "school_work_change_type": $school_work_change_type.val(),
+                    "school_work_change_info": $school_work_change_info.val()
+                });
+            }
+        },function(){
+            reset_ui();
+        });
+
+    });
+
+
     $(".opt-return-back-list-new").on("click",function(){
         var userid=$(this).parent().data("userid");
         var phone=$(this).parent().data("phone");

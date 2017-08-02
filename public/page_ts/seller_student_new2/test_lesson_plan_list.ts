@@ -553,11 +553,6 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
 
-                if($id_ass_test_lesson_type.val()==2 && $id_change_reason.val() == ""){
-                    alert('请选择换老师原因!');
-                    return;
-                }
-
                 var require_time= $.strtotime($id_stu_request_test_lesson_time.val() );
                 var need_start_time=0;
                 var now=(new Date()).getTime()/1000;
@@ -987,6 +982,7 @@ $(function(){
 
     $(".opt-test_lesson_order_fail").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data.require_id);
 
         var $test_lesson_order_fail_flag=$("<select/>");
         var $test_lesson_order_fail_desc =$("<textarea/>");
@@ -1062,7 +1058,7 @@ $(function(){
     });
 
 
-    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
+    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){        
         var opt_data=$(this).get_opt_data();
         var lessonid=opt_data.lessonid;
         var lesson_time = opt_data.lesson_time;

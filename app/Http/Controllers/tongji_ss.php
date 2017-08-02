@@ -1006,25 +1006,23 @@ class tongji_ss extends Controller
 
 
     public function contract_count() {
-        $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
-        $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
-        $contract_type   = $this->get_in_int_val("contract_type",-1);
-        $contract_status = -1;
-        $config_courseid = -1;
-        $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
-        $studentid       = $this->get_in_studentid(-1);
-        $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
-        $origin           = $this->get_in_str_val("origin");
-        $from_type = $this->get_in_int_val("from_type",-1);
-        $account_role = $this->get_in_int_val("account_role",-1);
-        $has_money = -1;
-        $sys_operator = $this->get_in_str_val("sys_operator","");
-        $seller_groupid_ex         = $this->get_in_str_val('seller_groupid_ex', "");
-        $adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        //$adminid_right  = $this->get_seller_adminid_and_right();
-        // $adminid_all  = $this->get_seller_adminid_and_branch();
-        $adminid_right  = [] ;
-        $adminid_all  = [] ;
+        $start_time        = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
+        $end_time          = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
+        $contract_type     = $this->get_in_int_val("contract_type",-1);
+        $contract_status   = -1;
+        $config_courseid   = -1;
+        $is_test_user      = $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
+        $studentid         = $this->get_in_studentid(-1);
+        $check_money_flag  = $this->get_in_int_val("check_money_flag", -1);
+        $origin            = $this->get_in_str_val("origin");
+        $from_type         = $this->get_in_int_val("from_type",-1);
+        $account_role      = $this->get_in_int_val("account_role",-1);
+        $has_money         = -1;
+        $sys_operator      = $this->get_in_str_val("sys_operator","");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right     = [] ;
+        $adminid_all       = [] ;
 
 
         $account=$this->get_account();
@@ -1041,7 +1039,6 @@ class tongji_ss extends Controller
             if( !isset($ret_info[$val['adminid']] ) ) {
                 unset( $admin_list[$vk] );
             }else{
-
                 $val['all_price'] = @$ret_info[$val['adminid']]['all_price']/100;
                 $val['transfer_introduction_price'] = @$ret_info[$val['adminid']]['transfer_introduction_price']/100;
                 $val['new_price'] = @$ret_info[$val['adminid']]['new_price']/100;
@@ -1059,18 +1056,26 @@ class tongji_ss extends Controller
         $grade_map=[];
         $subject_count_map=[];
         $grade_count_map=[];
+        $phone_map=[];
+        $phone_count_map=[];
         foreach ($data_list as $a_item) {
-            $subject=$a_item["subject"];
-            $grade=$a_item["grade"];
+            $subject = $a_item["subject"];
+            $grade   = $a_item["grade"];
             @$subject_map[$subject] =@$subject_map[$subject]+$a_item["price"]/100;
             @$grade_map[$grade] =@$grade_map[$grade]+$a_item["price"]/100;
             @$subject_count_map[$subject] ++;
             @$grade_count_map[$grade] ++;
 
         }
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),["subject_map"=>$subject_map,"grade_map"=>$grade_map,"subject_count_map"=>$subject_count_map,"grade_count_map"=>$grade_count_map,"adminid_right"=>$adminid_right]);
-
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
+            "subject_map"       => $subject_map,
+            "grade_map"         => $grade_map,
+            "subject_count_map" => $subject_count_map,
+            "grade_count_map"   => $grade_count_map,
+            "adminid_right"     => $adminid_right
+        ]);
     }
+
     public function test_lesson_plan_detail_list_jw() {
         $this->set_in_value("set_lesson_adminid", $this->get_account_id() );
         return $this->test_lesson_plan_detail_list();
@@ -6014,8 +6019,8 @@ class tongji_ss extends Controller
 
             $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
             $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
-            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0;
-            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0;
+            $item["tran_order"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
+            $item["tran_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_price"]/100:0;
             $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
             $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
             $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;
@@ -6538,7 +6543,13 @@ class tongji_ss extends Controller
         $late= $this->t_lesson_info_b2->tongji_1v1_lesson_time_late($start_time,$end_time);
         $late_list=[];
         foreach($late as $e){
-            @$late_list[$e["teacherid"]] +=$e["time"];
+            if(!in_array($e["teacherid"],[176999,190394])){
+                @$late_list[$e["teacherid"]] +=$e["time"];
+            }
+        }
+        $other_time = $this->t_lesson_info_b2->tongji_1v1_lesson_time_morning($start_time,$end_time);
+        foreach($other_time as $ttt){
+             @$late_list[$ttt["teacherid"]] +=$ttt["time"];
         }
         $arr=[];$week=[];
         foreach($ret as $val){
@@ -6622,9 +6633,17 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+        }
+
         $page_info = $this->get_in_page_info();
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$account_id,$master_flag,$change_teacher_reason_type);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_change_teacher($page_info,$start_time,$end_time,$adminid_str,$master_flag,$change_teacher_reason_type);
 
         foreach($ret_info['list'] as &$item){
             E\Echange_teacher_reason_type::set_item_value_str($item,"change_teacher_reason_type");
@@ -6645,6 +6664,12 @@ class tongji_ss extends Controller
 
             $item['ass_nick'] = $this->cache_get_account_nick($item['require_adminid']);
             $item['test_lesson_time'] = date('Y-m-d H:i:s',$item['lesson_start']);
+
+            $replace_str = 'http://7u2f5q.com2.z0.glb.qiniucdn.com/';
+            $img_url_flag = str_replace($replace_str,'',$item['change_teacher_reason_img_url']);
+            if(!$img_url_flag){
+                $item['change_teacher_reason_img_url'] = '';
+            }
 
             if($item['order_confirm_flag'] == 0){
                 $item['order_confirm_flag_str'] = "<font color=\"blue\">未设置</font>";
@@ -6669,7 +6694,17 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$account_id,$master_flag);
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+        }
+
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_kuoke($page_info,$start_time,$end_time,$adminid_str,$master_flag);
 
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
@@ -6715,9 +6750,16 @@ class tongji_ss extends Controller
             $master_flag = 1;
         }
 
-        // $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
+        $ass_list = $this->t_admin_group_name->get_group_admin_list($account_id);
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$account_id,$master_flag);
+        if(empty($ass_list)){
+            $adminid_str = $account_id;
+        }else{
+            $ass_list = array_column($ass_list,'adminid');
+            $adminid_str = implode(',',$ass_list);
+        }
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info_by_referral($page_info,$start_time,$end_time,$adminid_str,$master_flag);
 
         foreach( $ret_info['list'] as &$item){
             $item['ass_nick']     =  $this->cache_get_account_nick($item["require_adminid"]) ;
@@ -6766,7 +6808,13 @@ class tongji_ss extends Controller
                 unset($ret_info['list'][$index]);
             }
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
-            $item_list['work_time'] =  \App\Helper\Common::secsToStr(time()-$item_list['create_time'],2);
+
+            if($item_list['train_through_new_time'] !=0){
+                $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
+            }else{
+                $item_list["work_time"] = 0;
+            }
+
             E\Eteacher_money_type::set_item_value_str($item_list);
         }
 

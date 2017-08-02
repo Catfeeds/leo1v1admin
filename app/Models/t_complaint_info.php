@@ -62,7 +62,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
                                   $where_arr
         );
 
-        return $this->main_get_list_by_page($sql,$page_info);
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
 

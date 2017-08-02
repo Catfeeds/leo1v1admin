@@ -121,6 +121,7 @@ class menu{
                     ["power_id"=>5, "name"=>"小班学生列表-new",   "url"=>"/small_class/student_list_new"]
                 ]],
                 ["power_id"=>14, "name"=>"培训课堂",   "url"=>"/tea_manage/train_lesson_list"],
+                ["power_id"=>15, "name"=>"培训未通过",   "url"=>"/tea_manage/train_not_through_list"],
                 ["power_id"=>8, "name"=>"课程错误报告",  "url"=>"/lesson_manage/error_info"],
                 ["power_id"=>9, "name"=>"课程统计信息",   "url"=>"/tea_manage/lesson_account"],
                 ["power_id"=>10, "name"=>"登陆过多统计",   "url"=>"/lesson_manage/stu_login_count"]
@@ -342,7 +343,7 @@ class menu{
                 // ["power_id"=>34, "name"=>"投诉处理-部门",   "url"=>"/user_manage/complaint_department_deal/"],
                 ["power_id"=>35, "name"=>"投诉处理-老师",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent/"],
-                ["power_id"=>37, "name"=>"投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
+                ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
@@ -516,6 +517,7 @@ class menu{
                 ["power_id"=>60, "name"=>"每月学员科目统计",   "url"=>"/user_manage/user_info_by_month"],
                 ["power_id"=>12, "name"=>"转介绍例子",   "url"=>"/seller_student/ass_add_student_list"],
                 ["power_id"=>11, "name"=>"试听课跟进-主管",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_master"],
+                ["power_id"=>13, "name"=>"试听课跟进-组长",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_leader"],
                 ["power_id"=>1, "name"=>"签约管理",   "url"=>"/user_manage_new/ass_contract_list"],
                 ["power_id"=>2, "name"=>"助教课时统计",   "url"=>"/user_manage_new/ass_lesson_count_list"],
                 ["power_id"=>3, "name"=>"老师课时统计",   "url"=>"/user_manage_new/tea_lesson_count_list"],
@@ -624,18 +626,7 @@ class menu{
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
 
             ]],
-            ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
-                ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
-                ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
-                ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list"],
-            ]],
-
-            ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
-                ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
-                ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
- 
-            ]],
-
+            
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
@@ -659,6 +650,19 @@ class menu{
 
             ]],
 
+            ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
+                ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
+                ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
+                ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list"],
+            ]],
+
+            ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
+                ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
+                ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
+ 
+            ]],
+
+           
            
 
             ["power_id"=>32, "name"=>"角色-教研",  "list"=>[

@@ -214,5 +214,18 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         );
         return $this->main_get_value($sql);
     }
+    public function get_main_type($adminid) {
+        $sql = $this->gen_sql_new(" select am.main_type from %s u "
+                                  ." left join %s g on u.groupid = g.groupid"
+                                  ." left join %s am on g.up_groupid = am.groupid"
+                                  ." where u.adminid = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_admin_group_name::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  $adminid
+        );
+        return $this->main_get_value($sql);
+
+    }
 
 }

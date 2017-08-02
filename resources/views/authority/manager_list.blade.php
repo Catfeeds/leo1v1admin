@@ -109,7 +109,9 @@
                     <td > 状态</td>
                     <td >每天新例子 </td>
                     <td > 咨询师等级</td>
-                    <td >操作</td>
+                    <td > 入职时间</td>
+                    <td > 离职时间</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -131,6 +133,8 @@
                             <td>{{$var["del_flag_str"]}}</td>
                             <td>{{$var["day_new_user_flag_str"]}}</td>
                             <td>{{$var["seller_level_str"]}}</td>
+                            <td>{{$var["become_time"]}}</td>
+                            <td>{{$var["leave_time"]}}</td>
                             <td  >
                                 <div class="div-row-data"
                                      {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

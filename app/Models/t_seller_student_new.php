@@ -802,10 +802,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         ];
 
         if ($t_flag) {
-            $where_arr[] = "origin_level = 90";
+            $where_arr[] = "(origin_level = 90  or   global_tq_called_flag=1 )";
         }else{
             $where_arr[] = "origin_level <> 90";
         }
+        // E\Etq_called_flag
 
         $seller_level= $this->t_manager_info->get_seller_level($not_adminid);
         // E\Eseller_level
@@ -1570,7 +1571,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $competition_call_time = time(NULL)   -3600*2; 
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
-        $where_arr[] =  't.seller_student_status in (1,2,101,102)';
+        $where_arr[] =  't.seller_student_status in (1,101,102)';
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
 

@@ -99,6 +99,20 @@ class authority extends Controller
             E\Edepartment::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"become_full_member_flag");
             $item['del_flag_str'] = ($item['del_flag']==0)?'在职':'离职';
+            if($item['leave_member_time']){
+                $item['leave_member_time'] = date('Y/m/d H:i',$item['leave_member_time']);
+                $item['leave_time'] = $item['leave_member_time'];
+            }else{
+                $item['leave_member_time'] = '';
+                $item['leave_time'] = '';
+            }
+            if($item['become_member_time']){
+                $item['become_member_time'] = date('Y/m/d H:i',$item['become_member_time']);
+                $item['become_time'] = $item['become_member_time'];
+            }else{
+                $item['become_member_time'] = '';
+                $item['become_time'] = date('Y/m/d H:i',$item['create_time']);
+            }
             if($item["seller_level_str"] == -1){
                 $item["seller_level_str"] = "未设置";
             }
@@ -215,21 +229,17 @@ class authority extends Controller
     }
 
     public function del_manager() {
-        $uid= $this->get_in_str_val("uid","");
-        $del_flag= $this->get_in_int_val("del_flag","");
-        if($del_flag == 1){
-            $set_arr=[
-                "del_flag" => $del_flag ,
-            ];
+        $uid = $this->get_in_str_val("uid","");
+        $del_flag = $this->get_in_int_val("del_flag","");
+        $time_str = $this->get_in_str_val("time");
+        $time = strtotime($time_str);
+        $set_arr['del_flag'] = $del_flag;
+        if($del_flag){
+            $set_arr['leave_member_time'] = $time;
         }else{
-            $set_arr=[
-                "del_flag" => $del_flag ,
-            ];
+            $set_arr['become_member_time'] = $time;
         }
-        // $set_arr=[
-        //     "del_flag" => $del_flag ,
-        // ];
-        if ($del_flag) {
+        if($del_flag){
             $set_arr["wx_openid"]=NULL;
         }
         $this->t_manager_info->field_update_list($uid, $set_arr);

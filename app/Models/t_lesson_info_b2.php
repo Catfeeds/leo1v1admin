@@ -2184,6 +2184,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function tongji_1v1_lesson_time_morning($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag<2",
+            "tr.trial_train_status in (0,1)",
+            "l.teacherid in (176999,190394)"
+        ];
+        $sql = $this->gen_sql_new("select FROM_UNIXTIME(l.lesson_start, '%%k' ) hour,FROM_UNIXTIME(l.lesson_start, '%%w' ) week,sum(l.lesson_end - l.lesson_start) time,l.teacherid  "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on l.lessonid = tr.train_lessonid and tr.type =10"
+                                  ." where %s group  by l.teacherid,hour,week having(hour>=9 and week >1 and hour <11)",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
     public function get_lesson_time_flag($userid,$teacherid){
         $where_arr = [
@@ -2227,7 +2250,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.create_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
+        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.train_through_new_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
                                   " left join %s tll on tll.lessonid = l.lessonid".
                                   " left join %s tlr on tlr.require_id = tll.require_id".
                                   " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
@@ -2381,7 +2404,46 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_test_lesson_success_list(){
+        $now = time();
+        $tomor_time = $now;
+
+        $where_arr = [
+            ["l.lesson_end >%d",$tomor_time]
+        ];
+        // $sql
+    }
 
 
+    public function get_teacher_regular_lesson_info($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <>2",
+            "l.lesson_type <>2",
+            "t.train_through_new_time >0",
+            "t.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,t.train_through_new_time,"
+                                  ."t.grade_part_ex,t.subject,t.grade_start,t.grade_end,"
+                                  ."sum(lesson_count) lesson_count"
+                                  ." from %s l left join %s t on l.teacherid=t.teacherid"
+                                  ." where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
 
+    public function reset_lesson_teacher_money_type($teacherid,$lesson_start){
+        $sql = $this->gen_sql_new("update %s set teacher_money_type=4"
+                                  ." where teacherid=%s"
+                                  ." and lesson_start>%u"
+                                  ,self::DB_TABLE_NAME
+                                  ,$teacherid
+                                  ,$lesson_start
+        );
+        return $this->main_update($sql);
+    }
 }
