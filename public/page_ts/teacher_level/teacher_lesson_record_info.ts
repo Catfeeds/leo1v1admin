@@ -1,6 +1,7 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/teacher_level-teacher_lesson_record_info.d.ts" />
-
+var Cwhiteboard=null;
+var notify_cur_playpostion =null;
 $(function(){
     function load_data(){
         $.reload_self_page ( {
