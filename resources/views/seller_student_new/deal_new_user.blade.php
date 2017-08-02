@@ -38,14 +38,19 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
+                        <button class="btn btn-primary" id="id_left_count"  title="可抢个数" > {{$count_info["left_count"]}}
+                        </button>
                         <a class="btn btn-warning "  id="id_goto_new_list" > 继续抢新例子</a>
+                        <a class="btn btn-warning "  id="id_get_new" style="display:none;" >抢新例子</a>
                     </div>
                 </div>
+
 
 
             </div>
         </div>
         <hr/>
+        @if ( $user_info )
         <table     class="common-table"  >
             <thead>
                 <tr>
@@ -109,6 +114,14 @@
 
             </tbody>
         </table>
+        @else
+            <div class="row  " >
+                <div class="col-xs-12 col-md-12  " >
+                    <div  style="  text-align:center; color:red;font-size:50px" > 请拨打新例子 </div>
+                </div>
+            </div>
+
+        @endif
     </section>
 
 

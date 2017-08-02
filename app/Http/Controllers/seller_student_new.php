@@ -519,6 +519,76 @@ class seller_student_new extends Controller
         return $this->no_called_list();
     }
 
+    public function get_one_new_user() {
+        $now=time(NULL);
+        $page_num=1;
+        $grade=-1;
+        $has_pad=-1;
+        $subject=-1;
+        $origin="";
+        $phone="";
+        $adminid=$this->get_account_id();
+        $t_flag=0;
+
+        $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
+        $userid=@ $ret_info["list"][0]["userid"];
+        if ($userid) {
+
+            $key="DEAL_NEW_USER_$adminid";
+            $old_userid=\App\Helper\Common::redis_get($key)*1;
+            //$this->t_seller_student_new->get_sell
+            $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
+
+            if (
+                $old_row_data["tq_called_flag"] ==0 &&
+                $old_row_data["admin_revisiterid"] !=$adminid
+                &&  $now- $old_row_data["competition_call_time"] < 3600  ) {
+                return $this->output_err("有新例子tq未拨打",["need_deal_cur_user_flag" =>true]);
+
+            }
+
+            if(!$this->t_seller_student_new->check_admin_add($adminid,$get_count,$max_day_count )){
+                return $this->output_err("目前你持有的例子数[$get_count]>=最高上限[$max_day_count]");
+            }
+
+            if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
+                return $this->output_err("今天的配额,已经用完了");
+            }
+
+
+            $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid ");
+            $competition_call_time = $row_data["competition_call_time"];
+            $competition_call_adminid = $row_data["competition_call_adminid"];
+            $admin_revisiterid = $row_data["admin_revisiterid"];
+            if ($admin_revisiterid !=  0  && $admin_revisiterid != $adminid) {
+                return $this->output_err("已经被人抢了1");
+            }
+            if ( $competition_call_adminid != $adminid &&  $now- $competition_call_time  < 3600  ) { //
+                return $this->output_err("已经被人抢了2");
+            }
+
+            $this->t_test_subject_free_list ->row_insert([
+                "add_time" => time(NULL),
+                "userid" =>   $userid,
+                "adminid" => $adminid,
+                "test_subject_free_type" => 0,
+            ],false,true);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "competition_call_time" => $now,
+                "tq_called_flag" => 0,
+                "competition_call_adminid" =>$adminid
+            ]);
+
+            \App\Helper\Common::redis_set($key, $userid );
+
+            return $this->output_succ();
+
+        }else{
+            return $this->output_err("没有资源了");
+
+        }
+    }
+
     public function get_new_list_data()
     {
         $cur_hm=date("H")*60+date("i");
@@ -1029,11 +1099,21 @@ class seller_student_new extends Controller
     public function deal_new_user( ) {
         $adminid = $this->get_account_id();
 
+
+        $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
+        $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
+
         $key="DEAL_NEW_USER_$adminid";
         $userid=\App\Helper\Common::redis_get($key)*1;
+
         if ($userid==0) {
-            return $this->error_view(["请到 抢新学生 获取新例子! "]);
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null, "count_info"=>$count_info ]
+            );
+
         }
+
 
         $this->set_filed_for_js("userid", $userid);
         $test_lesson_subject_id = $this->t_test_lesson_subject->get_test_lesson_subject_id($userid);
@@ -1044,7 +1124,13 @@ class seller_student_new extends Controller
         $ret_info=$this->t_seller_student_new->get_seller_list( 1, -1, "", $userid );
         $user_info= @$ret_info["list"][0];
         if (!$user_info) {
-            return $this->error_view(["请到 抢新学生 获取新例子! "]);
+
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null , "count_info"=>$count_info]
+            );
+
+
         }
 
         $this->set_filed_for_js("phone", $user_info["phone"]);
@@ -1054,7 +1140,13 @@ class seller_student_new extends Controller
         $now = time(NULL);
         //超时
         if ($competition_call_adminid==$adminid && $now > $competition_call_time +3600   ){
-            return $this->error_view(["请到 抢新学生 获取新例子 "]);
+
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null , "count_info"=>$count_info]
+            );
+
+
         }
 
         E\Etq_called_flag::set_item_value_str($user_info);
@@ -1066,7 +1158,7 @@ class seller_student_new extends Controller
 
         return $this->pageView(
             __METHOD__ , null,
-            ["user_info"=>$user_info]
+            ["user_info"=>$user_info , "count_info"=>$count_info]
         );
 
     }
