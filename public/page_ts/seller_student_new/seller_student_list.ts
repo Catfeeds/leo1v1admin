@@ -1048,9 +1048,9 @@ function init_edit() {
             }
 
             var title= '用户信息['+opt_data.phone+':'+opt_data.phone_location+']';
-            if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
-                title= title+"-渠道:["+origin+"]";
-            }
+            // if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
+            //     title= title+"-渠道:["+origin+"]";
+            // }
 
             var dlg=BootstrapDialog.show({
                 title:  title,

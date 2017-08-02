@@ -450,9 +450,9 @@ $(function(){
             }
 
             var title= '用户信息['+g_args.phone+']';
-            if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
-                title= title+"-渠道:["+origin+"]";
-            }
+            // if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
+            //     title= title+"-渠道:["+origin+"]";
+            // }
 
 
 

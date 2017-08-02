@@ -683,7 +683,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
         $sql = $this->gen_sql_new("select l.courseid,l.lessonid,lesson_status,lesson_intro,from_lessonid,l.teacherid,"
                                   ." can_set_as_from_lessonid, lesson_num, lesson_start, lesson_end, lesson_type, tea_cw_url,"
-                                  ." tea_cw_status, c.lesson_total, l.teacherid, course_name "
+                                  ." tea_cw_status, c.lesson_total, l.teacherid, course_name ,l.grade"
                                   ." from %s l "
                                   ." left join %s c on l.courseid=c.courseid "
                                   ." where lesson_start!=0 "

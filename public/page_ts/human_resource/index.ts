@@ -1802,4 +1802,26 @@ $(function(){
         });
     });
 
+    $(".opt-set_bank_info").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var id_idcard        = $("<input/>");
+        var id_bankcard      = $("<input/>");
+        var id_bank_address  = $("<input/>");
+        var id_bank_account  = $("<input/>");
+        var id_bank_phone    = $("<input/>");
+        var id_bank_type     = $("<input/>");
+        var id_bank_province = $("<input/>");
+        var id_bank_city     = $("<input/>");
+
+        $.show_key_value_table("更改老师银行卡信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        });
+
+    });
+
+
+
 });
