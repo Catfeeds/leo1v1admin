@@ -47,24 +47,12 @@ class testbb extends Controller
 
 
     public function test () {
+        $item_yes['subject'] = 1;
+        dd(E\Esubject::get_desc(2));
 
-        $wx_openid_arr = [
-            // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-            // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-            // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
-            "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
-            "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
-            "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
-            "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
-        ];
-        // $qc_openid_arr
-        $subject_adminid_wx_openid_list = ["huhhhhh"];
-        $wx_openid_list = array_merge($wx_openid_arr,$subject_adminid_wx_openid_list);
+        dd($item_yes);
 
-        dd($wx_openid_list);
-
-
-        $d = strtotime(date('Y-m-d 14:00:00' , strtotime('+1 day')));
+        $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
         dd($d);
 
     }

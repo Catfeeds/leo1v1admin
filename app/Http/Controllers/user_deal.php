@@ -2605,6 +2605,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $ret = $this->t_teacher_lecture_appointment_info->get_id_by_adminid(917);
+        dd($ret);
+        foreach($ret as $val){
+            $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
+               "accept_adminid"  =>955 
+            ]);
+        }
         $this->switch_tongji_database();
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");

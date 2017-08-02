@@ -326,6 +326,11 @@ class tea_manage extends Controller
             }
             $item['lesson_deduct']=trim($item['lesson_deduct'],"|");
             E\Eboolean::set_item_value_str($item,"lesson_del_flag");
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+            E\Esuccess_flag::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item, "test_confirm_time","_str");
+            $this->cache_set_item_account_nick($item,"test_confirm_adminid","test_confirm_admin_nick");
+
         }
 
         $seller_list      = $this->t_admin_group->get_admin_list_by_gorupid(E\Eaccount_role::V_1 );
@@ -2163,6 +2168,8 @@ class tea_manage extends Controller
             }else{
                 $val["have_wx_flag"]="否";
             }
+            E\Eidentity::set_item_value_str($val,"teacher_type");
+            // $val["reference_name"] = $this->t_teacher_info->get_realname($val["reference"]);
         }
 
         $all_num = $this->t_lesson_info_b2->train_lecture_lesson_count(

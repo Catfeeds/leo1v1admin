@@ -67,6 +67,7 @@
                     {!!\App\Helper\Utils::th_order_gen([                        
                         ["面试数","all_num" ],                     
                         ["面试人数","all_count" ],                     
+                        ["实到人次","real_all" ],                     
                         ["实到人数","real_num" ],                     
                         ["入职人数","suc_count" ],
                         ["面试人数通过率","pass_per"],
@@ -85,6 +86,7 @@
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["all_num"]}} </td>
                         <td >{{@$var["all_count"]}} </td>
+                        <td >{{@$var["real_all"]}} </td>
                         <td >{{@$var["real_num"]}} </td>
                         <td >
                             @if(@$var["account"]=="全部")

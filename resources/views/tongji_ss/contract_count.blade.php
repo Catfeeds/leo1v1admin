@@ -3,8 +3,8 @@
     <script type="text/javascript" src="/page_js/select_course.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.pie.min.js"></script>
+	  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+	  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.pie.min.js"></script>
     <script type="text/javascript" >
      
      var g_grade_map= <?php  echo json_encode ($grade_map); ?> ;
@@ -12,6 +12,8 @@
      var g_subject_count_map= <?php  echo json_encode ($subject_count_map); ?> ;
      var g_subject_map= <?php  echo json_encode ($subject_map); ?> ;
      var g_adminid_right= <?php  echo json_encode($adminid_right); ?> ;
+     var g_phone_map= <?php  echo json_encode ($phone_map); ?> ;
+     var g_phone_count_map= <?php  echo json_encode ($phone_count_map); ?> ;
     </script>
 
     <section class="content">
@@ -109,7 +111,7 @@
                         <td>常规续费 </td>
                         <td>扩课续费 </td>
                         <td> 操作  </td> </tr>
-                 </thead>
+                </thead>
                 <tbody>
                     @foreach ($table_data_list as $var)
                         <tr class="{{$var["level"]}}">
@@ -131,7 +133,7 @@
                             <td> {{@$var["normal_price"]}}</td>
                             <td> {{@$var["extend_price"]}}</td>
                             <td><div class=" row-data"
-                                    {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
                                 <a class="fa-comments opt-comments" > </a> 
                             </div></td>
@@ -145,7 +147,7 @@
         <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div> 年级-合同金额 </div>
-		        <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
+		            <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
                 <table   class="table table-bordered table-striped"   >
                     <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 金额</td> </tr> </thead>
                     <tbody>
@@ -154,7 +156,7 @@
             </div>
             <div class="col-xs-6 col-md-3">
                 <div> 年级-合同数量 </div>
-		        <div id="id_grade_pic_count" class="demo-placeholder" style="height:400;"></div>
+		            <div id="id_grade_pic_count" class="demo-placeholder" style="height:400;"></div>
                 <table   class="table table-bordered table-striped"   >
                     <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
                     <tbody>
@@ -164,7 +166,7 @@
 
             <div class="col-xs-6 col-md-3">
                 <div> 科目-合同金额</div>
-		        <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
+		            <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
                 <table   class="table table-bordered table-striped"   >
                     <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 金额</td> </tr> </thead>
                     <tbody>
@@ -174,7 +176,28 @@
             </div>
             <div class="col-xs-6 col-md-3">
                 <div> 科目-合同数量</div>
-		        <div id="id_subject_pic_count" class="demo-placeholder" style="height:400;"></div>
+		            <div id="id_subject_pic_count" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <div> 电话归属地-合同金额</div>
+		            <div id="id_phone_pic" class="demo-placeholder" style="height:400;"></div>
+                <table   class="table table-bordered table-striped"   >
+                    <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 金额</td> </tr> </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <div> 电话归属地-合同数量</div>
+		            <div id="id_phone_pic_count" class="demo-placeholder" style="height:400;"></div>
                 <table   class="table table-bordered table-striped"   >
                     <thead> <tr> <td> 编号 </td> <td> 名称  </td><td> 个数</td> </tr> </thead>
                     <tbody>
@@ -183,7 +206,8 @@
             </div>
         </div>
 
-    <script src="/js/qiniu/plupload/plupload.full.min.js"></script>
+
+        <script src="/js/qiniu/plupload/plupload.full.min.js"></script>
 
 @endsection
 

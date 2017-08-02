@@ -57,7 +57,7 @@ $(function(){
             $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
-                "end_time":g_args.end_time
+                "end_time":g_args.end_time,
             },function(resp) {
                 var userid_list = resp.data;
                 console.log(userid_list);
@@ -95,6 +95,157 @@ $(function(){
         }
         
     });
+
+    $(".tra_count_green").on("click",function(){
+        var adminid = $(this).data("adminid");
+        console.log(adminid);
+        if(adminid > 0){           
+            var title = "绿色通道课程详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+                "adminid" : adminid,
+                "start_time":g_args.start_time,
+                "end_time":g_args.end_time,
+                "is_green_flag":1
+            },function(resp) {
+                var userid_list = resp.data;
+                console.log(userid_list);
+                $.each(userid_list,function(i,item){
+                    var lessonid = item["lessonid"];
+                    var nick = item["nick"]
+                    var time = item["lesson_start_str"];
+                    var subject = item["subject_str"];
+                    var grade = item["grade_str"];
+                    var tea_name=item["tea_name"];
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+        }
+        
+    });
+    
+    $(".tra_count_seller").on("click",function(){
+        var adminid = $(this).data("adminid");
+        console.log(adminid);
+        if(adminid > 0){           
+            var title = "销售课程详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+                "adminid" : adminid,
+                "start_time":g_args.start_time,
+                "end_time":g_args.end_time,
+                "require_admin_type":2
+            },function(resp) {
+                var userid_list = resp.data;
+                console.log(userid_list);
+                $.each(userid_list,function(i,item){
+                    var lessonid = item["lessonid"];
+                    var nick = item["nick"]
+                    var time = item["lesson_start_str"];
+                    var subject = item["subject_str"];
+                    var grade = item["grade_str"];
+                    var tea_name=item["tea_name"];
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+        }
+        
+    });
+    $(".tra_count_ass").on("click",function(){
+        var adminid = $(this).data("adminid");
+        console.log(adminid);
+        if(adminid > 0){           
+            var title = "助教课程详情";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>lessonid</td><td>时间</td><td>老师</td><td>学生</td><td>年级</td><td>科目</td></tr></table></div>");
+
+            $.do_ajax('/tongji_ss/get_suc_order_lesson_info',{
+                "adminid" : adminid,
+                "start_time":g_args.start_time,
+                "end_time":g_args.end_time,
+                "require_admin_type":1
+            },function(resp) {
+                var userid_list = resp.data;
+                console.log(userid_list);
+                $.each(userid_list,function(i,item){
+                    var lessonid = item["lessonid"];
+                    var nick = item["nick"]
+                    var time = item["lesson_start_str"];
+                    var subject = item["subject_str"];
+                    var grade = item["grade_str"];
+                    var tea_name=item["tea_name"];
+                    html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+tea_name+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                });
+            });
+
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: true, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+
+        }
+        
+    });
+
+
 
 
     $("#id_tongji").on("click",function(){

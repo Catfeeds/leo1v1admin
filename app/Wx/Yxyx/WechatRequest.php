@@ -148,7 +148,7 @@ class WechatRequest  {
      * @return array
      */
     public static function text(&$request){
-         $content = $request['content'];
+        $content = $request['content'];
         if($content == '优学优享'){
             $tuwenList[] = array(
                 'title' => '优学优享简介',
@@ -258,21 +258,25 @@ class WechatRequest  {
         $content =
             self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
-【分享】它使快乐增大，它使悲伤减小。
+诚挚地邀请您，推荐身边朋友的孩子来理优学习。
+每月轻松获得奖金过万。
 
-【菜单栏功能介绍】
--[我要邀请]-:生成邀请海报。
--[理优教育]-:内有理优简介、精品内容、学员反馈、每日卡片。
--[账号管理]-:
-(1)绑定账号：绑定手机号即可开启优学优享功能。
-(2)个人中心：查询用户等级、邀请人数、奖励情况等。
-(3)常见问题：自助解决问题。
-";
+理优1对1是专注于中小学1对1辅导的在线教育机构。
+现有6000多名全国公校老师，以及40万注册用户。
+每年帮助数以万计的学生提升成绩。学员成绩平均有30%的提高。
 
+如何邀请：
+<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>【第一步】绑定账号<a/>
+【第二步】点击“我要邀请”生成邀请海报
+【第三步】保存图片，发给朋友或朋友圈
+
+推广材料：
+点击下方蓝字，将内容转发给好友或朋友圈
+<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】<a/>
+<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】<a/>
+<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】<a/>
+<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】<a/>";
         $_SESSION['wx_openid'] = $request['fromusername'];
-
-        \App\Helper\Utils::logger("request11:".$request['fromusername']);
-
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }
@@ -323,10 +327,7 @@ class WechatRequest  {
      * @return array
      */
     public static function eventScan(&$request){
-
         \App\Helper\Utils::logger("WX request:" .json_encode($request) );
-
-
         $sceneid = str_replace("qrscene_","",$request['eventkey']);
         //移动用户到相应分组中去,此处的$sceneid依赖于之前创建时带的参数
         if(!empty($sceneid)){
@@ -401,163 +402,73 @@ class WechatRequest  {
      * @return array
      */
     public static function eventClick(&$request){
-        //获取该分类的信息
-        $eventKey = $request['eventkey'];
-        $content = '收到点击菜单事件，您设置的key是' . $eventKey;
-        \App\Helper\Utils::logger('yxyx_dianji');
-
-
-        $tuwenList = array();
-        if ($eventKey == 'manual') {
-
-            $tuwenList[] = array(
-
-                'title' => '[软件]如何下载老师端、语音检测APP',
-
-                'description' => '',
-
-                'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD/%E8%80%81%E5%B8%88%E7%AB%AF%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD_%E5%B0%81%E9%9D%A2.png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_software',
-
-            );
-
-
-            $tuwenList[] = array(
-
-                'title' => '[iPad端] 软件使用教程',
-
-                'description' => '',
-
-                'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-ipad%E7%AB%AF/%E5%B0%81%E9%9D%A2',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_ipad',
-
-            );
-
-            $tuwenList[] = array(
-
-                'title' => '[PC端] 软件使用教程',
-
-                'description' => '',
-
-                'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-PC%E7%AB%AF/0.png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_pc',
-
-            );
-
-
-            $tuwenList[] = array(
-
-                'title' => '[讲课白板] 功能介绍',
-
-                'description' => '',
-
-                'pic_url' => 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E7%99%BD%E6%9D%BF/%E7%99%BD%E6%9D%BF.png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard',
-            );
-
-
-
-        } elseif ($eventKey == 'video') {
-            $tuwenList[] = array(
-
-                'title' => '[数学] 试听课案例鉴赏',
-
-                'description' => '',
-
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4sqb8Xr7LTXMyUia5bFziaqyaqfslQr5sWpTc3hqz3KF0QLpAmmLjeI6xNGlNic2PibPynJSIHrU903w/0?wx_fmt=png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_math',
-            );
-
-            $tuwenList[] = array(
-
-                'title' => '[英语] 试听课案例鉴赏',
-
-                'description' => '',
-
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml4eLBb4Cluv6icfGh2Z5u8fO6LBGO3Q2EpBErwkFCXzKgLd5qeCibagCSo0SxM6enfzNhGYoicCcxwdw/0?wx_fmt=png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_english',
-            );
-
-            $tuwenList[] = array(
-
-                'title' => '[语文] 试听课案例鉴赏',
-
-                'description' => '',
-
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml6MUooCw5Ylg8H04YNM6kv5keTjRg7iaibwzgMHDx9TWm7nAoAiab35nudc8WAFELeRLg3SqvPx5picsg/0?wx_fmt=png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_chinese',
-            );
-
-            $tuwenList[] = array(
-
-                'title' => '[物理] 试听课案例鉴赏',
-
-                'description' => '',
-
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5wfZguFN5Sib6H0sHGzE77PqBg0wvSLgwQmiaByySeb7W1OmwknKgH3VGFcOjoicHPsdlCZmPKv7D7Q/0?wx_fmt=png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_video_physics',
-            );
-
-
-        } elseif ($eventKey == 'friends') {
-            $content = "理优老师报名链接：http://www.leo1v1.com/tea.html";
-            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
-        } elseif ($eventKey == 'question') {
-            $tuwenList[] = array(
-
-                'title' => '常见问题Q&A',
-
-                'description' => '',
-
-                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
-           );
-/*
-            $tuwenList[] = array(
-
-                'title' => '[新师培训] 常见问题处理方法',
-
-                'description' => '',
-
-                'pic_url' => 'https://mmbiz.qlogo.cn/mmbiz_png/cBWf565lml5ticciaEDNHDsQ66rd1sibEhSU1QAFDC79vNel7s6NHPj0iaksAr7QibGic2JdAic6UDWWQHmfRx6HEdK2w/0?wx_fmt=png',
-
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question',
-
-            );
-*/
-        }elseif ($eventKey == 'invitation') {
-            $openid = $request['fromusername'];
-            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
-            $t_agent = new \App\Models\t_agent();
-            $agent = $t_agent->get_agent_info_by_openid($openid);
-            $phone = '';
-            if(isset($agent['phone'])){
-                $phone = $agent['phone'];
-            }
-            if ( !$phone ){
-                $content="
+        $openid = $request['fromusername'];
+        $t_agent = new \App\Models\t_agent();
+        $agent = $t_agent->get_agent_info_by_openid($openid);
+        $phone = '';
+        if(isset($agent['phone'])){
+            $phone = $agent['phone'];
+        }
+        if(!$phone){
+            $content="
 【绑定提醒】
 您还未绑定手机，请绑定成功后重试
 绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
-                $_SESSION['wx_openid'] =   $request['fromusername'];
-                session(['wx_openid'=> $request['fromusername']]);
-                \App\Helper\Utils::logger("guanzhu1".session('wx_openid'));
-                \App\Helper\Common::redis_set("agent_wx_openid", $request['fromusername'] );
+            $_SESSION['wx_openid'] =   $request['fromusername'];
+            session(['wx_openid'=> $request['fromusername']]);
 
-                return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
-            }
+            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+        }
 
+        //获取该分类的信息
+        $eventKey = $request['eventkey'];
+        $content = '收到点击菜单事件，您设置的key是' . $eventKey;
+        $tuwenList = array();
+        if($eventKey == 'content') {
+            $tuwenList[] = array(
+                'title' => '精品内容',
+                'description' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png',
+                'url' => 'http://www.xmypage.com/model2_28992.html',
+            );
+        }elseif($eventKey == 'feedback'){
+            $tuwenList[] = array(
+                'title' => '学员反馈',
+                'description' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/799bad5a3b514f096e69bbc4a7896cd91501667344751.jpg',
+                'url' => 'https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy',
+            );
+        }elseif($eventKey == 'card'){
+            $tuwenList[] = array(
+                'title' => '每日卡片',
+                'description' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/a7ee56745585a55a4703baadfbd9f5c11501667371977.JPG',
+                'url' => 'https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage',
+            );
+        }elseif($eventKey == 'question') {
+            $tuwenList[] = array(
+                'title' => '常见问题Q&A',
+                'description' => '',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/b3291e92621199f457028e10dc7de8e51500964583043.png',
+                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
+           );
+        }elseif ($eventKey == 'invitation') {
+            //使用客服接口发送消息
+            $txt_arr = [
+                'touser'   => $openid,
+                'msgtype'  => 'text',
+                'text'     => [
+                    'content' =>
+                    '①长按下方图片并保存②将图片发给朋友或朋友圈'
+                ]
+            ];
+            $txt = self::ch_json_encode($txt_arr);
+            $token = AccessToken::getAccessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+            $txt_ret = self::https_post($url,$txt);
+
+            $url = "http://yxyx.leo1v1.com/common/get_agent_qr?wx_openid=".$openid;
             $img_url = self::get_img_url($url);
-            \App\Helper\Utils::logger('yxyx_curl:'.$img_url);
             $type = 'image';
             $num = rand();
             $img_Long = file_get_contents($img_url);
@@ -570,34 +481,24 @@ class WechatRequest  {
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
-
                 'title' => '上海理优教育科技有限公司图片简介',
-
                 'description' => '',
-
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/eef708bdb1d02310c9ab7ba5a3605c071501040957308.jpg',
-
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_introduction',
-
             );
 
-
             $tuwenList[] = array(
-
                 'title' => '理优1对1用户指南',
-
                 'description' => '',
-
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
-
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_guide',
-
             );
         }
         $item = array();
         foreach($tuwenList as $tuwen){
             $item[] = ResponsePassive::newsItem($tuwen['title'], $tuwen['description'], $tuwen['pic_url'], $tuwen['url']);
         }
+
         return  ResponsePassive::news($request['fromusername'], $request['tousername'], $item);
     }
 
@@ -863,9 +764,23 @@ class WechatRequest  {
         return $data;
     }
 
+    public function check_bind($openid){
+        $t_agent = new \App\Models\t_agent();
+        $agent = $t_agent->get_agent_info_by_openid($openid);
+        $phone = '';
+        if(isset($agent['phone'])){
+            $phone = $agent['phone'];
+        }
+        if(!$phone){
+            $content="
+【绑定提醒】
+您还未绑定手机，请绑定成功后重试
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+            $_SESSION['wx_openid'] =   $request['fromusername'];
+            session(['wx_openid'=> $request['fromusername']]);
 
-
-
-
+            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+        }
+    }
 
 }

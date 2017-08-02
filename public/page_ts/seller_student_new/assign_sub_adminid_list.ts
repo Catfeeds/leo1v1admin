@@ -21,6 +21,7 @@ function load_data(){
         subject:	$('#id_subject').val(),
         phone_location:	$('#id_phone_location').val(),
         admin_revisiterid:	$('#id_admin_revisiterid').val(),
+        first_seller_adminid:	$('#id_first_seller_adminid').val(),
         seller_student_status:	$('#id_seller_student_status').val(),
         seller_student_sub_status:	$('#id_seller_student_sub_status').val(),
         has_pad:	$('#id_has_pad').val(),
@@ -101,6 +102,7 @@ $(function(){
     $('#id_subject').val(g_args.subject);
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
+    $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
     $('#id_seller_student_status').val(g_args.seller_student_status);
     $('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
     $('#id_seller_student_sub_status').val(g_args.seller_student_sub_status);
@@ -138,6 +140,21 @@ $(function(){
 
     $.enum_multi_select( $('#id_account_role'), "account_role", function(){load_data();} );
 
+
+    $.admin_select_user(
+        $('#id_first_seller_adminid'),
+        "admin", load_data ,false, {
+            " main_type": 2,
+            select_btn_config: [
+                {
+                    "label": "[已分配]",
+                    "value": -2
+                }, {
+                    "label": "[未分配]",
+                    "value": 0
+                }]
+        }
+    );
     $.admin_select_user(
         $('#id_admin_revisiterid'),
         "admin", load_data ,false, {
