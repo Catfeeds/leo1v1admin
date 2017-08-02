@@ -4022,7 +4022,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         dd($ret_info);
     }
 
-
+    public function tongji_seller_test_lesson_order_info_zj(){
+        return $this->tongji_seller_test_lesson_order_info();
+    }
+    
     public function tongji_seller_test_lesson_order_info(){
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
@@ -6864,6 +6867,28 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
 
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function get_reference_teacher_money_info(){
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
+        $this->set_in_value("end_time","2017-08-01");
+        $end_time = $this->get_in_int_val("end_time");
+
+        foreach($ret_info["list"] as &$item){
+            if($item["train_through_new"]==1){
+                $item["train_through_new_str"]="已入职";
+            }else{
+                $item["train_through_new_str"]="未入职";
+            }
+            if($item["train_through_new_time"]>0){
+                $item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
+            }else{
+                $item["train_through_new_time_str"]="无";
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+        //dd($ret_info); 
     }
 
 }

@@ -769,8 +769,16 @@ class common_new extends Controller
         return $this->output_succ(["table_desc_list" => $ret_map]);
     }
 
+    public function get_wx_group_pic(){
+        $type       = $this->get_in_int_val("type",4);
+        $usage_type = $this->get_in_int_val("usage_type",401);
+        if($type==0 || $usage_type==0){
+            return $this->output_err("图片为空");
+        }
 
+        $pic_list=$this->t_pic_manage_info->get_pic_info_list($type,$usage_type,1);
 
-
+        return $this->output_succ(['data' => $pic_list['list']]);
+    }
 
 }

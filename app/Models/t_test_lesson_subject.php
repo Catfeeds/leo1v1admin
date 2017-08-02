@@ -148,7 +148,42 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." join %s n on n.userid=t.userid "
             ." join %s s on s.userid=t.userid "
             ." where %s "
-            ."  group by  first_seller_adminid "
+            ." group by first_seller_adminid "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list_as_page($sql,function($item){
+            return $item["admin_revisiterid"];
+        });
+    }
+    public function get_seller_test_lesson_count (
+        $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1
+    ){
+        $where_arr=[
+            "t.require_adminid= n.admin_revisiterid ",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade_list);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
+        $this->where_arr_add_int_or_idlist($where_arr,"n.tmk_student_status",$tmk_student_status);
+
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+
+        //wx
+        $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
+
+
+        $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
+        $sql= $this->gen_sql_new(
+            "select count(test_lesson_subject_id) as test_count"
+            ." from %s  t "
+            ." join %s n on n.userid=t.userid "
+            ." join %s s on s.userid=t.userid "
+            ." where %s "
+            ."  group by require_adminid "
             ,self::DB_TABLE_NAME
             ,t_seller_student_new::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
@@ -157,10 +192,11 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         // return $sql;
         return $this->main_get_list_as_page($sql,function($item){
-            return $item["admin_revisiterid"];
+            return $item["test_count"];
         });
 
     }
+
 
     public function get_seller_count ($start_time,$end_time ,$grade_list , $origin_ex="" ) {
         $where_arr=[

@@ -50,6 +50,7 @@
                         <td>负责人 </td>
                         <td>入职时间</td>
                         <td>新用户数</td>
+                        <td>试听课数</td>
                         <td>签单数</td>
                         <td>签单金额</td>
                         <td>消耗价值</td>
@@ -69,6 +70,7 @@
 
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["new_user_count"]}} </td>
+                        <td>{{@$var["test_lesson_count"]}} </td>
                         <td>{{@$var["order_count"]}} </td>
                         <td>{{@$var["order_money"]}} </td>
                         <td>{{@$var["old_money"]}} </td>

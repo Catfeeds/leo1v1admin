@@ -1,11 +1,11 @@
 interface GargsStatic {
-	t_flag:	number;
 	page_num:	number;
 	page_count:	number;
 	grade:	number;//App\Enums\Egrade
 	has_pad:	number;//App\Enums\Epad_type
 	subject:	number;//App\Enums\Esubject
 	origin:	string;
+	t_flag:	number;
 	phone:	string;
 	seller_level:	number;
 }
@@ -45,11 +45,11 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			t_flag:	$('#id_t_flag').val(),
 			grade:	$('#id_grade').val(),
 			has_pad:	$('#id_has_pad').val(),
 			subject:	$('#id_subject').val(),
 			origin:	$('#id_origin').val(),
+			t_flag:	$('#id_t_flag').val(),
 			phone:	$('#id_phone').val(),
 			seller_level:	$('#id_seller_level').val()
         });
@@ -59,11 +59,11 @@ $(function(){
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
 	Enum_map.append_option_list("subject",$("#id_subject"));
 
-	$('#id_t_flag').val(g_args.t_flag);
 	$('#id_grade').val(g_args.grade);
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_subject').val(g_args.subject);
 	$('#id_origin').val(g_args.origin);
+	$('#id_t_flag').val(g_args.t_flag);
 	$('#id_phone').val(g_args.phone);
 	$('#id_seller_level').val(g_args.seller_level);
 
@@ -75,13 +75,6 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">t_flag</span>
-                <input class="opt-change form-control" id="id_t_flag" />
-            </div>
-        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -111,6 +104,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin</span>
                 <input class="opt-change form-control" id="id_origin" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">t_flag</span>
+                <input class="opt-change form-control" id="id_t_flag" />
             </div>
         </div>
 

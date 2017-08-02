@@ -5,13 +5,13 @@ $(function(){
     var notify_cur_playpostion =null;
     function load_data(){
         $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			studentid:	$('#id_studentid').val()
+			      date_type_config:	$('#id_date_type_config').val(),
+			      date_type:	$('#id_date_type').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+			      teacherid:	$('#id_teacherid').val(),
+			      studentid:	$('#id_studentid').val()
         });
     }
 
@@ -26,8 +26,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_studentid').val(g_args.studentid);
+	  $('#id_teacherid').val(g_args.teacherid);
+	  $('#id_studentid').val(g_args.studentid);
 
 
 	$('.opt-change').set_input_change_event(load_data);

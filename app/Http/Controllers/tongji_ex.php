@@ -23,5 +23,7 @@ class tongji_ex extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
-}
+    public function call_count() {
 
+    }
+}

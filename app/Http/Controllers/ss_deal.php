@@ -4077,6 +4077,7 @@ class ss_deal extends Controller
         }
         return  $this->output_succ();
     }
+
     public function test_subject_free_list_add () {
 
         $userid= $this->get_in_userid();

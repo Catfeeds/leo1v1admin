@@ -266,16 +266,16 @@ class WechatRequest  {
 每年帮助数以万计的学生提升成绩。学员成绩平均有30%的提高。
 
 如何邀请：
-<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>【第一步】绑定账号<a/>
+【第一步】<a href='http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'>绑定账号</a>
 【第二步】点击“我要邀请”生成邀请海报
 【第三步】保存图片，发给朋友或朋友圈
 
 推广材料：
 点击下方蓝字，将内容转发给好友或朋友圈
-<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】<a/>
-<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】<a/>
-<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】<a/>
-<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】<a/>";
+<a href='http://admin.yb1v1.com/article_wx/leo_yxyx_introduction'>【理优简介】</a>
+<a href='http://www.xmypage.com/model2_28992.html'>【精品内容】</a>
+<a href='https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy'>【学员反馈】</a>
+<a href='https://m.llspace.com/g-main-3765446.html?platform=ard&client_version=1.14.2&from=singlemessage'>【每日卡片】</a>";
         $_SESSION['wx_openid'] = $request['fromusername'];
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
@@ -459,7 +459,8 @@ class WechatRequest  {
                 'msgtype'  => 'text',
                 'text'     => [
                     'content' =>
-                    '①长按下方图片并保存②将图片发给朋友或朋友圈'
+                    '①长按下方图片并保存
+②将图片发给朋友或朋友圈'
                 ]
             ];
             $txt = self::ch_json_encode($txt_arr);

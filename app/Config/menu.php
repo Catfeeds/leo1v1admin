@@ -628,6 +628,7 @@ class menu{
             ]],
             
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
+                ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                 ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
@@ -636,6 +637,7 @@ class menu{
                 ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                 ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
                 ["power_id"=>38, "name"=>"试听课反馈",   "url"=>"/teacher_level/teacher_lesson_record_info"],
+                ["power_id"=>39, "name"=>"常规课反馈",   "url"=>"/teacher_level/teacher_regular_lesson_record_info"],
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[
                     ["power_id"=>4, "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji"],
                     ["power_id"=>1, "name"=>"面试转化数据-年级科目",   "url"=>"/tongji_ss/interview_subject_grade_tongji"],
