@@ -2410,14 +2410,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_value($sql);
     }
 
-    public function get_all_train_pass_teacher_info($page_info,$teacherid){
-        $where_arr = [
-            "is_quit=0",
-            "is_test_user=0",
-            "train_through_new=1",
-            ["teacherid=%u",$teacherid,-1]
-        ];
-        $sql = $this->gen_sql_new("select teacherid,realname,subject,grade,grade_start,grade_end,not_grade"
+    public function get_all_train_pass_teacher_info($page_info,$arr){
+        $where_arr = [];
+        $this->where_arr_teacherid($where_arr,"teacherid", $arr);
+        $sql = $this->gen_sql_new("select teacherid,realname,subject,grade_part_ex,grade_start,grade_end,not_grade"
                                   ." from %s where %s order by teacherid desc",
                                   self::DB_TABLE_NAME,
                                   $where_arr
@@ -2425,6 +2421,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_tea_have_test_lesson($page_info,$teacherid){
+        $where_arr = [
+            "t.is_quit=0",
+            "t.is_test_user=0",
+            "t.train_through_new=1",
+            ["t.teacherid=%u",$teacherid,-1],
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type=2"
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,count(l.lessonid) num,"
+                                  ."t.realname,t.subject,t.grade_part_ex,t.grade_start,t.grade_end,t.not_grade"
+                                  ." from %s t left join %s l on t.teacherid = l.teacherid"
+                                  ." where %s group by t.teacherid having(num>0) ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+
+    }
 
     public function get_all_tea_phone_location(){
         $sql = $this->gen_sql_new("select teacherid,realname,phone,address,identity,train_through_new_time"

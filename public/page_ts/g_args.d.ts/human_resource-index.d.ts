@@ -119,6 +119,14 @@ interface RowData {
 	is_quit	:any;
 	part_remarks	:any;
 	left_num	:any;
+	idcard	:any;
+	bankcard	:any;
+	bank_address	:any;
+	bank_account	:any;
+	bank_phone	:any;
+	bank_type	:any;
+	bank_province	:any;
+	bank_city	:any;
 	class_will_type	:any;
 	class_will_sub_type	:any;
 	revisit_add_time	:any;

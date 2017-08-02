@@ -256,16 +256,14 @@ class WechatRequest  {
      */
     public static function eventSubscribe(&$request){
         $content =
-            self::unicode2utf8('\ue031').self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
+            self::unicode2utf8('\ue032')."你来啦，真好。".self::unicode2utf8('\ue032')."
 
 【分享】它使快乐增大，它使悲伤减小。
 
-现在，全国公校名师等待着你的推荐。
-
-现在，你可以帮助朋友解决头痛的师资问题。
-
-现在，每月你可能有一笔零花钱
-更可能会成为一份教育事业月入过万
+".self::unicode2utf8('\ue41f')."现在，全国公校名师等待着你的推荐。
+".self::unicode2utf8('\ue41f')."现在，你可以帮助朋友解决头痛的师资问题。
+".self::unicode2utf8('\ue12f')."现在，每月你可能有一笔零花钱
+".self::unicode2utf8('\ue12f')."更可能会成为一份教育事业月入过万
 
 来成为人类的灵魂工程师吧
 
@@ -279,11 +277,7 @@ class WechatRequest  {
 (2)个人中心：查询用户等级、邀请人数、奖励情况等。
 (3)常见问题：自助解决问题。
 ";
-
         $_SESSION['wx_openid'] = $request['fromusername'];
-
-        \App\Helper\Utils::logger("request11:".$request['fromusername']);
-
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }

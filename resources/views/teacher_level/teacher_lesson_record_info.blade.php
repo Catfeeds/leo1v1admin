@@ -1,5 +1,20 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/jquery.base64.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+
+    <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
+
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
         <div>
@@ -44,7 +59,10 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                
-                                    <a class="opt-test-lesson" >试听</a>
+                                    <a class="opt-first-lesson-video" >第一次视频</a>
+                                    <a class="opt-first-lesson-record" >第一次反馈</a>
+                                    <a class="opt-fifth-lesson-video" >第五次视频</a>
+                                    <a class="opt-ffith-lesson-record" >第五次反馈</a>
 
                             </div>
                         </td>
