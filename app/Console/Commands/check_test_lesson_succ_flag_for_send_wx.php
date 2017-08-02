@@ -57,12 +57,17 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
                    {{remark.DATA}}
                  **/
 
+                $now = date('Y-m-d H:i:s');
+
+                $stu_nick = $this->CacheNick();
+
+                $lesson_info = "";
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
                 $data_msg = [
                     "first"     => "未设置试听课课时有效性",
                     "keyword1"  => "确认试听课课时有效性",
-                    "keyword2"  => "QC投诉内容:$complaint_info",
-                    "keyword3"  => "QC投诉时间 $log_time_date ",
+                    "keyword2"  => "$lesson_info",
+                    "keyword3"  => "$now",
                 ];
                 $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
                 $wx=new \App\Helper\Wx();

@@ -6457,7 +6457,7 @@ class tongji_ss extends Controller
         $tran_all = $tran_avg;
         $lesson_all = $lesson_avg;
         foreach($tran_avg as $pp=>&$rr){
-            $rr = ceil($rr/$tran_count);
+            $rr = round($rr/$tran_count,2);
         }
         $tran_avg["cc_per"] = !empty($tran_avg["cc_lesson_num"])?round($tran_avg["cc_order_num"]/$tran_avg["cc_lesson_num"]*100,2):0;
         $tran_avg["kk_per"] = !empty($tran_avg["kk_lesson_num"])?round($tran_avg["kk_order_num"]/$tran_avg["kk_lesson_num"]*100,2):0;
@@ -6471,8 +6471,12 @@ class tongji_ss extends Controller
 
         $tran_all["realname"]="全部";
 
-        foreach($lesson_avg as &$ss){
-            $ss = ceil($ss/$lesson_count);
+        foreach($lesson_avg as $mm=>&$ss){
+            if($mm=="lesson_count_left"){
+                $ss = round($ss/$lesson_count);
+            }else{
+                $ss = round($ss/$lesson_count,2);
+            }
         }
         $lesson_avg["realname"]="平均";
         $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];

@@ -548,9 +548,9 @@ class teacher_level extends Controller
              $item["nick"] = $this->t_student_info->get_nick($item["userid"]);
              }*/
         if($empty($data)){
-            
+            return $this->output_err("没有视频!"); 
         }else{
-            return $this->output_succ(["data"=>$data]);
+            return $this->output_succ(["data"=>$data["lessonid"]]);
         }
     }
 
