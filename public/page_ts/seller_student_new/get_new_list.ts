@@ -13,6 +13,7 @@ $(function(){
         $.reload_self_page ( {
             grade:	$('#id_grade').val(),
             has_pad:	$('#id_has_pad').val(),
+			      t_flag:	$('#id_t_flag').val(),
             phone:	$('#id_phone').val(),
             subject:	$('#id_subject').val()
         });
@@ -25,6 +26,7 @@ $(function(){
     $('#id_grade').val(g_args.grade);
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_subject').val(g_args.subject);
+	  $('#id_t_flag').val(g_args.t_flag);
 
     $('#id_phone').val(g_args.phone);
 
@@ -195,6 +197,9 @@ $(function(){
     });
     if (g_args.seller_level >=400 ) { //C ,D ,E ...
         $(".td-add-time").hide();
+    }
+    if ($.get_action_str() != "get_new_list_tmk" ) {
+        $("#id_t_flag").parent().parent().hide();
     }
 
 });
