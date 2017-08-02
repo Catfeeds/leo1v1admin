@@ -54,10 +54,26 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         }
 
 
-        $test_lesson_list_two_day_ago = $this->task->t_lesson_info_b2->get_test_lesson_success_list_two_days_ago();
+        $test_lesson_list_two_day_ago_list = $this->task->t_lesson_info_b2->get_test_lesson_success_list_two_days_ago();
 
-        $test_lesson_list_three_day_ago  = $this->task->t_lesson_info_b2->get_test_lesson_success_list_three_days_ago();
+        foreach( $test_lesson_list_two_day_ago_list  as $item_two){
+            if($item_two['success_flag'] == 0){
+                //课时成功未设置
+            }elseif($item_two['order_confirm_flag'] == 0){
+                // 助教未设置试听课结果
+            }
+        }
 
+
+        $test_lesson_list_three_day_ago_list  = $this->task->t_lesson_info_b2->get_test_lesson_success_list_three_days_ago();
+
+        foreach( $test_lesson_list_three_day_ago_list  as $item_two){
+            if($item_three['success_flag'] == 0){
+                //课时成功未设置
+            }elseif($item_three['order_confirm_flag'] == 0){
+                // 助教未设置试听课结果
+            }
+        }
 
     }
 }

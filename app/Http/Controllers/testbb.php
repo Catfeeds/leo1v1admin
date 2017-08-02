@@ -48,7 +48,7 @@ class testbb extends Controller
 
     public function test () {
 
-        $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-1 day')));
+        $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
         dd($d);
 
     }

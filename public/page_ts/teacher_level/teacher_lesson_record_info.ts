@@ -8,6 +8,12 @@ $(function(){
 			teacherid:	$('#id_teacherid').val()
         });
     }
+    //audiojs 时间回调, 每秒3-4次
+    //$(".tea_cw_url[data-v = 0], .stu_cw_url[data-v=0],.homework_url[data-v=0]" ) .parent().addClass("danger");
+    //=======================================================
+    notify_cur_playpostion = function (cur_play_time){
+        Cwhiteboard.play_next( cur_play_time );
+    };
 
 
 	$('#id_teacherid').val(g_args.teacherid);
