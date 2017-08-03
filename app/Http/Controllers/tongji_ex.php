@@ -24,6 +24,10 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
     public function call_count() {
-
+        list($start_time,$end_time)=$this->get_in_date_range_month(date("Y-m-01") );
+        $sys_invaild_flag= $this->get_in_e_boolean(-1,"sys_invaild_flag");
+        $this->switch_tongji_database();
+        $ret_info=$this->t_seller_student_new->get_call_info( $start_time, $end_time, $sys_invaild_flag  );
+        return $this->pageView(__METHOD__,$ret_info);
     }
 }

@@ -5,7 +5,7 @@ class flow_qingjia extends flow_base{
 
     static $type= E\Eflow_type::V_QINGJIA;
     static $node_data=[
-        //nodeid => next_nodeid(s) name  ,next_node_process 
+        //nodeid => next_nodeid(s) name  ,next_node_process
         0=>[ 1 , "申请"  ],
         1=>[ [3,5],"申请->主管审批"  ],
         3=>[ -1 ,"主管->财务审批" ],
@@ -24,7 +24,7 @@ class flow_qingjia extends flow_base{
         $day_count=floor($hour_count/8);
         $hour_count_tmp=$self_info["hour_count"]%8;
         $hour_count_str=" $day_count 天 $hour_count_tmp 小时 ";
-        
+
         $task=static::get_task_controler();
         $post_admin_nick=$task->cache_get_account_nick($flow_info["post_adminid"]);
 
@@ -44,7 +44,7 @@ class flow_qingjia extends flow_base{
         $day_count=floor($hour_count/8);
         $hour_count_tmp=$self_info["hour_count"]%8;
         $hour_count_str=" $day_count 天 $hour_count_tmp 小时 ";
-        
+
         return date("Y-m-d H",$self_info["start_time"])."~". date("Y-m-d H",$self_info["end_time"] )."($hour_count_str)";
     }
 
@@ -56,7 +56,7 @@ class flow_qingjia extends flow_base{
 
     static function next_node_process_1 ($flowid ,$adminid){ //
         list($flow_info,$self_info)=static::get_info($flowid);
-        if ($self_info["hour_count"]>=24) { 
+        if ($self_info["hour_count"]>=24) {
             //Cofing
             return [5,99];
         }else{
