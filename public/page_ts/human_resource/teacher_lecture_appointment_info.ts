@@ -332,7 +332,7 @@ $(function(){
     });
 
     $("#id_set_zs_work_status").on("click",function(){
-        $.do_ajax( "/fulltime_teacher/get_fulltime_teacher_pisitive_require_info",{
+        $.do_ajax( "/ajax_deal2/get_admin_work_status",{
             "account_role" :8,
         },function(resp){            
             var data = resp.data;
@@ -341,7 +341,12 @@ $(function(){
 
            
             $.each(data,function(i,item){
-                html_node.find("table").append("<tr><td>"+item.account+"</td><td>"+item.admin_work_status_str+"</td><td class=\"edit_work_status\" data-uid=\""+item.uid+"\" data-work_status=\""+item.admin_work_status+"\"><a href=\"\">调整</a></td></tr>");
+                html_node.find("table").append("<tr><td>"+item.account+"</td><td>"+item.admin_work_status_str+"</td><td class=\"edit_work_status\" data-uid=\""+item.uid+"\" data-status=\""+item.admin_work_status+"\"><a href=\"javascript:;\">调整</a></td></tr>");
+            });
+            html_node.find(".edit_work_status").on("click",function(){
+                var uid = $(this).data("uid"); 
+                var status = $(this).data("status");
+                
             });
 
            
@@ -354,17 +359,6 @@ $(function(){
                     cssClass: 'btn',
                     action: function(dialog) {
                         dialog.close();
-
-                    }
-                },{
-                    label: '审核',
-                    cssClass: 'btn-warning',
-                    action: function(dialog) {
-                        $.do_ajax('/user_deal/fulltime_teacher_positive_require_deal_main_master',{
-                            "id":id,
-                            "main_master_deal_flag" : html_node.find("table").find("#main_master_deal_flag").val()
-                        });
-
 
                     }
                 }],

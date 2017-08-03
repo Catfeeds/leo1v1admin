@@ -716,9 +716,9 @@ class user_manage_new extends Controller
     public function money_contract_list () {
         $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
-        $userid_flag   = $this->get_in_int_val("userid_flag",-1);
+        $userid_flag     = $this->get_in_int_val("userid_flag",-1);
         $contract_type   = $this->get_in_int_val("contract_type",-2);
-        $contract_status =  $this->get_in_el_contract_status();
+        $contract_status = $this->get_in_el_contract_status();
 
         $config_courseid = -1;
         $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );

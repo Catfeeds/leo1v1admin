@@ -302,7 +302,7 @@ trait  InputDeal {
     }
 
     public function get_in_end_time_from_str($def_value="",$field_name="end_time"  ){
-        return $this->get_in_unixtime_from_str( $field_name, $def_value);
+        return $this->get_in_unixtime_from_str($field_name, $def_value);
     }
 
     public function get_in_end_time_from_str_next_day($def_value=""  ){

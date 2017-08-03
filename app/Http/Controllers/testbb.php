@@ -46,8 +46,6 @@ class testbb extends Controller
 
 
 
-
-
     public function test () {
         /**
            获取code

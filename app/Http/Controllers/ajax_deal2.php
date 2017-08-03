@@ -554,6 +554,9 @@ class ajax_deal2 extends Controller
     public function get_admin_work_status(){
         $account_role = $this->get_in_int_val("account_role",-1);
         $list = $this->t_manager_info->get_admin_work_status_info($account_role);
+        foreach($list as &$val){
+            $val["admin_work_status_str"]=$val["admin_work_status"]==1?"工作":"休息";
+        }
         return $this->output_succ(["data"=>$list]);
     }
 }
