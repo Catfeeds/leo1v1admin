@@ -92,6 +92,7 @@ class seller_student_new extends Controller
         //dd($wx_invaild_flag);
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
+        $call_phone_count= $this->get_in_int_val("call_phone_count", -1);
         $this->switch_tongji_database();
 
         $this->t_seller_student_new->switch_tongji_database();
@@ -101,7 +102,7 @@ class seller_student_new extends Controller
             $subject,$phone_location,$origin_ex,$has_pad,$sub_assign_adminid_2,
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
-            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid );
+            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid ,$call_phone_count );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         // dd($ret_info);
 

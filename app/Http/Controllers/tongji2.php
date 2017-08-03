@@ -955,7 +955,6 @@ class tongji2 extends Controller
             foreach ($test_tmp as $val) {
                 if ($val['require_adminid'] === $v['admin_revisiterid']) {
                     $v['test_lesson_count'] = $val['test_count'];
-                    $v[2] = $val['test_count'];
                 }
             }
         }
