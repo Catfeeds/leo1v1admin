@@ -7,7 +7,19 @@
                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">类型</span>
+                        <span class="input-group-addon">老师类型</span>
+                        <select class="opt-change form-control " id="id_fulltime_flag" >
+                            <option value="-1">全部</option>
+                            <option value="0">兼职老师</option>
+                            <option value="1">上海全职老师</option>
+                            <option value="2">武汉全职老师</option>
+                        </select>
+                    </div>
+                </div>               
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">工资类型</span>
                         <select class="opt-change form-control " id="id_teacher_money_type" >
                         </select>
                     </div>

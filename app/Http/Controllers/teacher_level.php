@@ -523,7 +523,7 @@ class teacher_level extends Controller
         $fulltime_flag       = $this->get_in_int_val("fulltime_flag",-1);
 
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag);
+        $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag,$fulltime_flag);
         foreach($ret_info["list"] as &$item){
             E\Elevel::set_item_value_str($item,"level_before");
             E\Elevel::set_item_value_str($item,"level_after");
