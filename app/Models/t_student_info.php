@@ -2591,7 +2591,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   // ." and grade=203"
                                   ." and is_test_user=0"
                                   ." and lesson_count_left>1"
-                                  ." and type=0"
                                   ." and exists (select 1 from %s where s.userid=userid and lesson_type in (0,1,3) and %s)"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
@@ -2601,7 +2600,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
-       
         $where_arr=[
           ['o.assistantid=%d', $assistantid, 0],
           'o.lesson_count_left>0',

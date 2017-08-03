@@ -132,6 +132,11 @@ class wx_parent_common extends Controller
 
     }
 
+
+    public function check_parent_info(){
+
+    }
+
     public function get_user_info_for_market(){
         /**
            获取code
@@ -141,13 +146,14 @@ class wx_parent_common extends Controller
 
         ***/
         $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_common/get_user_info_for_market";
+        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
 
         $redirect_url = urlencode($url);
 
-        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
 
+        dd($url);
     }
 
 

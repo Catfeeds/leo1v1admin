@@ -796,10 +796,10 @@ class user_manage_new extends Controller
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [
-            "money_all"=>$money_all,
+            "money_all"   => $money_all,
             "order_count" => $order_count,
-            "user_count" => count($userid_map),
-            "userid_flag" =>$userid_flag
+            "user_count"  => count($userid_map),
+            "userid_flag" => $userid_flag
         ]);
 
     }
