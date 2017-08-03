@@ -303,7 +303,8 @@ class TeacherTask extends TaskController
                 $end_time    = $start_time+86400;
                 $lesson_end  = $val['lesson_end'];
                 $ret_list    = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
-                $time_period = 45*60;
+                // $time_period = 45*60;
+                $time_period = 120*60;
                 $val['shut_time'] = $lesson_end+$time_period;
                 if(is_array($ret_list)){
                     foreach($ret_list as $k=>$v){
@@ -319,7 +320,7 @@ class TeacherTask extends TaskController
 
                 if($val['shut_time']<time()){
                     $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
-                    $val['info'] = "由于您的试听课未在课程结束后45分钟给出反馈,对家长了解孩子学习情况造成影响，"
+                    $val['info'] = "由于您的试听课未在课程结束后120分钟给出反馈,对家长了解孩子学习情况造成影响，"
                                  ."因此扣款".$val['cost']."元";
                     $openid      = $this->t_teacher_info->get_wx_openid($val['teacherid']);
                     if($openid){
