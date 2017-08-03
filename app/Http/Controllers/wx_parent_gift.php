@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Mail ;
 
 class wx_parent_gift extends Controller
 {
+
+    public function __construct(){
+        $this->appid = "wx636f1058abca1bc1"; // 理由教育在线学习
+    }
+
+    private $appid ;
     public function test () {
         /**
            获取code
@@ -30,7 +36,13 @@ class wx_parent_gift extends Controller
 
     public function check_parent_info(){
         $code = $this->get_in_int_val('code');
-        echo 1;
+
+        /**
+           https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+         */
+
+
+
     }
 
 
