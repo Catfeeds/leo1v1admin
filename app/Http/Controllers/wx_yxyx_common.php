@@ -116,7 +116,7 @@ class wx_yxyx_common extends Controller
                 $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
             }else{
                 $userid = null;
-                $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
+                $userid_new = $this->t_student_info->get_row_by_phone($phone);
                 \App\Helper\Utils::logger('yxyx_userid:'.$userid_new['userid']);
                 if($userid_new['userid']){
                     $userid = $userid_new['userid'];
