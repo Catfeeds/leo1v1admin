@@ -11,9 +11,11 @@ class wx_parent_gift extends Controller
 
     public function __construct(){
         $this->appid = "wx636f1058abca1bc1"; // 理由教育在线学习
+        $this->secret = "756ca8483d61fa9582d9cdedf202e73e"; // 理由教育在线学习
     }
 
     private $appid ;
+    private $secret ;
     public function test () {
         /**
            获取code
@@ -22,7 +24,7 @@ class wx_parent_gift extends Controller
            define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
 
         ***/
-        $parent_appid = "wx636f1058abca1bc1";
+        $parent_appid = $this->appid;
         $url = "http://wx-parent.leo1v1.com/wx_parent_gift/check_parent_info";
 
         $redirect_url = urlencode($url);
@@ -37,9 +39,27 @@ class wx_parent_gift extends Controller
     public function check_parent_info(){
         $code = $this->get_in_int_val('code');
 
+        $appid  = $this->appid;
+        $secret = $this->secret;
+
         /**
            https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
          */
+
+        $get_url = " https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code";
+
+        //初始化
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "$get_url");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        dd($output);
+
+
+
 
 
 
