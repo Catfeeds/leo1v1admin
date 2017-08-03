@@ -29,7 +29,7 @@ class wx_parent_gift extends Controller
 
         $redirect_url = urlencode($url);
 
-        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect";
         header('Location: '.$url, true, 301);
 
 
@@ -51,14 +51,27 @@ class wx_parent_gift extends Controller
 
         $get_url = " https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code";
 
-        //初始化
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        $output = curl_exec($ch);
-        curl_close($ch);
+
+        $curl = curl_init ();
+        curl_setopt ( $curl, CURLOPT_URL, $get_url );
+        curl_setopt ( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
+        curl_setopt ( $curl, CURLOPT_SSL_VERIFYHOST, FALSE );
+        curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+        $output = curl_exec ( $curl );
+        curl_close ( $curl );
         var_dump($output);
+
+        // return $output;
+        // return json_decode($output, true);
+
+        //初始化
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code");
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HEADER, 0);
+        // $output = curl_exec($ch);
+        // curl_close($ch);
+        // var_dump($output);
 
         // dd($output);
 

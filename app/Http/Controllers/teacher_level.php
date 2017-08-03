@@ -520,6 +520,7 @@ class teacher_level extends Controller
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $accept_flag       = $this->get_in_int_val("accept_flag",-1);
+        $fulltime_flag       = $this->get_in_int_val("fulltime_flag",-1);
 
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_teacher_advance_list->get_info_by_time($page_info,$start_time,$teacher_money_type,$teacherid,$accept_flag);
@@ -619,7 +620,12 @@ class teacher_level extends Controller
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
         $subject         = $this->get_in_int_val("subject",-1);
-        $ret_info = $this->t_teacher_info->get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject);
+        $arr = $this->t_teacher_info->get_tea_regular_test_lesson_list($subject);
+        $tea_list=[];
+        foreach($arr as $val){
+            $tea_list[]=$val["teacherid"]; 
+        }
+        $ret_info = $this->t_teacher_info->get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject,$tea_list);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
