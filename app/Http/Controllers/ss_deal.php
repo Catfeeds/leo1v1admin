@@ -2103,8 +2103,8 @@ class ss_deal extends Controller
         );
 
         //分配给原来的销售
-        //$admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
-        $admin_revisiterid= $origin_assistantid;
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        //$admin_revisiterid= $origin_assistantid;
 
         if ($admin_revisiterid) {
             $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);

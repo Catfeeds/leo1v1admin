@@ -10,13 +10,12 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
 
-    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state ){
+    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type  ){
 
-        if ($is_complaint_state != -1) {
-            $where_arr = [
-                ["complaint_state = %d",$is_complaint_state]
-            ];
-        }
+        $where_arr = [
+            ["complaint_state = %d",$is_complaint_state,-1],
+            ["account_type   = %d",$account_type ,-1],
+        ];
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 

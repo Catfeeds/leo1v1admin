@@ -60,7 +60,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $path = public_path().'/wximg';
 
-            chmod($savePathFile, 0777);
+            @chmod($savePathFile, 0777);
 
             $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
@@ -74,14 +74,10 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
-                if (file_exists($item_orgi)) {
-                    unlink($item_orgi);
-                }
+                @unlink($item_orgi);
             }
 
-            if (file_exists($savePathFile)) {
-                unlink($savePathFile);
-            }
+            @unlink($savePathFile);
         }
 
     }
@@ -103,23 +99,28 @@ class deal_pdf_to_image extends Job implements ShouldQueue
         if(!extension_loaded('imagick')){
             return false;
         }
-        if(!file_exists($pdf)){
+        if(!$pdf){
             return false;
         }
         $IM =new \imagick();
         $IM->setResolution(100,100);
         $IM->setCompressionQuality(100);
 
-        @$IM->readImage($pdf);
-        foreach($IM as $key => $Var){
-            @$Var->setImageFormat('png');
-            $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
-            if($Var->writeImage($Filename)==true){
-                $Return[]= $Filename;
+        // @$IM->readImage($pdf);
+
+        if($IM->readImage($pdf)){
+            foreach($IM as $key => $Var){
+                @$Var->setImageFormat('png');
+                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                if($Var->writeImage($Filename)==true){
+                    $Return[]= $Filename;
+                }
             }
+            return $Return;
+        }else{
+            return [];
         }
 
-        return $Return;
     }
 
 

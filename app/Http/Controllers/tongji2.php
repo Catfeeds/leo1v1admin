@@ -949,7 +949,17 @@ class tongji2 extends Controller
         }
         $old_per_price = \App\Helper\Common::div_safe($old_order_money ,$old_new_user_count);
         $ret_info = $this->t_test_lesson_subject->get_seller_new_user_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
-
+        $test_info=$this->t_test_lesson_subject->get_seller_test_lesson_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
+        $test_tmp = $test_info['list'];
+        foreach ($ret_info['list'] as $k=> &$v) {
+            echo $v['admin_revisiterid'],'--';
+            foreach ($test_tmp as $val) {
+                if ($val['require_adminid'] === $v['admin_revisiterid']) {
+                    $v['test_lesson_count'] = $val['test_count'];
+                    $v[2] = $val['test_count'];
+                }
+            }
+        }
         //order info
         $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,-1,"" , $origin_ex ,$origin_level,$tmk_student_status );
         $obj_list=&$ret_info["list"] ;
@@ -973,7 +983,6 @@ class tongji2 extends Controller
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info),[
             "old_per_price" => $old_per_price ,
         ]);

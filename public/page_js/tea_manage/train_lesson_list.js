@@ -690,4 +690,22 @@ $(function(){
         });
     }
 
+    $("#id_add_trial_train_lesson").on("click",function(){
+        var id_teacherid = $("<input />");
+        var arr = [
+            ["老师",id_teacherid]
+        ];
+        $.show_key_value_table("选择老师",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+            }
+        },function(){
+            $.admin_select_user( id_teacherid,"teacher");
+        });
+
+    });
+
+
+
 });

@@ -22,6 +22,8 @@ class testbb extends Controller
 
     }
 
+   
+ 
     public function assistant_info_new2(){
         $today      = date('Y-m-d',time(null));
         $today      = '20170626';
@@ -47,12 +49,15 @@ class testbb extends Controller
 
 
     public function test () {
-
-        // dd(public_path());
+        // dd(public_path()); // l_t_pdf_198963_5.png
         // $file = "../../../../public/wximg/1858145170.png";
-        $file = public_path()."/wximg/a23042faa68f7b2e616b68a8edd55ac91500889153780.pdf";
+        $png = $this->get_in_str_val('img');
+        $file = public_path()."/wximg/".$png;
         echo $file;
 
+        $c = unlink($file);
+
+        dd($c);
         $dd = file_exists($file);
         dd($dd);
 
