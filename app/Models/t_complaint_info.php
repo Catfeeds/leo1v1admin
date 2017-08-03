@@ -15,7 +15,6 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         $where_arr = [
             ["complaint_state = %d",$is_complaint_state,-1],
             ["account_type   = %d",$account_type ,-1],
-            //$account_type  
         ];
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
