@@ -119,7 +119,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid){
-        \App\Helper\Utils::logger('yxyx_userid:',$userid);
         $ret = $this->row_insert([
             "parentid"    => 0,
             "phone"       => $phone,
