@@ -257,7 +257,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             "t2.is_test_user=0",
             "contract_type in(0,3)"
-        ];        
+        ];
 
         $this->where_arr_add_time_range($where_arr,"t1.order_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select  t1.orderid,order_time,t1.stu_from_type, is_new_stu,"
