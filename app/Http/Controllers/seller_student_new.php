@@ -1106,6 +1106,13 @@ class seller_student_new extends Controller
     public function deal_new_user( ) {
         $adminid = $this->get_account_id();
 
+        //申明 js 变量
+        $this->set_filed_for_js("phone", "","string");
+        $this->set_filed_for_js("open_flag",0);
+
+        $this->set_filed_for_js("userid",0 );
+        $this->set_filed_for_js("test_lesson_subject_id", 0);
+        $this->set_filed_for_js("account_seller_level", 0 );
 
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
@@ -1118,8 +1125,58 @@ class seller_student_new extends Controller
                 __METHOD__ , null,
                 ["user_info"=>null, "count_info"=>$count_info ]
             );
-
         }
+
+
+        $cur_hm=date("H")*60+date("i");
+        $cur_week=date("w");
+        if (in_array( $cur_week*1,[6,0] ) ) {
+            $limit_arr=array( 13*60 );
+        }else{
+            $limit_arr=array( 9*60 );
+        }
+        $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
+        $success_flag=true;
+        $time_str_list=[];
+
+        foreach( $limit_arr  as $limit_time ) {
+            $limit_time=$limit_time%1440;
+
+            if ($cur_hm >= $limit_time && $cur_hm < $limit_time+60 ) { //间隔60分钟
+                $success_flag=false;
+            }
+            $time_str_list[]=sprintf("%02d:%02d~%02d:%02d",
+                                     $limit_time/60, $limit_time%60,
+                                     ($limit_time+60)/60%24, ($limit_time+60)%60);
+        }
+        $this->set_filed_for_js("open_flag",$success_flag?1:0);
+
+
+        $errors=[];
+        if(  (
+             true
+            || $this->check_power( E\Epower::V_TEST)
+        )  ){
+            if ( !$success_flag) {
+                $errors=[
+                    "抢新学生,当前关闭!!",
+                    "关闭时间: ".  join(",",$time_str_list) ,
+                    "当前时间:". date("H:i:s"),
+                ];
+
+                return $this->pageView(
+                    __METHOD__ , null,
+                    ["user_info"=>null , "count_info"=>$count_info, "errors" => $errors ]
+                );
+
+            }else{
+                $errors=[];
+            }
+        }else{
+            $success_flag=true;
+        }
+
+        //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
 
 
         $this->set_filed_for_js("userid", $userid);

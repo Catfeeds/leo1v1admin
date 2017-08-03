@@ -1,8 +1,9 @@
 interface GargsStatic {
+	phone:	number;
+	open_flag:	number;
 	userid:	number;
 	test_lesson_subject_id:	number;
 	account_seller_level:	number;
-	phone:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -25,18 +26,20 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			phone:	$('#id_phone').val(),
+			open_flag:	$('#id_open_flag').val(),
 			userid:	$('#id_userid').val(),
 			test_lesson_subject_id:	$('#id_test_lesson_subject_id').val(),
-			account_seller_level:	$('#id_account_seller_level').val(),
-			phone:	$('#id_phone').val()
+			account_seller_level:	$('#id_account_seller_level').val()
         });
     }
 
 
+	$('#id_phone').val(g_args.phone);
+	$('#id_open_flag').val(g_args.open_flag);
 	$('#id_userid').val(g_args.userid);
 	$('#id_test_lesson_subject_id').val(g_args.test_lesson_subject_id);
 	$('#id_account_seller_level').val(g_args.account_seller_level);
-	$('#id_phone').val(g_args.phone);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -46,6 +49,20 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">phone</span>
+                <input class="opt-change form-control" id="id_phone" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">open_flag</span>
+                <input class="opt-change form-control" id="id_open_flag" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -65,13 +82,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">account_seller_level</span>
                 <input class="opt-change form-control" id="id_account_seller_level" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
             </div>
         </div>
 */

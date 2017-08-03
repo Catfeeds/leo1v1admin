@@ -109,6 +109,18 @@
 
             </tbody>
         </table>
+        @elseif( is_array( @$errors) )
+        <div class="alert alert-danger" style="margin:20px;">
+            <strong>未开放</strong>
+            <br><br>
+
+            <ul>
+                @foreach ($errors as $error)
+                    <li>{!!  $error !!}  </li>
+                @endforeach
+            </ul>
+        </div>
+
         @else
             <div class="row  " >
                 <div class="col-xs-12 col-md-12  " >
