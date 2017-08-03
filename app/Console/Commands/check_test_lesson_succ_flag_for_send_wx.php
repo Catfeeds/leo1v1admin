@@ -138,7 +138,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
             "keyword2"  => "$lesson_info",
             "keyword3"  => "$now",
         ];
-        $url_yes = 'http://admin.yb1v1.com/seller_student_new2/get_ass_test_lesson_info'.$item_yes['lessonid'];
+        $url_yes = 'http://admin.yb1v1.com/seller_student_new2/get_ass_test_lesson_info?lessonid'.$item_yes['lessonid'];
 
         $wx->send_template_msg($ass_wx_openid,$template_id,$data_msg_yes ,$url_yes);
 
