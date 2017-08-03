@@ -114,19 +114,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "userid"      => $userid,
             "type"        => $type,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         return $ret;
     }
 
-    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid){
+    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid){
         $ret = $this->row_insert([
             "parentid"    => 0,
             "phone"       => $phone,
             "wx_openid"   => $wx_openid,
+            "userid"      => $userid,
             "headimgurl"  => $headimgurl,
             "nickname"    => $nickname,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         if($ret){
             $ret = $this->get_last_insertid();
         }

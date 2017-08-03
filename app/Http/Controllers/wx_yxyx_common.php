@@ -115,7 +115,12 @@ class wx_yxyx_common extends Controller
             if(isset($agent_info['id'])){
                 $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
             }else{
-                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid);
+                $userid = null;
+                $userid_new = $this->t_student_info->get_row_by_phone($phone);
+                if($userid_new['userid']){
+                    $userid = $userid_new['userid'];
+                }
+                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
@@ -149,7 +154,6 @@ class wx_yxyx_common extends Controller
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
-        \App\Helper\Utils::logger('yxyx_phone:'.$phone);
         // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
@@ -174,9 +178,9 @@ class wx_yxyx_common extends Controller
             $parentid = 0;
         }
         $userid = null;
-        $userid_new = $this->t_student_info->get_userid_by_phone($phone);
-        if($userid_new){
-            $userid = $userid_new;
+        $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
+        if($userid_new['userid']){
+            $userid = $userid_new['userid'];
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
