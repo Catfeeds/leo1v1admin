@@ -163,7 +163,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1
     ){
         $where_arr=[
-            "t.test_lesson_subject_id=l.test_lesson_subject_id  ",
+            "t.require_adminid= n.admin_revisiterid ",
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade_list);
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
@@ -180,7 +180,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql= $this->gen_sql_new(
             "select sum( if (ts.success_flag=1,1,0) ) as test_count,t.require_adminid"
             ." from %s t "
-            ." join %s l on t.require_adminid=l.require_id  "
+            ." join %s l on t.test_lesson_subject_id=l.test_lesson_subject_id "
             ." join %s ts on ts.require_id=l.require_id "
             ." join %s s on s.userid=t.userid "
             ." join %s n on n.userid=t.userid "

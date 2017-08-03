@@ -19,6 +19,7 @@ interface RowData {
 	admin_revisiterid	:any;
 	new_user_count	:any;
 	old_money	:any;
+	test_lesson_count	:any;
 	main_type	:any;
 	up_group_name	:any;
 	group_name	:any;
