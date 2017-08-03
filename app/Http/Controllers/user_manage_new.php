@@ -726,12 +726,12 @@ class user_manage_new extends Controller
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
         $origin           = $this->get_in_str_val("origin");
-        $page_num        = $this->get_in_page_num();
-        $from_type = $this->get_in_int_val("from_type",-1);
-        $account_role = $this->get_in_int_val("account_role",-1);
-        $has_money = -1;
-        $sys_operator = $this->get_in_str_val("sys_operator","");
-        $need_receipt  = $this->get_in_int_val("need_receipt", -1, E\Eboolean::class);
+        $page_num         = $this->get_in_page_num();
+        $from_type        = $this->get_in_int_val("from_type",-1);
+        $account_role     = $this->get_in_int_val("account_role",-1);
+        $has_money        = -1;
+        $sys_operator     = $this->get_in_str_val("sys_operator","");
+        $need_receipt     = $this->get_in_int_val("need_receipt", -1, E\Eboolean::class);
 
 
         $account=$this->get_account();

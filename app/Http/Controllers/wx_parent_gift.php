@@ -41,6 +41,7 @@ class wx_parent_gift extends Controller
 
         $appid  = $this->appid;
         $secret = $this->secret;
+        echo $code."-"."-".$appid."-".$secret;
 
         /**
            https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
@@ -55,8 +56,9 @@ class wx_parent_gift extends Controller
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $output = curl_exec($ch);
         curl_close($ch);
+        var_dump($output);
 
-        dd($output);
+        // dd($output);
 
 
 
