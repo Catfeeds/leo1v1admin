@@ -30,9 +30,11 @@ class wx_parent_gift extends Controller
         $redirect_url = urlencode($url);
 
         $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        header('Location: '.$url, true, 301);
 
 
-        dd($url);
+        echo $url;
+        // dd($url);
 
     }
 
@@ -41,7 +43,7 @@ class wx_parent_gift extends Controller
 
         $appid  = $this->appid;
         $secret = $this->secret;
-        echo $code."-"."-".$appid."-".$secret;
+        // echo $code."-"."-".$appid."-".$secret;
 
         /**
            https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
@@ -51,7 +53,7 @@ class wx_parent_gift extends Controller
 
         //初始化
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "$get_url");
+        curl_setopt($ch, CURLOPT_URL, "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$secret&code=$code&grant_type=authorization_code");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $output = curl_exec($ch);

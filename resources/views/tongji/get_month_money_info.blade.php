@@ -4,7 +4,7 @@
         <div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td>月份 </td>
@@ -17,7 +17,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["order_month"]}} </td>
-                        <td>{{intval($var["all_money"])}} </td>
+                        <td>{{$var["all_money"]}} </td>
                         <td>{{(float)$var["order_total"]/100}} </td>
                         <td>{{@$var["count"]}} </td>
                     </tr>
@@ -26,6 +26,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
 @endsection
 

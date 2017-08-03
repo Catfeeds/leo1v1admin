@@ -721,6 +721,9 @@ class tongji extends Controller
 
     public function get_month_money_info(){
         $ret_list = $this->t_order_info->get_month_money_info();
+        foreach($ret_list['list'] as &$val){
+            $val['all_money']/=100;
+        }
 
         return $this->pageView(__METHOD__, $ret_list);
     }

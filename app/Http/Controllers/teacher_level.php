@@ -76,7 +76,7 @@ class teacher_level extends Controller
             $item["hand_flag"]=0;
             
         }
-        $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1);
+        $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1,0);
         foreach($hand_info as &$h){
             $h["realname"] = $this->t_teacher_info->get_realname($h["teacherid"]);
             $h["level"]  = $this->t_teacher_info->get_level($h["teacherid"]);
@@ -108,6 +108,47 @@ class teacher_level extends Controller
         $erick["hand_flag"]=0;
 
         array_unshift($ret_info["list"],$erick);
+        return $this->pageView(__METHOD__,$ret_info);
+
+        //dd($ret_info);
+
+    }
+
+    public function get_teacher_level_quarter_info_fulltime(){
+        $this->switch_tongji_database();
+        $sum_field_list = [
+            "total_score"
+        ];
+        $order_field_arr = array_merge(["realname"],$sum_field_list);
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr,"realname desc ");
+
+        $season = ceil((date('n'))/3)-1;//上季度是第几季度
+        $start_time = strtotime(date('Y-m-d H:i:s', mktime(0, 0, 0,$season*3-3+1,1,date('Y'))));
+        $end_time = strtotime(date('Y-m-d H:i:s', mktime(23,59,59,$season*3,date('t',mktime(0, 0 , 0,$season*3,1,date("Y"))),date('Y'))));
+        $this->set_in_value("quarter_start",$start_time);
+        $quarter_start = $this->get_in_int_val("quarter_start");
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type",-1);
+       
+        $hand_info = $this->t_teacher_advance_list->get_hand_add_list($start_time,1,1,$fulltime_teacher_type);
+        foreach($hand_info as &$h){
+            $h["realname"] = $this->t_teacher_info->get_realname($h["teacherid"]);
+            $h["level"]  = $this->t_teacher_info->get_level($h["teacherid"]);
+            $h["level_str"] =E\Elevel::get_desc($h["level"]);
+            $h["lesson_count"] =  $h["lesson_count"]/100;
+            $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
+            $h["is_refund_str"] = $h["is_refund"]==1?"<font color='red'>有</font>":"无";
+            \App\Helper\Utils::unixtime2date_for_item($h,"accept_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($h,"require_time","_str");
+
+            E\Eaccept_flag::set_item_value_str($h);
+
+        }
+        $ret_info = \App\Helper\Utils::list_to_page_info($hand_info);
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
+        }
+
         return $this->pageView(__METHOD__,$ret_info);
 
         //dd($ret_info);

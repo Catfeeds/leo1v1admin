@@ -47,6 +47,7 @@ class zs_teacher_ten_lecture_appoinment_assign_auto extends Command
         foreach($ass_leader_list as $q){
             $ass_leader_arr[$q["uid"]]=$q["uid"];
         }
+        dd($ass_leader_arr);
         // $ass_leader_arr=[1=>955,2=>492,3=>513,4=>790]; 
         $num_all = count($ass_leader_arr);
         $id = $task->t_teacher_lecture_appointment_info->get_id_list_desc_limit_ten($start_time);
