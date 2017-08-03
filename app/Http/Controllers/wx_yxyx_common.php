@@ -150,7 +150,8 @@ class wx_yxyx_common extends Controller
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
         \App\Helper\Utils::logger('yxyx_p_phone:'.$p_phone,'yxyx_phone:'.$phone,'yxyx_type:'.$type);
-        if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
         if($p_phone == $phone){
