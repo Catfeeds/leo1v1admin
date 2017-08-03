@@ -114,7 +114,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "userid"      => $userid,
             "type"        => $type,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         return $ret;
     }
 
@@ -126,7 +126,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "headimgurl"  => $headimgurl,
             "nickname"    => $nickname,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         if($ret){
             $ret = $this->get_last_insertid();
         }
