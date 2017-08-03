@@ -813,7 +813,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -823,6 +823,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid=%u",$res_teacherid,-1],
             ["tl.userid=%u",$train_teacherid,-1],
             ["l.train_email_flag=%u",$train_email_flag,-1],
+            ["ap.full_time=%u",$full_time,-1],
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
             "l.train_type=5",

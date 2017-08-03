@@ -1853,7 +1853,8 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974]) || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974])
+           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
 
@@ -3604,6 +3605,7 @@ class human_resource extends Controller
 
 
     public function get_assign_jw_adminid_list(){
+        $this->switch_tongji_database();
         $page_num = $this->get_in_page_num();
         $teacherid              = $this->get_in_int_val('teacherid',-1);
         $jw_adminid             = $this->get_in_int_val('jw_adminid',-1);
