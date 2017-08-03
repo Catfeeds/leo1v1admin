@@ -699,12 +699,33 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
+                $.do_ajax("/common/add_trial_train_lesson_by_admin",{
+                    "teacherid":id_teacherid.val()
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
             }
         },function(){
             $.admin_select_user( id_teacherid,"teacher");
         });
 
     });
+
+
+
+    $("dom").on("click",function(){
+
+    });
+
+
+
+
+
+
 
 
 

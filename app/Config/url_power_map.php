@@ -262,6 +262,7 @@ class url_power_map {
 			'/tongji_ss/tongji_seller_test_lesson_order_info'	=>1100108,
 			'/tongji_ss/tongji_seller_test_lesson_paper_order_info'	=>1100110,
 			'/tongji2/seller_student_admin_list'	=>1100111,
+			'/tongji_ex/call_count'	=>1100112,
 			'/tongji/test_lesson_ass'	=>1100601,
 			'/tongji/test_lesson_ass_self'	=>1100602,
 			'/tongji/revisit_info_tongji_ass'	=>1100603,

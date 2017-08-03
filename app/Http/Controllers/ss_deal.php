@@ -4496,8 +4496,6 @@ class ss_deal extends Controller
                     ];
                     $url = '';
                     $wx=new \App\Helper\Wx();
-                    //orwGAswyJC8JUxMxOVo35um7dE8M // QC openid
-                    // orwGAs_IqKFcTuZcU1xwuEtV3Kek // james
                     $ret_parent=$wx->send_template_msg($parent_openid,$template_id,$data_msg ,$url);
 
                 } else if ($account_type == 2) {  // 2:老师
@@ -4536,7 +4534,6 @@ class ss_deal extends Controller
                     $userid = $this->t_complaint_info->get_userid($complaint_id);
                     $first_nick = $this->cache_get_account_nick($userid);
 
-
                     $complained_adminid_type = $this->t_complaint_info->get_complained_adminid_type($complaint_id);
                     $complained_adminid     = $this->t_complaint_info->get_complained_adminid($complaint_id);
                     if($complained_adminid_type == 5){
@@ -4569,7 +4566,6 @@ class ss_deal extends Controller
                         }
 
                         $subject_adminid_wx_openid_list[] = $this->t_teacher_info->get_wx_openid_by_teacherid($complained_adminid);
-
 
                         $deal_wx_openid_list = array_merge($deal_wx_openid_list,$subject_adminid_wx_openid_list);
 
@@ -5050,7 +5046,7 @@ class ss_deal extends Controller
         $data["fail_set_adminid_account"] = $this->t_manager_info->get_account($data["ass_test_lesson_order_fail_set_adminid"]);
         $data["confirm_time_str"] = date("Y-m-d H:i:s",$data["confirm_time"]);
         $data["ass_test_lesson_order_fail_set_time_str"] = date("Y-m-d H:i:s",$data["ass_test_lesson_order_fail_set_time"]);
-        $data["ass_test_lesson_order_fail_flag_str"]= E\Etest_lesson_order_fail_flag::get_desc($data["ass_test_lesson_order_fail_flag"]);
+        $data["ass_test_lesson_order_fail_flag_str"]= E\Eass_test_lesson_order_fail_flag::get_desc($data["ass_test_lesson_order_fail_flag"]);
         $data["test_lesson_fail_flag_str"]= E\Etest_lesson_fail_flag::get_desc($data["test_lesson_fail_flag"]);
         $data["fail_greater_4_hour_flag_str"]= E\Eboolean::get_desc($data["fail_greater_4_hour_flag"]);
         return $this->output_succ(["data"=>$data]);
