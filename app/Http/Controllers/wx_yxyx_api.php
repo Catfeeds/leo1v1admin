@@ -99,6 +99,7 @@ class wx_yxyx_api extends Controller
             }
             $count_row = $this->t_agent->get_count_by_phone($phone);
             $my_num    = $count_row['count'];
+            $test_count = 2;
         }else{
             $nick       = $phone;
             $agent_lsit = [];
@@ -127,9 +128,11 @@ class wx_yxyx_api extends Controller
                 if(2<=$count){
                     $level = 2;
                     $ret = $this->get_pp_pay_cash($phone);
+                    $test_count = 2;
                 }else{
                     $level = 1;
                     $ret = $this->get_p_pay_cash($phone);
+                    $test_count = $count;
                 }
                 $pay  = $ret['pay'];
                 $cash = $ret['cash'];
@@ -147,6 +150,7 @@ class wx_yxyx_api extends Controller
             'have_cash'  => $have_cash/100,
             'num'        => $num,
             'my_num'     => $my_num,
+            'test_count' => $test_count,
             'headimgurl' => $agent_info['headimgurl'],
             'nickname'   => $agent_info['nickname'],
         ];
