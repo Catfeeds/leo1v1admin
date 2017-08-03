@@ -107,11 +107,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function add_agent_row($parentid,$phone,$userid){
+    public function add_agent_row($parentid,$phone,$userid,$type){
         $ret = $this->row_insert([
-            "parentid" => $parentid,
-            "phone"    => $phone,
-            "userid"    => $userid,
+            "parentid"    => $parentid,
+            "phone"       => $phone,
+            "userid"      => $userid,
+            "type"        => $type,
             "create_time" => time(null),
         ],true);
         return $ret;

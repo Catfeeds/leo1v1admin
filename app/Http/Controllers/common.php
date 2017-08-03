@@ -877,11 +877,12 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_ac.png";
+        $phone_qr_name = $phone."_qr_agent_cc.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
-            $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
+            // $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
+            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone;
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
