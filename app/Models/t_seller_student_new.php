@@ -1781,6 +1781,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_boolean_for_value($where_arr,"sys_invaild_flag",$sys_invaild_flag);
+
+        $sql= $this->gen_sql_new(
+            " select  call_phone_count as call_count ,count(*) as user_count  "
+            . " from %s n "
+            ." left join  %s s on s.userid=n.userid "
+            ." where %s "
+            . " group by call_phone_count order by call_phone_count ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        /*
         $sql= $this->gen_sql_new(
             "select call_count , count(*) user_count  from ".
             "  (  select count(*) as call_count  "
@@ -1794,6 +1806,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_tq_call_info::DB_TABLE_NAME,
             $where_arr
         );
+        */
         return $this->main_get_list_as_page($sql);
     }
 
