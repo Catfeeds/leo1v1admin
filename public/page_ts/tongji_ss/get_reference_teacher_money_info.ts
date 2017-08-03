@@ -26,7 +26,7 @@ $(function(){
                     },function(resp){
                         console.log(resp.data[0].lesson_price);
                         var lesson_price = resp.data[0].lesson_price;
-                        var final_price = lesson_price*0.9;
+                        var final_price = lesson_price*0.09;
                         $tr.find(".lesson_money").text(lesson_price); 
                         $tr.find(".final_money").text(final_price); 
                         

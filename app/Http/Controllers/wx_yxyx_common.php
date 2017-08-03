@@ -149,7 +149,9 @@ class wx_yxyx_common extends Controller
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
-        if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        \App\Helper\Utils::logger('yxyx_phone:'.$phone);
+        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
         if($p_phone == $phone){
@@ -171,7 +173,11 @@ class wx_yxyx_common extends Controller
         if(!isset($parentid)){
             $parentid = 0;
         }
-        $userid = $this->t_student_info->get_userid_by_phone($phone);
+        $userid = null;
+        $userid_new = $this->t_student_info->get_userid_by_phone($phone);
+        if($userid_new){
+            $userid = $userid_new;
+        }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             return $this->output_succ("邀请成功!");
