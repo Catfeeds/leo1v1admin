@@ -178,7 +178,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(
-            "select count(test_lesson_subject_id) as test_count"
+            "select count(test_lesson_subject_id) as test_count,require_adminid"
             ." from %s  t "
             ." join %s n on n.userid=t.userid "
             ." join %s s on s.userid=t.userid "

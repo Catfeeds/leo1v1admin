@@ -121,6 +121,7 @@ class Controller extends ControllerEx
     function get_wx_teacherid(){
         return session("login_userid");
     }
+
     function get_wx_role(){
         return session("login_user_role");
     }

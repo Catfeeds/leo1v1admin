@@ -683,9 +683,6 @@ class tea_manage_new extends Controller
         }
 
         $lesson_end = $lesson_start+1800;
-
-
-      
         $ret_row2   = $this->t_lesson_info->check_teacher_time_free($record_teacherid,0,$lesson_start,$lesson_end);
         if($ret_row2){
             $error_lessonid = $ret_row2["lessonid"];
@@ -702,11 +699,11 @@ class tea_manage_new extends Controller
                 "use_easy_pass" => 1,
                 "send_sms_flag" => 0,
             ];
-            $teacherid = $this->add_teacher_common($teacher_info);              
+            $teacherid = $this->add_teacher_common($teacher_info);
         }else{
             $this->t_teacher_info->field_update_list($teacherid,[
-                "realname"  =>$tea_nick, 
-                "nick"  =>$tea_nick, 
+                "realname"  =>$tea_nick,
+                "nick"  =>$tea_nick,
             ]);
             $this->t_user_info->field_update_list($teacherid,[
                 "passwd" => md5(123456) 
@@ -737,6 +734,7 @@ class tea_manage_new extends Controller
             "subject"            => $subject,
             "grade"              => $grade,
             "teacherid"          => $record_teacherid,
+            "userid"             => $teacherid,
             "lesson_type"        => 1100,
             "server_type"        => 2,
             "lesson_sub_type"    => 1,

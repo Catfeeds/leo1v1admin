@@ -148,11 +148,15 @@ class wx_yxyx_common extends Controller
     public function agent_add(){
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
+        $type   = $this->get_in_int_val('type');
         if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
         if($p_phone == $phone){
             return $this->output_err("不能邀请自己!");
+        }
+        if(!$type){
+            return $this->output_err("请选择报名类型!");
         }
         $phone_str = implode(',',[$phone,$p_phone]);
         $ret_list = $this->t_agent->get_id_by_phone($phone_str);
@@ -168,7 +172,7 @@ class wx_yxyx_common extends Controller
             $parentid = 0;
         }
         $userid = $this->t_student_info->get_userid_by_phone($phone);
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid);
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             return $this->output_succ("邀请成功!");
         }else{
