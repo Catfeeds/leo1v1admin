@@ -115,7 +115,12 @@ class wx_yxyx_common extends Controller
             if(isset($agent_info['id'])){
                 $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
             }else{
-                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid);
+                $userid = null;
+                $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
+                if($userid_new['userid']){
+                    $userid = $userid_new['userid'];
+                }
+                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
@@ -174,7 +179,6 @@ class wx_yxyx_common extends Controller
         }
         $userid = null;
         $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
-        \App\Helper\Utils::logger('yxyx_userid:'.$userid_new['userid']);
         if($userid_new['userid']){
             $userid = $userid_new['userid'];
         }
