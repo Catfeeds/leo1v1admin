@@ -1131,9 +1131,9 @@ class seller_student_new extends Controller
         $cur_hm=date("H")*60+date("i");
         $cur_week=date("w");
         if (in_array( $cur_week*1,[6,0] ) ) {
-            $limit_arr=array( 13*60 );
+            $limit_arr=array( 10*60 );
         }else{
-            $limit_arr=array( 9*60 );
+            $limit_arr=array( 14*60 );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;
