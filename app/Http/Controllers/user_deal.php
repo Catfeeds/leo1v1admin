@@ -2605,7 +2605,14 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
+        $reference = 99900020011;
+        $accept_adminid = $this->get_zs_accept_adminid($reference);
+        $accept_time=0;
+        if($accept_adminid>0){
+            $accept_time = time();
+        }
+        dd($accept_adminid);
+
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
 

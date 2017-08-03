@@ -2493,7 +2493,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
         $sql = $this->gen_sql_new("select t.teacherid,count(distinct l.userid) num"
                                   ." from %s t left join %s l on t.teacherid = l.teacherid"
-                                  ." where %s group by t.teacherid having(num <9 and num >0)",
+                                  ." where %s group by t.teacherid having(num >8 and num >0)",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
