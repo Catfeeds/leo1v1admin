@@ -791,9 +791,7 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             \App\Helper\Common::set_item_enum_flow_status($item);
-            if(in_array($item['contract_type'],[0,3])){
-                $money_all+=$item["price"];
-            }
+            $money_all+=$item["price"];
             $order_count++;
         }
 

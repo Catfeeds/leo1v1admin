@@ -1601,4 +1601,8 @@ class test_code extends Controller
 
     }
 
+    public function reset_train_lesson(){
+        $list = $this->t_lesson_info->reset_train_lesson();
+    }
+
 }

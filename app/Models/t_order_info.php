@@ -1495,7 +1495,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_month_money_info(){
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
+        $sql = $this->gen_sql_new("select sum(price) as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
                                   ." count(*) as count,sum(lesson_total*default_lesson_count) as order_total "
                                   ." from %s o,%s s "
                                   ." where o.userid=s.userid "

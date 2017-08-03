@@ -88,11 +88,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td>加入时间 </td>
-                    <td>{{$user_info["add_time"] }}</td>
-                </tr>
-
 
 
                 <tr>

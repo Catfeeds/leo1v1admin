@@ -1549,7 +1549,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //连续3个人处理过了
         $deal_count=$item_arr["call_phone_count"];
         //$deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
-        if ($deal_count >=5  && $item_arr['first_contact_time'] == 0  )  {
+        if ($deal_count >=3  && $item_arr['first_contact_time'] == 0  )  {
             $invalid_flag=true;
         }
         if ( $deal_count >10 ) {
