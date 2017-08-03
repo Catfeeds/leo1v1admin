@@ -331,6 +331,9 @@ $(function(){
         });
     });
 
+    $("#id_set_zs_work_status").on("click",function(){
+        
+    });
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var phone = opt_data.phone;
