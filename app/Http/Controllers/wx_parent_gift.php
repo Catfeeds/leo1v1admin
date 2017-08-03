@@ -17,7 +17,7 @@ class wx_parent_gift extends Controller
 
         ***/
         $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_gift/check_parent_info";
+        $url = "http://wx-parent.leo1v1.com/wx_parent_gift/check_parent_info";
 
         $redirect_url = urlencode($url);
 
@@ -29,6 +29,7 @@ class wx_parent_gift extends Controller
     }
 
     public function check_parent_info(){
+        $code = $this->get_in_int_val('code');
         echo 1;
     }
 

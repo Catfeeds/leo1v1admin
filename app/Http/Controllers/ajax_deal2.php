@@ -559,4 +559,13 @@ class ajax_deal2 extends Controller
         }
         return $this->output_succ(["data"=>$list]);
     }
+    public function set_admin_work_status(){
+        $status = $this->get_in_int_val("status");
+        $adminid = $this->get_in_int_val("adminid");
+        $this->t_manager_info->field_update_list($adminid,[
+            "admin_work_status" =>$status
+        ]);
+        return $this->output_succ();
+    }
+
 }

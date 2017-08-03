@@ -212,10 +212,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         //select count(*) from t_order_info as t1,t_book_info as t2 where t1.userid=t2.userid, t2.origin like "%APP课程包%" ;
         $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
-
-        // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
-
-
         $sql = $this->gen_sql_new("select from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
                                   ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
                                   ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
