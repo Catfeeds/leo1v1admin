@@ -122,9 +122,26 @@
         </div>
 
         @else
-            <div class="row  " >
-                <div class="col-xs-12 col-md-12  " >
-                    <div  style="  text-align:center; color:red;font-size:50px" > 请拨打新例子 </div>
+        <div class="row  " >
+            <br/>
+
+            <br/>
+            <br/>
+
+
+            <br/>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <br/>
+            <br/>
+
+
+            <div class="col-xs-12 col-md-12  " >
+                <div  style="  text-align:center; color:#3c8dbc;font-size:30px" >请抢新例子 </div>
+                    <div  style="  text-align:center;  color:#3c8dbc;font-size:30px" >READY GO ... </div>
                 </div>
             </div>
 
