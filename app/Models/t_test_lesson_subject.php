@@ -194,11 +194,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ,$where_arr
         );
         // return $sql;
-        // return $this->main_get_list_as_page($sql);
-
-        return $this->main_get_list_as_page($sql,function($item){
-            return $item["require_adminid"];
-        });
+        return $this->main_get_list_as_page($sql);
 
     }
 
