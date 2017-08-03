@@ -34,6 +34,7 @@ interface GargsStatic {
 	wx_invaild_flag:	number;//\App\Enums\Eboolean
 	filter_flag:	number;//\App\Enums\Eboolean
 	first_seller_adminid:	number;
+	call_phone_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -138,7 +139,8 @@ $(function(){
 			admin_del_flag:	$('#id_admin_del_flag').val(),
 			wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
 			filter_flag:	$('#id_filter_flag').val(),
-			first_seller_adminid:	$('#id_first_seller_adminid').val()
+			first_seller_adminid:	$('#id_first_seller_adminid').val(),
+			call_phone_count:	$('#id_call_phone_count').val()
         });
     }
 
@@ -198,6 +200,7 @@ $(function(){
 	$('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
 	$('#id_filter_flag').val(g_args.filter_flag);
 	$('#id_first_seller_adminid').val(g_args.first_seller_adminid);
+	$('#id_call_phone_count').val(g_args.call_phone_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -414,6 +417,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">first_seller_adminid</span>
                 <input class="opt-change form-control" id="id_first_seller_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">call_phone_count</span>
+                <input class="opt-change form-control" id="id_call_phone_count" />
             </div>
         </div>
 */
