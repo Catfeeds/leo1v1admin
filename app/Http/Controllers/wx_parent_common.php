@@ -136,12 +136,16 @@ class wx_parent_common extends Controller
         /**
            获取code
            https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+           define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
+           define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
+
         ***/
+        $parent_appid = "wx636f1058abca1bc1";
+        $url = "http://admin.yb1v1.com/wx_parent_common/get_user_info_for_market";
 
-        $url = "http://admin.yb1v1.com/self_manage/flow_list";
+        $redirect_url = urlencode($url);
 
-        $redirect = urlencode();
-
+        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
 
 
     }

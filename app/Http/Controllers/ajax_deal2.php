@@ -550,4 +550,10 @@ class ajax_deal2 extends Controller
         $ret = $this->t_cs_proposal_info->field_update_list($id,$data);
         return $this->output_succ();
     }
+
+    public function get_admin_work_status(){
+        $account_role = $this->get_in_int_val("account_role",-1);
+        $list = $this->t_manager_info->get_admin_work_status_info($account_role);
+        return $this->output_succ(["data"=>$list]);
+    }
 }

@@ -49,27 +49,6 @@ class testbb extends Controller
 
 
     public function test () {
-        $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
-        dd($time);
-        // dd(public_path()); // l_t_pdf_198963_5.png
-        // $file = "../../../../public/wximg/1858145170.png";
-        $png = $this->get_in_str_val('img');
-        $file = public_path()."/wximg/".$png;
-        echo $file;
-
-        $c = unlink($file);
-
-        dd($c);
-        $dd = file_exists($file);
-        dd($dd);
-
-        $item_yes['subject'] = 1;
-        dd(E\Esubject::get_desc(2));
-
-        dd($item_yes);
-
-        $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
-        dd($d);
 
     }
 
