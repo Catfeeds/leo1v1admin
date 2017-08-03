@@ -15,7 +15,8 @@ class customer_service extends Controller
      * @function  意向用户信息录入
      */
     public function  intended_user_info () {
-        $userid = 99;
+        //$userid = 99;
+        $userid = $this->get_account_id();
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_cs_intended_user_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {
@@ -35,7 +36,8 @@ class customer_service extends Controller
      * @function  用户投诉信息录入
      */
     public function  complaint_info () {
-        $userid = 99;
+        //$userid = 99;
+        $userid = $this->get_account_id();
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_cs_complaint_user_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {
@@ -52,7 +54,8 @@ class customer_service extends Controller
      * @function  用户建议信息录入
      */
     public function  proposal_info () {
-        $userid = 99;
+        //$userid = 99;
+        $userid = $this->get_account_id();
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_cs_proposal_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {
