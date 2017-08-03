@@ -123,8 +123,8 @@ class teacher_feedback extends Controller
                 $next_flag   = 0;
                 $first_day   = strtotime(date("Y-m-01",time()));
                 if($lesson_info["lesson_start"]<$first_day){
-                    $five_day  = strtotime(date("Y-m-05",time()));
-                    $next_flag = $five_day<time()?1:0;
+                    $check_day = strtotime(date("Y-m-03",time()));
+                    $next_flag = $check_day<time()?1:0;
                 }
 
                 switch($feedback_type){

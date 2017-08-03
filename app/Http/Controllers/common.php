@@ -387,28 +387,8 @@ class common extends Controller
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
         $this->add_trial_train_lesson($teacher_info);
-    }
 
-    public function add_trial_train_lesson($teacher_info){
-        $grade    = \App\Helper\Utils::change_grade_end_to_grade($teacher_info);
-        $courseid = $this->t_course_order->add_course_info_new(
-            0,0,$grade,$teacher_info['subject'],0
-            ,1100,1,0,0,0
-            ,$teacher_info['teacherid']
-        );
-        $lessonid = $this->t_lesson_info->add_lesson(
-            $courseid,1,0,0,1100,$teacher_info['teacherid'],0
-            ,0,0,$grade,$teacher_info['subject'],100
-            ,$teacher_info['teacher_money_type'],$teacher_info['level'],0,2,0
-            ,0,1,4
-        );
-        $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
-        $this->t_teacher_record_list->row_insert([
-            "teacherid"      => $teacher_info['teacherid'],
-            "type"           => 9,
-            "add_time"       => time(),
-            "train_lessonid" => $lessonid,
-        ]);
+        return $this->output_succ();
     }
 
     public function show_offer_html(){

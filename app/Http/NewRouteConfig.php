@@ -115,6 +115,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"           => true,
         "/login/teacher"           => true,
 
+        "/common/add_trial_train_lesson_by_admin"           => true,
         "/common/get_teacher_hornor_list"           => true,
         "/common/upload_qiniu"           => true,
         "/common/get_bucket_info" =>true,

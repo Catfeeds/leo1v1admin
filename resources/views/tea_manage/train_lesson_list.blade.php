@@ -61,8 +61,6 @@
                     <a id="id_add_lesson" class="btn btn-warning"><li class="fa fa-plus">添加课程</li></a>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-xs-6 col-md-1">
                 <div class="input-group">
                     <a id="id_add_trial_train_lesson" class="btn btn-warning"><li class="fa fa-plus">添加模拟试听</li></a>
