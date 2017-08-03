@@ -163,7 +163,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1
     ){
         $where_arr=[
-            "t.require_adminid= n.admin_revisiterid ",
+            "t.require_adminid= l.require_id ",
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade_list);
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
@@ -178,18 +178,22 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(
-            "select count(test_lesson_subject_id) as test_count,require_adminid"
-            ." from %s  t "
-            ." join %s n on n.userid=t.userid "
+            "select sum( if (ts.success_flag=1,1,0) ) as test_count,t.require_adminid"
+            ." from %s t "
+            ." join %s l on t.require_adminid=l.require_id  "
+            ." join %s ts on ts.require_id=t.require_adminid "
             ." join %s s on s.userid=t.userid "
+            ." join %s n on n.userid=t.userid "
             ." where %s "
             ."  group by require_adminid "
             ,self::DB_TABLE_NAME
-            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
-
+        // dd($sql);
         // return $sql;
         return $this->main_get_list_as_page($sql,function($item){
             return $item["test_count"];
