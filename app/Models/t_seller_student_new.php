@@ -1543,11 +1543,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_phone_count");
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
-        $deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
+        $deal_count=$item_arr["call_phone_count"];
+        //$deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
         if ($deal_count >=5  && $item_arr['first_contact_time'] == 0  )  {
             $invalid_flag=true;
         }
