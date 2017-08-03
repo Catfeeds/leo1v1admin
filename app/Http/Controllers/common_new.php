@@ -936,7 +936,7 @@ class common_new extends Controller
             } else {
                 $list['last_title'] = '理优1对1期待你的加入';
             }
-            return $list;
+            return $this->output_succ(["list"=>$list]);
         } else {
             return $this->output_err("请重新绑定您的学生！");
         }
