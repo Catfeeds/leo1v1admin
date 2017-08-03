@@ -1,5 +1,5 @@
 interface GargsStatic {
-	del_flag:	number;//\App\Enums\Eboolean 
+	del_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
