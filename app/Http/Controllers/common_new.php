@@ -931,12 +931,12 @@ class common_new extends Controller
             $list['lesson_count_left'] = $list['lesson_count_left']/100;
             if ($list['lesson_count_left'] > 100) {
                 $list['last_title'] = '理优1对1永远和你在一起';
-            } else if ( $list['first_normal_lesson_time'] ) {
+            } else if ( $list['first_normal_lesson_time'] !== '无' ) {
                 $list['last_title'] = '理优1对1十分想念你';
             } else {
                 $list['last_title'] = '理优1对1期待你的加入';
             }
-            return $list;
+            return $this->output_succ(["list"=>$list]);
         } else {
             return $this->output_err("请重新绑定您的学生！");
         }
