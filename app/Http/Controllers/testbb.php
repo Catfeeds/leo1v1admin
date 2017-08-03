@@ -49,6 +49,8 @@ class testbb extends Controller
 
 
     public function test () {
+        $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
+        dd($time);
         // dd(public_path()); // l_t_pdf_198963_5.png
         // $file = "../../../../public/wximg/1858145170.png";
         $png = $this->get_in_str_val('img');
