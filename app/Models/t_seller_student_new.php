@@ -1775,17 +1775,22 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     function get_call_info( $start_time, $end_time, $sys_invaild_flag  ) {
-        $where_arr=[];
+        $where_arr=[
+            "lesson_count_all=0 "
+        ];
+
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_boolean_for_value($where_arr,"sys_invaild_flag",$sys_invaild_flag);
         $sql= $this->gen_sql_new(
             "select call_count , count(*) user_count  from ".
-            "  (  select count(*) as call_count "
+            "  (  select count(*) as call_count  "
             . " from %s n "
+            ." left join  %s s on s.userid=n.userid "
             ." left join  %s tc on n.phone=tc.phone "
             ." where %s"
             . " group by n.userid )  t group by call_count order by call_count",
             self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             t_tq_call_info::DB_TABLE_NAME,
             $where_arr
         );
