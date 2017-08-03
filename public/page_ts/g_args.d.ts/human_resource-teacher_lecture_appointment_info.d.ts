@@ -17,6 +17,7 @@ interface GargsStatic {
 	have_wx:	number;
 	lecture_revisit_type:	number;
 	full_time:	number;
+	show_full_time:	number;
 	teacher_ref_type:	string;//枚举列表: App\Enums\Eteacher_ref_type
  	tea_adminid:	number;
 }
@@ -106,6 +107,7 @@ $(function(){
 			have_wx:	$('#id_have_wx').val(),
 			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
 			full_time:	$('#id_full_time').val(),
+			show_full_time:	$('#id_show_full_time').val(),
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
 			tea_adminid:	$('#id_tea_adminid').val()
         });
@@ -133,6 +135,7 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
 	$('#id_full_time').val(g_args.full_time);
+	$('#id_show_full_time').val(g_args.show_full_time);
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);
 	$.enum_multi_select( $('#id_teacher_ref_type'), 'teacher_ref_type', function(){load_data();} )
 	$('#id_tea_adminid').val(g_args.tea_adminid);
@@ -220,6 +223,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">full_time</span>
                 <input class="opt-change form-control" id="id_full_time" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">show_full_time</span>
+                <input class="opt-change form-control" id="id_show_full_time" />
             </div>
         </div>
 

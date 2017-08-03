@@ -23,7 +23,7 @@ define('ENCODING_AES_KEY', "XeX8DWLuuYfK0nQXKvtY2HiG5MrSLBAKp2UZJJy8crr");
 /*
  * 开发者配置
  */
-define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优测试公众号
+define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
 define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
 
 /*

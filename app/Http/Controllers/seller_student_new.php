@@ -689,7 +689,13 @@ class seller_student_new extends Controller
     }
 
     public function get_new_list(){
+
+        if ($this->get_in_int_val("t_flag")==0) {
+            return $this->error_view(["不再使用,请在  <a href=\"/seller_student_new/deal_new_user\">  抢新学生  </a> 拨打 "]);
+        }
+
         $ret_arr       = $this->get_new_list_data();
+
         $ret_info      = $ret_arr["ret_info"] ;
         $max_day_count = $ret_arr["max_day_count"];
         $cur_count     = $ret_arr["cur_count"] ;

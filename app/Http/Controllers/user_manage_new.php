@@ -716,9 +716,9 @@ class user_manage_new extends Controller
     public function money_contract_list () {
         $start_time      = $this->get_in_start_time_from_str(date("Y-m-d",(time(NULL)-86400*7)) );
         $end_time        = $this->get_in_end_time_from_str(date("Y-m-d",(time(NULL)+86400)) );
-        $userid_flag   = $this->get_in_int_val("userid_flag",-1);
+        $userid_flag     = $this->get_in_int_val("userid_flag",-1);
         $contract_type   = $this->get_in_int_val("contract_type",-2);
-        $contract_status =  $this->get_in_el_contract_status();
+        $contract_status = $this->get_in_el_contract_status();
 
         $config_courseid = -1;
         $is_test_user    =  $this->get_in_int_val("is_test_user", 0 , E\Eboolean::class  );
@@ -726,12 +726,12 @@ class user_manage_new extends Controller
 
         $check_money_flag = $this->get_in_int_val("check_money_flag", -1);
         $origin           = $this->get_in_str_val("origin");
-        $page_num        = $this->get_in_page_num();
-        $from_type = $this->get_in_int_val("from_type",-1);
-        $account_role = $this->get_in_int_val("account_role",-1);
-        $has_money = -1;
-        $sys_operator = $this->get_in_str_val("sys_operator","");
-        $need_receipt  = $this->get_in_int_val("need_receipt", -1, E\Eboolean::class);
+        $page_num         = $this->get_in_page_num();
+        $from_type        = $this->get_in_int_val("from_type",-1);
+        $account_role     = $this->get_in_int_val("account_role",-1);
+        $has_money        = -1;
+        $sys_operator     = $this->get_in_str_val("sys_operator","");
+        $need_receipt     = $this->get_in_int_val("need_receipt", -1, E\Eboolean::class);
 
 
         $account=$this->get_account();
@@ -749,6 +749,7 @@ class user_manage_new extends Controller
             $studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,
             $check_money_flag,-1,$origin,$from_type,$sys_operator,
             $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",  "order_time desc" );
+
         $money_all   = 0;
         $order_count = 0;
         $userid_map  = [];
@@ -790,16 +791,15 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             \App\Helper\Common::set_item_enum_flow_status($item);
-
             $money_all+=$item["price"];
             $order_count++;
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [
-            "money_all"=>$money_all,
+            "money_all"   => $money_all,
             "order_count" => $order_count,
-            "user_count" => count($userid_map),
-            "userid_flag" =>$userid_flag
+            "user_count"  => count($userid_map),
+            "userid_flag" => $userid_flag
         ]);
 
     }

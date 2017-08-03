@@ -1414,4 +1414,25 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_admin_work_status_info($account_role){
+        $where_arr=[
+            ["account_role = %u",$account_role,-1],
+            "del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select uid,admin_work_status,account from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_zs_work_status_adminid($account_role){
+        $where_arr=[
+            ["account_role = %u",$account_role,-1],
+            "del_flag=0",
+            "admin_work_status=1"
+        ];
+        $sql = $this->gen_sql_new("select uid from %s where %s order by uid",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_list($sql);
+
+    }
+
 }

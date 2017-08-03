@@ -103,7 +103,7 @@ class lesson extends TeaWxController
         $type       = $this->get_in_int_val('type');
 
         $type_str   = "0,1,2,3";
-        $time_limit = 45;
+        $time_limit = 120;
 
         if ($type == 0) {
             $type_str = "2";

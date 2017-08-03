@@ -1,9 +1,8 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
-
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie ;
 
@@ -1049,4 +1048,67 @@ class tea_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function add_open_class_by_xls(){
+        \App\Helper\Utils::logger("begin create open class");
+        $file = Input::file('file');
+
+        if ($file->isValid()) {
+            $tmpName  = $file->getFileName();
+            $realPath = $file->getRealPath();
+
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            $obj_file  = "/tmp/001.xls";
+            move_uploaded_file($realPath,$obj_file);
+            $objPHPExcel = $objReader->load($obj_file);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr  = $objPHPExcel->getActiveSheet()->toArray();
+            $info = "";
+            //时间 科目 年级 手机号
+            $subject_arr = E\Esubject::$desc_map;
+            $grade_arr   = E\Egrade::$desc_map;
+
+            foreach($arr as $key=>$val){
+                if($key!=0 && count($val)==7){
+                    $lesson_start = strtotime($val[0]);
+                    echo $lesson_start;
+                    echo "<br>";
+                    if(!$lesson_start){
+                        continue;
+                    }else{
+                        $subject = array_search($val[1],$subject_arr);
+                        $grade   = array_search($val[2],$grade_arr);
+
+                        $check_phone=\App\Helper\Utils::check_phone($val[3]);
+                        if($check_phone){
+                            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($val[3]);
+                        }else{
+                            $teacherid = $this->t_teacher_info->get_teacherid_by_name($val[3]);
+                        }
+                        if(!$teacherid){
+                            \App\Helper\Utils::logger("老师不存在".$val[3]);
+                            continue;
+                        }
+
+                        $suit_student  = $val[4];
+                        $title         = $val[5];
+                        $package_intro = $val[6];
+                        $lesson_end    = $lesson_start+5400;
+
+                        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
+
+                        if($ret){
+                            \App\Helper\Utils::logger("有现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
+                        }else{
+                            $packageid = $this->t_appointment_info->add_appoint($title,1001,$package_intro,$suit_student,
+                                                                                $subject,$grade);
+                            $courseid  = $this->t_course_order->add_open_course($teacherid,$title,$grade,$subject,
+                                                                                1001,$packageid,1);
+                            $lessonid  = $this->t_lesson_info->add_open_lesson($teacherid,$courseid,$lesson_start,$lesson_end,
+                                                                               $subject,$grade,1001);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
