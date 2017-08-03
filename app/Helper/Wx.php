@@ -144,4 +144,9 @@ class Wx{
         return $ret_arr;
         //https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
     }
+
+
+
+
+
 };

@@ -1993,4 +1993,19 @@ trait  TeaPower {
 
         return true;
     }
+
+    public function get_zs_accept_adminid($reference){
+        if($reference==99900020010){
+            $accept_adminid = 492;
+        }elseif($reference==99900020011){
+            $accept_adminid = 513;
+        }elseif($accept_adminid==99900020014){
+            $accept_adminid = 790;
+        }elseif($accept_adminid==99900020015){
+            $accept_adminid = 955;
+        }else{
+            $accept_adminid = 0;
+        }
+        return $accept_adminid;
+    }
 }

@@ -625,6 +625,7 @@ class teacher_level extends Controller
         foreach($arr as $val){
             $tea_list[]=$val["teacherid"]; 
         }
+        dd($tea_list);
         $ret_info = $this->t_teacher_info->get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject,$tea_list);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
