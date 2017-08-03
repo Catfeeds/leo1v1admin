@@ -181,6 +181,9 @@ $(function(){
 	});
 
 
+    $(".opt-teacher-info").on("click",function(){
+        alert("开发中!") 
+    });
 
 	$('.opt-change').set_input_change_event(load_data);
 });
