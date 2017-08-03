@@ -524,7 +524,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select tr.cur_require_adminid,count(distinct l.userid,l.teacherid,l.subject) lesson_count "
-                                  ." from %s t  join %s tr on t.current_require_id =tr.require_id"
+                                  ." from %s tr  join %s t on t.test_lesson_subject_id =tr.test_lesson_subject_id"
                                   ."  join %s l on tr.current_lessonid = l.lessonid"
                                   ."  join %s tss on tss.lessonid = tr.current_lessonid"
                                   ." join %s ll on (ll.teacherid = l.teacherid "
@@ -534,8 +534,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." (select min(lesson_start) from %s where teacherid =l.teacherid and userid=l.userid and subject = l.subject and lesson_type in(0,3) and lesson_status =2 and confirm_flag in (0,1)) and ll.lesson_start>= %u and ll.lesson_start < %u) "
 
                                   ." where %s group by tr.cur_require_adminid",
-                                  self::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
@@ -623,7 +623,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,s.nick,tt.realname "
-                                  ." from %s t  join %s tr on t.current_require_id =tr.require_id"
+                                  ." from %s tr  join %s t on t.test_lesson_subject_id =tr.test_lesson_subject_id"
                                   ."  join %s l on tr.current_lessonid = l.lessonid"
                                   ."  join %s tss on tss.lessonid = tr.current_lessonid"
                                   ." join %s ll on (ll.teacherid = l.teacherid "
@@ -634,8 +634,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   ." left join %s s on t.userid= s.userid"
                                   ." left join %s tt on l.teacherid = tt.teacherid"
                                   ." where %s ",
-                                  self::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
