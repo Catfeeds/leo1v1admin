@@ -174,6 +174,7 @@ class wx_yxyx_common extends Controller
         }
         $userid = null;
         $userid_new = $this->t_student_info->get_userid_by_phone($phone);
+        \App\Helper\Utils::logger('yxyx_userid:'.$userid_new);
         if($userid_new){
             $userid = $userid_new;
         }
