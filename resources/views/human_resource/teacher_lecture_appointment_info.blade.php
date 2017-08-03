@@ -129,6 +129,12 @@
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>
                     </div>
                 </div>
+                <div class="col-md-2 col-xs-6 "  >
+                    <div>
+                        <button class="btn btn-warning" id="id_set_zs_work_status">设置招师工作状态</button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
