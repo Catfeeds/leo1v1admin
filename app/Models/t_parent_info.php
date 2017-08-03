@@ -176,15 +176,6 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         return $ret;
     }
 
-    public function get_parent_list(){
-        $sql = $this->gen_sql_new("select wx_openid"
-                                  ." from %s "
-                                  ." where wx_openid!=''"
-                                  ,self::DB_TABLE_NAME
-        );
-        return $this->main_get_list($sql);
-    }
-
     public function get_phone_by_userid($userid){
         $sql = $this->gen_sql_new("select phone from %s where parentid=$userid",
                                   self::DB_TABLE_NAME

@@ -176,7 +176,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         //wx
         $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
-
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(
             "select sum(if( tss.success_flag in (0,1) , 1,0 ) ) as test_count,t.require_adminid"
@@ -194,7 +193,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
-        // dd($sql);
         // return $sql;
         return $this->main_get_list_as_page($sql);
 

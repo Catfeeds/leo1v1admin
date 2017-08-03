@@ -29,13 +29,14 @@ class wx_parent_gift extends Controller
         $openid   = @$token_info["openid"];
 
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-
+        dd($is_parent_flag);
+        // 57787  orwGAs_IqKFcTuZcU1xwuEtV3Kek
         if($is_parent_flag){
-            header("localtion: http://admin.yb1v1.com/user_manage/all_users?type=1");
+            header("location: http://admin.yb1v1.com/user_manage/all_users?type=1");
             return ;
         }else{
-            header("localtion: http://admin.yb1v1.com/user_manage/all_users?type=$openid");
-            return $openid;
+            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index?type=1");
+            return ;
         }
 
         // $token    = @$token_info["access_token"];

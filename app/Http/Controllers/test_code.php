@@ -17,7 +17,6 @@ class test_code extends Controller
     var $teacherid;
 
     public function __construct(){
-
         $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
@@ -97,70 +96,6 @@ class test_code extends Controller
                         echo "teacher_money_type:".$arr[0]." level:".$arr[1]." grade:".$arr[2]." money:".$arr[3]." type:".$arr[4];
                         echo $div;
 
-                    }
-                }
-            }
-        }
-    }
-
-    public function test_xls(){
-        \App\Helper\Utils::logger("begin create open class");
-        $file = Input::file('file');
-
-        if ($file->isValid()) {
-            $tmpName  = $file->getFileName();
-            $realPath = $file->getRealPath();
-
-            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
-            $obj_file  = "/tmp/001.xls";
-            move_uploaded_file($realPath,$obj_file);
-            $objPHPExcel = $objReader->load($obj_file);
-            $objPHPExcel->setActiveSheetIndex(0);
-            $arr  = $objPHPExcel->getActiveSheet()->toArray();
-            $info = "";
-            //时间 科目 年级 手机号
-            $subject_arr = E\Esubject::$desc_map;
-            $grade_arr   = E\Egrade::$desc_map;
-
-            foreach($arr as $key=>$val){
-                if($key!=0 && count($val)==7){
-                    $lesson_start = strtotime($val[0]);
-                    echo $lesson_start;
-                    echo "<br>";
-                    if(!$lesson_start){
-                        continue;
-                    }else{
-                        $subject = array_search($val[1],$subject_arr);
-                        $grade   = array_search($val[2],$grade_arr);
-
-                        $check_phone=\App\Helper\Utils::check_phone($val[3]);
-                        if($check_phone){
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($val[3]);
-                        }else{
-                            $teacherid = $this->t_teacher_info->get_teacherid_by_name($val[3]);
-                        }
-                        if(!$teacherid){
-                            \App\Helper\Utils::logger("老师不存在".$val[3]);
-                            continue;
-                        }
-
-                        $suit_student  = $val[4];
-                        $title         = $val[5];
-                        $package_intro = $val[6];
-                        $lesson_end    = $lesson_start+5400;
-
-                        $ret = $this->t_lesson_info->check_teacher_time_free($teacherid,0,$lesson_start,$lesson_end);
-
-                        if($ret){
-                            \App\Helper\Utils::logger("有现存的老师课程冲突".$ret["lessonid"]."老师id".$teacherid);
-                        }else{
-                            $packageid = $this->t_appointment_info->add_appoint($title,1001,$package_intro,$suit_student,
-                                                                                $subject,$grade);
-                            $courseid  = $this->t_course_order->add_open_course($teacherid,$title,$grade,$subject,
-                                                                                1001,$packageid,1);
-                            $lessonid  = $this->t_lesson_info->add_open_lesson($teacherid,$courseid,$lesson_start,$lesson_end,
-                                                                               $subject,$grade,1001);
-                        }
                     }
                 }
             }
@@ -441,6 +376,9 @@ class test_code extends Controller
         }
     }
 
+    /**
+     * 设置工作室助理的老师类型
+     */
     public function set_teacher_type(){
         $list = $this->t_teacher_info->get_teacher_type_list();
         \App\Helper\Utils::debug_to_html(  );
@@ -477,11 +415,6 @@ class test_code extends Controller
         exit;
         $job = new \App\Jobs\PushWxToParent($template_id,$data,$url);
         dispatch($job);
-    }
-
-    public function parent(){
-        $ret=$this->t_parent_info->get_parent_list();
-        var_dump($ret);
     }
 
     public function lesson_pay_order(){
@@ -1434,7 +1367,7 @@ class test_code extends Controller
         $num = $this->get_in_int_val("num",0);
         $start_time = strtotime("2017-4-1");
         $end_time = strtotime("2017-7-1");
-        
+
         $list = $this->t_teacher_info->get_trial_teacher_month($start_time,$end_time);
         echo "姓名|手机|入职日期|试听课时|成功数|常规课时|转化率";
         echo "<br>";
@@ -1598,11 +1531,7 @@ class test_code extends Controller
             ]);
             $this->t_lesson_info_b2->reset_lesson_teacher_money_type($teacherid,$lesson_start);
         }
-
     }
 
-    public function reset_train_lesson(){
-        $list = $this->t_lesson_info->reset_train_lesson();
-    }
 
 }
