@@ -782,11 +782,12 @@ class common_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        $parentid  = session('parentid');
         $parentid = $this->get_in_str_val('parentid');
+        // $parentid  = $this->get_wx_parentid();
         if (!$parentid) {
             return $this->output_err("请重新绑定");
         }
+
         $list = $this->t_lesson_info_b2->get_stu_id_face_left($parentid);
         if ($list) {
             $userid = $list['userid'];

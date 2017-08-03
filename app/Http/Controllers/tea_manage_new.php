@@ -734,6 +734,7 @@ class tea_manage_new extends Controller
             "subject"            => $subject,
             "grade"              => $grade,
             "teacherid"          => $record_teacherid,
+            "userid"             => $teacherid,
             "lesson_type"        => 1100,
             "server_type"        => 2,
             "lesson_sub_type"    => 1,

@@ -382,6 +382,13 @@ class common extends Controller
         echo $str;
     }
 
+    public function add_trial_train_lesson_by_admin(){
+        $teacherid    = $this->get_in_int_val("teacherid");
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        $this->add_trial_train_lesson($teacher_info);
+    }
+
     public function add_trial_train_lesson($teacher_info){
         $grade    = \App\Helper\Utils::change_grade_end_to_grade($teacher_info);
         $courseid = $this->t_course_order->add_course_info_new(

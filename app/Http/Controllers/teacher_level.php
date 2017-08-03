@@ -589,6 +589,13 @@ class teacher_level extends Controller
     }
 
 
+    public function get_frist_test_lesson_info(){
+        $this->switch_tongji_database();
+        $page_info = $this->get_in_page_info();
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson($page_info,$start_time,$end_time);
+ 
+    }
 
 
 
