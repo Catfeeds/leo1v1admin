@@ -796,8 +796,8 @@ class common_new extends Controller
             }
             $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
             $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
-            $list['start'] = date('Y-m-d', $start_time);
-            $list['end']   = date('Y-m-d', time());
+            $list['start'] = date('Y.m.d', $start_time);
+            $list['end']   = date('Y.m.d', time());
             $list['stu_subject_count'] = count($subject_list);
             if ( count($subject_list) >= 3 ) {
                 $stu_lesson_title = '全能大王';
@@ -845,9 +845,9 @@ class common_new extends Controller
             $list['stu_praise_star'] = intval( ceil( $stu_praise/4151 ) <5?ceil( $stu_praise/4151 ):5 ).'星学员';
             $list['excess_nums'] = intval( $list['stu_praise_star']*19);
             $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
-            $subject     = "";
+            $subject     = '无';
             $now_time = time();
-            $list['first_free_lesson_time'] = '';
+            $list['first_free_lesson_time'] = '无';
             foreach ($first_info as &$item) {
                 if ($item["lesson_type"] == 2) {
                     $list['first_free_lesson_time'] = date('Y-m-d', $item['lesson_start']);
@@ -860,11 +860,11 @@ class common_new extends Controller
             if ( @$normal_time && $normal_time<$now_time ) {
                 $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
             } else {
-                $list['first_normal_lesson_time'] = '';
+                $list['first_normal_lesson_time'] = '无';
             }
             $list['first_subject']            = $subject;
             $open_lesson = $this->t_lesson_info_b2->get_stu_first_open_lesson($userid);
-            $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '';
+            $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '无';
             $homework_info  = $this->t_lesson_info_b2->get_stu_homework($userid, $start_time);
             $a = 0;
             $b = 0;
@@ -887,9 +887,9 @@ class common_new extends Controller
                 $list['finish_rate'] = 0;
             }
             if ( $list['finish_rate'] > 50 ) {
-                $list['homework_title'] = 'hard';
+                $list['homework_type'] = 1;
             } else {
-                $list['homework_title'] = 'lazy';
+                $list['homework_type'] = 0;
             }
             $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
             if ($like_teacher) {
@@ -909,14 +909,18 @@ class common_new extends Controller
 
             }
             $star_info = $this->t_lesson_info_b2->get_stu_score_info($userid, $start_time);
-            $list['five_star'] = 0;
-            $list['four_star'] = 0;
-            $list['three_star'] = 0;
+            $list['five_star'] = '00';
+            $list['four_star'] = '00';
+            $list['three_star'] = '00';
             if ($star_info) {
                 foreach ($star_info as $v) {
-                    $list['five_star']  = ($v['teacher_score'] == 5)?$v['teacher_score_count']:$list['five_star'];
-                    $list['four_star']  = ($v['teacher_score'] == 4)?$v['teacher_score_count']:$list['four_star'];
-                    $list['three_star'] = ($v['teacher_score'] == 3)?$v['teacher_score_count']:$list['three_star'];
+                    $score_num = $v['teacher_score_count'];
+                    if ( count($score_num)<2 ) {
+                        $score_num .= '0';
+                    }
+                    $list['five_star']  = ($v['teacher_score'] == 5)?$score_num:$list['five_star'];
+                    $list['four_star']  = ($v['teacher_score'] == 4)?$score_num:$list['four_star'];
+                    $list['three_star'] = ($v['teacher_score'] == 3)?$score_num:$list['three_star'];
                 }
             }
             $lesson_total          = $this->t_lesson_info_b2->get_stu_lesson_time_total($userid);
