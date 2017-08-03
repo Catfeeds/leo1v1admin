@@ -804,7 +804,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
     public function get_reference_teacher_info($reference){
-        $sql =$this->gen_sql_new("select ta.name,t.train_through_new,t.train_through_new_time,t.teacherid"
+        $sql =$this->gen_sql_new("select ta.name,t.train_through_new,t.train_through_new_time,t.teacherid,t.subject "
                                  ." from %s ta left join %s t on ta.phone = t.phone"
                                  ." where ta.reference = %u order by t.train_through_new desc",
                                  self::DB_TABLE_NAME,

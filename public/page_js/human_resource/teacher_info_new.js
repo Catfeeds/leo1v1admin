@@ -424,14 +424,6 @@ $(function(){
             action   : function(dialog) {
                 var teacher_type       = id_teacher_type.val();
                 var teacher_money_type = 4;
-                if(teacher_type==21){
-                    BootstrapDialog.alert("添加总代理,请先联系技术添加总代理分类");
-                    return false;
-                }
-                if(teacher_type>20 && teacher_type<30){
-                    teacher_money_type = 5;
-                }
-
                 $.do_ajax( '/tea_manage/add_teacher',{
                     "phone"              : id_phone.val(),
                     "tea_nick"           : id_tea_nick.val(),

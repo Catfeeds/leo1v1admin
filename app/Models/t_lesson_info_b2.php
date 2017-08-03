@@ -2427,7 +2427,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
@@ -2459,7 +2459,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
@@ -2493,7 +2493,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
