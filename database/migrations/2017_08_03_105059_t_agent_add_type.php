@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TAgentAddIsSignUp extends Migration
+class TAgentAddType extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,8 @@ class TAgentAddIsSignUp extends Migration
         //
         Schema::table('db_weiyi.t_agent', function( Blueprint $table)
         {
-            t_field($table->integer("is_sign_up"),"是否报名");
-        }
+            t_field($table->integer("type"),"1报名上课2我要推荐");
+        });
     }
 
     /**
