@@ -173,7 +173,11 @@ class wx_yxyx_common extends Controller
         if(!isset($parentid)){
             $parentid = 0;
         }
-        // $userid = $this->t_student_info->get_userid_by_phone($phone);
+        $userid = null;
+        $userid_new = $this->t_student_info->get_userid_by_phone($phone);
+        if($userid_new){
+            $userid = $userid_new;
+        }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             return $this->output_succ("邀请成功!");
