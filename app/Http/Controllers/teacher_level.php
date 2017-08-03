@@ -81,6 +81,7 @@ class teacher_level extends Controller
             $h["realname"] = $this->t_teacher_info->get_realname($h["teacherid"]);
             $h["level"]  = $this->t_teacher_info->get_level($h["teacherid"]);
             $h["level_str"] =E\Elevel::get_desc($h["level"]);
+            $h["lesson_count"] =  $h["lesson_count"]/100;
             $h["level_after_str"] =E\Elevel::get_desc($h["level_after"]);
             $h["is_refund_str"] = $h["is_refund"]==1?"<font color='red'>有</font>":"无";
             \App\Helper\Utils::unixtime2date_for_item($h,"accept_time","_str");
@@ -213,8 +214,8 @@ class teacher_level extends Controller
             $tea_arr[]=$val["teacherid"];
             $lesson_count +=$val["lesson_count"];
         }
-        $lesson_count = round($lesson_count/300,1);
-        $lesson_count_score = $this->get_score_by_lesson_count($lesson_count);
+        $lesson_count = round($lesson_count/3,1);
+        $lesson_count_score = $this->get_score_by_lesson_count($lesson_count/100);
 
         $test_person_num= $this->t_lesson_info->get_teacher_test_person_num_list( $start_time,$end_time,-1,-1,$tea_arr);
         

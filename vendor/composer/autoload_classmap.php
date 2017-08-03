@@ -642,6 +642,7 @@ return array(
     'TOrderInfoFromInfo' => $baseDir . '/database/migrations/2017_07_04_180623_t_order_info_from_info.php',
     'TOrderInfoFromParentOrderLessonCount' => $baseDir . '/database/migrations/2017_07_06_173528_t_order_info_from_parent_order_lesson_count.php',
     'TOrderRefundAddPayAccountAdmin' => $baseDir . '/database/migrations/2017_06_15_141711_t_order_refund_add_pay_account_admin.php',
+    'TPicManageInfoAddJumpType' => $baseDir . '/database/migrations/2017_08_03_154857_t_pic_manage_info_add_jump_type.php',
     'TRefundAnalysisAddAddTime' => $baseDir . '/database/migrations/2017_07_11_160950_t_refund_analysis_add_add_time.php',
     'TRefundAnalysisAddAnalysis' => $baseDir . '/database/migrations/2017_04_01_113337_t_refund_analysis_add_analysis.php',
     'TResearchTeacherRerwardListAddFirstReward' => $baseDir . '/database/migrations/2017_05_03_103156_t_research_teacher_rerward_list_add_first_reward.php',

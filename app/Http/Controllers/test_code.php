@@ -1459,8 +1459,8 @@ class test_code extends Controller
     }
 
     public function get_amanda(){
-        // $start_time = strtotime("2017-6-1");
-        // $end_time   = strtotime("2017-7-1");
+        $start_time = strtotime("2015-1-1");
+        $end_time   = strtotime("2017-8-1");
         $end_time   = time();
         $start_time = strtotime("-1 year",$end_time);
         $list = $this->t_student_info->get_has_lesson($start_time,$end_time);

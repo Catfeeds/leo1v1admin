@@ -1109,17 +1109,16 @@ $(function(){
 		    format     : 'H:i',
 		    step       : 30 
 	    });
-
     });
-    
+
     //实例化一个plupload上传对象
     var uploader = new plupload.Uploader({
         browse_button : 'id_add_lesson_by_excel', //触发文件选择对话框的按钮，为那个元素id
-        url : '/test_code/test_xls', //服务器端的上传页面地址
+        url : '/tea_manage_new/add_open_class_by_xls', //服务器端的上传页面地址
         flash_swf_url       : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
         silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
         filters: {
-            mime_types : [ 
+            mime_types : [
                 { title : "xls files", extensions : "xls" },
                 { title : "xlsx files", extensions : "xlsx" }
             ],

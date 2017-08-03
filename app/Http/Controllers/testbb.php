@@ -46,30 +46,23 @@ class testbb extends Controller
 
 
 
-
-
     public function test () {
-        $time = strtotime(date('Y-m-d',time(null)).date('H:i',time(null)).':00');
-        dd($time);
-        // dd(public_path()); // l_t_pdf_198963_5.png
-        // $file = "../../../../public/wximg/1858145170.png";
-        $png = $this->get_in_str_val('img');
-        $file = public_path()."/wximg/".$png;
-        echo $file;
+        /**
+           获取code
+           https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+           define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
+           define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
 
-        $c = unlink($file);
+        ***/
+        $parent_appid = "wx636f1058abca1bc1";
+        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
 
-        dd($c);
-        $dd = file_exists($file);
-        dd($dd);
+        $redirect_url = urlencode($url);
 
-        $item_yes['subject'] = 1;
-        dd(E\Esubject::get_desc(2));
+        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
-        dd($item_yes);
 
-        $d = strtotime(date('Y-m-d 00:00:00' , strtotime('-3 day')));
-        dd($d);
+        dd($url);
 
     }
 

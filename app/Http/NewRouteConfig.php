@@ -22,6 +22,7 @@ class NewRouteConfig {
 
     //配置整个模块都使用 新的路由
     static public $ctl_map = [
+        "wx_parent_gift"       => true,
         "lesson_info"       => true,
         "yxyx_wx_server"       => true,
         "wx_yxyx_common"       => true,
