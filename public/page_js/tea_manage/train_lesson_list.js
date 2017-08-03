@@ -718,6 +718,27 @@ $(function(){
 
 
     $("dom").on("click",function(){
+        var id_button="";
+        var arr=[
+            ["描述",id_button]
+        ];
+        $.show_key_value_table("参数",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+
+            }
+        },function(){
+            id_button.on("click",function(){
+
+            });
+
+        });
+
+
+
+
+
 
     });
 
