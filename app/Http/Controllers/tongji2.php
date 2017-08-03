@@ -344,8 +344,10 @@ class tongji2 extends Controller
     public function seller_month_money_list() {
 
         $adminid=$this->get_in_adminid(-1);
-        $ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
+        //$ret_info= $this->t_manager_info->get_admin_member_list(  E\Emain_type::V_2,$adminid );
         list($start_time,$end_time )= $this->get_in_date_range_month(0);
+        $month= strtotime( date("Y-m-01", $start_time));
+        $ret_info= $this->t_manager_info->get_admin_member_list_new($month ,E\Emain_type::V_2,$adminid );
 
         $admin_list=&$ret_info["list"];
         $account_role= E\Eaccount_role::V_2;
@@ -363,7 +365,7 @@ class tongji2 extends Controller
             }
         }
 
-        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0,strtotime( date("Y-m-01", $start_time)) );
+        $admin_list=\App\Helper\Common::gen_admin_member_data($admin_list, [],0, $month);
 
         foreach( $admin_list as &$item ) {
             E\Emain_type::set_item_value_str($item);
