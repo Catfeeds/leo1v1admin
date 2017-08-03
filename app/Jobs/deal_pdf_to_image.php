@@ -60,7 +60,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $path = public_path().'/wximg';
 
-            chmod($savePathFile, 0777);
+            @chmod($savePathFile, 0777);
 
             $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
@@ -74,14 +74,10 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
-                if (file_exists($item_orgi)) {
-                    unlink($item_orgi);
-                }
+                @unlink($item_orgi);
             }
 
-            if (file_exists($savePathFile)) {
-                unlink($savePathFile);
-            }
+            @unlink($savePathFile);
         }
 
     }
@@ -103,7 +99,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
         if(!extension_loaded('imagick')){
             return false;
         }
-        if(!file_exists($pdf)){
+        if(!$pdf){
             return false;
         }
         $IM =new \imagick();

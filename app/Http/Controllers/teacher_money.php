@@ -368,7 +368,7 @@ class teacher_money extends Controller
         }
 
         foreach($list as &$item){
-            $item['lesson_price']        = strval(
+            $item['lesson_price'] = strval(
                 $item['lesson_price']
                 +$item['lesson_reward_ex']
                 +$item['lesson_reward_trial']
@@ -561,7 +561,11 @@ class teacher_money extends Controller
         $teacher_money_type = $info['teacher_money_type'];
         $level = $info['level'];
         if($info['teacher_type']>20){
-            $level_str="招师代理";
+            if($info['teacher_type']==32){
+                $level_str="";
+            }else{
+                $level_str="招师代理";
+            }
         }else{
             if($teacher_money_type==0){
                 if($level<3){

@@ -22,6 +22,8 @@ class testbb extends Controller
 
     }
 
+   
+ 
     public function assistant_info_new2(){
         $today      = date('Y-m-d',time(null));
         $today      = '20170626';
@@ -47,7 +49,6 @@ class testbb extends Controller
 
 
     public function test () {
-
         // dd(public_path()); // l_t_pdf_198963_5.png
         // $file = "../../../../public/wximg/1858145170.png";
         $png = $this->get_in_str_val('img');

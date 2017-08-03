@@ -1,6 +1,7 @@
 interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
+	account_type:	number;
 	is_complaint_state:	number;
 	date_type_config:	string;
 	date_type:	number;
@@ -57,6 +58,7 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			account_type:	$('#id_account_type').val(),
 			is_complaint_state:	$('#id_is_complaint_state').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
@@ -77,6 +79,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_account_type').val(g_args.account_type);
 	$('#id_is_complaint_state').val(g_args.is_complaint_state);
 
 
@@ -87,6 +90,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">account_type</span>
+                <input class="opt-change form-control" id="id_account_type" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
