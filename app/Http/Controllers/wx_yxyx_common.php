@@ -117,10 +117,12 @@ class wx_yxyx_common extends Controller
             }else{
                 $userid = null;
                 $userid_new = $this->t_student_info->get_row_by_phone($phone);
-                \App\Helper\Utils::logger('yxyx_userid:'.$userid_new['userid']);
+                \App\Helper\Utils::logger('yxyx_userid_new:'.$userid_new['userid']);
                 if($userid_new['userid']){
+                    \App\Helper\Utils::logger('userid_new:');
                     $userid = $userid_new['userid'];
                 }
+                \App\Helper\Utils::logger('yxyx_userid:'.$userid);
                 $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
