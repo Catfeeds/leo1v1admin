@@ -1,10 +1,10 @@
 interface GargsStatic {
+	adminid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -37,12 +37,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			adminid:	$('#id_adminid').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			adminid:	$('#id_adminid').val()
+			end_time:	$('#id_end_time').val()
         });
     }
 
