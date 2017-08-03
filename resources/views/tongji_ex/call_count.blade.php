@@ -10,9 +10,9 @@
                 </div>
 
 
-                <div class="col-xs-6 col-md-2">
+                <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
-                        <span class="input-group-addon">boolean</span>
+                        <span class="input-group-addon">未拨通无效</span>
                         <select class="opt-change form-control" id="id_sys_invaild_flag" >
                         </select>
                     </div>
