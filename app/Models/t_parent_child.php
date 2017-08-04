@@ -98,7 +98,7 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
             "pc.parentid = $userid"
         ];
 
-        $sql = $this->gen_sql_new(" select sum(o.lesson_total*o.default_lesson_count) from %s pc".
+        $sql = $this->gen_sql_new(" select o.lesson_total, o.default_lesson_count  from %s pc".
                                   " left join %s s on s.userid = pc.userid".
                                   " left join %s o on o.userid = s.userid".
                                   " where %s",

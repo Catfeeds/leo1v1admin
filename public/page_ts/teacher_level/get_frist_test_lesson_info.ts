@@ -70,7 +70,7 @@ $(function(){
                                           +"</div><audio preload=\"none\"></audio></div>"
                                          );
                         BootstrapDialog.show({
-                            title    : '课程回放:lessonid:'+lessonid+", 学生:" + result.stu_nick,
+                            title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + result.stu_nick,
                             message  : html_node,
                             closable : true,
                             onhide   : function(dialogRef){
