@@ -89,63 +89,160 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        $.do_ajax( "/teacher_level/get_teacher_test_lesson_info_record",{
-            "teacherid" :opt_data.teacherid,
-            "lesson_type":2,
-            "num":0
-        },function(resp){
-            var ret = resp.ret;
-            if(ret ==-1){
-                alert(resp.info);
-                return;
-            }else{
-                var lessonid = resp.data;
-                $.ajax({
-                    type     : "post",
-                    url      : "/tea_manage/get_lesson_reply",
-                    dataType : "json",
-                    data     : {"lessonid":lessonid},
-                    success  : function(result){
-                        if(result.ret == 0){
-                            console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                                        +"&audio="+encodeURIComponent(result.audio_url)
-                                        +"&start="+result.real_begin_time);
-                            if ( false && !$.check_in_phone() ) {
+        var lessonid = opt_data.lessonid;
+        var teacherid = opt_data.teacherid;
+        var id_jysj =  $("<select class=\"class_score\" />");
+        var id_yybd =  $("<select class=\"class_score\" />");
+        var id_zyzs =  $("<select class=\"class_score\" />");
+        var id_jxjz =  $("<select class=\"class_score\" />");
+        var id_hdqk =  $("<select class=\"class_score\" />");
+        var id_bsqk =  $("<select class=\"class_score\" />");
+        var id_rjcz =  $("<select class=\"class_score\" />");
+        var id_skhj =  $("<select class=\"class_score\" />");
+        var id_khfk =  $("<select class=\"class_score\" />");
+        var id_lcgf =  $("<select class=\"class_score\" />");                  
+        var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />鼓励发言 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />善于引导 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"3\" />提问形式多样 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />关注度高 </label>");
 
-                                // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                                //             +"&audio="+encodeURIComponent(result.audio_url)
-                                //             +"&start="+result.real_begin_time);
-                                window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                                            +"&audio="+encodeURIComponent(result.audio_url)
-                                            +"&start="+result.real_begin_time,"_blank");
-                            }else{
+        Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_jxjz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_hdqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_bsqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_rjcz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
+        Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+        Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+        var id_score = $("<input readonly/>");
+        var id_no_tea_score = $("<input readonly/>");
+        var id_record = $("<textarea />");
+        var id_jkqk = $("<textarea />");
 
-                                var w = $.check_in_phone()?329 : 558;
-                                var h = w/4*3;
-                                var html_node = $("<div style=\"text-align:center;\"> "
-                                                  +"<div id=\"drawing_list\" style=\"width:100%\">"
-                                                  +"</div><audio preload=\"none\"></audio></div>"
-                                                 );
-                                BootstrapDialog.show({
-                                    title    : '课程回放:lessonid:'+lessonid+", 学生:" + result.stu_nick,
-                                    message  : html_node,
-                                    closable : true,
-                                    onhide   : function(dialogRef){
-                                    }
-                                });
-                                Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
-                                Cwhiteboard.loadData(w,h,result.real_begin_time,result.draw_url,result.audio_url,html_node);
-                            }
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
-                    }
+        var arr=[
+            ["讲义设计情况评分", id_jysj],
+            ["语言表达能力评分", id_yybd],
+            ["专业知识技能评分", id_zyzs],
+            ["教学节奏把握评分", id_jxjz],
+            ["互动情况评分", id_hdqk],
+            ["板书情况评分", id_bsqk],
+            ["软件操作评分", id_rjcz],
+            ["授课环境评分", id_skhj],
+            ["课后反馈评分", id_khfk],
+            ["流程规范情况评分", id_lcgf],
+            ["总分",id_score],
+            ["非教学相关得分",id_no_tea_score],
+            ["监课情况",id_jkqk],
+            ["意见或建议",id_record],
+            ["标签",id_sshd],
+        ];
+        
+        
+        $.show_key_value_table("试听评价", arr,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var record_info = id_record.val();
+                if(record_info==""){
+                    BootstrapDialog.alert("请填写评价内容!");
+                    return ;
+                }
+                console.log(record_info.length);
+                if(record_info.length>150){
+                    BootstrapDialog.alert("评价内容不能超过150字!");
+                    return ;
+                }
+
+                var sshd_good=[];
+                id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
+                    sshd_good.push($(this).val());
+                });
+                var sshd_bad=[];
+                id_sshd2.find("input:checkbox[name='dog']:checked").each(function(i) {
+                    sshd_bad.push($(this).val());
+                });
+                if(sshd_bad.length==0 && sshd_good.length==0){
+                    BootstrapDialog.alert("请选择老师标签");
+                    return false;
+                }
+                var ktfw_good=[];
+                id_ktfw.find("input:checkbox[name='ktfw']:checked").each(function(i) {
+                    ktfw_good.push($(this).val());
+                });
+                var ktfw_bad=[];
+                id_ktfw2.find("input:checkbox[name='kt']:checked").each(function(i) {
+                    ktfw_bad.push($(this).val());
+                });
+                if(ktfw_bad.length==0 && ktfw_good.length==0){
+                    BootstrapDialog.alert("请选择老师标签");
+                    return false;
+                }
+
+                var skgf_good=[];
+                id_skgf.find("input:checkbox[name='skgf']:checked").each(function(i) {
+                    skgf_good.push($(this).val());
+                });
+                var skgf_bad=[];
+                id_skgf2.find("input:checkbox[name='sk']:checked").each(function(i) {
+                    skgf_bad.push($(this).val());
+                });
+                if(skgf_bad.length==0 && skgf_good.length==0){
+                    BootstrapDialog.alert("请选择老师标签");
+                    return false;
+                }
+
+                var jsfg_good=[];
+                id_jsfg.find("input:checkbox[name='jsfg']:checked").each(function(i) {
+                    jsfg_good.push($(this).val());
+                });
+                var jsfg_bad=[];
+                id_jsfg2.find("input:checkbox[name='js']:checked").each(function(i) {
+                    jsfg_bad.push($(this).val());
+                });
+                if(jsfg_bad.length==0 && jsfg_good.length==0){
+                    BootstrapDialog.alert("请选择老师标签");
+                    return false;
+                }
+
+                $.do_ajax("/human_resource/set_teacher_record_info_new",{
+                    "teacherid"    : teacherid,
+                    "type"         : 1,
+                    "tea_process_design_score"         : id_jysj.val(),
+                    "language_performance_score"         : id_yybd.val(),
+                    "knw_point_score"         : id_zyzs.val(),
+                    "tea_rhythm_score"         : id_jxjz.val(),
+                    "tea_concentration_score"         : id_hdqk.val(),
+                    "teacher_blackboard_writing_score"         : id_bsqk.val(),
+                    "tea_operation_score"         : id_rjcz.val(),
+                    "tea_environment_score"         : id_skhj.val(),
+                    "answer_question_cre_score"         : id_khfk.val(),
+                    "class_abnormality_score"         : id_lcgf.val(),
+                    "score"         : id_score.val(),
+                    "no_tea_related_score"                       : id_no_tea_score.val(),
+                    "record_info"                        : id_record.val(),
+                    "record_monitor_class"               : id_jkqk.val(),
+                    "sshd_good"                          :JSON.stringify(sshd_good),
+                    "sshd_bad"                           :JSON.stringify(sshd_bad),
+                    "ktfw_good"                          :JSON.stringify(ktfw_good),
+                    "ktfw_bad"                           :JSON.stringify(ktfw_bad),
+                    "skgf_good"                          :JSON.stringify(skgf_good),
+                    "skgf_bad"                           :JSON.stringify(skgf_bad),
+                    "jsfg_good"                          :JSON.stringify(jsfg_good),
+                    "jsfg_bad"                           :JSON.stringify(jsfg_bad),
                 });
             }
+        },function(){
+            id_score.attr("placeholder","满分100分");
+            id_record.attr("placeholder","字数不能超过150字");
+        });
+
+        //console.log(arr[0][1]);
+        arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
+            id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
+            id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
 
             
-
         });
+        
     });
 
 
