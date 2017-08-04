@@ -388,6 +388,9 @@ class menu{
                     ["power_id"=>12, "name"=>"例子销售拨打数",
                      "url"=>"/tongji_ex/call_count"],
 
+                    ["power_id"=>13, "name"=>"转化率",
+                     "url"=>"/tongji_ex/test_lesson_order_info"],
+
 
                 ]],
 
