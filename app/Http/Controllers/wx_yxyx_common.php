@@ -178,6 +178,7 @@ class wx_yxyx_common extends Controller
             $parentid = 0;
         }
         $userid = null;
+        \App\Helper\Utils::logger('yxyx_old:'.$userid);
         $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
         \App\Helper\Utils::logger('yxyx_userid_new:'.$userid_new['userid']);
         if($userid_new['userid']){
