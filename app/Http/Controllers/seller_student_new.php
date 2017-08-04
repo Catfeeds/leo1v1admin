@@ -1131,7 +1131,7 @@ class seller_student_new extends Controller
         $cur_hm=date("H")*60+date("i");
         $cur_week=date("w");
         if (in_array( $cur_week*1,[6,0] ) ) {
-            $limit_arr=array( 10*60 );
+            $limit_arr=array( 20*60 );
         }else{
             $limit_arr=array( 14*60 );
         }

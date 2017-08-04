@@ -81,7 +81,8 @@ class wx_parent_common extends Controller
 
         session([
             'wx_parent_code'=>$code,
-            'wx_parent_phone'=>$phone
+            'wx_parent_phone'=>$phone,
+            'market_activity_type' => $market_activity_type
         ]);
 
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
