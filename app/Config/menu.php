@@ -165,6 +165,7 @@ class menu{
             ["power_id"=>4, "name"=>"人事绩效", "list"=>[
                 ["power_id"=>22, "name"=>"教师档案(试讲老师)",   "url"=>"/human_resource/index_new"],
                 ["power_id"=>1, "name"=>"教师档案(全部老师)",   "url"=>"/human_resource/index"],
+                ["power_id"=>25, "name"=>"老师课时统计",   "url"=>"/human_resource/teacher_total_list"],
                 ["power_id"=>24, "name"=>"教师档案-new",   "url"=>"/human_resource/teacher_info_new"],
                 ["power_id"=>23, "name"=>"教师评估考核",   "url"=>"/human_resource/teacher_assess"],
                 ["power_id"=>8, "name"=>"教师特长",   "url"=>"/human_resource/specialty"],
@@ -172,7 +173,6 @@ class menu{
                     ["power_id"=>1, "name"=>"会议记录",   "url"=>"/human_resource/teacher_meeting_info"],
                     ["power_id"=>2, "name"=>"与会人员信息",   "url"=>"/human_resource/teacher_meeting_join_info"],
                 ]],
-
                 ["power_id"=>5, "name"=>"老师工资", "list"=>[
                     ["power_id"=>1, "name"=>"老师课时-总体",   "url"=>"/user_manage_new/tea_lesson_count_total_list"],
                     ["power_id"=>2, "name"=>"老师工资",   "url"=>"/user_manage_new/tea_lesson_count_detail_list"],
@@ -364,6 +364,7 @@ class menu{
                     ["power_id"=>24, "name"=>"周排课量回访统计",   "url"=>"/tongji2/seller_week_lesson_call" ],
                     ["power_id"=>26, "name"=>"周排课量回访统计-主管",   "url"=>"/tongji2/seller_week_lesson_call_master" ],
                     ["power_id"=>25, "name"=>"周排课量回访列表",   "url"=>"/tongji2/lesson_call_list" ],
+                    ["power_id"=>27, "name"=>"试听课后2小时未回访列表",   "url"=>"/tongji2/lesson_end_call_list" ],
                     ["power_id"=>6, "name"=>"首次回访例子数-小时",
                      "url"=>"/tongji/first_revisite_time_list"],
 

@@ -164,7 +164,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1
     ){
         $where_arr=[
-            "t.require_adminid= n.admin_revisiterid ",
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"s.grade",$grade_list);
         $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
@@ -195,7 +194,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         );
         // return $sql;
         return $this->main_get_list_as_page($sql);
-
     }
 
 

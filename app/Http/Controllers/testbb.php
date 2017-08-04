@@ -47,6 +47,13 @@ class testbb extends Controller
 
 
     public function test () {
+        $market_activity_type = -1;
+        $parentid = '';
+        if(!$parentid && ($market_activity_type<0)) {
+            return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!$market_activity_type");
+        }
+
+        dd(($market_activity_type > 0));
         header("Location: https://www.baidu.com");
         exit;
         /**
