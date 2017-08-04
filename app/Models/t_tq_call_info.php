@@ -242,7 +242,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
     public function get_list_by_phone($uid,$phone){
         $where_arr = [];
-        $this->where_arr_add_int_or_idlist($where_arr, "uid" ,$uid);
+        $this->where_arr_add_int_field($where_arr, "uid" ,$uid);
         $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
         $sql = $this->gen_sql_new("select * ".
                                   "from %s ".
