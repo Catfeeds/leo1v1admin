@@ -789,7 +789,7 @@ class common_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        $parentid = $this->get_in_int_val('parentid');
+        $parentid = $this->get_in_str_val('parentid');
         // $parentid  = $this->get_wx_parentid();
         if (!$parentid) {
             return $this->output_err("请重新绑定");
@@ -944,7 +944,7 @@ class common_new extends Controller
             $list['add_greenland'] = $lesson_total? number_format($lesson_total * 0.63/3, 2):'00';
             $list['add_sky']       = $lesson_total? number_format($lesson_total * 0.92/3, 2):'00';
             $list['lesson_count_left'] = str_pad($list['lesson_count_left']/100,2,'0',STR_PAD_LEFT);
-            if ($list['lesson_count_left'] > 100) {
+            if ($list['lesson_count_left'] > 1) {
                 $list['last_title'] = '“理优1对1永远和你在一起”';
             } else if ( $list['first_normal_lesson_time'] !== '无' ) {
                 $list['last_title'] = '“理优1对1十分想念你”';
