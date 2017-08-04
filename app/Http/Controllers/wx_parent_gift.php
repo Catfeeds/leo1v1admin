@@ -34,7 +34,7 @@ class wx_parent_gift extends Controller
         // echo $is_parent_flag; //orwGAs_IqKFcTuZcU1xwuEtV3Kek 271968
         if($is_parent_flag){
             // header("location: http://admin.yb1v1.com/user_manage/all_users?type=1");
-            return ;
+            return $is_parent_flag ;
         }else{
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index&type=1&openid=$openid");
             return ;

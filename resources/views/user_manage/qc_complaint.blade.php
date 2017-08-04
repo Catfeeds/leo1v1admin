@@ -27,15 +27,11 @@
                     </div>
                 </div>
 
-                <!-- <div class="col-xs-6 col-md-2">
-                     <form method="post" enctype="multipart/form-data" >
-                     <input type="file" name="picture">
-                     <button type="submit"> James提交测试 </button>
-                     </form>
-                     </div>
+                <div class="col-xs-6 col-md-2">
+                </div>
 
 
-                   -->
+
 
             </div>
         </div>

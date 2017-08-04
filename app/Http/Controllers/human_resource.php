@@ -4232,6 +4232,7 @@ class human_resource extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_total_list(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
         );
+
         foreach($tea_list['list'] as &$val){
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);

@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use \App\Enums as E;
 
-class zs_lecture_info_day extends Command
+class fulltime_teacher_interview_info extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:zs_lecture_info_day';
+    protected $signature = 'command:fulltime_teacher_interview_info';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '招师每日预约面试情况';
+    protected $description = '全职老师面试信息推送';
 
     /**
      * Create a new command instance.
@@ -41,10 +41,10 @@ class zs_lecture_info_day extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
-        $start_time = strtotime(date("Y-m-d",time()-100));
-        $end_time=time();                                  
-        $all_total =0;
-        $ret_info  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time); 
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time=time();  
+        $all_num  = $task->t_teacher_lecture_appointment_info->get_all_full_time_num($start_time,$end_time); 
+        dd($all_num);
 
         $video_account = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
         $video_account_real = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);

@@ -124,7 +124,9 @@ class wx_parent_common extends Controller
         ]);
         session(["parentid" => $parentid ]);
 
-        return $this->output_succ(["type"=>$market_activity_type]);
+        return $this->output_succ(["type"=>1]);
+        // return $this->output_succ(["type"=>$market_activity_type]);
+
     }
 
     public function get_lesson_evaluate () {
