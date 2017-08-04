@@ -364,7 +364,11 @@
                              <br/>
                              家长确认时间: {{$var["parent_confirm_time"]}}
                              <br/>
-                             课后回访: {{$var["call_end_time"]}}
+                             @if( $var["call_end_time"] )
+                                 <font color="green">课后回访:{{$var["call_end_time"]}} </font>
+                             @else
+                                 <font color="red">课后回访:{{$var["call_end_time"]}} </font>
+                             @endif
 
                              {!! @$var["notify_lesson_flag_str"]!!}
 
