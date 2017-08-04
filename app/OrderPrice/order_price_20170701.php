@@ -28,6 +28,7 @@ class order_price_20170701 extends order_price_base
     ];
 
 
+/*
     static $grade_price_config_fix = [
         101=> [0=>280,60=>245,90=>240,135=>236-10,180=>(232-10),270=>(224-10),360=>(216-10),450=>(208-10)],
         201=> [0=>310,60=>265,90=>260,135=>(256-10),180=>(252-10),270=>(244-10),360=>(236-10),450=>(228-10)],
@@ -38,6 +39,7 @@ class order_price_20170701 extends order_price_base
         303=>[0=>460,60=>455,90=>450,135=>446,180=>(442-9),270=>(434-9),360=>(426-9),450=>(418-9)],
     ];
 
+*/
 
 
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){

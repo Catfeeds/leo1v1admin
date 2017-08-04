@@ -141,7 +141,10 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
             ["add_time<%u",$end_time,0],
         ];
         $lesson_str = [
-            
+            ["lesson_start>%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
         ];
         $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"
                                   ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,t.test_transfor_per,"
@@ -150,15 +153,16 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ." from %s t"
                                   ." where %s"
                                   ." and exists (select 1 from %s where t.teacherid=teacherid and %s)"
-                                  ." and not exists (select 1 from %s where t.teacherid=teacherid and )"
+                                  ." and not exists (select 1 from %s where t.teacherid=teacherid and %s)"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
                                   ,t_teacher_money_list::DB_TABLE_NAME
                                   ,$add_str
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_str
 
         );
         return $this->main_get_list($sql);
-
     }
 
 }
