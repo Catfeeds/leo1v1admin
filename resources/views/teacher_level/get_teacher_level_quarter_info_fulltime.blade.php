@@ -7,41 +7,14 @@
                
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">老师类型</span>
-                        <select class="opt-change form-control " id="id_fulltime_flag" >
-                            <option value="-1">全部</option>
-                            <option value="0">兼职老师</option>
-                            <option value="1">上海全职老师</option>
-                            <option value="2">武汉全职老师</option>
-                        </select>
-                    </div>
-                </div>               
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">工资类型</span>
-                        <select class="opt-change form-control " id="id_teacher_money_type" >
+                        <span class="input-group-addon">类型</span>
+                        <select class="opt-change form-control " id="id_fulltime_teacher_type" >
                         </select>
                     </div>
                 </div>               
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span >老师 </span>
-                        <input type="text" value=""  class="opt-change"  id="id_teacherid"  placeholder="" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">结果</span>
-                        <select class="opt-change form-control " id="id_accept_flag" >
-                            <option value="-1">全部</option>
-                            <option value="0">未审核</option>
-                            <option value="1">通过</option>
-                            <option value="2">驳回</option>
-                        </select>
-                    </div>
-                </div>               
-
+                    <button class="btn btn-primary" id="id_add_teacher"> 新增晋升老师 </button>
+                </div>                
 
 
 
@@ -52,8 +25,7 @@
             <thead>
                 <tr>
                     <td>老师</td>
-                    <td>当前等级</td>
-                    <td>晋升后等级</td>
+                    <td>等级</td>
                     <td>课耗平均</td>
                     <td>课耗得分</td>
                     <td>试听课数(cc)</td>
@@ -69,7 +41,9 @@
                     <td>教学质量评估分</td>
                     
                     <td>有无退费</td>
-                    <td>总得分</td>
+                    {!!\App\Helper\Utils::th_order_gen([  
+                        ["总得分","total_score" ],
+                       ])  !!}
                     <td>晋升情况</td>
                    
                     <td> 操作  </td>
@@ -79,9 +53,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["level_before_str"]}} </td>
-                        <td>{{@$var["level_after_str"]}} </td>
-                        <td>{{@$var["lesson_count"]/100}} </td>
+                        <td>{{@$var["level_str"]}} </td>
+                        <td>{{@$var["lesson_count"]}} </td>
                         <td>{{@$var["lesson_count_score"]}} </td>
                         <td>{{@$var["cc_test_num"]}} </td>
                         <td>{{@$var["cc_order_num"]}} </td>
@@ -124,9 +97,11 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                @if(empty($var["accept_time"]) || $var["teacherid"]==50158 || $var["accept_flag"]==2)
-                                    <a class="opt-accept" >同意</a>
-                                    <a class="opt-no-accept" >驳回</a>
+                                @if(empty($var["require_time"]))
+                                    <a class="opt-advance-require" title="晋升申请">晋升申请</a>
+                                @endif
+                                @if($var["hand_flag"]==1)
+                                    <a class="opt-add-hand" title="手动刷新数据">手动刷新数据</a>
                                 @endif
 
                             </div>

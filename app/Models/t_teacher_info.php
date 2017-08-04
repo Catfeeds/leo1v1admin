@@ -2444,7 +2444,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject){
+    public function get_tea_regular_test_lesson($page_info,$teacherid,$userid,$subject,$tea_list){
         $start_time = time()-30*86400;
         $end_time = time();
         $where_arr = [
@@ -2461,6 +2461,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>=".$start_time,
             "l.lesson_start<".$end_time,
         ];
+        $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_list);
         $sql = $this->gen_sql_new("select t.teacherid,l.userid,s.nick,"
                                   ."t.realname,t.subject,t.grade_part_ex,t.grade_start,t.grade_end,t.not_grade"
                                   ." from %s t left join %s l on t.teacherid = l.teacherid"
@@ -2474,6 +2475,33 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_by_page($sql,$page_info,10,true);
 
     }
+
+    public function get_tea_regular_test_lesson_list($subject){
+        $start_time = time()-30*86400;
+        $end_time = time();
+        $where_arr = [
+            "t.is_quit=0",
+            "t.is_test_user=0",
+            "t.train_through_new=1",
+            ["t.subject=%u",$subject,-1],
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in (0,1,3)",
+            "l.userid>0",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time,
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,count(distinct l.userid) num"
+                                  ." from %s t left join %s l on t.teacherid = l.teacherid"
+                                  ." where %s group by t.teacherid having(num >8 and num >0)",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
 
     public function get_all_tea_phone_location(){

@@ -10,7 +10,7 @@
 
         <ul>
             @foreach ($errors as $error)
-                <li>{{ $error }}</li>
+                <li>{!!  $error !!}  </li>
             @endforeach
         </ul>
     </div>

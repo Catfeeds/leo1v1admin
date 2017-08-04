@@ -159,6 +159,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             return $item["admin_revisiterid"];
         });
     }
+
     public function get_seller_test_lesson_count (
         $start_time,$end_time ,$grade_list , $origin_ex ="", $origin_level=-1 ,$tmk_student_status=-1,$wx_invaild_flag=-1
     ){
@@ -175,25 +176,25 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         //wx
         $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
 
-
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql= $this->gen_sql_new(
-            "select count(test_lesson_subject_id) as test_count,require_adminid"
-            ." from %s  t "
-            ." join %s n on n.userid=t.userid "
+            "select sum(if( tss.success_flag in (0,1) , 1,0 ) ) as test_count,t.require_adminid"
+            ." from %s t "
+            ." join %s tr on t.test_lesson_subject_id=tr.test_lesson_subject_id "
+            ." join %s tss on tss.require_id=tr.require_id "
             ." join %s s on s.userid=t.userid "
+            ." join %s n on n.userid=t.userid "
             ." where %s "
-            ."  group by require_adminid "
+            ."  group by t.require_adminid "
             ,self::DB_TABLE_NAME
-            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
             ,$where_arr
         );
-
         // return $sql;
-        return $this->main_get_list_as_page($sql,function($item){
-            return $item["test_count"];
-        });
+        return $this->main_get_list_as_page($sql);
 
     }
 

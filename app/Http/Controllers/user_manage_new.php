@@ -749,6 +749,7 @@ class user_manage_new extends Controller
             $studentid,$config_courseid,$is_test_user, $show_yueyue_flag, $has_money,
             $check_money_flag,-1,$origin,$from_type,$sys_operator,
             $account_role, -1,-1,-1, $need_receipt, -1, -1, 74 , [], -1, "order_time",  "order_time desc" );
+
         $money_all   = 0;
         $order_count = 0;
         $userid_map  = [];
@@ -790,7 +791,6 @@ class user_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             \App\Helper\Common::set_item_enum_flow_status($item);
-
             $money_all+=$item["price"];
             $order_count++;
         }

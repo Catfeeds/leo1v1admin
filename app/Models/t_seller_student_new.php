@@ -1549,7 +1549,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         //连续3个人处理过了
         $deal_count=$item_arr["call_phone_count"];
         //$deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
-        if ($deal_count >=5  && $item_arr['first_contact_time'] == 0  )  {
+        if ($deal_count >=3  && $item_arr['first_contact_time'] == 0  )  {
             $invalid_flag=true;
         }
         if ( $deal_count >10 ) {
@@ -1576,9 +1576,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $competition_call_time = time(NULL)   -3600*2;
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
-        $where_arr[] =  't.seller_student_status in (1,101,102)';
+        $where_arr[] =  't.seller_student_status in (1,2,101,102)';
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
+        //E\Eseller_student_status
+        if ( $seller_student_status ==2 ) {
+            $where_arr[] =  'n.call_phone_count>1 ';
+        }
 
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);

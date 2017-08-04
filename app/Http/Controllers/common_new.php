@@ -255,6 +255,11 @@ class common_new extends Controller
         if($grade_start==0 || $grade_end==0){
             return $this->output_err("请选择规范的年级!");
         }
+        $accept_adminid = $this->get_zs_accept_adminid($reference);
+        $accept_time=0;
+        if($accept_adminid>0){
+            $accept_time = time();
+        }
 
         $data = [
             "answer_begin_time"            => time(NULL),
@@ -276,6 +281,8 @@ class common_new extends Controller
             "lecture_appointment_origin"   => $lecture_appointment_origin,
             "qq"                           => $qq,
             "full_time"                    => $full_time,
+            "accept_adminid"               => $accept_adminid,
+            "accept_time"                  => $accept_time
         ];
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);

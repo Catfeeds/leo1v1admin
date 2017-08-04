@@ -721,6 +721,7 @@ class menu{
                 ["power_id"=>8, "name"=>"转正考核申请列表-主管",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                 ["power_id"=>9, "name"=>"转正考核申请列表-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>10, "name"=>"全职面试评审",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
+                ["power_id"=>11, "name"=>"全职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[

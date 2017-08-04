@@ -217,7 +217,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
                                   ." contract_type,contract_status,invoice,is_invoice,t1.channel, "
                                   ." contract_starttime,taobao_orderid, t1.default_lesson_count, "
-                                  ." contract_endtime,t1.grade,t1.lesson_total,price,discount_price,discount_reason,"
+                                  ." contract_endtime,t1.grade,t1.lesson_total,t1.price,t1.discount_price,t1.discount_reason,"
                                   ." t2.phone_location,t1.userid,t1.competition_flag,t1.lesson_left ,"
                                   ." t2.address,t2.origin_userid,ti.except_lesson_count,ti.week_lesson_num,"
                                   ." t2.realname as stu_nick,t2.ass_assign_time, t1.subject, t2.nick as stu_self_nick, "
@@ -257,7 +257,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr=[
             "t2.is_test_user=0",
             "contract_type in(0,3)"
-        ];        
+        ];
 
         $this->where_arr_add_time_range($where_arr,"t1.order_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select  t1.orderid,order_time,t1.stu_from_type, is_new_stu,"
@@ -1495,7 +1495,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_month_money_info(){
-        $sql = $this->gen_sql_new("select sum(price)/100 as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
+        $sql = $this->gen_sql_new("select sum(price) as all_money,from_unixtime(order_time,'%%Y-%%m') as order_month,"
                                   ." count(*) as count,sum(lesson_total*default_lesson_count) as order_total "
                                   ." from %s o,%s s "
                                   ." where o.userid=s.userid "
