@@ -2569,7 +2569,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid){
+    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2579,6 +2579,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["t.subject = %u",$subject,-1],
             ["l.teacherid = %u",$teacherid,-1],
         ];
+        if($record_flag==0){
+            $where_arr[] = "tr.id is null";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.id>0";
+        }
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"

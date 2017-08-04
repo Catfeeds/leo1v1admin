@@ -15,7 +15,8 @@ class TTeacherInfoAddCheckList extends Migration
         //
         Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
-            t_field($table->string(""),"");
+            t_field($table->integer("check_subject"),"可审核科目");
+            t_field($table->string("check_grade"),"可审核年级");
         });
     }
 
