@@ -32,24 +32,14 @@ class wx_parent_gift extends Controller
         // dd($openid);
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
-        echo $openid."----";
-        // 57787  orwGAs_IqKFcTuZcU1xwuEtV3Kek
         if($is_parent_flag){
             // header("location: http://admin.yb1v1.com/user_manage/all_users?type=1");
-
             return ;
         }else{
-            dd($openid);
-
-            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index?openid=$openid");
+            header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index&type=1");
             return ;
         }
 
-        // $token    = @$token_info["access_token"];
-
-        // $user_info = $wx->get_user_info_from_token($openid,$token);
-
-        // dd($user_info);
     }
 
 

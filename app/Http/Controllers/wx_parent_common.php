@@ -95,12 +95,12 @@ class wx_parent_common extends Controller
         \App\Helper\Utils::logger("HOST:" . $_SERVER["HTTP_HOST"] );
         \App\Helper\Utils::logger("do_wx_bind: wx_parent_openid: $wx_openid " );
         if (!$wx_openid){
-            return $this->output_err("请重新绑定");
+            return $this->output_err("请重新绑定openid=".$wx_openid);
         }
 
         $phone = session("wx_parent_phone");
         if (!$phone){
-            return $this->output_err("请重新绑定");
+            return $this->output_err("请重新绑定 ph".$phone);
         }
 
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );

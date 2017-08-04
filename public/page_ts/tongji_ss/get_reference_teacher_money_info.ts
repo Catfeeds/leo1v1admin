@@ -21,11 +21,16 @@ $(function(){
                     $.do_ajax("/teacher_money/get_teacher_total_money",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
-                        "start_time"       : "2017-07-01",
-                        "end_time"         : "2017-08-01",
+                        "start_time"       : "2017-06-20",
+                        "end_time"         : "2017-08-03",
                     },function(resp){
-                        console.log(resp.data[0].lesson_price);
-                        var lesson_price = resp.data[0].lesson_price;
+                        console.log(resp.data);
+                        var lesson_price=0;
+                        var a = resp.data;
+                        for(var i = 0;i < a.length; i++) {
+                            console.log(a[i].lesson_price);
+                            lesson_price = lesson_price+a[i].lesson_price;
+                        }
                         var final_price = lesson_price*0.09;
                         $tr.find(".lesson_money").text(lesson_price); 
                         $tr.find(".final_money").text(final_price); 
