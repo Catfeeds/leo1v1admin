@@ -555,6 +555,14 @@ $(function(){
         });
 
     });
+    if (!g_args.open_flag) {
+        $("#id_get_new").hide();
+        $("#id_edit").hide();
+        $("#id_call_phone").hide();
+
+        $("#id_sync_ytx").hide();
+        $("#id_sync_tq").hide();
+    }
 
 
 });

@@ -4199,5 +4199,11 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_list);
     }
 
+    public function teacher_total_list(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
+        $level                    = $this->get_in_int_val("level",-1);
+        $page_num                 = $this->get_in_page_num();
+    }
 
 }

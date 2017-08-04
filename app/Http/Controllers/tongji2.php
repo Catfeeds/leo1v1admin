@@ -767,6 +767,10 @@ class tongji2 extends Controller
         ]);
     }
 
+    public function lesson_after_call_list(){
+        // $this->
+        $this->t_test_lesson_subject_sub_list->get_no_after_call();
+    }
 
     public function first_call_info() {
         list($start_time,$end_time)= $this->get_in_date_range_week(0);
@@ -829,14 +833,14 @@ class tongji2 extends Controller
            }
         $this->set_in_value("adminid",$adminid);
         return $this->ass_month_kpi_tongji();
- 
+
     }
 
     public function ass_month_kpi_tongji(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $account_id    = $this->get_in_int_val('adminid',-1);
-     
+
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
         $month_middle = $start_time+15*86400;
 
@@ -864,15 +868,15 @@ class tongji2 extends Controller
         $last_month  = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month    = $this->t_month_ass_student_info->get_ass_month_info($last_month,-1,1);
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-                              
+
         $new_info = $this->t_student_info->get_ass_new_stu_first_revisit_info($start_time,$end_time);
         $new_revisit=[];
         foreach($new_info as $v){
             @$new_revisit[$v["uid"]]["new_num"]++;
             if($v["revisit_time"]>0){
-                @$new_revisit[$v["uid"]]["first_num"]++; 
+                @$new_revisit[$v["uid"]]["first_num"]++;
             }else{
-                @$new_revisit[$v["uid"]]["un_first_num"]++; 
+                @$new_revisit[$v["uid"]]["un_first_num"]++;
             }
         }
         //dd($new_revisit);
@@ -884,7 +888,7 @@ class tongji2 extends Controller
         $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
         //$kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time,"c.add_time");
         $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
-       
+
 
 
 
@@ -970,7 +974,7 @@ class tongji2 extends Controller
             $obj_list[$k]["order_count"]=$order_item["all_count"];
             $obj_list[$k]["order_money"]= intval($order_item["all_price"]);
         }
-        
+
         $admin_map= $this->t_manager_info->get_create_time_list();
         foreach( $obj_list  as &$item) {
             $adminid=$item["admin_revisiterid"];
