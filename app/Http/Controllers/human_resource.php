@@ -2470,10 +2470,10 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
             ]);
             $keyword2   = "已通过";
-            $check_flag = $this->t_teacher_money_type->check_is_exists($lessonid,0,0);
+            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
                 $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
-                $this->t_teacher_money_type->row_insert([
+                $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
                     "type"       => 5,
                     "add_time"   => time(),
