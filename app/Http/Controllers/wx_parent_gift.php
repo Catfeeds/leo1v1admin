@@ -51,14 +51,15 @@ class wx_parent_gift extends Controller
             //处理列
 
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
-
+            set_time_limit(90); 
+            ini_set("memory_limit", "1024M"); 
             $realPath = $file->getRealPath();
             // dd($realPath);
             $objPHPExcel = $objReader->load($realPath);
             // dd($objPHPExcel);
             $objPHPExcel->setActiveSheetIndex(0);
-            $arr=$objPHPExcel->getActiveSheet();
-            // $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+            // $arr=$objPHPExcel->getActiveSheet();
+            $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
             dd($arr);
 
 
