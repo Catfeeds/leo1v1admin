@@ -76,6 +76,15 @@ class agent extends Controller
     }
 
     public function check(){
+        $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
+        $end_time = $start_time + 24*3600;
+        $lessonid = $this->get_in_int_val('lessonid');
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
+        dd($ret);
+        return $ret;
+
+
+
         $uid = 9753526;
         $phone = '18831058626';
         $ret = $this->t_tq_call_info->get_list_by_phone($uid,$phone);
