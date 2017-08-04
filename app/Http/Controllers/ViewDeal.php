@@ -210,10 +210,11 @@ trait  ViewDeal {
     public function get_js_g_args($g_args){
         $js_values_str= "<script type=\"text/javascript\" >\n";
 
-        foreach( $g_args  as $key => $value)  {
-            $js_values_str.=  "\tg_$key=\"" . addslashes($value)."\";\n";
-        }
         $js_values_str.="\tg_args=".json_encode($g_args ).";\n";
+        foreach( $g_args  as $key => $value)  {
+            $js_values_str.=  "\tg_$key=" . json_encode($value).";\n";
+        }
+
         $js_values_str.= "</script>\n";
         return $js_values_str;
     }

@@ -243,7 +243,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." jw_test_lesson_status,set_lesson_time,tr.green_channel_teacherid,tc.cancel_time,t.textbook,tr.cur_require_adminid,"
             ." tr.grab_status,tr.current_lessonid,tr.is_green_flag,tr.limit_require_flag,tr.limit_require_teacherid , "
             ." tr.limit_require_lesson_start ,tr.limit_require_time,tr.limit_require_adminid ,tr.limit_require_send_adminid,"
-            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time "
+            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time, tea.limit_plan_lesson_reason "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -252,6 +252,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." left join %s l on  tss.lessonid = l.lessonid "
             ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
             ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
             ." where  %s order by %s asc "
             , t_test_lesson_subject_require::DB_TABLE_NAME
             , t_test_lesson_subject::DB_TABLE_NAME
@@ -261,6 +262,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             , t_lesson_info::DB_TABLE_NAME
             , t_course_order::DB_TABLE_NAME
             , t_teacher_cancel_lesson_list::DB_TABLE_NAME
+            , t_teacher_info::DB_TABLE_NAME
             ,$where_arr
             ,$opt_date_str
         );
@@ -269,22 +271,22 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
 
     public function get_plan_list_new(){
-        $sql = 
+        $sql =
             "select"
             ." ss.phone,tr.test_stu_grade grade,t.subject,tr.cur_require_adminid,tr.require_time"
-            ." from  db_weiyi.t_test_lesson_subject_require tr " 
-            ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"  
-            ." left join db_weiyi.t_seller_student_new ss on  t.userid = ss.userid" 
-            ." left join db_weiyi.t_student_info s on  t.userid = s.userid" 
-            ." left join db_weiyi.t_test_lesson_subject_sub_list tss on  tr.current_lessonid = tss.lessonid" 
-            ." left join db_weiyi.t_lesson_info l on  tss.lessonid = l.lessonid"  
-            // ." left join db_weiyi.t_course_order c on  tss.lessonid = c.ass_from_test_lesson_id"  
-            // ." left join db_weiyi.t_teacher_cancel_lesson_list tc on tr.current_lessonid=tc.lessonid"  
-            ." where"  
-            ." s.is_test_user=0" 
-            ." and tr.accept_flag<>2" 
+            ." from  db_weiyi.t_test_lesson_subject_require tr "
+            ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"
+            ." left join db_weiyi.t_seller_student_new ss on  t.userid = ss.userid"
+            ." left join db_weiyi.t_student_info s on  t.userid = s.userid"
+            ." left join db_weiyi.t_test_lesson_subject_sub_list tss on  tr.current_lessonid = tss.lessonid"
+            ." left join db_weiyi.t_lesson_info l on  tss.lessonid = l.lessonid"
+            // ." left join db_weiyi.t_course_order c on  tss.lessonid = c.ass_from_test_lesson_id"
+            // ." left join db_weiyi.t_teacher_cancel_lesson_list tc on tr.current_lessonid=tc.lessonid"
+            ." where"
+            ." s.is_test_user=0"
+            ." and tr.accept_flag<>2"
             ." and lesson_start>=1483200000"
-            ." and lesson_end<1501516800" 
+            ." and lesson_end<1501516800"
             ." order by lesson_start asc"
             ." limit 25001,5000 ";
         return $this->main_get_list($sql);
@@ -2447,5 +2449,63 @@ WHERE s.is_test_user = 0
 ORDER BY require_time ASC";
     dd($sql);
         return $this->main_get_list_by_page($sql,10);
+    }
+
+    public function tongji_test_lesson_order($group_by_field,$start_time, $end_time, $cur_require_adminid ,$origin_ex , $teacherid ) {
+        $where_arr=[
+            "s.is_test_user=0"
+            ," l.teacherid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+        if ($group_by_field =="origin" ) {
+            $group_by_field="s.origin";
+        }
+
+        $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$cur_require_adminid);
+        $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
+        $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $sql=$this->gen_sql_new(
+            "select $group_by_field as field_name, count(*) as test_lesson_count , sum(o.price>0) as order_count ,"
+            . " sum(o.price )  as order_money " .
+            " from  db_weiyi.t_test_lesson_subject_require tr ".
+            " left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
+            " left join db_weiyi.t_student_info s on  t.userid = s.userid ".
+            " left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid ".
+            " left join db_weiyi.t_order_info o on  (l.lessonid = o.from_test_lesson_id and o.contract_status>0 ) ".
+            "  where %s group by $group_by_field ",
+            $where_arr);
+        return $this->main_get_list_as_page($sql);
+    }
+    public function test_lesson_order_detail_list($page_info, $start_time, $end_time, $cur_require_adminid ,$origin_ex , $teacherid ) {
+
+
+        $where_arr=[
+            "s.is_test_user=0"
+            ," l.teacherid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+
+        $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$cur_require_adminid);
+        $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
+        $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $sql=$this->gen_sql_new(
+            "select m.account , s.phone,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
+            . "  from_unixtime( l.lesson_start) lesson_time ,   o.price/100 as price ,  s.origin_userid, s.origin,"
+            . " s.userid, l.teacherid" .
+            " from  db_weiyi.t_test_lesson_subject_require tr ".
+
+            " left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
+            " left join db_weiyi.t_student_info s on  t.userid = s.userid ".
+            " left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid ".
+            " left join db_weiyi.t_order_info o on  (l.lessonid = o.from_test_lesson_id and o.contract_status>0 ) ".
+            " left join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid".
+            " left join db_weiyi_admin.t_manager_info m on m.uid=tr.cur_require_adminid".
+            "  where %s ",
+            $where_arr);
+        return $this->main_get_list_by_page($sql,$page_info);
     }
 }

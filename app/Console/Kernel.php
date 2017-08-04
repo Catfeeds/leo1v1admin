@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         Commands\tt::class,
         Commands\jhp::class,
         Commands\lesson_check::class,
+        Commands\fulltime_teacher_interview_info::class,
         Commands\seller_new_count_day_gen::class,
         Commands\zs_lecture_info_day::class,        
         Commands\update_ass_warning_list::class,        

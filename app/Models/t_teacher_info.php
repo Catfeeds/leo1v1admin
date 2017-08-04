@@ -1541,7 +1541,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "r.add_time >0 ";
         }
 
-        $sql=$this->gen_sql_new("select t.grade_part_ex,t.second_subject,realname,t.teacherid,assign_jw_adminid,t.subject,m.account,assign_jw_time,train_through_new_time,identity,t.phone,r.record_info,r.add_time,r.acc,r.class_will_type,r.class_will_sub_type,r.recover_class_time,l.lesson_start,l.subject l_subject,t.grade_start,t.grade_end  "
+        $sql=$this->gen_sql_new("select t.grade_part_ex,t.second_subject,realname,t.teacherid,assign_jw_adminid,t.subject,m.account,assign_jw_time,train_through_new_time,identity,t.phone,r.record_info,r.add_time,r.acc,r.class_will_type,r.class_will_sub_type,r.recover_class_time,l.lesson_start,l.subject l_subject,t.grade_start,t.grade_end,t.teacher_textbook  "
                                 ." from %s t left join %s m on t.assign_jw_adminid=m.uid "
                                 ." left join %s r on (r.type=5 and t.teacherid = r.teacherid and r.add_time = (select max(add_time) from %s where teacherid = t.teacherid and type=5))"
                                 ." left join %s l on (l.teacherid = t.teacherid and l.confirm_flag <>2 and l.lesson_type=2 and l.lesson_del_flag=0 and l.lesson_start=(select min(lesson_start) from %s ll join %s tss on ll.lessonid = tss.lessonid where ll.teacherid =t.teacherid and ll.lesson_del_flag=0 and ll.confirm_flag <>2 and tss.set_lesson_time > t.train_through_new_time and tss.set_lesson_time < (t.train_through_new_time+9*86400) and tss.success_flag <>2))"

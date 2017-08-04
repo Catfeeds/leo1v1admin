@@ -661,8 +661,6 @@ $(function(){
         var id_grade_confirm        = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"grade\"></div>");
         var id_textbook_confirm     = $("<div class=\"check_flag\"><input type=\"checkbox\" id=\"textbook\"></div>");
 
-
-
         Enum_map.append_option_list( "set_boolean",  $operation_satisfy_flag,true);
         Enum_map.append_option_list( "set_boolean",  $school_work_change_flag,true);
         Enum_map.append_option_list( "child_class_performance_type",  $child_class_performance_type,true);
@@ -674,7 +672,7 @@ $(function(){
         Enum_map.append_option_list( "tea_content_satisfy_flag", $tea_content_satisfy_flag,true);
         Enum_map.append_option_list("revisit_type",id_return_record_type,true,[0,3,4,5,6]);
         Enum_map.append_option_list("revisit_person",id_return_record_person,true,[0,1,2,3]);
-        Enum_map.append_option_list("revisit_origin",id_revisit_path,true);
+        Enum_map.append_option_list("revisit_path",id_revisit_path,true);
 
         id_recover_time.datetimepicker({
             datepicker:true,
@@ -686,7 +684,6 @@ $(function(){
             }
 
         });
-
 
         var arr = [
             [ "回访类型",  id_return_record_type] ,
@@ -896,7 +893,7 @@ $(function(){
         });
 
 
-        $.show_key_value_table("修改", arr ,{
+        $.show_key_value_table("回访记录-new", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
@@ -1005,7 +1002,7 @@ $(function(){
                     "id_parent_guidance_except": id_parent_guidance_except.val(),
                     "id_other_subject_info"  : id_other_subject_info.val(),
                     "id_tutorial_subject_info" : id_tutorial_subject_info.val(),
-                    "id_recover_time"       : id_recover_time.val(),
+                    "id_recover_time"        : id_recover_time.val(),
                     "id_revisit_path"        : id_revisit_path.val(),
                     "id_recent_learn_info"   : id_recent_learn_info.val(),
                 });

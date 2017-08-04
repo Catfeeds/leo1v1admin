@@ -47,6 +47,9 @@ class testbb extends Controller
 
 
     public function test () {
+        $d = strtotime(date("Y-m-d",strtotime('+1 day')));
+        dd($d);
+
         $market_activity_type = -1;
         $parentid = '';
         if(!$parentid && ($market_activity_type<0)) {

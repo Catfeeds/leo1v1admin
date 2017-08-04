@@ -16,11 +16,13 @@
 
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3">
+            <div class="col-xs-6 col-md-1">
                 <div class="input-group ">
                     <button id="id_query" class="btn btn-primary"  > 查询 </button>
                 </div>
             </div>
+
+
         </div>
 
         <div class="row">

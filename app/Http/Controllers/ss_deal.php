@@ -876,9 +876,10 @@ class ss_deal extends Controller
         $require_adminid = $this->get_in_int_val('require_adminid');
         $grade = $this->get_in_int_val('grade');
         $subject = $this->get_in_int_val('subject');
-        $account_role = $this->get_in_int_val('account_role');
         $is_green_flag = $this->get_in_int_val('is_green_flag');
         $limit_require_reason  = $this->get_in_str_val('limit_require_reason');
+
+        $account_role = $this->t_manager_info->get_account_role($require_adminid ) ;
 
         //每月特殊申请基本量
         if($account_role==2 && $is_green_flag==1){

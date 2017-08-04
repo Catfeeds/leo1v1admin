@@ -216,7 +216,7 @@ class menu{
                     ["power_id"=>5, "name"=>"研发部花名册","url"=>"/user_manage_new/department_memeber_list_development"],
                     ["power_id"=>6, "name"=>"财务部花名册","url"=>"/user_manage_new/department_memeber_list_finance"],
                     ["power_id"=>7, "name"=>"人事部花名册","url"=>"/user_manage_new/department_memeber_list_human"],
- 
+
                 ]],
 
                 ["power_id"=>32, "name"=>"考勤机器",   "url"=>"/admin_manage/kaoqin_machine"],
@@ -387,6 +387,14 @@ class menu{
 
                     ["power_id"=>12, "name"=>"例子销售拨打数",
                      "url"=>"/tongji_ex/call_count"],
+
+                    ["power_id"=>13, "name"=>"转化率",
+                     "url"=>"/tongji_ex/test_lesson_order_info"],
+
+
+                    ["power_id"=>14, "name"=>"转化率-明细",
+                     "url"=>"/tongji_ex/test_lesson_order_detail_list"],
+
 
 
                 ]],
@@ -606,7 +614,7 @@ class menu{
                 ["power_id"=>27, "name"=>"销售个人排行榜",   "url"=>"/tongji_ss/get_seller_rank_for_jw"],
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
             ]],
-            
+
             ["power_id"=>33, "name"=>"角色-TMK-组长", "list"=>[
                 ["power_id"=>31, "name"=>"有效例子",   "url"=>"/seller_student_new2/tmk_student_list_all"],
 
@@ -631,7 +639,7 @@ class menu{
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
 
             ]],
-            
+
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
@@ -667,11 +675,11 @@ class menu{
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
                 ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
- 
+
             ]],
 
-           
-           
+
+
 
             ["power_id"=>32, "name"=>"角色-教研",  "list"=>[
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],

@@ -71,7 +71,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
 	}
   	public function get_all_revisit_ex($userid)
 	{
-		$sql = sprintf("select userid, revisit_type, revisit_time , stu_nick, revisit_person, ".
+		$sql = sprintf("select userid, revisit_type, revisit_time ,revisit_path, stu_nick, revisit_person, ".
 			" sys_operator, operator_note, operator_audio from %s where userid = %u order by revisit_time desc limit 10",
                        self::DB_TABLE_NAME , $userid);
         return $this->main_get_list($sql);
@@ -371,4 +371,18 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
   }
 
 
+    public function get_revisit_by_revisit_time_userid($userid,$revisit_time){
+        $where_arr=[
+            ["userid=%u",$userid,-1],
+            ["revisit_time=%u",$revisit_time,-1],
+        ];
+        $sql = $this->gen_sql_new("select *"
+                                  ." from %s  "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

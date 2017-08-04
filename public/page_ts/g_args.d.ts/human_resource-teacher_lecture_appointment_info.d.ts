@@ -16,10 +16,12 @@ interface GargsStatic {
 	subject:	number;
 	have_wx:	number;
 	lecture_revisit_type:	number;
+	lecture_revisit_type_new:	number;
 	full_time:	number;
 	show_full_time:	number;
 	teacher_ref_type:	string;//枚举列表: App\Enums\Eteacher_ref_type
  	tea_adminid:	number;
+	fulltime_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -106,10 +108,12 @@ $(function(){
 			subject:	$('#id_subject').val(),
 			have_wx:	$('#id_have_wx').val(),
 			lecture_revisit_type:	$('#id_lecture_revisit_type').val(),
+			lecture_revisit_type_new:	$('#id_lecture_revisit_type_new').val(),
 			full_time:	$('#id_full_time').val(),
 			show_full_time:	$('#id_show_full_time').val(),
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
-			tea_adminid:	$('#id_tea_adminid').val()
+			tea_adminid:	$('#id_tea_adminid').val(),
+			fulltime_flag:	$('#id_fulltime_flag').val()
         });
     }
 
@@ -134,11 +138,13 @@ $(function(){
 	$('#id_subject').val(g_args.subject);
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
+	$('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
 	$('#id_full_time').val(g_args.full_time);
 	$('#id_show_full_time').val(g_args.show_full_time);
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);
 	$.enum_multi_select( $('#id_teacher_ref_type'), 'teacher_ref_type', function(){load_data();} )
 	$('#id_tea_adminid').val(g_args.tea_adminid);
+	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -221,6 +227,13 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">lecture_revisit_type_new</span>
+                <input class="opt-change form-control" id="id_lecture_revisit_type_new" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">full_time</span>
                 <input class="opt-change form-control" id="id_full_time" />
             </div>
@@ -244,6 +257,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">tea_adminid</span>
                 <input class="opt-change form-control" id="id_tea_adminid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_flag</span>
+                <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
 */

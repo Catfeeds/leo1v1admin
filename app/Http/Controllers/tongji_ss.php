@@ -6885,7 +6885,16 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $item["train_through_new_time_str"]="无";
             }
-            E\Esubject::set_item_value_str($item);
+            // E\Esubject::set_item_value_str($item);
+            E\Eidentity::set_item_value_str($item,"teacher_type");
+         
+           
+            if($item['grade_start']>0){
+                $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
+                                      ."-".E\Egrade_range::get_desc($item['grade_end']);
+                $item['subject_ex']   = E\Esubject::get_desc($item['subject_ex']);
+            }
+
         }
         return $this->pageView(__METHOD__,$ret_info);
 
