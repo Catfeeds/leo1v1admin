@@ -78,11 +78,10 @@ class agent extends Controller
     public function check(){
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-        dd($adminid,$lesson_call_end);
         $userid = $lesson_call_end['userid'];
-        if($userid){
-            header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
-        }
+        // if($userid){
+        header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
+        // }
 
 
         $phone = '13705759995';

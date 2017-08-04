@@ -2621,7 +2621,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,$where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_fulltime_teacher_interview_info($start_time,$end_time){
