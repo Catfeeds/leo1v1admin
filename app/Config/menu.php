@@ -364,6 +364,7 @@ class menu{
                     ["power_id"=>24, "name"=>"周排课量回访统计",   "url"=>"/tongji2/seller_week_lesson_call" ],
                     ["power_id"=>26, "name"=>"周排课量回访统计-主管",   "url"=>"/tongji2/seller_week_lesson_call_master" ],
                     ["power_id"=>25, "name"=>"周排课量回访列表",   "url"=>"/tongji2/lesson_call_list" ],
+                    ["power_id"=>27, "name"=>"试听课后2小时未回访列表",   "url"=>"/tongji2/lesson_end_call_list" ],
                     ["power_id"=>6, "name"=>"首次回访例子数-小时",
                      "url"=>"/tongji/first_revisite_time_list"],
 
