@@ -823,4 +823,14 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list_as_page($sql);
     }
 
+    public function get_all_full_time_num($start_time,$end_time){
+        $where_arr = [
+            ["answer_begin_time>%u",$start_time,0],
+            ["answer_begin_time<%u",$end_time,0],
+            "full_time=1"
+        ];
+        $sql = $this->gen_sql_new("select count(*) from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }

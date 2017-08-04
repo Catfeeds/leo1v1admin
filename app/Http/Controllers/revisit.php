@@ -52,11 +52,11 @@ class revisit extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time");
             $item['revisit_type']  = E\Erevisit_type::get_desc($item['revisit_type']);
             if(isset($item['revisit_path'])){
-                 $item['revisit_path']  = E\Erevisit_origin::get_desc($item['revisit_path']);
+                $item['revisit_path']  = E\Erevisit_path::get_desc($item['revisit_path']);   
+            }else{
+                $item['revisit_path'] = "未设置";
             }
-           
         }
-
         $revisit_num = count($ret_db);
         array_unshift($ret_db,[
             "revisit_type"  => "TMK 备注",
@@ -263,12 +263,11 @@ class revisit extends Controller
             return $this->output_err("undefined");
         }
         $ret_info = $this->t_revisit_info->get_revisit_by_revisit_time_userid($userid,$revisit_time);
-        //dd($ret_info);
         foreach($ret_info as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"recover_time");
             $item['revisit_type']  = E\Erevisit_type::get_desc($item['revisit_type']);
-            $item['revisit_path']  = E\Erevisit_origin::get_desc($item['revisit_path']);
+            $item['revisit_path']  = E\Erevisit_path::get_desc($item['revisit_path']);
             E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
             E\Eset_boolean::set_item_value_str($item,"school_work_change_flag");
             E\Etea_content_satisfy_flag::set_item_value_str($item,"tea_content_satisfy_flag");
