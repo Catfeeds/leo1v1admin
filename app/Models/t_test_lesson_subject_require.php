@@ -2457,6 +2457,8 @@ ORDER BY require_time ASC";
             ," l.teacherid>0"
         ];
 
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
         if ($group_by_field =="origin" ) {
             $group_by_field="s.origin";
         }
