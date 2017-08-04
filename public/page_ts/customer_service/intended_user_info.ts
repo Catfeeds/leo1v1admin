@@ -89,8 +89,6 @@ $(function(){
                     'free_subject'   : free_subject.val(),
                     'region_version' : region_version.val(),
                     'notes'          : notes.val(),
-                },function(result){
-                    alert(result['error']);
                 });
             }
         },function(){

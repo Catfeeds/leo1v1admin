@@ -896,7 +896,7 @@ $(function(){
         });
 
 
-        $.show_key_value_table("修改", arr ,{
+        $.show_key_value_table("回访记录-new", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
@@ -1005,7 +1005,7 @@ $(function(){
                     "id_parent_guidance_except": id_parent_guidance_except.val(),
                     "id_other_subject_info"  : id_other_subject_info.val(),
                     "id_tutorial_subject_info" : id_tutorial_subject_info.val(),
-                    "id_recover_time"       : id_recover_time.val(),
+                    "id_recover_time"        : id_recover_time.val(),
                     "id_revisit_path"        : id_revisit_path.val(),
                     "id_recent_learn_info"   : id_recent_learn_info.val(),
                 });
