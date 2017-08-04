@@ -90,6 +90,14 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >电话回访状态</span>
+                        <select id="id_lecture_revisit_type_new" class ="opt-change" >
+                        </select>
+                    </div>
+                </div>
+
 
 
                 <!--  <div class="col-xs-6 col-md-2">
@@ -223,6 +231,7 @@
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 @if($show_full_time==1)
+                                    <a class="opt-set-lecture-revisit-type-new " title="设置邀约状态" >回访状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
                                 @else
                                     <a class="fa-edit opt-edit" title="编辑状态"></a>
