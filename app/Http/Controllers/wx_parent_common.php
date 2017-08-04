@@ -104,7 +104,8 @@ class wx_parent_common extends Controller
         }
 
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
-        if(!$parentid) {
+        $market_activity_type = session("market_activity_type");
+        if(!$parentid && ($market_activity_type<0)) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
