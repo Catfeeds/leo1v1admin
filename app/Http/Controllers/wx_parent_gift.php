@@ -32,6 +32,7 @@ class wx_parent_gift extends Controller
         // dd($openid);
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
 
+        echo $openid."----";
         // 57787  orwGAs_IqKFcTuZcU1xwuEtV3Kek
         if($is_parent_flag){
             // header("location: http://admin.yb1v1.com/user_manage/all_users?type=1");
