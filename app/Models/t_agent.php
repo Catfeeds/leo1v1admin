@@ -107,25 +107,27 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function add_agent_row($parentid,$phone,$userid){
+    public function add_agent_row($parentid,$phone,$userid,$type){
         $ret = $this->row_insert([
-            "parentid" => $parentid,
-            "phone"    => $phone,
-            "userid"    => $userid,
+            "parentid"    => $parentid,
+            "phone"       => $phone,
+            "userid"      => $userid,
+            "type"        => $type,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         return $ret;
     }
 
-    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid){
+    public function add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid){
         $ret = $this->row_insert([
             "parentid"    => 0,
             "phone"       => $phone,
             "wx_openid"   => $wx_openid,
+            "userid"      => $userid,
             "headimgurl"  => $headimgurl,
             "nickname"    => $nickname,
             "create_time" => time(null),
-        ],true);
+        ],false,false,true);
         if($ret){
             $ret = $this->get_last_insertid();
         }
@@ -310,6 +312,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
+            's.is_test_user = 0',
         ];
 
         $sql= $this->gen_sql_new(

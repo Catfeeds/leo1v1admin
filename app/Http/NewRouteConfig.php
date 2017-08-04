@@ -22,6 +22,7 @@ class NewRouteConfig {
 
     //配置整个模块都使用 新的路由
     static public $ctl_map = [
+        "wx_parent_gift"       => true,
         "lesson_info"       => true,
         "yxyx_wx_server"       => true,
         "wx_yxyx_common"       => true,
@@ -115,6 +116,7 @@ class NewRouteConfig {
         "/supervisor/add_error_info"           => true,
         "/login/teacher"           => true,
 
+        "/common/add_trial_train_lesson_by_admin"           => true,
         "/common/get_teacher_hornor_list"           => true,
         "/common/upload_qiniu"           => true,
         "/common/get_bucket_info" =>true,
@@ -380,6 +382,7 @@ class NewRouteConfig {
         "/news_info/push_news_info"          => true,
 
         "/human_resource/origin_list" => true,
+        "/human_resource/teacher_total_list" => true,
         "/human_resource/zs_origin_list" => true,
         "/human_resource/set_trial_train_lesson" => true,
         "/human_resource/change_teacher_to_new" => true,

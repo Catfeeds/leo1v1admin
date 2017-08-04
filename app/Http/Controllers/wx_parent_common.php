@@ -57,6 +57,8 @@ class wx_parent_common extends Controller
     public function wx_send_phone_code () {
 
         $phone = trim($this->get_in_str_val('phone'));
+        $market_activity_type  = $this->get_in_int_val('type',-1); // 区分是否是市场的活动
+
         if (session("")) {
         }
 
@@ -65,7 +67,8 @@ class wx_parent_common extends Controller
             return $this->output_err("电话号码出错");
         }
         $parentid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
-        if(!$parentid) {
+
+        if(!$parentid && ($market_activity_type<0)) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
@@ -78,7 +81,8 @@ class wx_parent_common extends Controller
 
         session([
             'wx_parent_code'=>$code,
-            'wx_parent_phone'=>$phone
+            'wx_parent_phone'=>$phone,
+            'market_activity_type' => $market_activity_type
         ]);
 
         return $this->output_succ(["msg_num" =>$msg_num,"code" => $code ]);
@@ -100,7 +104,8 @@ class wx_parent_common extends Controller
         }
 
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
-        if(!$parentid) {
+        $market_activity_type = session("market_activity_type");
+        if(!$parentid && ($market_activity_type<0)) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
@@ -131,6 +136,32 @@ class wx_parent_common extends Controller
         }
 
     }
+
+
+    public function check_parent_info(){
+
+    }
+
+    public function get_user_info_for_market(){
+        /**
+           获取code
+           https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+           define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
+           define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
+
+        ***/
+        $parent_appid = "wx636f1058abca1bc1";
+        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
+
+        $redirect_url = urlencode($url);
+
+        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+
+
+        dd($url);
+    }
+
+
     public function logout() {
         session([
             "parentid" => 0,

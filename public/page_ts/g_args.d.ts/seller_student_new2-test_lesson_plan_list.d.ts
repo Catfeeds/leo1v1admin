@@ -115,6 +115,9 @@ interface RowData {
 	limit_accept_flag	:any;
 	limit_require_reason	:any;
 	limit_accept_time	:any;
+	key1	:any;
+	key2	:any;
+	limit_plan_lesson_reason	:any;
 	id	:any;
 	lesson_time	:any;
 	except_lesson_time	:any;
@@ -148,8 +151,6 @@ interface RowData {
 	limit_require_tea_nick	:any;
 	is_require_change	:any;
 	is_accept_adminid	:any;
-	cur_require_adminid_role	:any;
-	limit_plan_lesson_reason	:any;
 }
 
 /*

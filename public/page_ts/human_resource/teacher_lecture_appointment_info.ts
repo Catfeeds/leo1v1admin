@@ -17,6 +17,7 @@ $(function(){
 			      teacher_ref_type           : $('#id_teacher_ref_type').val(),
 			      interview_type             : $('#id_interview_type').val(),
 			      lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
+			      lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
 			      have_wx                    : $('#id_have_wx').val(),
 			      full_time                  : $('#id_full_time').val(),
         });
@@ -37,7 +38,8 @@ $(function(){
     Enum_map.append_option_list("grade", $('#id_grade'),false,[100,200,300]);
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_have_wx'));
-    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'));
+    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'),false,[0,1,2,3,4]);
+    Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[5,6,7]);
     Enum_map.append_option_list("boolean", $('#id_full_time'));
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status')); 
@@ -64,6 +66,7 @@ $(function(){
 	$('#id_interview_type').val(g_args.interview_type);
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
+	$('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -148,7 +151,7 @@ $(function(){
     $(".opt-set-lecture-revisit-type").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_lecture_revisit_type = $("<select/>");   
-        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true );
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         var arr=[
             ["回访状态", id_lecture_revisit_type],
         ];
@@ -167,6 +170,29 @@ $(function(){
 
 
     });
+    $(".opt-set-lecture-revisit-type-new").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_lecture_revisit_type = $("<select/>");   
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );
+        var arr=[
+            ["回访状态", id_lecture_revisit_type],
+        ];
+        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        $.show_key_value_table("修改状态", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax( '/ss_deal/update_lecture_revisit_type',{
+                    "id" : opt_data.id,
+                    "lecture_revisit_type" : id_lecture_revisit_type.val()
+                });
+            }
+        });
+
+
+
+    });
+
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id       = opt_data.id;
@@ -331,6 +357,81 @@ $(function(){
         });
     });
 
+    $("#id_set_zs_work_status").on("click",function(){
+        $.do_ajax( "/ajax_deal2/get_admin_work_status",{
+            "account_role" :8,
+        },function(resp){            
+            var data = resp.data;
+            var title = "调整工作状态";
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>招师</td><td>状态</td><td>操作</td></tr></table></div>");
+
+           
+            $.each(data,function(i,item){
+                html_node.find("table").append("<tr><td>"+item.account+"</td><td class=\"status_str\">"+item.admin_work_status_str+"</td><td class=\"edit_work_status\" data-uid=\""+item.uid+"\" data-status=\""+item.admin_work_status+"\"><a href=\"javascript:;\">调整</a></td></tr>");
+            });
+            html_node.find(".edit_work_status").on("click",function(){
+                if(g_args.tea_adminid !=967 && g_args.tea_adminid !=448 && g_args.tea_adminid !=349 && g_args.tea_adminid != 72){
+                    alert("没有权限操作!");
+                    return;
+                }
+                var m = $(this);
+                var uid = $(this).data("uid"); 
+                var status = $(this).data("status");
+                var id_status = $("<select><option value=\"0\">休息</option><option value=\"1\">工作</option></select>");
+                id_status.val(status);
+                var arr =[
+                    ["状态",id_status]  
+                ];
+                $.show_key_value_table("修改状态", arr ,{
+                    label    : '确认',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
+                        $.do_ajax( '/ajax_deal2/set_admin_work_status',{
+                            "adminid":uid,
+                            "status":id_status.val()
+                        },function(){                           
+                            var status_str="工作";
+                            if(id_status.val() ==0){
+                                status_str="休息";
+                            }
+                            m.parent().find(".status_str").text(status_str);
+                            dialog.close();
+                        });
+                    }
+                });
+
+                
+            });
+
+           
+            var dlg=BootstrapDialog.show({
+                title:title, 
+                message :  html_node   ,
+                closable: false, 
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                    
+                }
+
+            });                       
+
+            dlg.getModalDialog().css("width","1024px");
+            var close_btn=$('<div class="bootstrap-dialog-close-button" style="display: block;"><button class="close">×</button></div>');
+            dlg.getModalDialog().find(".bootstrap-dialog-header").append( close_btn);
+            close_btn.on("click",function(){
+                dlg.close();
+            } );
+
+        });                           
+ 
+    });
     $(".opt-return-back-new").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var phone = opt_data.phone;

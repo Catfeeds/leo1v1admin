@@ -12,6 +12,7 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
+    alert(111);
 
     $("#id_add_indended_user_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
@@ -94,7 +95,7 @@ $(function(){
         });
     });
 
-
+    alert(222);
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
         BootstrapDialog.confirm("要删除孩子是["+opt_data.child_realname+"]的意向信息吗?",function(val){
@@ -105,6 +106,7 @@ $(function(){
             }
         });
     });
+    alert(333);
 
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
@@ -200,5 +202,6 @@ $(function(){
         },function(){
         });
     }) ;
+    alert(444);
 
 });

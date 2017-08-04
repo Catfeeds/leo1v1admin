@@ -43,6 +43,7 @@ interface RowData {
 	zfb_account	:any;
 	headimgurl	:any;
 	nickname	:any;
+	type	:any;
 }
 
 /*

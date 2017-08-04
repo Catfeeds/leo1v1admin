@@ -4,6 +4,7 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+            account_type:	$('#id_account_type').val(),
             date_type_config:	$('#id_date_type_config').val(),
             date_type:	$('#id_date_type').val(),
             opt_date_type:	$('#id_opt_date_type').val(),
@@ -25,8 +26,11 @@ $(function(){
             load_data();
         }
     });
-    Enum_map.append_option_list( "complaint_state", $("#id_is_complaint_state"));
 
+    Enum_map.append_option_list( "complaint_state", $("#id_is_complaint_state"));
+    Enum_map.append_option_list( "complaint_user_type", $("#id_account_type"));
+
+    $('#id_account_type').val(g_args.account_type);
     $('#id_is_complaint_state').val(g_args.is_complaint_state);
 
 

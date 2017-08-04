@@ -76,6 +76,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $adminid = $this->get_account_id();
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+        dd($lesson_call_end);
+        $phone = '13705759995';
+        // $this->t_student_info->get_row_by_phone($phone);
+
+        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        dd($student_info);
         // $agent_id   = $this->get_agent_id();
         $agent_id   = 42;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);

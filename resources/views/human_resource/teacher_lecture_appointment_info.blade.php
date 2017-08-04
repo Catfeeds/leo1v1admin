@@ -90,6 +90,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >邀约状态</span>
+                        <select id="id_lecture_revisit_type_new" class ="opt-change" >
+                            <option value="-2">已邀约</option>
+                        </select>
+                    </div>
+                </div>
+
 
 
                 <!--  <div class="col-xs-6 col-md-2">
@@ -129,6 +138,12 @@
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>
                     </div>
                 </div>
+                <div class="col-md-2 col-xs-6 "  >
+                    <div>
+                        <button class="btn btn-warning" id="id_set_zs_work_status">设置招师工作状态</button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <hr/>
@@ -157,6 +172,7 @@
                         <td>回访状态</td>
                         <td style="display:none">招师</td>
                     @else
+                        <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
                     <td>操作</td>
@@ -207,6 +223,7 @@
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["account"]}} </td>
                         @else
+                            <td>{{@$var["lecture_revisit_type_new_str"]}}</td>
                             <td>
                                 {{@$var["full_status_str"]}}<br><br>
                                 @if(!empty($var["full_record_info"]) )
@@ -217,6 +234,7 @@
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 @if($show_full_time==1)
+                                    <a class="opt-set-lecture-revisit-type-new " title="设置邀约状态" >回访状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
                                 @else
                                     <a class="fa-edit opt-edit" title="编辑状态"></a>

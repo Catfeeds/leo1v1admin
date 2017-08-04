@@ -92,6 +92,7 @@ class seller_student_new extends Controller
         //dd($wx_invaild_flag);
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
+        $call_phone_count= $this->get_in_int_val("call_phone_count", -1);
         $this->switch_tongji_database();
 
         $this->t_seller_student_new->switch_tongji_database();
@@ -101,7 +102,7 @@ class seller_student_new extends Controller
             $subject,$phone_location,$origin_ex,$has_pad,$sub_assign_adminid_2,
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
-            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid );
+            ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid ,$call_phone_count );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         // dd($ret_info);
 
@@ -239,6 +240,11 @@ class seller_student_new extends Controller
         $notify_lesson_check_start_time=$now - 3600;
 
         foreach ($ret_info["list"] as &$item) {
+            if($item['call_end_time']){
+                $item["call_end_time"] = date('Y-m-d H:i',$item['call_end_time']);
+            }else{
+                $item["call_end_time"] = '';
+            }
             if($item["lesson_start"] > 0){
                 $item["lesson_plan_status"] = "已排课";
             }else{
@@ -533,10 +539,9 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
-
+            $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
-            //$this->t_seller_student_new->get_sell
             $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
 
             if (
@@ -554,7 +559,11 @@ class seller_student_new extends Controller
             if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
                 return $this->output_err("今天的配额,已经用完了");
             }
-
+            //试听成功后的回访记录
+            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            // if(count($lesson_call_end)){
+            //     return $this->output_err("你有试听成功未回访");
+            // }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
@@ -688,7 +697,13 @@ class seller_student_new extends Controller
     }
 
     public function get_new_list(){
+
+        if ($this->get_in_int_val("t_flag")==0) {
+            return $this->error_view(["不再使用,请在  <a href=\"/seller_student_new/deal_new_user\">  抢新学生  </a> 拨打 "]);
+        }
+
         $ret_arr       = $this->get_new_list_data();
+
         $ret_info      = $ret_arr["ret_info"] ;
         $max_day_count = $ret_arr["max_day_count"];
         $cur_count     = $ret_arr["cur_count"] ;
@@ -1099,6 +1114,13 @@ class seller_student_new extends Controller
     public function deal_new_user( ) {
         $adminid = $this->get_account_id();
 
+        //申明 js 变量
+        $this->set_filed_for_js("phone", "","string");
+        $this->set_filed_for_js("open_flag",0);
+
+        $this->set_filed_for_js("userid",0 );
+        $this->set_filed_for_js("test_lesson_subject_id", 0);
+        $this->set_filed_for_js("account_seller_level", 0 );
 
         $count_info=$this->t_seller_new_count->get_now_count_info($adminid);
         $count_info["left_count"] = $count_info["count"]-  $count_info["get_count"];
@@ -1111,8 +1133,60 @@ class seller_student_new extends Controller
                 __METHOD__ , null,
                 ["user_info"=>null, "count_info"=>$count_info ]
             );
-
         }
+
+        $now=time(NULL);
+
+        $cur_hm=date("H",$now)*60+date("i",$now);
+        $cur_week=date("w",$now);
+        if (in_array( $cur_week*1,[6,0] ) ) {
+            $limit_arr=array( [0,11*60] );
+        }else{
+            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
+        }
+        $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
+        $success_flag=true;
+        $time_str_list=[];
+
+        foreach( $limit_arr  as $limit_item) {
+            $limit_start=$limit_item[0];
+            $limit_end=$limit_item[1];
+
+            if ($cur_hm >= $limit_start && $cur_hm < $limit_end  ) { //间隔60分钟
+                $success_flag=false;
+            }
+            $time_str_list[]=sprintf("%02d:%02d~%02d:%02d",
+                                     $limit_start/60, $limit_start%60,
+                                     $limit_end/60, $limit_end%60);
+        }
+        $this->set_filed_for_js("open_flag",$success_flag?1:0);
+
+
+        $errors=[];
+        if(  (
+             true
+            || $this->check_power( E\Epower::V_TEST)
+        )  ){
+            if ( !$success_flag) {
+                $errors=[
+                    "抢新学生,当前关闭!!",
+                    "关闭时间: ".  join(",",$time_str_list) ,
+                    "当前时间:". date("H:i:s"),
+                ];
+
+                return $this->pageView(
+                    __METHOD__ , null,
+                    ["user_info"=>null , "count_info"=>$count_info, "errors" => $errors ]
+                );
+
+            }else{
+                $errors=[];
+            }
+        }else{
+            $success_flag=true;
+        }
+
+        //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
 
 
         $this->set_filed_for_js("userid", $userid);

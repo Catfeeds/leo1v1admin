@@ -255,6 +255,11 @@ class common_new extends Controller
         if($grade_start==0 || $grade_end==0){
             return $this->output_err("请选择规范的年级!");
         }
+        $accept_adminid = $this->get_zs_accept_adminid($reference);
+        $accept_time=0;
+        if($accept_adminid>0){
+            $accept_time = time();
+        }
 
         $data = [
             "answer_begin_time"            => time(NULL),
@@ -276,6 +281,8 @@ class common_new extends Controller
             "lecture_appointment_origin"   => $lecture_appointment_origin,
             "qq"                           => $qq,
             "full_time"                    => $full_time,
+            "accept_adminid"               => $accept_adminid,
+            "accept_time"                  => $accept_time
         ];
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);
@@ -779,6 +786,170 @@ class common_new extends Controller
         $pic_list=$this->t_pic_manage_info->get_pic_info_list($type,$usage_type,1);
 
         return $this->output_succ(['data' => $pic_list['list']]);
+    }
+
+    public function get_stu_lesson_title() {
+        $parentid = $this->get_in_str_val('parentid');
+        // $parentid  = $this->get_wx_parentid();
+        if (!$parentid) {
+            return $this->output_err("请重新绑定");
+        }
+
+        $list = $this->t_lesson_info_b2->get_stu_id_face_left($parentid);
+        if ($list) {
+            $userid = $list['userid'];
+            if ($userid === '') {
+                return $this->output_err("未查到学生信息,请重新绑定您的学生！");
+            }
+            $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
+            $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
+            $list['start'] = date('Y.m.d', $start_time);
+            $list['end']   = date('Y.m.d', time());
+            $list['stu_subject_count'] = count($subject_list);
+            if ( count($subject_list) >= 3 ) {
+                $stu_lesson_title = '全能大王';
+            } else if(count($subject_list) != 0){
+                //0未设定 1语文 2数学 3英语 4化学 5物理 6生物 7政治 8历史 9地理 10科学
+                $total = 0;
+                foreach ($subject_list as $v) {
+                    $total += $v["count"];
+                }
+                foreach ($subject_list as $v) {
+                    if ( ($v["count"]/$total) > 0.75 ) {
+                        switch( $v["subject"] ) {
+                        case 1:
+                            $stu_lesson_title = "语文巧匠";
+                            break;
+                        case 2:
+                            $stu_lesson_title = "数学能手";
+                            break;
+                        case 3:
+                            $stu_lesson_title = "英语达人";
+                            break;
+                        case 4:
+                            $stu_lesson_title = "化学大师";
+                            break;
+                        case 5:
+                            $stu_lesson_title = "物理博士";
+                            break;
+                        case 10:
+                            $stu_lesson_titel = "科学强者";
+                            break;
+                        default:
+                            $stu_lesson_title = '学习勇士';
+                        }
+                    } else {
+                        $stu_lesson_title = "学习勇士";
+                    }
+                }
+            } else {
+                $stu_lesson_title = "学习勇士";
+            }
+            $list['stu_title'] = $stu_lesson_title;
+            $stu_praise = $this->t_lesson_info_b2->get_stu_praise_total($userid);
+            //现在最高的是21849,最低1(以95%为满级（20755），除以5，等分为五个级别,每级加4151)
+            $list['praise'] = $stu_praise;
+            $list['stu_praise_star'] = intval( ceil( $stu_praise/4151 ) <5?ceil( $stu_praise/4151 ):5 ).'星学员';
+            $list['excess_nums'] = str_pad(intval( $list['stu_praise_star']*19),2,'0',STR_PAD_LEFT);
+            $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
+            $subject     = '无';
+            $now_time = time();
+            $list['first_free_lesson_time'] = '无';
+            foreach ($first_info as &$item) {
+                if ($item["lesson_type"] == 2) {
+                    $list['first_free_lesson_time'] = date('Y-m-d', $item['lesson_start']);
+                } else {
+                    $normal_time = ($now_time < $item['lesson_start'])? $now_time:$item['lesson_start'];
+                    E\Esubject::set_item_value_str($item);
+                    $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
+                }
+            }
+            if ( @$normal_time && $normal_time<$now_time ) {
+                $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
+            } else {
+                $list['first_normal_lesson_time'] = '无';
+            }
+            $list['first_subject']            = $subject;
+            $open_lesson = $this->t_lesson_info_b2->get_stu_first_open_lesson($userid);
+            $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '无';
+            $homework_info  = $this->t_lesson_info_b2->get_stu_homework($userid, $start_time);
+            $a = '00';
+            $b = '00';
+            $c = '00';
+            $d = '00';
+            foreach ($homework_info as $v) {
+                $a = ($v['score'] == "A")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$a;
+                $b = ($v['score'] == "B")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$b;
+                $c = ($v['score'] == "C")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$c;
+                $d = ($v['score'] == "未完成")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$d;
+            }
+            $list['A'] = "A级作业{$a}次";
+            $list['B'] = "B级作业{$b}次";
+            $list['C'] = "C级作业{$c}次";
+            $list['D'] = "未完成作业{$d}次";
+            $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
+            if ($homework_finish_info['count']) {
+                $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
+                $list['finish_rate']  = str_pad($rate, 2, '0',STR_PAD_LEFT);
+            } else {
+                $list['finish_rate'] = '00';
+            }
+            if ( $list['finish_rate'] > 50 ) {
+                $list['homework_type'] = 1;
+            } else {
+                $list['homework_type'] = 0;
+            }
+            $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
+            if ($like_teacher) {
+                if($like_teacher['taday'] == 1) {
+                    $like_teacher['lesson_end'] = time();
+                }
+                E\Esubject::set_item_value_str($like_teacher);
+                $lesson_count_num = $like_teacher['teacher_lesson_count']/100;
+                $lesson_days_num  = intval( round(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600)) );
+                $list['teacher_for_stu_lesson']  = str_pad($lesson_count_num, 2, '0',STR_PAD_LEFT);
+                $list['teacher']                 = mb_substr($like_teacher['realname'], 0, 1, 'utf-8');
+                $list['teacher_for_stu_subject'] = $like_teacher['subject_str'];
+                $list['teacher_for_stu_days']    = str_pad($lesson_days_num, 2, '0',STR_PAD_LEFT);
+            } else {
+                $list['teacher_for_stu_lesson']  = '00';
+                $list['teacher']                 = "";
+                $list['teacher_for_stu_subject'] = "";
+                $list['teacher_for_stu_days']    = '00';
+
+            }
+            $star_info = $this->t_lesson_info_b2->get_stu_score_info($userid, $start_time);
+            $list['five_star'] = '00';
+            $list['four_star'] = '00';
+            $list['three_star'] = '00';
+            if ($star_info) {
+                foreach ($star_info as $v) {
+                    $score_num = $v['teacher_score_count'];
+                    if ( count($score_num)<2 ) {
+                        $score_num .= '0';
+                    }
+                    $list['five_star']  = ($v['teacher_score'] == 5)?$score_num:$list['five_star'];
+                    $list['four_star']  = ($v['teacher_score'] == 4)?$score_num:$list['four_star'];
+                    $list['three_star'] = ($v['teacher_score'] == 3)?$score_num:$list['three_star'];
+                }
+            }
+            $lesson_total          = $this->t_lesson_info_b2->get_stu_lesson_time_total($userid);
+            $list['past_lesson']   = str_pad($lesson_total, 3, '0', STR_PAD_LEFT);
+            $list['reduce_gas']    = $lesson_total? number_format($lesson_total * 200/3, 2):'000';
+            $list['add_greenland'] = $lesson_total? number_format($lesson_total * 0.63/3, 2):'00';
+            $list['add_sky']       = $lesson_total? number_format($lesson_total * 0.92/3, 2):'00';
+            $list['lesson_count_left'] = str_pad($list['lesson_count_left']/100,2,'0',STR_PAD_LEFT);
+            if ($list['lesson_count_left'] > 100) {
+                $list['last_title'] = '“理优1对1永远和你在一起”';
+            } else if ( $list['first_normal_lesson_time'] !== '无' ) {
+                $list['last_title'] = '“理优1对1十分想念你”';
+            } else {
+                $list['last_title'] = '“理优1对1期待你的加入”';
+            }
+            return $this->output_succ(["list"=>$list]);
+        } else {
+            return $this->output_err("请重新绑定您的学生！");
+        }
     }
 
 }

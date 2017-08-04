@@ -153,6 +153,7 @@
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!} >
                                 <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new" title="回访列表" ></a>
+                                <a class="opt-teacher-info" title="老师信息" ></a>
 
                             </div>
                         </td>

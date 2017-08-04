@@ -379,7 +379,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $sql=$this->gen_sql_new(
-            "select   tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
+            "select   tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
             ."  left join %s s on ss.userid=s.userid   "
@@ -497,7 +497,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1, $call_phone_count=-1
     ) {
 
 
@@ -532,6 +532,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level );
             $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
             $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
+            $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -1542,12 +1543,13 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_phone_count");
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
-        $deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
-        if ($deal_count >=7  && $item_arr['first_contact_time'] == 0  )  {
+        $deal_count=$item_arr["call_phone_count"];
+        //$deal_count=$this->t_test_subject_free_list->get_call_count( $userid,$add_time);
+        if ($deal_count >=3  && $item_arr['first_contact_time'] == 0  )  {
             $invalid_flag=true;
         }
         if ( $deal_count >10 ) {
@@ -1571,12 +1573,16 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_tmk_list( $start_time, $end_time, $seller_student_status, $page_num,$global_tq_called_flag,$grade, $subject ){
 
         $where_arr=[];
-        $competition_call_time = time(NULL)   -3600*2; 
+        $competition_call_time = time(NULL)   -3600*2;
         //$where_arr[] =  "f.adminid is null";
         $where_arr[] =  ['t.seller_student_status=%d', $seller_student_status,-1];
-        $where_arr[] =  't.seller_student_status in (1,101,102)';
+        $where_arr[] =  't.seller_student_status in (1,2,101,102)';
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
+        //E\Eseller_student_status
+        if ( $seller_student_status ==2 ) {
+            $where_arr[] =  'n.call_phone_count>1 ';
+        }
 
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
@@ -1773,6 +1779,41 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     }
 
+    function get_call_info( $start_time, $end_time, $sys_invaild_flag  ) {
+        $where_arr=[
+            "lesson_count_all=0 "
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
+        $this->where_arr_add_boolean_for_value($where_arr,"sys_invaild_flag",$sys_invaild_flag);
+
+        $sql= $this->gen_sql_new(
+            " select  call_phone_count as call_count ,count(*) as user_count  "
+            . " from %s n "
+            ." left join  %s s on s.userid=n.userid "
+            ." where %s "
+            . " group by call_phone_count order by call_phone_count ",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        /*
+        $sql= $this->gen_sql_new(
+            "select call_count , count(*) user_count  from ".
+            "  (  select count(*) as call_count  "
+            . " from %s n "
+            ." left join  %s s on s.userid=n.userid "
+            ." left join  %s tc on n.phone=tc.phone "
+            ." where %s"
+            . " group by n.userid )  t group by call_count order by call_count",
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_tq_call_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        */
+        return $this->main_get_list_as_page($sql);
+    }
 
 
 

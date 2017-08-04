@@ -115,7 +115,12 @@ class wx_yxyx_common extends Controller
             if(isset($agent_info['id'])){
                 $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
             }else{
-                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid);
+                $userid = null;
+                $userid_new = $this->t_student_info->get_row_by_phone($phone);
+                if($userid_new['userid']){
+                    $userid = $userid_new['userid'];
+                }
+                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
@@ -148,11 +153,16 @@ class wx_yxyx_common extends Controller
     public function agent_add(){
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
-        if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        $type   = $this->get_in_int_val('type');
+        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
+        if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
         if($p_phone == $phone){
             return $this->output_err("不能邀请自己!");
+        }
+        if(!$type){
+            return $this->output_err("请选择报名类型!");
         }
         $phone_str = implode(',',[$phone,$p_phone]);
         $ret_list = $this->t_agent->get_id_by_phone($phone_str);
@@ -167,8 +177,12 @@ class wx_yxyx_common extends Controller
         if(!isset($parentid)){
             $parentid = 0;
         }
-        $userid = $this->t_student_info->get_userid_by_phone($phone);
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid);
+        $userid = null;
+        $userid_new = $this->t_student_info->get_row_by_phone($phone);
+        if($userid_new['userid']){
+            $userid = $userid_new['userid'];
+        }
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
             return $this->output_succ("邀请成功!");
         }else{

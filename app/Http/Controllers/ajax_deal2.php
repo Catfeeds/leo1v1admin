@@ -553,4 +553,22 @@ class ajax_deal2 extends Controller
         $ret = $this->t_cs_proposal_info->field_update_list($id,$data);
         return $this->output_succ();
     }
+
+    public function get_admin_work_status(){
+        $account_role = $this->get_in_int_val("account_role",-1);
+        $list = $this->t_manager_info->get_admin_work_status_info($account_role);
+        foreach($list as &$val){
+            $val["admin_work_status_str"]=$val["admin_work_status"]==1?"工作":"休息";
+        }
+        return $this->output_succ(["data"=>$list]);
+    }
+    public function set_admin_work_status(){
+        $status = $this->get_in_int_val("status");
+        $adminid = $this->get_in_int_val("adminid");
+        $this->t_manager_info->field_update_list($adminid,[
+            "admin_work_status" =>$status
+        ]);
+        return $this->output_succ();
+    }
+
 }

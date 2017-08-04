@@ -6,6 +6,7 @@ function load_data(){
         order_by_str                   : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
+			  call_phone_count:	$('#id_call_phone_count').val(),
         seller_level:	$('#id_seller_level').val(),
         publish_flag:	$('#id_publish_flag').val(),
         sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
@@ -111,6 +112,7 @@ $(function(){
     //wx
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
     $('#id_filter_flag').val(g_args.filter_flag);
+	  $('#id_call_phone_count').val(g_args.call_phone_count);
 
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {

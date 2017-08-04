@@ -813,7 +813,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function train_lecture_lesson(
-        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1
+        $page_num,$start_time,$end_time,$lesson_status,$teacherid,$subject,$grade,$check_status,$train_teacherid,$lessonid=-1,$res_teacherid=-1,$have_wx=-1,$lecture_status=-1,$opt_date_str=-1,$train_email_flag=-1,$full_time=-1
     ){
         $where_arr = [
             ["l.lesson_status=%u",$lesson_status,-1],
@@ -823,6 +823,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid=%u",$res_teacherid,-1],
             ["tl.userid=%u",$train_teacherid,-1],
             ["l.train_email_flag=%u",$train_email_flag,-1],
+            ["ap.full_time=%u",$full_time,-1],
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
             "l.train_type=5",
@@ -2427,7 +2428,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
@@ -2459,7 +2460,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
@@ -2493,7 +2494,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(" select t.nick as teacher_nick, s.nick as stu_nick, l.lessonid, l.userid, l.teacherid, l.grade, l.subject, l.lesson_start, l.lesson_end, tl.require_adminid, tll.success_flag, tll.order_confirm_flag from %s l ".
                                   " left join %s tll on tll.lessonid = l.lessonid ".
                                   " left join %s tls on tls.require_id = tll.require_id ".
-                                  " left join %s tl on tl.test_lesson_subject_id on tls.test_lesson_subject_id".
+                                  " left join %s tl on tl.test_lesson_subject_id = tls.test_lesson_subject_id".
                                   " left join %s s on s.userid = l.userid ".
                                   " left join %s t on t.teacherid = l.teacherid ".
                                   " where %s",
@@ -2544,4 +2545,49 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_update($sql);
     }
+
+    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type =2",
+            "l.lesson_status>0",
+            "t.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid andlesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+
+    }
+
+    public function get_call_end_time_by_adminid($adminid){
+        $where_arr = [
+            [' lsr.cur_require_adminid = %d ',$adminid],
+            ' lss.success_flag = 0 ',
+            ' l.lesson_type = 2 ',
+            ' l.lesson_del_flag = 0 ',
+            ' lss.call_end_time = 0 ',
+        ];
+        $sql = $this->gen_sql_new(
+            " select l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            ." from %s l "
+            ." left join %s lss on lss.lessonid = l.lessonid "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }

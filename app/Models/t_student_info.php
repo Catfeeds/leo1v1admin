@@ -1162,6 +1162,17 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_row_by_phone($phone){
+        $this->where_arr_add_str_field($where_arr,'phone',$phone);
+        $sql = $this->gen_sql_new("select * from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_all_lesson_info()  {
         $sql =$this->gen_sql_new(
             "select sum(lesson_count_all)/100 as  lesson_count_all , sum(lesson_count_left)/100 as lesson_count_left from %s where  is_test_user=0 ",
@@ -2464,6 +2475,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $where_arr = [
             ["type = %u",0],
             ["phone = %s",$phone,-1],
+            "is_test_user = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type,nick,phone "
                                   ."from %s "
@@ -2589,7 +2601,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
-       
         $where_arr=[
           ['o.assistantid=%d', $assistantid, 0],
           'o.lesson_count_left>0',
