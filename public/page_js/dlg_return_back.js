@@ -89,7 +89,7 @@ $(function(){
                         label: '查看全部',
                         cssClass : 'btn-warning',
                         action   : function(dialog) {
-                            $.wopen("/stu_manage/return_record?sid = "+userid);
+                            $.wopen("/stu_manage/return_record?sid="+userid);
                         }
                     },{
                         label  : '返回',
