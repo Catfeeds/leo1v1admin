@@ -2540,6 +2540,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ["t.teacher_money_type=%u",$teacher_money_type,-1],
                 ["t.level=%u",$level,-1],
                 ["t.is_test_user=%u",$is_test_user,-1],
+                "l.lesson_status=2",
+                "l.lesson_del_flag=0",
+                "l.confirm_flag!=2"
             ];
         }
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "

@@ -2609,8 +2609,8 @@ class user_deal extends Controller
        
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
-        $this->t_month_ass_student_info->get_field_update_arr(512,$start_time,1,[
-            "kk_num"  =>15
+        $this->t_month_ass_student_info->get_field_update_arr(541,$start_time,1,[
+            "kk_num"  =>18
         ]);
         dd(111);
 

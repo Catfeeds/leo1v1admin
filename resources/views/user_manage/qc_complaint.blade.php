@@ -1,5 +1,17 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
+
+    <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
+
+
+
 
     <section class="content ">
 
@@ -27,8 +39,13 @@
                     </div>
                 </div>
 
-                <div class="col-xs-6 col-md-2">
+
+                <div class="col-md-1 remove-for-xs col-xs-6 "" >
+                    <div>
+                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
+                    </div>
                 </div>
+
 
 
 
