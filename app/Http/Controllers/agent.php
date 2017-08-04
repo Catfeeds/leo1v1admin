@@ -76,6 +76,10 @@ class agent extends Controller
     }
 
     public function check(){
+        $uid = 378;
+        $phone = '18831058626';
+        $ret = $this->t_tq_call_info->get_list_by_phone($uid,$phone);
+        dd($ret);
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid = $lesson_call_end['userid'];
