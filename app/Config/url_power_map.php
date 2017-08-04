@@ -119,6 +119,7 @@ class url_power_map {
 			'/human_resource/get_question_tongji'	=>1030800,
 			'/human_resource/index_new'	=>1042200,
 			'/human_resource/index'	=>1040100,
+			'/human_resource/teacher_total_list'	=>1042500,
 			'/human_resource/teacher_info_new'	=>1042400,
 			'/human_resource/teacher_assess'	=>1042300,
 			'/human_resource/specialty'	=>1122200,
