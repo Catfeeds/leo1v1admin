@@ -954,7 +954,6 @@ class tongji2 extends Controller
 
         $test_info=$this->t_test_lesson_subject->get_seller_test_lesson_count( $start_time, $end_time, -1, $origin_ex  ,$origin_level,$tmk_student_status );
         $test_tmp = $test_info['list'];
-        // dd($ret_info);
         foreach ($ret_info['list'] as $k=> &$v) {
             foreach ($test_tmp as $val) {
                 if ($val['require_adminid'] === $v['admin_revisiterid']) {
@@ -962,8 +961,7 @@ class tongji2 extends Controller
                 }
             }
         }
-        // dd($ret_info);
-        //order info
+
         $order_info=$this->t_order_info->get_1v1_order_seller_list($start_time,$end_time ,-1,"" , $origin_ex ,$origin_level,$tmk_student_status );
         $obj_list=&$ret_info["list"] ;
         foreach ($order_info["list"] as $order_item) {
