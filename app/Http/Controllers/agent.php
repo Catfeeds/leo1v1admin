@@ -79,16 +79,10 @@ class agent extends Controller
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid = $lesson_call_end['userid'];
-        // if($userid){
-        header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
-        // }
-
-
-        $phone = '13705759995';
-        // $this->t_student_info->get_row_by_phone($phone);
-
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        dd($student_info);
+        if($userid){
+            header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
+        }
+        dd($lesson_call_end);
         // $agent_id   = $this->get_agent_id();
         $agent_id   = 42;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);

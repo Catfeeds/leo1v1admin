@@ -28,8 +28,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         //     $where_arr[] = "rate_score > 50 ";
         // }
 
-        $sql=$this->gen_sql_new ("select * "
-                                 ." from %s where %s "
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,$where_arr
         );
