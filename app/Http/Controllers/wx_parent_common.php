@@ -117,6 +117,8 @@ class wx_parent_common extends Controller
                 "wx_openid" => $wx_openid,
                 "phone"     => $phone
             ]);
+            $passwd = 111111;
+            $parentid = $this->t_parent_info->register($phone, $passwd, $reg_channel , $ip,$nick);
 
             return $this->output_succ(["type"=>$market_activity_type]);
 
