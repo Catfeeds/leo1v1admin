@@ -58,6 +58,7 @@
                     <td>老师</td>
                     <td>科目</td>
                     <td>年级</td>
+                    <td>是否反馈</td>
                     
                     <td> 操作  </td>
                 </tr>
@@ -74,6 +75,7 @@
                                 {{@$var["grade_part_ex_str"]}}
                             @endif
                         </td>
+                        <td>{{@$var["record_flag_str"]}} </td>
 
                         <td>
                             <div

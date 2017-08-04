@@ -206,9 +206,7 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         return $this->main_get_value($sql);
     }
     public function register($phone, $passwd, $reg_channel , $ip,$nick){
-
         $parentid = $this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT);
-        
         if($parentid>0){
             return $parentid;
         }
