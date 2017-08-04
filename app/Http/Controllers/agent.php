@@ -76,7 +76,9 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '13818837473';
+        $phone = '13705759995';
+        // $this->t_student_info->get_row_by_phone($phone);
+
         $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         dd($student_info);
         // $agent_id   = $this->get_agent_id();
