@@ -179,15 +179,13 @@ class wx_yxyx_common extends Controller
         }
         $userid = null;
         $userid_new['userid'] = $this->t_student_info->get_row_by_phone($phone);
+        \App\Helper\Utils::logger('yxyx_userid_new:'.$userid_new['userid']);
         if($userid_new['userid']){
             $userid = $userid_new['userid'];
+            \App\Helper\Utils::logger('yxyx_new:'.$userid);
         }
-        \App\Helper\Utils::logger('yxyx_parentid:'.$parentid);
-        \App\Helper\Utils::logger('yxyx_phone:'.$phone);
         \App\Helper\Utils::logger('yxyx_userid:'.$userid);
-        \App\Helper\Utils::logger('yxyx_type:'.$type);
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
-        \App\Helper\Utils::logger('yxyx_ret:'.$ret);
         if($ret){
             return $this->output_succ("邀请成功!");
         }else{
