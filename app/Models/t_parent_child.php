@@ -109,7 +109,7 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
 
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
 
     }
 
