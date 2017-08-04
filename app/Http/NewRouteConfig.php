@@ -511,6 +511,7 @@ class NewRouteConfig {
         "/revisit/get_revisit_info_new" => true,
         "/revisit/add_revisit_record"   => true,
         "/revisit/add_revisit_record_b2"   => true,
+        "/revisit/get_revisit_info_by_revisit_time"  => true,
 
         "/monitor/smsmonitor"           => true,
 

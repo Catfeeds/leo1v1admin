@@ -108,6 +108,7 @@
                     <td>年级段</td>
                     <td>第一科目</td>
                     <td>第二科目</td>
+                    <td>教材版本</td>
                     <td>分配教务</td>
                     <td>分配时间</td>                   
                     <td>最新回访记录</td>                   
@@ -132,6 +133,7 @@
                         </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["second_subject_str"]}} </td>
+                        <td>{{@$var["textbook"]}}</td>
                         <td>{{@$var["account"]}}</td>
                         <td>{{@$var["assign_jw_time_str"]}}</td>
                         <td>
@@ -153,7 +155,7 @@
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!} >
                                 <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new" title="回访列表" ></a>
-                                <a class="opt-teacher-info" title="老师信息" ></a>
+                                <a class="opt-teacher-info" title="老师信息" >老师信息</a>
 
                             </div>
                         </td>

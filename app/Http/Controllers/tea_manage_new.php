@@ -752,7 +752,6 @@ class tea_manage_new extends Controller
             "train_type"=>5
         ]);
 
-
         $realname = $this->t_teacher_info->get_realname($teacherid);
         $phone = $this->t_teacher_info->get_phone($teacherid);
         $lesson_start_str = date("Y-m-d H:i:s",$lesson_start);
@@ -857,8 +856,6 @@ class tea_manage_new extends Controller
             ]);
         }
 
-
-        \App\Helper\Utils::check_env_is_release();
         return $this->output_succ();
     }
 

@@ -1386,4 +1386,22 @@ class Utils  {
         return $r;
     }
 
+    static public function change_key_value_arr($array){
+        foreach($array as $key => $val){
+            $ret_arr[] = [
+                "cid"  => $key,
+                "name" => $val,
+            ];
+        }
+        return $ret_arr;
+    }
+
+    static public function get_specify_select($array=[]){
+        $map_array = static::$desc_map;
+        if(!empty($array)){
+            $array     = array_flip($array);
+            $map_array = array_intersect_key($map_array,$array);
+        }
+        return $map_array;
+    }
 };

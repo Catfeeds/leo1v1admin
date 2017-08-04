@@ -708,6 +708,7 @@ return array(
     'TTeacherInfoUpdateNotGradeLimit' => $baseDir . '/database/migrations/2017_05_03_095931_t_teacher_info_update_not_grade_limit.php',
     'TTeacherInfoUpdateWeekLessonCount' => $baseDir . '/database/migrations/2017_05_11_142148_t_teacher_info_update_week_lesson_count.php',
     'TTeacherLectureAppointmentInfo' => $baseDir . '/database/migrations/2017_06_14_151355_t_teacher_lecture_appointment_info.php',
+    'TTeacherLectureAppointmentInfoAdd1v1' => $baseDir . '/database/migrations/2017_08_04_104510_t_teacher_lecture_appointment_info_add_1v1.php',
     'TTeacherLectureAppointmentInfoAddFullTime' => $baseDir . '/database/migrations/2017_07_27_164406_t_teacher_lecture_appointment_info_add_full_time.php',
     'TTeacherLectureAppointmentInfoAddGradeRange' => $baseDir . '/database/migrations/2017_04_18_095258_t_teacher_lecture_appointment_info_add_grade_range.php',
     'TTeacherLectureAppointmentInfoAddIndex' => $baseDir . '/database/migrations/2017_07_29_163652_t_teacher_lecture_appointment_info_add_index.php',

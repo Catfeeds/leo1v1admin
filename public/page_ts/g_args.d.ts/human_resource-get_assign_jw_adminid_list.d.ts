@@ -38,11 +38,16 @@ interface RowData {
 	recover_class_time	:any;
 	lesson_start	:any;
 	l_subject	:any;
+	grade_start	:any;
+	grade_end	:any;
+	teacher_textbook	:any;
 	work_day	:any;
 	identity_str	:any;
 	subject_str	:any;
 	l_subject_str	:any;
 	second_subject_str	:any;
+	grade_start_str	:any;
+	grade_end_str	:any;
 	grade_part_ex_str	:any;
 	class_will_type_str	:any;
 	class_will_sub_type_str	:any;
@@ -50,6 +55,7 @@ interface RowData {
 	add_time_str	:any;
 	recover_class_time_str	:any;
 	lesson_start_str	:any;
+	textbook	:any;
 }
 
 /*
