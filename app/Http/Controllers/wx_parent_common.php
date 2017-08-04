@@ -67,8 +67,10 @@ class wx_parent_common extends Controller
             return $this->output_err("电话号码出错");
         }
         $parentid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
+        return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!$market_activity_type - $parentid");
+
         if(!$parentid && ($market_activity_type<0)) {
-            return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
+            return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!$market_activity_type");
         }
 
         $msg_num= \App\Helper\Common::redis_set_json_date_add("WX_P_PHONE_$phone",1000000);

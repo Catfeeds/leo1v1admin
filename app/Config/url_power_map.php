@@ -256,6 +256,7 @@ class url_power_map {
 			'/tongji2/seller_week_lesson_call'	=>1100124,
 			'/tongji2/seller_week_lesson_call_master'	=>1100126,
 			'/tongji2/lesson_call_list'	=>1100125,
+			'/tongji2/lesson_end_call_list'	=>1100127,
 			'/tongji/first_revisite_time_list'	=>1100106,
 			'/tongji2/first_call_info'	=>1100161,
 			'/tongji2/test_lesson_frist_call_time'	=>1100107,
