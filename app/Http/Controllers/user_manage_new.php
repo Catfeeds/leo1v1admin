@@ -2224,6 +2224,7 @@ class user_manage_new extends Controller
         $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
             $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
         );
+        $list = array_merge($list,$reward_list);
 
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);
@@ -2235,6 +2236,9 @@ class user_manage_new extends Controller
         $num              = 1;
 
         foreach($list as &$val){
+            \App\Helper\Utils::check_isset_data($val['lesson_1v1'],0,0);
+            \App\Helper\Utils::check_isset_data($val['lesson_trial'],0,0);
+            \App\Helper\Utils::check_isset_data($val['lesson_total'],0,0);
             if($val['lesson_1v1']>0){
                 $teacher_1v1++;
             }else{
