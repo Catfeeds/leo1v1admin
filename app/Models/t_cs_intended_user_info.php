@@ -13,5 +13,17 @@ class t_cs_intended_user_info extends \App\Models\Zgen\z_t_cs_intended_user_info
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
 	}
+	public function get_intended_info_by_phone($phone){
+        $where_arr = [
+            ["phone='%s'",$phone,""]
+        ];
+        $sql = $this->gen_sql_new("select id"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 }
