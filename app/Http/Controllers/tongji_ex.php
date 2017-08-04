@@ -30,6 +30,16 @@ class tongji_ex extends Controller
         $ret_info=$this->t_seller_student_new->get_call_info( $start_time, $end_time, $sys_invaild_flag  );
         return $this->pageView(__METHOD__,$ret_info);
     }
+    public function test_lesson_order_detail_list() {
+        list($start_time,$end_time)=$this->get_in_date_range_month(0 );
+        $cur_require_adminid= $this->get_in_int_val("cur_require_adminid", -1 );
+        $teacherid= $this->get_in_int_val("teacherid", -1);
+        $origin_ex= $this->get_in_str_val("origin_ex", "");
+        $page_info= $this->get_in_page_info();
+
+        $ret_info=$this->t_test_lesson_subject_require->test_lesson_order_detail_list($page_info,$start_time,$end_time,$cur_require_adminid,$origin_ex,$teacherid);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
 
     public function test_lesson_order_info() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0 );
@@ -40,6 +50,7 @@ class tongji_ex extends Controller
         $group_by_field= $this->get_in_str_val("group_by_field", "cur_require_adminid");
         $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_order($group_by_field,$start_time,$end_time,$cur_require_adminid,$origin_ex,$teacherid);
 
+        $all_item=["title"=> "全部" ];
 
         foreach($ret_info["list"]  as &$item ) {
             $item["percent"] = intval( $item["order_count"]/ $item["test_lesson_count"] *10000)/100;
