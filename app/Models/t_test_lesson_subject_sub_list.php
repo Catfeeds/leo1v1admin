@@ -980,5 +980,22 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list_by_page($sql,$page_info);
     }
 
+    public function get_call_end_time_by_adminid($adminid){
+        $where_arr = [
+            ['lsr.cur_require_adminid = %d ',$adminid],
+            'lss.success_flag = 0',
+            [''],
+        ];
+        $sql = $this->gen_sql_new(
+            " select * "
+            ." from %s lss "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list();
+    }
 
 }

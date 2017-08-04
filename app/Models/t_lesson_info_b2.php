@@ -2566,4 +2566,28 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list_by_page($sql,$page_info,10,true);
 
     }
+
+    public function get_call_end_time_by_adminid($adminid){
+        $where_arr = [
+            [' lsr.cur_require_adminid = %d ',$adminid],
+            ' lss.success_flag = 0 ',
+            ' l.lesson_type = 2 ',
+            ' l.lesson_del_flag = 0 ',
+            ' lss.call_end_time = 0 ',
+        ];
+        $sql = $this->gen_sql_new(
+            " select l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            ." from %s l "
+            ." left join %s lss on lss.lessonid = l.lessonid "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
 }

@@ -363,6 +363,8 @@
                              上课时间: {{$var["lesson_start"]}}
                              <br/>
                              家长确认时间: {{$var["parent_confirm_time"]}}
+                             <br/>
+                             课后回访: {{$var["call_end_time"]}}
 
                              {!! @$var["notify_lesson_flag_str"]!!}
 
