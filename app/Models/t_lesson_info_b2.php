@@ -2547,20 +2547,24 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time){
+    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
             "l.lesson_type =2",
             "l.lesson_status>0",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            ["t.subject = %u",$subject,-1],
+            ["l.teacherid = %u",$teacherid,-1],
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid andlesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );

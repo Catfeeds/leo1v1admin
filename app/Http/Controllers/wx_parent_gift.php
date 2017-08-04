@@ -34,7 +34,7 @@ class wx_parent_gift extends Controller
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         // echo $is_parent_flag; //orwGAs_IqKFcTuZcU1xwuEtV3Kek 271968
         if($is_parent_flag){
-            header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html");
+            header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);
             return ;
         }else{
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index&type=1&openid=$openid");
@@ -98,6 +98,8 @@ class wx_parent_gift extends Controller
         // 获取 每个家长的等级
         $userid = $this->get_in_int_val('userid');
         $parent_lesson_total_lists = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
+
+        dd($parent_lesson_total_lists);
     }
 
 

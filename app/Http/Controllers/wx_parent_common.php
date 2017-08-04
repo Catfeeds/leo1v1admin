@@ -112,6 +112,16 @@ class wx_parent_common extends Controller
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
 
+        if($market_activity_type == 1){
+            $ret = $this->t_parent_info->row_insert([
+                "wx_openid" => $wx_openid,
+                "phone"     => $phone
+            ]);
+
+            return $this->output_succ(["type"=>$market_activity_type]);
+
+        }
+
         $db_parentid = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );
         if ($db_parentid) {
             $this->t_parent_info->field_update_list($db_parentid,[
@@ -124,8 +134,8 @@ class wx_parent_common extends Controller
         ]);
         session(["parentid" => $parentid ]);
 
-        return $this->output_succ(["type"=>1]);
-        // return $this->output_succ(["type"=>$market_activity_type]);
+        // return $this->output_succ(["type"=>1]);
+        return $this->output_succ(["type"=>$market_activity_type]);
 
     }
 
