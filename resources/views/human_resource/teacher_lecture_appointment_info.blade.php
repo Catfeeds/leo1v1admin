@@ -92,8 +92,9 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >电话回访状态</span>
+                        <span >邀约状态</span>
                         <select id="id_lecture_revisit_type_new" class ="opt-change" >
+                            <option value="-2">已邀约</option>
                         </select>
                     </div>
                 </div>
@@ -171,6 +172,7 @@
                         <td>回访状态</td>
                         <td style="display:none">招师</td>
                     @else
+                        <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
                     <td>操作</td>
@@ -221,6 +223,7 @@
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["account"]}} </td>
                         @else
+                            <td>{{@$var["lecture_revisit_type_new_str"]}}</td>
                             <td>
                                 {{@$var["full_status_str"]}}<br><br>
                                 @if(!empty($var["full_record_info"]) )

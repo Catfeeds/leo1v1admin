@@ -1935,6 +1935,11 @@ class human_resource extends Controller
             }else{
                 $item["have_wx_flag"]="否";
             }
+            if($item["lesson_start"]>0){
+                $item["lecture_revisit_type_new_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+            }else{
+                $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
+            }
         }
 
         $account_id = $this->get_account_id();
