@@ -563,7 +563,7 @@ class seller_student_new extends Controller
             // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
             // $userid = $lesson_call_end['userid'];
             // if($userid){
-            //     header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid"); 
+            //     header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
             // }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");

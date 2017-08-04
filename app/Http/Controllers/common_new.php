@@ -789,7 +789,7 @@ class common_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        $parentid = $this->get_in_str_val('parentid');
+        $parentid = $this->get_in_int_val('parentid');
         // $parentid  = $this->get_wx_parentid();
         if (!$parentid) {
             return $this->output_err("请重新绑定");

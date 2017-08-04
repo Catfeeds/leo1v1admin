@@ -130,6 +130,35 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $ret;
     }
 
+    public function get_teacher_reward_list_for_wages($start_time,$end_time,$teacher_ref_type,$teacher_money_type,$level){
+        $where_arr = [
+            ["t.teacher_ref_type=%u",$teacher_ref_type,-1],
+            ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            ["t.level=%u",$level,-1],
+        ];
+        $add_str = [
+            ["add_time>%u",$start_time,0],
+            ["add_time<%u",$end_time,0],
+        ];
+        $lesson_str = [
+            
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid,if(t.realname='',t.nick,t.realname) as tea_nick,t.subject,t.create_time,"
+                                  ." t.teacher_money_type,t.level,t.teacher_money_flag,t.teacher_ref_type,t.test_transfor_per,"
+                                  ." t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type,t.teacher_money_flag,"
+                                  ." t.idcard,t.bank_city,t.bank_province,t.phone"
+                                  ." from %s t"
+                                  ." where %s"
+                                  ." and exists (select 1 from %s where t.teacherid=teacherid and %s)"
+                                  ." and not exists (select 1 from %s where t.teacherid=teacherid and )"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_teacher_money_list::DB_TABLE_NAME
+                                  ,$add_str
 
+        );
+        return $this->main_get_list($sql);
+
+    }
 
 }
