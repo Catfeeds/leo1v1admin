@@ -1058,7 +1058,7 @@ $(function(){
     });
 
 
-    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){        
+    $(".opt-teacher-cancel-class-confirm_test").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var lessonid=opt_data.lessonid;
         var lesson_time = opt_data.lesson_time;
@@ -1369,9 +1369,9 @@ $(function(){
                     "require_adminid":opt_data.cur_require_adminid,
                     "grade":opt_data.grade,
                     "subject":opt_data.subject,
-                    "account_role":opt_data.cur_require_adminid_role,
                     "is_green_flag":opt_data.is_green_flag
                 });
+
             }
         },function(){
             $.admin_select_user( $limit_require_teacherid, "teacher");
