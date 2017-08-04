@@ -44,7 +44,7 @@ class wx_parent_gift extends Controller
 
     public function upload_excel(){
 
-                $file = Input::file('file');
+        $file = Input::file('file');
         if ($file->isValid()) {
             //处理列
             $realPath = $file -> getRealPath();
@@ -67,15 +67,15 @@ class wx_parent_gift extends Controller
 
             }
 
-            foreach($arr as $item){
-                $day = strtotime($item[0]);
-                $this->t_psychological_teacher_time_list->row_insert([
-                    "day"  =>$day,
-                    "start"=>$item[1],
-                    "end"  =>$item[2],
-                    "teacher_phone_list"=>$item[3]
-                ]);
-            }
+            // foreach($arr as $item){
+            //     $day = strtotime($item[0]);
+            //     $this->t_psychological_teacher_time_list->row_insert([
+            //         "day"  =>$day,
+            //         "start"=>$item[1],
+            //         "end"  =>$item[2],
+            //         "teacher_phone_list"=>$item[3]
+            //     ]);
+            // }
 
             // dd($arr);
             //(new common_new()) ->upload_from_xls_data( $realPath);
