@@ -103,6 +103,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type, -1 ];
         }
+        if($lecture_revisit_type_new==-2){
+            $where_arr[] = "ta.lessonid is not null";
+        }else{
+            $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type_new, -1 ];
+        }
+
+        
 
         if($interview_type==0){
             $where_arr[] = "l.status is null and ta.lessonid is null";
