@@ -58,6 +58,7 @@ class wx_parent_gift extends Controller
             // dd($objPHPExcel);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet();
+            // $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
             dd($arr);
 
 
