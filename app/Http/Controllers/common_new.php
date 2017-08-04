@@ -789,8 +789,8 @@ class common_new extends Controller
     }
 
     public function get_stu_lesson_title() {
-        // $parentid = $this->get_in_str_val('parentid');
-        $parentid  = $this->get_wx_parentid();
+        $parentid = $this->get_in_int_val('parentid');
+        // $parentid  = $this->get_wx_parentid();
         if (!$parentid) {
             return $this->output_err("请重新绑定");
         }
@@ -803,7 +803,12 @@ class common_new extends Controller
             }
             $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
             $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
-            $list['start'] = date('Y.m.d', $start_time);
+            if (!$start_time) {
+                $start_time = 11111;
+                $list['start'] = '0000.00.00';
+            } else {
+                $list['start'] = date('Y.m.d', $start_time);
+            }
             $list['end']   = date('Y.m.d', time());
             $list['stu_subject_count'] = count($subject_list);
             if ( count($subject_list) >= 3 ) {

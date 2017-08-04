@@ -808,14 +808,14 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_summer.png";
+        $phone_qr_name = $phone."_qr_summer_8.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
             $qr_url         = "/tmp/".$phone.".png";
-            $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation.png";
+            $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
