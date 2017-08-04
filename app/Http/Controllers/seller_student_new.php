@@ -240,6 +240,11 @@ class seller_student_new extends Controller
         $notify_lesson_check_start_time=$now - 3600;
 
         foreach ($ret_info["list"] as &$item) {
+            if($item['call_end_time']){
+                $item["call_end_time"] = date('Y-m-d H:i',$item['call_end_time']);
+            }else{
+                $item["call_end_time"] = '';
+            }
             if($item["lesson_start"] > 0){
                 $item["lesson_plan_status"] = "已排课";
             }else{
