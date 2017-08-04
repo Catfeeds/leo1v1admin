@@ -76,7 +76,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $uid = 378;
+        $uid = 9753526;
         $phone = '18831058626';
         $ret = $this->t_tq_call_info->get_list_by_phone($uid,$phone);
         dd($ret);
