@@ -197,7 +197,6 @@ class test_sam  extends Controller
             "acc"                   => $acc,
         ]);
         $response = new \Illuminate\Http\Response($ret_str);
-
         return  $response->withCookie(cookie('lesson_type',$lesson_type , 45000))
           ->withCookie(cookie('subject', $subject, 45000));
     }
