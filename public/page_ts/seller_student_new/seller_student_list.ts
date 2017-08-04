@@ -73,6 +73,23 @@ $(function(){
         }
     });
 
+    $(".opt-refresh-call").on("click",function(){
+        var me=this;
+        var opt_data=$(this).get_opt_data();
+        if(opt_data.lessonid){
+            $.do_ajax("/seller_student_new/refresh_call_end",{
+                "lessonid" : opt_data.lessonid,
+            },function(ret){
+                if(ret){
+                    window.location.reload();
+                }else{
+                    alert('刷新回访失败,请重新拨打回访!');
+                }
+            });
+        }else{
+            alert('请先排试听课!');
+        }
+    });
 
 
     $(".opt-match-teacher").on("click",function(){

@@ -59,7 +59,6 @@ class user extends TeaWxController
                 $flag = 0;
                 $time     = @strtotime($item['0']);
                 $time_end = time(NULL)+59*60;
-
                 foreach($tea_lessons_arr as $item_lesson){
                     if($time < $item_lesson["lesson_end"] && $time_end > $item_lesson["lesson_start"]) {
                         $flag = 1;
@@ -85,7 +84,6 @@ class user extends TeaWxController
             return $this->output_succ([
                 'data'=>$ret_info
             ]);
-
         }else{
             return $this->output_succ(['data'=>[]]);
         }

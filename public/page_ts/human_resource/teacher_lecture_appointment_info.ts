@@ -748,4 +748,15 @@ $(function(){
         });
     });
 
+    if ( window.location.pathname=="/human_resource/teacher_lecture_appointment_info_full_time" || window.location.pathname=="/human_resource/teacher_lecture_appointment_info_full_time/") {
+        $("#id_lecture_appointment_status").parent().parent().hide();
+        $("#id_record_status").parent().parent().hide();
+        $("#id_lecture_revisit_type").parent().parent().hide();
+    }else{
+        $("#id_lecture_appointment_status").parent().parent().hide();
+        $("#id_record_status").parent().parent().hide();
+        $("#id_lecture_revisit_type_new").parent().parent().hide();
+    }
+
+
 });

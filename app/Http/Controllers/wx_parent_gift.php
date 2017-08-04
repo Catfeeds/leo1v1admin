@@ -5,7 +5,8 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
-use PHPExcel;
+use Illuminate\Support\Facades\Input;
+
 
 class wx_parent_gift extends Controller
 {
@@ -33,8 +34,8 @@ class wx_parent_gift extends Controller
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
         // echo $is_parent_flag; //orwGAs_IqKFcTuZcU1xwuEtV3Kek 271968
         if($is_parent_flag){
-            // header("location: http://admin.yb1v1.com/user_manage/all_users?type=1");
-            return $is_parent_flag ;
+            header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html");
+            return ;
         }else{
             header("location: http://wx-parent-web.leo1v1.com/binding?goto_url=/index&type=1&openid=$openid");
             return ;
@@ -45,6 +46,7 @@ class wx_parent_gift extends Controller
     public function upload_excel(){
 
         $file = Input::file('file');
+        // dd($file);
         if ($file->isValid()) {
             //处理列
             $realPath = $file -> getRealPath();
@@ -53,19 +55,20 @@ class wx_parent_gift extends Controller
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
-            foreach($arr as $k=>&$val){
-                if(empty($val[0]) || $k==0){
-                    unset($arr[$k]);
-                }
-                // $val[-1] = strlen($val[1]);
-                if(strlen($val[1])==4){
-                    $val[1]="0".$val[1];
-                }
-                if(strlen($val[2])==4){
-                    $val[2]="0".$val[2];
-                }
 
-            }
+            // foreach($arr as $k=>&$val){
+            //     if(empty($val[0]) || $k==0){
+            //         unset($arr[$k]);
+            //     }
+            //     // $val[-1] = strlen($val[1]);
+            //     if(strlen($val[1])==4){
+            //         $val[1]="0".$val[1];
+            //     }
+            //     if(strlen($val[2])==4){
+            //         $val[2]="0".$val[2];
+            //     }
+
+            // }
 
             // foreach($arr as $item){
             //     $day = strtotime($item[0]);
@@ -78,7 +81,7 @@ class wx_parent_gift extends Controller
             // }
 
             // dd($arr);
-            //(new common_new()) ->upload_from_xls_data( $realPath);
+            // (new common_new()) ->upload_from_xls_data( $realPath);
 
             return outputjson_success();
         } else {
@@ -87,6 +90,14 @@ class wx_parent_gift extends Controller
             return outputjson_ret(false);
         }
 
+    }
+
+
+
+    public function do_prize_draw(){
+        // 获取 每个家长的等级
+        $userid = $this->get_in_int_val('userid');
+        $parent_lesson_total_lists = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
     }
 
 

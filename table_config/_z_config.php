@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],
     ["db_weiyi","t_user_login_log","id"],
     ["db_weiyi","t_student_score_info","id"],
