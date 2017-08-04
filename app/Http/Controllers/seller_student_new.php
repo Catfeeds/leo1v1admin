@@ -1130,27 +1130,29 @@ class seller_student_new extends Controller
             );
         }
 
+        $now=time(NULL);
 
-        $cur_hm=date("H")*60+date("i");
-        $cur_week=date("w");
+        $cur_hm=date("H",$now)*60+date("i",$now);
+        $cur_week=date("w",$now);
         if (in_array( $cur_week*1,[6,0] ) ) {
-            $limit_arr=array( 10*60 );
+            $limit_arr=array( [0,11*60] );
         }else{
-            $limit_arr=array( 14*60 );
+            $limit_arr=array( [0, 10*60 ], [14*60, 15*60] );
         }
         $seller_level=$this->t_manager_info->get_seller_level($this->get_account_id() );
         $success_flag=true;
         $time_str_list=[];
 
-        foreach( $limit_arr  as $limit_time ) {
-            $limit_time=$limit_time%1440;
+        foreach( $limit_arr  as $limit_item) {
+            $limit_start=$limit_item[0];
+            $limit_end=$limit_item[1];
 
-            if ($cur_hm >= $limit_time && $cur_hm < $limit_time+60 ) { //间隔60分钟
+            if ($cur_hm >= $limit_start && $cur_hm < $limit_end  ) { //间隔60分钟
                 $success_flag=false;
             }
             $time_str_list[]=sprintf("%02d:%02d~%02d:%02d",
-                                     $limit_time/60, $limit_time%60,
-                                     ($limit_time+60)/60%24, ($limit_time+60)%60);
+                                     $limit_start/60, $limit_start%60,
+                                     $limit_end/60, $limit_end%60);
         }
         $this->set_filed_for_js("open_flag",$success_flag?1:0);
 

@@ -287,12 +287,11 @@ class seller_student_new2 extends Controller
             }
             if($item['accept_adminid'] > 0){
                 $item['is_accept_adminid']="1";
-                $item['accept_account'] = $this->t_manager_info->get_account($item['accept_adminid']);
+                $this->cache_set_item_account_nick($item,"accept_adminid" ,"accept_account" ); //t_manager_info->get_account($item['accept_adminid']);
             }else{
                 $item['is_accept_adminid']="0";
             }
-            $item["cur_require_adminid_role"] = $this->t_manager_info->get_account_role($item["cur_require_adminid"]);
-            $item["limit_plan_lesson_reason"] = $this->t_teacher_info->get_limit_plan_lesson_reason($item["limit_require_teacherid"]);
+
         }
 
         $adminid           = $this->get_account_id();

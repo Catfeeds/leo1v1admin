@@ -243,7 +243,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." jw_test_lesson_status,set_lesson_time,tr.green_channel_teacherid,tc.cancel_time,t.textbook,tr.cur_require_adminid,"
             ." tr.grab_status,tr.current_lessonid,tr.is_green_flag,tr.limit_require_flag,tr.limit_require_teacherid , "
             ." tr.limit_require_lesson_start ,tr.limit_require_time,tr.limit_require_adminid ,tr.limit_require_send_adminid,"
-            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time "
+            ." tr.limit_accept_flag,tr.limit_require_reason,tr.limit_accept_time, ok.key1,ok.key2 ,tea.limit_plan_lesson_reason "
             ." from  %s tr "
             ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
             ." left join %s ss on  t.userid = ss.userid "
@@ -252,6 +252,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." left join %s l on  tss.lessonid = l.lessonid "
             ." left join %s c on  tss.lessonid = c.ass_from_test_lesson_id "
             ." left join %s tc on tr.current_lessonid=tc.lessonid "
+            ." left join %s ok on s.origin=ok.value "
+            ." left join %s tea on tea.teacherid=tr.limit_require_teacherid "
             ." where  %s order by %s asc "
             , t_test_lesson_subject_require::DB_TABLE_NAME
             , t_test_lesson_subject::DB_TABLE_NAME
@@ -261,6 +263,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             , t_lesson_info::DB_TABLE_NAME
             , t_course_order::DB_TABLE_NAME
             , t_teacher_cancel_lesson_list::DB_TABLE_NAME
+            , t_origin_key::DB_TABLE_NAME
+            , t_teacher_info::DB_TABLE_NAME
             ,$where_arr
             ,$opt_date_str
         );

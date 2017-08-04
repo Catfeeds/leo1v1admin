@@ -88,7 +88,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     public function get_all_info($page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
                                  $user_name,$status,$adminid=-1,$record_status=-1,$grade=-1,$subject=-1,
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
-                                 $full_time=-1
+                                 $full_time=-1, $lecture_revisit_type_new=-1
     ){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
@@ -103,6 +103,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type, -1 ];
         }
+        if($lecture_revisit_type_new==-2){
+            $where_arr[] = "llll.lesson_start>0";
+        }else{
+            $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type_new, -1 ];
+        }
+
+        
 
         if($interview_type==0){
             $where_arr[] = "l.status is null and ta.lessonid is null";
@@ -169,7 +176,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.grade_ex,la.subject_ex,la.textbook,la.school,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
-                                  ." if(l.status is null,'-2',l.status) as status,"
+                                  ." if(l.status is null,'-2',l.status) as status,llll.lesson_start,"
                                   ." if(ta.lessonid is not null,4,la.lecture_revisit_type) lecture_revisit_type,"
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
@@ -185,8 +192,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." left join %s tt on la.phone = tt.phone"
                                   ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and not exists ("
                                   ." select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and ta.add_time<taa.add_time)"
+                                  ." left join %s llll on llll.lessonid = ta.lessonid"
                                   ." left join %s tr on tr.train_lessonid = ta.lessonid and tr.type=10"
-                                  ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=11"
+                                  ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=12"
                                   ." left join %s ttt on  la.phone = ttt.phone"
                                   ." where %s "
                                   ." and %s"
@@ -200,6 +208,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
