@@ -560,13 +560,11 @@ class seller_student_new extends Controller
                 return $this->output_err("今天的配额,已经用完了");
             }
             //检查是否有试听成功课未回访
-            if($adminid == 831){
-                $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-                $userid = $lesson_call_end['userid'];
-                if($userid){
-                    header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
-                }
-            }
+            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            // $userid = $lesson_call_end['userid'];
+            // if($userid){
+            //     header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
+            // }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];

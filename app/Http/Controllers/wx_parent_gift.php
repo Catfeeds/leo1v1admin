@@ -97,9 +97,15 @@ class wx_parent_gift extends Controller
     public function do_prize_draw(){
         // 获取 每个家长的等级
         $userid = $this->get_in_int_val('userid');
-        $parent_lesson_total_lists = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
+        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
+        $parent_num = $parent_lesson_total/100;
 
-        dd($parent_lesson_total_lists);
+        if($parent_num>30 && $parent_num<=90){
+            $price = 20;
+            $prize_code = $this->t_parent_luck_draw_in_wx->get_prize_code_list($price);
+        }
+
+        dd($parent_lesson_total);
     }
 
 

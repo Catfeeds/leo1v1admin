@@ -28,9 +28,6 @@ class order_price_20170701 extends order_price_base
     ];
 
 
-
-
-
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
 
         $now=time(NULL);

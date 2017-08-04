@@ -43,7 +43,12 @@ class user extends TeaWxController
 
 
     public function get_vacant_time(){ // 协议编号: 1009
-        $teacherid = $this->get_teacherid();
+        $type = $this->get_in_int_val("type");
+        if($type==1){
+            $teacherid = $this->get_in_int_val("teacherid");
+        }else{
+            $teacherid = $this->get_teacherid();
+        }
         $start     = $this->get_in_int_val('start');
         $end       = $this->get_in_int_val('end');
 

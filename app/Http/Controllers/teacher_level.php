@@ -643,13 +643,18 @@ class teacher_level extends Controller
         list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
-        $record_flag       = $this->get_in_int_val("record_flag",-1);
+        $record_flag       = $this->get_in_int_val("record_flag",0);
         $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            if($item["id"]>0){
+                $item["record_flag_str"]="已反馈";
+            }else{
+                $item["record_flag_str"]="未反馈";
+            }
   
         }
 

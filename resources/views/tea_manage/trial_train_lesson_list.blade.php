@@ -84,7 +84,7 @@
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
                                 <a class="fa-video-camera opt-play" title="回放"></a>
-                                @if(in_array($acc,["adrian","jim",$var['acc']]))
+                                @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
                                     <a class="opt-edit" title="更改状态">审核 </a>
                                 @endif
                             </div>
