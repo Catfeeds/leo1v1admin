@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">回访状态</span>
+                        <span class="input-group-addon">回访状态-old</span>
                         <select class="opt-change form-control" id="id_record_status" >
                             <option value="-1">[全部]</option>
                             <option value="0">未回访</option>
@@ -85,7 +85,7 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >电话回访状态</span>
+                        <span >回访状态</span>
                         <select id="id_lecture_revisit_type" class ="opt-change" >
                         </select>
                     </div>
@@ -168,7 +168,6 @@
                     <td>审核状态</td>
                     @if($show_full_time==0)
                         <td >推荐人</td>
-                        <td >状态</td>
                         <td>回访状态</td>
                         <td style="display:none">招师</td>
                     @else
@@ -219,7 +218,6 @@
                         </td>
                         @if($show_full_time==0)
                             <td>{{@$var["reference_name"]}} </td>
-                            <td>{{@$var["lecture_appointment_status_str"]}} </td>
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
                             <td>{{@$var["account"]}} </td>
                         @else
