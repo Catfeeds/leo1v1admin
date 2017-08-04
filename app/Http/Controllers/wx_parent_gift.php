@@ -49,13 +49,27 @@ class wx_parent_gift extends Controller
         // dd($file);
         if ($file->isValid()) {
             //处理列
-            $realPath = $file -> getRealPath();
+
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
 
+            $realPath = $file->getRealPath();
+            // dd($realPath);
             $objPHPExcel = $objReader->load($realPath);
+            // dd($objPHPExcel);
             $objPHPExcel->setActiveSheetIndex(0);
-            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            $arr=$objPHPExcel->getActiveSheet();
+            dd($arr);
 
+
+
+            // $realPath = $file->getRealPath();
+            // $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            // $objPHPExcel = $objReader->load($realPath);
+            // $objPHPExcel->setActiveSheetIndex(0);
+            // $arr=$objPHPExcel->getActiveSheet()->toArray();
+
+            dd($arr);
             // foreach($arr as $k=>&$val){
             //     if(empty($val[0]) || $k==0){
             //         unset($arr[$k]);
