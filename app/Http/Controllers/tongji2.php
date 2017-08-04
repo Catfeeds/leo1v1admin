@@ -960,7 +960,7 @@ class tongji2 extends Controller
         $test_tmp = $test_info['list'];
         foreach ($ret_info['list'] as $k=> &$v) {
             foreach ($test_tmp as $val) {
-                if ($val['require_adminid'] === $v['admin_revisiterid']) {
+                if ($val['adminid'] === $v['admin_revisiterid']) {
                     $v['test_lesson_count'] = $val['test_count'];
                 }
             }
