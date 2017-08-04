@@ -39,18 +39,11 @@ class test_boby extends Controller
         return $this->pageView( __METHOD__, $ret_info);
     }
     public function st() {
-        //dd($this);
         $page_info = $this->get_in_page_info();
-        // print_r($page_info);
         $nick_phone = $this->get_in_str_val("nick_phone");
-        // print_r($nick_phone);
-        // dd($nick_phone);
         $account_role = $this->get_in_el_account_role();
-        // dd($account_role);
-        // print_r($account_role);
         $this->get_in_int_val("account_role"); //没什么作用?
         $ret_info = $this->t_manager_info->get_list_test($page_info,$nick_phone, $account_role);
-         // $ret_info = $this->t_manager_info->test_ff($page_info,$nick_phone, $account_role);
         // dd($ret_info);
         foreach( $ret_info["list"] as &$item ) {
             E\Eaccount_role::set_item_value_str($item);

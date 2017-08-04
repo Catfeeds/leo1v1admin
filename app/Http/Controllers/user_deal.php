@@ -2605,24 +2605,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $reference = 99900020011;
-        $accept_adminid = $this->get_zs_accept_adminid($reference);
-        $accept_time=0;
-        if($accept_adminid>0){
-            $accept_time = time();
-        }
-        dd($accept_adminid);
-
+        
+       
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
-
-        $kk_suc= $this->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
-        foreach($kk_suc as $k=>$v){
-            $this->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,[
-                "kk_num"  =>$v["lesson_count"]
-            ]);
-
-        }
+        $this->t_month_ass_student_info->get_field_update_arr(541,$start_time,1,[
+            "kk_num"  =>18
+        ]);
         dd(111);
 
         $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
@@ -5126,5 +5115,71 @@ class user_deal extends Controller
             return $this->output_err('提交失败!请联系开发人员!');
         }
     }
+
+
+     public function get_teacher_textbook(){
+        $textbook = $this->get_in_str_val('textbook');
+        // $textbook = "2,3";
+        $list    = E\Eregion_version::$desc_map;
+        unset($list[0]);
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["textbook"=>$val,"num"=>$i];
+            $data[]=$i;
+        }
+        if(!empty($textbook)){
+            $textbook = trim($textbook,",");
+            $arr = explode(",",$textbook);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["num"]){
+                            $item["has_textbook"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function set_teacher_textbook(){
+        $teacherid = $this-> get_in_int_val('teacherid');
+        $old_textbook = $this-> get_in_str_val('old_textbook');
+        $textbook_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("textbook_list"));
+        $teacher_textbook = implode(",",$textbook_list);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "teacher_textbook" => $teacher_textbook ,
+        ] );
+
+        $arr= explode(",",$teacher_textbook);
+        foreach($arr as $val){
+            @$new_textbook .=  E\Eregion_version::get_desc ($val).",";
+        }
+        $new_textbook = trim($new_textbook,",");
+
+        $arr2= explode(",",$old_textbook);
+        foreach($arr2 as $val){
+            @$old_textbook2 .=  E\Eregion_version::get_desc ($val).",";
+        }
+        $old_textbook2 = trim($old_textbook2,",");
+        $str = "由".$old_textbook2."改为".$new_textbook;
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"=>$teacherid,
+            "type"     =>14,
+            "record_info"=>$str,
+            "add_time"  =>time(),
+            "acc"      =>$this->get_account()
+        ]);
+        // $id = $this->t_teacher_record_list->get_last_insertid();
+
+
+        return $this->output_succ();
+    }
+
+
 
 }

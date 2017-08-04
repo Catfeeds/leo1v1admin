@@ -91,5 +91,17 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         return $this->main_get_list($sql);
     }
 
+    public function get_student_lesson_total_by_parentid($userid){
+        $where_arr = [];
+
+        $sql = $this->gen_sql_new(" select 1 from %s pc".
+                                  " left join %s s on s.userid = pc.userid".
+                                  " left join %s o on o.userid = s.userid"
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
 
 }

@@ -51,14 +51,17 @@ class revisit extends Controller
         foreach($ret_db as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time");
             $item['revisit_type']  = E\Erevisit_type::get_desc($item['revisit_type']);
+            if(isset($item['revisit_path'])){
+                $item['revisit_path']  = E\Erevisit_path::get_desc($item['revisit_path']);   
+            }else{
+                $item['revisit_path'] = "未设置";
+            }
         }
-
         $revisit_num = count($ret_db);
         array_unshift($ret_db,[
             "revisit_type"  => "TMK 备注",
             "operator_note" => $this->t_seller_student_new->get_tmk_desc($userid),
         ]);
-        //$ret_db
         return outputJson(array('ret' => 0, 'info' => "success", 'revisit_num' => $revisit_num,
                     'revisit_list' => $ret_db));
 
@@ -139,7 +142,6 @@ class revisit extends Controller
         if ( $this->t_revisit_info->check_add_existed($userid,$revisit_time) ) {
             return  $this->output_succ();
         }
-
         $ret_add = $this->t_revisit_info->add_revisit_record($userid, $revisit_time, $ret_stu['nick'], $revisit_person,
                                                              $acc, $operator_note, $revisit_type,null, $operation_satisfy_flag,$operation_satisfy_type,$record_tea_class_flag,$tea_content_satisfy_flag,$tea_content_satisfy_type,$operation_satisfy_info,$child_performance,$tea_content_satisfy_info,$other_parent_info,$other_warning_info,$child_class_performance_flag,$child_class_performance_info,$child_class_performance_type,$school_work_change_flag,$school_score_change_flag,$school_work_change_info,$school_work_change_type,$school_score_change_info,$is_warning_flag);
         //get_week_start_time
@@ -169,6 +171,7 @@ class revisit extends Controller
 
     public function add_revisit_record_b2()
     {
+
         $userid         = intval($this->get_in_int_val('userid',-1));
         $revisit_type   = $this->get_in_int_val('revisit_type',0);
         $revisit_person = trim($this->get_in_str_val('revisit_person'));
@@ -197,6 +200,7 @@ class revisit extends Controller
         }else{
             $is_warning_flag=0;
         }
+
         $acc = $this->get_account();
 
         if(empty($revisit_time)){
@@ -204,7 +208,6 @@ class revisit extends Controller
         }else{
             $revisit_time = strtotime($revisit_time);
         }
-
         $ret_stu      = $this->t_student_info->get_student_simple_info($userid);
         if(count($ret_stu) == 0){
             return  $this->output_err( "系统出错");
@@ -216,16 +219,18 @@ class revisit extends Controller
         }
         $information_confirm = $this->get_in_str_val('information_confirm','');
         $information_confirm = json_encode($information_confirm);
-        $recover_time = $this->get_in_int_val('id_recover_time',0);
+        $recover_time = $this->get_in_str_val('id_recover_time',0);
+        $recover_time = strtotime($recover_time);
         $revisit_path = $this->get_in_int_val('id_revisit_path',0);
         $parent_guidance_except = $this->get_in_str_val('id_parent_guidance_except','');
         $tutorial_subject_info = $this->get_in_str_val('id_tutorial_subject_info','');
         $other_subject_info = $this->get_in_str_val('id_other_subject_info','');
         $recent_learn_info = $this->get_in_str_val('id_recent_learn_info','');
         //dd($information_confirm);
-        $ret_add = $this->t_revisit_info->add_revisit_record($userid, $revisit_time, $ret_stu['nick'], $revisit_person,
+        $ret_add = $this->t_revisit_info->add_revisit_record_b2($userid, $revisit_time, $ret_stu['nick'], $revisit_person,
                                                              $acc, $operator_note, $revisit_type,null, $operation_satisfy_flag,$operation_satisfy_type,$record_tea_class_flag,$tea_content_satisfy_flag,$tea_content_satisfy_type,$operation_satisfy_info,$child_performance,$tea_content_satisfy_info,$other_parent_info,$other_warning_info,$child_class_performance_flag,$child_class_performance_info,$child_class_performance_type,$school_work_change_flag,$school_score_change_flag,$school_work_change_info,$school_work_change_type,$school_score_change_info,$is_warning_flag,
-                                                                $recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info);
+                                                                $recover_time,$revisit_path,$information_confirm,
+                                                                $parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info);
         $week_info=\App\Helper\Utils::get_week_range(time(NULL),1);
         $week_start_time=$week_info["sdate"];
 
@@ -249,6 +254,40 @@ class revisit extends Controller
 
     }
 
-
-
+    public function get_revisit_info_by_revisit_time()
+    {
+        $userid           = $this->get_in_int_val('userid');
+        $revisit_time     = $this->get_in_str_val('revisit_time');
+        $revisit_time = strtotime($revisit_time);
+        if($userid == 'undefined'){
+            return $this->output_err("undefined");
+        }
+        $ret_info = $this->t_revisit_info->get_revisit_by_revisit_time_userid($userid,$revisit_time);
+        foreach($ret_info as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"recover_time");
+            $item['revisit_type']  = E\Erevisit_type::get_desc($item['revisit_type']);
+            $item['revisit_path']  = E\Erevisit_path::get_desc($item['revisit_path']);
+            E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
+            E\Eset_boolean::set_item_value_str($item,"school_work_change_flag");
+            E\Etea_content_satisfy_flag::set_item_value_str($item,"tea_content_satisfy_flag");
+            E\Eschool_work_change_type::set_item_value_str($item,"school_work_change_type");
+            E\Eschool_score_change_flag::set_item_value_str($item,"school_score_change_flag");
+            E\Eoperation_satisfy_type::set_item_value_str($item,"operation_satisfy_type");
+            E\Etea_content_satisfy_type::set_item_value_str($item,"tea_content_satisfy_type");
+            E\Echild_class_performance_flag::set_item_value_str($item,"child_class_performance_flag");
+            E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
+            E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
+        }
+        $information_confirm = $ret_info[0]['information_confirm'];
+        $information_confirm = json_decode($information_confirm);
+        if(isset($information_confirm)){
+            foreach ($information_confirm as $key => $value) {
+                $value_de = trim($value, '{}');
+                $value_arr = explode(':', $value_de);
+                $ret_info[0][$value_arr[0]] = $value_arr[1];
+            }
+        }
+        return outputJson(array('ret' => 0, 'info' => "success", 'ret_info' => $ret_info));
+    }
 }

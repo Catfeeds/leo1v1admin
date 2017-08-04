@@ -328,8 +328,8 @@
                     <td style="display:none;">教师性质</td>
                     <td style="display:none;">版本信息</td>
                     <td style="width:320px">标签</td>
-                    <td style="display:none;">擅长教材</td>
-                    <td class="tea_textbook">教材版本</td>
+                    <td >擅长教材</td>
+                    <td  style="display:none;" class="tea_textbook">教材版本</td>
                     <td style="display:none;">评价</td>
                     <td class="tea_is_need_test" style="display:none;">是否需要试听课</td>
                     <td style="width:220px;display:none" id="lesson_plan_week"> 当周排课</td>
@@ -401,7 +401,7 @@
                         <td>{{@$var["is_good_flag_str"]}} </td>
                         <td>{{$var["user_agent"]}} </td>
                         <td>{!! @$var["label"] !!} </td>  
-                        <td>{{@$var["teacher_textbook"]}} </td>
+                        <td>{{@$var["textbook"]}} </td>
                         <td>{{@$var["textbook_type_str"]}} </td>
                         <td>{{@$var["rate_score"]}} </td>
                         <td>{{@$var["need_test_lesson_flag_str"]}} </td>

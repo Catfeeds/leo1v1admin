@@ -184,7 +184,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ." join %s s on s.userid=t.userid "
             ." join %s n on n.userid=t.userid "
             ." where %s "
-            ."  group by tr.cur_require_adminid "
+            ." group by adminid "
             ,self::DB_TABLE_NAME
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME

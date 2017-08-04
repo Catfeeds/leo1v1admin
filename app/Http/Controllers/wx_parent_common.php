@@ -92,8 +92,11 @@ class wx_parent_common extends Controller
         $code      = $this->get_in_str_val('code');
         $wx_openid = session("wx_parent_openid");
 
-        \App\Helper\Utils::logger("HOST:" . $_SERVER["HTTP_HOST"] );
-        \App\Helper\Utils::logger("do_wx_bind: wx_parent_openid: $wx_openid " );
+        $openid = $this->get_in_str_val("openid");
+        if(!$wx_openid){
+            $wx_openid = $openid;
+        }
+
         if (!$wx_openid){
             return $this->output_err("请重新绑定");
         }
@@ -121,7 +124,9 @@ class wx_parent_common extends Controller
         ]);
         session(["parentid" => $parentid ]);
 
-        return $this->output_succ();
+        return $this->output_succ(["type"=>1]);
+        // return $this->output_succ(["type"=>$market_activity_type]);
+
     }
 
     public function get_lesson_evaluate () {

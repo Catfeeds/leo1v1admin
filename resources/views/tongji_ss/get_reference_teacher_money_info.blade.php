@@ -16,7 +16,11 @@
             <thead>
                 <tr>
                     <td>老师</td>
+                    <td>电话</td>
+                    <td>年级</td>
                     <td>科目</td>
+                    <td>学校</td>
+                    <td>类型</td>
                     <td>是否入职</td>
                     <td>入职时间</td>
                     <td>当前课时金额</td>
@@ -28,7 +32,11 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["grade_ex"]}} </td>
+                        <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["school"]}} </td>
+                        <td>{{@$var["teacher_type_str"]}} </td>
                         <td>{{@$var["train_through_new_str"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
                         <td class="lesson_money"></td>

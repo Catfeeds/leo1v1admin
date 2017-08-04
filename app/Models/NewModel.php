@@ -434,7 +434,6 @@ abstract class NewModel
         }
 
         $sql = 'insert  ' .$ignore_str.' into ' . $this->field_table_name . " (". $name_arr_str. ") values (" . $value_arr_str. ")";
-
         if ($update_on_existed) {
             $sql.=" ON DUPLICATE KEY UPDATE ". $this->get_sql_set_str( $arr);
         }

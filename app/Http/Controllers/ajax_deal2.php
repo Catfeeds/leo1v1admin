@@ -355,9 +355,12 @@ class ajax_deal2 extends Controller
         $create_adminid  = $this->get_account_id();
         $create_time     = time();
         $ret = $this->t_student_info->get_student_info_by_phone($phone);
-        
         if($ret){
-            return $this->output_err('err', ['error'=>'此账号已经注册']);
+            return $this->output_err('此账号已经注册');
+        }
+        $ret_info = $this->t_cs_intended_user_info->get_intended_info_by_phone($phone);
+        if($ret_info){
+            return $this->output_err("此账号信息已经输入,请勿重复输入");
         }
         //dd($ret);
         $this->t_cs_intended_user_info->row_insert([
@@ -394,7 +397,7 @@ class ajax_deal2 extends Controller
      */
     public function edit_intended_user_info(){
 
-        $id               = $this->get_in_int_val("id");
+        $id              = $this->get_in_int_val("id");
         $phone           = $this->get_in_str_val('phone');
         $child_realname  = $this->get_in_str_val('child_realname');
         $parent_realname = $this->get_in_str_val('parent_realname');

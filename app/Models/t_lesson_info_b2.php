@@ -1112,14 +1112,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_teacher_lessons($teacherid, $start_time, $end_time) {
-        $sql = $this->gen_sql_new( " select lesson_start, lesson_end,free_time_new from %s tl".
-                                   " left join %s tf on tf.teacherid = tl.teacherid".
-                                   " where tl.teacherid = %d and lesson_start >= %s and lesson_end < %s",
-                                   self::DB_TABLE_NAME,
-                                   t_teacher_freetime_for_week::DB_TABLE_NAME,
-                                   $teacherid,
-                                   $start_time,
-                                   $end_time
+        $sql = $this->gen_sql_new(" select lesson_start, lesson_end,free_time_new"
+                                   ." from %s tl"
+                                   ." left join %s tf on tf.teacherid = tl.teacherid"
+                                   ." where tl.teacherid = %d and lesson_start >= %s and lesson_end < %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                   ,$teacherid
+                                   ,$start_time
+                                   ,$end_time
         );
         return $this->main_get_list($sql);
     }
@@ -2611,6 +2612,30 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
 
         return $this->main_get_row($sql);
+    }
+
+    public function get_fulltime_teacher_interview_info($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2",
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "ta.full_time=1"
+        ];
+        $this->where_arr_add_time_range($where_arr,"taa.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(taa.lessonid) num from %s l"
+                                  ." join %s taa on l.lessonid = taa.lessonid"
+                                  ." join %s t on l.userid= t.teacherid"
+                                  ." join %s ta on t.phone = ta.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 }
