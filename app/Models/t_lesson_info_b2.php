@@ -1826,14 +1826,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
         $sql = $this->gen_sql_new("SELECT s.userid, s.face AS stu_face, s.lesson_count_left"
                                   .",SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
-                                  ." FROM %s l"
-                                  ." LEFT JOIN %s s ON l.userid=s.userid"
+                                  ." FROM %s s"
+                                  ." LEFT JOIN %s l ON l.userid=s.userid"
                                   ." LEFT JOIN %s p ON p.userid=s.userid"
                                   ." WHERE %s "
                                   ." GROUP BY s.userid"
                                   ." ORDER BY normal_nums DESC"
-                                  ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -2603,8 +2603,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
             ' l.lesson_type = 2 ',
-            ' l.lesson_del_flag = 0 ',
-            // ' l.lesson_start > 1501516800 ',
+            ' l.lesson_del_flag = 1 ',
+            ' l.lesson_start > 1501516800 ',
             ' lss.success_flag = 0 ',
             ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
