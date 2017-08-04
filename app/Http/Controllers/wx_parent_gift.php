@@ -100,8 +100,9 @@ class wx_parent_gift extends Controller
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
-        if(){
-            
+        if($parent_num>30 && $parent_num<=90){
+            $price = 20;
+            $prize_code = $this->t_parent_luck_draw_in_wx->get_prize_code_list($price);
         }
 
         dd($parent_lesson_total);
