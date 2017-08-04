@@ -240,6 +240,11 @@ class seller_student_new extends Controller
         $notify_lesson_check_start_time=$now - 3600;
 
         foreach ($ret_info["list"] as &$item) {
+            if($item['call_end_time']){
+                $item["call_end_time"] = date('Y-m-d H:i',$item['call_end_time']);
+            }else{
+                $item["call_end_time"] = '';
+            }
             if($item["lesson_start"] > 0){
                 $item["lesson_plan_status"] = "已排课";
             }else{
@@ -534,10 +539,9 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
-
+            $lesson_call_end = [];
             $key="DEAL_NEW_USER_$adminid";
             $old_userid=\App\Helper\Common::redis_get($key)*1;
-            //$this->t_seller_student_new->get_sell
             $old_row_data= $this->t_seller_student_new->field_get_list($old_userid,"competition_call_time, competition_call_adminid, admin_revisiterid ,tq_called_flag ");
 
             if (
@@ -555,7 +559,11 @@ class seller_student_new extends Controller
             if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
                 return $this->output_err("今天的配额,已经用完了");
             }
-
+            //试听成功后的回访记录
+            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            // if(count($lesson_call_end)){
+            //     return $this->output_err("你有试听成功未回访");
+            // }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
