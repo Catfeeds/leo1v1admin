@@ -151,29 +151,11 @@ $(function(){
     $(".opt-set-lecture-revisit-type").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_lecture_revisit_type = $("<select/>");   
-        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
-        var arr=[
-            ["回访状态", id_lecture_revisit_type],
-        ];
-        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
-        $.show_key_value_table("修改状态", arr ,{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                $.do_ajax( '/ss_deal/update_lecture_revisit_type',{
-                    "id" : opt_data.id,
-                    "lecture_revisit_type" : id_lecture_revisit_type.val()
-                });
-            }
-        });
-
-
-
-    });
-    $(".opt-set-lecture-revisit-type-new").on("click",function(){
-        var opt_data = $(this).get_opt_data();
-        var id_lecture_revisit_type = $("<select/>");   
-        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );
+        if(g_args.fulltime_flag==0){
+            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
+        }else{
+            Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[5,6,7] );
+        }
         var arr=[
             ["回访状态", id_lecture_revisit_type],
         ];

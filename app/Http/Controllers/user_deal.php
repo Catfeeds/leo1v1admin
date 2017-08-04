@@ -5127,4 +5127,70 @@ class user_deal extends Controller
         }
     }
 
+
+     public function get_teacher_textbook(){
+        $textbook = $this->get_in_str_val('textbook');
+        // $textbook = "2,3";
+        $list    = E\Eregion_version::$desc_map;
+        unset($list[0]);
+        $res = [];
+        $data=[];
+        foreach($list as $i=>$val){
+            $res[]=["textbook"=>$val,"num"=>$i];
+            $data[]=$i;
+        }
+        if(!empty($textbook)){
+            $textbook = trim($textbook,",");
+            $arr = explode(",",$textbook);
+            foreach ($arr as $k) {
+                if( in_array($k,$data)){
+                    foreach($res as $kk=>&$item){
+                        if($k == $item["num"]){
+                            $item["has_textbook"] = in_array($k,$data)?1:0;
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return $this->output_succ(["data"=> $res]);
+    }
+
+    public function set_teacher_textbook(){
+        $teacherid = $this-> get_in_int_val('teacherid');
+        $old_textbook = $this-> get_in_str_val('old_textbook');
+        $textbook_list = \App\Helper\Utils::json_decode_as_int_array( $this->get_in_str_val("textbook_list"));
+        $teacher_textbook = implode(",",$textbook_list);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "teacher_textbook" => $teacher_textbook ,
+        ] );
+
+        $arr= explode(",",$teacher_textbook);
+        foreach($arr as $val){
+            @$new_textbook .=  E\Eregion_version::get_desc ($val).",";
+        }
+        $new_textbook = trim($new_textbook,",");
+
+        $arr2= explode(",",$old_textbook);
+        foreach($arr2 as $val){
+            @$old_textbook2 .=  E\Eregion_version::get_desc ($val).",";
+        }
+        $old_textbook2 = trim($old_textbook2,",");
+        $str = "由".$old_textbook2."改为".$new_textbook;
+        $this->t_teacher_record_list->row_insert([
+            "teacherid"=>$teacherid,
+            "type"     =>14,
+            "record_info"=>$str,
+            "add_time"  =>time(),
+            "acc"      =>$this->get_account()
+        ]);
+        // $id = $this->t_teacher_record_list->get_last_insertid();
+
+
+        return $this->output_succ();
+    }
+
+
+
 }

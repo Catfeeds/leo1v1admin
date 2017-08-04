@@ -914,6 +914,14 @@ class human_resource extends Controller
                 $item["address"] = \App\Helper\Common::get_phone_location($item["phone"]);
             }
 
+            $arr_text= explode(",",$item["teacher_textbook"]);
+            foreach($arr_text as $vall){
+                @$item["textbook"] .=  E\Eregion_version::get_desc ($vall).",";
+            }
+            $item["textbook"] = trim($item["textbook"],",");
+
+             
+
         }
 
         $account_role    = $this->t_manager_info->get_account_role($this->get_account_id());
@@ -1945,6 +1953,8 @@ class human_resource extends Controller
         $account_id = $this->get_account_id();
         $this->set_in_value("tea_adminid",$account_id);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
+        $this->set_in_value("fulltime_flag",$show_full_time);
+        $fulltime_flag= $this->get_in_int_val("fulltime_flag");
 
         return $this->pageView(__METHOD__,$ret_info,[
             "account_id"     => $account_id,
@@ -3650,6 +3660,12 @@ class human_resource extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item, "recover_class_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
+            $arr= explode(",",$item["teacher_textbook"]);
+            foreach($arr as $val){
+                @$item["textbook"] .=  E\Eregion_version::get_desc ($val).",";
+            }
+            $item["textbook"] = trim($item["textbook"],",");
+
 
         }
         // dd($ret_info);
