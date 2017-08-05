@@ -197,5 +197,84 @@ $(function(){
         }
     });
 
+    $(".opt-confirm-score").on("click",function(){
+        var id        = $(this).get_opt_data("id");
+        
+        $.do_ajax('/ss_deal/get_teacher_confirm_score',{
+            "id" : id
+        },function(resp) {
+            var title = "审核评分详情";
+            var list = resp.data;
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
+            var html_score=
+                "<tr>"
+                +"<td>讲义内容设计</td>"
+                +"<td>"+list.lecture_content_design_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>讲练结合情况</td>"
+                +"<td>"+list.lecture_combined_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>知识点正确率</td>"
+                +"<td>"+list.teacher_point_explanation_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>重难点偏向性</td>"
+                +"<td>"+list.teacher_dif_point_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课程回顾总结</td>"
+                +"<td>"+list.course_review_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教师气场把控</td>"
+                +"<td>"+list.teacher_mental_aura_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课堂氛围营造</td>"
+                +"<td>"+list.teacher_class_atm_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学节奏把握</td>"
+                +"<td>"+list.teacher_explain_rhythm_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>板书书写规范</td>"
+                +"<td>"+list.teacher_blackboard_writing_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>语言表达能力</td>"
+                +"<td>"+list.teacher_language_performance_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>总分</td>"
+                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"</tr>"
+                +"<tr>";
+
+            html_node.find("table").append(html_score);
+            var dlg=BootstrapDialog.show({
+                title    : title,
+                message  : html_node,
+                closable : true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+    });
+
+
 	$('.opt-change').set_input_change_event(load_data);
 });

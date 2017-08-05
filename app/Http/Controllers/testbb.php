@@ -22,8 +22,8 @@ class testbb extends Controller
 
     }
 
-   
- 
+
+
     public function assistant_info_new2(){
         $today      = date('Y-m-d',time(null));
         $today      = '20170626';
@@ -49,6 +49,14 @@ class testbb extends Controller
     public function test () {
         $now = time();
         $r = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
+
+        $index = mt_rand(0,1870);
+
+        dd($r[$index]);
+        // if($all_gift_list[$index]){
+
+        // }
+
 
         dd($r);
         $d = strtotime(date("Y-m-d",strtotime('+1 day')));

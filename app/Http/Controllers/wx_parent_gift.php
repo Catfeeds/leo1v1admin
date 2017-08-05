@@ -99,7 +99,11 @@ class wx_parent_gift extends Controller
             $now = time();
             $all_gift_list = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
 
-            $index = rand(0,1870);
+            $index = mt_rand(0,1870);
+
+            if($all_gift_list[$index]){
+
+            }
 
             $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
                 "prize_code" => "",
