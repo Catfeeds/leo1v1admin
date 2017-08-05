@@ -34,10 +34,8 @@ class wx_yxyx_common extends Controller
         $action       = @$goto_url_arr[2];
         $web_html_url = "http://wx-yxyx-web.leo1v1.com";
         if($action=="bind"){
-            \App\Helper\Utils::logger('aaa');
             $url="$web_html_url/index.html#bind";
         }else{
-            \App\Helper\Utils::logger('bbb');
             session([
                 "agent_id" => 0,
                 "login_user_role" =>0,
