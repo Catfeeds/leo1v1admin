@@ -36,36 +36,6 @@ class wx_yxyx_api extends Controller
         return $agent_id;
     }
 
-    public function agent_add(){
-        $p_phone   = $this->get_in_str_val('p_phone');
-        $phone   = $this->get_in_str_val('phone');
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        if($p_phone == $phone){
-            return $this->output_err("不能邀请自己!");
-        }
-        $phone_str = implode(',',[$phone,$p_phone]);
-        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
-        foreach($ret_list as $item){
-            if($phone == $item['phone']){
-                return $this->output_err("您已被邀请过!");
-            }
-            if($p_phone = $item['phone']){
-                $parentid = $item['id'];
-            }
-        }
-        if(!isset($parentid)){
-            $parentid = 0;
-        }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone);
-        if($ret){
-            return $this->output_succ("邀请成功!");
-        }else{
-            return $this->output_err("数据请求异常!");
-        }
-    }
-
     public function get_user_info(){
         $agent_id   = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);

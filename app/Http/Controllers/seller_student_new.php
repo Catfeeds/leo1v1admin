@@ -1248,11 +1248,8 @@ class seller_student_new extends Controller
     }
 
     public function refresh_call_end(){
-        $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
-        $end_time = $start_time + 24*3600;
         $lessonid = $this->get_in_int_val('lessonid');
-        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
-
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time = -1,$end_time = -1,-1,$lessonid);
         return $ret;
     }
 
