@@ -13,6 +13,7 @@
             </thead>
             <tbody>
 
+
                     <tr>
                         <td>设备</td>
                         <td>空调 </td>
@@ -28,11 +29,29 @@
                         <td>操作</td>
                         <td>
                             <button class="btn btn-primary" id="id_open">开 </button>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>操作</td>
+                        <td>
+                            -------
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>操作</td>
+                        <td>
                             <button class="btn btn-warning"  id="id_close">关</button>
 
                         </td>
                         <td></td>
                     </tr>
+
+
             </tbody>
         </table>
     </section>
