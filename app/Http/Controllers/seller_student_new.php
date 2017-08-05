@@ -1173,6 +1173,7 @@ class seller_student_new extends Controller
 
         $errors=[];
         if(  (
+            true ||
              !$this->check_power( E\Epower::V_TEST)
         )  ){
             if ( !$success_flag) {
