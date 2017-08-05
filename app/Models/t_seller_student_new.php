@@ -1587,9 +1587,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  'n.tmk_student_status<>3 ';
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         //E\Eseller_student_status
-        if ( $seller_student_status ==2 ) {
+        //if ( $seller_student_status ==2 ) {
             $where_arr[] =  'n.call_admin_count>2 ';
-        }
+        //}
 
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
         $this->where_arr_add_int_or_idlist($where_arr,"global_tq_called_flag",$global_tq_called_flag);
