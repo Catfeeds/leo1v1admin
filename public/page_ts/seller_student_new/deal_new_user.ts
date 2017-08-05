@@ -342,7 +342,7 @@ $(function(){
             switch (vv ) {
             case 0:
             case  2:
-                show_status_list=[ 1,2, 100,101,102,103 ];
+                show_status_list=[ 2, 100,101,102,103 ];
                 break;
             case 1:
                 show_status_list=[  100, 101,102,103 ];
@@ -353,11 +353,11 @@ $(function(){
                 break;
 
             case 100:case 103:
-                show_status_list=[ 1, 100, 101,102,103 ];
+                show_status_list=[  100, 101,102,103 ];
                 break;
 
             case 110:case 120:
-                show_status_list=[ 1,100, 101,102,103 ];
+                show_status_list=[ 100, 101,102,103 ];
                 break;
 
             case 200:
