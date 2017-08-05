@@ -1856,7 +1856,13 @@ $(function(){
 	      var data = $(this).get_opt_data();
         var id_subject = $("<select />");
         var id_grade   = $("<input />");
-        var arr
+
+
+
+        var arr = [
+            ["审核科目",id_subject],
+            ["审核年级",id_grade],
+        ];
     });
 
 
