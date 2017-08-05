@@ -915,7 +915,7 @@ class common_new extends Controller
                 }
                 E\Esubject::set_item_value_str($like_teacher);
                 $lesson_count_num = $like_teacher['teacher_lesson_count']/100;
-                $lesson_days_num  = intval( round(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600)) );
+                $lesson_days_num  = intval( ceil(($like_teacher['lesson_end']-$like_teacher['lesson_start'])/(24*3600)) );
                 $list['teacher_for_stu_lesson']  = str_pad($lesson_count_num, 2, '0',STR_PAD_LEFT);
                 $list['teacher']                 = mb_substr($like_teacher['realname'], 0, 1, 'utf-8');
                 $list['teacher_for_stu_subject'] = $like_teacher['subject_str'];
