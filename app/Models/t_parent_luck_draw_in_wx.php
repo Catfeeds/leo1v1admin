@@ -27,7 +27,7 @@ class t_parent_luck_draw_in_wx extends \App\Models\Zgen\z_t_parent_luck_draw_in_
             "userid = $userid"
         ];
 
-        $sql = $this->gen_sql_new(" select userid, prize_code, use_flag from %s pl where %s ",
+        $sql = $this->gen_sql_new(" select userid, price, prize_code, use_flag from %s pl where %s ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

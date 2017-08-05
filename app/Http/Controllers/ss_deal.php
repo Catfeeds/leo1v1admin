@@ -3890,10 +3890,10 @@ class ss_deal extends Controller
         $arr= json_decode($label["tea_label_type"],true);
         $str="";
         foreach($arr as $val){
-            $str .= E\Esubject::get_desc($val).",";
+            $str .= E\Etea_label_type::get_desc($val).",";
         }
-        $str = trim($str,",");
-        dd($str);
+        $data["label"] = trim($str,",");
+        return $this->output_succ(["data"=>$data]);
     }
     public function get_teacher_confirm_score(){
         $id = $this->get_in_int_val("id");
