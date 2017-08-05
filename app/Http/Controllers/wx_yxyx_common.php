@@ -36,10 +36,6 @@ class wx_yxyx_common extends Controller
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
         }else{
-            session([
-                "agent_id" => 0,
-                "login_user_role" =>0,
-            ]);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
             if($id){
@@ -172,6 +168,7 @@ class wx_yxyx_common extends Controller
         $ret_list = $this->t_agent->get_id_by_phone($phone_str);
         foreach($ret_list as $item){
             if($phone == $item['phone']){
+                // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
                 return $this->output_err("您已被邀请过!");
             }
             if($p_phone = $item['phone']){
