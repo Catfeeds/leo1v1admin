@@ -14,7 +14,6 @@ class wx_yxyx_common extends Controller
     var $check_login_flag=false;
 
     public function wx_jump_page(){
-        
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -43,6 +42,7 @@ class wx_yxyx_common extends Controller
             ]);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
+            \App\Helper\Utils::logger('yxyx_new_id:'.$id);
             if($id){
                 session([
                     "login_user_role" => 10,
