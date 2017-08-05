@@ -2056,4 +2056,237 @@ trait  TeaPower {
         }
         return $accept_adminid;
     }
+
+    public function teacher_train_through_deal($teacher_info){
+        $today_date  = date("Y年m月d日",time());
+        $level_str    = E\Elevel::get_desc($teacher_info['level']);
+        if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
+            $title = "上海理优教研室";
+            $html  = $this->get_offer_html($teacher_info);
+            $ret   = \App\Helper\Common::send_paper_mail($teacher_info['email'],$title,$html);
+        }
+
+        if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
+            /**
+             * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
+             * 标题   : 入职邀请通知
+             * {{first.DATA}}
+             * 职位名称：{{keyword1.DATA}}
+             * 公司名称：{{keyword2.DATA}}
+             * 入职时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
+            $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
+            $data["keyword1"] = "教职老师";
+            $data["keyword2"] = "理优教育";
+            $data["keyword3"] = $today_date;
+            $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
+            $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$answer['userid'];
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
+        }
+
+        // $this->add_trial_train_lesson($teacher_info);
+        //$str .= "<br>您培训已通过，请登陆老师后台进行模拟试听课程。";
+
+        $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
+        $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
+        if(!empty($reference_info['teacherid']) && !$check_flag){
+            $wx_openid      = $reference_info['wx_openid'];
+            $teacher_type   = $reference_info['teacher_type'];
+            if(!in_array($teacher_type,[21,22,31])){
+                if(in_array($teacher_info['identity'],[5,6])){
+                    $type = 1;
+                }else{
+                    $type = 2;
+                }
+                $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+                $begin_time = strtotime($begin_date);
+                $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
+                    $reference_info['phone'],$type,$begin_time
+                );
+                $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
+                $this->t_teacher_money_list->row_insert([
+                    "teacherid"  => $reference_info['teacherid'],
+                    "money"      => $ref_price*100,
+                    "money_info" => $teacher_info['teacherid'],
+                    "add_time"   => time(),
+                    "type"       => 6,
+                ]);
+                if($wx_openid!=""){
+                    $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                    $wx_data["first"]    = $teacher_info['nick']."已成功入职";
+                    $wx_data["keyword1"] = "已入职";
+                    $wx_data["keyword2"] = "";
+                    $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
+                                         ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
+                                         ."请及时绑定银行卡号，如未绑定将无法发放。";
+                    \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
+                }
+            }
+        }
+
+    }
+
+    public function get_offer_html($teacher_info){
+        $name       = $teacher_info['nick'];
+        $level_str  = E\Elevel::get_desc($teacher_info['level']);
+        $date_str   = \App\Helper\Utils::unixtime2date(time(),"Y.m.d");
+        $group_html = $this->get_qq_group_html($teacher_info['subject']);
+        $html       = "
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf8'>
+        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1,user-scalable=true'>
+        <style>
+         *{margin:0 auto;padding:0 auto;}
+         body{opacity:100%;color:#666;}
+         html{font-size:10px;}
+         .color333{color:#333;}
+         .fl{float:left;}
+         .fr{float:right;}
+
+         .top-line{margin-top:24px;}
+         .tea_name{position:relative;z-index:1;top:321px;}
+         .tea_level{position:relative;z-index:1;top:410px;}
+         .date{position:relative;z-index:1;top:-215px;left:165px;}
+
+         .todo{margin:20px 0 10px 0;}
+         .todo li{margin:10px 0;}
+
+         .about_us{margin:30px 0 0;}
+         .us_title{margin:0 0 10px;}
+         .ul_title{margin:10px 0 0;color:#333;font-size;28px;}
+
+         .join-us{margin:40px 0;}
+         .join-us-content{width:44%;}
+         .middle-line{
+             width:28%;
+             height:4rem;
+             background:url(http://7u2f5q.com2.z0.glb.qiniucdn.com/7854b16d86652ff547354f84b119d7a51496676904532.png) repeat-x;
+             background-position:0 50%;
+         }
+
+         .size12{font-size:2.4rem;}
+         .size14{font-size:2.8rem;}
+         .size18{font-size:3.6rem;}
+         .size20{font-size:4rem;}
+         .size24{font-size:4.8rem;}
+         .content{width:700px;}
+         .img_position{position:relative;width:700px;}
+
+         @media screen and (max-width: 720px) {
+             .size12{font-size:1.5rem;}
+             .size14{font-size:1.75rem;}
+             .size18{font-size:2.25rem;}
+             .size20{font-size:2.5rem;}
+             .size24{font-size:3rem;}
+             .content{width:400px;}
+             .img_position{width:400px;}
+             .tea_name{top:199px;}
+             .tea_level{top:241px;}
+             .date{top:-135px;left:90px;}
+             .middle-line{height:2.5rem;}
+         }
+        </style>
+    </head>
+<body>
+    <div style='width:100%' align='center'>
+        <div class='content'>
+            <div class='logo top-line' align='center'>
+                <img height='50px' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ff214d6936c8911f83b5ed28eba692481496717820241.png'/>
+            </div>
+            <div>
+                <div class='size24 top-line color:#333'>
+                    您的加入,我们期待已久
+                </div>
+                <div class='size14' style='margin:20px 0 0'>
+                    以下是您的理优教育兼职讲师入职通知
+                    <br/>
+                    请仔细阅读通知书下方待办事项
+                </div>
+            </div>
+            <div>
+                <div class='size12' style='line-height:24px'>
+                    <name class='tea_name'>".$name."</name>
+                    <br/>
+                    <level class='tea_level'>老师等级:".$level_str."</level>
+                    <img class='img_position' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ae57036b08deb686fc7d52b8463a075e1496669999943.png'>
+                     <date class='date'>&nbsp;&nbsp;".$date_str."</date>
+                </div>
+            </div>
+            <div class='todo size12' align='left'>
+                <div class='size20 color333'>待办事项</div>
+                <div class='ul_title size14 color333'>
+                    -加入相关QQ群(请备注 科目-年级-姓名)
+                </div>
+                <ul>".$group_html."</ul>
+                <div class='ul_title size14 color333'>
+                    -理优老师后台链接
+                </div>
+                <ul>
+                    <li>
+                        后台连接:<br>
+                        http://www.leo1v1.com/login/teacher
+                    </li>
+                </ul>
+            </div>
+            <div class='about_us' align='left'>
+                <div class='us_title size20 color333'>关于我们</div>
+                <div class='size14' style='text-indent:2em'>理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多的家庭打破师资、时间、地域、费用的局限，
+                    获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得
+                    GGV数千万元A轮投资（GGV风投曾经投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）。
+                </div>
+                <div class='join-us'>
+                    <div class='middle-line fl'></div>
+                    <div class='join-us-content size14 color333 fl' align='center'>我们欢迎您的加入</div>
+                    <div class='middle-line fr'></div>
+                    <div style='clear:both'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+";
+        return $html;
+    }
+
+        public function get_qq_group_html($subject){
+        $qq_common = ["问题答疑","528851744","用于薪资，软件等综合问题"];
+        $qq_group  = [
+            1=>[
+                ["教研-语文","126321887","处理教学相关事务"],
+                ["排课-语文","103229898","用于抢课"]
+            ],2=>[
+                ["教研-数学","29759286","处理教学相关事务"],
+                ["排课-数学","132041242","用于排课"],
+            ],3=>[
+                ["教研-英语","451786901","处理教学相关事务"],
+                ["排课-英语","41874330","用于排课"],
+            ],4=>[
+                ["教研-综合","513683916","处理教学相关事务"],
+                ["排课-理化","129811086","用于排课"],
+            ],5=>[
+                ["教研-综合","513683916","处理教学相关事务"],
+                ["排课-文理综合","538808064","用于排课"],
+            ],
+        ];
+        if($subject<=3){
+            $key=$subject;
+        }elseif(in_array($subject,[4,5])){
+            $key=4;
+        }else{
+            $key=5;
+        }
+        $qq_group[$key][]=$qq_common;
+        $html="";
+        foreach($qq_group[$key] as $qq_val){
+            $html .= "<li>【LEO】".$qq_val[0]."<br>群号：".$qq_val[1]."<br>群介绍：".$qq_val[2]."</li>";
+        }
+        return $html;
+    }
+
+
 }

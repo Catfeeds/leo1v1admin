@@ -1571,7 +1571,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
             if ($invalid_flag) {
                 $this->set_sys_invaild_flag($userid);
-                $this->task->t_book_revisit->add_book_revisit($phone,"系统:判定无效-". $invalid_str ,"system");
+                $this->task->t_book_revisit->add_book_revisit($item_arr["phone"],"系统:判定无效-". $invalid_str ,"system");
             }else{
                 $this->field_update_list($userid,[
                     "sys_invaild_flag" => 0,

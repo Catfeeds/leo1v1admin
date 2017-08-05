@@ -193,18 +193,32 @@ class wx_parent_gift extends Controller
             }
 
             if($prize_code){
-                $receive_time = time();
-            }else{
-                $price = 0;
-                $receive_time = '';
-            }
+                $id = $this->t_parent_luck_draw_in_wx->get_id_by_code($prize_code);
+                if($id){
+                    $ret_add = $this->t_parent_luck_draw_in_wx->field_update_list($id,[
+                        "prize_code" => $prize_code,
+                        "userid"     => $userid,
+                        "add_time"   => time(),
+                        "receive_time" =>time(),
+                        "price"      => $price
+                    ]);
 
-            $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
-                "prize_code" => $prize_code,
-                "userid"     => $userid,
-                "add_time"   => time(),
-                "receive_time" =>$receive_time
-            ]);
+                    if($ret_add){
+                        $content = "恭喜您成功参与理优周年庆抽奖活动，获得奖学金现金券！您的使用码 $prize_code";
+                        $value  = '';
+                        $this->send_prize_info($userid,$content,$value);
+                    }
+                }
+            }else{
+                $receive_time = '';
+                $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                    "prize_code" => $prize_code,
+                    "userid"     => $userid,
+                    "add_time"   => time(),
+                    "receive_time" =>$receive_time,
+                    "price"      => $price
+                ]);
+            }
 
             if($ret_add){
                 $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
@@ -218,7 +232,7 @@ class wx_parent_gift extends Controller
     public function send_prize_info($parentid,$content,$value){
         $acc     = $this->get_account();
 
-        $userid = 0;
+        $userid = $this->t_student_init_info->get_userid_by_parentid($parentid);
         $this->t_baidu_msg->start_transaction();
         $ret = $this->t_baidu_msg->baidu_push_msg($userid,$content,$value,1007,0);
         if(!$ret){
@@ -235,9 +249,9 @@ class wx_parent_gift extends Controller
             if($wx_openid!=""){
                 $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
                 $data= [
-                    "first"     => "您有一条未处理的\"理优618\"活动奖励，请及时处理",
-                    "keyword1"  => "理优618活动",
-                    "keyword2"  => "京东电子现金劵兑换码",
+                    "first"     => "您有一条未处理的\"理优周年庆\"活动奖励，请及时处理",
+                    "keyword1"  => "理优周年庆活动",
+                    "keyword2"  => "奖学金现金劵使用码",
                     "keyword3"  => date("Y-m-d"),
                     "remark"    => $content,
                 ];

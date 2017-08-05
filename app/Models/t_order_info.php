@@ -1246,7 +1246,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $promotion_spec_present_lesson=0,
         $contract_from_type=0,
         $from_parent_order_lesson_count=0,
-        $per_price=0
+        $pre_price=0
     )
     {
 
@@ -1291,7 +1291,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "promotion_spec_present_lesson" => $promotion_spec_present_lesson,
             "stu_from_type" => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
-            "per_price" => $pre_price,
+            "pre_price" => $pre_price,
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
