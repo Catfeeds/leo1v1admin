@@ -77,6 +77,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $nick = '王旺旺';
+        $phone = '15251318668';
+        $grade = 0;
+        $origin = '优学优享';
+        $subject = 0;
+        $has_pad = 0;
+        $ret = $this->t_seller_student_new->book_free_lesson_new($nick,$phone,$grade,$origin='优学优享',$subject,$has_pad);
+        dd($ret);
         $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
         $end_time = $start_time + 24*3600;
         // $lessonid = $this->get_in_int_val('lessonid');

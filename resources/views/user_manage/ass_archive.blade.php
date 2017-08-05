@@ -87,6 +87,7 @@
                     ["关系","parent_type" ],
                     ["联系电话","phone" ],
                     ["年级","grade"],
+                    ["科目数量","course_list_total"],
                     ["签约课时","lesson_count_all" ],
                     ["剩余课时","lesson_count_left" ],
                     ["已上课时","lesson_count_done" ],
@@ -116,6 +117,7 @@
                     <td class="td-parent-type" data-v="{{$var["parent_type"]}}"></td>
                     <td class="user_phone" >{{$var["phone"]}}</td>
                     <td class="td-grade" data-v="{{$var["grade"]}}"  ></td>
+                    <td class="" >{{$var['course_list_total']}}</td>
                     <td >{{$var["lesson_count_all"]}}</td>
                     <td >{{$var["lesson_count_left"]}}</td>
                     <td >{{$var["lesson_count_done"]}}</td>
