@@ -123,31 +123,31 @@ class wx_parent_gift extends Controller
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
             $start_time = strtotime(date("Y-m-d",time()));
             $end_time   = $start_time+86400;
-            $now = time();
-            $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price,$limit_gift);
+            $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
             $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
 
-            if($today_gift_num <=$limit_gift){
-                return $this->output_succ();
+            // 8月6日 ~ 8日 // 每天的奖品数量
+            if($price == 20){
+                
             }
 
-            $index = mt_rand(0,1870);
 
-            if($all_gift_list[$index]['userid'] > 0){
+            if($today_gift_num >=$limit_gift){
                 return $this->output_err("未中奖!");
-            }else{
-                $gift_price = $all_gift_list[$index]['price'];
-                if($gift_price > $price){
-                    return $this->output_err("未中奖!");
-                }
-
-
-                $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
-                    "prize_code" => "",
-                    "userid"     => $userid,
-
-                ]);
             }
+
+            $rock_gift_num = count($all_gift_list);
+
+            $index = mt_rand(0,$rock_gift_num-1);
+
+            $prize_code = $all_gift_list[$index]['prize_code'];
+
+            $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                "prize_code" => $prize_code,
+                "userid"     => $userid,
+                "add_time"   => time()
+            ]);
+
 
         }
 
