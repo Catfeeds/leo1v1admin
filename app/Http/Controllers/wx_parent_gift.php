@@ -231,8 +231,7 @@ class wx_parent_gift extends Controller
 
     public function send_prize_info($parentid,$content,$value){
         $acc     = $this->get_account();
-
-        $userid = $this->t_student_init_info->get_userid_by_parentid($parentid);
+        $userid  = $this->t_student_init_info->get_userid_by_parentid($parentid);
         $this->t_baidu_msg->start_transaction();
         $ret = $this->t_baidu_msg->baidu_push_msg($userid,$content,$value,1007,0);
         if(!$ret){

@@ -2017,7 +2017,7 @@ trait  TeaPower {
     /**
      * 添加老师的模拟试听
      */
-    public function add_trial_train_lesson($teacher_info){
+    public function add_trial_train_lesson($teacher_info,$flag=0){
         $grade    = \App\Helper\Utils::change_grade_end_to_grade($teacher_info);
         $courseid = $this->t_course_order->add_course_info_new(
             0,0,$grade,$teacher_info['subject'],0
@@ -2038,6 +2038,34 @@ trait  TeaPower {
             "train_lessonid" => $lessonid,
             "lesson_style"   => 5
         ]);
+        if($flag==1){
+            if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+
+                $data=[];
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = "请尽快登录老师后台完成模拟试听";
+                $data['keyword1'] = "选择模拟试听时间";
+                $data['keyword2'] = "尽快登录老师后台,选择模拟试听时间";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "通过模拟试听即可成功入职,理由教育致力于打造高水平的教学服务团队,期待您能通过审核,加油!";
+                $url = "";
+                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
+              
+            }
+
+        }
 
         return true;
     }
@@ -2056,6 +2084,7 @@ trait  TeaPower {
         }
         return $accept_adminid;
     }
+
 
     public function teacher_train_through_deal($teacher_info){
         $today_date  = date("Y年m月d日",time());

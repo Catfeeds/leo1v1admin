@@ -6475,31 +6475,16 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             @$lesson_avg["lesson_per"] +=$val["lesson_per"];
             @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
             @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
-            if($m==7 || $m==8){
-                if($val["lesson_per_month"]>=160){
-                    $val["reward"] = 500;
-                }elseif($val["lesson_per_month"]>=150){
-                    $val["reward"] = 400;
-                }elseif($val["lesson_per_month"]>=140){
-                    $val["reward"] = 300;
-                }elseif($val["lesson_per_month"]>=130){
-                    $val["reward"] = 200;
-                }elseif($val["lesson_per_month"]>=120){
-                    $val["reward"] = 100;
-                }
-
-            }else{
-                if($val["lesson_per_month"]>=140){
-                    $val["reward"] = 500;
-                }elseif($val["lesson_per_month"]>=130){
-                    $val["reward"] = 400;
-                }elseif($val["lesson_per_month"]>=120){
-                    $val["reward"] = 300;
-                }elseif($val["lesson_per_month"]>=110){
-                    $val["reward"] = 200;
-                }elseif($val["lesson_per_month"]>=100){
-                    $val["reward"] = 100;
-                }
+            if($val["lesson_per_month"]>=140){
+                $val["reward"] = 500;
+            }elseif($val["lesson_per_month"]>=130){
+                $val["reward"] = 400;
+            }elseif($val["lesson_per_month"]>=120){
+                $val["reward"] = 300;
+            }elseif($val["lesson_per_month"]>=110){
+                $val["reward"] = 200;
+            }elseif($val["lesson_per_month"]>=100){
+                $val["reward"] = 100;
             }
 
         }
@@ -6510,7 +6495,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }elseif($k==1 && $uk["score"]>=30){
                 $uk["other_reward"]=200;
             }else if($k==2 && $uk["score"]>=30){
-                $uk["other_reward"]=200;
+                $uk["other_reward"]=100;
             }
 
 
