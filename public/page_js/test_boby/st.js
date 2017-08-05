@@ -25,11 +25,7 @@ $(function(){
             load_data();
         }
     });
-
-
 	$('#id_nick_phone').val(g_args.nick_phone);
-
-
 	$('.opt-change').set_input_change_event(load_data);
 });
 
