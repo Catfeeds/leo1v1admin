@@ -261,7 +261,6 @@ class user_manage extends Controller
         $ret_info = $this->t_student_info->get_student_list_archive( $userid, $grade, $status, $user_name, $phone, $teacherid,
                                                                      $assistantid, $test_user, $originid, $page_num, $student_type,
                                                                      $revisit_flag, $warning_stu,$sum_start);
-
         $userid_list=[];
         foreach($ret_info['list'] as $t_item) {
             $userid_list[]=$t_item["userid"];
@@ -346,6 +345,13 @@ class user_manage extends Controller
                 $item["location"]= $item["phone_location"];
             }
 
+            //$item["course_list_total"] = $this->t_course_order->get_list_total($item['userid'],-1,0);
+            $ret_get_list_total = $this->t_course_order->get_list_total($item['userid'],-1,0);
+            $arr = [];
+            foreach ($ret_get_list_total as $key => $value) {
+                $arr[] = $value['subject'];
+            }
+            $item["course_list_total"] = count(array_unique($arr));
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
@@ -359,7 +365,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-
+        //dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
     }
 

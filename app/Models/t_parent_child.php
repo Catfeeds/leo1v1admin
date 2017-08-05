@@ -93,7 +93,7 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
 
     public function get_student_lesson_total_by_parentid($userid){
         $where_arr = [
-            "o.contract_type in (0,3 )",
+            "o.contract_type in (0,3)",
             "o.contract_status >0",
             "pc.parentid = $userid"
         ];

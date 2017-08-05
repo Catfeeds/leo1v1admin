@@ -107,11 +107,11 @@
                                         <td>换老师</td>
                                         <td>综合</td>
                                         <td>cc</td>
-                                        <td>扩课</td>
-                                        <td>换老师</td>
+                                        <td>扩课/换老师</td>
                                         <td>综合</td>
-                                        <td>试听学生</td>
                                         <td>合计</td>
+                                        <td>绩效奖金</td>
+                                        <td>排行奖金</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_lesson_count_list">
@@ -131,12 +131,12 @@
                                             <td> {{@$var["hls_per"]}}% </td>
                                             <td> {{@$var["all_per"]}}% </td>
                                             <td> {{@$var["cc_score"]}} </td> 
-                                            <td> {{@$var["kk_score"]}} </td> 
-                                            <td> {{@$var["hls_score"]}}</td> 
+                                            <td> {{@$var["kk_hls_score"]}} </td> 
                                             <td> {{@$var["all_score"]}}</td> 
-                                            <td> {{@$var["lesson_score"]}}</td> 
 
                                             <td> {{@$var["score"]}} </td> 
+                                            <td> {{@$var["reward"]}} </td> 
+                                            <td> {{@$var["other_reward"]}} </td> 
                                         </tr>
                                         
                                     @endforeach
@@ -163,6 +163,10 @@
                                         <td>本月剩余课时</td>
                                         <td>已完成常规学生月平均课时</td>
                                         <td>累计课时消耗完成率</td>
+                                        <td>绩效奖金</td>
+                                        
+                                        <td>排行奖金</td>
+
                                     </tr>
                                 </thead>
                                 <tbody id="id_assistant_renew_list">
@@ -176,7 +180,10 @@
                                             <td> {{@$var["lesson_per"]}}% </td> 
                                             <td> {{@$var["lesson_count_left"]/100}}</td> 
                                             <td> {{@$var["lesson_count_avg"]}} </td> 
-                                            <td> {{@$var["lesson_per_month"]}}% </td> 
+                                            <td> {{@$var["lesson_per_month"]}}% </td>
+                                            <td> {{@$var["reward"]}} </td> 
+                                            <td> {{@$var["other_reward"]}} </td> 
+
 
                                         </tr>
                                     @endforeach

@@ -70,7 +70,11 @@ class t_parent_luck_draw_in_wx extends \App\Models\Zgen\z_t_parent_luck_draw_in_
     }
 
     public function get_id_by_code($prize_code){
+<<<<<<< HEAD
         $sql = $this->gen_sql_new(" select id from %s pl where prize_code = $prize_code and receive_time='' for update",
+=======
+        $sql = $this->gen_sql_new(" select id from %s pl where prize_code = '$prize_code' and receive_time=''",
+>>>>>>> c4962577f6f2b9f4cdfe2ba906c7f56d8ec0f6d5
                                   self::DB_TABLE_NAME
         );
 

@@ -34,21 +34,18 @@ use OSS\Core\OssException;
 
 
 
-class wx_parent_api extends Controller
+class wx_parent_for_prize extends Controller
 {
 
     use CacheNick;
-    var $check_login_flag=false;
+    // var $check_login_flag=false;
     public function __construct() {
-
         parent::__construct();
+        // if (! $this->get_parentid()  ) {
 
-        if (! $this->get_parentid()  ) {
-            $id = $this->get_parentid();
-
-            echo $this->output_err("未登录");
-            exit;
-        }
+        //     // echo $this->output_err("未登录");
+        //     // exit;
+        // }
 
     }
 
@@ -318,9 +315,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_wx_tec_js_config(){
-
         $ref=$this->get_in_str_val("ref");
-
         $signature_str = $this->get_signature_str($ref);
         $config = [
             'debug' => 'false',

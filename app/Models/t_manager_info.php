@@ -1343,12 +1343,16 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function get_list_test( $page_info, $nick_phone, $account_role) {
+    public function get_list_test( $page_info, $nick_phone, $account_role, $start_time, $end_time) {
         $where_arr=array();
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        $where_arr = [
+            ["create_time>=%s",$start_time,0],
+            ["create_time<=%s",$end_time,0],
+        ];
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "phone like '%%%s%%'  ", $this->ensql($nick_phone));
         }
-        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         $sql =  $this->gen_sql_new( "select uid, account, account_role, name, phone, create_time "
                                     . " from %s "
                                     . "  where %s  ",
@@ -1381,7 +1385,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         // dd($this->row_delete($sql));
 
 
-        dd($this->main_get_list_by_page($sql,$page_info));
+        //dd($this->main_get_list_by_page($sql,$page_info));
         return $this->main_get_list_by_page($sql,$page_info);
 
 
