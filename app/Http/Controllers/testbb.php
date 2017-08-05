@@ -47,6 +47,9 @@ class testbb extends Controller
 
 
     public function test () {
+
+        $six_date = strtotime('2017-08-06');
+        dd($six_date);
         $r  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(20);
 
 
