@@ -49,6 +49,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             $this->t_seller_student_new->field_update_list($userid,[
                 "global_seller_student_status" => $seller_student_status
             ]);
+            $this->task->t_test_subject_free_list->
 
             if ($seller_student_status>=100) { // set 1
                 if ($origin_vaild_flag !=1 ) {
