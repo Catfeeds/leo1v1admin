@@ -821,6 +821,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $before_24_time=time(NULL) -86400;
         $before_48_time= $before_24_time -86400;
         $check_no_call_time_str=" (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) ";
+        \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
+
         switch ( $seller_level_flag ) {
         case 1 :  //s
         case 2 :  //a
