@@ -25,16 +25,17 @@
                     <td>上级微信昵称</td>
                     <td>手机号</td>
                     <td>userid</td>
-                    <td>银行卡号</td>
-                    <td>身份证号码</td>
-                    <td>开户行和支行</td>
-                    <td>持卡人姓名</td>
-                    <td>银行预留手机号</td>
-                    <td>银行开户省</td>
-                    <td>银行开户市</td>
-                    <td>银行卡类型</td>
-                    <td>支付宝姓名</td>
-                    <td>支付宝账号</td>
+                    <!-- <td>银行卡号</td>
+                         <td>身份证号码</td>
+                         <td>开户行和支行</td>
+                         <td>持卡人姓名</td>
+                         <td>银行预留手机号</td>
+                         <td>银行开户省</td>
+                         <td>银行开户市</td>
+                         <td>银行卡类型</td>
+                         <td>支付宝姓名</td>
+                         <td>支付宝账号</td> -->
+                    <td>类型</td>
                     <td>创建时间</td>
                     <td>操作</td>
                 </tr>
@@ -48,16 +49,23 @@
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["userid"]}} </td>
-                        <td>{{@$var["bankcard"]}} </td>
-                        <td>{{@$var["idcard"]}} </td>
-                        <td>{{@$var["bank_address"]}} </td>
-                        <td>{{@$var["bank_account"]}} </td>
-                        <td>{{@$var["bank_phone"]}} </td>
-                        <td>{{@$var["bank_province"]}} </td>
-                        <td>{{@$var["bank_city"]}} </td>
-                        <td>{{@$var["bank_type"]}} </td>
-                        <td>{{@$var["zfb_name"]}} </td>
-                        <td>{{@$var["zfb_account"]}} </td>
+                        <!-- <td>{{@$var["bankcard"]}} </td>
+                             <td>{{@$var["idcard"]}} </td>
+                             <td>{{@$var["bank_address"]}} </td>
+                             <td>{{@$var["bank_account"]}} </td>
+                             <td>{{@$var["bank_phone"]}} </td>
+                             <td>{{@$var["bank_province"]}} </td>
+                             <td>{{@$var["bank_city"]}} </td>
+                             <td>{{@$var["bank_type"]}} </td>
+                             <td>{{@$var["zfb_name"]}} </td> -->
+                        <!-- <td>{{@$var["zfb_account"]}} </td> -->
+                        @if(@$var['type'] == 1)
+                            <td>报名上课 </td>
+                        @elseif(@$var['type'] == 2)
+                            <td>我要推荐 </td>
+                        @else
+                            <td></td>
+                        @endif
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div

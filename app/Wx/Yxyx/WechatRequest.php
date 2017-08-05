@@ -415,22 +415,22 @@ class WechatRequest  {
      */
     public static function eventClick(&$request){
         $openid = $request['fromusername'];
-        $t_agent = new \App\Models\t_agent();
-        $agent = $t_agent->get_agent_info_by_openid($openid);
-        $phone = '';
-        if(isset($agent['phone'])){
-            $phone = $agent['phone'];
-        }
-        if(!$phone){
-            $content="
-【绑定提醒】
-您还未绑定手机，请绑定成功后重试
-绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
-            $_SESSION['wx_openid'] =   $request['fromusername'];
-            session(['wx_openid'=> $request['fromusername']]);
+//         $t_agent = new \App\Models\t_agent();
+//         $agent = $t_agent->get_agent_info_by_openid($openid);
+//         $phone = '';
+//         if(isset($agent['phone'])){
+//             $phone = $agent['phone'];
+//         }
+//         if(!$phone){
+//             $content="
+// 【绑定提醒】
+// 您还未绑定手机，请绑定成功后重试
+// 绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+//             $_SESSION['wx_openid'] =   $request['fromusername'];
+//             session(['wx_openid'=> $request['fromusername']]);
 
-            return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
-        }
+//             return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+//         }
 
         //获取该分类的信息
         $eventKey = $request['eventkey'];
