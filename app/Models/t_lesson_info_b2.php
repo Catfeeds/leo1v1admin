@@ -1960,7 +1960,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["l.userid=%u", $userid, 0],
             ["l.lesson_start>=%u", $start_time, 0],
-            ["lesson_end<%u", time(), 0],
+            ["l.lesson_end<%u", time(), 0],
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
@@ -1970,7 +1970,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." LEFT JOIN %s t ON t.teacherid=l.teacherid"
                                   ." LEFT JOIN %s s ON s.userid=l.userid"
                                   ." WHERE %s"
-                                  ." GROUP BY t.realname"
+                                  ." GROUP BY t.teacherid"
                                   ." ORDER BY teacher_lesson_count DESC"
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
