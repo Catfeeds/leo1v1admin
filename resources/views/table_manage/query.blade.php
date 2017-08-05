@@ -24,10 +24,9 @@
 
 
         </div>
-
         <div class="row">
             <div class="col-xs-12 col-md-12">
-                <textarea id="id_sql" style="width:100%; height:100px;" > </textarea>
+                <textarea id="id_sql" style="width:100%; height:200px;" > </textarea>
             </div>
         </div>
 

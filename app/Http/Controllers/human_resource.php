@@ -1815,7 +1815,7 @@ class human_resource extends Controller
         $ret = $this->t_lecture_revisit_info->get_lecture_revisit_info_by_phone($phone);
         foreach($ret as &$item){
             $item["revisit_time_str"] = date("Y-m-d H:i:s",$item["revisit_time"]);
-            E\Erevisit_origin::set_item_value_str($item,"revisit_origin");
+            E\Electure_revisit_type::set_item_value_str($item,"revisit_origin");
         }
         return $this->output_succ(["revisit_list"=>$ret]);
     }

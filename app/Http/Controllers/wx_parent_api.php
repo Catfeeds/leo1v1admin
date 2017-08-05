@@ -317,6 +317,8 @@ class wx_parent_api extends Controller
 
     public function get_wx_tec_js_config(){
         $ref=$this->get_in_str_val("ref");
+        \App\Helper\Utils::logger("xuejiref".$ref);
+
         $signature_str = $this->get_signature_str($ref);
         $config = [
             'debug' => 'false',

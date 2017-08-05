@@ -661,6 +661,7 @@ return array(
     'TSellerStudentNewAddCallTimeAndFirstTime' => $baseDir . '/database/migrations/2017_04_11_185255_t_seller_student_new_add_call_time_and_first_time.php',
     'TSellerStudentNewAddSysInvaildFlag' => $baseDir . '/database/migrations/2017_04_12_102109_t_seller_student_new_add_sys_invaild_flag.php',
     'TSellerStudentNewAddWxInvaildFlag' => $baseDir . '/database/migrations/2017_07_18_145039_t_seller_student_new_add_wx_invaild_flag.php',
+    'TSellerStudentNewCallAdminCount' => $baseDir . '/database/migrations/2017_08_05_162156_t_seller_student_new_call_admin_count.php',
     'TSellerStudentNewCallPhoneCount' => $baseDir . '/database/migrations/2017_08_03_114221_t_seller_student_new_call_phone_count.php',
     'TSellerStudentNewFirstCallTime' => $baseDir . '/database/migrations/2017_06_15_131946_t_seller_student_new_first_call_time.php',
     'TSellerStudentNewFristSetAdminid' => $baseDir . '/database/migrations/2017_05_25_153711_t_seller_student_new_frist_set_adminid.php',

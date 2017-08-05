@@ -306,7 +306,6 @@ class url_power_map {
 			'/seller_student_new/seller_seller_student_list'	=>1114000,
 			'/seller_student_new/get_hold_list'	=>1115300,
 			'/seller_student_new/get_free_seller_list'	=>1115400,
-			'/seller_student_new/get_new_list'	=>1115200,
 			'/seller_student_new/deal_new_user'	=>1115500,
 			'/seller_student_new/get_new_list_tmk'	=>1115600,
 			'/seller_student_new/deal_new_user_tmk'	=>1115700,

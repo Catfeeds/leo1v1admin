@@ -6367,7 +6367,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
-        $normal_stu_num2 = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
+        // $normal_stu_num2 = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
         //dd($qz_tea_arr);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
         //dd($lesson_count);
@@ -6393,13 +6393,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             if( $item["lesson_per"]>100){
                 $item["lesson_per"]=100;
             }
-            $item["cc_score"] = round($item["cc_per"]*0.5,2);
-            $item["kk_score"] = round($item["kk_per"]*0.1,2);
-            $item["hls_score"] = round($item["hls_per"]*0.1,2);
+            $item["cc_score"] = round($item["cc_per"]*0.75,2);
+            $item["kk_score"] = round($item["kk_per"]*0.05,2);
+            $item["hls_score"] = round($item["hls_per"]*0.05,2);
             $item["lesson_score"] = round($item["lesson_per"]*0.1,2);
-            $item["all_score"] = round($item["all_per"]*0.2,2);
+            $item["all_score"] = round($item["all_per"]*0.15,2);
 
-            $item["score"] =  $item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["lesson_score"]+$item["all_score"];
+            $item["score"] =  ($item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["all_score"])*$item["lesson_score"]/10;
             @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
             @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
             @$tran_avg["kk_lesson_num"] +=$item["kk_lesson_num"];
@@ -6412,7 +6412,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
         
         foreach($list as &$val){
-            $val["normal_stu"] = isset($normal_stu_num2[$val["teacherid"]])?$normal_stu_num2[$val["teacherid"]]["num"]:0;
+            $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
             $val["week_count"] = isset($normal_stu_num1[$val["teacherid"]])?round($normal_stu_num1[$val["teacherid"]]["lesson_all"]/500):0;
             $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
             $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
