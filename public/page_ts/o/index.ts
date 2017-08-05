@@ -13,6 +13,8 @@ $(function(){
             office_device_type : 1,
             device_opt_type : 1 ,
             device_id:  g_args.id
+        },function(){
+            BootstrapDialog.alert ("请等待10秒, 开机中.. ");
         });
     });
 
@@ -21,6 +23,8 @@ $(function(){
             office_device_type : 1,
             device_opt_type : 0 ,
             device_id:  g_args.id
+        },function(){
+            BootstrapDialog.alert ("请等待10秒, 关机中.. ");
         });
     });
 });
