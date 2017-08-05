@@ -24,12 +24,14 @@ class agent extends Controller
         $bank_province = $this->get_in_str_val('bank_province');
         $bank_city     = $this->get_in_str_val('bank_city');
         $bank_type     = $this->get_in_str_val('bank_type');
-        $zfb_name     = $this->get_in_str_val('zfb_name');
-        $zfb_account     = $this->get_in_str_val('zfb_account');
+        $zfb_name      = $this->get_in_str_val('zfb_name');
+        $zfb_account   = $this->get_in_str_val('zfb_account');
+        $type          = $this->get_in_int_val('agent_type');
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone);
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type);
         foreach($ret_info['list'] as &$item){
+            $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
         return $this->pageView(__METHOD__,$ret_info);

@@ -8,10 +8,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
-    public function get_agent_info($page_info,$phone)
+    public function get_agent_info($page_info,$phone,$type)
     {
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        $this->where_arr_add_int_field($where_arr,"a.type",$type);
         
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone "
                                  ." from %s a "
