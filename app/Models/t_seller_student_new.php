@@ -97,7 +97,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $passwd = md5("123456");
         $region = "";
         $userid = $this->t_student_info->register($phone,$passwd,$reg_channel,$grade,0,$nick,$region);
-
         //通知
         $admin_revisiterid    = 0;
         $seller_resource_type = 0;
