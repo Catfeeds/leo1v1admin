@@ -939,7 +939,7 @@ class common_new extends Controller
                     $list['three_star'] = ($v['teacher_score'] == 3)?$score_num:$list['three_star'];
                 }
             }
-            $lesson_total          = $this->t_lesson_info_b2->get_stu_lesson_time_total($userid);
+            $lesson_total          = $this->t_lesson_info_b2->get_stu_lesson_time_total($userid) / 100;
             $list['past_lesson']   = str_pad($lesson_total, 3, '0', STR_PAD_LEFT);
             $list['reduce_gas']    = $lesson_total? number_format($lesson_total * 200/3, 2):'000';
             $list['add_greenland'] = $lesson_total? number_format($lesson_total * 0.63/3, 2):'00';
