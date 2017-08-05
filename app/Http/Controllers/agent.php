@@ -28,11 +28,11 @@ class agent extends Controller
         $zfb_account     = $this->get_in_str_val('zfb_account');
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$userid,$parentid,$phone,$wx_openid);
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone);
         foreach($ret_info['list'] as &$item){
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-
+        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -78,7 +78,8 @@ class agent extends Controller
     public function check(){
         $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
         $end_time = $start_time + 24*3600;
-        $lessonid = $this->get_in_int_val('lessonid');
+        // $lessonid = $this->get_in_int_val('lessonid');
+        $lessonid = 273029;
         $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
         dd($ret);
         return $ret;

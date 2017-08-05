@@ -4,36 +4,9 @@
 
         <div>
             <div class="row  row-query-list" >
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">parentid</span>
-                        <input class="opt-change form-control" id="id_parentid" />
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">userid</span>
-                        <input class="opt-change form-control" id="id_userid" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">年级</span>
-                        <select class="opt-change form-control" id="id_grade" />
-                        </select>
-                    </div>
-                </div>
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">微信openid</span>
-                        <input class="opt-change form-control" id="id_wx_openid" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
