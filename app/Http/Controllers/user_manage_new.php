@@ -2220,11 +2220,11 @@ class user_manage_new extends Controller
             $full_start_time,$start_time,$teacher_ref_type,3,$teacher_money_type,$level
         );
         $list = array_merge($tea_list,$full_tea_list);
-        //规定时间内没有上课但有额外奖励的老师列表
-        // $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
-        //     $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
-        // );
-        // $list = array_merge($list,$reward_list);
+        // 规定时间内没有上课但有额外奖励的老师列表
+        $reward_list = $this->t_teacher_money_list->get_teacher_reward_list_for_wages(
+            $start_time,$end_time,$teacher_ref_type,0,$teacher_money_type,$level
+        );
+        $list = array_merge($list,$reward_list);
 
         $stu_num = $this->t_lesson_info->get_stu_total($start_time,$end_time,$teacher_money_type);
         $all_lesson_money = $this->t_order_lesson_list->get_all_lesson_money($start_time,$end_time,$teacher_money_type);

@@ -88,11 +88,11 @@ class wx_parent_gift extends Controller
         }elseif($parent_num>90 && $parent_num<=180){
             $price = 80;
         }elseif($parent_num>180 && $parent_num<=250){
-            $price = 80;
-        }elseif($parent_num>250 && $parent_num<=180){
-            $price = 80;
+            $price = 120;
+        }elseif($parent_num>250 && $parent_num<=300){
+            $price = 150;
         }elseif($parent_num>90 && $parent_num<=180){
-            $price = 80;
+            $price = 200;
         }
 
 
