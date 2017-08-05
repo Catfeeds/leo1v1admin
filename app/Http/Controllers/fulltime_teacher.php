@@ -13,7 +13,7 @@ class fulltime_teacher extends Controller
     public function full_assessment_list(){
         $adminid = $this->get_account_id();
         // $adminid=204; //WUhan
-        $adminid=920; //Shanghai
+        // $adminid=920; //Shanghai
         //print_r($adminid);
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
@@ -44,9 +44,8 @@ class fulltime_teacher extends Controller
         $start_time = $account_info['create_time'];
         $end_time   = time();
         $n = ($end_time - $start_time)/86400/31;
-        $qz_tea_arr = array("$adminid");
+        $qz_tea_arr = array("$teacherid");
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
-        dd($qz_tea_arr);
         $val = $teacher_info;
         $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
