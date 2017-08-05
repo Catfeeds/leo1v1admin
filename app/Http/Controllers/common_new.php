@@ -376,7 +376,7 @@ class common_new extends Controller
                     </div>
                     <ul>
                         <li>1、理优老师端<a class='leo_blue' href='http://www.leo1v1.com/common/download'>点击下载</a></li>
-                        <li>2、试讲内容<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/4TwePiQyP1PkZMD?path=%2F'>点击下载</a></li>
+                        <li>2、试讲内容<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>点击下载</a></li>
                         <li>3、简历模板<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>点击下载</a></li>
                         <li>4、录制教程<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/TeacherLecturePPT/MianShiLiuCheng.mp4' target='_blank'>点击播放</a></li>
                         <li>5、统一试讲账号 :<span class='red'>99900010001&nbsp;&nbsp;&nbsp;&nbsp;密码：173175</span></li>

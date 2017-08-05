@@ -42,11 +42,13 @@ interface RowData {
 	teacher_type	:any;
 	custom	:any;
 	self_introduction_experience	:any;
+	full_time	:any;
 	lecture_appointment_status	:any;
 	reference	:any;
 	answer_begin_time	:any;
 	answer_end_time	:any;
 	status	:any;
+	lesson_start	:any;
 	lecture_revisit_type	:any;
 	trial_train_status	:any;
 	subject	:any;
@@ -67,11 +69,15 @@ interface RowData {
 	trans_grade_end	:any;
 	qq	:any;
 	wx_openid	:any;
+	full_status	:any;
+	full_record_info	:any;
 	answer_time	:any;
 	lecture_appointment_status_str	:any;
 	teacher_type_str	:any;
 	lecture_revisit_type_str	:any;
+	full_time_str	:any;
 	status_str	:any;
+	full_status_str	:any;
 	trans_grade_str	:any;
 	subject_num	:any;
 	tea_subject	:any;
@@ -80,6 +86,7 @@ interface RowData {
 	qq_ex	:any;
 	email_ex	:any;
 	have_wx_flag	:any;
+	lecture_revisit_type_new_str	:any;
 }
 
 /*

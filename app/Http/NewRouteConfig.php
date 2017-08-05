@@ -43,6 +43,7 @@ class NewRouteConfig {
         "pdf_viewer"    => true,
         "order_refund_confirm_config" => true,
         "wx_parent_api"               => true,
+        "wx_parent_for_prize"         => true,
         "wx_teacher_api"              => true,
         "tec_stu_logtime"             => true,
         "upload_tmk"                  => true,

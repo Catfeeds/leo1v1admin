@@ -151,6 +151,7 @@ $(function(){
     $(".opt-set-lecture-revisit-type").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id_lecture_revisit_type = $("<select/>");   
+        var id_return_revisit_note = $("<textarea />");
         if(g_args.fulltime_flag==0){
             Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
         }else{
@@ -158,15 +159,18 @@ $(function(){
         }
         var arr=[
             ["回访状态", id_lecture_revisit_type],
+            ["备注",id_return_revisit_note]
         ];
         id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
+        id_return_revisit_note.val(opt_data.custom);
         $.show_key_value_table("修改状态", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 $.do_ajax( '/ss_deal/update_lecture_revisit_type',{
                     "id" : opt_data.id,
-                    "lecture_revisit_type" : id_lecture_revisit_type.val()
+                    "lecture_revisit_type" : id_lecture_revisit_type.val(),
+                    "custom":id_return_revisit_note.val()
                 });
             }
         });
@@ -419,7 +423,7 @@ $(function(){
         var phone = opt_data.phone;
         var id_return_revisit_origin = $("<select />");
         var id_return_revisit_note = $("<textarea />");
-        Enum_map.append_option_list("revisit_origin",id_return_revisit_origin,true,[1,2,3]);              
+        //Enum_map.append_option_list("revisit_origin",id_return_revisit_origin,true,[1,2,3]);              
         
         var arr = [
             [ "回访渠道",  id_return_revisit_origin] ,
@@ -450,7 +454,7 @@ $(function(){
 			data     : {"phone":phone},
 			success  : function(result){
 				var html_str="<table class=\"table table-bordered table-striped\"  > ";
-                html_str+=" <tr><th> 时间  <th> 回访渠道 <th> 负责人 <th>内容 </tr>   ";
+                html_str+=" <tr><th> 时间  <th> 状态 <th> 负责人 <th>备注 </tr>   ";
 				$.each( result.revisit_list ,function(i,item){
                     //console.log(item);
                     //return;

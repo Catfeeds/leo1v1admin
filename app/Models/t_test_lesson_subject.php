@@ -269,6 +269,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ["s.grade=%u", $grade, -1 ],
             ["n.phone='%s'", $phone, "" ],
             "n.admin_revisiterid =0 ",
+            "n.sys_invaild_flag=0",
             " lesson_count_all =0 ",
             "  seller_student_status  <>50 ",
         ];
