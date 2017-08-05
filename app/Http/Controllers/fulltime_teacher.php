@@ -13,7 +13,7 @@ class fulltime_teacher extends Controller
     public function full_assessment_list(){
         $adminid = $this->get_account_id();
         // $adminid=204; //WUhan
-        //$adminid=99; //Shanghai
+        $adminid=920; //Shanghai
         //print_r($adminid);
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
@@ -32,7 +32,7 @@ class fulltime_teacher extends Controller
         
         $account_info['post'] =7;
         $account_info['main_department']=2;
-        if((time() - $account_info["create_time"])<55*86400){
+        if((time() - $account_info["create_time"])<5*86400){
             return $this->error_view(
                 [
                     "转正考核需在入职55天以后才能提交"
@@ -46,6 +46,7 @@ class fulltime_teacher extends Controller
         $n = ($end_time - $start_time)/86400/31;
         $qz_tea_arr = array("$adminid");
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        dd($qz_tea_arr);
         $val = $teacher_info;
         $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
