@@ -42,8 +42,8 @@ class wx_parent_api extends Controller
     public function __construct() {
 
         parent::__construct();
-        \App\Helper\Utils::logger("xuejiref1".$ref);
 
+        \App\Helper\Utils::logger("xuejiekou2");
         if (! $this->get_parentid()  ) {
 
             echo $this->output_err("未登录");
@@ -318,6 +318,8 @@ class wx_parent_api extends Controller
     }
 
     public function get_wx_tec_js_config(){
+
+        \App\Helper\Utils::logger("xuejiekou1");
         $ref=$this->get_in_str_val("ref");
         \App\Helper\Utils::logger("xuejiref".$ref);
 
