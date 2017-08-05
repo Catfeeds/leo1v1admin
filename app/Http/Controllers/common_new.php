@@ -790,7 +790,6 @@ class common_new extends Controller
 
     public function get_stu_lesson_title() {
         $parentid = $this->get_in_str_val('parentid');
-        // $parentid  = $this->get_wx_parentid();
         if (!$parentid) {
             return $this->output_err("请重新绑定");
         }
@@ -801,20 +800,21 @@ class common_new extends Controller
             if ($userid === '') {
                 return $this->output_err("未查到学生信息,请重新绑定您的学生！");
             }
-            $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
-            $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
+
+            $start_time = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
             if (!$start_time) {
-                $start_time = 11111;
+                $start_time    = 11111;
                 $list['start'] = '0000.00.00';
             } else {
                 $list['start'] = date('Y.m.d', $start_time);
             }
-            $list['end']   = date('Y.m.d', time());
+
+            $subject_list = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
+            $list['end'] = date('Y.m.d', time());
             $list['stu_subject_count'] = count($subject_list);
             if ( count($subject_list) >= 3 ) {
                 $stu_lesson_title = '全能大王';
-            } else if(count($subject_list) != 0){
-                //0未设定 1语文 2数学 3英语 4化学 5物理 6生物 7政治 8历史 9地理 10科学
+            } else if(count($subject_list) > 0){
                 $total = 0;
                 foreach ($subject_list as $v) {
                     $total += $v["count"];
@@ -842,20 +842,23 @@ class common_new extends Controller
                             break;
                         default:
                             $stu_lesson_title = '学习勇士';
+                            break;
                         }
                     } else {
-                        $stu_lesson_title = "学习勇士";
+                        $stu_lesson_title = @$stu_lesson_title?$stu_lesson_title:"学习勇士";
                     }
                 }
             } else {
                 $stu_lesson_title = "学习勇士";
             }
+
             $list['stu_title'] = $stu_lesson_title;
             $stu_praise = $this->t_lesson_info_b2->get_stu_praise_total($userid);
             //现在最高的是21849,最低1(以95%为满级（20755），除以5，等分为五个级别,每级加4151)
             $list['praise'] = $stu_praise;
             $list['stu_praise_star'] = intval( ceil( $stu_praise/4151 ) <5?ceil( $stu_praise/4151 ):5 ).'星学员';
             $list['excess_nums'] = str_pad(intval( $list['stu_praise_star']*19),2,'0',STR_PAD_LEFT);
+
             $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
             $subject     = '无';
             $normal_time = 0;
@@ -873,15 +876,17 @@ class common_new extends Controller
                     }
                 }
             }
+
             if (  $normal_time ) {
                 $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
             } else {
                 $list['first_normal_lesson_time'] = '无';
             }
-            $list['first_subject']            = $subject;
+
+            $list['first_subject'] = $subject;
             $open_lesson = $this->t_lesson_info_b2->get_stu_first_open_lesson($userid);
-            $list['first_open_lesson_time']   = $open_lesson ? date('Y-m-d', $open_lesson) : '无';
-            $homework_info  = $this->t_lesson_info_b2->get_stu_homework($userid, $start_time);
+            $list['first_open_lesson_time'] = $open_lesson ? date('Y-m-d', $open_lesson) : '无';
+            $homework_info = $this->t_lesson_info_b2->get_stu_homework($userid, $start_time);
             $a = '00';
             $b = '00';
             $c = '00';
@@ -896,18 +901,21 @@ class common_new extends Controller
             $list['B'] = "B级作业{$b}次";
             $list['C'] = "C级作业{$c}次";
             $list['D'] = "未完成作业{$d}次";
+
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
                 $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
-                $list['finish_rate']  = str_pad($rate, 2, '0',STR_PAD_LEFT);
+                $list['finish_rate'] = str_pad($rate, 2, '0',STR_PAD_LEFT);
             } else {
                 $list['finish_rate'] = '00';
             }
+
             if ( $list['finish_rate'] > 50 ) {
                 $list['homework_type'] = 1;
             } else {
                 $list['homework_type'] = 0;
             }
+
             $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
             if ($like_teacher) {
                 if($like_teacher['taday'] == 1) {
@@ -915,6 +923,7 @@ class common_new extends Controller
                 } else {
                     $end_day_time = strtotime( date('Y-m-d',$like_teacher['lesson_end']) ) + 86400;
                 }
+
                 $start_day_time = strtotime( date('Y-m-d',$like_teacher['lesson_start']) );
                 E\Esubject::set_item_value_str($like_teacher);
                 $lesson_count_num = $like_teacher['teacher_lesson_count']/100;
@@ -930,9 +939,10 @@ class common_new extends Controller
                 $list['teacher_for_stu_days']    = '00';
 
             }
+
             $star_info = $this->t_lesson_info_b2->get_stu_score_info($userid, $start_time);
-            $list['five_star'] = '00';
-            $list['four_star'] = '00';
+            $list['five_star']  = '00';
+            $list['four_star']  = '00';
             $list['three_star'] = '00';
             if ($star_info) {
                 foreach ($star_info as $v) {
@@ -942,6 +952,7 @@ class common_new extends Controller
                     $list['three_star'] = ($v['teacher_score'] == 3)?$score_num:$list['three_star'];
                 }
             }
+
             $lesson_total          = $this->t_lesson_info_b2->get_stu_lesson_time_total($userid) / 100;
             $list['past_lesson']   = str_pad($lesson_total, 3, '0', STR_PAD_LEFT);
             $list['reduce_gas']    = $lesson_total? number_format($lesson_total * 200/3, 2):'000';
