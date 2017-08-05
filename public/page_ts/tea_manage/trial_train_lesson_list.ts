@@ -141,6 +141,7 @@ $(function(){
     $(".opt-play").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var lessonid = opt_data.lessonid;
+        console.log(lessonid);
 
         $.do_ajax("/tea_manage/set_teacher_record_account",{
             "id" : opt_data.id
@@ -201,7 +202,7 @@ $(function(){
         var id        = $(this).get_opt_data("id");
         console.log(id);
         
-        $.do_ajax('/ss_deal/get_teacher_confirm_score',{
+        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
             "id" : id
         },function(resp) {
             var title = "审核评分详情";
