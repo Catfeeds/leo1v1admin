@@ -34,7 +34,7 @@ class wx_yxyx_web extends Controller
 
             header("Location: $url");
         }else{
-            \App\Helper\Utils::logger('yxyx_eee:');
+            \App\Helper\Utils::logger('yxyx_fff:');
             $wx_config=\App\Helper\Config::get_config("yxyx_wx");
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
