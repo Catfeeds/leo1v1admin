@@ -324,7 +324,7 @@ class ss_deal extends Controller
             $stu_request_test_lesson_time=0;
         }
 
-        $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,seller_student_status, stu_request_test_lesson_time ");
+        $db_tt_item=$this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,seller_student_status, stu_request_test_lesson_time ,stu_request_test_lesson_demand");
 
         if ( $db_tt_item["seller_student_status"] ==  E\Eseller_student_status::V_200  &&
              $db_tt_item["stu_request_test_lesson_time"] != $stu_request_test_lesson_time
@@ -377,6 +377,23 @@ class ss_deal extends Controller
         if ( $ss_item["user_desc"] != $user_desc) {
             $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
         }
+
+        if ($db_tt_item["stu_request_test_lesson_demand"] != $stu_request_test_lesson_demand) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新试听需求:$stu_request_test_lesson_demand" , $this->get_account());
+
+        }
+
+        if ($ss_item["stu_score_info"] != $stu_score_info) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新成绩情况:$stu_score_info" , $this->get_account());
+
+        }
+
+        if ($ss_item["stu_character_info"] != $stu_character_info) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新性格特点:$stu_character_info" , $this->get_account());
+
+        }
+
+
 
 
 

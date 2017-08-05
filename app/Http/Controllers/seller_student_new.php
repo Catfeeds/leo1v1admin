@@ -586,7 +586,13 @@ class seller_student_new extends Controller
             $this->t_seller_student_new->field_update_list($userid,[
                 "competition_call_time" => $now,
                 "tq_called_flag" => 0,
-                "competition_call_adminid" =>$adminid
+                "competition_call_adminid" =>$adminid,
+                "user_desc" => "",
+            ]);
+
+            $this->t_test_lesson_subject->field_update_list($userid,[
+                "seller_student_status" => 0,
+                "stu_request_test_lesson_demand" => "",
             ]);
 
             \App\Helper\Common::redis_set($key, $userid );
@@ -1160,13 +1166,11 @@ class seller_student_new extends Controller
                                      $limit_start/60, $limit_start%60,
                                      $limit_end/60, $limit_end%60);
         }
-        $this->set_filed_for_js("open_flag",$success_flag?1:0);
 
 
         $errors=[];
         if(  (
-             true
-            || $this->check_power( E\Epower::V_TEST)
+             !$this->check_power( E\Epower::V_TEST)
         )  ){
             if ( !$success_flag) {
                 $errors=[
@@ -1187,6 +1191,7 @@ class seller_student_new extends Controller
             $success_flag=true;
         }
 
+        $this->set_filed_for_js("open_flag",$success_flag?1:0);
         //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
 
 
