@@ -102,6 +102,9 @@ interface RowData {
 	ass_master_adminid	:any;
 	master_nick	:any;
 	pdf_url	:any;
+	pre_price	:any;
+	pre_pay_time	:any;
+	pre_from_orderno	:any;
 	is_new_stu_str	:any;
 	grade_str	:any;
 	stu_from_type_str	:any;
@@ -118,6 +121,7 @@ interface RowData {
 	competition_flag_str	:any;
 	per_price	:any;
 	flow_status_str	:any;
+	pre_money_info	:any;
 }
 
 /*

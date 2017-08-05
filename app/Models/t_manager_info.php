@@ -1385,7 +1385,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         // dd($this->row_delete($sql));
 
 
-        dd($this->main_get_list_by_page($sql,$page_info));
+        //dd($this->main_get_list_by_page($sql,$page_info));
         return $this->main_get_list_by_page($sql,$page_info);
 
 

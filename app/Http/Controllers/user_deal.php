@@ -2606,11 +2606,15 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
+        $teacher_info = $this->t_teacher_info->get_teacher_info(240314);
+        $this->teacher_train_through_deal($teacher_info);
+        dd(111);
+
        
         $tea_list=[50728];
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_list);
         $label_list = $this->get_teacher_label_new($tea_list);
-        dd($label_list);
+        dd($teacher_label_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
         $this->t_month_ass_student_info->get_field_update_arr(541,$start_time,1,[

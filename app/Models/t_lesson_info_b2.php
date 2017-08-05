@@ -1128,8 +1128,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_test_lesson_list($start_time,$end_time,$userid = -1,$lessonid = 0){
         $type = 1;
         if($lessonid){//手动刷新
-            $this->where_arr_add_int_field($where_arr,'l.lessonid',$lessonid);
             $type = 0;
+            $this->where_arr_add_int_field($where_arr,'l.lessonid',$lessonid);
+            $where_arr[] = 'lss.call_end_time = 0';
         }else{//定时刷新
             $where_arr = [
                 ["l.lesson_type=%u",2],
@@ -1140,7 +1141,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                 " lss.call_before_time = 0 or lss.call_end_time = 0 ",
             ];
         }
-        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
+        $sql = $this->gen_sql_new("select l.userid,l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
                                   ."lss.call_before_time,lss.call_end_time "
                                   ."from %s l "
                                   ."left join %s lss on lss.lessonid = l.lessonid "
@@ -1157,6 +1158,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         $lesson_arr = array();
         $lesson_arr = $this->main_get_list($sql);
+        if($lessonid){
+            if(!$lesson_arr){
+                return $ret = 3;
+            }
+        }
         if(count($lesson_arr)>0){
             $ret = $this->update_lesson_call($lesson_arr,$type);
             if(!$type){
@@ -1175,30 +1181,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $day_start    = date('Y-m-d',$lesson_start);
             $lesson_time  = strtotime($day_start."00:00:00");
             $middle_time  = strtotime($day_start.'12:00:00');
-            if($lesson_start <= $middle_time){
-                $call_start_time = $lesson_time - 12*3600;
-                $call_end_time   = $lesson_time + 24*3600;
-            }else{
-                $call_start_time = $lesson_time;
-                $call_end_time   = $lesson_time + 24*3600;
-            };
-            $lesson_call_list = $this->task->t_tq_call_info->get_list_ex_new($tquin,$phone,$call_start_time,$call_end_time,$type,$lesson_end);
             $call_before_time_arr = [];
             $call_end_time_arr = [];
-            $call_before_time = 0;
-            $call_end_time = 0;
+            $call_before_time = $item['call_before_time'];
+            $call_end_time = $item['call_end_time'];
+
+            if($lesson_start <= $middle_time){
+                $call_start = $lesson_time - 12*3600;
+                $call_end   = $lesson_time + 24*3600;
+            }else{
+                $call_start = $lesson_time;
+                $call_end   = $lesson_time + 24*3600;
+            };
+            $lesson_call_list = $this->task->t_tq_call_info->get_list_ex_new($tquin,$phone,$call_start,$call_end,$type,$lesson_end);
             foreach($lesson_call_list as $time_item){
                 $call_time = $time_item["start_time"];
                 if($type){
                     if($call_time < $lesson_start){
                         $call_before_time_arr[] =$call_time;
-                    }elseif($call_time > ($lesson_start+1800)){ 
+                    }elseif($call_time > ($lesson_start+1800)){
                         $call_end_time_arr[] = $call_time;
                     }
                 }else{
                     if($call_time < $lesson_start){
                         $call_before_time_arr[] =$call_time;
-                    }elseif($call_time > $lesson_end){ 
+                    }elseif($call_time > $lesson_end){
                         $call_end_time_arr[] = $call_time;
                     }
                 }
@@ -1213,7 +1220,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                 "call_before_time" => $call_before_time,
                 "call_end_time"    => $call_end_time,
             ]);
-            if(!$type){
+            if(!$type){//手动刷新
                 return $ret;
             }
         }

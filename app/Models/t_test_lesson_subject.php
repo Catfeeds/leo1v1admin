@@ -49,6 +49,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             $this->t_seller_student_new->field_update_list($userid,[
                 "global_seller_student_status" => $seller_student_status
             ]);
+            //无效资源
             if ( $seller_student_status== E\Eseller_student_status::V_1 ) {
                 $adminid= $this->task->t_manager_info->get_adminid_by_account($sys_operator);
                 $this->task->t_test_subject_free_list->field_update_list_2(
@@ -268,6 +269,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ["s.grade=%u", $grade, -1 ],
             ["n.phone='%s'", $phone, "" ],
             "n.admin_revisiterid =0 ",
+            "n.sys_invaild_flag=0",
             " lesson_count_all =0 ",
             "  seller_student_status  <>50 ",
         ];

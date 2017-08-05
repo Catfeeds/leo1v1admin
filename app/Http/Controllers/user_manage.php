@@ -100,7 +100,7 @@ class user_manage extends Controller
             $user_name, $phone, $teacherid,
             $assistantid, $test_user, $originid,
             $seller_adminid,$order_type,$student_type);
-        
+
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
             $item['is_test_user']      = E\Etest_user::get_desc($item['is_test_user']);
@@ -261,7 +261,6 @@ class user_manage extends Controller
         $ret_info = $this->t_student_info->get_student_list_archive( $userid, $grade, $status, $user_name, $phone, $teacherid,
                                                                      $assistantid, $test_user, $originid, $page_num, $student_type,
                                                                      $revisit_flag, $warning_stu,$sum_start);
-
         $userid_list=[];
         foreach($ret_info['list'] as $t_item) {
             $userid_list[]=$t_item["userid"];
@@ -341,11 +340,18 @@ class user_manage extends Controller
             E\Eboolean::set_item_value_str($item, "cur");
             E\Eboolean::set_item_value_str($item, "last");
             if(empty($item["phone_location"])){
-                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);  
+                $item["location"] = \App\Helper\Common::get_phone_location($item["phone"]);
             }else{
                 $item["location"]= $item["phone_location"];
             }
 
+            //$item["course_list_total"] = $this->t_course_order->get_list_total($item['userid'],-1,0);
+            $ret_get_list_total = $this->t_course_order->get_list_total($item['userid'],-1,0);
+            $arr = [];
+            foreach ($ret_get_list_total as $key => $value) {
+                $arr[] = $value['subject'];
+            }
+            $item["course_list_total"] = count(array_unique($arr));
         }
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
@@ -359,7 +365,7 @@ class user_manage extends Controller
         }else{
             $master_adminid=0;
         }
-
+        //dd($ret_info);
         return $this->Pageview(__METHOD__,$ret_info,['sumweek'=>$sumweek,'summonth'=>$ret['summonth'],"master_adminid"=>$master_adminid,"cur_time_str"=>$cur_time_str,"last_time_str"=>$last_time_str,"acc" => session("acc")]);
     }
 
@@ -475,6 +481,17 @@ class user_manage extends Controller
             }
             \App\Helper\Common::set_item_enum_flow_status($item);
             $all_lesson_count += $item['lesson_total'] ;
+            $pre_money_info="";
+            if ($item["pre_price"]) {
+                if ($item["pre_pay_time"] ) {
+                    $pre_money_info="已支付";
+                }else{
+                    $pre_money_info="未付";
+                }
+            }else{
+                $pre_money_info="无";
+            }
+            $item["pre_money_info"]=$pre_money_info;
         }
 
         return $this->Pageview(__METHOD__,$ret_list,["all_lesson_count" => $all_lesson_count ] );
@@ -1862,7 +1879,7 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type ); 
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type );
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
@@ -2002,7 +2019,7 @@ class user_manage extends Controller
         if(!in_array($acc,["echo","jim"])){
             return $this->output_err("你没有修改退费金额的权限!");
         }
-        
+
         $ret = $this->t_order_refund->field_update_list_2($orderid,$apply_time,[
             "real_refund" => ($real_refund*100)
         ]);
@@ -2026,7 +2043,7 @@ class user_manage extends Controller
             $assistantid = 1;
             //$assistantid = 60078;
         }
-        
+
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
         foreach( $ret_info["list"] as $key => &$item ) {

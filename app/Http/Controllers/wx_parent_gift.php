@@ -80,7 +80,7 @@ class wx_parent_gift extends Controller
 
     public function do_prize_draw(){
         // 获取 每个家长的等级
-        $userid = $this->get_in_int_val('userid');
+        $userid = $this->get_in_int_val('parentid');
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
@@ -88,6 +88,9 @@ class wx_parent_gift extends Controller
         $six_date = strtotime('2017-08-06');
         $eig_date = strtotime('2017-08-09');
         $now = time();
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = $start_time+86400;
+
 
         $is_need_change_limit_num = 0;
         if($now>$start_time && $now < $end_time){
@@ -98,6 +101,7 @@ class wx_parent_gift extends Controller
         $limit_gift = 0;
         if($parent_num>30 && $parent_num<=90){
             $price = 20;
+
             if($is_need_change_limit_num){
                 $limit_gift = 80;
             }else{
@@ -105,73 +109,159 @@ class wx_parent_gift extends Controller
             }
         }elseif($parent_num>90 && $parent_num<=180){
             $price = 80;
-            $limit_gift = 57;
 
             if($is_need_change_limit_num){
-                $limit_gift = 80;
+                $limit_gift = 65;
             }else{
-                $limit_gift = 60;
+                $limit_gift = 50;
             }
 
         }elseif($parent_num>180 && $parent_num<=250){
             $price = 120;
-            $limit_gift = 42;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 50;
+            }else{
+                $limit_gift = 35;
+            }
+
         }elseif($parent_num>250 && $parent_num<=300){
             $price = 150;
-            $limit_gift = 28;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 35;
+            }else{
+                $limit_gift = 20;
+            }
+
         }elseif($parent_num>300 && $parent_num<=350){
             $price = 200;
-            $limit_gift = 28;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 35;
+            }else{
+                $limit_gift = 20;
+            }
+
         }elseif($parent_num>350 && $parent_num<=400){
             $price = 300;
-            $limit_gift = 14;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 18;
+            }else{
+                $limit_gift = 10;
+            }
+
         }elseif($parent_num>400 && $parent_num<=450){
             $price = 400;
-            $limit_gift = 14;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 18;
+            }else{
+                $limit_gift = 10;
+            }
+
         }elseif($parent_num>450){
             $price = 500;
-            $limit_gift = 10;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 14;
+            }else{
+                $limit_gift = 7;
+            }
         }
 
-
         // 查看是否已抽奖
-
         $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
 
-        if($gift_info['userid']>0){
+        if($gift_info['userid']){
             return $this->output_succ($gift_info);
         }else{
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
-            $start_time = strtotime(date("Y-m-d",time()));
-            $end_time   = $start_time+86400;
-            $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
-            $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
-
-
-
-
-            if($today_gift_num >=$limit_gift){
-                return $this->output_err("未中奖!");
+            if($price >0){
+                $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
+                $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
+                if($today_gift_num >=$limit_gift){
+                    $prize_code = '';
+                }else{
+                    $rock_gift_num = count($all_gift_list);
+                    $index = mt_rand(0,$rock_gift_num-1);
+                    $prize_code = $all_gift_list[$index]['prize_code'];
+                }
+            }else{
+                $prize_code = '';
             }
 
-            $rock_gift_num = count($all_gift_list);
+            if($prize_code){
+                $id = $this->t_parent_luck_draw_in_wx->get_id_by_code($prize_code);
+                if($id){
+                    $ret_add = $this->t_parent_luck_draw_in_wx->field_update_list($id,[
+                        "prize_code" => $prize_code,
+                        "userid"     => $userid,
+                        "add_time"   => time(),
+                        "receive_time" =>time(),
+                        "price"      => $price
+                    ]);
 
-            $index = mt_rand(0,$rock_gift_num-1);
+                    if($ret_add){
+                        $content = "恭喜您成功参与理优周年庆抽奖活动，获得奖学金现金券！您的使用码 $prize_code";
+                        $value  = '';
+                        $this->send_prize_info($userid,$content,$value);
+                    }
+                }
+            }else{
+                $receive_time = '';
+                $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                    "prize_code" => $prize_code,
+                    "userid"     => $userid,
+                    "add_time"   => time(),
+                    "receive_time" =>$receive_time,
+                    "price"      => $price
+                ]);
+            }
 
-            $prize_code = $all_gift_list[$index]['prize_code'];
-
-            $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
-                "prize_code" => $prize_code,
-                "userid"     => $userid,
-                "add_time"   => time()
-            ]);
-
-
+            if($ret_add){
+                $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+                return $this->output_succ($gift_info);
+            }
         }
-
-
     }
 
+
+
+    public function send_prize_info($parentid,$content,$value){
+        $acc     = $this->get_account();
+
+        $userid = $this->t_student_init_info->get_userid_by_parentid($parentid);
+        $this->t_baidu_msg->start_transaction();
+        $ret = $this->t_baidu_msg->baidu_push_msg($userid,$content,$value,1007,0);
+        if(!$ret){
+            $this->t_baidu_msg->rollback();
+            return $this->output_err("添加失败！请重试！");
+        }
+        if($parentid>0){
+            $ret = $this->t_baidu_msg->baidu_push_msg($parentid,$content,$value,4014,0);
+            if(!$ret){
+                $this->t_baidu_msg->rollback();
+                return $this->output_err("添加失败！请重试！");
+            }
+            $wx_openid = $this->t_parent_info->get_wx_openid($parentid);
+            if($wx_openid!=""){
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+                $data= [
+                    "first"     => "您有一条未处理的\"理优周年庆\"活动奖励，请及时处理",
+                    "keyword1"  => "理优周年庆活动",
+                    "keyword2"  => "奖学金现金劵使用码",
+                    "keyword3"  => date("Y-m-d"),
+                    "remark"    => $content,
+                ];
+                \App\Helper\Utils::send_wx_to_parent($wx_openid,$template_id,$data);
+            }
+        }
+        $this->t_baidu_msg->commit();
+
+        return $this->output_succ();
+    }
 
 
 }

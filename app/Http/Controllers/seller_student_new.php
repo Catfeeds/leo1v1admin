@@ -525,7 +525,7 @@ class seller_student_new extends Controller
         return $this->no_called_list();
     }
 
-    public function get_one_new_user() {
+    public function get_one_new_user(){
         $now=time(NULL);
         $page_num=1;
         $grade=-1;
@@ -535,7 +535,6 @@ class seller_student_new extends Controller
         $phone="";
         $adminid=$this->get_account_id();
         $t_flag=0;
-
         $ret_info= $this->t_seller_student_new->get_new_list($page_num, $now-30*3*86400 ,$now, $grade, $has_pad, $subject,$origin,$phone,$adminid ,$t_flag );
         $userid=@ $ret_info["list"][0]["userid"];
         if ($userid) {
@@ -560,15 +559,12 @@ class seller_student_new extends Controller
                 return $this->output_err("今天的配额,已经用完了");
             }
             //检查是否有试听成功课未回访
-            // if($adminid == 378){
-            //     $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-            //     $userid = $lesson_call_end['userid'];
-            //     \App\Helper\Utils::logger('yxyx_userid:'.$userid);
-            //     if($userid){
-            //         header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
-            //     }
+            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            // $userid_new = $lesson_call_end['userid'];
+            // if($userid_new){
+            //     return $this->output_err("有试听课未回访",["userid" =>$userid_new]);
             // }
-            
+
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
             $competition_call_adminid = $row_data["competition_call_adminid"];
@@ -1248,11 +1244,8 @@ class seller_student_new extends Controller
     }
 
     public function refresh_call_end(){
-        $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
-        $end_time = $start_time + 24*3600;
         $lessonid = $this->get_in_int_val('lessonid');
-        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
-
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time = -1,$end_time = -1,-1,$lessonid);
         return $ret;
     }
 

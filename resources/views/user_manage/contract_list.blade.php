@@ -174,6 +174,7 @@
                     <td >剩余课时</td>
                     <td style="display:none;">每次课课时数</td>
                     <td >实付金额</td>
+                    <td >定金</td>
                     <td >原始金额</td>
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
@@ -183,7 +184,7 @@
                     <td style="display:none">courseid</td>
                     <td style="display:none;">助教</td>
                     <td style="display:none;" >竞赛合同</td>
-                    <td >设备信息</td>
+                    <td style="display:none;" >设备信息</td>
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
@@ -221,6 +222,7 @@
                         <td >{{$var["order_left"]}}</td>
                         <td >{{$var["default_lesson_count"]/100}}</td>
                         <td class="price">{{$var["price"]}}</td>
+                        <td >{{$var["pre_money_info"]}}</td>
                         <td >{{$var["discount_price"]}}</td>
                             <td >
                                 {{ $var["lesson_total"] ? intval($var["price"]/$var["lesson_total"]):"-" }}/
@@ -614,6 +616,16 @@
                 <div class="input-group  ">
                     <span class="input-group-addon">奥赛合同：</span>
                     <select  class="form-control field-competition_flag">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon">1000元定金</span>
+                    <select  class="form-control field-pre-money">
+                        <option value="0" >否</option>
+                        <option value="1" >是</option>
                     </select>
                 </div>
             </div>

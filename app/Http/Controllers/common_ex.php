@@ -131,7 +131,7 @@ class common_ex extends Controller
         $userid = $this->t_seller_student_new->book_free_lesson_new( $nick,$phone,$grade, $origin, $subject, $has_pad );
         if($origin_userid!=0){
             $this->t_student_info->field_update_list($userid,[
-               "origin_userid" => $origin_userid 
+               "origin_userid" => $origin_userid
             ]);
         }
 

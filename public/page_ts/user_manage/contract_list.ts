@@ -854,6 +854,8 @@ $(function(){
         var $subject= html_node.find(".field-subject");
         var $lesson_count= html_node.find(".field-lesson_count");
         var $competition_flag= html_node.find(".field-competition_flag");
+        var $pre_money= html_node.find(".field-pre-money");
+
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
@@ -954,6 +956,7 @@ $(function(){
                         title :  $receipt_title.val(),
                         order_require_flag: $order_require_flag.val(),
                         userid: data.userid,
+                        pre_money: $pre_money.val(),
                         grade: data.grade,
                         subject: data.subject,
                         origin: data.origin,

@@ -1434,6 +1434,7 @@ class ss_deal extends Controller
         $need_receipt           = !($title=="");
         $requirement            = "";
         $order_require_flag = $this->get_in_int_val("order_require_flag");
+        $pre_money          = $this->get_in_int_val("pre_money");
         //默认新签
         $contract_type          = $this->get_in_enum_val(E\Econtract_type::class);
         $order_promotion_type = $this->get_in_enum_val(E\Eorder_promotion_type::class);
@@ -1499,6 +1500,16 @@ class ss_deal extends Controller
         if ($before_lesson_count && $contract_type==0) {
             $contract_from_type=11;
         }
+        $pre_price=0;
+
+        if ($pre_money   ) {
+            if( $price<=100000 ) {
+                return $this->output_err("订单金额大于1000,才支持定金");
+            }else{
+                $pre_price=100000;
+            }
+        }
+        $from_parent_order_lesson_count=0;
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -1507,7 +1518,10 @@ class ss_deal extends Controller
             $promotion_discount_price,
             $promotion_present_lesson,
             $promotion_spec_discount,
-            $promotion_spec_present_lesson,$contract_from_type);
+            $promotion_spec_present_lesson,$contract_from_type,
+            $from_parent_order_lesson_count,
+            $pre_price
+        );
 
 
         if($order_require_flag) {
@@ -2843,9 +2857,20 @@ class ss_deal extends Controller
     public function update_lecture_revisit_type(){
         $id = $this->get_in_int_val("id");
         $lecture_revisit_type= $this->get_in_int_val("lecture_revisit_type");
+        $custom= $this->get_in_str_val("custom");
         $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "lecture_revisit_type" => $lecture_revisit_type,
+            "custom"=>$custom
         ]);
+        $phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+        $this->t_lecture_revisit_info->row_insert([
+            "phone"             => $phone,
+            "revisit_time"      => time(),
+            "revisit_origin"    => $lecture_revisit_type,
+            "sys_operator"      => $this->get_account(),
+            "revisit_note"      => $custom
+        ]);
+
         return $this->output_succ();
 
     }

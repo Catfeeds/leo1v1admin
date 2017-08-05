@@ -43,11 +43,6 @@ class t_student_init_info extends \App\Models\Zgen\z_t_student_init_info
 
 
     public function get_userid_by_parentid($parentid){
-        $sql = $this->gen_sql_new(" select userid from %s s where parentid = %d",
-                                  self::DB_TABLE_NAME,
-                                  $parentid
-        );
-
-        return $this->main_get_value($sql);
+        $sql = $this->gen_sql_new();
     }
 }

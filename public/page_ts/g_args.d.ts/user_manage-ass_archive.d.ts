@@ -60,6 +60,7 @@ interface RowData {
 	cur_str	:any;
 	last_str	:any;
 	location	:any;
+	course_list_total	:any;
 }
 
 /*
