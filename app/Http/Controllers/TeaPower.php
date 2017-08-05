@@ -138,8 +138,8 @@ trait  TeaPower {
         foreach($teacher_label_list as $item){
             $teacherid = $item["teacherid"];
             $tea_label_type = json_decode($item["tea_label_type"],true);
-            if(!empty($interaction)){
-                foreach($interaction as $v){
+            if(!empty($tea_label_type)){
+                foreach($tea_label_type as $v){
                     @$arr[$teacherid]["label"][$v]["num"]++;
                     @$arr[$teacherid]["label"][$v]["name"] =E\Etea_label_type::get_desc($v);
                 }

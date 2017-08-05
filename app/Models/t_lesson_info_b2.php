@@ -1823,7 +1823,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         foreach ($ret_info["list"] as $k => $v ) {
             $ret_info["list"][$k]["lesson_count"] = $v["lesson_count"]/100;
         }
-
         return $ret_info;
 
     }
@@ -1858,8 +1857,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        $ret = $this->main_get_row($sql);
-        return $ret['pay_time'];
+        return $this->main_get_value($sql);
     }
     public function get_stu_title($userid, $start_time) {
         $where_arr  = [
@@ -1887,8 +1885,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                      , t_student_info::DB_TABLE_NAME
                                      ,$where_arr
         );
-        $ret = $this->main_get_row($sql);
-        return $ret['praise'];
+        return $this->main_get_value($sql);
     }
     public function get_stu_first($userid) {
         $where_arr = [
@@ -1920,8 +1917,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   , t_open_lesson_user::DB_TABLE_NAME
                                   ,$where_arr
         );
-        $ret = $this->main_get_row($sql);
-        return $ret['lesson_start'];
+        return $this->main_get_value($sql);
     }
     public function get_stu_homework($userid, $start_time) {
         $where_arr = [
@@ -2010,6 +2006,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_stu_lesson_time_total($userid) {
         $where_arr = [
             ["userid=%u", $userid, 0],
+            "lesson_start>0",
             "lesson_type in (0,1,3)",
             "confirm_flag in (0,1,3)",
             "lesson_del_flag=0",
@@ -2020,10 +2017,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-        $ret  = $this->main_get_row($sql);
-        return $ret["count"]/100;
-
+        return $this->main_get_value($sql);
     }
+
     public function get_stu_teachers_realname($userid, $teacher_realname) {
         $where_arr = [
             ["l.userid=%s", $userid, 0],

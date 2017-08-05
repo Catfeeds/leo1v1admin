@@ -390,7 +390,7 @@ class Utils  {
                 include_once( app_path("Libs/ChromePhp.php") );
             }
             $time_str=date('H:i:s', time(NULL));
-            \ChromePhp::log($time_str, $message);
+            \ChromePhp::log($time_str, substr( $message,0,4000 ));
             /*
             if (!class_exists('FB', false)) {
                 include_once( app_path("Libs/FirePHPCore/fb.php") );
