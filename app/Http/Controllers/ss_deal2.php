@@ -44,6 +44,7 @@ class ss_deal2 extends Controller
         $page_info = $this->get_in_page_info();
         list($start_time, $end_time) = $this->get_in_date_range(0,0);
         $opt_type_str                = $this->get_in_str_val("opt_type_str");
+        $origin_level= $this->get_in_el_origin_level();
         $key1 = $this->get_in_str_val("key1");
         $key2 = $this->get_in_str_val("key2");
         $key3 = $this->get_in_str_val("key3");
@@ -72,7 +73,7 @@ class ss_deal2 extends Controller
         $origin_ex= join(",", $origin_ex_arr );
 
 
-        $ret_info= $this->t_seller_student_new->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex) ;
+        $ret_info= $this->t_seller_student_new->get_origon_list( $page_info, $start_time, $end_time,$opt_type_str, $origin_ex,$origin_level) ;
         foreach($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         }

@@ -283,7 +283,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ,time(NULL)-60*86400
         );
 
-        return $this->main_get_page_random($sql,5,true );
+        return $this->main_get_page_random($sql,2,true );
     }
 
     public function set_other_admin_init($userid,$adminid) {

@@ -1711,8 +1711,6 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var title = "常规课表删除记录";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>学生</td><td>操作人</td></tr></table></div>");
-        
-        
 
         $.do_ajax("/user_deal/get_teacher_regular_lesson_del_list",{
             "teacherid" : teacherid,
@@ -1854,6 +1852,46 @@ $(function(){
         });
     });
 
+    $(".opt-set_check_info").on("click",function(){
+	      var data       = $(this).get_opt_data();
+        var id_subject = $("<select />");
+        var id_grade   = $("<div>");
+
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_checkbox_list("grade",id_grade,"check_grade",["100","200","300"]);
+
+        var arr = [
+            ["审核科目",id_subject],
+            ["审核年级",id_grade],
+        ];
+        console.log(id_grade);
+        $.show_key_value_table("审核信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                var grade_str = "";
+                $("input[name='check_grade']:checked").each(function(){
+                    if(grade_str== ""){
+                        grade_str = $(this).val();
+                    }else{
+                        grade_str += ","+$(this).val();
+                    }
+                });
+
+                $.do_ajax("/tea_manage_new/set_teacher_check_info",{
+                    "teacherid" : data.teacherid,
+                    "subject"   : id_subject.val(),
+                    "grade"     : grade_str,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
 
 
 });

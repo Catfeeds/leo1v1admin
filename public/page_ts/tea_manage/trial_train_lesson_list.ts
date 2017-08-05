@@ -202,90 +202,70 @@ $(function(){
         var lessonid        = $(this).get_opt_data("lessonid");
         console.log(id);
         
-        $.do_ajax('/ss_deal/get_teacher_confirm_score',{
+        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
             "id" : id,
             "lessonid":lessonid
         },function(resp) {
             var title = "审核评分详情";
             var list = resp.data;
             console.log(list);
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
-
-            var arr = [
-            ["讲义设计情况评分", id_jysj],
-            ["语言表达能力评分", id_yybd],
-            ["专业知识技能评分", id_zyzs],
-            ["教学节奏把握评分", id_jxjz],
-            ["互动情况评分", id_hdqk],
-            ["板书情况评分", id_bsqk],
-            ["软件操作评分", id_rjcz],
-            ["授课环境评分", id_skhj],
-            ["课后反馈评分", id_khfk],
-            ["流程规范情况评分", id_lcgf],
-            ["总分",id_score],
-            ["非教学相关得分",id_no_tea_score],
-            ["模拟试听是否通过",id_trial_train_status],
-            ["监课情况",id_jkqk],
-            ["意见或建议",id_record],
-            ["老师标签",id_sshd]
-        ];
-
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
             var html_score=
                 "<tr>"
                 +"<td>讲义设计情况评分</td>"
-                +"<td>"+list.lecture_content_design_score+"</td>"
+                +"<td>"+list.tea_process_design_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>语言表达能力评分</td>"
-                +"<td>"+list.lecture_combined_score+"</td>"
+                +"<td>"+list.language_performance_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>专业知识技能评分</td>"
-                +"<td>"+list.teacher_point_explanation_score+"</td>"
+                +"<td>"+list.knw_point_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>教学节奏把握评分</td>"
-                +"<td>"+list.teacher_dif_point_score+"</td>"
+                +"<td>"+list.tea_rhythm_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>互动情况评分</td>"
-                +"<td>"+list.course_review_score+"</td>"
+                +"<td>"+list.tea_concentration_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>板书情况评分</td>"
-                +"<td>"+list.teacher_mental_aura_score+"</td>"
-                +"</tr>"
-                +"<tr>"
-                +"<td>软件操作评分</td>"
-                +"<td>"+list.teacher_class_atm_score+"</td>"
-                +"</tr>"
-                +"<tr>"
-                +"<td>授课环境评分</td>"
-                +"<td>"+list.teacher_explain_rhythm_score+"</td>"
-                +"</tr>"
-                +"<tr>"
-                +"<td>课后反馈评分</td>"
                 +"<td>"+list.teacher_blackboard_writing_score+"</td>"
                 +"</tr>"
                 +"<tr>"
+                +"<td>软件操作评分</td>"
+                +"<td>"+list.tea_operation_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>授课环境评分</td>"
+                +"<td>"+list.tea_environment_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课后反馈评分</td>"
+                +"<td>"+list.answer_question_cre_score+"</td>"
+                +"</tr>"
+                +"<tr>"
                 +"<td>流程规范情况评分</td>"
-                +"<td>"+list.teacher_language_performance_score+"</td>"
+                +"<td>"+list.class_abnormality_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>总分</td>"
-                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"<td>"+list.record_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>非教学相关得分</td>"
-                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"<td>"+list.no_tea_related_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>监课情况</td>"
-                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"<td>"+list.record_monitor_class+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>意见或建议</td>"
-                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"<td>"+list.record_info+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>老师标签</td>"
