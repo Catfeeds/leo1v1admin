@@ -3887,7 +3887,10 @@ class ss_deal extends Controller
         $lessonid = $this->get_in_int_val("lessonid",273923);
         $data = $this->t_teacher_record_list->field_get_list($id,"*");
         $label = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
-        $arr= json_decode($label["tea_label_type"],true);
+        $arr= json_decode($label,true);
+        if(empty($arr)){
+            $arr=[];
+        }
         $str="";
         foreach($arr as $val){
             $str .= E\Etea_label_type::get_desc($val).",";

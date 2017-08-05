@@ -476,6 +476,7 @@
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
                                 <a class="opt-set_bank_info ">银行卡</a>
+                                <a class="opt-set_check_info">审核信息</a>
                                 @if(in_array($acc,["adrian","jim","ted","jack","alan"]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>

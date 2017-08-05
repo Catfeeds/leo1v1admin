@@ -1711,8 +1711,6 @@ $(function(){
         var teacherid = opt_data.teacherid;
         var title = "常规课表删除记录";
         var html_node = $("<div id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>操作时间</td><td>内容</td><td>学生</td><td>操作人</td></tr></table></div>");
-        
-        
 
         $.do_ajax("/user_deal/get_teacher_regular_lesson_del_list",{
             "teacherid" : teacherid,
@@ -1854,6 +1852,12 @@ $(function(){
         });
     });
 
+    $(".opt-set_check_info").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var id_subject = $("<select />");
+        var id_grade   = $("<input />");
+        var arr
+    });
 
 
 });

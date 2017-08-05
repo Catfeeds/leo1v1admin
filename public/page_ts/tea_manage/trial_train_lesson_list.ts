@@ -202,7 +202,7 @@ $(function(){
         var lessonid        = $(this).get_opt_data("lessonid");
         console.log(id);
         
-        $.do_ajax('/ss_deal/get_teacher_confirm_score',{
+        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
             "id" : id,
             "lessonid":lessonid
         },function(resp) {
@@ -221,11 +221,11 @@ $(function(){
                 +"</tr>"
                 +"<tr>"
                 +"<td>专业知识技能评分</td>"
-                +"<td>"+list.tea_rhythm_score+"</td>"
+                +"<td>"+list.knw_point_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>教学节奏把握评分</td>"
-                +"<td>"+list.teacher_dif_point_score+"</td>"
+                +"<td>"+list.tea_rhythm_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>互动情况评分</td>"

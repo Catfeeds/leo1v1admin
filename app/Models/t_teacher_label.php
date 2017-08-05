@@ -63,16 +63,15 @@ class t_teacher_label extends \App\Models\Zgen\z_t_teacher_label
 
     public function get_info_by_lessonid_new($lessonid, $label_origin = 2){
         $where_arr=[
-            ["tl.lessonid=%u",$lessonid,-1 ],
+            ["lessonid=%u",$lessonid,-1 ],
             ["label_origin =%u ",$label_origin,-1 ]
         ];
         $sql = $this->gen_sql_new(
-            "select tl.* from  %s tl "
-            . " left join %s l on tl.lessonid= l.lessonid where %s",
+            "select tea_label_type from  %s  "
+            . "  where %s",
             self::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
             $where_arr);
-        return $this->main_get_row($sql);
+        return $this->main_get_value($sql);
     }
 
 }
