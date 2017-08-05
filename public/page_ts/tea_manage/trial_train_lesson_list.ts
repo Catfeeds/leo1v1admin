@@ -141,7 +141,6 @@ $(function(){
     $(".opt-play").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var lessonid = opt_data.lessonid;
-        console.log(lessonid);
 
         $.do_ajax("/tea_manage/set_teacher_record_account",{
             "id" : opt_data.id
@@ -200,61 +199,100 @@ $(function(){
 
     $(".opt-confirm-score").on("click",function(){
         var id        = $(this).get_opt_data("id");
+        var lessonid        = $(this).get_opt_data("lessonid");
         console.log(id);
         
-        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
-            "id" : id
+        $.do_ajax('/ss_deal/get_teacher_confirm_score',{
+            "id" : id,
+            "lessonid":lessonid
         },function(resp) {
             var title = "审核评分详情";
             var list = resp.data;
             console.log(list);
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
+
+            var arr = [
+            ["讲义设计情况评分", id_jysj],
+            ["语言表达能力评分", id_yybd],
+            ["专业知识技能评分", id_zyzs],
+            ["教学节奏把握评分", id_jxjz],
+            ["互动情况评分", id_hdqk],
+            ["板书情况评分", id_bsqk],
+            ["软件操作评分", id_rjcz],
+            ["授课环境评分", id_skhj],
+            ["课后反馈评分", id_khfk],
+            ["流程规范情况评分", id_lcgf],
+            ["总分",id_score],
+            ["非教学相关得分",id_no_tea_score],
+            ["模拟试听是否通过",id_trial_train_status],
+            ["监课情况",id_jkqk],
+            ["意见或建议",id_record],
+            ["老师标签",id_sshd]
+        ];
+
             var html_score=
                 "<tr>"
-                +"<td>讲义内容设计</td>"
+                +"<td>讲义设计情况评分</td>"
                 +"<td>"+list.lecture_content_design_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>讲练结合情况</td>"
+                +"<td>语言表达能力评分</td>"
                 +"<td>"+list.lecture_combined_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>知识点正确率</td>"
+                +"<td>专业知识技能评分</td>"
                 +"<td>"+list.teacher_point_explanation_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>重难点偏向性</td>"
+                +"<td>教学节奏把握评分</td>"
                 +"<td>"+list.teacher_dif_point_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>课程回顾总结</td>"
+                +"<td>互动情况评分</td>"
                 +"<td>"+list.course_review_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>教师气场把控</td>"
+                +"<td>板书情况评分</td>"
                 +"<td>"+list.teacher_mental_aura_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>课堂氛围营造</td>"
+                +"<td>软件操作评分</td>"
                 +"<td>"+list.teacher_class_atm_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>教学节奏把握</td>"
+                +"<td>授课环境评分</td>"
                 +"<td>"+list.teacher_explain_rhythm_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>板书书写规范</td>"
+                +"<td>课后反馈评分</td>"
                 +"<td>"+list.teacher_blackboard_writing_score+"</td>"
                 +"</tr>"
                 +"<tr>"
-                +"<td>语言表达能力</td>"
+                +"<td>流程规范情况评分</td>"
                 +"<td>"+list.teacher_language_performance_score+"</td>"
                 +"</tr>"
                 +"<tr>"
                 +"<td>总分</td>"
                 +"<td>"+list.teacher_lecture_score+"</td>"
                 +"</tr>"
-                +"<tr>";
+                +"<tr>"
+                +"<td>非教学相关得分</td>"
+                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>监课情况</td>"
+                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>意见或建议</td>"
+                +"<td>"+list.teacher_lecture_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>老师标签</td>"
+                +"<td>"+list.label+"</td>"
+                +"</tr>"
+
+
 
             html_node.find("table").append(html_score);
             var dlg=BootstrapDialog.show({
