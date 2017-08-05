@@ -49,4 +49,20 @@ class t_parent_luck_draw_in_wx extends \App\Models\Zgen\z_t_parent_luck_draw_in_
 
         return $this->main_get_list($sql);
     }
+
+    public function ger_today_gift_num($start_time,$end_time,$price){
+
+        $where_arr = [
+            ["price = %d",$price],
+            ["receive_time>%s",$start_time],
+            ["receive_time<%s",$end_time],
+        ];
+
+        $sql = $this->gen_sql_new(" select count(*) from %s pl where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
 }

@@ -2608,6 +2608,7 @@ class user_deal extends Controller
         
        
         $tea_list=[50728];
+        $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_list);
         $label_list = $this->get_teacher_label_new($tea_list);
         dd($label_list);
         $start_time = strtotime("2017-07-01");
