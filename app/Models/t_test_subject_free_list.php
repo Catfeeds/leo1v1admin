@@ -33,6 +33,16 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         return $this->main_get_value($sql);
     }
 
+    public function get_set_invalid_count( $userid, $start_time=0 ) {
+        $sql=$this->gen_sql_new(
+            "select  count(*) from %s"
+            . " where userid=%u and add_time >%u and test_subject_free_type=%u "
+            ,self::DB_TABLE_NAME,  $userid, $start_time,
+            E\Etest_subject_free_type::V_3 );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_list_by_userid( $page_info,  $userid ) {
         $sql=$this->gen_sql_new(
             "select  *  from %s where userid=%u "
