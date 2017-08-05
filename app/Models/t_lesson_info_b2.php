@@ -1130,7 +1130,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         if($lessonid){//手动刷新
             $type = 0;
             $this->where_arr_add_int_field($where_arr,'l.lessonid',$lessonid);
-            // $where_arr[] = 'lss.call_end_time = 0';
+            $where_arr[] = 'lss.call_end_time = 0';
         }else{//定时刷新
             $where_arr = [
                 ["l.lesson_type=%u",2],
@@ -1141,7 +1141,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                 " lss.call_before_time = 0 or lss.call_end_time = 0 ",
             ];
         }
-        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
+        $sql = $this->gen_sql_new("select l.userid,l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
                                   ."lss.call_before_time,lss.call_end_time "
                                   ."from %s l "
                                   ."left join %s lss on lss.lessonid = l.lessonid "
