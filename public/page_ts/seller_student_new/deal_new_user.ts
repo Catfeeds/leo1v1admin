@@ -551,6 +551,10 @@ $(function(){
 
             }else{
                 alert(resp.info);
+                if(resp.userid){
+                    var url = "http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid="+resp.userid;
+                    window.location.href = url;
+                }
             }
         });
 

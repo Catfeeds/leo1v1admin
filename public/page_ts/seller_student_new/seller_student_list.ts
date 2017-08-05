@@ -87,7 +87,6 @@ $(function(){
                         alert('刷新成功!');
                         window.location.href = "http://admin.yb1v1.com/seller_student_new/deal_new_user";
                     }
-                    // window.location.reload();
                 }else{
                     alert('刷新回访失败,请重新拨打回访!');
                 }
