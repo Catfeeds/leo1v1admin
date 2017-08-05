@@ -20,14 +20,3 @@ class t_fulltime_teacher_assessment_list extends \App\Models\Zgen\z_t_fulltime_t
         return $this->main_get_row($sql);
     }
 }
-
-
-
-
-
-
-
-
-
-
-

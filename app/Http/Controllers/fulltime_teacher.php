@@ -12,11 +12,12 @@ class fulltime_teacher extends Controller
 
     public function full_assessment_list(){
         $adminid = $this->get_account_id();
-        //  $adminid=774;
+        //$adminid=204; //WUhan
+        //$adminid=99; //Shanghai
+        print_r($adminid);
         $this->set_in_value("tea_adminid",$adminid);
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
-       
         if(!empty($teacher_info)){
             $teacherid = $teacher_info["teacherid"];
         }else{
@@ -26,6 +27,9 @@ class fulltime_teacher extends Controller
         if(!empty($teacher_info) && $teacher_info["train_through_new_time"] >0 && $teacher_info["train_through_new_time"] <$account_info["create_time"] ){
             $account_info["create_time"] = $teacher_info["train_through_new_time"];
         }
+        //添加全职老师类型
+        $account_info['fulltime_teacher_type'] =$teacher_info['fulltime_teacher_type'];
+        
         $account_info['post'] =7;
         $account_info['main_department']=2;
         if((time() - $account_info["create_time"])<55*86400){
@@ -36,7 +40,28 @@ class fulltime_teacher extends Controller
             );
 
         }
-
+        //获取试用期内月平均课时消耗数和设置评分
+        $start_time = $account_info['create_time'];
+        $end_time   = time();
+        $n = ($end_time - $start_time)/86400/31;
+        $qz_tea_arr = array("$adminid");
+        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        $val = $teacher_info;
+        $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
+        $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
+        $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
+        if($val['lesson_count_avg'] >=0 && $val['lesson_count_avg'] < 60){
+            $account_info['lesson_count_avg_score'] = 5;
+        }else if($val['lesson_count_avg'] < 70){
+            $account_info['lesson_count_avg_score'] = 10;
+        }else if($val['lesson_count_avg'] < 80){
+            $account_info['lesson_count_avg_score'] = 15;
+        }else if($val['lesson_count_avg'] < 90){
+            $account_info['lesson_count_avg_score'] = 20;
+        }else if($val['lesson_count_avg'] >= 90){
+            $account_info['lesson_count_avg_score'] = 25;
+        }
+        
         if((time() - $account_info["create_time"])>60*86400){
             $time_flag=1;
         }else{
@@ -46,9 +71,8 @@ class fulltime_teacher extends Controller
         $time_flag = $this->get_in_int_val("time_flag");
 
         $account_info['post_str']          = E\Epost::get_desc($account_info['post'] );
-        $account_info['main_department_str']      = E\Emain_department::get_desc($account_info['main_department']);        
+        $account_info['main_department_str']      = E\Emain_department::get_desc($account_info['main_department']);
         // $lesson_info  = $this->t_lesson_info_b2->get_teacher_test_lesson_order_info($teacherid,$account_info["create_time"],time());
-         
         // $account_info["order_per"] =!empty($lesson_info["person_num"])?round($lesson_info["have_order"]/$lesson_info["person_num"]*100,2):0;
         $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid,$account_info["create_time"],time());
 
@@ -100,17 +124,30 @@ class fulltime_teacher extends Controller
             $account_info["stu_num_score"]=15;
             $account_info["stu_lesson_total_score"]=5; 
         }
-        $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
-
+        
+        if($account_info['fulltime_teacher_type'] > 1){
+            $ret_info["result_score"] = $account_info["order_per_score"]+$account_info["lesson_count_avg_score"];
+        }else{
+            $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
+        }
 
         $ret_info = $this->t_fulltime_teacher_assessment_list->get_all_info_by_adminid($adminid);
+        //dd($ret_info);
+        $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
         $positive_info=[];
         if($ret_info){
             $ret_info["assess_time_str"] = $ret_info["assess_time"]>0?date("Y-m-d H:i:s",$ret_info["assess_time"]):"";
             $ret_info["assess_admin_nick"] =  $ret_info["assess_adminid"]>0?$this->t_manager_info->get_name($ret_info["assess_adminid"]):"";
-            $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["stu_num_score"]+$ret_info["lesson_level_score"]+$account_info["stu_lesson_total_score"];
-            $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
+            if($account_info['fulltime_teacher_type'] > 1){
+                $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["lesson_count_avg_score"]+$ret_info["lesson_level_score"];
+                $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
 
+            }else{
+                $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["stu_num_score"]+$ret_info["lesson_level_score"]+$account_info["stu_lesson_total_score"];
+                $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
+
+            }
+           
             if( $ret_info["total_score_new"] >= 95){
                 $ret_info["rate_stars_new"] = 5;
             }else if( $ret_info["total_score_new"] >= 88){
@@ -125,7 +162,6 @@ class fulltime_teacher extends Controller
 
             $positive_info = $this->t_fulltime_teacher_positive_require_list->get_all_info_by_assess_id($ret_info["id"]);
         }
-
         $positive_fail_type = $this->t_fulltime_teacher_positive_require_list->get_fail_require_positive_type($adminid);
         $check_is_late = $this->t_fulltime_teacher_positive_require_list->check_is_late($adminid);
         // dd($check_is_late);
@@ -137,8 +173,6 @@ class fulltime_teacher extends Controller
             "positive_type_old" =>$positive_fail_type,
             "check_is_late" =>$check_is_late
         ]);
-        // dd($account_info);
-
     }
 
      public function get_admin_user_info(){
