@@ -1870,10 +1870,18 @@ $(function(){
             cssClass : "btn-warning",
             action   : function(dialog) {
                 var grade_str = "";
+                $("input[name='check_grade']:checked").each(function(){
+                    if(grade_str== ""){
+                        grade_str = $(this).val();
+                    }else{
+                        grade_str += ","+$(this).val();
+                    }
+                });
+
                 $.do_ajax("/tea_manage_new/set_teacher_check_info",{
                     "teacherid" : data.teacherid,
-                    "subject" : id_subject.val(),
-                    "grade" : grade_str,
+                    "subject"   : id_subject.val(),
+                    "grade"     : grade_str,
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();

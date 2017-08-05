@@ -82,8 +82,8 @@ class fulltime_teacher extends Controller
         }
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
-        $week_start = $date_week["sdate"];
-        $week_end = $week_start+21*86400;
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list_personal($teacherid,$week_start,$week_end);
  
         // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list_new($teacherid);
