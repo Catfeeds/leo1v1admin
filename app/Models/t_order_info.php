@@ -1236,14 +1236,18 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
-    public function add_contract($sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement,$from_test_lesson_id = 0, $from_parent_order_type=0, $parent_order_id=0 ,$default_lesson_count=100,
-                                 $order_price_type=0,
-                                 $order_promotion_type=0,
-                                 $promotion_discount_price=0,
-                                 $promotion_present_lesson=0,
-                                 $promotion_spec_discount=0,
-                                 $promotion_spec_present_lesson=0,
-                                 $contract_from_type=0, $from_parent_order_lesson_count=0 )
+    public function add_contract(
+        $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement,$from_test_lesson_id = 0, $from_parent_order_type=0, $parent_order_id=0 ,$default_lesson_count=100,
+        $order_price_type=0,
+        $order_promotion_type=0,
+        $promotion_discount_price=0,
+        $promotion_present_lesson=0,
+        $promotion_spec_discount=0,
+        $promotion_spec_present_lesson=0,
+        $contract_from_type=0,
+        $from_parent_order_lesson_count=0,
+        $per_price=0
+    )
     {
 
         //E\Econtract_type::V_3
@@ -1287,6 +1291,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "promotion_spec_present_lesson" => $promotion_spec_present_lesson,
             "stu_from_type" => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
+            "per_price" => $pre_price,
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
