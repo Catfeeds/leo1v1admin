@@ -911,12 +911,14 @@ class common_new extends Controller
             $like_teacher = $this->t_lesson_info_b2->get_stu_like_teacher($userid, $start_time);
             if ($like_teacher) {
                 if($like_teacher['taday'] == 1) {
-                    $like_teacher['lesson_end'] = strtotime('tomorrow');
+                    $end_day_time = strtotime('tomorrow');
+                } else {
+                    $end_day_time = strtotime( date('Y-m-d',$like_teacher['lesson_end']) ) + 86400;
                 }
                 $start_day_time = strtotime( date('Y-m-d',$like_teacher['lesson_start']) );
                 E\Esubject::set_item_value_str($like_teacher);
                 $lesson_count_num = $like_teacher['teacher_lesson_count']/100;
-                $lesson_days_num  = intval( ($like_teacher['lesson_end']-$start_day_time)/(24*3600) );
+                $lesson_days_num  = intval( ($end_day_time-$start_day_time)/86400 );
                 $list['teacher_for_stu_lesson']  = str_pad($lesson_count_num, 2, '0',STR_PAD_LEFT);
                 $list['teacher']                 = mb_substr($like_teacher['realname'], 0, 1, 'utf-8');
                 $list['teacher_for_stu_subject'] = $like_teacher['subject_str'];
