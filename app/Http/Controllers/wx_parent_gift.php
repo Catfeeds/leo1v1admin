@@ -117,16 +117,15 @@ class wx_parent_gift extends Controller
 
         $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
 
-        if($gift_info['userid']){
+        if($gift_info['userid']>0){
             return $this->output_succ($gift_info);
         }else{
-
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
             $start_time = strtotime(date("Y-m-d",time()));
             $end_time   = $start_time+86400;
             $now = time();
-            $all_gift_list = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
-            $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num();
+            $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price,$limit_gift);
+            $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
 
             $index = mt_rand(0,1870);
 
@@ -150,10 +149,6 @@ class wx_parent_gift extends Controller
 
 
     }
-
-
-
-
 
 
 
