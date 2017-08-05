@@ -468,8 +468,7 @@ class menu{
 
                 ["power_id"=>53, "name"=>"例子回流公海",   "url"=>"/seller_student_new/get_hold_list"],
                 ["power_id"=>54, "name"=>"公海-抢学生",   "url"=>"/seller_student_new/get_free_seller_list"],
-                ["power_id"=>52, "name"=>"抢新学生",   "url"=>"/seller_student_new/get_new_list"],
-                ["power_id"=>55, "name"=>"抢新学生-当前用户",   "url"=>"/seller_student_new/deal_new_user"],
+                ["power_id"=>55, "name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user"],
 
                 ["power_id"=>56, "name"=>"抢新学生-tmk",   "url"=>"/seller_student_new/get_new_list_tmk"],
                 ["power_id"=>57, "name"=>"抢新学生-当前用户-tmk", "url"=>"/seller_student_new/deal_new_user_tmk"],
