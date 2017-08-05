@@ -1986,9 +1986,10 @@ trait  TeaPower {
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
         $this->t_teacher_record_list->row_insert([
             "teacherid"      => $teacher_info['teacherid'],
-            "type"           => 9,
+            "type"           => 1,
             "add_time"       => time(),
             "train_lessonid" => $lessonid,
+            "lesson_style"   => 5
         ]);
 
         return true;

@@ -931,7 +931,7 @@ class common_new extends Controller
                 foreach ($star_info as $v) {
                     $score_num = $v['teacher_score_count'];
                     if ( count($score_num)<2 ) {
-                        $score_num .= '0';
+                        $score_num = '0'.$score_num;
                     }
                     $list['five_star']  = ($v['teacher_score'] == 5)?$score_num:$list['five_star'];
                     $list['four_star']  = ($v['teacher_score'] == 4)?$score_num:$list['four_star'];

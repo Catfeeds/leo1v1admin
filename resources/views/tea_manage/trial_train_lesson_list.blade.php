@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src="/page_js/teacher_freeze_limit_record.js"></script>
+    <script type="text/javascript" src="/js/svg.js"></script>
+    <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
+    <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+    <link href="/css/jquery-ui-1.8.custom.css" rel="stylesheet" type="text/css" />
+
     <section class="content ">
         <div>
             <div class="row">
@@ -86,6 +91,9 @@
                                 <a class="fa-video-camera opt-play" title="回放"></a>
                                 @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
                                     <a class="opt-edit" title="更改状态">审核 </a>
+                                @endif
+                                @if($var["trial_train_status"]>0)
+                                    <a class="opt-confirm-score" title="审核详情">审核详情</a>
                                 @endif
                             </div>
                         </td>

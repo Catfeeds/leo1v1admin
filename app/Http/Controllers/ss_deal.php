@@ -2862,7 +2862,7 @@ class ss_deal extends Controller
 
         $lecture_appointment_status= $this->get_in_int_val("lecture_appointment_status");
         foreach( $id_list as $id ){
-            $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_appointment_status"=>$lecture_appointment_status]);
+            $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_revisit_type"=>$lecture_appointment_status]);
         }
         return $this->output_succ();
     }
