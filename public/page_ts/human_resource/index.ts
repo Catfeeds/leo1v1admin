@@ -1858,7 +1858,7 @@ $(function(){
         var id_grade   = $("<div>");
 
         Enum_map.append_option_list("subject",id_subject,true);
-        Enum_map.append_checkbox_list("grade",id_grade,"check_grade",[100,200,300],true);
+        Enum_map.append_checkbox_list("grade",id_grade,"check_grade",["100","200","300"]);
 
         var arr = [
             ["审核科目",id_subject],
