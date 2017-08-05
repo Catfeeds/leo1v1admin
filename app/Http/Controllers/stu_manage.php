@@ -622,7 +622,6 @@ class stu_manage extends Controller
         $g_assigned_lesson_count = $this->t_course_order->get_user_assigned_lesson_count($userid,$competition_flag);
         $lesson_split            = $this->t_order_info->get_user_split_total($userid,$competition_flag);
         $lesson_left             = $lesson_total-$lesson_refund-$lesson_split;
-
         if ($userid<>0) {
             $list = $this->t_course_order->get_list($userid,-1,$competition_flag);
         }else{
