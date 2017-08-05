@@ -45,6 +45,7 @@ interface RowData {
 	nickname	:any;
 	type	:any;
 	p_nickname	:any;
+	p_phone	:any;
 }
 
 /*

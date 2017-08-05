@@ -32,7 +32,6 @@ class agent extends Controller
         foreach($ret_info['list'] as &$item){
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 

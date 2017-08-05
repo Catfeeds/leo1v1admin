@@ -13,7 +13,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname "
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." where %s "
