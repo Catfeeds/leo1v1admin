@@ -47,13 +47,20 @@ class testbb extends Controller
 
 
     public function test () {
-        $start_time = strtotime(date("Y-m-d",time()));
-        dd($start_time);
-        $now = time();
-        $r = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
 
-        $index = mt_rand(0,1870);
+        // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
+        $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
+        $rock_gift_num = count($all_gift_list);
 
+        $index = mt_rand(0,$rock_gift_num-1);
+
+        $prize_code = $all_gift_list[$index]['prize_code'];
+
+        dd($prize_code);
+        $index = mt_rand(0,count($r)-1);
+
+
+        dd($index);
         dd($r[$index]);
         // if($all_gift_list[$index]){
 
