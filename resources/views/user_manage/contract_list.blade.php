@@ -184,7 +184,7 @@
                     <td style="display:none">courseid</td>
                     <td style="display:none;">助教</td>
                     <td style="display:none;" >竞赛合同</td>
-                    <td >设备信息</td>
+                    <td style="display:none;" >设备信息</td>
                     <td >TMK负责人</td>
                     <td >试听课老师</td>
                     <td >财务说明</td>
