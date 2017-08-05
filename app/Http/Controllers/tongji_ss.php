@@ -6404,7 +6404,23 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $cc_num = $item["cc_lesson_num"];
             }
-            $item["score"] =  ($item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["all_score"])*$item["lesson_score"]/10;
+            $item["score"] =  round(($item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["all_score"])*$cc_num/10,2);
+            if($item["score"]>=95){
+                $item["reward"] = 1000;
+            }elseif($item["score"]>=85){
+                $item["reward"] = 800;
+            }elseif($item["score"]>=75){
+                $item["reward"] = 600;
+            }elseif($item["score"]>=65){
+                $item["reward"] = 400;
+            }elseif($item["score"]>=55){
+                $item["reward"] = 200;
+            }else{
+                $item["reward"]=0;
+            }
+
+
+
             @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
             @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
             @$tran_avg["kk_lesson_num"] +=$item["kk_lesson_num"];
