@@ -111,6 +111,53 @@ trait  TeaPower {
         return $ret;
     }
 
+    public function set_teacher_label($teacherid,$lessonid,$lesson_list,$tea_label_type,$label_origin){
+        $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+        if($id>0){
+            $this->t_teacher_label->field_update_list($id,[
+                "add_time" =>time(),
+                "label_origin"=>$label_origin,
+                "tea_label_type"=>$sshd_good
+            ]);
+        }else{
+            $this->t_teacher_label->row_insert([
+                "teacherid"=>$teacherid,
+                "add_time" =>time(),
+                "label_origin"=>$label_origin,
+                "lessonid"    =>$lessonid,
+                "lesson_list"=>$lesson_list,
+                "tea_label_type"=>$sshd_good
+            ]);
+ 
+        }
+    }
+
+    public function get_teacher_label_new($tea_arr){
+        $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
+        $arr = [];
+        foreach($teacher_label_list as $item){
+            $teacherid = $item["teacherid"];
+            $tea_label_type = json_decode($item["tea_label_type"],true);
+            if(!empty($interaction)){
+                foreach($interaction as $v){
+                    @$arr[$teacherid]["label"][$v]["num"]++;
+                    @$arr[$teacherid]["label"][$v]["name"] =E\Etea_label_type::get_desc($v);
+                }
+            }
+           
+        }
+        $str=[];
+        foreach($arr as $k=>$label){
+            foreach($label as $item){
+                foreach($item as $v){
+                    @$str[$k] .= $v["name"]."<br>";
+                }
+            }
+        }
+        return $str;
+
+    }
+
     public function get_teacher_label($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
         $arr = [];

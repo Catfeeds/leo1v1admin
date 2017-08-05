@@ -1639,10 +1639,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
-    public function get_origon_list($page_info,$start_time, $end_time, $opt_type_str, $origin_ex  ) {
+    public function get_origon_list($page_info,$start_time, $end_time, $opt_type_str, $origin_ex ,$origin_level ) {
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $ret_in_str  = $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $this->where_arr_add_int_or_idlist($where_arr,"s.origin_level",$origin_level);
         $where_arr[] = $ret_in_str;
 
         switch ( $opt_type_str  ) {

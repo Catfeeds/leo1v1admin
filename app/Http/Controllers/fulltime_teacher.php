@@ -32,7 +32,7 @@ class fulltime_teacher extends Controller
         
         $account_info['post'] =7;
         $account_info['main_department']=2;
-        if((time() - $account_info["create_time"])<5*86400){
+        if((time() - $account_info["create_time"])<55*86400){
             return $this->error_view(
                 [
                     "转正考核需在入职55天以后才能提交"
@@ -82,8 +82,8 @@ class fulltime_teacher extends Controller
         }
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
-        $week_start = $date_week["sdate"];
-        $week_end = $week_start+21*86400;
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list_personal($teacherid,$week_start,$week_end);
  
         // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list_new($teacherid);
