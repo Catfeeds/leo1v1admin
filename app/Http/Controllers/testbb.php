@@ -47,6 +47,10 @@ class testbb extends Controller
 
 
     public function test () {
+        $now = time();
+        $r = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
+
+        dd($r);
         $d = strtotime(date("Y-m-d",strtotime('+1 day')));
         dd($d);
 

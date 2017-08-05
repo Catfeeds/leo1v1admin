@@ -82,7 +82,7 @@ $(function(){
             ["模拟试听是否通过",id_trial_train_status],
             ["监课情况",id_jkqk],
             ["意见或建议",id_record],
-            ["标签-师生互动(好)",id_sshd]
+            ["老师标签",id_sshd]
         ];
         
         $.show_key_value_table("试听评价", arr,{
@@ -166,7 +166,7 @@ $(function(){
                                                   +"</div><audio preload=\"none\"></audio></div>"
                                                  );
                                 BootstrapDialog.show({
-                                    title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + opt_data.stu_nick,
+                                    title    : '课程回放:lessonid:'+opt_data.lessonid,
                                     message  : html_node,
                                     closable : true,
                                     onhide   : function(dialogRef){

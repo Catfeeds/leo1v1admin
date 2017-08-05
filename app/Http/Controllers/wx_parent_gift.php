@@ -51,54 +51,21 @@ class wx_parent_gift extends Controller
             //处理列
 
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
-            set_time_limit(90); 
-            ini_set("memory_limit", "1024M"); 
+            set_time_limit(90);
+            ini_set("memory_limit", "1024M");
             $realPath = $file->getRealPath();
-            // dd($realPath);
             $objPHPExcel = $objReader->load($realPath);
-            // dd($objPHPExcel);
             $objPHPExcel->setActiveSheetIndex(0);
-            // $arr=$objPHPExcel->getActiveSheet();
             $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
-            dd($arr);
 
-
-
-            // $realPath = $file->getRealPath();
-            // $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
-
-            // $objPHPExcel = $objReader->load($realPath);
-            // $objPHPExcel->setActiveSheetIndex(0);
-            // $arr=$objPHPExcel->getActiveSheet()->toArray();
-
-            dd($arr);
-            // foreach($arr as $k=>&$val){
-            //     if(empty($val[0]) || $k==0){
-            //         unset($arr[$k]);
-            //     }
-            //     // $val[-1] = strlen($val[1]);
-            //     if(strlen($val[1])==4){
-            //         $val[1]="0".$val[1];
-            //     }
-            //     if(strlen($val[2])==4){
-            //         $val[2]="0".$val[2];
-            //     }
-
-            // }
-
-            // foreach($arr as $item){
-            //     $day = strtotime($item[0]);
-            //     $this->t_psychological_teacher_time_list->row_insert([
-            //         "day"  =>$day,
-            //         "start"=>$item[1],
-            //         "end"  =>$item[2],
-            //         "teacher_phone_list"=>$item[3]
-            //     ]);
-            // }
-
-            // dd($arr);
-            // (new common_new()) ->upload_from_xls_data( $realPath);
-
+            foreach($arr as $item){
+                if($item["A"] && $item["B"]){
+                    $this->t_parent_luck_draw_in_wx->row_insert([
+                        "price"  =>$item["A"],
+                        "prize_code"  =>$item["B"],
+                    ]);
+                }
+            }
             return outputjson_success();
         } else {
             //return 111;
@@ -115,6 +82,32 @@ class wx_parent_gift extends Controller
         $userid = $this->get_in_int_val('userid');
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
+
+        // 查看是否已抽奖
+
+        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+
+        if($gift_info['userid']){
+            if($gift_info['prize_code']){
+                return $this->output_succ($gift_info);
+            }else{
+                return $this->output_succ();
+            }
+        }else{
+
+            // 首次参加抽奖 [将抽奖结果放入到数据表中]
+            $now = time();
+            $all_gift_list = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
+
+            $index = rand(0,1870);
+
+            $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                "prize_code" => "",
+                "userid"     => $userid,
+
+            ]);
+        }
+
 
         if($parent_num>30 && $parent_num<=90){
             $price = 20;
