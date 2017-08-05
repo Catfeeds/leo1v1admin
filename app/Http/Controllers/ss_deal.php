@@ -2332,6 +2332,14 @@ class ss_deal extends Controller
 
         $this->t_test_lesson_subject-> set_other_admin_init($userid,$adminid );
 
+        $phone= $this->t_seller_student_new->get_phone($userid);
+        $account = $this->get_account();
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: $account 抢单 未签例子: $phone  " ,
+            "system"
+        );
+
 
         $json_ret["opt_count"] += 1;
         \App\Helper\Common::redis_set_json("SELLER_TEST_LESSON_USER_$adminid", $json_ret);
