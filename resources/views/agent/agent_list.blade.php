@@ -9,6 +9,13 @@
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">绑定类型</span>
+                        <select class="opt-change form-control" id="id_agent_type" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <button id="id_add"> 增加</button>
                 </div>
@@ -64,7 +71,7 @@
                         @elseif(@$var['type'] == 2)
                             <td>我要推荐 </td>
                         @else
-                            <td></td>
+                            <td>注册</td>
                         @endif
                         <td>{{@$var["create_time"]}} </td>
                         <td>

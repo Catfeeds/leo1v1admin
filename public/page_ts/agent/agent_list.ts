@@ -18,10 +18,12 @@ $(function(){
             bank_type:	$('#id_bank_type').val(),
             zfb_name:	$('#id_zfb_name').val(),
             zfb_account:	$('#id_zfb_account').val(),
+            agent_type:$('#id_agent_type').val()
         })
     };
+    Enum_map.append_option_list("agent_type", $("#id_agent_type"));
 
-
+    $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
     $('#id_parentid').val(g_args.parentid);
     $('#id_phone').val(g_args.phone);
