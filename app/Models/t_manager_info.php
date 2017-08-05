@@ -651,7 +651,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_teacher_info_by_adminid($adminid){
         $sql = $this->gen_sql_new("select t.teacherid,t.subject,t.second_subject,t.third_subject,m.account_role,"
-                                  ." t.grade_part_ex,t.train_through_new_time "
+                                  ." t.grade_part_ex,t.train_through_new_time,m.fulltime_teacher_type  "
                                   ." from %s m "
                                   ." join %s t on m.phone = t.phone "
                                   ." where m.uid = %u"
