@@ -6413,7 +6413,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["num"]:0;
-            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?round($normal_stu_num[$val["teacherid"]]["lesson_all"]/300):0;
+            $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?round($normal_stu_num[$val["teacherid"]]["lesson_all"]/500):0;
             $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
             $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
             $grade = $this->t_teacher_info->get_grade_part_ex($val["teacherid"]);

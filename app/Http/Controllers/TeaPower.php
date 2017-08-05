@@ -132,6 +132,32 @@ trait  TeaPower {
         }
     }
 
+    public function get_teacher_label_new($tea_arr){
+        $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
+        $arr = [];
+        foreach($teacher_label_list as $item){
+            $teacherid = $item["teacherid"];
+            $tea_label_type = json_decode($item["tea_label_type"],true);
+            if(!empty($interaction)){
+                foreach($interaction as $v){
+                    @$arr[$teacherid]["label"][$v]["num"]++;
+                    @$arr[$teacherid]["label"][$v]["name"] =E\Etea_label_type::get_desc($v);
+                }
+            }
+           
+        }
+        $str=[];
+        foreach($arr as $k=>$label){
+            foreach($label as $item){
+                foreach($item as $v){
+                    @$str[$k] .= $v["name"]."<br>";
+                }
+            }
+        }
+        return $str;
+
+    }
+
     public function get_teacher_label($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
         $arr = [];

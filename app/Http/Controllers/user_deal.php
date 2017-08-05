@@ -2607,6 +2607,7 @@ class user_deal extends Controller
     {
         
        
+        $label_list = $this->get_teacher_label_new($tea_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
         $this->t_month_ass_student_info->get_field_update_arr(541,$start_time,1,[

@@ -1855,7 +1855,7 @@ $(function(){
     $(".opt-set_check_info").on("click",function(){
 	      var data       = $(this).get_opt_data();
         var id_subject = $("<select />");
-        var id_grade   = $("<div />");
+        var id_grade   = $("<div>");
 
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_checkbox_list("grade",id_grade,"check_grade",[100,200,300],true);
@@ -1864,7 +1864,7 @@ $(function(){
             ["审核科目",id_subject],
             ["审核年级",id_grade],
         ];
-
+        console.log(id_grade);
         $.show_key_value_table("审核信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",

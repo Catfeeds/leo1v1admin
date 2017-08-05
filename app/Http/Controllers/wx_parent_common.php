@@ -123,6 +123,9 @@ class wx_parent_common extends Controller
             $nick = "";
             $parentid = $this->t_parent_info->register($phone, $passwd, $reg_channel , $ip,$nick);
 
+            // dd($parentid);
+            \App\Helper\Utils::logger("parentid=x ".$parentid);
+
             return $this->output_succ(["type"=>$market_activity_type,"parentid"=> $parentid]);
 
         }
