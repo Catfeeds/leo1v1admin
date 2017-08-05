@@ -373,6 +373,11 @@ class ss_deal extends Controller
             ]);
         }
 
+        $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
+        if ( $ss_item["user_desc"] != $user_desc) {
+            $this->t_book_revisit->add_book_revisit($phone , "更新备注:$user_desc" , $this->get_account());
+        }
+
 
 
         //last_revisit_msg ='%s', last_revisit_time =%u
@@ -386,7 +391,7 @@ class ss_deal extends Controller
         ];
 
         //更新首次回访时间
-        if (!$this->t_seller_student_new->get_first_revisit_time($userid))  {
+        if (! $ss_item["first_revisit_time"])  {
             $ss_arr["first_revisit_time"]=time(NULL);
         }
         if ( $revisite_info  ) {
@@ -394,6 +399,7 @@ class ss_deal extends Controller
             $ss_arr["last_revisit_msg"]=$revisite_info;
             $this->t_book_revisit->add_book_revisit($phone , $revisite_info, $this->get_account());
         }
+
 
         $this->t_seller_student_new->field_update_list($userid,$ss_arr);
 
@@ -2856,7 +2862,7 @@ class ss_deal extends Controller
 
         $lecture_appointment_status= $this->get_in_int_val("lecture_appointment_status");
         foreach( $id_list as $id ){
-            $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_appointment_status"=>$lecture_appointment_status]);
+            $this->t_teacher_lecture_appointment_info->field_update_list($id,["lecture_revisit_type"=>$lecture_appointment_status]);
         }
         return $this->output_succ();
     }

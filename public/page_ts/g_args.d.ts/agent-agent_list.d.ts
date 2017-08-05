@@ -44,6 +44,8 @@ interface RowData {
 	headimgurl	:any;
 	nickname	:any;
 	type	:any;
+	p_nickname	:any;
+	p_phone	:any;
 }
 
 /*

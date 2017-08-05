@@ -559,12 +559,16 @@ class seller_student_new extends Controller
             if (!$this->t_seller_new_count->get_free_new_count_id($adminid,"获取新例子"))  {
                 return $this->output_err("今天的配额,已经用完了");
             }
-            //试听成功后的回访记录
-            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-            // if(count($lesson_call_end)){
-            //     return $this->output_err("你有试听成功未回访");
+            //检查是否有试听成功课未回访
+            // if($adminid == 378){
+            //     $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            //     $userid = $lesson_call_end['userid'];
+            //     \App\Helper\Utils::logger('yxyx_userid:'.$userid);
+            //     if($userid){
+            //         header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
+            //     }
             // }
-
+            
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
             $competition_call_adminid = $row_data["competition_call_adminid"];
@@ -1237,6 +1241,13 @@ class seller_student_new extends Controller
 
     }
 
+    public function refresh_call_end(){
+        $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
+        $end_time = $start_time + 24*3600;
+        $lessonid = $this->get_in_int_val('lessonid');
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
 
+        return $ret;
+    }
 
 }

@@ -823,4 +823,26 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list_as_page($sql);
     }
 
+    public function gen_have_video_teacher_info(){
+        $sql = $this->gen_sql_new("select ta.name,t.train_through_new,t.train_through_new_time,t.teacherid,ta.subject_ex,ta.grade_start,ta.grade_end,ta.school,ta.phone,ta.teacher_type,ta.grade_ex"
+                                  ." from %s ta left join %s tl on ta.phone = tl.phone"
+                                  ." left join %s t on ta.phone = t.phone"
+                                  ." where tl.id >0 group by ta.phone ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+    
+    public function get_all_full_time_num($start_time,$end_time){
+        $where_arr = [
+            ["answer_begin_time>%u",$start_time,0],
+            ["answer_begin_time<%u",$end_time,0],
+            "full_time=1"
+        ];
+        $sql = $this->gen_sql_new("select count(*) from %s where %s ",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }

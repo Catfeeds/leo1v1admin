@@ -1112,27 +1112,36 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     public function get_teacher_lessons($teacherid, $start_time, $end_time) {
-        $sql = $this->gen_sql_new( " select lesson_start, lesson_end,free_time_new from %s tl".
-                                   " left join %s tf on tf.teacherid = tl.teacherid".
-                                   " where tl.teacherid = %d and lesson_start >= %s and lesson_end < %s",
-                                   self::DB_TABLE_NAME,
-                                   t_teacher_freetime_for_week::DB_TABLE_NAME,
-                                   $teacherid,
-                                   $start_time,
-                                   $end_time
+        $sql = $this->gen_sql_new(" select lesson_start, lesson_end,free_time_new"
+                                   ." from %s tl"
+                                   ." left join %s tf on tf.teacherid = tl.teacherid"
+                                   ." where tl.teacherid = %d and lesson_start >= %s and lesson_end < %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_teacher_freetime_for_week::DB_TABLE_NAME
+                                   ,$teacherid
+                                   ,$start_time
+                                   ,$end_time
         );
         return $this->main_get_list($sql);
     }
 
-    public function get_test_lesson_list($start_time,$end_time,$userid = -1){
-        $where_arr = [
-            ["l.lesson_type=%u",2],
-            ["l.lesson_del_flag=%u",0],
-            ["l.lesson_start>=%u",$start_time],
-            ["l.lesson_start<%u",$end_time],
-            ["l.userid=%u",$userid,-1],
-        ];
-        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone "
+    public function get_test_lesson_list($start_time,$end_time,$userid = -1,$lessonid = 0){
+        $type = 1;
+        if($lessonid){//手动刷新
+            $this->where_arr_add_int_field($where_arr,'l.lessonid',$lessonid);
+            $type = 0;
+        }else{//定时刷新
+            $where_arr = [
+                ["l.lesson_type=%u",2],
+                ["l.lesson_del_flag=%u",0],
+                ["l.lesson_start>=%u",$start_time],
+                ["l.lesson_start<%u",$end_time],
+                ["l.userid=%u",$userid,-1],
+                " lss.call_before_time = 0 or lss.call_end_time = 0 ",
+            ];
+        }
+        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
+                                  ."lss.call_before_time,lss.call_end_time "
                                   ."from %s l "
                                   ."left join %s lss on lss.lessonid = l.lessonid "
                                   ."left join %s lsr on lsr.require_id = lss.require_id "
@@ -1149,16 +1158,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $lesson_arr = array();
         $lesson_arr = $this->main_get_list($sql);
         if(count($lesson_arr)>0){
-            $this->update_lesson_call($lesson_arr);
+            $ret = $this->update_lesson_call($lesson_arr,$type);
+            if(!$type){
+                return $ret;
+            }
         }
     }
 
-    public function update_lesson_call($lesson_arr){
+    public function update_lesson_call($lesson_arr,$type){//type:是否要求回访打通,1定时刷新,0手动刷新
         foreach($lesson_arr as $item){
             $lessonid     = $item['lessonid'];
             $tquin        = (int)$item['tquin'];
             $phone        = $item['phone'];
             $lesson_start = $item['lesson_start'];
+            $lesson_end = $item['lesson_end'];
             $day_start    = date('Y-m-d',$lesson_start);
             $lesson_time  = strtotime($day_start."00:00:00");
             $middle_time  = strtotime($day_start.'12:00:00');
@@ -1169,17 +1182,25 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                 $call_start_time = $lesson_time;
                 $call_end_time   = $lesson_time + 24*3600;
             };
-            $lesson_call_list = $this->task->t_tq_call_info->get_list_ex($tquin,$phone,$call_start_time,$call_end_time,1);
+            $lesson_call_list = $this->task->t_tq_call_info->get_list_ex_new($tquin,$phone,$call_start_time,$call_end_time,$type,$lesson_end);
             $call_before_time_arr = [];
             $call_end_time_arr = [];
             $call_before_time = 0;
             $call_end_time = 0;
             foreach($lesson_call_list as $time_item){
-                $call_time = $time_item["start_time"] ;
-                if($call_time < $lesson_start){
-                    $call_before_time_arr[] =$call_time;
-                }elseif($call_time > ($lesson_start+1800)) {
-                    $call_end_time_arr[] = $call_time;
+                $call_time = $time_item["start_time"];
+                if($type){
+                    if($call_time < $lesson_start){
+                        $call_before_time_arr[] =$call_time;
+                    }elseif($call_time > ($lesson_start+1800)){ 
+                        $call_end_time_arr[] = $call_time;
+                    }
+                }else{
+                    if($call_time < $lesson_start){
+                        $call_before_time_arr[] =$call_time;
+                    }elseif($call_time > $lesson_end){ 
+                        $call_end_time_arr[] = $call_time;
+                    }
                 }
             }
             if(count($call_before_time_arr)>0){
@@ -1188,11 +1209,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             if(count($call_end_time_arr)>0){
                 $call_end_time = min($call_end_time_arr);
             }
-            $this->task->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
+            $ret = $this->task->t_test_lesson_subject_sub_list->field_update_list($lessonid, [
                 "call_before_time" => $call_before_time,
                 "call_end_time"    => $call_end_time,
             ]);
-
+            if(!$type){
+                return $ret;
+            }
         }
     }
 
@@ -1803,14 +1826,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
         $sql = $this->gen_sql_new("SELECT s.userid, s.face AS stu_face, s.lesson_count_left"
                                   .",SUM( if(l.lesson_type in (0,1,3),1,0) ) AS normal_nums "
-                                  ." FROM %s l"
-                                  ." LEFT JOIN %s s ON l.userid=s.userid"
+                                  ." FROM %s s"
+                                  ." LEFT JOIN %s l ON l.userid=s.userid"
                                   ." LEFT JOIN %s p ON p.userid=s.userid"
                                   ." WHERE %s "
                                   ." GROUP BY s.userid"
                                   ." ORDER BY normal_nums DESC"
-                                  ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,$where_arr
         );
@@ -2546,20 +2569,30 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time){
+    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
             "l.lesson_type =2",
             "l.lesson_status>0",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            ["t.subject = %u",$subject,-1],
+            ["l.teacherid = %u",$teacherid,-1],
         ];
+        if($record_flag==0){
+            $where_arr[] = "tr.id is null";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.id>0";
+        }
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid andlesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2569,14 +2602,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
-            [' lsr.cur_require_adminid = %d ',$adminid],
-            ' lss.success_flag = 0 ',
             ' l.lesson_type = 2 ',
-            ' l.lesson_del_flag = 0 ',
+            ' l.lesson_del_flag = 1 ',
+            ' l.lesson_start > 1501516800 ',
+            ' lss.success_flag = 0 ',
             ' lss.call_end_time = 0 ',
+            [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
-            " select l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            " select l.userid,l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
             ." from %s l "
             ." left join %s lss on lss.lessonid = l.lessonid "
             ." left join %s lsr on lsr.require_id = lss.require_id "
@@ -2587,7 +2621,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,$where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
+    }
+
+    public function get_fulltime_teacher_interview_info($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2",
+            "l.lesson_type=1100",
+            "l.lesson_sub_type=1",
+            "l.train_type=5",
+            "ta.full_time=1"
+        ];
+        $this->where_arr_add_time_range($where_arr,"taa.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(taa.lessonid) num from %s l"
+                                  ." join %s taa on l.lessonid = taa.lessonid"
+                                  ." join %s t on l.userid= t.teacherid"
+                                  ." join %s ta on t.phone = ta.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 }

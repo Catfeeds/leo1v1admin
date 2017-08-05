@@ -44,7 +44,8 @@ class zs_lecture_info_day extends Command
         $start_time = strtotime(date("Y-m-d",time()-100));
         $end_time=time();                                  
         $all_total =0;
-        $ret_info  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);      
+        $ret_info  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time); 
+
         $video_account = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
         $video_account_real = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
         $video_account_pass = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,1);
@@ -115,8 +116,9 @@ class zs_lecture_info_day extends Command
 
         $date = date("Y-m-d",time()-100);
         $admin_list = [72,349,448,967];
+        //$admin_list = [349];
         foreach($admin_list as $yy){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"招师进度","招师进度",$all_str."\n".$s,"http://admin.yb1v1.com/main_page/zs_teacher_new?date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date);
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"招师日报","招师项目进度汇总","\n今日报名数:".$all_total."\n面试试讲数:通过".$data["one_succ"].",预约".$data["one_count"]."\n录制试讲数:通过".$data["video_succ"].",预约".$data["video_count"]."\n审核通过数:".$data["all_succ"],"http://admin.yb1v1.com/main_page/zs_teacher_new?date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date);
         }
 
 

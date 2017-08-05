@@ -2428,14 +2428,7 @@ class human_resource extends Controller
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
-        $sshd_bad                         = $this->get_in_str_val("sshd_bad");
-        $ktfw_good                        = $this->get_in_str_val("ktfw_good");
-        $ktfw_bad                         = $this->get_in_str_val("ktfw_bad");
-        $skgf_good                        = $this->get_in_str_val("skgf_good");
-        $skgf_bad                         = $this->get_in_str_val("skgf_bad");
-        $jsfg_good                        = $this->get_in_str_val("jsfg_good");
-        $jsfg_bad                         = $this->get_in_str_val("jsfg_bad");
-
+       
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
         $ret = $this->t_teacher_record_list->field_update_list($id,[
             "tea_process_design_score"         => $tea_process_design_score,
@@ -2459,9 +2452,17 @@ class human_resource extends Controller
             return $this->output_err("更新出错！请重新提交！");
         }
 
-        $this->add_teacher_label(
+        /* $this->add_teacher_label(
             $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
-        );
+            );*/
+        $this->t_teacher_label->row_insert([
+            "teacherid"=>$teacherid,
+            "add_time" =>time(),
+            "label_origin"=>2,
+            "lessonid"    =>$lessonid,
+            "lesson_list"=>$record_lesson_list,
+            "tea_label_type"=>$sshd_good
+        ]);
 
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -2470,10 +2471,10 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
             ]);
             $keyword2   = "已通过";
-            $check_flag = $this->t_teacher_money_type->check_is_exists($lessonid);
+            $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
                 $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
-                $this->t_teacher_money_type->row_insert([
+                $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $teacherid,
                     "type"       => 5,
                     "add_time"   => time(),
@@ -4232,6 +4233,7 @@ class human_resource extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_total_list(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
         );
+
         foreach($tea_list['list'] as &$val){
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);

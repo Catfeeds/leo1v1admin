@@ -220,4 +220,37 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
+    public function get_list_ex_new($uid,$phone,$start_time ,$end_time, $is_called_phone=-1,$lesson_end = -1) {
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr, "uid" ,$uid);
+        $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
+        if($is_called_phone){ //定时刷新,当天打
+            $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
+        }else{//手动刷新,上课结束后
+            $where_arr[] = "start_time>$lesson_end";
+            // $this->where_arr_add_time_range($where_arr,"start_time",$lesson_end);
+        }
+        $this->where_arr_add_int_or_idlist($where_arr, "is_called_phone" ,$is_called_phone);
+
+        $sql = $this->gen_sql_new("select start_time ".
+                                  "from %s ".
+                                  "where %s order by start_time "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    public function get_list_by_phone($uid,$phone){
+        $where_arr = [];
+        $this->where_arr_add_int_field($where_arr, "uid" ,$uid);
+        $this->where_arr_add_str_field($where_arr, "phone" ,$phone);
+        $sql = $this->gen_sql_new("select * ".
+                                  "from %s ".
+                                  "where %s order by start_time "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

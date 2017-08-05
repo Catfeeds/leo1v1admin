@@ -2478,4 +2478,34 @@ ORDER BY require_time ASC";
             $where_arr);
         return $this->main_get_list_as_page($sql);
     }
+    public function test_lesson_order_detail_list($page_info, $start_time, $end_time, $cur_require_adminid ,$origin_ex , $teacherid ) {
+
+
+        $where_arr=[
+            "s.is_test_user=0"
+            ," l.teacherid>0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+
+
+        $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$cur_require_adminid);
+        $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
+        $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $sql=$this->gen_sql_new(
+            "select m.account , s.phone,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
+            . "  from_unixtime( l.lesson_start) lesson_time ,   o.price/100 as price ,  s.origin_userid, s.origin,"
+            . " s.userid, l.teacherid" .
+            " from  db_weiyi.t_test_lesson_subject_require tr ".
+
+            " left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id ".
+            " left join db_weiyi.t_student_info s on  t.userid = s.userid ".
+            " left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid ".
+            " left join db_weiyi.t_order_info o on  (l.lessonid = o.from_test_lesson_id and o.contract_status>0 ) ".
+            " left join db_weiyi.t_teacher_info tea on tea.teacherid=l.teacherid".
+            " left join db_weiyi_admin.t_manager_info m on m.uid=tr.cur_require_adminid".
+            "  where %s ",
+            $where_arr);
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
 }

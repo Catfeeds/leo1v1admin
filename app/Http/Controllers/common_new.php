@@ -803,7 +803,12 @@ class common_new extends Controller
             }
             $start_time    = $this->t_lesson_info_b2->get_stu_first_order_time($userid);
             $subject_list  = $this->t_lesson_info_b2->get_stu_title($userid, $start_time);
-            $list['start'] = date('Y.m.d', $start_time);
+            if (!$start_time) {
+                $start_time = 11111;
+                $list['start'] = '0000.00.00';
+            } else {
+                $list['start'] = date('Y.m.d', $start_time);
+            }
             $list['end']   = date('Y.m.d', time());
             $list['stu_subject_count'] = count($subject_list);
             if ( count($subject_list) >= 3 ) {
@@ -926,7 +931,7 @@ class common_new extends Controller
                 foreach ($star_info as $v) {
                     $score_num = $v['teacher_score_count'];
                     if ( count($score_num)<2 ) {
-                        $score_num .= '0';
+                        $score_num = '0'.$score_num;
                     }
                     $list['five_star']  = ($v['teacher_score'] == 5)?$score_num:$list['five_star'];
                     $list['four_star']  = ($v['teacher_score'] == 4)?$score_num:$list['four_star'];
@@ -939,7 +944,7 @@ class common_new extends Controller
             $list['add_greenland'] = $lesson_total? number_format($lesson_total * 0.63/3, 2):'00';
             $list['add_sky']       = $lesson_total? number_format($lesson_total * 0.92/3, 2):'00';
             $list['lesson_count_left'] = str_pad($list['lesson_count_left']/100,2,'0',STR_PAD_LEFT);
-            if ($list['lesson_count_left'] > 100) {
+            if ($list['lesson_count_left'] > 1) {
                 $list['last_title'] = '“理优1对1永远和你在一起”';
             } else if ( $list['first_normal_lesson_time'] !== '无' ) {
                 $list['last_title'] = '“理优1对1十分想念你”';

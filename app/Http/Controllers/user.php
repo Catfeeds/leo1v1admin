@@ -43,7 +43,12 @@ class user extends TeaWxController
 
 
     public function get_vacant_time(){ // 协议编号: 1009
-        $teacherid = $this->get_teacherid();
+        $type = $this->get_in_int_val("type");
+        if($type==1){
+            $teacherid = $this->get_in_int_val("teacherid");
+        }else{
+            $teacherid = $this->get_teacherid();
+        }
         $start     = $this->get_in_int_val('start');
         $end       = $this->get_in_int_val('end');
 
@@ -59,7 +64,6 @@ class user extends TeaWxController
                 $flag = 0;
                 $time     = @strtotime($item['0']);
                 $time_end = time(NULL)+59*60;
-
                 foreach($tea_lessons_arr as $item_lesson){
                     if($time < $item_lesson["lesson_end"] && $time_end > $item_lesson["lesson_start"]) {
                         $flag = 1;
@@ -85,7 +89,6 @@ class user extends TeaWxController
             return $this->output_succ([
                 'data'=>$ret_info
             ]);
-
         }else{
             return $this->output_succ(['data'=>[]]);
         }

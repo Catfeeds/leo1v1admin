@@ -866,5 +866,29 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
 
     }
 
+    public function get_fulltime_teacher_interview_info($start_time,$end_time,$status){
+        $where_arr=[
+            "tr.type=10",
+            "ta.full_time=1"
+        ];
+        if($status==-2){
+            $where_arr[] = "tr.trial_train_status <2";
+        }else{
+            $where_arr[] = ["tr.trial_train_status=%u",$status,-1];
+        }
+        $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(*) from %s tr"
+                                  ." join %s l on tr.train_lessonid = l.lessonid"
+                                  ." join %s t on l.userid = t.teacherid"
+                                  ." join %s ta on t.phone = ta.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

@@ -29,6 +29,14 @@ class order_price_20170701 extends order_price_base
 
 
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
+
+        $now=time(NULL);
+        $new_flag=false;
+        //周年庆活动
+        if ($now> strtotime("2017-08-04") && $now < strtotime( "2017-08-12" )  ){
+            $new_flag=true;
+        }
+
         $present_lesson_count=0;
 
         $check_lesson_count= $lesson_count  + $before_lesson_count;
@@ -38,7 +46,42 @@ class order_price_20170701 extends order_price_base
         }else{
             $check_grade=$grade;
         }
-        $discount_config = static::$grade_price_config[$check_grade];
+
+        $grade_price_config=static::$grade_price_config;
+        //周年庆
+        if ($new_flag) {
+            $fix_arr=[101,201,202];
+            foreach ( $fix_arr as $grade_key ) {
+                $grade_price_config[$grade_key][135]-=10;
+                $grade_price_config[$grade_key][180]-=10;
+                $grade_price_config[$grade_key][360]-=10;
+                $grade_price_config[$grade_key][450]-=10;
+            }
+
+            $fix_arr=[301];
+            foreach ( $fix_arr as $grade_key ) {
+                $grade_price_config[$grade_key][180]-=2;
+                $grade_price_config[$grade_key][360]-=2;
+                $grade_price_config[$grade_key][450]-=2;
+            }
+
+            $fix_arr=[302];
+            foreach ( $fix_arr as $grade_key ) {
+                $grade_price_config[$grade_key][180]-=7;
+                $grade_price_config[$grade_key][360]-=7;
+                $grade_price_config[$grade_key][450]-=7;
+            }
+
+            $fix_arr=[303];
+            foreach ( $fix_arr as $grade_key ) {
+                $grade_price_config[$grade_key][180]-=9;
+                $grade_price_config[$grade_key][360]-=9;
+                $grade_price_config[$grade_key][450]-=9;
+            }
+        }
+
+        $discount_config = $grade_price_config[$check_grade];
+
         $per_price_20    = static::get_value_from_config($discount_config, 60,1000 )/3;
         $per_price_0     = static::get_value_from_config($discount_config, 0,1000 )/3;
         $old_per_price   = $lesson_count>=60? $per_price_20: $per_price_0;
@@ -51,9 +94,17 @@ class order_price_20170701 extends order_price_base
             if ( $check_lesson_count>=450 && $grade<=201 ) {
                 $present_lesson_count=69;
             }
+            if ($new_flag) {
+                if (($check_grade <203 && $check_lesson_count>=135 ) //小学,初一,二
+                    || ($check_grade >=301 && $check_lesson_count>=180 ) //高中
+                ) {
+                    $present_lesson_count+=3;
+                }
+            }
             $price= $old_price ;
 
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
+
             $per_price = static::get_value_from_config($discount_config, $check_lesson_count,1000 )/3;
             $price=$per_price*$lesson_count;
         }

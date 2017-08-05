@@ -91,5 +91,27 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         return $this->main_get_list($sql);
     }
 
+    public function get_student_lesson_total_by_parentid($userid){
+        $where_arr = [
+            "o.contract_type in (0,3 )",
+            "o.contract_status >0",
+            "pc.parentid = $userid"
+        ];
+
+        $sql = $this->gen_sql_new(" select sum(o.lesson_total*o.default_lesson_count) as lesson_num from %s pc".
+                                  " left join %s s on s.userid = pc.userid".
+                                  " left join %s o on o.userid = s.userid".
+                                  " where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+
+        );
+
+        return $this->main_get_value($sql);
+
+    }
+
 
 }
