@@ -32,7 +32,7 @@ class fulltime_teacher extends Controller
         
         $account_info['post'] =7;
         $account_info['main_department']=2;
-        if((time() - $account_info["create_time"])<5*86400){
+        if((time() - $account_info["create_time"])<55*86400){
             return $this->error_view(
                 [
                     "转正考核需在入职55天以后才能提交"

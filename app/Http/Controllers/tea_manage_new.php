@@ -1108,4 +1108,25 @@ class tea_manage_new extends Controller
             }
         }
     }
+
+    public function set_teacher_check_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        $subject   = $this->get_in_int_val("subject");
+        $grade     = $this->get_in_str_val("grade");
+
+        if(!$teacherid){
+            return $this->output_err("老师错误！");
+        }
+
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "check_subject"=>$subject,
+            "check_grade"=>$grade,
+        ]);
+
+        return $this->output_succ();
+    }
+
+
+
+    
 }

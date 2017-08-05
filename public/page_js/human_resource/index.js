@@ -1853,16 +1853,36 @@ $(function(){
     });
 
     $(".opt-set_check_info").on("click",function(){
-	      var data = $(this).get_opt_data();
+	      var data       = $(this).get_opt_data();
         var id_subject = $("<select />");
-        var id_grade   = $("<input />");
+        var id_grade   = $("<div />");
 
-
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_checkbox_list("grade",id_grade,"check_grade",[100,200,300],true);
 
         var arr = [
             ["审核科目",id_subject],
             ["审核年级",id_grade],
         ];
+
+        $.show_key_value_table("审核信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                var grade_str = "";
+                $.do_ajax("/tea_manage_new/set_teacher_check_info",{
+                    "teacherid" : data.teacherid,
+                    "subject" : id_subject.val(),
+                    "grade" : grade_str,
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
     });
 
 

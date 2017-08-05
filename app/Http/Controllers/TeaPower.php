@@ -111,6 +111,27 @@ trait  TeaPower {
         return $ret;
     }
 
+    public function set_teacher_label($teacherid,$lessonid,$lesson_list,$tea_label_type,$label_origin){
+        $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+        if($id>0){
+            $this->t_teacher_label->field_update_list($id,[
+                "add_time" =>time(),
+                "label_origin"=>$label_origin,
+                "tea_label_type"=>$sshd_good
+            ]);
+        }else{
+            $this->t_teacher_label->row_insert([
+                "teacherid"=>$teacherid,
+                "add_time" =>time(),
+                "label_origin"=>$label_origin,
+                "lessonid"    =>$lessonid,
+                "lesson_list"=>$lesson_list,
+                "tea_label_type"=>$sshd_good
+            ]);
+ 
+        }
+    }
+
     public function get_teacher_label($tea_arr){
         $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_arr);
         $arr = [];
