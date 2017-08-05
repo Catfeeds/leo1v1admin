@@ -174,6 +174,7 @@ class wx_parent_gift extends Controller
         // 查看是否已抽奖
         $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
 
+        $this->t_parent_luck_draw_in_wx->start_transaction();
         if($gift_info['userid']){
             return $this->output_succ($gift_info);
         }else{
@@ -219,6 +220,8 @@ class wx_parent_gift extends Controller
                     "price"      => $price
                 ]);
             }
+
+            $this->t_parent_luck_draw_in_wx->commit();
 
             if($ret_add){
                 $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
