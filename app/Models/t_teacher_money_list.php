@@ -154,9 +154,9 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ." where %s"
                                   ." and exists (select 1 from %s where t.teacherid=teacherid and %s)"
                                   ." and not exists (select 1 from %s where t.teacherid=teacherid and %s)"
-                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,t_teacher_money_list::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
                                   ,$add_str
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$lesson_str

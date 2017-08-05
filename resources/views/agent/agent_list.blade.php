@@ -4,36 +4,9 @@
 
         <div>
             <div class="row  row-query-list" >
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">parentid</span>
-                        <input class="opt-change form-control" id="id_parentid" />
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">userid</span>
-                        <input class="opt-change form-control" id="id_userid" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">年级</span>
-                        <select class="opt-change form-control" id="id_grade" />
-                        </select>
-                    </div>
-                </div>
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">微信openid</span>
-                        <input class="opt-change form-control" id="id_wx_openid" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -48,9 +21,10 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
-                    <td>userid</td>
+                    <td>微信昵称</td>
+                    <td>上级微信昵称</td>
                     <td>手机号</td>
-                    <!-- <td>wx_openid</td> -->
+                    <td>userid</td>
                     <td>银行卡号</td>
                     <td>身份证号码</td>
                     <td>开户行和支行</td>
@@ -61,8 +35,6 @@
                     <td>银行卡类型</td>
                     <td>支付宝姓名</td>
                     <td>支付宝账号</td>
-                    <!-- <td>微信头像</td> -->
-                    <td>微信昵称</td>
                     <td>创建时间</td>
                     <td>操作</td>
                 </tr>
@@ -72,9 +44,10 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
-                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["nickname"]}} </td>
+                        <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <!-- <td>{{@$var["wx_openid"]}} </td> -->
+                        <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["bankcard"]}} </td>
                         <td>{{@$var["idcard"]}} </td>
                         <td>{{@$var["bank_address"]}} </td>
@@ -85,8 +58,6 @@
                         <td>{{@$var["bank_type"]}} </td>
                         <td>{{@$var["zfb_name"]}} </td>
                         <td>{{@$var["zfb_account"]}} </td>
-                        <!-- <td>{{@$var["headimgurl"]}} </td> -->
-                        <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
