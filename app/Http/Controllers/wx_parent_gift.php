@@ -108,29 +108,64 @@ class wx_parent_gift extends Controller
             $limit_gift = 57;
 
             if($is_need_change_limit_num){
-                $limit_gift = 80;
+                $limit_gift = 65;
             }else{
-                $limit_gift = 60;
+                $limit_gift = 50;
             }
 
         }elseif($parent_num>180 && $parent_num<=250){
             $price = 120;
-            $limit_gift = 42;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 50;
+            }else{
+                $limit_gift = 35;
+            }
+
         }elseif($parent_num>250 && $parent_num<=300){
             $price = 150;
-            $limit_gift = 28;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 35;
+            }else{
+                $limit_gift = 20;
+            }
+
         }elseif($parent_num>300 && $parent_num<=350){
             $price = 200;
-            $limit_gift = 28;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 35;
+            }else{
+                $limit_gift = 20;
+            }
+
         }elseif($parent_num>350 && $parent_num<=400){
             $price = 300;
-            $limit_gift = 14;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 18;
+            }else{
+                $limit_gift = 10;
+            }
+
         }elseif($parent_num>400 && $parent_num<=450){
             $price = 400;
-            $limit_gift = 14;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 18;
+            }else{
+                $limit_gift = 10;
+            }
+
         }elseif($parent_num>450){
             $price = 500;
-            $limit_gift = 10;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 14;
+            }else{
+                $limit_gift = 7;
+            }
         }
 
 
@@ -144,21 +179,23 @@ class wx_parent_gift extends Controller
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
             $start_time = strtotime(date("Y-m-d",time()));
             $end_time   = $start_time+86400;
-            $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
-            $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
 
+            if($price >0){
+                $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
+                $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
+                if($today_gift_num >=$limit_gift){
+                    return $this->output_err();
+                }
 
+                $rock_gift_num = count($all_gift_list);
 
+                $index = mt_rand(0,$rock_gift_num-1);
 
-            if($today_gift_num >=$limit_gift){
-                return $this->output_err("未中奖!");
+                $prize_code = $all_gift_list[$index]['prize_code'];
+
+            }else{
+                $prize_code = '';
             }
-
-            $rock_gift_num = count($all_gift_list);
-
-            $index = mt_rand(0,$rock_gift_num-1);
-
-            $prize_code = $all_gift_list[$index]['prize_code'];
 
             $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
                 "prize_code" => $prize_code,
@@ -166,12 +203,7 @@ class wx_parent_gift extends Controller
                 "add_time"   => time()
             ]);
 
-
         }
-
-
     }
-
-
 
 }

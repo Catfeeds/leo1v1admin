@@ -48,11 +48,15 @@ class testbb extends Controller
 
     public function test () {
 
-        $six_date = strtotime('2017-08-06');
-        dd($six_date);
-        $r  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(20);
+        // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
+        $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
+        $rock_gift_num = count($all_gift_list);
 
+        $index = mt_rand(0,$rock_gift_num-1);
 
+        $prize_code = $all_gift_list[$index]['prize_code'];
+
+        dd($prize_code);
         $index = mt_rand(0,count($r)-1);
 
 
