@@ -186,8 +186,6 @@ class wx_yxyx_common extends Controller
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($type == 1){
             $userid_add = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-            \App\Helper\Utils::logger('yxyx_userid_add:'.$userid_add);
-
         }
         if($ret){
             return $this->output_succ("邀请成功!");
