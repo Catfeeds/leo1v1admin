@@ -130,10 +130,13 @@ class wx_parent_gift extends Controller
 
             $index = mt_rand(0,1870);
 
-            if($all_gift_list[$index]['receive_time']){
+            if($all_gift_list[$index]['userid'] > 0){
                 return $this->output_err("未中奖!");
             }else{
                 $gift_price = $all_gift_list[$index]['price'];
+                if($gift_price > $price){
+                    return $this->output_err("未中奖!");
+                }
 
                 $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
                     "prize_code" => "",
