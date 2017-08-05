@@ -1901,7 +1901,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
     public function get_stu_first_open_lesson($userid){
         $where_arr = [
-            ["l.userid=%u", $userid, 0],
             ["o.userid=%u", $userid, 0],
             "l.lesson_type in (1001,1002,1003)",
             "l.lesson_start>0",
