@@ -2073,9 +2073,10 @@ class tea_manage extends Controller
             if(!$ret){
                 return $this->output_err("更新负责人失败！请重试！");
             }
-        }elseif($old_acc!=$acc){
-            return $this->output_err("本视频已被其他人观看！");
         }
+        /*elseif($old_acc!=$acc){
+            return $this->output_err("本视频已被其他人观看！");
+            }*/
 
         return $this->output_succ();
     }

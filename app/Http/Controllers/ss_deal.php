@@ -3882,6 +3882,13 @@ class ss_deal extends Controller
     }
 
 
+    public function get_train_lesson_record_info(){
+        $id = $this->get_in_int_val("id");
+        $lessonid = $this->get_in_int_val("lessonid",273923);
+        $data = $this->t_teacher_record_list->field_get_list($id,"*");
+        $label = $this->t_teacher_label->get_info_by_lessonid_new($lessonid,2);
+        dd($label);
+    }
     public function get_teacher_confirm_score(){
         $id = $this->get_in_int_val("id");
         //$id = 53;
