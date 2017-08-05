@@ -1,11 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
-    <script type="text/javascript" src="/page_js/seller_student/common.js"></script>
     <section class="content ">
         <div>
             <div class="row  row-query-list" >
-                <div class="col-xs-12 col-md-4"  data-title="时间段">
+                <div class="col-xs-12 col-md-5">
                     <div  id="id_date_range" >
                     </div>
                 </div>
@@ -18,15 +17,15 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table class="common-table"> 
             <thead>
                 <tr>
-                    <td>id </td>
-                    <td>姓名 </td>
-                    <td>电话 </td>
-                    <td>角色 </td>
-                    <td>时间 </td>
-                    <td> 操作  </td>
+                    <td>id</td>
+                    <td>姓名</td>
+                    <td>电话</td>
+                    <td>角色</td>
+                    <td>时间</td>
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>

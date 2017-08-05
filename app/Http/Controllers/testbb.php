@@ -48,6 +48,10 @@ class testbb extends Controller
 
     public function test () {
         $userid = $this->get_in_int_val('parentid');
+        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
+        $parent_num = $parent_lesson_total/100;
+        dd($parent_num);
+
 
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         dd($parent_lesson_total);
