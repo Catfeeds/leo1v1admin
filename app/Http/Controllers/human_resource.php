@@ -2430,24 +2430,51 @@ class human_resource extends Controller
         $sshd_good                        = $this->get_in_str_val("sshd_good");
        
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $ret = $this->t_teacher_record_list->field_update_list($id,[
-            "tea_process_design_score"         => $tea_process_design_score,
-            "knw_point_score"                  => $knw_point_score,
-            "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
-            "tea_rhythm_score"                 => $tea_rhythm_score,
-            "language_performance_score"       => $language_performance_score,
-            "answer_question_cre_score"        => $answer_question_cre_score,
-            "tea_concentration_score"          => $tea_concentration_score,
-            "tea_operation_score"              => $tea_operation_score,
-            "tea_environment_score"            => $tea_environment_score,
-            "class_abnormality_score"          => $class_abnormality_score,
-            "record_info"                      => $record_info,
-            "record_score"                     => $record_score,
-            "no_tea_related_score"             => $no_tea_related_score,
-            "record_monitor_class"             => $record_monitor_class,
-            "trial_train_status"               => $status
-        ]);
+        if($id>0){
+            $ret = $this->t_teacher_record_list->field_update_list($id,[
+                "tea_process_design_score"         => $tea_process_design_score,
+                "knw_point_score"                  => $knw_point_score,
+                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
+                "tea_rhythm_score"                 => $tea_rhythm_score,
+                "language_performance_score"       => $language_performance_score,
+                "answer_question_cre_score"        => $answer_question_cre_score,
+                "tea_concentration_score"          => $tea_concentration_score,
+                "tea_operation_score"              => $tea_operation_score,
+                "tea_environment_score"            => $tea_environment_score,
+                "class_abnormality_score"          => $class_abnormality_score,
+                "record_info"                      => $record_info,
+                "record_score"                     => $record_score,
+                "no_tea_related_score"             => $no_tea_related_score,
+                "record_monitor_class"             => $record_monitor_class,
+                "trial_train_status"               => $status
+            ]);
+ 
+        }else{
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $teacherid,
+                "type"           => 1,
+                "add_time"       => time(),
+                "train_lessonid" => $lessonid,
+                "lesson_style"   => 5,
+                "tea_process_design_score"         => $tea_process_design_score,
+                "knw_point_score"                  => $knw_point_score,
+                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
+                "tea_rhythm_score"                 => $tea_rhythm_score,
+                "language_performance_score"       => $language_performance_score,
+                "answer_question_cre_score"        => $answer_question_cre_score,
+                "tea_concentration_score"          => $tea_concentration_score,
+                "tea_operation_score"              => $tea_operation_score,
+                "tea_environment_score"            => $tea_environment_score,
+                "class_abnormality_score"          => $class_abnormality_score,
+                "record_info"                      => $record_info,
+                "record_score"                     => $record_score,
+                "no_tea_related_score"             => $no_tea_related_score,
+                "record_monitor_class"             => $record_monitor_class,
+                "trial_train_status"               => $status
+            ]);
 
+        }
+       
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
