@@ -84,14 +84,35 @@ class wx_parent_gift extends Controller
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
+        // 8月6日 ~ 8日 // 每天的奖品数量多一点
+        $six_date = strtotime('2017-08-06');
+        $eig_date = strtotime('2017-08-09');
+        $now = time();
+
+        $is_need_change_limit_num = 0;
+        if($now>$start_time && $now < $end_time){
+            $is_need_change_limit_num = 1;
+        }
+
         $price = 0;
         $limit_gift = 0;
         if($parent_num>30 && $parent_num<=90){
             $price = 20;
-            $limit_gift = 71;
+            if($is_need_change_limit_num){
+                $limit_gift = 80;
+            }else{
+                $limit_gift = 60;
+            }
         }elseif($parent_num>90 && $parent_num<=180){
             $price = 80;
             $limit_gift = 57;
+
+            if($is_need_change_limit_num){
+                $limit_gift = 80;
+            }else{
+                $limit_gift = 60;
+            }
+
         }elseif($parent_num>180 && $parent_num<=250){
             $price = 120;
             $limit_gift = 42;
@@ -126,10 +147,7 @@ class wx_parent_gift extends Controller
             $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
             $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
 
-            // 8月6日 ~ 8日 // 每天的奖品数量
-            if($price == 20){
-                
-            }
+
 
 
             if($today_gift_num >=$limit_gift){
