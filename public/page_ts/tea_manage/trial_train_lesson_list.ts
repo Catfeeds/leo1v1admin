@@ -199,12 +199,14 @@ $(function(){
 
     $(".opt-confirm-score").on("click",function(){
         var id        = $(this).get_opt_data("id");
+        console.log(id);
         
         $.do_ajax('/ss_deal/get_teacher_confirm_score',{
             "id" : id
         },function(resp) {
             var title = "审核评分详情";
             var list = resp.data;
+            console.log(list);
             var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");
             var html_score=
                 "<tr>"

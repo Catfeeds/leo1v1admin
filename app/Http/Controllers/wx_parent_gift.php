@@ -83,6 +83,19 @@ class wx_parent_gift extends Controller
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
+        if($parent_num>30 && $parent_num<=90){
+            $price = 20;
+        }elseif($parent_num>90 && $parent_num<=180){
+            $price = 80;
+        }elseif($parent_num>180 && $parent_num<=250){
+            $price = 80;
+        }elseif($parent_num>250 && $parent_num<=180){
+            $price = 80;
+        }elseif($parent_num>90 && $parent_num<=180){
+            $price = 80;
+        }
+
+
         // 查看是否已抽奖
 
         $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
@@ -101,24 +114,21 @@ class wx_parent_gift extends Controller
 
             $index = mt_rand(0,1870);
 
-            if($all_gift_list[$index]){
+            if(!$all_gift_list[$index]['receive_time']){
+                return $this->output_err("未中奖!");
+            }else{
+                // $all_gift_list[$index]['price'] = 1;
 
+                $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                    "prize_code" => "",
+                    "userid"     => $userid,
+
+                ]);
             }
 
-            $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
-                "prize_code" => "",
-                "userid"     => $userid,
-
-            ]);
         }
 
 
-        if($parent_num>30 && $parent_num<=90){
-            $price = 20;
-            $prize_code = $this->t_parent_luck_draw_in_wx->get_prize_code_list($price);
-        }
-
-        dd($parent_lesson_total);
     }
 
 
