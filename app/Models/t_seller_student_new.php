@@ -928,6 +928,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
             "t.seller_student_status <>  50",
+            "n.sys_invaild_flag=0",
             ["origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
@@ -953,7 +954,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             t_test_subject_free_list::DB_TABLE_NAME,
              $where_arr
         );
-        return $this->main_get_page_random ($sql);
+        return $this->main_get_page_random ($sql,2);
     }
     public function get_free_seller_list_time($start_time,$end_time,$grade, $has_pad, $subject,$nick,$phone) {
         $where_arr=[
@@ -1550,13 +1551,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
         $deal_count=$item_arr["call_phone_count"];
-        //$deal_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
+        $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
         if ($deal_count >=3  && $item_arr['first_contact_time'] == 0  )  {
             $invalid_flag=true;
         }
+        if ($invalid_count >=3 ) {
+            $invalid_flag=true;
+        }
+        /*
         if ( $deal_count >10 ) {
             $this->task->t_test_lesson_subject->set_seller_student_status_by_userid($userid,E\Eseller_student_status::V_50);
         }
+        */
         $db_sys_invaild_flag= ($item_arr["sys_invaild_flag"]==1);
 
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
