@@ -174,6 +174,7 @@
                     <td >剩余课时</td>
                     <td style="display:none;">每次课课时数</td>
                     <td >实付金额</td>
+                    <td >定金</td>
                     <td >原始金额</td>
                     <td >实付/原始单价</td>
                     <td style="display:none;" >优惠原因</td>
@@ -221,6 +222,7 @@
                         <td >{{$var["order_left"]}}</td>
                         <td >{{$var["default_lesson_count"]/100}}</td>
                         <td class="price">{{$var["price"]}}</td>
+                        <td >{{$var["pre_money_info"]}}</td>
                         <td >{{$var["discount_price"]}}</td>
                             <td >
                                 {{ $var["lesson_total"] ? intval($var["price"]/$var["lesson_total"]):"-" }}/
