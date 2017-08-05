@@ -858,18 +858,22 @@ class common_new extends Controller
             $list['excess_nums'] = str_pad(intval( $list['stu_praise_star']*19),2,'0',STR_PAD_LEFT);
             $first_info  = $this->t_lesson_info_b2->get_stu_first($userid);
             $subject     = '无';
-            $now_time = time();
+            $normal_time = 0;
             $list['first_free_lesson_time'] = '无';
             foreach ($first_info as &$item) {
                 if ($item["lesson_type"] == 2) {
                     $list['first_free_lesson_time'] = date('Y-m-d', $item['lesson_start']);
                 } else {
-                    $normal_time = ($now_time < $item['lesson_start'])? $now_time:$item['lesson_start'];
-                    E\Esubject::set_item_value_str($item);
-                    $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
+                    if($normal_time === 0 || $normal_time > $item['lesson_start']) {
+                        $normal_time = $item['lesson_start'];
+                    }
+                    if ($item['lesson_type'] === '0') {
+                        E\Esubject::set_item_value_str($item);
+                        $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
+                    }
                 }
             }
-            if ( @$normal_time && $normal_time<$now_time ) {
+            if (  $normal_time ) {
                 $list['first_normal_lesson_time'] = date('Y-m-d', $normal_time);
             } else {
                 $list['first_normal_lesson_time'] = '无';
@@ -929,10 +933,7 @@ class common_new extends Controller
             $list['three_star'] = '00';
             if ($star_info) {
                 foreach ($star_info as $v) {
-                    $score_num = $v['teacher_score_count'];
-                    if ( count($score_num)<2 ) {
-                        $score_num .= '0';
-                    }
+                    $score_num = str_pad($v['teacher_score_count'],2,'0',STR_PAD_LEFT);
                     $list['five_star']  = ($v['teacher_score'] == 5)?$score_num:$list['five_star'];
                     $list['four_star']  = ($v['teacher_score'] == 4)?$score_num:$list['four_star'];
                     $list['three_star'] = ($v['teacher_score'] == 3)?$score_num:$list['three_star'];

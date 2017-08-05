@@ -306,7 +306,7 @@ $(function(){
         } ) ;
         
         var id_lecture_appointment_status=$("<select/>");        
-        Enum_map.append_option_list("lecture_appointment_status", id_lecture_appointment_status, true );
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_appointment_status, true,[0,1,2,3,4] );
         
         var arr=[
             ["状态",id_lecture_appointment_status]           

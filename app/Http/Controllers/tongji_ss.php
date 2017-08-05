@@ -6339,7 +6339,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
     }
 
-
+        
     public function tongji_fulltime_teacher_test_lesson_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
@@ -6359,6 +6359,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
         $list = $ret_info;
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+        
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
 
@@ -6367,8 +6368,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $week_end = $week_start+21*86400;
         $normal_stu_num = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
         // $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
+        //dd($qz_tea_arr);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
-
+        //dd($lesson_count);
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
         $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"],$qz_tea_arr,1);
 
@@ -6408,6 +6410,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             @$tran_avg["order_all"] +=$item["order_all"];
 
         }
+        
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num[$val["teacherid"]])?$normal_stu_num[$val["teacherid"]]["num"]:0;
             $val["week_count"] = isset($normal_stu_num[$val["teacherid"]])?round($normal_stu_num[$val["teacherid"]]["lesson_all"]/300):0;
@@ -6490,7 +6493,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         array_push($list,$lesson_avg);
         array_push($list,$lesson_all);
 
-
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info,"list"=>$list]);
 
     }
@@ -6511,8 +6513,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_vaild( $field_name,$opt_date_str ,$start_time,$end_time,"",$origin_ex,"");
 
-        // dd($ret_info);
-
         foreach ($ret_info["list"] as &$item ) {
             $item["title"]= $item["check_value"];
             $item["origin"]= $item["title"];
@@ -6521,8 +6521,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         if ($field_name=="origin") {
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],[], $origin_ex);
         }
-
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
 
     }
@@ -6870,10 +6868,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     }
 
     public function get_reference_teacher_money_info(){
+        $this->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
-        $this->set_in_value("end_time","2017-08-01");
-        $end_time = $this->get_in_int_val("end_time");
-
+        // $this->set_in_value("end_time","2017-08-01");
+        // $end_time = $this->get_in_int_val("end_time");
+        $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
         foreach($ret_info["list"] as &$item){
             if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";
@@ -6893,6 +6892,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
                                       ."-".E\Egrade_range::get_desc($item['grade_end']);
                 $item['subject_ex']   = E\Esubject::get_desc($item['subject_ex']);
+            }elseif(is_numeric($item['grade_ex'])){
+                $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_ex']);
             }
 
         }

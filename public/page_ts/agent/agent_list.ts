@@ -6,7 +6,6 @@ $(function(){
         $.reload_self_page ( {
             parentid:	$('#id_parentid').val(),
             userid:	$('#id_userid').val(),
-            grade:	$('#id_grade').val(),
             phone:	$('#id_phone').val(),
             wx_openid:	$('#id_wx_openid').val(),
             bankcard:	$('#id_bankcard').val(),
@@ -19,14 +18,14 @@ $(function(){
             bank_type:	$('#id_bank_type').val(),
             zfb_name:	$('#id_zfb_name').val(),
             zfb_account:	$('#id_zfb_account').val(),
+            agent_type:$('#id_agent_type').val()
         })
     };
+    Enum_map.append_option_list("agent_type", $("#id_agent_type"));
 
-    Enum_map.append_option_list("grade",$("#id_grade"));
-
+    $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
     $('#id_parentid').val(g_args.parentid);
-    $('#id_grade').val(g_args.grade);
     $('#id_phone').val(g_args.phone);
     $('#id_wx_openid').val(g_args.wx_openid);
     $('#id_bankcard').val(g_args.bankcard);
@@ -39,9 +38,6 @@ $(function(){
     $('#id_bank_type').val(g_args.bank_type);
     $('#id_zfb_name').val(g_args.bank_type);
     $('#id_zfb_account').val(g_args.bank_type);
-
-    $.admin_select_user($('#id_userid'), "student", load_data);
-    $.admin_select_user($('#id_parentid'), "assistant", load_data);
 
     $("#id_add").on("click",function(){
         var $parentid  = $("<input/>");

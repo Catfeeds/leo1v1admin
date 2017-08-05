@@ -49,40 +49,23 @@ class wx_parent_gift extends Controller
         // dd($file);
         if ($file->isValid()) {
             //处理列
-            $realPath = $file -> getRealPath();
-            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
 
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            set_time_limit(90);
+            ini_set("memory_limit", "1024M");
+            $realPath = $file->getRealPath();
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
-            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
-            // foreach($arr as $k=>&$val){
-            //     if(empty($val[0]) || $k==0){
-            //         unset($arr[$k]);
-            //     }
-            //     // $val[-1] = strlen($val[1]);
-            //     if(strlen($val[1])==4){
-            //         $val[1]="0".$val[1];
-            //     }
-            //     if(strlen($val[2])==4){
-            //         $val[2]="0".$val[2];
-            //     }
-
-            // }
-
-            // foreach($arr as $item){
-            //     $day = strtotime($item[0]);
-            //     $this->t_psychological_teacher_time_list->row_insert([
-            //         "day"  =>$day,
-            //         "start"=>$item[1],
-            //         "end"  =>$item[2],
-            //         "teacher_phone_list"=>$item[3]
-            //     ]);
-            // }
-
-            // dd($arr);
-            // (new common_new()) ->upload_from_xls_data( $realPath);
-
+            foreach($arr as $item){
+                if($item["A"] && $item["B"]){
+                    $this->t_parent_luck_draw_in_wx->row_insert([
+                        "price"  =>$item["A"],
+                        "prize_code"  =>$item["B"],
+                    ]);
+                }
+            }
             return outputjson_success();
         } else {
             //return 111;
@@ -100,12 +83,71 @@ class wx_parent_gift extends Controller
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
+        $price = 0;
+        $limit_gift = 0;
         if($parent_num>30 && $parent_num<=90){
             $price = 20;
-            $prize_code = $this->t_parent_luck_draw_in_wx->get_prize_code_list($price);
+            $limit_gift = 71;
+        }elseif($parent_num>90 && $parent_num<=180){
+            $price = 80;
+            $limit_gift = 57;
+        }elseif($parent_num>180 && $parent_num<=250){
+            $price = 120;
+            $limit_gift = 42;
+        }elseif($parent_num>250 && $parent_num<=300){
+            $price = 150;
+            $limit_gift = 28;
+        }elseif($parent_num>300 && $parent_num<=350){
+            $price = 200;
+            $limit_gift = 28;
+        }elseif($parent_num>350 && $parent_num<=400){
+            $price = 300;
+            $limit_gift = 14;
+        }elseif($parent_num>400 && $parent_num<=450){
+            $price = 400;
+            $limit_gift = 14;
+        }elseif($parent_num>450){
+            $price = 500;
+            $limit_gift = 10;
         }
 
-        dd($parent_lesson_total);
+
+        // 查看是否已抽奖
+
+        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+
+        if($gift_info['userid']){
+            return $this->output_succ($gift_info);
+        }else{
+
+            // 首次参加抽奖 [将抽奖结果放入到数据表中]
+            $start_time = strtotime(date("Y-m-d",time()));
+            $end_time   = $start_time+86400;
+            $now = time();
+            $all_gift_list = $this->t_parent_luck_draw_in_wx->get_all_gift_list($now);
+            $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num();
+
+            $index = mt_rand(0,1870);
+
+            if($all_gift_list[$index]['userid'] > 0){
+                return $this->output_err("未中奖!");
+            }else{
+                $gift_price = $all_gift_list[$index]['price'];
+                if($gift_price > $price){
+                    return $this->output_err("未中奖!");
+                }
+
+
+                $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
+                    "prize_code" => "",
+                    "userid"     => $userid,
+
+                ]);
+            }
+
+        }
+
+
     }
 
 

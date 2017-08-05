@@ -171,6 +171,7 @@ interface RowData {
 	label	:any;
 	not_grade_str	:any;
 	interview_acc	:any;
+	textbook	:any;
 }
 
 /*

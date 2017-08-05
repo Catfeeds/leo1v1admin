@@ -24,15 +24,16 @@ class agent extends Controller
         $bank_province = $this->get_in_str_val('bank_province');
         $bank_city     = $this->get_in_str_val('bank_city');
         $bank_type     = $this->get_in_str_val('bank_type');
-        $zfb_name     = $this->get_in_str_val('zfb_name');
-        $zfb_account     = $this->get_in_str_val('zfb_account');
+        $zfb_name      = $this->get_in_str_val('zfb_name');
+        $zfb_account   = $this->get_in_str_val('zfb_account');
+        $type          = $this->get_in_int_val('agent_type');
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$userid,$parentid,$phone,$wx_openid);
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type);
         foreach($ret_info['list'] as &$item){
+            $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -76,19 +77,27 @@ class agent extends Controller
     }
 
     public function check(){
+        $start_time = strtotime(date('Y-m-d',time(null)).'00:00:00');
+        $end_time = $start_time + 24*3600;
+        // $lessonid = $this->get_in_int_val('lessonid');
+        $lessonid = 273029;
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
+        dd($ret);
+        return $ret;
+
+
+
+        $uid = 9753526;
+        $phone = '18831058626';
+        $ret = $this->t_tq_call_info->get_list_by_phone($uid,$phone);
+        dd($ret);
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid = $lesson_call_end['userid'];
-        // if($userid){
-        header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
-        // }
-
-
-        $phone = '13705759995';
-        // $this->t_student_info->get_row_by_phone($phone);
-
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        dd($student_info);
+        if($userid){
+            header("Location:http://admin.yb1v1.com/seller_student_new/seller_student_list_all?success_flag=1&userid=$userid");
+        }
+        dd($lesson_call_end);
         // $agent_id   = $this->get_agent_id();
         $agent_id   = 42;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);

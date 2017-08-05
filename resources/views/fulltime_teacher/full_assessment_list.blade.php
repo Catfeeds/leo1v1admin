@@ -584,6 +584,27 @@
 
             </td>
         </tr>
+        @if ($account_info['fulltime_teacher_type'] > 1)
+        <tr>
+            <td rowspan="4">成果(55分)</td>
+            <td>试用期转化率:{{$account_info["order_per"]}}%</td>
+            <td>20</td>
+            <td id="order_per_score">{{$account_info["order_per_score"]}}</td>
+            <td rowspan="4" id="result_score">
+                @if(!empty($ret_info))
+                    {{@$ret_info["result_score_new"]}}
+                @else
+                    {{$account_info["result_score"]}}
+                @endif
+            </td>
+            <td rowspan="4">
+                @if(!empty($ret_info) && !empty($ret_info["result_score_master"]))
+                    {{@$ret_info["result_score_master"]}}
+                @endif
+            </td>
+
+        </tr>
+        @else 
         <tr>
             <td rowspan="5">成果(55分)</td>
             <td>试用期转化率:{{$account_info["order_per"]}}%</td>
@@ -603,39 +624,34 @@
             </td>
 
         </tr>
-        <tr>
-            <td>当前常规学生数:{{$account_info["stu_num"]}}</td>
-            <td>15</td>
-            <td id="stu_num_score">{{$account_info["stu_num_score"]}}</td>
-
-        </tr>
+        @endif
         <tr>
             <td>家长评价</td>
             <td>5</td>
             <td id="lesson_level_score">
                 <select class="complaint_refund_score_flag total_score_flag">
                     <option value="0">请选择</option>
-                    <option value="5" @if (!empty($ret_info) && @$ret_info["complaint_refund_score"]==5)
+                    <option value="5" @if (!empty($ret_info) && @$ret_info["lesson_level_score"]==5)
                             selected
                     @else
                             ""
                     @endif >非常好&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp5分</option>
-                        <option value="4" @if (!empty($ret_info) && @$ret_info["complaint_refund_score"]==4)
+                        <option value="4" @if (!empty($ret_info) && @$ret_info["lesson_level_score"]==4)
                                 selected
                         @else
                                 ""
                         @endif >较好&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp4分</option>
-                            <option value="3" @if (!empty($ret_info) && @$ret_info["complaint_refund_score"]==3)
+                            <option value="3" @if (!empty($ret_info) && @$ret_info["lesson_level_score"]==3)
                                     selected
                             @else
                                     ""
                             @endif >一般&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp3分</option>
-                                <option value="2" @if (!empty($ret_info) && @$ret_info["complaint_refund_score"]==2)
+                                <option value="2" @if (!empty($ret_info) && @$ret_info["lesson_level_score"]==2)
                                         selected
                                 @else
                                         ""
                                 @endif >较差&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp2分</option>
-                                    <option value="0" @if (!empty($ret_info) && @$ret_info["complaint_refund_score"]==0)
+                                    <option value="0" @if (!empty($ret_info) && @$ret_info["lesson_level_score"]==0)
                                             selected
                                     @else
                                             ""
@@ -646,11 +662,28 @@
 
             </td>
         </tr>
+        @if ($account_info['fulltime_teacher_type'] > 1)
+        <tr>
+            <td>试用期内月平均课时消耗:{{$account_info["lesson_count_avg"]}}课时</td>
+            <td>25</td>
+            <td id="lesson_count_avg_score">{{$account_info["lesson_count_avg_score"]}}</td>
+
+        </tr>
+        @else
+        <tr>
+            <td>当前常规学生数:{{$account_info["stu_num"]}}</td>
+            <td>15</td>
+            <td id="stu_num_score">{{$account_info["stu_num_score"]}}</td>
+
+        </tr>
+
         <tr>
             <td>当前常规学生周课时数:{{$account_info["stu_lesson_total"]}}课时</td>
             <td>10</td>
             <td id="stu_lesson_total_score">{{$account_info["stu_lesson_total_score"]}}</td>
         </tr>
+        @endif
+
         <tr>
             <td>家长投诉和退费</td>
             <td>5</td>

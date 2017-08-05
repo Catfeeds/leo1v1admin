@@ -2535,14 +2535,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[]=["t.teacherid=%u",$teacherid,-1];
         }else{
             $where_arr = [
-                ["l.lesson_start>%u",$start_time,0],
-                ["l.lesson_start<%u",$end_time,0],
                 ["t.teacher_money_type=%u",$teacher_money_type,-1],
                 ["t.level=%u",$level,-1],
                 ["t.is_test_user=%u",$is_test_user,-1],
-                "l.lesson_status=2",
-                "l.lesson_del_flag=0",
-                "l.confirm_flag!=2"
             ];
         }
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "
@@ -2552,12 +2547,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." count(distinct(l.userid)) as stu_num, "
                                   ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
                                   ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
-                                  ." from %s t"
-                                  ." left join %s l on t.teacherid=l.teacherid"
+                                  ." from %s t "
+                                  ." left join %s l on "
+                                  ." t.teacherid=l.teacherid and l.lesson_status=2 and l.lesson_del_flag=0 and l.confirm_flag!=2"
+                                  ." and l.lesson_start>%u and lesson_start<%u"
                                   ." where %s"
                                   ." group by t.teacherid"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,$start_time
+                                  ,$end_time
                                   ,$where_arr
         );
         return $this->main_get_list_as_page($sql);

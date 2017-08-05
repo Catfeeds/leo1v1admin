@@ -14,6 +14,7 @@ interface GargsStatic {
 	bank_type:	string;
 	zfb_name:	string;
 	zfb_account:	string;
+	agent_type:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -44,6 +45,9 @@ interface RowData {
 	headimgurl	:any;
 	nickname	:any;
 	type	:any;
+	p_nickname	:any;
+	p_phone	:any;
+	agent_type	:any;
 }
 
 /*
@@ -71,7 +75,8 @@ $(function(){
 			bank_city:	$('#id_bank_city').val(),
 			bank_type:	$('#id_bank_type').val(),
 			zfb_name:	$('#id_zfb_name').val(),
-			zfb_account:	$('#id_zfb_account').val()
+			zfb_account:	$('#id_zfb_account').val(),
+			agent_type:	$('#id_agent_type').val()
         });
     }
 
@@ -92,6 +97,7 @@ $(function(){
 	$('#id_bank_type').val(g_args.bank_type);
 	$('#id_zfb_name').val(g_args.zfb_name);
 	$('#id_zfb_account').val(g_args.zfb_account);
+	$('#id_agent_type').val(g_args.agent_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -205,6 +211,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">zfb_account</span>
                 <input class="opt-change form-control" id="id_zfb_account" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">agent_type</span>
+                <input class="opt-change form-control" id="id_agent_type" />
             </div>
         </div>
 */

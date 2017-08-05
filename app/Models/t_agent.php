@@ -8,28 +8,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
-    public function get_agent_info($page_info, $userid,$parentid,$phone,$wx_openid)
+    public function get_agent_info($page_info,$phone,$type)
     {
         $where_arr = array();
-        //$this->where_arr_add_int_or_idlist($where_arr,$field_name,$value);
-        // $this->where_arr_add_int_or_idlist($where_arr,"userid",$userid);
-        $this->where_arr_add_str_field($where_arr,"phone",$phone);
-        $this->where_arr_add_str_field($where_arr,"wx_openid",$wx_openid);
-        // $this->where_arr_add_int_or_idlist($where_arr,"parentid",$parentid);
-        // if($rate_score == 1){
-        //     $where_arr[] = "(rate_score >= 10 and rate_score < 20)";
-        // }elseif($rate_score == 2){
-        //     $where_arr[] = "(rate_score >= 20 and rate_score < 30)";
-        // }elseif($rate_score == 3){
-        //     $where_arr[] = "(rate_score >= 30 and rate_score < 40)";
-        // }elseif($rate_score == 4){
-        //     $where_arr[] = "(rate_score >= 40 and rate_score < 50)";
-        // }elseif($rate_score == 5){
-        //     $where_arr[] = "rate_score > 50 ";
-        // }
-
-        $sql=$this->gen_sql_new ("select * "
-                                 ." from %s where %s "
+        $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        $this->where_arr_add_int_field($where_arr,"a.type",$type);
+        
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,$where_arr
         );

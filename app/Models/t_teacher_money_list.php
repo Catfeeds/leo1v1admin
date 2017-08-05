@@ -115,7 +115,6 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
                                   ,$where_arr
         );
         $reference_num = $this->main_get_value($sql);
-        
     }
 
     public function add_teacher_rewrad_money($type,$teacherid,$money,$money_info){
