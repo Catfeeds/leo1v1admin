@@ -34,15 +34,16 @@ class wx_yxyx_common extends Controller
         $action       = @$goto_url_arr[2];
         $web_html_url = "http://wx-yxyx-web.leo1v1.com";
         if($action=="bind"){
+            \App\Helper\Utils::logger('aaa');
             $url="$web_html_url/index.html#bind";
         }else{
+            \App\Helper\Utils::logger('bbb');
             session([
                 "agent_id" => 0,
                 "login_user_role" =>0,
             ]);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
-            \App\Helper\Utils::logger('yxyx_new_id:'.$id);
             if($id){
                 session([
                     "login_user_role" => 10,
