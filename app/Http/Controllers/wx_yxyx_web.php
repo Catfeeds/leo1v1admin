@@ -28,10 +28,7 @@ class wx_yxyx_web extends Controller
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
             $url = "$web_html_url/$action.html";
-            if($action == 'bind'){
-                $url = "$web_html_url/index.html#bind";
-            }
-            if(!isset($agent['id'])){
+            if($action == 'bind' or !isset($agent['id'])){
                 $url = "$web_html_url/index.html#bind";
             }
 
