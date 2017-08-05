@@ -1939,7 +1939,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
-            "w.work_status != 0",
+            "w.work_status>0",
         ];
         $sql = $this->gen_sql_new("SELECT SUM(if(w.work_status=1,1,0)) AS nofinish"
                                   .", COUNT(w.work_status) AS count"
