@@ -6431,6 +6431,12 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         }
         
+        if($m>6 && $m <9){
+            $m1 =264;$m2=252;$m3=228;
+        }else{
+            
+            $m1 =220;$m2=210;$m3=190;
+        }
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
             $val["week_count"] = isset($normal_stu_num1[$val["teacherid"]])?round($normal_stu_num1[$val["teacherid"]]["lesson_all"]/500):0;
@@ -6438,28 +6444,28 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
             $grade = $this->t_teacher_info->get_grade_part_ex($val["teacherid"]);
             if($grade==1){
-                $num=220;
+                $num=$m1;
             }elseif($grade==2){
-                $num=210;
+                $num=$m2;
             }elseif($grade==3){
-                $num=190;
+                $num=$m3;
             }elseif($grade==4 || $grade==6){
                 $s = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],1);
                 $m = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],2);
                 $per = !empty($s+$m)?$s/($s+$m):0;
                 if($per >= 0.3){
-                    $num=220;
+                    $num=$m1;
                 }else{
-                    $num=210;
+                    $num=$m2;
                 }
             }elseif($grade==5 || $grade==7){
                 $s = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],2);
                 $m = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],3);
                 $per = !empty($s+$m)?$s/($s+$m):0;
                 if($per >= 0.3){
-                    $num=210;
+                    $num=$m2;
                 }else{
-                    $num=190;
+                    $num=$m3;
                 }
 
             }else{
