@@ -6393,12 +6393,17 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             if( $item["lesson_per"]>100){
                 $item["lesson_per"]=100;
             }
+            $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
             $item["cc_score"] = round($item["cc_per"]*0.75,2);
-            $item["kk_score"] = round($item["kk_per"]*0.05,2);
-            $item["hls_score"] = round($item["hls_per"]*0.05,2);
-            $item["lesson_score"] = round($item["lesson_per"]*0.1,2);
+            $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
+            // $item["hls_score"] = round($item["hls_per"]*0.05,2);
+            //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
             $item["all_score"] = round($item["all_per"]*0.15,2);
-
+            if($item["cc_lesson_num"]>10){
+                $cc_num=10;
+            }else{
+                $cc_num = $item["cc_lesson_num"];
+            }
             $item["score"] =  ($item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["all_score"])*$item["lesson_score"]/10;
             @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
             @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
