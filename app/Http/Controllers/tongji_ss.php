@@ -6346,6 +6346,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         //$end_time = time();
         // $start_time = time()-30*86400;
         // $d = date("m",$end_time-100)- date("m",$start_time+100)+1;
+        $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
         $d = ($end_time - $start_time)/86400;
         $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
@@ -6404,7 +6405,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $cc_num = $item["cc_lesson_num"];
             }
-            $item["score"] =  round(($item["cc_score"]+ $item["kk_score"] + $item["hls_score"]+$item["all_score"])*$cc_num/10,2);
+            $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
             if($item["score"]>=95){
                 $item["reward"] = 1000;
             }elseif($item["score"]>=85){
@@ -6415,8 +6416,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item["reward"] = 400;
             }elseif($item["score"]>=55){
                 $item["reward"] = 200;
-            }else{
-                $item["reward"]=0;
             }
 
 
@@ -6476,9 +6475,59 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             @$lesson_avg["lesson_per"] +=$val["lesson_per"];
             @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
             @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
+            if($m==7 || $m==8){
+                if($val["lesson_per_month"]>=160){
+                    $val["reward"] = 500;
+                }elseif($val["lesson_per_month"]>=150){
+                    $val["reward"] = 400;
+                }elseif($val["lesson_per_month"]>=140){
+                    $val["reward"] = 300;
+                }elseif($val["lesson_per_month"]>=130){
+                    $val["reward"] = 200;
+                }elseif($val["lesson_per_month"]>=120){
+                    $val["reward"] = 100;
+                }
+
+            }else{
+                if($val["lesson_per_month"]>=140){
+                    $val["reward"] = 500;
+                }elseif($val["lesson_per_month"]>=130){
+                    $val["reward"] = 400;
+                }elseif($val["lesson_per_month"]>=120){
+                    $val["reward"] = 300;
+                }elseif($val["lesson_per_month"]>=110){
+                    $val["reward"] = 200;
+                }elseif($val["lesson_per_month"]>=100){
+                    $val["reward"] = 100;
+                }
+            }
+
         }
         \App\Helper\Utils::order_list( $ret_info,"score", 0);
-        \App\Helper\Utils::order_list( $list,"lesson_per", 0);
+        foreach($ret_info as $k=>&$uk){
+            if($k==0 && $uk["score"]>=30){
+                $uk["other_reward"]=300;
+            }elseif($k==1 && $uk["score"]>=30){
+                $uk["other_reward"]=200;
+            }else if($k==2 && $uk["score"]>=30){
+                $uk["other_reward"]=200;
+            }
+
+
+        }
+        \App\Helper\Utils::order_list( $list,"lesson_per_month", 0);
+        foreach($list as $ku=>&$ukk){
+            if($ku==0 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=200;
+            }elseif($ku==1 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=150;
+            }else if($ku==2 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=100;
+            }
+
+
+        }
+
         $tran_count = count($ret_info);
         $lesson_count = count($list);
         $tran_all = $tran_avg;
