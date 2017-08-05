@@ -1589,7 +1589,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $where_arr[] =  " competition_call_time <  $competition_call_time ";
         //E\Eseller_student_status
         if ( $seller_student_status ==2 ) {
-            $where_arr[] =  'n.call_phone_count>1 ';
+            $where_arr[] =  'n.call_admin_count>1 ';
         }
 
         $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time,$end_time);
