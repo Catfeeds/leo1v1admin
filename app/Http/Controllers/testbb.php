@@ -48,6 +48,9 @@ class testbb extends Controller
 
     public function test () {
 
+        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid(100);
+        // dd($gift_info);
+        dd($gift_info['userid']);
         // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
         $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
         $rock_gift_num = count($all_gift_list);

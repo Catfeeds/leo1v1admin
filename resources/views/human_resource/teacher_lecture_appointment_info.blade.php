@@ -237,11 +237,10 @@
                                 @else
                                     <a class="fa-edit opt-edit" title="编辑状态"></a>
                                     <a class="fa-times opt-del" title="删除"></a>
-                                    <a class="fa-comment opt-return-back-new" title="回访信息录入-new" ></a>
-                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                     <a class="opt-more_grade">邮</a>
                                     <a class="opt-plan-train_lesson">1v1</a>
                                     <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
+                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                 @endif
                             </div>
                         </td>

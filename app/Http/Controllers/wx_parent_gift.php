@@ -80,7 +80,7 @@ class wx_parent_gift extends Controller
 
     public function do_prize_draw(){
         // 获取 每个家长的等级
-        $userid = $this->get_in_int_val('userid');
+        $userid = $this->get_in_int_val('parentid');
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
@@ -88,6 +88,9 @@ class wx_parent_gift extends Controller
         $six_date = strtotime('2017-08-06');
         $eig_date = strtotime('2017-08-09');
         $now = time();
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = $start_time+86400;
+
 
         $is_need_change_limit_num = 0;
         if($now>$start_time && $now < $end_time){
@@ -98,6 +101,7 @@ class wx_parent_gift extends Controller
         $limit_gift = 0;
         if($parent_num>30 && $parent_num<=90){
             $price = 20;
+
             if($is_need_change_limit_num){
                 $limit_gift = 80;
             }else{
@@ -105,7 +109,6 @@ class wx_parent_gift extends Controller
             }
         }elseif($parent_num>90 && $parent_num<=180){
             $price = 80;
-            $limit_gift = 57;
 
             if($is_need_change_limit_num){
                 $limit_gift = 65;
@@ -168,42 +171,83 @@ class wx_parent_gift extends Controller
             }
         }
 
-
         // 查看是否已抽奖
-
         $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
 
-        if($gift_info['userid']>0){
+        if($gift_info['userid']){
             return $this->output_succ($gift_info);
         }else{
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
-            $start_time = strtotime(date("Y-m-d",time()));
-            $end_time   = $start_time+86400;
-
             if($price >0){
                 $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
                 $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
                 if($today_gift_num >=$limit_gift){
-                    return $this->output_err();
+                    $prize_code = '';
+                }else{
+                    $rock_gift_num = count($all_gift_list);
+                    $index = mt_rand(0,$rock_gift_num-1);
+                    $prize_code = $all_gift_list[$index]['prize_code'];
                 }
-
-                $rock_gift_num = count($all_gift_list);
-
-                $index = mt_rand(0,$rock_gift_num-1);
-
-                $prize_code = $all_gift_list[$index]['prize_code'];
-
             }else{
                 $prize_code = '';
+            }
+
+            if($prize_code){
+                $receive_time = time();
+            }else{
+                $price = 0;
+                $receive_time = '';
             }
 
             $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
                 "prize_code" => $prize_code,
                 "userid"     => $userid,
-                "add_time"   => time()
+                "add_time"   => time(),
+                "receive_time" =>$receive_time
             ]);
 
+            if($ret_add){
+                $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+                return $this->output_succ($gift_info);
+            }
         }
     }
+
+
+
+    public function send_prize_info($parentid,$content,$value){
+        $acc     = $this->get_account();
+
+        $userid = 0;
+        $this->t_baidu_msg->start_transaction();
+        $ret = $this->t_baidu_msg->baidu_push_msg($userid,$content,$value,1007,0);
+        if(!$ret){
+            $this->t_baidu_msg->rollback();
+            return $this->output_err("添加失败！请重试！");
+        }
+        if($parentid>0){
+            $ret = $this->t_baidu_msg->baidu_push_msg($parentid,$content,$value,4014,0);
+            if(!$ret){
+                $this->t_baidu_msg->rollback();
+                return $this->output_err("添加失败！请重试！");
+            }
+            $wx_openid = $this->t_parent_info->get_wx_openid($parentid);
+            if($wx_openid!=""){
+                $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";
+                $data= [
+                    "first"     => "您有一条未处理的\"理优618\"活动奖励，请及时处理",
+                    "keyword1"  => "理优618活动",
+                    "keyword2"  => "京东电子现金劵兑换码",
+                    "keyword3"  => date("Y-m-d"),
+                    "remark"    => $content,
+                ];
+                \App\Helper\Utils::send_wx_to_parent($wx_openid,$template_id,$data);
+            }
+        }
+        $this->t_baidu_msg->commit();
+
+        return $this->output_succ();
+    }
+
 
 }

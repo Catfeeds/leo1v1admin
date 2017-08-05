@@ -2843,9 +2843,20 @@ class ss_deal extends Controller
     public function update_lecture_revisit_type(){
         $id = $this->get_in_int_val("id");
         $lecture_revisit_type= $this->get_in_int_val("lecture_revisit_type");
+        $custom= $this->get_in_str_val("custom");
         $ret = $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "lecture_revisit_type" => $lecture_revisit_type,
+            "custom"=>$custom
         ]);
+        $phone = $this->t_teacher_lecture_appointment_info->get_phone($id);
+        $this->t_lecture_revisit_info->row_insert([
+            "phone"             => $phone,
+            "revisit_time"      => time(),
+            "revisit_origin"    => $lecture_revisit_type,
+            "sys_operator"      => $this->get_account(),
+            "revisit_note"      => $custom
+        ]);
+
         return $this->output_succ();
 
     }
