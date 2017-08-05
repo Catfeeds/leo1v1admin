@@ -2082,7 +2082,7 @@ trait  TeaPower {
             $data["keyword2"] = "理优教育";
             $data["keyword3"] = $today_date;
             $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-            $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$answer['userid'];
+            $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$teacher_info["teacherid"];
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
         }
 
