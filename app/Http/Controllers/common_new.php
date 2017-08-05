@@ -867,8 +867,10 @@ class common_new extends Controller
                     if($normal_time === 0 || $normal_time > $item['lesson_start']) {
                         $normal_time = $item['lesson_start'];
                     }
-                    E\Esubject::set_item_value_str($item);
-                    $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
+                    if ($item['lesson_type'] === '0') {
+                        E\Esubject::set_item_value_str($item);
+                        $subject = ($normal_time == $item['lesson_start'])?$item['subject_str']:$subject;
+                    }
                 }
             }
             if (  $normal_time ) {
