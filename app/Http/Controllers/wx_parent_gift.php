@@ -127,6 +127,10 @@ class wx_parent_gift extends Controller
             $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price,$limit_gift);
             $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
 
+            if($today_gift_num <=$limit_gift){
+                return $this->output_succ();
+            }
+
             $index = mt_rand(0,1870);
 
             if($all_gift_list[$index]['userid'] > 0){
