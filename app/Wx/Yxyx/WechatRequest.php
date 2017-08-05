@@ -465,6 +465,23 @@ class WechatRequest  {
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_question',
            );
         }elseif ($eventKey == 'invitation') {
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+            }
+            if(!$phone){
+                $content="
+【绑定提醒】
+您还未绑定手机，请绑定成功后重试
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+                $_SESSION['wx_openid'] =   $request['fromusername'];
+                session(['wx_openid'=> $request['fromusername']]);
+
+                return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+            }
+
             //使用客服接口发送消息
             $txt_arr = [
                 'touser'   => $openid,

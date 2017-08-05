@@ -14,11 +14,7 @@ class wx_yxyx_common extends Controller
     var $check_login_flag=false;
 
     public function wx_jump_page(){
-        session([
-            "agent_id" => 0,
-            "login_user_role" =>0,
-        ]);
-
+        
         $code       = $this->get_in_str_val("code");
         $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
         $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
@@ -41,6 +37,10 @@ class wx_yxyx_common extends Controller
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
         }else{
+            session([
+                "agent_id" => 0,
+                "login_user_role" =>0,
+            ]);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
             if($id){
