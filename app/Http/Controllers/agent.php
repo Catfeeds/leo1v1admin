@@ -33,6 +33,7 @@ class agent extends Controller
         if($type){
             $type_new = $type;
         }
+        $type_new = 1;
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type_new);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
