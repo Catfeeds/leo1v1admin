@@ -634,7 +634,7 @@ class teacher_money extends Controller
             return $this->output_err($error_info);
         }
 
-        $old_bankcard = $this->t_teacher_info->get_bank_info($teacherid);
+        $old_bankcard = $this->t_teacher_info->get_bankcard($teacherid);
 
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "bankcard"      => $bankcard,
@@ -647,7 +647,7 @@ class teacher_money extends Controller
             "bank_province" => $bank_province,
         ]);
 
-        if(!$ret){
+        if(!$ret && $bankcard!=$old_bankcard){
             return $this->output_err("更新失败！请重试！");
         }
         if($old_bankcard!=""){

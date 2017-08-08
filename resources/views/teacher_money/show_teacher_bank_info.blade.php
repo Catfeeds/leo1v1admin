@@ -2,8 +2,7 @@
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content">
-        <hr/>
-        <table class="common-table">
+        <table >
             <tr>
                 <td width="300px">老师</td>
                 <td>{{$bank_info['realname']}}</td>
