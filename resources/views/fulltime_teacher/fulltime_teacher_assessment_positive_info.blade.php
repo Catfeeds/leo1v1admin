@@ -53,11 +53,11 @@
                         <td>
                             @if($var["id"]>0)
                                 @if($var["assess_time"]>0)
-                                    状态:主管已考核 <br>
+                                    状态:总监已考核 <br>
                                     考核时间:{{@$var["assess_time_str"]}}<br>
                                     考核人:{{@$var["assess_admin_nick"]}}
                                 @else
-                                    状态:已自评,主管未考核
+                                    状态:已自评,总监未考核
                                 @endif
                             @else
                                 状态:未提交考核自评
@@ -67,17 +67,17 @@
                             @if(@$var["positive_id"]>0)
                                 转正类型:{{@$var["positive_type_str"]}}<br>
                                 @if(@$var["main_master_deal_flag"]>0)
-                                    状态:总监已审核 <br>
+                                    状态:总经理已审核 <br>
                                     结果:{{@$var["main_master_deal_flag_str"]}}<br>
                                     审核时间:{{@$var["main_master_assess_time_str"]}}<br>
                                     审核人:{{@$var["main_mater_admin_nick"]}}
                                 @elseif(@$var["master_deal_flag"]>0)
-                                    状态:主管已审核 <br>
+                                    状态:总监已审核 <br>
                                     结果:{{@$var["master_deal_flag_str"]}}<br>
                                     审核时间:{{@$var["master_assess_time_str"]}}<br>
                                     审核人:{{@$var["mater_admin_nick"]}}
                                 @else
-                                    状态:已申请,主管未审核<br>
+                                    状态:已申请,总监未审核<br>
                                     申请时间:{{@$var["add_time_str"]}}<br>
                                 @endif
                             @else

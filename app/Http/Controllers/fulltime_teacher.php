@@ -291,7 +291,6 @@ class fulltime_teacher extends Controller
         $ret_platform_teacher = $this->t_teacher_info->get_teacher_count($train_through_new);//统计平台老师总人数
         //---------------统计全职老师学生数+课耗数+cc
         $fulltime_teacher_student  = $this->t_manager_info->get_fulltime_teacher_student_count($account_role);
-	print_r($fulltime_teacher_student);
         $qz_tea_arr=[];
         foreach($fulltime_teacher_student as $yy=>$item){
             if($item["teacherid"] != null){

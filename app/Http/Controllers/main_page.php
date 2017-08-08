@@ -386,23 +386,12 @@ class main_page extends Controller
         
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);
         $tea_subject = "";
-        $ret_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
-        $arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject);
-        $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
-        $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
 
-        foreach($arr["list"] as $k=>$val){
-            if(isset($ret_info["list"][$k])){
-                $ret_info["list"][$k]["all_count"] += $val["all_count"];
-                $ret_info["list"][$k]["all_num"] += $val["all_num"];
-            }else{
-                $ret_info["list"][$k]= $val;
-            }
-        }
+        //面试人数
+        $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
         foreach($real_arr["list"] as $p=>$pp){
             if(isset($real_info["list"][$p])){
                 $real_info["list"][$p]["all_count"] += $pp["all_count"];
@@ -415,10 +404,9 @@ class main_page extends Controller
 
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
-            $item["real_all"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_num"]:0;
             $account = $item["account"];
-            $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
-            $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+            $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
             foreach($teacher_arr as $k=>$val){
                 if(!isset($teacher_list[$k])){
                     $teacher_list[$k]=$k;
@@ -427,21 +415,25 @@ class main_page extends Controller
 
             $item["suc_count"] = count($teacher_list);
         }
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,$teacher_account,$reference_teacherid,$identity,$tea_subject);
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
                 $teacher_list_ex[$k]=$k;
             }
         }
         $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
 
         $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
-            $subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject,-2);
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
         @$video_real["all_count"] += $one_real["all_count"];
 
         $all_tea_ex = count($teacher_list_ex);
+
+        //模拟试听审核
+
+        
         dd($teacher_info);
 
         
