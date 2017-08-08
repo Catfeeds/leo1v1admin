@@ -1138,7 +1138,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                 ["l.lesson_start>=%u",$start_time],
                 ["l.lesson_start<%u",$end_time],
                 ["l.userid=%u",$userid,-1],
-                " lss.call_before_time = 0 or lss.call_end_time = 0 ",
+                " (lss.call_before_time = 0 or lss.call_end_time = 0 )",
             ];
         }
         $sql = $this->gen_sql_new("select l.userid,l.lessonid,l.lesson_start,l.lesson_end,m.tquin,n.phone,"
@@ -2468,6 +2468,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
 
         return $this->main_get_list($sql);
+    }
+    public function get_test_lesson_count( $userid) {
+        $sql = $this->gen_sql_new(
+            "select count(*) from %s where userid=%u and lesson_type=2",
+            self::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_value($sql);
     }
 
     public function get_test_lesson_success_list_two_days_ago(){
