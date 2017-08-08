@@ -50,8 +50,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
      */
     public function handle()
     {
-        // \App\Helper\Utils::logger("pdf_file_path_xue ");
-        dd('skkk');
+        \App\Helper\Utils::logger("pdf_file_path_xue");
 
         $t_lesson_info = new  \App\Models\t_lesson_info();
 
