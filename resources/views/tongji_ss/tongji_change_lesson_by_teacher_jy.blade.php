@@ -27,38 +27,34 @@
                     <tr>
 
                         {!!\App\Helper\Utils::th_order_gen([
-                            ["助教 ","ass_nick" ],
+                            ["助教 ","teacher_nick" ],
                             ["学生数","stu_num" ],
                             ["正常上课","valid_count" ],
-                            ["课时系数","lesson_rate" ],
-                            ["家长调课","family_change_count" ],
-                            ["老师调课","teacher_change_count" ],
-                            ["设备原因","fix_change_count" ],
-                            ["网络原因","internet_change_count" ],
-                            ["学生请假","student_leave_count" ],
+                            ["老师迟到","teacher_come_late_count" ],
+                            ["老师旷课","teacher_cut_class_count" ],
+                            ["老师调课","teacher_change_lesson" ],
+                            ["老师请假","teacher_leave_lesson" ],
+                            ["老师类型","teacher_money_type_str" ],
                             ["老师请假","teacher_leave_count" ],
-                            ["课时损失率","lesson_lose_rate" ],
+                            ["入职天数","work_time" ],
                            ])!!}
 
-                        <td style="display:none">助教id</td>
+
                         <td> 操作  </td> </tr>
                 </thead>
                 <tbody>
                     @foreach ( $table_data_list as $var )
                         <tr>
-                            <td>{{@$var["ass_nick"]}} </td>
+                            <td>{{@$var["teacher_nick"]}} </td>
                             <td>{{@$var["stu_num"]}} </td>
-                            <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]/100}}</a> </td>
-
-                            <td>{{@$var["lesson_rate"]}} </td>
-                            <td>{{@$var["family_change_count"]/100}} </td>
-                            <td>{{@$var["teacher_change_count"]/100}} </td>
-                            <td>{{@$var["fix_change_count"]/100 }}</td>
-                            <td>{{@$var["internet_change_count"]/100 }}</td>
-                            <td>{{@$var["student_leave_count"]/100}}</td>
-                            <td>{{@$var["teacher_leave_count"]/100}}</td>
-                            <td>{{@$var["lesson_lose_rate"]}}</td>
-                            <td>{{@$var["assistantid"]}}</td>
+                            <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]}}</a> </td>
+                            <td>{{@$var["teacher_come_late_count"]}} </td>
+                            <td>{{@$var["teacher_cut_class_count"]}} </td>
+                            <td>{{@$var["teacher_change_lesson"]}} </td>
+                            <td>{{@$var["teacher_leave_lesson"]}}</td>
+                            <td>{{@$var["teacher_money_type_str"] }}</td>
+                            <td>{{@$var["teacher_leave_count"]}}</td>
+                            <td>{{@$var["work_time"]}}天</td>
 
                             <td>
                                 <div class="row-data"

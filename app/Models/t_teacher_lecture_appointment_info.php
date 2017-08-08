@@ -88,7 +88,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     public function get_all_info($page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
                                  $user_name,$status,$adminid=-1,$record_status=-1,$grade=-1,$subject=-1,
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
-                                 $full_time=-1, $lecture_revisit_type_new=-1
+                                 $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1
     ){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
@@ -864,5 +864,16 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
+    public function get_self_count($reference,$start_time,$end_time){
+        $where_arr=[
+            ["answer_begin_time >=%u",$start_time,-1],
+            ["answer_begin_time <=%u",$end_time,-1],
+            ["reference = '%s'",$reference,-1]
+            // "la.accept_adminid>0"
+        ];
+        $sql = $this->gen_sql_new("select count(*) num from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+
+    }
 
 }
