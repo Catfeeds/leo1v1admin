@@ -6898,10 +6898,12 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item_list["work_time"] = 0;
             }
 
-
-            $item_list['lesson_lost_rate'] = number_format(($item_list['teacher_leave_lesson']/$item_list['teacher_change_lesson'])*100,2);
-
-
+            if($item_list['valid_count']){
+                $item_list['lesson_leavel_rate'] = number_format(($item_list['teacher_leave_lesson']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_come_late_rate'] = number_format(($item_list['teacher_come_late_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_cut_class_rate'] = number_format(($item_list['teacher_cut_class_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_change_rate'] = number_format(($item_list['teacher_change_lesson']/$item_list['valid_count'])*100,2);
+            }
             E\Eteacher_money_type::set_item_value_str($item_list);
         }
 
