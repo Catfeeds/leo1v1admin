@@ -1533,5 +1533,9 @@ class test_code extends Controller
         }
     }
 
+    public function get_order_lesson(){
+        $arr = $this->get_b_txt();
+        dd($arr);
+    }
 
 }

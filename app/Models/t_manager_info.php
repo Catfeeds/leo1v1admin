@@ -1344,12 +1344,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_list_test( $page_info, $nick_phone, $account_role, $start_time, $end_time) {
-        $where_arr=array();
-        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         $where_arr = [
             ["create_time>=%s",$start_time,0],
             ["create_time<=%s",$end_time,0],
         ];
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "phone like '%%%s%%'  ", $this->ensql($nick_phone));
         }
@@ -1361,7 +1360,28 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
-
+    public function get_tea_sub_list_by_orderid($idstr = 0){
+        $where_arr = [
+            "ol.orderid in ({$idstr})",
+            // "ol.orderid in (199)",
+        ];
+        // // $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        // if ($orderid!=""){
+        //     $where_arr[]=sprintf( "orderid like '%%%s%%'  ", $this->ensql($orderid));
+        // }
+        $sql =  $this->gen_sql_new( "select distinct ol.orderid, t.nick, l.subject"
+                                    . " from %s l"
+                                    . " left join %s ol on ol.lessonid=l.lessonid"
+                                    . " left join %s t on t.teacherid=l.teacherid"
+                                    . "  where %s  "
+                                    ,t_lesson_info::DB_TABLE_NAME
+                                    ,t_order_lesson_list::DB_TABLE_NAME
+                                    ,t_teacher_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
     public function test_ff( $page_info, $nick_phone, $account_role) {
         $where_arr=array();
 
