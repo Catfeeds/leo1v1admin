@@ -1462,7 +1462,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         
         $where_arr=[
             "m.account_role =5 ",
-            //"m.del_flag =0 ",
+            "m.del_flag =0 ",
             //["m.uid = %u",$adminid,-1],
             //["m.become_full_member_flag = %u",$become_full_member_flag,-1],
             //["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
