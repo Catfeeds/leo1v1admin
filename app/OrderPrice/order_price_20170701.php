@@ -54,6 +54,7 @@ class order_price_20170701 extends order_price_base
             foreach ( $fix_arr as $grade_key ) {
                 $grade_price_config[$grade_key][135]-=10;
                 $grade_price_config[$grade_key][180]-=10;
+                $grade_price_config[$grade_key][270]-=10;
                 $grade_price_config[$grade_key][360]-=10;
                 $grade_price_config[$grade_key][450]-=10;
             }
@@ -61,6 +62,7 @@ class order_price_20170701 extends order_price_base
             $fix_arr=[301];
             foreach ( $fix_arr as $grade_key ) {
                 $grade_price_config[$grade_key][180]-=2;
+                $grade_price_config[$grade_key][270]-=2;
                 $grade_price_config[$grade_key][360]-=2;
                 $grade_price_config[$grade_key][450]-=2;
             }
@@ -68,6 +70,7 @@ class order_price_20170701 extends order_price_base
             $fix_arr=[302];
             foreach ( $fix_arr as $grade_key ) {
                 $grade_price_config[$grade_key][180]-=7;
+                $grade_price_config[$grade_key][270]-=7;
                 $grade_price_config[$grade_key][360]-=7;
                 $grade_price_config[$grade_key][450]-=7;
             }
@@ -75,6 +78,7 @@ class order_price_20170701 extends order_price_base
             $fix_arr=[303];
             foreach ( $fix_arr as $grade_key ) {
                 $grade_price_config[$grade_key][180]-=9;
+                $grade_price_config[$grade_key][270]-=8;
                 $grade_price_config[$grade_key][360]-=9;
                 $grade_price_config[$grade_key][450]-=9;
             }
