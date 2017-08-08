@@ -1050,7 +1050,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_adminid_list_by_account_role($account_role){
-        $sql = $this->gen_sql_new("select uid,account,a.nick from %s m left join %s a on m.phone = a.phone ".
+        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
                                   "where account_role=%u and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
@@ -1462,13 +1462,13 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         
         $where_arr=[
             "m.account_role =5 ",
-            //"m.del_flag =0 ",
+            "m.del_flag =0 ",
             //["m.uid = %u",$adminid,-1],
             //["m.become_full_member_flag = %u",$become_full_member_flag,-1],
             //["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
         ];
         $sql = $this->gen_sql_new("select count(m.uid) as fulltime_teacher_count  "
-                                  ." from %s m left join %s a on m.phone= a.phone "
+                                  ." from %s m  join %s a on m.phone= a.phone "
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -1481,9 +1481,10 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_fulltime_teacher_student_count($account_role){
         $where_arr=[
             " m.account_role=5 ",
+            "m.del_flag =0 ",
         ];
         $sql = $this->gen_sql_new("select t.teacherid  from %s m"
-                                  ." left join %s t on m.phone=t.phone where %s ",
+                                  ." join %s t on m.phone=t.phone where %s ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr

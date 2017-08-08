@@ -289,36 +289,52 @@ class fulltime_teacher extends Controller
         $ret_fulltime_teacher = $this->t_manager_info->get_fulltime_teacher_count($account_role); //统计全职老师总人数
         $train_through_new = 1;
         $ret_platform_teacher = $this->t_teacher_info->get_teacher_count($train_through_new);//统计平台老师总人数
-        //---------------统计全职老师学生数
+        //---------------统计全职老师学生数+课耗数+cc
         $fulltime_teacher_student  = $this->t_manager_info->get_fulltime_teacher_student_count($account_role);
+        //dd($fulltime_teacher_student);
         $qz_tea_arr=[];
         foreach($fulltime_teacher_student as $yy=>$item){
             if($item["teacherid"] != null){
                 $qz_tea_arr[] =$item["teacherid"];
             }
         }
+        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
         foreach($fulltime_teacher_student as &$val){
             $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
+            $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
             @$lesson_all["normal_stu"] +=$val["normal_stu"];
+            @$lesson_all["lesson_count"] +=$val["lesson_count"];
         }
+        foreach($fulltime_teacher_student as &$item){
+            $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+            $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+            $item["cc_per"] = !empty($item["cc_lesson_num"])?round($item["cc_order_num"]/$item["cc_lesson_num"]*100,2):0;
+            @$tran_all["cc_lesson_num"] +=$item["cc_lesson_num"];
+            @$tran_all["cc_order_num"] +=$item["cc_order_num"];
+        }
+        $tran_all["cc_per"] = !empty($tran_all["cc_lesson_num"])?round($tran_all["cc_order_num"]/$tran_all["cc_lesson_num"]*100,2):0;
         //-----------------
         $type=0;
         $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
 
 
 
+
+
+        ///result
         $ret_info['fulltime_teacher_count'] = $ret_fulltime_teacher[0]['fulltime_teacher_count'];
         $ret_info['platform_teacher_count'] = $ret_platform_teacher[0]['platform_teacher_count'];
         $ret_info['fulltime_teacher_pro'] = round($ret_info['fulltime_teacher_count']*100/$ret_info['platform_teacher_count'],2);
         $ret_info['fulltime_teacher_student'] = $lesson_all['normal_stu'];
         $ret_info['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
         $ret_info['fulltime_teacher_student_pro'] = round($ret_info['fulltime_teacher_student']*100/$ret_info['platform_teacher_student'],2);
-        //dd($ret_info);
-        //return $this->pageView(__METHOD__,$ret_info);
+        $ret_info['fulltime_teacher_lesson_count'] = $lesson_all['lesson_count'];
+        $ret_info['fulltime_teacher_cc_per']  = $tran_all['cc_per'];
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret_info,
         ]);

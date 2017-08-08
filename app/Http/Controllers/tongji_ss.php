@@ -6368,7 +6368,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
         // $normal_stu_num2 = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
-        //dd($qz_tea_arr);
+        //dd($ret_info);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
         //dd($lesson_count);
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
@@ -6394,7 +6394,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item["lesson_per"]=100;
             }
             $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
+
             $item["cc_score"] = round($item["cc_per"]*0.75,2);
+
             $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
             // $item["hls_score"] = round($item["hls_per"]*0.05,2);
             //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
@@ -6404,6 +6406,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $cc_num = $item["cc_lesson_num"];
             }
+
             $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
             if($item["score"]>=95){
                 $item["reward"] = 1000;
@@ -6548,11 +6551,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];
         $lesson_all["lesson_per_month"] = $lesson_avg["lesson_per_month"];
         $lesson_all["realname"]="全部";
+
         array_push($ret_info,$tran_avg);
         array_push($ret_info,$tran_all);
         array_push($list,$lesson_avg);
         array_push($list,$lesson_all);
-
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info,"list"=>$list]);
 
     }
@@ -6862,50 +6865,19 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     public function tongji_change_lesson_by_teacher_jy(){ // 显示兼职老师考勤
         return $this->tongji_change_lesson_by_teacher();
 
-
+        $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();
-
-        $is_full_time = 0;  // 显示兼职老师
-
-        // list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        // $page_info = $this->get_in_page_info();
-
-        // $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
-
-        // $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
-
-        // // dd($ret_info);
-        // foreach($ret_info['list'] as $index=> &$item_list){
-        //     if($item_list['lesson_count_total'] == 0){
-        //         unset($ret_info['list'][$index]);
-        //     }
-        //     $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
-
-        //     if($item_list['train_through_new_time'] !=0){
-        //         $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
-        //     }else{
-        //         $item_list["work_time"] = 0;
-        //     }
-
-        //     E\Eteacher_money_type::set_item_value_str($item_list);
-        // }
-
-        // // dd($ret_info);
-        // \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
-        // return $this->pageView(__METHOD__,$ret_info);
-
-
-
+        $is_full_time = 1;  // 显示兼职老师
         $this->switch_tongji_database();
         $sum_field_list=[
             "stu_num",
             "valid_count",
-            "family_change_count",
-            "teacher_change_count",
-            "fix_change_count",
-            "internet_change_count",
-            "student_leave_count",
-            "teacher_leave_count",
+            "teacher_come_late_count",
+            "teacher_cut_class_count",
+            "teacher_change_lesson",
+            "teacher_leave_lesson",
+            "teacher_money_type",
+            "lesson_cancel_reason_type",
         ];
         $order_field_arr=  array_merge(["teacher_nick" ] ,$sum_field_list );
 
@@ -6913,28 +6885,28 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             =$this->get_in_order_by_str($order_field_arr ,"teacher_nick desc");
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
-        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
-        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($page_num,$start_time,$end_time,$is_full_time );
 
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
-        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time);
+        // dd($ret_info);
+        foreach($ret_info as &$item_list){
+            $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
-        foreach($ret_info as &$item_ret){
-            $item_ret['lesson_rate'] = number_format($item_ret['lesson_rate'],2);
-            $item_ret['lesson_lose_rate'] = ($item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'])/ ($item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count']);
-
-            $item_ret['lesson_lose_rate'] = number_format($item_ret['lesson_lose_rate'],2);
+            if($item_list['train_through_new_time'] !=0){
+                $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400);
+            }else{
+                $item_list["work_time"] = 0;
+            }
+            E\Eteacher_money_type::set_item_value_str($item_list);
         }
 
-
-        $all_item=["ass_nick" => "全部" ];
+        $all_item=["teacher_nick" => "全部" ];
         foreach ($ret_info as &$item) {
             foreach ($item as $key => $value) {
-                if ((!is_int($key)) && ($key != "assistantid" )) {
+                if ((!is_int($key)) && (($key == "stu_num") || ($key =="valid_count") || ($key == "teacher_come_late_count") || ($key == "teacher_cut_class_count") || ($key =="teacher_change_lesson")||($key == 'teacher_leave_lesson') || ($key == "work_time") )) {
                     $all_item[$key]=(@$all_item[$key])+$value;
                 }
             }
-            $item["ass_nick"]=$this->t_assistant_info->get_nick($item['assistantid']);
         }
 
         if (!$order_in_db_flag) {
@@ -6942,8 +6914,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
 
         array_unshift($ret_info, $all_item);
-        // dd($ret_info);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
+
 
 
 
