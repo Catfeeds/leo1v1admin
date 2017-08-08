@@ -3500,14 +3500,14 @@ class ss_deal extends Controller
 
         }else{
             if (!$ytx_phone) {
-                $ytx_phone= $admin_info["ytx_phone" ] || $admin_info["tquin" ]  ;
+                $ytx_phone= $admin_info["ytx_phone" ]? $admin_info["ytx_phone" ]: $admin_info["tquin" ]  ;
                 session("ytx_phone",  $ytx_phone);
             }
             $ytx_account='liyou';
 
             if (
-                $this->get_account_role() == E\Eaccount_role::V_1 ||
-                $this->get_account_role() == E\Eaccount_role::V_8
+                $this->get_account_role() == E\Eaccount_role::V_1
+                || $this->get_account_role() == E\Eaccount_role::V_8
             ) {
                 $ytx_account="liyou2";
             }

@@ -561,7 +561,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
         $sql = $this->gen_sql_new("select count(distinct userid) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
- 
+
     }
 
     public function get_tea_stu_num_list($qz_tea_arr,$start_time,$end_time){
@@ -2815,5 +2815,51 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
+
+
+
+    public function get_lesson_info_teacher_tongji_jy($page_num,$start_time,$end_time,$is_full_time=-1){
+        $where_arr=[
+            "lesson_type in (0,1,3)",
+            "s.is_test_user = 0",
+            "lesson_del_flag = 0",
+            "l.teacherid>0",
+        ];
+
+        if($is_full_time >=0){
+            if($is_full_time){
+                $where_arr[] = "t.teacher_money_flag>0";
+            }else{
+                $where_arr[] = "t.teacher_money_flag=0";
+            }
+        }
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+
+        $sql=$this->gen_sql_new("select count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid"
+                                ." from %s l "
+                                ." left join %s s on l.userid=s.userid "
+                                ." left join %s tll on tll.lessonid = l.lessonid"
+                                ." left join %s tlr on tlr.require_id = tll.require_id"
+                                ." left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id"
+                                ." left join %s m on tll.confirm_adminid = m.uid"
+                                ." left join %s t on t.teacherid = l.teacherid"
+                                ." where  %s group by l.teacherid "
+                                ,self::DB_TABLE_NAME
+                                ,t_student_info::DB_TABLE_NAME
+                                ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                ,t_test_lesson_subject::DB_TABLE_NAME
+                                ,t_manager_info::DB_TABLE_NAME
+                                ,t_teacher_info::DB_TABLE_NAME
+                                ,$where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,$page_num,300,true);
+
+
+    }
+
+
 
 }

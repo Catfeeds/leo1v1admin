@@ -114,6 +114,9 @@
                     <td style="min-width:80px;" >促销</td>
                     <td style="min-width:100px;">特殊折扣申请状态</td>
                     <td >实付金额</td>
+                    <td >定金</td>
+                    <td >定金订单号</td>
+                    <td >(尾款)订单号</td>
                     <td style="display:none;" >包类型</td>
                     <td >是否需要发票</td>
                     <td >发票信息</td>
@@ -175,6 +178,9 @@
                             @endif
                         </td>
                         <td >{{$var["price"]}}</td>
+                        <td >{{$var["pre_status"]}}</td>
+                        <td >{{$var["pre_from_orderno"]}}</td>
+                        <td >{{$var["from_orderno"]}}</td>
                         <td >{{$var["from_type_str"]}}</td>
                         <td >{{$var["is_invoice_str"]}}</td>
                         <td >{{$var["title"]}}</td>

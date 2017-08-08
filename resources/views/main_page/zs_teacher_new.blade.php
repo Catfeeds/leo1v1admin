@@ -79,17 +79,21 @@
             <div class="row">
                 <div class="panel panel-danger"  >
                     <div class="panel-heading">
-                        <font color="#333" >报名数:</font> 
-                        <span style="color:red ; text-decoration: underline; font-size:25px; padding:0px 20px; "  >　{{@$all_total}}　</span> 
-                        <font color="#333" >面试试讲:</font>
-                        <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data["one_succ"]}}/实到{{@$data["one_real"]}}/预约{{@$data["one_count"]}}&nbsp&nbsp{{@$data["one_per"]}}%　</span> 
-                       
+                        <div>
+                            <font color="#333" >报名数:</font> 
+                            <span style="color:red ; text-decoration: underline; font-size:25px; padding:0px 20px; "  >　总-{{@$all_total}},系统-{{@$system_total}},自产-{{@$self_total}}　</span>
+                        </div>
+                        <div>
+                            <font color="#333" >面试试讲:</font>
+                            <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data["one_succ"]}}/实到{{@$data["one_real"]}}/预约{{@$data["one_count"]}}&nbsp&nbsp{{@$data["one_per"]}}%　</span> 
+                            
 
-                        <font color="#333" >录制试讲:</font> 
-                        <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data["video_succ"]}}/实到{{@$data["video_real"]}}/预约{{@$data["video_count"]}}&nbsp&nbsp{{@$data["video_per"]}}%　</span>
-                       
-                        <font color="#333" >审核通过数:</font> 
-                        <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["all_succ"]}}　</span> 
+                            <font color="#333" >录制试讲:</font> 
+                            <span style="color:blue ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="video_class" >通过{{@$data["video_succ"]}}/实到{{@$data["video_real"]}}/预约{{@$data["video_count"]}}&nbsp&nbsp{{@$data["video_per"]}}%　</span>
+                            
+                            <font color="#333" >审核通过数:</font> 
+                            <span style="color:green ; text-decoration: underline; font-size:25px; padding:0px 20px; " class="suc_class" >　{{@$data["all_succ"]}}　</span>
+                        </div>
 
 
                     </div>
@@ -111,7 +115,8 @@
                                     <tr>
                                         <td>排名</td>
                                         <td>招师专员</td>
-                                        <td>邀约人数</td>
+                                        <td>报名人数-系统</td>
+                                        <td>报名人数-自产</td>
                                         <td>面试预约</td>
                                         <td>视频预约</td>
                                         <td>总体转化率</td>
@@ -122,7 +127,8 @@
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
                                             <td>{{@$var["account"]}} </td> 
-                                            <td>{{@$var["all_count"]}} </td> 
+                                            <td>{{@$var["system_count"]}} </td> 
+                                            <td>{{@$var["self_count"]}} </td> 
                                             <td>{{@$var["one_account_pass"]}}/{{@$var["one_account_real"]}}/{{@$var["one_account"]}}&nbsp&nbsp{{$var["one_per"]}}% </td> 
                                             <td>{{@$var["video_account_pass"]}}/{{@$var["video_account_real"]}}/{{@$var["video_account"]}}&nbsp&nbsp{{$var["video_per"]}}% </td>
 
