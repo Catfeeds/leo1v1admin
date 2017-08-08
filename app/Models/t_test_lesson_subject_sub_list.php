@@ -995,7 +995,25 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_list();
+        return $this->main_get_list($sql);
     }
 
+    public function get_suc_test_by_userid($userid_arr){
+        $where_arr = [
+            'l.lesson_type = 2',
+            'l.lesson_del_flag = 0',
+            'lss.success_flag = 1',
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'l.userid',$userid_arr);
+        $sql = $this->gen_sql_new(
+            " select lss.lessonid,l.userid "
+            ." from %s lss "
+            ." left join %s l on l.lessonid = lss.lessonid "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
