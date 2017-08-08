@@ -526,6 +526,7 @@ class url_power_map {
 			'/teacher_info_admin/lesson_list'	=>2020200,
 			'/teacher_info_admin/free_time'	=>2020300,
 			'/teacher_info_admin/common_time_new'	=>2020400,
+			'/teacher_info_admin/file_store'	=>2021000,
 			'/teacher_info_admin/avoid'	=>2020500,
 		];
  	}

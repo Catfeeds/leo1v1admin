@@ -2447,7 +2447,8 @@ class human_resource extends Controller
             "record_score"                     => $record_score,
             "no_tea_related_score"             => $no_tea_related_score,
             "record_monitor_class"             => $record_monitor_class,
-            "trial_train_status"               => $status
+            "trial_train_status"               => $status,
+            "add_time"                         => time()
         ]);
  
                
