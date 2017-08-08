@@ -2270,6 +2270,24 @@ lesson_type in (0,1) "
             $str=" l.lesson_type in (0,1,3) and l.lesson_status=2 and l.stu_attend!=0"
                 ." and l.wx_comment_flag=1 and l.wx_rate_late_flag=0 and week_comment_num>0";
             break;
+        case 15:
+            $lesson_time_str = $lesson_start_str;
+            // $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
+            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";               
+            $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
+                ." and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";               
+            break;
+        case 16:
+            $lesson_time_str = $lesson_start_str;
+            // $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
+            //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";               
+            $str= "l.lesson_status=0  and l.wx_before_thiry_minute_remind_flag =0"
+                ." and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";               
+            break;
+        case 17:
+            $lesson_time_str = $lesson_start_str;
+            $str=" l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";
+            break;
         default:
             $str=" true ";
             break;
@@ -8920,7 +8938,8 @@ lesson_type in (0,1) "
     }
 
     public function get_common_stu_performance($lessonid) {
-        $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d",
+
+        $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d and t.lesson_del_flag = 0",
                                   self::DB_TABLE_NAME,
                                   $lessonid
         );

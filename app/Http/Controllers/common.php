@@ -306,76 +306,13 @@ class common extends Controller
                     ]);
                 }
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
-                    $ret = $this->t_teacher_info->field_update_list($answer['userid'],[
-                        "train_through_new"      => 1,
-                        "train_through_new_time" => time(),
-                    ]);
+                    $this->teacher_train_through_deal($teacher_info);
+                    
+                    //发送微信通知进行模拟课堂
+                    // $this->add_trial_train_lesson($teacher_info,1);
 
-                    if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
-                        $title = "上海理优教研室";
-                        $html  = $this->get_offer_html($teacher_info);
-                        $ret   = \App\Helper\Common::send_paper_mail($teacher_info['email'],$title,$html);
-                    }
-
-                    if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
-                        /**
-                         * 模板ID : 1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II
-                         * 标题   : 入职邀请通知
-                         * {{first.DATA}}
-                         * 职位名称：{{keyword1.DATA}}
-                         * 公司名称：{{keyword2.DATA}}
-                         * 入职时间：{{keyword3.DATA}}
-                         * {{remark.DATA}}
-                         */
-                        $template_id      = "1FahTQqlGwCu1caY9wHCuBQXPOPKETuG_EGRNYU89II";
-                        $data["first"]    = "老师您好，恭喜你已经通过理优入职培训，成为理优正式授课老师，等级为：".$level_str."等";
-                        $data["keyword1"] = "教职老师";
-                        $data["keyword2"] = "理优教育";
-                        $data["keyword3"] = $today_date;
-                        $data["remark"]   = "愿老师您与我们一起以春风化雨的精神,打造高品质教学服务,助我们理优学子更上一层楼。";
-                        $offer_url        = "http://admin.yb1v1.com/common/show_offer_html?teacherid=".$answer['userid'];
-                        \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$offer_url);
-                    }
-
-                    // $this->add_trial_train_lesson($teacher_info);
-                    //$str .= "<br>您培训已通过，请登陆老师后台进行模拟试听课程。";
-
-                    $reference_info = $this->t_teacher_info->get_reference_info_by_phone($teacher_info['phone']);
-                    $check_flag     = $this->t_teacher_money_list->check_is_exists($teacher_info['teacherid'],6);
-                    if(!empty($reference_info['teacherid']) && !$check_flag){
-                        $wx_openid      = $reference_info['wx_openid'];
-                        $teacher_type   = $reference_info['teacher_type'];
-                        if(!in_array($teacher_type,[21,22,31])){
-                            if(in_array($teacher_info['identity'],[5,6])){
-                                $type = 1;
-                            }else{
-                                $type = 2;
-                            }
-                            $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                            $begin_time = strtotime($begin_date);
-                            $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
-                                $reference_info['phone'],$type,$begin_time
-                            );
-                            $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
-                            $this->t_teacher_money_list->row_insert([
-                                "teacherid"  => $reference_info['teacherid'],
-                                "money"      => $ref_price*100,
-                                "money_info" => $teacher_info['teacherid'],
-                                "add_time"   => time(),
-                                "type"       => 6,
-                            ]);
-                            if($wx_openid!=""){
-                                $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-                                $wx_data["first"]    = $teacher_info['nick']."已成功入职";
-                                $wx_data["keyword1"] = "已入职";
-                                $wx_data["keyword2"] = "";
-                                $wx_data["remark"]   = "您已获得".$ref_price."元伯乐奖，请在个人中心-我的收入中查看详情，"
-                                                   ."伯乐奖将于每月10日结算（如遇节假日，会延后到之后的工作日），"
-                                                   ."请及时绑定银行卡号，如未绑定将无法发放。";
-                                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$wx_data);
-                            }
-                        }
-                    }
+                    
+                    
                 }
             }
         }

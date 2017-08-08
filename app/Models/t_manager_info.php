@@ -463,12 +463,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s t on ss.userid = t.userid ".
                                   " where %s and am.del_flag=0".
                                   "  group by am.uid",
-                                  self::DB_TABLE_NAME,
-                                  t_admin_group_user::DB_TABLE_NAME,
-                                  t_admin_group_name::DB_TABLE_NAME,
-                                  t_admin_main_group_name::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,//am
+                                  t_admin_group_user::DB_TABLE_NAME,//g
+                                  t_admin_group_name::DB_TABLE_NAME,//m
+                                  t_admin_main_group_name::DB_TABLE_NAME,//ss
+                                  t_seller_student_new::DB_TABLE_NAME,//t
+                                  t_test_lesson_subject::DB_TABLE_NAME,//t
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
@@ -491,7 +491,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
-                                  " where %s and am.del_flag=0".
+                                  // " where %s and am.del_flag=0".
+                                  " where %s ".
                                   "  group by am.uid",
                                   self::DB_TABLE_NAME,
                                   t_group_user_month::DB_TABLE_NAME,
@@ -1318,7 +1319,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
         $sql = $this->gen_sql_new("select m.create_time,m.uid,m.account,m.become_full_member_flag,m.become_full_member_time,"
                                   ." a.id,a.assess_time,p.id positive_id,p.master_deal_flag,p.main_master_deal_flag,m.name, "
-                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid ,p.main_master_assess_time,p.positive_type "
+                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid"
+                                  ." ,p.main_master_assess_time,p.positive_type,a.add_time "
                                   ." from %s m left join %s a on (m.uid= a.adminid and a.add_time= (select max(add_time) from %s where adminid = m.uid))"
                                   ." left join %s p on a.id= p.assess_id "
                                   ." where %s",
@@ -1343,12 +1345,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
-    public function get_list_test( $page_info, $nick_phone, $account_role) {
-        $where_arr=array();
+    public function get_list_test( $page_info, $nick_phone, $account_role, $start_time, $end_time) {
+        $where_arr = [
+            ["create_time>=%s",$start_time,0],
+            ["create_time<=%s",$end_time,0],
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "phone like '%%%s%%'  ", $this->ensql($nick_phone));
         }
-        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         $sql =  $this->gen_sql_new( "select uid, account, account_role, name, phone, create_time "
                                     . " from %s "
                                     . "  where %s  ",
@@ -1357,7 +1362,28 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
-
+    public function get_tea_sub_list_by_orderid($idstr = 0){
+        $where_arr = [
+            "ol.orderid in ({$idstr})",
+            // "ol.orderid in (199)",
+        ];
+        // // $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        // if ($orderid!=""){
+        //     $where_arr[]=sprintf( "orderid like '%%%s%%'  ", $this->ensql($orderid));
+        // }
+        $sql =  $this->gen_sql_new( "select distinct ol.orderid, t.nick, l.subject"
+                                    . " from %s l"
+                                    . " left join %s ol on ol.lessonid=l.lessonid"
+                                    . " left join %s t on t.teacherid=l.teacherid"
+                                    . "  where %s  "
+                                    ,t_lesson_info::DB_TABLE_NAME
+                                    ,t_order_lesson_list::DB_TABLE_NAME
+                                    ,t_teacher_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
     public function test_ff( $page_info, $nick_phone, $account_role) {
         $where_arr=array();
 

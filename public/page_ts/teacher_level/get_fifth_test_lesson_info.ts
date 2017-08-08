@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_level-get_frist_test_lesson_info.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-get_fifth_test_lesson_info.d.ts" />
 
 var Cwhiteboard=null;
 var notify_cur_playpostion =null;
@@ -41,7 +41,7 @@ $(function(){
 	$('#id_subject').val(g_args.subject);
 	$('#id_record_flag').val(g_args.record_flag);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
-    $(".opt-first-lesson-video").on("click",function(){
+    $(".opt-fifth-lesson-video").on("click",function(){
         var opt_data = $(this).get_opt_data();
         $.ajax({
             type     : "post",
@@ -87,7 +87,7 @@ $(function(){
                 
     });
 
-    $(".opt-first-lesson-record").on("click",function(){
+    $(".opt-fifth-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var lessonid = opt_data.lessonid;
         var teacherid = opt_data.teacherid;
@@ -156,56 +156,11 @@ $(function(){
                 id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                     sshd_good.push($(this).val());
                 });
-                var sshd_bad=[];
-                id_sshd2.find("input:checkbox[name='dog']:checked").each(function(i) {
-                    sshd_bad.push($(this).val());
-                });
-                if(sshd_bad.length==0 && sshd_good.length==0){
-                    BootstrapDialog.alert("请选择老师标签");
-                    return false;
-                }
-                var ktfw_good=[];
-                id_ktfw.find("input:checkbox[name='ktfw']:checked").each(function(i) {
-                    ktfw_good.push($(this).val());
-                });
-                var ktfw_bad=[];
-                id_ktfw2.find("input:checkbox[name='kt']:checked").each(function(i) {
-                    ktfw_bad.push($(this).val());
-                });
-                if(ktfw_bad.length==0 && ktfw_good.length==0){
-                    BootstrapDialog.alert("请选择老师标签");
-                    return false;
-                }
-
-                var skgf_good=[];
-                id_skgf.find("input:checkbox[name='skgf']:checked").each(function(i) {
-                    skgf_good.push($(this).val());
-                });
-                var skgf_bad=[];
-                id_skgf2.find("input:checkbox[name='sk']:checked").each(function(i) {
-                    skgf_bad.push($(this).val());
-                });
-                if(skgf_bad.length==0 && skgf_good.length==0){
-                    BootstrapDialog.alert("请选择老师标签");
-                    return false;
-                }
-
-                var jsfg_good=[];
-                id_jsfg.find("input:checkbox[name='jsfg']:checked").each(function(i) {
-                    jsfg_good.push($(this).val());
-                });
-                var jsfg_bad=[];
-                id_jsfg2.find("input:checkbox[name='js']:checked").each(function(i) {
-                    jsfg_bad.push($(this).val());
-                });
-                if(jsfg_bad.length==0 && jsfg_good.length==0){
-                    BootstrapDialog.alert("请选择老师标签");
-                    return false;
-                }
-
-                $.do_ajax("/human_resource/set_teacher_record_info_new",{
+              
+                $.do_ajax("/teacher_level/set_teacher_record_info",{
                     "teacherid"    : teacherid,
                     "type"         : 1,
+                    "lesson_style" : 2,
                     "tea_process_design_score"         : id_jysj.val(),
                     "language_performance_score"         : id_yybd.val(),
                     "knw_point_score"         : id_zyzs.val(),
@@ -221,13 +176,8 @@ $(function(){
                     "record_info"                        : id_record.val(),
                     "record_monitor_class"               : id_jkqk.val(),
                     "sshd_good"                          :JSON.stringify(sshd_good),
-                    "sshd_bad"                           :JSON.stringify(sshd_bad),
-                    "ktfw_good"                          :JSON.stringify(ktfw_good),
-                    "ktfw_bad"                           :JSON.stringify(ktfw_bad),
-                    "skgf_good"                          :JSON.stringify(skgf_good),
-                    "skgf_bad"                           :JSON.stringify(skgf_bad),
-                    "jsfg_good"                          :JSON.stringify(jsfg_good),
-                    "jsfg_bad"                           :JSON.stringify(jsfg_bad),
+                    "lessonid"                           :lessonid,
+                    "lesson_list"                        :JSON.stringify(lessonid)
                 });
             }
         },function(){
@@ -245,6 +195,105 @@ $(function(){
         
     });
 
+
+    $(".opt-fifth-lesson-record-list").on("click",function(){
+        var id        = $(this).get_opt_data("id");
+        var lessonid        = $(this).get_opt_data("lessonid");
+        console.log(id);
+        
+        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
+            "id" : id,
+            "lessonid":lessonid
+        },function(resp) {
+            var title = "反馈详情";
+            var list = resp.data;
+            console.log(list);
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
+            var html_score=
+                "<tr>"
+                +"<td>讲义设计情况评分</td>"
+                +"<td>"+list.tea_process_design_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>语言表达能力评分</td>"
+                +"<td>"+list.language_performance_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>专业知识技能评分</td>"
+                +"<td>"+list.knw_point_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学节奏把握评分</td>"
+                +"<td>"+list.tea_rhythm_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>互动情况评分</td>"
+                +"<td>"+list.tea_concentration_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>板书情况评分</td>"
+                +"<td>"+list.teacher_blackboard_writing_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>软件操作评分</td>"
+                +"<td>"+list.tea_operation_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>授课环境评分</td>"
+                +"<td>"+list.tea_environment_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课后反馈评分</td>"
+                +"<td>"+list.answer_question_cre_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>流程规范情况评分</td>"
+                +"<td>"+list.class_abnormality_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>总分</td>"
+                +"<td>"+list.record_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>非教学相关得分</td>"
+                +"<td>"+list.no_tea_related_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>监课情况</td>"
+                +"<td>"+list.record_monitor_class+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>意见或建议</td>"
+                +"<td>"+list.record_info+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>老师标签</td>"
+                +"<td>"+list.label+"</td>"
+                +"</tr>"
+
+
+
+            html_node.find("table").append(html_score);
+            var dlg=BootstrapDialog.show({
+                title    : title,
+                message  : html_node,
+                closable : true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+    });
 
    
 

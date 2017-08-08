@@ -190,6 +190,7 @@ class ss_deal extends Controller
         $ss_item = $this->t_seller_student_new->field_get_list($userid,"*");
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"*");
 
+        $ret["test_lesson_count"]   = $this->t_lesson_info_b2-> get_test_lesson_count($userid);
 
         $stu_nick=$student["nick"];
         $ret["stu_nick"]   = $stu_nick;
@@ -3499,12 +3500,15 @@ class ss_deal extends Controller
 
         }else{
             if (!$ytx_phone) {
-                $ytx_phone= $admin_info["ytx_phone" ];
+                $ytx_phone= $admin_info["ytx_phone" ] || $admin_info["tquin" ]  ;
                 session("ytx_phone",  $ytx_phone);
             }
             $ytx_account='liyou';
 
-            if ($this->get_account_role() == E\Eaccount_role::V_1  ) {
+            if (
+                $this->get_account_role() == E\Eaccount_role::V_1 ||
+                $this->get_account_role() == E\Eaccount_role::V_8
+            ) {
                 $ytx_account="liyou2";
             }
             if ($this->get_account()=="zore" ) {

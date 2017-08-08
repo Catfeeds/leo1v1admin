@@ -295,7 +295,7 @@ class common_new extends Controller
                     $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
-                $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
+                $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             }
 
             if($reference != ""){
@@ -332,13 +332,26 @@ class common_new extends Controller
         if($email!=""){
             $html  = $this->get_email_html(0,0,0,0,$name);
             $title = "【理优1对1】试讲邀请和安排";
-            $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
+            $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){
                 return $this->output_err("邮件发送失败!");
             }
         }
 
         return $this->output_succ();
+    }
+
+    public function send_email_for_8(){
+        $start_time = strtotime("2017-6-10");
+        $end_time   = strtotime("2017-8-3");
+
+        $list = $this->t_teacher_lecture_appointment_info->get_email_list($start_time,$end_time);
+        echo count($list);exit;
+
+        $title = "【理优1对1】试讲邀请和安排";
+        $html  = $this->get_email_html(0,0,0,0,"");
+        $job   = new \App\Jobs\SendCommonEmail($list,$title,$html);
+        dispatch($job);
     }
 
     public function get_email_html($subject=0,$grade_start=0,$grade_end=0,$grade=0,$name=""){
@@ -815,6 +828,7 @@ class common_new extends Controller
             if ( count($subject_list) >= 3 ) {
                 $stu_lesson_title = '全能大王';
             } else if(count($subject_list) > 0){
+
                 $total = 0;
                 foreach ($subject_list as $v) {
                     $total += $v["count"];
@@ -895,19 +909,22 @@ class common_new extends Controller
                 $a = ($v['score'] == "A")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$a;
                 $b = ($v['score'] == "B")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$b;
                 $c = ($v['score'] == "C")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$c;
-                $d = ($v['score'] == "未完成")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$d;
+                // $d = ($v['score'] == "未完成")?str_pad($v['score_count'],2,'0',STR_PAD_LEFT):$d;
             }
             $list['A'] = "A级作业{$a}次";
             $list['B'] = "B级作业{$b}次";
             $list['C'] = "C级作业{$c}次";
-            $list['D'] = "未完成作业{$d}次";
+            // $list['D'] = "未完成作业{$d}次";
 
             $homework_finish_info = $this->t_lesson_info_b2->get_stu_homework_finish($userid, $start_time);
             if ($homework_finish_info['count']) {
+                $nofinish_num = str_pad($homework_finish_info['nofinish'],2,'0',STR_PAD_LEFT);
+                $list['D'] = "未完成作业{$nofinish_num}次";
                 $rate = intval (round( ( 1-($homework_finish_info['nofinish']/$homework_finish_info['count']) )*100 ) );
                 $list['finish_rate'] = str_pad($rate, 2, '0',STR_PAD_LEFT);
             } else {
                 $list['finish_rate'] = '00';
+                $list['D'] = "未完成作业00次";
             }
 
             if ( $list['finish_rate'] > 50 ) {

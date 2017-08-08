@@ -44,7 +44,7 @@ class t_parent_luck_draw_in_wx extends \App\Models\Zgen\z_t_parent_luck_draw_in_
         ];
 
         $sql = $this->gen_sql_new(" select prize_code, userid, use_flag, price, receive_time from %s ".
-                                  " where %s ",
+                                  " where %s  ",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

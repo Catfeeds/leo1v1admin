@@ -16,6 +16,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否成功试听</span>
+                        <select class="opt-change form-control" id="id_success_flag" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <button id="id_add"> 增加</button>
                 </div>
@@ -32,6 +39,7 @@
                     <td>上级微信昵称</td>
                     <td>手机号</td>
                     <td>userid</td>
+                    <td>是否成功试听</td>
                     <!-- <td>银行卡号</td>
                          <td>身份证号码</td>
                          <td>开户行和支行</td>
@@ -55,7 +63,12 @@
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["s_userid"]}} </td>
+                        @if(@$var['success_flag'])
+                            <td>是 </td>
+                        @else
+                            <td>否 </td>
+                        @endif
                         <!-- <td>{{@$var["bankcard"]}} </td>
                              <td>{{@$var["idcard"]}} </td>
                              <td>{{@$var["bank_address"]}} </td>

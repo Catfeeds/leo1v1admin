@@ -50,7 +50,6 @@ class admin_manage extends Controller
             E\Edevice_opt_type::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__, $ret_info);
-
     }
 
 }

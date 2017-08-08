@@ -448,6 +448,8 @@ class url_power_map {
 			'/tea_manage/train_lesson_list_research'	=>1350400,
 			'/teacher_level/get_teacher_level_quarter_info'	=>1360100,
 			'/teacher_level/get_teacher_advance_info'	=>1360200,
+			'/tongji/test_lesson_ass_jy'	=>1360300,
+			'/tongji_ss/tongji_change_lesson_by_teacher_jy'	=>1360400,
 			'/user_manage_new/get_fulltime_teacher_attendance_info'	=>1320500,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info'	=>1320700,
 			'/tongji_ss/research_teacher_kpi_info_new'	=>1322300,

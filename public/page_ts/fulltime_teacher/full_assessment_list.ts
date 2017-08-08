@@ -26,30 +26,22 @@ $(function(){
     });
 
     $(".complaint_refund_score_flag").on("change",function(){
-        if(parseInt($("#lesson_count_avg_score").text()) > 0){
-            $("#result_score").text(parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#lesson_count_avg_score").text())+parseInt($("#lesson_level_score").find("select").val())); 
-        }else{
-            $("#result_score").text(parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#stu_num_score").text())+parseInt($("#lesson_level_score").find("select").val())+parseInt($("#stu_lesson_total_score").text())); 
-        }
+        $("#result_score").text(parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#lesson_count_avg_score").text())+parseInt($("#lesson_level_score").find("select").val())); 
     });
 
     $(".total_score_flag").on("change",function(){
-        if(parseInt($("#lesson_count_avg_score").text()) > 0){
-            $("#total_score").text(parseInt($("#observe_law_score").find("select").val())+parseInt($("#core_socialist_score").find("select").val())+parseInt($("#work_responsibility_score").find("select").val())+parseInt($("#obey_leadership_score").find("select").val())+parseInt($("#dedication_score").find("select").val())+parseInt($("#teamwork_positive_score").find("select").val())+parseInt($("#test_lesson_prepare_score").find("select").val())+parseInt($("#undertake_actively_score").find("select").val())+parseInt($("#active_part_score").find("select").val())+parseInt($("#active_share_score").find("select").val())+parseInt($("#prepare_lesson_score").find("select").val())+parseInt($("#upload_handouts_score").find("select").val())+parseInt($("#handout_writing_score").find("select").val())+parseInt($("#no_absences_score").find("select").val())+parseInt($("#late_leave_score").find("select").val())+parseInt($("#prepare_quality_score").find("select").val())+parseInt($("#class_concent_score").find("select").val())+parseInt($("#tea_attitude_score").find("select").val())+parseInt($("#after_feedback_score").find("select").val())+parseInt($("#modify_homework_score").find("select").val())+parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#lesson_count_avg_score").text())+parseInt($("#lesson_level_score").find("select").val()));
-        }else{
-            $("#total_score").text(parseInt($("#observe_law_score").find("select").val())+parseInt($("#core_socialist_score").find("select").val())+parseInt($("#work_responsibility_score").find("select").val())+parseInt($("#obey_leadership_score").find("select").val())+parseInt($("#dedication_score").find("select").val())+parseInt($("#teamwork_positive_score").find("select").val())+parseInt($("#test_lesson_prepare_score").find("select").val())+parseInt($("#undertake_actively_score").find("select").val())+parseInt($("#active_part_score").find("select").val())+parseInt($("#active_share_score").find("select").val())+parseInt($("#prepare_lesson_score").find("select").val())+parseInt($("#upload_handouts_score").find("select").val())+parseInt($("#handout_writing_score").find("select").val())+parseInt($("#no_absences_score").find("select").val())+parseInt($("#late_leave_score").find("select").val())+parseInt($("#prepare_quality_score").find("select").val())+parseInt($("#class_concent_score").find("select").val())+parseInt($("#tea_attitude_score").find("select").val())+parseInt($("#after_feedback_score").find("select").val())+parseInt($("#modify_homework_score").find("select").val())+parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#stu_num_score").text())+parseInt($("#lesson_level_score").find("select").val())+parseInt($("#stu_lesson_total_score").text()));
-        }
+        $("#total_score").text(parseInt($("#observe_law_score").find("select").val())+parseInt($("#core_socialist_score").find("select").val())+parseInt($("#work_responsibility_score").find("select").val())+parseInt($("#obey_leadership_score").find("select").val())+parseInt($("#dedication_score").find("select").val())+parseInt($("#teamwork_positive_score").find("select").val())+parseInt($("#test_lesson_prepare_score").find("select").val())+parseInt($("#undertake_actively_score").find("select").val())+parseInt($("#active_part_score").find("select").val())+parseInt($("#active_share_score").find("select").val())+parseInt($("#prepare_lesson_score").find("select").val())+parseInt($("#upload_handouts_score").find("select").val())+parseInt($("#handout_writing_score").find("select").val())+parseInt($("#no_absences_score").find("select").val())+parseInt($("#late_leave_score").find("select").val())+parseInt($("#prepare_quality_score").find("select").val())+parseInt($("#class_concent_score").find("select").val())+parseInt($("#tea_attitude_score").find("select").val())+parseInt($("#after_feedback_score").find("select").val())+parseInt($("#modify_homework_score").find("select").val())+parseInt($("#complaint_refund_score").find("select").val())+parseInt($("#order_per_score").text())+parseInt($("#lesson_count_avg_score").text())+parseInt($("#lesson_level_score").find("select").val()));
         var time_flag = g_args.time_flag;
         if($("#total_score").text() >= 95){
             $("#rate_stars").text("5星(提前转正)");                      
         }else if($("#total_score").text() >= 88){
-            $("#rate_stars").text("4星(提前转正)");                      
+            $("#rate_stars").text("4星(正常转正)");                      
         }else if($("#total_score").text() >= 80){
-             $("#rate_stars").text("3星(正常转正)");
+            $("#rate_stars").text("3星(正常转正)");
         }else if($("#total_score").text() >= 70){
-             $("#rate_stars").text("2星(延期一个月转正)");
+            $("#rate_stars").text("2星(延期一个月转正)");
         }else{
-             $("#rate_stars").text("1星(不合格)");
+            $("#rate_stars").text("1星(不合格)");
         }
 
 
@@ -59,13 +51,6 @@ $(function(){
 
     $("#id_save").on("click",function(){
         var type_flag = $(this).data("type");
-       /* $(".total_score_flag").each(function(){
-            var score = $(this).val();
-            if(score == -1){
-                alert("请填写完整!");
-                return;
-            }
-            });*/
         var time_flag = g_args.time_flag;
         //alert(g_args.time_flag);
         var rate_score = parseInt($("#rate_stars").text());
@@ -97,10 +82,10 @@ $(function(){
             }else if(rate_score==2){
                 var str = "根据考核的结果,您可以申请延期一个月考核,确认提交吗";
                 positive_type = 3;
-            }else if(rate_score==3){
+            }else if(rate_score==3 || rate_score==4){
                 var str = "根据考核的结果,您可以申请正常转正,确认提交吗";
                 positive_type = 1;
-            }else if(rate_score > 3){
+            }else if(rate_score ==5){
                 var str = "根据考核的结果,您可以申请提前转正,确认提交吗";
                 positive_type = 2;
             }
@@ -133,9 +118,8 @@ $(function(){
                     "active_share_score" : $("#active_share_score").find("select").val(),
                     "complaint_refund_score":$("#complaint_refund_score").find("select").val(),
                     "order_per_score":$("#order_per_score").text(),
-                    "stu_num_score":$("#stu_num_score").text(),
                     "lesson_level_score":$("#lesson_level_score").find("select").val(),
-                    "stu_lesson_total_score":$("#stu_lesson_total_score").text(),
+                    "stu_lesson_total_score":$("#lesson_count_avg_score").text(),
                     "moral_education_score":$("#moral_education_score").text(),
                     "tea_score":$("#tea_score").text(),
                     "teach_research_score":$("#teach_research_score").text(),
@@ -144,7 +128,6 @@ $(function(){
                     "rate_stars":rate_score,
                     "positive_type":positive_type,
                    "order_per" : g_order_per,
-                    "stu_num"  : g_stu_num,
                    "stu_lesson_total" :g_stu_lesson_total 
                 },function(res){
                     var id = res.id;
@@ -226,7 +209,7 @@ $(function(){
 
     $("#id_assessment_positive_info").on("click",function(){
         $.do_ajax( "/fulltime_teacher/get_fulltime_teacher_pisitive_require_info",{
-            "id" :positive_id,
+            "id" :g_positive_id,
         },function(resp){            
             var data = resp.data;
             var title = "转正申请详情";
@@ -267,7 +250,7 @@ $(function(){
                             cssClass: 'btn-warning',
                             action: function(dialog) {                                
                                 $.do_ajax('/user_deal/set_fulltime_teacher_self_assessment',{
-                                    "id":positive_id,
+                                    "id":g_positive_id,
                                     "self_assessment":html_node.find("#id_self_assessment").val()
                                 });
 

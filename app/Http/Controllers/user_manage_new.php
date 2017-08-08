@@ -1156,10 +1156,11 @@ class user_manage_new extends Controller
         $monthtime_flag = $this->get_in_int_val("monthtime_flag",1);
         // $admin_info = $this->t_manager_info->get_admin_member_list();
         $list=\App\Helper\Common::gen_admin_member_data_new($monthtime_flag,$start_time);
+        // dd($list);
         foreach( $list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-
+        // dd($list);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list),["monthtime_flag"=>$monthtime_flag]);
     }
 

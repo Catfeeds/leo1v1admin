@@ -252,12 +252,12 @@ class Common {
         $mail->IsSMTP(); // 使用SMTP方式发送
         $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
         $mail->Host = "smtp.leoedu.cn"; // 您的企业邮局域名
+        // $mail->Host = "mail.leoedu.com"; // 您的企业邮局域名
         $mail->SMTPAuth = true; // 启用SMTP验证功能
 
         $mail->Username = "trc@leoedu.cn"; // 邮局用户名(请填写完整的email地址)
         $mail->Password = "xcwen@142857"; // 邮局密码
-
-        $mail->From = "trc@leoedu.cn"; //邮件发送者email地址
+        $mail->From = "emd@leoedu.com"; //邮件发送者email地址
         $mail->FromName = "理优教学管理部";
 
         if (is_array(  $address)) {
@@ -381,8 +381,7 @@ class Common {
         return $ret;
     }
 
-    static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
-        // return $this->send_mail_admin($address,$title,$message,$is_html);
+    static function send_paper_mail_new ( $address ,$title ,$message ,$is_html=true) {
 
         require_once( app_path("Libs/mail/class.phpmailer.php"));
         require_once( app_path("Libs/mail/class.smtp.php"));
@@ -403,7 +402,7 @@ class Common {
         $mail->Password = "xcwen142857"; // 邮局密码
 
         $mail->From = "jim@leoedu.com"; //邮件发送者email地址
-        $mail->FromName = "理优教研组";
+        $mail->FromName = "理优教学管理部";
 
         if (is_array($address)) {
             foreach ( $address as $item ){

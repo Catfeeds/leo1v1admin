@@ -39,17 +39,29 @@ class test_boby extends Controller
         return $this->pageView( __METHOD__, $ret_info);
     }
     public function st() {
-        $page_info = $this->get_in_page_info();
-        $nick_phone = $this->get_in_str_val("nick_phone");
-        $account_role = $this->get_in_el_account_role();
-        $this->get_in_int_val("account_role"); //没什么作用?
-        $ret_info = $this->t_manager_info->get_list_test($page_info,$nick_phone, $account_role);
+        // list($start_time,$end_time) = $this->get_in_date_range(-365, 0 );
+        // $page_info = $this->get_in_page_info();
+        // $orderid = $this->get_in_str_val("orderid");
+        // $account_role = $this->get_in_el_account_role();
+        // $this->get_in_int_val("account_role"); //没什么作用?
+        // $ret_info = $this->t_manager_info->get_list_test($page_info, $nick_phone, $account_role, $start_time, $end_time);
+        $idstr = $this->get_in_str_val("idstr");
+        $ret_info = $this->t_manager_info->get_tea_sub_list_by_orderid($idstr);
         // dd($ret_info);
-        foreach( $ret_info["list"] as &$item ) {
-            E\Eaccount_role::set_item_value_str($item);
-            $this->cache_set_item_account_nick($item,"uid", "unick");
-            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        $s = '<table border=1><tr><td>id</td><td>ss';
+        $id =  0;
+        foreach( $ret_info as &$item ) {
+            E\Esubject::set_item_value_str($item);
+            if ($id == $item['orderid']) {
+                $s = $s.",{$item['nick']}/{$item['subject_str']}";
+            } else {
+                $s = $s."</td></tr><tr><td>{$item['orderid']}</td><td>{$item['nick']}/{$item['subject_str']}";
+            }
+            $id = $item['orderid'];
         }
+        $s = $s."</td></tr></table>";
+        return $s;
+        dd($ret_info);
         return $this->pageView( __METHOD__, $ret_info);
     }
     public function test_one(){
@@ -58,7 +70,7 @@ class test_boby extends Controller
         $grade    = $this->get_in_grade();
         $subject  = $this->get_in_subject();
         $tmk_flag = $this->get_in_int_val("tmk_flag", 0);
-
+        $sql = 'select * from t_teacher_info where teacherid=123';
         if (strlen($phone )!=11) {
             return $this->output_err("电话号码长度不对");
         }

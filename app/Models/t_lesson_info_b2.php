@@ -543,6 +543,27 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         });
     }
 
+    public function get_teacher_lesson_grade_count($start_time,$end_time,$teacherid,$grade){
+        $where_arr=[
+            "confirm_flag in (0,1)",
+            "lesson_del_flag=0",
+            "lesson_type <>2",
+            "lesson_status=2",
+            ["teacherid = %u",$teacherid,-1]
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        if($grade==1){
+            $where_arr[] = "grade>=100 and grade<106";
+        }elseif($grade==2){
+            $where_arr[] = "grade>=106 and grade<300";
+        }else{
+            $where_arr[] = "grade>=300 and grade<400";
+        }
+        $sql = $this->gen_sql_new("select count(distinct userid) from %s where %s",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+ 
+    }
+
     public function get_tea_stu_num_list($qz_tea_arr,$start_time,$end_time){
         $where_arr=[
             ["lesson_start>%u",$start_time,0],
@@ -1946,7 +1967,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,1,3)",
             "l.confirm_flag in (0,1,3)",
             "l.lesson_del_flag=0",
-            "w.work_status != 0",
+            "w.work_status>0",
         ];
         $sql = $this->gen_sql_new("SELECT SUM(if(w.work_status=1,1,0)) AS nofinish"
                                   .", COUNT(w.work_status) AS count"
@@ -2307,6 +2328,42 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
+
+    public function get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type){
+        $where_arr = [
+            "l.teacherid>0",
+        ];
+
+        if($lesson_cancel_reason_type == -1){
+            $where_arr[] = "l.lesson_cancel_reason_type in (2,12) ";
+        }else{
+            $where_arr[] = ["l.lesson_cancel_reason_type = %d",$lesson_cancel_reason_type];
+        }
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new(" select t.teacher_money_type,t.train_through_new_time, l.lesson_cancel_reason_type, tls.require_adminid, l.teacherid, FORMAT(sum(l.lesson_count/100 ),2) as lesson_count_total,l.lesson_cancel_reason_type from %s l".
+                                  " left join %s tll on tll.lessonid = l.lessonid".
+                                  " left join %s tlr on tlr.require_id = tll.require_id".
+                                  " left join %s tls on tls.test_lesson_subject_id = tlr.test_lesson_subject_id".
+                                  " left join %s m on tll.confirm_adminid = m.uid".
+                                  " left join %s t on t.teacherid = l.teacherid".
+                                  " where %s group by l.teacherid order by l.lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list_by_page($sql,null,30,true);
+
+    }
+
+
+
     public function get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid){
         $where_arr = [
             // ["lesson_cancel_reason_type=%d",$lesson_cancel_reason_type,-1 ],
@@ -2469,6 +2526,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list($sql);
     }
+    public function get_test_lesson_count( $userid) {
+        $sql = $this->gen_sql_new(
+            "select count(*) from %s where userid=%u and lesson_type=2",
+            self::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_value($sql);
+    }
 
     public function get_test_lesson_success_list_two_days_ago(){
         $two_day_start = strtotime(date('Y-m-d 00:00:00' , strtotime('-2 day')));
@@ -2602,6 +2667,108 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in (0,3)",
+            "l.lesson_status>0",
+            "t.is_test_user=0",
+            ["t.subject = %u",$subject,-1],
+            ["l.teacherid = %u",$teacherid,-1],
+            ["l.userid = %u",$userid,-1],
+        ];
+        if($record_flag==0){
+            $where_arr[] = "tr.id is null";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.id>0";
+        }
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=3)"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+
+    }
+
+    public function get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in (0,3)",
+            "l.lesson_status>0",
+            "t.is_test_user=0",
+            ["t.subject = %u",$subject,-1],
+            ["l.teacherid = %u",$teacherid,-1],
+            ["l.userid = %u",$userid,-1],
+        ];
+        if($record_flag==0){
+            $where_arr[] = "tr.id is null";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.id>0";
+        }
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=4)"
+                                  ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1) group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+
+    }
+
+
+
+    public function get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type =2",
+            "l.lesson_status>0",
+            "t.is_test_user=0",
+            ["t.subject = %u",$subject,-1],
+            ["l.teacherid = %u",$teacherid,-1],
+        ];
+        if($record_flag==0){
+            $where_arr[] = "tr.id is null";
+        }elseif($record_flag==1){
+            $where_arr[] = "tr.id>0";
+        }
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=2)"
+                                  ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
+
+    }
+
+
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
             ' l.lesson_type = 2 ',
@@ -2622,7 +2789,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
-
         return $this->main_get_row($sql);
     }
 

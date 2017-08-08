@@ -47,7 +47,7 @@
                 <div class="col-xs-6 col-md-2" >
                     <div class="input-group ">
                         <span class="input-group-addon">历史分组</span>
-                        <select class="opt-change form-control" id="id_monthtime_flag" >                           
+                        <select class="opt-change form-control" id="id_monthtime_flag" >
                             <option value="1">否</option>
                             <option value="2">是</option>
                         </select>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_copy_now"> 复制当前数据 </button>
-                </div>                
+                </div>
 
             </div>
         </div>
@@ -83,7 +83,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
 
-                            
+
                                @if($monthtime_flag==1)
                                    <a class="opt-add-main-group">新增主管分组</a>
                                    <a class="opt-assign-main-group">分配小组</a>
@@ -120,5 +120,3 @@
     </section>
 
 @endsection
-                
-               
