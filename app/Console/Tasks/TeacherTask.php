@@ -603,7 +603,6 @@ class TeacherTask extends TaskController
                         if($lesson_key==="has_rate"){
                             continue;
                         }
-                        
                         $lesson_val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($lesson_val,$type);
                         $lesson_val['info'] = "老师由于您的1对1未在课程结束后2天内，未给出反馈，对家长了解孩子情况造成不便，扣款"
                                      .$lesson_val['cost']."元，请下次注意及时给出反馈。";
@@ -723,7 +722,7 @@ class TeacherTask extends TaskController
         if(is_array($lesson_list)){
             foreach($lesson_list as &$val){
                 if(time() >= ($val["lesson_start"]-1800)){
-                    
+
                     $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
                     if($openid){
                         $lesson_time     = date("m-d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
@@ -743,7 +742,7 @@ class TeacherTask extends TaskController
                         $data['keyword3'] = $val["tea_nick"];
 
                         $data['remark']   = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
-                        $url = "";                      
+                        $url = "";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
  

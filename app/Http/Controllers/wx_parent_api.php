@@ -403,7 +403,7 @@ class wx_parent_api extends Controller
 
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
             ];
@@ -1083,6 +1083,35 @@ class wx_parent_api extends Controller
             $wx->send_template_msg($item_openid, $parent_template_id, $data_leo, $url_leo);
         }
 
+    }
+
+
+
+    public function input_student_score (){ //家长录入学生成绩
+        $score   = $this->get_in_int_val('score');
+        $subject = $this->get_in_int_val('subject');
+        $stu_score_type = $this->get_in_int_val('stu_score_type');
+        $rank    = $this->get_in_int_val('rank');
+        $grade_rank  = $this->get_in_int_val('grade_rank');
+        $total_score = $this->get_in_int_val('total_score');
+        $reason  = $this->get_in_str_val('reason');
+
+
+        $ret = $this->t_student_score_info->row_insert([
+            'score'      => $score,
+            'subject'    => $subject,
+            'stu_score_type' => $stu_score_type,
+            'rank'        => $rank,
+            'grade_rank'  => $grade_rank,
+            'total_score' => $total_score,
+            'reason'      => $reason
+        ]);
+
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err();
+        }
     }
 
 

@@ -8935,7 +8935,8 @@ lesson_type in (0,1) "
     }
 
     public function get_common_stu_performance($lessonid) {
-        $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d",
+
+        $sql = $this->gen_sql_new("select t.stu_performance from %s t where t.lessonid = %d and t.lesson_del_flag = 0",
                                   self::DB_TABLE_NAME,
                                   $lessonid
         );

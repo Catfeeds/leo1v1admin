@@ -2606,9 +2606,7 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $start_time = strtotime(date("Y-m-d",time()));
-        $end_time   = time();
         $end_time   = $start_time+86400;
-
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,16);
         if(is_array($lesson_list)){
@@ -2654,6 +2652,7 @@ class user_deal extends Controller
             }
         }
 
+       
     
         
         dd($lesson_list);
