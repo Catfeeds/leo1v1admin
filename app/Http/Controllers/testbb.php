@@ -47,62 +47,7 @@ class testbb extends Controller
 
 
     public function test () {
-        $userid = $this->get_in_int_val('parentid');
-
-        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
-        dd($parent_lesson_total);
-        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid(100);
-        // dd($gift_info);
-        dd($gift_info['userid']);
-        // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
-        $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
-        $rock_gift_num = count($all_gift_list);
-
-        $index = mt_rand(0,$rock_gift_num-1);
-
-        $prize_code = $all_gift_list[$index]['prize_code'];
-
-        dd($prize_code);
-        $index = mt_rand(0,count($r)-1);
-
-
-        dd($index);
-        dd($r[$index]);
-        // if($all_gift_list[$index]){
-
-        // }
-
-
-        dd($r);
-        $d = strtotime(date("Y-m-d",strtotime('+1 day')));
-        dd($d);
-
-        $market_activity_type = -1;
-        $parentid = '';
-        if(!$parentid && ($market_activity_type<0)) {
-            return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!$market_activity_type");
-        }
-
-        dd(($market_activity_type > 0));
-        header("Location: https://www.baidu.com");
-        exit;
-        /**
-           获取code
-           https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-           define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
-           define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
-
-        ***/
-        $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
-
-        $redirect_url = urlencode($url);
-
-        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-
-
-        dd($url);
-
+        $a = [];
     }
 
     public function lesson_send_msg(){

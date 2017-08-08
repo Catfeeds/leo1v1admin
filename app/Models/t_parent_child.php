@@ -93,12 +93,13 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
 
     public function get_student_lesson_total_by_parentid($userid){
         $where_arr = [
-            "o.contract_type in (0,3 )",
+            "o.contract_type in (0,3)",
             "o.contract_status >0",
             "pc.parentid = $userid"
         ];
 
-        $sql = $this->gen_sql_new(" select sum(o.lesson_total*o.default_lesson_count) as lesson_num from %s pc".
+        $sql = $this->gen_sql_new(" select sum(o.lesson_total*o.default_lesson_count) as lesson_num "
+                                  ." from %s pc".
                                   " left join %s s on s.userid = pc.userid".
                                   " left join %s o on o.userid = s.userid".
                                   " where %s",
@@ -106,12 +107,29 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   $where_arr
-
         );
-
         return $this->main_get_value($sql);
-
     }
 
+    public function get_userid_by_parentid($parentid){
+        $where_arr = [
+            ["parentid=%u",$parentid,0]
+        ];
+        $sql = $this->gen_sql_new("select userid"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
+    public function get_userid_list_by_parentid($parentid){
+        $sql = $this->gen_sql_new(" select userid from %s pc where parentid = %d",
+                                  self::DB_TABLE_NAME,
+                                  $parentid
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

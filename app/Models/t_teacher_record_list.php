@@ -378,6 +378,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.teacherid=%u",$teacherid,-1],
             ["t.is_test_user=%u",$is_test,-1],
             ["lesson_status=%u",$lesson_status,-1],
+            ["tr.trial_train_status=%u",$status,-1],
             "tr.type=1",
             "tr.lesson_style=5",
             "l.lesson_type=1100",
@@ -888,6 +889,17 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function check_lesson_record_exist($lessonid,$type,$lesson_style){
+        $sql = $this->gen_sql_new("select id from %s "
+                                  ."where train_lessonid=%u and type= %u and lesson_style=%u",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $type,
+                                  $lesson_style
         );
         return $this->main_get_value($sql);
     }

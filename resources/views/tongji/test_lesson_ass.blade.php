@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
 
-	<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
-	<script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
+  <script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.categories.js"></script>
+  <script language="javascript" type="text/javascript" src="/page_js/lib/select_date_range.js"></script>
     <script type="text/javascript" >
-     
+
      var g_data_ex_list= <?php  echo json_encode($table_data_list); ?> ;
     </script>
 
@@ -28,7 +28,7 @@
         <div id="id_pic_user_count" > </div>
 
             <hr/>
-            <table     class="common-table"  > 
+            <table     class="common-table"  >
                 <thead>
                     <tr>
 
@@ -78,6 +78,5 @@
             </table>
 
     </section>
-        
-@endsection
 
+@endsection

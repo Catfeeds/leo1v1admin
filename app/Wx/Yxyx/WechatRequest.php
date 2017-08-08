@@ -517,12 +517,12 @@ class WechatRequest  {
                 'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_introduction',
             );
 
-            $tuwenList[] = array(
-                'title' => '理优1对1用户指南',
-                'description' => '',
-                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
-                'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_guide',
-            );
+            // $tuwenList[] = array(
+            //     'title' => '理优1对1用户指南',
+            //     'description' => '',
+            //     'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/0db16ea2f7fe8bea4d08d39dcd90478e1501039384123.jpg',
+            //     'url' => 'http://admin.yb1v1.com/article_wx/leo_yxyx_guide',
+            // );
         }
         $item = array();
         foreach($tuwenList as $tuwen){

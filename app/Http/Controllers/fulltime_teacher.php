@@ -12,7 +12,7 @@ class fulltime_teacher extends Controller
 
     public function full_assessment_list(){
         $adminid = $this->get_account_id();
-        // $adminid=204; //WUhan
+        //  $adminid=713; //WUhan
         // $adminid=920; //Shanghai
         //print_r($adminid);
         $this->set_in_value("tea_adminid",$adminid);
@@ -50,18 +50,11 @@ class fulltime_teacher extends Controller
         $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
         $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
-        if($val['lesson_count_avg'] >=0 && $val['lesson_count_avg'] < 60){
-            $account_info['lesson_count_avg_score'] = 5;
-        }else if($val['lesson_count_avg'] < 70){
-            $account_info['lesson_count_avg_score'] = 10;
-        }else if($val['lesson_count_avg'] < 80){
-            $account_info['lesson_count_avg_score'] = 15;
-        }else if($val['lesson_count_avg'] < 90){
-            $account_info['lesson_count_avg_score'] = 20;
-        }else if($val['lesson_count_avg'] >= 90){
-            $account_info['lesson_count_avg_score'] = 25;
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
+        if($account_info["lesson_count_avg_score"]>=25){
+            $account_info["lesson_count_avg_score"]=25;
         }
-        
+               
         if((time() - $account_info["create_time"])>60*86400){
             $time_flag=1;
         }else{
@@ -76,7 +69,7 @@ class fulltime_teacher extends Controller
         // $account_info["order_per"] =!empty($lesson_info["person_num"])?round($lesson_info["have_order"]/$lesson_info["person_num"]*100,2):0;
         $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid,$account_info["create_time"],time());
 
-        $account_info["order_per_score"] = ceil(0.2*$account_info["order_per"]*2);
+        $account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
         if($account_info["order_per_score"]>=20){
             $account_info["order_per_score"]=20;
         }
@@ -125,29 +118,17 @@ class fulltime_teacher extends Controller
             $account_info["stu_lesson_total_score"]=5; 
         }
         
-        if($account_info['fulltime_teacher_type'] > 1){
-            $ret_info["result_score"] = $account_info["order_per_score"]+$account_info["lesson_count_avg_score"];
-        }else{
-            $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
-        }
-
+        $account_info["result_score"] = $account_info["order_per_score"]+$account_info["lesson_count_avg_score"];
+       
         $ret_info = $this->t_fulltime_teacher_assessment_list->get_all_info_by_adminid($adminid);
-        //dd($ret_info);
-        $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["stu_lesson_total_score"];
         $positive_info=[];
         if($ret_info){
             $ret_info["assess_time_str"] = $ret_info["assess_time"]>0?date("Y-m-d H:i:s",$ret_info["assess_time"]):"";
             $ret_info["assess_admin_nick"] =  $ret_info["assess_adminid"]>0?$this->t_manager_info->get_name($ret_info["assess_adminid"]):"";
-            if($account_info['fulltime_teacher_type'] > 1){
-                $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["lesson_count_avg_score"]+$ret_info["lesson_level_score"];
-                $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
+            $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["lesson_count_avg_score"]+$ret_info["lesson_level_score"];
+            $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
 
-            }else{
-                $ret_info["result_score_new"] = $ret_info["complaint_refund_score"]+$account_info["order_per_score"]+$account_info["stu_num_score"]+$ret_info["lesson_level_score"]+$account_info["stu_lesson_total_score"];
-                $ret_info["total_score_new"] = $ret_info["result_score_new"]-$ret_info["result_score"]+$ret_info["total_score"];
-
-            }
-           
+                     
             if( $ret_info["total_score_new"] >= 95){
                 $ret_info["rate_stars_new"] = 5;
             }else if( $ret_info["total_score_new"] >= 88){
@@ -223,46 +204,28 @@ class fulltime_teacher extends Controller
             $teacherid=1;
         }
         $account_info = $this->t_manager_info->field_get_list($adminid,"create_time,name,post,main_department");  
-        $lesson_info  = $this->t_lesson_info_b2->get_teacher_test_lesson_order_info($teacherid,$account_info["create_time"],time());
-         
-        $account_info["order_per"] =!empty($lesson_info["person_num"])?round($lesson_info["have_order"]/$lesson_info["person_num"]*100,2):0;
-        $account_info["order_per_score"] = ceil(0.2*$account_info["order_per"]*2);
+        
+        $start_time = $account_info['create_time'];
+        $end_time   = time();
+        $n = ($end_time - $start_time)/86400/31;
+        $qz_tea_arr = array("$teacherid");
+        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        $val = $teacher_info;
+        $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
+        $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
+        $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
+        if($account_info["lesson_count_avg_score"]>=25){
+            $account_info["lesson_count_avg_score"]=25;
+        }
+  
+        $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid,$account_info["create_time"],time());
+
+        $account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
         if($account_info["order_per_score"]>=20){
             $account_info["order_per_score"]=20;
         }
-        $normal_stu_num = $this->t_week_regular_course->get_tea_stu_num_list_new($teacherid);
-        $account_info["stu_num"] = $normal_stu_num["num"];
-        if( $account_info["stu_num"]>=15){
-            $account_info["stu_num_score"] =15;
-        }else{
-            $account_info["stu_num_score"] =$account_info["stu_num"];
-        }
-        $account_info["stu_lesson_total"] = $normal_stu_num["lesson_all"]/100;
-        $rate_info = $this->t_teacher_label->get_parent_rate_info($teacherid);
-        if($rate_info["num"] >0){
-            $account_info["lesson_level"] = $rate_info["level"];
-        }else{
-            $account_info["lesson_level"]=5;
-        }
-        if($account_info["lesson_level"]>=3){
-            $account_info["lesson_level_score"] = $account_info["lesson_level"];
-        }else{
-            $account_info["lesson_level_score"]=0;
-        }
-        if( $account_info["stu_lesson_total"]>=50){
-            $account_info["stu_lesson_total_score"]=10;
-        }elseif( $account_info["stu_lesson_total"]>=40){
-            $account_info["stu_lesson_total_score"]=8;
-        }elseif( $account_info["stu_lesson_total"]>=30){
-            $account_info["stu_lesson_total_score"]=6;
-        }elseif( $account_info["stu_lesson_total"]>=20){
-            $account_info["stu_lesson_total_score"]=4;
-        }elseif( $account_info["stu_lesson_total"]>=10){
-            $account_info["stu_lesson_total_score"]=2;
-        }else{
-            $account_info["stu_lesson_total_score"]=0;
-        }
-        $account_info["result_score"] = $account_info["order_per_score"]+$account_info["stu_num_score"]+$account_info["lesson_level_score"]+$account_info["stu_lesson_total_score"];
+
 
         return $this->output_succ(["data"=>$account_info]);
  

@@ -1538,4 +1538,10 @@ class test_code extends Controller
         dd($arr);
     }
 
+    public function test_email(){
+        $email = "wg392567893@163.com";
+        $ret= \App\Helper\Common::send_paper_mail_new($email,"测试邮件","is test email");
+        dd($ret);
+    }
+
 }

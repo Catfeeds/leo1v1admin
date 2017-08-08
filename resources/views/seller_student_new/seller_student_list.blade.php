@@ -471,6 +471,11 @@
 
 
     <div style="display:none;" id="id_dlg_post_user_info">
+
+        <div class="alert alert-danger note-info" style="margin-bottom:0px" >
+            <strong>重要提示:</strong> <span>  xx </span>
+        </div>
+
         <div class="row">
             <div class="col-xs-12 col-md-6  ">
                 <div class="row">

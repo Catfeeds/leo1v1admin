@@ -30,11 +30,8 @@ class wx_parent_gift extends Controller
         $token_info = $wx->get_token_from_code($code);
         $openid   = @$token_info["openid"];
 
-        // dd($openid);
         $is_parent_flag = $this->t_parent_info->get_parentid_by_wx_openid($openid);
-        // echo $is_parent_flag; //orwGAs_IqKFcTuZcU1xwuEtV3Kek 271968
         if($is_parent_flag){
-            // return $is_parent_flag;
             header("location: http://wx-parent-web.leo1v1.com/anniversary_day/index.html?parentid=".$is_parent_flag);
             return ;
         }else{
@@ -49,8 +46,6 @@ class wx_parent_gift extends Controller
         $file = Input::file('file');
         // dd($file);
         if ($file->isValid()) {
-            //处理列
-
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
             set_time_limit(90);
             ini_set("memory_limit", "1024M");
@@ -58,7 +53,6 @@ class wx_parent_gift extends Controller
             $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
-
             foreach($arr as $item){
                 if($item["A"] && $item["B"]){
                     $this->t_parent_luck_draw_in_wx->row_insert([
@@ -69,11 +63,8 @@ class wx_parent_gift extends Controller
             }
             return outputjson_success();
         } else {
-            //return 111;
-            //dd(222);
             return outputjson_ret(false);
         }
-
     }
 
 
@@ -81,6 +72,7 @@ class wx_parent_gift extends Controller
     public function do_prize_draw(){
         // 获取 每个家长的等级
         $userid = $this->get_in_int_val('parentid');
+
         $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
         $parent_num = $parent_lesson_total/100;
 
@@ -178,6 +170,7 @@ class wx_parent_gift extends Controller
             return $this->output_succ($gift_info);
         }else{
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
+            // $this->t_parent_luck_draw_in_wx->start_transaction();
             if($price >0){
                 $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
                 $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
@@ -196,11 +189,11 @@ class wx_parent_gift extends Controller
                 $id = $this->t_parent_luck_draw_in_wx->get_id_by_code($prize_code);
                 if($id){
                     $ret_add = $this->t_parent_luck_draw_in_wx->field_update_list($id,[
-                        "prize_code" => $prize_code,
-                        "userid"     => $userid,
-                        "add_time"   => time(),
-                        "receive_time" =>time(),
-                        "price"      => $price
+                        "prize_code"   => $prize_code,
+                        "userid"       => $userid,
+                        "add_time"     => time(),
+                        "receive_time" => time(),
+                        "price"        => $price
                     ]);
 
                     if($ret_add){
@@ -212,27 +205,29 @@ class wx_parent_gift extends Controller
             }else{
                 $receive_time = '';
                 $ret_add = $this->t_parent_luck_draw_in_wx->row_insert([
-                    "prize_code" => $prize_code,
+                    "prize_code" => '',
                     "userid"     => $userid,
                     "add_time"   => time(),
                     "receive_time" =>$receive_time,
                     "price"      => $price
                 ]);
-            }
 
-            if($ret_add){
-                $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+                $gift_info = ['prize_code'=>'','userid'=>$userid,'price'=>$price];
                 return $this->output_succ($gift_info);
             }
+
+            // $this->t_parent_luck_draw_in_wx->commit();
+            // if($ret_add){
+            $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
+            return $this->output_succ($gift_info);
+            // }
         }
     }
 
-
-
     public function send_prize_info($parentid,$content,$value){
-        $acc     = $this->get_account();
+        $acc = $this->get_account();
 
-        $userid = $this->t_student_init_info->get_userid_by_parentid($parentid);
+        $userid = $this->t_parent_child->get_userid_by_parentid($parentid);
         $this->t_baidu_msg->start_transaction();
         $ret = $this->t_baidu_msg->baidu_push_msg($userid,$content,$value,1007,0);
         if(!$ret){
@@ -259,7 +254,6 @@ class wx_parent_gift extends Controller
             }
         }
         $this->t_baidu_msg->commit();
-
         return $this->output_succ();
     }
 

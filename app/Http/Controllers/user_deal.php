@@ -2605,20 +2605,79 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
-        $teacher_info = $this->t_teacher_info->get_teacher_info(240314);
-        $this->teacher_train_through_deal($teacher_info);
-        dd(111);
-
-       
-        $tea_list=[50728];
-        $teacher_label_list = $this->t_teacher_label->get_info_by_teacherid(-1,$tea_list);
-        $label_list = $this->get_teacher_label_new($tea_list);
-        dd($teacher_label_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
-        $this->t_month_ass_student_info->get_field_update_arr(541,$start_time,1,[
-            "kk_num"  =>18
+        $qz_tea_arr=[51094];
+        $rr = $this->get_fulltime_teacher_lesson_per($qz_tea_arr,$start_time,$end_time);
+        dd($rr);
+        
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = $start_time+86400;
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,16);
+        if(is_array($lesson_list)){
+            foreach($lesson_list as &$val){
+                if(time() >= ($val["lesson_start"]-1800)){
+                    
+                    $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    if($openid){
+                        $lesson_time     = date("m-d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
+                        /**
+                         * 标题        课前提醒
+                         * template_id gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
+                         * {{first.DATA}}
+                         * 上课时间：{{keyword1.DATA}}
+                         * 课程类型：{{keyword2.DATA}}
+                         * 教师姓名：{{keyword3.DATA}}
+                         * {{remark.DATA}}
+                         */
+                        $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
+                        $data['first']    = "老师您好,您于30分钟后有一节模拟试听课";
+                        $data['keyword1'] = $lesson_time;
+                        $data['keyword2'] = "模拟试听课";
+                        $data['keyword3'] = $val["tea_nick"];
+
+                        $data['remark']   = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+                        $url = "";                      
+
+                        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                        $wx_before_thiry_minute_remind_flag = 1;
+                    }else{
+                        $wx_before_thiry_minute_remind_flag = 2;
+                        \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                    }
+
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_before_thiry_minute_remind_flag"   => $wx_before_thiry_minute_remind_flag
+                    ]);
+ 
+                }
+               
+
+            }
+        }
+
+       
+    
+        
+        dd($lesson_list);
+
+        $teacherid = 240314; 
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $ret = $this->add_trial_train_lesson($teacher_info,1);
+        $lessonid = $this->t_lesson_info->get_last_insertid();
+        dd($lessonid);
+        for($i=1;$i<=50;$i++){
+            \App\Helper\office_cmd::add_one(1,$i,0);
+        }
+        dd(111);
+        $sync_data_list=\App\Helper\Common::redis_get_json("office_cmd");
+        dd($sync_data_list);
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+        $this->t_month_ass_student_info->get_field_update_arr(324,$start_time,1,[
+            "kk_num"  =>31
         ]);
         dd(111);
 
@@ -4670,7 +4729,6 @@ class user_deal extends Controller
         $active_share_score = $this->get_in_int_val("active_share_score");
         $active_part_score = $this->get_in_int_val("active_part_score");
         $order_per_score = $this->get_in_int_val("order_per_score");
-        $stu_num_score  = $this->get_in_int_val("stu_num_score");
         $lesson_level_score = $this->get_in_int_val("lesson_level_score");
         $stu_lesson_total_score = $this->get_in_int_val("stu_lesson_total_score");
         $complaint_refund_score = $this->get_in_int_val("complaint_refund_score");
@@ -4681,7 +4739,6 @@ class user_deal extends Controller
         $total_score = $this->get_in_int_val("total_score");
         $rate_stars = $this->get_in_int_val("rate_stars");
         $order_per = $this->get_in_str_val("order_per");
-        $stu_num = $this->get_in_int_val("stu_num");
         $stu_lesson_total  = $this->get_in_int_val("stu_lesson_total");
         $admin_info = $this->t_manager_info->field_get_list($adminid,"post,main_department");
         $this->t_fulltime_teacher_assessment_list->row_insert([
@@ -4708,7 +4765,6 @@ class user_deal extends Controller
             "active_share_score"        =>$active_share_score,
             "active_part_score"         =>$active_part_score,
             "order_per_score"           =>$order_per_score,
-            "stu_num_score"             =>$stu_num_score,
             "lesson_level_score"        =>$lesson_level_score,
             "stu_lesson_total_score"    =>$stu_lesson_total_score,
             "complaint_refund_score"    =>$complaint_refund_score,
@@ -4722,7 +4778,6 @@ class user_deal extends Controller
             "post"                      =>7,
             "main_department"           =>2,
             "order_per"                 =>$order_per,
-            "stu_num"                   =>$stu_num,
             "stu_lesson_total"          =>$stu_lesson_total ,
             "lesson_level"              =>$lesson_level_score
         ]);

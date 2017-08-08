@@ -68,6 +68,8 @@ class wx_parent_common extends Controller
         }
         $parentid=$this->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_PARENT );
 
+        \App\Helper\Utils::logger("market_activity_type:$market_activity_type");
+
         if(!$parentid && ($market_activity_type<0)) {
             return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!");
         }
@@ -113,19 +115,17 @@ class wx_parent_common extends Controller
         }
 
         if($market_activity_type == 1){
-            // $ret = $this->t_parent_info->row_insert([
-            //     "wx_openid" => $wx_openid,
-            //     "phone"     => $phone
-            // ]);
             $passwd = 111111;
             $reg_channel = '';
             $ip = 0;
             $nick = "";
             $parentid = $this->t_parent_info->register($phone, $passwd, $reg_channel , $ip,$nick);
 
+            $this->t_parent_info->field_update_list($parentid,[
+                "wx_openid" => $wx_openid
+            ]);
 
             return $this->output_succ(["type"=>$market_activity_type,"parentid"=> $parentid]);
-
         }
 
         $db_parentid = $this->t_parent_info->get_parentid_by_wx_openid($wx_openid );

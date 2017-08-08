@@ -32,6 +32,13 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span >学生 </span>
+                        <input type="text" value=""  class="opt-change"  id="id_userid"  placeholder="" />
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span class="input-group-addon">科目</span>
                         <select class="opt-change form-control" id="id_subject" >
                         </select>
@@ -58,6 +65,7 @@
                     <td>老师</td>
                     <td>科目</td>
                     <td>年级</td>
+                    <td>学生</td>
                     <td>是否反馈</td>
                     
                     <td> 操作  </td>
@@ -75,6 +83,7 @@
                                 {{@$var["grade_part_ex_str"]}}
                             @endif
                         </td>
+                        <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
 
                         <td>
@@ -84,6 +93,9 @@
                                
                                     <a class="opt-first-lesson-video" >视频</a>
                                     <a class="opt-first-lesson-record" >反馈</a>
+                                    @if($var["id"]>0)
+                                        <a class="opt-first-lesson-record-list" >反馈详情</a>
+                                    @endif
 
                             </div>
                         </td>

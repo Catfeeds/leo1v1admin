@@ -637,7 +637,8 @@ class teacher_level extends Controller
     }
 
 
-    public function get_frist_test_lesson_info(){
+    //第一次试听课列表
+    public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
         list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
@@ -659,6 +660,161 @@ class teacher_level extends Controller
         }
 
         return $this->pageView(__METHOD__,$ret_info);
+ 
+    }
+
+    //第五次试听课列表
+    public function get_fifth_test_lesson_info(){
+        $this->switch_tongji_database();
+        $page_info = $this->get_in_page_info();
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $subject         = $this->get_in_int_val("subject",-1);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $record_flag       = $this->get_in_int_val("record_flag",0);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+            if($item["id"]>0){
+                $item["record_flag_str"]="已反馈";
+            }else{
+                $item["record_flag_str"]="未反馈";
+            }
+  
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+ 
+    }
+
+    //第一次常规课课列表
+    public function get_first_regular_lesson_info(){
+        $this->switch_tongji_database();
+        $page_info = $this->get_in_page_info();
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $subject         = $this->get_in_int_val("subject",-1);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $userid       = $this->get_in_int_val("userid",-1);
+        $record_flag       = $this->get_in_int_val("record_flag",0);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+            if($item["id"]>0){
+                $item["record_flag_str"]="已反馈";
+            }else{
+                $item["record_flag_str"]="未反馈";
+            }
+  
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+ 
+    }
+
+    //第五次常规课课列表
+    public function get_fifth_regular_lesson_info(){
+        $this->switch_tongji_database();
+        $page_info = $this->get_in_page_info();
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        $subject         = $this->get_in_int_val("subject",-1);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $userid       = $this->get_in_int_val("userid",-1);
+        $record_flag       = $this->get_in_int_val("record_flag",0);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item,"subject");
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+            if($item["id"]>0){
+                $item["record_flag_str"]="已反馈";
+            }else{
+                $item["record_flag_str"]="未反馈";
+            }
+  
+        }
+
+        return $this->pageView(__METHOD__,$ret_info);
+ 
+    }
+
+
+
+
+
+    public function set_teacher_record_info(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $lessonid                         = $this->get_in_int_val("lessonid",0);
+        $record_lesson_list               = $this->get_in_str_val("lesson_list","");
+        $tea_process_design_score         = $this->get_in_int_val('tea_process_design_score');
+        $knw_point_score                  = $this->get_in_int_val('knw_point_score');
+        $teacher_blackboard_writing_score = $this->get_in_int_val('teacher_blackboard_writing_score');
+        $tea_rhythm_score                 = $this->get_in_int_val('tea_rhythm_score');
+        $language_performance_score       = $this->get_in_int_val('language_performance_score');
+        $answer_question_cre_score        = $this->get_in_int_val('answer_question_cre_score');
+        $tea_concentration_score          = $this->get_in_int_val('tea_concentration_score');
+        $tea_operation_score              = $this->get_in_int_val('tea_operation_score');
+        $tea_environment_score            = $this->get_in_int_val('tea_environment_score');
+        $class_abnormality_score          = $this->get_in_int_val('class_abnormality_score');
+        $record_info                      = $this->get_in_str_val("record_info","");
+        $record_score                     = $this->get_in_int_val("score",0);
+        $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
+        $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
+        $sshd_good                        = $this->get_in_str_val("sshd_good");
+        $record_type                     = $this->get_in_int_val("type");
+        $lesson_style                    = $this->get_in_int_val("lesson_style");
+       
+        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        if($id>0){
+            $ret = $this->t_teacher_record_list->field_update_list($id,[
+                "tea_process_design_score"         => $tea_process_design_score,
+                "knw_point_score"                  => $knw_point_score,
+                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
+                "tea_rhythm_score"                 => $tea_rhythm_score,
+                "language_performance_score"       => $language_performance_score,
+                "answer_question_cre_score"        => $answer_question_cre_score,
+                "tea_concentration_score"          => $tea_concentration_score,
+                "tea_operation_score"              => $tea_operation_score,
+                "tea_environment_score"            => $tea_environment_score,
+                "class_abnormality_score"          => $class_abnormality_score,
+                "record_info"                      => $record_info,
+                "record_score"                     => $record_score,
+                "no_tea_related_score"             => $no_tea_related_score,
+                "record_monitor_class"             => $record_monitor_class,
+            ]);
+ 
+        }else{
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $teacherid,
+                "type"           => $record_type,
+                "add_time"       => time(),
+                "train_lessonid" => $lessonid,
+                "lesson_style"   => $lesson_style,
+                "tea_process_design_score"         => $tea_process_design_score,
+                "knw_point_score"                  => $knw_point_score,
+                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
+                "tea_rhythm_score"                 => $tea_rhythm_score,
+                "language_performance_score"       => $language_performance_score,
+                "answer_question_cre_score"        => $answer_question_cre_score,
+                "tea_concentration_score"          => $tea_concentration_score,
+                "tea_operation_score"              => $tea_operation_score,
+                "tea_environment_score"            => $tea_environment_score,
+                "class_abnormality_score"          => $class_abnormality_score,
+                "record_info"                      => $record_info,
+                "record_score"                     => $record_score,
+                "no_tea_related_score"             => $no_tea_related_score,
+                "record_monitor_class"             => $record_monitor_class
+            ]);
+
+        }
+        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+
+        return $this->output_succ();
  
     }
 
