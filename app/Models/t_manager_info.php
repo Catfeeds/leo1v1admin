@@ -1457,5 +1457,38 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
 
     }
+    //全职老师统计
+    public function get_fulltime_teacher_count($account_role){
+        
+        $where_arr=[
+            "m.account_role =5 ",
+            //"m.del_flag =0 ",
+            //["m.uid = %u",$adminid,-1],
+            //["m.become_full_member_flag = %u",$become_full_member_flag,-1],
+            //["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(m.uid) as fulltime_teacher_count  "
+                                  ." from %s m left join %s a on m.phone= a.phone "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        //dd($sql); 
+        return $this->main_get_list($sql);
+    }
+    //全职老师学生数统计（此处获取全职老师id列表)
+    public function get_fulltime_teacher_student_count($account_role){
+        $where_arr=[
+            " m.account_role=5 ",
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid  from %s m"
+                                  ." left join %s t on m.phone=t.phone where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

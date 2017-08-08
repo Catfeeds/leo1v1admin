@@ -2625,5 +2625,21 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+    /**
+     *function 统计平台全部学员(type=0,is_test_user=0)
+     *
+     */
+    public function get_total_student_num($type){
+        $where_arr = [
+            " type=0 ",
+            " is_test_user=0 "
+        ];
+        $sql = $this->gen_sql_new(" select count(userid) as platform_teacher_student "
+                                  ." from %s where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
 
+        );
+        return $this->main_get_list($sql);
+    }
 }
