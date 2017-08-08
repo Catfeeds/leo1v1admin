@@ -514,7 +514,7 @@ class common_new extends Controller
                   8 => "是否有pad"
                   9 => "家长姓名"
                 */
-                $phone          = $item[0];
+                $phone          = $item[0]*1;
                 $phone_location = $item[1];
                 $origin         = $item[3];
                 $nick           = $item[4];

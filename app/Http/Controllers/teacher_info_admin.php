@@ -552,4 +552,46 @@ class teacher_info_admin extends Controller
         return outputjson_success(array('data' => $ret_info));
     }
 
+    public function  file_store()   {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $dir= $this->get_in_str_val("dir");
+        $teacherid=10001;
+        if (!$dir) {
+            $dir= "/";
+        }
+
+
+        $store=new \App\FileStore\file_store_tea();
+        $ret_list=$store->list_dir($teacherid, $dir);
+        foreach ( $ret_list  as &$item  ) {
+            if (!$item["is_dir"]) {
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            }
+            $item["abs_path"] =  $dir .$item["file_name"];
+        }
+
+        array_unshift( $ret_list, [ "is_dir" => true,
+                                    "file_name" => "返回上级目录" ,
+                                    "abs_path" => dirname($dir),
+                                    "file_size" =>"",
+                                    "create_time" =>"",
+        ] );
+
+
+        return $this->pageView(
+            __METHOD__,
+            \App\Helper\Utils::list_to_page_info($ret_list) ,["cur_dir"=>$dir] );
+
+    }
+    public function file_store_add_dir()  {
+        $teacherid = $this->get_in_int_val("teacherid");
+        $dir= $this->get_in_str_val("dir");
+        $dir_name = trim($this->get_in_str_val("dir_name"));
+        if (preg_match("/[\/\\]/", $dir_name,$martchs) ) {
+            return $this->output_err("出现非法字符:". $martchs[0]);
+        }
+        $obj_dir=$dir.$dir_name;
+        \App\Helper\Utils::logger("obj_dir:$obj_dir");
+
+    }
 }
