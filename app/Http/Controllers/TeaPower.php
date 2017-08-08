@@ -51,11 +51,11 @@ trait  TeaPower {
                         }
                     }
                 }elseif($day>=2 && $day <=5  && !in_array($teacherid,$tea_arr)){
-                    if(!empty($lesson_start)){
+                    /* if(!empty($lesson_start)){
                         if($h <18){
                             return $this->output_err("教研老师周二至周五只能18点以后排课");
                         }
-                    }
+                        }*/
                 }
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){

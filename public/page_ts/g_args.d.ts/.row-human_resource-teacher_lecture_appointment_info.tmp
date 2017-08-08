@@ -47,8 +47,6 @@
 	full_status_str	:any;
 	trans_grade_str	:any;
 	subject_num	:any;
-	tea_subject	:any;
-	tea_textbook	:any;
 	phone_ex	:any;
 	qq_ex	:any;
 	email_ex	:any;

@@ -6868,32 +6868,89 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $is_full_time = 0;  // 显示兼职老师
 
-        list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
-        $page_info = $this->get_in_page_info();
+        // list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        // $page_info = $this->get_in_page_info();
 
-        $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
+        // $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
+        // $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
-        // dd($ret_info);
-        foreach($ret_info['list'] as $index=> &$item_list){
-            if($item_list['lesson_count_total'] == 0){
-                unset($ret_info['list'][$index]);
-            }
-            $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+        // // dd($ret_info);
+        // foreach($ret_info['list'] as $index=> &$item_list){
+        //     if($item_list['lesson_count_total'] == 0){
+        //         unset($ret_info['list'][$index]);
+        //     }
+        //     $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
-            if($item_list['train_through_new_time'] !=0){
-                $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
-            }else{
-                $item_list["work_time"] = 0;
-            }
+        //     if($item_list['train_through_new_time'] !=0){
+        //         $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
+        //     }else{
+        //         $item_list["work_time"] = 0;
+        //     }
 
-            E\Eteacher_money_type::set_item_value_str($item_list);
+        //     E\Eteacher_money_type::set_item_value_str($item_list);
+        // }
+
+        // // dd($ret_info);
+        // \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
+        // return $this->pageView(__METHOD__,$ret_info);
+
+
+
+        $this->switch_tongji_database();
+        $sum_field_list=[
+            "stu_num",
+            "valid_count",
+            "family_change_count",
+            "teacher_change_count",
+            "fix_change_count",
+            "internet_change_count",
+            "student_leave_count",
+            "teacher_leave_count",
+        ];
+        $order_field_arr=  array_merge(["teacher_nick" ] ,$sum_field_list );
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"teacher_nick desc");
+        $assistantid= $this->get_in_int_val("assistantid",-1);
+
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],2);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time);
+
+        foreach($ret_info as &$item_ret){
+            $item_ret['lesson_rate'] = number_format($item_ret['lesson_rate'],2);
+            $item_ret['lesson_lose_rate'] = ($item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'])/ ($item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count']);
+
+            $item_ret['lesson_lose_rate'] = number_format($item_ret['lesson_lose_rate'],2);
         }
 
+
+        $all_item=["ass_nick" => "全部" ];
+        foreach ($ret_info as &$item) {
+            foreach ($item as $key => $value) {
+                if ((!is_int($key)) && ($key != "assistantid" )) {
+                    $all_item[$key]=(@$all_item[$key])+$value;
+                }
+            }
+            $item["ass_nick"]=$this->t_assistant_info->get_nick($item['assistantid']);
+        }
+
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
+        }
+
+        array_unshift($ret_info, $all_item);
         // dd($ret_info);
-        \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
+
+
+
+
+
+
 
     }
 

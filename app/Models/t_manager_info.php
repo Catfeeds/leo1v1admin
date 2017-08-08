@@ -152,7 +152,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if ($user_info >0 ) {
             $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
         }else{
-            $where_arr[]=[  "t1.account like '%%%s%%'", $user_info, "" ] ;
+            if ($user_info!=""){
+                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
         }
         if ( !$has_question_user  ) {
             $where_arr[] = [  "t1.account not like 'c\_%s%%'", "",  1] ;

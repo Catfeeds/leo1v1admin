@@ -378,6 +378,10 @@ class main_page extends Controller
          ]);
     }
 
+    public function  quality_control(){
+        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+
+    }
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
