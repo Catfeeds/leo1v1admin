@@ -23,6 +23,7 @@ class TeacherTask extends TaskController
      * @param lesson_info 课堂信息
      * @param type 1 课堂未评价通知 2-6 扣款通知 7 课堂结算通知 8 提醒上传学生讲义
      *             9 学生上传作业 10 课堂信息有误(学生,老师讲义,作业上传有问题)
+     *             15试听/试听模拟课课前4小时未上传讲义通知
      * @param url  点击通知所跳转的地址
      * @return array
      */
@@ -38,7 +39,7 @@ class TeacherTask extends TaskController
         $tea_nick = $lesson_info['tea_nick'];
 
         $grade_str       = E\Egrade::get_desc($lesson_info['grade']);
-        $lesson_count    = $lesson_info['lesson_count'];
+        $lesson_count    = $lesson_info['lesson_count'];        
         $lesson_type_str = $lesson_info['lesson_type']==2?"试听课":"1对1";
         $lesson_time     = date("m-d H:i",$lesson_info['lesson_start'])."-".date("H:i",$lesson_info['lesson_end']);
         $str_ex          = "";
@@ -91,7 +92,7 @@ class TeacherTask extends TaskController
             $data['keyword1'] = $lesson_type_str;
             $data['keyword2'] = $lesson_time;
             $data['keyword3'] = "待确认";
-        }elseif($type==8 || $type==12){
+        }elseif($type==8 || $type==12 || $type=16){
             /**
              * 标题        课前提醒
              * template_id gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
@@ -655,5 +656,114 @@ class TeacherTask extends TaskController
         }
 
     }
+
+    /**
+     * 试听/试听模拟课课前4小时未传学生讲义
+     * @param type=15
+     */
+    public function before_four_hour_not_upload_cw($type){
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = $start_time+86400;
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+        if(is_array($lesson_list)){
+            foreach($lesson_list as &$val){
+                if(time() >= ($val["lesson_start"]-4*3600)){
+                    $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    if($openid){
+                        $lesson_time = date("H:i",$val["lesson_start"]);
+                        /**
+                         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                         * 标题课程 : 待办事项提醒
+                         * {{first.DATA}}
+                         * 待办主题：{{keyword1.DATA}}
+                         * 待办内容：{{keyword2.DATA}}
+                         * 日期：{{keyword3.DATA}}
+                         * {{remark.DATA}}
+                         */
+
+                        $data=[];
+                        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                        $data['first']    = $lesson_time."的模拟课程未上传讲义";
+                        $data['keyword1'] = "讲义上传提醒";
+                        $data['keyword2'] = $lesson_time."的模拟课程未上传讲义,请尽快登录老师后台上传讲义";
+                        $data['keyword3'] = date("Y-m-d H:i",time());
+                        $data['remark']   = "";
+                        $url = "";
+                        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                        $wx_before_four_hour_cw_flag = 1;
+                    }else{
+                        $wx_before_four_hour_cw_flag = 2;
+                        \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                    }
+
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_before_four_hour_cw_flag"   => $wx_before_four_hour_cw_flag
+                    ]);
+ 
+                }
+               
+
+            }
+        }
+    }
+
+    /**
+     * 试听/试听模拟课课前30分钟上课提醒
+     * @param type=16
+     */
+    public function before_thirty_minute($type){
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = $start_time+86400;
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+        if(is_array($lesson_list)){
+            foreach($lesson_list as &$val){
+                if(time() >= ($val["lesson_start"]-1800)){
+                    
+                    $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    if($openid){
+                        $lesson_time     = date("m-d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
+                        /**
+                         * 标题        课前提醒
+                         * template_id gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
+                         * {{first.DATA}}
+                         * 上课时间：{{keyword1.DATA}}
+                         * 课程类型：{{keyword2.DATA}}
+                         * 教师姓名：{{keyword3.DATA}}
+                         * {{remark.DATA}}
+                         */
+                        $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
+                        $data['first']    = "老师您好,您于30分钟后有一节模拟试听课";
+                        $data['keyword1'] = $lesson_time;
+                        $data['keyword2'] = "模拟试听课";
+                        $data['keyword3'] = $val["tea_nick"];
+
+                        $data['remark']   = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+                        $url = "";                      
+
+                        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                        $wx_before_thiry_minute_remind_flag = 1;
+                    }else{
+                        $wx_before_thiry_minute_remind_flag = 2;
+                        \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                    }
+
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_before_thiry_minute_remind_flag"   => $wx_before_thiry_minute_remind_flag
+                    ]);
+ 
+                }
+               
+
+            }
+        }
+    }
+
+
 
 }

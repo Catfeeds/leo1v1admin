@@ -2482,7 +2482,7 @@ class human_resource extends Controller
         /* $this->add_teacher_label(
             $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
             );*/
-        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_bad,2);
+        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
        
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -2504,7 +2504,7 @@ class human_resource extends Controller
                 ]);
             }
         }elseif($status=2){
-            $ret = $this->add_trial_train_lesson($teacher_info);
+            // $ret = $this->add_trial_train_lesson($teacher_info);
             $keyword2 = "未通过";
         }else{
             return $this->output_err("审核状态出错！");

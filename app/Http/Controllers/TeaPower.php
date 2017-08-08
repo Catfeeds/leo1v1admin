@@ -117,7 +117,7 @@ trait  TeaPower {
             $this->t_teacher_label->field_update_list($id,[
                 "add_time" =>time(),
                 "label_origin"=>$label_origin,
-                "tea_label_type"=>$sshd_good
+                "tea_label_type"=>$tea_label_type
             ]);
         }else{
             $this->t_teacher_label->row_insert([
@@ -126,7 +126,7 @@ trait  TeaPower {
                 "label_origin"=>$label_origin,
                 "lessonid"    =>$lessonid,
                 "lesson_list"=>$lesson_list,
-                "tea_label_type"=>$sshd_good
+                "tea_label_type"=>$tea_label_type
             ]);
  
         }
@@ -2060,7 +2060,7 @@ trait  TeaPower {
                 $url = "";
                 // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
-                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
               
             }

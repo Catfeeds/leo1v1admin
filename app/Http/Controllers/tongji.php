@@ -483,6 +483,11 @@ class tongji extends Controller
         $this->set_in_value("assistantid",  $assistantid );
         return $this->test_lesson_ass();
     }
+
+    public function test_lesson_ass_jy() {
+        return $this->test_lesson_ass();
+    }
+
     public function test_lesson_ass(){
         $this->switch_tongji_database();
         $sum_field_list=[

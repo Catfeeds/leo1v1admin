@@ -6860,6 +6860,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     }
 
 
+    public function tongji_change_lesson_by_teacher_jy(){
+        return $this->tongji_change_lesson_by_teacher();
+    }
     public function tongji_change_lesson_by_teacher(){ // 调课统计-老师
         $this->switch_tongji_database();
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);

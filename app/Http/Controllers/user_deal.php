@@ -2605,7 +2605,70 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = time();
+        $end_time   = $start_time+86400;
+
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,16);
+        if(is_array($lesson_list)){
+            foreach($lesson_list as &$val){
+                if(time() >= ($val["lesson_start"]-1800)){
+                    
+                    $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    if($openid){
+                        $lesson_time     = date("m-d H:i",$val['lesson_start'])."-".date("H:i",$val['lesson_end']);
+                        /**
+                         * 标题        课前提醒
+                         * template_id gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk
+                         * {{first.DATA}}
+                         * 上课时间：{{keyword1.DATA}}
+                         * 课程类型：{{keyword2.DATA}}
+                         * 教师姓名：{{keyword3.DATA}}
+                         * {{remark.DATA}}
+                         */
+                        $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
+                        $data['first']    = "老师您好,您于30分钟后有一节模拟试听课";
+                        $data['keyword1'] = $lesson_time;
+                        $data['keyword2'] = "模拟试听课";
+                        $data['keyword3'] = $val["tea_nick"];
+
+                        $data['remark']   = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+                        $url = "";                      
+
+                        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                        $wx_before_thiry_minute_remind_flag = 1;
+                    }else{
+                        $wx_before_thiry_minute_remind_flag = 2;
+                        \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                    }
+
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_before_thiry_minute_remind_flag"   => $wx_before_thiry_minute_remind_flag
+                    ]);
+ 
+                }
+               
+
+            }
+        }
+
+    
         
+        dd($lesson_list);
+
+        $teacherid = 240314; 
+        $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+        $ret = $this->add_trial_train_lesson($teacher_info,1);
+        $lessonid = $this->t_lesson_info->get_last_insertid();
+        dd($lessonid);
+        for($i=1;$i<=50;$i++){
+            \App\Helper\office_cmd::add_one(1,$i,0);
+        }
+        dd(111);
+        $sync_data_list=\App\Helper\Common::redis_get_json("office_cmd");
+        dd($sync_data_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
         $this->t_month_ass_student_info->get_field_update_arr(324,$start_time,1,[
