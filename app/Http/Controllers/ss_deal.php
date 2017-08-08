@@ -3500,7 +3500,7 @@ class ss_deal extends Controller
 
         }else{
             if (!$ytx_phone) {
-                $ytx_phone= $admin_info["ytx_phone" ];
+                $ytx_phone= $admin_info["ytx_phone" ] || $admin_info["tquin" ]  ;
                 session("ytx_phone",  $ytx_phone);
             }
             $ytx_account='liyou';
