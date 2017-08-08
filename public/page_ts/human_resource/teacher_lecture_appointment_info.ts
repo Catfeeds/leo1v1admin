@@ -20,6 +20,7 @@ $(function(){
 			      lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
 			      have_wx                    : $('#id_have_wx').val(),
 			      full_time                  : $('#id_full_time').val(),
+			      fulltime_teacher_type                  : $('#id_fulltime_teacher_type').val(),
         });
     }
 
@@ -41,6 +42,7 @@ $(function(){
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type'),false,[0,1,2,3,4]);
     Enum_map.append_option_list("lecture_revisit_type", $('#id_lecture_revisit_type_new'),false,[5,6,7]);
     Enum_map.append_option_list("boolean", $('#id_full_time'));
+    Enum_map.append_option_list("fulltime_teacher_type", $('#id_fulltime_teacher_type'),false,[1,2]);
     if(g_args.interview_type==-1){
         Enum_map.append_option_list("check_status", $('#id_status')); 
     }else if(g_args.interview_type==0){
@@ -67,6 +69,7 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
 	$('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -752,6 +755,26 @@ $(function(){
         });
     });
 
+    $(".opt-telphone").on("click",function(){
+        //
+        var me=this;
+        var opt_data= $(this).get_opt_data();
+        var phone    = ""+ opt_data.phone;
+        phone=phone.split("-")[0];
+       
+        try{
+            window.navigate(
+                "app:1234567@"+phone+"");
+        } catch(e){
+
+        };
+        $.do_ajax_t("/ss_deal/call_ytx_phone", {
+            "phone": opt_data.phone
+        } );
+
+    });
+
+
     if ( window.location.pathname=="/human_resource/teacher_lecture_appointment_info_full_time" || window.location.pathname=="/human_resource/teacher_lecture_appointment_info_full_time/") {
         $("#id_lecture_appointment_status").parent().parent().hide();
         $("#id_record_status").parent().parent().hide();
@@ -760,6 +783,7 @@ $(function(){
         $("#id_lecture_appointment_status").parent().parent().hide();
         $("#id_record_status").parent().parent().hide();
         $("#id_lecture_revisit_type_new").parent().parent().hide();
+        $("#id_fulltime_teacher_type").parent().parent().hide();
     }
 
 

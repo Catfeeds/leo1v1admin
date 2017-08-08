@@ -514,7 +514,7 @@ class common_new extends Controller
                   8 => "是否有pad"
                   9 => "家长姓名"
                 */
-                $phone          = $item[0];
+                $phone          = $item[0]*1;
                 $phone_location = $item[1];
                 $origin         = $item[3];
                 $nick           = $item[4];
@@ -683,6 +683,8 @@ class common_new extends Controller
     public function notify_gen_lesson_teacher_pdf_pic() {
         $lessonid = $this->get_in_lessonid();
         $pdf_url  = $this->t_lesson_info->get_tea_cw_url($lessonid);
+        \App\Helper\Utils::logger("pdfurl11".$pdf_url);
+
         dispatch(new deal_pdf_to_image($pdf_url, $lessonid));
     }
 

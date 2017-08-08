@@ -36,8 +36,11 @@ class deal_pdf_to_image extends Job implements ShouldQueue
     public function __construct($pdf_url, $lessonid)
     {
         //
+
         $this->pdf_url   = $pdf_url;
         $this->lessonid  = $lessonid;
+        \App\Helper\Utils::logger("pdf_to_tup: ".$pdf_url.", ".$lessonid);
+
     }
 
     /**
@@ -47,11 +50,15 @@ class deal_pdf_to_image extends Job implements ShouldQueue
      */
     public function handle()
     {
+        \App\Helper\Utils::logger("pdf_file_path_xue");
+
         $t_lesson_info = new  \App\Models\t_lesson_info();
 
         $pdf_url  = $this->pdf_url;
         $lessonid = $this->lessonid;
         $pdf_file_path = $this->get_pdf_download_url($pdf_url);
+
+        \App\Helper\Utils::logger("pdf_file_path_xue ".$pdf_file_path);
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 

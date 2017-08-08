@@ -239,6 +239,7 @@ class tea_manage extends Controller
         $lesson_deduct_info    = E\Elesson_deduct::$desc_map;
         $price_all             = 0;
         $start_index           = \App\Helper\Utils::get_start_index_from_ret_info($ret_info);
+        // dd($ret_info['list']);
         foreach( $ret_info['list'] as $i=> &$item){
             $item["number"] = $start_index+$i;
             $stu_id         = $item["stu_id"];
@@ -332,7 +333,7 @@ class tea_manage extends Controller
             $this->cache_set_item_account_nick($item,"test_confirm_adminid","test_confirm_admin_nick");
 
         }
-
+        // dd($ret_info['list']);
         $seller_list      = $this->t_admin_group->get_admin_list_by_gorupid(E\Eaccount_role::V_1 );
         $adminid          = $this->get_account_id();
         $self_groupid     = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );

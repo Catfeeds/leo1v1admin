@@ -793,6 +793,15 @@ class user_manage_new extends Controller
             \App\Helper\Common::set_item_enum_flow_status($item);
             $money_all+=$item["price"];
             $order_count++;
+            if($item["pre_price"]==0){
+                $item["pre_status"]="无定金"; 
+            }else{
+                if($item["pre_pay_time"]>0){
+                    $item["pre_status"]="定金已支付";
+                }else{
+                    $item["pre_status"]="定金未支付"; 
+                }
+            }
         }
 
         return $this->Pageview(__METHOD__,$ret_list, [

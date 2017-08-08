@@ -116,6 +116,14 @@
                         <input  placeholder="推荐渠道" id="id_teacher_ref_type" />
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-3" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">全职老师分类</span>
+                        <select class="opt-change form-control" id="id_fulltime_teacher_type" >
+                        </select>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-6 col-md-4" data-always_show="1">
                     <div class="input-group">
@@ -231,6 +239,7 @@
                         @endif
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
+                                <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
                                 @if($show_full_time==1)
                                     <a class="opt-set-lecture-revisit-type " title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>

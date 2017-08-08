@@ -152,7 +152,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if ($user_info >0 ) {
             $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
         }else{
-            $where_arr[]=[  "t1.account like '%%%s%%'", $user_info, "" ] ;
+            if ($user_info!=""){
+                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
         }
         if ( !$has_question_user  ) {
             $where_arr[] = [  "t1.account not like 'c\_%s%%'", "",  1] ;
@@ -1045,7 +1050,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_adminid_list_by_account_role($account_role){
-        $sql = $this->gen_sql_new("select uid,account,a.nick from %s m left join %s a on m.phone = a.phone ".
+        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
                                   "where account_role=%u and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
@@ -1451,6 +1456,41 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid from %s where %s order by uid",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
 
+    }
+    //全职老师统计
+    public function get_fulltime_teacher_count($account_role){
+        
+        $where_arr=[
+            "m.account_role =5 ",
+            "m.del_flag =0 "
+            //[".uid = %u",$adminid,-1],
+            //["m.become_full_member_flag = %u",$become_full_member_flag,-1],
+            //["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(m.uid) as fulltime_teacher_count  "
+                                  ." from %s m  join %s a on m.phone= a.phone "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        //dd($sql); 
+        return $this->main_get_list($sql);
+    }
+    //全职老师学生数统计（此处获取全职老师id列表)
+    public function get_fulltime_teacher_student_count($account_role){
+        $where_arr=[
+            " m.account_role=5 ",
+            "m.del_flag =0 ",
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid  from %s m"
+                                  ." join %s t on m.phone=t.phone where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

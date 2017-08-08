@@ -9,6 +9,7 @@ class main_page extends Controller
 
     var $switch_tongji_database_flag = true;
     use CacheNick;
+    use TeaPower;
     function __construct()  {
         parent::__construct();
     }
@@ -378,6 +379,102 @@ class main_page extends Controller
          ]);
     }
 
+    public function  quality_control(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+        $subject = $this->get_in_int_val("subject",-1);
+        
+        $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);
+        $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
+        $tea_subject = "";
+
+        //面试人数
+        $real_info = $this->t_teacher_lecture_info->get_lecture_info_by_time_new(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        $real_arr = $this->t_teacher_record_list->get_train_teacher_interview_info(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        foreach($real_arr["list"] as $p=>$pp){
+            if(isset($real_info["list"][$p])){
+                $real_info["list"][$p]["all_count"] += $pp["all_count"];
+                $real_info["list"][$p]["all_num"] += $pp["all_num"];
+            }else{
+                $real_info["list"][$p]= $pp;
+            }
+
+        }
+
+
+        //模拟试听审核
+        $train_first = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time);
+        $train_second = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time,2);
+
+        //第一次试听/第一次常规
+        $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1);
+        $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3);
+
+
+        foreach($teacher_info as &$item){
+            $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
+            $account = $item["account"];
+            $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            foreach($teacher_arr as $k=>$val){
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k;
+                }
+            }
+
+            $item["suc_count"] = count($teacher_list);
+            $item["train_first_all"] = isset($train_first[$account])?$train_first[$account]["all_num"]:0;
+            $item["train_first_pass"] = isset($train_first[$account])?$train_first[$account]["pass_num"]:0;
+            $item["train_second_all"] = isset($train_second[$account])?$train_second[$account]["all_num"]:0;
+            $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
+            $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
+            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
+            if(in_array($item["uid"],[486,754])){
+                $item["per"] = round($item["all_num"]/150*100,2);
+            }else{
+                $item["per"] = round($item["all_num"]/250*100,2);
+            }
+        }
+
+
+        \App\Helper\Utils::order_list( $teacher_info,"per", 0 );
+
+        //面试总计
+
+        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
+                $teacher_list_ex[$k]=$k;
+            }
+        }
+        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+
+        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        @$video_real["all_count"] += $one_real["all_count"];
+
+        $all_tea_ex = count($teacher_list_ex);
+
+        //模拟试听总计
+        $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time);
+        $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2);
+
+        //第一次试听/第一次常规总计
+        $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1);
+        $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3);
+        
+
+
+      
+        
+        dd($teacher_info);
+
+        
+    }
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
@@ -605,7 +702,7 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
-        $all_total = $video_total=$suc_total=$fail_total=0;
+        $all_total = $system_total=$self_total=$fail_total=0;
         $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
       
         $video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
@@ -616,7 +713,12 @@ class main_page extends Controller
         $one_account_pass = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,1);
         foreach($ret_info as $k=>&$item){
             $accept_adminid       = $item["accept_adminid"];
+            $reference = $this->get_zs_reference($accept_adminid);
+            $item["self_count"] = $this->t_teacher_lecture_appointment_info->get_self_count($reference,$start_time,$end_time);
+            $item["system_count"] = $item["all_count"]-$item["self_count"];
             $all_total   += $item["all_count"];
+            $system_total   += $item["system_count"];
+            $self_total   += $item["self_count"];
             $item["video_account"] = @$video_account[$accept_adminid]["all_count"];
             $item["video_account_real"] = @$video_account_real[$accept_adminid]["all_count"];
             $item["video_account_pass"] = @$video_account_pass[$accept_adminid]["all_count"];
@@ -667,6 +769,8 @@ class main_page extends Controller
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
             "all_total"   => $all_total,
+            "system_total"   => $system_total,
+            "self_total"   => $self_total,
             "data"        =>$data
         ]);
     }

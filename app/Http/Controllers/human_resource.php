@@ -1859,10 +1859,11 @@ class human_resource extends Controller
         $full_time                  = $this->get_in_int_val("full_time",-1);
         $show_full_time             = $this->get_in_int_val("show_full_time",0);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
@@ -1870,7 +1871,8 @@ class human_resource extends Controller
         $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info(
             $page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
-            $interview_type,$have_wx, $lecture_revisit_type,$full_time, $lecture_revisit_type_new
+            $interview_type,$have_wx, $lecture_revisit_type,$full_time,
+            $lecture_revisit_type_new,$fulltime_teacher_type            
         );
 
         foreach($ret_info["list"] as &$item){
@@ -2430,51 +2432,26 @@ class human_resource extends Controller
         $sshd_good                        = $this->get_in_str_val("sshd_good");
        
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
-        if($id>0){
-            $ret = $this->t_teacher_record_list->field_update_list($id,[
-                "tea_process_design_score"         => $tea_process_design_score,
-                "knw_point_score"                  => $knw_point_score,
-                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
-                "tea_rhythm_score"                 => $tea_rhythm_score,
-                "language_performance_score"       => $language_performance_score,
-                "answer_question_cre_score"        => $answer_question_cre_score,
-                "tea_concentration_score"          => $tea_concentration_score,
-                "tea_operation_score"              => $tea_operation_score,
-                "tea_environment_score"            => $tea_environment_score,
-                "class_abnormality_score"          => $class_abnormality_score,
-                "record_info"                      => $record_info,
-                "record_score"                     => $record_score,
-                "no_tea_related_score"             => $no_tea_related_score,
-                "record_monitor_class"             => $record_monitor_class,
-                "trial_train_status"               => $status
-            ]);
+        $ret = $this->t_teacher_record_list->field_update_list($id,[
+            "tea_process_design_score"         => $tea_process_design_score,
+            "knw_point_score"                  => $knw_point_score,
+            "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
+            "tea_rhythm_score"                 => $tea_rhythm_score,
+            "language_performance_score"       => $language_performance_score,
+            "answer_question_cre_score"        => $answer_question_cre_score,
+            "tea_concentration_score"          => $tea_concentration_score,
+            "tea_operation_score"              => $tea_operation_score,
+            "tea_environment_score"            => $tea_environment_score,
+            "class_abnormality_score"          => $class_abnormality_score,
+            "record_info"                      => $record_info,
+            "record_score"                     => $record_score,
+            "no_tea_related_score"             => $no_tea_related_score,
+            "record_monitor_class"             => $record_monitor_class,
+            "trial_train_status"               => $status,
+            "add_time"                         => time()
+        ]);
  
-        }else{
-            $ret = $this->t_teacher_record_list->row_insert([
-                "teacherid"      => $teacherid,
-                "type"           => 1,
-                "add_time"       => time(),
-                "train_lessonid" => $lessonid,
-                "lesson_style"   => 5,
-                "tea_process_design_score"         => $tea_process_design_score,
-                "knw_point_score"                  => $knw_point_score,
-                "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
-                "tea_rhythm_score"                 => $tea_rhythm_score,
-                "language_performance_score"       => $language_performance_score,
-                "answer_question_cre_score"        => $answer_question_cre_score,
-                "tea_concentration_score"          => $tea_concentration_score,
-                "tea_operation_score"              => $tea_operation_score,
-                "tea_environment_score"            => $tea_environment_score,
-                "class_abnormality_score"          => $class_abnormality_score,
-                "record_info"                      => $record_info,
-                "record_score"                     => $record_score,
-                "no_tea_related_score"             => $no_tea_related_score,
-                "record_monitor_class"             => $record_monitor_class,
-                "trial_train_status"               => $status
-            ]);
-
-        }
-       
+               
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
@@ -2491,6 +2468,10 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
             ]);
             $keyword2   = "已通过";
+
+            //入职
+            $this->teacher_train_through_deal($teacher_info);
+
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
                 $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
@@ -2506,31 +2487,30 @@ class human_resource extends Controller
         }elseif($status=2){
             // $ret = $this->add_trial_train_lesson($teacher_info);
             $keyword2 = "未通过";
+            if($teacher_info['wx_openid']!=""){
+                /**
+                 * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                 * 标题   : 评估结果通知
+                 * {{first.DATA}}
+                 * 评估内容：{{keyword1.DATA}}
+                 * 评估结果：{{keyword2.DATA}}
+                 * 时间：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                $data['first']    = "老师您好，很抱歉您没有通过模拟试听，希望您再接再厉。";
+                $data['keyword1'] = $record_info;
+                $data['keyword2'] = $keyword2;
+                $data['keyword3'] = date("Y-m-d H:i:s");
+                $data['remark']   = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
+                $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+            }
+
         }else{
             return $this->output_err("审核状态出错！");
         }
 
-        if($teacher_info['wx_openid']!=""){
-            /**
-             * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
-             * 标题   : 评估结果通知
-             * {{first.DATA}}
-             * 评估内容：{{keyword1.DATA}}
-             * 评估结果：{{keyword2.DATA}}
-             * 时间：{{keyword3.DATA}}
-             * {{remark.DATA}}
-             */
-            $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
-            $data['first']    = "";
-            $data['keyword1'] = "模拟课程质量反馈报告";
-            $data['keyword2'] = $keyword2;
-            $data['keyword3'] = date("Y-m-d H:i:s");
-            $data['remark']   = "监课情况:".$record_monitor_class
-                              ."\n建       议:".$record_info
-                              ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
-            $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
-        }
         return $this->output_succ();
     }
 

@@ -51,11 +51,11 @@ trait  TeaPower {
                         }
                     }
                 }elseif($day>=2 && $day <=5  && !in_array($teacherid,$tea_arr)){
-                    if(!empty($lesson_start)){
+                    /* if(!empty($lesson_start)){
                         if($h <18){
                             return $this->output_err("教研老师周二至周五只能18点以后排课");
                         }
-                    }
+                        }*/
                 }
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
@@ -2087,6 +2087,22 @@ trait  TeaPower {
             $accept_adminid = 0;
         }
         return $accept_adminid;
+    }
+
+    public function get_zs_reference($accept_adminid){
+        if($accept_adminid == 492){
+            $reference="99900020010";
+        }elseif($accept_adminid == 513){
+            $reference="99900020011" ;
+        }elseif($accept_adminid == 790){
+            $reference="99900020014";
+        }elseif($accept_adminid == 955){
+            $reference="99900020015";
+        }else{
+            $reference = 1;
+        }
+        return $reference;
+
     }
 
 

@@ -508,6 +508,7 @@ class NewRouteConfig {
         "/authority/get_member_info"  => true,
         "/authority/edit_member_info" => true,
         "/authority/set_fulltime_teacher_type" => true,
+        "/fulltime_teacher/fulltime_teacher_count" => true,
         
 
         "/revisit/get_revisit_info"     => true,

@@ -649,8 +649,10 @@ class menu{
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                 ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                 ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
-                ["power_id"=>38, "name"=>"试听课反馈",   "url"=>"/teacher_level/teacher_lesson_record_info"],
-                ["power_id"=>39, "name"=>"常规课反馈",   "url"=>"/teacher_level/teacher_regular_lesson_record_info"],
+                ["power_id"=>38, "name"=>"第一次试听课反馈",   "url"=>"/teacher_level/get_first_test_lesson_info"],
+                ["power_id"=>39, "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
+                ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
+                ["power_id"=>41, "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info"],
                 ["power_id"=>30, "name"=>"面试转化率模型",  "list"=>[
                     ["power_id"=>4, "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji"],
                     ["power_id"=>1, "name"=>"面试转化数据-年级科目",   "url"=>"/tongji_ss/interview_subject_grade_tongji"],
@@ -722,16 +724,20 @@ class menu{
                 ]],
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
-                ["power_id"=>1, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
-                ["power_id"=>2, "name"=>"绩效",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
-                ["power_id"=>3, "name"=>"全职教师档案",   "url"=>"/human_resource/index_fulltime"],
-                ["power_id"=>4, "name"=>"全职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_fulltime"],
+                ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
+                ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
-                ["power_id"=>6, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
-                ["power_id"=>7, "name"=>"转正考核申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
-                ["power_id"=>8, "name"=>"转正考核申请列表-主管",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
-                ["power_id"=>9, "name"=>"转正考核申请列表-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
-                ["power_id"=>10, "name"=>"全职面试评审",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
+                ["power_id"=>4, "name"=>"全职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_fulltime"],
+
+                ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
+
+                ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
+                ["power_id"=>1, "name"=>"全职老师考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
+
+                ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
+                ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
+                ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
+                ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
             ]],
 

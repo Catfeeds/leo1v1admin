@@ -634,6 +634,8 @@ class teacher_money extends Controller
             return $this->output_err($error_info);
         }
 
+        $old_bankcard = $this->t_teacher_info->get_bankcard($teacherid);
+
         $ret = $this->t_teacher_info->field_update_list($teacherid,[
             "bankcard"      => $bankcard,
             "bank_address"  => $bank_address,
@@ -645,9 +647,19 @@ class teacher_money extends Controller
             "bank_province" => $bank_province,
         ]);
 
-        if(!$ret){
+        if(!$ret && $bankcard!=$old_bankcard){
             return $this->output_err("更新失败！请重试！");
         }
+        if($old_bankcard!=""){
+            $tea_nick = $this->t_teacher_info->get_realname($teacherid);
+            $header_msg = $tea_nick."老师，修改了绑定的银行卡号。";
+            $msg  = "持卡人姓名：$tea_nick \n 银行卡类型： $bank_type \n 卡号：$bankcard";
+            $url  = "/teacher_money/show_teacher_bank_info?teacherid=".$teacherid;
+            $desc = "点击详情，查看修改后的银行卡号及详细信息";
+
+            $this->t_manager_info->send_wx_todo_msg("sunny","银行卡号变更",$header_msg,$msg,$url,$desc);
+        }
+
         return $this->output_succ();
     }
 
@@ -714,9 +726,6 @@ class teacher_money extends Controller
         return $this->output_succ(["data"=>$bank_info]);
     }
 
-
-
-
     public function check_teacher_trial_lesson(){
         $teacherid = $this->get_in_int_val("teacherid");
         $lessonid  = $this->get_in_int_val("lessonid");
@@ -741,5 +750,19 @@ class teacher_money extends Controller
             }
         }
     }
+
+    public function show_teacher_bank_info(){
+        $teacherid = $this->get_in_int_val("teacherid");
+        if($teacherid==0){
+            return $this->output_err("老师id出错！");
+        }
+
+        $bank_info = $this->t_teacher_info->field_get_list($teacherid,"realname,bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
+
+        return $this->pageView(__METHOD__,[],[
+            "bank_info"=>$bank_info
+        ]);
+    }
+
 
 }
