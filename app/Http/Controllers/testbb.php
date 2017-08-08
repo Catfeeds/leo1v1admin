@@ -49,6 +49,7 @@ class testbb extends Controller
 
 
     public function test () {
+        //	bf059d7ccac785e1340f8a590b7866e51502182562119.pdf
         $this->switch_tongji_database();
         $is_full_time = 1;  // 显示兼职老师
         $this->switch_tongji_database();
