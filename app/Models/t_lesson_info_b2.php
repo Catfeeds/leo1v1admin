@@ -1545,6 +1545,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['lesson_type=%d',2],
             ['lesson_del_flag=%d',0],
             'confirm_flag in (0,1)',
+            'lesson_user_online_status = 1',
         ];
         $sql = $this->gen_sql_new(
             "select count(lessonid) count"
