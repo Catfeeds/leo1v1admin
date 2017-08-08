@@ -405,12 +405,12 @@ class main_page extends Controller
 
 
         //模拟试听审核
-        $train_first = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time);
-        $train_second = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time,2);
+        $train_first = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time,1,$subject);
+        $train_second = $this->t_teacher_record_list->get_trial_train_lesson_first($start_time,$end_time,2,$subject);
 
         //第一次试听/第一次常规
-        $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1);
-        $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3);
+        $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
+        $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 
 
         foreach($teacher_info as &$item){
@@ -460,18 +460,24 @@ class main_page extends Controller
         $all_tea_ex = count($teacher_list_ex);
 
         //模拟试听总计
-        $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time);
-        $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2);
+        $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
+        $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
 
         //第一次试听/第一次常规总计
-        $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1);
-        $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3);
+        $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
+        $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
+        $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
+        $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num];
+        $num = count($teacher_info);
+        $all_count = ($num-2)*250+300;
+        $arr["per"] = round($all_num/$all_count*100,2);
         
 
-
-      
+        array_unshift($teacher_info,$arr);
         
-        dd($teacher_info);
+        $ret_info = \App\Helper\Utils::list_to_page_info($teacher_info);
+        return $this->pageView(__METHOD__,$ret_info);
+
 
         
     }

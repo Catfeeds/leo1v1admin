@@ -2861,6 +2861,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_suc_test_by_userid($userid_arr){
+        $where_arr = [
+            'lesson_type = 2',
+            'lesson_del_flag = 0',
+            'lesson_user_online_status = 1',
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,'userid',$userid_arr);
+        $sql = $this->gen_sql_new(
+            " select lessonid,userid "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }
