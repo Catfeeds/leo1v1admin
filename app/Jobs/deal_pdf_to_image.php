@@ -85,7 +85,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
-            \App\Helper\Utils::logger("ret_update1:".$ret);
+            \App\Helper\Utils::logger("ret_update1:".$ret." lessonid:$lessonid");
 
 
             foreach($imgs_url_list as $item_orgi){
