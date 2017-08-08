@@ -209,7 +209,7 @@ $(function(){
 
     $("#id_assessment_positive_info").on("click",function(){
         $.do_ajax( "/fulltime_teacher/get_fulltime_teacher_pisitive_require_info",{
-            "id" :positive_id,
+            "id" :g_positive_id,
         },function(resp){            
             var data = resp.data;
             var title = "转正申请详情";
@@ -250,7 +250,7 @@ $(function(){
                             cssClass: 'btn-warning',
                             action: function(dialog) {                                
                                 $.do_ajax('/user_deal/set_fulltime_teacher_self_assessment',{
-                                    "id":positive_id,
+                                    "id":g_positive_id,
                                     "self_assessment":html_node.find("#id_self_assessment").val()
                                 });
 

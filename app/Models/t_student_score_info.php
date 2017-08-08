@@ -3,16 +3,16 @@ namespace App\Models;
 use \App\Enums as E;
 class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	public function get_list($page_info,$user_id){
-		  $sql = $this->gen_sql("select * from %s where userid = %d and status = 0 order by create_time desc ",
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    public function get_list($page_info,$user_id){
+          $sql = $this->gen_sql("select * from %s where userid = %d and status = 0 order by create_time desc ",
                               self::DB_TABLE_NAME,
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
-	}
+    }
 
   public function set_every_month_student_score($time)
   {
@@ -40,4 +40,10 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         );
         return $this->main_get_list($sql);
   }
+
+
+    public function get_stu_score_info_by_userid($userid){
+        $where_arr = [];
+    }
+
 }

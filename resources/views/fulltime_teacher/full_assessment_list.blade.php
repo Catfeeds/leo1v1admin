@@ -7,12 +7,12 @@
 <script type="text/javascript" src="/page_js/select_user.js"></script>
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 <script type="text/javascript" > 
- var positive_id= "{{@$positive_info["id"]}}";
+ var g_positive_id= "{{@$positive_info["id"]}}";
  var positive_type_old= "{{@$positive_type_old}}";
  var check_is_late= "{{@$check_is_late}}";
  var g_order_per= "{{@$account_info["order_per"]}}";
  var g_stu_num= "{{@$account_info["stu_num"]}}";
- var g_stu_lesson_total = "{{@$account_info["stu_lesson_total"]}}";
+ var g_stu_lesson_total = "{{@$account_info["lesson_count_avg"]}}";
 </script>
 
 <style>
@@ -586,7 +586,7 @@
         </tr>
         <tr>
             <td rowspan="4">成果(55分)</td>
-            <td>试用期转化率:{{$account_info["order_per"]}}%</td>
+            <td>试用期转化率绩效:{{$account_info["order_per"]}}分</td>
             <td>20</td>
             <td id="order_per_score">{{$account_info["order_per_score"]}}</td>
             <td rowspan="4" id="result_score">

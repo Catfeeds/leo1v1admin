@@ -123,4 +123,13 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         );
         return $this->main_get_value($sql);
     }
+
+    public function get_userid_list_by_parentid($parentid){
+        $sql = $this->gen_sql_new(" select userid from %s pc where parentid = %d",
+                                  self::DB_TABLE_NAME,
+                                  $parentid
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

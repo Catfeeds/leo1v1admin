@@ -2605,6 +2605,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+        $qz_tea_arr=[51094];
+        $rr = $this->get_fulltime_teacher_lesson_per($qz_tea_arr,$start_time,$end_time);
+        dd($rr);
+        
         $start_time = strtotime(date("Y-m-d",time()));
         $end_time   = $start_time+86400;
 
@@ -4723,7 +4729,6 @@ class user_deal extends Controller
         $active_share_score = $this->get_in_int_val("active_share_score");
         $active_part_score = $this->get_in_int_val("active_part_score");
         $order_per_score = $this->get_in_int_val("order_per_score");
-        $stu_num_score  = $this->get_in_int_val("stu_num_score");
         $lesson_level_score = $this->get_in_int_val("lesson_level_score");
         $stu_lesson_total_score = $this->get_in_int_val("stu_lesson_total_score");
         $complaint_refund_score = $this->get_in_int_val("complaint_refund_score");
@@ -4734,7 +4739,6 @@ class user_deal extends Controller
         $total_score = $this->get_in_int_val("total_score");
         $rate_stars = $this->get_in_int_val("rate_stars");
         $order_per = $this->get_in_str_val("order_per");
-        $stu_num = $this->get_in_int_val("stu_num");
         $stu_lesson_total  = $this->get_in_int_val("stu_lesson_total");
         $admin_info = $this->t_manager_info->field_get_list($adminid,"post,main_department");
         $this->t_fulltime_teacher_assessment_list->row_insert([
@@ -4761,7 +4765,6 @@ class user_deal extends Controller
             "active_share_score"        =>$active_share_score,
             "active_part_score"         =>$active_part_score,
             "order_per_score"           =>$order_per_score,
-            "stu_num_score"             =>$stu_num_score,
             "lesson_level_score"        =>$lesson_level_score,
             "stu_lesson_total_score"    =>$stu_lesson_total_score,
             "complaint_refund_score"    =>$complaint_refund_score,
@@ -4775,7 +4778,6 @@ class user_deal extends Controller
             "post"                      =>7,
             "main_department"           =>2,
             "order_per"                 =>$order_per,
-            "stu_num"                   =>$stu_num,
             "stu_lesson_total"          =>$stu_lesson_total ,
             "lesson_level"              =>$lesson_level_score
         ]);

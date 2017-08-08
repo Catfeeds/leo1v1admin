@@ -47,37 +47,7 @@ class testbb extends Controller
 
 
     public function test () {
-
-        // $start_time = 1501862400;
-        // $end_time   = 1501948800;
-        // $price = $this->get_in_int_val('price');
-        // $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
-        // dd($today_gift_num);
-
-        $userid = $this->get_in_int_val('parentid');
-        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
-        $parent_num = $parent_lesson_total/100;
-        dd($parent_num);
-
-
-        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
-        dd($parent_lesson_total);
-        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid(100);
-        // dd($gift_info);
-        dd($gift_info['userid']);
-        // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
-        $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
-        $rock_gift_num = count($all_gift_list);
-
-        $index = mt_rand(0,$rock_gift_num-1);
-
-        $prize_code = $all_gift_list[$index]['prize_code'];
-
-        dd($prize_code);
-        $index = mt_rand(0,count($r)-1);
-
-
-
+        $a = [];
     }
 
     public function lesson_send_msg(){

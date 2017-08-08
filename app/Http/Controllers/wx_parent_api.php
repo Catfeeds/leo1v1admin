@@ -1115,8 +1115,10 @@ class wx_parent_api extends Controller
 
     function get_student_score_info(){
         $parent = $this->get_in_int_val('parentid');
-        $userid = $this->t_parent_child->get_userid_by_parentid($parentid);
+        $userid_list = $this->t_parent_child->get_userid_list_by_parentid($parentid);
+        $userid_str = $userid_list;
         // 一个家长有两个孩子的情况
+        // $score_info = $this->t_student_score_info->get_stu_score_info_by_userid($\App\Helper\Utils::serid);
 
     }
 
