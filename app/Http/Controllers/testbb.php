@@ -70,7 +70,7 @@ class testbb extends Controller
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        
+
         $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
 
         dd($ret_info);
