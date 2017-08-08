@@ -1050,7 +1050,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_adminid_list_by_account_role($account_role){
-        $sql = $this->gen_sql_new("select uid,account,a.nick from %s m left join %s a on m.phone = a.phone ".
+        $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
                                   "where account_role=%u and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
