@@ -1534,7 +1534,7 @@ class test_code extends Controller
     }
 
     public function get_order_lesson(){
-        $arr = $this->get_b_txt();
+        $arr = $this->get_b_txt(b.txt);
         dd($arr);
     }
 
@@ -1543,5 +1543,7 @@ class test_code extends Controller
         $ret= \App\Helper\Common::send_paper_mail_new($email,"测试邮件","is test email");
         dd($ret);
     }
+
+
 
 }

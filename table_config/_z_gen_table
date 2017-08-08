@@ -103,6 +103,7 @@ function gen_table_d( $php_data, $table_name )  {
 
     $php_data=preg_replace('/__TABLE_NAME__/',$table_name ,$php_data );
     $file_name="./.".$table_name.".php.temp";
+    
     save_file_check_data( $file_name,$php_data );
 }
 

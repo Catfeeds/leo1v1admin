@@ -30,6 +30,7 @@ interface RowData {
 	jump_url	:any;
 	title_share	:any;
 	info_share	:any;
+	jump_type	:any;
 	type_str	:any;
 	time_type_str	:any;
 	usage_type_str	:any;

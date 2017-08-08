@@ -42,6 +42,7 @@
                     <td>cc</td>
                     <td>学生</td>
                     <td>电话</td>
+                    <td>城市</td>
                     <td>老师</td>
                     <td>渠道</td>
                     <td>转介绍</td>
@@ -56,6 +57,7 @@
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["stu_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["phone_location"]}} </td>
                         <td>{{@$var["tea_nick"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["origin_userid"]}} </td>
