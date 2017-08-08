@@ -101,6 +101,17 @@ class test_boby extends Controller
 
    }
 
+    public function for_add_news() {
+        $title = $this->get_in_str_val("title");
+        $type = $this->get_in_int_val("type");
+        $des = $this->get_in_str_val("des");
+        $pic = $this->get_in_str_val("pic");
+        $new_link = $this->get_in_str_val("new_link");
+        $adminid = session("adminid");
+        $create_time = time();
+        $ret_info = $this->t_yxyx_wxnews_info->add_news($title, $des,$pic,$new_link,$adminid,$type);
+        dd($ret_info);
+    }
 
 
 }

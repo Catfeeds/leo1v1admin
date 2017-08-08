@@ -103,6 +103,7 @@ class NewRouteConfig {
         "teacher_feedback"            => true,
         "teacher_level"               => true,
         "fulltime_teacher"            => true,
+        "t_yxyx_wxnews_info"          => true,
     ];
 
     //config
