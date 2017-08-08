@@ -86,8 +86,11 @@ class NoticeTeacher extends Command
             $wx->before_four_hour_not_upload_cw($type);
             break;
         case 16:
-            $wx->before_thirty_minute($type);
+            $wx->before_thirty_minute_wx($type);
             break;
+        case 17:
+            $wx->tomorrow_lesson_remind_wx($type);
+            break;           
         default:
             break;
         }
