@@ -29,11 +29,6 @@ class agent extends Controller
         $type          = $this->get_in_int_val('agent_type');
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $type_new = 0;
-        if($type){
-            $type_new = $type;
-        }
-        $type_new = 1;
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type_new);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
