@@ -718,6 +718,7 @@ class menu{
                 ]],
             ]],
             ["power_id"=>34, "name"=>"角色-教学", "list"=>[
+                ["power_id"=>80, "name"=>"全职老师统计",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>1, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
                 ["power_id"=>2, "name"=>"绩效",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>3, "name"=>"全职教师档案",   "url"=>"/human_resource/index_fulltime"],

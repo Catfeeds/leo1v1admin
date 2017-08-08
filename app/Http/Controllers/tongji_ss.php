@@ -6363,7 +6363,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
-
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
         $week_start = $date_week["sdate"]-14*86400;
         $week_end = $date_week["sdate"]+21*86400;
@@ -6430,7 +6429,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             @$tran_avg["order_all"] +=$item["order_all"];
 
         }
-        
         foreach($list as &$val){
             $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
             $val["week_count"] = isset($normal_stu_num1[$val["teacherid"]])?round($normal_stu_num1[$val["teacherid"]]["lesson_all"]/500):0;
