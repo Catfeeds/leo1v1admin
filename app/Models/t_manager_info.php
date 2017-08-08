@@ -463,12 +463,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s t on ss.userid = t.userid ".
                                   " where %s and am.del_flag=0".
                                   "  group by am.uid",
-                                  self::DB_TABLE_NAME,
-                                  t_admin_group_user::DB_TABLE_NAME,
-                                  t_admin_group_name::DB_TABLE_NAME,
-                                  t_admin_main_group_name::DB_TABLE_NAME,
-                                  t_seller_student_new::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,//am
+                                  t_admin_group_user::DB_TABLE_NAME,//g
+                                  t_admin_group_name::DB_TABLE_NAME,//m
+                                  t_admin_main_group_name::DB_TABLE_NAME,//ss
+                                  t_seller_student_new::DB_TABLE_NAME,//t
+                                  t_test_lesson_subject::DB_TABLE_NAME,//t
                                   $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
@@ -491,7 +491,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   " left join %s m on (g.up_groupid = m.groupid and m.month=%u)".
                                   " left join %s ss on am.uid = ss.admin_revisiterid ".
                                   " left join %s t on ss.userid = t.userid ".
-                                  " where %s and am.del_flag=0".
+                                  // " where %s and am.del_flag=0".
+                                  " where %s ".
                                   "  group by am.uid",
                                   self::DB_TABLE_NAME,
                                   t_group_user_month::DB_TABLE_NAME,
