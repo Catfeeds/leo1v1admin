@@ -77,7 +77,8 @@
                                     审核时间:{{@$var["master_assess_time_str"]}}<br>
                                     审核人:{{@$var["mater_admin_nick"]}}
                                 @else
-                                    状态:已申请,主管未审核 
+                                    状态:已申请,主管未审核<br>
+                                    申请时间:{{@$var["add_time_str"]}}<br>
                                 @endif
                             @else
                                 状态:未提交申请

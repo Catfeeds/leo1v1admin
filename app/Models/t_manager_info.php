@@ -1319,7 +1319,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
         $sql = $this->gen_sql_new("select m.create_time,m.uid,m.account,m.become_full_member_flag,m.become_full_member_time,"
                                   ." a.id,a.assess_time,p.id positive_id,p.master_deal_flag,p.main_master_deal_flag,m.name, "
-                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid ,p.main_master_assess_time,p.positive_type "
+                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid"
+                                  ." ,p.main_master_assess_time,p.positive_type,a.add_time "
                                   ." from %s m left join %s a on (m.uid= a.adminid and a.add_time= (select max(add_time) from %s where adminid = m.uid))"
                                   ." left join %s p on a.id= p.assess_id "
                                   ." where %s",

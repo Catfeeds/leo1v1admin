@@ -247,6 +247,7 @@ class fulltime_teacher extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"become_full_member_time","_str","Y-m-d");
             \App\Helper\Utils::unixtime2date_for_item($item,"assess_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"master_assess_time","_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"add_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($item,"main_master_assess_time","_str");
             $this->cache_set_item_account_nick($item,"assess_adminid","assess_admin_nick");
             $this->cache_set_item_account_nick($item,"mater_adminid","mater_admin_nick");
