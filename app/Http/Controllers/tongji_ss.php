@@ -6368,7 +6368,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $week_end = $date_week["sdate"]+21*86400;
         $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
         // $normal_stu_num2 = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
-        //dd($qz_tea_arr);
+        //dd($ret_info);
         $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
         //dd($lesson_count);
         $date                              = \App\Helper\Utils::get_month_range(time(),1);
@@ -6394,7 +6394,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item["lesson_per"]=100;
             }
             $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
+
             $item["cc_score"] = round($item["cc_per"]*0.75,2);
+
             $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
             // $item["hls_score"] = round($item["hls_per"]*0.05,2);
             //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
@@ -6404,6 +6406,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $cc_num = $item["cc_lesson_num"];
             }
+
             $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
             if($item["score"]>=95){
                 $item["reward"] = 1000;
@@ -6548,11 +6551,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];
         $lesson_all["lesson_per_month"] = $lesson_avg["lesson_per_month"];
         $lesson_all["realname"]="全部";
+
         array_push($ret_info,$tran_avg);
         array_push($ret_info,$tran_all);
         array_push($list,$lesson_avg);
         array_push($list,$lesson_all);
-
         return $this->pageView(__METHOD__,null,["ret_info"=>$ret_info,"list"=>$list]);
 
     }

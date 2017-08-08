@@ -102,13 +102,16 @@
                                         <td>扩课</td>
                                         <td>换老师</td>
                                         <td>合计</td>
+
                                         <td>cc</td>
                                         <td>扩课</td>
                                         <td>换老师</td>
                                         <td>综合</td>
+
                                         <td>cc</td>
                                         <td>扩课/换老师</td>
                                         <td>综合</td>
+
                                         <td>合计</td>
                                         <td>绩效奖金</td>
                                         <td>排行奖金</td>
@@ -122,14 +125,17 @@
                                             <td> {{@$var["kk_lesson_num"]}} </td> 
                                             <td> {{@$var["hls_lesson_num"]}} </td> 
                                             <td> {{@$var["lesson_all"]}} </td> 
+                                            
                                             <td> {{@$var["cc_order_num"]}} </td> 
                                             <td> {{@$var["kk_order_num"]}} </td> 
                                             <td> {{@$var["hls_order_num"]}} </td> 
                                             <td> {{@$var["order_all"]}} </td> 
+
                                             <td> {{@$var["cc_per"]}}% </td> 
                                             <td> {{@$var["kk_per"]}}% </td> 
                                             <td> {{@$var["hls_per"]}}% </td>
                                             <td> {{@$var["all_per"]}}% </td>
+
                                             <td> {{@$var["cc_score"]}} </td> 
                                             <td> {{@$var["kk_hls_score"]}} </td> 
                                             <td> {{@$var["all_score"]}}</td> 
@@ -159,6 +165,7 @@
                                         <td>常规学生数</td>
                                         <td>周常规课时</td>
                                         <td>常规课完成课时</td>
+
                                         <td>课时消耗完成率</td>
                                         <td>本月剩余课时</td>
                                         <td>已完成常规学生月平均课时</td>
@@ -177,6 +184,7 @@
                                             <td> {{@$var["normal_stu"]}} </td> 
                                             <td> {{@$var["week_count"]}} </td> 
                                             <td> {{@$var["lesson_count"]}} </td> 
+
                                             <td> {{@$var["lesson_per"]}}% </td> 
                                             <td> {{@$var["lesson_count_left"]/100}}</td> 
                                             <td> {{@$var["lesson_count_avg"]}} </td> 

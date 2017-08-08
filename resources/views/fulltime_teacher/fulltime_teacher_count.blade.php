@@ -98,9 +98,9 @@
                                         </tr>
                                         <tr>
                                             <td>全职老师完成的课耗总数</td> 
-                                            <td> 55</td>
+                                            <td>{{$ret_info['fulltime_teacher_lesson_count']}}</td>
                                             <td>全职老师cc转化率</td>
-                                            <td> 66</td>
+                                            <td>{{$ret_info['fulltime_teacher_cc_per']}}%</td>
                                         </tr>
 
                                         <tr>
