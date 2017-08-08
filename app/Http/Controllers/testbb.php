@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Mail ;
 
 class testbb extends Controller
 {
+    use CacheNick;
+
     var $check_login_flag = false;
     public function get_msg_num() {
         $bt_str=" ";

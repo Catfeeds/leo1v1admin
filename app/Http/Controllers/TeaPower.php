@@ -2089,6 +2089,22 @@ trait  TeaPower {
         return $accept_adminid;
     }
 
+    public function get_zs_reference($accept_adminid){
+        if($accept_adminid == 492){
+            $reference="99900020010";
+        }elseif($accept_adminid == 513){
+            $reference="99900020011" ;
+        }elseif($accept_adminid == 790){
+            $reference="99900020014";
+        }elseif($accept_adminid == 955){
+            $reference="99900020015";
+        }else{
+            $reference = 1;
+        }
+        return $reference;
+
+    }
+
 
     public function teacher_train_through_deal($teacher_info){
         $today_date  = date("Y年m月d日",time());

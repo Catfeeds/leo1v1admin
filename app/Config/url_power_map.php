@@ -481,6 +481,7 @@ class url_power_map {
 			'/tongji_ss/new_teacher_test_lesson_info'	=>1323306,
 			'/tongji_ss/research_teacher_lesson_detail_info'	=>1323308,
 			'/tea_manage_new/get_teacher_complaints_info'	=>1323326,
+			'/fulltime_teacher/fulltime_teacher_count'	=>1348000,
 			'/user_manage_new/get_fulltime_teacher_attendance_info_full'	=>1340100,
 			'/tongji_ss/tongji_fulltime_teacher_test_lesson_info'	=>1340200,
 			'/human_resource/index_fulltime'	=>1340300,

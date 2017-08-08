@@ -9,6 +9,7 @@ class main_page extends Controller
 
     var $switch_tongji_database_flag = true;
     use CacheNick;
+    use TeaPower;
     function __construct()  {
         parent::__construct();
     }
@@ -380,7 +381,8 @@ class main_page extends Controller
 
     public function  quality_control(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-
+        $subject = $this->get_in_int_val("subject",-1);
+        
     }
     public function zs_teacher(){
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
@@ -620,6 +622,8 @@ class main_page extends Controller
         $one_account_pass = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,1);
         foreach($ret_info as $k=>&$item){
             $accept_adminid       = $item["accept_adminid"];
+            $reference = $this->get_zs_reference($accept_adminid);
+            $item["self_count"] = $this->t_teacher_lecture_appointment_info->get_self_count($reference);
             $all_total   += $item["all_count"];
             $item["video_account"] = @$video_account[$accept_adminid]["all_count"];
             $item["video_account_real"] = @$video_account_real[$accept_adminid]["all_count"];
