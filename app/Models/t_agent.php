@@ -306,6 +306,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
+            'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
         ];
 

@@ -127,7 +127,7 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
-    
+
     public function get_my_num(){
         $agent_id   = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
@@ -170,7 +170,7 @@ class wx_yxyx_api extends Controller
                         $count_test = $count_item['count'];
                         if(0<$count_test){
                             $ret_list[$key]['status'] = 1;
-                        }   
+                        }
                     }
                 }
                 foreach($p_count as $k=>$i){
