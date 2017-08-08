@@ -26,10 +26,14 @@ class agent extends Controller
         $bank_type     = $this->get_in_str_val('bank_type');
         $zfb_name      = $this->get_in_str_val('zfb_name');
         $zfb_account   = $this->get_in_str_val('zfb_account');
-        $type          = $this->get_in_int_val('agent_type',-1);
+        $type          = $this->get_in_int_val('agent_type');
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type);
+        $type_new = 0;
+        if($type){
+            $type_new = $type;
+        }
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type_new);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
