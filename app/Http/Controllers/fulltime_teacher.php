@@ -156,7 +156,7 @@ class fulltime_teacher extends Controller
         ]);
     }
 
-     public function get_admin_user_info(){
+    public function get_admin_user_info(){
         $adminid = $this->get_in_int_val("adminid");
         $positive_type = $this->get_in_int_val("positive_type");
         //$adminid=99;
@@ -282,8 +282,248 @@ class fulltime_teacher extends Controller
     }
 
     public function fulltime_teacher_count(){
-        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        //$end_time = time();
+        // $start_time = time()-30*86400;
+        // $d = date("m",$end_time-100)- date("m",$start_time+100)+1;
+        $m = date("m",$start_time);
+        $n = ($end_time - $start_time)/86400/31;
+        $d = ($end_time - $start_time)/86400;
+        $ret_info  = $this->t_manager_info->get_research_teacher_list_new(5,$fulltime_teacher_type);
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
+        $list = $ret_info;
+        $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
 
+        $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+        $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+        $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
+        $week_start = $date_week["sdate"]-14*86400;
+        $week_end = $date_week["sdate"]+21*86400;
+        $normal_stu_num1 = $this->t_lesson_info_b2->get_tea_stu_num_list($qz_tea_arr,$week_start,$week_end);
+        // $normal_stu_num2 = $this->t_week_regular_course->get_tea_stu_num_list($qz_tea_arr);
+        //dd($ret_info);
+        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        //dd($lesson_count);
+        $date                              = \App\Helper\Utils::get_month_range(time(),1);
+        $teacher_lesson_count_total        = $this->t_lesson_info->get_teacher_lesson_count_total(time(),$date["edate"],$qz_tea_arr,1);
+
+
+        $tran_avg= $lesson_avg=[];
+        foreach($ret_info as &$item){
+            $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+            $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+            $item["kk_lesson_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["all_lesson"]:0;
+            $item["kk_order_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["order_num"]:0;
+            $item["hls_lesson_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["all_lesson"]:0;
+            $item["hls_order_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["order_num"]:0;
+            $item["cc_per"] = !empty($item["cc_lesson_num"])?round($item["cc_order_num"]/$item["cc_lesson_num"]*100,2):0;
+            $item["kk_per"] = !empty($item["kk_lesson_num"])?round($item["kk_order_num"]/$item["kk_lesson_num"]*100,2):0;
+            $item["hls_per"] = !empty($item["hls_lesson_num"])?round($item["hls_order_num"]/$item["hls_lesson_num"]*100,2):0;
+            $item["lesson_all"] = $item["cc_lesson_num"]+$item["kk_lesson_num"]+$item["hls_lesson_num"];
+            $item["order_all"] = $item["cc_order_num"]+$item["kk_order_num"]+$item["hls_order_num"];
+            $item["all_per"] = !empty($item["lesson_all"])?round($item["order_all"]/$item["lesson_all"]*100,2):0;
+            $item["lesson_per"] = $item["lesson_all"]/$d*100;
+            if( $item["lesson_per"]>100){
+                $item["lesson_per"]=100;
+            }
+            $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
+
+            $item["cc_score"] = round($item["cc_per"]*0.75,2);
+
+            $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
+            // $item["hls_score"] = round($item["hls_per"]*0.05,2);
+            //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
+            $item["all_score"] = round($item["all_per"]*0.15,2);
+            if($item["cc_lesson_num"]>10){
+                $cc_num=10;
+            }else{
+                $cc_num = $item["cc_lesson_num"];
+            }
+
+            $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
+            if($item["score"]>=95){
+                $item["reward"] = 1000;
+            }elseif($item["score"]>=85){
+                $item["reward"] = 800;
+            }elseif($item["score"]>=75){
+                $item["reward"] = 600;
+            }elseif($item["score"]>=65){
+                $item["reward"] = 400;
+            }elseif($item["score"]>=55){
+                $item["reward"] = 200;
+            }
+
+
+
+            @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
+            @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
+            @$tran_avg["kk_lesson_num"] +=$item["kk_lesson_num"];
+            @$tran_avg["kk_order_num"] +=$item["kk_order_num"];
+            @$tran_avg["hls_lesson_num"] +=$item["hls_lesson_num"];
+            @$tran_avg["hls_order_num"] +=$item["hls_order_num"];
+            @$tran_avg["lesson_all"] +=$item["lesson_all"];
+            @$tran_avg["order_all"] +=$item["order_all"];
+
+        }
+
+        if($m>6 && $m <9){
+            $m1 =264;$m2=252;$m3=228;
+        }else{
+
+            $m1 =220;$m2=210;$m3=190;
+        }
+        foreach($list as &$val){
+            $val["normal_stu"] = isset($normal_stu_num1[$val["teacherid"]])?$normal_stu_num1[$val["teacherid"]]["num"]:0;
+            $val["week_count"] = isset($normal_stu_num1[$val["teacherid"]])?round($normal_stu_num1[$val["teacherid"]]["lesson_all"]/500):0;
+            $val["lesson_count"] = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
+            $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
+            $grade = $this->t_teacher_info->get_grade_part_ex($val["teacherid"]);
+            if($grade==1){
+                $num=$m1;
+            }elseif($grade==2){
+                $num=$m2;
+            }elseif($grade==3){
+                $num=$m3;
+            }elseif($grade==4 || $grade==6){
+                $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],1);
+                $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
+                $per = !empty($s+$m)?$s/($s+$m):0;
+                if($per >= 0.3){
+                    $num=$m1;
+                }else{
+                    $num=$m2;
+                }
+            }elseif($grade==5 || $grade==7){
+                $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
+                $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],3);
+                $per = !empty($s+$m)?$s/($s+$m):0;
+                if($per >= 0.3){
+                    $num=$m2;
+                }else{
+                    $num=$m3;
+                }
+
+            }else{
+                $num=200;
+            }
+            $val["lesson_per"] = round($val["lesson_count"]/$num*100,2);
+            $val["lesson_per_month"] = round($val["lesson_count"]/$num/$n*100,2);
+            $val["lesson_count_left"] = isset($teacher_lesson_count_total[$val["teacherid"]])?$teacher_lesson_count_total[$val["teacherid"]]["lesson_total"]:0;
+            @$lesson_avg["normal_stu"] +=$val["normal_stu"];
+            @$lesson_avg["week_count"] +=$val["week_count"];
+            @$lesson_avg["lesson_count"] +=$val["lesson_count"];
+            @$lesson_avg["lesson_count_avg"] +=$val["lesson_count_avg"];
+            @$lesson_avg["lesson_per"] +=$val["lesson_per"];
+            @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
+            @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
+            if($val["lesson_per_month"]>=140){
+                $val["reward"] = 500;
+            }elseif($val["lesson_per_month"]>=130){
+                $val["reward"] = 400;
+            }elseif($val["lesson_per_month"]>=120){
+                $val["reward"] = 300;
+            }elseif($val["lesson_per_month"]>=110){
+                $val["reward"] = 200;
+            }elseif($val["lesson_per_month"]>=100){
+                $val["reward"] = 100;
+            }
+
+        }
+        \App\Helper\Utils::order_list( $ret_info,"score", 0);
+        foreach($ret_info as $k=>&$uk){
+            if($k==0 && $uk["score"]>=30){
+                $uk["other_reward"]=300;
+            }elseif($k==1 && $uk["score"]>=30){
+                $uk["other_reward"]=200;
+            }else if($k==2 && $uk["score"]>=30){
+                $uk["other_reward"]=100;
+            }
+
+
+        }
+        \App\Helper\Utils::order_list( $list,"lesson_per_month", 0);
+        foreach($list as $ku=>&$ukk){
+            if($ku==0 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=200;
+            }elseif($ku==1 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=150;
+            }else if($ku==2 && $ukk["lesson_per_month"]>=80){
+                $ukk["other_reward"]=100;
+            }
+
+
+        }
+
+        $tran_count = count($ret_info);
+        $lesson_count = count($list);
+        $tran_all = $tran_avg;
+        $lesson_all = $lesson_avg;
+        foreach($tran_avg as $pp=>&$rr){
+            $rr = round($rr/$tran_count,2);
+        }
+        $tran_avg["cc_per"] = !empty($tran_avg["cc_lesson_num"])?round($tran_avg["cc_order_num"]/$tran_avg["cc_lesson_num"]*100,2):0;
+        $tran_avg["kk_per"] = !empty($tran_avg["kk_lesson_num"])?round($tran_avg["kk_order_num"]/$tran_avg["kk_lesson_num"]*100,2):0;
+        $tran_avg["hls_per"] = !empty($tran_avg["hls_lesson_num"])?round($tran_avg["hls_order_num"]/$tran_avg["hls_lesson_num"]*100,2):0;
+        $tran_avg["all_per"] = !empty($tran_avg["lesson_all"])?round($tran_avg["order_all"]/$tran_avg["lesson_all"]*100,2):0;
+        $tran_avg["realname"]="平均";
+        $tran_all["cc_per"] = !empty($tran_all["cc_lesson_num"])?round($tran_all["cc_order_num"]/$tran_all["cc_lesson_num"]*100,2):0;
+        $tran_all["kk_per"] = !empty($tran_all["kk_lesson_num"])?round($tran_all["kk_order_num"]/$tran_all["kk_lesson_num"]*100,2):0;
+        $tran_all["hls_per"] = !empty($tran_all["hls_lesson_num"])?round($tran_all["hls_order_num"]/$tran_all["hls_lesson_num"]*100,2):0;
+        $tran_all["all_per"] = !empty($tran_all["lesson_all"])?round($tran_all["order_all"]/$tran_all["lesson_all"]*100,2):0;
+
+        $tran_all["realname"]="全部";
+
+        foreach($lesson_avg as $mm=>&$ss){
+            if($mm=="lesson_count_left"){
+                $ss = round($ss/$lesson_count);
+            }else{
+                $ss = round($ss/$lesson_count,2);
+            }
+        }
+        $lesson_avg["realname"]="平均";
+        $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];
+        $lesson_all["lesson_per_month"] = $lesson_avg["lesson_per_month"];
+        $lesson_all["realname"]="全部";
+        /*
+        array_push($ret_info,$tran_avg);
+        array_push($ret_info,$tran_all);
+        array_push($list,$lesson_avg);
+        array_push($list,$lesson_all);
+        */
+        $arr = [];
+        foreach ($ret_info as $key => $value) {
+            $arr[] = $value['teacherid'];
+        }
+
+
+
+        $ret['fulltime_teacher_count'] =  count($arr);//全职老师总人数
+        $ret['fulltime_teacher_student'] =$lesson_all['normal_stu']; //全职老师所带学生总数
+        $ret['fulltime_teacher_lesson_count'] =$lesson_all['lesson_count'];//全职老师完成的课耗总数
+        $ret['fulltime_teacher_cc_per']  = $tran_all['cc_per'];//全职老师cc转化率
+
+        $train_through_new = 1;
+        $ret_platform_teacher = $this->t_teacher_info->get_teacher_count($train_through_new);//统计平台老师总人数
+        $ret['platform_teacher_count'] = $ret_platform_teacher[0]['platform_teacher_count'];
+        $ret['fulltime_teacher_pro'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_count'],2);
+
+        $type = 0;
+        $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
+        $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
+        $ret['fulltime_teacher_student_pro'] = round($ret['fulltime_teacher_student']*100/$ret['platform_teacher_student'],2);
+        return $this->pageView(__METHOD__ ,null, [
+            "ret_info" => @$ret,
+        ]);
+        /*
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
         $ret = [];
         $account_role = 5;
         $ret_fulltime_teacher = $this->t_manager_info->get_fulltime_teacher_count($account_role); //统计全职老师总人数
@@ -322,11 +562,6 @@ class fulltime_teacher extends Controller
         $type=0;
         $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
 
-
-
-
-
-        ///result
         $ret_info['fulltime_teacher_count'] = $ret_fulltime_teacher[0]['fulltime_teacher_count'];
         $ret_info['platform_teacher_count'] = $ret_platform_teacher[0]['platform_teacher_count'];
         $ret_info['fulltime_teacher_pro'] = round($ret_info['fulltime_teacher_count']*100/$ret_info['platform_teacher_count'],2);
@@ -335,9 +570,11 @@ class fulltime_teacher extends Controller
         $ret_info['fulltime_teacher_student_pro'] = round($ret_info['fulltime_teacher_student']*100/$ret_info['platform_teacher_student'],2);
         $ret_info['fulltime_teacher_lesson_count'] = $lesson_all['lesson_count'];
         $ret_info['fulltime_teacher_cc_per']  = $tran_all['cc_per'];
+
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret_info,
         ]);
+        */
     }
 
 }
