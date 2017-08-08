@@ -615,6 +615,20 @@ function init_edit() {
         } ,function(ret){
             var data=ret.data;
             var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info");
+            var show_noti_info_flag=false;
+            var $note_info=html_node.find(".note-info");
+            var note_msg="";
+            if (data.test_lesson_count) {
+                show_noti_info_flag=true;
+                note_msg="已有试听课:"+data.test_lesson_count +"次" ;
+            }
+
+            if (!show_noti_info_flag) {
+                $note_info.hide();
+            }else{
+                $note_info.find("span").html( note_msg);
+            }
+
             if( data.status !=0 ) {
                 html_node.find("#id_stu_rev_info").removeClass("btn-primary");
                 html_node.find("#id_stu_rev_info").addClass("btn-warning");

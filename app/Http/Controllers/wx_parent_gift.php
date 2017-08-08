@@ -178,6 +178,7 @@ class wx_parent_gift extends Controller
             return $this->output_succ($gift_info);
         }else{
             // 首次参加抽奖 [将抽奖结果放入到数据表中]
+            $this->t_parent_luck_draw_in_wx->start_transaction();
             if($price >0){
                 $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
                 $today_gift_num = $this->t_parent_luck_draw_in_wx->ger_today_gift_num($start_time,$end_time,$price);
@@ -220,6 +221,7 @@ class wx_parent_gift extends Controller
                 ]);
             }
 
+            $this->t_parent_luck_draw_in_wx->commit();
             if($ret_add){
                 $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid($userid);
                 return $this->output_succ($gift_info);
