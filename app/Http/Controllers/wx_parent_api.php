@@ -1096,7 +1096,6 @@ class wx_parent_api extends Controller
         $total_score = $this->get_in_int_val('total_score');
         $reason  = $this->get_in_str_val('reason');
 
-
         $ret = $this->t_student_score_info->row_insert([
             'score'      => $score,
             'subject'    => $subject,
@@ -1110,8 +1109,15 @@ class wx_parent_api extends Controller
         if($ret){
             return $this->output_succ();
         }else{
-            return $this->output_err();
+            return $this->output_err('成绩录入失败,请稍后重试!');
         }
+    }
+
+    function get_student_score_info(){
+        $parent = $this->get_in_int_val('parentid');
+        $userid = $this->t_parent_child->get_userid_by_parentid($parentid);
+        // 一个家长有两个孩子的情况
+
     }
 
 
