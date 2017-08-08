@@ -63,7 +63,9 @@ final class BucketManager
             return array(null, null, $error);
         }
         $marker = array_key_exists('marker', $ret) ? $ret['marker'] : null;
-        return array($ret['items'], $marker, null);
+        $commonPrefixes= array_key_exists('commonPrefixes', $ret) ? $ret['commonPrefixes'] : [];
+
+        return array($ret['items'], $marker, null, $commonPrefixes );
     }
 
     /**

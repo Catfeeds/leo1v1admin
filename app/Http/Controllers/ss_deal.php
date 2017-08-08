@@ -3505,7 +3505,10 @@ class ss_deal extends Controller
             }
             $ytx_account='liyou';
 
-            if ($this->get_account_role() == E\Eaccount_role::V_1  ) {
+            if (
+                $this->get_account_role() == E\Eaccount_role::V_1 ||
+                $this->get_account_role() == E\Eaccount_role::V_8
+            ) {
                 $ytx_account="liyou2";
             }
             if ($this->get_account()=="zore" ) {
