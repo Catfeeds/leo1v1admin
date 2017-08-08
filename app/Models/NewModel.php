@@ -701,7 +701,13 @@ abstract class NewModel
     function rollback(){
         return  $this->db->rollBack();
     }
-
+    public function check_and_add_where_limit ( $where_str) {
+        $where_str=trim($where_str);
+        if ( preg_match("/\bor\b/i",$where_str) &&  $where_str[0] != "(" ) {
+            $where_str="($where_str)";
+        }
+        return $where_str;
+    }
 
     public function where_field_gen($fmt_str ,$value ){
         $args = func_get_args();
@@ -713,7 +719,7 @@ abstract class NewModel
             }
             $args=$tmp_args;
         }
-        return call_user_func_array( "sprintf",$args  );
+        return $this->check_and_add_where_limit( call_user_func_array( "sprintf",$args  ));
     }
 
 
@@ -747,7 +753,7 @@ abstract class NewModel
                 }
             }else{
                 if ( is_int( $k)) {
-                    $item_arr[]= $item;
+                    $item_arr[]= $this->check_and_add_where_limit($item);
                 }else{
                     $item_arr[]= sprintf("%s='%s'", $k, $this->ensql($item) )   ;
                 }
