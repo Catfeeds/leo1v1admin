@@ -129,6 +129,12 @@ interface RowData {
 	lesson_full_num	:any;
 	ass_test_lesson_type	:any;
 	require_lesson_success_flow_status	:any;
+	success_flag	:any;
+	test_confirm_adminid	:any;
+	test_confirm_time	:any;
+	test_lesson_fail_flag	:any;
+	fail_greater_4_hour_flag	:any;
+	fail_reason	:any;
 	number	:any;
 	performance_status	:any;
 	performance	:any;
@@ -164,6 +170,10 @@ interface RowData {
 	ass_test_lesson_type_str	:any;
 	lesson_deduct	:any;
 	lesson_del_flag_str	:any;
+	test_lesson_fail_flag_str	:any;
+	success_flag_str	:any;
+	test_confirm_time_str	:any;
+	test_confirm_admin_nick	:any;
 }
 
 /*
