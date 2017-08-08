@@ -381,6 +381,52 @@ class Common {
         return $ret;
     }
 
+    static function send_mail_leo_com ( $address ,$title ,$message ,$is_html=true) {
+        require_once( app_path("Libs/mail/class.phpmailer.php"));
+        require_once( app_path("Libs/mail/class.smtp.php"));
+        date_default_timezone_set('Asia/Shanghai');//设定时区东八区
+
+        /**  @var  $mail PHPMailer  */
+
+        $mail = new \PHPMailer(); //建立邮件发送类
+
+        $mail->IsSMTP(); // 使用SMTP方式发送
+        $mail->CharSet ="UTF-8";//设置编码，否则发送中文乱码
+        $mail->Host = "smtp.leoedu.com"; // 您的企业邮局域名
+
+
+        $mail->SMTPAuth = true; // 启用SMTP验证功能
+        $mail->SMTPSecure="tls";
+        $mail->Username = "jim@leoedu.com"; // 邮局用户名(请填写完整的email地址)
+        $mail->Password = "xcwen142857"; // 邮局密码
+
+        $mail->From = "jim@leoedu.com"; //邮件发送者email地址
+        $mail->FromName = "理优教研组";
+
+        if (is_array($address)) {
+            foreach ( $address as $item ){
+                $mail->AddAddress($item, $item);//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+            }
+        }else{
+            $mail->AddAddress($address, $address);
+        }
+        //$mail->AddReplyTo("", "");
+
+        //$mail->AddAttachment("/var/tmp/file.tar.gz"); // 添加附件
+        $mail->IsHTML($is_html); // set email format to HTML //是否使用HTML格式
+
+        $mail->Subject = $title;
+        $mail->Body = $message;
+        //$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
+        $ret= $mail->Send();
+        if(!$ret) {
+            \App\Helper\Utils::logger(" leo_com:email err: $address :$title  ". $mail->ErrorInfo);
+        }else{
+            \App\Helper\Utils::logger(" leo_com:email succ: $address :$title " );
+        }
+        return  $ret;
+    }
+
     static function send_paper_mail_new ( $address ,$title ,$message ,$is_html=true) {
 
         require_once( app_path("Libs/mail/class.phpmailer.php"));

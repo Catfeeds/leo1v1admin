@@ -50,7 +50,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
      */
     public function handle()
     {
-        \App\Helper\Utils::logger("pdf_file_path_xue");
+        \App\Helper\Utils::logger("pdf_file_path_xue12");
 
         $t_lesson_info = new  \App\Models\t_lesson_info();
 
@@ -62,7 +62,10 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
-        if($pdf_url){
+        // if($pdf_url){
+
+            \App\Helper\Utils::logger("pdf_url_path:".$pdf_url);
+
             \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
 
             $path = public_path().'/wximg';
@@ -77,15 +80,20 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);
+            \App\Helper\Utils::logger("file_name_origi_str:".$file_name_origi_str);
+
 
             $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+
+            \App\Helper\Utils::logger("ret_update1:".$ret);
+
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
             }
 
             @unlink($savePathFile);
-        }
+        // }
 
     }
 
