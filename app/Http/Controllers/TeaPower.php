@@ -2021,7 +2021,7 @@ trait  TeaPower {
     /**
      * 添加老师的模拟试听
      */
-    public function add_trial_train_lesson($teacher_info,$flag=0){
+    public function add_trial_train_lesson($teacher_info,$flag=0,$trial_train_num=1){
         $grade    = \App\Helper\Utils::change_grade_end_to_grade($teacher_info);
         $courseid = $this->t_course_order->add_course_info_new(
             0,0,$grade,$teacher_info['subject'],0
@@ -2034,6 +2034,11 @@ trait  TeaPower {
             ,$teacher_info['teacher_money_type'],$teacher_info['level'],0,2,0
             ,0,1,4
         );
+        if($trial_train_num>1){
+            $this->t_lesson_info->field_update_list($lessonid,[
+               "trial_train_num" =>$trial_train_num 
+            ]);
+        }
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
         $this->t_teacher_record_list->row_insert([
             "teacherid"      => $teacher_info['teacherid'],

@@ -27,7 +27,7 @@
                     <tr>
 
                         {!!\App\Helper\Utils::th_order_gen([
-                            ["助教 ","teacher_nick" ],
+                            ["老师 ","teacher_nick" ],
                             ["学生数","stu_num" ],
                             ["正常上课","valid_count" ],
                             ["老师迟到","teacher_come_late_count" ],
@@ -35,8 +35,8 @@
                             ["老师调课","teacher_change_lesson" ],
                             ["老师请假","teacher_leave_lesson" ],
                             ["老师类型","teacher_money_type_str" ],
-                            ["老师请假","teacher_leave_count" ],
                             ["入职天数","work_time" ],
+                            ["请假比率","lesson_lost_rate" ],
                            ])!!}
 
 
@@ -53,8 +53,8 @@
                             <td>{{@$var["teacher_change_lesson"]}} </td>
                             <td>{{@$var["teacher_leave_lesson"]}}</td>
                             <td>{{@$var["teacher_money_type_str"] }}</td>
-                            <td>{{@$var["teacher_leave_count"]}}</td>
                             <td>{{@$var["work_time"]}}天</td>
+                            <td>{{@$var["lesson_lost_rate"]}}%</td>
 
                             <td>
                                 <div class="row-data"

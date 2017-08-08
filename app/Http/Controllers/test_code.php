@@ -1544,6 +1544,25 @@ class test_code extends Controller
         dd($ret);
     }
 
+    public function reset_test_appointment(){
+        $id=26;
+        $teacherid=62655;
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "subject_ex"       => "1",
+            "grade_ex"         => "100",
+            "trans_grade_ex"   => "",
+            "trans_subject_ex" => "",
+            "grade_1v1"        => "",
+            "trans_grade_1v1"  => "",
+        ]);
 
+        $lessonid_list=$this->t_lesson_info_b2->get_lessonid_list_by_userid($teacherid);
+        if(is_array($lessonid_list) && !empty($lessonid_list)){
+            foreach($lessonid_list as $val){
+                $this->t_lesson_info->row_delete($val['lessonid']);
+            }
+        }
+
+    }
 
 }

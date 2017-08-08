@@ -429,6 +429,7 @@ class url_power_map {
 			'/tea_manage/train_lecture_lesson_zs'	=>1250700,
 			'/human_resource/origin_list'	=>1250800,
 			'/human_resource/zs_origin_list'	=>1250900,
+			'/main_page/quality_control'	=>1370100,
 			'/tongji_ss/tongji_seller_test_lesson_order_info_zj'	=>1370800,
 			'/tongji_ss/teacher_first_test_lesson_week_zj'	=>1371300,
 			'/human_resource/teacher_record_detail_list_new_zj'	=>1372800,
