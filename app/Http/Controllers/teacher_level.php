@@ -795,6 +795,7 @@ class teacher_level extends Controller
                 "add_time"       => time(),
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
+                "acc"            => $this->get_account(),
                 "tea_process_design_score"         => $tea_process_design_score,
                 "knw_point_score"                  => $knw_point_score,
                 "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,
