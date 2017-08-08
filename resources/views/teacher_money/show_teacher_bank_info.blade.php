@@ -4,7 +4,7 @@
     <section class="content">
         <table >
             <tr>
-                <td width="300px">老师</td>
+                <td width="200px">老师</td>
                 <td>{{$bank_info['realname']}}</td>
             </tr>
 				    <tr>

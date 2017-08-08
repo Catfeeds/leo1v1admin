@@ -2818,7 +2818,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_lesson_info_teacher_tongji_jy($page_num,$start_time,$end_time,$is_full_time=-1){
+    public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1){
         $where_arr=[
             "lesson_type in (0,1,3)",
             "s.is_test_user = 0",
@@ -2855,6 +2855,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ,$where_arr
         );
 
+        return $this->main_get_list($sql);
         return $this->main_get_list_by_page($sql,$page_num,300,true);
 
 

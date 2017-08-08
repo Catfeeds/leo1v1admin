@@ -2493,7 +2493,7 @@ ORDER BY require_time ASC";
         $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
         $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $sql=$this->gen_sql_new(
-            "select m.account , s.phone,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
+            "select m.account , s.phone, s.phone_location,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
             . "  from_unixtime( l.lesson_start) lesson_time ,   o.price/100 as price ,  s.origin_userid, s.origin,"
             . " s.userid, l.teacherid" .
             " from  db_weiyi.t_test_lesson_subject_require tr ".

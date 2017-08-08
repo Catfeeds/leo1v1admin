@@ -2568,9 +2568,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_count($train_through_new){
         $where_arr = [
             " train_through_new=1 ",
-            " is_quit=0 "
+            " is_quit=0 ",
+            " is_test_user =0"
         ];
         $sql = $this->gen_sql_new("select count(teacherid) as platform_teacher_count "
+                                  ." from %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    /**
+     *@function 获取平台老师list（通过入职培训，没有离职）
+     *
+     */
+    public function get_teacher_list($train_through_new){
+        $where_arr = [
+            " train_through_new=1 ",
+            " is_quit=0 ",
+            " is_test_user =0"
+        ];
+        $sql = $this->gen_sql_new("select teacherid "
                                   ." from %s "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr

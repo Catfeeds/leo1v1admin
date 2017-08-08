@@ -2429,7 +2429,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"all_count desc");
 
-        list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-d H:i:s',time()-7*86400), date('Y-m-d H:i:s',time()));
+        list($start_time,$end_time)=$this->get_in_date_range(date('Y-m-d',time()-7*86400), date('Y-m-d H:i:s',time()));
         $adminid     = $this->get_account_id();
         $right_list  = $this->get_tea_subject_and_right_by_adminid($adminid);
         $tea_subject = $right_list["tea_subject"];
@@ -6886,9 +6886,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($page_num,$start_time,$end_time,$is_full_time );
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
 
-        // dd($ret_info);
+        dd($ret_info);
         foreach($ret_info as &$item_list){
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
