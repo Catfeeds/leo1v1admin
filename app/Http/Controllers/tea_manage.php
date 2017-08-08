@@ -1711,9 +1711,16 @@ class tea_manage extends Controller
                 );
             }
         }
-
-        $job = new \App\Jobs\AddUserToTrainLesson($lessonid,$teacherid_list,$type);
-        dispatch($job);
+        if($type==0){
+            $this->t_train_lesson_user->row_insert([
+                "lessonid" => $lessonid,
+                "userid"   => $userid,
+                "add_time" => time(),
+            ]);
+        }else{
+            $job = new \App\Jobs\AddUserToTrainLesson($lessonid,$teacherid_list,$type);
+            dispatch($job);
+        }
 
         return $this->output_succ();
     }

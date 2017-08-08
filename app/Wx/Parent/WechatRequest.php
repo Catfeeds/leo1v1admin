@@ -223,14 +223,16 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
      */
     public static function eventSubscribe(&$request){
 
-        $content = "
-备战期末考，只需1节价值200元的理优1对1试听课。想预约就：
 
-<a href='http://www.leo1v1.com/market/index.html?服务号—菜单栏'>点这里!!! 点这里!!!</a>
-
-理优君将与你一路相伴，助力孩子成绩不断冲冲冲 /:,@-Di
-
+        $content =
+                 "
+ 您好，感谢您的关注！
+ 2017/8/5-2017/8/11为理优教育成立3周年的活动日
+ 活动期间，点击菜单栏“试听课程”，进行账号绑定
+ 即可了解理优教育周年庆活动详情~
+ （三重惊喜好礼等你来领取哟）
 ";
+
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }

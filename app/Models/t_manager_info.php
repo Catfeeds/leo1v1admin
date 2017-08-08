@@ -152,7 +152,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if ($user_info >0 ) {
             $where_arr[]=[  "t1.phone like '%%%s%%'", $user_info, "" ] ;
         }else{
-            $where_arr[]=[  "t1.account like '%%%s%%'", $user_info, "" ] ;
+            if ($user_info!=""){
+                $where_arr[]=array( "(t1.account like '%%%s%%' or  t1.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
         }
         if ( !$has_question_user  ) {
             $where_arr[] = [  "t1.account not like 'c\_%s%%'", "",  1] ;
@@ -1319,7 +1324,8 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         }
         $sql = $this->gen_sql_new("select m.create_time,m.uid,m.account,m.become_full_member_flag,m.become_full_member_time,"
                                   ." a.id,a.assess_time,p.id positive_id,p.master_deal_flag,p.main_master_deal_flag,m.name, "
-                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid ,p.main_master_assess_time,p.positive_type "
+                                  ." a.assess_adminid,p.mater_adminid,p.master_assess_time ,p.main_mater_adminid"
+                                  ." ,p.main_master_assess_time,p.positive_type,a.add_time "
                                   ." from %s m left join %s a on (m.uid= a.adminid and a.add_time= (select max(add_time) from %s where adminid = m.uid))"
                                   ." left join %s p on a.id= p.assess_id "
                                   ." where %s",
@@ -1345,12 +1351,11 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
 
     public function get_list_test( $page_info, $nick_phone, $account_role, $start_time, $end_time) {
-        $where_arr=array();
-        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         $where_arr = [
             ["create_time>=%s",$start_time,0],
             ["create_time<=%s",$end_time,0],
         ];
+        $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "phone like '%%%s%%'  ", $this->ensql($nick_phone));
         }
@@ -1362,7 +1367,28 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
-
+    public function get_tea_sub_list_by_orderid($idstr = 0){
+        $where_arr = [
+            "ol.orderid in ({$idstr})",
+            // "ol.orderid in (199)",
+        ];
+        // // $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
+        // if ($orderid!=""){
+        //     $where_arr[]=sprintf( "orderid like '%%%s%%'  ", $this->ensql($orderid));
+        // }
+        $sql =  $this->gen_sql_new( "select distinct ol.orderid, t.nick, l.subject"
+                                    . " from %s l"
+                                    . " left join %s ol on ol.lessonid=l.lessonid"
+                                    . " left join %s t on t.teacherid=l.teacherid"
+                                    . "  where %s  "
+                                    ,t_lesson_info::DB_TABLE_NAME
+                                    ,t_order_lesson_list::DB_TABLE_NAME
+                                    ,t_teacher_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
     public function test_ff( $page_info, $nick_phone, $account_role) {
         $where_arr=array();
 
@@ -1430,6 +1456,39 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         $sql = $this->gen_sql_new("select uid from %s where %s order by uid",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
 
+    }
+    //全职老师统计
+    public function get_fulltime_teacher_count($account_role){
+        
+        $where_arr=[
+            "m.account_role =5 ",
+            //"m.del_flag =0 ",
+            //["m.uid = %u",$adminid,-1],
+            //["m.become_full_member_flag = %u",$become_full_member_flag,-1],
+            //["m.fulltime_teacher_type = %u",$fulltime_teacher_type,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(m.uid) as fulltime_teacher_count  "
+                                  ." from %s m left join %s a on m.phone= a.phone "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        //dd($sql); 
+        return $this->main_get_list($sql);
+    }
+    //全职老师学生数统计（此处获取全职老师id列表)
+    public function get_fulltime_teacher_student_count($account_role){
+        $where_arr=[
+            " m.account_role=5 ",
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid  from %s m"
+                                  ." left join %s t on m.phone=t.phone where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
     }
 
 }

@@ -845,4 +845,24 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_value($sql);
     }
 
+    public function get_email_list($start_time,$end_time){
+        $where_arr = [
+            ["answer_begin_time >%u",$start_time,0],
+            ["answer_begin_time <%u",$end_time,0],
+            "tla.email!=''"
+        ];
+        $sql = $this->gen_sql_new("select tla.name,tla.email"
+                                  ." from %s tla"
+                                  ." left join %s t on tla.phone=t.phone"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s where tla.phone=phone)"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_teacher_lecture_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

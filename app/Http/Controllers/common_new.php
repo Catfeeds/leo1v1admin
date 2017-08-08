@@ -295,7 +295,7 @@ class common_new extends Controller
                     $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
-                $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
+                $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             }
 
             if($reference != ""){
@@ -332,13 +332,26 @@ class common_new extends Controller
         if($email!=""){
             $html  = $this->get_email_html(0,0,0,0,$name);
             $title = "【理优1对1】试讲邀请和安排";
-            $ret   = \App\Helper\Common::send_paper_mail($email,$title,$html);
+            $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){
                 return $this->output_err("邮件发送失败!");
             }
         }
 
         return $this->output_succ();
+    }
+
+    public function send_email_for_8(){
+        $start_time = strtotime("2017-6-10");
+        $end_time   = strtotime("2017-8-3");
+
+        $list = $this->t_teacher_lecture_appointment_info->get_email_list($start_time,$end_time);
+        echo count($list);exit;
+
+        $title = "【理优1对1】试讲邀请和安排";
+        $html  = $this->get_email_html(0,0,0,0,"");
+        $job   = new \App\Jobs\SendCommonEmail($list,$title,$html);
+        dispatch($job);
     }
 
     public function get_email_html($subject=0,$grade_start=0,$grade_end=0,$grade=0,$name=""){

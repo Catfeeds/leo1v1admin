@@ -51,11 +51,11 @@ trait  TeaPower {
                         }
                     }
                 }elseif($day>=2 && $day <=5  && !in_array($teacherid,$tea_arr)){
-                    if(!empty($lesson_start)){
+                    /* if(!empty($lesson_start)){
                         if($h <18){
                             return $this->output_err("教研老师周二至周五只能18点以后排课");
                         }
-                    }
+                        }*/
                 }
             }
         }elseif($account_role==5 && !in_array($teacherid,$tea_arr)){
@@ -117,7 +117,7 @@ trait  TeaPower {
             $this->t_teacher_label->field_update_list($id,[
                 "add_time" =>time(),
                 "label_origin"=>$label_origin,
-                "tea_label_type"=>$sshd_good
+                "tea_label_type"=>$tea_label_type
             ]);
         }else{
             $this->t_teacher_label->row_insert([
@@ -126,7 +126,7 @@ trait  TeaPower {
                 "label_origin"=>$label_origin,
                 "lessonid"    =>$lessonid,
                 "lesson_list"=>$lesson_list,
-                "tea_label_type"=>$sshd_good
+                "tea_label_type"=>$tea_label_type
             ]);
  
         }
@@ -1606,35 +1606,39 @@ trait  TeaPower {
     }
 
     public function get_fulltime_teacher_test_lesson_score($teacherid,$start_time,$end_time){
-        $d = ($end_time - $start_time)/86400;
-        $qz_tea_arr = [$teacherid];
+        $qz_tea_arr=[$teacherid];
         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+        
         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
-        $cc_lesson_num =  isset($qz_tea_list[$teacherid])?$qz_tea_list[$teacherid]["all_lesson"]:0;
-        $cc_order_num =  isset($qz_tea_list[$teacherid])?$qz_tea_list[$teacherid]["order_num"]:0;
-        $kk_lesson_num =  isset($qz_tea_list_kk[$teacherid])?$qz_tea_list_kk[$teacherid]["all_lesson"]:0;
-        $kk_order_num =  isset($qz_tea_list_kk[$teacherid])?$qz_tea_list_kk[$teacherid]["order_num"]:0;
-        $hls_lesson_num =  isset($qz_tea_list_hls[$teacherid])?$qz_tea_list_hls[$teacherid]["all_lesson"]:0;
-        $hls_order_num =  isset($qz_tea_list_hls[$teacherid])?$qz_tea_list_hls[$teacherid]["order_num"]:0;
-        $cc_per = !empty($cc_lesson_num)?round($cc_order_num/$cc_lesson_num*100,2):0;
-        $kk_per = !empty($kk_lesson_num)?round($kk_order_num/$kk_lesson_num*100,2):0;
-        $hls_per = !empty($hls_lesson_num)?round($hls_order_num/$hls_lesson_num*100,2):0;
-        $lesson_all = $cc_lesson_num+$kk_lesson_num+$hls_lesson_num;
-        $order_all = $cc_order_num+$kk_order_num+$hls_order_num;
-        $all_per = !empty($lesson_all)?round($order_all/$lesson_all*100,2):0;
-        $lesson_per = $lesson_all/$d*100;
-        if( $lesson_per>100){
-            $lesson_per=100;
+        $item=[];
+        $item["teacherid"] = $teacherid;
+        $item["cc_lesson_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["all_lesson"]:0;
+        $item["cc_order_num"] =  isset($qz_tea_list[$item["teacherid"]])?$qz_tea_list[$item["teacherid"]]["order_num"]:0;
+        $item["kk_lesson_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["all_lesson"]:0;
+        $item["kk_order_num"] =  isset($qz_tea_list_kk[$item["teacherid"]])?$qz_tea_list_kk[$item["teacherid"]]["order_num"]:0;
+        $item["hls_lesson_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["all_lesson"]:0;
+        $item["hls_order_num"] =  isset($qz_tea_list_hls[$item["teacherid"]])?$qz_tea_list_hls[$item["teacherid"]]["order_num"]:0;
+        $item["cc_per"] = !empty($item["cc_lesson_num"])?round($item["cc_order_num"]/$item["cc_lesson_num"]*100,2):0;
+        $item["kk_per"] = !empty($item["kk_lesson_num"])?round($item["kk_order_num"]/$item["kk_lesson_num"]*100,2):0;
+        $item["hls_per"] = !empty($item["hls_lesson_num"])?round($item["hls_order_num"]/$item["hls_lesson_num"]*100,2):0;
+        $item["lesson_all"] = $item["cc_lesson_num"]+$item["kk_lesson_num"]+$item["hls_lesson_num"];
+        $item["order_all"] = $item["cc_order_num"]+$item["kk_order_num"]+$item["hls_order_num"];
+        $item["all_per"] = !empty($item["lesson_all"])?round($item["order_all"]/$item["lesson_all"]*100,2):0;
+        $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
+        $item["cc_score"] = round($item["cc_per"]*0.75,2);
+        $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
+        // $item["hls_score"] = round($item["hls_per"]*0.05,2);
+        //$item["lesson_score"] = round($item["lesson_per"]*0.1,2);
+        $item["all_score"] = round($item["all_per"]*0.15,2);
+        if($item["cc_lesson_num"]>10){
+            $cc_num=10;
+        }else{
+            $cc_num = $item["cc_lesson_num"];
         }
-        $cc_score = round($cc_per*0.5,2);
-        $kk_score = round($kk_per*0.1,2);
-        $hls_score= round($hls_per*0.1,2);
-        $lesson_score = round($lesson_per*0.1,2);
-        $all_score = round($all_per*0.2,2);
+        $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
+        return $item["score"];
 
-        $score =  $cc_score+ $kk_score + $hls_score+$lesson_score+$all_score;
-        return $score;
     }
 
     public function set_teacher_lecture_is_pass($teacher_info){
@@ -2060,7 +2064,7 @@ trait  TeaPower {
                 $url = "";
                 // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
-                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
               
             }
@@ -2321,6 +2325,7 @@ trait  TeaPower {
         }
         return $html;
     }
+
 
 
 }

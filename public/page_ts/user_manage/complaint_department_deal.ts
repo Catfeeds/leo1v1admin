@@ -293,6 +293,24 @@ $(function(){
     });
 
 
+    $(".opt-telphone").on("click",function(){
+        //
+        var me=this;
+        var opt_data= $(this).get_opt_data();
+        var phone    = ""+ opt_data.phone;
+        phone=phone.split("-")[0];
+        
+        try{
+            window.navigate(
+                "app:1234567@"+phone+"");
+        } catch(e){
+
+        };
+        $.do_ajax_t("/ss_deal/call_ytx_phone", {
+            "phone": opt_data.phone
+        } );
+
+    });
 
 
 

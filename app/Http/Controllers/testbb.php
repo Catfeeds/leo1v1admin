@@ -47,65 +47,104 @@ class testbb extends Controller
 
 
     public function test () {
-        $userid = $this->get_in_int_val('parentid');
-        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
-        $parent_num = $parent_lesson_total/100;
-        dd($parent_num);
+        $a = [];
 
 
-        $parent_lesson_total = $this->t_parent_child->get_student_lesson_total_by_parentid($userid);
-        dd($parent_lesson_total);
-        $gift_info = $this->t_parent_luck_draw_in_wx->get_gift_info_by_userid(100);
-        // dd($gift_info);
-        dd($gift_info['userid']);
-        // $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list($price);
-        $all_gift_list  = $this->t_parent_luck_draw_in_wx->get_all_gift_list(0);
-        $rock_gift_num = count($all_gift_list);
-
-        $index = mt_rand(0,$rock_gift_num-1);
-
-        $prize_code = $all_gift_list[$index]['prize_code'];
-
-        dd($prize_code);
-        $index = mt_rand(0,count($r)-1);
 
 
-        dd($index);
-        dd($r[$index]);
-        // if($all_gift_list[$index]){
+        $this->switch_tongji_database();
 
+        $is_full_time = 0;  // 显示兼职老师
+
+        // list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
+        // $page_info = $this->get_in_page_info();
+
+        // $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
+
+        // $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
+
+        // // dd($ret_info);
+        // foreach($ret_info['list'] as $index=> &$item_list){
+        //     if($item_list['lesson_count_total'] == 0){
+        //         unset($ret_info['list'][$index]);
+        //     }
+        //     $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+
+        //     if($item_list['train_through_new_time'] !=0){
+        //         $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
+        //     }else{
+        //         $item_list["work_time"] = 0;
+        //     }
+
+        //     E\Eteacher_money_type::set_item_value_str($item_list);
         // }
 
+        // // dd($ret_info);
+        // \App\Helper\Common::sortArrByField($ret_info['list'],'lesson_count_total',true);
+        // return $this->pageView(__METHOD__,$ret_info);
 
-        dd($r);
-        $d = strtotime(date("Y-m-d",strtotime('+1 day')));
-        dd($d);
 
-        $market_activity_type = -1;
-        $parentid = '';
-        if(!$parentid && ($market_activity_type<0)) {
-            return $this->output_err("你的孩子还没有注册理优1对1,不能绑定!$market_activity_type");
+
+        $this->switch_tongji_database();
+        $sum_field_list=[
+            "stu_num",
+            "valid_count",
+            "teacher_come_late_count",
+            "teacher_cut_class_count",
+            "teacher_change_lesson",
+            "teacher_leave_lesson",
+            "teacher_money_type",
+            "lesson_cancel_reason_type",
+        ];
+        $order_field_arr=  array_merge(["teacher_nick" ] ,$sum_field_list );
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"teacher_nick desc");
+        $assistantid= $this->get_in_int_val("assistantid",-1);
+
+        // $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        // $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time);
+
+        // dd($ret_info);
+        foreach($ret_info as &$item_list){
+                $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
+
+                if($item_list['train_through_new_time'] !=0){
+                    $item_list["work_time"] = ceil((time()-$item_list["train_through_new_time"])/86400)."天";
+                }else{
+                    $item_list["work_time"] = 0;
+                }
+
+                E\Eteacher_money_type::set_item_value_str($item_list);
+
         }
 
-        dd(($market_activity_type > 0));
-        header("Location: https://www.baidu.com");
-        exit;
-        /**
-           获取code
-           https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-           define("WECHAT_APPID", 'wx636f1058abca1bc1'); //理优公众号
-           define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
 
-        ***/
-        $parent_appid = "wx636f1058abca1bc1";
-        $url = "http://admin.yb1v1.com/wx_parent_common/check_parent_info";
-
-        $redirect_url = urlencode($url);
-
-        $url = " https://open.weixin.qq.com/connect/oauth2/authorize?appid=$parent_appid&redirect_uri=$redirect_url&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        dd($ret_info);
 
 
-        dd($url);
+        $all_item=["ass_nick" => "全部" ];
+        foreach ($ret_info as &$item) {
+            foreach ($item as $key => $value) {
+                if ((!is_int($key)) && ($key != "assistantid" )) {
+                    $all_item[$key]=(@$all_item[$key])+$value;
+                }
+            }
+            $item["ass_nick"]=$this->t_assistant_info->get_nick($item['assistantid']);
+        }
+
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
+        }
+
+        array_unshift($ret_info, $all_item);
+        // dd($ret_info);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
+
+
 
     }
 
@@ -135,10 +174,13 @@ class testbb extends Controller
 
 
 
+    public function tt() {
+        $store=new \App\FileStore\file_store_tea();
+        $ret=$store->list_dir("10001", "/log1");
+        dd($ret);
+    }
+    public function rename_file() {
 
-
-
-
-
+    }
 
 }

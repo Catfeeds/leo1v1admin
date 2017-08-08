@@ -1862,7 +1862,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
@@ -2447,7 +2447,8 @@ class human_resource extends Controller
             "record_monitor_class"             => $record_monitor_class,
             "trial_train_status"               => $status
         ]);
-
+ 
+               
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
@@ -2455,7 +2456,7 @@ class human_resource extends Controller
         /* $this->add_teacher_label(
             $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
             );*/
-        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_bad,2);
+        $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
        
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
@@ -2464,6 +2465,10 @@ class human_resource extends Controller
                 "trial_train_flag" => 1,
             ]);
             $keyword2   = "已通过";
+
+            //入职
+            $this->teacher_train_through_deal($teacher_info);
+
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
                 $train_reward=\App\Helper\Config::get_config_2("teacher_money","trial_train_reward");
@@ -2477,33 +2482,32 @@ class human_resource extends Controller
                 ]);
             }
         }elseif($status=2){
-            $ret = $this->add_trial_train_lesson($teacher_info);
+            // $ret = $this->add_trial_train_lesson($teacher_info);
             $keyword2 = "未通过";
+            if($teacher_info['wx_openid']!=""){
+                /**
+                 * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                 * 标题   : 评估结果通知
+                 * {{first.DATA}}
+                 * 评估内容：{{keyword1.DATA}}
+                 * 评估结果：{{keyword2.DATA}}
+                 * 时间：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+                $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                $data['first']    = "老师您好，很抱歉您没有通过模拟试听，希望您再接再厉。";
+                $data['keyword1'] = $record_info;
+                $data['keyword2'] = $keyword2;
+                $data['keyword3'] = date("Y-m-d H:i:s");
+                $data['remark']   = "请重新提交模拟试听时间，理优教育致力于打造高水平的教学服务团队，期待您能通过下次模拟试听，加油！";
+                $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+            }
+
         }else{
             return $this->output_err("审核状态出错！");
         }
 
-        if($teacher_info['wx_openid']!=""){
-            /**
-             * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
-             * 标题   : 评估结果通知
-             * {{first.DATA}}
-             * 评估内容：{{keyword1.DATA}}
-             * 评估结果：{{keyword2.DATA}}
-             * 时间：{{keyword3.DATA}}
-             * {{remark.DATA}}
-             */
-            $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
-            $data['first']    = "";
-            $data['keyword1'] = "模拟课程质量反馈报告";
-            $data['keyword2'] = $keyword2;
-            $data['keyword3'] = date("Y-m-d H:i:s");
-            $data['remark']   = "监课情况:".$record_monitor_class
-                              ."\n建       议:".$record_info
-                              ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
-            $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
-            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
-        }
         return $this->output_succ();
     }
 
