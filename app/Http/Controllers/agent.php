@@ -30,9 +30,21 @@ class agent extends Controller
         $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type);
+        $userid_arr = [];
         foreach($ret_info['list'] as &$item){
+            if($item['type'] == 1){
+                $userid_arr[] = $item['s_userid'];
+            }
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+        }
+        $test_info = $this->t_test_lesson_subject_sub_list->get_suc_test_by_userid($userid_arr);
+        foreach($ret_info['list'] as &$item){
+            foreach($test_info as $info){
+                if($item['s_userid'] == $info['userid']){
+                    $item['success_flag'] = 1;
+                }
+            }
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -77,6 +89,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $userid = 274319;
+        $row = $this->t_test_lesson_subject_sub_list->get_row_by_userid($userid);
+        dd($userid,$row);
         $agent_id = 179;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){

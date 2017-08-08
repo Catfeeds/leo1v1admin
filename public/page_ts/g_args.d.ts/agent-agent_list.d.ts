@@ -47,6 +47,7 @@ interface RowData {
 	type	:any;
 	p_nickname	:any;
 	p_phone	:any;
+	s_userid	:any;
 	agent_type	:any;
 }
 
