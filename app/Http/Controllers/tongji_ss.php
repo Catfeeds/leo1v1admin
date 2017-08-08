@@ -6450,8 +6450,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }elseif($grade==3){
                 $num=$m3;
             }elseif($grade==4 || $grade==6){
-                $s = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],1);
-                $m = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],2);
+                $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],1);
+                $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
                 $per = !empty($s+$m)?$s/($s+$m):0;
                 if($per >= 0.3){
                     $num=$m1;
@@ -6459,8 +6459,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                     $num=$m2;
                 }
             }elseif($grade==5 || $grade==7){
-                $s = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],2);
-                $m = $this->t_week_regular_course->get_tea_stu_grade_list($val["teacherid"],3);
+                $s = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],2);
+                $m = $this->t_lesson_info_b2->get_teacher_lesson_grade_count($start_time,$end_time,$val["teacherid"],3);
                 $per = !empty($s+$m)?$s/($s+$m):0;
                 if($per >= 0.3){
                     $num=$m2;
@@ -6865,12 +6865,15 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
         $this->switch_tongji_database();
+
+        $is_full_time = 0;  // 显示兼职老师
+
         list($start_time,$end_time)  = $this->get_in_date_range(0,0,0,null,3);
         $page_info = $this->get_in_page_info();
 
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
+        $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_info_by_teacher_jy($start_time,$end_time,$page_info,$lesson_cancel_reason_type);
 
         // dd($ret_info);
         foreach($ret_info['list'] as $index=> &$item_list){

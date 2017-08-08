@@ -516,8 +516,11 @@ class tongji extends Controller
             $item_ret['lesson_rate'] = $item_ret['valid_count']/($item_ret['stu_num']*100);
             $item_ret['lesson_rate'] = number_format($item_ret['lesson_rate'],2);
             $item_ret['lesson_lose_rate'] = ($item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count'])/ ($item_ret['valid_count']+$item_ret['fix_change_count']+$item_ret['internet_change_count']+$item_ret['student_leave_count']+$item_ret['teacher_leave_count']);
+
             $item_ret['lesson_lose_rate'] = number_format($item_ret['lesson_lose_rate'],2);
         }
+
+
 
         $all_item=["ass_nick" => "全部" ];
         foreach ($ret_info as &$item) {
@@ -528,6 +531,7 @@ class tongji extends Controller
             }
             $item["ass_nick"]=$this->t_assistant_info->get_nick($item['assistantid']);
         }
+
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
         }
