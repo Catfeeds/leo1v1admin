@@ -66,7 +66,7 @@
                             <td>{{@$var["lesson_leavel_rate"]}}%</td>
 
                             <td>{{@$var["teacher_money_type_str"] }}</td>
-                            <td>{{@$var["work_time_rate"]}}天</td>
+                            <td>{{@$var["work_time"]}}天</td>
 
                             <td>
                                 <div class="row-data"

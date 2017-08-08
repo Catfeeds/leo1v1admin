@@ -6936,9 +6936,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $teacher_num = count($ret_info);
         if($teacher_num>0){
-            $all_item['work_time_rate'] = $all_item['work_time']/$teacher_num;
+            $all_item['work_time'] = number_format($all_item['work_time']/$teacher_num,2);
         }else{
-            $all_item['work_time_rate'] = 0;
+            $all_item['work_time'] = 0;
         }
 
         array_unshift($ret_info, $all_item);
