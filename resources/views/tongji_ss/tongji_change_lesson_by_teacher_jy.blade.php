@@ -26,15 +26,20 @@
                 <thead>
                     <tr>
 
+
+
                         {!!\App\Helper\Utils::th_order_gen([
                             ["老师 ","teacher_nick" ],
                             ["学生数","stu_num" ],
                             ["正常上课","valid_count" ],
                             ["老师迟到","teacher_come_late_count" ],
+                            ["迟到比率","lesson_come_late_rate" ],
                             ["老师旷课","teacher_cut_class_count" ],
+                            ["旷课比率","lesson_cut_class_rate" ],
                             ["老师调课","teacher_change_lesson" ],
+                            ["调课比率","lesson_change_rate" ],
                             ["老师请假","teacher_leave_lesson" ],
-                            ["请假比率","lesson_lost_rate" ],
+                            ["请假比率","lesson_leavel_rate" ],
                             ["老师类型","teacher_money_type_str" ],
                             ["入职天数","work_time" ],
                            ])!!}
@@ -49,13 +54,19 @@
                             <td>{{@$var["stu_num"]}} </td>
                             <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]}}</a> </td>
                             <td>{{@$var["teacher_come_late_count"]}} </td>
+                            <td>{{@$var["lesson_come_late_rate"]}}% </td>
+
                             <td>{{@$var["teacher_cut_class_count"]}} </td>
+                            <td>{{@$var["lesson_cut_class_rate"]}}% </td>
+
                             <td>{{@$var["teacher_change_lesson"]}} </td>
+                            <td>{{@$var["lesson_change_rate"]}}% </td>
+
                             <td>{{@$var["teacher_leave_lesson"]}}</td>
                             <td>{{@$var["lesson_leavel_rate"]}}%</td>
 
                             <td>{{@$var["teacher_money_type_str"] }}</td>
-                            <td>{{@$var["work_time"]}}天</td>
+                            <td>{{@$var["work_time_rate"]}}天</td>
 
                             <td>
                                 <div class="row-data"

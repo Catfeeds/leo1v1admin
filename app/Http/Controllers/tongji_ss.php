@@ -6898,12 +6898,18 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
                 $item_list["work_time"] = 0;
             }
 
-            if($item_list['valid_count']){
+            if($item_list['valid_count']>0){
                 $item_list['lesson_leavel_rate'] = number_format(($item_list['teacher_leave_lesson']/$item_list['valid_count'])*100,2);
                 $item_list['lesson_come_late_rate'] = number_format(($item_list['teacher_come_late_count']/$item_list['valid_count'])*100,2);
                 $item_list['lesson_cut_class_rate'] = number_format(($item_list['teacher_cut_class_count']/$item_list['valid_count'])*100,2);
                 $item_list['lesson_change_rate'] = number_format(($item_list['teacher_change_lesson']/$item_list['valid_count'])*100,2);
+            }else{
+                $item_list['lesson_leavel_rate'] = 0;
+                $item_list['lesson_come_late_rate'] = 0;
+                $item_list['lesson_cut_class_rate'] = 0;
+                $item_list['lesson_change_rate'] = 0;
             }
+
             E\Eteacher_money_type::set_item_value_str($item_list);
         }
 
@@ -6927,6 +6933,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
 
         $all_item['lesson_lost_rate'] = 0;
+
+        $teacher_num = count($ret_info);
+        if($teacher_num>0){
+            $all_item['work_time_rate'] = $all_item['work_time']/$teacher_num;
+        }else{
+            $all_item['work_time_rate'] = 0;
+        }
 
         array_unshift($ret_info, $all_item);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
