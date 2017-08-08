@@ -16,6 +16,13 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1">
+                    <div class="input-group ">
+                        <span class="input-group-addon">是否成功试听</span>
+                        <select class="opt-change form-control" id="id_success_flag" >
+                        </select>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <button id="id_add"> 增加</button>
                 </div>

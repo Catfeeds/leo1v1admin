@@ -2630,7 +2630,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
-
         return $this->main_get_row($sql);
     }
 
