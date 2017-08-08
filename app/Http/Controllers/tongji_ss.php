@@ -6860,8 +6860,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
     public function tongji_change_lesson_by_teacher_jy(){ // 显示兼职老师考勤
-        return $this->tongji_change_lesson_by_teacher();
+        // return $this->tongji_change_lesson_by_teacher();
 
+        $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();
         $is_full_time = 1;  // 显示兼职老师
         $this->switch_tongji_database();
@@ -6882,7 +6883,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($page_num,$start_time,$end_time,$is_full_time );
 
         // dd($ret_info);
         foreach($ret_info as &$item_list){

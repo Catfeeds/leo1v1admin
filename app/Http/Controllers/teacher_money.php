@@ -753,6 +753,9 @@ class teacher_money extends Controller
 
     public function show_teacher_bank_info(){
         $teacherid = $this->get_in_int_val("teacherid");
+        if($teacherid==0){
+            return $this->output_err("老师id出错！");
+        }
 
         $bank_info = $this->t_teacher_info->field_get_list($teacherid,"realname,bank_account,idcard,bank_type,bank_address,bank_province,bank_city,bankcard,bank_phone");
 
