@@ -79,6 +79,7 @@ class NewRouteConfig {
         "self_manage"                 => true,
         "wx_login"                    => true,
         "index"                       => true,
+        "teacher_share"               => true,
         "test"                        => true,
         "user_deal"                   => true,
         "test_control"                => true,
