@@ -12,7 +12,7 @@ class url_power_map {
 			'/user_manage/pc_relationship'	=>1010800,
 			'/user_manage_new/stu_lesson_info'	=>1011900,
 			'/user_manage/refund_list'	=>1010707,
-			'/user_manage/refund_analysia'	=>1010708,
+			'/user_manage/refund_analysis'	=>1010708,
 			'/user_manage_new/notify_phone'	=>1010706,
 			'/agent/agent_list'	=>1010910,
 			'/agent/agent_order_list'	=>1010908,

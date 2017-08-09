@@ -14,7 +14,7 @@ class menu{
                 ["power_id"=>19, "name"=>"学生上课信息",   "url"=>"/user_manage_new/stu_lesson_info"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
-                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysia"],
+                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
