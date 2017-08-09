@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Input ;
 class tongji_ex extends Controller
 {
     use  CacheNick;
+    public function __construct() {
+        $this->switch_tongji_database();
+    }
 
     public function top_list() {
 
