@@ -73,7 +73,6 @@ class testbb extends Controller
 
         $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
 
-        dd($ret_info);
         foreach($ret_info as &$item_list){
                 $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
@@ -99,6 +98,8 @@ class testbb extends Controller
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
         }
+
+        dd($all_item);
 
         array_unshift($ret_info, $all_item);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);

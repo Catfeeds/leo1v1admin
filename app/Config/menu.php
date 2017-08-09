@@ -641,6 +641,7 @@ class menu{
             ]],
 
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
+                ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
@@ -739,6 +740,7 @@ class menu{
                 ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
+                ["power_id"=>12, "name"=>"上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[
