@@ -12,20 +12,13 @@
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <span class="input-group-addon">图片类型</span>
-                    <select class="form-control pic_type" >
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-6 col-md-2">
-                <div class="input-group ">
-                    <span class="input-group-addon">用途类型</span>
-                    <select class="form-control pic_usage_type">
+                    <select class="form-control type" >
                     </select>
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="input-group input-group-btn ">
-                    <button class="btn btn-primary add_pic_info">添加数据</button>
+                    <button class="btn btn-primary add_new_info">添加数据</button>
                 </div>
             </div>
         </div>
@@ -35,12 +28,13 @@
                 <tr>
                     <td class="remove-for-not-xs"></td>
                     <td>id</td>
-                    <td>标题</td>
-                    <td>描述</td>
-                    <td>图片</td>
+                    <td>新闻标题</td>
+                    <td>新闻描述</td>
+                    <td>新闻图片</td>
+                    <td>新闻地址</td>
                     <td>添加时间</td>
                     <td>操作人员</td>
-                    <td>类型</td>
+                    <td>新闻类型</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -52,12 +46,13 @@
                         <td>{{$var["title"]}}</td>
                         <td>{{$var["des"]}}</td>
                         <td><img src="{{$var["pic"]}}" height="100"></td>
+                        <td>{{$var["new_link"]}}</td>
                         <td>{{$var["create_time"]}}</td>
                         <td>{{$var["adminid"]}}</td>
                         <td>{{$var["type"]}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
-                                <a href="javascript:;" class="btn fa fa-edit opt-update-pic_info" title="更改"></a>
+                                <a href="javascript:;" class="btn fa fa-edit opt-update-new_info" title="更改"></a>
                                 <a href="javascript:;" class="btn fa fa-trash-o opt-del" title="删除"></a>
                             </div>
                         </td>
@@ -67,92 +62,41 @@
         </table>
         @include("layouts.page")
     </section>
-    <div class="dlg_add_pic_info" style="display:none">
+    <div class="dlg_add_new_info" style="display:none">
         <table class="table table-bordered table-striped">
 	          <tbody>
-                <!-- <tr>
-			               <td style="text-align:right; width:30%;">图片类型</td>
-			               <td>
-                     <select class="add_pic_type ">
-                     </select>
-                     </td>
-		                 </tr>
-                     <tr>
-			               <td style="text-align:right; width:30%;">用途类型</td>
-			               <td>
-                     <select class="add_pic_usage_type">
-                     </select>
-                     </td>
-		                 </tr>
-                     <tr class="icon_s class_icon_s">
-			               <td style="text-align:right; width:30%;">年级</td>
-			               <td>
-                     <select class="add_pic_grade">
-                     </select>
-                     </td>
-		                 </tr>
-                     <tr class="icon_s class_icon_s">
-			               <td style="text-align:right; width:30%;">科目</td>
-			               <td>
-                     <select class="add_pic_subject">
-                     </select>
-                     </td>
-		                 </tr> -->
                 <tr>
-			              <td style="text-align:right; width:30%;">图片上传</td>
+			              <td style="text-align:right; width:30%;">新闻标题</td>
+			              <td><input value="" class="add_title" type="text" style="width:90%"/></td>
+		            </tr>
+                <tr>
+			              <td style="text-align:right; width:30%;">新闻描述</td>
+			              <!-- <td><input value="" class="add_des" type="text"/></td> -->
+			              <td>
+                        <textarea class="add_des" cols="5"></textarea>
+                    </td>
+		            </tr>
+                <tr>
+			              <td style="text-align:right; width:30%;">新闻图片</td>
 			              <td>
                         <div id="id_container_add">
                             <input id="id_upload_add" value="上传图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
                         </div>
                         <div class="add_header_img"></div>
-                        <div class="pic_url"></div>
+                        <div class="pic"></div>
                     </td>
 		            </tr>
-		            <tr>
-			              <td style="text-align:right;width:30%;">tag/分享图片上传</td>
-			              <td>
-                        <div id="id_container_tag_add">
-                            <input id="id_upload_tag_add" value="上传图片" class="btn btn-primary add_tag_img" style="margin-bottom:5px;" type="button"/>
-                        </div>
-                        <div class="add_header_tag_img"></div>
-                    </td>
-		            </tr>
-
                 <tr>
-			              <td style="text-align:right; width:30%;">图片名称</td>
-			              <td><input value="" class="add_pic_name" type="text"/></td>
+			              <td style="text-align:right; width:30%;">新闻链接</td>
+			              <td><input value="" class="add_new_link" type="text" style="width:90%"/></td>
 		            </tr>
-                <tr class="icon_s">
-			              <td style="text-align:right; width:30%;">图标顺序/消息类型</td>
-			              <td><input value="" class="add_pic_order_by" type="text"/></td>
-		            </tr>
-                <tr class="time_s">
-			              <td style="text-align:right; width:30%;">开始时间</td>
-			              <td><input class="add_start_date" type="text"/></td>
-                </tr>
-                <tr class="time_s">
-			              <td style="text-align:right; width:30%;">结束时间</td>
-			              <td><input class="add_end_date" type="text"/></td>
-                </tr>
                 <tr>
-			              <td style="text-align:right; width:30%;">图片点击状态</td>
+			              <td style="text-align:right; width:30%;">新闻类型</td>
 			              <td>
-                        <select class="add_pic_click_status">
+                        <select class="add_type " style="width:20%">
                         </select>
                     </td>
 		            </tr>
-                <tr class="share_s">
-			              <td style="text-align:right; width:30%;">跳转地址</td>
-			              <td><input class="add_jump_url" type="text"/></td>
-                </tr>
-                <tr  class="share_s">
-			              <td style="text-align:right; width:30%;">分享标题</td>
-			              <td><input class="add_title_share" type="text"/></td>
-                </tr>
-                <tr class="share_s">
-			              <td style="text-align:right; width:30%;">分享内容</td>
-			              <td><textarea class="add_info_share"></textarea></td>
-                </tr>
 		        </tbody>
 	      </table>
     </div>
