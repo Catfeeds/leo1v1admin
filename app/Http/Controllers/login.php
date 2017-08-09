@@ -31,7 +31,7 @@ class login extends Controller
 
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
-            \App\Helper\Utils::logger("hhh1: ".json_encode($tmp));
+            \App\Helper\Utils::logger("hhh33: ".json_encode($tmp));
 
             // $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
 
@@ -82,9 +82,11 @@ class login extends Controller
     }
 
     function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
-        //\App\Helper\Utils::logger("do:".$node["name"]);
-
+        \App\Helper\Utils::logger("do1:".$node["name"]);
+        
         if (isset($node["list"])) {
+            \App\Helper\Utils::logger("if1222");
+
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;
@@ -115,6 +117,9 @@ class login extends Controller
             }
 
         }else{
+
+            \App\Helper\Utils::logger("else1");
+
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
