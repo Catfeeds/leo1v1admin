@@ -434,7 +434,12 @@ class fulltime_teacher extends Controller
         // $ret_platform_teacher = $this->t_teacher_info->get_teacher_count($train_through_new);//统计平台老师总人数
         //$ret_platform_teacher = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
         $ret['platform_teacher_count'] = $ret_platform_teacher_lesson_count["tea_num"];//统计平台老师总人数
-        $ret['fulltime_teacher_pro'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_count'],2);
+        if($ret['platform_teacher_count']){
+            $ret['fulltime_teacher_pro'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_count'],2);
+        }else{
+            $ret['fulltime_teacher_pro']=0;
+        }
+        
         $type = 0;
         $platform_teacher_student = $this->t_student_info->get_total_student_num($type);//统计平台学生数
         $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
