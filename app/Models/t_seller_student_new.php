@@ -1823,7 +1823,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_as_page($sql);
     }
 
-    public function get_test_new(){
+    public function get_seller_yxyx_all(){
         $sql = "select s.userid,s.phone "
             // $sql = "select origin as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count,"
             // ."sum(global_tq_called_flag=0 and seller_student_status =0  ) no_call_count,"
