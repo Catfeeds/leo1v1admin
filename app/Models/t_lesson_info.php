@@ -2303,6 +2303,10 @@ lesson_type in (0,1) "
             $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
                 ." and l.tea_attend=0 and l.absenteeism_flag=0 and l.wx_absenteeism_flag=0";
             break;
+        case 22:
+            $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=1"
+                ." and l.tea_attend>0 ";
+            break;
         default:
             $str=" true ";
             break;
