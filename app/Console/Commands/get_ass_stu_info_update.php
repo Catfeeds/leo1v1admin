@@ -44,8 +44,8 @@ class get_ass_stu_info_update extends Command
         //$end_time = strtotime(date("Y-m-01",time()));
         $start_time = strtotime(date("Y-m-01",time()-86400));
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
-        //$start_time = strtotime(date("2017-02-01"));
-        //$end_time = strtotime(date("2017-03-01"));
+        $start_time = strtotime(date("2017-07-01"));
+        $end_time = strtotime(date("2017-08-01"));
 
         $last_month = strtotime(date('Y-m-01',$start_time-100));
         $ass_last_month = $task->t_month_ass_student_info->get_ass_month_info($last_month);
