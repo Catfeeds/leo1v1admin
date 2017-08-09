@@ -2579,7 +2579,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
     /**
-     *@function 获取平台老师list（通过入职培训，没有离职）
+     *@function 获取平台老师课耗总数
      *
      */
     public function get_teacher_list($train_through_new,$start_time,$end_time){
