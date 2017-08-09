@@ -22,7 +22,7 @@ class login extends Controller
 
         $is_teaching_flag = 0;
 
-        \App\Helper\Utils::logger("yuanshii: ".json_encode($power_map));
+        \App\Helper\Utils::logger("yuanshii22: ".json_encode($url_power_map));
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
