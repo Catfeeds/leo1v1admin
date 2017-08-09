@@ -64,7 +64,7 @@ $(function(){
                                          pic_url = g_args.qiniu_upload_domain_url + res.key;
                                          pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                          html_node.find(".add_header_img").html(pic_img);
-                                         html_node.find(".pic").html(pic_url);
+                                         html_node.find(".add_pic").html(pic_url);
                                      });
             },
             buttons: [
@@ -74,7 +74,7 @@ $(function(){
                     action : function(dialog) {
                         var title    = html_node.find(".add_title").val();
                         var des      = html_node.find(".add_des").val();
-                        var pic      = html_node.find(".pic").val();
+                        var pic      = html_node.find(".add_pic").val();
                         var new_link = html_node.find(".add_new_link").val();
                         var add_type = html_node.find(".add_type").val();
                         $.ajax({
