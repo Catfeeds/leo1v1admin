@@ -115,6 +115,9 @@ class test_boby extends Controller
 
     //七月份
     public function get_id_info(){
+        if ( !$this->get_in_str_val("boby")) {
+                exit; 
+            }
         $start_time = strtotime('2017-07-01');
         $end_time  = strtotime('2017-08-01');
         $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
@@ -136,5 +139,13 @@ class test_boby extends Controller
         return $s;
         dd($ret_info);
     }
+    public function get_origin_rate(){
+        $n = $this->get_in_int_val('yue');
+        $start_time = strtotime("2017-0".$n."-01");
+        $m = $n+1;
+        $end_time = strtotime("2017-0".$m."-01");
+        $ret_info = $this->t_student_info->get_stu_origin_rate($start_time, $end_time);
 
+        dd($ret_info);
+    }
 }
