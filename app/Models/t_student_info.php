@@ -2653,7 +2653,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ['reg_time <%s', $end_time, 0],
             "origin_userid>0",
         ];
-        $sql = $this->gen_sql_new("select count(s.userid) as count,count(ts.userid) as succ, sum(if(require_admin_type=1,1,0)) as cr, sum(if(require_admin_type=0,1,0)) as cc"
+        $sql = $this->gen_sql_new("select distinct count(s.userid) as count,count(ts.userid) as succ, sum(if(require_admin_type=1,1,0)) as cr, sum(if(require_admin_type=0,1,0)) as cc"
                            ." from %s s"
                            ." left join %s ts on ts.userid=s.userid"
                            ,self::DB_TABLE_NAME
