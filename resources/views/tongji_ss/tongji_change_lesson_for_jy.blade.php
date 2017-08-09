@@ -68,12 +68,14 @@
                             </td>
                             <td>{{@$var["stu_num"]}} </td>
                             <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]}}</a> </td>
-                            <td class="show_detail" date-teacherid={{@$var['teacherid']}}>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="23">
                                 <a>{{@$var["teacher_come_late_count"]}}</a>
                             </td>
                             <td>{{@$var["lesson_come_late_rate"]}}% </td>
 
-                            <td>{{@$var["teacher_cut_class_count"]}} </td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="21" >
+                                <a>{{@$var["teacher_cut_class_count"]}}</a>
+                            </td>
                             <td>{{@$var["lesson_cut_class_rate"]}}% </td>
 
                             <td>{{@$var["teacher_change_lesson"]}} </td>

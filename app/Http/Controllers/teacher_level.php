@@ -641,7 +641,7 @@ class teacher_level extends Controller
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
@@ -671,7 +671,7 @@ class teacher_level extends Controller
     public function get_fifth_test_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
@@ -700,7 +700,7 @@ class teacher_level extends Controller
     public function get_first_regular_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
@@ -731,7 +731,7 @@ class teacher_level extends Controller
     public function get_fifth_regular_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);

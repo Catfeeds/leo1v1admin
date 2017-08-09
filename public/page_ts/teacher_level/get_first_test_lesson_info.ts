@@ -101,6 +101,7 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        console.log(opt_data.id);
         $.do_ajax("/teacher_level/set_teacher_record_acc",{
             "teacherid"    : opt_data.teacherid,
             "type"         : 1,
@@ -108,8 +109,12 @@ $(function(){
             "lessonid"     :opt_data.lessonid,
             "lesson_list"  :JSON.stringify(opt_data.lessonid),
         },function(result){
-            
-        };
+            var acc= result.acc;
+            if(acc != "" && acc != g_args.acc){
+                alert("该视频已有审核人");
+                return;
+            }
+        });
 
         var lessonid = opt_data.lessonid;
         var teacherid = opt_data.teacherid;
