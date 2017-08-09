@@ -96,7 +96,7 @@ class agent extends Controller
         $phone_one = array_diff($phone_old,$phone_new);
         $phone_two = [];
         foreach($phone_new as $item){
-            if(!in_array($item,$phone_old)){
+            if(in_array($item,$phone_old)){
                 $phone_two[] = $item;
             }
         }
