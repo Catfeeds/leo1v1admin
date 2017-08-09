@@ -457,9 +457,7 @@ class tea_manage extends Controller
 
     }
     public function lesson_list_ass(){
-        //if (!$this->check_in_has("assistantid")) {
-            $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
-        //}
+        $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
         $this->set_in_value("test_seller_id", $this->get_account_id());
         return $this->lesson_list();
     }
@@ -1616,6 +1614,10 @@ class tea_manage extends Controller
         }else{
             return $this->output_succ(["data"=>$lesson_info]);
         }
+    }
+
+    public function train_not_through_list_px(){
+        return $this->train_not_through_list();
     }
 
     public function train_not_through_list(){

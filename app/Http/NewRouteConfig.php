@@ -243,6 +243,7 @@ class NewRouteConfig {
         "/login/get_verify_code"         => true,
 
         "/tea_manage/train_not_through_list"      => true,
+        "/tea_manage/train_not_through_list_px"   => true,
         "/tea_manage/set_teacher_part_remark"     => true,
         "/tea_manage/set_train_lecture_status"    => true,
         "/tea_manage/train_lecture_lesson_full_time" => true,

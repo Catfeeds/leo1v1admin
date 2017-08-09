@@ -217,10 +217,6 @@ class ss_deal2 extends Controller
         $teacherid = $this->get_in_int_val('teacherid');
         $lesson_cancel_reason_type = $this->get_in_int_val('lesson_cancel_reason_type',-1);
 
-        if($lesson_cancel_reason_type == 23){ //老师迟到
-
-        }
-
         $ret_info = $this->t_lesson_info_b2->get_lesson_cancel_detail($start_time,$end_time,$lesson_cancel_reason_type,$teacherid);
 
         foreach($ret_info as &$item){
@@ -234,7 +230,13 @@ class ss_deal2 extends Controller
             E\Econtract_type::set_item_value_str($item,'lesson_type');
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
-            E\Elesson_cancel_reason_type::set_item_value_str($item);
+
+            if($item['lesson_cancel_reason_type'] == 23){
+                $item['lesson_cancel_reason_type_str'] = "老师迟到";
+            }else{
+                E\Elesson_cancel_reason_type::set_item_value_str($item);
+            }
+
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_end",'','H:i:s');
         }

@@ -2443,6 +2443,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $tea_subject = $right_list["tea_subject"];
         $tea_right   = $right_list["tea_right"];
         $qz_flag     = $right_list["qz_flag"];
+        if($adminid==329){
+            $tea_subject="";
+        }
 
         $this->switch_tongji_database();
         $subject             = $this->get_in_int_val("subject",-1);

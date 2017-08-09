@@ -52,6 +52,12 @@ $(function(){
             "lessonid"     :opt_data.lessonid,
             "lesson_list"  :JSON.stringify(opt_data.lessonid),
         },function(result){
+            var acc= result.acc;
+            if(acc != "" && acc != g_args.acc){
+                alert("该视频已有审核人");
+                return;
+            }
+
             $.ajax({
                 type     : "post",
                 url      : "/tea_manage/get_lesson_reply",
