@@ -4,12 +4,13 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-      date_type_config:	$('#id_date_type_config').val(),
-      date_type:	$('#id_date_type').val(),
-      opt_date_type:	$('#id_opt_date_type').val(),
-      start_time:	$('#id_start_time').val(),
-      end_time:	$('#id_end_time').val(),
-      lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type ').val()
+
+            date_type_config:	$('#id_date_type_config').val(),
+            date_type:	$('#id_date_type').val(),
+            opt_date_type:	$('#id_opt_date_type').val(),
+            start_time:	$('#id_start_time').val(),
+            end_time:	$('#id_end_time').val(),
+            lesson_cancel_reason_type :	$('#id_lesson_cancel_reason_type ').val()
         });
     }
 
