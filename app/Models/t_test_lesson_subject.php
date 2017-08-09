@@ -323,8 +323,8 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql= $this->gen_sql_new(
             "select "
             ." sum(origin_assistantid>0 ) as zjs_unallot_count, "
-            ." sum(tmk_adminid =0) as all_unallot_count , "
-            ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level >0  ) as all_uncall_count , "
+            ." sum(tmk_adminid =0 and origin_level<>90 ) as all_unallot_count , "
+            ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level >0 and origin_level<>90    ) as all_uncall_count , "
             ." sum(tmk_adminid =0 and global_tq_called_flag =0 and  origin_level =0  ) as by_hand_all_uncall_count , "
             ." sum(tmk_student_status=3  and  origin_level=90 ) as tmk_unallot_count  " //T类
             ." from %s t  "

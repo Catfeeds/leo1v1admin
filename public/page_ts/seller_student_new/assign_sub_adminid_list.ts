@@ -606,6 +606,7 @@ $(function(){
 
         $('#id_seller_resource_type').val(0);
         $('#id_sys_invaild_flag').val(0 );
+        $('#id_origin_level').val("0,1,2,3,4" );
 
         //$('#id_global_tq_called_flag').val(0);
 

@@ -148,7 +148,7 @@
 
                         >
                             <a class="fa-user opt-user " title="个人信息" ></a>
-                            <a class="fa-comment opt-return-back-new " title="回访" ></a>
+                            <a class=" fa-comment opt-return-back-lesson " title="回访-new" ></a>
                             <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                             <a class="fa-calendar opt-lesson " title="排课"></a>
                             <a class="fa-gavel opt-modify " title="设置密码"></a>
@@ -163,9 +163,11 @@
                             <a class="fa-comments opt-return-back-list-new " title="回访列表-new" ></a>
                             <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
                             <a class=" opt-change-teacher "  >换老师</a>
+                            <a href="javascript:;" class="opt-require-commend-teacher" title="申请推荐老师">推荐老师</a>
                             @if($acc=="jim" || $acc=="jack" || $acc=="michael")
-                                <a class=" opt-return-back-lesson " title="回访-new" >回访-new</a>
+                                <a class="fa-comment opt-return-back-new " title="回访" ></a>
                             @endif
+
                         </div>
                     </td>
                 </tr>

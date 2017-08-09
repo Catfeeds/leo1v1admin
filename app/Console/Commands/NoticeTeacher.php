@@ -91,6 +91,19 @@ class NoticeTeacher extends Command
         case 17:
             $wx->tomorrow_lesson_remind_wx($type);
             break;           
+        case 18:
+            $wx->train_lesson_notice_set_stu_performance($type);
+            break;
+        case 19:
+            $wx->train_lesson_late_for_rate_trial($type);
+            break;
+        case 20:
+            $wx->train_lesson_no_comment_remind($type);
+            break;           
+        case 21:
+            $wx->train_lesson_absenteeism_set($type);
+            break;           
+
         default:
             break;
         }
