@@ -269,12 +269,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ." t1.config_lesson_account_id ,t1.config_courseid,  check_money_flag,check_money_time,"
                                   ." lesson_start,t2.origin_userid,t2.phone,t1.origin  "
                                   ." from %s t1 "
-                                  ." left join %s t2 on t1.userid = t2.userid "                                  
+                                  ." left join %s t2 on t1.userid = t2.userid "
                                   ." left join %s l on l.lessonid = t1.from_test_lesson_id "
                                   ." where %s  order by t1.order_time ",
                                   self::DB_TABLE_NAME,
-                                  t_student_info::DB_TABLE_NAME,                                 
-                                  t_lesson_info::DB_TABLE_NAME,                                 
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
@@ -2559,5 +2559,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-
+    public function get_order_group_by_id($start_time, $end_time) {
+        $where_arr = [
+            ['pay_time>= %s', $start_time, 0],
+            ['pay_time<%s', $end_time, 0],
+        ];
+        $sql = $this->gen_sql_new("select distinct ll.ip ,p.phone"
+                                  ." from %s o"
+                                  ." left join %s ll on ll.userid=o.userid"
+                                  ." left join %s s on s.userid=o.userid"
+                                  ." left join %s pc on pc.userid=s.userid"
+                                  ." left join %s p on p.parentid=pc.parentid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_user_login_log::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,t_parent_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
 }

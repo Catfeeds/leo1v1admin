@@ -113,5 +113,23 @@ class test_boby extends Controller
         dd($ret_info);
     }
 
+    //七月份
+    public function get_id_info(){
+        $start_time = strtotime('2017-07-01');
+        $end_time  = strtotime('2017-08-01');
+        $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
+        $iparr = [];
+        foreach ($ret_info as $v) {
+            $iparr[] = $v['ip'];
+        }
+        // $list = $this->t_user_login_log->get_per_phone_by_ip($iparr);
+        $s = '<table border=1><tr><th>ip</th><th>电话</th></tr>';
+        foreach ($ret_info as $v) {
+            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td></tr>";
+        }
+        $s = $s.'</table>';
+        return $s;
+        dd($ret_info);
+    }
 
 }
