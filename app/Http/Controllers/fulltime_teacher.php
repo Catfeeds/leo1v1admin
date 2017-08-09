@@ -284,5 +284,6 @@ class fulltime_teacher extends Controller
     public function fulltime_teacher_count(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+    }
 
 }
