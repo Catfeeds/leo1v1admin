@@ -48,8 +48,12 @@ class file_store_tea extends file_store_base {
         $old_file_path= $this-> get_file_path($teacher_id, $old_file_path);
 
         $old_path = pathinfo($old_file_path );
-        $new_path=pathinfo($new_file_name);
-        $new_file_name= $old_file_path["dirname"]. "/" . $new_file_name["filename"] . $old_file_path["extension"] ;
+        $new_path=pathinfo($new_file_path);
+        if ( @$old_path["extension"]  ) {
+            $new_file_name= $old_path["dirname"]. "/" . $new_path["filename"] .".". $old_path["extension"] ;
+        }else {
+            $new_file_name= $old_path["dirname"]. "/" . $new_path["filename"] .".". @$new_path["extension"] ;
+        }
 
         $this->move_file($old_file_path,$new_file_name);
 

@@ -108,6 +108,7 @@
                                     <tr>
                                         <td>排名</td>
                                         <td>教务</td>
+                                        <td>中文名</td>
                                         <td>总排课量</td>
                                         <td>已排课程</td>
                                         <td>已排课程(绿色)</td>
@@ -127,6 +128,7 @@
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
                                             <td>{{@$var["account"]}} </td> 
+                                            <td>{{@$var["name"]}} </td> 
                                             <td class="all_count">{{@$var["all_count"]}} </td> 
                                             <td>{{@$var["set_count"]}} </td>
                                             <td>{{@$var["green_count"]}} </td>

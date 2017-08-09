@@ -2295,6 +2295,18 @@ lesson_type in (0,1) "
             $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
                 ." and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_rate_late_flag=0";
             break;
+        case 20:
+            $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
+                ." and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_no_comment_count_down_flag=0";
+            break;
+        case 21:
+            $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
+                ." and l.tea_attend=0 and l.absenteeism_flag=0 and l.wx_absenteeism_flag=0";
+            break;
+        case 22:
+            $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=1"
+                ." and l.tea_attend>0 ";
+            break;
         default:
             $str=" true ";
             break;
@@ -2311,7 +2323,8 @@ lesson_type in (0,1) "
         $where_arr = $this->get_wx_teacher_str($start,$end,$type);
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,l.userid,l.lesson_type,l.lesson_count,l.grade,t.teacher_type,"
                                   ." l.lesson_start,l.lesson_end,l.assistantid,s.realname as stu_nick,t.realname as tea_nick,"
-                                  ." l.teacher_money_type,l.stu_cw_upload_time,m.money,tl.success_flag,l.tea_rate_time,l.train_type"
+                                  ." l.teacher_money_type,l.stu_cw_upload_time,m.money,tl.success_flag,l.tea_rate_time,"
+                                  ." l.train_type,l.subject,l.lesson_name "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on s.userid=l.userid"

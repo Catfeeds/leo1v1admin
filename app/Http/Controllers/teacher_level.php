@@ -791,6 +791,7 @@ class teacher_level extends Controller
 
     public function set_teacher_record_info(){
         $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $usererid                        = $this->get_in_int_val("userid",0);
         $lessonid                         = $this->get_in_int_val("lessonid",0);
         $record_lesson_list               = $this->get_in_str_val("lesson_list","");
         $tea_process_design_score         = $this->get_in_int_val('tea_process_design_score');
@@ -816,7 +817,7 @@ class teacher_level extends Controller
         }
 
        
-        // $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
                 "tea_process_design_score"         => $tea_process_design_score,
@@ -833,6 +834,7 @@ class teacher_level extends Controller
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
+                "userid"                           => $userid
             ]);
  
         }else{
@@ -856,7 +858,8 @@ class teacher_level extends Controller
                 "record_info"                      => $record_info,
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
-                "record_monitor_class"             => $record_monitor_class
+                "record_monitor_class"             => $record_monitor_class,
+                "userid"                           => $userid
             ]);
 
         }
@@ -866,6 +869,11 @@ class teacher_level extends Controller
  
     }
 
+    public function reset_record_acc(){
+        $id                              = $this->get_in_int_val("id");
+        $this->t_teacher_record_list->row_delete($id);
+        return $this->output_succ();
+    }
 
 
 

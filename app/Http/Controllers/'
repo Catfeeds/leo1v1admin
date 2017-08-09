@@ -183,11 +183,14 @@ class login extends Controller
                     if ( substr($item_name,0,7)== "角色-"  ) {
                         $role_item_count++;
                         $role_str.=$tmp[0];
-                        $is_role_flag = 1;
+                        $is_jiaose = 1;
                     }elseif(substr($item_name,0,13)== "教学管理-"){
                         $role_item_count++;
                         $role_str_jiaoxue.=$tmp[0];
-                        $is_teaching_flag = 1;
+                        $is_jiaose = 2;
+
+                        \App\Helper\Utils::logger("jiaoxueguanli2: $role_str_jiaoxue");
+
                     }else{
                         $menu_str.=$tmp[0];
                     }
@@ -204,10 +207,18 @@ class login extends Controller
             if ($role_item_count<3) {
                 $menu_str=$role_str.$menu_str;
             }else{
-                if($is_role_flag == 1){
-                    $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+                // $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str_jiaoxue.'</ul> </li>';
+
+
+                \App\Helper\Utils::logger("jiaoxueguanli2: $role_str_jiaoxue");
+
+                if($is_jiaose == 1){
+                    // $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
                 }
-                if($is_teaching_flag==1){
+
+                if($is_jiaose==2){
+                    \App\Helper\Utils::logger("ssjjjj11");
+
                     $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str_jiaoxue.'</ul> </li>';
                 }
 

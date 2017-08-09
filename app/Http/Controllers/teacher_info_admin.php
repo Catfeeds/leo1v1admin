@@ -641,4 +641,13 @@ class teacher_info_admin extends Controller
         //echo \App\Helper\Common::decrypt($sign,$key);
 
     }
+
+    public function file_store_rename() {
+        $teacherid= $this->get_in_teacherid();
+        $old_path= $this->get_in_str_val("old_path");
+        $new_name= $this->get_in_str_val("new_name");
+        $store=new \App\FileStore\file_store_tea();
+        $store->rename_file($teacherid,$old_path,$new_name);
+        return $this->output_succ();
+    }
 }
