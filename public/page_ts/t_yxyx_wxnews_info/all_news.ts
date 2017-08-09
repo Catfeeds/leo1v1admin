@@ -31,14 +31,13 @@ $(function(){
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
         ;
         var html_node = $("<div></div>").html(html_txt);
-
         var pic_url = "";
         var pic_img = "";
 
         if (opt_type=="update") {
             pic_url=item.pic;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".pic_url").html(pic_img);
+            html_node.find(".pic").html(pic_img);
             html_node.find(".add_type").val(item.type);
             // Enum_map.append_child_option_list("wxnew_type", html_node.find(".add_type"), true);
             html_node.find(".add_title").val(item.title);
@@ -63,9 +62,9 @@ $(function(){
                                      function (up, info, file){
                                          var res = $.parseJSON(info);
                                          pic_url = g_args.qiniu_upload_domain_url + res.key;
-                                         pic_img="<img width=80 src=\""+pic_url+"\" />";
+                                         pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                          html_node.find(".add_header_img").html(pic_img);
-                                         html_node.find(".pic_url").html(pic_url);
+                                         html_node.find(".pic").html(pic_url);
                                      });
             },
             buttons: [
@@ -77,7 +76,7 @@ $(function(){
                         var des      = html_node.find(".add_des").val();
                         var pic      = html_node.find(".add_pic").val();
                         var new_link = html_node.find(".add_new_link").val();
-                        var add_type     = html_node.find(".add_type").val();
+                        var add_type = html_node.find(".add_type").val();
                         $.ajax({
                             type     : "post",
                             url      : "/t_yxyx_wxnews_info/add_new_info",
