@@ -404,8 +404,10 @@ class fulltime_teacher extends Controller
         foreach ($ret_info as $key => $value) {
             $arr[] = $value['teacherid'];
         }
+        $full_num = $this->t_manager_info->get_fulltime_teacher_num($end_time);
         //-------------------------------------------------------------------------------------
-        $ret['fulltime_teacher_count'] =  count($arr);//全职老师总人数
+        //$ret['fulltime_teacher_count'] =  count($arr);//全职老师总人数
+        $ret['fulltime_teacher_count'] =  $full_num;//全职老师总人数
         $ret['fulltime_teacher_student'] =$lesson_all['normal_stu']; //全职老师所带学生总数
         $ret['fulltime_teacher_lesson_count'] =$lesson_all['lesson_count'];//全职老师完成的课耗总数
         $ret['fulltime_teacher_cc_per']  = $tran_all['cc_per'];//全职老师cc转化率
@@ -424,7 +426,7 @@ class fulltime_teacher extends Controller
         $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
         $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
         if($ret['platform_teacher_lesson_count'] != 0){
-            $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_lesson_count'],2);
+            $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_lesson_count']*100/$ret['platform_teacher_lesson_count'],2);
         }else{
             $ret['fulltime_teacher_lesson_count_per'] = 0;
         }

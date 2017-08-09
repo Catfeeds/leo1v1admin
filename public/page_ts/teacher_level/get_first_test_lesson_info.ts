@@ -338,7 +338,14 @@ $(function(){
             alert("无数据,请刷新确认!");
             return;
         }else{
-            
+            BootstrapDialog.confirm("确定要重置吗？", function(val){
+                if (val) {
+                    $.do_ajax( '/teacher_level/reset_record_acc', {
+                        'id' : id
+                    });
+                } 
+            });
+ 
         }
     });
 

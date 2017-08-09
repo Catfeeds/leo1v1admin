@@ -353,11 +353,15 @@ class test_sam  extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
-    public function test(){
+    public function tes1t(){
         $a = 10;
         $b = 12;
        $c = 20;
           $d = 20;
         $e = 90;
+    }
+    public function test()
+    {
+        
     }
 }

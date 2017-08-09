@@ -163,6 +163,8 @@ interface RowData {
 	bank_city	:any;
 	transfer_teacherid	:any;
 	transfer_time	:any;
+	check_subject	:any;
+	check_grade	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;

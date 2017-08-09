@@ -98,6 +98,9 @@
                                 @if($var["add_time"]>0)
                                     <a class="opt-first-lesson-record-list" >反馈详情</a>
                                 @endif
+                                @if(in_array($acc,["coco","jack"]))
+                                    <a class="opt-reset-acc" >重置审核人</a>
+                                @endif
 
 
                             </div>

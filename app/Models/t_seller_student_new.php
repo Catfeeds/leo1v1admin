@@ -1823,7 +1823,23 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list_as_page($sql);
     }
 
-    public function get_seller_yxyx_all(){
+    public function get_seller_yxyx(){
+        $where_arr = [
+            'n.admin_revisiterid >0',//assigned_count 
+            'tmk_student_status=3',//tmk_assigned_count
+            'global_tq_called_flag=0',//tq_no_call_count
+            'global_tq_called_flag <>0',//tq_called_count
+            'global_tq_called_flag =1',//tq_call_fail_count
+            'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count
+            'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count
+            'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count
+            't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count
+            't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count
+            't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count
+            '',//require_count
+            '',//test_lesson_count
+            '',//succ_test_lesson_count
+        ];
         $sql = "select s.userid,s.phone "
             // $sql = "select origin as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count,"
             // ."sum(global_tq_called_flag=0 and seller_student_status =0  ) no_call_count,"
