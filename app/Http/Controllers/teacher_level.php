@@ -641,7 +641,7 @@ class teacher_level extends Controller
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
@@ -671,7 +671,7 @@ class teacher_level extends Controller
     public function get_fifth_test_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
@@ -700,7 +700,7 @@ class teacher_level extends Controller
     public function get_first_regular_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
@@ -731,7 +731,7 @@ class teacher_level extends Controller
     public function get_fifth_regular_lesson_info(){
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
@@ -768,20 +768,23 @@ class teacher_level extends Controller
         $record_lesson_list               = $this->get_in_str_val("lesson_list","");       
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
-        $acc                        = $this->get_in_str_val("acc");
+        // $acc                        = $this->get_in_str_val("acc");
+        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $acc= $this->t_teacher_record_list->get_acc($id);
         if(empty($acc)){
+            $acc= $this->get_account();
             $ret = $this->t_teacher_record_list->row_insert([
                 "teacherid"      => $teacherid,
                 "type"           => $record_type,          
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
-                "acc"            => $this->get_account()
+                "acc"            => $acc
             ]);
   
         }
         
 
-        return $this->output_succ();
+        return $this->output_succ(["acc"=>$acc]);
 
 
     }
