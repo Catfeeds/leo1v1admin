@@ -103,10 +103,19 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        if(g_args.acc != opt_data.acc && opt_data.acc != ""){
-            alert("该视频已有审核人!");
-            return;
-        }else{
+        console.log(opt_data.id);
+        $.do_ajax("/teacher_level/set_teacher_record_acc",{
+            "teacherid"    : opt_data.teacherid,
+            "type"         : 1,
+            "lesson_style" : 2,
+            "lessonid"     :opt_data.lessonid,
+            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+        },function(result){
+            var acc= result.acc;
+            if(acc != "" && acc != g_args.acc){
+                alert("该视频已有审核人");
+                return;
+            }
             var lessonid = opt_data.lessonid;
             var teacherid = opt_data.teacherid;
             var id_jysj =  $("<select class=\"class_score\" />");
@@ -119,7 +128,7 @@ $(function(){
             var id_skhj =  $("<select class=\"class_score\" />");
             var id_khfk =  $("<select class=\"class_score\" />");
             var id_lcgf =  $("<select class=\"class_score\" />");                  
-            var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
+            var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
 
             Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
             Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -177,7 +186,8 @@ $(function(){
                     
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
-                        "id"           : opt_data.id,
+                        "userid"    : opt_data.userid,
+                        "id"    : opt_data.id,
                         "type"         : 1,
                         "lesson_style" : 3,
                         "tea_process_design_score"         : id_jysj.val(),
@@ -211,8 +221,8 @@ $(function(){
 
                 
             });
-            
-        }
+
+        });
 
         
     });
