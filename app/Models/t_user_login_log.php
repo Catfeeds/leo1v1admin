@@ -28,6 +28,7 @@ class t_user_login_log extends \App\Models\Zgen\z_t_user_login_log
             ["ip='%s'",$ip,""],
             ["userid=%u",$userid,-1],
         ];
+        $this->where_arr_add_time_range($where_arr,"login_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select * "
                                   ." from %s "
                                   ." where %s "
