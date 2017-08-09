@@ -9,9 +9,11 @@ class t_refund_analysis extends \App\Models\Zgen\z_t_refund_analysis
     }
     public function get_list($orderid, $apply_time) {
         $where_arr=[
-            "orderid"    => $orderid,
+            ["orderid =%d",$orderid,-1],
             "apply_time" => $apply_time
         ];
+
+
         $sql=$this->gen_sql_new(
             "select * from %s where %s",
             self::DB_TABLE_NAME,

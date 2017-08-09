@@ -658,8 +658,12 @@ class teacher_level extends Controller
             }
   
         }
-
-        return $this->pageView(__METHOD__,$ret_info);
+        
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -684,8 +688,11 @@ class teacher_level extends Controller
             }
   
         }
-
-        return $this->pageView(__METHOD__,$ret_info);
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -712,7 +719,11 @@ class teacher_level extends Controller
   
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -738,14 +749,42 @@ class teacher_level extends Controller
             }
   
         }
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
 
-        return $this->pageView(__METHOD__,$ret_info);
+        
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
 
 
 
+    public function set_teacher_record_acc(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $lessonid                         = $this->get_in_int_val("lessonid",0);
+        $record_lesson_list               = $this->get_in_str_val("lesson_list","");       
+        $record_type                     = $this->get_in_int_val("type");
+        $lesson_style                    = $this->get_in_int_val("lesson_style");
+        $acc                        = $this->get_in_str_val("acc");
+        if(empty($acc)){
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $teacherid,
+                "type"           => $record_type,          
+                "train_lessonid" => $lessonid,
+                "lesson_style"   => $lesson_style,
+                "acc"            => $this->get_account()
+            ]);
+  
+        }
+        
+
+        return $this->output_succ();
+
+
+    }
 
     public function set_teacher_record_info(){
         $teacherid                        = $this->get_in_int_val("teacherid",0);
@@ -768,12 +807,13 @@ class teacher_level extends Controller
         $sshd_good                        = $this->get_in_str_val("sshd_good");
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
+        $id                              = $this->get_in_int_val("id");
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
 
        
-        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        // $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
                 "tea_process_design_score"         => $tea_process_design_score,
