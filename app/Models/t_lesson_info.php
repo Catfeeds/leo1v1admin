@@ -2249,7 +2249,7 @@ lesson_type in (0,1) "
                 ." and l.wx_upload_flag=0 and l.lesson_type in (0,1,3) and lesson_status=1";
             break;
         case 4:
-            $str=" l.lesson_type=2 and l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0"
+            $str=" (l.lesson_type=2 or (l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1)) and l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0"
                 ." and l.wx_comment_flag=1 and l.wx_rate_late_flag=0";
             break;
         case 5:

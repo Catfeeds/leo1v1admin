@@ -371,7 +371,7 @@ class TeacherTask extends TaskController
     }
 
     /**
-     * 试听课未及时评价扣款
+     * 试听课/模拟试听课未及时评价扣款
      * @param type=4
      */
     public function late_for_rate_trial($type){
@@ -400,16 +400,53 @@ class TeacherTask extends TaskController
                 }
 
                 if($val['shut_time']<time()){
-                    $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
-                    $val['info'] = "由于您的试听课未在课程结束后120分钟给出反馈,对家长了解孩子学习情况造成影响，"
-                                 ."因此扣款".$val['cost']."元";
-                    $openid      = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-                    if($openid){
-                        $val['reason'] = "试听课未及时评价";
-                        $this->teacher_wx_data($openid,$val,$type);
-                        $wx_rate_late_flag = 1;
+                    if($val["train_type"]==4 && $val["lesson_type"]==1100){
+                        //模拟试听课迟到五分钟推送
+                        $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                        if($openid){
+                            $lesson_time = date("H:i",$val["lesson_start"]);
+                            /**
+                             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                             * 标题课程 : 待办事项提醒
+                             * {{first.DATA}}
+                             * 待办主题：{{keyword1.DATA}}
+                             * 待办内容：{{keyword2.DATA}}
+                             * 日期：{{keyword3.DATA}}
+                             * {{remark.DATA}}
+                             */
+
+                            $data=[];
+                            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                            $data['first']    = "老师您好，请尽快进入课堂。";
+                            $data['keyword1'] = "课程提醒";
+                            $data['keyword2'] = $lesson_time."的模拟试听已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系教务老师";
+                            $data['keyword3'] = date("Y-m-d H:i",time());
+                            $data['remark']   = "";
+                            $url = "";
+                            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                            \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                            $wx_rate_late_flag = 1;
+                        }else{
+                            $wx_rate_late_flag = 2;
+                            \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                        }  
+
+
                     }else{
-                        $wx_rate_late_flag = 2;
+
+                        $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
+                        $val['info'] = "由于您的试听课未在课程结束后120分钟给出反馈,对家长了解孩子学习情况造成影响，"
+                                     ."因此扣款".$val['cost']."元";
+                        $openid      = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                        if($openid){
+                            $val['reason'] = "试听课未及时评价";
+                            $this->teacher_wx_data($openid,$val,$type);
+                            $wx_rate_late_flag = 1;
+                        }else{
+                            $wx_rate_late_flag = 2;
+                        }
                     }
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "deduct_rate_student" => 1,
