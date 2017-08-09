@@ -6894,7 +6894,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $is_full_time = $this->get_in_int_val('is_full_time');
 
-        $teacher_money_flag = $this->get_in_int_val('teacher_money_flag');
+        $teacher_money_type = $this->get_in_int_val('teacher_money_type');
 
         $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();

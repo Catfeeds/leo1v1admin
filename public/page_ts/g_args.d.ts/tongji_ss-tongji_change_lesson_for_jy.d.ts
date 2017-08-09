@@ -1,6 +1,6 @@
 interface GargsStatic {
 	is_full_time:	number;
-	teacher_money_flag:	number;
+	teacher_money_type:	number;
 	page_num:	number;
 	page_count:	number;
 	order_by_str:	string;
@@ -20,8 +20,14 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	teacher_nick	:any;
-	teacher_money_type_str	:any;
+	stu_num	:any;
+	valid_count	:any;
+	teacher_come_late_count	:any;
+	teacher_cut_class_count	:any;
+	teacher_change_lesson	:any;
+	teacher_leave_lesson	:any;
 	work_time	:any;
+	teacher_money_type_str	:any;
 	lesson_leavel_rate	:any;
 	lesson_come_late_rate	:any;
 	lesson_cut_class_rate	:any;
@@ -40,7 +46,7 @@ $(function(){
     function load_data(){
         $.reload_self_page ( {
 			is_full_time:	$('#id_is_full_time').val(),
-			teacher_money_flag:	$('#id_teacher_money_flag').val(),
+			teacher_money_type:	$('#id_teacher_money_type').val(),
 			order_by_str:	$('#id_order_by_str').val(),
 			assistantid:	$('#id_assistantid').val(),
 			date_type_config:	$('#id_date_type_config').val(),
@@ -63,7 +69,7 @@ $(function(){
         }
     });
 	$('#id_is_full_time').val(g_args.is_full_time);
-	$('#id_teacher_money_flag').val(g_args.teacher_money_flag);
+	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_assistantid').val(g_args.assistantid);
 
@@ -85,8 +91,8 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">teacher_money_flag</span>
-                <input class="opt-change form-control" id="id_teacher_money_flag" />
+                <span class="input-group-addon">teacher_money_type</span>
+                <input class="opt-change form-control" id="id_teacher_money_type" />
             </div>
         </div>
 
