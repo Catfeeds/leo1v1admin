@@ -881,6 +881,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type "
+                                  ." ,am.account zs_account "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -891,6 +892,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s m on ttt.phone = m.phone "
                                   ." left join %s ap on t.phone = ap.phone"
                                   ." left join %s tp on ap.reference=tp.phone"
+                                  ." left join %s am on ap.accept_adminid = am.uid"
                                   ." where %s"
                                   ." group by l.lessonid"
                                   ." order by l.lesson_start desc"
@@ -904,6 +906,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_lecture_appointment_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num,10,true);
