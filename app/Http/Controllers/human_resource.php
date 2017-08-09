@@ -1419,6 +1419,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_zs(){
+        return $this->teacher_lecture_list();
+    }
+
     public function teacher_lecture_list_zj(){
         return $this->teacher_lecture_list();
     }
@@ -3835,6 +3839,10 @@ class human_resource extends Controller
 
     }
 
+    public function get_teacher_lecture_fail_score_info_zs(){
+        $this->get_teacher_lecture_fail_score_info();
+    }
+
     public function get_teacher_lecture_fail_score_info(){
         list($start_time,$end_time)=$this->get_in_date_range(-10,0);
         $ret_info = $this->t_teacher_lecture_info->get_fail_ave_score($start_time,$end_time);
@@ -4223,6 +4231,7 @@ class human_resource extends Controller
     }
 
     public function teacher_total_list(){
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);

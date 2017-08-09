@@ -2578,6 +2578,33 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+    /**
+     *@function 获取平台老师课耗总数
+     *
+     */
+    public function get_teacher_list($train_through_new,$start_time,$end_time){
+
+        $where_arr = [
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,4)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num "
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
 }

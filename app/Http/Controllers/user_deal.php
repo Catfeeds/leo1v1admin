@@ -895,6 +895,7 @@ class user_deal extends Controller
         $type = 2;
         $old = $old_seller_level;
         $new = $seller_level;
+
         $this->t_seller_edit_log->row_insert([
             "adminid"     => $adminid,
             "uid"         => $uid,

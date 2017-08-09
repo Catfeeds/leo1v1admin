@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <script type="text/javascript" > 
+    <script type="text/javascript" >
      var acc= "{{$acc}}";
      var tea_right= "{{$tea_right}}";
     </script>
@@ -289,14 +289,14 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_teacher"> 新增老师 </button>
-                </div>                
+                </div>
                 <div class="col-xs-6 col-md-1">
-                    <button class="btn" id="id_limit_week_lesson_num_person" data-value="{{$week_num_person}}" >{{$week_num_person}}</button> 
+                    <button class="btn" id="id_limit_week_lesson_num_person" data-value="{{$week_num_person}}" >{{$week_num_person}}</button>
                 </div>
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td style="display:none;">id </td>
@@ -397,10 +397,10 @@
                             <td></td>
                         @endif
                         <td>{{$var["tea_note"]}} </td>
-                        <td>{{@$var["research_note"]}} </td>                        
+                        <td>{{@$var["research_note"]}} </td>
                         <td>{{@$var["is_good_flag_str"]}} </td>
                         <td>{{$var["user_agent"]}} </td>
-                        <td>{!! @$var["label"] !!} </td>  
+                        <td>{!! @$var["label"] !!} </td>
                         <td>{{@$var["textbook"]}} </td>
                         <td>{{@$var["textbook_type_str"]}} </td>
                         <td>{{@$var["rate_score"]}} </td>
@@ -431,7 +431,7 @@
                         @endif
                         <td>{{@$var["interview_score"]}}</td>
                         <td>{{@$var["second_interview_score"]}}</td>
-                        <td>                            
+                        <td>
                             @if($var["lesson_hold_flag"]==1)
                                 已暂停接试听课<br>
                                 操作人:{{@$var["lesson_hold_flag_acc"]}}<br>
@@ -526,6 +526,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

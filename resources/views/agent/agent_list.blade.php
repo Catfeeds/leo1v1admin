@@ -35,9 +35,10 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
+                    <td>手机号</td>
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
-                    <td>手机号</td>
+                    <td>上上级微信昵称</td>
                     <td>userid</td>
                     <td>是否成功试听</td>
                     <!-- <td>银行卡号</td>
@@ -60,9 +61,10 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["pp_nickname"]}} </td>
                         <td>{{@$var["s_userid"]}} </td>
                         @if(@$var['success_flag'])
                             <td>是 </td>
