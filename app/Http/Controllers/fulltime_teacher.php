@@ -449,7 +449,8 @@ class fulltime_teacher extends Controller
             $ret['platform_teacher_cc_per']  = round(100*$test_person_num_total['have_order'] / $test_person_num_total['person_num'],2);//全职老师cc转化率
         }else{
             $ret['platform_teacher_cc_per'] = 0;
-        } 
+        }
+
         //-------------------------------------------------------------------------------------
         return $this->pageView(__METHOD__ ,null, [
             "ret_info" => @$ret,
