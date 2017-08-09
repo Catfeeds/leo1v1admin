@@ -115,8 +115,6 @@ class login extends Controller
             }
 
         }else{
-
-
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
