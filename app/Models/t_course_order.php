@@ -1103,7 +1103,8 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
             ["t1.competition_flag=%u",$competition_flag, -1 ] ,
             ["t1.teacherid=%u",$teacherid, -1 ] ,
             "t1.course_type in (0,1,3)"  ,
-            "t1.course_type=0",
+            "t1.course_type=0 ",
+            "t1.course_status=0 "
         ]);
         /*$sql=$this->gen_sql("select t1.userid,t1.courseid,t1.grade,t1.subject, t1.teacherid,t1.lesson_grade_type,"
                             ."sum(t2.lesson_count) as lesson_count, "
@@ -1138,4 +1139,35 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
     }
 
 
+    public function update_course_status($courseid){
+        $sql = $this->gen_sql_new("update %s set course_status = 1 "
+                                ."where courseid = %u ",
+                            self::DB_TABLE_NAME,
+                            $courseid
+        );
+        $ret =  $this->main_update($sql);
+    }
+    function get_course_list(){
+        $where_str=$this->where_str_gen([
+            "course_status =0",
+        ]);
+        $sql=$this->gen_sql("select t1.userid,t1.courseid,"
+                            ."sum(t2.lesson_count) as lesson_count, "
+                            ."sum(case when lesson_status=0 then lesson_count else 0 end )  as no_finish_lesson_count , "
+                            ."sum(case when lesson_status=0 then 0 else "
+                            ."(case when confirm_flag in (2,4) then 0 else t2.lesson_count end) "
+                            ."end ) as finish_lesson_count,t1.add_time, "
+                            ."t1.teacherid, t1.assistantid,t1.course_type,t1.default_lesson_count,t1.assigned_lesson_count, "
+                            ."course_status"
+                            ." from %s t1 "
+                            ." left join %s t2 on t1.courseid = t2.courseid "
+                            ." and (lesson_del_flag=0 or lesson_del_flag is null)"
+                            ." where %s "
+                            ." group by t1.courseid order by t1.courseid desc "
+                            ,self::DB_TABLE_NAME
+                            ,t_lesson_info::DB_TABLE_NAME
+                            ,[$where_str]
+        );
+        return $this->main_get_list($sql);
+    }
 }
