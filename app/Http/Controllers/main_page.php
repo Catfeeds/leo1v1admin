@@ -385,7 +385,7 @@ class main_page extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);
-        $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
+        // $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
         $tea_subject = "";
 
         //面试人数

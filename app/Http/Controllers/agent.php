@@ -89,7 +89,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret_in_str=$this->t_seller_student_new->get_seller_yxyx_all();
+        $ret_in_str=$this->t_seller_student_new->get_seller_yxyx();
         $phone_new = array_column($ret_in_str,'phone');
         $ret_info = $this->t_agent->get_test_new();
         $phone_old = array_column($ret_info,'phone');
