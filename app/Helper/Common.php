@@ -1573,9 +1573,9 @@ class Common {
 
     static   function cny($ns) {
 
-            static $cnums=array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
-            $cnyunits=array("圆","角","分"),
-            $grees=array("拾","佰","仟","万","拾","佰","仟","亿");
+        static $cnums=array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
+                     $cnyunits=array("圆","角","分"),
+                     $grees=array("拾","佰","仟","万","拾","佰","仟","亿");
         @list($ns1,$ns2)=@explode(".",$ns,2);
         $ns2=@array_filter(array($ns2[1],$ns2[0]));
         $ret=@array_merge($ns2,array(implode("",static::_cny_map_unit(str_split($ns1),$grees)),""));
@@ -1595,8 +1595,8 @@ class Common {
         return $xs;
     }
 
-        static function secsToStr($secs) {// 将秒数转变 小时数
-       $r = '';
+    static function secsToStr($secs) {// 将秒数转变 小时数
+        $r = '';
         if($secs>=86400){$days=floor($secs/86400);
             $secs=$secs%86400;
             $r=$days.'天';
@@ -1624,11 +1624,12 @@ class Common {
             return $r;
         }
 
-        
-   }
+
+    }
 
 
-   static function sortArrByField(&$array, $field, $desc = false){
+
+    static function sortArrByField(&$array, $field, $desc = false){
         $fieldArr = array();
         foreach ($array as $k => $v) {
             $fieldArr[$k] = $v[$field];
@@ -1636,7 +1637,16 @@ class Common {
         $sort = $desc == false ? SORT_ASC : SORT_DESC;
         array_multisort($fieldArr, $sort, $array);
     }
-
-
+    static function size_str($size) {
+        if ( $size> 1024*1024*1024)  {
+            return  sprintf("%.2fGB", $size/(1024*1024*1024));
+        } else if ( $size> 1024*1024)  {
+            return  sprintf("%.2fGB", $size/(1024*1024));
+        } else if ( $size> 1024)  {
+            return  sprintf("%.2fKB", $size/(1024));
+        }else{
+            return  $size;
+        }
+    }
 
 };

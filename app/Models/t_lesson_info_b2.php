@@ -2822,7 +2822,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type){
         $where_arr=[
-            "lesson_type in (0,1,3)",
+            "lesson_type in (0,1,2,3)",
             "s.is_test_user = 0",
             "lesson_del_flag = 0",
             "l.teacherid>0",
@@ -2831,7 +2831,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         if($is_full_time >=0){
             if($is_full_time == 1){ // 兼职老师
-                $where_arr[] = "t.teacher_type not in(3,4)";
+                $where_arr[] = "t.teacher_type not in(3,4) and (m.account_role not in(4,5) or m.account_role is null)";
             }else{ // 全职老师
                 $where_arr[] = "m.account_role=5 and t.is_quit = 0 and t.trial_lecture_is_pass=1";
             }

@@ -74,7 +74,7 @@ $(function(){
                     action : function(dialog) {
                         var title    = html_node.find(".add_title").val();
                         var des      = html_node.find(".add_des").val();
-                        var pic      = html_node.find(".add_pic").val();
+                        var pic      = html_node.find(".add_pic").text();
                         var new_link = html_node.find(".add_new_link").val();
                         var add_type = html_node.find(".add_type").val();
                         $.ajax({
