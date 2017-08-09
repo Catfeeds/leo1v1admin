@@ -2648,13 +2648,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "tr.id is null";
+            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
         }elseif($record_flag==1){
-            $where_arr[] = "tr.id>0";
+            $where_arr[] = "tr.add_time>0";
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time  "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
@@ -2680,13 +2680,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "tr.id is null";
+            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
         }elseif($record_flag==1){
-            $where_arr[] = "tr.id>0";
+            $where_arr[] = "tr.add_time>0";
         }
 
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=3)"
@@ -2714,13 +2715,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "tr.id is null";
+            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
         }elseif($record_flag==1){
-            $where_arr[] = "tr.id>0";
+            $where_arr[] = "tr.add_time>0";
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=4)"
@@ -2749,13 +2750,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "tr.id is null";
+            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
         }elseif($record_flag==1){
-            $where_arr[] = "tr.id>0";
+            $where_arr[] = "tr.add_time>0";
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=2)"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",
@@ -2819,25 +2820,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1){
+    public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type){
         $where_arr=[
             "lesson_type in (0,1,3)",
             "s.is_test_user = 0",
             "lesson_del_flag = 0",
             "l.teacherid>0",
+            ["t.teacher_money_type=%d",$teacher_money_type,-1]
         ];
 
         if($is_full_time >=0){
-            if($is_full_time == 1){
+            if($is_full_time == 1){ // 兼职老师
                 $where_arr[] = "t.teacher_type not in(3,4)";
-            }else{
+            }else{ // 全职老师
                 $where_arr[] = "m.account_role=5 and t.is_quit = 0 and t.trial_lecture_is_pass=1";
             }
         }
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
-        $sql=$this->gen_sql_new("select m.account_role, count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type,  l.teacherid"
+        $sql=$this->gen_sql_new("select t.teacher_type, m.account_role, count(distinct l.userid) stu_num, FORMAT(sum(if(confirm_flag <> 2,lesson_count/100,0)),2) valid_count,  FORMAT(sum(if(deduct_come_late=1,lesson_count/100,0)),2) teacher_come_late_count, FORMAT(sum(if(lesson_cancel_reason_type=21,lesson_count/100,0)),2) teacher_cut_class_count, FORMAT(sum(if(lesson_cancel_reason_type=2,lesson_count/100,0)),2) teacher_change_lesson,  FORMAT(sum(if(lesson_cancel_reason_type=12,lesson_count/100,0)),2) teacher_leave_lesson, t.teacher_money_type, t.train_through_new_time, l.lesson_cancel_reason_type,  l.teacherid"
                                 ." from %s l "
                                 ." left join %s s on l.userid=s.userid "
                                 ." left join %s tll on tll.lessonid = l.lessonid"

@@ -291,6 +291,7 @@ class NewRouteConfig {
         "/tea_manage/get_teacherid"                => true,
         "/tea_manage/lesson_list_seller"           => true,
         "/tea_manage/lesson_list_research"         => true,
+        "/tea_manage/lesson_list_zs"               => true,
         "/tea_manage/lesson_list_fulltime"         => true,
         "/tea_manage/add_robot_lesson"             => true,
         "/tea_manage/lesson_list_ass"              => true,

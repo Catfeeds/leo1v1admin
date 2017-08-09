@@ -2,6 +2,7 @@
 /// <reference path="../g_args.d.ts/tongji_ss-tongji_change_lesson_for_jy.ts" />
 function load_data(){
     $.reload_self_page ( {
+        teacher_money_type:	$('#id_teacher_money_type').val(),
 		    order_by_str:	g_args.order_by_str,
 			  seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
 		    date_type:	$('#id_date_type').val(),
@@ -24,7 +25,11 @@ $(function(){
         }
     });
 
+    Enum_map.append_option_list('teacher_money_type',$('#id_teacher_money_type'));
+
 	  $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+    $('#id_teacher_money_type').val(g_args.teacher_money_type);
+
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
 
     var get_row_date_query_str=function( a_link )  {
@@ -45,11 +50,11 @@ $(function(){
 
 
     $(".id_valid_count").on("click",function(){
-	    var date_str=get_row_date_query_str(this);
-	    $.wopen("/tea_manage/lesson_list?"+date_str+"&lesson_type=-2&confirm_flag=-1&subject=-1&grade=-1&studentid=-1&teacherid=-1&test_seller_id=-1&is_with_test_user=0&has_performance=-1&lesson_count=-1&lesson_cancel_reason_type=0");
+	      var date_str=get_row_date_query_str(this);
+	      $.wopen("/tea_manage/lesson_list?"+date_str+"&lesson_type=-2&confirm_flag=-1&subject=-1&grade=-1&studentid=-1&teacherid=-1&test_seller_id=-1&is_with_test_user=0&has_performance=-1&lesson_count=-1&lesson_cancel_reason_type=0");
     });
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
 
 

@@ -1505,10 +1505,13 @@ class user_manage extends Controller
 
         $adminid = $this->get_account_id();
 
-        $orderid     = $this->get_in_int_val("orderid");
+        $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
         $list        = $this->t_refund_analysis->get_list($orderid,$apply_time);
 
+        if($orderid <=0){
+            return $this->error_view(["请从[退费管理]-[QC退费分析总表]进入"]);
+        }
         // dd($list);
         foreach ($list as $key =>&$item) {
             $keys       = $this->t_order_refund_confirm_config->get_refundid_by_configid($item['configid']);

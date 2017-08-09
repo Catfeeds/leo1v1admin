@@ -6874,27 +6874,24 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function tongji_change_lesson_by_teacher_jy(){
+    public function tongji_change_lesson_by_teacher_jy(){ // 显示兼职老师信息
         $this->set_in_value('is_full_time',1);
         return $this->tongji_change_lesson_for_jy();
     }
 
 
-    public function tongji_change_lesson_by_full_time_teacher_jy(){
+    public function tongji_change_lesson_by_full_time_teacher_jy(){ // 全职老师信息
         $this->set_in_value('is_full_time',2);
         return $this->tongji_change_lesson_for_jy();
     }
 
 
-
-
-
-    public function tongji_change_lesson_for_jy(){ // 显示兼职老师考勤
+    public function tongji_change_lesson_for_jy(){
         // return $this->tongji_change_lesson_by_teacher();
 
         $is_full_time = $this->get_in_int_val('is_full_time');
 
-        $teacher_money_type = $this->get_in_int_val('teacher_money_type');
+        $teacher_money_type = $this->get_in_int_val('teacher_money_type',-1);
 
         $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();
@@ -6917,7 +6914,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $assistantid= $this->get_in_int_val("assistantid",-1);
 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
+        $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time,$teacher_money_type );
 
         // dd($ret_info);
         foreach($ret_info as &$item_list){

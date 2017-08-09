@@ -14,7 +14,7 @@ class menu{
                 ["power_id"=>19, "name"=>"学生上课信息",   "url"=>"/user_manage_new/stu_lesson_info"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
-                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysia"],
+                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
@@ -649,6 +649,7 @@ class menu{
 
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
+                ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zs"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
