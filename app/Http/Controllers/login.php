@@ -200,6 +200,9 @@ class login extends Controller
                 $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
             }
         }
+
+        \App\Helper\Utils::logger("menu_str_show: $menu_str");
+
         return $menu_str;
     }
 

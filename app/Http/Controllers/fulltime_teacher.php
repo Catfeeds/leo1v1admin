@@ -424,7 +424,7 @@ class fulltime_teacher extends Controller
         $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
         $ret['platform_teacher_lesson_count'] = round($ret_platform_teacher_lesson_count["lesson_count"]/100);//全职老师完成的课耗总数
         if($ret['platform_teacher_lesson_count'] != 0){
-            $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_lesson_count'],2);
+            $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_lesson_count']*100/$ret['platform_teacher_lesson_count'],2);
         }else{
             $ret['fulltime_teacher_lesson_count_per'] = 0;
         }

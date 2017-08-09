@@ -180,7 +180,7 @@ class url_power_map {
 			'/table_manage/opt_table_log'	=>1060803,
 			'/table_manage/tq_wsdl'	=>1060805,
 			'/table_manage/dev_info'	=>1060804,
-			'/tongji_ss/origin_count'	=>1070802,
+			'/tongji_ss/origin_count'	=>1400102,
 			'/tongji_ss/origin_count_simple'	=>1070899,
 			'/tongji_ss/origin_count_bd'	=>1070851,
 			'/tongji_ss/origin_count_bd_simple'	=>1070853,
