@@ -122,10 +122,19 @@ class test_boby extends Controller
         foreach ($ret_info as $v) {
             $iparr[] = $v['ip'];
         }
-        // $list = $this->t_user_login_log->get_per_phone_by_ip($iparr);
-        $s = '<table border=1><tr><th>ip</th><th>电话</th></tr>';
+        // dd($iparr);
+        $list = $this->t_order_info->get_phont_by_ip($iparr);
+        $newarr = [];
+        foreach ($ret_info as $v){
+            if ( !$newarr[$v['ip']] ){
+                $newarr[$v['ip']] = $v['phone'];
+            } else {
+                $newarr[$v['ip']] = $newarr[$v['ip']].$v['phone'];
+            }
+        }
+        $s = '<table border=1><tr><th>ip</th><th>下单电话</th><th>电话N</th></tr>';
         foreach ($ret_info as $v) {
-            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td></tr>";
+            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>{$newarr[$v['ip']]}</td></tr>";
         }
         $s = $s.'</table>';
         return $s;

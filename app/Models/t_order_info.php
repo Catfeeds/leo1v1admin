@@ -2567,18 +2567,36 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $sql = $this->gen_sql_new("select distinct ll.ip ,p.phone"
                                   ." from %s o"
                                   ." left join %s ll on ll.userid=o.userid"
-                                  ." left join %s s on s.userid=o.userid"
-                                  ." left join %s pc on pc.userid=s.userid"
+                                  ." left join %s pc on pc.userid=ll.userid"
                                   ." left join %s p on p.parentid=pc.parentid"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_user_login_log::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
                                   ,t_parent_child::DB_TABLE_NAME
                                   ,t_parent_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         // dd($sql);
         return $this->main_get_list($sql);
+    }
+    public function get_phont_by_ip($iparr) {
+        $ipstr = implode(',', $iparr);
+        $where_arr = [
+            "ll.ip in ({$ipstr})",
+        ];
+        $sql = $this->gen_sql_new("select distinct ll.ip ,p.phone"
+                                  ." from %s o"
+                                  ." left join %s ll on ll.userid=o.userid"
+                                  ." left join %s pc on pc.userid=ll.userid"
+                                  ." left join %s p on p.parentid=pc.parentid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_user_login_log::DB_TABLE_NAME
+                                  ,t_parent_child::DB_TABLE_NAME
+                                  ,t_parent_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
     }
 }
