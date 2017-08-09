@@ -181,7 +181,10 @@ class tea_manage extends Controller
         $qz_flag     = $right_list["qz_flag"];
         if($adminid==486 || $adminid==478){
              $tea_subject= "";
+        }elseif($adminid==329){
+            $tea_subject="";
         }
+
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         if($account_info["teacherid"]>0){

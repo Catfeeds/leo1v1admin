@@ -57,7 +57,7 @@ $(function(){
 
     $('.show_detail').on("click",function(){
         var teacherid = $(this).attr('date-teacherid');
-        var lesson_cancel_reason_type = $('#id_lesson_cancel_reason_type option:selected').val();
+        var lesson_cancel_reason_type = $(this).attr('date-lesson_cancel_reason_type');
         var start_time = $('#id_start_time').val();
         var end_time   = $('#id_end_time').val();
         var html_node    = $.obj_copy_node("#id_assign_log");
