@@ -49,6 +49,15 @@ class testbb extends Controller
 
 
     public function test () {
+
+        //
+        $item_name = "教学管理-1面试转化率模型";
+        // dd(substr($item_name,0,13));
+        if ( substr($item_name,0,13)== "教学管理-"  ) {
+            dd(111);
+        }
+
+
         //	bf059d7ccac785e1340f8a590b7866e51502182562119.pdf
         $this->switch_tongji_database();
         $is_full_time = 1;  // 显示兼职老师

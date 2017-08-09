@@ -25,7 +25,13 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+
+
+
+            \App\Helper\Utils::logger("name_jiaoxue8: $item_name");
             if($tmp) {
+                \App\Helper\Utils::logger("panduian22: $item_name");
+
                 $item_count++;
                 if(is_array($tmp)) {
                     $item_1=$tmp[1];
@@ -33,11 +39,15 @@ class login extends Controller
 
                     // 修改
                     if ( substr($item_name,0,13)== "教学管理-"  ) {
+                        \App\Helper\Utils::logger("name_jiaoxue41: $item_name");
+
                         $role_item_count++;
                         $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
                         \App\Helper\Utils::logger("sjkd: $role_item_count");
 
+                    }else{
+                        $role_str.=$tmp[0];
                     }
 
                 }else{
