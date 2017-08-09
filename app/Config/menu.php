@@ -242,7 +242,10 @@ class menu{
                     ["power_id"=>2, "name"=>"数据库-数据修改",   "url"=>"/table_manage/edit_table_data"],
                     ["power_id"=>3, "name"=>"数据库-数据修改记录",   "url"=>"/table_manage/opt_table_log"],
                     ["power_id"=>5, "name"=>"tq wsdl生成",   "url"=>"/table_manage/tq_wsdl"],
-                    ["power_id"=>4, "name"=>"开发信息",   "url"=>"/table_manage/dev_info"]]]]],
+                    ["power_id"=>4, "name"=>"开发信息",   "url"=>"/table_manage/dev_info"]]]]
+            ],
+
+
             ["power_id"=>7, "name"=>"市场", "list"=>[
 
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
@@ -284,6 +287,39 @@ class menu{
 
                 ["power_id"=>12, "name"=>"TMK-个人",   "url"=>"/tongji_ss/tmk_count"],
             ]],
+
+
+
+            ["power_id"=>40, "name"=>"教学管理事业部", "list"=>[
+
+                ["power_id"=>1, "name"=>"师",  "list"=>[
+                    ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
+                    ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
+                    ["power_id"=>4, "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
+                    ["power_id"=>2, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list"],
+                    ["power_id"=>5, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_reference"],
+                    ["power_id"=>6, "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],
+                    ["power_id"=>7, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
+                    ["power_id"=>10, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zs"],
+                    ["power_id"=>11, "name"=>"面试转化率模型",  "list"=>[
+                        ["power_id"=>4, "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_zs"],
+                        ["power_id"=>1, "name"=>"面试转化数据-年级科目",   "url"=>"/tongji_ss/interview_subject_grade_tongji_zs"],
+                        ["power_id"=>5, "name"=>"招师渠道面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_by_reference_zs"],
+                        ["power_id"=>10,"name"=>"面试各项指标评分", "url"=>"/human_resource/get_teacher_lecture_fail_score_info_zs"],
+                    ]],
+                    ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
+                    ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+
+                ]],
+
+
+            ]],
+
+
+
+
+
+
             ["power_id"=>8, "name"=>"财务管理", "list"=>[
                 ["power_id"=>1, "name"=>"合同管理-财务",   "url"=>"/user_manage_new/money_contract_list"],
                 ["power_id"=>11, "name"=>"合同管理-new",   "url"=>"/user_manage_new/money_contract_list_stu"],
