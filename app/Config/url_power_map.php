@@ -262,7 +262,7 @@ class url_power_map {
 			'/tongji2/first_call_info'	=>1100161,
 			'/tongji2/test_lesson_frist_call_time'	=>1100107,
 			'/tongji2/test_lesson_frist_call_time_master'	=>1100109,
-			'/tongji_ss/tongji_seller_test_lesson_order_info'	=>1100108,
+			'/tongji_ss/tongji_seller_test_lesson_order_info'	=>1251200,
 			'/tongji_ss/tongji_seller_test_lesson_paper_order_info'	=>1100110,
 			'/tongji2/seller_student_admin_list'	=>1100111,
 			'/tongji_ex/call_count'	=>1100112,
