@@ -651,7 +651,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -677,7 +677,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -704,7 +704,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -731,7 +731,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -761,13 +761,17 @@ class teacher_level extends Controller
         $tea_operation_score              = $this->get_in_int_val('tea_operation_score');
         $tea_environment_score            = $this->get_in_int_val('tea_environment_score');
         $class_abnormality_score          = $this->get_in_int_val('class_abnormality_score');
-        $record_info                      = $this->get_in_str_val("record_info","");
+        $record_info                      = trim($this->get_in_str_val("record_info",""));
         $record_score                     = $this->get_in_int_val("score",0);
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
+        if(empty($record_info)){
+            return $this->output_err("请输入反馈内容!");
+        }
+
        
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         if($id>0){
