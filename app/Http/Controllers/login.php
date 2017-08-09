@@ -22,10 +22,23 @@ class login extends Controller
 
         $is_teaching_flag = 0;
 
+        \App\Helper\Utils::logger("yuanshii22: ".json_encode($url_power_map));
+
         foreach ($menu as $item) {
             $item_name=$item["name"];
+
+            \App\Helper\Utils::logger("yuanshu1: ".json_encode($item));
+
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+
+            \App\Helper\Utils::logger("hhh1: ".json_encode($tmp));
+
+            // $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
+
+
             if($tmp) {
+                \App\Helper\Utils::logger("panduian22: $item_name");
+
                 $item_count++;
                 if(is_array($tmp)) {
                     $item_1=$tmp[1];
@@ -33,16 +46,23 @@ class login extends Controller
 
                     // 修改
                     if ( substr($item_name,0,13)== "教学管理-"  ) {
+                        \App\Helper\Utils::logger("name_jiaoxue41: $item_name");
+
                         $role_item_count++;
                         $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
                         \App\Helper\Utils::logger("sjkd: $role_item_count");
 
+                    }else{
+                        $role_str.=$tmp[0];
                     }
 
                 }else{
                     $menu_str.=$tmp;
                 }
+            }else{
+                \App\Helper\Utils::logger("name_jiaoxue78: $tmp, name: $item_name");
+
             }
         }
 
@@ -95,8 +115,6 @@ class login extends Controller
             }
 
         }else{
-
-
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
                 //不再显示

@@ -48,7 +48,7 @@ class  yxyx_wx_server extends Controller
             array('id'=>'7', 'pid'=>'2', 'name'=>'理优简介', 'type'=>'view','code'=>'https://mp.weixin.qq.com/s?__biz=MzIyOTg0OTYwMA==&mid=2247483744&idx=1&sn=30368193100437dac60b2819592a899a&pass_ticket=AsSp67zKHcmO1xdBmlLZtjvArjS4d%2FPUll3bP1hzxZvsBCVWXZJMUjx%2BTMnzlUVw'),
             array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
             array('id'=>'9', 'pid'=>'2', 'name'=>'学员反馈', 'type'=>'click', 'code'=>'feedback'),
-            array('id'=>'10', 'pid'=>'2', 'name'=>'每日卡片', 'type'=>'click', 'code'=>'card'),
+            // array('id'=>'10', 'pid'=>'2', 'name'=>'每日卡片', 'type'=>'click', 'code'=>'card'),
             array('id'=>'11', 'pid'=>'2', 'name'=>'预约试听', 'type'=>'view', 'code'=>'http://www.leo1v1.com/market-l/index.html'),
             array('id'=>'15', 'pid'=>'3', 'name'=>'个人中心', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/index' ),
             array('id'=>'16', 'pid'=>'3', 'name'=>'绑定账号', 'type'=>'view', 'code'=>'http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind'),
