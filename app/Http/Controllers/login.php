@@ -20,6 +20,8 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
 
+        $is_teaching_flag = 0;
+
         foreach ($menu as $item) {
             $item_name=$item["name"];
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
@@ -29,14 +31,13 @@ class login extends Controller
                     $item_1=$tmp[1];
                     // $menu_str.=$tmp[0];
 
-
+                    // 修改
                     if ( substr($item_name,0,13)== "教学管理-"  ) {
                         $role_item_count++;
+                        $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
-                        \App\Helper\Utils::logger("jiaoxxxx12: $role_item_count");
+                        \App\Helper\Utils::logger("sjkd: $role_item_count");
 
-                    }else{
-                        $menu_str.=$tmp[0];
                     }
 
                 }else{
@@ -45,22 +46,18 @@ class login extends Controller
             }
         }
 
+        //修改
+        if($is_teaching_flag == 1){
+            $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+            return $menu_str;
+        }
+
+
+
 
         if ($item_count==1) {
             $menu_str=$item_1;
-        }else{
-            \App\Helper\Utils::logger("jiaoxxxx2");
-
-            if ($role_item_count<2) {
-                $menu_str=$role_str.$menu_str;
-            }else{
-                \App\Helper\Utils::logger("jiaoxxxx4");
-
-                $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
-            }
-
         }
-
         return $menu_str;
     }
 

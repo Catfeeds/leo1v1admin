@@ -1552,7 +1552,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $deal_count=$item_arr["call_admin_count"];
         $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
         $invalid_str="";
-        if ($deal_count >=5  &&  $item["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
+        if ($deal_count >=5  &&  $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
             $invalid_flag=true;
             $invalid_str=" $deal_count 人拨打,未接通";
         }
