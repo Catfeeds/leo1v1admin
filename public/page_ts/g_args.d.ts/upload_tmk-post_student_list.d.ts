@@ -1,6 +1,6 @@
 interface GargsStatic {
 	postid:	number;
-	is_new_flag:	number;//\App\Enums\Eboolean 
+	is_new_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
