@@ -893,7 +893,7 @@ $(function(){
         });
 
 
-        $.show_key_value_table("回访记录-new", arr ,{
+        $.show_key_value_table("回访录入-new", arr ,{
             label    : '确认',
             cssClass : 'btn-warning',
             action   : function(dialog) {
@@ -1255,5 +1255,75 @@ $(function(){
         
  
     });
+
+    $(".opt-require-commend-teacher").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+
+        var id_except_teacher = $("<textarea />") ;
+        var id_textbook = $("<input />") ;
+        var id_stu_request_test_lesson_demand = $("<textarea />") ;
+        var id_stu_score_info = $("<input />") ;
+        var id_stu_character_info = $("<input />") ;
+        var id_stu_request_test_lesson_time = $("<input />") ;
+        var id_subject = $("<select />");
+        id_stu_request_test_lesson_time.datetimepicker({
+            datepicker:true,
+            timepicker:false,
+            format:'Y-m-d ',
+            step:30,
+            onChangeDateTime :function(){
+
+            }
+        });
+
+        Enum_map.append_option_list("subject", id_subject,true);
+        var arr=[
+            ["科目",id_subject],
+            ["学生成绩", id_stu_score_info],
+            ["学生性格",id_stu_character_info],
+            ["教材版本",id_textbook],
+            ["试听需求",id_stu_request_test_lesson_demand],
+            ["试听时间",id_stu_request_test_lesson_time],
+            ["备注(特殊要求)",id_except_teacher],
+        ];
+        
+
+        $.show_key_value_table("申请推荐老师", arr, {
+            label    : '提交',
+            cssClass : 'btn-danger',
+            action   : function(dialog) {
+                var timestamp2 = new Date(id_stu_request_test_lesson_time.val());
+                var time = timestamp2.getTime();
+                time = time / 1000;
+                console.log(id_subject.val());
+                console.log(opt_data.grade);
+                $.do_ajax("/user_deal/add_seller_require_commend_teacher", {
+                    "except_teacher"             : id_except_teacher.val(),
+                    "subject"                    : id_subject.val(),
+                    "grade"                      : opt_data.grade,
+                    "textbook"                   : id_textbook.val(),
+                    "stu_request_test_lesson_demand" :  id_stu_request_test_lesson_demand.val(),
+                    "stu_request_test_lesson_time"   : time,
+                    "stu_request_lesson_time_info"   : "无" ,
+                    "phone_location"                 : opt_data.phone_location ,
+                    "stu_score_info"                 : id_stu_score_info.val(),
+                    "stu_character_info"             : id_stu_character_info.val(),
+                    "userid"                         : opt_data.userid,
+                    "commend_type"                   : 2
+                },function(res){
+                    if(res.ret==-1){
+                        BootstrapDialog.alert(res.info);
+                    }else if(res.ret==1){
+                        BootstrapDialog.alert(res.info,function(){
+                            window.location.reload();
+                        });
+
+                    }
+                });
+            }
+        });
+
+    });
+
 
 });

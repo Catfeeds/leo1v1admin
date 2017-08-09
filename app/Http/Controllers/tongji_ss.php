@@ -4045,6 +4045,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         return $this->tongji_seller_test_lesson_order_info();
     }
 
+    public function tongji_seller_test_lesson_order_info_zs(){
+        return $this->tongji_seller_test_lesson_order_info();
+    }
+
+
     public function tongji_seller_test_lesson_order_info(){
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");

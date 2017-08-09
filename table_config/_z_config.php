@@ -1,6 +1,7 @@
 <?php
 return array(
     ["db_weiyi","t_yxyx_wxnews_info", "id"],
+    ["db_weiyi","t_yxyx_test_pic_info", "id"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],

@@ -2606,7 +2606,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        dd(session("ytx_phone"));
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+
+        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);        
+
+        dd($lesson_count_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
         $qz_tea_arr=[51094];

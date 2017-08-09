@@ -306,7 +306,7 @@
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
                                             <td  > {{@$var["account"]}} </td> 
-                                            <td  > {{@$var["nick"]}} </td> 
+                                            <td  > {{@$var["name"]}} </td> 
                                             <td>{{@$var["all_student"]}} </td>
                                             <td>{{@$var["read_student_last"]}} </td>
                                             <td>{{@$var["month_stop_student"]}} </td>
