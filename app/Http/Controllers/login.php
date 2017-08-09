@@ -27,16 +27,40 @@ class login extends Controller
                 $item_count++;
                 if(is_array($tmp)) {
                     $item_1=$tmp[1];
-                    $menu_str.=$tmp[0];
+                    // $menu_str.=$tmp[0];
+
+
+                    if ( substr($item_name,0,13)== "教学管理-"  ) {
+                        $role_item_count++;
+                        $role_str.=$tmp[0];
+                        \App\Helper\Utils::logger("jiaoxxxx12: $role_item_count");
+
+                    }else{
+                        $menu_str.=$tmp[0];
+                    }
+
                 }else{
                     $menu_str.=$tmp;
                 }
             }
         }
 
+
         if ($item_count==1) {
             $menu_str=$item_1;
+        }else{
+            \App\Helper\Utils::logger("jiaoxxxx2");
+
+            if ($role_item_count<2) {
+                $menu_str=$role_str.$menu_str;
+            }else{
+                \App\Helper\Utils::logger("jiaoxxxx4");
+
+                $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+            }
+
         }
+
         return $menu_str;
     }
 
@@ -170,7 +194,7 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
         $is_jiaose = 0;
-        $role_str_jiaoxue = "";
+        // $role_str_jiaoxue = "";
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
@@ -183,11 +207,6 @@ class login extends Controller
                     if ( substr($item_name,0,7)== "角色-"  ) {
                         $role_item_count++;
                         $role_str.=$tmp[0];
-                        $is_role_flag = 1;
-                    }elseif(substr($item_name,0,13)== "教学管理-"){
-                        $role_item_count++;
-                        $role_str_jiaoxue.=$tmp[0];
-                        $is_teaching_flag = 1;
                     }else{
                         $menu_str.=$tmp[0];
                     }
@@ -204,14 +223,7 @@ class login extends Controller
             if ($role_item_count<3) {
                 $menu_str=$role_str.$menu_str;
             }else{
-                if($is_role_flag == 1){
-                    $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
-                }
-                if($is_teaching_flag==1){
-                    $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str_jiaoxue.'</ul> </li>';
-                }
-
-                // $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+                $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
             }
         }
 
@@ -268,7 +280,10 @@ class login extends Controller
         $url_power_map=\App\Config\url_power_map::get_config();
         $menu_html ="";
 
-        //$menu_html=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map  );
+        $accountid = $this->get_account_id();
+        if($accountid == 99){
+            $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
+        }
 
         $menu      = \App\Helper\Config::get_menu();
         $menu_html .= $this->gen_menu( $arr,$menu,1,1);

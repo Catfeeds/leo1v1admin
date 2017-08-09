@@ -1065,24 +1065,23 @@ class TeacherTask extends TaskController
 
                     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
 
- 
                     $wx_absenteeism_flag = 1;
                 }else{
                     $wx_absenteeism_flag = 2;
                     \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                }  
-
+                }
 
                 $this->t_lesson_info->field_update_list($val['lessonid'],[
                     "wx_absenteeism_flag"   => $wx_absenteeism_flag,
-                    "absenteeism_flag"      => $absenteeism_flag
+                    "absenteeism_flag"      => 1,
                 ]);
             }
         }
     }
 
+   
     /**
-     * 模拟试听课离开课堂10分钟微信推送
+     * 模拟试听课离开课堂10分钟微信推送,先不执行
      * @param type=22
      */
     public function train_lesson_leave_set($type){
@@ -1092,9 +1091,9 @@ class TeacherTask extends TaskController
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
         if(is_array($lesson_list)){
             foreach($lesson_list as &$val){
-                $leave_flag=0
+                $leave_flag=0;
                 $out_time = $this->t_lesson_opt_log->get_last_logout_time($val["lessonid"],$val["teacherid"],time());
-                if($out_time>0){
+                if($out_time>0 && (time()-$out_time)>=600 && (time()-$out_time)<660){
                     $in_time = $this->t_lesson_opt_log->get_min_login_time($val["lessonid"],$val["teacherid"],$out_time);
                     if(empty($in_time) || (($in_time-$out_time) > 600)){
                         $leave_flag=1;
@@ -1141,11 +1140,12 @@ class TeacherTask extends TaskController
                         "wx_absenteeism_flag"   => $wx_absenteeism_flag,
                         "absenteeism_flag"      => $absenteeism_flag
                     ]);
- 
                 }
+ 
             }
         }
     }
+
 
 
 
