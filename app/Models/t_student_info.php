@@ -2656,6 +2656,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $sql = $this->gen_sql_new("select distinct count(s.userid) as count,count(ts.userid) as succ, sum(if(require_admin_type=1,1,0)) as cr, sum(if(require_admin_type=0,1,0)) as cc"
                            ." from %s s"
                            ." left join %s ts on ts.userid=s.userid"
+                           ." where %s"
                            ,self::DB_TABLE_NAME
                            ,t_test_lesson_subject::DB_TABLE_NAME
                            ,$where_arr

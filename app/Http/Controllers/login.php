@@ -27,7 +27,7 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            \App\Helper\Utils::logger("yuanshu1: ".json_encode($item));
+            \App\Helper\Utils::logger("list_show1: ".json_encode($item['list']));
 
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
@@ -85,7 +85,7 @@ class login extends Controller
         \App\Helper\Utils::logger("do1:".$node["name"]);
         
         if (isset($node["list"])) {
-            \App\Helper\Utils::logger("if1222");
+            \App\Helper\Utils::logger("if3333");
 
             $sub_list_str="";
             $add_count=0 ;
@@ -118,7 +118,7 @@ class login extends Controller
 
         }else{
 
-            \App\Helper\Utils::logger("else1");
+            \App\Helper\Utils::logger("else1222");
 
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
