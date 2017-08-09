@@ -22,13 +22,20 @@ class login extends Controller
 
         $is_teaching_flag = 0;
 
+        \App\Helper\Utils::logger("yuanshii: ".json_encode($power_map));
+
         foreach ($menu as $item) {
             $item_name=$item["name"];
+
+            \App\Helper\Utils::logger("yuanshu1: ".json_encode($item));
+
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
+            \App\Helper\Utils::logger("hhh1: ".json_encode($tmp));
+
+            // $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
 
 
-            \App\Helper\Utils::logger("name_jiaoxue8: $item_name");
             if($tmp) {
                 \App\Helper\Utils::logger("panduian22: $item_name");
 
@@ -53,6 +60,9 @@ class login extends Controller
                 }else{
                     $menu_str.=$tmp;
                 }
+            }else{
+                \App\Helper\Utils::logger("name_jiaoxue78: $tmp, name: $item_name");
+
             }
         }
 
