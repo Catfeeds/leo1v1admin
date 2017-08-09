@@ -55,6 +55,7 @@ class  yxyx_wx_server extends Controller
         );
 
         $ret =  \Yxyx\core\Menu::setMenu($menuList);
+        dd($ret);
         $result =  \Yxyx\core\Menu::getMenu($menuList);
         dd($result);
     }
