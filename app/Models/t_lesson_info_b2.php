@@ -2828,10 +2828,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         if($is_full_time >=0){
-            if($is_full_time){
-                $where_arr[] = "t.teacher_money_type>0";
+            if($is_full_time == 1){
+                $where_arr[] = "t.teacher_money_type<>3";
             }else{
-                $where_arr[] = "t.teacher_money_type=0";
+                $where_arr[] = "t.teacher_money_type=3";
             }
         }
 

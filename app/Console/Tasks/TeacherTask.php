@@ -145,42 +145,82 @@ class TeacherTask extends TaskController
                 \App\Helper\Utils::logger("lesson type is not set ".$val['lessonid']);
                 continue;
             }
-            if($val['lesson_type']==2){
-                $end_time    = strtotime(date("Y-m-d",$val['lesson_start']))+86400;
-                $lesson_end  = $val['lesson_end'];
-                $time_period = 45*60;
-                $val['shut_time'] = $lesson_end+$time_period;
+            if($val["train_type"]==4 && $val["lesson_type"]==1100){
+                //模拟试听课结束评价提醒
+                $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                if($openid){
+                    $lesson_time = date("H:i",$val["lesson_start"]);
+                    /**
+                     * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                     * 标题课程 : 待办事项提醒
+                     * {{first.DATA}}
+                     * 待办主题：{{keyword1.DATA}}
+                     * 待办内容：{{keyword2.DATA}}
+                     * 日期：{{keyword3.DATA}}
+                     * {{remark.DATA}}
+                     */
 
-                $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
-                foreach($lesson_list as $v){
-                    $different=$v['lesson_start']-$lesson_end;
-                    if($different>$time_period){
-                        $val['shut_time']=$lesson_end+45*60;
-                        break;
-                    }else{
-                        $lesson_end=$v['lesson_end'];
+                    $data=[];
+                    $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                    $data['first']    = "老师您好，请尽快对本节课做出评价。";
+                    $data['keyword1'] = "课程评价";
+                    $data['keyword2'] = $lesson_time."的模拟课程已结束，请尽快登录老师端，进行评价。";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "";
+                    $url = "";
+                    // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                    \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                    $wx_comment_flag = 1;
+                }else{
+                    $wx_comment_flag = 2;
+                    \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                }                   
+                $this->t_lesson_info->field_update_list($val['lessonid'],[
+                    "wx_comment_flag"     => $wx_comment_flag
+                ]);
+
+
+            }else{
+
+                if($val['lesson_type']==2){
+                    $end_time    = strtotime(date("Y-m-d",$val['lesson_start']))+86400;
+                    $lesson_end  = $val['lesson_end'];
+                    $time_period = 45*60;
+                    $val['shut_time'] = $lesson_end+$time_period;
+
+                    $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+                    foreach($lesson_list as $v){
+                        $different=$v['lesson_start']-$lesson_end;
+                        if($different>$time_period){
+                            $val['shut_time']=$lesson_end+45*60;
+                            break;
+                        }else{
+                            $lesson_end=$v['lesson_end'];
+                        }
                     }
+                    $val['info'] = "老师，辛苦了！刚才的试听课已经结束,请及时给出反馈报告";
+                    $url         = $this->teacher_wx_url['trial_list'];
+                }else{
+                    $val['shut_time'] = $val['lesson_end']+86400*2;
+                    $val['info']      = "老师，辛苦了！刚才的1对1课程已经结束,请及时给出反馈报告";
+                    $url = $this->teacher_wx_url['normal_list'];
                 }
-                $val['info'] = "老师，辛苦了！刚才的试听课已经结束,请及时给出反馈报告";
-                $url         = $this->teacher_wx_url['trial_list'];
-            }else{
-                $val['shut_time'] = $val['lesson_end']+86400*2;
-                $val['info']      = "老师，辛苦了！刚才的1对1课程已经结束,请及时给出反馈报告";
-                $url = $this->teacher_wx_url['normal_list'];
-            }
 
-            $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-            if($openid){
-                $this->teacher_wx_data($openid,$val,$type,$url);
-                $this->t_lesson_info->field_update_list($val['lessonid'],[
-                    "wx_comment_flag"=>1,
-                ]);
-                \App\Helper\Utils::logger("push succ lessonid info :".json_encode($val));
-            }else{
-                $this->t_lesson_info->field_update_list($val['lessonid'],[
-                    "wx_comment_flag"=>2,
-                ]);
-                \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']." this lessonid is :".$val['lessonid']);
+                $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                if($openid){
+                    $this->teacher_wx_data($openid,$val,$type,$url);
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_comment_flag"=>1,
+                    ]);
+                    \App\Helper\Utils::logger("push succ lessonid info :".json_encode($val));
+                }else{
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "wx_comment_flag"=>2,
+                    ]);
+                    \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']." this lessonid is :".$val['lessonid']);
+                }
             }
         }
     }
@@ -198,58 +238,98 @@ class TeacherTask extends TaskController
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
         if(is_array($lesson_list)){
             foreach($lesson_list as &$val){
-                $account_str = "";
-                if($val['assistantid']>0 && $val['lesson_type']!=2){
-                    $account = $this->cache_get_assistant_nick($val['assistantid']);
-                    $url="/supervisor/monitor_ass?date=".$now."&teacherid=".$val['teacherid'];
-                    $account_str="助教-".$account;
-                }elseif($val['lesson_type']==2){
-                    $account = $this->t_seller_student_info->get_lesson_admin($val['lessonid']);
-
-                    if(!$account){
-                        $require_id             = $this->t_test_lesson_subject_sub_list->get_require_id($val['lessonid']);
-                        $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
-                        $require_adminid        = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
-                        $account = $this->cache_get_account_nick($require_adminid);
-                    }
-                    
-                    $url="/supervisor/monitor_seller?date=".$now."&teacherid=".$val['teacherid'];
-                    $account_str="销售-".$account;
-                }
-
-                if($account_str!=""){
-                    $stu_nick   = $val['stu_nick'];
-                    $tea_nick   = $val['tea_nick'];
-                    $header_msg = $val['lessonid']."课程开始5分钟老师未到!!";
-                    $from_user  = "老师-$tea_nick";
-                    $msg        = $account_str;
-                    $this->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
-                    \App\Helper\Utils::logger("teacher late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
-                }
-
-                $last_lesson_end = $this->t_lesson_info->get_last_lesson_end($val['lesson_start'],$val['teacherid']);
-                if(($val['lesson_start']-$last_lesson_end)>1800){
-                    $late_num = $this->t_lesson_info->get_cost_num($month_date['start'],$month_date['end'],$val['teacherid'],1);
-                    if($late_num>=3){
-                        $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
-                        $val['info'] = "老师您上课迟到5分钟，扣款".$val['cost']."元，从本月工资扣除，请下次提前进入课堂。";
-                    }else{
-                        $val['cost'] = 0;
-                        $val['info'] = "老师你好，本月你已经迟到".($late_num+1)."次，每月总共有3次迟到机会，请下次提前进入课堂。";
-                    }
-
-                    $wx_come_flag = 2;
+                if($val["train_type"]==4 && $val["lesson_type"]==1100){
+                    //模拟试听课迟到五分钟推送
                     $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-                    if($openid && $val['info']!=''){
-                        $val['reason'] = "上课迟到";
-                        $data          = $this->teacher_wx_data($openid,$val,$type);
-                        $wx_come_flag  = 1;
-                    }
+                    if($openid){
+                        $lesson_time = date("H:i",$val["lesson_start"]);
+                        /**
+                         * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                         * 标题课程 : 待办事项提醒
+                         * {{first.DATA}}
+                         * 待办主题：{{keyword1.DATA}}
+                         * 待办内容：{{keyword2.DATA}}
+                         * 日期：{{keyword3.DATA}}
+                         * {{remark.DATA}}
+                         */
 
+                        $data=[];
+                        $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                        $data['first']    = "老师您好，请尽快进入课堂。";
+                        $data['keyword1'] = "课程提醒";
+                        $data['keyword2'] = $lesson_time."的模拟试听已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系教务老师";
+                        $data['keyword3'] = date("Y-m-d H:i",time());
+                        $data['remark']   = "";
+                        $url = "";
+                        // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                        $wx_come_flag = 1;
+                    }else{
+                        $wx_come_flag = 2;
+                        \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+                    }                   
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "wx_come_flag"     => $wx_come_flag,
                         "deduct_come_late" => 1
                     ]);
+
+
+                }else{
+                    $account_str = "";
+                    if($val['assistantid']>0 && $val['lesson_type']!=2){
+                        $account = $this->cache_get_assistant_nick($val['assistantid']);
+                        $url="/supervisor/monitor_ass?date=".$now."&teacherid=".$val['teacherid'];
+                        $account_str="助教-".$account;
+                    }elseif($val['lesson_type']==2){
+                        $account = $this->t_seller_student_info->get_lesson_admin($val['lessonid']);
+
+                        if(!$account){
+                            $require_id             = $this->t_test_lesson_subject_sub_list->get_require_id($val['lessonid']);
+                            $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+                            $require_adminid        = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
+                            $account = $this->cache_get_account_nick($require_adminid);
+                        }
+                    
+                        $url="/supervisor/monitor_seller?date=".$now."&teacherid=".$val['teacherid'];
+                        $account_str="销售-".$account;
+                    }
+
+                    if($account_str!=""){
+                        $stu_nick   = $val['stu_nick'];
+                        $tea_nick   = $val['tea_nick'];
+                        $header_msg = $val['lessonid']."课程开始5分钟老师未到!!";
+                        $from_user  = "老师-$tea_nick";
+                        $msg        = $account_str;
+                        $this->t_manager_info->send_wx_todo_msg($account,$from_user,$header_msg,$msg,$url);
+                        \App\Helper\Utils::logger("teacher late for lesson, notice:".$account_str." this lessonid is".$val['lessonid']);
+                    }
+
+                    $last_lesson_end = $this->t_lesson_info->get_last_lesson_end($val['lesson_start'],$val['teacherid']);
+                    if(($val['lesson_start']-$last_lesson_end)>1800){
+                        $late_num = $this->t_lesson_info->get_cost_num($month_date['start'],$month_date['end'],$val['teacherid'],1);
+                        if($late_num>=3){
+                            $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
+                            $val['info'] = "老师您上课迟到5分钟，扣款".$val['cost']."元，从本月工资扣除，请下次提前进入课堂。";
+                        }else{
+                            $val['cost'] = 0;
+                            $val['info'] = "老师你好，本月你已经迟到".($late_num+1)."次，每月总共有3次迟到机会，请下次提前进入课堂。";
+                        }
+
+                        $wx_come_flag = 2;
+                        $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                        if($openid && $val['info']!=''){
+                            $val['reason'] = "上课迟到";
+                            $data          = $this->teacher_wx_data($openid,$val,$type);
+                            $wx_come_flag  = 1;
+                        }
+
+                        $this->t_lesson_info->field_update_list($val['lessonid'],[
+                            "wx_come_flag"     => $wx_come_flag,
+                            "deduct_come_late" => 1
+                        ]);
+                    }
                 }
             }
         }

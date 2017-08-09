@@ -1545,8 +1545,13 @@ class test_code extends Controller
     }
 
     public function reset_test_appointment(){
-        $id=26;
-        $teacherid=62655;
+        if(\App\Helper\Utils::check_env_is_test()){
+            $teacherid=62509;
+            $id=24;
+        }else{
+            $teacherid=62655;
+            $id=26;
+        }
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "subject_ex"       => "1",
             "grade_ex"         => "100",

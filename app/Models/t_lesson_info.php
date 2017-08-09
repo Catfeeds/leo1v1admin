@@ -2237,7 +2237,7 @@ lesson_type in (0,1) "
         $lesson_start_str = "l.lesson_start";
         switch($type){
         case 1:
-            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0 and l.wx_comment_flag=0 and l.lesson_type<1000";
+            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0 and l.wx_comment_flag=0 and (l.lesson_type<1000 or (l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1))";
             break;
         case 2:
             $lesson_time_str = $lesson_start_str;

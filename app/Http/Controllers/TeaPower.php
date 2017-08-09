@@ -1068,8 +1068,8 @@ trait  TeaPower {
     }
 
     public function course_set_new_ex( $require_id, $teacherid,  $lesson_start, $grade,$adminid , $account ) {
-        $lesson_end   = $lesson_start+2400;
-        $orderid      = 1;
+        $lesson_end = $lesson_start+2400;
+        $orderid    = 1;
 
         $db_lessonid = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         if ($db_lessonid){
@@ -1088,7 +1088,7 @@ trait  TeaPower {
             return $rr;
         }
 
-        $test_lesson_subject_id=$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+        $test_lesson_subject_id = $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
         $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"subject,grade,userid");
         $userid  = $tt_item["userid"];
         $subject = $tt_item["subject"];
