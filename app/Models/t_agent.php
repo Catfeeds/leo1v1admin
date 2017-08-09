@@ -449,16 +449,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-
-    public function update_agent_order(){
-        $where_arr = [];
-        $sql = $this->gen_sql_new(
-            " select a.phone ".
-            " from %s ".
-            " left join %s "
-        );
-    }
-
+    
     public function get_p_pp_id_by_phone($phone){
         $where_arr = [
             ['a.phone = %s',$phone],
@@ -475,5 +466,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_test_new(){
+        $where_arr = [
+            'type = 1',
+        ];
+        $sql = $this->gen_sql_new(
+            " select id,phone "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

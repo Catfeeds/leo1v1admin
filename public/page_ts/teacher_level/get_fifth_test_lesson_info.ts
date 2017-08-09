@@ -43,52 +43,67 @@ $(function(){
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $(".opt-fifth-lesson-video").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        $.ajax({
-            type     : "post",
-            url      : "/tea_manage/get_lesson_reply",
-            dataType : "json",
-            data     : {"lessonid":opt_data.lessonid},
-            success  : function(result){
-                if(result.ret == 0){
-                    console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                                +"&audio="+encodeURIComponent(result.audio_url)
-                                +"&start="+result.real_begin_time);
-                    if ( false && !$.check_in_phone() ) {
-
-                        // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
-                        //             +"&audio="+encodeURIComponent(result.audio_url)
-                        //             +"&start="+result.real_begin_time);
-                        window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+        $.do_ajax("/teacher_level/set_teacher_record_acc",{
+            "teacherid"    : opt_data.teacherid,
+            "type"         : 1,
+            "lesson_style" : 2,
+            "lessonid"     :opt_data.lessonid,
+            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+            "acc"          :opt_data.acc
+        },function(result){
+            $.ajax({
+                type     : "post",
+                url      : "/tea_manage/get_lesson_reply",
+                dataType : "json",
+                data     : {"lessonid":opt_data.lessonid},
+                success  : function(result){
+                    if(result.ret == 0){
+                        console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
                                     +"&audio="+encodeURIComponent(result.audio_url)
-                                    +"&start="+result.real_begin_time,"_blank");
-                    }else{
+                                    +"&start="+result.real_begin_time);
+                        if ( false && !$.check_in_phone() ) {
 
-                        var w = $.check_in_phone()?329 : 558;
-                        var h = w/4*3;
-                        var html_node = $("<div style=\"text-align:center;\"> "
-                                          +"<div id=\"drawing_list\" style=\"width:100%\">"
-                                          +"</div><audio preload=\"none\"></audio></div>"
-                                         );
-                        BootstrapDialog.show({
-                            title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + result.stu_nick,
-                            message  : html_node,
-                            closable : true,
-                            onhide   : function(dialogRef){
-                            }
-                        });
-                        Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
-                        Cwhiteboard.loadData(w,h,result.real_begin_time,result.draw_url,result.audio_url,html_node);
+                            // console.log("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                            //             +"&audio="+encodeURIComponent(result.audio_url)
+                            //             +"&start="+result.real_begin_time);
+                            window.open("http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(result.draw_url)
+                                        +"&audio="+encodeURIComponent(result.audio_url)
+                                        +"&start="+result.real_begin_time,"_blank");
+                        }else{
+
+                            var w = $.check_in_phone()?329 : 558;
+                            var h = w/4*3;
+                            var html_node = $("<div style=\"text-align:center;\"> "
+                                              +"<div id=\"drawing_list\" style=\"width:100%\">"
+                                              +"</div><audio preload=\"none\"></audio></div>"
+                                             );
+                            BootstrapDialog.show({
+                                title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + result.stu_nick,
+                                message  : html_node,
+                                closable : true,
+                                onhide   : function(dialogRef){
+                                }
+                            });
+                            Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
+                            Cwhiteboard.loadData(w,h,result.real_begin_time,result.draw_url,result.audio_url,html_node);
+                        }
+                    }else{
+                        BootstrapDialog.alert(result.info);
                     }
-                }else{
-                    BootstrapDialog.alert(result.info);
                 }
-            }
-        });
+            });
+            
+        });       
                 
     });
 
     $(".opt-fifth-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
+        if(g_args.acc != opt_data.acc && opt_data.acc != ""){
+            alert("该视频已有审核人!");
+            return;
+        }
+
         var lessonid = opt_data.lessonid;
         var teacherid = opt_data.teacherid;
         var id_jysj =  $("<select class=\"class_score\" />");
@@ -159,6 +174,7 @@ $(function(){
               
                 $.do_ajax("/teacher_level/set_teacher_record_info",{
                     "teacherid"    : teacherid,
+                    "id"           : opt_data.id,
                     "type"         : 1,
                     "lesson_style" : 2,
                     "tea_process_design_score"         : id_jysj.val(),

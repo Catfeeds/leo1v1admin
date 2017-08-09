@@ -555,7 +555,7 @@ class teacher_info_admin extends Controller
     public function  file_store()   {
         $teacherid = $this->get_in_int_val("teacherid");
         $dir= $this->get_in_str_val("dir");
-        $teacherid=10001;
+        //$teacherid=10001;
         if (!$dir) {
             $dir= "/";
         }
@@ -568,6 +568,7 @@ class teacher_info_admin extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             }
             $item["abs_path"] =  $dir .$item["file_name"];
+            $item["file_size"]= \App\Helper\Common::size_str(@$item["file_size"] );
         }
 
         array_unshift( $ret_list, [ "is_dir" => true,
@@ -583,15 +584,61 @@ class teacher_info_admin extends Controller
             \App\Helper\Utils::list_to_page_info($ret_list) ,["cur_dir"=>$dir] );
 
     }
+
     public function file_store_add_dir()  {
         $teacherid = $this->get_in_int_val("teacherid");
         $dir= $this->get_in_str_val("dir");
         $dir_name = trim($this->get_in_str_val("dir_name"));
-        if (preg_match("/[\/\\]/", $dir_name,$martchs) ) {
-            return $this->output_err("出现非法字符:". $martchs[0]);
-        }
         $obj_dir=$dir.$dir_name;
+
         \App\Helper\Utils::logger("obj_dir:$obj_dir");
+        $store=new \App\FileStore\file_store_tea();
+        $store->add_dir($teacherid,$obj_dir);
+        \App\Helper\Utils::logger("ok ..");
+
+        return $this->output_succ();
+    }
+    public function get_upload_token() {
+        $store=new \App\FileStore\file_store_tea();
+        $dir = $this->get_in_str_val("dir");
+        $teacherid = $this->get_in_int_val("teacherid");
+
+        $pre_dir=$store->get_dir($teacherid,$dir );
+        $token=$store->get_upload_token();
+        return $this->output_succ(["upload_token"=> $token, "pre_dir" => $pre_dir ]);
+
+    }
+    public function get_download_url() {
+        $file_path = $this->get_in_str_val("file_path");
+        $teacherid = $this->get_in_int_val("teacherid");
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $file_path = $store->get_file_path($teacherid,$file_path);
+        $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
+        return $this->output_succ(["url" => $authUrl]);
+    }
+    public function get_share_link() {
+        $teacherid= $this->get_in_teacherid();
+        $share_path = $this->get_in_str_val("share_path");
+
+        $now=time();
+        $create_time=$now;
+        $end_time=$create_time+86400*10;
+        $arr=[
+            "teacherid" => $teacherid,
+            "share_path" => $share_path,
+            "create_time" => $create_time, 
+            "end_time" => $end_time ,
+            "md5_sum" => substr( md5("$teacherid:$share_path:$create_time,$end_time"), 0, 16)
+        ];
+        $key= "xcwen142857xcwAB";
+        $sign= \App\Helper\Common::encrypt( json_encode($arr),$key);
+
+        return $this->output_succ(["sign"=> $sign] );
+        //echo urlencode($sign)."<br/>";
+
+        //echo \App\Helper\Common::decrypt($sign,$key);
 
     }
 }

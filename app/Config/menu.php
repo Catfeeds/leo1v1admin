@@ -14,7 +14,7 @@ class menu{
                 ["power_id"=>19, "name"=>"学生上课信息",   "url"=>"/user_manage_new/stu_lesson_info"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
-                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysia"],
+                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
@@ -423,10 +423,14 @@ class menu{
                     ["power_id"=>2, "name"=>"获赞类别详情",   "url"=>"/user_manage/zan_info"],
                 ],],
 
-                ["power_id"=>11, "name"=>"后台登入", "list"=>[
-                    ["power_id"=>1, "name"=>"详情",   "url"=>"/user_manage/user_login_list"],
-                    ["power_id"=>2, "name"=>"统计",   "url"=>"/user_manage/tongji_login_ip_info"],
+                ["power_id"=>11, "name"=>"登入", "list"=>[
+                    ["power_id"=>10, "name"=>"用户登录统计",   "url"=>"/tongji_ex/user_login"],
+                    ["power_id"=>11, "name"=>"用户登录明细",   "url"=>"/tongji_ex/user_login_list"],
+                    ["power_id"=>1, "name"=>"后台详情",   "url"=>"/user_manage/user_login_list"],
+                    ["power_id"=>2, "name"=>"后台统计",   "url"=>"/user_manage/tongji_login_ip_info"],
                 ]],
+
+
             ]],
 
             ["power_id"=>20, "name"=>"个人中心",  "list"=>[

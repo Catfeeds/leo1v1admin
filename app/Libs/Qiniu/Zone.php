@@ -21,4 +21,9 @@ final class Zone
     {
         return new self('http://up-z1.qiniu.com', 'http://upload-z1.qiniu.com');
     }
+
+    public static function zone2()
+    {
+        return new self('http://up-z2.qiniu.com', 'http://upload-z2.qiniu.com');
+    }
 }
