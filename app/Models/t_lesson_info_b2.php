@@ -2825,15 +2825,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "s.is_test_user = 0",
             "lesson_del_flag = 0",
             "l.teacherid>0",
-            "t.is_quit=0",
-            "t.trial_lecture_is_pass=1"
         ];
 
         if($is_full_time >=0){
             if($is_full_time == 1){
-                $where_arr[] = "m.account_role<>5";
+                $where_arr[] = "t.teacher_type not in(3,4)";
             }else{
-                $where_arr[] = "m.account_role=5";
+                $where_arr[] = "m.account_role=5 and t.is_quit = 0 and t.trial_lecture_is_pass=1";
             }
         }
 
