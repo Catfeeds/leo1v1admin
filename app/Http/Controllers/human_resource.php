@@ -1419,6 +1419,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_zs(){
+        return $this->teacher_lecture_list();
+    }
+
     public function teacher_lecture_list_zj(){
         return $this->teacher_lecture_list();
     }
