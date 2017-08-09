@@ -118,7 +118,7 @@ class login extends Controller
 
         }else{
 
-            \App\Helper\Utils::logger("else1222");
+            \App\Helper\Utils::logger("uehbhd:".$node['name']);
 
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
