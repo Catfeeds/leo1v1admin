@@ -75,4 +75,11 @@ class tongji_ex extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function user_login() {
+        list($start_time,$end_time)=$this->get_in_date_range_month(0 );
+        $ret_info=$this->t_user_login_log->get_login_tongji($start_time,$end_time);
+
+
+    }
+
 }
