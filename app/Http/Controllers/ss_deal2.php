@@ -231,8 +231,8 @@ class ss_deal2 extends Controller
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
 
-            if($item['lesson_cancel_reason_type'] == 23){
-                $item['lesson_cancel_reason_type_str'] = "老师迟到";
+            if($lesson_cancel_reason_type == 23){
+                $item['lesson_cancel_reason_type_str'] = "老师迟到"; // 临时处理
             }else{
                 E\Elesson_cancel_reason_type::set_item_value_str($item);
             }

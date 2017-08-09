@@ -331,6 +331,16 @@ $(function(){
     });
 
    
+    $(".opt-reset-acc").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        if(id==0){
+            alert("无数据,请刷新确认!");
+            return;
+        }else{
+            
+        }
+    });
 
 	$('.opt-change').set_input_change_event(load_data);
 });
