@@ -51,7 +51,6 @@ $(function(){
             "lesson_style" : 1,
             "lessonid"     :opt_data.lessonid,
             "lesson_list"  :JSON.stringify(opt_data.lessonid),
-            "acc"          :opt_data.acc
         },function(result){
             $.ajax({
                 type     : "post",
@@ -102,10 +101,15 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        if(g_args.acc != opt_data.acc && opt_data.acc != ""){
-            alert("该视频已有审核人!");
-            return;
-        }
+        $.do_ajax("/teacher_level/set_teacher_record_acc",{
+            "teacherid"    : opt_data.teacherid,
+            "type"         : 1,
+            "lesson_style" : 1,
+            "lessonid"     :opt_data.lessonid,
+            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+        },function(result){
+            
+        };
 
         var lessonid = opt_data.lessonid;
         var teacherid = opt_data.teacherid;

@@ -2822,7 +2822,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time=-1,$teacher_money_type){
         $where_arr=[
-            "lesson_type in (0,1,3)",
+            "lesson_type in (0,1,2,3)",
             "s.is_test_user = 0",
             "lesson_del_flag = 0",
             "l.teacherid>0",

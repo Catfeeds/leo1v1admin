@@ -768,20 +768,23 @@ class teacher_level extends Controller
         $record_lesson_list               = $this->get_in_str_val("lesson_list","");       
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
-        $acc                        = $this->get_in_str_val("acc");
+        // $acc                        = $this->get_in_str_val("acc");
+        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $acc= $this->t_teacher_record_list->get_acc($id);
         if(empty($acc)){
+            $acc= $this->get_account();
             $ret = $this->t_teacher_record_list->row_insert([
                 "teacherid"      => $teacherid,
                 "type"           => $record_type,          
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
-                "acc"            => $this->get_account()
+                "acc"            => $acc
             ]);
   
         }
         
 
-        return $this->output_succ();
+        return $this->output_succ(["acc"=>$acc]);
 
 
     }

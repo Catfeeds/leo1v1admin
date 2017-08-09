@@ -60,10 +60,17 @@
                 <tbody>
                     @foreach ( $table_data_list as $var )
                         <tr>
-                            <td>{{@$var["teacher_nick"]}} </td>
+
+                            <td>
+                                <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
+                                    {{@$var["teacher_nick"]}}
+                                </a>
+                            </td>
                             <td>{{@$var["stu_num"]}} </td>
                             <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]}}</a> </td>
-                            <td>{{@$var["teacher_come_late_count"]}} </td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}}>
+                                <a>{{@$var["teacher_come_late_count"]}}</a>
+                            </td>
                             <td>{{@$var["lesson_come_late_rate"]}}% </td>
 
                             <td>{{@$var["teacher_cut_class_count"]}} </td>
