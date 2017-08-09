@@ -20,7 +20,8 @@ interface GargsStatic {
 	full_time:	number;
 	show_full_time:	number;
 	teacher_ref_type:	string;//枚举列表: App\Enums\Eteacher_ref_type
- 	tea_adminid:	number;
+ 	fulltime_teacher_type:	number;
+	tea_adminid:	number;
 	fulltime_flag:	number;
 }
 declare module "g_args" {
@@ -117,6 +118,7 @@ $(function(){
 			full_time:	$('#id_full_time').val(),
 			show_full_time:	$('#id_show_full_time').val(),
 			teacher_ref_type:	$('#id_teacher_ref_type').val(),
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 			tea_adminid:	$('#id_tea_adminid').val(),
 			fulltime_flag:	$('#id_fulltime_flag').val()
         });
@@ -148,6 +150,7 @@ $(function(){
 	$('#id_show_full_time').val(g_args.show_full_time);
 	$('#id_teacher_ref_type').val(g_args.teacher_ref_type);
 	$.enum_multi_select( $('#id_teacher_ref_type'), 'teacher_ref_type', function(){load_data();} )
+	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 	$('#id_tea_adminid').val(g_args.tea_adminid);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 
@@ -255,6 +258,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacher_ref_type</span>
                 <input class="opt-change form-control" id="id_teacher_ref_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_teacher_type</span>
+                <input class="opt-change form-control" id="id_fulltime_teacher_type" />
             </div>
         </div>
 

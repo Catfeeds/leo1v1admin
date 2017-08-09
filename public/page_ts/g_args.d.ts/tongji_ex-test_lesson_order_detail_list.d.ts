@@ -20,6 +20,7 @@ declare var g_adminid: any;
 interface RowData {
 	account	:any;
 	phone	:any;
+	phone_location	:any;
 	tea_nick	:any;
 	stu_nick	:any;
 	cur_require_adminid	:any;

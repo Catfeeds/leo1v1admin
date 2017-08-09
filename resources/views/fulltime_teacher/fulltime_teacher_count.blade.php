@@ -105,9 +105,9 @@
 
                                         <tr>
                                             <td>占平台课耗总数的比例</td> 
-                                            <td>77</td>
+                                            <td>{{$ret_info['fulltime_teacher_lesson_count_per']}}%({{$ret_info['fulltime_teacher_lesson_count']}}/{{$ret_info['platform_teacher_lesson_count']}})</td>
                                             <td>平台整体cc转化率</td>
-                                            <td>88</td>
+                                            <td>{{$ret_info['platform_teacher_cc_per']}}%</td>
                                         </tr>
                                 </tbody>
                             </table>

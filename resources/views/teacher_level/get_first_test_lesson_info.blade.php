@@ -58,6 +58,7 @@
                     <td>老师</td>
                     <td>科目</td>
                     <td>年级</td>
+                    <td>审核人</td>
                     <td>是否反馈</td>
                     
                     <td> 操作  </td>
@@ -75,6 +76,7 @@
                                 {{@$var["grade_part_ex_str"]}}
                             @endif
                         </td>
+                        <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
 
                         <td>
@@ -83,10 +85,13 @@
                             >
                                
                                     <a class="opt-first-lesson-video" >视频</a>
-                                    <a class="opt-first-lesson-record" >反馈</a>
                                     @if($var["id"]>0)
+                                        <a class="opt-first-lesson-record" >反馈</a>
+                                    @endif
+                                    @if($var["add_time"]>0)
                                         <a class="opt-first-lesson-record-list" >反馈详情</a>
                                     @endif
+
 
                             </div>
                         </td>

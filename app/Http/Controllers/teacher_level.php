@@ -651,15 +651,19 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
             }
   
         }
-
-        return $this->pageView(__METHOD__,$ret_info);
+        
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -677,15 +681,18 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
             }
   
         }
-
-        return $this->pageView(__METHOD__,$ret_info);
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -704,7 +711,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -712,7 +719,11 @@ class teacher_level extends Controller
   
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
@@ -731,21 +742,49 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
-            if($item["id"]>0){
+            if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
             }
   
         }
+        $this->set_in_value("acc",$this->get_account());
+        $acc = $this->get_in_str_val("acc");
 
-        return $this->pageView(__METHOD__,$ret_info);
+        
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" =>$acc
+        ]);
  
     }
 
 
 
 
+    public function set_teacher_record_acc(){
+        $teacherid                        = $this->get_in_int_val("teacherid",0);
+        $lessonid                         = $this->get_in_int_val("lessonid",0);
+        $record_lesson_list               = $this->get_in_str_val("lesson_list","");       
+        $record_type                     = $this->get_in_int_val("type");
+        $lesson_style                    = $this->get_in_int_val("lesson_style");
+        $acc                        = $this->get_in_str_val("acc");
+        if(empty($acc)){
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"      => $teacherid,
+                "type"           => $record_type,          
+                "train_lessonid" => $lessonid,
+                "lesson_style"   => $lesson_style,
+                "acc"            => $this->get_account()
+            ]);
+  
+        }
+        
+
+        return $this->output_succ();
+
+
+    }
 
     public function set_teacher_record_info(){
         $teacherid                        = $this->get_in_int_val("teacherid",0);
@@ -761,15 +800,20 @@ class teacher_level extends Controller
         $tea_operation_score              = $this->get_in_int_val('tea_operation_score');
         $tea_environment_score            = $this->get_in_int_val('tea_environment_score');
         $class_abnormality_score          = $this->get_in_int_val('class_abnormality_score');
-        $record_info                      = $this->get_in_str_val("record_info","");
+        $record_info                      = trim($this->get_in_str_val("record_info",""));
         $record_score                     = $this->get_in_int_val("score",0);
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
+        $id                              = $this->get_in_int_val("id");
+        if(empty($record_info)){
+            return $this->output_err("请输入反馈内容!");
+        }
+
        
-        $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        // $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
                 "tea_process_design_score"         => $tea_process_design_score,
@@ -795,6 +839,7 @@ class teacher_level extends Controller
                 "add_time"       => time(),
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
+                "acc"            => $this->get_account(),
                 "tea_process_design_score"         => $tea_process_design_score,
                 "knw_point_score"                  => $knw_point_score,
                 "teacher_blackboard_writing_score" => $teacher_blackboard_writing_score,

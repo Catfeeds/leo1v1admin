@@ -1,5 +1,7 @@
 <?php
 return array(
+    ["db_weiyi","t_yxyx_wxnews_info", "id"],
+
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],
     ["db_weiyi","t_user_login_log","id"],
@@ -16,6 +18,7 @@ return array(
     ["db_weiyi","t_cs_complaint_user_info", "id"],
     ["db_weiyi","t_cs_proposal_info", "id"],
     ["db_weiyi","t_lesson_intro_video_info", "lessonid"],
+
 
     ["db_weiyi_admin","t_user_report","id"],
     ["db_weiyi_admin","t_kaoqin_machine","machine_id"],

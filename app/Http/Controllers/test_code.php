@@ -1534,7 +1534,7 @@ class test_code extends Controller
     }
 
     public function get_order_lesson(){
-        $arr = $this->get_b_txt();
+        $arr = $this->get_b_txt(b.txt);
         dd($arr);
     }
 
@@ -1542,6 +1542,32 @@ class test_code extends Controller
         $email = "wg392567893@163.com";
         $ret= \App\Helper\Common::send_paper_mail_new($email,"测试邮件","is test email");
         dd($ret);
+    }
+
+    public function reset_test_appointment(){
+        if(\App\Helper\Utils::check_env_is_test()){
+            $teacherid=62509;
+            $id=24;
+        }else{
+            $teacherid=62655;
+            $id=26;
+        }
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "subject_ex"       => "1",
+            "grade_ex"         => "100",
+            "trans_grade_ex"   => "",
+            "trans_subject_ex" => "",
+            "grade_1v1"        => "",
+            "trans_grade_1v1"  => "",
+        ]);
+
+        $lessonid_list=$this->t_lesson_info_b2->get_lessonid_list_by_userid($teacherid);
+        if(is_array($lessonid_list) && !empty($lessonid_list)){
+            foreach($lessonid_list as $val){
+                $this->t_lesson_info->row_delete($val['lessonid']);
+            }
+        }
+
     }
 
 }

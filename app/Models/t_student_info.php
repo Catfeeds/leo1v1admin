@@ -2632,7 +2632,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_total_student_num($type){
         $where_arr = [
             " type=0 ",
-            " is_test_user=0 "
+            " is_test_user=0 ",
+            "assistantid>0"
         ];
         $sql = $this->gen_sql_new(" select count(userid) as platform_teacher_student "
                                   ." from %s where %s "

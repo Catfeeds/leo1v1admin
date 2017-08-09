@@ -38,7 +38,7 @@ class agent extends Controller
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
         }
-        $test_info = $this->t_test_lesson_subject_sub_list->get_suc_test_by_userid($userid_arr);
+        $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
         foreach($ret_info['list'] as &$item){
             foreach($test_info as $info){
                 if($item['s_userid'] == $info['userid']){
@@ -89,6 +89,19 @@ class agent extends Controller
     }
 
     public function check(){
+        $ret_in_str=$this->t_seller_student_new->get_test_new();
+        $phone_new = array_column($ret_in_str,'phone');
+        $ret_info = $this->t_agent->get_test_new();
+        $phone_old = array_column($ret_info,'phone');
+        $phone_one = array_diff($phone_old,$phone_new);
+        $phone_two = [];
+        foreach($phone_new as $item){
+            if(in_array($item,$phone_old)){
+                $phone_two[] = $item;
+            }
+        }
+        dd($phone_new,$phone_old,$phone_one,$phone_two);
+        // dd('a');
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid_new = $lesson_call_end['userid'];

@@ -14,11 +14,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
 
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.userid s_userid "
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
+                                 ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.phone = a.phone"
                                  ." where %s "
+                                 ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
@@ -303,6 +306,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
+            'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
         ];
 
@@ -445,16 +449,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-
-    public function update_agent_order(){
-        $where_arr = [];
-        $sql = $this->gen_sql_new(
-            " select a.phone ".
-            " from %s ".
-            " left join %s "
-        );
-    }
-
+    
     public function get_p_pp_id_by_phone($phone){
         $where_arr = [
             ['a.phone = %s',$phone],
@@ -471,5 +466,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_test_new(){
+        $where_arr = [
+            'type = 1',
+        ];
+        $sql = $this->gen_sql_new(
+            " select id,phone "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
     }
 }

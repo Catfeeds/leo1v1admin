@@ -14,7 +14,7 @@ class menu{
                 ["power_id"=>19, "name"=>"学生上课信息",   "url"=>"/user_manage_new/stu_lesson_info"],
                 ["power_id"=>7, "name"=>"其它", "list"=> [
                     ["power_id"=>7, "name"=>"退费管理",   "url"=>"/user_manage/refund_list"],
-                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysia"],
+                    ["power_id"=>8, "name"=>"退费原因分析",   "url"=>"/user_manage/refund_analysis"],
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
@@ -332,6 +332,7 @@ class menu{
                     ["power_id"=>1, "name"=>"批次列表",  "url"=>"/upload_tmk/post_list" ],
                     ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
                 ]],
+                ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
@@ -637,13 +638,22 @@ class menu{
                 ["power_id"=>2, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list"],
                 ["power_id"=>5, "name"=>"招师统计",   "url"=>"/tongji_ss/tongji_zs_reference"],
                 ["power_id"=>6, "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],
-                ["power_id"=>7, "name"=>"面试试讲评审",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
+                ["power_id"=>7, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
+                ["power_id"=>10, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zs"],
+                ["power_id"=>11, "name"=>"面试转化率模型",  "list"=>[
+                    ["power_id"=>4, "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_zs"],
+                    ["power_id"=>1, "name"=>"面试转化数据-年级科目",   "url"=>"/tongji_ss/interview_subject_grade_tongji_zs"],
+                    ["power_id"=>5, "name"=>"招师渠道面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_by_reference_zs"],
+                    ["power_id"=>10,"name"=>"面试各项指标评分", "url"=>"/human_resource/get_teacher_lecture_fail_score_info_zs"],
+                ]],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
 
             ]],
 
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
+                ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
+                ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zs"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
@@ -735,7 +745,9 @@ class menu{
                 ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
 
                 ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
-                ["power_id"=>1, "name"=>"全职老师考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
+                ["power_id"=>1, "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
+                ["power_id"=>12, "name"=>"全职老师上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
+
 
                 ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
                 ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],

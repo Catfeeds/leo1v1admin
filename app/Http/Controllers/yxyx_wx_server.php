@@ -43,7 +43,7 @@ class  yxyx_wx_server extends Controller
             array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'click', 'code'=>'invitation'),
             array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
-            array('id'=>'7', 'pid'=>'2', 'name'=>'理优简介', 'type'=>'view', 'code'=>'http://mp.weixin.qq.com/s/jifibkmgGDimSpwr_9XgyA'),
+            array('id'=>'7', 'pid'=>'2', 'name'=>'理优简介', 'type'=>'view','code'=>'https://mp.weixin.qq.com/s?__biz=MzIyOTg0OTYwMA==&mid=2247483744&idx=1&sn=30368193100437dac60b2819592a899a&pass_ticket=AsSp67zKHcmO1xdBmlLZtjvArjS4d%2FPUll3bP1hzxZvsBCVWXZJMUjx%2BTMnzlUVw'),
             array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
             array('id'=>'9', 'pid'=>'2', 'name'=>'学员反馈', 'type'=>'click', 'code'=>'feedback'),
             array('id'=>'10', 'pid'=>'2', 'name'=>'每日卡片', 'type'=>'click', 'code'=>'card'),
