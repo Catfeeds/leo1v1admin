@@ -78,8 +78,26 @@ class tongji_ex extends Controller
     public function user_login() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0 );
         $ret_info=$this->t_user_login_log->get_login_tongji($start_time,$end_time);
-
-
+        return $this->pageView(__METHOD__,$ret_info);
     }
+
+    public function user_login_list() {
+        $page_info= $this->get_in_page_info();
+        list($start_time,$end_time) = $this->get_in_date_range_month(0 );
+        $ip                         = trim( $this->get_in_str_val("ip"));
+        $userid                     = $this->get_in_userid(-1);
+        $ret_info                   = $this->t_user_login_log->get_login_list($page_info, $start_time,$end_time, $userid ,$ip );
+        foreach($ret_info["list"]  as &$item ) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"login_time");
+        }
+        /*
+        "userid" => "21312"
+                 "login_time" => "12412412"
+                 "nick" => "2131wo"
+                 "ip" => "1231"
+        */
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
 }

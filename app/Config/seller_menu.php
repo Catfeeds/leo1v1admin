@@ -20,8 +20,7 @@ class seller_menu{
             [ "name"=>"私海",  "list"=> [
                 [ "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
                 [ "name"=>"抢学生",  "list"=> [
-                    ["name"=>"抢新学生",   "url"=>"/seller_student_new/get_new_list"],
-                    ["name"=>"抢新学生-当前用户",   "url"=>"/seller_student_new/deal_new_user"],
+                    ["name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user"],
                     ["name"=>"公海-抢学生",   "url"=>"/seller_student_new/get_free_seller_list"],
                 ]],
 
