@@ -85,7 +85,7 @@ class login extends Controller
         \App\Helper\Utils::logger("do1:".$node["name"]);
         
         if (isset($node["list"])) {
-            \App\Helper\Utils::logger("if1222");
+            \App\Helper\Utils::logger("if3333");
 
             $sub_list_str="";
             $add_count=0 ;
@@ -118,7 +118,7 @@ class login extends Controller
 
         }else{
 
-            \App\Helper\Utils::logger("else1");
+            \App\Helper\Utils::logger("else1222");
 
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
