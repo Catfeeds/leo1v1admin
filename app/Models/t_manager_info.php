@@ -1493,4 +1493,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_list($sql);
     }
 
+    public function get_fulltime_teacher_num($end_time){
+        $where_arr=[
+            "del_flag=0",
+            "account_role=5",
+            "create_time <=".$end_time
+        ];
+        $sql = $this->gen_sql_new("select count(*) from %s where %s and uid <>480",self::DB_TABLE_NAME,$where_arr);
+        return $this->main_get_value($sql);
+    }
+
 }

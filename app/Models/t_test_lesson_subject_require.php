@@ -1390,7 +1390,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "m.account_role = 3",
             "s.is_test_user=0"
         ];
-        $sql = $this->gen_sql_new("select accept_adminid,".
+        $sql = $this->gen_sql_new("select m.name,accept_adminid,".
                                   "m.account,sum(if(test_lesson_student_status in(210,220,290,300,301,302,420),1,0)) set_count,".
                                   "sum(if(test_lesson_student_status in(210,220,290,300,301,302,420) and tr.is_green_flag=1,1,0)) green_count, ".
                                   "sum(if(jw_test_lesson_status =2,1,0)) gz_count,".

@@ -169,6 +169,8 @@ class login extends Controller
         $item_1          = "";
         $role_str        = "";
         $role_item_count = 0;
+        $is_jiaose = 0;
+        $role_str_jiaoxue = "";
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
@@ -178,9 +180,17 @@ class login extends Controller
                 $item_count++;
                 if(is_array($tmp)) {
                     $item_1=$tmp[1];
-                    if ( substr($item_name,0,7)== "角色-" ) {
+                    if ( substr($item_name,0,7)== "角色-"  ) {
                         $role_item_count++;
                         $role_str.=$tmp[0];
+                        $is_jiaose = 1;
+                    }elseif(substr($item_name,0,12)== "教学管理"){
+                        $role_item_count++;
+                        $role_str.=$tmp[0];
+                        $is_jiaose = 2;
+
+                        \App\Helper\Utils::logger("jiaoxueguanli2: $role_str_jiaoxue");
+
                     }else{
                         $menu_str.=$tmp[0];
                     }
@@ -197,7 +207,16 @@ class login extends Controller
             if ($role_item_count<3) {
                 $menu_str=$role_str.$menu_str;
             }else{
-                $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+
+                if($is_jiaose == 1){
+                    $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
+                }elseif($is_jiaose==2){
+                    \App\Helper\Utils::logger("ssjjjj11");
+
+                    $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str_jiaoxue.'</ul> </li>';
+                }
+
+                // $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>角色列表</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
             }
         }
 
