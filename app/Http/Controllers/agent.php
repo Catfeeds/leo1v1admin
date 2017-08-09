@@ -89,9 +89,9 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret_in_str=$this->t_seller_student_new->get_test_new();
-        dd($ret_in_str);
-        // dd('a');
+        // $ret_in_str=$this->t_seller_student_new->get_test_new();
+        // dd($ret_in_str);
+        dd('a');
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid_new = $lesson_call_end['userid'];
