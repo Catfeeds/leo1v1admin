@@ -6,6 +6,8 @@ use \App\Enums as E;
 
 use App\Helper\Utils;
 
+//开关设备
+
 class o extends Controller
 {
 

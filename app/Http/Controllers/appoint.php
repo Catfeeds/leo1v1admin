@@ -30,7 +30,7 @@ class appoint extends Controller
             $item['package_deadline'] = $item['package_deadline']>0?Utils::unixtime2date( $item['package_deadline']):"不限制";
         }
         $tea_list     = $this->t_teacher_info->get_teacher_simple_list();
-        
+
         return $this->pageView(__METHOD__,$ret_info,['tea_list'=>$tea_list],[
             'qiniu_upload_domain_url'=>Config::get_qiniu_public_url()."/"
         ]);
@@ -59,7 +59,7 @@ class appoint extends Controller
             $item['tag_type']         = $item['tag_type'];
             $item['user_total']       = $item['user_total'];
             $item['package_deadline'] = $item['package_deadline'] >0?Utils::unixtime2date( $item['package_deadline']):"不限制";
-            
+
         }
 
         return outputjson_success(array('course_list' => $course_list));
@@ -113,7 +113,7 @@ class appoint extends Controller
         }
 
         return outputjson_success(array('package_pic' => $ret_pic));
-                 
+
     }
 
     public function set_package_pic()
@@ -132,5 +132,5 @@ class appoint extends Controller
         return outputjson_success();
     }
 
-    
+
 }

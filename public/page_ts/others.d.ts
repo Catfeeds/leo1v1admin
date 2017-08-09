@@ -6,8 +6,18 @@ interface C_Enum_map {
 
 }
 
+interface C_qiniu{
+    uploader(obj:any ):any;
+
+}
+
+
+
 
 declare var  Enum_map: C_Enum_map;
+declare var  Qiniu: C_qiniu;
+declare var   plupload:any;
+
 
 declare var  g_power_list: any;
 declare var g_enum_map : any;
