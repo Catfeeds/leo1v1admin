@@ -157,6 +157,10 @@ class tea_manage extends Controller
         return $this->lesson_list();
     }
 
+    public function lesson_list_zj() {
+        return $this->lesson_list_research();
+    }
+
     public function lesson_list_research() {
         $this->set_in_value("fulltime_flag",0);
         return $this->lesson_list();
