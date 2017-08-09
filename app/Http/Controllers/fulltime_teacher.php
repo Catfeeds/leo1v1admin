@@ -446,7 +446,7 @@ class fulltime_teacher extends Controller
             $ret['fulltime_teacher_lesson_count_per'] = 0;
         }
         if($test_person_num_total['person_num'] != 0){
-            $ret['platform_teacher_cc_per']  = $test_person_num_total['have_order'] / $test_person_num_total['person_num'];//全职老师cc转化率
+            $ret['platform_teacher_cc_per']  = round(100*$test_person_num_total['have_order'] / $test_person_num_total['person_num'],2);//全职老师cc转化率
         }else{
             $ret['platform_teacher_cc_per'] = 0;
         } 

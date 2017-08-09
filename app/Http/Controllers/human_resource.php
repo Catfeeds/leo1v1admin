@@ -1419,6 +1419,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_zs(){
+        return $this->teacher_lecture_list();
+    }
+
     public function teacher_lecture_list_zj(){
         return $this->teacher_lecture_list();
     }
@@ -3833,6 +3837,10 @@ class human_resource extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
 
+    }
+
+    public function get_teacher_lecture_fail_score_info_zs(){
+        $this->get_teacher_lecture_fail_score_info();
     }
 
     public function get_teacher_lecture_fail_score_info(){
