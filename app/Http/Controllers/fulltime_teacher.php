@@ -282,7 +282,12 @@ class fulltime_teacher extends Controller
     }
 
     public function fulltime_teacher_count(){
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info  = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
+
+        dd($test_person_num_total);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
@@ -326,9 +331,7 @@ class fulltime_teacher extends Controller
                 $item["lesson_per"]=100;
             }
             $item["kk_hls_per"] =  !empty($item["kk_lesson_num"]+$item["hls_lesson_num"])?round(($item["kk_order_num"]+$item["hls_order_num"])/($item["kk_lesson_num"]+$item["hls_lesson_num"])*100,2):0;
-
             $item["cc_score"] = round($item["cc_per"]*0.75,2);
-
             $item["kk_hls_score"] = round($item["kk_hls_per"]*0.1,2);
             $item["all_score"] = round($item["all_per"]*0.15,2);
             if($item["cc_lesson_num"]>10){
@@ -337,10 +340,6 @@ class fulltime_teacher extends Controller
                 $cc_num = $item["cc_lesson_num"];
             }
 
-            $item["score"] =  round(($item["cc_score"]+ $item["kk_hls_score"] +$item["all_score"])*$cc_num/10,2);
-            if($item["score"]>=95){
-                $item["reward"] = 1000;
-            }
             @$tran_avg["cc_lesson_num"] +=$item["cc_lesson_num"];
             @$tran_avg["cc_order_num"] +=$item["cc_order_num"];
             @$tran_avg["kk_lesson_num"] +=$item["kk_lesson_num"];
@@ -349,13 +348,10 @@ class fulltime_teacher extends Controller
             @$tran_avg["hls_order_num"] +=$item["hls_order_num"];
             @$tran_avg["lesson_all"] +=$item["lesson_all"];
             @$tran_avg["order_all"] +=$item["order_all"];
-
         }
-
         if($m>6 && $m <9){
             $m1 =264;$m2=252;$m3=228;
         }else{
-
             $m1 =220;$m2=210;$m3=190;
         }
         foreach($list as &$val){
@@ -388,7 +384,6 @@ class fulltime_teacher extends Controller
                 }else{
                     $num=$m3;
                 }
-
             }else{
                 $num=200;
             }
@@ -402,22 +397,8 @@ class fulltime_teacher extends Controller
             @$lesson_avg["lesson_per"] +=$val["lesson_per"];
             @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
             @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
-            if($val["lesson_per_month"]>=140){
-                $val["reward"] = 500;
-            }elseif($val["lesson_per_month"]>=130){
-                $val["reward"] = 400;
-            }elseif($val["lesson_per_month"]>=120){
-                $val["reward"] = 300;
-            }elseif($val["lesson_per_month"]>=110){
-                $val["reward"] = 200;
-            }elseif($val["lesson_per_month"]>=100){
-                $val["reward"] = 100;
-            }
-
         }
-        \App\Helper\Utils::order_list( $ret_info,"score", 0);
         \App\Helper\Utils::order_list( $list,"lesson_per_month", 0);
-
         $tran_count = count($ret_info);
         $lesson_count = count($list);
         $tran_all = $tran_avg;
@@ -426,16 +407,10 @@ class fulltime_teacher extends Controller
             $rr = round($rr/$tran_count,2);
         }
         $tran_avg["cc_per"] = !empty($tran_avg["cc_lesson_num"])?round($tran_avg["cc_order_num"]/$tran_avg["cc_lesson_num"]*100,2):0;
-        $tran_avg["kk_per"] = !empty($tran_avg["kk_lesson_num"])?round($tran_avg["kk_order_num"]/$tran_avg["kk_lesson_num"]*100,2):0;
-        $tran_avg["hls_per"] = !empty($tran_avg["hls_lesson_num"])?round($tran_avg["hls_order_num"]/$tran_avg["hls_lesson_num"]*100,2):0;
         $tran_avg["all_per"] = !empty($tran_avg["lesson_all"])?round($tran_avg["order_all"]/$tran_avg["lesson_all"]*100,2):0;
-        $tran_avg["realname"]="平均";
         $tran_all["cc_per"] = !empty($tran_all["cc_lesson_num"])?round($tran_all["cc_order_num"]/$tran_all["cc_lesson_num"]*100,2):0;
-        $tran_all["kk_per"] = !empty($tran_all["kk_lesson_num"])?round($tran_all["kk_order_num"]/$tran_all["kk_lesson_num"]*100,2):0;
-        $tran_all["hls_per"] = !empty($tran_all["hls_lesson_num"])?round($tran_all["hls_order_num"]/$tran_all["hls_lesson_num"]*100,2):0;
         $tran_all["all_per"] = !empty($tran_all["lesson_all"])?round($tran_all["order_all"]/$tran_all["lesson_all"]*100,2):0;
 
-        $tran_all["realname"]="全部";
 
         foreach($lesson_avg as $mm=>&$ss){
             if($mm=="lesson_count_left"){
@@ -444,10 +419,8 @@ class fulltime_teacher extends Controller
                 $ss = round($ss/$lesson_count,2);
             }
         }
-        $lesson_avg["realname"]="平均";
         $lesson_all["lesson_per"] = $lesson_avg["lesson_per"];
         $lesson_all["lesson_per_month"] = $lesson_avg["lesson_per_month"];
-        $lesson_all["realname"]="全部";
         $arr = [];
         foreach ($ret_info as $key => $value) {
             $arr[] = $value['teacherid'];
@@ -470,16 +443,24 @@ class fulltime_teacher extends Controller
         $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
         $ret['fulltime_teacher_student_pro'] = round($ret['fulltime_teacher_student']*100/$ret['platform_teacher_student'],2);
         //-------------------------------------------------------------------------------------
-     
+        $qz_tea_arr=[];
+        foreach($ret_info as $yy=>$item){
+            if($item["teacherid"] != 97313){
+                $qz_tea_arr[] =$item["teacherid"];
+            }else{
+                unset($ret_info[$yy]);
+            }
+        }
 
-        $ret['platform_teacher_lesson_count'] =1;//全职老师完成的课耗总数
+
+        $ret['platform_teacher_lesson_count'] = $lesson_all['lesson_count'];;//全职老师完成的课耗总数
         if($ret['platform_teacher_lesson_count'] != 0){
             $ret['fulltime_teacher_lesson_count_per'] = round($ret['fulltime_teacher_count']*100/$ret['platform_teacher_lesson_count'],2);
         }else{
             $ret['fulltime_teacher_lesson_count_per'] = 0;
         }
 
-        $ret['platform_teacher_cc_per']  = 1;//全职老师cc转化率
+        $ret['platform_teacher_cc_per']  = $tran_all['cc_per'];;//全职老师cc转化率
 
 
         return $this->pageView(__METHOD__ ,null, [

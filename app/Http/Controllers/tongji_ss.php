@@ -6861,13 +6861,31 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function tongji_change_lesson_by_teacher_jy(){
+        $this->set_in_value('is_full_time',1);
+        return $this->tongji_change_lesson_for_jy();
+    }
 
-    public function tongji_change_lesson_by_teacher_jy(){ // 显示兼职老师考勤
-        return $this->tongji_change_lesson_by_teacher();
+
+    public function tongji_change_lesson_by_full_time_teacher_jy(){
+        $this->set_in_value('is_full_time',2);
+        return $this->tongji_change_lesson_for_jy();
+    }
+
+
+
+
+
+    public function tongji_change_lesson_for_jy(){ // 显示兼职老师考勤
+        // return $this->tongji_change_lesson_by_teacher();
+
+        $is_full_time = $this->get_in_int_val('is_full_time');
+
+        $teacher_money_flag = $this->get_in_int_val('teacher_money_flag');
 
         $page_num = $this->get_in_page_num();
         $this->switch_tongji_database();
-        $is_full_time = 1;  // 显示兼职老师
+        // $is_full_time = 1;  // 显示兼职老师
         $this->switch_tongji_database();
         $sum_field_list=[
             "stu_num",
@@ -6888,7 +6906,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
         $ret_info = $this->t_lesson_info_b2->get_lesson_info_teacher_tongji_jy($start_time,$end_time,$is_full_time );
 
-        dd($ret_info);
+        // dd($ret_info);
         foreach($ret_info as &$item_list){
             $item_list['teacher_nick'] = $this->cache_get_teacher_nick($item_list['teacherid']);
 
@@ -6897,6 +6915,19 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $item_list["work_time"] = 0;
             }
+
+            if($item_list['valid_count']>0){
+                $item_list['lesson_leavel_rate'] = number_format(($item_list['teacher_leave_lesson']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_come_late_rate'] = number_format(($item_list['teacher_come_late_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_cut_class_rate'] = number_format(($item_list['teacher_cut_class_count']/$item_list['valid_count'])*100,2);
+                $item_list['lesson_change_rate'] = number_format(($item_list['teacher_change_lesson']/$item_list['valid_count'])*100,2);
+            }else{
+                $item_list['lesson_leavel_rate'] = 0;
+                $item_list['lesson_come_late_rate'] = 0;
+                $item_list['lesson_cut_class_rate'] = 0;
+                $item_list['lesson_change_rate'] = 0;
+            }
+
             E\Eteacher_money_type::set_item_value_str($item_list);
         }
 
@@ -6913,15 +6944,30 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             \App\Helper\Utils::order_list( $ret_info, $order_field_name, $order_type );
         }
 
+        if($is_full_time == 1){
+            $all_item['teacher_money_type_str'] = "兼职老师";
+        }elseif($is_full_time == 2){
+            $all_item['teacher_money_type_str'] = "全职老师";
+        }
+
+
+        $teacher_num = count($ret_info);
+        if($teacher_num>0){
+            $all_item['work_time'] = number_format($all_item['work_time']/$teacher_num,2);
+            $all_item['lesson_leavel_rate'] = number_format($all_item['teacher_leave_lesson']/$all_item['valid_count']*100,2);
+            $all_item['lesson_come_late_rate'] = number_format($all_item['teacher_come_late_count']/$all_item['valid_count']*100,2);
+            $all_item['lesson_cut_class_rate'] = number_format($all_item['teacher_cut_class_count']/$all_item['valid_count']*100,2);
+            $all_item['lesson_change_rate'] = number_format($all_item['teacher_change_lesson']/$all_item['valid_count']*100,2);
+        }else{
+            $all_item['work_time'] = 0;
+            $all_item['lesson_leavel_rate'] = 0;
+            $all_item['lesson_come_late_rate'] = 0;
+            $all_item['lesson_cut_class_rate'] = 0;
+            $all_item['lesson_change_rate'] = 0;
+        }
+
         array_unshift($ret_info, $all_item);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info) ,["data_ex_list"=>$ret_info]);
-
-
-
-
-
-
-
 
     }
 

@@ -4223,6 +4223,7 @@ class human_resource extends Controller
     }
 
     public function teacher_total_list(){
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
