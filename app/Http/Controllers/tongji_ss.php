@@ -2360,6 +2360,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
     }
 
+    public function interview_subject_grade_tongji_zs(){
+        return $this->interview_subject_grade_tongji();
+    }
+
     public function interview_subject_grade_tongji(){
         list($start_time,$end_time)=$this->get_in_date_range(date('2017-06-18'), date('Y-m-d H:i:s',time()));
         $tongji_type=$this->get_in_int_val("tongji_type",1);
@@ -2409,6 +2413,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         return $this->pageView(__METHOD__,$ret_list,["tongji_type"=>$tongji_type]);
 
+    }
+
+    public function teacher_interview_info_tongji_zs(){
+        return $this->teacher_interview_info_tongji();
     }
     public function teacher_interview_info_tongji(){
         $sum_field_list = [
@@ -2582,6 +2590,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         return $this->pageView(__METHOD__,$ret_info,["all_tea"=>$all_tea_ex]);
     }
+
+    public function teacher_interview_info_tongji_by_reference_zs(){
+        return $this->teacher_interview_info_tongji_by_reference();
+    }
+
     public function teacher_interview_info_tongji_by_reference(){
         $sum_field_list=[
             "all_count",

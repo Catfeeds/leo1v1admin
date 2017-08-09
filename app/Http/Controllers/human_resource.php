@@ -3839,6 +3839,10 @@ class human_resource extends Controller
 
     }
 
+    public function get_teacher_lecture_fail_score_info_zs(){
+        $this->get_teacher_lecture_fail_score_info();
+    }
+
     public function get_teacher_lecture_fail_score_info(){
         list($start_time,$end_time)=$this->get_in_date_range(-10,0);
         $ret_info = $this->t_teacher_lecture_info->get_fail_ave_score($start_time,$end_time);
