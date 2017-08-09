@@ -2583,6 +2583,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      *
      */
     public function get_teacher_list($train_through_new,$start_time,$end_time){
+
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -2590,12 +2591,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag in (0,1)",
             "l.lesson_del_flag=0",
             "l.lesson_type <>2",
-            "l.lesson_status=2"
+            "l.lesson_status=2",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
         ];
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select sum(l.lesson_count) "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
