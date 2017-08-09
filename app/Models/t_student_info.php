@@ -157,7 +157,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_end_stu_for_seller($page_num,$stu_list,$order_type){
         $where_arr=[];
-        $where_arr[] = $this->where_get_in_str("s.userid", $stu_list,false ); 
+        $where_arr[] = $this->where_get_in_str("s.userid", $stu_list,false );
 
         $order_str="";
         switch ( $order_type ) {
@@ -199,7 +199,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             }
         }
         return $ret_info;
- 
+
     }
     public function get_student_search_two_weeks_list( $start_time, $end_time,$all_flag, $userid,$grade, $status,
                                                        $user_name, $phone, $teacherid, $assistantid, $test_user,
@@ -235,8 +235,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                               t_manager_info::DB_TABLE_NAME,
                               [$this->where_str_gen($where_arr)]
         );
-        return $this->main_get_list($sql);    
-        
+        return $this->main_get_list($sql);
+
     }
 
 
@@ -2607,7 +2607,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
           's.status=2',
           ["create_time>=%u", $start_time, -1 ],
           ["create_time<=%u", $end_time, -1 ],
-        ]; 
+        ];
         $sql = $this->gen_sql_new("select s.id, s.stu_score_type ,s.grade,s.create_time,s.userid, s.subject, s.status,s.month"
                                   ." from %s s"
                                   ." left join %s o on o.userid = s.userid "
@@ -2621,7 +2621,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_all_stu_phone_location(){
         $sql = $this->gen_sql_new("select s.userid,s.phone,s.nick,s.phone_location "
                                   ."from %s s where s.type=0 and s.is_test_user=0",
-                                  self::DB_TABLE_NAME                              
+                                  self::DB_TABLE_NAME
         );
         return $this->main_get_list_as_page($sql);
     }
@@ -2636,11 +2636,30 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "assistantid>0"
         ];
         $sql = $this->gen_sql_new(" select count(userid) as platform_teacher_student "
-                                  ." from %s where %s "
+                                  ." from %s"
+                                  ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
 
         );
         return $this->main_get_list($sql);
+    }
+
+
+
+    public function get_stu_origin_rate($start_time, $end_time){
+        $where_arr = [
+            ['reg_time >=%s', $start_time, 0],
+            ['reg_time <%s', $end_time, 0],
+            "origin_userid>0",
+        ];
+        $sql = $this->gen_sql_new("select count(s.userid) as count,count(ts.userid) as succ, sum(if(require_admin_type=1,1,0)) as cr, sum(if(require_admin_type=0,1,0)) as cc"
+                           ." from %s s"
+                           ." left join %s ts on ts.userid=s.userid"
+                           ,self::DB_TABLE_NAME
+                           ,t_test_lesson_subject::DB_TABLE_NAME
+                           ,$where_arr
+        );
+            return $this->main_get_list($sql);
     }
 }
