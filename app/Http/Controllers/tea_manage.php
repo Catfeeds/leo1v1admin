@@ -181,7 +181,10 @@ class tea_manage extends Controller
         $qz_flag     = $right_list["qz_flag"];
         if($adminid==486 || $adminid==478){
              $tea_subject= "";
+        }elseif($adminid==329){
+            $tea_subject="";
         }
+
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         if($account_info["teacherid"]>0){
@@ -454,9 +457,7 @@ class tea_manage extends Controller
 
     }
     public function lesson_list_ass(){
-        //if (!$this->check_in_has("assistantid")) {
-            $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
-        //}
+        $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
         $this->set_in_value("test_seller_id", $this->get_account_id());
         return $this->lesson_list();
     }
@@ -1613,6 +1614,10 @@ class tea_manage extends Controller
         }else{
             return $this->output_succ(["data"=>$lesson_info]);
         }
+    }
+
+    public function train_not_through_list_px(){
+        return $this->train_not_through_list();
     }
 
     public function train_not_through_list(){

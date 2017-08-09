@@ -5096,10 +5096,10 @@ class ss_deal extends Controller
         }
 
         $ret1 = $this->t_lesson_time_modify->field_update_list($lessonid,[
-            'deal_jiaowu'      => $account_id,
-            'deal_jiaowu_time' => time(NULL),
-            'is_modify_time_flag' =>1,
-            'original_time'    => "$lesson_old_start,$lesson_old_end"
+            'deal_jiaowu'         => $account_id,
+            'deal_jiaowu_time'    => time(NULL),
+            'is_modify_time_flag' => 1,
+            'original_time'       => "$lesson_old_start,$lesson_old_end"
         ]);
 
         $ret2 = $this->t_lesson_info_b2->field_update_list($lessonid,[
@@ -5112,7 +5112,6 @@ class ss_deal extends Controller
         }else{
             return $this->output_err('提交失败,请稍后重试!');
         }
-
     }
 
     public function get_test_lesson_confirm_info(){
