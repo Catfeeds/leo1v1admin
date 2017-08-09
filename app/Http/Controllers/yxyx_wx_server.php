@@ -40,10 +40,10 @@ class  yxyx_wx_server extends Controller
 
     public function sync_menu() {
         $menuList = array(
-            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'click', 'code'=>'invitation'),
+            // array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'click', 'code'=>'invitation'),
+            array('id'=>'1', 'pid'=>'0', 'name'=>'我要邀请', 'type'=>'view', 'code'=>'http://www.baidu.com'),
             array('id'=>'2', 'pid'=>'0', 'name'=>'理优教育', 'type'=>'', 'code'=>''),
             array('id'=>'3', 'pid'=>'0', 'name'=>'账号管理', 'type'=>'', 'code'=>''),
-            array('id'=>'4', 'pid'=>'0', 'name'=>'预约试听', 'type'=>'view', 'code'=>'http://www.baidu.com'),
             array('id'=>'7', 'pid'=>'2', 'name'=>'理优简介', 'type'=>'view','code'=>'https://mp.weixin.qq.com/s?__biz=MzIyOTg0OTYwMA==&mid=2247483744&idx=1&sn=30368193100437dac60b2819592a899a&pass_ticket=AsSp67zKHcmO1xdBmlLZtjvArjS4d%2FPUll3bP1hzxZvsBCVWXZJMUjx%2BTMnzlUVw'),
             array('id'=>'8', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'view', 'code'=>'http://www.xmypage.com/model2_28992.html'),
             array('id'=>'9', 'pid'=>'2', 'name'=>'学员反馈', 'type'=>'click', 'code'=>'feedback'),
