@@ -43,6 +43,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-download opt-download"  title="下载"> </a>
+                                <a class="fa fa-edit opt-edit"  title="修改名字"> </a>
                                 <a class="fa fa-share opt-share"  title="分享"> </a>
 
                             </div>

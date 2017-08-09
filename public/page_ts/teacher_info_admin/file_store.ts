@@ -16,9 +16,35 @@ $(function(){
         if  (opt_data.is_dir) {
             $file_name.html("<a href=\"/teacher_info_admin/file_store?teacherid="+g_args.teacherid+"&dir="+ opt_data.abs_path +"\" > "+ opt_data.file_name+" </a> ");
             $(this).hide();
+            $(this).parent().find(".opt-edit").hide();
+        }else{
+
         }
 
     });
+
+
+    $(".opt-edit").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $file_name= $("<input/>");
+        $file_name.val( opt_data.file_name);
+            //opt_data.file_name;
+        var arr=[
+            ["文件名", $file_name  ]
+        ];
+        $.show_key_value_table("修改", arr, {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/teacher_info_admin/file_store_rename", {
+                    "old_path" : opt_data.abs_path,
+                    "teacherid" :g_args.teacherid,
+                    "new_name" : $file_name.val()
+                } );
+            }
+        } );
+    });
+
 
 
     $(".opt-share").on("click",function(){
