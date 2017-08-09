@@ -27,7 +27,7 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            \App\Helper\Utils::logger("yuanshu1: ".json_encode($item));
+            \App\Helper\Utils::logger("list_show1: ".json_encode($item['list']));
 
             $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
