@@ -60,19 +60,33 @@
                 <tbody>
                     @foreach ( $table_data_list as $var )
                         <tr>
-                            <td>{{@$var["teacher_nick"]}} </td>
+
+                            <td>
+                                <a  href="/human_resource/index_ass?teacherid={{@$var["teacherid"]}}" target="_blank">
+                                    {{@$var["teacher_nick"]}}
+                                </a>
+                            </td>
                             <td>{{@$var["stu_num"]}} </td>
-                            <td ><a href="javascript:;" class="id_valid_count">{{@$var["valid_count"]}}</a> </td>
-                            <td>{{@$var["teacher_come_late_count"]}} </td>
+                            <td >{{@$var["valid_count"]}} </td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="23">
+                                <a>{{@$var["teacher_come_late_count"]}}</a>
+                            </td>
                             <td>{{@$var["lesson_come_late_rate"]}}% </td>
 
-                            <td>{{@$var["teacher_cut_class_count"]}} </td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="21" >
+                                <a>{{@$var["teacher_cut_class_count"]}}</a>
+                            </td>
                             <td>{{@$var["lesson_cut_class_rate"]}}% </td>
 
-                            <td>{{@$var["teacher_change_lesson"]}} </td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="2">
+                                <a>{{@$var["teacher_change_lesson"]}}</a>
+                            </td>
                             <td>{{@$var["lesson_change_rate"]}}% </td>
 
-                            <td>{{@$var["teacher_leave_lesson"]}}</td>
+                            <td class="show_detail" date-teacherid={{@$var['teacherid']}} date-lesson_cancel_reason_type="12">
+                                <a>{{@$var["teacher_leave_lesson"]}}</a>
+                            </td>
+
                             <td>{{@$var["lesson_leavel_rate"]}}%</td>
 
                             <td>{{@$var["teacher_money_type_str"] }}</td>
@@ -80,7 +94,7 @@
 
                             <td>
                                 <div class="row-data"
-                                    {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                     {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                                 >
                                 </div>
                             </td>
@@ -88,6 +102,18 @@
                     @endforeach
                 </tbody>
             </table>
+
+
+            <div style="display:none;" >
+                <div id="id_assign_log">
+                    <table   class="table table-bordered "   >
+                        <tr>  <th> 老师 <th>类型 <th>上课时段 <th>年级 <th>科目 <th>学生 <th>助教 <th>课时数 <th>课时确认</tr>
+                            <tbody class="data-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
 
     </section>
 

@@ -242,7 +242,10 @@ class menu{
                     ["power_id"=>2, "name"=>"数据库-数据修改",   "url"=>"/table_manage/edit_table_data"],
                     ["power_id"=>3, "name"=>"数据库-数据修改记录",   "url"=>"/table_manage/opt_table_log"],
                     ["power_id"=>5, "name"=>"tq wsdl生成",   "url"=>"/table_manage/tq_wsdl"],
-                    ["power_id"=>4, "name"=>"开发信息",   "url"=>"/table_manage/dev_info"]]]]],
+                    ["power_id"=>4, "name"=>"开发信息",   "url"=>"/table_manage/dev_info"]]]]
+            ],
+
+
             ["power_id"=>7, "name"=>"市场", "list"=>[
 
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
@@ -284,6 +287,22 @@ class menu{
 
                 ["power_id"=>12, "name"=>"TMK-个人",   "url"=>"/tongji_ss/tmk_count"],
             ]],
+
+
+
+            ["power_id"=>40, "name"=>"教学管理事业部", "list"=>[
+
+
+                ["power_id"=>1, "name"=>"渠道-统计", "list"=>[
+                    ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count1111"],
+                ]],
+            ]],
+
+
+
+
+
+
             ["power_id"=>8, "name"=>"财务管理", "list"=>[
                 ["power_id"=>1, "name"=>"合同管理-财务",   "url"=>"/user_manage_new/money_contract_list"],
                 ["power_id"=>11, "name"=>"合同管理-new",   "url"=>"/user_manage_new/money_contract_list_stu"],
@@ -684,7 +703,7 @@ class menu{
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
                 ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
-                ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list"],
+                ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[

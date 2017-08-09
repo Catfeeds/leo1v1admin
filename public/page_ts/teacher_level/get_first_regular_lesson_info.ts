@@ -54,6 +54,11 @@ $(function(){
             "lesson_list"  :JSON.stringify(opt_data.lessonid),
             "acc"          :opt_data.acc
         },function(result){
+            var acc= result.acc;
+            if(acc != "" && acc != g_args.acc){
+                alert("该视频已有审核人");
+                return;
+            }
             $.ajax({
                 type     : "post",
                 url      : "/tea_manage/get_lesson_reply",
@@ -103,115 +108,127 @@ $(function(){
 
     $(".opt-first-lesson-record").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        if(g_args.acc != opt_data.acc && opt_data.acc != ""){
-            alert("该视频已有审核人!");
-            return;
-        }
-
-        var lessonid = opt_data.lessonid;
-        var teacherid = opt_data.teacherid;
-        var id_jysj =  $("<select class=\"class_score\" />");
-        var id_yybd =  $("<select class=\"class_score\" />");
-        var id_zyzs =  $("<select class=\"class_score\" />");
-        var id_jxjz =  $("<select class=\"class_score\" />");
-        var id_hdqk =  $("<select class=\"class_score\" />");
-        var id_bsqk =  $("<select class=\"class_score\" />");
-        var id_rjcz =  $("<select class=\"class_score\" />");
-        var id_skhj =  $("<select class=\"class_score\" />");
-        var id_khfk =  $("<select class=\"class_score\" />");
-        var id_lcgf =  $("<select class=\"class_score\" />");                  
-        var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
-
-        Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_jxjz,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_hdqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_bsqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_rjcz,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
-        Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
-        Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
-        var id_score = $("<input readonly/>");
-        var id_no_tea_score = $("<input readonly/>");
-        var id_record = $("<textarea />");
-        var id_jkqk = $("<textarea />");
-
-        var arr=[
-            ["讲义设计情况评分", id_jysj],
-            ["语言表达能力评分", id_yybd],
-            ["专业知识技能评分", id_zyzs],
-            ["教学节奏把握评分", id_jxjz],
-            ["互动情况评分", id_hdqk],
-            ["板书情况评分", id_bsqk],
-            ["软件操作评分", id_rjcz],
-            ["授课环境评分", id_skhj],
-            ["课后反馈评分", id_khfk],
-            ["流程规范情况评分", id_lcgf],
-            ["总分",id_score],
-            ["非教学相关得分",id_no_tea_score],
-            ["监课情况",id_jkqk],
-            ["意见或建议",id_record],
-            ["标签",id_sshd],
-        ];
-        
-        
-        $.show_key_value_table("试听评价", arr,{
-            label    : '确认',
-            cssClass : 'btn-warning',
-            action   : function(dialog) {
-                var record_info = id_record.val();
-                if(record_info==""){
-                    BootstrapDialog.alert("请填写评价内容!");
-                    return ;
-                }
-                console.log(record_info.length);
-                if(record_info.length>150){
-                    BootstrapDialog.alert("评价内容不能超过150字!");
-                    return ;
-                }
-
-                var sshd_good=[];
-                id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
-                    sshd_good.push($(this).val());
-                });
-              
-                $.do_ajax("/teacher_level/set_teacher_record_info",{
-                    "teacherid"    : teacherid,
-                    "id"           : opt_data.id,
-                    "type"         : 1,
-                    "lesson_style" : 3,
-                    "tea_process_design_score"         : id_jysj.val(),
-                    "language_performance_score"         : id_yybd.val(),
-                    "knw_point_score"         : id_zyzs.val(),
-                    "tea_rhythm_score"         : id_jxjz.val(),
-                    "tea_concentration_score"         : id_hdqk.val(),
-                    "teacher_blackboard_writing_score"         : id_bsqk.val(),
-                    "tea_operation_score"         : id_rjcz.val(),
-                    "tea_environment_score"         : id_skhj.val(),
-                    "answer_question_cre_score"         : id_khfk.val(),
-                    "class_abnormality_score"         : id_lcgf.val(),
-                    "score"         : id_score.val(),
-                    "no_tea_related_score"                       : id_no_tea_score.val(),
-                    "record_info"                        : id_record.val(),
-                    "record_monitor_class"               : id_jkqk.val(),
-                    "sshd_good"                          :JSON.stringify(sshd_good),
-                    "lessonid"                           :lessonid,
-                    "lesson_list"                        :JSON.stringify(lessonid)
-                });
+        console.log(opt_data.id);
+        $.do_ajax("/teacher_level/set_teacher_record_acc",{
+            "teacherid"    : opt_data.teacherid,
+            "type"         : 1,
+            "lesson_style" : 2,
+            "lessonid"     :opt_data.lessonid,
+            "lesson_list"  :JSON.stringify(opt_data.lessonid),
+        },function(result){
+            var acc= result.acc;
+            if(acc != "" && acc != g_args.acc){
+                alert("该视频已有审核人");
+                return;
             }
-        },function(){
-            id_score.attr("placeholder","满分100分");
-            id_record.attr("placeholder","字数不能超过150字");
-        });
+            var lessonid = opt_data.lessonid;
+            var teacherid = opt_data.teacherid;
+            var id_jysj =  $("<select class=\"class_score\" />");
+            var id_yybd =  $("<select class=\"class_score\" />");
+            var id_zyzs =  $("<select class=\"class_score\" />");
+            var id_jxjz =  $("<select class=\"class_score\" />");
+            var id_hdqk =  $("<select class=\"class_score\" />");
+            var id_bsqk =  $("<select class=\"class_score\" />");
+            var id_rjcz =  $("<select class=\"class_score\" />");
+            var id_skhj =  $("<select class=\"class_score\" />");
+            var id_khfk =  $("<select class=\"class_score\" />");
+            var id_lcgf =  $("<select class=\"class_score\" />");                  
+            var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
 
-        //console.log(arr[0][1]);
-        arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
-            id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
-            id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
+            Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_zyzs,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_jxjz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_hdqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_bsqk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_rjcz,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("teacher_lecture_score",id_skhj,true,[0,1,2,3,4,5]);
+            Enum_map.append_option_list("teacher_lecture_score",id_khfk,true,[0,1,2,3,4,5,6,7,8,9,10]);
+            Enum_map.append_option_list("test_lesson_score",id_lcgf,true,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+            var id_score = $("<input readonly/>");
+            var id_no_tea_score = $("<input readonly/>");
+            var id_record = $("<textarea />");
+            var id_jkqk = $("<textarea />");
 
+            var arr=[
+                ["讲义设计情况评分", id_jysj],
+                ["语言表达能力评分", id_yybd],
+                ["专业知识技能评分", id_zyzs],
+                ["教学节奏把握评分", id_jxjz],
+                ["互动情况评分", id_hdqk],
+                ["板书情况评分", id_bsqk],
+                ["软件操作评分", id_rjcz],
+                ["授课环境评分", id_skhj],
+                ["课后反馈评分", id_khfk],
+                ["流程规范情况评分", id_lcgf],
+                ["总分",id_score],
+                ["非教学相关得分",id_no_tea_score],
+                ["监课情况",id_jkqk],
+                ["意见或建议",id_record],
+                ["标签",id_sshd],
+            ];
             
+            
+            $.show_key_value_table("试听评价", arr,{
+                label    : '确认',
+                cssClass : 'btn-warning',
+                action   : function(dialog) {
+                    var record_info = id_record.val();
+                    if(record_info==""){
+                        BootstrapDialog.alert("请填写评价内容!");
+                        return ;
+                    }
+                    console.log(record_info.length);
+                    if(record_info.length>150){
+                        BootstrapDialog.alert("评价内容不能超过150字!");
+                        return ;
+                    }
+
+                    var sshd_good=[];
+                    id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
+                        sshd_good.push($(this).val());
+                    });
+                    
+                    $.do_ajax("/teacher_level/set_teacher_record_info",{
+                        "teacherid"    : teacherid,
+                        "userid"    : opt_data.userid,
+                        "id"    : opt_data.id,
+                        "type"         : 1,
+                        "lesson_style" : 3,
+                        "tea_process_design_score"         : id_jysj.val(),
+                        "language_performance_score"         : id_yybd.val(),
+                        "knw_point_score"         : id_zyzs.val(),
+                        "tea_rhythm_score"         : id_jxjz.val(),
+                        "tea_concentration_score"         : id_hdqk.val(),
+                        "teacher_blackboard_writing_score"         : id_bsqk.val(),
+                        "tea_operation_score"         : id_rjcz.val(),
+                        "tea_environment_score"         : id_skhj.val(),
+                        "answer_question_cre_score"         : id_khfk.val(),
+                        "class_abnormality_score"         : id_lcgf.val(),
+                        "score"         : id_score.val(),
+                        "no_tea_related_score"                       : id_no_tea_score.val(),
+                        "record_info"                        : id_record.val(),
+                        "record_monitor_class"               : id_jkqk.val(),
+                        "sshd_good"                          :JSON.stringify(sshd_good),
+                        "lessonid"                           :lessonid,
+                        "lesson_list"                        :JSON.stringify(lessonid)
+                    });
+                }
+            },function(){
+                id_score.attr("placeholder","满分100分");
+                id_record.attr("placeholder","字数不能超过150字");
+            });
+
+            //console.log(arr[0][1]);
+            arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
+                id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
+                id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
+
+                
+            });
+
         });
+
         
     });
 
@@ -313,6 +330,23 @@ $(function(){
 
             dlg.getModalDialog().css("width","1024px");
         });
+    });
+    $(".opt-reset-acc").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        if(id==0){
+            alert("无数据,请刷新确认!");
+            return;
+        }else{
+            BootstrapDialog.confirm("确定要重置吗？", function(val){
+                if (val) {
+                    $.do_ajax( '/teacher_level/reset_record_acc', {
+                        'id' : id
+                    });
+                } 
+            });
+ 
+        }
     });
 
    

@@ -181,11 +181,14 @@ class tea_manage extends Controller
         $qz_flag     = $right_list["qz_flag"];
         if($adminid==486 || $adminid==478){
              $tea_subject= "";
+        }elseif($adminid==329){
+            $tea_subject="";
         }
+
 
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         if($account_info["teacherid"]>0){
-            $is_tea=1;
+            $is_tea = 1;
         }else{
             $is_tea = 0;
         }
@@ -199,7 +202,7 @@ class tea_manage extends Controller
         $grade           = $this->get_in_enum_list(E\Egrade::class);
         $test_seller_id  = $this->get_in_int_val("test_seller_id",-1 );
         $has_performance = $this->get_in_int_val("has_performance",-1 );
-        $fulltime_flag = $this->get_in_int_val("fulltime_flag",-1 );
+        $fulltime_flag   = $this->get_in_int_val("fulltime_flag",-1 );
         $lesson_user_online_status   = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
 
         $lesson_type_default = Cookie::get("lesson_type")==null?-1: Cookie::get("lesson_type") ;
@@ -243,7 +246,6 @@ class tea_manage extends Controller
         $lesson_deduct_info    = E\Elesson_deduct::$desc_map;
         $price_all             = 0;
         $start_index           = \App\Helper\Utils::get_start_index_from_ret_info($ret_info);
-        // dd($ret_info['list']);
         foreach( $ret_info['list'] as $i=> &$item){
             $item["number"] = $start_index+$i;
             $stu_id         = $item["stu_id"];
@@ -454,9 +456,7 @@ class tea_manage extends Controller
 
     }
     public function lesson_list_ass(){
-        //if (!$this->check_in_has("assistantid")) {
-            $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
-        //}
+        $this->set_in_value("assistantid",$this->t_assistant_info->get_assistantid($this->get_account()) );
         $this->set_in_value("test_seller_id", $this->get_account_id());
         return $this->lesson_list();
     }
@@ -1613,6 +1613,10 @@ class tea_manage extends Controller
         }else{
             return $this->output_succ(["data"=>$lesson_info]);
         }
+    }
+
+    public function train_not_through_list_px(){
+        return $this->train_not_through_list();
     }
 
     public function train_not_through_list(){

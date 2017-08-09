@@ -94,12 +94,14 @@
                             >
                                
                                 <a class="opt-fifth-lesson-video" >视频</a>
-                                @if($var["id"]>0 )
-                                    <a class="opt-fifth-lesson-record" >反馈</a>
-                                @endif
+                                <a class="opt-fifth-lesson-record" >反馈</a>
                                 @if($var["add_time"]>0)
                                     <a class="opt-fifth-lesson-record-list" >反馈详情</a>
                                 @endif
+                                @if(in_array($acc,["coco","jack"]))
+                                    <a class="opt-reset-acc" >重置审核人</a>
+                                @endif
+
 
                             </div>
                         </td>
