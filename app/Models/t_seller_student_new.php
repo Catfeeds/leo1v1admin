@@ -1545,14 +1545,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type");
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
         $deal_count=$item_arr["call_admin_count"];
         $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
         $invalid_str="";
-        if ($deal_count >=5  && $item_arr['first_contact_time'] == 0  )  {
+        if ($deal_count >=5  &&  $item["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
             $invalid_flag=true;
             $invalid_str=" $deal_count 人拨打,未接通";
         }
