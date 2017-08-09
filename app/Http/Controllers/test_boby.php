@@ -125,7 +125,7 @@ class test_boby extends Controller
             if ( @!$newarr[$v['ip']] ){
                 $newarr[$v['ip']] = $v['phone'];
             } else {
-                $newarr[$v['ip']] = $newarr[$v['ip']].$v['phone'];
+                $newarr[$v['ip']] = $newarr[$v['ip']].';'.$v['phone'];
             }
         }
         $s = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
