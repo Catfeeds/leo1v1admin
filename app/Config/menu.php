@@ -806,7 +806,7 @@ class menu{
 
 
 
-            ["power_id"=>37, "name"=>"教学管理-质监",  "list"=>[
+            ["power_id"=>41, "name"=>"教学管理-质监",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zs"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
@@ -836,13 +836,13 @@ class menu{
 
             ]],
 
-            ["power_id"=>35, "name"=>"教学管理-培训",  "list"=>[
+            ["power_id"=>42, "name"=>"教学管理-培训",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
                 ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                 ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
             ]],
 
-            ["power_id"=>36, "name"=>"教学管理-运营",  "list"=>[
+            ["power_id"=>45, "name"=>"教学管理-运营",  "list"=>[
                 ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
@@ -854,7 +854,7 @@ class menu{
 
 
 
-            ["power_id"=>32, "name"=>"教学管理-教研",  "list"=>[
+            ["power_id"=>43, "name"=>"教学管理-教研",  "list"=>[
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                 ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                 ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
@@ -891,7 +891,7 @@ class menu{
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                 ]],
             ]],
-            ["power_id"=>34, "name"=>"教学管理-教学", "list"=>[
+            ["power_id"=>44, "name"=>"教学管理-教学", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
