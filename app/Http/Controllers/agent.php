@@ -89,6 +89,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $origin_ex = '优学帮,,,';
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        dd($ret_in_str);
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         $userid_new = $lesson_call_end['userid'];
