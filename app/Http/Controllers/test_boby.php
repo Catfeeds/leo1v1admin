@@ -118,23 +118,19 @@ class test_boby extends Controller
         $start_time = strtotime('2017-07-01');
         $end_time  = strtotime('2017-08-01');
         $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
-        $iparr = [];
-        foreach ($ret_info as $v) {
-            $iparr[] = $v['ip'];
-        }
-        // dd($iparr);
-        $list = $this->t_order_info->get_phont_by_ip($iparr);
+        $list = $this->t_order_info->get_phont_by_ip();
+        // dd($list);
         $newarr = [];
-        foreach ($ret_info as $v){
-            if ( !$newarr[$v['ip']] ){
+        foreach ($list as $v){
+            if ( @!$newarr[$v['ip']] ){
                 $newarr[$v['ip']] = $v['phone'];
             } else {
                 $newarr[$v['ip']] = $newarr[$v['ip']].$v['phone'];
             }
         }
-        $s = '<table border=1><tr><th>ip</th><th>下单电话</th><th>电话N</th></tr>';
+        $s = '<table border=1><tr><th>ip</th><th>电话</th><th>电话N</th></tr>';
         foreach ($ret_info as $v) {
-            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>{$newarr[$v['ip']]}</td></tr>";
+            $s = $s."<tr><td>{$v['ip']}</td><td>{$v['phone']}</td><td>".@$newarr[$v['ip']]."</td></tr>";
         }
         $s = $s.'</table>';
         return $s;
