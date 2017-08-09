@@ -145,82 +145,43 @@ class TeacherTask extends TaskController
                 \App\Helper\Utils::logger("lesson type is not set ".$val['lessonid']);
                 continue;
             }
-            if($val["train_type"]==4 && $val["lesson_type"]==1100){
-                //模拟试听课结束评价提醒
-                $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-                if($openid){
-                    $lesson_time = date("H:i",$val["lesson_start"]);
-                    /**
-                     * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                     * 标题课程 : 待办事项提醒
-                     * {{first.DATA}}
-                     * 待办主题：{{keyword1.DATA}}
-                     * 待办内容：{{keyword2.DATA}}
-                     * 日期：{{keyword3.DATA}}
-                     * {{remark.DATA}}
-                     */
+           
+            if($val['lesson_type']==2){
+                $end_time    = strtotime(date("Y-m-d",$val['lesson_start']))+86400;
+                $lesson_end  = $val['lesson_end'];
+                $time_period = 45*60;
+                $val['shut_time'] = $lesson_end+$time_period;
 
-                    $data=[];
-                    $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                    $data['first']    = "老师您好，请尽快对本节课做出评价。";
-                    $data['keyword1'] = "课程评价";
-                    $data['keyword2'] = $lesson_time."的模拟课程已结束，请尽快登录老师端，进行评价。";
-                    $data['keyword3'] = date("Y-m-d H:i",time());
-                    $data['remark']   = "";
-                    $url = "";
-                    // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
-
-                    \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
- 
-                    $wx_comment_flag = 1;
-                }else{
-                    $wx_comment_flag = 2;
-                    \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                }                   
-                $this->t_lesson_info->field_update_list($val['lessonid'],[
-                    "wx_comment_flag"     => $wx_comment_flag
-                ]);
-
-
-            }else{
-
-                if($val['lesson_type']==2){
-                    $end_time    = strtotime(date("Y-m-d",$val['lesson_start']))+86400;
-                    $lesson_end  = $val['lesson_end'];
-                    $time_period = 45*60;
-                    $val['shut_time'] = $lesson_end+$time_period;
-
-                    $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
-                    foreach($lesson_list as $v){
-                        $different=$v['lesson_start']-$lesson_end;
-                        if($different>$time_period){
-                            $val['shut_time']=$lesson_end+45*60;
-                            break;
-                        }else{
-                            $lesson_end=$v['lesson_end'];
-                        }
+                $lesson_list = $this->t_lesson_info->get_free_lesson_next($val['lesson_start'],$end_time,$val['teacherid']);
+                foreach($lesson_list as $v){
+                    $different=$v['lesson_start']-$lesson_end;
+                    if($different>$time_period){
+                        $val['shut_time']=$lesson_end+45*60;
+                        break;
+                    }else{
+                        $lesson_end=$v['lesson_end'];
                     }
-                    $val['info'] = "老师，辛苦了！刚才的试听课已经结束,请及时给出反馈报告";
-                    $url         = $this->teacher_wx_url['trial_list'];
-                }else{
-                    $val['shut_time'] = $val['lesson_end']+86400*2;
-                    $val['info']      = "老师，辛苦了！刚才的1对1课程已经结束,请及时给出反馈报告";
-                    $url = $this->teacher_wx_url['normal_list'];
                 }
+                $val['info'] = "老师，辛苦了！刚才的试听课已经结束,请及时给出反馈报告";
+                $url         = $this->teacher_wx_url['trial_list'];
+            }else{
+                $val['shut_time'] = $val['lesson_end']+86400*2;
+                $val['info']      = "老师，辛苦了！刚才的1对1课程已经结束,请及时给出反馈报告";
+                $url = $this->teacher_wx_url['normal_list'];
+            }
 
-                $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-                if($openid){
-                    $this->teacher_wx_data($openid,$val,$type,$url);
-                    $this->t_lesson_info->field_update_list($val['lessonid'],[
-                        "wx_comment_flag"=>1,
-                    ]);
-                    \App\Helper\Utils::logger("push succ lessonid info :".json_encode($val));
-                }else{
-                    $this->t_lesson_info->field_update_list($val['lessonid'],[
-                        "wx_comment_flag"=>2,
-                    ]);
-                    \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']." this lessonid is :".$val['lessonid']);
-                }
+            $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+            if($openid){
+                $this->teacher_wx_data($openid,$val,$type,$url);
+                $this->t_lesson_info->field_update_list($val['lessonid'],[
+                    "wx_comment_flag"=>1,
+                ]);
+                \App\Helper\Utils::logger("push succ lessonid info :".json_encode($val));
+            }else{
+                $this->t_lesson_info->field_update_list($val['lessonid'],[
+                    "wx_comment_flag"=>2,
+                ]);
+                \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']." this lessonid is :".$val['lessonid']);
             }
         }
     }
@@ -404,24 +365,26 @@ class TeacherTask extends TaskController
                         //模拟试听课迟到五分钟推送
                         $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
                         if($openid){
-                            $lesson_time = date("H:i",$val["lesson_start"]);
+                            $grade_str   = E\Egrade::get_desc($lesson_info['grade']);
+                            $lesson_time = date("m-d H:i",$lesson_info['lesson_start'])."-".date("H:i",$lesson_info['lesson_end']);
+
                             /**
-                             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                             * 标题课程 : 待办事项提醒
+                             * 标题        扣款通知
+                             * template_id 2yt4M2mJD7LMLcphWp6PS7VhC0Gv1mXG5zpHAyaeLEU
                              * {{first.DATA}}
-                             * 待办主题：{{keyword1.DATA}}
-                             * 待办内容：{{keyword2.DATA}}
-                             * 日期：{{keyword3.DATA}}
+                             * 扣款金额：{{keyword1.DATA}}
+                             * 扣款原因：{{keyword2.DATA}}
                              * {{remark.DATA}}
                              */
-
+                            $template_id = "2yt4M2mJD7LMLcphWp6PS7VhC0Gv1mXG5zpHAyaeLEU";//old
+                           
                             $data=[];
-                            $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                            $data['first']    = "老师您好，请尽快进入课堂。";
-                            $data['keyword1'] = "课程提醒";
-                            $data['keyword2'] = $lesson_time."的模拟试听已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系教务老师";
-                            $data['keyword3'] = date("Y-m-d H:i",time());
-                            $data['remark']   = "";
+                            $data['first']    = "由于您未在规定时间内向进行评价反馈（2小时内），依据《理优薪资规则》扣款5元，请下次注意并及时给出评价反馈。（本次试听为模拟课程，将不进行实际扣款）";
+                            $data['keyword1'] = "5元";
+                            $data['keyword2'] = "模拟试听未及时评价";
+                            $data['remark']   = "\n学生信息:".$val["stu_nick"]."(".$grade_str.")"
+                                              ."\n上课时间:".$lesson_time
+                                              ."\n课时数:1小时";
                             $url = "";
                             // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
@@ -921,6 +884,58 @@ class TeacherTask extends TaskController
             }
         }
     }
+
+    /**
+     * 模拟试听课堂结束提醒老师评价学生
+     * @param type=18
+     */
+    public function train_lesson_notice_set_stu_performance($type){
+        $start_time = strtotime(date("Y-m-d",time()));
+        $end_time   = time();
+
+        $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+        foreach($lesson_list as &$val){
+            \App\Helper\Utils::logger("notice set stu performance ".$val['lessonid']);
+            if(!isset($val['lesson_type'])){
+                \App\Helper\Utils::logger("lesson type is not set ".$val['lessonid']);
+                continue;
+            }
+            $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+            if($openid){
+                $lesson_time = date("H:i",$val["lesson_start"]);
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+
+                $data=[];
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = "老师您好，请尽快对本节课做出评价。";
+                $data['keyword1'] = "课程评价";
+                $data['keyword2'] = $lesson_time."的模拟课程已结束，请尽快登录老师端，进行评价。";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "";
+                $url = "";
+                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+ 
+                $wx_comment_flag = 1;
+            }else{
+                $wx_comment_flag = 2;
+                \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+            }                   
+            $this->t_lesson_info->field_update_list($val['lessonid'],[
+                "wx_comment_flag"     => $wx_comment_flag
+            ]);
+        }
+    }
+
 
 
 

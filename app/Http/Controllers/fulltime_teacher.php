@@ -284,6 +284,10 @@ class fulltime_teacher extends Controller
     public function fulltime_teacher_count(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $ret_info  = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time);
+
+        dd($test_person_num_total);
         $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
         $m = date("m",$start_time);
         $n = ($end_time - $start_time)/86400/31;
@@ -439,7 +443,6 @@ class fulltime_teacher extends Controller
         $ret['platform_teacher_student'] = $platform_teacher_student[0]['platform_teacher_student'];
         $ret['fulltime_teacher_student_pro'] = round($ret['fulltime_teacher_student']*100/$ret['platform_teacher_student'],2);
         //-------------------------------------------------------------------------------------
-        $ret_info  = $this->t_teacher_info->get_teacher_list(1);
         $qz_tea_arr=[];
         foreach($ret_info as $yy=>$item){
             if($item["teacherid"] != 97313){

@@ -733,14 +733,15 @@ class menu{
                 ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
 
                 ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
-                ["power_id"=>1, "name"=>"全职老师考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
+                ["power_id"=>1, "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
+                ["power_id"=>12, "name"=>"全职老师上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
+
 
                 ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
                 ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
                 ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
-                ["power_id"=>12, "name"=>"上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
             ]],
 
             ["power_id"=>39, "name"=>"角色-客服", "list"=>[

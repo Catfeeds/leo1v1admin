@@ -2582,18 +2582,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      *@function 获取平台老师list（通过入职培训，没有离职）
      *
      */
-    public function get_teacher_list($train_through_new){
+    public function get_teacher_list($train_through_new,$start_time,$end_time){
         $where_arr = [
-            " train_through_new=1 ",
-            " is_quit=0 ",
-            " is_test_user =0"
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type <>2",
+            "l.lesson_status=2"
         ];
-        $sql = $this->gen_sql_new("select teacherid "
-                                  ." from %s "
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) "
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_value($sql);
     }
 
 

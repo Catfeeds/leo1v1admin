@@ -2237,7 +2237,7 @@ lesson_type in (0,1) "
         $lesson_start_str = "l.lesson_start";
         switch($type){
         case 1:
-            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0 and l.wx_comment_flag=0 and (l.lesson_type<1000 or (l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1))";
+            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.stu_attend!=0 and l.wx_comment_flag=0 and l.lesson_type<1000 ";
             break;
         case 2:
             $lesson_time_str = $lesson_start_str;
@@ -2287,6 +2287,9 @@ lesson_type in (0,1) "
         case 17:
             $lesson_time_str = $lesson_start_str;
             $str=" l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";
+            break;
+        case 19:
+            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.wx_comment_flag=0 and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1";
             break;
         default:
             $str=" true ";
@@ -3748,7 +3751,7 @@ lesson_type in (0,1) "
 
     }
 
-    public function get_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type=-1){
+    public function get_teacher_test_person_num_list_total( $start_time,$end_time,$subject=-1,$grade_part_ex=-1,$teacherid=-1,$teacher_subject=-1,$identity=-1,$tea_subject="",$qz_flag=-1,$tea_status=-1,$teacher_account=-1,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -6307,6 +6310,7 @@ lesson_type in (0,1) "
 
 
     }
+
 
     public function get_subject_order_list_new2($start_time,$end_time){
         $where_arr=[
