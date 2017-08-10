@@ -1586,21 +1586,39 @@ class test_code extends Controller
                     $update_arr['level']              = $level;
                     $update_arr['type']               = $type;
 
-                    $k1_money=$add_arr[2];
-                    for($i=1;$i<=5;$i++){
-                        $grade = "10".$i;
-                        $check_flag = $this->t_teacher_money_type->check_is_exists($teacher_money_type,$level,$grade);
-                        if(!$check_flag){
-                        }
+                    $grade = 101;
+                    for($i = 1;$i<=5;$i++){
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[2]);
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
                     }
+
+                    for($i=1;$i<=3;$i++){
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[3]);
+                    }
+
+                    $grade = \App\Helper\Utils::get_next_grade($grade);
+                    $this->add_teacher_money_type($update_arr,$grade,$add_arr[4]);
+
+                    for($i=1;$i<=2;$i++){
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[5]);
+                    }
+
+                    $grade = \App\Helper\Utils::get_next_grade($grade);
+                    $this->add_teacher_money_type($update_arr,$grade,$add_arr[6]);
                 }
             }
         }
+    }
 
-        echo "<pre>";
-        var_dump($arr);
-        echo "</pre>";
-        exit;
+    public function add_teacher_money_type($update_arr,$grade,$money){
+        $check_flag = $this->t_teacher_money_type->check_is_exists($update_arr['teacher_money_type'],$update_arr['level'],$grade);
+        if(!$check_flag){
+            $update_arr['grade']=$grade;
+            $update_arr['money']=$money;
+            $this->t_teacher_money_type->row_insert($update_arr);
+        }
     }
 
 

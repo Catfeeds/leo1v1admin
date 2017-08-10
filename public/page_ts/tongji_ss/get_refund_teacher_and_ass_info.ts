@@ -41,9 +41,48 @@ $(function(){
             $.each(userid_list,function(i,item){
                 html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["teac_nick"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.yb1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
             });
-
-
         });
+
+        var dlg=BootstrapDialog.show({
+            title:title,
+            message :  html_node   ,
+            closable: true,
+            buttons:[{
+                label: '返回',
+                cssClass: 'btn',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }],
+            onshown:function(){
+            }
+        });
+
+        dlg.getModalDialog().css("width","1024px");
+
+    });
+
+    $(".ass_num").on("click",function(){
+        var uid = $(this).attr("data-adminid");
+        var num= $(this).data("num");
+        var title = "助教退费投诉详情";
+
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>合同id</td><td>助教</td><td>学生</td><td>退费时间</td><td>详情</td><tr></table></div>");
+
+        $.do_ajax('/ss_deal2/get_refund_ass_detail_info',{
+            "uid"       : uid,
+            "start_time"      : g_args.start_time,
+            "end_time"        : g_args.end_time
+        },function(resp) {
+            var userid_list = resp.data;
+            $.each(userid_list,function(i,item){
+                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["account"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.yb1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
+            });
+        });
+
+
+
+
 
         var dlg=BootstrapDialog.show({
             title:title,
@@ -64,51 +103,6 @@ $(function(){
         });
 
         dlg.getModalDialog().css("width","1024px");
-
-    });
-
-    $(".ass_num").on("click",function(){
-        var adminid = $(this).data("adminid");
-        var num= $(this).data("num");
-        if(num>=10){
-            var title = "助教换老师详情";
-            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>老师</td><td>学生</td><tr></table></div>");
-
-            $.do_ajax('/tongji_ss/get_change_teacher_detail_info_ass',{
-                "adminid"         :adminid,
-                "start_time"      : g_args.start_time,
-                "end_time"        : g_args.end_time
-            },function(resp) {
-                var userid_list = resp.data;
-                $.each(userid_list,function(i,item){
-                    html_node.find("table").append("<tr><td>"+item["realname"]+"</td><td>"+item["nick"]+"</td></tr>");
-                });
-
-
-            });
-
-            var dlg=BootstrapDialog.show({
-                title:title,
-                message :  html_node   ,
-                closable: true,
-                buttons:[{
-                    label: '返回',
-                    cssClass: 'btn',
-                    action: function(dialog) {
-                        dialog.close();
-
-                    }
-                }],
-                onshown:function(){
-
-                }
-
-            });
-
-            dlg.getModalDialog().css("width","1024px");
-        }else{
-            alert("10次以上可查看!");
-        }
 
 
     });

@@ -400,6 +400,11 @@ class ajax_deal2 extends Controller
         $child_realname  = $this->get_in_str_val('child_realname');
         $grade           = $this->get_in_int_val('grade');
         $free_subject    = $this->get_in_int_val('free_subject');
+        $ret = $this->t_student_info->get_student_info_by_phone($phone);
+        if(!$ret){
+             $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname);
+        }
+        return $this->output_succ();
 
     }
 
