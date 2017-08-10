@@ -294,4 +294,24 @@ class ss_deal2 extends Controller
         }
 
     }
+
+
+    public function get_refund_ass_detail_info(){
+        $uid  = $this->get_in_int_val("uid");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time   = strtotime($this->get_in_str_val("end_time"));
+
+        $ret = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$uid);
+
+        foreach($ret as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time","_str");
+        }
+
+        if($ret){
+            return $this->output_succ(["data"=>$ret]);
+        }else{
+            return $this->output_succ();
+        }
+
+    }
 }
