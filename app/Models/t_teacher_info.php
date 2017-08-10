@@ -2053,14 +2053,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
 
-            // $where_arr[] = [
-            //     // "freeze_time>=$start_time",
-            // ];
+            // $where_arr[] ="" ;
 
-            // $where_arr[] = [
-            //     // "freeze_time<$end_time or (limit_plan_lesson_time>=$start_time and limit_plan_lesson_time<$end_time )"
-
-            // ];
+            $where_arr[] = "(freeze_time>=$start_time and freeze_time<$end_time)  or (limit_plan_lesson_time>=$start_time and limit_plan_lesson_time<$end_time )";
             // $this->where_arr_add_time_range($where_arr,"freeze_time",$start_time,$end_time);
             // $this->where_arr_add_time_range($where_arr,"limit_plan_lesson_time",$start_time,$end_time);
         }
