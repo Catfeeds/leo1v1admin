@@ -2065,8 +2065,10 @@ class user_manage extends Controller
      */
     public function tongji_student_subject()
     {
+        $this->t_student_info->switch_tongji_database();
         $ret_info = $this->t_student_info->get_studentid(); //获取学生id
         $ret_student_subject = array(0,0,0,0,0,0,0,0,0,0,0,0,0);
+        $this->t_course_order->switch_tongji_database();
         foreach ($ret_info as $key => $value) {
             $ret_get_list_total = $this->t_course_order->get_list_total($value,-1,0);//根据学生id查询学习包
             $arr = [];
