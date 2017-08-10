@@ -95,12 +95,12 @@ class test_code extends Controller
                         echo $red;
                         echo "teacher_money_type:".$arr[0]." level:".$arr[1]." grade:".$arr[2]." money:".$arr[3]." type:".$arr[4];
                         echo $div;
-
                     }
                 }
             }
         }
     }
+
 
     function GetIp(){
         $realip = '';
@@ -1570,12 +1570,58 @@ class test_code extends Controller
 
     }
 
-    public function reset_lesson_count(){
-        $userid = $this->get_in_int_val("userid",244858);
+    public function add_teacher_money_type_new(){
+        $arr = $this->get_b_txt();
+        // 0 teacher_money_type | 1 level | 2 k1-k5 money |3 k6-k8 money |4 k9 money |5 k10-k11 money |6 k12 money |7 type
 
-        $this->t_student_info->reset_lesson_count($userid);
+        foreach($arr as $val){
+            if($val!=""){
+                $add_arr = explode("|",$val);
+                if(count($add_arr)==8){
+                    $teacher_money_type = $add_arr[0];
+                    $level              = $add_arr[1];
+                    $type               = $add_arr[7];
 
+                    $update_arr['teacher_money_type'] = $teacher_money_type;
+                    $update_arr['level']              = $level;
+                    $update_arr['type']               = $type;
 
+                    $grade = 101;
+                    for($i = 1;$i<=5;$i++){
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[2]);
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
+                    }
+
+                    for($i=1;$i<=3;$i++){
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[3]);
+                    }
+
+                    $grade = \App\Helper\Utils::get_next_grade($grade);
+                    $this->add_teacher_money_type($update_arr,$grade,$add_arr[4]);
+
+                    for($i=1;$i<=2;$i++){
+                        $grade = \App\Helper\Utils::get_next_grade($grade);
+                        $this->add_teacher_money_type($update_arr,$grade,$add_arr[5]);
+                    }
+
+                    $grade = \App\Helper\Utils::get_next_grade($grade);
+                    $this->add_teacher_money_type($update_arr,$grade,$add_arr[6]);
+                }
+            }
+        }
     }
+
+    public function add_teacher_money_type($update_arr,$grade,$money){
+        $check_flag = $this->t_teacher_money_type->check_is_exists($update_arr['teacher_money_type'],$update_arr['level'],$grade);
+        if(!$check_flag){
+            $update_arr['grade']=$grade;
+            $update_arr['money']=$money;
+            $this->t_teacher_money_type->row_insert($update_arr);
+        }
+    }
+
+
+
 
 }

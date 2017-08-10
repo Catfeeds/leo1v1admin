@@ -28,7 +28,8 @@ $(function(){
         if (opt_type=="update") {
             pic_url=item.pic;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".pic").html(pic_img);
+            html_node.find(".add_header_img").html(pic_img);
+            html_node.find(".add_pic").html(pic_url);
             html_node.find(".add_wxnew_type").val(item.wxnew_type);
             html_node.find(".add_title").val(item.title);
             html_node.find(".add_des").val(item.des);

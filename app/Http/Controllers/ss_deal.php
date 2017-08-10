@@ -3464,7 +3464,7 @@ class ss_deal extends Controller
             $ret=\App\Helper\Net:: send_get_data(
                 "http://api.clink.cn/interface/PreviewOutcall",
                 [
-                    "enterpriseId" => 3005046,
+                    "enterpriseId" => 3005131 ,
                     "cno" => $admin_info["tquin"],
                     "pwd" => md5($admin_info["call_phone_passwd"]),
                     "customerNumber"=>$phone,

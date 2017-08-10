@@ -189,7 +189,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $set_stu_arr["origin_level"] =$origin_level;
 
         $phone_location = \App\Helper\Common::get_phone_location($phone);
-        if( $origin_level !=90 &&  in_array( substr($phone_location,0 ,6) , ["上海","浙江" ] ) && $has_pad =  E\Epad_type::V_1  ) {
+        if( !in_array( $origin_level , [90,99] )  &&  in_array( substr($phone_location,0 ,6) , ["上海","浙江" ] ) && $has_pad =  E\Epad_type::V_1  ) {
             $set_stu_arr["origin_level"] =  0;
         }else{
             //$set_stu_arr["origin_level"] =  2;
@@ -839,15 +839,14 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = "(origin_level >0  or $check_no_call_time_str) ";
             break;
         case 3 : //b
-            $where_arr[] = "(origin_level >1 or $check_no_call_time_str )";
+            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
             break;
         case 4 : //c
         case 5 : //d
-            $where_arr[] = "(origin_level >2 or $check_no_call_time_str )";
-            break;
         case 6 : //e
-            $where_arr[] = "((origin_level >0 and competition_call_time >0)  or  $check_no_call_time_str )";
+            $where_arr[] = "(origin_level >3 or $check_no_call_time_str )";
             break;
+
         default:
             if ($t_flag) {
             }else{
