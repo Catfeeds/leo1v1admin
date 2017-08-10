@@ -43,7 +43,7 @@ $(function(){
         var $parentid  = $("<input/>");
         var $userid    = $("<input/>");
         var $phone     = $("<input/>");
-        var $wx_openid = $("<input/>");
+        var $type     = $("<select><option value='0'>注册</option><option value='1'>我要报名</option><option value='2'>我要推荐</option><select/>");
         var $bankcard     = $("<input/>");
         var $idcard     = $("<input/>");
         var $bank_address     = $("<input/>");
@@ -57,9 +57,9 @@ $(function(){
 
         var arr=[
             ["上级id",  $parentid],
-            ["用户id",  $userid],
+            ["userid",  $userid],
             ["手机",  $phone],
-            ["微信openid",  $wx_openid],
+            ["类型",  $type],
             ["银行卡号",  $bankcard],
             ["身份证号码",  $idcard],
             ["开户行和支行",  $bank_address],
@@ -71,7 +71,7 @@ $(function(){
             ["支付宝姓名",  $zfb_name],
             ["支付宝账户",  $zfb_account],
         ];
-        $.show_key_value_table("新增代理", arr ,{
+        $.show_key_value_table("新增优学优享账号", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
@@ -79,7 +79,7 @@ $(function(){
                     "parentid"      : $parentid.val(),
                     "phone"         : $phone.val(),
                     "userid"        : $userid.val(),
-                    "wx_openid"     : $wx_openid.val(),
+                    "type"          : $type.val(),
                     "bankcard"      : $bankcard.val(),
                     "idcard"        : $idcard.val(),
                     "bank_address"  : $bank_address.val(),
