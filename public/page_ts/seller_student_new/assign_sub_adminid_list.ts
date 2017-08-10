@@ -65,7 +65,6 @@ $(function(){
         uploader.start();
     });
 
-    Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("boolean",$("#id_admin_del_flag"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("boolean",$("#id_sys_invaild_flag"));
@@ -99,7 +98,13 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_origin').val(g_args.origin);
     $('#id_origin_ex').val(g_args.origin_ex);
-    $('#id_grade').val(g_args.grade);
+
+	  $('#id_grade').val(g_args.grade);
+	  $.enum_multi_select( $('#id_grade'), 'grade', function(){load_data();},null,{
+        "小学": [100,101,102,103,104,105,106 ],
+        "初中": [200,201,202,203 ],
+        "高中": [300,301,302,303 ],
+    } );
     $('#id_subject').val(g_args.subject);
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
@@ -113,7 +118,6 @@ $(function(){
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
     $('#id_filter_flag').val(g_args.filter_flag);
 	  $('#id_call_phone_count').val(g_args.call_phone_count);
-
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]
@@ -501,7 +505,7 @@ $(function(){
             });
     });
 
-    var init_noit_btn=function( id_name, title) {
+    var init_noit_btn=function( id_name, title ) {
         var btn=$('#'+id_name);
         btn.tooltip({
             "title":title,
@@ -575,6 +579,54 @@ $(function(){
         load_data();
     });
     init_noit_btn("id_unset_admin_revisiterid",    "未分配" );
+    init_noit_btn("id_all_unallot_count_hight_school",    "高中未分配" );
+
+    $("#id_all_unallot_count_hight_school").on("click",function(){
+        init_field_list();
+        $('#id_tmk_adminid').val(0);
+
+        $('#id_seller_resource_type').val(0);
+        $('#id_sys_invaild_flag').val(0 );
+        $('#id_origin_level').val("0,1,2,3,4" );
+        $('#id_origin_level').val("200,201,202,203" );
+
+        //$('#id_global_tq_called_flag').val(0);
+
+        if (g_args.self_groupid  >0) { //主管
+            $("#id_origin_assistantid").val(-1);
+            $('#id_admin_revisiterid').val(0);
+        }else{
+            $("#id_origin_assistantid").val(-1);
+            $('#id_sub_assign_adminid_2').val(0);
+            $('#id_admin_revisiterid').val(0);
+        }
+
+        load_data();
+    });
+
+    init_noit_btn("id_all_unallot_count_Y",    "Y类未分配" );
+
+    $("#id_all_unallot_count_Y").on("click",function(){
+        init_field_list();
+        $('#id_tmk_adminid').val(0);
+
+        $('#id_seller_resource_type').val(0);
+        $('#id_sys_invaild_flag').val(0 );
+        $('#id_origin_level').val("99" );
+
+        //$('#id_global_tq_called_flag').val(0);
+
+        if (g_args.self_groupid  >0) { //主管
+            $("#id_origin_assistantid").val(-1);
+            $('#id_admin_revisiterid').val(0);
+        }else{
+            $("#id_origin_assistantid").val(-1);
+            $('#id_sub_assign_adminid_2').val(0);
+            $('#id_admin_revisiterid').val(0);
+        }
+
+        load_data();
+    });
 
     init_noit_btn("id_all_uncall_count",    "抢单-未拨打数" );
     $("#id_all_uncall_count").on("click",function(){

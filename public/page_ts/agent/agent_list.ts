@@ -4,6 +4,11 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+            date_type     :    $('#id_date_type').val(),
+            opt_date_type :    $('#id_opt_date_type').val(),
+            start_time    :    $('#id_start_time').val(),
+            end_time      :    $('#id_end_time').val(),
+
             parentid:	$('#id_parentid').val(),
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
@@ -22,6 +27,17 @@ $(function(){
         })
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
+
+    $('#id_date_range').select_date_range({
+        'date_type'     : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
 
     $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
@@ -43,7 +59,7 @@ $(function(){
         var $parentid  = $("<input/>");
         var $userid    = $("<input/>");
         var $phone     = $("<input/>");
-        var $wx_openid = $("<input/>");
+        var $type     = $("<select><option value='0'>注册</option><option value='1'>我要报名</option><option value='2'>我要推荐</option><select/>");
         var $bankcard     = $("<input/>");
         var $idcard     = $("<input/>");
         var $bank_address     = $("<input/>");
@@ -57,9 +73,9 @@ $(function(){
 
         var arr=[
             ["上级id",  $parentid],
-            ["用户id",  $userid],
+            ["userid",  $userid],
             ["手机",  $phone],
-            ["微信openid",  $wx_openid],
+            ["类型",  $type],
             ["银行卡号",  $bankcard],
             ["身份证号码",  $idcard],
             ["开户行和支行",  $bank_address],
@@ -71,7 +87,7 @@ $(function(){
             ["支付宝姓名",  $zfb_name],
             ["支付宝账户",  $zfb_account],
         ];
-        $.show_key_value_table("新增代理", arr ,{
+        $.show_key_value_table("新增优学优享账号", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
@@ -79,7 +95,7 @@ $(function(){
                     "parentid"      : $parentid.val(),
                     "phone"         : $phone.val(),
                     "userid"        : $userid.val(),
-                    "wx_openid"     : $wx_openid.val(),
+                    "type"          : $type.val(),
                     "bankcard"      : $bankcard.val(),
                     "idcard"        : $idcard.val(),
                     "bank_address"  : $bank_address.val(),

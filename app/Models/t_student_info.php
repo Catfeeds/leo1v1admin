@@ -2602,11 +2602,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
         $where_arr=[
-            ['o.assistantid=%d', $assistantid, 0],
-            'o.lesson_count_left>0',
-            's.status=2',
-            ["create_time>=%u", $start_time, -1 ],
-            ["create_time<=%u", $end_time, -1 ],
+          ['o.assistantid=%d', $assistantid, -1],
+          'o.lesson_count_left>0',
+          's.status=2',
+          ["create_time>=%u", $start_time, -1 ],
+          ["create_time<=%u", $end_time, -1 ],
         ];
         $sql = $this->gen_sql_new("select s.id, s.stu_score_type ,s.grade,s.create_time,s.userid, s.subject, s.status,s.month"
                                   ." from %s s"
@@ -2674,6 +2674,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
         );
         dd($sql);
+        return $this->main_get_list($sql);
+    }
+    public function get_studentid(){
+         $where_arr=[
+            "s.is_test_user=0 ",
+            "s.assistantid>0",
+            "s.type=0",
+            "c.course_type in (0,1,3)"  ,
+            "c.course_status=0 "
+
+        ];
+        $sql = $this->gen_sql_new("select s.userid,count(distinct c.subject) num "
+                                  ." from %s s left join %s c on s.userid = c.userid "
+                                  ."  where  %s group by s.userid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 }

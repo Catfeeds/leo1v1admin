@@ -606,7 +606,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $origin_level_map = [];
         $all_count        = count($data_list);
 
-
         foreach ($data_list as $a_item) {
             $subject      = $a_item["subject"];
             $grade        = $a_item["grade"];
@@ -625,6 +624,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
         $group_list = $this->t_admin_group_name->get_group_list(2);
 
+        $origin_type = 0;
+        if($origin_ex == '优学帮,,,'){
+            $origin_type = 1;
+        }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
             "grade_map"   => $grade_map,
@@ -633,6 +636,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             "area_map"    => $area_map,
             "group_list"  => $group_list,
             "field_name"  => $field_name,
+            "origin_type"  => $origin_type,
         ]);
     }
 
@@ -7058,7 +7062,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
-        $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
+        // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
         foreach($ret_info["list"] as &$item){
             if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";

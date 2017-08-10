@@ -8,12 +8,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
-    public function get_agent_info($page_info,$phone,$type)
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
+        if($type == 1){
+            $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        }
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
-
+        $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
                                  ." from %s a "
@@ -27,7 +30,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
@@ -308,6 +310,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
+            "s.origin = '优学优享'",
         ];
 
         $sql= $this->gen_sql_new(
@@ -470,15 +473,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_test_new(){
         $where_arr = [
-            'type = 1',
+            'a.type = 1',
+            "s.origin = '优学优享'",
         ];
-        $sql = $this->gen_sql_new(
-            " select id,phone "
-            ." from %s "
-            ." where %s "
-            ,self::DB_TABLE_NAME
-            ,$where_arr
+
+        $sql=$this->gen_sql_new (" select a.id,a.phone"
+                                 ." from %s a "
+                                 ." left join %s s on s.phone = a.phone"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,$where_arr
         );
+
         return $this->main_get_list($sql);
     }
 }

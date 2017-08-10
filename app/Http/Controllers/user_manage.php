@@ -2043,7 +2043,7 @@ class user_manage extends Controller
         $page_num  = $this->get_in_page_num();
         $assistantid = $this->t_assistant_info->get_assistantid($this->get_account());
         if($assistantid <= 0){
-            $assistantid = 1;
+            $assistantid =- 1;
             //$assistantid = 60078;
         }
 
@@ -2057,5 +2057,36 @@ class user_manage extends Controller
 
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    /**
+     * @author    sam
+     * @function  助教统计学生科目数量
+     */
+    public function tongji_student_subject()
+    {
+        $this->t_student_info->switch_tongji_database();
+        $ret_info = $this->t_student_info->get_studentid(); //获取学生id
+        $ret_student_subject = array(
+                1 => 0,
+                2 => 0,
+                3 => 0,
+                4 => 0,
+                5 => 0,
+                "5科以上" => 0,
+                "合计" => 0
+            );
+        foreach ($ret_info as $key => $value) {
+            $num = $value['num'];
+            if($num < 6){
+                ++$ret_student_subject[$num];
+            }else{
+                ++$ret_student_subject["5科以上"];
+            }
+            ++$ret_student_subject["合计"];
+        }
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_student_subject,
+        ]);
     }
 }

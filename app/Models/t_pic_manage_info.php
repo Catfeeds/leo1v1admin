@@ -41,7 +41,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
     }
 
     public function add_pic_info($opt_type,$id,$name,$type,$usage_type,$pic_url,$tag_url,$click_status,$order_by,$grade,$subject,
-                                 $start_time,$end_time,$title_share,$info_share,$jump_url){
+                                 $start_time,$end_time,$title_share,$info_share,$jump_url,$jump_type){
         if($opt_type == 'add'){
             $this->row_insert([
                 self::C_name         => $name,
@@ -58,6 +58,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
                 self::C_title_share => $title_share,
                 self::C_info_share  => $info_share,
                 self::C_jump_url    => $jump_url,
+                self::C_jump_type   => $jump_type,
             ]);
         }else{
             $set_field_arr=array(
@@ -75,6 +76,7 @@ class t_pic_manage_info extends \App\Models\Zgen\z_t_pic_manage_info
                 self::C_title_share => $title_share,
                 self::C_info_share  => $info_share,
                 self::C_jump_url    => $jump_url,
+                self::C_jump_type   => $jump_type,
             );
             $this->field_update_list($id,$set_field_arr);
         }
