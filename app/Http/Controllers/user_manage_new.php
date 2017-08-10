@@ -3557,8 +3557,8 @@ class user_manage_new extends Controller
         $date      = \App\Helper\Utils::get_week_range(time(NULL),1);
         $week_start = $date["sdate"];
 
-        // $start_time = $start_time+7*86400;
-        //  $end_time = $end_time+7*86400;
+        $start_time = $week_start+7*86400;
+        $end_time = $week_start+14*86400;
         $list= $this->t_psychological_teacher_time_list->get_info_by_time($start_time,$end_time);
         //$ret = $this->t_psychological_teacher_time_list->get_all_info();
         // dd(date("Y-m-d",1500652800));
@@ -3568,7 +3568,8 @@ class user_manage_new extends Controller
             $tea_arr=[];
             $val["realname"]="";
             foreach($teacher_phone_list as $item){
-                $teacherid = $this->t_teacher_info->get_teacherid_by_phone($item);
+                $phone = trim($item);
+                $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
                 $realname = $this->t_teacher_info->get_realname($teacherid);
                 $check_lesson = $this->t_lesson_info_b2->check_psychological_lesson($teacherid,$lesson_start);
                 if($check_lesson ==1){
@@ -3594,6 +3595,7 @@ class user_manage_new extends Controller
             $val["start_time"] = $w."-".$val["start"];
 
         }
+        dd($list);
         return  outputjson_success( [ "common_lesson_config" => $list] );
 
         //dd($list);

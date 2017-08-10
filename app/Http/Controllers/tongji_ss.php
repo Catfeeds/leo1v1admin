@@ -5884,7 +5884,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $fifth_time =  $this->t_teacher_lecture_info->get_new_teacher_fifth_lesson_time($time);
         $fifth_time_avg =  round(($fifth_time["lesson_time"] - $fifth_time["confirm_time"])/86400,1);
 
-        $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info();
+        $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info($time);
 
         return $this->pageView(__METHOD__,null,[
             "ret"   =>$ret,
