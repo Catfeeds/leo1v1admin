@@ -118,11 +118,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }elseif($type == 13){ //有效意向(C)
             $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
         }elseif($type == 14){ //预约数
-            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2';
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
         }elseif($type == 15){ //上课数
-            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2';
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
         }elseif($type == 16){ //试听成功数
-            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2 and l.lesson_user_online_status=1';
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
         }
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
