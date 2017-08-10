@@ -5846,13 +5846,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     }
 
     public function get_teacher_appoinment_lecture_info(){
-        $time = strtotime(date("2017-01-05"));
+        // $time = strtotime(date("2017-01-05"));
 
         //  增加时间筛选
 
         list($start_time,$end_time) = $this->get_in_date_range_month(0);
         // dd($start_time);
-        $time_arr = [
+        $time = [
             "start_time" => $start_time,
             "end_time"   => $end_time
         ];
