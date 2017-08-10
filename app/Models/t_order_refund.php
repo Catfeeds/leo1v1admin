@@ -375,7 +375,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
                                   ." left join %s oc on ra.configid = oc.id"
                                   ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
-                                  ." where %s  order by ra.score desc",
+                                  ." where %s group by m.uid order by ra.score desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
@@ -388,6 +388,10 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
         return $this->main_get_list($sql);
 
+    }
+
+    public function get_refund_count_for_ass($uid){
+        
     }
 
 

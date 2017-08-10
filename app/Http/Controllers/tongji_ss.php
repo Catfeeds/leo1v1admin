@@ -4514,30 +4514,34 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $ret_ass = $this->t_order_refund->get_ass_refund_count($start_time,$end_time);
         $ret_tec = $this->t_order_refund->get_tec_refund_count($start_time,$end_time);
         dd($ret_tec);
-
-        $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
-
         $tea = $ass=[];
-        foreach($ret as $item){
-            @$tea[$item["realname"]]["num"]++;
-            @$tea[$item["realname"]]["realname"] = $item["realname"];
-            @$tea[$item["realname"]]["teacherid"] = $item["old_teacherid"];
 
-            @$ass[$item["account"]]["num"]++;
-            @$ass[$item["account"]]["account"] = $item["account"];
-            @$ass[$item["account"]]["uid"] = $item["cur_require_adminid"];
+        foreach($ret_ass as $index_ass => &$item_ass){
+            // $ass[$item_ass['uid']][$item_ass] = $item_ass;
+            // $item_ass['num'] = $
         }
+        // $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
+
+        // foreach($ret as $item){
+        //     @$tea[$item["realname"]]["num"]++;
+        //     @$tea[$item["realname"]]["realname"] = $item["realname"];
+        //     @$tea[$item["realname"]]["teacherid"] = $item["old_teacherid"];
+
+        //     @$ass[$item["account"]]["num"]++;
+        //     @$ass[$item["account"]]["account"] = $item["account"];
+        //     @$ass[$item["account"]]["uid"] = $item["cur_require_adminid"];
+        // }
         \App\Helper\Utils::order_list( $tea,"num", 0);
         \App\Helper\Utils::order_list( $ass,"num", 0);
         $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
-        $all["change_tea_num"] = count($tea);
-        $all["change_ass_num"] = count($ass);
-        foreach($tea as $v){
-            @$all["change_tea_all_num"] +=$v["num"];
-        }
-        foreach($ass as $v){
-            @$all["change_ass_all_num"] +=$v["num"];
-        }
+        $all["refund_tea_num"] = count($tea);
+        $all["refund_ass_num"] = count($ass);
+        // foreach($tea as $v){
+        //     @$all["change_tea_all_num"] +=$v["num"];
+        // }
+        // foreach($ass as $v){
+        //     @$all["change_ass_all_num"] +=$v["num"];
+        // }
 
         // $list_info = \App\Helper\Utils::list_to_page_info($ass);
         return $this->pageView(__METHOD__ ,null,[

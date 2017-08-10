@@ -3668,4 +3668,11 @@ class user_manage_new extends Controller
 
     }
 
+    public function merge_order(){
+        $orderid      = $this->get_in_int_val("orderid");
+        $orderid_goal = $this->get_in_int_val("orderid_goal");
+
+        $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
+
+    }
 }
