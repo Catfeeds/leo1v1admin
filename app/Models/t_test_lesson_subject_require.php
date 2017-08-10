@@ -648,6 +648,31 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
+    public function tongji_test_lesson_origin_new(){
+        $where_arr = [
+            ' accept_flag = 1 ',
+            ' is_test_user=0 ',
+            ' require_admin_type =2 ',
+            " s.origin = '优学优享' ",
+        ];
+        $sql=$this->gen_sql_new(
+            " select count(*) require_count "
+            ." from %s tr"
+            ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+            ." join %s s on t.userid= s.userid"
+            ." join %s n on t.userid= n.userid   "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
     public function tongji_test_lesson($start_time,$end_time,$adminid_list=[],$adminid_all=[],$grade_list=[-1], $stu_test_paper_flag =-1  ) {
         $where_arr=[];
         $this->where_arr_adminid_in_list($where_arr,"tr.cur_require_adminid",$adminid_list);
