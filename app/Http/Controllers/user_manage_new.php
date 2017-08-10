@@ -1322,6 +1322,8 @@ class user_manage_new extends Controller
         }
         $this->t_tq_call_info->switch_tongji_database();
 
+
+        /*
         $list=$this->t_tq_call_info->tongji_tq_info_new($start_time,$end_time);
         foreach ($list as $k=>&$item )  {
             $res[$k]['is_called_phone_count_for_month'] = $item['all_count'];
@@ -1330,6 +1332,7 @@ class user_manage_new extends Controller
                 $res[$k]['duration_count_for_day'] = round($item['duration_count']/$res[$k]['month_work_day_now_real']);
             }
         }
+        */
 
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
