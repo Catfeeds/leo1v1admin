@@ -282,6 +282,7 @@ class revisit extends Controller
             E\Echild_class_performance_type::set_item_value_str($item,"child_class_performance_type");
             E\Eis_warning_flag::set_item_value_str($item,"is_warning_flag");
         }
+        dd($ret_info);
         $information_confirm = $ret_info[0]['information_confirm'];
         $information_confirm = json_decode($information_confirm);
         if(isset($information_confirm)){
