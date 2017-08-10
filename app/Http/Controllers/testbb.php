@@ -50,20 +50,11 @@ class testbb extends Controller
 
     public function test () {
 
+        // $time = strtotime(date("2017-01-05"));
+        $time['start_time'] = 1483545600;
+        $time['end_time'] = 1483545699;
         $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
         dd($ret);
-
-        $item_name = "自检部";
-        // dd($item_name);
-        dd(substr($item_name,-3));
-        // substr($item_name,0,-1)== "部";
-        //
-        $item_name = "教学管理-1面试转化率模型";
-        // dd(substr($item_name,0,13));
-        if ( substr($item_name,0,13)== "教学管理-"  ) {
-            dd(111);
-        }
-
 
 
 

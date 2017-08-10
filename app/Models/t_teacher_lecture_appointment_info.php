@@ -407,9 +407,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "l.confirm_time>$start_time and l.confirm_time < $end_time ";
-
-            // $this->where_arr_add_time_range($where_arr,"l.confirm_time",$start_time,$end_time);
+            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
         }else{
             $time_str = "l.confirm_time>$time";
         }
@@ -421,7 +419,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
-                                  $time,
+                                  $time_str,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
