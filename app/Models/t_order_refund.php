@@ -388,10 +388,42 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
         return $this->main_get_list($sql);
 
-        return $this->main_get_list($sql,function($item){
-            return $item["uid"];
-        });
     }
+
+
+
+    public function get_tec_refund_count($start_time,$end_time){
+        $where_arr = [
+            "ra.id is not null",
+            "t.teacherid >0",
+            "occ.value in ('老师管理','教学部')",
+            "ra.score>0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
+        // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
+        $sql = $this->gen_sql_new("select t.teacherid,occ.value,ra.score,r.orderid,s.nick "
+                                  ." from %s r "
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." left join %s o on r.orderid = o.orderid"
+                                  ." left join %s c on c.userid = s.userid"
+                                  ." left join %s t on (c.teacherid = t.teacherid and (o.subject = t.subject or o.subject = t.second_subject or o.subject = t.third_subject))"
+                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
+                                  ." left join %s oc on ra.configid = oc.id"
+                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
+                                  ." where %s order by r.orderid,r.apply_time",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_refund_analysis::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 
 }
