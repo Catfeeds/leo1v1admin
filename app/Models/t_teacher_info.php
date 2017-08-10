@@ -2042,10 +2042,28 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_freeze_and_limit_tea_info(){
+    public function get_freeze_and_limit_tea_info($time){
+
+        $where_arr = [
+            "is_test_user=0 ",
+            "realname not like '%%alan%%' ",
+            " realname not like '%%test%%'"
+        ];
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+
+            // $where_arr[] ="" ;
+
+            $where_arr[] = "(freeze_time>=$start_time and freeze_time<$end_time)  or (limit_plan_lesson_time>=$start_time and limit_plan_lesson_time<$end_time )";
+            // $this->where_arr_add_time_range($where_arr,"freeze_time",$start_time,$end_time);
+            // $this->where_arr_add_time_range($where_arr,"limit_plan_lesson_time",$start_time,$end_time);
+        }
+
         $sql = $this->gen_sql_new("select sum(is_freeze=1) freeze_num,sum(limit_plan_lesson_type>0) limit_num,sum(limit_plan_lesson_type=1) limit_one,sum(limit_plan_lesson_type=3) limit_three,sum(limit_plan_lesson_type=5) limit_five"
-                                  ." from %s where is_test_user=0 and realname not like '%%alan%%' and realname not like '%%test%%'",
-                                  self::DB_TABLE_NAME
+                                  ." from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_row($sql);
     }

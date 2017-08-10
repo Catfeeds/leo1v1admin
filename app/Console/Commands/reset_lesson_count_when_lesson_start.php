@@ -61,10 +61,13 @@ class reset_lesson_count_when_lesson_start extends Command
             $list = $task->t_lesson_info->get_current_student_list_by_start_time($lesson_start);
         }
 
-        foreach ( $list as $item) {
-            $userid=$item["userid"];
+        foreach($list as $item) {
+            $userid = $item["userid"];
             echo "do $userid \n";
             $task->t_student_info->reset_lesson_count($userid);
         }
     }
+
+
+
 }

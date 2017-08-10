@@ -73,10 +73,13 @@ $(function(){
             }
             var start_time= calEvent.start_time;
             var id_userid     = $("<input/>");
+            var id_lesson_name     = $("<select/>");
             
+            Enum_map.append_option_list("psychological_lesson_name_list", id_lesson_name,true);
 
             var arr = [               
                 [ "userid",   id_userid] ,
+                ["课程名字",id_lesson_name]
             ];
 
             $.show_key_value_table("排课", arr ,{
@@ -85,9 +88,10 @@ $(function(){
                 action: function(dialog) {
                     $.do_ajax( '/user_manage_new/set_psychological_lesson',{
                         'lesson_start'   : calEvent.lesson_start,
-                        'lesson_end'   : calEvent.lesson_end,
-                        "tea_list"  : calEvent.tea_list,
-                        'userid'     : id_userid.val()
+                        'lesson_end'     : calEvent.lesson_end,
+                        "tea_list"       : calEvent.tea_list,
+                        'userid'         : id_userid.val(),
+                        'lesson_name'    : id_lesson_name.val()
                     });
                 }
             },function(){

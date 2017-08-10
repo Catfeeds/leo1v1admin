@@ -53,7 +53,10 @@ class testbb extends Controller
         // $time = strtotime(date("2017-01-05"));
         $time['start_time'] = 1483545600;
         $time['end_time'] = 1483545699;
-        $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
+
+        $ret =$this->t_teacher_info->get_freeze_and_limit_tea_info($time); 
+
+        // $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
         dd($ret);
 
 
