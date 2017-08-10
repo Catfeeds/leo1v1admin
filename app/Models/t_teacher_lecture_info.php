@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
                                              $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1
@@ -169,7 +169,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["time"];
@@ -182,9 +182,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["confirm_time >= %u",$start_time,-1],
             ["confirm_time < %u",$end_time,-1],
             "(tl.account <> 'adrian' && tl.account <> 'alan' && tl.account <> 'jack')",
-            ["t.teacherid = %u",$teacher_account,-1], 
-            ["tt.teacherid = %u",$reference_teacherid,-1], 
-            ["tl.identity = %u",$identity,-1], 
+            ["t.teacherid = %u",$teacher_account,-1],
+            ["tt.teacherid = %u",$reference_teacherid,-1],
+            ["tl.identity = %u",$identity,-1],
             "(tl.account is not null && tl.account <> '')",
             "tl.is_test_flag =0"
         ];
@@ -207,7 +207,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item){
             return $item["account"];
@@ -220,9 +220,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["confirm_time >= %u",$start_time,-1],
             ["confirm_time < %u",$end_time,-1],
             "(tl.account <> 'adrian' && tl.account <> 'alan' && tl.account <> 'jack')",
-            ["t.teacherid = %u",$teacher_account,-1], 
-            ["tt.teacherid = %u",$reference_teacherid,-1], 
-            ["tl.identity = %u",$identity,-1], 
+            ["t.teacherid = %u",$teacher_account,-1],
+            ["tt.teacherid = %u",$reference_teacherid,-1],
+            ["tl.identity = %u",$identity,-1],
             "(tl.account is not null && tl.account <> '')",
             "tl.is_test_flag =0"
         ];
@@ -245,7 +245,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_row($sql);
     }
@@ -257,9 +257,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["confirm_time >= %u",$start_time,-1],
             ["confirm_time <= %u",$end_time,-1],
             "(tl.account <> 'adrian' && tl.account <> 'alan' && tl.account <> 'jack')",
-            ["t.teacherid = %u",$teacher_account,-1], 
+            ["t.teacherid = %u",$teacher_account,-1],
             ["tt.teacherid = %u",$reference_teacherid,-1],
-            ["tl.identity = %u",$identity,-1], 
+            ["tl.identity = %u",$identity,-1],
         ];
         if(!empty($tea_subject)){
             $where_arr[]="tl.subject in".$tea_subject;
@@ -276,7 +276,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list_as_page($sql);
 
@@ -291,7 +291,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         ];
         $sql = $this->gen_sql_new("select subject, count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s where %s  and subject>0  group by subject",
                                   self::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["subject"];
@@ -308,7 +308,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         ];
         if($status==-2){
             $where_arr[] = "tl.status <>4";
-        }else{           
+        }else{
             $where_arr[] = ["tl.status=%u",$status,-1];
         }
         $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct tl.phone) all_count,count(distinct t.phone) tea_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join %s la on tl.phone = la.phone"
@@ -317,7 +317,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["accept_adminid"];
@@ -335,13 +335,13 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         ];
         $sql = $this->gen_sql_new("select substring(grade,1,1)*100 grade_ex, count(*) all_num,count(distinct phone) all_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s where %s  and grade>0  group by grade_ex",
                                   self::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["grade_ex"];
         });
     }
-    
+
     public function get_lecture_info_by_identity($start_time,$end_time,$status=-1){
         $where_arr=[
             ["tl.confirm_time >= %u",$start_time,-1],
@@ -355,7 +355,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." where %s group by identity_ex",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["identity_ex"];
@@ -378,7 +378,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["account"];
@@ -400,7 +400,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return  $this->main_get_list($sql);
 
@@ -416,10 +416,10 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "tl.is_test_flag =0",
             ["tl.subject=%u",$subject,-1],
             ["tl.identity = %u",$identity,-1],
-            ["tt.teacherid = %u",$teacher_account,-1], 
+            ["tt.teacherid = %u",$teacher_account,-1],
             ["ttt.teacherid = %u",$reference_teacherid,-1],
         ];
-       
+
         if(!empty($tea_subject)){
             $where_arr[]="tl.subject in".$tea_subject;
         }
@@ -448,7 +448,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         $ss =  $this->main_get_list($sql);
         $arr=[];
@@ -479,7 +479,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         $ss =  $this->main_get_list($sql);
         $arr=[];
@@ -503,7 +503,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         $ss =  $this->main_get_list($sql);
         $arr=[];
@@ -548,7 +548,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   " where %s group by subject",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["subject"];
@@ -565,7 +565,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   " where %s ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_value($sql);
 
@@ -585,7 +585,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list($sql);
 
@@ -753,11 +753,11 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                  $where_arr
         );
         return $this->main_get_list($sql);
-        
+
     }
 
     public function get_research_teacher_test_lesson_info($start_time,$end_time,$tea_arr){
-        $confirm_time = strtotime(date("2017-01-05"));
+        $confirm_time = strtotime(date("2017-01-05")); // 
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
@@ -770,7 +770,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "mm.account_role=2",
             "m.del_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr );
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,t.realname,t.teacherid,m.uid from %s tl "
@@ -818,7 +818,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "m.del_flag =0",
             ["m.uid=%u",$adminid,-1]
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,tt.realname from %s tl "
                                   ." left join %s m on tl.account =m.account"
@@ -881,7 +881,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_new_teacher_test_lesson_info($start_time,$end_time,$grade_part_ex=-1,$subject=-1,$train_through_new=-1){
-        
+
         $time = strtotime(date("2017-01-05"));
 
         $where_arr=[
@@ -897,7 +897,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "m.del_flag=0",
             "m.account_role=2"
         ];
-    
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql =$this->gen_sql_new("select t.teacherid,t.realname,count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid,l.teacherid) all_lesson,t.train_through_new_time,t.train_through_new ".
                                  " from %s tl ".
@@ -909,7 +909,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   " and l.teacherid = c.teacherid ".
                                   " and l.subject = c.subject ".
                                   " and c.course_type=0 and c.courseid >0) ".
-                                  "left join %s tq on tq.require_id = tss.require_id" .  
+                                  "left join %s tq on tq.require_id = tss.require_id" .
                                  " left join %s m on tq.cur_require_adminid = m.uid ".
                                  " where %s group by t.teacherid",
                                  self::DB_TABLE_NAME,
@@ -926,7 +926,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     }
 
-   
+
     public function get_new_teacher_no_test_lesson_info_wx($tea_arr=[]){
         $time = strtotime(date("2017-01-05"));
         $where_arr=[
@@ -935,7 +935,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
         $where_arr[]=$this->where_get_not_in_str( "t.teacherid", $tea_arr, false );
         $sql =$this->gen_sql_new("select distinct t.teacherid,t.realname,t.train_through_new_time,t.train_through_new,t.subject,t.grade_part_ex,tl.phone,tl.confirm_time  ".
                                  " from %s tl ".
@@ -959,7 +959,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
         if($have_test_lesson_flag==1){
             $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
         }else if($have_test_lesson_flag==0){
@@ -987,7 +987,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
         if($have_test_lesson_flag==1){
             $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
         }else if($have_test_lesson_flag==0){
@@ -1021,7 +1021,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
         if($have_test_lesson_flag==1){
             $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
         }else if($have_test_lesson_flag==0){
@@ -1045,7 +1045,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
 
-    
+
     public function get_new_teacher_no_test_lesson_info_total($grade_part_ex=-1,$subject=-1,$train_through_new=-1){
         $time = strtotime(date("2017-01-05"));
         $where_arr=[
@@ -1057,7 +1057,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
         $sql =$this->gen_sql_new("select count(distinct t.teacherid)  ".
                                  " from %s tl ".
                                  " left join %s t on tl.phone=t.phone".
@@ -1070,7 +1070,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
 
-    
+
     public function get_order_lesson_num($start_time,$subject){
         $end_time=time();
         $where_arr=[
@@ -1095,7 +1095,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." and l.teacherid = c.teacherid "
                                   ." and l.subject = c.subject "
                                   ." and c.course_type=0 and c.courseid >0) "
-                                  ." left join %s tq on tq.require_id = tss.require_id"                                 
+                                  ." left join %s tq on tq.require_id = tss.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
 
                                   ." where %s ",
@@ -1170,7 +1170,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." from %s tl join %s t on (tl.status=1 and tl.phone= t.phone)"
                                   ." where t.realname not like '%%alan%%' and t.realname not like '%%不要审核我%%' and  t.realname not like '%%试讲%%'",
                                   self::DB_TABLE_NAME,
-                                  t_teacher_info::DB_TABLE_NAME                                 
+                                  t_teacher_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
@@ -1180,7 +1180,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "m.del_flag =0",
             "is_test_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"confirm_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tl.account,m.uid,count(*) interview_num,sum(confirm_time - add_time) interview_time "
                                   ." from %s tl "
@@ -1191,9 +1191,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item["uid"]; 
+            return $item["uid"];
         });
- 
+
     }
 
     public function get_interview_info_by_subject($start_time,$end_time){
@@ -1201,7 +1201,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "m.del_flag =0",
             "is_test_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"confirm_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tl.account,tl.subject,count(*) interview_num,sum(confirm_time - add_time) interview_time "
                                   ." from %s tl "
@@ -1212,9 +1212,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item["subject"]; 
+            return $item["subject"];
         });
- 
+
     }
 
 
@@ -1229,7 +1229,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "mm.account_role=2",
             "m.del_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,m.uid "
                                   ." from %s tl "
@@ -1256,9 +1256,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item["uid"]; 
+            return $item["uid"];
         });
- 
+
     }
 
     public function get_interview_lesson_order_info_subject($start_time,$end_time){
@@ -1272,7 +1272,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "mm.account_role=2",
             "m.del_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,tl.subject "
                                   ." from %s tl "
@@ -1299,7 +1299,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
-            return $item["subject"]; 
+            return $item["subject"];
         });
     }
 
@@ -1317,7 +1317,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "mm.account_role=2",
             "m.del_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,m.uid from %s tl "
                                   ." left join %s m on tl.account =m.account"
@@ -1363,7 +1363,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "mm.account_role=2",
             "m.del_flag =0"
         ];
-        
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,l.subject from %s tl "
                                   ." left join %s m on tl.account =m.account"
@@ -1401,21 +1401,40 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_tea_pass_time($time){
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "confirm_time>=$start_time and confirm_time < $end_time ";
+        }else{
+            $time_str = "confirm_time>=$time";
+        }
+
         $sql = $this->gen_sql_new("select count(*) num,sum(confirm_time - add_time) time from %s"
-                                  ." where status = 1 and confirm_time >%u and confirm_time>add_time",
+                                  ." where status = 1 and %s and confirm_time>add_time",
                                   self::DB_TABLE_NAME,
-                                  $time
+                                  $time_str
         );
         return $this->main_get_row($sql);
     }
 
     public function get_tea_tran_pass_time($time){
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "tl.confirm_time>=$start_time and tl.confirm_time < $end_time ";
+        }else{
+            $time_str = "tl.confirm_time>=$time";
+        }
+
+
         $sql = $this->gen_sql_new("select count(*) num,sum(t.train_through_new_time - tl.confirm_time) time from %s tl "
                                   ." left join %s t on tl.phone = t.phone"
-                                  ." where tl.status = 1 and tl.confirm_time >%u and tl.confirm_time>tl.add_time and t.train_through_new_time > tl.confirm_time",
+                                  ." where tl.status = 1 and %s and tl.confirm_time>tl.add_time and t.train_through_new_time > tl.confirm_time",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  $time
+                                  $time_str
         );
         return $this->main_get_row($sql);
     }
@@ -1423,12 +1442,24 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     public function get_new_teacher_first_lesson_time($time){
         $where_arr=[
             "t.train_through_new=1",
-            "tl.confirm_time >=".$time,
+            // "tl.confirm_time >=".$time,
             "tl.status=1",
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+
+            $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
+        }else{
+            $where_arr[] = "tl.confirm_time>=$time";
+        }
+
+
+
         /* if($have_test_lesson_flag==1){
             $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
         }else if($have_test_lesson_flag==0){
@@ -1450,12 +1481,24 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     public function get_new_teacher_fifth_lesson_time($time){
         $where_arr=[
             "t.train_through_new=1",
-            "tl.confirm_time >=".$time,
+            // "tl.confirm_time >=".$time,
             "tl.status=1",
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
-    
+
+
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
+        }else{
+            $where_arr[] = "tl.confirm_time>=$time";
+        }
+
+
+
         /* if($have_test_lesson_flag==1){
            $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
            }else if($have_test_lesson_flag==0){
@@ -1525,7 +1568,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         $this->where_arr_add_time_range($where_arr,"confirm_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct phone) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
- 
+
     }
 
     public function get_video_apply_num($start_time,$end_time){
@@ -1564,7 +1607,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "status =3",
             ["subject=%u",$subject,-1],
             ["grade=%u",$grade,-1],
-            ["phone='%s'",$phone,-1],            
+            ["phone='%s'",$phone,-1],
         ];
         $sql = $this->gen_sql_new("select count(*) from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
@@ -1586,7 +1629,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return true;
     }
 
-    
+
     public function get_interview_acc($phone){
         $sql = $this->gen_sql_new("select tl.account from %s tl where tl.phone = '%s' and tl.status=1 and confirm_time =(select max(confirm_time) from %s where phone=tl.phone and status=1)",
                                   self::DB_TABLE_NAME,

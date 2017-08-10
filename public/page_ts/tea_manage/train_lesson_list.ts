@@ -288,7 +288,7 @@ $(function(){
 
             id_train_lesson_type.on("change",function(){
                 var lesson_type = $(this).val();
-                if(lesson_type==1){
+                if(lesson_type==1 || lesson_type==4){
                     id_subject.parents("tr").hide();
                     id_grade.parents("tr").hide();
                     id_create_day.parents("tr").hide();

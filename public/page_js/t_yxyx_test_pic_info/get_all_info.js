@@ -1,22 +1,39 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/t_yxyx_wxnews_info-all_news.d.ts" />
+/// <reference path="../g_args.d.ts/t_yxyx_test_pic_info-get_all_info.d.ts" />
 
 $(function(){
-    Enum_map.append_option_list("wxnew_type", $(".wxnew_type"));
-    Enum_map.append_option_list("wxnew_type", $(".add_wxnew_type"), true);
-    $(".wxnew_type").val(g_args.type);
+    Enum_map.append_option_list("grade", $(".grade"));
+    Enum_map.append_option_list("subject", $(".subject"));
+    Enum_map.append_option_list("test_type", $(".test_type"));
+    Enum_map.append_option_list("grade", $(".add_grade"), true);
+    Enum_map.append_option_list("subject", $(".add_subject"), true);
+    Enum_map.append_option_list("test_type", $(".add_test_type"), true);
+
+    $(".grade").val(g_args.grade);
+    $(".subject").val(g_args.subject);
+    $(".test_type").val(g_args.test_type);
     function load_data(){
         $.reload_self_page({
-            type : $(".wxnew_type").val(),
+            grade     : $(".grade").val(),
+            subject   : $(".subject").val(),
+            tset_type : $(".test_type").val(),
         });
     }
     //筛选
-    $(".wxnew_type").on("change",function(){
+    $(".grade").on("change",function(){
+        load_data();
+    });
+    $(".subject").on("change",function(){
         load_data();
     });
 
+    $(".test_type").on("change",function(){
+        load_data();
+    });
+
+
     var do_add_or_update = function( opt_type, item ,id){
-        var html_txt = $.dlg_get_html_by_class('dlg_add_new_info');
+        var html_txt = $.dlg_get_html_by_class('dlg_add_new');
         html_txt=html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
@@ -29,10 +46,12 @@ $(function(){
             pic_url=item.pic;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
             html_node.find(".pic").html(pic_img);
-            html_node.find(".add_wxnew_type").val(item.wxnew_type);
-            html_node.find(".add_title").val(item.title);
-            html_node.find(".add_des").val(item.des);
-            html_node.find(".add_new_link").val(item.new_link);
+            html_node.find(".add_test_title").val(item.test_title);
+            html_node.find(".add_test_des").val(item.test_des);
+            html_node.find(".add_grade").val(item.grade);
+            html_node.find(".add_subject").val(item.subject);
+            html_node.find(".add_poster").val(item.poster);
+            html_node.find(".add_test_type").val(item.test_type);
         }
 
         var title = "";
@@ -62,23 +81,27 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-primary',
                     action : function(dialog) {
-                        var title    = html_node.find(".add_title").val();
-                        var des      = html_node.find(".add_des").val();
-                        var pic      = html_node.find(".add_pic").text();
-                        var new_link = html_node.find(".add_new_link").val();
-                        var add_wxnew_type = html_node.find(".add_wxnew_type").val();
+                        var pic           = html_node.find(".add_pic").text();
+                        var grade         = html_node.find(".add_grade").val();
+                        var poster        = html_node.find(".add_poster").text();
+                        var subject       = html_node.find(".add_subject").val();
+                        var test_des      = html_node.find(".add_test_des").val();
+                        var test_type     = html_node.find(".add_test_type").val();
+                        var test_title    = html_node.find(".add_test_title").val();
                         if (opt_type=="update") {
                             $.ajax({
                                 type     : "post",
-                                url      : "/t_yxyx_wxnews_info/update_new_info",
+                                url      : "/t_yxyx_test_pic_info/update_test_info",
                                 dataType : "json",
                                 data : {
-                                    "id"        : id
-                                    ,"title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
-                                    ,"new_link" : new_link
-                                    ,"type"     : add_wxnew_type
+                                    "id"          : id
+                                    ,"pic"        : pic
+                                    ,"grade"      : grade
+                                    ,"poster"     : poster
+                                    ,"subject"    : subject
+                                    ,"test_des"   : test_des
+                                    ,"test_type"  : test_type
+                                    ,"test_title" : test_title
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -92,14 +115,16 @@ $(function(){
                         } else {
                             $.ajax({
                                 type     : "post",
-                                url      : "/t_yxyx_wxnews_info/add_new_info",
+                                url      : "/t_yxyx_test_pic_info/add_test_info",
                                 dataType : "json",
                                 data : {
-                                    "title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
-                                    ,"new_link" : new_link
-                                    ,"type"     : add_wxnew_type
+                                     "pic"        : pic
+                                    ,"grade"      : grade
+                                    ,"poster"     : poster
+                                    ,"subject"    : subject
+                                    ,"test_des"   : test_des
+                                    ,"test_type"  : test_type
+                                    ,"test_title" : test_title
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -122,7 +147,7 @@ $(function(){
 
     };
 
-    $(".add_new_info").on("click",function(){
+    $(".add_new").on("click",function(){
         do_add_or_update("add");
     });
 
@@ -130,7 +155,7 @@ $(function(){
         var id=$(this).get_opt_data( "id" );
         $.ajax({
             type  :"post",
-            url      :"/t_yxyx_wxnews_info/get_one_new",
+            url      :"/t_yxyx_test_pic_info/get_one_test",
             dataType :"json",
             data     :{"id":id},
             success: function(data){
@@ -152,7 +177,7 @@ $(function(){
                 action: function(dialog){
                     $.ajax({
                         type     :"post",
-                        url      :"/t_yxyx_wxnews_info/del_new_info",
+                        url      :"/t_yxyx_test_pic_info/del_test_info",
                         dataType :"json",
                         data     :{"id":id},
                         success  : function(result){

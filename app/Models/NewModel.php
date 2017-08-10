@@ -391,7 +391,6 @@ abstract class NewModel
 
             $sql = sprintf("update %s set  %s  where  %s", $this->field_table_name , $set_field_list_str,
                          $where_str);
-
             $this->start_transaction();
             $ret = $this->main_update($sql);
             if ($ret>1) {

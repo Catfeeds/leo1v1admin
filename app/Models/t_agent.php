@@ -11,10 +11,30 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
-        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        if($type == 1){
+            $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        }
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
+        /*
+          $where_arr = [
+          'n.admin_revisiterid >0',//assigned_count 
+          'tmk_student_status=3',//tmk_assigned_count
+          'global_tq_called_flag=0',//tq_no_call_count
+          'global_tq_called_flag <>0',//tq_called_count
+          'global_tq_called_flag =1',//tq_call_fail_count
+          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count
+          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count
+          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count
+          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count
+          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count
+          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count
+          '',//require_count
+          '',//test_lesson_count
+          '',//succ_test_lesson_count
+          ];
+         */
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
                                  ." from %s a "
@@ -30,6 +50,74 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }
+
+    public function get_agent_info_new($page_info,$type)
+    {
+        /*
+          $where_arr = [
+          'n.admin_revisiterid >0',//assigned_count type=2 已分配销售
+          'tmk_student_status=3',//tmk_assigned_count type=3 TMK有效
+          'global_tq_called_flag=0',//tq_no_call_count type=5 未拨打
+          'global_tq_called_flag <>0',//tq_called_count type=6 已拨打
+          'global_tq_called_flag =1',//tq_call_fail_count type=7 未接通
+          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count type=8 已拨通-有效
+          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count  type=9 已拨通-无效
+          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count  type=10 未接通-无效
+          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count  type=11 有效意向(A)
+          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count  type=12 有效意向(B)
+          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count  type=13 有效意向(C)
+          '',//require_count  type=14
+          '',//test_lesson_count  type=15
+          '',//succ_test_lesson_count   type=16
+          ];
+         */
+        $where_arr = array();
+        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        $this->where_arr_add_int_field($where_arr,"a.type",1);
+        if($type==2){ //已分配销售
+            $where_arr[] = 'n.admin_revisiterid >0';
+        }elseif($type == 3){ //TMK有效
+            $where_arr[] = 'tmk_student_status=3';
+        }elseif($type == 5){ //未拨打
+            $where_arr[] = 'global_tq_called_flag=0';
+        }elseif($type == 6){ //已拨打
+            $where_arr[] = 'global_tq_called_flag <>0';
+        }elseif($type == 7){ //未接通
+            $where_arr[] = 'global_tq_called_flag =1';
+        }elseif($type == 8){ //已拨通-有效
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag=0';
+        }elseif($type == 9){ //已拨通-无效
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag =1';
+        }elseif($type == 10){ //未拨通-无效
+            $where_arr[] = 'global_tq_called_flag =1 and  n.sys_invaild_flag =1';
+        }elseif($type == 11){ //有效意向(A)
+            $where_arr[] = 't.seller_student_status =100 and  global_tq_called_flag =2';
+        }elseif($type == 12){ //有效意向(B)
+            $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
+        }elseif($type == 13){ //有效意向(C)
+            $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
+        }
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." left join %s aaa on aaa.id = aa.parentid"
+                                 ." left join %s n on n.phone = a.phone"
+                                 ." left join %s s on s.userid = n.userid"
+                                 ." left join %s t on t.userid= n.userid "
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,t_seller_student_new::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,t_test_lesson_subject::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
+
 
     public function get_agent_info_by_phone($phone)
     {
@@ -471,15 +559,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_test_new(){
         $where_arr = [
-            'type = 1',
+            'a.type = 1',
+            "s.origin = '优学优享'",
         ];
-        $sql = $this->gen_sql_new(
-            " select id,phone "
-            ." from %s "
-            ." where %s "
-            ,self::DB_TABLE_NAME
-            ,$where_arr
+
+        $sql=$this->gen_sql_new (" select a.id,a.phone"
+                                 ." from %s a "
+                                 ." left join %s s on s.phone = a.phone"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,$where_arr
         );
+
         return $this->main_get_list($sql);
     }
 }

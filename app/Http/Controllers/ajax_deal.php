@@ -224,35 +224,35 @@ class ajax_deal extends Controller
 
 
     public function agent_edit() {
-        $id=$this->get_in_id();
-        $parentid=$this->get_in_parentid();
-        $phone = $this->get_in_phone();
-        $wx_openid = $this->get_in_wx_openid();
-        $bankcard = $this->get_in_str_val('bankcard');
-        $idcard = $this->get_in_str_val('idcard');
-        $bank_address = $this->get_in_str_val('bank_address');
-        $bank_account = $this->get_in_str_val('bank_account');
-        $bank_phone = $this->get_in_str_val('bank_phone');
-        $bank_province = $this->get_in_str_val('bank_province');
-        $bank_city = $this->get_in_str_val('bank_city');
-        $bank_type = $this->get_in_str_val('bank_type');
-        $zfb_name = $this->get_in_str_val('zfb_name');
-        $zfb_account = $this->get_in_str_val('zfb_account');
+        $id       = $this->get_in_id();
+        $parentid = $this->get_in_parentid();
+        $phone    = $this->get_in_phone();
+        $type     = $this->get_in_int_val('type');
+        // $bankcard = $this->get_in_str_val('bankcard');
+        // $idcard = $this->get_in_str_val('idcard');
+        // $bank_address = $this->get_in_str_val('bank_address');
+        // $bank_account = $this->get_in_str_val('bank_account');
+        // $bank_phone = $this->get_in_str_val('bank_phone');
+        // $bank_province = $this->get_in_str_val('bank_province');
+        // $bank_city = $this->get_in_str_val('bank_city');
+        // $bank_type = $this->get_in_str_val('bank_type');
+        // $zfb_name = $this->get_in_str_val('zfb_name');
+        // $zfb_account = $this->get_in_str_val('zfb_account');
 
         $this->t_agent->field_update_list($id,[
-            "parentid"      => $parentid,
-            "phone"         => $phone,
-            "wx_openid"     => $wx_openid,
-            "bankcard"      => $bankcard,
-            "idcard"        => $idcard,
-            "bank_address"  => $bank_address,
-            "bank_account"  => $bank_account,
-            "bank_phone"    => $bank_phone,
-            "bank_province" => $bank_province,
-            "bank_city"     => $bank_city,
-            "bank_type"     => $bank_type,
-            "zfb_name"     => $zfb_name,
-            "zfb_account"     => $zfb_account,
+            "parentid" => $parentid,
+            "phone"    => $phone,
+            "type"     => $type,
+            // "bankcard"      => $bankcard,
+            // "idcard"        => $idcard,
+            // "bank_address"  => $bank_address,
+            // "bank_account"  => $bank_account,
+            // "bank_phone"    => $bank_phone,
+            // "bank_province" => $bank_province,
+            // "bank_city"     => $bank_city,
+            // "bank_type"     => $bank_type,
+            // "zfb_name"     => $zfb_name,
+            // "zfb_account"     => $zfb_account,
         ]);
         return $this->output_succ();
     }

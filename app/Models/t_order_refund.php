@@ -39,7 +39,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    public function get_ass_refund_info($start_time,$end_time){        
+    public function get_ass_refund_info($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct r.userid) num,m.uid,m.account,sum(if(o.contract_type=0,r.real_refund,0)) new_price,sum(if(o.contract_type=3,r.real_refund,0)) renw_price,sum(r.real_refund) refund_money "
@@ -60,7 +60,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         });
     }
 
-    public function get_ass_refund_detail_info($start_time,$end_time){        
+    public function get_ass_refund_detail_info($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select r.real_refund,s.nick,s.grade,o.lesson_total,o.default_lesson_count,s.lesson_count_left,r.refund_userid  "
@@ -76,7 +76,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
 
-    public function get_ass_refund_info_new($start_time,$end_time){        
+    public function get_ass_refund_info_new($start_time,$end_time){
         $where_arr = [
             "ra.id is not null",
             "m.uid >0"
@@ -103,7 +103,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){        
+    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){
         $where_arr = [
             "ra.id is not null",
             "t.teacherid >0"

@@ -4482,15 +4482,72 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
         \App\Helper\Utils::order_list( $tea,"num", 0);
         \App\Helper\Utils::order_list( $ass,"num", 0);
+        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $all["change_tea_num"] = count($tea);
+        $all["change_ass_num"] = count($ass);
+        foreach($tea as $v){
+            @$all["change_tea_all_num"] +=$v["num"];
+        }
+        foreach($ass as $v){
+            @$all["change_ass_all_num"] +=$v["num"];
+        }
+
         // $list_info = \App\Helper\Utils::list_to_page_info($ass);
         return $this->pageView(__METHOD__ ,null,[
             "tea"   =>$tea,
-            "ass"   =>$ass
+            "ass"   =>$ass,
+            "all"   =>$all
         ]);
 
         //dd($ass);
 
     }
+
+
+
+    public function get_refund_teacher_and_ass_info(){ // 统计老师和助教退费次数
+        $this->t_test_lesson_subject->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
+        // $start_time = strtotime(date("2017-01-05"));
+        // $end_time = strtotime(date("2017-05-01"));
+        $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
+        $tea= $ass=[];
+        foreach($ret as $item){
+            @$tea[$item["realname"]]["num"]++;
+            @$tea[$item["realname"]]["realname"] = $item["realname"];
+            @$tea[$item["realname"]]["teacherid"] = $item["old_teacherid"];
+
+            @$ass[$item["account"]]["num"]++;
+            @$ass[$item["account"]]["account"] = $item["account"];
+            @$ass[$item["account"]]["uid"] = $item["cur_require_adminid"];
+        }
+        \App\Helper\Utils::order_list( $tea,"num", 0);
+        \App\Helper\Utils::order_list( $ass,"num", 0);
+        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $all["change_tea_num"] = count($tea);
+        $all["change_ass_num"] = count($ass);
+        foreach($tea as $v){
+            @$all["change_tea_all_num"] +=$v["num"];
+        }
+        foreach($ass as $v){
+            @$all["change_ass_all_num"] +=$v["num"];
+        }
+
+        // $list_info = \App\Helper\Utils::list_to_page_info($ass);
+        return $this->pageView(__METHOD__ ,null,[
+            "tea"   =>$tea,
+            "ass"   =>$ass,
+            "all"   =>$all
+        ]);
+
+        //dd($ass);
+
+    }
+    
+
+
+
+
 
     public function get_change_teacher_detail_info(){
         $teacherid = $this->get_in_int_val("teacherid");
@@ -5835,26 +5892,45 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     }
 
     public function get_teacher_appoinment_lecture_info(){
-        $time = strtotime(date("2017-01-05"));
+        // $time = strtotime(date("2017-01-05"));
+
+        //  增加时间筛选
+
+        list($start_time,$end_time) = $this->get_in_date_range_month(0);
+        // dd($start_time);
+        $time = [
+            "start_time" => $start_time,
+            "end_time"   => $end_time
+        ];
+
+        // dd($time_arr);
+
         $this->t_teacher_lecture_info->switch_tongji_database();
         $this->t_teacher_lecture_appointment_info->switch_tongji_database();
         // $this->t_lesson_info_b2->switch_tongji_database();
         $this->t_teacher_info->switch_tongji_database();
+
         $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
         $fifth_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,5);
+
         $app_time = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_time($time);
         $app_time_avg = !empty($app_time["num"])?round($app_time["time"]/$app_time["num"]/86400,1):0;
+
         $lec_time = $this->t_teacher_lecture_info->get_tea_pass_time($time);
         $lec_time_avg =  !empty($lec_time["num"])?round($lec_time["time"]/$lec_time["num"]/86400,1):0;
+
         $tran_time = $this->t_teacher_lecture_info->get_tea_tran_pass_time($time);
         $tran_time_avg =  !empty($tran_time["num"])?round($tran_time["time"]/$tran_time["num"]/86400,1):0;
+
         $first_time =  $this->t_teacher_lecture_info->get_new_teacher_first_lesson_time($time);
         $first_time_avg =  round(($first_time["lesson_time"] - $first_time["confirm_time"])/86400,1);
+
         $fifth_time =  $this->t_teacher_lecture_info->get_new_teacher_fifth_lesson_time($time);
         $fifth_time_avg =  round(($fifth_time["lesson_time"] - $fifth_time["confirm_time"])/86400,1);
-        $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info();
+
+        $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info($time);
 
         return $this->pageView(__METHOD__,null,[
             "ret"   =>$ret,

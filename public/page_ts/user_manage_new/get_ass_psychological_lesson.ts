@@ -26,8 +26,8 @@ $(function(){
     //实例化一个plupload上传对象
     var uploader = $.plupload_Uploader({
         browse_button : 'id_upload_xls', //触发文件选择对话框的按钮，为那个元素id
-       // url : '/ss_deal/upload_psychological_lesson_from_xls', //服务器端的上传页面地址
-        url : '/ss_deal/upload_lecture_from_xls', //服务器端的上传页面地址
+        url : '/ss_deal/upload_psychological_lesson_from_xls', //服务器端的上传页面地址
+       // url : '/ss_deal/upload_lecture_from_xls', //服务器端的上传页面地址
         flash_swf_url : '/js/qiniu/plupload/Moxie.swf', //swf文件，当需要使用swf方式进行上传时需要配置该参数
         silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
         filters: {
@@ -73,10 +73,13 @@ $(function(){
             }
             var start_time= calEvent.start_time;
             var id_userid     = $("<input/>");
+            var id_lesson_name     = $("<select/>");
             
+            Enum_map.append_option_list("psychological_lesson_name_list", id_lesson_name,true);
 
             var arr = [               
                 [ "userid",   id_userid] ,
+                ["课程名字",id_lesson_name]
             ];
 
             $.show_key_value_table("排课", arr ,{
@@ -85,9 +88,10 @@ $(function(){
                 action: function(dialog) {
                     $.do_ajax( '/user_manage_new/set_psychological_lesson',{
                         'lesson_start'   : calEvent.lesson_start,
-                        'lesson_end'   : calEvent.lesson_end,
-                        "tea_list"  : calEvent.tea_list,
-                        'userid'     : id_userid.val()
+                        'lesson_end'     : calEvent.lesson_end,
+                        "tea_list"       : calEvent.tea_list,
+                        'userid'         : id_userid.val(),
+                        'lesson_name'    : id_lesson_name.val()
                     });
                 }
             },function(){

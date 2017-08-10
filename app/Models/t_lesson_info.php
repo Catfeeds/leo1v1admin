@@ -1063,12 +1063,12 @@ lesson_type in (0,1) "
             E\Econtract_type::V_0,
             E\Econtract_type::V_1,
             E\Econtract_type::V_3,
-            E\Econtract_type::V_1003
         ]);
         $where_arr=[
             $lesson_status,
             $lesson_type,
             "confirm_flag not in (2,4)" ,
+            "lesson_del_flag=0"
         ];
         $sql = $this->gen_sql("select sum(lesson_count) from %s where userid = %u and %s ",
                               self::DB_TABLE_NAME,

@@ -18,10 +18,11 @@ class menu{
                     ["power_id"=>6, "name"=>"手机电话",   "url"=>"/user_manage_new/notify_phone"]
                 ]
                 ],
-                ["power_id"=>9, "name"=>"转介绍", "list"=> [
-                    ["power_id"=>10, "name"=>"转介绍列表",   "url"=>"/agent/agent_list"],
-                    ["power_id"=>8, "name"=>"转介绍订单",   "url"=>"/agent/agent_order_list"],
-                    ["power_id"=>11, "name"=>"转介绍提现列表",   "url"=>"/agent/agent_cash_list"],
+                ["power_id"=>9, "name"=>"优学优享", "list"=> [
+                    ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
+                    ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
+                    ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
                     ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
                 ]
                 ],
@@ -339,6 +340,7 @@ class menu{
                     ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
                 ]],
                 ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
+                ["power_id"=>67, "name"=>"试卷管理",   "url"=>"/t_yxyx_test_pic_info/all_list"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],
@@ -741,6 +743,7 @@ class menu{
 
                     ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
                     ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
+                    ["power_id"=>23, "name"=>"老师/助教退费责任统计",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
                     ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                     ["power_id"=>8,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],

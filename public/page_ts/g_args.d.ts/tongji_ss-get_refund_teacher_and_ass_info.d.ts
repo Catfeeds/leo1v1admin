@@ -18,10 +18,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_teacher_appoinment_lecture_info.ts
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_refund_teacher_and_ass_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-get_teacher_appoinment_lecture_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_refund_teacher_and_ass_info.d.ts" />
 
 $(function(){
     function load_data(){
