@@ -13,33 +13,15 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	main_type	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
-	main_type_str	:any;
-	lesson_per	:any;
-	order_per	:any;
-	finish_per	:any;
-	finish_personal_per	:any;
-	duration_count_for_day	:any;
-	ave_price_for_month	:any;
-	los_money	:any;
-	los_personal_money	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../user_manage_new; vi  ../user_manage_new/seller_tongji_report_info.ts
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_refund_teacher_and_ass_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/user_manage_new-seller_tongji_report_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_refund_teacher_and_ass_info.d.ts" />
 
 $(function(){
     function load_data(){

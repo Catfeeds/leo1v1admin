@@ -407,10 +407,14 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+
         }else{
-            $time_str = "l.confirm_time>$time";
         }
+
+        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_str = "l.confirm_time>$time_begin";
+
 
         $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "
                                   ." from %s al left join %s l on al.phone = l.phone and %s"
@@ -435,10 +439,16 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            // $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+
         }else{
-            $time_str = "l.confirm_time>=$time";
+            // $time_str = "l.confirm_time>=$time";
         }
+
+        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_str = "l.confirm_time>$time_begin";
+
 
 
         $sql = $this->gen_sql_new("select  distinct t.teacherid"
@@ -461,25 +471,33 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
     public function get_teacher_lecture_time($time){
 
+        $time_limit_str = '';
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            // $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            // $this->where_arr_add_time_range($where_arr,"al.answer_begin_time",$start_time,$end_time);
+            $time_limit_str = "(al.answer_begin_time>=$start_time and al.answer_begin_time<$end_time)";
+
         }else{
-            $time_str = "l.confirm_time>=$time";
+            // $time_str = "l.confirm_time>=$time";
         }
+
+        $time_begin = strtotime(date("2017-01-05")); // 
+        $time_str = "l.confirm_time>$time_begin";
 
 
 
         $sql = $this->gen_sql_new("select count(*) num,sum(l.add_time -al.answer_begin_time) time "
                                   ." from %s al join %s l on al.phone = l.phone and %s"
                                   ." where al.answer_begin_time = (select min(answer_begin_time) from %s where phone = al.phone)"
-                                  ." and l.add_time = (select max(add_time) from %s where phone = l.phone) and l.add_time>0 and al.answer_begin_time >0",
+                                  ." and l.add_time = (select max(add_time) from %s where phone = l.phone) and l.add_time>0 and al.answer_begin_time >0 and %s ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
                                   $time_str,
                                   self::DB_TABLE_NAME,
-                                  t_teacher_lecture_info::DB_TABLE_NAME
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  $time_limit_str
         );
         return $this->main_get_row($sql);
     }

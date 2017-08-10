@@ -25,7 +25,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading">
-                        被换老师详情
+                        老师退费详情
                     </div>
                     <div class="panel-body">
                         <table   class="table table-bordered "   >
@@ -66,7 +66,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="panel panel-warning"  >
                     <div class="panel-heading">
-                        助教换老师详情
+                        助教退费详情
                     </div>
                     <div class="panel-body">
                         <table   class="table table-bordered "   >

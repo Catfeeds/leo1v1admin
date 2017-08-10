@@ -757,7 +757,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_research_teacher_test_lesson_info($start_time,$end_time,$tea_arr){
-        $confirm_time = strtotime(date("2017-01-05"));
+        $confirm_time = strtotime(date("2017-01-05")); // 
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
