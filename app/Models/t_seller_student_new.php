@@ -1845,7 +1845,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             '',//test_lesson_count
             '',//succ_test_lesson_count
         ];
-        $sql = "select s.userid,s.phone "
+        // $sql = "select s.userid,s.phone "
+        $sql = "select a.phone "
             // $sql = "select origin as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count,"
             // ."sum(global_tq_called_flag=0 and seller_student_status =0  ) no_call_count,"
             // ."sum(n.admin_revisiterid >0) assigned_count,sum( t.seller_student_status = 1) invalid_count,"
