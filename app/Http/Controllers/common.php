@@ -786,7 +786,7 @@ class common extends Controller
     }
 
     /**
-     * 优学优享 我要邀请生成二维码图片
+     * 优学优享 邀请学员生成二维码图片
      */
     public function get_agent_qr(){
         $wx_openid = $this->get_in_str_val("wx_openid");
@@ -804,7 +804,7 @@ class common extends Controller
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
             // $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
-            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone;
+            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
@@ -816,7 +816,7 @@ class common extends Controller
                $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
-            }           
+            }
             \App\Helper\Utils::logger('img4:'.$image_4);
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
@@ -849,6 +849,57 @@ class common extends Controller
         $file_url = $qiniu_url."/".$file_name;
         return $file_url;
     }
+
+    /**
+     * 优学优享 邀请会员生成二维码图片
+     */
+    public function get_agent_qr_new(){
+        $wx_openid = $this->get_in_str_val("wx_openid");
+        $row = $this->t_agent->get_agent_info_by_openid($wx_openid);
+        $phone = '';
+        if(isset($row['phone'])){
+            $phone = $row['phone'];
+        }
+        if(!$phone || $wx_openid==""){
+            return "";
+        }
+        $qiniu         = \App\Helper\Config::get_config("qiniu");
+        $phone_qr_name = $phone."_qr_agent_new_bb.png";
+        $qiniu_url     = $qiniu['public']['url'];
+        $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
+        if(!$is_exists){
+            $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone."&type=2";
+            $qr_url       = "/tmp/".$phone.".png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
+            $agent_qr_url = "/tmp/".$phone_qr_name;
+
+            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            $image_2 = imagecreatefrompng($qr_url);     //二维码
+            $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
+            imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
+            imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
+            imagepng($image_3,$agent_qr_url);
+
+            $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
+            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
+
+            if($file_name!=''){
+                $cmd_rm = "rm /tmp/".$phone."*.png";
+                \App\Helper\Utils::exec_cmd($cmd_rm);
+            }
+
+            imagedestroy($image_1);
+            imagedestroy($image_2);
+            imagedestroy($image_3);
+        }else{
+            $file_name=$phone_qr_name;
+        }
+
+        $file_url = $qiniu_url."/".$file_name;
+        return $file_url;
+    }
+
+
 
     public function send_charge_info(){
         $orderid = $this->get_in_int_val("orderid");
