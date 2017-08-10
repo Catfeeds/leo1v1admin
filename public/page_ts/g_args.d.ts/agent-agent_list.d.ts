@@ -1,4 +1,9 @@
 interface GargsStatic {
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
 	userid:	number;
 	phone:	string;
 	grade:	number;//App\Enums\Egrade
@@ -64,6 +69,11 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			date_type_config:	$('#id_date_type_config').val(),
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val(),
 			userid:	$('#id_userid').val(),
 			phone:	$('#id_phone').val(),
 			grade:	$('#id_grade').val(),
@@ -85,6 +95,16 @@ $(function(){
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
 
+    $('#id_date_range').select_date_range({
+        'date_type' : g_args.date_type,
+        'opt_date_type' : g_args.opt_date_type,
+        'start_time'    : g_args.start_time,
+        'end_time'      : g_args.end_time,
+        date_type_config : JSON.parse( g_args.date_type_config),
+        onQuery :function() {
+            load_data();
+        }
+    });
 	$('#id_userid').val(g_args.userid);
 	$('#id_phone').val(g_args.phone);
 	$('#id_grade').val(g_args.grade);
