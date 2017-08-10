@@ -2233,6 +2233,7 @@ class ss_deal extends Controller
 
             }
 
+            dd($arr);
             foreach($arr as $item){
                 $day = strtotime($item[0]);
                 $this->t_psychological_teacher_time_list->row_insert([

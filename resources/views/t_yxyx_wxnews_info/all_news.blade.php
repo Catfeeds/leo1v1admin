@@ -48,7 +48,7 @@
                         <td><img src="{{$var["pic"]}}" height="100"></td>
                         <td>{{$var["new_link"]}}</td>
                         <td>{{$var["create_time"]}}</td>
-                        <td>{{$var["adminid"]}}</td>
+                        <td>{{$var["account"]}}</td>
                         <td>{{$var["wxnew_type_str"]}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
@@ -71,7 +71,6 @@
 		            </tr>
                 <tr>
 			              <td style="text-align:right; width:30%;">新闻描述</td>
-			              <!-- <td><input value="" class="add_des" type="text"/></td> -->
 			              <td>
                         <textarea class="add_des" cols="5"></textarea>
                     </td>
