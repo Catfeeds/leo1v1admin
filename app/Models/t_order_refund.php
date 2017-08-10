@@ -444,7 +444,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
                                   ." left join %s oc on ra.configid = oc.id"
                                   ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
-                                  ." where %s order by r.orderid,r.apply_time",
+                                  ." where %s group by t.teacherid order by r.orderid,r.apply_time",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
