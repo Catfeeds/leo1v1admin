@@ -1401,6 +1401,17 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_tea_pass_time($time){
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+        }else{
+            $time_str = "l.confirm_time>$time";
+        }
+
+
+
         $sql = $this->gen_sql_new("select count(*) num,sum(confirm_time - add_time) time from %s"
                                   ." where status = 1 and confirm_time >%u and confirm_time>add_time",
                                   self::DB_TABLE_NAME,

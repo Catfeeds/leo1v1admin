@@ -442,7 +442,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
 
         $sql = $this->gen_sql_new("select  distinct t.teacherid"
-                                  ." from %s al left join %s l on al.phone = l.phone and l.confirm_time >=%u"
+                                  ." from %s al left join %s l on al.phone = l.phone and %s"
                                   ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' and t.train_through_new=1 "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
@@ -460,13 +460,24 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
     public function get_teacher_lecture_time($time){
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+        }else{
+            $time_str = "l.confirm_time>$time";
+        }
+
+
+
         $sql = $this->gen_sql_new("select count(*) num,sum(l.add_time -al.answer_begin_time) time "
-                                  ." from %s al join %s l on al.phone = l.phone and l.confirm_time >=%u"
+                                  ." from %s al join %s l on al.phone = l.phone and %s"
                                   ." where al.answer_begin_time = (select min(answer_begin_time) from %s where phone = al.phone)"
                                   ." and l.add_time = (select max(add_time) from %s where phone = l.phone) and l.add_time>0 and al.answer_begin_time >0",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
-                                  $time,
+                                  $time_str,
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME
         );

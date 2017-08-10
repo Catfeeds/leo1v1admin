@@ -51,6 +51,11 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td>总计</td>
+                                    <td>老师总数:{{$all["tea_num"]}}/换老师数:{{$all["change_tea_num"]}}</td>
+                                    <td>{{$all["change_tea_all_num"]}}</td>
+                                </tr>
 
                             </tbody>
                         </table>
@@ -83,6 +88,11 @@
                                        
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td>总计</td>
+                                    <td>助教总数:{{$all["ass_num"]}}/换老师助教数:{{$all["change_ass_num"]}}</td>
+                                    <td>{{$all["change_ass_all_num"]}}</td>
+                                </tr>
 
                             </tbody>
                         </table>
