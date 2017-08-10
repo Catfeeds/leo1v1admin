@@ -113,7 +113,7 @@ class test_boby extends Controller
         dd($ret_info);
     }
 
-    //七月份
+    //七月份 同一ip的不同签单的家长电话
     public function get_id_info(){
         if ( !$this->get_in_str_val("boby")) {
                 exit; 
@@ -121,7 +121,8 @@ class test_boby extends Controller
         $start_time = strtotime('2017-07-01');
         $end_time  = strtotime('2017-08-01');
         $ret_info  = $this->t_order_info->get_order_group_by_id($start_time, $end_time);
-        $list = $this->t_order_info->get_phont_by_ip();
+        $list  = $this->t_order_info->get_order_group_by_id(1, time());
+        // $list = $this->t_order_info->get_phont_by_ip();
         // dd($list);
         $newarr = [];
         foreach ($list as $v){

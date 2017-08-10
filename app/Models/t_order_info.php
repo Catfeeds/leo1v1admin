@@ -2563,7 +2563,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ['pay_time>= %s', $start_time, 0],
             ['pay_time<%s', $end_time, 0],
+            "o.contract_type in (0,3)",
+            "o.contract_status >0"
         ];
+
         $sql = $this->gen_sql_new("select distinct ll.ip ,p.phone"
                                   ." from %s o"
                                   ." left join %s ll on ll.userid=o.userid"
@@ -2576,7 +2579,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_parent_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        // dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_phont_by_ip() {
