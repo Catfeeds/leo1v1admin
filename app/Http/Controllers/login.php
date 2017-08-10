@@ -29,11 +29,9 @@ class login extends Controller
 
             \App\Helper\Utils::logger("list_show1: ".json_encode($item['list']));
 
-            $tmp=$this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
             \App\Helper\Utils::logger("hhh33: ".json_encode($tmp));
-
-            // $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
 
 
             if($tmp) {
@@ -45,14 +43,9 @@ class login extends Controller
                     // $menu_str.=$tmp[0];
 
                     // 修改
-                    if ( substr($item_name,0,13)== "教学管理-"  ) {
-                        \App\Helper\Utils::logger("name_jiaoxue41: $item_name");
-
-                        $role_item_count++;
+                    if ( substr($item_name,0,7)== "角色-"  ) {
                         $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
-                        \App\Helper\Utils::logger("sjkd: $role_item_count");
-
                     }else{
                         $role_str.=$tmp[0];
                     }
@@ -83,7 +76,7 @@ class login extends Controller
 
     function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
         \App\Helper\Utils::logger("do1:".$node["name"]);
-        
+
         if (isset($node["list"])) {
             \App\Helper\Utils::logger("if3333");
 
@@ -103,6 +96,7 @@ class login extends Controller
                     }
                 }
             }
+            // if ($add_count>0 && $item_1) {
             if ($add_count==1 && $item_1) {
                 $sub_list_str.= $item_1;
             }else{
@@ -118,7 +112,7 @@ class login extends Controller
 
         }else{
 
-            \App\Helper\Utils::logger("else1222");
+            // \App\Helper\Utils::logger("uehbhd:".$node['name']);
 
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
@@ -130,12 +124,11 @@ class login extends Controller
                     $icon="fa-circle-o";
                 }
 
-
                 return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
 
-                //\App\Helper\Utils::logger("do:".$node["name"].":null--$power_id");
+                // \App\Helper\Utils::logger("do222:".$node["name"].":null-$check_powerid");
                 return "";
             }
         }
@@ -301,7 +294,9 @@ class login extends Controller
         $menu_html ="";
 
         $accountid = $this->get_account_id();
-        if($accountid == 99){
+
+        // coco ted
+        if($accountid == 478 || $accountid == 72 || $accountid == 99){
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 

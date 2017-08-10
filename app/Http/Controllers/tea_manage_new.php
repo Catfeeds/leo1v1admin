@@ -391,10 +391,12 @@ class tea_manage_new extends Controller
             }
             $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($val["stu_request_lesson_time_info"], true);
             $str_arr=[];
-            foreach ($stu_request_lesson_time_info as $p_item) {
-                $str_arr[]=E\Eweek::get_desc($p_item["week"])." "
-                    .date('H:i',@$p_item["start_time"])
-                    .date('~H:i', $p_item["end_time"]);
+            if(is_array($stu_request_lesson_time_info)){
+                foreach ($stu_request_lesson_time_info as $p_item) {
+                    $str_arr[]=E\Eweek::get_desc($p_item["week"])." "
+                        .date('H:i',@$p_item["start_time"])
+                        .date('~H:i', $p_item["end_time"]);
+                }
             }
 
             $val["stu_request_lesson_time_info_str"]= join("<br/>", $str_arr);
@@ -412,6 +414,13 @@ class tea_manage_new extends Controller
         $this->set_in_value("accept_adminid_flag",1);
         return $this->get_seller_require_commend_teacher_info();
     }
+    public function get_seller_require_commend_teacher_info_ass(){
+        $adminid = $this->get_account_id();
+        $this->set_in_value("adminid",$adminid);
+        $this->set_in_value("accept_adminid_flag",1);
+        return $this->get_seller_require_commend_teacher_info();
+    }
+
 
     
     public function get_seller_ass_record_info(){       

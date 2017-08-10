@@ -2602,7 +2602,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
         $where_arr=[
-          ['o.assistantid=%d', $assistantid, 0],
+          ['o.assistantid=%d', $assistantid, -1],
           'o.lesson_count_left>0',
           's.status=2',
           ["create_time>=%u", $start_time, -1 ],

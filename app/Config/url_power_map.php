@@ -397,6 +397,7 @@ class url_power_map {
 			'/teacher_feedback/teacher_feedback_list_ass'	=>1125200,
 			'/user_manage/refund_list_ass'	=>1129200,
 			'/user_manage_new/get_ass_change_teacher_info_ass'	=>1129300,
+			'/tea_manage_new/get_seller_require_commend_teacher_info_ass'	=>1127100,
 			'/tea_manage_new/get_seller_ass_record_info_ass'	=>1129400,
 			'/user_manage/graduating_lesson_time'	=>1127400,
 			'/user_manage/no_type_student_score'	=>1129500,

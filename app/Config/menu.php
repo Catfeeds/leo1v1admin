@@ -598,6 +598,7 @@ class menu{
                 ["power_id"=>52, "name"=>"老师反馈","url"=>"/teacher_feedback/teacher_feedback_list_ass"],
                 ["power_id"=>92, "name"=>"助教-退款",   "url"=>"/user_manage/refund_list_ass"],
                 ["power_id"=>93, "name"=>"更换老师申请列表",   "url"=>"/user_manage_new/get_ass_change_teacher_info_ass"],
+                ["power_id"=>71, "name"=>"申请推荐老师列表",  "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_ass"],
                 ["power_id"=>94, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_ass"],
 
                 ["power_id"=>74, "name"=>"毕业班课时统计",   "url"=>"/user_manage/graduating_lesson_time"],

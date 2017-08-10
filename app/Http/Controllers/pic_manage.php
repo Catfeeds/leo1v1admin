@@ -14,7 +14,6 @@ class pic_manage extends Controller
         $page_num  = $this->get_in_page_num();
 
         $ret_info  = $this->t_pic_manage_info->get_pic_info_list($type,$usage_type,$page_num);
-        
 
         foreach($ret_info["list"] as &$item){
             E\Epic_type::set_item_value_str($item,"type");
@@ -57,6 +56,7 @@ class pic_manage extends Controller
         $title_share = $this->get_in_str_val('title_share');
         $info_share  = $this->get_in_str_val('info_share');
         $jump_url    = $this->get_in_str_val('jump_url');
+        $jump_type   = $this->get_in_int_val('jump_type');
 
         $start = strtotime($start_time);
         $end   = strtotime("+1 day",strtotime($end_time));
@@ -64,7 +64,7 @@ class pic_manage extends Controller
         $ret_info=$this->t_pic_manage_info->add_pic_info($opt_type,$id,$name,$type,$usage_type,
                                                          $pic_url,$tag_url,$click_status,$order_by,$grade,
                                                          $subject,$start,$end,$title_share,$info_share,
-                                                         $jump_url);
+                                                         $jump_url,$jump_type);
         return outputjson_success();
     }
 

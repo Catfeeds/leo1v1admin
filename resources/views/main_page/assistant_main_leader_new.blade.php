@@ -211,6 +211,7 @@
                                             <td>小组</td>
                                             <td>在册学员</td>
                                             <td>有效学员</td>
+                                            <td>在读学员</td>
                                             <td>结课学员</td>
                                             <td>停课学员(本月)</td>
                                             <td>退费人数</td>
@@ -236,6 +237,7 @@
                                                 <td  > {{@$var["account"]}}组 </td> 
                                                 <td>{{@$var["all_student"]}} </td>
                                                 <td>{{@$var["read_student_last"]}} </td>
+                                                <td>{{@$var["lesson_student"]}} </td>
                                                 <td>{{@$var["end_stu_num"]}} </td>
                                                 <td>{{@$var["month_stop_student"]}} </td>
                                                 <td>{{@$var["refund_student"]}} </td>
@@ -289,6 +291,7 @@
                                             <td>助教</td>
                                             <td>在册学员</td>
                                             <td>有效学员</td>
+                                            <td>在读学员</td>
                                             <td>结课学员</td>
                                             <td>停课学员(本月)</td>
                                             <td>退费人数</td>
@@ -317,6 +320,7 @@
                                                 <td  > {{@$var["nick"]}} </td> 
                                                 <td>{{@$var["all_student"]}} </td>
                                                 <td>{{@$var["read_student_last"]}} </td>
+                                                <td>{{@$var["lesson_student"]}} </td>
                                                 <td>{{@$var["end_stu_num"]}} </td>
                                                 <td>{{@$var["month_stop_student"]}} </td>
                                                 <td>{{@$var["refund_student"]}} </td>

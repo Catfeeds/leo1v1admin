@@ -146,6 +146,7 @@
                             data-type="{{$var["type_str"]}}"
                             data-phone="{{$var["phone"]}}"
                             data-grade="{{$var["grade"]}}"
+                            data-location="{{$var["location"]}}"
 
                         >
                             <a class="fa-user opt-user " title="个人信息" ></a>
