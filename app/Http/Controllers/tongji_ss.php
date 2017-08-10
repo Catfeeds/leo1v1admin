@@ -4525,7 +4525,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $item_tec['num'] = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$item_tec['teacherid']);
         }
 
-        dd($ret_tec);
+        // dd($ret_tec);
 
         // $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
 
