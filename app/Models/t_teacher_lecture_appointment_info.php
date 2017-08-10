@@ -405,9 +405,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         ];
 
         if(is_array($time)){
-            $this->where_arr_add_time_range($where_arr,"l.confirm_time",$start_time,$end_time);
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "l.confirm_time>$start_time and l.confirm_time < $end_time ";
+
+            // $this->where_arr_add_time_range($where_arr,"l.confirm_time",$start_time,$end_time);
         }else{
-            // $where_arr[] = ["l.confirm_time>%u",$time];
+            $time_str = "l.confirm_time>$time";
         }
 
         $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "
