@@ -11,31 +11,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
-        if($type == 1){
-            $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
-        }
+        // if($type == 1){
+            // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        // }
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
-        /*
-          $where_arr = [
-          'n.admin_revisiterid >0',//assigned_count 
-          'tmk_student_status=3',//tmk_assigned_count
-          'global_tq_called_flag=0',//tq_no_call_count
-          'global_tq_called_flag <>0',//tq_called_count
-          'global_tq_called_flag =1',//tq_call_fail_count
-          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count
-          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count
-          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count
-          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count
-          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count
-          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count
-          '',//require_count
-          '',//test_lesson_count
-          '',//succ_test_lesson_count
-          ];
-         */
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"

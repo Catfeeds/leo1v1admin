@@ -359,7 +359,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
 
 
-    public function get_ass_refund_count($start_time,$end_time){ // 得到助教退费次数
+    public function get_ass_refund_info_by_qc($start_time,$end_time){ // 得到助教退费次数
         $where_arr = [
             "ra.id is not null",
             "m.uid >0",
@@ -426,7 +426,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
 
 
-    public function get_tec_refund_count($start_time,$end_time){
+    public function get_tec_refund_info_by_qc($start_time,$end_time){
         $where_arr = [
             "ra.id is not null",
             "t.teacherid >0",
@@ -435,7 +435,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
-        $sql = $this->gen_sql_new("select t.teacherid,occ.value,ra.score,r.orderid,s.nick "
+        $sql = $this->gen_sql_new("select t.teacherid,occ.value,ra.score,s.nick "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s o on r.orderid = o.orderid"

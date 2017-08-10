@@ -54,6 +54,7 @@
                          <td>支付宝姓名</td>
                          <td>支付宝账号</td> -->
                     <td>类型</td>
+                    <td>渠道</td>
                     <td>创建时间</td>
                     <td>操作</td>
                 </tr>
@@ -90,6 +91,7 @@
                         @else
                             <td>注册</td>
                         @endif
+                        <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
