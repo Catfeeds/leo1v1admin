@@ -69,7 +69,28 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           '',//require_count  type=14
           '',//test_lesson_count  type=15
           '',//succ_test_lesson_count   type=16
+          type = 14
+          ' tr.accept_flag = 1 ',
+          ' s.is_test_user=0 ',
+          ' tr.require_admin_type =2 ',
+          " s.origin = '优学优享' ",
           ];
+          type = 15
+          select s.origin  as check_value , count(*) as test_lesson_count,
+          sum(  success_flag in (0,1 ) ) as succ_test_lesson_count
+          from db_weiyi.t_test_lesson_subject_require tr
+
+          join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id
+          join db_weiyi.t_seller_student_new n  on t.userid=n.userid
+          join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid
+          join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid
+          join db_weiyi.t_student_info s on s.userid = l.userid
+
+          where s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')
+          and accept_flag=1
+          and is_test_user=0
+          and require_admin_type = 2
+
          */
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
@@ -96,6 +117,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
         }elseif($type == 13){ //有效意向(C)
             $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
+        }elseif($type == 14){ //预约数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2';
+        }elseif($type == 15){ //上课数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2';
+        }elseif($type == 16){ //试听成功数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and tr.require_admin_type =2 and l.lesson_user_online_status=1';
         }
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
@@ -105,13 +132,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s n on n.phone = a.phone"
                                  ." left join %s s on s.userid = n.userid"
                                  ." left join %s t on t.userid= n.userid "
+                                 ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+                                 ." left join %s tss on tss.lessonid = tr.current_lessonid"
+                                 ." left join %s l on l.lessonid = tss.lessonid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
-                                 ,t_test_lesson_subject::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
 
