@@ -1031,9 +1031,9 @@ class stu_manage extends Controller
         $ret_info = $this->t_revisit_info->get_revisit_list($page_num,$userid,$is_warning_flag);
         $domain = config('admin')['qiniu']['public']['url'];
         $num = strlen($domain)+1;
-
         foreach($ret_info['list'] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"revisit_time", "_str");
+            \App\Helper\Utils::unixtime2date_for_item($item,"recover_time", "_str");
             E\Erevisit_type::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
             E\Eset_boolean::set_item_value_str($item,"operation_satisfy_flag");
@@ -1059,6 +1059,18 @@ class stu_manage extends Controller
             $item["url"] = substr($item["warning_deal_url"],$num,$num_url-1);
             $item["master_adminid"] = $this->t_admin_group_user->get_master_adminid_by_adminid($item["uid"]);
 
+            $information_confirm = $item['information_confirm'];
+            $information_confirm = json_decode($information_confirm);
+            if(isset($information_confirm)){
+                if($information_confirm != ''){
+                    foreach ($information_confirm as $key => $value) {
+                        $value_de = trim($value, '{}');
+                        $value_arr = explode(':', $value_de);
+                        $item[$value_arr[0]] = $value_arr[1];
+                    }
+                }
+            }
+            
 
         }
         $adminid = $this->get_account_id();

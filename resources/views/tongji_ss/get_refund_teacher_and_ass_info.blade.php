@@ -43,19 +43,14 @@
                                         <td>{{$key+1}}</td>
                                         <td >
                                             <a  href="/human_resource/index_tea_qua?teacherid={{$var["teacherid"]}}" target="_blank" >
-                                                {{$var["realname"]}}
+                                                {{$var["nick"]}}
                                             </a>
                                         </td>
-                                        <td >
-                                            <a  href="javascript:;" class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
+                                        <td class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}' >
+                                            <a >{{$var["num"]}}</a>
                                         </td>
                                     </tr>
                                 @endforeach
-                                <tr>
-                                    <td>总计</td>
-                                    <td>老师总数:{{$all["tea_num"]}}/换老师数:{{$all["change_tea_num"]}}</td>
-                                    <td>{{$all["change_tea_all_num"]}}</td>
-                                </tr>
 
                             </tbody>
                         </table>
@@ -83,16 +78,11 @@
                                         <td>{{$key+1}}</td>
                                         <td > {{$var["account"]}} </td>
                                         <td >
-                                            <a  href="javascript:;" class="ass_num" data-adminid='{{@$var["uid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
+                                            <a  href="javascript:;" class="num" data-adminid='{{@$var["uid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
                                         </td>
 
                                     </tr>
                                 @endforeach
-                                <tr>
-                                    <td>总计</td>
-                                    <td>助教总数:{{$all["ass_num"]}}/换老师助教数:{{$all["change_ass_num"]}}</td>
-                                    <td>{{$all["change_ass_all_num"]}}</td>
-                                </tr>
 
                             </tbody>
                         </table>

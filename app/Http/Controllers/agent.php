@@ -118,6 +118,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $ret = $this->t_agent->get_agent_info_by_phone($phone = '18017565572');
+        dd($ret);
         $ret_in_str=$this->t_seller_student_new->get_seller_yxyx();
         $phone_new = array_column($ret_in_str,'phone');
         $ret_info = $this->t_agent->get_test_new();

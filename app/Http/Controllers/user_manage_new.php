@@ -3668,4 +3668,62 @@ class user_manage_new extends Controller
 
     }
 
+    public function merge_order(){
+        $orderid      = $this->get_in_int_val("orderid");
+        $orderid_goal = $this->get_in_int_val("orderid_goal");
+        $acc          = $this->get_account();
+
+        $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
+        $order_goal_info = $this->t_order_info->get_order_info_by_orderid($orderid_goal);
+
+        if(!in_array($acc,['adrian',"jim"])){
+            return $this->output_err("没有权限合并合同！");
+        }
+        if($order_info['userid'] != $oder_goal_info['userid']){
+            return $this->output_err("两个合同不是同一个学生！");
+        }
+        if($order_info['contract_status']>1 || !in_array($order_info['contract_type'],[0,3])){
+            return $this->output_err("此合同类型或状态出错！");
+        }
+        if($order_goal_info['contract_status']>1 || !in_array($order_goal_info['contract_type'],[0,3])){
+            return $this->output_err("目标合同类型或状态出错！");
+        }
+
+
+        $order_goal_info['price'] += $order_info['price'];
+        $order_goal_info['discount_price'] += $order_info['discount_price'];
+        $order_goal_info['promotion_discount_price'] += $order_info['promotion_discount_price'];
+        $order_goal_info['promotion_spec_discount'] += $order_info['promotion_spec_discount'];
+        $order_goal_info['lesson_left']+=$order_info['lesson_left'];
+        $lesson_total      = $order_info['lesson_total']*$order_info['default_lesson_count'];
+        $lesson_goal_total = $order_goal_info['lesson_total']*$order_goal_info['default_lesson_count'];
+        $lesson_goal_total += $lesson_total;
+
+        $this->t_order_info->start_transaction();
+        $ret = $this->t_order_info->field_update_list($orderid_goal,[
+            'price'                    => $order_goal_info['price'],
+            'discount_price'           => $order_goal_info['discount_price'],
+            'promotion_spec_discount'  => $order_goal_info['promotion_spec_discount'],
+            'promotion_discount_price' => $order_goal_info['promotion_discount_price'],
+            'lesson_left'              => $order_goal_info['lesson_left'],
+            'lesson_total'             => $lesson_goal_total,
+            'default_lesson_count'     => 1,
+        ]);
+        if(!$ret){
+            $this->t_order_info->rollback();
+            return $this->output_err("合并失败！");
+        }
+        $ret = $this->t_order_info->row_delete($orderid);
+        if(!$ret){
+            $this->t_order_info->rollback();
+            return $this->output_err("原合同删除失败！");
+        }
+
+        $this->t_order_info->commit();
+        return $this->output_succ();
+    }
+
+
+
+
 }

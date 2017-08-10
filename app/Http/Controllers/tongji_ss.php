@@ -4509,43 +4509,24 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $this->t_test_lesson_subject->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
 
-        $start_time = '1482832684';
-        $end_time = '1502337851';
-        $ret_ass = $this->t_order_refund->get_ass_refund_count($start_time,$end_time);
-        dd($ret_ass);
+        $ret_ass = $this->t_order_refund->get_ass_refund_info_by_qc($start_time,$end_time);
+        $ret_tec = $this->t_order_refund->get_tec_refund_info_by_qc($start_time,$end_time);
 
-        $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
-
-        $tea = $ass=[];
-        foreach($ret as $item){
-            @$tea[$item["realname"]]["num"]++;
-            @$tea[$item["realname"]]["realname"] = $item["realname"];
-            @$tea[$item["realname"]]["teacherid"] = $item["old_teacherid"];
-
-            @$ass[$item["account"]]["num"]++;
-            @$ass[$item["account"]]["account"] = $item["account"];
-            @$ass[$item["account"]]["uid"] = $item["cur_require_adminid"];
-        }
-        \App\Helper\Utils::order_list( $tea,"num", 0);
-        \App\Helper\Utils::order_list( $ass,"num", 0);
-        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
-        $all["change_tea_num"] = count($tea);
-        $all["change_ass_num"] = count($ass);
-        foreach($tea as $v){
-            @$all["change_tea_all_num"] +=$v["num"];
-        }
-        foreach($ass as $v){
-            @$all["change_ass_all_num"] +=$v["num"];
+        foreach($ret_ass as $index_ass => &$item_ass){
+            $item_ass['num'] = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$item_ass['uid']);
         }
 
-        // $list_info = \App\Helper\Utils::list_to_page_info($ass);
+        foreach($ret_tec as $index_tec => &$item_tec){
+            $item_tec['num'] = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$item_tec['teacherid']);
+        }
+        dd($ret_tec);
+
+        \App\Helper\Utils::order_list( $ret_tec,"num", 0);
+        \App\Helper\Utils::order_list( $ret_ass,"num", 0);
         return $this->pageView(__METHOD__ ,null,[
-            "tea"   =>$tea,
-            "ass"   =>$ass,
-            "all"   =>$all
+            "tea"   =>$ret_tec,
+            "ass"   =>$ret_ass,
         ]);
-
-        //dd($ass);
 
     }
 

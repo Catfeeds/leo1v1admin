@@ -249,6 +249,42 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         );
         return $this->main_get_row($sql);
     }
+    public function get_lecture_info_by_all_new($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject="",$status=-1){
+        $where_arr=[
+            ["tl.subject=%u",$subject,-1],
+            ["tl.add_time >= %u",$start_time,-1],
+            ["tl.add_time < %u",$end_time,-1],
+            "(tl.account <> 'adrian' && tl.account <> 'alan' && tl.account <> 'jack')",
+            ["t.teacherid = %u",$teacher_account,-1],
+            ["tt.teacherid = %u",$reference_teacherid,-1],
+            ["tl.identity = %u",$identity,-1],
+            "(tl.account is not null && tl.account <> '')",
+            "tl.is_test_flag =0"
+        ];
+        if(!empty($tea_subject)){
+            $where_arr[]="tl.subject in".$tea_subject;
+        }
+        if($status==-2){
+            $where_arr[]="tl.status <>4";
+        }else{
+            $where_arr[]= ["tl.status = %u",$status,-1];
+        }
+        $sql = $this->gen_sql_new("select tl.account,count(*) all_num,count(distinct tl.phone) all_count,count(distinct tl.phone) all_count_new,sum(if(tl.status=1,1,0)) suc_count,sum(if(tl.status<>4,1,0)) real_count,sum(tl.confirm_time) all_con_time,sum(tl.add_time) all_add_time from %s tl ".
+                                  " left join %s m on m.account = tl.account".
+                                  " left join %s t on m.phone = t.phone ".
+                                  " left join %s ta on tl.phone = ta.phone".
+                                  " left join %s tt on ta.reference = tt.phone ".
+                                  "where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
 
 
     public function get_lecture_info_by_reference_new($subject,$start_time,$end_time,$teacher_account,$reference_teacherid,$identity,$tea_subject=""){
@@ -323,6 +359,33 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             return $item["accept_adminid"];
         });
     }
+
+    public function get_lecture_info_by_zs_new($start_time,$end_time,$status=-1){
+        $where_arr=[
+            ["tl.add_time >= %u",$start_time,-1],
+            ["tl.add_time <= %u",$end_time,-1],
+            "tl.is_test_flag =0",
+            "tl.account <> 'adrian'",
+            "(tl.account is not null && tl.account <> '')",
+        ];
+        if($status==-2){
+            $where_arr[] = "tl.status <>4";
+        }else{
+            $where_arr[] = ["tl.status=%u",$status,-1];
+        }
+        $sql = $this->gen_sql_new("select la.accept_adminid , count(*) all_num,count(distinct tl.phone) all_count,count(distinct t.phone) tea_count,sum(if(status=1,1,0)) suc_count,sum(confirm_time-add_time) time_count from %s tl left join %s la on tl.phone = la.phone"
+                                  ." left join %s t on tl.phone = t.phone"
+                                  ." where %s  and la.accept_adminid >0  group by la.accept_adminid ",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
+    }
+
 
 
     public function get_lecture_info_by_grade($start_time,$end_time,$status=-1){
