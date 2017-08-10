@@ -2607,7 +2607,7 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
-        $start_time = strtotime("2017-08-10 17:00");
+        $start_time = strtotime("2017-08-07  21:30:00");
         dd($start_time);
         $end_time = strtotime("2017-09-01");
         $list= $this->t_psychological_teacher_time_list->get_info_by_time($start_time,$end_time);
