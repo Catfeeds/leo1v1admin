@@ -4511,15 +4511,22 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $start_time = '1482832684';
         $end_time = '1502337851';
-        $ret_ass = $this->t_order_refund->get_ass_refund_count($start_time,$end_time);
-        $ret_tec = $this->t_order_refund->get_tec_refund_count($start_time,$end_time);
-        dd($ret_tec);
+        $ret_ass = $this->t_order_refund->get_ass_refund_info_by_qc($start_time,$end_time);
+        $ret_tec = $this->t_order_refund->get_tec_refund_info_by_qc($start_time,$end_time);
         $tea = $ass=[];
 
         foreach($ret_ass as $index_ass => &$item_ass){
             // $ass[$item_ass['uid']][$item_ass] = $item_ass;
             $item_ass['num'] = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$item_ass['uid']);
         }
+
+
+        foreach($ret_tec as $index_tec => &$item_tec){
+            $item_tec['num'] = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$item_tec['teacherid']);
+        }
+
+        dd($ret_tec);
+
         // $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
 
         // foreach($ret as $item){
