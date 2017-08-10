@@ -5,21 +5,14 @@ $(function(){
     Enum_map.append_option_list("wxnew_type", $(".wxnew_type"));
     Enum_map.append_option_list("wxnew_type", $(".add_wxnew_type"), true);
     $(".wxnew_type").val(g_args.type);
-    // var set_select_option_list=function(){
-    //     Enum_map.append_child_option_list("wxnew_type", $(".wxnew_type"),$(".add_wxnew_type"));
-    //     $("body").on("change",".add_wxnew_type",function(){
-    //         Enum_map.append_child_option_list("wxnew_type", $(this),$(".add_wxnew_type"),true);
-    //     });
-    // };
-    // set_select_option_list();
-    function load_data(val){
+    function load_data(){
         $.reload_self_page({
             type : $(".wxnew_type").val(),
         });
     }
     //筛选
     $(".wxnew_type").on("change",function(){
-        load_data(-1);
+        load_data();
     });
 
     var do_add_or_update = function( opt_type, item ,id){
@@ -177,6 +170,4 @@ $(function(){
             }]
         });
     });
-
-
 });
