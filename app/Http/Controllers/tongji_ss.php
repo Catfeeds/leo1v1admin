@@ -5841,6 +5841,12 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         list($start_time,$end_time) = $this->get_in_date_range_month(0);
         // dd($start_time);
+        $time_arr = [
+            "start_time" => $start_time,
+            "end_time"   => $end_time
+        ];
+
+        // dd($time_arr);
 
         $this->t_teacher_lecture_info->switch_tongji_database();
         $this->t_teacher_lecture_appointment_info->switch_tongji_database();
@@ -5851,16 +5857,22 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
         $fifth_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,5);
+
         $app_time = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_time($time);
         $app_time_avg = !empty($app_time["num"])?round($app_time["time"]/$app_time["num"]/86400,1):0;
+
         $lec_time = $this->t_teacher_lecture_info->get_tea_pass_time($time);
         $lec_time_avg =  !empty($lec_time["num"])?round($lec_time["time"]/$lec_time["num"]/86400,1):0;
+
         $tran_time = $this->t_teacher_lecture_info->get_tea_tran_pass_time($time);
         $tran_time_avg =  !empty($tran_time["num"])?round($tran_time["time"]/$tran_time["num"]/86400,1):0;
+
         $first_time =  $this->t_teacher_lecture_info->get_new_teacher_first_lesson_time($time);
         $first_time_avg =  round(($first_time["lesson_time"] - $first_time["confirm_time"])/86400,1);
+
         $fifth_time =  $this->t_teacher_lecture_info->get_new_teacher_fifth_lesson_time($time);
         $fifth_time_avg =  round(($fifth_time["lesson_time"] - $fifth_time["confirm_time"])/86400,1);
+
         $tea_limit_info  = $this->t_teacher_info->get_freeze_and_limit_tea_info();
 
         return $this->pageView(__METHOD__,null,[

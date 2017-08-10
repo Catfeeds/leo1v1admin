@@ -404,8 +404,14 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr=[
         ];
 
+        if(is_array($time)){
+            $this->where_arr_add_time_range($where_arr,"l.confirm_time",$start_time,$end_time);
+        }else{
+            // $where_arr[] = ["l.confirm_time>%u",$time];
+        }
+
         $sql = $this->gen_sql_new("select count(distinct al.phone) app_total,count(distinct l.phone) lec_total,count(distinct t.teacherid) tea_total,count(distinct tt.teacherid) tran_total "
-                                  ." from %s al left join %s l on al.phone = l.phone and l.confirm_time >=%u"
+                                  ." from %s al left join %s l on al.phone = l.phone and %s"
                                   ." left join %s t on l.phone = t.phone and l.status=1 and t.is_test_user=0 and t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%' "
                                   ." left join %s tt on tt.teacherid = t.teacherid and tt.train_through_new=1"
                                   ." where %s",

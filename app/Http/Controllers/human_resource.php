@@ -2435,6 +2435,11 @@ class human_resource extends Controller
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
        
+        $acc= $this->t_teacher_record_list->get_acc($id);
+        $account = $this->get_account();
+        if($acc != $account){
+            return $this->output_err("您没有权限审核,审核人为".$acc);  
+        }
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
         $ret = $this->t_teacher_record_list->field_update_list($id,[
             "tea_process_design_score"         => $tea_process_design_score,
