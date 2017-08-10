@@ -175,13 +175,13 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         }
 
         $sql = $this->gen_sql_new("select s.origin_userid, s.userid, s.nick,s.realname, s.spree, s.phone, s.is_test_user, s.originid, s.origin, s.grade, s.praise, s.parent_name, s.parent_type, s.last_login_ip, s.last_lesson_time, s.last_login_time,s.assistantid, s.lesson_count_all, s.lesson_count_left, s.user_agent,seller_adminid,s.ass_assign_time ,s.reg_time,s.phone_location from %s s left join %s a on s.assistantid =a.assistantid ".
-                              " left join %s m on a.phone = m.phone".
-                              "  where  %s  %s  ",
-                              self::DB_TABLE_NAME,
-                              t_assistant_info::DB_TABLE_NAME,
-                              t_manager_info::DB_TABLE_NAME,
-                              $where_arr,
-                              $order_str
+                                  " left join %s m on a.phone = m.phone".
+                                  "  where  %s  %s  ",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $order_str
         );
         $ret_info = $this->main_get_list_by_page($sql,$page_num,10);
         foreach  (  $ret_info["list"] as &$item) {
@@ -644,12 +644,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function set_student_type($userid,$type,$is_auto_set_type_flag=0,$lesson_stop_reason="")
     {
         /*
-        $sql = sprintf("update %s set type = %u where userid = %u",
-                       self::DB_TABLE_NAME,
-                       $type,
-                       $userid
-        );
-       */
+          $sql = sprintf("update %s set type = %u where userid = %u",
+          self::DB_TABLE_NAME,
+          $type,
+          $userid
+          );
+        */
         $sql=$this->gen_sql("update %s set type='%s',is_auto_set_type_flag='%s',stu_lesson_stop_reason='%s' "
                             ." where userid='%u'",
                             self::DB_TABLE_NAME,
@@ -699,9 +699,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "(s.nick like '%%%s%%' or s.realname like '%%%s%%' or  s.phone like '%%%s%%' )",
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone));
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone));
         }
 
         $sql = $this->gen_sql_new("select s.userid as id , s.nick, ss.phone,s.gender,s.realname  "
@@ -721,9 +721,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "(nick like '%s%%' or realname like '%s%%' or  phone like '%s%%' )",
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone),
-                                    $this->ensql($nick_phone));
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone),
+                                  $this->ensql($nick_phone));
         }
 
         $sql = sprintf("select userid as id , nick, phone,gender,realname  from %s  where %s",
@@ -865,8 +865,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_userid_by_appstore($telphone){
         $sql=$this->gen_sql("select userid from %s where phone = '%s'",
-                     self::DB_TABLE_NAME,
-                     $telphone
+                            self::DB_TABLE_NAME,
+                            $telphone
         );
         return $this->main_get_value($sql);
     }
@@ -883,9 +883,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function set_spree_details($studentid,$spree){
         $sql = $this->gen_sql(" update %s set spree = '%s' where userid = %u ",
-                       self::DB_TABLE_NAME,
-                       $spree,
-                       $studentid
+                              self::DB_TABLE_NAME,
+                              $spree,
+                              $studentid
         );
         return $this->main_update($sql);
     }
@@ -1036,9 +1036,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_student_type_update($userid,$type) {
         /* if($type==1){
-            $end_time = $this->t_lesson_info_b2->get_stu_last_lesson_time($userid);
-            $this->t_student_info->field_update_list($userid,array('last_lesson_time'=>$end_time));
-            }*/
+           $end_time = $this->t_lesson_info_b2->get_stu_last_lesson_time($userid);
+           $this->t_student_info->field_update_list($userid,array('last_lesson_time'=>$end_time));
+           }*/
         return $this->t_student_info->field_update_list($userid,array('type'=>$type,'type_change_time'=>time()));
 
     }
@@ -1218,30 +1218,30 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if(!$ass_account) {
 
             /* $ass_account="cora";
-            $ret= $this->t_manager_info->send_wx_todo_msg  (
-                $ass_account,
-                "销售-$account",
-                "交接单 更新 || 合同生效",
-                "学生-$nick",
-                "/user_manage_new/ass_contract_list?studentid=$userid");*/
+               $ret= $this->t_manager_info->send_wx_todo_msg  (
+               $ass_account,
+               "销售-$account",
+               "交接单 更新 || 合同生效",
+               "学生-$nick",
+               "/user_manage_new/ass_contract_list?studentid=$userid");*/
 
             /*
-            $ass_account="jim";
-            $ret= $this->t_manager_info->send_wx_todo_msg  (
-                $ass_account,
-                "销售-$account",
-                "交接单 更新 || 合同生效",
-                "学生-$nick",
-                "/user_manage_new/ass_contract_list?studentid=$userid");
+              $ass_account="jim";
+              $ret= $this->t_manager_info->send_wx_todo_msg  (
+              $ass_account,
+              "销售-$account",
+              "交接单 更新 || 合同生效",
+              "学生-$nick",
+              "/user_manage_new/ass_contract_list?studentid=$userid");
             */
 
         }else{
             $ret= $this->t_manager_info->send_wx_todo_msg  (
-            $ass_account,
-            "销售-$account",
-            "交接单 更新",
-            "学生-$nick",
-            "/user_manage_new/ass_contract_list?studentid=$userid");
+                $ass_account,
+                "销售-$account",
+                "交接单 更新",
+                "学生-$nick",
+                "/user_manage_new/ass_contract_list?studentid=$userid");
         }
 
         $seller_adminid = $this->task->t_seller_student_new->get_admin_revisiterid($userid);
@@ -1696,7 +1696,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         });
 
 
-     }
+    }
 
     public function get_student_ass_info(){
         $sql= $this->gen_sql_new("select s.userid,m.uid from %s s".
@@ -1798,7 +1798,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             $ass_revisit_last_week_time,
             $userid,
             $ass_revisit_last_week_time
-            );
+        );
         return $this->main_update($sql);
     }
 
@@ -2071,15 +2071,15 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $this->where_arr_add_time_range($where_arr,"s.ass_assign_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new(" select m.uid, count(distinct s.userid) num "
-           ." from %s s  "
-           ." left join %s a on s.assistantid = a.assistantid "
-           ." left join %s m on a.phone = m.phone "
-           ." where %s"
-           ." group by m.uid",
-           self::DB_TABLE_NAME,
-           t_assistant_info::DB_TABLE_NAME,
-           t_manager_info::DB_TABLE_NAME,
-           $where_arr
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." where %s"
+                                  ." group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
         );
 
         return $this->main_get_list($sql,function($item){
@@ -2602,11 +2602,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
     public function get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time){
         $where_arr=[
-          ['o.assistantid=%d', $assistantid, 0],
-          'o.lesson_count_left>0',
-          's.status=2',
-          ["create_time>=%u", $start_time, -1 ],
-          ["create_time<=%u", $end_time, -1 ],
+            ['o.assistantid=%d', $assistantid, 0],
+            'o.lesson_count_left>0',
+            's.status=2',
+            ["create_time>=%u", $start_time, -1 ],
+            ["create_time<=%u", $end_time, -1 ],
         ];
         $sql = $this->gen_sql_new("select s.id, s.stu_score_type ,s.grade,s.create_time,s.userid, s.subject, s.status,s.month"
                                   ." from %s s"
@@ -2652,15 +2652,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             ['reg_time >=%s', $start_time, 0],
             ['reg_time <%s', $end_time, 0],
             "origin_userid>0",
+            "is_test_user=0",
+
         ];
-        $sql = $this->gen_sql_new("select distinct count(s.userid) as count,count(ts.userid) as succ, sum(if(require_admin_type=1,1,0)) as cr, sum(if(require_admin_type=0,1,0)) as cc"
-                           ." from %s s"
-                           ." left join %s ts on ts.userid=s.userid"
-                           ." where %s"
-                           ,self::DB_TABLE_NAME
-                           ,t_test_lesson_subject::DB_TABLE_NAME
-                           ,$where_arr
+        $sql = $this->gen_sql_new("select count(s.userid) as count,count(o.userid) as succ,"
+                                  ." sum(if(ts.require_admin_type=1,1,0)) as cr,"
+                                  ." sum(if(ts.require_admin_type=2,1,0)) as cc"
+                                  ." from %s s"
+                                  ." left join %s o on o.userid=s.userid "
+                                  ." and contract_type =0 and contract_status>0"
+                                  // ." left join %s tsl on tsl.orderid=o.orderid"
+                                  // ." left join %s tr on tr.require_id=tsl.require_id"
+                                  // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
+                                  ." left join %s ts on s.userid=ts.userid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
+                                  // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  // ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
         );
-            return $this->main_get_list($sql);
+        dd($sql);
+        return $this->main_get_list($sql);
     }
 }

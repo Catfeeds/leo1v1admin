@@ -11,14 +11,14 @@
         <div class="row">
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
-                    <span class="input-group-addon">图片类型</span>
-                    <select class="form-control type" >
+                    <span class="input-group-addon">新闻类型</span>
+                    <select class="form-control wxnew_type" >
                     </select>
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="input-group input-group-btn ">
-                    <button class="btn btn-primary add_new_info">添加数据</button>
+                    <button class="btn btn-primary add_new_info">添加新闻</button>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                         <td>{{$var["new_link"]}}</td>
                         <td>{{$var["create_time"]}}</td>
                         <td>{{$var["adminid"]}}</td>
-                        <td>{{$var["type"]}}</td>
+                        <td>{{$var["wxnew_type_str"]}}</td>
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-new_info" title="更改"></a>
@@ -93,7 +93,7 @@
                 <tr>
 			              <td style="text-align:right; width:30%;">新闻类型</td>
 			              <td>
-                        <select class="add_type " style="width:20%">
+                        <select class="add_wxnew_type" style="width:30%">
                         </select>
                     </td>
 		            </tr>
