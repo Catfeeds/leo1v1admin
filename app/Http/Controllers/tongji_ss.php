@@ -4518,7 +4518,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         foreach($ret_ass as $index_ass => &$item_ass){
             // $ass[$item_ass['uid']][$item_ass] = $item_ass;
-            // $item_ass['num'] = $
+            $item_ass['num'] = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$item_ass['uid']);
         }
         // $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
 
