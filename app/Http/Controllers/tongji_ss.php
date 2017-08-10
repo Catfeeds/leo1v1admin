@@ -606,7 +606,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $origin_level_map = [];
         $all_count        = count($data_list);
 
-
         foreach ($data_list as $a_item) {
             $subject      = $a_item["subject"];
             $grade        = $a_item["grade"];
@@ -624,7 +623,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
         $group_list = $this->t_admin_group_name->get_group_list(2);
-
+        // dd($ret_info);
+        $origin_type = 0;
+        if($origin_ex == '优学帮,,,'){
+            $origin_type = 1;
+        }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
             "grade_map"   => $grade_map,
@@ -633,6 +636,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             "area_map"    => $area_map,
             "group_list"  => $group_list,
             "field_name"  => $field_name,
+            "origin_type"  => $origin_type,
         ]);
     }
 
