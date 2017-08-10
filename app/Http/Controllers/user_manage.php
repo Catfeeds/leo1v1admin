@@ -2058,4 +2058,26 @@ class user_manage extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    /**
+     * @author    sam
+     * @function  助教统计学生科目数量
+     */
+    public function tongji_student_subject()
+    {
+        $ret_info = $this->t_student_info->get_studentid(); //获取学生id
+        $ret_student_subject = array(0,0,0,0,0,0,0,0,0,0,0,0,0);
+        foreach ($ret_info as $key => $value) {
+            $ret_get_list_total = $this->t_course_order->get_list_total($value,-1,0);//根据学生id查询学习包
+            $arr = [];
+            foreach ($ret_get_list_total as $key => $value) {
+                $arr[] = $value['subject'];
+            }
+            $num= count(array_unique($arr));//统计科目
+            ++$ret_student_subject[$num];
+        }
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_student_subject,
+        ]);
+    }
 }
