@@ -8,12 +8,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
-    public function get_agent_info($page_info,$phone,$type)
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
-
+        $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
                                  ." from %s a "
@@ -27,7 +27,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 

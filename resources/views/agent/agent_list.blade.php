@@ -1,9 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <section class="content ">
-
         <div>
             <div class="row  row-query-list" >
+                <div class="col-xs-12 col-md-4" data-title="时间段">
+                    <div id="id_date_range"> </div>
+                </div>
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
