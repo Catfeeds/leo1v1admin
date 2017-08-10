@@ -22,7 +22,7 @@
                     <td>{{$ret["tran_total"]}}</td>
                     <td>{{$first_tea_num}}</td>
                     <td>{{$fifth_tea_num}}</td>
-                    
+
                 </tr>
 
             </table>
@@ -41,7 +41,7 @@
                     <td>{{$lec_time}}天</td>
                     <td>{{$tran_time}}天</td>
                     <td>{{$first_time}}天</td>
-                    <td>{{$fifth_time}}天</td>                   
+                    <td>{{$fifth_time}}天</td>
                 </tr>
 
             </table>
@@ -55,11 +55,11 @@
                     <td>限5次</td>
                 </tr>
                 <tr>
-                    <td>{{$tea_limit_info["freeze_num"]}}</td>                 
-                    <td>{{$tea_limit_info["limit_num"]}}</td>                 
-                    <td>{{$tea_limit_info["limit_one"]}}</td>                 
-                    <td>{{$tea_limit_info["limit_three"]}}</td>                 
-                    <td>{{$tea_limit_info["limit_five"]}}</td>                 
+                    <td>{{$tea_limit_info["freeze_num"]}}</td>
+                    <td>{{$tea_limit_info["limit_num"]}}</td>
+                    <td>{{$tea_limit_info["limit_one"]}}</td>
+                    <td>{{$tea_limit_info["limit_three"]}}</td>
+                    <td>{{$tea_limit_info["limit_five"]}}</td>
                 </tr>
 
             </table>
