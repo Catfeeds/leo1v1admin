@@ -43,7 +43,7 @@ class login extends Controller
                     // $menu_str.=$tmp[0];
 
                     // 修改
-                    if ( substr($item_name,0,7)== "角色-"  ) {
+                    if ( substr($item_name,-3)== "部"  ) {
                         $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
                     }else{

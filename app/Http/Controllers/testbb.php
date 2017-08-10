@@ -50,6 +50,10 @@ class testbb extends Controller
 
     public function test () {
 
+        $item_name = "自检部";
+        // dd($item_name);
+        dd(substr($item_name,-3));
+        // substr($item_name,0,-1)== "部";
         //
         $item_name = "教学管理-1面试转化率模型";
         // dd(substr($item_name,0,13));
