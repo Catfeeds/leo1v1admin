@@ -2473,8 +2473,30 @@ class human_resource extends Controller
             ]);
             $keyword2   = "已通过";
 
-            //入职
-            $this->teacher_train_through_deal($teacher_info);
+            //等级升级通知
+            /**
+             * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
+             * 标题课程 : 等级升级通知
+             * {{first.DATA}}
+             * 用户昵称：{{keyword1.DATA}}
+             * 最新等级：{{keyword2.DATA}}
+             * 生效时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+            if($wx_openid){
+                $data=[];
+                $template_id      = "E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0";
+                $data['first']    = "恭喜您获得了晋升";
+                $data['keyword1'] = $teacher_info["nick"];
+                $data['keyword2'] = $level_degree;
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
+                $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
+                // $url = "";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
 
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){
