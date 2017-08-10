@@ -48,7 +48,7 @@
                     <td>年级</td>
                     <td>科目</td>
                     <td>类型</td>
-                    <td>图片</td>
+                    <!-- <td>图片</td> -->
                     <td>封面</td>
                     <td>操作人员</td>
                     <td>添加时间</td>
@@ -66,8 +66,8 @@
                         <td>{{$var["subject_str"]}}</td>
                         <td>{{$var["test_type_str"]}}</td>
 
-                        <td><img src="{{$var["pic"]}}" height="100"></td>
-
+                        <!-- <td> <img src="{{$var["pic"]}}" height="100"></td>
+                           -->
                         <td><img src="{{$var["poster"]}}" height="100"></td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["create_time"]}}</td>
@@ -119,7 +119,7 @@
 		            </tr>
 
                 <tr>
-			              <td style="text-align:right; width:30%;">图片</td>
+			              <td style="text-align:right; width:30%;">封面</td>
 			              <td>
                         <div id="id_container_add">
                             <input id="id_upload_add" value="上传图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
