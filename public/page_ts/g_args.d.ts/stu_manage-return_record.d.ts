@@ -12,6 +12,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	userid	:any;
 	revisit_time	:any;
 	revisit_person	:any;
 	operator_note	:any;
@@ -44,7 +45,15 @@ interface RowData {
 	warning_deal_url	:any;
 	warning_deal_info	:any;
 	uid	:any;
+	parent_guidance_except	:any;
+	other_subject_info	:any;
+	tutorial_subject_info	:any;
+	recover_time	:any;
+	revisit_path	:any;
+	recent_learn_info	:any;
+	information_confirm	:any;
 	revisit_time_str	:any;
+	recover_time_str	:any;
 	revisit_type_str	:any;
 	operation_satisfy_flag_str	:any;
 	school_work_change_flag_str	:any;
