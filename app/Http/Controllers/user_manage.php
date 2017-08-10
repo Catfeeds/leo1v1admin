@@ -2067,16 +2067,23 @@ class user_manage extends Controller
     {
         $this->t_student_info->switch_tongji_database();
         $ret_info = $this->t_student_info->get_studentid(); //获取学生id
-        $ret_student_subject = array(0,0,0,0,0,0,0,0,0,0,0,0,0);
-        $this->t_course_order->switch_tongji_database();
+        $ret_student_subject = array(
+                1 => 0,
+                2 => 0,
+                3 => 0,
+                4 => 0,
+                5 => 0,
+                "5科以上" => 0,
+                "合计" => 0
+            );
         foreach ($ret_info as $key => $value) {
-            $ret_get_list_total = $this->t_course_order->get_list_total($value,-1,0);//根据学生id查询学习包
-            $arr = [];
-            foreach ($ret_get_list_total as $key => $value) {
-                $arr[] = $value['subject'];
+            $num = $value['num'];
+            if($num < 6){
+                ++$ret_student_subject[$num];
+            }else{
+                ++$ret_student_subject["5科以上"];
             }
-            $num= count(array_unique($arr));//统计科目
-            ++$ret_student_subject[$num];
+            ++$ret_student_subject["合计"];
         }
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_student_subject,

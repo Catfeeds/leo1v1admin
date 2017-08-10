@@ -2667,19 +2667,23 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
          $where_arr=[
             "s.is_test_user=0 ",
             "s.assistantid>0",
+<<<<<<< HEAD
             "s.type=0",
+=======
+            //"s.type=0",
+>>>>>>> ea3c61bb2384a4e9bd2ab229769a47d693511d1a
             "c.course_type in (0,1,3)"  ,
             "c.course_status=0 "
 
         ];
-        $sql = $this->gen_sql_new("select count(distinct c.subject) num,s.userid "
-                                  ." from %s s left join %s c on a.userid = c.userid "
+        $sql = $this->gen_sql_new("select s.userid,count(distinct c.subject) num "
+                                  ." from %s s left join %s c on s.userid = c.userid "
                                   ."  where  %s group by s.userid "
                                   ,self::DB_TABLE_NAME
                                   ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
-       
+        //dd($sql);
         return $this->main_get_list($sql);
     }
 }
