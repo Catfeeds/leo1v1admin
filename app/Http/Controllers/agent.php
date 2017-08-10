@@ -53,14 +53,8 @@ class agent extends Controller
     }
 
     public function agent_list_new() {
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
-        $userid        = $this->get_in_userid(-1);
-        $phone         = $this->get_in_phone();
-        $parentid      = $this->get_in_parentid(-1);
-        $type          = $this->get_in_int_val('agent_type');
-        $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time);
+        $ret_info = $this->t_agent->get_agent_info_new($page_info);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
