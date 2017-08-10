@@ -201,26 +201,26 @@
                          <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                          <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                          @if($origin_type)
-                             <td >{{@$var["all_count"]}}1</td>
-                             <td >{{@$var["assigned_count"]}}</td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?all_count=1">{{@$var["all_count"]}}</a></td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?assigned_count=1">{{@$var["assigned_count"]}}</a></td>
                              <td >{{@$var["tmk_assigned_count"]}}</td>
 
                              <td >{{intval(@$var["avg_first_time"]/60)}}</td>
-                             <td >{{@$var["tq_no_call_count"]}}</td>
-                             <td >{{@$var["tq_called_count"]}}</td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_no_call_count=1">{{@$var["tq_no_call_count"]}}</a></td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_called_count=1">{{@$var["tq_called_count"]}}</a></td>
 
-                             <td >{{@$var["tq_call_fail_count"]}}</td>
-                             <td >{{@$var["tq_call_succ_valid_count"]}}</td>
-                             <td >{{@$var["tq_call_succ_invalid_count"]}}</td>
-                             <td >{{@$var["tq_call_fail_invalid_count"]}}</td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_call_fail_count=1">{{@$var["tq_call_fail_count"]}}</a></td>
+                             <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_call_succ_valid_count=1">{{@$var["tq_call_succ_valid_count"]}}</a></td>
+                                 <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_call_succ_invalid_count=1">{{@$var["tq_call_succ_invalid_count"]}}</a></td>
+                                 <td ><a href="http://admin.yb1v1.com/agent/agent_list?tq_call_fail_invalid_count=1">{{@$var["tq_call_fail_invalid_count"]}}</a></td>
 
 
                              <td>{{@$var["have_intention_a_count"]}}</td>
                              <td>{{@$var["have_intention_b_count"]}}</td>
                              <td>{{@$var["have_intention_c_count"]}}</td>
-                             <td>{{@$var["require_count"]}}</td>
-                             <td>{{@$var["test_lesson_count"]}}</td>
-                             <td>{{@$var["succ_test_lesson_count"]}}</td>
+                             <td><a href="http://admin.yb1v1.com/agent/agent_list?require_count=1">{{@$var["require_count"]}}</a></td>
+                             <td><a href="http://admin.yb1v1.com/agent/agent_list?test_lesson_count=1">{{@$var["test_lesson_count"]}}</a></td>
+                             <td><a href="http://admin.yb1v1.com/agent/agent_list?succ_test_lesson_count=1">{{@$var["succ_test_lesson_count"]}}</a></td>
                              <td>{{@$var["order_count"]}}</td>
                              <td>{{@$var["user_count"]}}</td>
                              <td>{{@$var["order_all_money"]}}</td>
