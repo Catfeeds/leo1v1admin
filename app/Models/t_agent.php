@@ -70,27 +70,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           '',//test_lesson_count  type=15
           '',//succ_test_lesson_count   type=16
           type = 14
-          ' tr.accept_flag = 1 ',
-          ' s.is_test_user=0 ',
-          ' tr.require_admin_type =2 ',
-          " s.origin = '优学优享' ",
-          ];
-          type = 15
+          select s.origin as check_value  , count(*) as require_count 
+          from  db_weiyi.t_test_lesson_subject_require  tr 
+          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id 
+          join  db_weiyi.t_student_info  s on t.userid= s.userid  
+          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid  
+          where accept_flag =1 and is_test_user=0
+          and require_admin_type =2
+          and require_time>=1501516800
+          and require_time<1504195200
+          and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')  group by  check_value
+          type = 15,16
           select s.origin  as check_value , count(*) as test_lesson_count,
           sum(  success_flag in (0,1 ) ) as succ_test_lesson_count
           from db_weiyi.t_test_lesson_subject_require tr
-
           join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id
           join db_weiyi.t_seller_student_new n  on t.userid=n.userid
           join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid
           join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid
           join db_weiyi.t_student_info s on s.userid = l.userid
-
           where s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')
           and accept_flag=1
           and is_test_user=0
           and require_admin_type = 2
-
          */
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
