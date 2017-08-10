@@ -469,7 +469,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
-        $sql = $this->gen_sql_new("select count(*) "
+        $sql = $this->gen_sql_new("select o.orderid"
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s o on r.orderid = o.orderid"
@@ -489,7 +489,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   t_order_refund_confirm_config::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $this->main_get_value($sql);
+        return $this->main_get_list($sql);
     }
 
 

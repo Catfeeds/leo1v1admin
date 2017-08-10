@@ -4519,6 +4519,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         foreach($ret_tec as $index_tec => &$item_tec){
             $item_tec['num'] = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$item_tec['teacherid']);
         }
+        dd($ret_tec);
 
         \App\Helper\Utils::order_list( $ret_tec,"num", 0);
         \App\Helper\Utils::order_list( $ret_ass,"num", 0);
