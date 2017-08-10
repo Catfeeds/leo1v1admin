@@ -1452,9 +1452,10 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "tl.confirm_time>=$start_time and tl.confirm_time < $end_time ";
+
+            $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
         }else{
-            $time_str = "tl.confirm_time>$time";
+            $where_arr[] = "tl.confirm_time>=$time";
         }
 
 
@@ -1480,11 +1481,24 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     public function get_new_teacher_fifth_lesson_time($time){
         $where_arr=[
             "t.train_through_new=1",
-            "tl.confirm_time >=".$time,
+            // "tl.confirm_time >=".$time,
             "tl.status=1",
             "t.is_test_user=0",
             " t.realname not like '%%alan%%' and  t.realname not like '%%不要审核%%' and  t.realname not like '%%gavan%%' and t.realname not like '%%阿蓝%%'"
         ];
+
+
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+
+            $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
+        }else{
+            $where_arr[] = "tl.confirm_time>=$time";
+        }
+
+
 
         /* if($have_test_lesson_flag==1){
            $where_arr[]=$this->where_get_in_str( "t.teacherid", $tea_arr, false );
