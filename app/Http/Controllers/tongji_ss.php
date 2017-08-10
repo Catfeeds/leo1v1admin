@@ -4503,6 +4503,52 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
     }
 
+
+
+    public function get_refund_teacher_and_ass_info(){ // 统计老师和助教退费次数
+        $this->t_test_lesson_subject->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
+        // $start_time = strtotime(date("2017-01-05"));
+        // $end_time = strtotime(date("2017-05-01"));
+        $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
+        $tea= $ass=[];
+        foreach($ret as $item){
+            @$tea[$item["realname"]]["num"]++;
+            @$tea[$item["realname"]]["realname"] = $item["realname"];
+            @$tea[$item["realname"]]["teacherid"] = $item["old_teacherid"];
+
+            @$ass[$item["account"]]["num"]++;
+            @$ass[$item["account"]]["account"] = $item["account"];
+            @$ass[$item["account"]]["uid"] = $item["cur_require_adminid"];
+        }
+        \App\Helper\Utils::order_list( $tea,"num", 0);
+        \App\Helper\Utils::order_list( $ass,"num", 0);
+        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $all["change_tea_num"] = count($tea);
+        $all["change_ass_num"] = count($ass);
+        foreach($tea as $v){
+            @$all["change_tea_all_num"] +=$v["num"];
+        }
+        foreach($ass as $v){
+            @$all["change_ass_all_num"] +=$v["num"];
+        }
+
+        // $list_info = \App\Helper\Utils::list_to_page_info($ass);
+        return $this->pageView(__METHOD__ ,null,[
+            "tea"   =>$tea,
+            "ass"   =>$ass,
+            "all"   =>$all
+        ]);
+
+        //dd($ass);
+
+    }
+    
+
+
+
+
+
     public function get_change_teacher_detail_info(){
         $teacherid = $this->get_in_int_val("teacherid");
         $start_time = strtotime($this->get_in_str_val("start_time"));

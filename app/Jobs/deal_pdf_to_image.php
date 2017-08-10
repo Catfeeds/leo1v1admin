@@ -66,7 +66,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $file_name_origi = array();
             foreach($imgs_url_list as $item){
-                $file_name_origi[] = $this->put_img_to_alibaba($item);
+                $file_name_origi[] = @$this->put_img_to_alibaba($item);
             }
 
             $file_name_origi_str = implode(',',$file_name_origi);

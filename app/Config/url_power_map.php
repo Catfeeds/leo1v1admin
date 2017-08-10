@@ -494,6 +494,7 @@ class url_power_map {
 			'/tongji_ss/get_homework_and_work_status_info'	=>1323120,
 			'/human_resource/research_qz_teacher_stu_info'	=>1323312,
 			'/tongji_ss/get_change_teacher_info'	=>1323322,
+			'/tongji_ss/get_refund_teacher_and_ass_info'	=>1323323,
 			'/tongji_ss/new_teacher_test_lesson_info'	=>1323306,
 			'/tongji_ss/research_teacher_lesson_detail_info'	=>1323308,
 			'/tea_manage_new/get_teacher_complaints_info'	=>1323326,

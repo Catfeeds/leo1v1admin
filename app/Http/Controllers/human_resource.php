@@ -2478,6 +2478,10 @@ class human_resource extends Controller
             ]);
             $keyword2   = "已通过";
 
+            //升级
+            $this->check_teacher_lecture_is_pass($teacher_info);
+            
+
             //等级升级通知
             /**
              * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
@@ -2503,6 +2507,19 @@ class human_resource extends Controller
                 // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
+
+            //邮件推送
+            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+            $html = $this->teacher_level_up_html($teacher_info);
+            $email = $teacher_info["email"];
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+
+ 
+            }
+
 
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){

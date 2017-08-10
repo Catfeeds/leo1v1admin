@@ -75,7 +75,7 @@ $(function(){
             var id_userid     = $("<input/>");
             var id_lesson_name     = $("<select/>");
             
-            Enum_map.append_option_list("psychological_lesson_name_list", $("#id_lesson_name"),true);
+            Enum_map.append_option_list("psychological_lesson_name_list", id_lesson_name,true);
 
             var arr = [               
                 [ "userid",   id_userid] ,
