@@ -4508,8 +4508,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     public function get_refund_teacher_and_ass_info(){ // 统计老师和助教退费次数
         $this->t_test_lesson_subject->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
-        // $start_time = strtotime(date("2017-01-05"));
-        // $end_time = strtotime(date("2017-05-01"));
+
+
         $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
         $tea= $ass=[];
         foreach($ret as $item){

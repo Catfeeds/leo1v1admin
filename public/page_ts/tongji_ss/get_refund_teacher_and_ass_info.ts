@@ -1,14 +1,14 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-get_change_teacher_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-get_refund_teacher_and_ass_info.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
+            date_type_config:	$('#id_date_type_config').val(),
+            date_type:	$('#id_date_type').val(),
+            opt_date_type:	$('#id_opt_date_type').val(),
+            start_time:	$('#id_start_time').val(),
+            end_time:	$('#id_end_time').val()
         });
     }
 
@@ -42,14 +42,14 @@ $(function(){
                 $.each(userid_list,function(i,item){
                     html_node.find("table").append("<tr><td>"+item["account"]+"</td><td>"+item["nick"]+"</td></tr>");
                 });
-                
-                
+
+
             });
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -59,7 +59,7 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
@@ -87,14 +87,14 @@ $(function(){
                 $.each(userid_list,function(i,item){
                     html_node.find("table").append("<tr><td>"+item["realname"]+"</td><td>"+item["nick"]+"</td></tr>");
                 });
-                
-                
+
+
             });
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -104,7 +104,7 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
@@ -117,10 +117,5 @@ $(function(){
 
     });
 
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-
-
