@@ -1322,6 +1322,8 @@ class user_manage_new extends Controller
         }
         $this->t_tq_call_info->switch_tongji_database();
 
+
+        /*
         $list=$this->t_tq_call_info->tongji_tq_info_new($start_time,$end_time);
         foreach ($list as $k=>&$item )  {
             $res[$k]['is_called_phone_count_for_month'] = $item['all_count'];
@@ -1330,6 +1332,7 @@ class user_manage_new extends Controller
                 $res[$k]['duration_count_for_day'] = round($item['duration_count']/$res[$k]['month_work_day_now_real']);
             }
         }
+        */
 
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
@@ -3557,8 +3560,8 @@ class user_manage_new extends Controller
         $date      = \App\Helper\Utils::get_week_range(time(NULL),1);
         $week_start = $date["sdate"];
 
-        // $start_time = $start_time+7*86400;
-        //  $end_time = $end_time+7*86400;
+        // $start_time = $week_start+7*86400;
+        // $end_time = $week_start+14*86400;
         $list= $this->t_psychological_teacher_time_list->get_info_by_time($start_time,$end_time);
         //$ret = $this->t_psychological_teacher_time_list->get_all_info();
         // dd(date("Y-m-d",1500652800));
@@ -3568,7 +3571,8 @@ class user_manage_new extends Controller
             $tea_arr=[];
             $val["realname"]="";
             foreach($teacher_phone_list as $item){
-                $teacherid = $this->t_teacher_info->get_teacherid_by_phone($item);
+                $phone = trim($item);
+                $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
                 $realname = $this->t_teacher_info->get_realname($teacherid);
                 $check_lesson = $this->t_lesson_info_b2->check_psychological_lesson($teacherid,$lesson_start);
                 if($check_lesson ==1){
@@ -3609,6 +3613,7 @@ class user_manage_new extends Controller
         $lesson_start  = $this->get_in_int_val("lesson_start");
         $lesson_end = $this->get_in_int_val("lesson_end");
         $userid = $this->get_in_int_val("userid");
+        $lesson_name = $this->get_in_int_val("lesson_name");
         $tea_list = $this->get_in_str_val("tea_list");
         $tea_list = json_decode($tea_list,true);
         $orderid      = 1;
@@ -3633,6 +3638,7 @@ class user_manage_new extends Controller
             );
         }
 
+        $lesson_name          = E\Epsychological_lesson_name_list::get_desc($lesson_name);
         $teacher_info = $this->t_teacher_info->field_get_list($teacherid,"teacher_money_type,level");
         $grade = $this->t_student_info->get_grade($userid);
         $subject=11;
@@ -3642,6 +3648,9 @@ class user_manage_new extends Controller
             $teacherid,0,$lesson_start,$lesson_end,$grade,
             $subject,150,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
+        $this->t_lesson_info->field_update_list($lessonid,[
+           "lesson_name"   =>$lesson_name 
+        ]);
         $this->t_homework_info->add(
             $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
         );
@@ -3659,4 +3668,11 @@ class user_manage_new extends Controller
 
     }
 
+    public function merge_order(){
+        $orderid      = $this->get_in_int_val("orderid");
+        $orderid_goal = $this->get_in_int_val("orderid_goal");
+
+        $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
+
+    }
 }

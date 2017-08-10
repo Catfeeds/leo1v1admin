@@ -112,7 +112,7 @@ $(function(){
         $.do_ajax("/teacher_level/set_teacher_record_acc",{
             "teacherid"    : opt_data.teacherid,
             "type"         : 1,
-            "lesson_style" : 2,
+            "lesson_style" : 3,
             "lessonid"     :opt_data.lessonid,
             "lesson_list"  :JSON.stringify(opt_data.lessonid),
         },function(result){

@@ -2,6 +2,7 @@
   <div class="pages">
 
         <a href="javascript:;" class="btn page-opt-show-all-xls" data="{{$page_info["page"]["input_page_num_url"]}}" >全量下载</a>
+        <span>总记录数:{{@$page_info["result_num"] }}  </span> 
       <a href="javascript:;" style="display:none;" class="btn page-opt-show-all" data="{{$page_info["page"]["input_page_num_url"]}}" >显示全部</a>
         <select   data="{{$page_info["page"]["input_page_num_url"]}}" class= " page-opt-select-page"  >
             <option value="10"> 每页10行 </option>

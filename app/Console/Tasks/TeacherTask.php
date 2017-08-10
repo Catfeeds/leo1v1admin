@@ -698,7 +698,7 @@ class TeacherTask extends TaskController
     }
 
     /**
-     * 试听/试听模拟课课前4小时未传学生讲义
+     * 试听/试听模拟课课前4小时未传学生讲义,老师讲义,作业
      * @param type=15
      */
     public function before_four_hour_not_upload_cw($type){
@@ -724,7 +724,7 @@ class TeacherTask extends TaskController
 
                         $data=[];
                         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                        $data['first']    = $lesson_time."的模拟课程未上传讲义";
+                        $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传讲义";
                         $data['keyword1'] = "讲义上传提醒";
                         $data['keyword2'] = $lesson_time."的模拟课程未上传讲义,请尽快登录老师后台上传讲义";
                         $data['keyword3'] = date("Y-m-d H:i",time());
@@ -779,7 +779,7 @@ class TeacherTask extends TaskController
                         $template_id      = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
                         $data['first']    = "老师您好,您于30分钟后有一节模拟试听课";
                         $data['keyword1'] = $lesson_time;
-                        $data['keyword2'] = "模拟试听课";
+                        $data['keyword2'] = $val["lesson_name"];
                         $data['keyword3'] = $val["tea_nick"];
 
                         $data['remark']   = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
@@ -1003,7 +1003,7 @@ class TeacherTask extends TaskController
                     $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
                     $data['keyword1'] = "课程评价";
                     $data['keyword2'] = "\n 课程时间:".$lesson_day."\n评价方式（任选一种）："
-                                      ." \n1、理优1对1老师帮\n2、理优老师端\n33、老师后台"
+                                      ." \n1、理优1对1老师帮\n2、理优老师端\n3、老师后台"
                                       ."\n距离评价截止时间只剩15分钟，请尽快进行评价。";
                     $data['keyword3'] = date("Y-m-d H:i",time());
                     $data['remark']   = "";

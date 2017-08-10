@@ -1867,7 +1867,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
@@ -2435,6 +2435,11 @@ class human_resource extends Controller
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
        
+        $acc= $this->t_teacher_record_list->get_acc($id);
+        $account = $this->get_account();
+        if($acc != $account){
+            return $this->output_err("您没有权限审核,审核人为".$acc);  
+        }
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
         $ret = $this->t_teacher_record_list->field_update_list($id,[
             "tea_process_design_score"         => $tea_process_design_score,
@@ -2473,6 +2478,10 @@ class human_resource extends Controller
             ]);
             $keyword2   = "已通过";
 
+            //升级
+            $this->check_teacher_lecture_is_pass($teacher_info);
+            
+
             //等级升级通知
             /**
              * 模板ID   : E9JWlTQUKVWXmUUJq_hvXrGT3gUvFLN6CjYE1gzlSY0
@@ -2484,6 +2493,7 @@ class human_resource extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            $level_degree    = \App\Helper\Utils::get_teacher_level_str($teacher_info);
             // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
@@ -2492,11 +2502,24 @@ class human_resource extends Controller
                 $data['keyword1'] = $teacher_info["nick"];
                 $data['keyword2'] = $level_degree;
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
+                $data['remark']   = "\n升级原因:".$record_info."\n愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
+
+            //邮件推送
+            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+            $html = $this->teacher_level_up_html($teacher_info);
+            $email = $teacher_info["email"];
+            if($email){
+                dispatch( new \App\Jobs\SendEmailNew(
+                    $email,"【理优1对1】老师晋升通知",$html
+                ));
+
+ 
+            }
+
 
             $check_flag = $this->t_teacher_money_list->check_is_exists($lessonid,0);
             if(!$check_flag){

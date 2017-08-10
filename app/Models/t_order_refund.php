@@ -39,7 +39,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
-    public function get_ass_refund_info($start_time,$end_time){        
+    public function get_ass_refund_info($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct r.userid) num,m.uid,m.account,sum(if(o.contract_type=0,r.real_refund,0)) new_price,sum(if(o.contract_type=3,r.real_refund,0)) renw_price,sum(r.real_refund) refund_money "
@@ -60,7 +60,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         });
     }
 
-    public function get_ass_refund_detail_info($start_time,$end_time){        
+    public function get_ass_refund_detail_info($start_time,$end_time){
         $where_arr = [];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select r.real_refund,s.nick,s.grade,o.lesson_total,o.default_lesson_count,s.lesson_count_left,r.refund_userid  "
@@ -76,7 +76,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     }
 
 
-    public function get_ass_refund_info_new($start_time,$end_time){        
+    public function get_ass_refund_info_new($start_time,$end_time){
         $where_arr = [
             "ra.id is not null",
             "m.uid >0"
@@ -103,7 +103,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         return $this->main_get_list($sql);
     }
 
-    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){        
+    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){
         $where_arr = [
             "ra.id is not null",
             "t.teacherid >0"
@@ -293,5 +293,141 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         $sql = $this->gen_sql_new("select should_refund,userid from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
+
+
+    /**
+
+           public function get_ass_refund_info_new($start_time,$end_time){
+        $where_arr = [
+            "ra.id is not null",
+            "m.uid >0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select  r.real_refund,ra.id,m.uid,occ.value,ra.score,r.orderid,r.apply_time "
+                                  ." from %s r "
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
+                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
+                                  ." left join %s oc on ra.configid = oc.id"
+                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
+                                  ." where %s order by r.orderid,r.apply_time",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_refund_analysis::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_tea_refund_info_new($start_time,$end_time,$tea_arr){
+        $where_arr = [
+            "ra.id is not null",
+            "t.teacherid >0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
+        $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
+        $sql = $this->gen_sql_new("select distinct r.real_refund,ra.id,t.teacherid,occ.value,ra.score,r.orderid,r.apply_time,s.nick "
+                                  ." from %s r "
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." left join %s o on r.orderid = o.orderid"
+                                  ." left join %s c on c.userid = s.userid"
+                                  ." left join %s t on (c.teacherid = t.teacherid and (o.subject = t.subject or o.subject = t.second_subject or o.subject = t.third_subject))"
+                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
+                                  ." left join %s oc on ra.configid = oc.id"
+                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
+                                  ." where %s order by r.orderid,r.apply_time",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_refund_analysis::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
+     **/
+
+
+
+    public function get_ass_refund_count($start_time,$end_time){ // 得到助教退费次数
+        $where_arr = [
+            "ra.id is not null",
+            "m.uid >0",
+            "occ.value = '助教部'",
+            "ra.score>0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select m.uid,occ.value,ra.score,r.orderid"
+                                  ." from %s r "
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." left join %s a on s.assistantid=a.assistantid"
+                                  ." left join %s m on a.phone = m.phone"
+                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
+                                  ." left join %s oc on ra.configid = oc.id"
+                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
+                                  ." where %s group by m.uid order by ra.score desc",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_refund_analysis::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_refund_count_for_ass($uid){
+        
+    }
+
+
+
+    public function get_tec_refund_count($start_time,$end_time){
+        $where_arr = [
+            "ra.id is not null",
+            "t.teacherid >0",
+            "occ.value in ('老师管理','教学部')",
+            "ra.score>0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
+        // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
+        $sql = $this->gen_sql_new("select t.teacherid,occ.value,ra.score,r.orderid,s.nick "
+                                  ." from %s r "
+                                  ." left join %s s on r.userid = s.userid"
+                                  ." left join %s o on r.orderid = o.orderid"
+                                  ." left join %s c on c.userid = s.userid"
+                                  ." left join %s t on (c.teacherid = t.teacherid and (o.subject = t.subject or o.subject = t.second_subject or o.subject = t.third_subject))"
+                                  ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
+                                  ." left join %s oc on ra.configid = oc.id"
+                                  ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
+                                  ." where %s order by r.orderid,r.apply_time",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_refund_analysis::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  t_order_refund_confirm_config::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
 }

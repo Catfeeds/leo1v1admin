@@ -52,6 +52,32 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function agent_list_new(){
+        $type      = $this->get_in_int_val('type');
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        $userid_arr = [];
+        foreach($ret_info['list'] as &$item){
+            if($item['type'] == 1){
+                $userid_arr[] = $item['s_userid'];
+            }
+            $item['agent_type'] = $item['type'];
+            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+        }
+        if(count($userid_arr)>0){
+            $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
+            foreach($ret_info['list'] as &$item){
+                foreach($test_info as $info){
+                    if($item['s_userid'] == $info['userid']){
+                        $item['success_flag'] = 1;
+                    }
+                }
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
         $aid       = $this->get_in_int_val('aid');
@@ -98,12 +124,15 @@ class agent extends Controller
         $phone_old = array_column($ret_info,'phone');
         $phone_one = array_diff($phone_old,$phone_new);
         $phone_two = [];
+        $phone_three = [];
         foreach($phone_new as $item){
             if(in_array($item,$phone_old)){
                 $phone_two[] = $item;
+            }else{
+                $phone_three[] = $item;
             }
         }
-        dd($phone_new,$phone_old,$phone_one,$phone_two);
+        dd($phone_new,$phone_old,$phone_one,$phone_two,$phone_three);
         // dd('a');
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);

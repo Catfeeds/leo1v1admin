@@ -8,15 +8,68 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
 		parent::__construct();
 	}
 
+    public function add_test($test_title, $test_des, $grade, $subject, $test_type, $pic, $poster, $create_time,$adminid) {
+        $res = $this->row_insert([
+            "test_title"  => $test_title,
+            "test_des"    => $test_des,
+            "grade"       => $grade,
+            "subject"     => $subject,
+            "test_type"   => $test_type,
+            "pic"         => $pic,
+            "poster"      => $poster,
+            "create_time" => $create_time,
+            "adminid"     => $adminid,
+            "visit_num"   => 0,
+            "share_num"   => 0,
+        ]);
+        return $res;
+    }
+
+    public function update_test($id,$test_title, $test_des, $grade, $subject, $test_type, $pic, $poster) {
+        $res = $this->field_update_list( ["id" => $id],[
+            "test_title" => $test_title,
+            "test_des" => $test_des,
+            "grade" => $grade,
+            "subject" => $subject,
+            "pic" => $pic,
+            "poster"  => $poster,
+        ]);
+        return $res;
+    }
+
+    public function get_one_info($id) {
+        $where_arr = [
+            'id='.$id,
+        ];
+        $sql = $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
+                                    ."y.test_type, y.pic, y.poster, y.create_time, a.account"
+                                    . " from %s y "
+                                    . " left join %s a on a.uid=y.adminid"
+                                    . " where %s"
+                                    ,self::DB_TABLE_NAME
+                                    ,t_manager_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_all($grade, $subject, $test_type, $page_info){
+        $where_arr = [
+            ['y.grade=%u', $grade , -1],
+            ['y.subject=%u', $subject , -1],
+            ['y.test_type=%u', $test_type , -1],
+        ];
+        $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
+                                    ."y.test_type, y.pic, y.poster, y.create_time, a.account"
+                                    . " from %s y "
+                                    . " left join %s a on a.uid=y.adminid"
+                                    . " where %s"
+                                    ,self::DB_TABLE_NAME
+                                    ,t_manager_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1570,4 +1570,12 @@ class test_code extends Controller
 
     }
 
+    public function reset_lesson_count(){
+        $userid = $this->get_in_int_val("userid",244858);
+
+        $this->t_student_info->reset_lesson_count($userid);
+
+
+    }
+
 }

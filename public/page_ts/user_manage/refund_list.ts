@@ -358,7 +358,7 @@ $(function(){
 
         var adminid = $("#adminid").attr('data-adminid');
 
-        var allow_adminid = ['60','68','186','349','540','684','968'];
+        var allow_adminid = ['60','68','186','349','540','684','968','99'];
 
         var is_allow = $.inArray(adminid,allow_adminid);
 

@@ -748,16 +748,24 @@ class common extends Controller
         if(!$is_exists){
             //text待转化为二维码的内容
             $text           = "http://wx-teacher-web.leo1v1.com/tea.html?".$phone;
+            //原始邀请有奖背景图
             $qr_url         = "/tmp/".$phone.".png";
-            $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
             $teacher_qr_url = "/tmp/".$phone_qr_name;
-            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
+            $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/pic_invitation.png";
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,10,5,4);
+
+            //高温邀请有奖背景图
+            // $qr_url         = "/tmp/".$phone.".png";
+            // $bg_url         = "http://leowww.oss-cn-shanghai.aliyuncs.com/summer_pic_invitation_8.png";
+            // $teacher_qr_url = "/tmp/".$phone_qr_name;
+            // \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);
             $image_2 = imagecreatefrompng($qr_url);
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
+            imagecopymerge($image_3,$image_2, 287,580,0,0,imagesx($image_2),imagesy($image_2), 100);
+            // imagecopymerge($image_3,$image_2, 455,875,0,0,imagesx($image_2),imagesy($image_2), 100);
             imagepng($image_3,$teacher_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($teacher_qr_url);

@@ -1059,9 +1059,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_order_info_by_orderid($orderid){
-        $sql=$this->gen_sql_new("select contract_type,contract_status,subject,grade,price,lesson_total,default_lesson_count,"
-                                ." userid,discount_price,discount_reason,competition_flag,lesson_left,orderid,"
-                                ." parent_order_id,from_parent_order_type,from_parent_order_lesson_count"
+        $sql=$this->gen_sql_new("select contract_type,contract_status,subject,grade,lesson_total,default_lesson_count,"
+                                ." userid,discount_reason,competition_flag,lesson_left,orderid,"
+                                ." parent_order_id,from_parent_order_type,from_parent_order_lesson_count,"
+                                ." promotion_discount_price,promotion_spec_discount,price,discount_price"
                                 ." from %s"
                                 ." where orderid=%u"
                                 ,self::DB_TABLE_NAME
@@ -2563,7 +2564,10 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $where_arr = [
             ['pay_time>= %s', $start_time, 0],
             ['pay_time<%s', $end_time, 0],
+            "o.contract_type in (0,3)",
+            "o.contract_status >0"
         ];
+
         $sql = $this->gen_sql_new("select distinct ll.ip ,p.phone"
                                   ." from %s o"
                                   ." left join %s ll on ll.userid=o.userid"
@@ -2576,7 +2580,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_parent_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        // dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_phont_by_ip() {

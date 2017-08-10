@@ -2062,10 +2062,10 @@ trait  TeaPower {
                 $data=[];
                 $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                 $data['first']    = "请尽快登录老师后台完成模拟试听";
-                $data['keyword1'] = "选择模拟试听时间";
+                $data['keyword1'] = "模拟试听";
                 $data['keyword2'] = "尽快登录老师后台,选择模拟试听时间";
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "通过模拟试听即可成功入职,理由教育致力于打造高水平的教学服务团队,期待您能通过审核,加油!";
+                $data['remark']   = "通过模拟试听即可获得晋升，理优教育致力于打造高水平的教学服务团队，期待您能通过审核，加油！";
                 $url = "";
                 // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 

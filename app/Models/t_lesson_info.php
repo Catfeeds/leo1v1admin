@@ -1063,12 +1063,12 @@ lesson_type in (0,1) "
             E\Econtract_type::V_0,
             E\Econtract_type::V_1,
             E\Econtract_type::V_3,
-            E\Econtract_type::V_1003
         ]);
         $where_arr=[
             $lesson_status,
             $lesson_type,
             "confirm_flag not in (2,4)" ,
+            "lesson_del_flag=0"
         ];
         $sql = $this->gen_sql("select sum(lesson_count) from %s where userid = %u and %s ",
                               self::DB_TABLE_NAME,
@@ -2324,7 +2324,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,l.userid,l.lesson_type,l.lesson_count,l.grade,t.teacher_type,"
                                   ." l.lesson_start,l.lesson_end,l.assistantid,s.realname as stu_nick,t.realname as tea_nick,"
                                   ." l.teacher_money_type,l.stu_cw_upload_time,m.money,tl.success_flag,l.tea_rate_time,"
-                                  ." l.train_type,l.subject,l.lesson_name "
+                                  ." l.train_type,l.subject,l.lesson_name,l.tea_cw_upload_time  "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on s.userid=l.userid"

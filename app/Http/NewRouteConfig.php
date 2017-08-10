@@ -105,6 +105,7 @@ class NewRouteConfig {
         "teacher_level"               => true,
         "fulltime_teacher"            => true,
         "t_yxyx_wxnews_info"          => true,
+        "t_yxyx_test_pic_info"        => true,
     ];
 
     //config
