@@ -466,7 +466,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             $end_time   = $time['end_time'];
             $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
         }else{
-            $time_str = "l.confirm_time>$time";
+            $time_str = "l.confirm_time>=$time";
         }
 
 

@@ -1407,7 +1407,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $end_time   = $time['end_time'];
             $time_str = "confirm_time>=$start_time and confirm_time < $end_time ";
         }else{
-            $time_str = "confirm_time>$time";
+            $time_str = "confirm_time>=$time";
         }
 
         $sql = $this->gen_sql_new("select count(*) num,sum(confirm_time - add_time) time from %s"
@@ -1425,7 +1425,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             $end_time   = $time['end_time'];
             $time_str = "tl.confirm_time>=$start_time and tl.confirm_time < $end_time ";
         }else{
-            $time_str = "tl.confirm_time>$time";
+            $time_str = "tl.confirm_time>=$time";
         }
 
 
@@ -1492,7 +1492,6 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-
             $this->where_arr_add_time_range($where_arr,"tl.confirm_time",$start_time,$end_time);
         }else{
             $where_arr[] = "tl.confirm_time>=$time";
