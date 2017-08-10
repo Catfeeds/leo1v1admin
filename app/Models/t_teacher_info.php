@@ -2600,7 +2600,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      *@function 获取平台老师课耗总数
      *
      */
-    public function get_teacher_list($train_through_new,$start_time,$end_time){
+    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=1){
 
         $where_arr = [
             " t.train_through_new=1 ",
@@ -2613,13 +2613,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>=".$start_time,
             "l.lesson_start<".$end_time
         ];
+        if($full_flag==1){
+            $where_arr[]="m.del_flag=0";
+            $where_arr[]="m.account_role=5";
+        }
 
         $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num,"
-                                  ."count(distinct l.assistantid) ass_num "
+                                  ."count(distinct l.assistantid) ass_num,count(distinct l.userid) stu_num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." left join %s m on t.phone= m.phone"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_row($sql);

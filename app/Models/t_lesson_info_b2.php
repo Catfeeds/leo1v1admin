@@ -2648,7 +2648,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type =2",
             "l.lesson_status>0",
             "t.is_test_user=0",
-            ["t.subject = %u",$subject,-1],
+            ["l.subject = %u",$subject,-1],
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
@@ -2658,7 +2658,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time  "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time  "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
@@ -2679,7 +2679,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,3)",
             "l.lesson_status>0",
             "t.is_test_user=0",
-            ["t.subject = %u",$subject,-1],
+            ["l.subject = %u",$subject,-1],
             ["l.teacherid = %u",$teacherid,-1],
             ["l.userid = %u",$userid,-1],
         ];
@@ -2691,7 +2691,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=3)"
@@ -2714,7 +2714,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type in (0,3)",
             "l.lesson_status>0",
             "t.is_test_user=0",
-            ["t.subject = %u",$subject,-1],
+            ["l.subject = %u",$subject,-1],
             ["l.teacherid = %u",$teacherid,-1],
             ["l.userid = %u",$userid,-1],
         ];
@@ -2725,7 +2725,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,s.nick,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=4)"
@@ -2750,7 +2750,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_type =2",
             "l.lesson_status>0",
             "t.is_test_user=0",
-            ["t.subject = %u",$subject,-1],
+            ["l.subject = %u",$subject,-1],
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
@@ -2760,7 +2760,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,t.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=2)"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",

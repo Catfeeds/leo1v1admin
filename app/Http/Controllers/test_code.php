@@ -95,12 +95,12 @@ class test_code extends Controller
                         echo $red;
                         echo "teacher_money_type:".$arr[0]." level:".$arr[1]." grade:".$arr[2]." money:".$arr[3]." type:".$arr[4];
                         echo $div;
-
                     }
                 }
             }
         }
     }
+
 
     function GetIp(){
         $realip = '';
@@ -1570,12 +1570,40 @@ class test_code extends Controller
 
     }
 
-    public function reset_lesson_count(){
-        $userid = $this->get_in_int_val("userid",244858);
+    public function add_teacher_money_type_new(){
+        $arr = $this->get_b_txt();
+        // 0 teacher_money_type | 1 level | 2 k1-k5 money |3 k6-k8 money |4 k9 money |5 k10-k11 money |6 k12 money |7 type
 
-        $this->t_student_info->reset_lesson_count($userid);
+        foreach($arr as $val){
+            if($val!=""){
+                $add_arr = explode("|",$val);
+                if(count($add_arr)==8){
+                    $teacher_money_type = $add_arr[0];
+                    $level              = $add_arr[1];
+                    $type               = $add_arr[7];
 
+                    $update_arr['teacher_money_type'] = $teacher_money_type;
+                    $update_arr['level']              = $level;
+                    $update_arr['type']               = $type;
 
+                    $k1_money=$add_arr[2];
+                    for($i=1;$i<=5;$i++){
+                        $grade = "10".$i;
+                        $check_flag = $this->t_teacher_money_type->check_is_exists($teacher_money_type,$level,$grade);
+                        if(!$check_flag){
+                        }
+                    }
+                }
+            }
+        }
+
+        echo "<pre>";
+        var_dump($arr);
+        echo "</pre>";
+        exit;
     }
+
+
+
 
 }

@@ -281,5 +281,17 @@ class ss_deal2 extends Controller
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time   = strtotime($this->get_in_str_val("end_time"));
 
+        $ret = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$teacherid);
+
+        foreach($ret as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time","_str");
+        }
+
+        if($ret){
+            return $this->output_succ(["data"=>$ret]);
+        }else{
+            return $this->output_succ();
+        }
+
     }
 }

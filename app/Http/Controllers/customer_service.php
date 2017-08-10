@@ -17,6 +17,9 @@ class customer_service extends Controller
     public function  intended_user_info () {
         //$userid = 99;
         $userid = $this->get_account_id();
+        if($userid==349){
+            $userid=-1;
+        }
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_cs_intended_user_info->get_list($page_info,$userid);
         foreach( $ret_info["list"] as $key => &$item ) {

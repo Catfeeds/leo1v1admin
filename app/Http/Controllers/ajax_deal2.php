@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redis;
 class ajax_deal2 extends Controller
 {
     use CacheNick;
+    use TeaPower;
 
     public function sync_email() {
         $email=$this->get_in_str_val( "email" );
@@ -362,6 +363,20 @@ class ajax_deal2 extends Controller
         if($ret_info){
             return $this->output_err("此账号信息已经输入,请勿重复输入");
         }
+        $userid=$this->t_phone_to_user->get_userid_by_phone($phone);
+        if ($userid && $this->t_seller_student_new->get_phone($userid)) {
+
+            $admin_nick=$this->cache_get_account_nick(
+                $this->t_seller_student_new->get_admin_revisiterid($userid)
+            );
+            return $this->output_err("系统中已有这个人的账号了,销售负责人:$admin_nick");
+            /*
+              if ($this->t_test_lesson_subject->check_subject($userid,$subject))  {
+              return $this->output_err("已经有了这个科目的例子了,不能增加");
+              }
+            */
+        }
+
         //dd($ret);
         $this->t_cs_intended_user_info->row_insert([
             'create_time'              => $create_time,
@@ -376,7 +391,16 @@ class ajax_deal2 extends Controller
             'region_version'           => $region_version,
             'notes'                    => $notes,
          ]);
+        $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname);
         return $this->output_succ();
+    }
+
+    public function reset_intended_user_info(){
+        $phone           = $this->get_in_str_val('phone');
+        $child_realname  = $this->get_in_str_val('child_realname');
+        $grade           = $this->get_in_int_val('grade');
+        $free_subject    = $this->get_in_int_val('free_subject');
+
     }
 
     /**

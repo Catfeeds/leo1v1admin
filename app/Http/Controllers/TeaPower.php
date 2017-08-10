@@ -2347,6 +2347,41 @@ trait  TeaPower {
         return $html;
     }
 
+    public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2){
+
+        $origin="转介绍";
+        $has_pad=0;
+        $userid=$this->t_seller_student_new->book_free_lesson_new(
+            $nick,$phone,$grade,$origin,$subject,$has_pad);
+        //处理
+        $this->t_student_info->field_update_list($userid,[
+            "originid"           => 1,
+            "origin_assistantid" =>  $origin_assistantid,
+            "origin_userid"      => $origin_userid,
+            "reg_time" => time(NULL),
+        ]);
+        $account= $this->get_account();
+
+        $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
+
+        $origin_nick="客服";
+        $this->t_book_revisit->add_book_revisit(
+            $phone,
+            "操作者: $account , 负责人: [$origin_assistant_nick] 转介绍  来自:[$origin_nick] ",
+            "system"
+        );
+
+        //分配给原来的销售
+        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+        //$admin_revisiterid= $origin_assistantid;
+
+        if ($admin_revisiterid) {
+            $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
+            $nick=$this->t_student_info->get_nick($userid);
+            $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
+        }
+
+    }
 
 
 }

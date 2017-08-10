@@ -29,8 +29,8 @@ $(function(){
         var teacherid = $(this).data("teacherid");
         var num = $(this).data("num");
         //alert(teacherid);
-        var title = "被换老师详情";
-        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>助教</td><td>学生</td><tr></table></div>");
+        var title = "老师退费投诉详情";
+        var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>合同id</td><td>老师</td><td>学生</td><td>退费时间</td><td>详情</td><tr></table></div>");
 
         $.do_ajax('/ss_deal2/get_refund_teacher_detail_info',{
             "teacherid"       :teacherid,
@@ -39,7 +39,7 @@ $(function(){
         },function(resp) {
             var userid_list = resp.data;
             $.each(userid_list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item["account"]+"</td><td>"+item["nick"]+"</td></tr>");
+                html_node.find("table").append("<tr><td>"+item['orderid']+"</td><td>"+item["teac_nick"]+"</td><td>"+item["stu_nick"]+"</td><td>"+item["apply_time_str"]+"</td><td><a target='_blank' href='http://admin.yb1v1.com/user_manage/refund_analysis?orderid="+item['orderid']+"&apply_time="+item['apply_time']+"'>详情链接</a></td></tr>");
             });
 
 
