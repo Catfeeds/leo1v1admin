@@ -52,6 +52,57 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function agent_list_new(){
+        $type      = $this->get_in_int_val('type');
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        // $data_map  = &$ret_info["list"];
+        // //试听信息
+        // $this->t_test_lesson_subject_require->switch_tongji_database();
+        // $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_new();
+        // foreach ($test_lesson_list as  $test_item ) {
+        //     $check_value=$test_item["check_value"];
+        //     \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+        //     $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+        //     $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+        // }
+        // $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
+        // foreach ($require_list as  $item ) {
+        //     $check_value=$item["check_value"];
+        //     \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+        //     $data_map[$check_value]["require_count"] = $item["require_count"];
+        // }
+
+
+        if($type == 14){
+
+        }elseif($type == 15){
+
+        }elseif($type = 16){
+
+        }
+        $userid_arr = [];
+        foreach($ret_info['list'] as &$item){
+            if($item['type'] == 1){
+                $userid_arr[] = $item['s_userid'];
+            }
+            $item['agent_type'] = $item['type'];
+            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+        }
+        if(count($userid_arr)>0){
+            $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
+            foreach($ret_info['list'] as &$item){
+                foreach($test_info as $info){
+                    if($item['s_userid'] == $info['userid']){
+                        $item['success_flag'] = 1;
+                    }
+                }
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
         $aid       = $this->get_in_int_val('aid');
