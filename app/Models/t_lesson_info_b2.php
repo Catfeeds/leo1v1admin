@@ -2780,7 +2780,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 1 ',
             ' l.lesson_start > 1501516800 ',
-            ' lss.success_flag = 0 ',
+            // ' lss.success_flag = 0 ',
+            ' l.lesson_user_online_status = 1 ',
             ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
