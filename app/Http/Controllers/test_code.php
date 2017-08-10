@@ -95,12 +95,12 @@ class test_code extends Controller
                         echo $red;
                         echo "teacher_money_type:".$arr[0]." level:".$arr[1]." grade:".$arr[2]." money:".$arr[3]." type:".$arr[4];
                         echo $div;
-
                     }
                 }
             }
         }
     }
+
 
     function GetIp(){
         $realip = '';
@@ -1570,12 +1570,12 @@ class test_code extends Controller
 
     }
 
-    public function reset_lesson_count(){
-        $userid = $this->get_in_int_val("userid",244858);
-
-        $this->t_student_info->reset_lesson_count($userid);
-
-
+    public function add_teacher_money_type_new(){
+        $arr = $this->get_b_txt();
+        // teacher_money_type | level | k1-k5 money | k6-k8 money | k9 money | k10-k11 money | k12 money 
     }
+
+
+
 
 }

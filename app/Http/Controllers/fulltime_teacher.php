@@ -408,9 +408,10 @@ class fulltime_teacher extends Controller
         //-------------------------------------------------------------------------------------
         //$ret['fulltime_teacher_count'] =  count($arr);//全职老师总人数
         $ret['fulltime_teacher_count'] =  $full_num;//全职老师总人数
-        $ret_platform_teacher_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计平台老师总人数/课时
+        $fulltime_lesson_count = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time,1);//统计全职老师总人数/课时
 
-        $ret['fulltime_teacher_student'] =$lesson_all['normal_stu']; //全职老师所带学生总数
+        // $ret['fulltime_teacher_student'] =$lesson_all['normal_stu']; //全职老师所带学生总数
+        $ret['fulltime_teacher_student'] =$fulltime_lesson_count["stu_num"]; //全职老师所带学生总数
         $ret['fulltime_teacher_lesson_count'] =$lesson_all['lesson_count'];//全职老师完成的课耗总数
         $ret['fulltime_teacher_cc_per']  = $tran_all['cc_per'];//全职老师cc转化率
         $train_through_new = 1;
