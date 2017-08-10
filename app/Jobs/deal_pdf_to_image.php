@@ -107,8 +107,10 @@ class deal_pdf_to_image extends Job implements ShouldQueue
         $IM->setCompressionQuality(100);
 
         // @$IM->readImage($pdf);
+        $is_exit = file_exists($pdf);
 
-        if($IM->readImage($pdf)){
+        if($is_exit){
+            $IM->readImage($pdf);
             foreach($IM as $key => $Var){
                 @$Var->setImageFormat('png');
                 $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
