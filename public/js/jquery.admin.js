@@ -1077,8 +1077,8 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                 cssClass: 'btn-warning',
                 action: function(dialog) {
                     dialog.close();
-                    $element.val([].join(","));
-                    onChange( [] );
+                    $element.val([-1].join(","));
+                    onChange( [-1] );
                 }
             });
 

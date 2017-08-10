@@ -854,6 +854,8 @@ $(function(){
         var $subject= html_node.find(".field-subject");
         var $lesson_count= html_node.find(".field-lesson_count");
         var $competition_flag= html_node.find(".field-competition_flag");
+        var $pre_money= html_node.find(".field-pre-money");
+
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
         var $promotion_spec_discount_price= html_node.find(".field-promotion_spec_discount_price");
@@ -954,6 +956,7 @@ $(function(){
                         title :  $receipt_title.val(),
                         order_require_flag: $order_require_flag.val(),
                         userid: data.userid,
+                        pre_money: $pre_money.val(),
                         grade: data.grade,
                         subject: data.subject,
                         origin: data.origin,
@@ -2023,6 +2026,7 @@ $(function(){
                 //[ "", btn_add_new_no_test_lesson ],
                 [ "", btn_add_new_no_test_lesson_1 ],
                 [ "", btn_add_3 ],
+                [ "", btn_add_5 ],
             ];
         }else if ( window.location.pathname== "/user_manage/contract_list_ass") {
             arr=[
@@ -2036,6 +2040,7 @@ $(function(){
 
                 [ "", btn_add_3 ],
                 [ "", btn_add_new_no_test_lesson_1 ],
+                [ "", btn_add_5 ],
             ];
 
         }
@@ -2407,7 +2412,9 @@ $(function(){
         var main_send_admin  = $('<input/>');
         var mail_send_time   = $('<input/>');
         var mail_code        = $('<input/>');
-        var mail_code_url    = $('<input/>');
+        var mail_code_url    = $('<button id="id_upload_mail_photo">上传图片</button>');
+
+        var show_mail_url    = $('<input/>');
         var is_send_flag     = $('<select/>');
 
         Enum_map.append_option_list( "boolean", is_send_flag ,true);
@@ -2426,15 +2433,15 @@ $(function(){
                 [ "发件人"  , main_send_admin ],
                 [ "发件时间"  , mail_send_time],
                 [ "运单号"  , mail_code],
-                [ "运单号照片"  , mail_code_url],
+                [ "上传运单号照片"  , mail_code_url],
+                [ "生成运单号照片链接"  , show_mail_url],
                 [ "是否已邮寄", is_send_flag],
             ];
 
             main_send_admin.val(data.main_send_admin);
             mail_send_time.val(data.mail_send_time_str);
             mail_code.val(data.mail_code);
-            mail_code_url.val(data.mail_code_url);
-
+            show_mail_url.val(data.mail_code_url);
             is_send_flag.val(data.is_send_flag);
 
 
@@ -2446,17 +2453,59 @@ $(function(){
                         "main_send_admin"  : main_send_admin.val(),
                         "mail_send_time"   : mail_send_time.val(),
                         "mail_code"        : mail_code.val(),
-                        "mail_code_url"    : mail_code_url.val(),
+                        'mail_code_url'    : show_mail_url.val(),
                         "is_send_flag"     : is_send_flag.val(),
                         "orderid"          : opt_data.orderid,
                     })
                 }
+            },function(){
+                $.custom_upload_file('id_upload_mail_photo',true,function (up, info, file) {
+                    var res = $.parseJSON(info);
+                    $.ajax({
+                        url: '/ss_deal2/set_mail_photo',
+                        type: 'POST',
+                        data: {
+                            'mail_url'  : res.key,
+                            'orderid'   : opt_data.orderid
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            var mail_url = data.data;
+                            show_mail_url.val(mail_url);
+                        }
+                    });
+
+                }, null,["png", "jpg",'jpeg','bmp','gif']);
             });
         }
                  );
 
     });
 
+    $(".opt-merge_order").on("click",function(){
+        var id_orderid = $("<input/>");
+        var data = $(this).get_opt_data();
 
+        var arr = [
+            ["目标合同",id_orderid],
+        ];
+
+        $.show_key_value_table("合并合同",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage_new/merge_order",{
+                    "orderid"      : data.orderid,
+                    "orderid_goal" : id_orderid.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
 
 });

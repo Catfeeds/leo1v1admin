@@ -106,7 +106,6 @@ class deal_pdf_to_image extends Job implements ShouldQueue
         $IM->setResolution(100,100);
         $IM->setCompressionQuality(100);
 
-        // @$IM->readImage($pdf);
         $is_exit = file_exists($pdf);
 
         if($is_exit){
