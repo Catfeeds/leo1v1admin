@@ -1144,8 +1144,8 @@ class Utils  {
     //张珍颖奥数 58812 所有都是75元/课时
     static public function get_teacher_base_money($teacherid,$lesson_info){
         $check_time = strtotime("2017-9-10");
-
         $money = $lesson_info['money'];
+
         if(time()<$check_time){
             if($teacherid==71743){
                 $money=60;

@@ -284,7 +284,7 @@ class ss_deal2 extends Controller
         $ret = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$teacherid);
 
         foreach($ret as &$item){
-            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time","_str");
         }
 
         if($ret){
