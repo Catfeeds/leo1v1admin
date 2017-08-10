@@ -1864,9 +1864,10 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ."left join db_weiyi.t_seller_student_new n on a.phone=n.phone "
             ."left join db_weiyi.t_student_info s on s.userid = n.userid "
              ."left join db_weiyi.t_test_lesson_subject t on t.userid= n.userid  "
-             ."where  a.type=1 ";
+             ."where  a.type=1 "
              // ."where require_admin_type=2 and a.type=1 "
-            // ." and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')";
+            ." and s.origin ='优学优享' ";
+        // ." and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')";
         // ."and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙') group by  check_value";
         return $this->main_get_list($sql);
     }
