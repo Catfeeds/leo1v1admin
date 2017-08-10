@@ -11,13 +11,14 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	title	:any;
-	type	:any;
-	des	:any;
 	pic	:any;
-	new_link	:any;
+	title	:any;
+	des	:any;
 	adminid	:any;
+	wxnew_type	:any;
 	create_time	:any;
+	new_link	:any;
+	wxnew_type_str	:any;
 }
 
 /*
