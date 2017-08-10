@@ -3565,7 +3565,6 @@ class user_manage_new extends Controller
         foreach($list as &$val){
             $teacher_phone_list =  explode(",",$val['teacher_phone_list']);
             $lesson_start = strtotime(date("Y-m-d",$val["day"])." ".$val["start"]);
-            dd(date("Y-m-d",$val["day"])." ".$val["start"]);
             $tea_arr=[];
             $val["realname"]="";
             foreach($teacher_phone_list as $item){
@@ -3594,10 +3593,8 @@ class user_manage_new extends Controller
             $val["end_time_ex"]   = strtotime(date("Y-m-d",$week_day)." ".$val["end"])*1000;
 
             $val["start_time"] = $w."-".$val["start"];
-            dd($val);
 
         }
-        dd($list);
         return  outputjson_success( [ "common_lesson_config" => $list] );
 
         //dd($list);
