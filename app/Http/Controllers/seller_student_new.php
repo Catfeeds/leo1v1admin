@@ -78,7 +78,7 @@ class seller_student_new extends Controller
         $origin_assistantid    = $this->get_in_int_val("origin_assistantid",-1  );
         $tmk_adminid           = $this->get_in_int_val("tmk_adminid",-1, "");
         $account_role     = $this->get_in_enum_list(E\Eaccount_role::class, -1 );
-        $origin_level          = $this-> get_in_el_origin_level();
+        $origin_level          = $this-> get_in_el_origin_level("0,1,2,3,4");
         $seller_student_sub_status = $this->get_in_enum_val(E\Eseller_student_sub_status::class,-1);
         $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
         $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
