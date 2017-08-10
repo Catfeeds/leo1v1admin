@@ -698,7 +698,7 @@ class TeacherTask extends TaskController
     }
 
     /**
-     * 试听/试听模拟课课前4小时未传学生讲义
+     * 试听/试听模拟课课前4小时未传学生讲义,老师讲义,作业
      * @param type=15
      */
     public function before_four_hour_not_upload_cw($type){

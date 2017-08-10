@@ -24,6 +24,7 @@ class menu{
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
                     ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
+                    ["power_id"=>67, "name"=>"试卷管理",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                 ]
                 ],
             ]
@@ -340,7 +341,6 @@ class menu{
                     ["power_id"=>2, "name"=>"批次明细",  "url"=>"/upload_tmk/post_student_list" ]
                 ]],
                 ["power_id"=>66, "name"=>"微信新闻",   "url"=>"/t_yxyx_wxnews_info/all_news"],
-                ["power_id"=>67, "name"=>"试卷管理",   "url"=>"/t_yxyx_test_pic_info/all_list"],
                 ["power_id"=>4, "name"=>"图片管理",   "url"=>"/pic_manage/pic_info"],
                 ["power_id"=>5, "name"=>"节日列表",   "url"=>"/festival/festival_list"],
                 ["power_id"=>7, "name"=>"系统消息",   "url"=>"/news_info/stu_message_list"],

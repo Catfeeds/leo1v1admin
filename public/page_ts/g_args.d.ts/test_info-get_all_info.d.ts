@@ -13,15 +13,28 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	id	:any;
+	test_title	:any;
+	test_des	:any;
+	grade	:any;
+	subject	:any;
+	test_type	:any;
+	pic	:any;
+	poster	:any;
+	create_time	:any;
+	account	:any;
+	grade_str	:any;
+	subject_str	:any;
+	test_type_str	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../t_yxyx_test_pic_info; vi  ../t_yxyx_test_pic_info/get_all_info.ts
+	 mkdir -p ../test_info; vi  ../test_info/get_all_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/t_yxyx_test_pic_info-get_all_info.d.ts" />
+/// <reference path="../g_args.d.ts/test_info-get_all_info.d.ts" />
 
 $(function(){
     function load_data(){
