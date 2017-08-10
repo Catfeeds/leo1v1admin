@@ -1859,12 +1859,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             // ."sum( global_tq_called_flag =2 and  n.sys_invaild_flag =1 ) tq_call_succ_invalid_count  ,"
             // ."avg( if(   add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, "
             // ."sum( global_tq_called_flag =2 and  n.sys_invaild_flag=0  ) tq_call_succ_valid_count   "
-            ."from db_weiyi.agent a "
-             ."left join db_weiyi.t_seller_student_new n on a.phone=n.phone "
+            ."from db_weiyi.t_agent a "
+            ."left join db_weiyi.t_seller_student_new n on a.phone=n.phone "
             ."left join db_weiyi.t_student_info s on s.userid = n.userid "
             ."left join db_weiyi.t_test_lesson_subject t on t.userid= n.userid  "
-            ."where require_admin_type=2 a.type=1 "
-            ."and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')";
+            ."where require_admin_type=2 and a.type=1 "
+            ." and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')";
         // ."and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙') group by  check_value";
         return $this->main_get_list($sql);
     }
