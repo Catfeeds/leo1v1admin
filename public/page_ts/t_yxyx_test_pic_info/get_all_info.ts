@@ -74,8 +74,8 @@ $(function(){
                                          pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                          html_node.find(".add_header_img").html(pic_img);
                                          html_node.find(".add_pic").html(pic_url);
+                                         add_next_pic();
                                      });
-                add_next_pic();
             },
             buttons: [
                 {
@@ -199,7 +199,7 @@ $(function(){
     var pic_num = 1;
     function add_next_pic() {
         $('#id_container_add_tmp').empty();
-        var new_input = '<input id="id_upload_add" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
+        var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
         pic_num++;
     }
