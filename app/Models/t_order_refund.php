@@ -426,7 +426,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
 
 
 
-    public function get_tec_refund_info($start_time,$end_time){
+    public function get_tec_refund_info_by_qc($start_time,$end_time){
         $where_arr = [
             "ra.id is not null",
             "t.teacherid >0",
