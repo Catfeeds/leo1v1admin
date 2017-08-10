@@ -100,6 +100,7 @@ $(function(){
                         $(".opt_detail").on("click",function(){
                             var userid = $(this).data("userid");
                             var revisit_time = $(this).data("revisit_time");
+                            revisit_time = strtotime(revisit_time);
                             $.ajax({
                             type     : "post",
                             url      : "/revisit/get_revisit_info_by_revisit_time",
@@ -374,6 +375,8 @@ $(function(){
                                 }                                                               
                             }
                         });
+
+
                         });
                     }
                 });

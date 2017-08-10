@@ -135,7 +135,7 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
             ["is_warning_flag=%u",$is_warning_flag,-1]
         ];
 
-        $sql=$this->gen_sql_new("select revisit_time,revisit_person,operator_note,operator_audio,sys_operator, call_phone_id, duration,  record_url, c.phone ,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,m.uid   "
+        $sql=$this->gen_sql_new("select userid, revisit_time,revisit_person,operator_note,operator_audio,sys_operator, call_phone_id, duration,  record_url, c.phone ,revisit_type,operation_satisfy_flag ,operation_satisfy_type,operation_satisfy_info,record_tea_class_flag,child_performance,tea_content_satisfy_flag ,tea_content_satisfy_type,tea_content_satisfy_info,other_parent_info,child_class_performance_flag ,child_class_performance_type,child_class_performance_info,school_score_change_flag ,school_score_change_info,school_work_change_flag ,school_work_change_type,school_work_change_info,other_warning_info,is_warning_flag ,warning_deal_url ,warning_deal_info,m.uid,parent_guidance_except,other_subject_info,tutorial_subject_info,recover_time,revisit_path,recent_learn_info,information_confirm  "
                                 ."from %s r "
                                 ." left join  %s c on  c.id= r.call_phone_id   "
                                 ." left join %s m on r.sys_operator = m.account"
@@ -382,9 +382,49 @@ class t_revisit_info extends \App\Models\Zgen\z_t_revisit_info
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
-
+//        dd($sql);
         return $this->main_get_list($sql);
     }
+
+  public function update_revisit_record_b2($userid, $revisit_time, $stu_nick, $revisit_person, $sys_operator, $operator_note,$revisit_type, $call_phone_id  =NULL,$operation_satisfy_flag=0,$operation_satisfy_type=0,$record_tea_class_flag=0,$tea_content_satisfy_flag=0,$tea_content_satisfy_type=0,$operation_satisfy_info="",$child_performance="",$tea_content_satisfy_info="",$other_parent_info="",$other_warning_info="",$child_class_performance_flag=0,$child_class_performance_info="",$child_class_performance_type=0,$school_work_change_flag=0,$school_score_change_flag=0,$school_work_change_info="",$school_work_change_type=0,$school_score_change_info="",$is_warning_flag=0,$recover_time,$revisit_path,$information_confirm,$parent_guidance_except,$tutorial_subject_info,$other_subject_info,$recent_learn_info)
+  {
+        return  $ret= $this->field_update_list_2($userid,$revisit_time,[
+            "stu_nick"       => $stu_nick,
+            "revisit_person" => $revisit_person,
+            "sys_operator"   => $sys_operator,
+            "operator_note"  => $operator_note,
+            "revisit_type"   => $revisit_type,
+            "call_phone_id"   => $call_phone_id,
+            "operation_satisfy_flag" => $operation_satisfy_flag,
+            "operation_satisfy_type" => $operation_satisfy_type,
+            "record_tea_class_flag" => $record_tea_class_flag,
+            "tea_content_satisfy_flag" => $tea_content_satisfy_flag,
+            "tea_content_satisfy_type" => $tea_content_satisfy_type,
+            "operation_satisfy_info" => $operation_satisfy_info,
+            "child_performance" => $child_performance,
+            "tea_content_satisfy_info" => $tea_content_satisfy_info,
+            "other_parent_info" => $other_parent_info,
+            "other_warning_info" => $other_warning_info,
+            "child_class_performance_flag"=>$child_class_performance_flag,
+            "child_class_performance_type"=>$child_class_performance_type,
+            "child_class_performance_info"=>$child_class_performance_info,
+            "school_score_change_flag" =>$school_score_change_flag,
+            "school_score_change_info" =>$school_score_change_info,
+            "school_work_change_flag" =>$school_work_change_flag,
+            "school_work_change_type" =>$school_work_change_type,
+            "school_work_change_info" =>$school_work_change_info,
+            "is_warning_flag"         =>$is_warning_flag,
+            "recover_time"            =>$recover_time,
+            "revisit_path"            =>$revisit_path,
+            "information_confirm"     =>$information_confirm,
+            "parent_guidance_except"  =>$parent_guidance_except,
+            "tutorial_subject_info"   =>$tutorial_subject_info,
+            "other_subject_info"      =>$other_subject_info,
+            "recent_learn_info"       =>$recent_learn_info
+
+        ]);
+ 
+  }
 
 
 }

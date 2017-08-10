@@ -38,21 +38,7 @@
                     <td>回访记录</td>
                     <td> 语音记录  </td>
                     <td> 回访人 </td>
-                    <td> 软件操作是否满意 </td>
-                    <td> 软件操作不满意的类型 </td>
-                    <td> 软件操作不满意的描述</td>
-                    <td> 孩子课堂表现 </td>
-                    <td> 孩子课堂表现不好的类型 </td>
-                    <td> 孩子课堂表现不好的描述 </td>
-                    <td> 学校成绩变化 </td>
-                    <td> 学校成绩变化变差的描述 </td>
-                    <td>学业是否变化 </td>
-                    <td>学业变化的类型 </td>
-                    <td>学业变化的描述 </td>
-                    <td>对老师or教学是否满意 </td>
-                    <td>对老师or教学不满意的类型 </td>
-                    <td>对老师or教学不满意的描述 </td>
-                    <td>家长意见或建议</td>
+
                     <td>其他预警问题</td>
                     <td>预警情况</td>
                     <td>预警处理方案</td>
@@ -66,31 +52,9 @@
                         <td>{{$var["revisit_type_str"]}} </td>
                         <td>{{@$var["revisit_person"]}} </td>
                         <td>{!! @$var["operator_note"]  !!} </td>
-
                         <td>{{@$var["duration"]}} </td>
                         <td>{{@$var["sys_operator"]}} </td>
-                        <td>{{@$var["operation_satisfy_flag_str"]}} </td>
-                        <td>{{@$var["operation_satisfy_type_str"]}} </td>
-                        <td>{{@$var["operation_satisfy_info"]}} </td>
-                        <td>{{@$var["child_class_performance_flag_str"]}} </td>
-                        <td>{{@$var["child_class_performance_type_str"]}} </td>
-                        <td>{{@$var["child_class_performance_info"]}} </td>
-                        <td>{{@$var["school_score_change_flag_str"]}} </td>
-                        <td>
-                            @if(!empty($var["school_score_change_info"]))
-                                {{@$var["school_score_change_info"]}}
-                            @else
-                                {{@$var["child_performance"]}}
-                            @endif
-                        </td>
-                        <td>{{@$var["school_work_change_flag_str"]}} </td>
-                        <td>{{@$var["school_work_change_type_str"]}} </td>
-                        <td>{{@$var["school_work_change_info"]}} </td>
 
-                        <td>{{@$var["tea_content_satisfy_flag_str"]}} </td>
-                        <td>{{@$var["tea_content_satisfy_type_str"]}} </td>
-                        <td>{{@$var["tea_content_satisfy_info"]}} </td>
-                        <td>{{@$var["other_parent_info"]}} </td>
                         <td>{{@$var["other_warning_info"]}} </td>
                         <td>{{@$var["is_warning_flag_str"]}} </td>
                         <td>
@@ -112,6 +76,7 @@
                                         <a class="fa opt-warning-record" >预警处置 </a>
                                     @endif
                                 @endif
+                                 <a class = "opt_detail" data-userid="{{$var['userid']}}" data-revisit_time="{{$var['revisit_time']}}">详情</a>
                             </div>
                         </td>
 
