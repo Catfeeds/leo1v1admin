@@ -367,7 +367,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
             "ra.score>0"
         ];
         $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select m.uid,occ.value,ra.score,r.orderid"
+        $sql = $this->gen_sql_new("select m.uid,occ.value,ra.score,r.orderid,m.account"
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s a on s.assistantid=a.assistantid"
@@ -435,7 +435,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
         ];
         $this->where_arr_add_time_range($where_arr,"r.apply_time",$start_time,$end_time);
         // $this->where_arr_teacherid($where_arr,"t.teacherid", $tea_arr);
-        $sql = $this->gen_sql_new("select t.teacherid,occ.value,ra.score,s.nick "
+        $sql = $this->gen_sql_new("select t.teacherid,occ.value,t.nick "
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s o on r.orderid = o.orderid"

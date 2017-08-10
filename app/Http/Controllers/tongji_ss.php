@@ -4525,7 +4525,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $item_tec['num'] = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$item_tec['teacherid']);
         }
 
-        dd($ret_tec);
+        // dd($ret_tec);
 
         // $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
 
@@ -4540,9 +4540,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         // }
         \App\Helper\Utils::order_list( $tea,"num", 0);
         \App\Helper\Utils::order_list( $ass,"num", 0);
-        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
-        $all["refund_tea_num"] = count($tea);
-        $all["refund_ass_num"] = count($ass);
+        // $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        // $all["refund_tea_num"] = count($tea);
+        // $all["refund_ass_num"] = count($ass);
         // foreach($tea as $v){
         //     @$all["change_tea_all_num"] +=$v["num"];
         // }
@@ -4552,9 +4552,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         // $list_info = \App\Helper\Utils::list_to_page_info($ass);
         return $this->pageView(__METHOD__ ,null,[
-            "tea"   =>$tea,
-            "ass"   =>$ass,
-            "all"   =>$all
+            "tea"   =>$ret_tec,
+            "ass"   =>$ret_ass,
+            // "all"   =>$all
         ]);
 
         //dd($ass);

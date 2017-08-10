@@ -2274,7 +2274,7 @@ lesson_type in (0,1) "
             $lesson_time_str = $lesson_start_str;
             // $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
             //  ." and (lesson_type=2 or (lesson_type =1100 and train_type =4)) ";               
-            $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0) and l.wx_before_four_hour_cw_flag =0"
+            $str= "l.lesson_status=0 and (l.stu_cw_upload_time =0 or l.tea_cw_upload_time=0 or h.work_status=0) and l.wx_before_four_hour_cw_flag =0"
                 ." and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";               
             break;
         case 16:
@@ -2324,7 +2324,7 @@ lesson_type in (0,1) "
         $sql = $this->gen_sql_new("select l.lessonid,l.teacherid,l.userid,l.lesson_type,l.lesson_count,l.grade,t.teacher_type,"
                                   ." l.lesson_start,l.lesson_end,l.assistantid,s.realname as stu_nick,t.realname as tea_nick,"
                                   ." l.teacher_money_type,l.stu_cw_upload_time,m.money,tl.success_flag,l.tea_rate_time,"
-                                  ." l.train_type,l.subject,l.lesson_name,l.tea_cw_upload_time  "
+                                  ." l.train_type,l.subject,l.lesson_name,l.tea_cw_upload_time,h.work_status  "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid "
                                   ." left join %s s on s.userid=l.userid"
@@ -2335,6 +2335,7 @@ lesson_type in (0,1) "
                                   ." else l.grade"
                                   ." end)"
                                   ." and l.teacher_money_type=m.teacher_money_type"
+                                  ." left join %s h on l.lessonid = h.lessonid"
                                   ." where %s"
                                   ." and (tl.success_flag!=2 or tl.success_flag is null)"
                                   ,self::DB_TABLE_NAME
@@ -2342,6 +2343,7 @@ lesson_type in (0,1) "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_teacher_money_type::DB_TABLE_NAME
+                                  ,t_homework_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
