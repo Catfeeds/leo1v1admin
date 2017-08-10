@@ -623,7 +623,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
         $group_list = $this->t_admin_group_name->get_group_list(2);
-        // dd($ret_info);
+
         $origin_type = 0;
         if($origin_ex == '优学帮,,,'){
             $origin_type = 1;
