@@ -740,7 +740,7 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
                     
-        $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+        $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all_new(
             -1,$start_time,$end_time,-1,-1,-1,"");
         $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
             -1,$start_time,$end_time,-1,-1,-1,"",-2);

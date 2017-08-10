@@ -33,7 +33,7 @@ $(function(){
         var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>助教</td><td>学生</td><tr></table></div>");
 
         $.do_ajax('/ss_deal2/get_refund_teacher_detail_info',{
-            "teacherid"         :teacherid,
+            "teacherid"       :teacherid,
             "start_time"      : g_args.start_time,
             "end_time"        : g_args.end_time
         },function(resp) {

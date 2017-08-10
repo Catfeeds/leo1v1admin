@@ -278,9 +278,7 @@ class ss_deal2 extends Controller
 
     public function get_refund_teacher_detail_info(){
         $teacherid  = $this->get_in_int_val("teacherid");
-        $start_time = $this->get_in_int_val("start_time");
-        $end_time   = $this->get_in_int_val("end_time");
-
-        dd($start_time);
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time   = strtotime($this->get_in_str_val("end_time"));
     }
 }
