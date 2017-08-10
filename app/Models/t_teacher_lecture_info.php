@@ -1405,22 +1405,30 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         if(is_array($time)){
             $start_time = $time['start_time'];
             $end_time   = $time['end_time'];
-            $time_str = "l.confirm_time>=$start_time and l.confirm_time < $end_time ";
+            $time_str = "confirm_time>=$start_time and confirm_time < $end_time ";
         }else{
-            $time_str = "l.confirm_time>$time";
+            $time_str = "confirm_time>$time";
         }
 
-
-
         $sql = $this->gen_sql_new("select count(*) num,sum(confirm_time - add_time) time from %s"
-                                  ." where status = 1 and confirm_time >%u and confirm_time>add_time",
+                                  ." where status = 1 and %s and confirm_time>add_time",
                                   self::DB_TABLE_NAME,
-                                  $time
+                                  $time_str
         );
         return $this->main_get_row($sql);
     }
 
     public function get_tea_tran_pass_time($time){
+
+        if(is_array($time)){
+            $start_time = $time['start_time'];
+            $end_time   = $time['end_time'];
+            $time_str = "confirm_time>=$start_time and confirm_time < $end_time ";
+        }else{
+            $time_str = "confirm_time>$time";
+        }
+
+
         $sql = $this->gen_sql_new("select count(*) num,sum(t.train_through_new_time - tl.confirm_time) time from %s tl "
                                   ." left join %s t on tl.phone = t.phone"
                                   ." where tl.status = 1 and tl.confirm_time >%u and tl.confirm_time>tl.add_time and t.train_through_new_time > tl.confirm_time",
