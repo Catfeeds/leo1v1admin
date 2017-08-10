@@ -16,10 +16,10 @@ class TeacherTask extends TaskController
         $this->teacher_wx_url = \App\Helper\Config::get_teacher_wx_url();
         $this->teacher_money  = \App\Helper\Config::get_config("teacher_money");
     }
-    
+
     /**
      * 与课程相关内容的老师微信推送
-     * @param openid 老师微信绑定id 
+     * @param openid 老师微信绑定id
      * @param lesson_info 课堂信息
      * @param type 1 课堂未评价通知 2-6 扣款通知 7 课堂结算通知 8 提醒上传学生讲义
      *             9 学生上传作业 10 课堂信息有误(学生,老师讲义,作业上传有问题)
@@ -39,7 +39,7 @@ class TeacherTask extends TaskController
         $tea_nick = $lesson_info['tea_nick'];
 
         $grade_str       = E\Egrade::get_desc($lesson_info['grade']);
-        $lesson_count    = $lesson_info['lesson_count'];        
+        $lesson_count    = $lesson_info['lesson_count'];
         $lesson_type_str = $lesson_info['lesson_type']==2?"试听课":"1对1";
         $lesson_time     = date("m-d H:i",$lesson_info['lesson_start'])."-".date("H:i",$lesson_info['lesson_end']);
         $str_ex          = "";
@@ -145,7 +145,7 @@ class TeacherTask extends TaskController
                 \App\Helper\Utils::logger("lesson type is not set ".$val['lessonid']);
                 continue;
             }
-           
+
             if($val['lesson_type']==2){
                 $end_time    = strtotime(date("Y-m-d",$val['lesson_start']))+86400;
                 $lesson_end  = $val['lesson_end'];
@@ -225,12 +225,12 @@ class TeacherTask extends TaskController
                         // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
- 
+
                         $wx_come_flag = 1;
                     }else{
                         $wx_come_flag = 2;
                         \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                    }                   
+                    }
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "wx_come_flag"     => $wx_come_flag,
                         "deduct_come_late" => 1
@@ -252,7 +252,7 @@ class TeacherTask extends TaskController
                             $require_adminid        = $this->t_test_lesson_subject->get_require_adminid($test_lesson_subject_id);
                             $account = $this->cache_get_account_nick($require_adminid);
                         }
-                    
+
                         $url="/supervisor/monitor_seller?date=".$now."&teacherid=".$val['teacherid'];
                         $account_str="销售-".$account;
                     }
@@ -360,22 +360,23 @@ class TeacherTask extends TaskController
                     }
                 }
 
-                
-                $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
-                $val['info'] = "由于您的试听课未在课程结束后120分钟给出反馈,对家长了解孩子学习情况造成影响，"
-                             ."因此扣款".$val['cost']."元";
-                $openid      = $this->t_teacher_info->get_wx_openid($val['teacherid']);
-                if($openid){
-                    $val['reason'] = "试听课未及时评价";
-                    $this->teacher_wx_data($openid,$val,$type);
-                    $wx_rate_late_flag = 1;
-                }else{
-                    $wx_rate_late_flag = 2;
+                if($val['shut_time']<time()){
+                    $val['cost'] = \App\Helper\Utils::get_lesson_deduct_price($val,$type);
+                    $val['info'] = "由于您的试听课未在课程结束后120分钟给出反馈,对家长了解孩子学习情况造成影响，"
+                                 ."因此扣款".$val['cost']."元";
+                    $openid      = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+                    if($openid){
+                        $val['reason'] = "试听课未及时评价";
+                        $this->teacher_wx_data($openid,$val,$type);
+                        $wx_rate_late_flag = 1;
+                    }else{
+                        $wx_rate_late_flag = 2;
+                    }
+                    $this->t_lesson_info->field_update_list($val['lessonid'],[
+                        "deduct_rate_student" => 1,
+                        "wx_rate_late_flag"   => $wx_rate_late_flag
+                    ]);
                 }
-                $this->t_lesson_info->field_update_list($val['lessonid'],[
-                    "deduct_rate_student" => 1,
-                    "wx_rate_late_flag"   => $wx_rate_late_flag
-                ]);
             }
         }
     }
@@ -442,7 +443,7 @@ class TeacherTask extends TaskController
 
     /**
      * 课程结束的工资信息
-     * @param type=7 
+     * @param type=7
      */
     public function notice_teacher_lesson_end($type){
         $start_time = strtotime(date("Y-m-d",time()));
@@ -571,7 +572,7 @@ class TeacherTask extends TaskController
 
     /**
      * 常规课后24小时老师未评价,提醒老师评价学生
-     * @param type=11 
+     * @param type=11
      */
     public function notice_teacher_for_rate_student($type){
         $start_time = time()-86400;
@@ -582,7 +583,7 @@ class TeacherTask extends TaskController
             $val['shut_time'] = $val['lesson_end']+86400*2;
             $val['info']      = "老师，您昨天有一堂1对1需要评价,请及时给出反馈报告";
             $url = $this->teacher_wx_url['normal_list'];
-            
+
             $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
             if($openid){
                 $this->teacher_wx_data($openid,$val,$type,$url);
@@ -732,7 +733,7 @@ class TeacherTask extends TaskController
                         // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
- 
+
                         $wx_before_four_hour_cw_flag = 1;
                     }else{
                         $wx_before_four_hour_cw_flag = 2;
@@ -742,9 +743,9 @@ class TeacherTask extends TaskController
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "wx_before_four_hour_cw_flag"   => $wx_before_four_hour_cw_flag
                     ]);
- 
+
                 }
-               
+
 
             }
         }
@@ -785,7 +786,7 @@ class TeacherTask extends TaskController
                         $url = "";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
- 
+
                         $wx_before_thiry_minute_remind_flag = 1;
                     }else{
                         $wx_before_thiry_minute_remind_flag = 2;
@@ -795,9 +796,9 @@ class TeacherTask extends TaskController
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
                         "wx_before_thiry_minute_remind_flag"   => $wx_before_thiry_minute_remind_flag
                     ]);
- 
+
                 }
-               
+
 
             }
         }
@@ -813,7 +814,7 @@ class TeacherTask extends TaskController
         $end_time   = $start_time+86400;
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
-       
+
         if(is_array($lesson_list)){
             foreach($lesson_list as &$val){
 
@@ -840,7 +841,7 @@ class TeacherTask extends TaskController
                     $url = "";
 
                     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
-                }                         
+                }
             }
         }
     }
@@ -941,7 +942,7 @@ class TeacherTask extends TaskController
                          * {{remark.DATA}}
                          */
                         $template_id = "2yt4M2mJD7LMLcphWp6PS7VhC0Gv1mXG5zpHAyaeLEU";//old
-                           
+
                         $data=[];
                         $data['first']    = "由于您未在规定时间内向进行评价反馈（2小时内），依据《理优薪资规则》扣款5元，请下次注意并及时给出评价反馈。（本次试听为模拟课程，将不进行实际扣款）";
                         $data['keyword1'] = "5元";
@@ -953,12 +954,12 @@ class TeacherTask extends TaskController
                         // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
- 
+
                         $wx_rate_late_flag = 1;
                     }else{
                         $wx_rate_late_flag = 2;
                         \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                    }  
+                    }
 
 
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
@@ -1011,12 +1012,12 @@ class TeacherTask extends TaskController
 
                     \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
 
- 
+
                     $wx_no_comment_count_down_flag = 1;
                 }else{
                     $wx_no_comment_count_down_flag = 2;
                     \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                }  
+                }
 
 
                 $this->t_lesson_info->field_update_list($val['lessonid'],[
@@ -1079,7 +1080,7 @@ class TeacherTask extends TaskController
         }
     }
 
-   
+
     /**
      * 模拟试听课离开课堂10分钟微信推送,先不执行
      * @param type=22
@@ -1128,12 +1129,12 @@ class TeacherTask extends TaskController
 
                         \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
 
- 
+
                         $wx_absenteeism_flag = 1;
                     }else{
                         $wx_absenteeism_flag = 2;
                         \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
-                    }  
+                    }
 
 
                     $this->t_lesson_info->field_update_list($val['lessonid'],[
@@ -1141,7 +1142,7 @@ class TeacherTask extends TaskController
                         "absenteeism_flag"      => $absenteeism_flag
                     ]);
                 }
- 
+
             }
         }
     }

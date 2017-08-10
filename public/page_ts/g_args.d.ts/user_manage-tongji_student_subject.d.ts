@@ -13,10 +13,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/get_reference_teacher_money_info.ts
+	 mkdir -p ../user_manage; vi  ../user_manage/tongji_student_subject.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-get_reference_teacher_money_info.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage-tongji_student_subject.d.ts" />
 
 $(function(){
     function load_data(){

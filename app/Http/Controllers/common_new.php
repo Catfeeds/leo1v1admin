@@ -991,4 +991,16 @@ class common_new extends Controller
         }
     }
 
+    public function show_message_info(){
+        $messageid = $this->get_in_int_val("messageid");
+        if($messageid>0){
+            $content=$this->t_baidu_msg->get_content($messageid);
+        }else{
+            $content="";
+        }
+
+        return $content;
+    }
+
+
 }

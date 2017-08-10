@@ -133,22 +133,26 @@
                 <tr>
 			        <td style="text-align:right; width:30%;">图片点击状态</td>
 			        <td>
-                        <select class="add_pic_click_status">
-                        </select>
-                    </td>
+                  <select class="add_pic_click_status">
+                  </select>
+              </td>
 		        </tr>
-                <tr class="share_s">
-			        <td style="text-align:right; width:30%;">跳转地址</td>
-			        <td><input class="add_jump_url" type="text"/></td>
-                </tr>
-                <tr  class="share_s">
-			        <td style="text-align:right; width:30%;">分享标题</td>
-			        <td><input class="add_title_share" type="text"/></td>
-                </tr>
-                <tr class="share_s">
-			        <td style="text-align:right; width:30%;">分享内容</td>
-			        <td><textarea class="add_info_share"></textarea></td>
-                </tr>
+            <tr class="share_s">
+			          <td style="text-align:right; width:30%;">跳转地址</td>
+			          <td><input class="add_jump_url" type="text"/></td>
+            </tr>
+            <tr class="share_s">
+			          <td style="text-align:right; width:30%;">跳转目标类型</td>
+			          <td><select class="add_jump_type"></select></td>
+            </tr>
+            <tr class="share_s">
+			          <td style="text-align:right; width:30%;">分享标题</td>
+			          <td><input class="add_title_share" type="text"/></td>
+            </tr>
+            <tr class="share_s">
+			          <td style="text-align:right; width:30%;">分享内容</td>
+			          <td><textarea class="add_info_share"></textarea></td>
+            </tr>
 		    </tbody>
 	    </table>
     </div>

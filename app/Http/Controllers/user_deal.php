@@ -2608,8 +2608,17 @@ class user_deal extends Controller
     {
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        foreach($ass_month as $k=>$val){
+            
+            $this->t_month_ass_student_info->get_field_update_arr($k,$end_time,1,[
+                "read_student_last"  =>$val["read_student"],
+                "userid_list_last"   =>$val["userid_list"]
+            ]);                    
+        }
+        dd($ass_month);
 
-        $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);        
+        
 
         dd($lesson_count_list);
         $start_time = strtotime("2017-07-01");
