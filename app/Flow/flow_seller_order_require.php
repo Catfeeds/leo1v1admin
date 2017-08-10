@@ -117,9 +117,16 @@ class flow_seller_order_require  extends flow_base{
         list($flow_info,$self_info)=static::get_info($flowid);
         $contract_type=$self_info["contract_type"];
         $lesson_total=$self_info["lesson_total"]*  $self_info["default_lesson_count"] /100;
+
+        //新签，续费 ,　不用市场确认 
+        if ( $contract_type==E\Econtract_type::V_0  ||  $contract_type==E\Econtract_type::V_3  ) {
+            return [-1, 0 ];
+        }
+
         if (preg_match("/Y[0-9][0-9][0-9][0-9][0-9]/", $self_info["discount_reason"])) {
             return [4, 281]; //amanda
         }
+
         if ($contract_type==E\Econtract_type::V_0 &&  $lesson_total <90 ) { //30次课
 
             if (($self_info["promotion_present_lesson"] !=$self_info["promotion_spec_present_lesson"]) ||
