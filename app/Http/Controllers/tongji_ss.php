@@ -4482,10 +4482,21 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         }
         \App\Helper\Utils::order_list( $tea,"num", 0);
         \App\Helper\Utils::order_list( $ass,"num", 0);
+        $all = $this->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $all["change_tea_num"] = count($tea);
+        $all["change_ass_num"] = count($ass);
+        foreach($tea as $v){
+            @$all["change_tea_all_num"] +=$v["num"];
+        }
+        foreach($ass as $v){
+            @$all["change_ass_all_num"] +=$v["num"];
+        }
+
         // $list_info = \App\Helper\Utils::list_to_page_info($ass);
         return $this->pageView(__METHOD__ ,null,[
             "tea"   =>$tea,
-            "ass"   =>$ass
+            "ass"   =>$ass,
+            "all"   =>$all
         ]);
 
         //dd($ass);
