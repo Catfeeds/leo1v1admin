@@ -2667,11 +2667,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
          $where_arr=[
             "s.is_test_user=0 ",
             "s.assistantid>0",
-<<<<<<< HEAD
-            "s.type=0",
-=======
             //"s.type=0",
->>>>>>> ea3c61bb2384a4e9bd2ab229769a47d693511d1a
             "c.course_type in (0,1,3)"  ,
             "c.course_status=0 "
 
