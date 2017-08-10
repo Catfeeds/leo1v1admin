@@ -4,6 +4,11 @@ class teaching_menu{
     static  public  function get_config()  {
         return [
 
+            ["power_id"=>40, "name"=>"角色-产品",  "list"=>[
+                ["power_id"=>1, "name"=>"老师晋升审核-总监","url"=>"/teacher_level/get_teacher_advance_info"],
+            ]],
+
+
             ["power_id"=>25, "name"=>"角色-招师",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
@@ -66,7 +71,7 @@ class teaching_menu{
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
                 ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
-                ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
+                // ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 // ["power_id"=>4, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],

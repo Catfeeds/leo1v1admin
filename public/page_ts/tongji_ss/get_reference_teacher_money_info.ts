@@ -22,7 +22,7 @@ $(function(){
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
                         "start_time"       : "2017-06-20",
-                        "end_time"         : "2017-08-03",
+                        "end_time"         : "2017-08-09",
                     },function(resp){
                         console.log(resp.data);
                         var lesson_price=0;
