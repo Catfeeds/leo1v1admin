@@ -46,8 +46,8 @@
                                                 {{$var["nick"]}}
                                             </a>
                                         </td>
-                                        <td >
-                                            <a  href="javascript:;" class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
+                                        <td class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}' >
+                                            <a >{{$var["num"]}}</a>
                                         </td>
                                     </tr>
                                 @endforeach

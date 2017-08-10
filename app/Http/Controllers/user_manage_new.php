@@ -3676,6 +3676,20 @@ class user_manage_new extends Controller
         $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_goal_info = $this->t_order_info->get_order_info_by_orderid($orderid_goal);
 
+        if(!in_array($acc,['adrian',"jim"])){
+            return $this->output_err("没有权限合并合同！");
+        }
+        if($order_info['userid'] != $oder_goal_info['userid']){
+            return $this->output_err("两个合同不是同一个学生！");
+        }
+        if($order_info['contract_status']>1 || !in_array($order_info['contract_type'],[0,3])){
+            return $this->output_err("此合同类型或状态出错！");
+        }
+        if($order_goal_info['contract_status']>1 || !in_array($order_goal_info['contract_type'],[0,3])){
+            return $this->output_err("目标合同类型或状态出错！");
+        }
+
+
         $order_goal_info['price'] += $order_info['price'];
         $order_goal_info['discount_price'] += $order_info['discount_price'];
         $order_goal_info['promotion_discount_price'] += $order_info['promotion_discount_price'];

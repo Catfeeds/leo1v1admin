@@ -275,4 +275,11 @@ class ss_deal2 extends Controller
         return $this->output_succ(['data'=>$ret_info]);
     }
 
+
+    public function get_refund_teacher_detail_info(){
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time   = strtotime($this->get_in_str_val("end_time"));
+
+    }
 }

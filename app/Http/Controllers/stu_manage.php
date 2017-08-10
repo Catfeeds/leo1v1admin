@@ -1061,17 +1061,18 @@ class stu_manage extends Controller
 
             $information_confirm = $item['information_confirm'];
             $information_confirm = json_decode($information_confirm);
-           /* if(isset($information_confirm)){
-                foreach ($information_confirm as $key => $value) {
-                    $value_de = trim($value, '{}');
-                    $value_arr = explode(':', $value_de);
-                    $item[$value_arr[0]] = $value_arr[1];
+            if(isset($information_confirm)){
+                if($information_confirm != ''){
+                    foreach ($information_confirm as $key => $value) {
+                        $value_de = trim($value, '{}');
+                        $value_arr = explode(':', $value_de);
+                        $item[$value_arr[0]] = $value_arr[1];
+                    }
                 }
             }
-            */
+            
 
         }
-        //dd($ret_info);
         $adminid = $this->get_account_id();
         return $this->pageView(__METHOD__,$ret_info,[
             "adminid"  =>$adminid

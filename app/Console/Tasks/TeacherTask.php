@@ -712,6 +712,13 @@ class TeacherTask extends TaskController
                     $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
                     if($openid){
                         $lesson_time = date("H:i",$val["lesson_start"]);
+                        if($val["work_status"]==1){
+                            $status_str ="讲义";
+                        }elseif($val["stu_cw_upload_time"]>0 && $val["tea_cw_upload_time"]>0){
+                            $status_str = "作业";
+                        }else{
+                             $status_str ="讲义和作业";
+                        }
                         /**
                          * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
                          * 标题课程 : 待办事项提醒
@@ -724,9 +731,9 @@ class TeacherTask extends TaskController
 
                         $data=[];
                         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-                        $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传讲义";
-                        $data['keyword1'] = "讲义上传提醒";
-                        $data['keyword2'] = $lesson_time."的模拟课程未上传讲义,请尽快登录老师后台上传讲义";
+                        $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传".$status_str;
+                        $data['keyword1'] = $status_str."上传提醒";
+                        $data['keyword2'] = $lesson_time."的模拟课程未上传".$status_str.",请尽快登录老师后台进行处理";
                         $data['keyword3'] = date("Y-m-d H:i",time());
                         $data['remark']   = "";
                         $url = "";
