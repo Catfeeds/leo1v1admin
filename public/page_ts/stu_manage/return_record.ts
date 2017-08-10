@@ -90,6 +90,7 @@ $(function(){
         }else if(opt_data.revisit_person === "其他"){
             id_return_record_person.val(3);
         }
+        alert(opt_data.self_intro);
         if(opt_data.self_intro){
             id_self_introduction = $("<div class=\"check_flag\"><input type=\"checkbox\" checked id=\"self_intro\"></div>");
         }
