@@ -4,37 +4,7 @@ class teaching_menu{
     static  public  function get_config()  {
         return [
 
-            // [ "power_id"=>50, "name"=>"教学管理-2B",  "list"=>[
-            //     [ "name"=>"b-1",   "url"=>"/main_page/zs_teacher_new" ],
-            //     [ "name"=>"b-2",   "url"=>"/human_resource/index_zs"],
-            //     [ "name"=>"b-3",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
-            //     [ "name"=>"b-4",   "url"=>"/human_resource/reaearch_teacher_lesson_list"],
-            //     [ "name"=>"b-5",   "url"=>"/tongji_ss/tongji_zs_reference"],
-            //     [ "name"=>"面试试讲列表",   "url"=>"/train_teacher/train_lecture_lesson_list"],
-            //     [ "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zs"],
-            //     [ "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zs"],
-            //     [ "name"=>"面试转化率模型",  "list"=>[
-            //         [ "name"=>"教研老师面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_zs"],
-            //         [ "name"=>"面试转化数据-年级科目",   "url"=>"/tongji_ss/interview_subject_grade_tongji_zs"],
-            //         [ "name"=>"招师渠道面试转化率",   "url"=>"/tongji_ss/teacher_interview_info_tongji_by_reference_zs"],
-            //         ["name"=>"面试各项指标评分", "url"=>"/human_resource/get_teacher_lecture_fail_score_info_zs"],
-            //     ]],
-
-            // ]],
-
-            // [ "power_id"=>51, "name"=>"教学管理-1A",  "list"=>[
-            //     ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
-            //     ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
-            //     ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
-            //     ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
-            //     ["power_id"=>38, "name"=>"第一次试听课反馈",   "url"=>"/teacher_level/get_first_test_lesson_info"],
-            //     ["power_id"=>39, "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info"],
-            //     ["power_id"=>40, "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info"],
-
-            // ]],
-
-
-            ["power_id"=>25, "name"=>"教学管理-招师",  "list"=>[
+            ["power_id"=>25, "name"=>"角色-招师",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
                 ["power_id"=>12, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
@@ -57,7 +27,7 @@ class teaching_menu{
             ]],
 
 
-            ["power_id"=>37, "name"=>"教学管理-质监",  "list"=>[
+            ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
@@ -88,7 +58,7 @@ class teaching_menu{
             ]],
 
 
-                        ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
+            ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
                 ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                 ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],

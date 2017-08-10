@@ -43,14 +43,9 @@ class login extends Controller
                     // $menu_str.=$tmp[0];
 
                     // 修改
-                    if ( substr($item_name,0,13)== "教学管理-"  ) {
-                        \App\Helper\Utils::logger("name_jiaoxue41: $item_name");
-
-                        $role_item_count++;
+                    if ( substr($item_name,0,7)== "角色-"  ) {
                         $is_teaching_flag = 1;
                         $role_str.=$tmp[0];
-                        \App\Helper\Utils::logger("sjkd: $role_item_count");
-
                     }else{
                         $role_str.=$tmp[0];
                     }
@@ -117,7 +112,7 @@ class login extends Controller
 
         }else{
 
-            \App\Helper\Utils::logger("uehbhd:".$node['name']);
+            // \App\Helper\Utils::logger("uehbhd:".$node['name']);
 
             $check_powerid = $url_power_map[$node["url"]] ;
             if (isset($power_map[$check_powerid ])) {
@@ -133,7 +128,7 @@ class login extends Controller
                                        $node["name"].'</span></a></li>';
             }else{
 
-                \App\Helper\Utils::logger("do222:".$node["name"].":null-$check_powerid");
+                // \App\Helper\Utils::logger("do222:".$node["name"].":null-$check_powerid");
                 return "";
             }
         }
@@ -299,7 +294,9 @@ class login extends Controller
         $menu_html ="";
 
         $accountid = $this->get_account_id();
-        if($accountid == 684 || $accountid == 99){
+
+        // coco ted
+        if($accountid == 478 || $accountid == 72 || $accountid == 99){
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 

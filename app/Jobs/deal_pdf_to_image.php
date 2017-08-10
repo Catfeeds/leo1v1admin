@@ -62,9 +62,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
-        // if($pdf_url){
-
-            \App\Helper\Utils::logger("pdf_url_path:".$pdf_url);
+        if($pdf_url){
 
             \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
 
@@ -93,7 +91,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             }
 
             @unlink($savePathFile);
-        // }
+        }
 
     }
 
