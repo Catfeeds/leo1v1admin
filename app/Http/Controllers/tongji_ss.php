@@ -5836,10 +5836,17 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
     public function get_teacher_appoinment_lecture_info(){
         $time = strtotime(date("2017-01-05"));
+
+        //  增加时间筛选
+
+        list($start_time,$end_time) = $this->get_in_date_range_month(0);
+        // dd($start_time);
+
         $this->t_teacher_lecture_info->switch_tongji_database();
         $this->t_teacher_lecture_appointment_info->switch_tongji_database();
         // $this->t_lesson_info_b2->switch_tongji_database();
         $this->t_teacher_info->switch_tongji_database();
+
         $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
         $tea_arr = $this->t_teacher_lecture_appointment_info->get_train_through_tea($time);
         $first_lesson_list = $this->t_lesson_info_b2->get_lesson_tea_num_new($tea_arr,1);
