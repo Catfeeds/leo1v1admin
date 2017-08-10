@@ -296,7 +296,7 @@ class login extends Controller
         $accountid = $this->get_account_id();
 
         // coco ted
-        if($accountid == 478 || $accountid == 72 || $accountid == 99){
+        if($accountid == 478 || $accountid == 72 || $accountid == 99 || $accountid == 684){
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 
