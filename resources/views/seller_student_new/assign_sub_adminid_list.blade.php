@@ -63,8 +63,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">年级</span>
-                        <select class="opt-change form-control" id="id_grade" >
-                        </select>
+                        <input class="opt-change form-control" id="id_grade" />
                     </div>
                 </div>
 
@@ -288,6 +287,8 @@
                 <div class="col-xs-6 col-md-4">
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_unset_admin_revisiterid" data-value="{{$unallot_info["all_unallot_count"]*1}}" > </button>
+                    <button class="btn" id="id_all_unallot_count_hight_school" data-value="{{@$unallot_info["all_unallot_count_hight_school"]*1}}" > </button>
+                    <button class="btn" id="id_all_unallot_count_Y" data-value="{{@$unallot_info["all_unallot_count_Y"]*1}}" > </button>
                     <button class="btn" id="id_tmk_unallot" data-value="{{$unallot_info["tmk_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_all_uncall_count" data-value="{{@$unallot_info["all_uncall_count"]*1}}" > </button>
                     <button class="btn" id="id_by_hand_all_uncall_count" data-value="{{@$unallot_info["by_hand_all_uncall_count"]*1}}" > </button>
