@@ -201,26 +201,26 @@
                          <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                          <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                          @if($origin_type)
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?all_count=1">{{@$var["all_count"]}}</a></td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?assigned_count=1">{{@$var["assigned_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=1">{{@$var["all_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=2">{{@$var["assigned_count"]}}</a></td>
                              <td >{{@$var["tmk_assigned_count"]}}</td>
 
                              <td >{{intval(@$var["avg_first_time"]/60)}}</td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_no_call_count=1">{{@$var["tq_no_call_count"]}}</a></td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_called_count=1">{{@$var["tq_called_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=5">{{@$var["tq_no_call_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=6">{{@$var["tq_called_count"]}}</a></td>
 
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_call_fail_count=1">{{@$var["tq_call_fail_count"]}}</a></td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_call_succ_valid_count=1">{{@$var["tq_call_succ_valid_count"]}}</a></td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_call_succ_invalid_count=1">{{@$var["tq_call_succ_invalid_count"]}}</a></td>
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?tq_call_fail_invalid_count=1">{{@$var["tq_call_fail_invalid_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=7">{{@$var["tq_call_fail_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=8">{{@$var["tq_call_succ_valid_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=9">{{@$var["tq_call_succ_invalid_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=10">{{@$var["tq_call_fail_invalid_count"]}}</a></td>
 
 
                              <td>{{@$var["have_intention_a_count"]}}</td>
                              <td>{{@$var["have_intention_b_count"]}}</td>
                              <td>{{@$var["have_intention_c_count"]}}</td>
-                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?require_count=1">{{@$var["require_count"]}}</a></td>
-                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?test_lesson_count=1">{{@$var["test_lesson_count"]}}</a></td>
-                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?succ_test_lesson_count=1">{{@$var["succ_test_lesson_count"]}}</a></td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=14">{{@$var["require_count"]}}</a></td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=15">{{@$var["test_lesson_count"]}}</a></td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=16">{{@$var["succ_test_lesson_count"]}}</a></td>
                              <td>{{@$var["order_count"]}}</td>
                              <td>{{@$var["user_count"]}}</td>
                              <td>{{@$var["order_all_money"]}}</td>
