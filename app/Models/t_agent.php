@@ -51,27 +51,50 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
-    public function get_agent_info_new($page_info)
+    public function get_agent_info_new($page_info,$type)
     {
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_int_field($where_arr,"a.type",1);
+        if($type==2){
+            $where_arr[] = 'n.admin_revisiterid >0';
+        }elseif($type == 3){
+            $where_arr[] = 'tmk_student_status=3';
+        }elseif($type == 5){
+            $where_arr[] = 'global_tq_called_flag=0';
+        }elseif($type == 6){
+            $where_arr[] = 'global_tq_called_flag <>0';
+        }elseif($type == 7){
+            $where_arr[] = 'global_tq_called_flag =1';
+        }elseif($type == 8){
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag=0';
+        }elseif($type == 9){
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag =1';
+        }elseif($type == 10){
+            $where_arr[] = 'global_tq_called_flag =1 and  n.sys_invaild_flag =1';
+        }elseif($type == 11){
+            $where_arr[] = 't.seller_student_status =100 and  global_tq_called_flag =2';
+        }elseif($type == 12){
+            $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
+        }elseif($type == 13){
+            $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
+        }
         /*
           $where_arr = [
-          'n.admin_revisiterid >0',//assigned_count 
-          'tmk_student_status=3',//tmk_assigned_count
-          'global_tq_called_flag=0',//tq_no_call_count
-          'global_tq_called_flag <>0',//tq_called_count
-          'global_tq_called_flag =1',//tq_call_fail_count
-          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count
-          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count
-          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count
-          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count
-          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count
-          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count
-          '',//require_count
-          '',//test_lesson_count
-          '',//succ_test_lesson_count
+          'n.admin_revisiterid >0',//assigned_count 2
+          'tmk_student_status=3',//tmk_assigned_count 3
+          'global_tq_called_flag=0',//tq_no_call_count 5
+          'global_tq_called_flag <>0',//tq_called_count 6
+          'global_tq_called_flag =1',//tq_call_fail_count 7
+          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count 8
+          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count  9
+          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count  10
+          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count  11
+          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count  12
+          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count  13
+          '',//require_count  14
+          '',//test_lesson_count  15
+          '',//succ_test_lesson_count   16
           ];
          */
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"

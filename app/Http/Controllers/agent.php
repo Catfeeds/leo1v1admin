@@ -52,9 +52,10 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function agent_list_new() {
-        $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info_new($page_info);
+    public function agent_list_new(){
+        $type = $this->get_in_int_val('type');
+        $page_info = $this->get_in_page_info();
+        $ret_info = $this->t_agent->get_agent_info_new($page_info,$type);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
