@@ -2043,7 +2043,7 @@ class user_manage extends Controller
         $page_num  = $this->get_in_page_num();
         $assistantid = $this->t_assistant_info->get_assistantid($this->get_account());
         if($assistantid <= 0){
-            $assistantid = 1;
+            $assistantid =- 1;
             //$assistantid = 60078;
         }
 
