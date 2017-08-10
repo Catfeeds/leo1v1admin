@@ -280,5 +280,6 @@ class ss_deal2 extends Controller
         $teacherid  = $this->get_in_int_val("teacherid");
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time   = strtotime($this->get_in_str_val("end_time"));
+
     }
 }

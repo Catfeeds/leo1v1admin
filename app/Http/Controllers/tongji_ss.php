@@ -4511,7 +4511,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $ret_ass = $this->t_order_refund->get_ass_refund_info_by_qc($start_time,$end_time);
         $ret_tec = $this->t_order_refund->get_tec_refund_info_by_qc($start_time,$end_time);
-        $tea = $ass=[];
 
         foreach($ret_ass as $index_ass => &$item_ass){
             $item_ass['num'] = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$item_ass['uid']);
