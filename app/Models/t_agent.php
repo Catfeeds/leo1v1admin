@@ -141,6 +141,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,self::DB_TABLE_NAME
                                  ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_test_lesson_subject::DB_TABLE_NAME
                                  ,t_test_lesson_subject_require::DB_TABLE_NAME
                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
