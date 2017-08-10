@@ -98,12 +98,15 @@ class agent extends Controller
         $phone_old = array_column($ret_info,'phone');
         $phone_one = array_diff($phone_old,$phone_new);
         $phone_two = [];
+        $phone_three = [];
         foreach($phone_new as $item){
             if(in_array($item,$phone_old)){
                 $phone_two[] = $item;
+            }else{
+                $phone_three[] = $item;
             }
         }
-        dd($phone_new,$phone_old,$phone_one,$phone_two);
+        dd($phone_new,$phone_old,$phone_one,$phone_two,$phone_three);
         // dd('a');
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
