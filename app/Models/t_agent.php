@@ -11,6 +11,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
+        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
