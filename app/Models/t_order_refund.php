@@ -362,10 +362,12 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
     public function get_ass_refund_count($start_time,$end_time){ // 得到助教退费次数
         $where_arr = [
             "ra.id is not null",
-            "m.uid >0"
+            "m.uid >0",
+            "occ.value = '助教部'",
+            "ra.score>0"
         ];
         $this->where_arr_add_time_range($where_arr,"ra.add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select ra.id,m.uid,occ.value,ra.score,r.orderid,r.apply_time "
+        $sql = $this->gen_sql_new("select m.uid,occ.value,ra.score,r.orderid"
                                   ." from %s r "
                                   ." left join %s s on r.userid = s.userid"
                                   ." left join %s a on s.assistantid=a.assistantid"
@@ -373,7 +375,7 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   ." left join %s ra on (ra.orderid = r.orderid and ra.apply_time = r.apply_time)"
                                   ." left join %s oc on ra.configid = oc.id"
                                   ." left join %s occ on (oc.key1= occ.key1 and occ.key2= 0 and occ.key3= 0 and occ.key4= 0 )"
-                                  ." where %s order by r.orderid,r.apply_time",
+                                  ." where %s  order by ra.score desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
@@ -383,7 +385,12 @@ class t_order_refund extends \App\Models\Zgen\z_t_order_refund
                                   t_order_refund_confirm_config::DB_TABLE_NAME,
                                   $where_arr
         );
+
         return $this->main_get_list($sql);
+
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
     }
 
 

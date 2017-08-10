@@ -4509,9 +4509,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $this->t_test_lesson_subject->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
 
-
-
-
+        $start_time = '1482832684';
+        $end_time = '1502337851';
+        $ret_ass = $this->t_order_refund->get_ass_refund_count($start_time,$end_time);
+        dd($ret_ass);
 
         $ret = $this->t_test_lesson_subject->get_ass_change_teacher_tongji_info($start_time,$end_time);
 

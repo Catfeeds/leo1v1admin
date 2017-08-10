@@ -834,7 +834,8 @@ class teacher_level extends Controller
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
-                "userid"                           => $userid
+                "userid"                           => $userid,
+                "add_time"                         => time(),
             ]);
  
         }else{
