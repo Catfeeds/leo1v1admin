@@ -2596,7 +2596,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start<".$end_time
         ];
 
-        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num "
+        $sql = $this->gen_sql_new("select sum(l.lesson_count) lesson_count,count(distinct l.teacherid) tea_num,"
+                                  ."count(distinct l.assistantid) ass_num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
                                   ." where %s "
                                   ,self::DB_TABLE_NAME

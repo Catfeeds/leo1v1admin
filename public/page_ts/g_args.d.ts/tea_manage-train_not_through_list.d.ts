@@ -4,6 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	is_all:	number;
+	has_openid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -30,7 +32,9 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val()
+			end_time:	$('#id_end_time').val(),
+			is_all:	$('#id_is_all').val(),
+			has_openid:	$('#id_has_openid').val()
         });
     }
 
@@ -45,6 +49,8 @@ $(function(){
             load_data();
         }
     });
+	$('#id_is_all').val(g_args.is_all);
+	$('#id_has_openid').val(g_args.has_openid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -54,4 +60,18 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_all</span>
+                <input class="opt-change form-control" id="id_is_all" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">has_openid</span>
+                <input class="opt-change form-control" id="id_has_openid" />
+            </div>
+        </div>
 */

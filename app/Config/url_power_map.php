@@ -233,6 +233,7 @@ class url_power_map {
 			'/upload_tmk/post_list'	=>1091101,
 			'/upload_tmk/post_student_list'	=>1091102,
 			'/t_yxyx_wxnews_info/all_news'	=>1096600,
+			'/t_yxyx_test_pic_info/all_list'	=>1096700,
 			'/pic_manage/pic_info'	=>1090400,
 			'/festival/festival_list'	=>1090500,
 			'/news_info/stu_message_list'	=>1090700,
