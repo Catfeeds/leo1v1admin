@@ -74,7 +74,6 @@ class teaching_menu{
                 // ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
-                // ["power_id"=>4, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
 
             ]],
 
