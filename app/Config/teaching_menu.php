@@ -5,7 +5,7 @@ class teaching_menu{
         return [
 
             ["power_id"=>40, "name"=>"产品部",  "list"=>[
-                ["power_id"=>1, "name"=>"老师晋升审核-总监","url"=>"/teacher_level/get_teacher_advance_info"],
+                ["power_id"=>1, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
             ]],
 
 
@@ -70,17 +70,17 @@ class teaching_menu{
             ]],
 
             ["power_id"=>36, "name"=>"运营部",  "list"=>[
-                ["power_id"=>1, "name"=>"兼职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info"],
+                ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 // ["power_id"=>2, "name"=>"兼职老师晋升-总监","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
-                ["power_id"=>4, "name"=>"兼职老师考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
+                ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
 
             ]],
 
 
 
 
-            ["power_id"=>32, "name"=>"角色-教研",  "list"=>[
+            ["power_id"=>32, "name"=>"教研部",  "list"=>[
                 ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                 ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                 ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
@@ -117,7 +117,7 @@ class teaching_menu{
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                 ]],
             ]],
-            ["power_id"=>34, "name"=>"角色-教学", "list"=>[
+            ["power_id"=>34, "name"=>"教学部", "list"=>[
                 ["power_id"=>80, "name"=>"全职老师产能",   "url"=>"/fulltime_teacher/fulltime_teacher_count"],
                 ["power_id"=>2, "name"=>"全职老师KPI",   "url"=>"/tongji_ss/tongji_fulltime_teacher_test_lesson_info"],
                 ["power_id"=>5, "name"=>"全职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total_fulltime"],
@@ -134,7 +134,7 @@ class teaching_menu{
                 ["power_id"=>7, "name"=>"全职老师转正申请",   "url"=>"/fulltime_teacher/full_assessment_list"],
                 ["power_id"=>8, "name"=>"全职老师转正申请审批-总监",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info"],
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
-                ["power_id"=>11, "name"=>"全职老师晋升","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
+                ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
             ]],
 
 

@@ -2665,14 +2665,18 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
     public function get_studentid(){
          $where_arr=[
-            "is_test_user=0 ",
-            "assistantid>0",
+            "s.is_test_user=0 ",
+            "s.assistantid>0",
+            "s.type=0"
+            "c.course_type in (0,1,3)"  ,
+            "c.course_status=0 "
+
         ];
-        $sql = $this->gen_sql_new("select a.userid "
-                                  ." from %s a left join %s b on a.userid = b.userid "
-                                  ."  where  %s group by a.userid "
+        $sql = $this->gen_sql_new("select count(distinct c.subject) num,s.userid "
+                                  ." from %s s left join %s c on a.userid = c.userid "
+                                  ."  where  %s group by s.userid "
                                   ,self::DB_TABLE_NAME
-                                  ,t_week_regular_course::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
        
