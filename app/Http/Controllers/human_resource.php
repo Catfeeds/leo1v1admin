@@ -2484,6 +2484,7 @@ class human_resource extends Controller
              * {{remark.DATA}}
              */
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid);
+            $level_degree    = \App\Helper\Utils::get_teacher_level_str($teacher_info);
             // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
             if($wx_openid){
                 $data=[];
