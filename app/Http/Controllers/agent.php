@@ -52,6 +52,37 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function agent_list_new() {
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
+        $userid        = $this->get_in_userid(-1);
+        $phone         = $this->get_in_phone();
+        $parentid      = $this->get_in_parentid(-1);
+        $type          = $this->get_in_int_val('agent_type');
+        $page_num      = $this->get_in_page_num();
+        $page_info     = $this->get_in_page_info();
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time);
+        $userid_arr = [];
+        foreach($ret_info['list'] as &$item){
+            if($item['type'] == 1){
+                $userid_arr[] = $item['s_userid'];
+            }
+            $item['agent_type'] = $item['type'];
+            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+        }
+        if(count($userid_arr)>0){
+            $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
+            foreach($ret_info['list'] as &$item){
+                foreach($test_info as $info){
+                    if($item['s_userid'] == $info['userid']){
+                        $item['success_flag'] = 1;
+                    }
+                }
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
         $aid       = $this->get_in_int_val('aid');
