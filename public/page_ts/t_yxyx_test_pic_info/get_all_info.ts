@@ -31,6 +31,7 @@ $(function(){
         load_data();
     });
 
+
     var pic_num = 0;
     var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
@@ -69,7 +70,7 @@ $(function(){
                         +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic" style="display:none">'
                         +item.poster+'</div>';
-                    pic_num--;
+                    pic_num++;
                 }
             }
             $('#id_container_add_tmp').append(pic_str);
@@ -246,7 +247,6 @@ $(function(){
             }]
         });
     });
-
     //多次添加图片
     function add_next_pic(html_node) {
         pic_num++;
