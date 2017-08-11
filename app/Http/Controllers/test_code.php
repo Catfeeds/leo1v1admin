@@ -1619,9 +1619,13 @@ class test_code extends Controller
 
     public function set_simulate_info(){
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",4);
-        $level              = $this->get_in_int_val("level",0);
-        $level_simulate     = $this->get_in_int_val("level_simulate",0);
+        $level              = $this->get_in_int_val("level",1);
+        $level_simulate     = $this->get_in_int_val("level_simulate",1);
 
+        $new_A_plus = ["胡旭","丁媛媛","默建宾","吉妍瑾","李志伟","邢平"];
+        foreach($new_A_plus as $val){
+            
+        }
         $this->t_teacher_info->set_simulate_info($teacher_money_type,$level,$level_simulate);
     }
 

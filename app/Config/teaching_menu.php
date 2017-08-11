@@ -14,6 +14,9 @@ class teaching_menu{
 
 
 
+
+
+
             ["power_id"=>25, "name"=>"招师部",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
@@ -153,13 +156,21 @@ class teaching_menu{
             ],
 
 
-            ["power_id"=>3, "name"=>"题库管理部", "list"=>[
-                ["power_id"=>1, "name"=>"录入", "list"=>[
+            ["power_id"=>49, "name"=>"题库管理",  "list"=>[
+                ["power_id"=>31, "name"=>"录入",  "list"=>[
+                    // ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                     ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
-                ]
-                ],
-            ]],
 
+
+                ]]]],
+
+
+            // ["power_id"=>46, "name"=>"题库管理部", "list"=>[
+            //     ["power_id"=>10, "name"=>"录入", "list"=>[
+            //         ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
+            //     ]
+            //     ],
+            // ]],
 
 
 
