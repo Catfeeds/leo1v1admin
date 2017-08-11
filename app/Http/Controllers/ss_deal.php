@@ -409,6 +409,10 @@ class ss_deal extends Controller
             "stu_character_info" =>$stu_character_info,
         ];
 
+        if ($ss_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
+            $ss_arr["first_seller_status"]=$seller_student_status;
+        }
+
         //更新首次回访时间
         if (! $ss_item["first_revisit_time"])  {
             $ss_arr["first_revisit_time"]=time(NULL);
