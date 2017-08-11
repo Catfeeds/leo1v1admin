@@ -1502,9 +1502,7 @@ class user_manage extends Controller
     }
 
     public function refund_analysis () {
-
         $adminid = $this->get_account_id();
-
         $orderid     = $this->get_in_int_val("orderid",-1);
         $apply_time  = $this->get_in_int_val("apply_time");
         $list        = $this->t_refund_analysis->get_list($orderid,$apply_time);
@@ -1580,7 +1578,6 @@ class user_manage extends Controller
                 $all_percent['科目'] = "0%";
             }
         }
-
         //以上处理责任比率
 
         $qc_anaysis = $this->t_order_refund->get_qc_anaysis_by_orderid_apply($orderid, $apply_time);
