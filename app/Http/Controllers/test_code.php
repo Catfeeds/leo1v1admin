@@ -1698,14 +1698,17 @@ class test_code extends Controller
             "许磊",
             "张杰-Johnny",
             "鞠东篱",
-            "陈桂琼",
-            "陈懿",
-            "房彩虹",
             "高歌",
             "闫佳",
             "税雄",
             "李凤喜",
             "韩涵（韩文君）",
+        ];
+
+        $new_B = [
+            "陈桂琼",
+            "陈懿",
+            "房彩虹",
         ];
 
         $new_T = [
@@ -1716,7 +1719,7 @@ class test_code extends Controller
         //在职C->新版B
         // $this->set_simulate_info_by_list(0,0,1);
         //在职B->新版B+
-        // $this->set_simulate_info_by_list(3,0,1);
+        // $this->set_simulate_info_by_list(0,1,2);
         //高校C->新版B
         // $this->set_simulate_info_by_list(1,0,1);
         //外聘C->新版B
@@ -1724,6 +1727,7 @@ class test_code extends Controller
         //固定C->新版B
         // $this->set_simulate_info_by_list(3,0,1);
         $this->set_simulate_info_by_list($new_T,0,11);
+        $this->set_simulate_info_by_list($new_B,0,1);
         $this->set_simulate_info_by_list($new_B_plus,0,2);
         $this->set_simulate_info_by_list($new_A,0,3);
         $this->set_simulate_info_by_list($new_A_plus,0,4);

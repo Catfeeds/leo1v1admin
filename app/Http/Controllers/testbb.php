@@ -144,6 +144,7 @@ class testbb extends Controller
             =$this->get_in_order_by_str($order_field_arr ,"account desc");
 
         $show_flag = $this->get_in_int_val("show_flag",0);
+
         $lesson_money = $this->get_in_int_val("lesson_money",477);
         $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
