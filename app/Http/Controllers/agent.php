@@ -128,8 +128,8 @@ class agent extends Controller
         // dd($lesson_call_list);
         //查回访记录
         $lessonid = 277462;
-        $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
-
+        $ret=$this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
+        dd($ret);
     }
 
 
