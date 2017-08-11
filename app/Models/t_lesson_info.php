@@ -8983,6 +8983,18 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
+    public function get_lessonid_by_userid($userid){
+        $where_arr=[
+            "userid = $userid",
+        ];
+        $sql = $this->gen_sql_new("select lessonid,lesson_start,lesson_end "
+                                  ." from %s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
 

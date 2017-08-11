@@ -119,6 +119,8 @@ class agent extends Controller
 
     public function check(){
         //差回访lessonid
+        $lessonid = $this->t_lesson_info->get_lessonid_by_userid($userid=277598);
+        dd($lessonid);
         $tquin = 9762723;
         $phone = '15631525857';
         $lesson_end = 1502362800;
