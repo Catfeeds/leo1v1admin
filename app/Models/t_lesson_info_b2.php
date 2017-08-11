@@ -2642,7 +2642,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag){
+    public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2656,6 +2656,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
+        }
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9,10)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2673,7 +2680,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid){
+    public function get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2688,6 +2695,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
+        }
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9,10)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
 
 
@@ -2708,7 +2722,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid){
+    public function get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2723,6 +2737,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
              $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
+        }
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9,10)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -2744,7 +2765,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag){
+    public function get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2758,6 +2779,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
+        }
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9,10)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
