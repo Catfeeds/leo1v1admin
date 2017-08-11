@@ -8985,5 +8985,36 @@ lesson_type in (0,1) "
 
 
 
+    public function get_teacher_test_lesson_info_for_jy($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
+            // "m.account_role=2",
+            "m.del_flag=0",
+            // "tss.success_flag in (0,1)",
+            // "l.stu_attend >0 ",
+            //"l.tea_attend>0",
+            "t.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select cur_require_adminid,count(l.lessonid) lesson_count,sum(tss.success_flag in (0,1) and l.lesson_user_online_status =1) suc_count,m.account,m.create_time,sum(if(o.orderid >0,1,0)) order_count,sum(o.price) all_price "
+                                  ." from %s l left join %s tss on l.lessonid=tss.lessonid"
+                                  ." left join %s tq on tss.require_id =tq.require_id"
+                                  ." left join %s m on tq.cur_require_adminid = m.uid"
+                                  ." left join %s o on l.lessonid = o.from_test_lesson_id"
+                                  ." where %s group by cur_require_adminid",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
+
+
 
 }
