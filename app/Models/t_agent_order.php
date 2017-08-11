@@ -10,26 +10,18 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
 
     public function get_agent_order_info($page_info)
     {
-        // $where_arr = array(
-        //     array( "assistantid = %u", $assistantid, -1 ),
-        // );
-        // $this->where_arr_add_int_or_idlist($where_arr,"assistant_type",$is_part_time);
-
-        // if($rate_score == 1){
-        //     $where_arr[] = "(rate_score >= 10 and rate_score < 20)";
-        // }elseif($rate_score == 2){
-        //     $where_arr[] = "(rate_score >= 20 and rate_score < 30)";
-        // }elseif($rate_score == 3){
-        //     $where_arr[] = "(rate_score >= 30 and rate_score < 40)";
-        // }elseif($rate_score == 4){
-        //     $where_arr[] = "(rate_score >= 40 and rate_score < 50)";
-        // }elseif($rate_score == 5){
-        //     $where_arr[] = "rate_score > 50 ";
-        // }
-
-        $sql=$this->gen_sql_new ("select orderid,aid,pid,p_price,ppid,pp_price,create_time"
-                                 ." from %s "
+        $sql=$this->gen_sql_new ("select ao.*,"
+                                 ." a.phone phone,a.nickname nickname, "
+                                 ." aa.phone p_phone,aa.nickname p_nickname, "
+                                 ." aaa.phone pp_phone,aaa.nickname pp_nickname "
+                                 ." from %s ao "
+                                 ." left join %s a on a.id=ao.aid "
+                                 ." left join %s aa on a.id=pid "
+                                 ." left join %s aaa on aa.id=ppid "
                                  ,self::DB_TABLE_NAME
+                                 ,t_agent::DB_TABLE_NAME
+                                 ,t_agent::DB_TABLE_NAME
+                                 ,t_agent::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }
