@@ -118,6 +118,15 @@ class agent extends Controller
     }
 
     public function check(){
+        $adminid = 902;
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+        dd($lesson_call_end);
+        $userid_new = $lesson_call_end['userid'];
+        if($userid_new){
+            return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
+        }
+
+
         $eventKey = 'http://www.xmypage.com/model2_28992.html';
         $phone = '15251318621';
         $eventKey.="?phone=$phone";
