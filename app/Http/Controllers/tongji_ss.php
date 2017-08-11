@@ -3695,7 +3695,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
     public function seller_test_lesson_info_tongji(){
 
         $is_seller_flag = $this->get_in_int_val('seller_flag',0);
-        $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
+        if($is_seller_flag == 1){
+            
+        }else{
+            $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
+        }
         return $this->pageView(__METHOD__,$ret_info);
 
     }
