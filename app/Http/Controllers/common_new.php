@@ -664,7 +664,9 @@ class common_new extends Controller
         $recid= ($cdr_bridged_cno<<32 ) + $cdr_bridge_time;
         $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
 
-        $duration= $cdr_end_time-$cdr_bridge_time;
+        if ($cdr_bridge_time ) {
+            $duration= $cdr_end_time-$cdr_bridge_time;
+        }
         $called_flag=($cdr_status==28 && $duration>30  )?2:1;
 
         $this->t_tq_call_info->add(
