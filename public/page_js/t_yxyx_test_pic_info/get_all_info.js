@@ -60,15 +60,23 @@ $(function(){
 
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
-                    pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
+                    pic_str += '<span onclick="set_poster(this)" data_ip="'+item.pic_arr[i]
+                        +'">设为封面</span><div class="add_header_img'+i+'"><img src="'
+                        +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
+                        +'" style="display:none">'+item.pic_arr[i]+'</div>';
                     pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
-                    pic_str += '<div class="add_header_img"><img src="'+item.pic_arr[i]+'" width="80px"></div><div class="add_pic" style="display:none">'+item.poster+'</div>';
+                    pic_str += '<span onclick="set_poster(this)" data_ip="'+item.pic_arr[i]
+                        +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
+                        +'" width="80px"></div><div class="add_pic" style="display:none">'
+                        +item.poster+'</div>';
                     pic_num++;
                 }
             }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
+            var fun_str = "<span class='real_poster'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).data_ip); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
+            html_node.find("#id_container_add_tmp").after(fun_str);
         }
 
         var title = "";
@@ -83,7 +91,7 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-                if(pic_num < 9) {
+                if(pic_num < 10) {
                     custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
                                          g_args.qiniu_upload_domain_url , true,
                                          function (up, info, file){
@@ -127,6 +135,9 @@ $(function(){
 
                         if(poster_url != '') {
                             poster = poster_url;
+                        }
+                        if(html_node.find('.real_poster').val()) {
+                            poster = html_node.find('.real_poster').val();
                         }
                         if (opt_type=="update") {
                             $.ajax({
@@ -235,13 +246,6 @@ $(function(){
             }]
         });
     });
-    //设为封面,暂时不可用
-    function setPoster(obj) {
-        poster_url = obj.data-ip;
-        obj.text('封面');
-        $('.mark').removeClass('mark');
-        obj.addClass('mark');
-    }
     //多次添加图片
     function add_next_pic(html_node) {
         pic_num++;
