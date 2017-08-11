@@ -12,11 +12,6 @@ class teaching_menu{
             ]],
 
 
-            ["power_id"=>40, "name"=>"产品部",  "list"=>[
-                ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
-
-            ]],
-
 
 
             ["power_id"=>25, "name"=>"招师部",  "list"=>[
@@ -83,11 +78,11 @@ class teaching_menu{
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 ["power_id"=>18, "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>17, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],
-                // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
+                ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 ["power_id"=>23, "name"=>"兼职老师退费处理","url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
-                // ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
-                // ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
-                // ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
+                ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
+                ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
+                ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
 
             ]],
 
@@ -150,6 +145,52 @@ class teaching_menu{
                 ["power_id"=>9, "name"=>"全职老师转正申请审批-总经理",   "url"=>"/fulltime_teacher/fulltime_teacher_assessment_positive_info_master"],
                 ["power_id"=>11, "name"=>"全职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info_fulltime"],
             ]],
+
+            ["power_id"=>40, "name"=>"产品部",  "list"=>[
+                ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
+
+            ]],
+
+
+                //         ["power_id"=>3, "name"=>"题库管理", "list"=>[
+                // ["power_id"=>1, "name"=>"录入", "list"=>[
+                //     ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
+                //     ["power_id"=>2, "name"=>"录入-审核未通过-所有",   "url"=>"/question/question_list_nopass"],
+                //     ["power_id"=>3, "name"=>"录入-审核未通过-扣10%",   "url"=>"/question/question_list_nopass_10"],
+                //     ["power_id"=>4, "name"=>"录入-审核未通过-扣50%",   "url"=>"/question/question_list_nopass_50"],
+                //     ["power_id"=>5, "name"=>"录入-审核未通过-扣100%",   "url"=>"/question/question_list_nopass_100"],
+                //     ["power_id"=>6, "name"=>"录入-审核未通过-不入库",   "url"=>"/question/question_list_nopass_del"],
+                //     ["power_id"=>7, "name"=>"录入-审核通过",   "url"=>"/question/question_list_pass"]]],
+                // ["power_id"=>2, "name"=>"一审", "list"=>[
+                //     ["power_id"=>1, "name"=>"一审-审核",  "icon"=>"fa-book", "url"=>"/question/question_list_check?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>2, "name"=>"一审-审核未通过-所有",   "url"=>"/question/question_list_check_nopass?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>3, "name"=>"一审-审核未通过-扣10%",   "url"=>"/question/question_list_check_nopass_10?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>4, "name"=>"一审-审核未通过-扣50%",   "url"=>"/question/question_list_check_nopass_50?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>5, "name"=>"一审-审核未通过-扣100%",   "url"=>"/question/question_list_check_nopass_100?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>6, "name"=>"一审-审核未通过-不入库",   "url"=>"/question/question_list_check_nopass_del?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>7, "name"=>"一审-审核通过",   "url"=>"/question/question_list_check_pass?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>8, "name"=>"二审-审核未通过-所有",   "url"=>"/question/question_list_check2_for1_nopass"],
+                //     ["power_id"=>9, "name"=>"二审-审核未通过-扣10%",   "url"=>"/question/question_list_check2_for1_nopass_10"],
+                //     ["power_id"=>10, "name"=>"二审-审核未通过-扣50%",   "url"=>"/question/question_list_check2_for1_nopass_50"],
+                //     ["power_id"=>11, "name"=>"二审-审核未通过-扣100%",   "url"=>"/question/question_list_check2_for1_nopass_100"],
+                //     ["power_id"=>12, "name"=>"二审-审核未通过-不入库",   "url"=>"/question/question_list_check2_for1_nopass_del"],
+                //     ["power_id"=>13, "name"=>"二审-审核通过",   "url"=>"/question/question_list_check2_for1_pass"]]],
+                // ["power_id"=>3, "name"=>"二审", "list"=>[
+                //     ["power_id"=>1, "name"=>"审核",  "icon"=>"fa-book", "url"=>"/question/question_list_check2_for2?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>2, "name"=>"-审核未通过-所有",   "url"=>"/question/question_list_check2_nopass?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>3, "name"=>"审核未通过-扣10%",   "url"=>"/question/question_list_check2_nopass_10?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>4, "name"=>"审核未通过-扣50%",   "url"=>"/question/question_list_check2_nopass_50?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>5, "name"=>"审核未通过-扣100%",   "url"=>"/question/question_list_check2_nopass_100?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>6, "name"=>"审核未通过-不入库",   "url"=>"/question/question_list_check2_nopass_del?grade=200&subject=2&start_time=2015-10-23"],
+                //     ["power_id"=>7, "name"=>"审核通过",   "url"=>"/question/question_list_check2_pass?grade=200&subject=2&start_time=2015-10-23"]]],
+                // ["power_id"=>4, "name"=>"知识点编辑",  "icon"=>"fa-book", "url"=>"/question/edit_lesson_note"],
+                // ["power_id"=>5, "name"=>"所有题目",  "icon"=>"fa-book", "url"=>"/question/publish_list"],
+                // ["power_id"=>6, "name"=>"录入统计",  "icon"=>"fa-book", "url"=>"/question/admin_info"],
+                // ["power_id"=>7, "name"=>"审核统计",  "icon"=>"fa-book", "url"=>"/question/check_admin_info"],
+                // ["power_id"=>8, "name"=>"题库题目统计",  "icon"=>"fa-book", "url"=>"/human_resource/get_question_tongji"]]],
+
+
+
 
 
 
