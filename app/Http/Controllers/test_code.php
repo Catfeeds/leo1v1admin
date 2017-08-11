@@ -1617,7 +1617,9 @@ class test_code extends Controller
         $grade = \App\Helper\Utils::get_next_grade($grade);
     }
 
-
+    public function set_simulate_info(){
+        $this->t_teacher_info->set_simulate_info();
+    }
 
 
 }
