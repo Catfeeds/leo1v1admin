@@ -53,7 +53,7 @@ $(function(){
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_poster").val(item.poster);
             html_node.find(".add_test_type").val(item.test_type);
-            // var pic_str = '';
+            var pic_str = '';
             for (var i = 0; i < item.pic_arr.length; i++) {
                 // console.log(item.pic_arr[i])
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
