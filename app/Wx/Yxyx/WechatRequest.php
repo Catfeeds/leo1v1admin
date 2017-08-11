@@ -599,6 +599,7 @@ class WechatRequest  {
             }
             \App\Helper\Utils::logger('yxyx_eee_key:'.$eventKey);
         }
+        $eventKey = 'http://www.baidu.com/';
         $content = '收到跳转链接事件，您设置的key是'.$eventKey;
         \App\Helper\Utils::logger('yxyx_tiaozhuan'.$eventKey);
 
