@@ -40,13 +40,9 @@
                     <td>工资类型</td>
                     <td>等级</td>
                     <td>模拟等级</td>
-                    <!-- <td>转化率</td> -->
                     <td>总课时</td>
                     <td>试听课时</td>
                     <td>常规课时</td>
-                    <td>所带学生数</td>
-                    <td>所带年级</td>
-                    <td>所带科目</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -57,13 +53,9 @@
                         <td>{{$var['teacher_money_type_str']}}</td>
                         <td>{{$var['level_str']}}</td>
                         <td>{{$var['level_simulate_str']}}</td>
-                        <!-- <td>{{$var['test_transfor_per']}}</td> -->
                         <td>{{$var['all_lesson_count']}}</td>
                         <td>{{$var['trial_lesson_count']}}</td>
                         <td>{{$var['normal_lesson_count']}}</td>
-                        <td>{{$var['stu_num']}}</td>
-                        <td>{{$var['grade_str']}}</td>
-                        <td>{{$var['subject_str']}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
                             </div>
