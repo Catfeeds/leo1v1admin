@@ -93,6 +93,7 @@ interface RowData {
 	seller_student_sub_status_str	:any;
 	tmk_student_status_str	:any;
 	grade_str	:any;
+	seller_resource_type_str	:any;
 	sys_invaild_flag_str	:any;
 	subject_str	:any;
 	has_pad_str	:any;

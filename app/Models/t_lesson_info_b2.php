@@ -2485,9 +2485,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_old_teacher_nick($lesson_start,$subject,$userid){
         $where_arr = [
-            ["l.lesson_start<%d",time(NULL)],
+            ["l.lesson_start<%d",$lesson_start],
             ["l.subject=%d",$subject],
-            ["l.lesson_type=%d",0],
+            // ["l.lesson_type in",0],
+            "l.lesson_type in (0,1,3)",
             ["l.userid=%d",$userid]
         ];
 
@@ -2652,7 +2653,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
+            $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
@@ -2684,7 +2685,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
+            $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
@@ -2719,7 +2720,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.userid = %u",$userid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
+             $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }
@@ -2754,7 +2755,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
-            $where_arr[] = "(tr.add_time is null or tr.add_time=0)";
+            $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
             $where_arr[] = "tr.add_time>0";
         }

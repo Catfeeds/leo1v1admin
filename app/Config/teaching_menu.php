@@ -12,11 +12,6 @@ class teaching_menu{
             ]],
 
 
-
-
-
-
-
             ["power_id"=>25, "name"=>"招师部",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
@@ -154,8 +149,6 @@ class teaching_menu{
 
             ]
             ],
-
-
 
 
             ["power_id"=>10, "name"=>"题库管理", "list"=>[

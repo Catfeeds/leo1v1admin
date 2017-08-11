@@ -652,7 +652,7 @@ class teacher_level extends Controller
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -683,7 +683,7 @@ class teacher_level extends Controller
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -714,7 +714,7 @@ class teacher_level extends Controller
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -746,7 +746,7 @@ class teacher_level extends Controller
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -782,7 +782,8 @@ class teacher_level extends Controller
                 "type"           => $record_type,          
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
-                "acc"            => $acc
+                "acc"            => $acc,
+                "add_time"       => time(),
             ]);
   
         }

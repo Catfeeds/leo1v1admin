@@ -1407,4 +1407,8 @@ class Utils  {
         }
         return $map_array;
     }
+
+    public function get_teacher_contact_way($tea_info){
+        
+    }
 };
