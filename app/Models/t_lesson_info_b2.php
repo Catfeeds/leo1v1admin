@@ -2932,16 +2932,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
+            "t.is_quit = 0",
+            "t.is_test_user=0",
+
             // "m.account_role=2",
-            "m.del_flag=0",
+            // "m.del_flag=0",
             // "tss.success_flag in (0,1)",
             // "l.stu_attend >0 ",
             //"l.tea_attend>0",
-            "t.is_test_user=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,cur_require_adminid,count(l.lessonid) lesson_count,sum(tss.success_flag in (0,1) and l.lesson_user_online_status =1) suc_count,m.account,m.create_time,sum(if(o.orderid >0,1,0)) order_count,sum(o.price) all_price "
+        $sql = $this->gen_sql_new("select  t.train_through_new_time, l.teacherid,cur_require_adminid,count(l.lessonid) lesson_count,sum(tss.success_flag in (0,1) and l.lesson_user_online_status =1) suc_count,m.account,m.create_time,sum(if(o.orderid >0,1,0)) order_count,sum(o.price) all_price "
                                   ." from %s l left join %s tss on l.lessonid=tss.lessonid"
                                   ." left join %s t on t.teacherid = l.teacherid"
                                   ." left join %s tq on tss.require_id =tq.require_id"
