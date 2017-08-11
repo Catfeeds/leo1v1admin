@@ -67,18 +67,25 @@ $(function(){
                 $.each( result.revisit_list ,function(i,item){
                     //console.log(item);
                     //return;
+
                     var revisit_person = "";
                     if(item.revisit_person  ) {
                         revisit_person = item.revisit_person;
                     }
                     var userid     = item["userid"];
                     var revisit_time  = item["revisit_time"];
-                    var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
-                        item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
-                        item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
-                        item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
-
-                     html_str.find("table").append(html);
+                    if(userid){
+                        var html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.operator_note+"</td><td><a class = \"opt_detail\" data-userid=\""+userid+"\" data-revisit_time=\""+revisit_time+"\">详情</a></td></tr>";
+                    }else{
+                        html                                  = "<tr><td>"+item.revisit_time +"</td><td>"+
+                            item.revisit_type+"</td><td>"+item.revisit_path+"<td>"+ 
+                            item.sys_operator +"</td><td>"+item.revisit_person+"</td><td>"+
+                            item.operator_note+"</td><td></td></tr>";
+                    }
+                    html_str.find("table").append(html);
                 } );
 
                 var dlg = BootstrapDialog.show({

@@ -63,14 +63,14 @@ $(function(){
     });
 
     $(".ass_num").on("click",function(){
-        var uid = $(this).data("uid");
+        var uid = $(this).attr("data-adminid");
         var num= $(this).data("num");
         var title = "助教退费投诉详情";
 
         var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>合同id</td><td>助教</td><td>学生</td><td>退费时间</td><td>详情</td><tr></table></div>");
 
         $.do_ajax('/ss_deal2/get_refund_ass_detail_info',{
-            "teacherid"       : uid,
+            "uid"       : uid,
             "start_time"      : g_args.start_time,
             "end_time"        : g_args.end_time
         },function(resp) {
