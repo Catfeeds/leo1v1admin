@@ -1781,18 +1781,17 @@ class test_code extends Controller
             "赵力红",
         ];
         //在职C->新版B
-        $this->set_simulate_info_by_list(0,0,1);
+        // $this->set_simulate_info_by_list(0,0,1);
         //高校C->新版B
-        $this->set_simulate_info_by_list(1,0,1);
+        // $this->set_simulate_info_by_list(1,0,1);
         //外聘C->新版B
-        $this->set_simulate_info_by_list(2,0,1);
+        // $this->set_simulate_info_by_list(2,0,1);
         //固定C->新版B
         // $this->set_simulate_info_by_list(3,0,1);
-        // $this->set_simulate_info_by_list($new_T,0,11);
-        // $this->set_simulate_info_by_list($new_B_plus,0,2);
-        // $this->set_simulate_info_by_list($new_A,0,3);
-        // $this->set_simulate_info_by_list($new_A_plus,0,4);
-
+        $this->set_simulate_info_by_list($new_T,0,11);
+        $this->set_simulate_info_by_list($new_B_plus,0,2);
+        $this->set_simulate_info_by_list($new_A,0,3);
+        $this->set_simulate_info_by_list($new_A_plus,0,4);
     }
 
     public function set_simulate_info_by_list($list,$level,$level_simulate){
