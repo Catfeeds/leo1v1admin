@@ -305,9 +305,10 @@ class common extends Controller
                         "score" => $totalvalue
                     ]);
                 }
+
                 $train_time = $this->t_train_lesson_user->get_max_lesson_time($userid);
                 $time = strtotime("2017-08-11 18:00");
-                if($train_through_new >$time){
+                if($train_time > $time){
                     $train_flag=1;
                 }else{
                     $train_flag=0;
@@ -319,7 +320,6 @@ class common extends Controller
                     if($train_flag==1){
                         $this->add_trial_train_lesson($teacher_info,1);
                     }
-
                 }
             }
         }
