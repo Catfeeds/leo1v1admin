@@ -13,6 +13,8 @@ class teaching_menu{
 
 
             ["power_id"=>40, "name"=>"产品部",  "list"=>[
+                ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
+
             ]],
 
 
@@ -40,7 +42,7 @@ class teaching_menu{
             ]],
 
 
-            ["power_id"=>37, "name"=>"质监部",  "list"=>[
+            ["power_id"=>37, "name"=>"质监组",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
