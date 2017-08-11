@@ -211,8 +211,10 @@ $(function(){
                                  var res = $.parseJSON(info);
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                 html_node.find(".add_header_img"+pic_num).html(pic_img);
-                                 html_node.find(".add_pic"+pic_num).html(pic_url);
+                                 $(".add_header_img"+pic_num).html(pic_img);
+                                 $(".add_pic"+pic_num).html(pic_url);
+                                 html_node = html_node + $(".add_header_img"+pic_num).html();
+                                 html_node = html_node + $(".add_pic"+pic_num).html();
                                  add_next_pic();
                              });
     }
