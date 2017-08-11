@@ -391,6 +391,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         if($qz_flag==1){
             $where_arr[]="mm.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(l.subject in".$tea_subject.")";
@@ -567,6 +568,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         ];
         if($qz_flag==1){
             $where_arr[]="mm.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(l.subject in".$tea_subject.")";
