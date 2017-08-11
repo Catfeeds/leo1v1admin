@@ -1,3 +1,4 @@
+	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;
@@ -31,12 +32,22 @@
 	has_pad	:any;
 	require_adminid	:any;
 	tmk_student_status	:any;
+	first_tmk_set_valid_admind	:any;
+	first_tmk_set_valid_time	:any;
+	tmk_set_seller_adminid	:any;
+	first_tmk_set_seller_time	:any;
+	first_admin_master_adminid	:any;
+	first_admin_master_time	:any;
+	first_admin_revisiterid	:any;
+	first_admin_revisiterid_time	:any;
+	first_seller_status	:any;
 	opt_time	:any;
 	index	:any;
 	seller_student_status_str	:any;
 	seller_student_sub_status_str	:any;
 	tmk_student_status_str	:any;
 	grade_str	:any;
+	seller_resource_type_str	:any;
 	sys_invaild_flag_str	:any;
 	subject_str	:any;
 	has_pad_str	:any;

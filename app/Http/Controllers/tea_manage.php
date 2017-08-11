@@ -2049,9 +2049,10 @@ class tea_manage extends Controller
         $is_test       = $this->get_in_int_val("is_test",0);
         $page_num      = $this->get_in_page_num();
         $acc           = $this->get_account();
+        $tea_subject = $this->get_admin_subject($this->get_account_id(),1);
 
         $ret_info = $this->t_teacher_record_list->get_trial_train_lesson_list(
-            $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,$is_test,$lesson_status
+            $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,$is_test,$lesson_status,$tea_subject
         );
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");

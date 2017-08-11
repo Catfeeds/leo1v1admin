@@ -50,6 +50,11 @@ class testbb extends Controller
 
     public function test () {
 
+
+        $url_power_map=\App\Config\url_power_map::get_config();
+
+        dd($url_power_map);
+
         // $group_list=$this->t_authority_group->get_auth_groups();
         // dd($group_list);
         $uid = $this->get_account_id();

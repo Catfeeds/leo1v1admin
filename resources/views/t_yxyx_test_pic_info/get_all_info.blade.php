@@ -125,7 +125,7 @@
                             <input id="id_upload_add" value="上传图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
                         </div>
                         <div class="add_header_img"></div>
-                        <div class="add_pic" style="display:none"></div>
+                        <div class="add_pic"></div>
                     </td>
 		            </tr>
 		        </tbody>
