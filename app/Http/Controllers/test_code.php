@@ -1807,23 +1807,25 @@ class test_code extends Controller
                     echo "more name end";
                     echo $this->div;
                 }else{
-                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname($val);
-                    if($teacher_info['level_simulate'] != $level_simulate){
-                        $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
-                            "level_simulate"=>$level_simulate
-                        ]);
-                        if($ret){
-                            echo $this->blue;
-                            echo $val;
-                            echo "<br>";
-                            echo "succ";
-                            echo $this->div;
-                        }else{
-                            echo $this->red;
-                            echo $val;
-                            echo "<br>";
-                            echo "fail";
-                            echo $this->div;
+                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname_for_level_simulate($val);
+                    if(!empty($teacher_info)){
+                        if($teacher_info['level_simulate'] != $level_simulate){
+                            $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
+                                "level_simulate" => $level_simulate
+                            ]);
+                            if($ret){
+                                echo $this->blue;
+                                echo $val;
+                                echo "<br>";
+                                echo "succ";
+                                echo $this->div;
+                            }else{
+                                echo $this->red;
+                                echo $val;
+                                echo "<br>";
+                                echo "fail";
+                                echo $this->div;
+                            }
                         }
                     }
                 }

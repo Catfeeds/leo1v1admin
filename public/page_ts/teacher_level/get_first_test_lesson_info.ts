@@ -175,12 +175,12 @@ $(function(){
                     id_yybd.parent().parent().hide();  
                     id_zyzs.parent().parent().hide();  
                     id_jxjz.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
-                    id_jysj.parent().parent().hide();  
+                    id_hdqk.parent().parent().hide();  
+                    id_bsqk.parent().parent().hide();  
+                    id_skhj.parent().parent().hide();  
+                    id_khfk.parent().parent().hide();  
+                    id_lcgf.parent().parent().hide();  
+                    id_score.parent().parent().hide();  
                 }
                 
             });
