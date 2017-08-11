@@ -2949,7 +2949,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s tq on tss.require_id =tq.require_id"
                                   ." left join %s m on tq.cur_require_adminid = m.uid"
                                   ." left join %s o on l.lessonid = o.from_test_lesson_id"
-                                  ." where %s group by cur_require_adminid",
+                                  ." where %s group by t.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,

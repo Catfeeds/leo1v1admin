@@ -60,13 +60,13 @@ $(function(){
 
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
-                    pic_str += '<span onclick="set_poster(this)" data_ip="'+item.pic_arr[i]
+                    pic_str += '<span onclick="set_poster(this)" class="btn" data_ip="'+item.pic_arr[i]
                         +'">设为封面</span><div class="add_header_img'+i+'"><img src="'
                         +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
                         +'" style="display:none">'+item.pic_arr[i]+'</div>';
                     pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
-                    pic_str += '<span onclick="set_poster(this)" data_ip="'+item.pic_arr[i]
+                    pic_str += '<span onclick="set_poster(this)" class="mark btn" data_ip="'+item.pic_arr[i]
                         +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic" style="display:none">'
                         +item.poster+'</div>';
@@ -75,9 +75,10 @@ $(function(){
             }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
-            var fun_str = "<span class='real_poster'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).data_ip); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
-            html_node.find("#id_container_add_tmp").after(fun_str);
         }
+        var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
+        html_node.find("#id_container_add_tmp").after(fun_str);
+
 
         var title = "";
         if (opt_type=="update"){
