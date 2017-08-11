@@ -314,6 +314,9 @@ class common extends Controller
                     $train_flag=0;
                 }
 
+                \App\Helper\Utils::logger("userid:".$answer['userid']." train_flag:".$train_flag);
+
+
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
                     //发送微信通知进行模拟课堂
