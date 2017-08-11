@@ -1809,7 +1809,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["realname='%s'",$nick,""]
         ];
-        $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,bankcard"
+        $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,"
+                                  ." bankcard,level_simulate"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
@@ -2649,7 +2650,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function check_count_by_realname($realname){
         $where_arr = [
-            ["realname='%s'",$realname,0]
+            ["realname='%s'",$realname,""]
         ];
         $sql = $this->gen_sql_new("select count(1)"
                                   ." from %s "
@@ -2659,5 +2660,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_value($sql);
     }
+
 
 }
