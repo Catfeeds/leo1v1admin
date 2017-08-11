@@ -102,6 +102,8 @@ $(function(){
             'child_realname' : opt_data.child_realname,
             'grade'          : opt_data.grade,
             'free_subject'   : opt_data.free_subject,
+            'region_version' : opt_data.region_version,
+            'notes'          : opt_data.notes,
         });
  
     });
