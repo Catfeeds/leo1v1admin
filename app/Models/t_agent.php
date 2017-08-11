@@ -184,7 +184,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql=$this->gen_sql_new ("select * "
                                  ." from %s where id=$id "
                                  ,self::DB_TABLE_NAME
-                                 ,$where_arr
         );
         return $this->main_get_row($sql);
     }
