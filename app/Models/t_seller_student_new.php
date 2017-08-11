@@ -644,6 +644,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
                 $set_arr["tmk_set_seller_time"]=time(NULL);
                 $set_arr["tmk_set_seller_adminid"]=$opt_adminid;
+                $set_arr["first_tmk_set_seller_time"]=time(null);
             }
             $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
 
