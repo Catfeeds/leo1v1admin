@@ -299,7 +299,7 @@ class login extends Controller
 
         $per_arr = explode(',',$permission);
 
-        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95'];
+        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95','0'];
 
         $result = array_intersect($per_arr,$jiaoxue_part_arr);
 
