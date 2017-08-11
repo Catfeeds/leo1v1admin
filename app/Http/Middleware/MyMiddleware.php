@@ -103,7 +103,7 @@ class MyMiddleware
         if ($need_powerid) { //url
             if (!session("acc")) {
                 \App\Helper\Utils::logger("SESSION ACC NOFIND");
-                if (\App\Helper\Utils::check_env_is_test() ) {
+                if (!\App\Helper\Utils::check_env_is_test() ) {
                     header('Location: /?to_url='. urlencode(@$_SERVER['REQUEST_URI'] )   );
                 }
                 exit;
