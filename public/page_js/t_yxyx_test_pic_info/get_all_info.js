@@ -83,21 +83,24 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-                custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
-                                     g_args.qiniu_upload_domain_url , true,
-                                     function (up, info, file){
-                                         var res = $.parseJSON(info);
-                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
-                                         pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                         if(opt_type != 'update') {
-                                             html_node.find(".add_header_img").html(pic_img);
-                                             html_node.find(".add_pic").html(pic_url);
-                                         } else {
-                                             html_node.find(".update_header_img").html(pic_img);
-                                             html_node.find(".update_pic").html(pic_url);
-                                         }
-                                         add_next_pic(html_node);
-                                     });
+                if(pic_num < 10) {
+                    custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
+                                         g_args.qiniu_upload_domain_url , true,
+                                         function (up, info, file){
+                                             var res = $.parseJSON(info);
+                                             pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                             pic_img = "<img width=80 src=\""+pic_url+"\" />";
+                                             if(opt_type != 'update') {
+                                                 html_node.find(".add_header_img").html(pic_img);
+                                                 html_node.find(".add_pic").html(pic_url);
+                                             } else {
+                                                 html_node.find(".update_header_img").html(pic_img);
+                                                 html_node.find(".update_pic").html(pic_url);
+                                                 pic_num++;
+                                             }
+                                             add_next_pic(html_node);
+                                         });
+                }
             },
             buttons        : [
                 {
@@ -112,7 +115,7 @@ $(function(){
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
                         if (pic_num >1) {
-                            for (var i = 0; i < pic_num; i++) {
+                            for (var i = 1; i =< pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
@@ -245,23 +248,23 @@ $(function(){
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
-        custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
-                             g_args.qiniu_upload_domain_url , true,
-                             function (up, info, file){
-                                 var res = $.parseJSON(info);
-                                 pic_url = g_args.qiniu_upload_domain_url + res.key;
-                                 pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                 var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
-                                 $("#id_container_add_tmp").parent().append(new_header_img);
-                                 $("#id_container_add_tmp").parent().append(new_pic);
-                                 $(".add_header_img"+pic_num).html(pic_img);
-                                 $(".add_pic"+pic_num).html(pic_url);
-                                 html_node = html_node+new_header_img+new_pic;
-                                 if (pic_num < 9) {
-                                    add_next_pic();
-                                 }
-                             });
+        if (pic_num < 9) {
+            custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
+                                 g_args.qiniu_upload_domain_url , true,
+                                 function (up, info, file){
+                                     var res = $.parseJSON(info);
+                                     pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                     pic_img = "<img width=80 src=\""+pic_url+"\" />";
+                                     var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
+                                     var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
+                                     $("#id_container_add_tmp").parent().append(new_header_img);
+                                     $("#id_container_add_tmp").parent().append(new_pic);
+                                     $(".add_header_img"+pic_num).html(pic_img);
+                                     $(".add_pic"+pic_num).html(pic_url);
+                                     html_node = html_node+new_header_img+new_pic;
+                                     add_next_pic();
+                                 });
+        }
     }
 
 });
