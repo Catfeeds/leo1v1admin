@@ -238,7 +238,7 @@ $(function(){
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
-                                 html_node.find("#id_container_add_tmp").after(new_header_img+new_pic);
+                                 html_node = html_node+new_header_img+new_pic;
                                  add_next_pic();
                              });
     }
