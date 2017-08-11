@@ -75,7 +75,7 @@ $(function(){
             }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
-            var fun_str = "<span class='real_poster'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip'); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
+            var fun_str = "<span class='real_poster'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
             html_node.find("#id_container_add_tmp").after(fun_str);
         }
 
