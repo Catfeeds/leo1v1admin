@@ -234,7 +234,7 @@ $(function(){
         });
     });
         //设为封面
-    function set_poster(obj) {
+    function setPoster(obj) {
         poster_url = obj.data-ip;
         obj.text('封面');
         $('.mark').removeClass('mark');
@@ -253,7 +253,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="set_poster(this)" class="btn" data-ip="'+pic_url+'">设为封面</span>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="setPoster(this)" class="btn" data-ip="'+pic_url+'">设为封面</span>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
