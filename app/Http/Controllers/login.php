@@ -115,6 +115,7 @@ class login extends Controller
             // \App\Helper\Utils::logger("uehbhd:".$node['name']);
 
             @$check_powerid = $url_power_map[$node["url"]] ;
+
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
                 unset($power_map[$check_powerid ]);

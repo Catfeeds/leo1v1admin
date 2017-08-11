@@ -314,9 +314,6 @@
                     <td style="width:70px">子状态</td>
                     <td >全局TQ状态</td>
                     <td >系统判定无效</td>
-                    {!!\App\Helper\Utils::th_order_gen([
-                        ["回公海次数","return_publish_count" ],
-                       ])!!}
 
 
                     <td >用户备注</td>
@@ -339,7 +336,8 @@
                         <td>
                             {{$var["phone"]}} <br/>
                             {{$var["phone_location"]}} <br/>
-                            {{$var["nick"]}}
+                            {{$var["nick"]}} <br/>
+                            {{$var["seller_resource_type_str"]}}
                         </td>
 
                         <td>
@@ -367,12 +365,6 @@
                         <td>
                             {{$var["sys_invaild_flag_str"]}} <br/>
                         </td>
-
-
-                        <td>
-                            {{$var["return_publish_count"]}} <br/>
-                        </td>
-
 
 
                         <td>
