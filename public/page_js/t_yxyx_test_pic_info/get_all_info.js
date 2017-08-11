@@ -109,6 +109,9 @@ $(function(){
                         var test_des      = html_node.find(".add_test_des").val();
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
+                        if ( opt_type == "update" && html_node.find(".update_pic").text() ){
+                            pic = pic +'|'+ html_node.find(".update_pic").text();
+                        }
 
                         if (pic_num >1) {
                             for (var i = 1; i < pic_num; i++) {
