@@ -2501,7 +2501,7 @@ class human_resource extends Controller
                 $data['keyword1'] = $teacher_info["nick"];
                 $data['keyword2'] = $level_degree;
                 $data['keyword3'] = date("Y-m-d H:i",time());
-                $data['remark']   = "\n升级原因:".$record_info."\n愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
+                $data['remark']   = "\n升级原因:".$record_info."\n您将获得20元的课时奖励,愿老师您与我们一起以春风化雨的精神，打造高品质教学服务，助我们理优学子更上一层楼。";
                 $url = "http://admin.yb1v1.com/common/show_level_up_html?teacherid=".$teacherid;
                 // $url = "";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);

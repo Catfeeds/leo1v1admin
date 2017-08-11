@@ -1936,6 +1936,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $ret_info = \App\Helper\Utils::list_to_page_info($ret);
         return $this->pageView(__METHOD__,$ret_info);
     }
+
     public function get_teacher_test_lesson_info_old(){
         $sum_field_list=[
             "identity_str",
@@ -3683,6 +3684,12 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         }
         return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
+
+    public function seller_test_lesson_info_by_teacher(){
+
     }
 
     public function seller_test_lesson_info_tongji(){

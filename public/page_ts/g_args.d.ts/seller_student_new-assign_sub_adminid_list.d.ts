@@ -29,6 +29,7 @@ interface GargsStatic {
 	seller_resource_type:	number;//App\Enums\Eseller_resource_type
 	sys_invaild_flag:	number;//\App\Enums\Eboolean
 	publish_flag:	number;//\App\Enums\Eboolean
+	show_list_flag:	number;
 	seller_level:	string;//枚举列表: \App\Enums\Eseller_level
  	admin_del_flag:	number;//\App\Enums\Eboolean
 	wx_invaild_flag:	number;//\App\Enums\Eboolean
@@ -146,6 +147,7 @@ $(function(){
 			seller_resource_type:	$('#id_seller_resource_type').val(),
 			sys_invaild_flag:	$('#id_sys_invaild_flag').val(),
 			publish_flag:	$('#id_publish_flag').val(),
+			show_list_flag:	$('#id_show_list_flag').val(),
 			seller_level:	$('#id_seller_level').val(),
 			admin_del_flag:	$('#id_admin_del_flag').val(),
 			wx_invaild_flag:	$('#id_wx_invaild_flag').val(),
@@ -205,6 +207,7 @@ $(function(){
 	$('#id_seller_resource_type').val(g_args.seller_resource_type);
 	$('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
 	$('#id_publish_flag').val(g_args.publish_flag);
+	$('#id_show_list_flag').val(g_args.show_list_flag);
 	$('#id_seller_level').val(g_args.seller_level);
 	$.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
 	$('#id_admin_del_flag').val(g_args.admin_del_flag);
@@ -390,6 +393,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_publish_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">show_list_flag</span>
+                <input class="opt-change form-control" id="id_show_list_flag" />
             </div>
         </div>
 
