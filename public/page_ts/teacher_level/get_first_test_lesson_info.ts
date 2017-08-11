@@ -181,6 +181,27 @@ $(function(){
                     id_khfk.parent().parent().hide();  
                     id_lcgf.parent().parent().hide();  
                     id_score.parent().parent().hide();  
+                    id_no_tea_score.parent().parent().hide();  
+                    id_jkqk.parent().parent().hide();  
+                    id_sshd.parent().parent().hide();  
+                    id_rjcz.parent().parent().hide();  
+                    
+                }else{
+                    id_jysj.parent().parent().show();  
+                    id_yybd.parent().parent().show();  
+                    id_zyzs.parent().parent().show();  
+                    id_jxjz.parent().parent().show();  
+                    id_hdqk.parent().parent().show();  
+                    id_bsqk.parent().parent().show();  
+                    id_skhj.parent().parent().show();  
+                    id_khfk.parent().parent().show();  
+                    id_lcgf.parent().parent().show();  
+                    id_score.parent().parent().show();  
+                    id_no_tea_score.parent().parent().show();  
+                    id_jkqk.parent().parent().show();  
+                    id_sshd.parent().parent().show();  
+                    id_rjcz.parent().parent().show();  
+ 
                 }
                 
             });
@@ -207,6 +228,7 @@ $(function(){
                     
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
+                        "lesson_invalid_flag"    : id_lesson_invalid_flag.val(),
                         "id"    : opt_data.id,
                         "type"         : 1,
                         "lesson_style" : 1,

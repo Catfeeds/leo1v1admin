@@ -821,6 +821,7 @@ class teacher_level extends Controller
         $record_type                     = $this->get_in_int_val("type");
         $lesson_style                    = $this->get_in_int_val("lesson_style");
         $id                              = $this->get_in_int_val("id");
+        $lesson_invalid_flag            = $this->get_in_int_val("lesson_invalid_flag");
         if(empty($record_info)){
             return $this->output_err("请输入反馈内容!");
         }
@@ -845,6 +846,7 @@ class teacher_level extends Controller
                 "record_monitor_class"             => $record_monitor_class,
                 "userid"                           => $userid,
                 "add_time"                         => time(),
+                "lesson_invalid_flag"              =>$lesson_invalid_flag
             ]);
  
         }else{
@@ -869,6 +871,7 @@ class teacher_level extends Controller
                 "record_score"                     => $record_score,
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
+                "lesson_invalid_flag"              =>$lesson_invalid_flag,
                 "userid"                           => $userid
             ]);
 
