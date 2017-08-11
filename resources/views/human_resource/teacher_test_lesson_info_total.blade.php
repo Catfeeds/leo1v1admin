@@ -137,18 +137,18 @@
                     <td>试听成功课数(销售-old)</td>
                     <td>试听成功课数(销售)</td>
                     <td>试听成功人数</td>
-                    <td>试听成功课数(转介绍)</td>
+                    <!--<td>试听成功课数(转介绍)</td>-->
                     <td>试听成功课数(扩课)</td>
                     <td>试听成功课数(换老师)</td>
                     <td>试听到课率</td>
                     <td>签约单数</td>
                     <td>签约课数</td>
-                    <td>签约单数(转介绍)</td>
+                    <!--<td>签约单数(转介绍)</td>-->
                     <td>签约课数(扩课)</td>
                     <td>签约课数(换老师)</td>
                     <td>试听签单率</td>
                     <td>试听签课率</td>
-                    <td>试听签单率(转介绍)</td>
+                    <!--<td>试听签单率(转介绍)</td>-->
                     <td>试听扩课率</td>
                     <td>试听转化率(换老师)</td>
                     <td>操作</td>
@@ -161,18 +161,18 @@
                     <td >{{@$total["lesson_num_old"]}}</td>                    
                     <td >{{@$total["lesson_num"]}}</td>                    
                     <td> {{@$total["test_person_num"]}}</td>
-                    <td >{{@$total["lesson_num_other"]}}</td>                    
+                    <!--<td >{{@$total["lesson_num_other"]}}</td>                    -->
                     <td>{{@$total["kk_num"]}}</td>
                     <td >{{@$total["change_num"]}}</td>
                     <td>{{@$total["success_per"]}}%</td>                    
                     <td >{{@$total["have_order"]}}</td>
                     <td >{{@$total["order_number"]}}</td>
-                    <td >{{@$total["have_order_other"]}}</td>
+                    <!--<td >{{@$total["have_order_other"]}}</td>-->
                     <td>{{@$total["kk_order"]}}</td>
                     <td >{{@$total["change_order"]}}</td>
                     <td >{{@$total["order_num_per"]}}% </td>
                     <td>{{@$total["order_per"]}}%</td>
-                    <td >{{@$total["order_num_per_other"]}}% </td>
+                    <!--<td >{{@$total["order_num_per_other"]}}% </td>-->
                     <td>{{@$total["kk_per"]}}% </td>
                     <td>{{@$total["change_per"]}}% </td>
                     <td></td>

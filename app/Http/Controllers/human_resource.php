@@ -3627,17 +3627,19 @@ class human_resource extends Controller
         $all_lesson_total = $this->t_lesson_info->get_all_lesson_num_info_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $test_person_num_total_old= $this->t_lesson_info->get_teacher_test_person_num_list_total_old( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $test_person_num_total= $this->t_lesson_info->get_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-
+        //
         $test_person_num_total_other= $this->t_lesson_info->get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
 
         $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
+        
         $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $total_arr=[];
         $total_arr["all_lesson"] = $all_lesson_total;
         $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];
         $total_arr["lesson_num"] =  $test_person_num_total["lesson_num"];
         $total_arr["lesson_num_old"] =  $test_person_num_total_old["lesson_num"];
+        //
         $total_arr["lesson_num_other"] =  $test_person_num_total_other["lesson_num"];
         $total_arr["test_person_num"] =  $test_person_num_total["person_num"];
         $total_arr["kk_num"] =  $kk_test_person_num_total["kk_num"];
@@ -3645,6 +3647,7 @@ class human_resource extends Controller
         $total_arr["change_num"] =  $change_test_person_num_total["change_num"];
         $total_arr["change_order"] =  $change_test_person_num_total["change_order"];
         $total_arr["have_order"] = $test_person_num_total["have_order"];
+        //
         $total_arr["have_order_other"] = $test_person_num_total_other["have_order"];
         $total_arr["order_number"] = $success_test_lesson_list_total["order_number"];
 
@@ -3653,6 +3656,7 @@ class human_resource extends Controller
         $total_arr["change_per"] = !empty($total_arr["change_num"])?round($total_arr["change_order"]/$total_arr["change_num"],4)*100:0;
 
         $total_arr["order_num_per"] = !empty($total_arr["test_person_num"])?round($total_arr["have_order"]/$total_arr["test_person_num"],4)*100:0;
+        //
         $total_arr["order_num_per_other"] = !empty($total_arr["lesson_num_other"])?round($total_arr["have_order_other"]/$total_arr["lesson_num_other"],4)*100:0;
 
         $total_arr["order_per"]   = !empty($total_arr["success_lesson"])?round($total_arr["order_number"]/$total_arr["success_lesson"],4)*100:0;

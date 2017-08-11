@@ -104,11 +104,7 @@ class login extends Controller
             }
 
         }else{
-
-            // \App\Helper\Utils::logger("uehbhd:".$node['name']);
-
             @$check_powerid = $url_power_map[$node["url"]] ;
-
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
                 unset($power_map[$check_powerid ]);
@@ -121,8 +117,6 @@ class login extends Controller
                 return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
-
-                // \App\Helper\Utils::logger("do222:".$node["name"].":null-$check_powerid");
                 return "";
             }
         }
