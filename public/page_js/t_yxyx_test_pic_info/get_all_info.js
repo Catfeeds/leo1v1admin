@@ -32,6 +32,7 @@ $(function(){
     });
 
 
+    var pic_num = 1;
     var do_add_or_update = function( opt_type, item ,id){
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
         html_txt=html_txt.
@@ -77,7 +78,7 @@ $(function(){
                                          add_next_pic();
                                      });
             },
-            buttons: [
+            buttons        : [
                 {
                     label: '确认',
                     cssClass: 'btn-primary',
@@ -196,11 +197,20 @@ $(function(){
             }]
         });
     });
-    var pic_num = 1;
     function add_next_pic() {
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
         pic_num++;
+        custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
+                             g_args.qiniu_upload_domain_url , true,
+                             function (up, info, file){
+                                 var res = $.parseJSON(info);
+                                 pic_url = g_args.qiniu_upload_domain_url + res.key;
+                                 pic_img = "<img width=80 src=\""+pic_url+"\" />";
+                                 html_node.find(".add_header_img").html(pic_img);
+                                 html_node.find(".add_pic").html(pic_url);
+                                 add_next_pic();
+                             });
     }
 });
