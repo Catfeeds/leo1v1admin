@@ -984,7 +984,7 @@ class TeacherTask extends TaskController
      */
     public function train_lesson_no_comment_remind($type){
         $start_time = time()-105*60;
-        $end_time   = time();
+        $end_time   = time()-104*60;
 
         $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
         if(is_array($lesson_list)){

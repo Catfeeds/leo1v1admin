@@ -1619,10 +1619,127 @@ class test_code extends Controller
 
     public function set_simulate_info(){
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",4);
-        $level              = $this->get_in_int_val("level",0);
-        $level_simulate     = $this->get_in_int_val("level_simulate",0);
+        $level              = $this->get_in_int_val("level",1);
+        $level_simulate     = $this->get_in_int_val("level_simulate",1);
 
-        $this->t_teacher_info->set_simulate_info($teacher_money_type,$level,$level_simulate);
+        $new_A = [
+            "胡旭",
+            "丁媛媛",
+            "默建宾",
+            "吉妍瑾",
+            "李志伟",
+            "邢平",
+            "章一维",
+            "付文",
+            "董超",
+            "马娇",
+            "朱凯",
+            "唐梦迪",
+            "吴迎雪",
+            "尹向烟",
+            "李伟",
+            "于艳",
+            "张鑫",
+            "王月",
+            "李睿超",
+            "卢雪瑞",
+            "徐雪丽",
+            "宁斯同",
+        ];
+
+        $new_A_plus = [
+            "张子琦",
+            "矣子沁",
+            "惠吉",
+        ];
+
+        $new_B_plus = [
+            "魏晓晓",
+            "许磊",
+            "张杰-Johnny",
+            "鞠东篱",
+            "陈桂琼",
+            "陈懿",
+            "房彩虹",
+            "李婧",
+            "马勋",
+            "郭清华",
+            "杨翠霞",
+            "李青思",
+            "伏墨欣",
+            "徐格格",
+            "张金蓉",
+            "曾奕璇",
+            "黄新育",
+            "孟楠",
+            "齐素玲",
+            "陈璐烨",
+            "任虹如",
+            "陈栋云",
+            "闫妮",
+            "韩雪娜",
+            "班翠然",
+            "付悦",
+            "孙镜轩",
+            "潘英敏",
+            "孟洁",
+            "陈晓红",
+            "严道顺",
+            "孙开霞",
+            "张馨月",
+            "段小梅",
+            "宁琳",
+            "康伟",
+            "张昊",
+            "阮育文",
+            "王亚伟",
+            "梁凯文",
+            "汪追",
+            "朱佳音",
+            "杨志",
+            "王艳芳",
+            "马欣",
+            "蒋远霞",
+            "Juan.张",
+            "杜春玲",
+            "袁小胜",
+            "宋琰",
+            "徐平",
+            "尹斯琪",
+            "方臻成",
+            "汪丽佳",
+            "张家红",
+            "王颖颖",
+            "雷炳海",
+            "路佳宁",
+            "冯守万",
+            "张敏怡",
+            "张丽园",
+            "齐美山",
+            "汤佳琛",
+            "陈梦颖",
+            "孔霞",
+            "沈蓓芸",
+            "刘卫东",
+            "朱兰兰",
+            "周蓉",
+            "郭佳玉",
+            "李立彬",
+            "郭学春",
+            "潘慧敏",
+            "沈怡菁",
+        ];
+
+    }
+
+    public function set_simulate_info_by_list($list,$level,$level_simulate){
+        if(!is_array($list)){
+            $this->t_teacher_info->set_simulate_info($list,$level,$level_simulate);
+        }else{
+            foreach($list as $val){
+                // $count=$this->t_teacher_info->get_
+            }
+        }
     }
 
 

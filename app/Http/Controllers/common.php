@@ -867,7 +867,7 @@ class common extends Controller
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
-            $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone."&type=2";
+            $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=2";
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;

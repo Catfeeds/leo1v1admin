@@ -39,20 +39,34 @@ $(function(){
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
         ;
+        if (opt_type == 'update') {
+            html_txt=html_txt.
+                replace(/\"add_header_img\"/, "\"update_header_img\"" ).
+                replace(/\"add_pic\"/, "\"update_pic\"" )
+            ;
+        }
         var html_node = $("<div></div>").html(html_txt);
         var pic_url = "";
         var pic_img = "";
 
         if (opt_type=="update") {
-            pic_url=item.pic;
-            pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".add_pic").html(pic_img);
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
             html_node.find(".add_grade").val(item.grade);
             html_node.find(".add_subject").val(item.subject);
-            html_node.find(".add_poster").val(item.poster);
             html_node.find(".add_test_type").val(item.test_type);
+            var pic_str = '';
+
+            for (var i = 0; i < item.pic_arr.length; i++) {
+                if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
+                    pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>设为封面</span><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
+                } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
+                    pic_str += '<div class="add_header_img"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>封面</span><div class="add_pic" style="display:none">'+item.poster+'</div>';
+                }
+            }
+            console.log(typeof html_node)
+            $('#id_container_add_tmp').append(pic_str);
+            html_node = html_node + pic_str;
         }
 
         var title = "";
@@ -73,8 +87,13 @@ $(function(){
                                          var res = $.parseJSON(info);
                                          pic_url = g_args.qiniu_upload_domain_url + res.key;
                                          pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                         html_node.find(".add_header_img").html(pic_img);
-                                         html_node.find(".add_pic").html(pic_url);
+                                         if(opt_type != 'update') {
+                                             html_node.find(".add_header_img").html(pic_img);
+                                             html_node.find(".add_pic").html(pic_url);
+                                         } else {
+                                             html_node.find(".update_header_img").html(pic_img);
+                                             html_node.find(".update_pic").html(pic_url);
+                                         }
                                          add_next_pic(html_node);
                                      });
             },
@@ -93,7 +112,7 @@ $(function(){
 
                         if (pic_num >1) {
                             for (var i = 1; i < pic_num; i++) {
-                                pic = pic + '|' + html_node.find('.add_pic'+i);
+                                pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                             }
                         }
                         if (opt_type=="update") {
@@ -215,12 +234,13 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'">'+pic_url+'</div>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
                                  html_node = html_node + new_header_img + new_pic;
+                                 console.log(html_node);
                                  add_next_pic();
                              });
     }

@@ -24,6 +24,7 @@ class teacher_info_admin extends Controller
     public function index(){
         $teacherid = $this->teacherid;
         $tea_info  = $this->t_teacher_info->get_teacher_info_all($teacherid);
+
         $tea_info['gender_str'] = @E\Egender::get_desc( $tea_info['gender']);
         $tea_info['textbook_type_str'] = @E\Etextbook_type::get_desc( $tea_info['textbook_type']);
         $tea_info['grade_part_ex_str'] = empty($tea_info['grade_part_ex'])?"":@E\Egrade_part_ex::get_desc( $tea_info['grade_part_ex']);
@@ -32,9 +33,8 @@ class teacher_info_admin extends Controller
         $tea_info['birth_str'] = substr(@$tea_info['birth'],0,4)
                                ."-".substr(@$tea_info['birth'],4,2)
                                ."-".substr(@$tea_info['birth'],6,2);
-        if($tea_info['phone_spare'] != ""){
-            $tea_info['phone'] = $tea_info['phone_spare'];
-        }
+
+        $tea_info['phone'] = \App\Helper\Utils::get_teacher_contact_way($tea_info); 
 
         $arr = explode(",",@$tea_info['quiz_analyse']);
         $tea_info['quiz_analyse'] = $arr[0];
@@ -54,7 +54,7 @@ class teacher_info_admin extends Controller
     }
 
     public function get_teacher_info_for_js(){
-        $teacherid=$this->get_in_teacherid();
+        $teacherid = $this->get_in_teacherid();
         $tea_info  = $this->t_teacher_info->get_teacher_info_all($teacherid);
         return $this->output_succ(["data"=>$tea_info]);
     }

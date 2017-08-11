@@ -2389,5 +2389,45 @@ trait  TeaPower {
 
     }
 
+    public function get_admin_subject($adminid,$flag){
+        $subject=-1;
+        if($flag==1){
+            if(in_array($adminid,[913])){
+                $subject=1;
+            }elseif(in_array($adminid,[892,754,683])){
+                $subject=2;
+            }elseif(in_array($adminid,[923])){
+                $subject=3;
+            }elseif(in_array($adminid,[793])){
+                $subject=5;
+            }else if(in_array($adminid,[770])){
+                $subject=12;
+            }elseif(in_array($adminid,[478])){
+                $subject=13;
+            }else{
+                $subject=-1;
+            }
+
+        }elseif($flag==2){
+            if(in_array($adminid,[379,404,868,849])){
+                $subject=1;
+            }elseif(in_array($adminid,[310,890,866])){
+                $subject=2;
+            }elseif(in_array($adminid,[372,329])){
+                $subject=3;
+            }elseif(in_array($adminid,[793])){
+                $subject=5;
+            }else if(in_array($adminid,[770])){
+                $subject=12;
+            }elseif(in_array($adminid,[478])){
+                $subject=13;
+            }else{
+                $subject=-1;
+            }
+
+        }
+        return $subject;
+    }
+
 
 }

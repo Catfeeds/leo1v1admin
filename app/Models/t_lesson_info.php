@@ -3522,7 +3522,8 @@ lesson_type in (0,1) "
             "lesson_del_flag = 0",
             // "require_admin_type =2",
             //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
-            "m.account_role=2",
+            //"m.account_role=2",
+            "m.account_role=2 or tq.origin like '%%转介绍%%'",
             "m.del_flag=0"
         ];
         if($subject==20){

@@ -645,14 +645,15 @@ class teacher_level extends Controller
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
-        $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag);
+        $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -676,14 +677,15 @@ class teacher_level extends Controller
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
-        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag);
+        $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -707,14 +709,15 @@ class teacher_level extends Controller
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
-        $ret_info = $this->t_lesson_info_b2->get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid);
+        $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -739,14 +742,15 @@ class teacher_level extends Controller
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
-        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid);
+        $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
             E\Egrade::set_item_value_str($item);
-            if(!empty($item["add_time"])){
+            if(!empty($item["record_info"])){
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
@@ -782,7 +786,8 @@ class teacher_level extends Controller
                 "type"           => $record_type,          
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
-                "acc"            => $acc
+                "acc"            => $acc,
+                "add_time"       => time(),
             ]);
   
         }
