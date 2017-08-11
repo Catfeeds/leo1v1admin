@@ -135,7 +135,7 @@ $(function(){
 
                         if(html_node.find('.real_poster').text()) {
                             poster = html_node.find('.real_poster').text();
-                            pic    = pic + html_node.find('.real_poster').text();
+                            pic    = pic +'|'+ html_node.find('.real_poster').text();
                         }
                         if (opt_type=="update") {
                             $.ajax({
