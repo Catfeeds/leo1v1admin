@@ -154,7 +154,6 @@ class wx_yxyx_common extends Controller
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
-        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
@@ -164,15 +163,17 @@ class wx_yxyx_common extends Controller
         if(!$type){
             return $this->output_err("请选择报名类型!");
         }
-        $phone_str = implode(',',[$phone,$p_phone]);
-        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
-        foreach($ret_list as $item){
-            if($phone == $item['phone']){
-                // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
-                return $this->output_err("您已被邀请过!");
-            }
-            if($p_phone = $item['phone']){
-                $parentid = $item['id'];
+        if($p_phone){
+            $phone_str = implode(',',[$phone,$p_phone]);
+            $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+            foreach($ret_list as $item){
+                if($phone == $item['phone']){
+                    // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
+                    return $this->output_err("您已被邀请过!");
+                }
+                if($p_phone = $item['phone']){
+                    $parentid = $item['id'];
+                }
             }
         }
         if(!isset($parentid)){
