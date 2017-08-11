@@ -24,6 +24,7 @@ class wx_yxyx_web extends Controller
         if($agent_id){
             $agent = $this->t_agent->get_agent_info_by_id($agent_id);
             $agent_id_new = $agent['id'];
+            \App\Helper\Utils::logger('yxyx_xxx_id:'.$agent_id_new);
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
