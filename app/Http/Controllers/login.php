@@ -293,10 +293,17 @@ class login extends Controller
         $url_power_map=\App\Config\url_power_map::get_config();
         $menu_html ="";
 
-        $accountid = $this->get_account_id();
+        $uid = $this->get_account_id();
 
-        // coco ted
-        if($accountid == 478 || $accountid == 72 || $accountid == 99 || $accountid == 684){
+        $permission = $this->t_manager_info->get_permission($uid);
+
+        $per_arr = explode(',',$permission);
+
+        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95'];
+
+        $result = array_intersect($per_arr,$jiaoxue_part_arr);
+
+        if(!empty($result)){
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 

@@ -9,19 +9,16 @@ $(function(){
         });
     }
     Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"),true);
-    Enum_map.append_option_list("level",$("#id_level"),true);
+
+    var level_map = "level";
+    if(g_args.teacher_money_type>=6){
+        level_map = "new_level";
+    }
+    Enum_map.append_option_list(level_map,$("#id_level"),true);
 
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
 
 	  $('.opt-change').set_input_change_event(load_data);
-
-    $("#id_add_teacher_money_type").on("click",function(){
-        var id_teacher_money_type = $("<select/>");
-        
-    });
-
-
-
 });
 
