@@ -368,7 +368,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_trial_train_lesson_list($page_num,$start_time,$end_time,$status,$grade,
-                                                $subject,$teacherid,$is_test,$lesson_status
+                                                $subject,$teacherid,$is_test,$lesson_status,$tea_subject
     ){
         $where_arr = [
             ["lesson_start>%u",$start_time,0],
@@ -385,6 +385,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "l.lesson_sub_type=1",
             "l.train_type=4",
         ];
+        if($tea_subject==12){
+            $where_arr[]="l.subject in (4,6)";
+        }elseif($tea_subject==13){
+            $where_arr[]="l.subject in (7,8,9,10)";
+        }else{
+            $where_arr[]=["l.subject=%u",$tea_subject,-1];
+        }
         $sql = $this->gen_sql_new("select tr.id,l.lessonid,audio,draw,l.teacherid,l.subject,l.grade,t.realname as tea_nick,"
                                   ." t.wx_openid,l.lesson_start,l.lesson_end,l.lesson_status,tr.add_time,tr.record_monitor_class,"
                                   ." tr.record_info,tr.acc,tr.trial_train_status"
