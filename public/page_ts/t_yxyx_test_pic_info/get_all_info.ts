@@ -240,7 +240,7 @@ $(function(){
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
                                  html_node = html_node + new_header_img + new_pic;
-                                 console.log(html_mode);
+                                 console.log(html_node);
                                  add_next_pic();
                              });
     }
