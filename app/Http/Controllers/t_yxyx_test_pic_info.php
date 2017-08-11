@@ -31,6 +31,7 @@ class t_yxyx_test_pic_info extends Controller
         E\Egrade::set_item_value_str($ret_info,"grade");
         E\Esubject::set_item_value_str($ret_info,"subject");
         E\Etest_type::set_item_value_str($ret_info,"test_type");
+        dd($ret_info);
         return outputjson_success(array('ret_info' => $ret_info));
 
     }
