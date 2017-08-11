@@ -4,12 +4,17 @@ class teaching_menu{
     static  public  function get_config()  {
         return [
 
-            ["power_id"=>40, "name"=>"产品部",  "list"=>[
+            ["power_id"=>43, "name"=>"核心数据",  "list"=>[
                 ["power_id"=>1, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                 ["power_id"=>9,"name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
 
             ]],
+
+
+            ["power_id"=>40, "name"=>"产品部",  "list"=>[
+            ]],
+
 
 
             ["power_id"=>25, "name"=>"招师部",  "list"=>[
