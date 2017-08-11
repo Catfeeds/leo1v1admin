@@ -258,7 +258,7 @@ $(function(){
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
                                  html_node = html_node+new_header_img+new_pic;
-                                 if (pic_num < 10) {
+                                 if (pic_num < 9) {
                                     add_next_pic();
                                  }
                              });
