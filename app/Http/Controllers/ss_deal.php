@@ -409,7 +409,7 @@ class ss_deal extends Controller
             "stu_character_info" =>$stu_character_info,
         ];
 
-        if ($ss_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
+        if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
             $ss_arr["first_seller_status"]=$seller_student_status;
         }
 
