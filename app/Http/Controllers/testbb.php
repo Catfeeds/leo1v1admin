@@ -172,7 +172,7 @@ class testbb extends Controller
             if($show_flag==1){
 
                 $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($item['teacherid'],$start_time, $end_time);
-                $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$seller_arr);
+                $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
                 // $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
                 // $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
             }

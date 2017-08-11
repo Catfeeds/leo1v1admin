@@ -2998,14 +2998,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_teacher_test_lesson_info_by_($start_time,$end_time,$teacherid_arr){
+    public function get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr){
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
             "l.confirm_flag <>2",
             "(tss.success_flag in (0,1) or tss.success_flag is null)",
             "l.lesson_user_online_status =1",
-            //"require_admin_type =2",
             "m.account_role=2",
             "m.del_flag=0"
         ];
