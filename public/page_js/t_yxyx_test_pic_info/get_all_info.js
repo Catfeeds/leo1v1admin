@@ -211,13 +211,13 @@ $(function(){
                                  var res = $.parseJSON(info);
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                 console.log(pic_url);
-                                 console.log(pic_img);
+                                 var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'">'+pic_url+'</div>';
+                                 $("#id_container_add_tmp").parent().append(new_header_img);
+                                 $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
-                                 console.log($(".add_header_img"+pic_num).html());
                                  $(".add_pic"+pic_num).html(pic_url);
-                                 html_node = html_node + $(".add_header_img"+pic_num).html();
-                                 html_node = html_node + $(".add_pic"+pic_num).html();
+                                 html_node = html_node + new_header_img + new_pic;
                                  add_next_pic();
                              });
     }
