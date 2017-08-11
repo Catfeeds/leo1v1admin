@@ -53,9 +53,17 @@ $(function(){
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_poster").val(item.poster);
             html_node.find(".add_test_type").val(item.test_type);
-            item.picarr.each(function(){
-                console.log(this);
-            });
+            // var pic_str = '';
+            for (var i = 0; i < item.pic_arr.length; i++) {
+                // console.log(item.pic_arr[i])
+                if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
+                    pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>设为封面</span><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
+                } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
+                    pic_str += '<div class="add_header_img"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>封面</span><div class="add_pic" style="display:none">'+item.poster+'</div>';
+                }
+            }
+            $('#id_container_add_tmp').append(pic_str);
+            html_node = html_node + pic_str;
         }
 
         var title = "";
