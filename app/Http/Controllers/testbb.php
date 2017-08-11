@@ -126,8 +126,8 @@ class testbb extends Controller
 
 
 
-        public function seller_test_lesson_info_by_teacher(){
-                $sum_field_list=[
+    public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
+        $sum_field_list=[
             "work_day",
             "lesson_count",
             "suc_count",
@@ -152,9 +152,9 @@ class testbb extends Controller
 
         foreach($ret_info["list"] as &$item){
             /* $item["order_count"] = @$order_info[$item["cur_require_adminid"]]["order_count"];
-            if(empty($item["order_count"])){
-                $item['order_count']=0;
-                }*/
+               if(empty($item["order_count"])){
+               $item['order_count']=0;
+               }*/
             $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
             if($item["create_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["create_time"])/86400);
