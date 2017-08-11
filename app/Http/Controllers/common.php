@@ -863,6 +863,8 @@ class common extends Controller
         if(!$phone || $wx_openid==""){
             return "";
         }
+        \App\Helper\Utils::logger('yxyx_yyy:'.$phone);
+
         $qiniu         = \App\Helper\Config::get_config("qiniu");
         $phone_qr_name = $phone."_qr_agent_new_bb.png";
         $qiniu_url     = $qiniu['public']['url'];
