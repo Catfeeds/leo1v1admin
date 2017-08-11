@@ -171,7 +171,16 @@ $(function(){
             
             id_lesson_invalid_flag.on("change",function(){
                 if($(this).val() ==2){
-                    
+                    id_jysj.parent().parent().hide();  
+                    id_yybd.parent().parent().hide();  
+                    id_zyzs.parent().parent().hide();  
+                    id_jxjz.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
+                    id_jysj.parent().parent().hide();  
                 }
                 
             });
