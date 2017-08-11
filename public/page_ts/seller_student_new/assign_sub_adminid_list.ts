@@ -5,6 +5,7 @@ function load_data(){
 
         order_by_str                   : g_args.order_by_str,
         date_type:	$('#id_date_type').val(),
+			  show_list_flag:	$('#id_show_list_flag').val(),
         opt_date_type:	$('#id_opt_date_type').val(),
 			  call_phone_count:	$('#id_call_phone_count').val(),
         seller_level:	$('#id_seller_level').val(),
@@ -107,6 +108,7 @@ $(function(){
     } );
     $('#id_subject').val(g_args.subject);
     $('#id_phone_location').val(g_args.phone_location);
+	  $('#id_show_list_flag').val(g_args.show_list_flag);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
     $('#id_seller_student_status').val(g_args.seller_student_status);
