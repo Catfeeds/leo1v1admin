@@ -391,6 +391,7 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
+        "/human_resource/news_teacher_money_list" => true,
         "/human_resource/origin_list" => true,
         "/human_resource/teacher_total_list" => true,
         "/human_resource/zs_origin_list" => true,
