@@ -680,6 +680,7 @@ class tea_manage_new extends Controller
         $subject          = $this->get_in_int_val("subject");
         $grade            = $this->get_in_int_val("grade");
         $record_teacherid = $this->get_in_int_val("record_teacherid");
+        $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
         if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
             return $this->output_err("请填写完整"); 
@@ -927,6 +928,12 @@ class tea_manage_new extends Controller
             ]);
 
  
+        }
+
+        if($id>0){
+            $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+               "lecture_revisit_type"  =>4 
+            ]);
         }
 
         return $this->output_succ();

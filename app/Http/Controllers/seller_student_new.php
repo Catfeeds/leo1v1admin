@@ -120,6 +120,7 @@ class seller_student_new extends Controller
             E\Eseller_student_sub_status::set_item_value_str($item);
             E\Etmk_student_status::set_item_value_str($item);
             E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Eseller_resource_type::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"sys_invaild_flag");
             E\Esubject::set_item_value_str($item);
             E\Epad_type::set_item_value_str($item,"has_pad");

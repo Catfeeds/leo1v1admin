@@ -692,7 +692,8 @@ $(function(){
                     "subject"          : id_subject.val(),
                     "grade"            : id_grade.val(),
                     "record_teacherid" : id_record_teacher.val(),
-                    "tea_nick"         : opt_data.name
+                    "tea_nick"         : opt_data.name,
+                    "id"               : opt_data.id
                 });
             }
         }],function(){

@@ -44,6 +44,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;
@@ -77,6 +78,15 @@ interface RowData {
 	has_pad	:any;
 	require_adminid	:any;
 	tmk_student_status	:any;
+	first_tmk_set_valid_admind	:any;
+	first_tmk_set_valid_time	:any;
+	tmk_set_seller_adminid	:any;
+	first_tmk_set_seller_time	:any;
+	first_admin_master_adminid	:any;
+	first_admin_master_time	:any;
+	first_admin_revisiterid	:any;
+	first_admin_revisiterid_time	:any;
+	first_seller_status	:any;
 	opt_time	:any;
 	index	:any;
 	seller_student_status_str	:any;
