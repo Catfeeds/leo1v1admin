@@ -153,6 +153,9 @@ class testbb extends Controller
 
         $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
 
+
+        dd($ret_info);
+
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){

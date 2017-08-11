@@ -97,6 +97,12 @@ trait  CacheNick {
     public function cache_set_item_teacher_nick( &$item,$field_name="teacherid",$nick_field_name="teacher_nick" ) {
         $item[$nick_field_name] = $this->cache_get_teacher_nick($item[$field_name]);
     }
+    public function cache_set_item_account_nick_time (&$item, $show_field , $adminid_field, $time_field ) {
+        $item["$show_field"]=
+            $this->cache_get_account_nick( $item[$adminid_field])."/".
+            \App\Helper\Utils::unixtime2date($item[$time_field]);
+    }
+
 
     public function cache_set_item_account_nick( &$item,$field_name="adminid",$nick_field_name="admin_nick" ) {
         $item[$nick_field_name] = $this->cache_get_account_nick($item[$field_name]);
