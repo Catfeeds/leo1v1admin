@@ -2119,6 +2119,9 @@ trait  TeaPower {
                 "train_through_new_time" => time(),
             ]);
         }elseif($flag==1){
+            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+                "train_through_new_time" => time(),
+            ]);
             $teacher_info['level']=0;
         }
 
