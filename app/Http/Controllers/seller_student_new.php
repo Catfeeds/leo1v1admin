@@ -83,7 +83,7 @@ class seller_student_new extends Controller
         $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
         $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
         $sys_invaild_flag  =$this->get_in_e_boolean(0,"sys_invaild_flag");
-        $publish_flag  = $this->get_in_e_boolean(-1,"publish_flag");
+        $publish_flag  = $this->get_in_e_boolean(1,"publish_flag");
         $seller_level = $this->get_in_el_seller_level();
 
         $admin_del_flag  = $this->get_in_e_boolean(-1 ,"admin_del_flag");
