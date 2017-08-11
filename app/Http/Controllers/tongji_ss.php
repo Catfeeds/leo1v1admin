@@ -3687,7 +3687,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
 
-    // public function seller_test_lesson
+    public function seller_test_lesson_info_by_teacher(){
+
+    }
 
     public function seller_test_lesson_info_tongji(){
         $sum_field_list=[
