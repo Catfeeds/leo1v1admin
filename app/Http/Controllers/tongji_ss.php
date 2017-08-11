@@ -3694,12 +3694,14 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
     public function seller_test_lesson_info_tongji(){
 
+        $is_teacher_flag = $this->get_in_int_val('is_teacher_flag',0);
+        $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
         return $this->pageView(__METHOD__,$ret_info);
 
     }
 
 
-    public function seller_test_lesson_info_tongji_for_seller(){
+    public function seller_test_lesson_info_tongji_for_seller(){ // 销售
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3765,7 +3767,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $ret_info;
+        // return $this->pageView(__METHOD__,$ret_info);
 
     }
 

@@ -2607,6 +2607,9 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
+        $train_time = $this->t_train_lesson_user->get_max_lesson_time(249811);
+        dd($train_time);
+
         $ret= $this->t_teacher_record_list->get_no_time();
         dd($ret);
         $ret = $this->t_teacher_record_list->get_teacher_first_record();
