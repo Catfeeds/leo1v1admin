@@ -1408,7 +1408,7 @@ class Utils  {
         return $map_array;
     }
 
-    public function get_teacher_contact_way($teacher_info){
+    static public function get_teacher_contact_way($teacher_info){
         if(isset($teacher_info['phone_spare']) && $teacher_info['phone_spare']!=""){
             $phone=$teacher_info['phone_spare'];
         }else{

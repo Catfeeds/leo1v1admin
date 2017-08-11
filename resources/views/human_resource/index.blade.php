@@ -475,8 +475,6 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                <a class="opt-set_bank_info ">银行卡</a>
-                                <a class="opt-set_check_info">审核信息</a>
                                 @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku"]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
@@ -489,6 +487,8 @@
                                     <a class="opt-change-teacher_ref_type">渠道</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                     <a class="opt-change-grade-range" title="更改年级范围">范</a>
+                                    <a class="opt-set_bank_info ">银行卡</a>
+                                    <a class="opt-set_check_info">审核信息</a>
                                 @endif
                                 @if(in_array($acc,["zoe"]))
                                     <a class="opt-change-teacher_ref_type">渠道</a>
