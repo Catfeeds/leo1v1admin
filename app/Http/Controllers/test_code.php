@@ -1698,81 +1698,17 @@ class test_code extends Controller
             "许磊",
             "张杰-Johnny",
             "鞠东篱",
-            "陈桂琼",
-            "陈懿",
-            "房彩虹",
-            "李婧",
-            "马勋",
-            "郭清华",
-            "杨翠霞",
-            "李青思",
-            "伏墨欣",
-            "徐格格",
-            "张金蓉",
-            "曾奕璇",
-            "黄新育",
-            "孟楠",
-            "齐素玲",
-            "陈璐烨",
-            "任虹如",
-            "陈栋云",
-            "闫妮",
-            "韩雪娜",
-            "班翠然",
-            "付悦",
-            "孙镜轩",
-            "潘英敏",
-            "孟洁",
-            "陈晓红",
-            "严道顺",
-            "孙开霞",
-            "张馨月",
-            "段小梅",
-            "宁琳",
-            "康伟",
-            "张昊",
-            "阮育文",
-            "王亚伟",
-            "梁凯文",
-            "汪追",
-            "朱佳音",
-            "杨志",
-            "王艳芳",
-            "马欣",
-            "蒋远霞",
-            "Juan.张",
-            "杜春玲",
-            "袁小胜",
-            "宋琰",
-            "徐平",
-            "尹斯琪",
-            "方臻成",
-            "汪丽佳",
-            "张家红",
-            "王颖颖",
-            "雷炳海",
-            "路佳宁",
-            "冯守万",
-            "张敏怡",
-            "张丽园",
-            "齐美山",
-            "汤佳琛",
-            "陈梦颖",
-            "孔霞",
-            "沈蓓芸",
-            "刘卫东",
-            "朱兰兰",
-            "周蓉",
-            "郭佳玉",
-            "李立彬",
-            "郭学春",
-            "潘慧敏",
-            "沈怡菁",
             "高歌",
             "闫佳",
             "税雄",
             "李凤喜",
             "韩涵（韩文君）",
+        ];
+
+        $new_B = [
+            "陈桂琼",
+            "陈懿",
+            "房彩虹",
         ];
 
         $new_T = [
@@ -1782,6 +1718,8 @@ class test_code extends Controller
         ];
         //在职C->新版B
         // $this->set_simulate_info_by_list(0,0,1);
+        //在职B->新版B+
+        // $this->set_simulate_info_by_list(0,1,2);
         //高校C->新版B
         // $this->set_simulate_info_by_list(1,0,1);
         //外聘C->新版B
@@ -1789,6 +1727,7 @@ class test_code extends Controller
         //固定C->新版B
         // $this->set_simulate_info_by_list(3,0,1);
         $this->set_simulate_info_by_list($new_T,0,11);
+        $this->set_simulate_info_by_list($new_B,0,1);
         $this->set_simulate_info_by_list($new_B_plus,0,2);
         $this->set_simulate_info_by_list($new_A,0,3);
         $this->set_simulate_info_by_list($new_A_plus,0,4);
@@ -1807,7 +1746,7 @@ class test_code extends Controller
                     echo "more name end";
                     echo $this->div;
                 }else{
-                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname_for_level_simulate($val);
+                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname_for_level_simulate($val,$level_simulate);
                     if(!empty($teacher_info)){
                         if($teacher_info['level_simulate'] != $level_simulate){
                             $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[

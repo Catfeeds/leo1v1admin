@@ -32,10 +32,10 @@ $(function(){
     });
 
 
-    var pic_num = 1;
+    var pic_num = 0;
     var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
-        pic_num = 1;
+        pic_num = 0;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
         html_txt=html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
@@ -44,7 +44,8 @@ $(function(){
         if (opt_type == 'update') {
             html_txt=html_txt.
                 replace(/\"add_header_img\"/, "\"update_header_img\"" ).
-                replace(/\"add_pic\"/, "\"update_pic\"" )
+                replace(/\"add_pic\"/, "\"update_pic\"" ).
+                replace(/封面/, /设为封面/ )
             ;
         }
         var html_node = $("<div></div>").html(html_txt);
@@ -112,7 +113,7 @@ $(function(){
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
                         if (pic_num >1) {
-                            for (var i = 1; i < pic_num; i++) {
+                            for (var i = 0; i < pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                 pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
@@ -232,6 +233,14 @@ $(function(){
             }]
         });
     });
+        //设为封面
+    function setPoster(obj) {
+        poster_url = obj.data-ip;
+        obj.text('封面');
+        $('.mark').removeClass('mark');
+        obj.addClass('mark');
+    }
+       //多次添加图片
     function add_next_pic(html_node) {
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
@@ -244,7 +253,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="set_poster(this)" data-ip="'+pic_url+'">设为封面</span>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="setPoster(this)" class="btn" data-ip="'+pic_url+'">设为封面</span>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
@@ -254,9 +263,4 @@ $(function(){
                              });
     }
 
-    //设为封面
-    function set_poster(obj) {
-        poster_url = obj.data-ip;
-        obj.text('封面');
-    }
 });

@@ -118,50 +118,18 @@ class agent extends Controller
     }
 
     public function check(){
-        $p_phone = '';
-        $phone   = '15251318621';
-        $type    = 2;
-        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-        if($p_phone == $phone){
-            return $this->output_err("不能邀请自己!");
-        }
-        if(!$type){
-            return $this->output_err("请选择报名类型!");
-        }
-        if($p_phone){
-            $phone_str = implode(',',[$phone,$p_phone]);
-            $ret_list = $this->t_agent->get_id_by_phone($phone_str);
-            foreach($ret_list as $item){
-                if($phone == $item['phone']){
-                    // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
-                    return $this->output_err("您已被邀请过!");
-                }
-                if($p_phone = $item['phone']){
-                    $parentid = $item['id'];
-                }
-            }
-        }
-        if(!isset($parentid)){
-            $parentid = 0;
-        }
-        dd($parentid);
-        $userid = null;
-        $userid_new = $this->t_student_info->get_row_by_phone($phone);
-        if($userid_new['userid']){
-            $userid = $userid_new['userid'];
-        }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
-        if($type == 1){
-            $userid_add = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-        }
-        if($ret){
-            return $this->output_succ("邀请成功!");
-        }else{
-            return $this->output_err("数据请求异常!");
-        }
+        //差回访lessonid
+        // $lessonid = $this->t_lesson_info->get_lessonid_by_userid($userid=277598);
+        // dd($lessonid);
+        // $tquin = 9762723;
+        // $phone = '15631525857';
+        // $lesson_end = 1502362800;
+        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone,0,0,0,$lesson_end);
+        // dd($lesson_call_list);
+        //查回访记录
+        $lessonid = 277462;
+        $ret=$this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1,$lessonid);
+        dd($ret);
     }
 
 
