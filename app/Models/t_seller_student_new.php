@@ -826,12 +826,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $seller_level_flag= floor( $seller_level/100);
         \App\Helper\Utils::logger("seller_level_flag:$seller_level_flag");
 
-        $before_24_time=time(NULL) -86400;
+        $before_24_time=time(NULL) -3600*6;
         if ($seller_level_flag<=3) { //b类以上
-            $before_24_time= time(NULL) -3600*12;
-        }
+            $before_24_time= time(NULL) -3600*3;
+        }   
 
-        $before_48_time= $before_24_time -86400;
+        $before_48_time= $before_24_time - 86400;
         $check_no_call_time_str=" (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) ";
         \App\Helper\Utils::logger( "seller_level_flag:".$seller_level_flag);
 
@@ -1178,6 +1178,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                   &&  $item["seller_resource_type"] ==0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
                   && !$item["admin_revisiterid"]
+                  && $call_time > time(NULL) -3600
                   &&  $competition_call_adminid ) {
                 if ($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
                     \App\Helper\Utils::logger("SET COMPETITION_CALL_ADMINID ");

@@ -656,7 +656,10 @@ class common_new extends Controller
 
         */
         $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
-        $cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
+        //$cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
+        $uniqueId= $this->get_in_str_val("cdr_main_unique_id");
+
+        $cdr_answer_time = intval( preg_split("/\-/", $uniqueId)[1]);
         $cdr_end_time=$this->get_in_int_val("cdr_end_time");
 
         $cdr_bridged_cno = $this->get_in_int_val("cdr_bridged_cno");
