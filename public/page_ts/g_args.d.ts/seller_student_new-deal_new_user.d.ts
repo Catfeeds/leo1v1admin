@@ -1,5 +1,5 @@
 interface GargsStatic {
-	phone:	number;
+	phone:	string;
 	open_flag:	number;
 	userid:	number;
 	test_lesson_subject_id:	number;
