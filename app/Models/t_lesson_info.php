@@ -8983,18 +8983,6 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
-    public function get_lessonid_by_userid($userid){
-        $where_arr=[
-            "userid = $userid",
-        ];
-        $sql = $this->gen_sql_new("select lessonid,lesson_start,lesson_end "
-                                  ." from %s "
-                                  ." where %s "
-                                  ,self::DB_TABLE_NAME
-                                  ,$where_arr
-        );
-        return $this->main_get_row($sql);
-    }
 
 
     public function get_teacher_test_lesson_info_for_jy($start_time,$end_time){
@@ -9012,6 +9000,7 @@ lesson_type in (0,1) "
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select cur_require_adminid,count(l.lessonid) lesson_count,sum(tss.success_flag in (0,1) and l.lesson_user_online_status =1) suc_count,m.account,m.create_time,sum(if(o.orderid >0,1,0)) order_count,sum(o.price) all_price "
                                   ." from %s l left join %s tss on l.lessonid=tss.lessonid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
                                   ." left join %s tq on tss.require_id =tq.require_id"
                                   ." left join %s m on tq.cur_require_adminid = m.uid"
                                   ." left join %s o on l.lessonid = o.from_test_lesson_id"
