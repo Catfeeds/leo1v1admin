@@ -181,11 +181,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function get_agent_info_by_id($id){
-        $where_arr = array();
-        $this->where_arr_add_int_field($where_arr,"id",$id);
-
         $sql=$this->gen_sql_new ("select * "
-                                 ." from %s where %s "
+                                 ." from %s where id=$id "
                                  ,self::DB_TABLE_NAME
                                  ,$where_arr
         );
