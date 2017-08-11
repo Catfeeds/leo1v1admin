@@ -147,11 +147,7 @@ class teaching_menu{
             ["power_id"=>40, "name"=>"产品部",  "list"=>[
                 ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
 
-            ]
-            ],
-
-
-            ["power_id"=>10, "name"=>"题库管理", "list"=>[
+                ["power_id"=>10, "name"=>"题库管理", "list"=>[
                 ["power_id"=>1, "name"=>"录入", "list"=>[
                     ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
                     ["power_id"=>2, "name"=>"录入-审核未通过-所有",   "url"=>"/question/question_list_nopass"],
@@ -194,6 +190,12 @@ class teaching_menu{
 
             ]
             ],
+
+
+            ]
+            ],
+
+
 
 
 
