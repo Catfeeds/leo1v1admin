@@ -124,6 +124,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
                                   ." left join %s l on (ta.lessonid = l.lessonid and l.train_type=1)"
                                   ." where ta.userid = %u",
                                   self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
                                   $userid
         );
         return $this->main_get_value($sql);
