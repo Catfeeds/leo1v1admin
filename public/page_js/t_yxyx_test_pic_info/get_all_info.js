@@ -136,8 +136,8 @@ $(function(){
                         if(poster_url != '') {
                             poster = poster_url;
                         }
-                        if(html_node.find('.real_poster').val()) {
-                            poster = html_node.find('.real_poster').val();
+                        if(html_node.find('.real_poster').text()) {
+                            poster = html_node.find('.real_poster').text();
                         }
                         if (opt_type=="update") {
                             $.ajax({
