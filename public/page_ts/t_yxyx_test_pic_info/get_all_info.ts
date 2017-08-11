@@ -46,7 +46,7 @@ $(function(){
         if (opt_type=="update") {
             pic_url=item.pic;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".add_pic").html(pic_img);
+            // html_node.find(".add_pic").html(pic_img);
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
             html_node.find(".add_grade").val(item.grade);
