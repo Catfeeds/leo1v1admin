@@ -121,7 +121,7 @@ class ajax_deal2 extends Controller
                 "system"
             );
         }else{
-            if($tmk_student_status != $tmk_student_status_old && $tmk_student_status=3){//tmk更改例子为有效状态
+            if($tmk_student_status != $tmk_student_status_old && $tmk_student_status=3){//tmk将例子更改为有效
                 $adminid = $this->get_account_id();
                 $this->t_seller_student_new->field_update_list($userid,[
                     "tmk_student_status"=>$tmk_student_status,
