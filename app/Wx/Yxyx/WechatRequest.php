@@ -588,11 +588,14 @@ class WechatRequest  {
         //获取该分类的信息
         $eventKey = $request['eventkey'];
         if($eventKey == 'http://www.leo1v1.com/wx-invite-article/index.html'){
+            \App\Helper\Utils::logger('yxyx_aaa');
+
             $openid = $request['fromusername'];
             $t_agent = new \App\Models\t_agent();
             $agent = $t_agent->get_agent_info_by_openid($openid);
             if(isset($agent['phone'])){
                 $phone = $agent['phone'];
+                \App\Helper\Utils::logger('yxyx_aaa_phone:'.$phone);
                 $eventKey.="?p_phone=$phone";
             }
         }

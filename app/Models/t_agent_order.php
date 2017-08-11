@@ -16,8 +16,8 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
                                  ." aaa.phone pp_phone,aaa.nickname pp_nickname "
                                  ." from %s ao "
                                  ." left join %s a on a.id=ao.aid "
-                                 ." left join %s aa on a.id=pid "
-                                 ." left join %s aaa on aa.id=ppid "
+                                 ." left join %s aa on aa.id=ao.pid "
+                                 ." left join %s aaa on aaa.id=ao.ppid "
                                  ,self::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
