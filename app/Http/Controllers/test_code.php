@@ -1589,39 +1589,45 @@ class test_code extends Controller
                     $grade = 101;
                     for($i = 1;$i<=5;$i++){
                         $this->add_teacher_money_type($update_arr,$grade,$add_arr[2]);
-                        $grade = \App\Helper\Utils::get_next_grade($grade);
                     }
 
                     for($i=1;$i<=3;$i++){
-                        $grade = \App\Helper\Utils::get_next_grade($grade);
                         $this->add_teacher_money_type($update_arr,$grade,$add_arr[3]);
                     }
 
-                    $grade = \App\Helper\Utils::get_next_grade($grade);
                     $this->add_teacher_money_type($update_arr,$grade,$add_arr[4]);
 
                     for($i=1;$i<=2;$i++){
-                        $grade = \App\Helper\Utils::get_next_grade($grade);
                         $this->add_teacher_money_type($update_arr,$grade,$add_arr[5]);
                     }
 
-                    $grade = \App\Helper\Utils::get_next_grade($grade);
                     $this->add_teacher_money_type($update_arr,$grade,$add_arr[6]);
                 }
             }
         }
     }
 
-    public function add_teacher_money_type($update_arr,$grade,$money){
+    public function add_teacher_money_type($update_arr,&$grade,$money){
         $check_flag = $this->t_teacher_money_type->check_is_exists($update_arr['teacher_money_type'],$update_arr['level'],$grade);
-        if(!$check_flag){
+        if(!$check_flag && ($grade>=101 || $grade<=303)){
             $update_arr['grade']=$grade;
             $update_arr['money']=$money;
             $this->t_teacher_money_type->row_insert($update_arr);
         }
+        $grade = \App\Helper\Utils::get_next_grade($grade);
     }
 
+    public function set_simulate_info(){
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",4);
+        $level              = $this->get_in_int_val("level",1);
+        $level_simulate     = $this->get_in_int_val("level_simulate",1);
 
+        $new_A_plus = ["胡旭","丁媛媛","默建宾","吉妍瑾","李志伟","邢平"];
+        foreach($new_A_plus as $val){
+            
+        }
+        $this->t_teacher_info->set_simulate_info($teacher_money_type,$level,$level_simulate);
+    }
 
 
 }

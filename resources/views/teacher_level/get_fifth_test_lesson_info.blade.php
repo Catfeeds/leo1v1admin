@@ -69,13 +69,7 @@
                     <tr>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
-                        <td>
-                            @if(@$var["grade_start"]>0)
-                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
-                            @else
-                                {{@$var["grade_part_ex_str"]}}
-                            @endif
-                        </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
 

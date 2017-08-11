@@ -651,6 +651,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade::set_item_value_str($item);
             if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
@@ -681,6 +682,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade::set_item_value_str($item);
             if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
@@ -711,6 +713,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade::set_item_value_str($item);
             if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{
@@ -742,6 +745,7 @@ class teacher_level extends Controller
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
             E\Egrade_range::set_item_value_str($item,"grade_start");
             E\Egrade_range::set_item_value_str($item,"grade_end");
+            E\Egrade::set_item_value_str($item);
             if(!empty($item["add_time"])){
                 $item["record_flag_str"]="已反馈";
             }else{

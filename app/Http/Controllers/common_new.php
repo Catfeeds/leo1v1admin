@@ -651,32 +651,40 @@ class common_new extends Controller
           cdr_status 通话状态 21:（点击外呼、预览外呼时）座席接听，客户未接听(超时) 22:（点击外呼、预览外呼时）座席接听，客户未接听(空号拥塞) 24:（点击外呼、预览外呼时）座席未接听 28:双方接听
           cdr_mark 标识 1：留言 2：咨询 3：转移 7：交互
           cdr_number_trunk 外显号码 没有区号的8为号码，如：59222903
-          cdr_bridge_cno 呼出接听电话的座席号码 如：2000
+          cdr_bridged_cno 呼出接听电话的座席号码 如：2000
           CDR(userfield) 使用第三方外呼调用接口时传递了参数userField 该值只是第三方外呼调用接口发起的呼叫，且传递了userField参数，在挂机推送时用来获取userField传递的值。
 
         */
         $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        $cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
         $cdr_end_time=$this->get_in_int_val("cdr_end_time");
 
-        $cdr_bridge_cno = $this->get_in_int_val("cdr_bridge_cno");
+        $cdr_bridged_cno = $this->get_in_int_val("cdr_bridged_cno");
         $cdr_status = $this->get_in_int_val("cdr_status");
 
-        $recid= ($cdr_bridge_cno<<32 ) + $cdr_bridge_time;
+        $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
         $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
 
-        $called_flag=$cdr_status==28?2:1;
+        $duration=0;
+        if ($cdr_bridge_time ) {
+            $duration= $cdr_end_time-$cdr_bridge_time;
+        }
+        \App\Helper\Utils::logger("duration ,$duration, $cdr_bridge_time");
+
+
+        $called_flag=($cdr_status==28 && $duration>30  )?2:1;
 
         $this->t_tq_call_info->add(
             $recid,
-            $cdr_bridge_cno,
+            $cdr_bridged_cno,
             $cdr_customer_number,
-            $cdr_bridge_time,
+            $cdr_answer_time,
             $cdr_end_time,
-            $cdr_end_time-$cdr_bridge_time,
+            $duration,
             $called_flag
             ,
             "");
-        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_bridge_time);
+        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time);
         return json_encode(["result"=>"success"]);
     }
 

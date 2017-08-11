@@ -817,7 +817,6 @@ class common extends Controller
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
             }
-            \App\Helper\Utils::logger('img4:'.$image_4);
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
@@ -831,7 +830,6 @@ class common extends Controller
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
 
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
@@ -863,10 +861,9 @@ class common extends Controller
         if(!$phone || $wx_openid==""){
             return "";
         }
-        \App\Helper\Utils::logger('yxyx_yyy:'.$phone);
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_bb.png";
+        $phone_qr_name = $phone."_qr_agent_new_ee.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -874,16 +871,16 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
+            imagecopymerge($image_3,$image_2,80,1082,0,0,imagesy($image_2),imagesy($image_2),100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
 
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
