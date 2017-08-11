@@ -438,11 +438,16 @@ class WechatRequest  {
         $content = '收到点击菜单事件，您设置的key是' . $eventKey;
         $tuwenList = array();
         if($eventKey == 'content') {
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_agent_info_by_openid($openid);
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+            }
             $tuwenList[] = array(
                 'title' => '精品内容',
                 'description' => '',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png',
-                'url' => 'http://www.xmypage.com/model2_28992.html',
+                'url' => 'http://www.xmypage.com/model2_28992.html?p_phone='.$phone,
             );
         }elseif($eventKey == 'feedback'){
             $tuwenList[] = array(
