@@ -162,7 +162,6 @@ class teaching_menu{
                     ["power_id"=>7, "name"=>"录入-审核通过",   "url"=>"/question/question_list_pass"]]],
 
 
-
                 ["power_id"=>2, "name"=>"一审", "list"=>[
                     ["power_id"=>1, "name"=>"一审-审核",  "icon"=>"fa-book", "url"=>"/question/question_list_check?grade=200\&subject=2\&start_time=2015-10-23"],
                     ["power_id"=>2, "name"=>"一审-审核未通过-所有",   "url"=>"/question/question_list_check_nopass?grade=200\&subject=2\&start_time=2015-10-23"],
