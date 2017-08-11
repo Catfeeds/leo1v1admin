@@ -118,6 +118,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $lessonid = 273525;
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time = -1,$end_time = -1,-1,$lessonid);
+        dd($ret);
         $tquin = 9786114;
         $phone = 15805169810;
         $call_start = 0;
