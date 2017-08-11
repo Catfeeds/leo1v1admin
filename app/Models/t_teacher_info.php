@@ -2639,6 +2639,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("update %s set level_simulate=%u"
                                   ." where %s"
+                                  ." and teacher_type!=3"
                                   ,self::DB_TABLE_NAME
                                   ,$level_simulate
                                   ,$where_arr

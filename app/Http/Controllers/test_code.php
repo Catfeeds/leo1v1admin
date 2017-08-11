@@ -1645,12 +1645,50 @@ class test_code extends Controller
             "卢雪瑞",
             "徐雪丽",
             "宁斯同",
+            "李泽",
+            "褚雪莲",
+            "翁老师",
+            "张习席",
+            "周钦钦",
+            "罗佳玲",
+            "董昊",
+            "桂莱樱",
+            "任志琴",
+            "刘学文",
+            "毛好",
+            "边水青",
+            "张志敏",
+            "毛志元",
+            "赵凌云",
         ];
 
         $new_A_plus = [
             "张子琦",
             "矣子沁",
             "惠吉",
+            "郭政一",
+            "张礼海",
+            "于梁梁",
+            "张和清",
+            "胡兴福",
+            "汪小民",
+            "杜琼",
+            "成实",
+            "孟德龙",
+            "徐宁",
+            "凌艺",
+            "熊慧格",
+            "孔春莉",
+            "韩嘉亮",
+            "黄志玲",
+            "谢楠静",
+            "卓媛容",
+            "万里",
+            "沙维娜",
+            "田娇",
+            "刘淼",
+            "黄嵩婕",
+            "王皓",
         ];
 
         $new_B_plus = [
@@ -1728,7 +1766,31 @@ class test_code extends Controller
             "郭学春",
             "潘慧敏",
             "沈怡菁",
+            "高歌",
+            "闫佳",
+            "税雄",
+            "李凤喜",
+            "韩涵（韩文君）",
         ];
+
+        $new_T = [
+            "潘笑文",
+            "刘平",
+            "赵力红",
+        ];
+        //在职C->新版B
+        $this->set_simulate_info_by_list(0,0,1);
+        //高校C->新版B
+        $this->set_simulate_info_by_list(1,0,1);
+        //外聘C->新版B
+        $this->set_simulate_info_by_list(2,0,1);
+        //固定C->新版B
+        $this->set_simulate_info_by_list(3,0,1);
+        $this->set_simulate_info_by_list($new_T,0,11);
+        $this->set_simulate_info_by_list($new_B,0,1);
+        $this->set_simulate_info_by_list($new_B_plus,0,2);
+        $this->set_simulate_info_by_list($new_A,0,3);
+        $this->set_simulate_info_by_list($new_A_plus,0,4);
 
     }
 
@@ -1737,7 +1799,12 @@ class test_code extends Controller
             $this->t_teacher_info->set_simulate_info($list,$level,$level_simulate);
         }else{
             foreach($list as $val){
-                // $count=$this->t_teacher_info->get_
+                $count = $this->t_teacher_info->check_count_by_realname($val);
+                if($count>1){
+                    echo $val;echo "<br>";
+                }else{
+                    $this->t_teacher_info->get_teacherid_by_realname($val);
+                }
             }
         }
     }
