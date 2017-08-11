@@ -2054,7 +2054,6 @@ class tea_manage extends Controller
         $ret_info = $this->t_teacher_record_list->get_trial_train_lesson_list(
             $page_num,$start_time,$end_time,$status,$grade,$subject,$teacherid,$is_test,$lesson_status,$tea_subject
         );
-        dd($ret_info);
 
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info['list'] as &$val){
@@ -2063,6 +2062,9 @@ class tea_manage extends Controller
             }
             if($val['grade']==0){
                 $val['grade']=100;
+            }
+            if( $val['subject']>=4 && $val['grade']=100){
+                $val['grade']=200;
             }
             $from_lessonid    = $train_from_lessonid_list[$val['subject']][$val['grade']];
             $from_lesson_info = $this->t_test_lesson_subject->get_from_lesson_info($from_lessonid);
