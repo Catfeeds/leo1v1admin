@@ -36,8 +36,10 @@ class wx_yxyx_common extends Controller
         if($action=="bind"){
             $url="$web_html_url/index.html#bind";
         }else{
+            \App\Helper\Utils::logger('yxyx_www_openid:'.$openid);
             $agent_info = $this->t_agent->get_agent_info_by_openid($openid);
             $id = $agent_info['id'];
+            \App\Helper\Utils::logger('yxyx_www_id:'.$id);
             if($id){
                 session([
                     "login_user_role" => 10,
