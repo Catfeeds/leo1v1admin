@@ -22,6 +22,7 @@ $(function(){
 
     $(".opt-edit-new").on("click", function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data);
         var userid = $(this).parent().data("userid");
 
         var id_recover_time = $("<input />");                 //复课时间
