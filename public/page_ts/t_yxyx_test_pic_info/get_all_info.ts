@@ -44,7 +44,7 @@ $(function(){
         if (opt_type == 'update') {
             html_txt=html_txt.
                 replace(/\"add_header_img\"/, "\"update_header_img\"" ).
-                replace(/\"add_pic\"/, "\"update_pic\"")
+                replace(/\"add_pic\"/, "\"update_pic\"").
                 replace(/封面/, "设为封面")
             ;
         }
