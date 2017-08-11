@@ -5,7 +5,7 @@ use \App\Enums as E;
 use \App\Helper\Config;
 use Illuminate\Support\Facades\Cookie ;
 
-class human_resource extends Controller
+class teacher_simulate extends Controller
 {
     use CacheNick;
     use TeaPower;

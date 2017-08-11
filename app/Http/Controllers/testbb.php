@@ -178,6 +178,9 @@ class testbb extends Controller
                 // $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
             }
 
+            $item['seller_arr'] = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($item['teacherid'],$start_time, $end_time);
+
+
         }
 
 

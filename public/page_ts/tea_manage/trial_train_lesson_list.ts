@@ -297,5 +297,23 @@ $(function(){
     });
 
 
+    $(".opt-reset-acc").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        if(id==0){
+            alert("无数据,请刷新确认!");
+            return;
+        }else{
+            BootstrapDialog.confirm("确定要重置吗？", function(val){
+                if (val) {
+                    $.do_ajax( '/user_deal/reset_record_acc', {
+                        'id' : id
+                    });
+                } 
+            });
+            
+        }
+    });
+
 	$('.opt-change').set_input_change_event(load_data);
 });
