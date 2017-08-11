@@ -284,7 +284,7 @@
 
 
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-6 col-md-8">
                     <button class="btn" id="id_unallot" data-value="{{$unallot_info["zjs_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_unset_admin_revisiterid" data-value="{{$unallot_info["all_unallot_count"]*1}}" > </button>
                     <button class="btn" id="id_all_unallot_count_hight_school" data-value="{{@$unallot_info["all_unallot_count_hight_school"]*1}}" > </button>
@@ -309,12 +309,11 @@
                     <td style="display:none;">手机号</td>
                     <td >基本信息</td>
                     <td >来源</td>
-                    <td >例子第一次拨打时间</td>
+                    <td style="display:none;">例子第一次拨打时间</td>
                     <td style="width:70px">回访状态</td>
                     <td style="width:70px">子状态</td>
                     <td >全局TQ状态</td>
                     <td >系统判定无效</td>
-
 
                     <td >用户备注</td>
                     <td >年级</td>
