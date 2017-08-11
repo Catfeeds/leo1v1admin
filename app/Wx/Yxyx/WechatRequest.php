@@ -596,10 +596,9 @@ class WechatRequest  {
                 $eventKey.="?p_phone=$phone";
             }
         }
-        // $content = '收到跳转链接事件，您设置的key是'.$eventKey;
-        $content = '收到跳转链接事件，您设置的key是'.'http://www.baidu.com';
+        $content = '收到跳转链接事件，您设置的key是'.$eventKey;
         \App\Helper\Utils::logger('yxyx_eee_content'.$content);
-
+        $request['eventkey'] = 'http://www.baidu.com';
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }
 
