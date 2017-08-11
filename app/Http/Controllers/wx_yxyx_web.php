@@ -21,9 +21,9 @@ class wx_yxyx_web extends Controller
     public function __construct() {
         parent::__construct();
         $agent_id = $this->get_agent_id();
-        if($agent_id){
-            // $agent = $this->t_agent->get_agent_info_by_id($agent_id);
-            // $agent_id_new = $agent['id'];
+        $agent = $this->t_agent->get_agent_info_by_id($agent_id);
+        $agent_id_new = $agent['id'];
+        if($agent_id_new){
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
