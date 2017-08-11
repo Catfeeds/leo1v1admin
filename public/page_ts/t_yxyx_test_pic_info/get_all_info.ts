@@ -91,10 +91,10 @@ $(function(){
                                          if(opt_type != 'update') {
                                              html_node.find(".add_header_img").html(pic_img);
                                              html_node.find(".add_pic").html(pic_url);
+                                             html_node.find(".mark").text("封面");
                                          } else {
                                              html_node.find(".update_header_img").html(pic_img);
                                              html_node.find(".update_pic").html(pic_url);
-                                             html_node.find(".mark").text("封面");
                                          }
                                          add_next_pic(html_node);
                                      });
@@ -244,7 +244,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclikc="set_poster(this)" data-ip="'+pic_url+'">设为封面</span>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="set_poster(this)" data-ip="'+pic_url+'">设为封面</span>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
@@ -257,5 +257,6 @@ $(function(){
     //设为封面
     function set_poster(obj) {
         poster_url = obj.data-ip;
+        obj.text('封面');
     }
 });
