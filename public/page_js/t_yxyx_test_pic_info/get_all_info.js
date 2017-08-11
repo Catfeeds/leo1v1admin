@@ -92,7 +92,7 @@ $(function(){
                         var test_title    = html_node.find(".add_test_title").val();
 
                         if (pic_num >1) {
-                            for (var i = 1, i < pic_num, i++) {
+                            for (var i = 1; i < pic_num; i++) {
                                 pic = pic + '|' + html_node.find('.add_pic'+i);
                             }
                         }
@@ -126,7 +126,7 @@ $(function(){
                                 url      : "/t_yxyx_test_pic_info/add_test_info",
                                 dataType : "json",
                                 data : {
-                                     "pic"        : pic
+                                    "pic"        : pic
                                     ,"grade"      : grade
                                     ,"poster"     : poster
                                     ,"subject"    : subject
