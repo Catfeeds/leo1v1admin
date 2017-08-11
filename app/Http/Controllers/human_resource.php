@@ -858,9 +858,7 @@ class human_resource extends Controller
             $item["lesson_info_week"]      = @$arr_tea_list[$item['teacherid']];
             $item["test_user_str"]         = $item['is_test_user']==0?"否":"是";
             $item["train_through_new_str"] = $item['train_through_new']==0?"否":"是";
-            if($item["phone_spare"]==""){
-                $item['phone_spare'] = $item['phone'];
-            }
+            $item['phone_spare']=\App\Helper\Utils::get_teacher_contact_way($item);
             $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item['phone_spare']);
             if(!empty($item["freeze_adminid"])){
                 $item["freeze_adminid_str"] = $this->t_manager_info->get_account($item["freeze_adminid"]);
