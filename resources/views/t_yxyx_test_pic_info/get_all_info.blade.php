@@ -65,9 +65,6 @@
                         <td>{{$var["grade_str"]}}</td>
                         <td>{{$var["subject_str"]}}</td>
                         <td>{{$var["test_type_str"]}}</td>
-
-                        <!-- <td> <img src="{{$var["pic"]}}" height="100"></td>
-                           -->
                         <td><img src="{{$var["poster"]}}" height="100"></td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["create_time"]}}</td>
