@@ -305,6 +305,7 @@ class common extends Controller
                         "score" => $totalvalue
                     ]);
                 }
+                $train_time = $this->t_train_lesson_user->get_max_lesson_time($userid);
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info);
                     //发送微信通知进行模拟课堂

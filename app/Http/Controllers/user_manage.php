@@ -1329,6 +1329,7 @@ class user_manage extends Controller
     }
 
     public function user_info_by_month(){
+        $this->switch_tongji_database();
         $ret_info = [];
         for($i=1;$i<=12;$i++){
             $ret_info[$i] = $this->t_lesson_info->get_user_info_by_month($i);

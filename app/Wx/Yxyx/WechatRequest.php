@@ -597,6 +597,7 @@ class WechatRequest  {
                 $phone = $agent['phone'];
                 \App\Helper\Utils::logger('yxyx_aaa_phone:'.$phone);
                 $eventKey.="?p_phone=$phone";
+                \App\Helper\Utils::logger('yxyx_aaa_key:'.$eventKey);
             }
         }
         $content = '收到跳转链接事件，您设置的key是' . $eventKey;

@@ -2,19 +2,21 @@
 /// <reference path="../g_args.d.ts/tongji_ss-seller_test_lesson_info_tongji.d.ts" />
 function load_data(){
     $.reload_self_page ( {
-		order_by_str: g_args.order_by_str,
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		show_flag:	$('#id_show_flag').val(),
-		lesson_money:	$('#id_lesson_money').val()
+        order_by_str: g_args.order_by_str,
+        date_type_config:	$('#id_date_type_config').val(),
+        date_type:	$('#id_date_type').val(),
+        opt_date_type:	$('#id_opt_date_type').val(),
+        start_time:	$('#id_start_time').val(),
+        end_time:	$('#id_end_time').val(),
+        show_flag:	$('#id_show_flag').val(),
+        lesson_money:	$('#id_lesson_money').val(),
+        seller_flag:	$('#id_seller_flag').val(),
+
     });
 }
 
 $(function(){
-   
+
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -26,9 +28,10 @@ $(function(){
             load_data();
         }
     });
-	$('#id_order_by_str').val(g_args.order_by_str);
-	$('#id_show_flag').val(g_args.show_flag);
-	$('#id_lesson_money').val(g_args.lesson_money);
+  $('#id_order_by_str').val(g_args.order_by_str);
+  $('#id_show_flag').val(g_args.show_flag);
+  $('#id_seller_flag').val(g_args.seller_flag);
+  $('#id_lesson_money').val(g_args.lesson_money);
 
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -45,7 +48,7 @@ $(function(){
                 BootstrapDialog.alert("转化率:"+per+"%");
 
             });
-            
+
         }else{
             BootstrapDialog.alert("请选择销售!");
         }
@@ -74,14 +77,14 @@ $(function(){
                     var grade = item["grade_str"];
                    // var rev = item["rev"];
                     html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+realname+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["have_order"]+"</td><td>"+item["test_lesson_order_fail_desc"]+"</td></tr>");
-                });               
+                });
 
             });
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -91,7 +94,7 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
@@ -99,14 +102,9 @@ $(function(){
             dlg.getModalDialog().css("width","1024px");
 
         }
-        
+
     });
 
 
-	$('.opt-change').set_input_change_event(load_data);
+  $('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-
-

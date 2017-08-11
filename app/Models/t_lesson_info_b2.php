@@ -2998,18 +2998,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    public function get_teacher_test_lesson_info_by_($start_time,$end_time,$teacherid_arr){
+    public function get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr){
         $where_arr=[
             "l.lesson_type = 2",
             "l.lesson_del_flag = 0",
             "l.confirm_flag <>2",
             "(tss.success_flag in (0,1) or tss.success_flag is null)",
             "l.lesson_user_online_status =1",
-            //"require_admin_type =2",
-            "m.account_role=2",
             "m.del_flag=0"
         ];
-        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacherid_arr);
+
+        $this->where_arr_adminid_in_list($where_arr,"tq.cur_require_adminid",$seller_arr);
+
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(1) lesson_count,sum(if(o.orderid>0,1,0)) order_count from %s l".
                                   " left join %s tss on l.lessonid = tss.lessonid".
