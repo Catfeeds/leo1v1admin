@@ -2036,7 +2036,7 @@ trait  TeaPower {
         );
         if($trial_train_num>1){
             $this->t_lesson_info->field_update_list($lessonid,[
-               "trial_train_num" =>$trial_train_num 
+               "trial_train_num" => $trial_train_num
             ]);
         }
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
