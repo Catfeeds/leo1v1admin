@@ -59,3 +59,8 @@
 	tmk_admin_nick	:any;
 	competition_call_admin_nick	:any;
 	require_admin_nick	:any;
+	first_tmk_valid_desc	:any;
+	first_tmk_set_cc_desc	:any;
+	first_set_master_desc	:any;
+	first_set_cc_desc	:any;
+	first_seller_status_str	:any;

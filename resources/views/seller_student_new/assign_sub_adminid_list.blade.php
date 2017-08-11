@@ -18,8 +18,11 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">列表</span>
-                        <input class="opt-change form-control" id="id_show_list_flag" />
+                        <span class="input-group-addon">列表模式</span>
+                        <select class="opt-change form-control" id="id_show_list_flag" >
+                            <option value="0">分配</option>
+                            <option value="1">追踪</option>
+                        </select>
                     </div>
                 </div>
 
@@ -318,6 +321,7 @@
                     <td style="display:none;">手机号</td>
                     <td >基本信息</td>
                     <td >来源</td>
+                    @if ($show_list_flag==0)
                     <td style="display:none;">例子第一次拨打时间</td>
                     <td style="width:70px">回访状态</td>
                     <td style="width:70px">子状态</td>
@@ -332,6 +336,15 @@
                     <td >TMK负责人</td>
                     <td >抢单人/时间</td>
                     <td style="display:none" >试听申请人</td>
+                    @else
+                    <td >tmk 有效/时间</td>
+                    <td >tmk 分配cc/时间</td>
+                    <td >分配主管/时间 </td>
+                    <td >分配cc/时间 </td>
+                    <td > 状态 </td>
+
+                    @endif
+
                     <td style="min-width:130px" >操作</td>
                 </tr>
             </thead>
@@ -355,6 +368,9 @@
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
                         </td>
+
+                    @if ($show_list_flag==0)
+                        
                         <td>
                             {{$var['first_call_time']}}
                         </td>
@@ -407,6 +423,15 @@
                             {{$var["competition_call_time"]}}
                         </td>
                         <td>{{$var["require_admin_nick"]}}</td>
+                        @else
+                        <td>{{$var["first_tmk_valid_desc"]}}</td>
+                        <td>{{$var["first_tmk_set_cc_desc"]}}</td>
+                        <td>{{$var["first_set_master_desc"]}}</td>
+                        <td>{{$var["first_set_cc_desc"]}}</td>
+                        <td>{{$var["first_seller_status_str"]}}</td>
+
+
+                        @endif
 
                         <td>
                             <div
