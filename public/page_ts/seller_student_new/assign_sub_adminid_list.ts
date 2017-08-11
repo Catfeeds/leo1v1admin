@@ -289,11 +289,18 @@ $(function(){
                 select_userid_list.push( $item.data("userid") ) ;
             }
         } ) ;
-        BootstrapDialog.confirm("要把所选 设置成新例子?!" ,function(val){
-            if (val) {
+        var $seller_resource_type= $("<select > <option value=0>新例子</option>  <option value=1>公海 </option> </select> ")
+        $.show_key_value_table("编辑",[
+            ["资源分类" ,  $seller_resource_type]
+        ],{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
                 $.do_ajax('/ss_deal/set_history_to_new', {
                     'userid_list' : JSON.stringify(select_userid_list ),
+                    "seller_resource_type" : $seller_resource_type.val()
                 });
+
             }
         });
     });

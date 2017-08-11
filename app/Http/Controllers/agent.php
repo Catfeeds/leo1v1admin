@@ -118,6 +118,7 @@ class agent extends Controller
     }
 
     public function check(){
+        $adminid = 902;
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         dd($lesson_call_end);
         $userid_new = $lesson_call_end['userid'];

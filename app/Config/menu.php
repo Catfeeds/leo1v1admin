@@ -163,7 +163,8 @@ class menu{
                 ["power_id"=>5, "name"=>"所有题目",  "icon"=>"fa-book", "url"=>"/question/publish_list"],
                 ["power_id"=>6, "name"=>"录入统计",  "icon"=>"fa-book", "url"=>"/question/admin_info"],
                 ["power_id"=>7, "name"=>"审核统计",  "icon"=>"fa-book", "url"=>"/question/check_admin_info"],
-                ["power_id"=>8, "name"=>"题库题目统计",  "icon"=>"fa-book", "url"=>"/human_resource/get_question_tongji"]]],
+                ["power_id"=>8, "name"=>"题库题目统计",  "icon"=>"fa-book", "url"=>"/human_resource/get_question_tongji"]
+            ]],
             ["power_id"=>4, "name"=>"人事绩效", "list"=>[
                 ["power_id"=>22, "name"=>"教师档案(试讲老师)",   "url"=>"/human_resource/index_new"],
                 ["power_id"=>1, "name"=>"教师档案(全部老师)",   "url"=>"/human_resource/index"],
@@ -348,11 +349,11 @@ class menu{
                 ["power_id"=>10, "name"=>"用户消息列表",   "url"=>"/news_info/stu_detail_message_list"],
                 ["power_id"=>8, "name"=>"声音记录管理",   "url"=>"/user_manage_new/record_audio_server_list"],
                 ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
-                ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report/"],
-                ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint/"],
+                ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
+                ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
                 // ["power_id"=>34, "name"=>"投诉处理-部门",   "url"=>"/user_manage/complaint_department_deal/"],
-                ["power_id"=>35, "name"=>"投诉处理-老师",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
-                ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent/"],
+                ["power_id"=>35, "name"=>"投诉处理-老师",   "url"=>"/user_manage/complaint_department_deal_teacher"],
+                ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                 ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[

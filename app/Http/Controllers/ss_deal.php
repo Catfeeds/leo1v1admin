@@ -2680,30 +2680,43 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
     public function set_history_to_new() {
-        $hold_flag=$this->get_in_int_val("hold_flag");
         $userid_list_str= $this->get_in_str_val("userid_list");
+        $seller_resource_type = $this->get_in_e_seller_resource_type();
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
         $account= $this->get_account();
         foreach($userid_list as $userid) {
-            $this->t_seller_student_new->field_update_list($userid,[
-                "seller_resource_type" => 0,
-                "first_revisit_time"   => 0,
-                "last_revisit_msg"     => "",
-                "last_revisit_time"    => 0,
-                "next_revisit_time"    => 0,
-                "user_desc"    => "",
-                "add_time"             => time(NULL),
-            ]);
-            $this->t_test_lesson_subject->clean_seller_info($userid );
-            $phone= $this->t_seller_student_new->get_phone($userid);
-            $ret_update = $this->t_book_revisit->add_book_revisit(
-                $phone,
-                "操作者:$account 状态: HISTORY_2_NEW 公海 -> 新例子 ",
-                "system"
-            );
+            if (  $seller_resource_type==0 ) {
+                $this->t_seller_student_new->field_update_list($userid,[
+                    "seller_resource_type" =>  $seller_resource_type,
+                    "first_revisit_time"   => 0,
+                    "last_revisit_msg"     => "",
+                    "last_revisit_time"    => 0,
+                    "next_revisit_time"    => 0,
+                    "user_desc"    => "",
+                    "add_time"             => time(NULL),
+                ]);
+                $this->t_test_lesson_subject->clean_seller_info($userid );
+                $phone= $this->t_seller_student_new->get_phone($userid);
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者:$account 状态: HISTORY_2_NEW 公海 -> 新例子 ",
+                    "system"
+                );
+            }else{
+                $this->t_seller_student_new->field_update_list($userid,[
+                    "seller_resource_type" =>  1,
+                ]);
+                $this->t_test_lesson_subject->clean_seller_info($userid );
+                $phone= $this->t_seller_student_new->get_phone($userid);
+                $ret_update = $this->t_book_revisit->add_book_revisit(
+                    $phone,
+                    "操作者:$account 状态: HISTORY_2_NEW 新例子 ->  公海  ",
+                    "system"
+                );
+            }
         }
 
         return $this->output_succ();

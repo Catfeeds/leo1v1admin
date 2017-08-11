@@ -17,9 +17,8 @@ class t_yxyx_test_pic_info extends Controller
                E\Egrade::set_item_value_str($item,"grade");
                E\Esubject::set_item_value_str($item,"subject");
                E\Etest_type::set_item_value_str($item,"test_type");
-               $item['pic_arr'] = explode( '|',$item['pic']);
         }
-        return $this->pageView(__METHOD__,$ret_info, [],['qiniu_upload_domain_url' =>
+        return $this->pageView(__METHOD__,$ret_info, array(),['qiniu_upload_domain_url' =>
                                                              Config::get_qiniu_public_url()."/"
         ]);
     }
@@ -31,6 +30,7 @@ class t_yxyx_test_pic_info extends Controller
         E\Egrade::set_item_value_str($ret_info,"grade");
         E\Esubject::set_item_value_str($ret_info,"subject");
         E\Etest_type::set_item_value_str($ret_info,"test_type");
+        $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         return outputjson_success(array('ret_info' => $ret_info));
 
     }

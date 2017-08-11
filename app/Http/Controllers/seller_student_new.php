@@ -83,7 +83,7 @@ class seller_student_new extends Controller
         $tmk_student_status        = $this->get_in_int_val("tmk_student_status", -1, E\Etmk_student_status::class);
         $seller_resource_type      = $this->get_in_int_val("seller_resource_type",0, E\Eseller_resource_type::class);
         $sys_invaild_flag  =$this->get_in_e_boolean(0,"sys_invaild_flag");
-        $publish_flag  = $this->get_in_e_boolean(-1,"publish_flag");
+        $publish_flag  = $this->get_in_e_boolean(1,"publish_flag");
         $seller_level = $this->get_in_el_seller_level();
 
         $admin_del_flag  = $this->get_in_e_boolean(-1 ,"admin_del_flag");
@@ -119,6 +119,7 @@ class seller_student_new extends Controller
             E\Eseller_student_sub_status::set_item_value_str($item);
             E\Etmk_student_status::set_item_value_str($item);
             E\Ebook_grade::set_item_value_str($item,"grade");
+            E\Eseller_resource_type::set_item_value_str($item);
             E\Eboolean::set_item_value_str($item,"sys_invaild_flag");
             E\Esubject::set_item_value_str($item);
             E\Epad_type::set_item_value_str($item,"has_pad");

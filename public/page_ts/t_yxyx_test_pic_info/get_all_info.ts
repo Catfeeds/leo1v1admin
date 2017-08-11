@@ -46,13 +46,24 @@ $(function(){
         if (opt_type=="update") {
             pic_url=item.pic;
             pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".add_pic").html(pic_img);
+            // html_node.find(".add_pic").html(pic_img);
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
             html_node.find(".add_grade").val(item.grade);
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_poster").val(item.poster);
             html_node.find(".add_test_type").val(item.test_type);
+            var pic_str = '';
+            for (var i = 0; i < item.pic_arr.length; i++) {
+                // console.log(item.pic_arr[i])
+                if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
+                    pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>设为封面</span><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
+                } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
+                    pic_str += '<div class="add_header_img"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>封面</span><div class="add_pic" style="display:none">'+item.poster+'</div>';
+                }
+            }
+            $('#id_container_add_tmp').append(pic_str);
+            html_node = html_node + pic_str;
         }
 
         var title = "";
@@ -85,11 +96,17 @@ $(function(){
                     action : function(dialog) {
                         var pic           = html_node.find(".add_pic").text();
                         var grade         = html_node.find(".add_grade").val();
-                        var poster        = html_node.find(".add_poster").text();
+                        var poster        = html_node.find(".add_pic").text();
                         var subject       = html_node.find(".add_subject").val();
                         var test_des      = html_node.find(".add_test_des").val();
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
+
+                        if (pic_num >1) {
+                            for (var i = 1; i < pic_num; i++) {
+                                pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                            }
+                        }
                         if (opt_type=="update") {
                             $.ajax({
                                 type     : "post",
@@ -120,7 +137,7 @@ $(function(){
                                 url      : "/t_yxyx_test_pic_info/add_test_info",
                                 dataType : "json",
                                 data : {
-                                     "pic"        : pic
+                                    "pic"        : pic
                                     ,"grade"      : grade
                                     ,"poster"     : poster
                                     ,"subject"    : subject
@@ -200,10 +217,7 @@ $(function(){
     function add_next_pic(html_node) {
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
-        var new_pic_info = '<div class="add_header_img'+pic_num+'"></div><div class="add_pic'+pic_num+'"></div>';
         $('#id_container_add_tmp').append(new_input);
-        $('.add_pic').after(new_pic_info);
-        html_node = html_node + new_pic_info;
         pic_num++;
         custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
                              g_args.qiniu_upload_domain_url , true,
@@ -212,7 +226,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'">'+pic_url+'</div>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);

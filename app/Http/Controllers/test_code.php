@@ -1617,7 +1617,59 @@ class test_code extends Controller
         $grade = \App\Helper\Utils::get_next_grade($grade);
     }
 
+    public function set_simulate_info(){
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",4);
+        $level              = $this->get_in_int_val("level",1);
+        $level_simulate     = $this->get_in_int_val("level_simulate",1);
 
+        $new_A = [
+            "胡旭",
+            "丁媛媛",
+            "默建宾",
+            "吉妍瑾",
+            "李志伟",
+            "邢平",
+            "章一维",
+            "付文",
+            "董超",
+            "马娇",
+            "朱凯",
+            "唐梦迪",
+            "吴迎雪",
+            "尹向烟",
+            "李伟",
+            "于艳",
+            "张鑫",
+            "王月",
+        ];
+
+        $new_A_plus = [
+            "张子琦",
+            "矣子沁",
+            "惠吉",
+        ];
+
+        $new_B_plus = [
+            "魏晓晓",
+            "许磊",
+            "张杰-Johnny",
+            "鞠东篱",
+            "陈桂琼",
+            "陈懿",
+            "房彩虹",
+        ];
+
+    }
+
+    public function set_simulate_info_by_list($list,$level,$level_simulate){
+        if(!is_array($list)){
+            $this->t_teacher_info->set_simulate_info($list,$level,$level_simulate);
+        }else{
+            foreach($list as $val){
+                // $count=$this->t_teacher_info->get_
+            }
+        }
+    }
 
 
 }

@@ -27,15 +27,9 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            \App\Helper\Utils::logger("list_show1: ".json_encode($item['list']));
-
             $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
-            \App\Helper\Utils::logger("hhh33: ".json_encode($tmp));
-
-
             if($tmp) {
-                \App\Helper\Utils::logger("panduian22: $item_name");
 
                 $item_count++;
                 if(is_array($tmp)) {
@@ -54,7 +48,6 @@ class login extends Controller
                     $menu_str.=$tmp;
                 }
             }else{
-                \App\Helper\Utils::logger("name_jiaoxue78: $tmp, name: $item_name");
 
             }
         }
@@ -114,7 +107,8 @@ class login extends Controller
 
             // \App\Helper\Utils::logger("uehbhd:".$node['name']);
 
-            $check_powerid = $url_power_map[$node["url"]] ;
+            @$check_powerid = $url_power_map[$node["url"]] ;
+
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
                 unset($power_map[$check_powerid ]);
@@ -302,6 +296,11 @@ class login extends Controller
         $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95','0'];
 
         $result = array_intersect($per_arr,$jiaoxue_part_arr);
+
+        $account_id = $this->get_account_id();
+        if($account_id == 540){
+            $result = [];
+        }
 
         if(!empty($result)){
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
