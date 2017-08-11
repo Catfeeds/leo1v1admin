@@ -391,7 +391,8 @@ class ajax_deal2 extends Controller
             'region_version'           => $region_version,
             'notes'                    => $notes,
          ]);
-        $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname);
+        $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname,2,$region_version,$notes);
+       
         return $this->output_succ();
     }
 

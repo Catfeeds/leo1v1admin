@@ -817,7 +817,6 @@ class common extends Controller
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
             }
-            \App\Helper\Utils::logger('img4:'.$image_4);
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
@@ -831,7 +830,6 @@ class common extends Controller
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
 
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
@@ -873,6 +871,7 @@ class common extends Controller
             $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/f486efc44176f3b7abb726d6a82878e21502367119509.png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
+            \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
@@ -882,7 +881,6 @@ class common extends Controller
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
-            \App\Helper\Utils::logger('yxyx_file_name:'.$file_name);
 
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";

@@ -2347,7 +2347,7 @@ trait  TeaPower {
         return $html;
     }
 
-    public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2){
+    public function add_tran_stu($phone,$subject,$origin_assistantid,$grade,$nick,$origin_userid=2,$region_version,$notes){
 
         $origin="转介绍";
         $has_pad=0;
@@ -2359,7 +2359,13 @@ trait  TeaPower {
             "origin_assistantid" =>  $origin_assistantid,
             "origin_userid"      => $origin_userid,
             "reg_time" => time(NULL),
+            "editionid"=>$region_version
         ]);
+        $this->t_seller_student_new->field_update_list($userid,[
+            "user_desc"           => $notes,
+        ]);
+
+        
         $account= $this->get_account();
 
         $origin_assistant_nick = $this->cache_get_account_nick($origin_assistantid);
