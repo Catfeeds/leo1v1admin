@@ -863,7 +863,7 @@ class common extends Controller
         }
 
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_new_cc.png";
+        $phone_qr_name = $phone."_qr_agent_new_dd.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -877,7 +877,7 @@ class common extends Controller
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopymerge($image_3,$image_2,60,1062,0,0,197,197,100);
+            imagecopymerge($image_3,$image_2,60,1062,0,0,imagesy($image_2),imagesy($image_2),100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
