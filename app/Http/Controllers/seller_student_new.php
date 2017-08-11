@@ -104,7 +104,6 @@ class seller_student_new extends Controller
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid ,$call_phone_count );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
-        // dd($ret_info);
 
         foreach( $ret_info["list"] as $index=> &$item ) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
@@ -140,7 +139,6 @@ class seller_student_new extends Controller
         }else{
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
-
         return $this->pageView(__METHOD__,$ret_info,[
            "unallot_info" => $unallot_info
         ]);

@@ -449,7 +449,6 @@ $(function(){
     $("#id_set_select_list").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var select_userid_list=[];
-
         $(".opt-select-item").each(function(){
             var $item=$(this) ;
             if($item.iCheckValue()) {
@@ -461,9 +460,10 @@ $(function(){
             $.do_ajax(
                 '/ss_deal/set_adminid',
                 {
-                    'userid_list' : JSON.stringify(select_userid_list ),
-                    "opt_type" : g_args.self_groupid==-1?1:0,
-                    "opt_adminid" : opt_adminid,
+                    'userid_list'          : JSON.stringify(select_userid_list ),
+                    "opt_type"             : g_args.self_groupid==-1?1:0,
+                    "opt_adminid"          : opt_adminid,
+                    "seller_resource_type" : opt_data.seller_resource_type,
                 });
         }
 

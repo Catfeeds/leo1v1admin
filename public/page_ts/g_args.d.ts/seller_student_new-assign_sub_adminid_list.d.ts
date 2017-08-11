@@ -44,6 +44,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;

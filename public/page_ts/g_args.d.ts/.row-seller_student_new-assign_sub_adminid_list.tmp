@@ -1,3 +1,4 @@
+	seller_resource_type	:any;
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;

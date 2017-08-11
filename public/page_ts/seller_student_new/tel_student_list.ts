@@ -144,14 +144,15 @@ $(function(){
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
                     $.do_ajax("/ss_deal/tmk_save_user_info",{
-                        'test_lesson_subject_id'       : opt_data.test_lesson_subject_id,
-                        'userid'       : opt_data.userid,
-                        'nick'       : $nick.val(),
-                        'grade'       : $grade.val(),
-                        'subject'       : $subject.val(),
-                        'tmk_desc'       : $tmk_desc.val(),
-                        'tmk_next_revisit_time'       : $tmk_next_revisit_time.val(),
-                        'tmk_student_status'       : $tmk_student_status.val()
+                        'test_lesson_subject_id' : opt_data.test_lesson_subject_id,
+                        'userid'                 : opt_data.userid,
+                        'nick'                   : $nick.val(),
+                        'grade'                  : $grade.val(),
+                        'subject'                : $subject.val(),
+                        'tmk_desc'               : $tmk_desc.val(),
+                        'tmk_next_revisit_time'  : $tmk_next_revisit_time.val(),
+                        'tmk_student_status'     : $tmk_student_status.val(),
+                        'tmk_student_status_old' : opt_data.tmk_student_status
                     });
                 }
             }],function(){

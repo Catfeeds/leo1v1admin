@@ -79,6 +79,7 @@ class ajax_deal2 extends Controller
     public function set_tmk_valid() {
         $userid=$this->get_in_userid();
         $tmk_student_status = $this->get_in_e_tmk_student_status();
+        $tmk_student_status_old = $this->get_in_int_val('tmk_student_status_old');
         $tmk_desc          = $this->get_in_str_val("tmk_desc");
 
 
@@ -120,10 +121,20 @@ class ajax_deal2 extends Controller
                 "system"
             );
         }else{
-            $this->t_seller_student_new->field_update_list($userid,[
-                "tmk_student_status"=>$tmk_student_status,
-                "tmk_desc"=>$tmk_desc,
-            ]);
+            if($tmk_student_status != $tmk_student_status_old && $tmk_student_status=3){//tmk更改例子为有效状态
+                $adminid = $this->get_account_id();
+                $this->t_seller_student_new->field_update_list($userid,[
+                    "tmk_student_status"=>$tmk_student_status,
+                    "tmk_desc"=>$tmk_desc,
+                    "first_tmk_set_valid_admind"=>$adminid,
+                    "first_tmk_set_valid_time"=>time(null),
+                ]);
+            }else{
+                $this->t_seller_student_new->field_update_list($userid,[
+                    "tmk_student_status"=>$tmk_student_status,
+                    "tmk_desc"=>$tmk_desc,
+                ]);
+            }
 
         }
 
@@ -259,7 +270,7 @@ class ajax_deal2 extends Controller
     /**
      *@author   sam
      *@function 取消添加考试成绩
-     *@path     
+     *@path
      */
     public function score_cancel(){
         $id = $this->get_in_int_val('id');
@@ -392,7 +403,7 @@ class ajax_deal2 extends Controller
             'notes'                    => $notes,
          ]);
         $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname,2,$region_version,$notes);
-       
+
         return $this->output_succ();
     }
 
@@ -415,7 +426,7 @@ class ajax_deal2 extends Controller
             $this->t_seller_student_new->field_update_list($userid,[
                 "user_desc"           => $notes,
             ]);
-    
+
 
         }
         return $this->output_succ();

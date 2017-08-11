@@ -141,7 +141,8 @@ class ss_deal extends Controller
         $opt_adminid=$this->get_in_int_val("opt_adminid", 0);
         $userid_list_str= $this->get_in_str_val("userid_list");
         $userid_list=\App\Helper\Utils::json_decode_as_int_array($userid_list_str);
-
+        $seller_resource_type = $this->get_in_int_val('seller_resource_type');
+        // dd($seller_resource_type);
         if ( count($userid_list) ==0 ) {
             return $this->output_err("还没选择例子");
         }
@@ -152,7 +153,7 @@ class ss_deal extends Controller
 
         foreach ( $userid_list as $userid ) {
             $this->t_seller_student_new->set_admin_info_new(
-                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account  );
+                $opt_type, $userid,  $opt_adminid, $this->get_account_id(), $opt_account, $account,$seller_resource_type  );
         }
 
         return $this->output_succ();
@@ -2410,16 +2411,18 @@ class ss_deal extends Controller
 
     }
     public function tmk_save_user_info(){
-        $userid             = $this->get_in_userid();
-        $test_lesson_subject_id= $this->get_in_test_lesson_subject_id();
-        $nick               = $this->get_in_str_val("nick");
-        $grade              = $this->get_in_grade();
-        $subject            = $this->get_in_subject();
-        $tmk_student_status = $this->get_in_int_val("tmk_student_status");
-        $tmk_next_revisit_time_str= $this->get_in_str_val("tmk_next_revisit_time");
-        $tmk_next_revisit_time  = strtotime($tmk_next_revisit_time_str);
+        $adminid                   = $this->get_account_id();
+        $userid                    = $this->get_in_userid();
+        $test_lesson_subject_id    = $this->get_in_test_lesson_subject_id();
+        $nick                      = $this->get_in_str_val("nick");
+        $grade                     = $this->get_in_grade();
+        $subject                   = $this->get_in_subject();
+        $tmk_student_status        = $this->get_in_int_val("tmk_student_status");
+        $tmk_student_status_old    = $this->get_in_int_val("tmk_student_status_old");
+        $tmk_next_revisit_time_str = $this->get_in_str_val("tmk_next_revisit_time");
+        $tmk_next_revisit_time     = strtotime($tmk_next_revisit_time_str);
 
-        $tmk_desc          = $this->get_in_str_val("tmk_desc");
+        $tmk_desc = $this->get_in_str_val("tmk_desc");
 
         $item=$this->t_seller_student_new->field_get_list($userid,"tmk_next_revisit_time,tmk_student_status,phone ");
         $phone=$item["phone"];
@@ -2445,13 +2448,22 @@ class ss_deal extends Controller
             "nick"=>$nick,
             "grade"=>$grade,
         ]);
-
-        $this->t_seller_student_new->field_update_list($userid,[
-            "tmk_student_status"=>$tmk_student_status,
-            "tmk_next_revisit_time"=>$tmk_next_revisit_time,
-            "tmk_desc"=>$tmk_desc,
-        ]);
-
+        if($tmk_student_status != $tmk_student_status_old && $tmk_student_status == 3){//tmk更改例子为有效
+            $this->t_seller_student_new->field_update_list($userid,[
+                "tmk_student_status"=>$tmk_student_status,
+                "tmk_next_revisit_time"=>$tmk_next_revisit_time,
+                "tmk_desc"=>$tmk_desc,
+                "first_tmk_set_valid_admind"=>$adminid,
+                "first_tmk_set_valid_time"=>time(null),
+            ]);
+        }else{
+            $this->t_seller_student_new->field_update_list($userid,[
+                "tmk_student_status"=>$tmk_student_status,
+                "tmk_next_revisit_time"=>$tmk_next_revisit_time,
+                "tmk_desc"=>$tmk_desc,
+            ]);
+        }
+        
         $admin_revisiterid=$this->t_seller_student_new->get_admin_revisiterid($userid);
         if (!$admin_revisiterid ) {
             $this->t_seller_student_new->field_update_list($userid,[

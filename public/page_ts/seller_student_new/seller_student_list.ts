@@ -565,6 +565,7 @@ $(function(){
                     $.do_ajax("/ajax_deal2/set_tmk_valid",{
                         userid : opt_data.userid,
                         tmk_student_status: $tmk_student_status.val(),
+                        tmk_student_status_old: opt_data.tmk_student_status,
                         tmk_desc: $tmk_desc.val(),
                     });
                 };
