@@ -56,6 +56,7 @@ $(function(){
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_test_type").val(item.test_type);
             var pic_str = '';
+
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
                     pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>设为封面</span><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
@@ -63,6 +64,7 @@ $(function(){
                     pic_str += '<div class="add_header_img"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>封面</span><div class="add_pic" style="display:none">'+item.poster+'</div>';
                 }
             }
+            console.log(typeof html_node)
             $('#id_container_add_tmp').append(pic_str);
             html_node = html_node + pic_str;
         }
@@ -238,6 +240,7 @@ $(function(){
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
                                  html_node = html_node + new_header_img + new_pic;
+                                 console.log(html_mode);
                                  add_next_pic();
                              });
     }
