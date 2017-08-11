@@ -151,7 +151,7 @@ class testbb extends Controller
 
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
 
-        $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_test_lesson_info_for_jy($start_time,$end_time);
 
 
         dd($ret_info);
