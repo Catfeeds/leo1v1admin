@@ -104,6 +104,7 @@ class NewRouteConfig {
         "teacher_feedback"            => true,
         "teacher_level"               => true,
         "fulltime_teacher"            => true,
+        "teacher_simulate"            => true,
         "t_yxyx_wxnews_info"          => true,
         "t_yxyx_test_pic_info"        => true,
     ];
@@ -391,7 +392,6 @@ class NewRouteConfig {
         "/news_info/add_stu_message_content" => true,
         "/news_info/push_news_info"          => true,
 
-        "/human_resource/new_teacher_money_list" => true,
         "/human_resource/origin_list" => true,
         "/human_resource/teacher_total_list" => true,
         "/human_resource/zs_origin_list" => true,

@@ -2826,7 +2826,7 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
         ];
-        $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
+        $teacher_money_type_str = " t.teacher_money_type_simulate=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
                                   ." deduct_check_homework,deduct_change_class,deduct_rate_student,deduct_upload_cw,l.subject,"
@@ -2841,7 +2841,7 @@ lesson_type in (0,1) "
                                   ." left join %s s on l.userid=s.userid "
                                   ." left join %s o on l.lessonid=o.lessonid "
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s m on l.level=m.level "
+                                  ." left join %s m on t.level_simulate=m.level "
                                   ." and m.grade=(case when "
                                   ." l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ." else l.grade"

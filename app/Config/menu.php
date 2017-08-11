@@ -191,7 +191,7 @@ class menu{
                     ["power_id"=>14, "name"=>"招师工资","url"=>"/user_manage_new/teacher_ref_money_list"],
                     ["power_id"=>15, "name"=>"各类型薪资明细","url"=>"/user_manage_new/teacher_details_money"],
                     ["power_id"=>16, "name"=>"年级工资分类","url"=>"/teacher_money/grade_wages_list"],
-                    ["power_id"=>17, "name"=>"模拟工资","url"=>"/human_resource/new_teacher_money_list"],
+                    ["power_id"=>17, "name"=>"模拟工资","url"=>"/teacher_simulate/new_teacher_money_list"],
                 ]],
                 ["power_id"=>4, "name"=>"助教档案",   "url"=>"/human_resource/assistant_info2"],
                 ["power_id"=>5, "name"=>"助教档案-new",   "url"=>"/human_resource/assistant_info_new"],
