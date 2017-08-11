@@ -599,7 +599,7 @@ class WechatRequest  {
         }
         \App\Helper\Utils::logger('yxyx_bbb_key:'.$evenKey);
         $content = '收到跳转链接事件，您设置的key是' . $eventKey;
-        \App\Helper\Utils::logger('tiaozhuan'.$eventKey);
+        \App\Helper\Utils::logger('tiaozhuan111'.$eventKey);
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }

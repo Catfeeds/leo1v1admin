@@ -648,7 +648,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $set_arr["first_tmk_set_seller_time"]=$now;
             }
 
-            if ( $item["seller_resource_type"]==0) {
+            if ( $ss_info["seller_resource_type"]==0) {
                 if (!$ss_info["first_admin_master_time"]) {
                     $set_arr["first_admin_master_adminid"]=$up_adminid;
                     $set_arr["first_admin_master_time"]=$now;
