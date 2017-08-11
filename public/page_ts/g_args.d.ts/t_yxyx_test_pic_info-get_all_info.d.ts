@@ -26,7 +26,6 @@ interface RowData {
 	grade_str	:any;
 	subject_str	:any;
 	test_type_str	:any;
-	pic_arr	:any;
 }
 
 /*

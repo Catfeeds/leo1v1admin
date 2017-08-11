@@ -53,6 +53,9 @@ $(function(){
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_poster").val(item.poster);
             html_node.find(".add_test_type").val(item.test_type);
+            item.picarr.each(function(){
+                console.log(this);
+            });
         }
 
         var title = "";
@@ -93,7 +96,7 @@ $(function(){
 
                         if (pic_num >1) {
                             for (var i = 1; i < pic_num; i++) {
-                                pic = pic + '|' + html_node.find('.add_pic'+i).text();
+                                pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                             }
                         }
                         if (opt_type=="update") {
@@ -215,7 +218,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'">'+pic_url+'</div>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);

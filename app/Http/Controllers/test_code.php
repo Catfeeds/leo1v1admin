@@ -1624,7 +1624,13 @@ class test_code extends Controller
 
         $new_A_plus = ["胡旭","丁媛媛","默建宾","吉妍瑾","李志伟","邢平"];
         foreach($new_A_plus as $val){
-            
+            $count = $this->t_teacher_info->check_teacher_count($val);
+            if($count>1){
+                echo $val;
+                echo "<br>";
+            }else{
+
+            }
         }
         $this->t_teacher_info->set_simulate_info($teacher_money_type,$level,$level_simulate);
     }
