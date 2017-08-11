@@ -1030,7 +1030,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         $sql = $this->gen_sql_new(
-            "select $field_name as check_value  , count(*) as require_count "
+            "select $field_name as check_value  , count(distinct(s.userid)) as require_count "
             ." from  %s  tr "
             ." join  %s  t on tr.test_lesson_subject_id = t.test_lesson_subject_id  "
             ." join  %s  s on t.userid= s.userid  "
