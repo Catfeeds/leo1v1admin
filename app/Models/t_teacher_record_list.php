@@ -982,6 +982,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+    public function get_teacher_first_record(){
+        // $sql = $this->gen_sql_new("select id,teacherid from %s tr where tr.type=1 and tr.lesson_style=0 and tr.add_time = (select min (add_time) from %s where type= 1 and lesson_style=0  )");
+    }
 
 
 }
