@@ -104,11 +104,7 @@ class login extends Controller
             }
 
         }else{
-
-            // \App\Helper\Utils::logger("uehbhd:".$node['name']);
-
             @$check_powerid = $url_power_map[$node["url"]] ;
-
             if (isset($power_map[$check_powerid ])) {
                 //不再显示
                 unset($power_map[$check_powerid ]);
@@ -121,8 +117,6 @@ class login extends Controller
                 return '<li> <a href="'.$node["url"].'"><i class="fa '.$icon.'"></i><span>'.
                                        $node["name"].'</span></a></li>';
             }else{
-
-                // \App\Helper\Utils::logger("do222:".$node["name"].":null-$check_powerid");
                 return "";
             }
         }
@@ -288,6 +282,7 @@ class login extends Controller
         $menu_html ="";
 
         $uid = $this->get_account_id();
+        $main_department = $this->t_manager_info->get_main_department($uid);
 
         $permission = $this->t_manager_info->get_permission($uid);
 
@@ -302,7 +297,7 @@ class login extends Controller
             $result = [];
         }
 
-        if(!empty($result)){
+        if(!empty($result)){ // 教学管理事业部
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 

@@ -48,7 +48,6 @@ $(function(){
         var html_node = $("<div></div>").html(html_txt);
         var pic_url = "";
         var pic_img = "";
-
         if (opt_type=="update") {
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
@@ -56,6 +55,7 @@ $(function(){
             html_node.find(".add_subject").val(item.subject);
             html_node.find(".add_test_type").val(item.test_type);
             var pic_str = '';
+
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
                     pic_str += '<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]+'" width="80px"></div><span>设为封面</span><div class="add_pic'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
@@ -64,7 +64,7 @@ $(function(){
                 }
             }
             $('#id_container_add_tmp').append(pic_str);
-            html_node = html_node + pic_str;
+            html_node.find("#id_container_add_tmp").after(pic_str);
         }
 
         var title = "";
@@ -237,7 +237,7 @@ $(function(){
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
-                                 html_node = html_node + new_header_img + new_pic;
+                                 html_node.find("#id_container_add_tmp").after(new_header_img+new_pic);
                                  add_next_pic();
                              });
     }
