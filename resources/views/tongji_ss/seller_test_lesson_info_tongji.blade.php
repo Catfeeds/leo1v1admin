@@ -43,9 +43,9 @@
 
                     <div class="input-group ">
                         <span >展示角色</span>
-                        <select id="id_show_flag" class ="opt-change" >
+                        <select id="id_seller_flag" class ="opt-change" >
                             <option value="0">销售</option>
-                            <option value="1">展示</option>
+                            <option value="1">老师</option>
                         </select>
                     </div>
 
