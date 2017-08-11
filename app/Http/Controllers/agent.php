@@ -118,6 +118,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $tquin = 9786114;
+        $phone = 15805169810;
+        $call_start = 0;
+        $call_end = 0;
+        $type = 0;
+        $lesson_end =  1501852800;
+        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone,$call_start,$call_end,$type,$lesson_end);
+        dd($lesson_call_list);
         $adminid = 902;
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         dd($lesson_call_end);
