@@ -1786,6 +1786,12 @@ class test_code extends Controller
         $this->set_simulate_info_by_list(2,0,1);
         //固定C->新版B
         $this->set_simulate_info_by_list(3,0,1);
+        $this->set_simulate_info_by_list($new_T,0,11);
+        $this->set_simulate_info_by_list($new_B,0,1);
+        $this->set_simulate_info_by_list($new_B_plus,0,2);
+        $this->set_simulate_info_by_list($new_A,0,3);
+        $this->set_simulate_info_by_list($new_A_plus,0,4);
+
     }
 
     public function set_simulate_info_by_list($list,$level,$level_simulate){
