@@ -2118,12 +2118,14 @@ trait  TeaPower {
                 "train_through_new"      => 1,
                 "train_through_new_time" => time(),
             ]);
-            
         }elseif($flag==1){
+            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+                "train_through_new_time" => time(),
+            ]);
             $teacher_info['level']=0;
         }
 
-        $level_str    = E\Elevel::get_desc($teacher_info['level']);
+        $level_str = E\Elevel::get_desc($teacher_info['level']);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);
