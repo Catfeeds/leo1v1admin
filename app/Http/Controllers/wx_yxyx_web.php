@@ -22,6 +22,8 @@ class wx_yxyx_web extends Controller
         parent::__construct();
         $agent_id = $this->get_agent_id();
         if($agent_id){
+            \App\Helper\Utils::logger('yxyx_xxx');
+
             $agent = $this->t_agent->get_agent_info_by_id($agent_id);
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
@@ -34,6 +36,7 @@ class wx_yxyx_web extends Controller
 
             header("Location: $url");
         }else{
+            \App\Helper\Utils::logger('yxyx_yyy');
             $wx_config=\App\Helper\Config::get_config("yxyx_wx");
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
