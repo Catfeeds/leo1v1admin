@@ -273,6 +273,7 @@ class common extends Controller
         $userid     = $this->get_in_str_val("userid");
         $totalvalue = $this->get_in_str_val("totalvalue");
         \App\Helper\Utils::logger("train_answer".$userid." score".$totalvalue);
+        $type       = $this->get_in_int_val("type");
 
         $today_date  = date("Y年m月d日",time());
         $lesson_info = base64_decode($userid);
@@ -314,10 +315,9 @@ class common extends Controller
                     $train_flag=0;
                 }
 
-                \App\Helper\Utils::logger("userid:".$answer['userid']." train_flag:".$train_flag);
 
 
-                if($totalvalue>=90 && $teacher_info['train_through_new']==0){
+                if($totalvalue>=90 && $train_flag==1){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
                     //发送微信通知进行模拟课堂
                     if($train_flag==1){
@@ -325,6 +325,14 @@ class common extends Controller
                     }
                 }
             }
+            if($type==1){
+                echo $train_flag;
+                echo "<br>";
+                echo $train_time;
+                echo "<br>";
+                echo $answer['userid'];
+            }
+            \App\Helper\Utils::logger("userid: ".$answer['userid']." train_flag:".$train_flag);
         }
         echo $str;
     }
