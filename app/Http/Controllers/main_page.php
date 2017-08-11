@@ -385,6 +385,11 @@ class main_page extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);
+        foreach($teacher_info as $kk=>$vv){
+            if(in_array($kk,[992,891,486,871])){
+                unset($teacher_info[$kk]);
+            }
+        }
         // $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
         $tea_subject = "";
 
