@@ -46,8 +46,8 @@
                                                 {{$var["nick"]}}
                                             </a>
                                         </td>
-                                        <td >
-                                            <a  href="javascript:;" class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
+                                        <td class="tea_num" data-teacherid='{{@$var["teacherid"]}}' data-num='{{@$var["num"]}}' >
+                                            <a >{{$var["num"]}}</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -77,8 +77,8 @@
                                     <tr>
                                         <td>{{$key+1}}</td>
                                         <td > {{$var["account"]}} </td>
-                                        <td >
-                                            <a  href="javascript:;" class="num" data-adminid='{{@$var["uid"]}}' data-num='{{@$var["num"]}}'>{{$var["num"]}}</a>
+                                        <td class="ass_num" data-adminid='{{@$var["uid"]}}' data-num='{{@$var["num"]}}' >
+                                            <a  href="javascript:;" >{{$var["num"]}}</a>
                                         </td>
 
                                     </tr>

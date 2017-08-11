@@ -6,8 +6,6 @@
       <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
       <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
-
-
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
       <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
@@ -264,6 +262,7 @@
                                 <a class="opt-from-data" title="外部订单信息">外 </a>
                                 <a class="opt-build-contrat" title="合同pdf">pdf</a>
                                 <a class="opt-mail-contrat" title="合同运单">运单 </a>
+                                <a class="opt-merge_order" title="合并合同">合并</a>
                             </div>
                         </td>
             </tr>

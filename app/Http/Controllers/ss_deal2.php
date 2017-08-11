@@ -275,4 +275,43 @@ class ss_deal2 extends Controller
         return $this->output_succ(['data'=>$ret_info]);
     }
 
+
+    public function get_refund_teacher_detail_info(){
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time   = strtotime($this->get_in_str_val("end_time"));
+
+        $ret = $this->t_order_refund->get_refund_count_for_tec($start_time,$end_time,$teacherid);
+
+        foreach($ret as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time","_str");
+        }
+
+        if($ret){
+            return $this->output_succ(["data"=>$ret]);
+        }else{
+            return $this->output_succ();
+        }
+
+    }
+
+
+    public function get_refund_ass_detail_info(){
+        $uid  = $this->get_in_int_val("uid");
+        $start_time = strtotime($this->get_in_str_val("start_time"));
+        $end_time   = strtotime($this->get_in_str_val("end_time"));
+
+        $ret = $this->t_order_refund->get_refund_count_for_ass($start_time,$end_time,$uid);
+
+        foreach($ret as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"apply_time","_str");
+        }
+
+        if($ret){
+            return $this->output_succ(["data"=>$ret]);
+        }else{
+            return $this->output_succ();
+        }
+
+    }
 }

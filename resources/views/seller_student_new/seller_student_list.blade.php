@@ -216,10 +216,12 @@
             <thead>
                 <tr>
                     <td >电话</td>
+                    <td >渠道</td>
                     <td style=" display:none;  min-width:140px;">个人信息</td>
                     <td style="width:60px" class="th-opt-time-field" ></td>
                     <td style="display:none;">资源进来时间</td>
                     <td style="display:none;" >来源</td>
+                    <!-- <td style="display:block;" >来源</td> -->
                     <td >姓名</td>
                     <td >回访状态</td>
                     <td >TQ状态</td>
@@ -256,6 +258,13 @@
                     <tr>
                          <td  class="td-phone">
                              <div class="phone-data">{{$var["phone"]}}</div>
+                         </td>
+                         <td  class="td-phone">
+                             <div class="phone-data">
+                                 @if($var['origin'] == '优学优享')
+                                     {{$var["origin"]}}/{{$var["nickname"]}}
+                                 @endif
+                             </div>
                          </td>
                          <td >
                              {{$var["phone"]}} {{$var["phone_location"]}} <br/>

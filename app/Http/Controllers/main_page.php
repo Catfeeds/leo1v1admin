@@ -711,7 +711,7 @@ class main_page extends Controller
         $all_total = $system_total=$self_total=$fail_total=0;
         $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
       
-        $video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
+        $video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
         $video_account_real = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
         $video_account_pass = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,1);
         $one_account = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-1);
@@ -740,7 +740,7 @@ class main_page extends Controller
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data =[];
                     
-        $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+        $video_all =  $this->t_teacher_lecture_info->get_lecture_info_by_all_new(
             -1,$start_time,$end_time,-1,-1,-1,"");
         $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
             -1,$start_time,$end_time,-1,-1,-1,"",-2);

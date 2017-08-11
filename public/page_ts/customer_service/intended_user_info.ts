@@ -95,6 +95,17 @@ $(function(){
         });
     });
 
+    $(".opt-reset").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        $.do_ajax("/ajax_deal2/reset_intended_user_info",{
+            "phone"          : opt_data.phone,
+            'child_realname' : opt_data.child_realname,
+            'grade'          : opt_data.grade,
+            'free_subject'   : opt_data.free_subject,
+        });
+ 
+    });
+
     //alert(222);
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();

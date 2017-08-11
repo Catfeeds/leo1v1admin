@@ -47,6 +47,7 @@
                             >
                                 <a class="fa fa-edit opt-edit"  title="修改信息"></a>
                                 <a class="fa fa-trash-o opt-del" title="删除信息"></a>
+                                <a class=" opt-reset"  title="刷新">刷新</a>
                             </div>
                         </td>
                     </tr>

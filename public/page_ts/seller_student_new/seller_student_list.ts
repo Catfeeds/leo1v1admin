@@ -618,7 +618,7 @@ function init_edit() {
             var show_noti_info_flag=false;
             var $note_info=html_node.find(".note-info");
             var note_msg="";
-            if (data.test_lesson_count) {
+            if (data.test_lesson_count >0 ) {
                 show_noti_info_flag=true;
                 note_msg="已有试听课:"+data.test_lesson_count +"次" ;
             }
