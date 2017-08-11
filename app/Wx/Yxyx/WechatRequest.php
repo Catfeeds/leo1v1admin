@@ -596,7 +596,7 @@ class WechatRequest  {
                 $eventKey.="?p_phone=$phone";
             }
         }
-        $content = '收到跳转链接事件，您设置的key是'.$eventKey;
+        $content = '收到跳转链接事件，您设置的key是'.$eventKey."&p=111";
         \App\Helper\Utils::logger('yxyx_eee_content'.$content);
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
