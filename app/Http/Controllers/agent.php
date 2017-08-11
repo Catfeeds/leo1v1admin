@@ -118,6 +118,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $agent_id = 85;
+        $agent = $this->t_agent->get_agent_info_by_id($agent_id);
         //差回访lessonid
         // $lessonid = $this->t_lesson_info->get_lessonid_by_userid($userid=277598);
         // dd($lessonid);
