@@ -1799,11 +1799,11 @@ class test_code extends Controller
             $this->t_teacher_info->set_simulate_info($list,$level,$level_simulate);
         }else{
             foreach($list as $val){
-                $count=$this->t_teacher_info->check_count_by_realname($val);
+                $count = $this->t_teacher_info->check_count_by_realname($val);
                 if($count>1){
                     echo $val;echo "<br>";
                 }else{
-                    
+                    $this->t_teacher_info->get_teacherid_by_realname($val);
                 }
             }
         }

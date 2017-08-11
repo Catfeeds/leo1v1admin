@@ -574,6 +574,7 @@ $(function(){
 
                 if(!require_time){
                     alert("请选择试听时间!");
+                    return;
                 }
 
                 if (require_time < need_start_time ) {

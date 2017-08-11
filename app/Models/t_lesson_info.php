@@ -3779,7 +3779,7 @@ lesson_type in (0,1) "
             "lesson_type = 2",
             "lesson_del_flag = 0",
             // "require_admin_type =2",
-            "tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
+            //"tq.origin not like '%%扩课%%' and tq.origin not like '%%换老师%%'",
        	   "mm.account_role=2 ",
 	    //"mm.account_role=2 ",
 
