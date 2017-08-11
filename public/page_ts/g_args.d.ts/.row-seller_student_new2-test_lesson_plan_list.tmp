@@ -71,8 +71,6 @@
 	limit_accept_flag	:any;
 	limit_require_reason	:any;
 	limit_accept_time	:any;
-	key1	:any;
-	key2	:any;
 	limit_plan_lesson_reason	:any;
 	id	:any;
 	lesson_time	:any;
