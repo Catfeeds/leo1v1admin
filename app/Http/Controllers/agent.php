@@ -119,15 +119,17 @@ class agent extends Controller
 
     public function check(){
         //差回访lessonid
-        $lessonid = $this->t_lesson_info->get_lessonid_by_userid($userid=277598);
-        dd($lessonid);
-        $tquin = 9762723;
-        $phone = '15631525857';
-        $lesson_end = 1502362800;
-        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone,0,0,0,$lesson_end);
-        dd($lesson_call_list);
+        // $lessonid = $this->t_lesson_info->get_lessonid_by_userid($userid=277598);
+        // dd($lessonid);
+        // $tquin = 9762723;
+        // $phone = '15631525857';
+        // $lesson_end = 1502362800;
+        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone,0,0,0,$lesson_end);
+        // dd($lesson_call_list);
         //查回访记录
-        $this->t_lesson_info_b2->get_test_lesson_list($start_time,$end_time,-1);
+        $lessonid = 277462;
+        $ret=$this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+        dd($ret);
     }
 
 

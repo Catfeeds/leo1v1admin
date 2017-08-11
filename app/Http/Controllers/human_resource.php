@@ -4332,13 +4332,14 @@ class human_resource extends Controller
         $is_test_user       = $this->get_in_int_val("is_test_user",0);
         $page_num           = $this->get_in_page_num();
 
-        $tea_list = $this->t_teacher_info->get_teacher_total_list(
+        $tea_list = $this->t_teacher_info->get_teacher_total_list_new(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
         );
 
         foreach($tea_list['list'] as &$val){
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
+            E\Enew_level::set_item_value_str($val,"level_simulate");
             $val['create_time_str']=\App\Helper\Utils::unixtime2date($val['create_time']);
             $val['trial_lesson_count'] /= 100;
             $val['normal_lesson_count'] /= 100;

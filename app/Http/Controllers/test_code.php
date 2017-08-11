@@ -1746,7 +1746,7 @@ class test_code extends Controller
                     echo "more name end";
                     echo $this->div;
                 }else{
-                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname_for_level_simulate($val);
+                    $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname_for_level_simulate($val,$level_simulate);
                     if(!empty($teacher_info)){
                         if($teacher_info['level_simulate'] != $level_simulate){
                             $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[

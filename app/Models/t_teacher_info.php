@@ -1482,11 +1482,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
         }else if($qzls_flag==2){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }
         if($fulltime_flag==0){
             $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
         }else if($fulltime_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }
 
         if($tea_status==1){
@@ -2581,6 +2583,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+
+
     /**
      *@function 获取平台老师总数（通过入职培训，没有离职）
      *

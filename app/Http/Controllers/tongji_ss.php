@@ -3693,6 +3693,15 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
     public function seller_test_lesson_info_tongji(){
+
+        $is_seller_flag = $this->get_in_int_val('seller_flag',0);
+        $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+
+    public function seller_test_lesson_info_tongji_for_seller(){ // 销售
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3758,9 +3767,17 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
 
-        return $this->pageView(__METHOD__,$ret_info);
+        return $ret_info;
+        // return $this->pageView(__METHOD__,$ret_info);
 
     }
+
+
+
+
+
+
+
 
     public function get_seller_test_lesson_success_info(){
         $adminid = $this->get_in_int_val("adminid");
@@ -6097,6 +6114,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
         $kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
+        $end_info = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+
 
 
         $account_id = $this->get_in_int_val("adminid",-1);
@@ -6130,6 +6149,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $item["refund_student"] = isset($week_info[$k])?$week_info[$k]["refund_student"]:0;
             $item["new_stu_num"] = isset($week_info[$k])?$week_info[$k]["new_stu_num"]:(isset($new_info[$k])?$new_info[$k]["num"]:0);
             $item["end_stu_num"] = isset($week_info[$k])?$week_info[$k]["end_stu_num"]:(isset($end_info[$k])?$end_info[$k]["num"]:0);
+            if(empty($item["end_stu_num"]) && isset($end_info[$k])){
+                $item["end_stu_num"] = $end_info[$k]["num"];
+            }
             $item["refund_money"] = isset($week_info[$k])?$week_info[$k]["refund_money"]/100:0;
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
             if($account_id==-1){
