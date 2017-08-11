@@ -226,6 +226,7 @@ $(function(){
                     
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
+                        "lesson_invalid_flag"    : id_lesson_invalid_flag.val(),
                         "id"    : opt_data.id,
                         "type"         : 1,
                         "lesson_style" : 2,

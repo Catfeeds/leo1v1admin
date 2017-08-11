@@ -2583,6 +2583,42 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_teacher_total_list_new(
+        $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
+    ){
+        if($teacherid!=-1){
+            $where_arr[]=["t.teacherid=%u",$teacherid,-1];
+        }else{
+            $where_arr = [
+                ["t.teacher_money_type=%u",$teacher_money_type,-1],
+                ["t.level=%u",$level,-1],
+                ["t.is_test_user=%u",$is_test_user,-1],
+            ];
+        }
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "
+                                  ." t.realname,t.level_simulate,"
+                                  ." group_concat(distinct(l.grade)) as all_grade,"
+                                  ." group_concat(distinct(l.subject)) as all_subject,"
+                                  ." count(distinct(l.userid)) as stu_num, "
+                                  ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
+                                  ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
+                                  ." from %s t "
+                                  ." left join %s l on "
+                                  ." t.teacherid=l.teacherid and l.lesson_status=2 and l.lesson_del_flag=0 and l.confirm_flag!=2"
+                                  ." and l.lesson_start>%u and lesson_start<%u"
+                                  ." where %s"
+                                  ." group by t.teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$start_time
+                                  ,$end_time
+                                  ,$where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
+
     /**
      *@function 获取平台老师总数（通过入职培训，没有离职）
      *

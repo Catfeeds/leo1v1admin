@@ -154,19 +154,20 @@ class testbb extends Controller
         $ret_info = $this->t_lesson_info_b2->get_teacher_test_lesson_info_for_jy($start_time,$end_time);
 
 
-        dd($ret_info);
+        // dd($ret_info);
 
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){
             $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
-            // if($item["create_time"] !=0){
-            //     $item["work_day"] = ceil((time()-$item["create_time"])/86400);
-            // }else{
-            //     $item["work_day"] ="";
-            // }
-            // $item["all_money"]  = $item["lesson_count"]*$lesson_money+$item["order_count"]*60+($item["suc_count"]-$item["order_count"])*30;
-            // $item["money_per"] = !empty($item["all_money"])?round($item["all_price"]/$item["all_money"]/100,1):0;
+            if($item["train_through_new_time"] !=0){
+                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400);
+            }else{
+                $item["work_day"] ="";
+            }
+
+            $item["all_money"]  = $item["lesson_count"]*$lesson_money+$item["order_count"]*60+($item["suc_count"]-$item["order_count"])*30;
+            $item["money_per"] = !empty($item["all_money"])?round($item["all_price"]/$item["all_money"]/100,1):0;
 
             // $item["lesson_per"] = !empty($item["lesson_count"])?round($item["suc_count"]/$item["lesson_count"],4)*100:0;
             // if($show_flag==1){
@@ -181,24 +182,24 @@ class testbb extends Controller
 
         dd($ret_info);
 
-        $num = count($ret_info["list"]);
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
-        }
+        // $num = count($ret_info["list"]);
+        // if (!$order_in_db_flag) {
+        //     \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
+        // }
 
-        $all_item = [
-            "account" => "全部"
-        ];
-        \App\Helper\Utils::list_add_sum_item($ret_info["list"], $all_item,$sum_field_list);
-        foreach($ret_info["list"] as &$val){
-            if($val["account"]=="全部"){
-                $val["work_day"] = $num>0?ceil(@$val["work_day"]/$num):""; $val["order_per"] = !empty($val["suc_count"])?round($val["order_count"]/$val["suc_count"],4)*100:0;
-                $val["lesson_per"] = !empty($val["lesson_count"])?round($val["suc_count"]/$val["lesson_count"],4)*100:0;
-                $val["all_money"]  = $val["lesson_count"]*$lesson_money+$val["order_count"]*60+($val["suc_count"]-$val["order_count"])*30;
-                $val["money_per"] = !empty($val["all_money"])?round($val["all_price"]/$val["all_money"]/100,1):0;
-                $val["tea_per"] = $val["range"]="";
-            }
-        }
+        // $all_item = [
+        //     "account" => "全部"
+        // ];
+        // \App\Helper\Utils::list_add_sum_item($ret_info["list"], $all_item,$sum_field_list);
+        // foreach($ret_info["list"] as &$val){
+        //     if($val["account"]=="全部"){
+        //         $val["work_day"] = $num>0?ceil(@$val["work_day"]/$num):""; $val["order_per"] = !empty($val["suc_count"])?round($val["order_count"]/$val["suc_count"],4)*100:0;
+        //         $val["lesson_per"] = !empty($val["lesson_count"])?round($val["suc_count"]/$val["lesson_count"],4)*100:0;
+        //         $val["all_money"]  = $val["lesson_count"]*$lesson_money+$val["order_count"]*60+($val["suc_count"]-$val["order_count"])*30;
+        //         $val["money_per"] = !empty($val["all_money"])?round($val["all_price"]/$val["all_money"]/100,1):0;
+        //         $val["tea_per"] = $val["range"]="";
+        //     }
+        // }
 
     }
 
