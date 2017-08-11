@@ -151,6 +151,7 @@ $(function(){
             var id_jkqk = $("<textarea />");
 
             var arr=[
+                ["课程有效性", id_lesson_invalid_flag],
                 ["讲义设计情况评分", id_jysj],
                 ["语言表达能力评分", id_yybd],
                 ["专业知识技能评分", id_zyzs],
@@ -228,6 +229,7 @@ $(function(){
                     
                     $.do_ajax("/teacher_level/set_teacher_record_info",{
                         "teacherid"    : teacherid,
+                        "lesson_invalid_flag"    : id_lesson_invalid_flag.val(),
                         "userid"    : opt_data.userid,
                         "id"    : opt_data.id,
                         "type"         : 1,
