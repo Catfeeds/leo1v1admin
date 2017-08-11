@@ -85,11 +85,17 @@ $(function(){
                     action : function(dialog) {
                         var pic           = html_node.find(".add_pic").text();
                         var grade         = html_node.find(".add_grade").val();
-                        var poster        = html_node.find(".add_poster").text();
+                        var poster        = html_node.find(".add_pic").text();
                         var subject       = html_node.find(".add_subject").val();
                         var test_des      = html_node.find(".add_test_des").val();
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
+
+                        if (pic_num >1) {
+                            for (var i = 1, i < pic_num, i++) {
+                                pic = pic + '|' + html_node.find('.add_pic'+i);
+                            }
+                        }
                         if (opt_type=="update") {
                             $.ajax({
                                 type     : "post",
@@ -200,9 +206,7 @@ $(function(){
     function add_next_pic(html_node) {
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
-        var new_pic_info = '<div class="add_header_img'+pic_num+'"></div><div class="add_pic'+pic_num+'"></div>';
         $('#id_container_add_tmp').append(new_input);
-        $('.add_pic').after(new_pic_info);
         html_node = html_node + new_pic_info;
         pic_num++;
         custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
