@@ -202,7 +202,7 @@ $(function(){
         var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         var new_pic_info = '<div class="add_header_img'+pic_num+'"></div><div class="add_pic'+pic_num+'"></div>';
         $('#id_container_add_tmp').append(new_input);
-        $('#id_container_add_tmp').after(new_pic_info);
+        $('.add_pic').after(new_pic_info);
         html_node = html_node + new_pic_info;
         pic_num++;
         custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
