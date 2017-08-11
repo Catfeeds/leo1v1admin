@@ -141,7 +141,7 @@ class url_power_map {
 			'/user_manage_new/teacher_ref_money_list'	=>1040514,
 			'/user_manage_new/teacher_details_money'	=>1040515,
 			'/teacher_money/grade_wages_list'	=>1040516,
-			'/human_resource/new_teacher_money_list'	=>1040517,
+			'/teacher_simulate/new_teacher_money_list'	=>1040517,
 			'/human_resource/assistant_info2'	=>1040400,
 			'/human_resource/assistant_info_new'	=>1040500,
 			'/human_resource/get_apply_info'	=>1040600,
