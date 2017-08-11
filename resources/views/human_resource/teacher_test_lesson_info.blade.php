@@ -183,18 +183,18 @@
                         ["试听成功课数(销售-old)","lesson_num_old" ],
                         ["试听成功课数(销售)","lesson_num" ],
                         ["试听成功人数","test_person_num" ],
-                        ["试听成功人数(转介绍)","lesson_num_other" ],
+                        //["试听成功人数(转介绍)","lesson_num_other" ],
                         ["试听成功课数(扩课)","kk_num" ],
                         ["试听成功课数(换老师)","change_num" ],
                         ["试听到课率","success_per" ],
                         ["签约单数","have_order" ],
                         ["签约课数","order_number" ],
-                        ["签约单数(转介绍)","have_order_other" ],
+                        //["签约单数(转介绍)","have_order_other" ],
                         ["签约课数(扩课)","kk_order" ],
                         ["签约课数(换老师)","change_order" ],
                         ["试听签单率","order_num_per" ],
                         ["试听签课率","order_per" ],
-                        ["试听签单率(转介绍)","order_num_per_other" ],
+                        //["试听签单率(转介绍)","order_num_per_other" ],
                         ["试听扩课率","kk_per" ],
                         ["试听转化率(换老师)","change_per" ],
                        ])  !!}
@@ -252,10 +252,10 @@
                         <td class="test_person_num" data-teacherid="{{@$var["teacherid"]}}" >
                            {{@$var["test_person_num"]}}
                         </td>
-                        <td class="lesson_num_other" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
+                        <!--<td class="lesson_num_other" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                             {{@$var["lesson_num_other"]}}
-                        </td> 
-
+                        </td>-->
+    
                         <td class="kk_num" data-teacherid="{{@$var["teacherid"]}}" data-subject="{{@$var["subject"]}}">
                             {{@$var["kk_num"]}}
                         </td>
@@ -272,7 +272,7 @@
                         
                         <td class="have_order">{{@$var["have_order"]}}</td>
                         <td class="order_number">{{@$var["order_number"]}}</td>
-                        <td class="have_order_other">{{@$var["have_order_other"]}}</td>
+                        <!-- <td class="have_order_other">{{@$var["have_order_other"]}}</td> -->
                         <td class="kk_order">{{@$var["kk_order"]}}</td>
                         <td class="change_order">{{@$var["change_order"]}}</td>
                         <td class="order_num_per" data-teacherid="{{@$var["teacherid"]}}">
@@ -287,11 +287,12 @@
                                 {{@$var["order_per"]}}%   
                             @endif
                         </td>
-                        <td class="order_num_per_other">
+                       <!-- <td class="order_num_per_other">
                             @if (isset($var["order_num_per_other"]))
                                 {{@$var["order_num_per_other"]}}%   
                             @endif
                         </td>
+                        --> 
                         <td class="kk_per">
                             @if (isset($var["kk_per"]))
                                 {{@$var["kk_per"]}}%   
