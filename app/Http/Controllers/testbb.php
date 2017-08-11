@@ -159,28 +159,28 @@ class testbb extends Controller
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){
-            /* $item["order_count"] = @$order_info[$item["cur_require_adminid"]]["order_count"];
-               if(empty($item["order_count"])){
-               $item['order_count']=0;
-               }*/
             $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
-            if($item["create_time"] !=0){
-                $item["work_day"] = ceil((time()-$item["create_time"])/86400);
-            }else{
-                $item["work_day"] ="";
-            }
-            $item["all_money"]  = $item["lesson_count"]*$lesson_money+$item["order_count"]*60+($item["suc_count"]-$item["order_count"])*30;
-            $item["money_per"] = !empty($item["all_money"])?round($item["all_price"]/$item["all_money"]/100,1):0;
+            // if($item["create_time"] !=0){
+            //     $item["work_day"] = ceil((time()-$item["create_time"])/86400);
+            // }else{
+            //     $item["work_day"] ="";
+            // }
+            // $item["all_money"]  = $item["lesson_count"]*$lesson_money+$item["order_count"]*60+($item["suc_count"]-$item["order_count"])*30;
+            // $item["money_per"] = !empty($item["all_money"])?round($item["all_price"]/$item["all_money"]/100,1):0;
 
-            $item["lesson_per"] = !empty($item["lesson_count"])?round($item["suc_count"]/$item["lesson_count"],4)*100:0;
-            if($show_flag==1){
-                $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($item["cur_require_adminid"],$start_time,$end_time);
-                $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
-                $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
-                $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
-            }
+            // $item["lesson_per"] = !empty($item["lesson_count"])?round($item["suc_count"]/$item["lesson_count"],4)*100:0;
+            // if($show_flag==1){
+            //     $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($item["cur_require_adminid"],$start_time,$end_time);
+            //     $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
+            //     $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
+            //     $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
+            // }
 
         }
+
+
+        dd($ret_info);
+
         $num = count($ret_info["list"]);
         if (!$order_in_db_flag) {
             \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );

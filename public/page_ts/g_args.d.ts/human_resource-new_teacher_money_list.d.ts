@@ -41,10 +41,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../human_resource; vi  ../human_resource/teacher_total_list.ts
+	 mkdir -p ../human_resource; vi  ../human_resource/new_teacher_money_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/human_resource-teacher_total_list.d.ts" />
+/// <reference path="../g_args.d.ts/human_resource-new_teacher_money_list.d.ts" />
 
 $(function(){
     function load_data(){
