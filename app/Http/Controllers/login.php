@@ -282,6 +282,7 @@ class login extends Controller
         $menu_html ="";
 
         $uid = $this->get_account_id();
+        $main_department = $this->t_manager_info->get_main_department($uid);
 
         $permission = $this->t_manager_info->get_permission($uid);
 
@@ -296,7 +297,7 @@ class login extends Controller
             $result = [];
         }
 
-        if(!empty($result)){
+        if(!empty($result)){ // 教学管理事业部
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 
