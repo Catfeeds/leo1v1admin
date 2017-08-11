@@ -184,6 +184,8 @@ $(function(){
                     id_no_tea_score.parent().parent().hide();  
                     id_jkqk.parent().parent().hide();  
                     id_sshd.parent().parent().hide();  
+                    id_rjcz.parent().parent().hide();  
+                    
                 }else{
                     id_jysj.parent().parent().show();  
                     id_yybd.parent().parent().show();  
@@ -198,6 +200,7 @@ $(function(){
                     id_no_tea_score.parent().parent().show();  
                     id_jkqk.parent().parent().show();  
                     id_sshd.parent().parent().show();  
+                    id_rjcz.parent().parent().show();  
  
                 }
                 
