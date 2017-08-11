@@ -510,6 +510,52 @@ class WechatRequest  {
             $mediaId = $mediaId['media_id'];
             unlink($img_url);
             return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
+        }elseif ($eventKey == 'invitation_member') {
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+            }
+            if(!$phone){
+                $content="
+【绑定提醒】
+您还未绑定手机，请绑定成功后重试
+绑定地址：http://wx-yxyx.leo1v1.com/wx_yxyx_web/bind";
+                $_SESSION['wx_openid'] =   $request['fromusername'];
+                session(['wx_openid'=> $request['fromusername']]);
+
+                return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
+            }
+
+            //使用客服接口发送消息
+            $txt_arr = [
+                'touser'   => $openid,
+                'msgtype'  => 'text',
+                'text'     => [
+                    'content' =>
+                    '①长按下方图片并保存
+②将图片发给朋友或朋友圈'
+                ]
+            ];
+            $txt = self::ch_json_encode($txt_arr);
+            $token = AccessToken::getAccessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$token;
+            $txt_ret = self::https_post($url,$txt);
+
+            $url = "http://yxyx.leo1v1.com/common/get_agent_qr_new?wx_openid=".$openid;
+
+            $img_url = self::get_img_url($url);
+            $type = 'image';
+            $num = rand();
+            $img_Long = file_get_contents($img_url);
+            file_put_contents(public_path().'/wximg/'.$num.'.png',$img_Long);
+            $img_url = public_path().'/wximg/'.$num.'.png';
+            $img_url = realpath($img_url);
+            $mediaId = Media::upload($img_url, $type);
+            $mediaId = $mediaId['media_id'];
+            unlink($img_url);
+            return ResponsePassive::image($request['fromusername'], $request['tousername'], $mediaId);
         }elseif ($eventKey == 'introduction') {
             $tuwenList[] = array(
                 'title' => '上海理优教育科技有限公司图片简介',

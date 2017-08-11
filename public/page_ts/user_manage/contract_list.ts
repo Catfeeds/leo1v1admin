@@ -2482,9 +2482,30 @@ $(function(){
 
     });
 
+    $(".opt-merge_order").on("click",function(){
+        var id_orderid = $("<input/>");
+        var data = $(this).get_opt_data();
 
+        var arr = [
+            ["目标合同",id_orderid],
+        ];
 
-
-
+        $.show_key_value_table("合并合同",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage_new/merge_order",{
+                    "orderid"      : data.orderid,
+                    "orderid_goal" : id_orderid.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+    });
 
 });

@@ -3679,7 +3679,7 @@ class user_manage_new extends Controller
         if(!in_array($acc,['adrian',"jim"])){
             return $this->output_err("没有权限合并合同！");
         }
-        if($order_info['userid'] != $oder_goal_info['userid']){
+        if($order_info['userid'] != $order_goal_info['userid']){
             return $this->output_err("两个合同不是同一个学生！");
         }
         if($order_info['contract_status']>1 || !in_array($order_info['contract_type'],[0,3])){

@@ -4,12 +4,19 @@ class teaching_menu{
     static  public  function get_config()  {
         return [
 
-            ["power_id"=>40, "name"=>"产品部",  "list"=>[
+            ["power_id"=>43, "name"=>"核心数据",  "list"=>[
                 ["power_id"=>1, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                 ["power_id"=>9,"name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
 
             ]],
+
+
+            ["power_id"=>40, "name"=>"产品部",  "list"=>[
+                ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
+
+            ]],
+
 
 
             ["power_id"=>25, "name"=>"招师部",  "list"=>[
@@ -35,7 +42,7 @@ class teaching_menu{
             ]],
 
 
-            ["power_id"=>37, "name"=>"质监部",  "list"=>[
+            ["power_id"=>37, "name"=>"质监组",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                 ["power_id"=>8, "name"=>"试听转化率统计", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
@@ -115,7 +122,7 @@ class teaching_menu{
                 ]],
                 ["power_id"=>33, "name"=>"其他",  "list"=>[
 
-                    ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
+                    // ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
                     // ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                     ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                     ["power_id"=>8,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
