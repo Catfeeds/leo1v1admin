@@ -96,9 +96,7 @@ $(function(){
                                              html_node.find(".update_header_img").html(pic_img);
                                              html_node.find(".update_pic").html(pic_url);
                                          }
-                                         if (pic_num < 10) {
-                                             add_next_pic(html_node);
-                                         }
+                                         add_next_pic(html_node);
                                      });
             },
             buttons        : [
@@ -116,7 +114,7 @@ $(function(){
                         if (pic_num >1) {
                             for (var i = 0; i < pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
-                                pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                    pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
                             }
                         }
@@ -234,18 +232,18 @@ $(function(){
             }]
         });
     });
-        //设为封面,暂时不可用
+    //设为封面,暂时不可用
     function setPoster(obj) {
         poster_url = obj.data-ip;
         obj.text('封面');
         $('.mark').removeClass('mark');
         obj.addClass('mark');
     }
-       //多次添加图片
+    //多次添加图片
     function add_next_pic(html_node) {
         pic_num++;
         $('#id_container_add_tmp').empty();
-        var new_input = '<input id="id_upload_add_tmp" value="上传第'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
+        var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
         custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
                              g_args.qiniu_upload_domain_url , true,
@@ -260,7 +258,9 @@ $(function(){
                                  $(".add_header_img"+pic_num).html(pic_img);
                                  $(".add_pic"+pic_num).html(pic_url);
                                  html_node = html_node+new_header_img+new_pic;
-                                 add_next_pic();
+                                 if (pic_num < 10) {
+                                    add_next_pic();
+                                 }
                              });
     }
 
