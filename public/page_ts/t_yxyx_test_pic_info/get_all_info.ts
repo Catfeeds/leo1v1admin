@@ -115,7 +115,7 @@ $(function(){
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
                         if (pic_num >1) {
-                            for (var i = 1; i =< pic_num; i++) {
+                            for (var i = 1; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
