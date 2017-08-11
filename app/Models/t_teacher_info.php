@@ -2631,14 +2631,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function set_simulate_info($type){
-        $sql = $this->gen_sql_new("update %s set teacher_money_type_simulate=teacher_money_type"
+    public function set_simulate_info($teacher_money_type,$level,$level_simulate){
+        $where_arr=[
+            ["teacher_money_type=%u",$teacher_money_type,0],
+            ["level=%u",$level,0],
+        ];
+
+        $sql = $this->gen_sql_new("update %s set level_simulate=%u"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
+                                  ,$level_simulate
                                   ,$where_arr
         );
         return $this->main_update($sql);
-
     }
 
 
