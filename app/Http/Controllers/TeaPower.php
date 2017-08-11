@@ -2071,7 +2071,6 @@ trait  TeaPower {
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
-              
             }
 
         }
