@@ -118,6 +118,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $eventKey = 'http://www.xmypage.com/model2_28992.html';
+        $phone = '15251318621';
+        $eventKey.="?phone=$phone";
+        dd($eventKey);
+
         $ret = $this->t_agent->get_agent_info_by_phone($phone = '18017565572');
         dd($ret);
         $ret_in_str=$this->t_seller_student_new->get_seller_yxyx();

@@ -1617,7 +1617,13 @@ class test_code extends Controller
         $grade = \App\Helper\Utils::get_next_grade($grade);
     }
 
+    public function set_simulate_info(){
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",4);
+        $level              = $this->get_in_int_val("level",0);
+        $level_simulate     = $this->get_in_int_val("level_simulate",0);
 
+        $this->t_teacher_info->set_simulate_info($teacher_money_type,$level,$level_simulate);
+    }
 
 
 }

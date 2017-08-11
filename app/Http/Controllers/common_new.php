@@ -656,28 +656,35 @@ class common_new extends Controller
 
         */
         $cdr_bridge_time=$this->get_in_int_val("cdr_bridge_time");
+        $cdr_answer_time=$this->get_in_int_val("cdr_answer_time");
         $cdr_end_time=$this->get_in_int_val("cdr_end_time");
 
         $cdr_bridged_cno = $this->get_in_int_val("cdr_bridged_cno");
         $cdr_status = $this->get_in_int_val("cdr_status");
 
-        $recid= ($cdr_bridged_cno<<32 ) + $cdr_bridge_time;
+        $recid= ($cdr_bridged_cno<<32 ) + $cdr_answer_time;
         $cdr_customer_number = $this->get_in_str_val("cdr_customer_number");
 
-        $duration= $cdr_end_time-$cdr_bridge_time;
+        $duration=0;
+        if ($cdr_bridge_time ) {
+            $duration= $cdr_end_time-$cdr_bridge_time;
+        }
+        \App\Helper\Utils::logger("duration ,$duration, $cdr_bridge_time");
+
+
         $called_flag=($cdr_status==28 && $duration>30  )?2:1;
 
         $this->t_tq_call_info->add(
             $recid,
             $cdr_bridged_cno,
             $cdr_customer_number,
-            $cdr_bridge_time,
+            $cdr_answer_time,
             $cdr_end_time,
             $duration,
             $called_flag
             ,
             "");
-        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_bridge_time);
+        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time);
         return json_encode(["result"=>"success"]);
     }
 

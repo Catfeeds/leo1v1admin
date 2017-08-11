@@ -2600,7 +2600,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      *@function 获取平台老师课耗总数
      *
      */
-    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=1){
+    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0){
 
         $where_arr = [
             " t.train_through_new=1 ",
@@ -2629,6 +2629,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function set_simulate_info($teacher_money_type,$level,$level_simulate){
+        $where_arr=[
+            ["teacher_money_type=%u",$teacher_money_type,0],
+            ["level=%u",$level,0],
+        ];
+
+        $sql = $this->gen_sql_new("update %s set level_simulate=%u"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$level_simulate
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
     }
 
 

@@ -401,9 +401,22 @@ class ajax_deal2 extends Controller
         $child_realname  = $this->get_in_str_val('child_realname');
         $grade           = $this->get_in_int_val('grade');
         $free_subject    = $this->get_in_int_val('free_subject');
+        $region_version  = $this->get_in_int_val('region_version');
+        $notes           = $this->get_in_str_val('notes');
+
         $ret = $this->t_student_info->get_student_info_by_phone($phone);
         if(!$ret){
-             $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname);
+             $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname,2,$region_version,$notes);
+        }else{
+            $userid = $ret["userid"];
+            $this->t_student_info->field_update_list($userid,[
+                "editionid"=>$region_version
+            ]);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "user_desc"           => $notes,
+            ]);
+    
+
         }
         return $this->output_succ();
 
