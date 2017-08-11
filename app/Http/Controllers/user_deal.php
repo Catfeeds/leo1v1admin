@@ -2607,6 +2607,8 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
+        $ret = $this->t_teacher_record_list->get_teacher_first_record();
+        dd($ret);
         $start_time = strtotime("2017-08-07  21:30:00");
         dd($start_time);
         $end_time = strtotime("2017-09-01");
