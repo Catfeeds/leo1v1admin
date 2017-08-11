@@ -126,6 +126,7 @@
                         </div>
                         <div class="add_header_img"></div>
                         <div class="add_pic" style="display:none"></div>
+                        <span class="mark"></span>
                     </td>
 		            </tr>
 		        </tbody>
