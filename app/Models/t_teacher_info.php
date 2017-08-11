@@ -2600,7 +2600,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
      *@function 获取平台老师课耗总数
      *
      */
-    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=1){
+    public function get_teacher_list($train_through_new,$start_time,$end_time,$full_flag=0){
 
         $where_arr = [
             " t.train_through_new=1 ",
