@@ -128,6 +128,7 @@ class NewRouteConfig {
         "/common/send_wx_todo_msg"           => true,
         "/common/get_teacher_qr"             => true,
         "/common/get_agent_qr"             => true,
+        "/common/get_agent_qr_new"             => true,
         "/common/get_comment_tags"             => true,
         "/common/get_finish_lessons"         => true,
         "/common/train_user_answer"          => true,
