@@ -33,7 +33,6 @@ $(function(){
 
 
     var pic_num = 0;
-    var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
         pic_num = 0;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
@@ -134,11 +133,9 @@ $(function(){
                             pic = pic +'|'+ html_node.find(".update_pic").text();
                         }
 
-                        if(poster_url != '') {
-                            poster = poster_url;
-                        }
                         if(html_node.find('.real_poster').text()) {
                             poster = html_node.find('.real_poster').text();
+                            pic    = pic + html_node.find('.real_poster').text();
                         }
                         if (opt_type=="update") {
                             $.ajax({
