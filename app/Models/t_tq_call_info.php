@@ -251,5 +251,34 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
         return $this->main_get_list($sql);
     }
+    public function add_tianrun_record($item) {
+
+        /*
+          [uniqueId] => 10.10.61.69-1502416848.11782
+          [customerNumber] => 15601830297
+          [customerProvince] => 上海
+          [customerCity] => 上海
+          [numberTrunk] => 02151368906
+          [queueName] => 
+          [cno] => 2001
+          [clientNumber] => 02145947224
+          [status] => 双方接听
+          [startTime] => 2017-08-11 10:00:48
+          [bridgeTime] => 2017-08-11 10:01:07
+          [bridgeDuration] => 00:00:05
+          [cost] => 0.000
+          [totalDuration] => 00:00:24
+          [recordFile] => 
+          [inCaseLib] => 不在
+          [score] => 0
+          [callType] => 点击外呼
+          [comment] => 无
+          [taskName] => 
+          [endReason] => 否
+          [userField] => 
+          [sipCause] => 200
+        */
+
+    }
 
 }
