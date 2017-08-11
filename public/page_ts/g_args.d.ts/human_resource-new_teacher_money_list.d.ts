@@ -25,6 +25,7 @@ interface RowData {
 	test_transfor_per	:any;
 	create_time	:any;
 	realname	:any;
+	level_simulate	:any;
 	all_grade	:any;
 	all_subject	:any;
 	stu_num	:any;
@@ -32,6 +33,7 @@ interface RowData {
 	normal_lesson_count	:any;
 	teacher_money_type_str	:any;
 	level_str	:any;
+	level_simulate_str	:any;
 	create_time_str	:any;
 	all_lesson_count	:any;
 	grade_str	:any;
