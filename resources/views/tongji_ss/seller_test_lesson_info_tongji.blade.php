@@ -23,14 +23,14 @@
     <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
     <script type="text/javascript" src="/page_js/lib/flow.js"></script>
 
-     
+
     <section class="content ">
         <div>
             <div class="row">
                 <div class="col-xs-12 col-md-4"  data-title="时间段">
                     <div  id="id_date_range" >
                     </div>
-                </div>               
+                </div>
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group ">
                         <span >是否展示正负值</span>
@@ -51,14 +51,14 @@
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td>编号</td>
                     <td>销售</td>
-                    {!!\App\Helper\Utils::th_order_gen([                      
-                        ["入职时长","work_day" ],                     
-                        ["排课总数","lesson_count" ],                     
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["入职时长","work_day" ],
+                        ["排课总数","lesson_count" ],
                         ["试听成功数","suc_count" ],
                         ["到课率","lesson_per"],
                         ["签单数","order_count"],
@@ -67,11 +67,11 @@
                         ["投入产出比","money_per"],
                         ["老师签单率","tea_per"],
                         ["正负值","range"]
-                       ])  !!}                    
+                       ])  !!}
                     <td>操作</td>
                 </tr>
             </thead>
-            <tbody>                
+            <tbody>
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>
                         <td>{{$k+1}}</td>
@@ -98,7 +98,7 @@
                             <div class="data"
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
-                                <a class="opt-teacher-lesson-per">查看老师转化率</a> 
+                                <a class="opt-teacher-lesson-per">查看老师转化率</a>
 
                             </div>
                         </td>
