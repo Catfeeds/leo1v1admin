@@ -3463,6 +3463,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -3706,6 +3707,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -3796,6 +3798,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -3888,6 +3891,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }
         if($fulltime_flag==0){
             $where_arr[] = "(m.account_role<>5 or m.account_role is null)";
@@ -4135,6 +4139,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -4274,6 +4279,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -4475,6 +4481,7 @@ lesson_type in (0,1) "
         }
         if($qz_flag==1){
             $where_arr[]="m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(tt.subject in".$tea_subject." or tt.second_subject in".$tea_subject.")";
@@ -6424,6 +6431,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "mmm.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
@@ -6515,6 +6523,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "mmm.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }
         if($subject==20){
             $where_arr[] = "l.subject in (4,5,6,7,8,9,10)";
@@ -6628,6 +6637,7 @@ lesson_type in (0,1) "
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";

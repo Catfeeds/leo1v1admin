@@ -132,6 +132,7 @@ $(function(){
             var id_skhj =  $("<select class=\"class_score\" />");
             var id_khfk =  $("<select class=\"class_score\" />");
             var id_lcgf =  $("<select class=\"class_score\" />");                  
+            var id_lesson_invalid_flag =  $("<select ><option value=\"1\">有效课程</option><option value=\"2\">无效课程</option></select>");                  
             var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
 
             Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -150,6 +151,7 @@ $(function(){
             var id_jkqk = $("<textarea />");
 
             var arr=[
+                ["课程有效性", id_lesson_invalid_flag],
                 ["讲义设计情况评分", id_jysj],
                 ["语言表达能力评分", id_yybd],
                 ["专业知识技能评分", id_zyzs],
@@ -167,6 +169,21 @@ $(function(){
                 ["标签",id_sshd],
             ];
             
+            id_lesson_invalid_flag.on("change",function(){
+                if($(this).val() ==2){
+                    id_jysj.parent().parent().hide();  
+                    id_yybd.parent().parent().hide();  
+                    id_zyzs.parent().parent().hide();  
+                    id_jxjz.parent().parent().hide();  
+                    id_hdqk.parent().parent().hide();  
+                    id_bsqk.parent().parent().hide();  
+                    id_skhj.parent().parent().hide();  
+                    id_khfk.parent().parent().hide();  
+                    id_lcgf.parent().parent().hide();  
+                    id_score.parent().parent().hide();  
+                }
+                
+            });
             
             $.show_key_value_table("试听评价", arr,{
                 label    : '确认',

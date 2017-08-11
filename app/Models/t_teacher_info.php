@@ -1467,6 +1467,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         if($qz_flag==1){
             $where_arr[] = "m.account_role=5";
+            $where_arr[] = "m.del_flag=0";
         }else{
             if(!empty($tea_subject)){
                 $where_arr[]="(t.subject in".$tea_subject." or t.second_subject in".$tea_subject.")";
@@ -1809,7 +1810,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             ["realname='%s'",$nick,""]
         ];
-        $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,bankcard"
+        $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,"
+                                  ." bankcard,level_simulate"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
@@ -2649,7 +2651,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function check_count_by_realname($realname){
         $where_arr = [
-            ["realname='%s'",$realname,0]
+            ["realname='%s'",$realname,""]
         ];
         $sql = $this->gen_sql_new("select count(1)"
                                   ." from %s "
@@ -2658,6 +2660,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_teacher_info_by_realname_for_level_simulate($nick,$level_simulate){
+        $where_arr = [
+            ["realname='%s'",$nick,""],
+            ["level_simulate!=%u",$level_simulate,""],
+        ];
+        $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,"
+                                  ." bankcard,level_simulate"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
     }
 
 }

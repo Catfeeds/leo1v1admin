@@ -33,6 +33,7 @@ $(function(){
 
 
     var pic_num = 1;
+    var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
         pic_num = 1;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
@@ -90,6 +91,7 @@ $(function(){
                                          if(opt_type != 'update') {
                                              html_node.find(".add_header_img").html(pic_img);
                                              html_node.find(".add_pic").html(pic_url);
+                                             html_node.find(".mark").text("封面");
                                          } else {
                                              html_node.find(".update_header_img").html(pic_img);
                                              html_node.find(".update_pic").html(pic_url);
@@ -109,16 +111,19 @@ $(function(){
                         var test_des      = html_node.find(".add_test_des").val();
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
-                        if ( opt_type == "update" && html_node.find(".update_pic").text() ){
-                            pic = pic +'|'+ html_node.find(".update_pic").text();
-                        }
-
                         if (pic_num >1) {
                             for (var i = 1; i < pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                 pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
                             }
+                        }
+                        if ( opt_type == "update" && html_node.find(".update_pic").text() ){
+                            pic = pic +'|'+ html_node.find(".update_pic").text();
+                        }
+
+                        if(poster_url != '') {
+                            poster = poster_url;
                         }
                         if (opt_type=="update") {
                             $.ajax({
@@ -239,7 +244,7 @@ $(function(){
                                  pic_url = g_args.qiniu_upload_domain_url + res.key;
                                  pic_img = "<img width=80 src=\""+pic_url+"\" />";
                                  var new_header_img = '<div class="add_header_img'+pic_num+'">'+pic_img+'</div>';
-                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div>';
+                                 var new_pic = '<div class="add_pic'+pic_num+'" style="display:none">'+pic_url+'</div><span onclick="set_poster(this)" data-ip="'+pic_url+'">设为封面</span>';
                                  $("#id_container_add_tmp").parent().append(new_header_img);
                                  $("#id_container_add_tmp").parent().append(new_pic);
                                  $(".add_header_img"+pic_num).html(pic_img);
@@ -247,5 +252,11 @@ $(function(){
                                  html_node = html_node+new_header_img+new_pic;
                                  add_next_pic();
                              });
+    }
+
+    //设为封面
+    function set_poster(obj) {
+        poster_url = obj.data-ip;
+        obj.text('封面');
     }
 });
