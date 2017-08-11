@@ -25,6 +25,7 @@ interface RowData {
 	test_transfor_per	:any;
 	create_time	:any;
 	realname	:any;
+	level_simulate	:any;
 	all_grade	:any;
 	all_subject	:any;
 	stu_num	:any;
@@ -32,6 +33,7 @@ interface RowData {
 	normal_lesson_count	:any;
 	teacher_money_type_str	:any;
 	level_str	:any;
+	level_simulate_str	:any;
 	create_time_str	:any;
 	all_lesson_count	:any;
 	grade_str	:any;
@@ -41,10 +43,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../human_resource; vi  ../human_resource/teacher_total_list.ts
+	 mkdir -p ../human_resource; vi  ../human_resource/new_teacher_money_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/human_resource-teacher_total_list.d.ts" />
+/// <reference path="../g_args.d.ts/human_resource-new_teacher_money_list.d.ts" />
 
 $(function(){
     function load_data(){
