@@ -5271,5 +5271,11 @@ class user_deal extends Controller
     }
 
 
+    public function reset_record_acc(){
+        $id = $this->get_in_int_val("id");
+        $this->t_teacher_record_list->field_update_list($id,["acc"=>""]);
+        return $this->output_succ();
+        
+    }
 
 }
