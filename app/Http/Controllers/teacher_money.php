@@ -764,5 +764,4 @@ class teacher_money extends Controller
         ]);
     }
 
-
 }

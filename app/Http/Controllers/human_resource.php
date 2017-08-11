@@ -4320,4 +4320,7 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$tea_list);
     }
 
+    public function new_teacher_money_list(){
+
+    }
 }
