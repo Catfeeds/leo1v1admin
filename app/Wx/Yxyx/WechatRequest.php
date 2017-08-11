@@ -594,13 +594,11 @@ class WechatRequest  {
             $agent = $t_agent->get_agent_info_by_openid($openid);
             if(isset($agent['phone'])){
                 $phone = $agent['phone'];
-                \App\Helper\Utils::logger('yxyx_ddd_phone:'.$phone);
                 $eventKey.="?p_phone=$phone";
-                \App\Helper\Utils::logger('yxyx_ddd_key:'.$eventKey);
             }
         }
         $content = '收到跳转链接事件，您设置的key是' . $eventKey;
-        \App\Helper\Utils::logger('tiaozhuan'.$eventKey);
+        \App\Helper\Utils::logger('yxyx_tiaozhuan'.$eventKey);
 
         return ResponsePassive::text($request['fromusername'], $request['tousername'], $content);
     }
