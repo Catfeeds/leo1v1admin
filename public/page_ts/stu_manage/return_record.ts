@@ -22,6 +22,7 @@ $(function(){
 
     $(".opt-edit-new").on("click", function(){
         var opt_data=$(this).get_opt_data();
+        console.log(opt_data);
         var userid = $(this).parent().data("userid");
 
         var id_recover_time = $("<input />");                 //复课时间
@@ -90,7 +91,7 @@ $(function(){
         }else if(opt_data.revisit_person === "其他"){
             id_return_record_person.val(3);
         }
-        alert(opt_data.self_intro);
+        //alert(opt_data.self_intro);
         if(opt_data.self_intro){
             id_self_introduction = $("<div class=\"check_flag\"><input type=\"checkbox\" checked id=\"self_intro\"></div>");
         }
