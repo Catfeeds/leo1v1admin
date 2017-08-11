@@ -2480,7 +2480,7 @@ class human_resource extends Controller
             $keyword2   = "已通过";
 
             //升级
-            $this->check_teacher_lecture_is_pass($teacher_info);
+            // $this->check_teacher_lecture_is_pass($teacher_info);
             
 
             //等级升级通知
