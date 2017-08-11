@@ -570,6 +570,12 @@ $(function(){
                 }
                 need_start_time=$.strtotime(min_date_time );
 
+                // alert(require_time);
+
+                if(!require_time){
+                    alert("请选择试听时间!");
+                }
+
                 if (require_time < need_start_time ) {
                     alert("试听时间不能早于 "+ min_date_time );
                   //  $(me).parent().find(".opt-edit").click();
@@ -758,6 +764,12 @@ $(function(){
                     min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
                 }
                 need_start_time=$.strtotime(min_date_time );
+
+                alert(1);
+                // if(!require_time){
+
+                // }
+
                 if (require_time < need_start_time ) {
                     alert("申请时间不能早于 "+ min_date_time );
                     return;
