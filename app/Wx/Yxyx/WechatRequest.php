@@ -587,10 +587,16 @@ class WechatRequest  {
     public static function eventView(&$request){
         //获取该分类的信息
         $eventKey = $request['eventkey'];
-        $content = '收到跳转链接事件，您设置的key是' . $eventKey;
-        if ($eventKey) {
+        if($eventKey == 'http://www.xmypage.com/model2_28992.html'){
+            $openid = $request['fromusername'];
+            $t_agent = new \App\Models\t_agent();
+            $agent = $t_agent->get_parent_phone_by_openid($openid);
+            if(isset($agent['phone'])){
+                $phone = $agent['phone'];
+                $eventKey.="?phone=$phone";
+            }
         }
-
+        $content = '收到跳转链接事件，您设置的key是' . $eventKey;
         \App\Helper\Utils::logger('tiaozhuan'.$eventKey);
 
 

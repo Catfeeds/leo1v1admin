@@ -407,6 +407,16 @@ class ajax_deal2 extends Controller
         $ret = $this->t_student_info->get_student_info_by_phone($phone);
         if(!$ret){
              $this->add_tran_stu($phone,$free_subject,$this->get_account_id(),$grade,$child_realname,2,$region_version,$notes);
+        }else{
+            $userid = $ret["userid"];
+            $this->t_student_info->field_update_list($userid,[
+                "editionid"=>$region_version
+            ]);
+            $this->t_seller_student_new->field_update_list($userid,[
+                "user_desc"           => $notes,
+            ]);
+    
+
         }
         return $this->output_succ();
 

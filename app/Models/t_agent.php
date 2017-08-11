@@ -163,6 +163,23 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_parent_phone_by_openid($wx_openid){
+        $where_arr = array();
+        $this->where_arr_add_str_field($where_arr,"a.wx_openid",$wx_openid);
+
+        $sql=$this->gen_sql_new ("select a.id,a.parentid,aa.phone "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id=a.parentid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_agent_info_by_id($id){
         $where_arr = array();
         $this->where_arr_add_str_field($where_arr,"id",$id);
