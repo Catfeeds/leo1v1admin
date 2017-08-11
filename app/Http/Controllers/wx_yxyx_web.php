@@ -22,16 +22,15 @@ class wx_yxyx_web extends Controller
         parent::__construct();
         $agent_id = $this->get_agent_id();
         if($agent_id){
-            \App\Helper\Utils::logger('yxyx_abc_id:'.$agent_id);
-            $agent = $this->t_agent->get_agent_info_by_id($agent_id);
-            $agent_id_new = $agent['id'];
-            \App\Helper\Utils::logger('yxyx_abc_id_new:'.$agent_id_new);
+            // $agent = $this->t_agent->get_agent_info_by_id($agent_id);
+            // $agent_id_new = $agent['id'];
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
             $url = "$web_html_url/$action.html";
-            if($action == 'bind' or !$agent_id_new){
+            if($action == 'bind'){
+                // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
             }
 
