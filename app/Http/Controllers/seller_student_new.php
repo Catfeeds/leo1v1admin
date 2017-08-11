@@ -133,6 +133,27 @@ class seller_student_new extends Controller
             $this->cache_set_item_account_nick($item,"competition_call_adminid","competition_call_admin_nick");
             $this->cache_set_item_account_nick($item,"require_adminid","require_admin_nick");
 
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_valid_desc",
+                                                     "first_tmk_set_valid_admind",
+                                                     "first_tmk_set_valid_time" );
+
+
+            $this->cache_set_item_account_nick_time ($item, "first_tmk_set_cc_desc",
+                                                     "tmk_set_seller_adminid",
+                                                     "first_tmk_set_seller_time" );
+
+            $this->cache_set_item_account_nick_time ($item, "first_set_master_desc",
+                                                     "first_admin_master_adminid",
+                                                     "first_admin_master_time" );
+
+            $this->cache_set_item_account_nick_time ($item, "first_set_cc_desc",
+                                                     "first_admin_revisiterid",
+                                                     "first_admin_revisiterid_time" );
+
+
+            E\Eseller_student_status::set_item_value_str($item,"first_seller_status");
+
+
         }
 
         // 未分配信息
@@ -142,7 +163,8 @@ class seller_student_new extends Controller
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
         return $this->pageView(__METHOD__,$ret_info,[
-           "unallot_info" => $unallot_info
+            "unallot_info" => $unallot_info,
+            "show_list_flag" => $show_list_flag,
         ]);
     }
 
@@ -1094,10 +1116,12 @@ class seller_student_new extends Controller
             E\Epad_type::set_item_value_str($item,"has_pad");
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
             E\Eorigin_level::set_item_value_str($item);
+           
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
             $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
             $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
             $this->cache_set_item_account_nick($item,"tmk_adminid","tmk_admin_nick");
+
         }
 
         // 未分配信息
