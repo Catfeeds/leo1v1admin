@@ -32,10 +32,10 @@ $(function(){
     });
 
 
-    var pic_num = 1;
+    var pic_num = 0;
     var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
-        pic_num = 1;
+        pic_num = 0;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
         html_txt=html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
@@ -44,8 +44,8 @@ $(function(){
         if (opt_type == 'update') {
             html_txt=html_txt.
                 replace(/\"add_header_img\"/, "\"update_header_img\"" ).
-                replace(/\"add_pic\"/, "\"update_pic\"" )
-                replace(/封面/, "设为封面" )
+                replace(/\"add_pic\"/, "\"update_pic\"" ).
+                replace(/封面/, /设为封面/ )
             ;
         }
         var html_node = $("<div></div>").html(html_txt);
@@ -113,7 +113,7 @@ $(function(){
                         var test_type     = html_node.find(".add_test_type").val();
                         var test_title    = html_node.find(".add_test_title").val();
                         if (pic_num >1) {
-                            for (var i = 1; i < pic_num; i++) {
+                            for (var i = 0; i < pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                 pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
                                 }
