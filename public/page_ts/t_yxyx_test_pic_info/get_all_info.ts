@@ -32,8 +32,8 @@ $(function(){
     });
 
 
-    var pic_num = 1;
     var do_add_or_update = function( opt_type, item ,id){
+        var pic_num = 1;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
         html_txt=html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
