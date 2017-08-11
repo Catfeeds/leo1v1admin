@@ -2071,10 +2071,13 @@ class user_manage extends Controller
                 4 => 0,
                 5 => 0,
                 "5科以上" => 0,
-                "合计" => 0
+                "合计" => 0,
+                "平均科目数" => 0
             );
+        $sum = 0;
         foreach ($ret_info as $key => $value) {
             $num = $value['num'];
+            $sum += $num;
             if($num < 6){
                 ++$ret_student_subject[$num];
             }else{
@@ -2082,11 +2085,10 @@ class user_manage extends Controller
             }
             ++$ret_student_subject["合计"];
         }
+        $ret_student_subject['平均科目数'] = round($sum / $ret_student_subject["合计"],2);
+
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_student_subject,
         ]);
     }
-
-
-
 }
