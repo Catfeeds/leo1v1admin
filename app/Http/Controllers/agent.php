@@ -118,149 +118,50 @@ class agent extends Controller
     }
 
     public function check(){
-        $lessonid = 273525;
-        $ret = $this->t_lesson_info_b2->get_test_lesson_list($start_time = -1,$end_time = -1,-1,$lessonid);
-        dd($ret);
-        $tquin = 9786114;
-        $phone = 15805169810;
-        $call_start = 0;
-        $call_end = 0;
-        $type = 0;
-        $lesson_end =  1501852800;
-        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone,$call_start,$call_end,$type,$lesson_end);
-        dd($lesson_call_list);
-        $adminid = 902;
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-        dd($lesson_call_end);
-        $userid_new = $lesson_call_end['userid'];
-        if($userid_new){
-            return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
-        }
-
-
-        $eventKey = 'http://www.xmypage.com/model2_28992.html';
-        $phone = '15251318621';
-        $eventKey.="?phone=$phone";
-        dd($eventKey);
-
-        $ret = $this->t_agent->get_agent_info_by_phone($phone = '18017565572');
-        dd($ret);
-        $ret_in_str=$this->t_seller_student_new->get_seller_yxyx();
-        $phone_new = array_column($ret_in_str,'phone');
-        $ret_info = $this->t_agent->get_test_new();
-        $phone_old = array_column($ret_info,'phone');
-        $phone_one = array_diff($phone_old,$phone_new);
-        $phone_two = [];
-        $phone_three = [];
-        foreach($phone_new as $item){
-            if(in_array($item,$phone_old)){
-                $phone_two[] = $item;
-            }else{
-                $phone_three[] = $item;
-            }
-        }
-        dd($phone_new,$phone_old,$phone_one,$phone_two,$phone_three);
-        // dd('a');
-        $adminid = $this->get_account_id();
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-        $userid_new = $lesson_call_end['userid'];
-        if($userid_new){
-            return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
-        }
-
-
-        $userid = 274319;
-        $row = $this->t_test_lesson_subject_sub_list->get_row_by_userid($userid);
-        dd($userid,$row);
-        $agent_id = 179;
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
+        $p_phone = '';
+        $phone   = '15251318621';
+        $type    = 2;
+        // if(!preg_match("/^1\d{10}$/",$p_phone) or !preg_match("/^1\d{10}$/",$phone)){
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $level      = 0;
-        $pay        = 0;
-        $cash       = 0;
-        $have_cash  = 0;
-        $num        = 0;
-        $my_num     = 0;
-        if(isset($student_info['userid'])){
-            $ret_list  = ['userid'=>0,'price'=>0];
-            $level     = 2;
-            $nick      = $student_info['nick'];
-            $ret       = $this->get_pp_pay_cash($phone);
-            $pay       = $ret['pay'];
-            $cash      = $ret['cash'];
-            $num       = $ret['num'];
-            $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
-            if($cash_item['have_cash']){
-                $have_cash = $cash_item['have_cash'];
-            }
-            $count_row = $this->t_agent->get_count_by_phone($phone);
-            $my_num    = $count_row['count'];
-            $test_count = 2;
-        }else{
-            $nick       = $phone;
-            $agent_lsit = [];
-            $agent_item = [];
-            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            foreach($agent_list as $item){
+        if($p_phone == $phone){
+            return $this->output_err("不能邀请自己!");
+        }
+        if(!$type){
+            return $this->output_err("请选择报名类型!");
+        }
+        if($p_phone){
+            $phone_str = implode(',',[$phone,$p_phone]);
+            $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+            foreach($ret_list as $item){
                 if($phone == $item['phone']){
-                    $agent_item = $item;
+                    // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
+                    return $this->output_err("您已被邀请过!");
                 }
-                if($phone == $item['p_phone']){
-                    $my_num++;
+                if($p_phone = $item['phone']){
+                    $parentid = $item['id'];
                 }
-            }
-            if($agent_item){
-                $test_lesson = [];
-                $cash_item   = [];
-                $count       = 0;
-                $ret_list    = ['userid'=>0,'price'=>0];
-                $nick        = $phone;
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
-                if($cash_item['have_cash']){
-                    $have_cash = $cash_item['have_cash'];
-                }
-                if(2<=$count){
-                    $level = 2;
-                    $ret = $this->get_pp_pay_cash($phone);
-                    $test_count = 2;
-                }else{
-                    $level = 1;
-                    $ret = $this->get_p_pay_cash($phone);
-                    $test_count = $count;
-                }
-                $pay  = $ret['pay'];
-                $cash = $ret['cash'];
-                $num  = $ret['num'];
-            }else{
-                return $this->output_err("您暂无资格!");
             }
         }
-        $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
-        $data = [
-            'level'      => $level,
-            'nick'       => $nick,
-            'pay'        => $pay,
-            'cash'       => $cash_new,
-            'have_cash'  => $have_cash/100,
-            'num'        => $num,
-            'my_num'     => $my_num,
-            'test_count' => $test_count,
-            'headimgurl' => $agent_info['headimgurl'],
-            'nickname'   => $agent_info['nickname'],
-        ];
-        dd($data);
-        return $this->output_succ(["user_info_list" =>$data]);
+        if(!isset($parentid)){
+            $parentid = 0;
+        }
+        dd($parentid);
+        $userid = null;
+        $userid_new = $this->t_student_info->get_row_by_phone($phone);
+        if($userid_new['userid']){
+            $userid = $userid_new['userid'];
+        }
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+        if($type == 1){
+            $userid_add = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }
+        if($ret){
+            return $this->output_succ("邀请成功!");
+        }else{
+            return $this->output_err("数据请求异常!");
+        }
     }
 
 
