@@ -306,7 +306,7 @@ class common extends Controller
                     ]);
                 }
 
-                $train_time = $this->t_train_lesson_user->get_max_lesson_time($userid);
+                $train_time = $this->t_train_lesson_user->get_max_lesson_time($answer['userid']);
                 $time = strtotime("2017-08-11 18:00");
                 if($train_time > $time){
                     $train_flag=1;
