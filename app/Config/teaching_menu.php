@@ -83,7 +83,7 @@ class teaching_menu{
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 ["power_id"=>18, "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
                 ["power_id"=>17, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],
-                ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
+                // ["power_id"=>35, "name"=>"兼职老师薪资处理",   "url"=>"/user_manage/complaint_department_deal_teacher/"],
                 ["power_id"=>23, "name"=>"兼职老师退费处理","url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
                 // ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
                 // ["power_id"=>3, "name"=>"课时统计",   "url"=>"/tongji/test_lesson_ass_jy"],
