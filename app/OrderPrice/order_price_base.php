@@ -76,6 +76,7 @@ class order_price_base {
             $discount_config= $contract_type==0?static::$new_discount_config: static::$next_discount_config;
             $discount_count=static::get_value_from_config($discount_config, $check_lesson_count,100 );
         }
+
         $price=static::$grade_price_config[$grade]*$lesson_count;
         return [
              "price"=>$price,
