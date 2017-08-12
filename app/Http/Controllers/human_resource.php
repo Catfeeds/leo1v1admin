@@ -2480,7 +2480,11 @@ class human_resource extends Controller
             $keyword2   = "已通过";
 
             //升级
-            // $this->check_teacher_lecture_is_pass($teacher_info);
+            if($teacher_info["level"]==0){
+                $this->check_teacher_lecture_is_pass($teacher_info);
+            }else{
+                $teacher_info["level"]=1;
+            }
             
 
             //等级升级通知
@@ -2510,7 +2514,7 @@ class human_resource extends Controller
             }
 
             //邮件推送
-            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+            // $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             $html = $this->teacher_level_up_html($teacher_info);
             $email = $teacher_info["email"];
             if($email){
