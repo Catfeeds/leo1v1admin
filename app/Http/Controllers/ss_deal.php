@@ -4557,10 +4557,10 @@ class ss_deal extends Controller
 
         $complaint_info = $this->t_complaint_info->get_complaint_info_by_id($complaint_id);
 
-        $add_time        = date('Y-m-d,h:i:s',$complaint_info["add_time"]);
+        $add_time        = date('Y-m-d,H:i:s',$complaint_info["add_time"]);
         $complaint_info_str  = $complaint_info['complaint_info'];
         $deal_info       = $complaint_info['deal_info'];
-        $deal_time_date  = date('Y-m-d h:i:s',$complaint_info['deal_time']);
+        $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
