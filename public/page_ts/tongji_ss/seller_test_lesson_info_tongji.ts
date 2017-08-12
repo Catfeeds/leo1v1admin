@@ -33,6 +33,13 @@ $(function(){
     $('#id_seller_flag').val(g_args.seller_flag);
     $('#id_lesson_money').val(g_args.lesson_money);
 
+    var seller_flag = $('#id_seller_flag').val();
+
+    if(seller_flag == 1){
+        // $
+    }
+
+
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var adminid = opt_data.cur_require_adminid;
