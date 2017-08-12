@@ -287,8 +287,8 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." where"
             ." s.is_test_user=0"
             ." and tr.accept_flag<>2"
-            ." and 1498838400<lesson_start<=1499616000"
-            ." and 1498838400<lesson_end<=1499616000"
+            ." and 1498838400<lesson_start<=1498924800"
+            ." and 1498838400<lesson_end<=1498924800"
             ." order by lesson_start asc"
             ." limit 0,1000 ";
         // dd($sql);
