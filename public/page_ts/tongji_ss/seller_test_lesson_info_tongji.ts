@@ -71,6 +71,7 @@ $(function(){
 
     $(".success_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
+        console.log(adminid);
         //alert(adminid);
         if(adminid > 0){
             var title     = "试听成功详情";
