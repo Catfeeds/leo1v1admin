@@ -318,8 +318,7 @@ $(function(){
 	$('#id_train_email_flag').val(g_args.train_email_flag);
     $.admin_select_user($("#id_train_teacherid"),"teacher",load_data);
 
-    $(".opt-edit").on("click",function()
-    {
+    $(".opt-edit").on("click",function(){
 	    var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_identity    = $("<select/>");

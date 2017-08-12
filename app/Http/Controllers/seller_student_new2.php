@@ -725,7 +725,7 @@ class seller_student_new2 extends Controller
 
     public function get_from_ass_tran_lesson_info(){
         $this->switch_tongji_database();
-        list($start_time,$end_time )=$this->get_in_date_range(0,0,0,[],1);
+        list($start_time,$end_time )=$this->get_in_date_range(0,0,0,[],3);
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid);

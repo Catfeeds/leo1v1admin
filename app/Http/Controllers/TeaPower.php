@@ -1490,9 +1490,9 @@ trait  TeaPower {
         if(in_array($teacher_info['teacher_type'],[32])){
             $update_arr['teacher_type']=0;
         }
-        if($teacher_info['level']==0){
-            $update_arr['level']=1;
-        }
+        // if($teacher_info['level']==0){
+        //     $update_arr['level']=1;
+        // }
         if($teacher_info['trial_lecture_is_pass']==0){
             $update_arr['trial_lecture_is_pass']=1;
         }

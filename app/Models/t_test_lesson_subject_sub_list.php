@@ -1017,7 +1017,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ."t.realname,tt.textbook,s.editionid,tss.success_flag,tss.fail_reason ,l.userid,"
                                   ."tss.fail_greater_4_hour_flag,tss.test_lesson_fail_flag,l.lessonid,l.teacherid, "
                                   ." tss.ass_test_lesson_order_fail_flag ,tss.ass_test_lesson_order_fail_desc,"
-                                  ." tss.order_confirm_flag,m.name "
+                                  ." tss.order_confirm_flag,m.name,o.orderid "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
@@ -1025,6 +1025,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." left join %s m on s.origin_assistantid = m.uid"
                                   ." left join %s a on a.phone = m.phone"
+                                  ." left join %s o on tss.lessonid = o.from_test_lesson_id and o.contract_status>0 and o.contract_type in (0,3)"
                                   ." where %s and tr.cur_require_adminid <> s.origin_assistantid order by l.lesson_start",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
@@ -1034,6 +1035,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
                                   t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);

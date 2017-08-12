@@ -1627,7 +1627,7 @@ class human_resource extends Controller
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             if(!empty($teacher_info)){
                 $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
-                // $this->check_teacher_lecture_is_pass($teacher_info);
+                $this->check_teacher_lecture_is_pass($teacher_info);
                 $ret = $this->set_teacher_grade($teacher_info,$check_info);
                 if(!$ret){
                     return $this->output_err("更新老师年级出错！请重试！");
@@ -2521,8 +2521,6 @@ class human_resource extends Controller
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
-
- 
             }
 
 
@@ -4053,7 +4051,7 @@ class human_resource extends Controller
             }
 
             $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
-                "wx_openid"=>""
+                "wx_openid"=>null
             ]);
 
             $add_info = [

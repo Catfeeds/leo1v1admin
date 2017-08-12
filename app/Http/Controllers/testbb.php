@@ -104,13 +104,14 @@ class testbb extends Controller
 
     public function get_rate(){
 
+        $this->switch_tongji_database();
         $time_arr = [
-            "0"=>strtotime('2017-01-01'),
-            "1"=>strtotime('2017-02-01'),
-            "2"=>strtotime('2017-03-01'),
-            "3"=>strtotime('2017-04-01'),
-            "4"=>strtotime('2017-05-01'),
-            "5"=>strtotime('2017-06-01'),
+            // "0"=>strtotime('2017-01-01'),
+            // "1"=>strtotime('2017-02-01'),
+            // "2"=>strtotime('2017-03-01'),
+            // "3"=>strtotime('2017-04-01'),
+            // "4"=>strtotime('2017-05-01'),
+            // "5"=>strtotime('2017-06-01'),
             "6"=>strtotime('2017-07-01'),
         ];
 
