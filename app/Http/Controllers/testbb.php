@@ -49,6 +49,9 @@ class testbb extends Controller
 
 
     public function test () {
+
+        // date('Y-m-d H:i:s');
+        dd(date('Y-m-d h:i:s'));
         $teacherid = $this->get_in_int_val('id');
         $start_time = 1501516800;
         $end_time = 1501516800 + 86400;

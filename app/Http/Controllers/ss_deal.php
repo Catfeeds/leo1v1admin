@@ -1450,12 +1450,12 @@ class ss_deal extends Controller
         $contract_from_type = $this->get_in_e_contract_from_type();
 
 
-        $sys_operator           = $this->get_account();
-        $userid= $this->get_in_userid();
-        $grade= $this->get_in_grade();
-        $subject= $this->get_in_subject();
-        $origin= $this->get_in_str_val("origin");
-        $from_test_lesson_id =0;
+        $sys_operator        = $this->get_account();
+        $userid              = $this->get_in_userid();
+        $grade               = $this->get_in_grade();
+        $subject             = $this->get_in_subject();
+        $origin              = $this->get_in_str_val("origin");
+        $from_test_lesson_id = 0;
         if ($require_id ) {
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
