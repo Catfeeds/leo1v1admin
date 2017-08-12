@@ -84,26 +84,27 @@ $(function(){
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
         }
+        //一下大段需优化！
         //追加设为封面函数set_poster
         var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
         //压入删除单张图片函数del_pic
         fun_str = fun_str + '<script> function del_pic(obj){ $(obj).parent().remove();}</script>';
         //压人图片上移函数
-        fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)-1; $(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); if ( id > 1) {$(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; var this_prev = $(obj).parent().prev(); $(this_prev).find("span").eq(1).attr("data_id",id); $(this_prev).find("span").eq(2).attr("data_id",id); $(this_prev).children("div:last-child").removeClass("order"+new_id); $(this_prev).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
+        fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)-1; if ( id > 1) {$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; var this_prev = $(obj).parent().prev(); $(this_prev).find("span").eq(1).attr("data_id",id); $(this_prev).find("span").eq(2).attr("data_id",id); $(this_prev).children("div:last-child").removeClass("order"+new_id); $(this_prev).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
 
         //压入图片下移函数
-        fun_str = fun_str + '<script> function set_down(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)+1; $(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); if ( id < 10) {$(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; var this_next = $(obj).parent().next(); $(this_next).find("span").eq(1).attr("data_id",id); $(this_next).find("span").eq(2).attr("data_id",id); $(this_next).children("div:last-child").removeClass("order"+id); $(this_next).children("div:last-child").addClass("order"+new_id); $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
+        fun_str = fun_str + '<script> function set_down(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)+1; var this_con  = "<div>"+$(obj).parent().html()+"</div>"; var this_next = $(obj).parent().next(); if ( $(this_next).find("span").eq(1).attr("data_id") ) {$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); $(this_next).find("span").eq(1).attr("data_id",id); $(this_next).find("span").eq(2).attr("data_id",id); $(this_next).children("div:last-child").removeClass("order"+id); $(this_next).children("div:last-child").addClass("order"+new_id); $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
         html_node.find("#id_container_add_tmp").after(fun_str);
         function set_up(obj){
             var id = $(obj).attr("data_id");
             var new_id = parseInt(id)-1;
-            $(obj).attr("data_id", new_id);
-            $(obj).next().attr("data_id", new_id);
+            var this_con  = "<div>"+$(obj).parent().html()+"</div>";
+            var this_prev = $(obj).parent().prev();
             if ( id > 1) {
+                $(obj).attr("data_id", new_id);
+                $(obj).next().attr("data_id", new_id);
                 $(obj).parent().children("div:last-child").removeClass("order"+id);
                 $(obj).parent().children("div:last-child").addClass("order"+new_id);
-                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
-                var this_prev = $(obj).parent().prev();
                 $(this_prev).find("span").eq(1).attr("data_id",id);
                 $(this_prev).find("span").eq(2).attr("data_id",id);
                 $(this_prev).children("div:last-child").removeClass("order"+new_id);
@@ -116,13 +117,13 @@ $(function(){
         function set_down(obj){
             var id = $(obj).attr("data_id");
             var new_id = parseInt(id)+1;
-            $(obj).attr("data_id", new_id);
-            $(obj).next().attr("data_id", new_id);
-            if ( id < 10) {
+            var this_con  = "<div>"+$(obj).parent().html()+"</div>";
+            var this_next = $(obj).parent().next();
+            if ( $(this_next).find("span").eq(1).attr("data_id") ) {
+                $(obj).attr("data_id", new_id);
+                $(obj).next().attr("data_id", new_id);
                 $(obj).parent().children("div:last-child").removeClass("order"+id);
                 $(obj).parent().children("div:last-child").addClass("order"+new_id);
-                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
-                var this_next = $(obj).parent().next();
                 $(this_next).find("span").eq(1).attr("data_id",id);
                 $(this_next).find("span").eq(2).attr("data_id",id);
                 $(this_next).children("div:last-child").removeClass("order"+id);

@@ -846,15 +846,15 @@ $(function(){
         //原价
         var $discount_price       = html_node.find(".field-discount_price");
         var $order_promotion_desc = html_node.find(".field-order_promotion_desc");
-        var $div_spec            = html_node.find( ".div-spec");
-        var $order_require_flag = html_node.find(".field-order_require_flag");
-        var $nick = html_node.find(".field-nick");
-        var $grade= html_node.find(".field-grade");
-        var $phone= html_node.find(".field-phone");
-        var $subject= html_node.find(".field-subject");
-        var $lesson_count= html_node.find(".field-lesson_count");
-        var $competition_flag= html_node.find(".field-competition_flag");
-        var $pre_money= html_node.find(".field-pre-money");
+        var $div_spec             = html_node.find( ".div-spec");
+        var $order_require_flag   = html_node.find(".field-order_require_flag");
+        var $nick    = html_node.find(".field-nick");
+        var $grade   = html_node.find(".field-grade");
+        var $phone   = html_node.find(".field-phone");
+        var $subject = html_node.find(".field-subject");
+        var $lesson_count     = html_node.find(".field-lesson_count");
+        var $competition_flag = html_node.find(".field-competition_flag");
+        var $pre_money        = html_node.find(".field-pre-money");
 
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
