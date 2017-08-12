@@ -373,6 +373,22 @@ $(function(){
         });
     });
 
+    $(".opt-set-new-lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        
+        BootstrapDialog.confirm("确定要重新排课吗？", function(val){
+            if (val) {
+                $.do_ajax( '/user_deal/set_new_train_lesson', {
+                    'id' : id,
+                    'lessonid':opt_data.lessonid
+                });
+            } 
+        });
+            
+        
+
+    });
 
 	$('.opt-change').set_input_change_event(load_data);
 });

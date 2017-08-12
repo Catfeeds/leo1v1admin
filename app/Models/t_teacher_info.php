@@ -2698,7 +2698,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_new_add_num($item){
 
-        $end_time = strtotime("$item +1 month");
+        $n = date('Y-m-d',$item);
+        $end_time = strtotime( "$n +1 month");
 
 
         $sql = $this->gen_sql_new("select count(*) from %s  where train_through_new_time>$item and train_through_new_time<$end_time and is_test_user = 0",
@@ -2707,5 +2708,26 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_value($sql);
 
+    }
+
+
+    public function get_leveal_num($item){
+
+        $n = date('Y-m-d',$item);
+        $three_end     = strtotime( "$n +1 month");
+        $three_begin   = strtotime( "$n -2 month");
+        $where_arr = [
+            ["l.lesson_start>=%d",$three_begin],
+            ["l.lesson_end<%d",$three_end],
+            "t.is_test_user = 0"
+        ];
+        $sql = $this->gen_sql_new(" select sum(if(l.lessonid>0,0,1)) from %s t left join %s l on l.teacherid=t.teacherid".
+                                  " where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_value($sql);
     }
 }

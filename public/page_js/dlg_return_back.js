@@ -284,7 +284,7 @@ $(function(){
                                                         +"<div id=\"div_table\"><table class = \"table table-bordered table-striped\"  > "
                                                         +"<tr><td>回访路径</td><td>"+revisit_path+"</td></tr>"
                                                         +"<tr><td>回访对象</td><td>"+revisit_person+"</td></tr>"
-                                                        +"<tr><td>最近学习情况</td><td>"+recent_learn_info+"</td></tr>"
+                                                        +"<tr><td>其他情况说明</td><td>"+recent_learn_info+"</td></tr>"
                                                         +"<tr><td>复课时间</td><td>"+recover_time+"</td></tr>"
                                                         +"<tr><td>家长意见或建议</td><td>"+other_parent_info+"</td></tr>"
                                                         +"<tr><td>其他预警问题</td><td>"+other_warning_info+"</td></tr>"

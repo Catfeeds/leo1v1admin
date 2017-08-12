@@ -115,18 +115,22 @@ class testbb extends Controller
         ];
 
         $ret_num=[];
-        // dd($time_arr);
+
 
         foreach($time_arr as $item){
             $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
             $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
-
+            $ret_num['leveal'][] = $this->t_teacher_info->get_leveal_num($item);
         }
 
-        $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
+        foreach($ret_num as $i=>$item){
+            // $ret_num['has_num'] = $i
+        }
+        // $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
 
         // dd(strtotime("2017-01-01 +1 month"));
         // dd($end_time);
+
 
 
 

@@ -1761,12 +1761,22 @@ function init_edit() {
             "studentid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
-                var dlg = BootstrapDialog.show({
-                    title: "分享给家长-关注微信家长端 学生["+ opt_data.phone +":"+ opt_data.nick+ "]",
-                    message:
-                    $('<img src= "/seller_student_new/erweima?phone='+opt_data.phone+'"/>'),
-                    closable: true
-                });
+
+            $.do_ajax("/ajax_deal/check_parent_count_and_clean",{
+                "userid" : opt_data.userid
+            },function(resp){
+                if (resp.ret==0) {
+                    var dlg = BootstrapDialog.show({
+                        title: "分享给家长-关注微信家长端 学生["+ opt_data.phone +":"+ opt_data.nick+ "]",
+                        message:
+                        $('<img src= "/seller_student_new/erweima?phone='+opt_data.phone+'"/>'),
+                        closable: true
+                    });
+                }else{
+                    alert(resp.info);
+                }
+
+            });
                 //dlg.getModalDialog().css("width", "600px");
 
         });

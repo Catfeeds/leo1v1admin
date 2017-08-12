@@ -123,6 +123,48 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         return $this->main_get_list_by_page($sql,$page_num,10,true, "order by add_time ");
     }
 
+    public function tongji_get_admin_list_get_count($adminid,$start_time, $end_time){
+        $time=time(NULL);
+        $where_arr=[
+            "end_time>$time",
+            "start_time<$time",
+            ["adminid=%d",$adminid , -1],
+        ];
+        $sql=$this->gen_sql_new(
+            "select n.adminid, sum(get_time>0) as get_count "
+            ."from %s n "
+            ."left join %s nd on nd.new_count_id=n.new_count_id"
+            ." where %s  "
+            ."group  by adminid "
+            ,self::DB_TABLE_NAME ,
+            t_seller_new_count_get_detail::DB_TABLE_NAME,
+            $where_arr  );
+
+        return $this->main_get_list_as_page($sql);
+    }
+
+
+
+    public function tongji_get_admin_list_get_count($adminid,$start_time, $end_time){
+        $time=time(NULL);
+        $where_arr=[
+            ["adminid=%d",$adminid , -1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"get_time",$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select n.adminid, sum(get_time>0) as get_count "
+            ."from %s n "
+            ."left join %s nd on nd.new_count_id=n.new_count_id"
+            ." where %s  "
+            ."group  by adminid "
+            ,self::DB_TABLE_NAME ,
+            t_seller_new_count_get_detail::DB_TABLE_NAME,
+            $where_arr  );
+
+        return $this->main_get_list_as_page($sql);
+    }
+
+    public function get_admin_list_get_count_new($adminid_list  )   {
     public function get_admin_list_get_count($adminid){
         $time=time(NULL);
         $where_arr=[

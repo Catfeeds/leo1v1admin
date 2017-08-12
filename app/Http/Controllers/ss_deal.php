@@ -1479,8 +1479,6 @@ class ss_deal extends Controller
         $before_lesson_count=0;
         $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count);
 
-        
-
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
@@ -1513,6 +1511,10 @@ class ss_deal extends Controller
             }
         }
         $from_parent_order_lesson_count=0;
+        //8月营销活动
+        if(\App\Helper\Utils::check_env_is_local() || in_array($this->get_account(),["adrian","jim"])){
+            $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type);
+        }
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -5150,4 +5152,33 @@ class ss_deal extends Controller
         return $this->output_succ(["data"=>$data]);
     }
 
+    /**
+     * 2017-8-15至8-31号（以下订单时间为准）内下单用户且课时在90课时以上，可减300元
+     * 这些用户在2017-12-31前续费，可减500元
+     */
+    public function get_8_month_activity($userid,$price,$lesson_total,$contract_type){
+        $now = time();
+        $activity_start_time = strtotime("2017-8-11");
+        $activity_end_time   = strtotime("2017-9-1");
+        $activity_finish_time = strtotime("2017-12-31");
+
+        if($lesson_total>=9000){
+            if($contract_type==0){
+                if($now>$activity_start_time && $now<$activity_end_time ){
+                    $price -= 30000;
+                }
+            }elseif($contract_type==3){
+                if($now>$activity_start_time && $now<$activity_finish_time){
+                    $has_normal_order=$this->t_order_info->get_order_count(
+                        $userid,$activity_start_time,$activity_end_time,E\Econtract_type::V_0,1
+                    );
+                    if($has_normal_order==1){
+                        $price -= 50000;
+                    }
+                }
+            }
+        }
+
+        return $price;
+    }
 }

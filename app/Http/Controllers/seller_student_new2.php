@@ -441,6 +441,28 @@ class seller_student_new2 extends Controller
 
     }
 
+    public function tongji_seller_get_new_count(){
+        $adminid=$this->get_in_int_val("adminid",-1);
+        list($start_time, $end_time) = $this->get_in_date_range_month(0);
+        $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);
+        $admin_map=$this->t_seller_new_count->get_admin_list_count($adminid);
+
+        //seller_get_new_count_admin_list get_admin_list_count
+        foreach ($ret_info["list"] as  &$item ) {
+            $adminid=$item["adminid"];
+            $item["count"]=@$admin_map[$adminid]["count"];
+            $item["left_count"]= @$item["count"]-@$item["get_count"];
+            $this->cache_set_item_account_nick($item);
+        }
+
+        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info['list'],[],0, strtotime( date("Y-m-01", $start_time )   ));
+        foreach( $ret_info as &$item ) {
+            E\Emain_type::set_item_value_str($item);
+        }
+
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info( $ret_info ));
+    }
+
     public function seller_get_new_count_admin_list(){
         $adminid=$this->get_in_int_val("adminid",-1);
         $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);

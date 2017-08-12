@@ -4,7 +4,6 @@ use \App\Models\Zgen as Z;
 use \App\Enums as E;
 
 /**
-
  * @property t_manager_info  $t_manager_info
  * @property t_student_info  $t_student_info
  * @property t_seller_student_new $t_seller_student_new
@@ -527,16 +526,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         });
     }
 
-    public function get_order_count($userid){
-        $sql=$this->gen_sql("select count(orderid) "
-                            ." from %s"
-                            ." where userid=%u"
-                            ." and contract_type in (0,1,3)"
-                            ,self::DB_TABLE_NAME
-                            ,$userid
+    public function get_order_count($userid,$start_time=0,$end_time=0,$contract_type="0,1,3",$pay_order=-1){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            ["order_time>%u",$start_time,0],
+            ["order_time<%u",$end_time,0],
+            ["contract_type in (%s)",$contract_type,""],
+        ];
+        if($pay_order>0){
+            $where_arr[] = " contract_status>0 ";
+        }
+
+        $sql = $this->gen_sql_new("select count(orderid) "
+                                  ." from %s"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }
+
     public function add_new_order_seller_new_user_count($sys_operator,$start_time,$end_time){
         $min_start_time=strtotime("2016-12-01");
         if ($start_time<$min_start_time) {
@@ -2596,6 +2605,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_parent_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
-
     }
+
+
 }

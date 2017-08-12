@@ -297,7 +297,8 @@ class tea_manage extends Controller
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
                 $item["lesson_user_online_status"]
             );
-            $item["room_name"]=\App\Helper\Utils::gen_roomid_name($item["lesson_type"], $item["courseid"], $item["lesson_num"] );
+            $item["lesson_del_flag_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_del_flag"]);
+            $item["room_name"] = \App\Helper\Utils::gen_roomid_name($item["lesson_type"],$item["courseid"],$item["lesson_num"]);
 
             if ($item["test_lesson_origin"]) {
                 $item["origin"]= $item["test_lesson_origin"];
@@ -332,7 +333,6 @@ class tea_manage extends Controller
                 }
             }
             $item['lesson_deduct']=trim($item['lesson_deduct'],"|");
-            E\Eboolean::set_item_value_str($item,"lesson_del_flag");
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Esuccess_flag::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item, "test_confirm_time","_str");

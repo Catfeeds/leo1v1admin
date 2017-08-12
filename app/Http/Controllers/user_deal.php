@@ -2607,6 +2607,13 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
+        $this->switch_tongji_database();
+        $ret = $this->t_student_info->get_stu_order_num_info();
+        foreach($ret as &$item){
+            E\Egrade::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__,$ret);
+        dd($ret);
         $start_time = strtotime("2017-06-01");
         $ret = $this->t_teacher_record_list->get_teacher_first_record($start_time);
         foreach($ret as $val){
@@ -5319,6 +5326,21 @@ class user_deal extends Controller
         $this->t_teacher_record_list->field_update_list($id,["acc"=>""]);
         return $this->output_succ();
         
+    }
+
+    public function set_new_train_lesson(){
+        $id = $this->get_in_int_val("id");
+        $lessonid = $this->get_in_int_val("lessonid");
+        $this->t_lesson_info->field_update_list($lessonid,[
+            "lesson_del_flag"  =>1
+        ]);
+        $this->t_teacher_record_list->row_delete($id);
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+        $this->add_trial_train_lesson($teacher_info,1);
+
+        return $this->output_succ();
+
     }
 
 }
