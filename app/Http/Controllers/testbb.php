@@ -103,7 +103,24 @@ class testbb extends Controller
 
 
     public function get_rate(){
-        // $ret = "  "
+
+        $time_arr = [
+            "time"=>strtotime('2017-01-01'),
+            "time"=>strtotime('2017-01-02'),
+            "time"=>strtotime('2017-01-03'),
+            "time"=>strtotime('2017-01-04'),
+            "time"=>strtotime('2017-01-05'),
+            "time"=>strtotime('2017-01-06'),
+            "time"=>strtotime('2017-01-07'),
+        ];
+
+        dd($time_arr);
+
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 4月
+
     }
 
 

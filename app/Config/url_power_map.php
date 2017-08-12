@@ -18,7 +18,7 @@ class url_power_map {
 			'/agent/agent_order_list'	=>1010908,
 			'/agent/agent_cash_list'	=>1010911,
 			'/agent/agent_list_new'	=>1010912,
-			'/seller_student_new2/test_lesson_plan_list_new'	=>1010913,
+			'/agent/check'	=>1010913,
 			'/t_yxyx_test_pic_info/get_all_info'	=>1010967,
 			'/seller_student_new/assign_sub_adminid_list'	=>1150100,
 			'/seller_student_new/assign_member_list'	=>1150200,
