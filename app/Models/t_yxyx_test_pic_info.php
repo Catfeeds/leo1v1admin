@@ -72,4 +72,50 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
 
     }
 
+    public function get_other_info($id_str, $create_time) {
+        $where_arr = [
+            ['id in %s', $id_str, 1],
+            "create_time<$create_time",
+        ];
+        $sql = $this->gen_sql_new("select id, test_title, poster"
+                                  ." from %s"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_id_poster( $id=0){
+        $where_arr = [
+            ['id!=%s', $id, 0],
+        ];
+        $sql = $this->gen_sql_new("select id, poster"
+                                  ." from %s"
+                                  ." where %s"
+                                  , self::DB_TABLE_NAME
+                                  , $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_all_for_wx($grade, $subject, $test_type, $page_info, $parentid){
+        $where_arr = [
+            ['y.grade=%u', $grade , -1],
+            ['y.subject=%u', $subject , -1],
+            ['y.test_type=%u', $test_type , -1],
+        ];
+        $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
+                                    ." from %s y "
+                                    ." left join %s tv on y.id=tv.test_pic_info_id and tv.parentid={$parentid}"
+                                    ." where %s"
+                                    ,self::DB_TABLE_NAME
+                                    ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
+                                    ,$where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_info);
+
+    }
+
+
 }

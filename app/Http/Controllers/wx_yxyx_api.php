@@ -26,8 +26,8 @@ class wx_yxyx_api extends Controller
     public function __construct() {
         parent::__construct();
         if (! $this->get_agent_id()){
-            echo $this->output_err("未登录");
-            exit;
+            // echo $this->output_err("未登录");
+            // exit;
         }
     }
 
@@ -569,62 +569,73 @@ class wx_yxyx_api extends Controller
         return $data;
     }
 
-    public function get_wx_yxyx_js_config(){
-        $agent_id = $this->get_agent_id();
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        $ref = $this->get_in_str_val("ref");
-        $signature_str = $this->get_signature_str($ref);
-        $config = [
-            'debug' => 'false',
-            'appId' => 'wxb4f28794ec117af0', // 必填，公众号的唯一标识
-            'timestamp' => '1501516800', // 必填，生成签名的时间戳(随意值)
-            'nonceStr'  => 'leo456', // 必填，生成签名的随机串(随意值)
-            'signature' => $signature_str,// 必填，签名
-            'jsApiList' => [
-                "checkJsApi",
-                "chooseImage",
-                "previewImage",
-                "uploadImage",
-                "downloadImage",
-                "getLocalImgData",
-            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        ];
-        return $this->output_succ($config);
-    }
-
-/**
-     *老师端微信上传图片
-    **/
-    public function get_signature_str( $ref, $appid_yxyx= 'wxb4f28794ec117af0', $appscript_yxyx= '4a4bc7c543698b8ac499e5c72c22f242' ){
-        $token = $this->get_wx_token_jssdk($appid_yxyx, $appscript_yxyx);
-        $key_arr     = "wx_yxyx_jssdk_arr_$appid_yxyx";
-        $key_str     = "wx_yxyx_jssdk_str_$appid_yxyx";
-        $ret_arr = \App\Helper\Common::redis_get_json($key_arr);
-        $now     = time(NULL);
-        if (!$ret_arr || !isset($ret_arr["ticket"])  ||  $ret_arr["get_time"]+7000 <  $now ) {
-            $jssdk    = $this->get_wx_jsapi_ticket($token);
-            $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
-            $ret_arr["get_time"] = time(NULL);
-            \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
+    public function get_all_test_pic(){
+        //title,date,用户未读取标志（14天内），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        $page_info = $this->get_in_page_info();
+        // $parentid  = $this->get_parentid();
+        $parentid  = 44;
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $parentid);
+        foreach ($ret_info['list'] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        $jsapi_ticket = $ret_arr["ticket"];
-        $ref= $ref?$ref:$_SERVER['HTTP_REFERER'];
-        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo456&timestamp=1501516800"
-                   . "&url=$ref" ;
-        \App\Helper\Utils::logger( "signature:$signature" );
-
-        $signature_str = sha1($signature);
-        return $signature_str;
+        //获取十张海报
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster();
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        while ( $loop_num < 10) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        // dd($ret_info);
+        return $this->output_succ([
+            ['list'=>$ret_info],
+            ['poster'=>$poster_arr],
+        ]);
     }
 
-    public function get_wx_token_jssdk($appid_yxyx = 'wxb4f28794ec117af0', $appscript_yxyx= '4a4bc7c543698b8ac499e5c72c22f242' ){
-        $wx  = new \App\Helper\Wx();
-        return $wx->get_wx_token($appid_yxyx,$appscript_yxyx);
-    }
-
-    public function get_wx_jsapi_ticket($token){
-        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi ");
-        return $json_jssdk_data;
+    public function get_one_test_and_other() {
+        //title,poster(当天之前的)
+        $id = $this->get_in_int_val('id',-1);
+        if ($id < 0){
+            return $this->output_err('信息有误！');
+        }
+        $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
+        \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
+        E\Egrade::set_item_value_str($ret_info,"grade");
+        E\Esubject::set_item_value_str($ret_info,"subject");
+        E\Etest_type::set_item_value_str($ret_info,"test_type");
+        $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
+        unset($ret_info['pic']);
+        //获取所有id，随机选取三个
+        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id);
+        $count_num = count($all_id)-1;
+        $id_arr    = [];
+        $num_arr   = [];
+        $loop_num  = 0;
+        while ( $loop_num < 3) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[] = $key;
+                $id_arr[]  = $all_id[$key]['id'];
+                $loop_num++;
+            }
+        }
+        $id_str = '('.join($id_arr,',').')';
+        $create_time = strtotime('today');
+        $other_info = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+        return $this->output_succ([
+            ['list' => $ret_info],
+            ['other'=>$other_info],
+        ]);
     }
 
 }
