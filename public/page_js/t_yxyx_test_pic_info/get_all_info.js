@@ -252,6 +252,7 @@ $(function(){
     });
     //多次添加图片
     function add_next_pic(html_node) {
+        pic_num++;
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
