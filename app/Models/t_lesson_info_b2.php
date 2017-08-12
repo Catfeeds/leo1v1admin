@@ -2164,7 +2164,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid){
+    public function get_lesson_row_info($teacherid,$lesson_type,$num,$userid=-1){
         $where_arr = [
             ["teacherid= %u",$teacherid,-1],
             ["userid= %u",$userid,-1],
