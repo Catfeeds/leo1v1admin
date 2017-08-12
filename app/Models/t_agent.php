@@ -397,7 +397,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_level2_pp_price_by_phone($phone){
         $where_arr = [
-            ['a3.phone = %s',$phone],
+            ['a3.phone = "%s"',$phone],
             ['o.order_status = %d',1],
             ['o.is_new_stu = %d',1],
             ['o.contract_type = %d',0],
@@ -425,14 +425,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
-            // ['a.parentid = %s ',$id],
+            ['a.parentid = %s ',$id],
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
-            "s.origin = '优学优享'",
+            // "s.origin = '优学优享'",
         ];
 
         $sql= $this->gen_sql_new(

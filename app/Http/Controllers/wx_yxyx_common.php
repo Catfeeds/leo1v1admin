@@ -253,7 +253,7 @@ class wx_yxyx_common extends Controller
     }
 
     public function get_wx_jsapi_ticket($token){
-        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi ");
+        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi");
         return $json_jssdk_data;
     }
 
