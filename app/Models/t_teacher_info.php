@@ -2715,13 +2715,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_leveal_num($item){
 
         $n = date('Y-m-d',$item);
-        $three_end     = strtotime( "$n +1 month");
-        $three_begin   = strtotime( "$n -2 month");
+        $three_end     = 1501516800;
+        $three_begin   = 1483200000;
         $where_arr = [
             "t.train_through_new =1",
             "t.is_test_user = 0",
-            "create_time <$three_begin",
-            "t.test_quit =0"
+            // "create_time <$three_begin",
+            // "t.test_quit =0"
         ];
         $sql = $this->gen_sql_new(" select t.teacherid,count(l.lessonid) num from %s t left join %s l on l.teacherid=t.teacherid and l.lesson_start>=$three_begin and l.lesson_end<$three_end  ".
                                   " where %s group by t.teacherid having(num=0) ",
@@ -2729,7 +2729,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        return $sql;
+        // return $sql;
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });

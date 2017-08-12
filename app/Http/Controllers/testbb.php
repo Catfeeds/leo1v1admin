@@ -104,7 +104,7 @@ class testbb extends Controller
 
     public function get_rate(){
 
-        // $this->switch_tongji_database();
+        $this->switch_tongji_database();
         $time_arr = [
             "0"=>strtotime('2017-01-01'),
             // "1"=>strtotime('2017-02-01'),
@@ -118,11 +118,11 @@ class testbb extends Controller
         $ret_num=[];
 
 
-        foreach($time_arr as $item){
+        // foreach($time_arr as $item){
             // $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
             // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
             $ret_num = $this->t_teacher_info->get_leveal_num($item);
-        }
+        // }
 
         dd($ret_num);
         // dd(count($ret_num));
