@@ -145,7 +145,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
 
 
 
-    public function tongji_get_admin_list_get_count($adminid,$start_time, $end_time){
+    public function tongji_get_admin_list_get_count_new($adminid,$start_time, $end_time){
         $time=time(NULL);
         $where_arr=[
             ["adminid=%d",$adminid , -1],
@@ -164,7 +164,6 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
         return $this->main_get_list_as_page($sql);
     }
 
-    public function get_admin_list_get_count_new($adminid_list  )   {
     public function get_admin_list_get_count($adminid){
         $time=time(NULL);
         $where_arr=[
