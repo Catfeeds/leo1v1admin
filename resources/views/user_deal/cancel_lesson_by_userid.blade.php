@@ -30,12 +30,11 @@
         <table     class="common-table"  > 
             <thead >
                 <tr>
-                    <td>teacherid</td>
-                    <td>老师</td>
-                    <td>入职时长</td>
-                    <td>科目</td>
+                    <td>学生</td>
+                    <td>电话</td>
                     <td>年级</td>
-                    <td>课时</td>
+                    <td>合同个数</td>
+                    <td>助教</td>
                                                                     
                     <td>操作 </td>
                 </tr>
@@ -43,18 +42,11 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $k=>$var )
                     <tr>                      
-                        <td>{{@$var["teacherid"]}} </td>
-                        <td>{{@$var["realname"]}}</td>
-                        <td>{{@$var["work_day"]}}</td>
-                        <td>{{@$var["subject_str"]}}</td>
-                        <td>
-                            @if(@$var["grade_start"]>0)
-                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
-                            @else
-                                {{@$var["grade_part_ex_str"]}}
-                            @endif
-                        </td>
-                        <td>{{@$var["lesson_count"]/100}}</td>
+                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["phone"]}}</td>
+                        <td>{{@$var["grade"]}}</td>
+                        <td>{{@$var["num"]}}</td>
+                        <td>{{@$var["ass_nick"]}}</td>
                        
                        
                                         

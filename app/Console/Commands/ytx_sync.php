@@ -115,7 +115,7 @@ class ytx_sync extends cmd_base
                         $userid=$this->task->t_phone_to_user->get_userid_by_phone($phone,E\Erole::V_STUDENT );
                         if ( $userid ) {
 
-                            $this->task->t_revisit_info->add_revisit_record($userid, $revisit_time,"" ,"" , $sys_operator, "电话录音",3,  $id);
+                            $this->task->t_revisit_info->add_revisit_record($userid, $revisit_time,"" ,"" , $sys_operator, "电话录音",6,  $id);
                             //$this->task->t_student_info->set_ass_revisit_last_week_time($userid, $revisit_time);
                         }
                     }

@@ -104,38 +104,52 @@ class testbb extends Controller
 
     public function get_rate(){
 
+        $this->switch_tongji_database();
         $time_arr = [
             "0"=>strtotime('2017-01-01'),
-            "1"=>strtotime('2017-02-01'),
-            "2"=>strtotime('2017-03-01'),
-            "3"=>strtotime('2017-04-01'),
-            "4"=>strtotime('2017-05-01'),
-            "5"=>strtotime('2017-06-01'),
-            "6"=>strtotime('2017-07-01'),
+            // "1"=>strtotime('2017-02-01'),
+            // "2"=>strtotime('2017-03-01'),
+            // "3"=>strtotime('2017-04-01'),
+            // "4"=>strtotime('2017-05-01'),
+            // "5"=>strtotime('2017-06-01'),
+            // "6"=>strtotime('2017-07-01'),
         ];
 
         $ret_num=[];
-        // dd($time_arr);
 
-        foreach($time_arr as $item){
-            $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
-            $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
 
+        // foreach($time_arr as $item){
+            // $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
+            // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
+            $ret_num = $this->t_teacher_info->get_leveal_num($item);
+        // }
+
+        dd($ret_num);
+        // dd(count($ret_num));
+
+        foreach($ret_num as $i=>$item){
+            $this->t_teacher_info->field_update_list($item['teacherid'],[
+                "test_quit"=>1
+            ]);
         }
-
-        $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
+        // $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
 
         // dd(strtotime("2017-01-01 +1 month"));
         // dd($end_time);
 
+        /**
+        $sql = $this->gen_sql_new("
+        select sum(if(l.lessonid>0,0,1)) from %s t left join %s l on l.teacherid=t.teacherid  where l.lesson_start> 
+
+**/
+
+        /***
+
+            
+         **/
 
 
         dd($ret_num);
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 4月
-
     }
 
 

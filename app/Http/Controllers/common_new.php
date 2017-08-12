@@ -287,6 +287,17 @@ class common_new extends Controller
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);
         if($ret){
+            // $teacher_info['phone']         = $phone;
+            // $teacher_info['send_sms_flag'] = 0;
+            // $teacher_info['wx_use_flag']   = 0;
+            // $check_time = strtotime("2017-8-15");
+            // if(time()>$check_time){
+            //     $teacher_info['use_easy_pass'] = 2;
+            // }else{
+            //     $teacher_info['use_easy_pass'] = 1;
+            // }
+            // $data = $this->add_teacher_common($teacher_info);
+
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($email!=""){
                 if($full_time==1){
@@ -297,6 +308,7 @@ class common_new extends Controller
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             }
+
 
             if($reference != ""){
                 /**
@@ -339,19 +351,6 @@ class common_new extends Controller
         }
 
         return $this->output_succ();
-    }
-
-    public function send_email_for_8(){
-        $start_time = strtotime("2017-6-10");
-        $end_time   = strtotime("2017-8-3");
-
-        $list = $this->t_teacher_lecture_appointment_info->get_email_list($start_time,$end_time);
-        echo count($list);exit;
-
-        $title = "【理优1对1】试讲邀请和安排";
-        $html  = $this->get_email_html(0,0,0,0,"");
-        $job   = new \App\Jobs\SendCommonEmail($list,$title,$html);
-        dispatch($job);
     }
 
     public function get_email_html($subject=0,$grade_start=0,$grade_end=0,$grade=0,$name=""){

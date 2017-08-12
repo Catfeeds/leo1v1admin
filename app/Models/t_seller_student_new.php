@@ -631,6 +631,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
+                "admin_assignerid"  => $self_adminid,
                 "admin_revisiterid"  => $opt_adminid,
                 "admin_assign_time"  => $now,
                 "sub_assign_adminid_2"  => $up_adminid,
