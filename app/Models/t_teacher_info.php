@@ -2715,7 +2715,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $n = date('Y-m-d',$item);
         $three_end     = strtotime( "$n +1 month");
-        
+
         // $three_begin   = strtotime( "$n -2 month");
         $where_arr = [
             ["l.lesson_start>=%d",$item],
