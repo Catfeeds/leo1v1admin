@@ -118,12 +118,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $lessonid= $this->t_lesson_info_b2->get_test_lessonid_new();
-        $lessonid_arr = array_column($lessonid,'lessonid');
-        // dd($lessonid_arr);
-        $lessonid_str = implode(',',$lessonid_arr);
-        // dd($lessonid_str);
-        $ret = $this->t_test_lesson_subject_require->get_plan_list_new($lessonid_str);
+        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
         dd($ret);
         $agent_id = 85;
         $agent = $this->t_agent->get_agent_info_by_id($agent_id);

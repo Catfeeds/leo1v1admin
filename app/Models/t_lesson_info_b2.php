@@ -3030,17 +3030,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_test_lessonid_new(){
-        $sql =
-                                                       "select lessonid"
-                                                       ." from db_weiyi.t_lesson_info"
-                                                       ." where"
-                                                       ." lesson_start>=1498838400"
-                                                       ." and lesson_end<1501516800"
-                                                       ." order by lesson_start asc";
-        return $this->main_get_list($sql);
-    }
-
 
         public function get_teacher_test_lesson_order_info_new($start_time,$end_time,$adminid){
         $where_arr=[
