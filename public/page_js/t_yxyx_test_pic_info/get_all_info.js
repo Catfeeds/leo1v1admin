@@ -104,9 +104,8 @@ $(function(){
                                              } else {
                                                  html_node.find(".update_header_img").html(pic_img);
                                                  html_node.find(".update_pic").html(pic_url);
-                                                 pic_num++;
                                              }
-                                             add_next_pic(html_node, opt_type);
+                                             add_next_pic(html_node);
                                          });
                 }
             },
@@ -252,10 +251,7 @@ $(function(){
         });
     });
     //多次添加图片
-    function add_next_pic(html_node, opt_type) {
-        if (opt_type != "update") {
-            pic_num++;
-        }
+    function add_next_pic(html_node) {
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
@@ -273,7 +269,7 @@ $(function(){
                                      $(".add_header_img"+pic_num).html(pic_img);
                                      $(".add_pic"+pic_num).html(pic_url);
                                      html_node = html_node+new_header_img+new_pic;
-                                     add_next_pic(html_node, opt_type);
+                                     add_next_pic(html_node);
                                  });
         }
     }
