@@ -38,7 +38,6 @@ class order_price_20170701 extends order_price_base
         }
 
         $present_lesson_count=0;
-
         $check_lesson_count= $lesson_count  + $before_lesson_count;
 
         if ($grade<=106) {
@@ -105,10 +104,8 @@ class order_price_20170701 extends order_price_base
                     $present_lesson_count+=3;
                 }
             }
-            $price= $old_price ;
-
+            $price = $old_price ;
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-
             $per_price = static::get_value_from_config($discount_config, $check_lesson_count,1000 )/3;
             $price=$per_price*$lesson_count;
         }

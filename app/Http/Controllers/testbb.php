@@ -115,11 +115,14 @@ class testbb extends Controller
         ];
 
         $ret_num=[];
-        dd($time_arr);
+        // dd($time_arr);
 
         foreach($time_arr as $item){
-            $ret_num = $this->t_teacher_info->get_chaxun_num($item);
+            $ret_num[] = $this->t_teacher_info->get_chaxun_num($item);
         }
+
+
+        dd($ret_num);
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
