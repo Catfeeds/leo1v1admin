@@ -380,7 +380,7 @@ trait  TeaPower {
             if($adminid==793){
                 $tea_subject="(5)";
             }elseif($adminid==770){
-                $tea_subject="(4)";
+                $tea_subject="(4,6)";
             }else{
                 $master_adminid = $this->t_admin_main_group_name->get_master_adminid_list($account_role);
                 if(in_array($adminid,$master_adminid)){

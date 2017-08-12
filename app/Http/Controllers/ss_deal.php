@@ -1484,8 +1484,8 @@ class ss_deal extends Controller
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
-        $promotion_spec_discount= $this->get_in_int_val("promotion_spec_discount");
-        $promotion_spec_present_lesson= $this->get_in_int_val("promotion_spec_present_lesson");
+        $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
+        $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
 
         if( $order_require_flag) {
             if(!$promotion_spec_present_lesson)  {
@@ -1495,8 +1495,8 @@ class ss_deal extends Controller
                 $promotion_spec_discount= $promotion_discount_price;
             }
         }else{
-            $promotion_spec_present_lesson= $promotion_present_lesson;
-            $promotion_spec_discount= $promotion_discount_price;
+            $promotion_spec_present_lesson = $promotion_present_lesson;
+            $promotion_spec_discount       = $promotion_discount_price;
         }
         //最后价格
         $price=$promotion_spec_discount;

@@ -2082,7 +2082,15 @@ class tea_manage extends Controller
     }
 
     public function trial_train_no_pass_list(){
+        $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2); 
+        $subject = $this->get_in_int_val("subject",-1);
+        $absenteeism_flag = $this->get_in_int_val("absenteeism_flag",0);
+        $is_test_user = $this->get_in_int_val("is_test_user",0);
+        $ret_info = $this->t_lesson_info_b2->get_trial_train_no_pass_list($page_info,$start_time,$end_time,$subject,$is_test_user,$absenteeism_flag);
+        dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info);
+
     }
 
     public function set_teacher_record_account(){
