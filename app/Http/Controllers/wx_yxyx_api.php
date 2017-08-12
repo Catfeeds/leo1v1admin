@@ -47,8 +47,9 @@ class wx_yxyx_api extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
+        $userid= $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        $student_info = $this->t_student_info->field_get_list($userid,"*");
         $level      = 0;
         $pay        = 0;
         $cash       = 0;

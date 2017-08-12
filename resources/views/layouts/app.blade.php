@@ -158,7 +158,7 @@
 
                                     <div class="pull-right" style="margin-bottom: 3px;">
 
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_self_menu_add">添加到收藏</a>
+                                        <a href="#" class="btn btn-primary btn-flat" id="id_self_menu_add">添加本页到收藏</a>
                                         <a href="/self_manage/self_menu_list" class="btn btn-primary btn-flat" >收藏列表</a>
                                     </div>
 

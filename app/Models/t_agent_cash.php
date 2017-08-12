@@ -32,7 +32,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 
     public function get_cash_by_phone($phone){
         $where_arr = [
-            ['a.phone = %s',$phone],
+            ['a.phone = "%s"',$phone],
         ];
         $sql = $this->gen_sql_new(
             "select sum(ac.cash) have_cash "

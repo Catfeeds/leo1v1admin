@@ -237,6 +237,7 @@ class self_manage extends Controller
             return $this->output_err("已经存在：".$row["title"]);
         }
         $this->t_admin_self_menu->add($adminid,$title,$url,$icon);
+        (new login() )->reset_power($this->get_account() );
         return $this->output_succ();
     }
 
