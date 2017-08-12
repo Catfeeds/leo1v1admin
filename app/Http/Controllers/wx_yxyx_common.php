@@ -119,10 +119,7 @@ class wx_yxyx_common extends Controller
                 $id = $agent_info['id'];
             }else{
                 $userid = null;
-                $userid_new = $this->t_student_info->get_row_by_phone($phone);
-                if($userid_new['userid']){
-                    $userid = $userid_new['userid'];
-                }
+                $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
                 $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
@@ -184,10 +181,7 @@ class wx_yxyx_common extends Controller
             $parentid = 0;
         }
         $userid = null;
-        $userid_new = $this->t_student_info->get_row_by_phone($phone);
-        if($userid_new['userid']){
-            $userid = $userid_new['userid'];
-        }
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($type == 1){
             $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);

@@ -8,6 +8,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
+    public function get_agent_list(){
+        $where_arr = [
+            // 'userid =0',
+            // 'type =0',
+        ];
+        $sql=$this->gen_sql_new (" select *"
+                                 ." from %s "
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
+
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
     {
         $where_arr = array();
@@ -52,11 +67,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           '',//test_lesson_count  type=15
           '',//succ_test_lesson_count   type=16
           type = 14
-          select s.origin as check_value  , count(*) as require_count 
-          from  db_weiyi.t_test_lesson_subject_require  tr 
-          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id 
-          join  db_weiyi.t_student_info  s on t.userid= s.userid  
-          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid  
+          select s.origin as check_value  , count(*) as require_count
+          from  db_weiyi.t_test_lesson_subject_require  tr
+          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id
+          join  db_weiyi.t_student_info  s on t.userid= s.userid
+          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid
           where accept_flag =1 and is_test_user=0
           and require_admin_type =2
           and require_time>=1501516800
@@ -576,7 +591,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-    
+
     public function get_p_pp_id_by_phone($phone){
         $where_arr = [
             ['a.phone = %s',$phone],
