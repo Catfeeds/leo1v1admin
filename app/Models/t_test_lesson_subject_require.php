@@ -270,7 +270,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
     }
 
     //试听课拉数据
-    public function get_plan_list_new($lessonid_str){
+    public function get_plan_list_new(){
         $sql =
             "select"
             ." tr.test_stu_grade grade,tr.cur_require_adminid,tr.require_time,"
@@ -280,19 +280,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"
             ." left join db_weiyi.t_seller_student_new ss on t.userid = ss.userid"
             ." left join db_weiyi.t_student_info s on t.userid = s.userid"
-            // ." left join db_weiyi.t_test_lesson_subject_sub_list tss on  tr.current_lessonid = tss.lessonid"
-            // ." left join db_weiyi.t_lesson_info l on tss.lessonid = l.lessonid"
-            ." left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid"
+            ." left join db_weiyi.t_test_lesson_subject_sub_list tss on  tr.current_lessonid = tss.lessonid"
+            ." left join db_weiyi.t_lesson_info l on tss.lessonid = l.lessonid"
             // ." left join db_weiyi.t_course_order c on  tss.lessonid = c.ass_from_test_lesson_id"
             // ." left join db_weiyi.t_teacher_cancel_lesson_list tc on tr.current_lessonid=tc.lessonid"
             ." where"
             ." s.is_test_user=0"
             ." and tr.accept_flag<>2"
-            // ." and lesson_start>=1498838400"
-            // ." and lesson_end<1501516800"
-            ." and l.lessonid in (".$lessonid_str.")"
-            ." order by lesson_start asc";
-            // ." limit 0,1000 ";
+            ." and lesson_start>=1498838400"
+            ." and lesson_end<1502294400"
+            ." order by lesson_start asc"
+            ." limit 0,1000 ";
         // dd($sql);
         return $this->main_get_list($sql);
     }
