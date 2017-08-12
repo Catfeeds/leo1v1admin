@@ -293,11 +293,8 @@ class login extends Controller
         $result = array_intersect($per_arr,$jiaoxue_part_arr);
 
         $account_id = $this->get_account_id();
-        if($account_id == 540){
-            $result = [];
-        }
 
-        if(!empty($result)){ // 教学管理事业部
+        if($main_department == 2 || $account_id == 684 || $account_id == 99){ // 教学管理事业部
             $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
         }
 
