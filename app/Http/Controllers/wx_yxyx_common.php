@@ -198,4 +198,65 @@ class wx_yxyx_common extends Controller
             return $this->output_err("数据请求异常!");
         }
     }
+
+    public function get_wx_yxyx_js_config(){
+        // $agent_id = $this->get_agent_id();
+        // $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        $ref = $this->get_in_str_val("ref");
+        $signature_str = $this->get_signature_str($ref);
+        $config = [
+            'debug' => 'false',
+            'appId' => 'wxb4f28794ec117af0', // 必填，公众号的唯一标识
+            'timestamp' => '1501516800', // 必填，生成签名的时间戳(随意值)
+            'nonceStr'  => 'leo456', // 必填，生成签名的随机串(随意值)
+            'signature' => $signature_str,// 必填，签名
+            'jsApiList' => [
+                "checkJsApi",
+                "chooseImage",
+                "previewImage",
+                "uploadImage",
+                "downloadImage",
+                "getLocalImgData",
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        ];
+        \App\Helper\Utils::logger('yxyx_sig:'.$signature_str);
+
+        return $this->output_succ($config);
+    }
+
+/**
+     *老师端微信上传图片
+    **/
+    public function get_signature_str( $ref, $appid_yxyx= 'wxb4f28794ec117af0', $appscript_yxyx= '4a4bc7c543698b8ac499e5c72c22f242' ){
+        $token = $this->get_wx_token_jssdk($appid_yxyx, $appscript_yxyx);
+        $key_arr     = "wx_yxyx_jssdk_arr_$appid_yxyx";
+        $key_str     = "wx_yxyx_jssdk_str_$appid_yxyx";
+        $ret_arr = \App\Helper\Common::redis_get_json($key_arr);
+        $now     = time(NULL);
+        if (!$ret_arr || !isset($ret_arr["ticket"])  ||  $ret_arr["get_time"]+7000 <  $now ) {
+            $jssdk    = $this->get_wx_jsapi_ticket($token);
+            $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
+            $ret_arr["get_time"] = time(NULL);
+            \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
+        }
+        $jsapi_ticket = $ret_arr["ticket"];
+        $ref= $ref?$ref:$_SERVER['HTTP_REFERER'];
+        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo456&timestamp=1501516800"
+                   . "&url=$ref" ;
+        \App\Helper\Utils::logger( "signature:$signature" );
+
+        $signature_str = sha1($signature);
+        return $signature_str;
+    }
+
+    public function get_wx_token_jssdk($appid_yxyx = 'wxb4f28794ec117af0', $appscript_yxyx= '4a4bc7c543698b8ac499e5c72c22f242' ){
+        $wx  = new \App\Helper\Wx();
+        return $wx->get_wx_token($appid_yxyx,$appscript_yxyx);
+    }
+
+    public function get_wx_jsapi_ticket($token){
+        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi ");
+        return $json_jssdk_data;
+    }
+
 }
