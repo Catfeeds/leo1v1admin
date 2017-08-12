@@ -33,11 +33,14 @@ class wx_yxyx_api extends Controller
 
     public function get_agent_id(){
         $agent_id= $this->get_in_int_val("_agent_id")?$this->get_in_int_val("_agent_id"):session("agent_id");
+        \App\Helper\Utils::logger('yxyx_yxyx_agent_id:'.$agent_id);
         return $agent_id;
     }
 
     public function get_user_info(){
         $agent_id   = $this->get_agent_id();
+        \App\Helper\Utils::logger('yxyx_yxyx_agent_id_new:'.$agent_id);
+
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
