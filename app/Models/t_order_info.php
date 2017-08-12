@@ -1279,21 +1279,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             'title'                  => $title,
             'default_lesson_count'   => $default_lesson_count,
             'origin'                 => $origin,
-            "price"                  => $price,
             "discount_reason"        => $discount_reason,
             "discount_price"         => $discount_price,
             "from_test_lesson_id"    => $from_test_lesson_id,
             "from_parent_order_type" => $from_parent_order_type,
             "parent_order_id"        => $parent_order_id,
 
-            "order_promotion_type" => $order_promotion_type,
-            "promotion_discount_price" => $promotion_discount_price,
-            "promotion_present_lesson" => $promotion_present_lesson,
-            "promotion_spec_discount" => $promotion_spec_discount,
-            "promotion_spec_present_lesson" => $promotion_spec_present_lesson,
-            "stu_from_type" => $contract_from_type,
+            "order_promotion_type"           => $order_promotion_type,
+            "promotion_discount_price"       => $promotion_discount_price,
+            "promotion_present_lesson"       => $promotion_present_lesson,
+            "promotion_spec_discount"        => $promotion_spec_discount,
+            "promotion_spec_present_lesson"  => $promotion_spec_present_lesson,
+            "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
-            "pre_price" => $pre_price,
+            "pre_price"                      => $pre_price,
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {

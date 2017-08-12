@@ -2607,7 +2607,26 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
-         $start_time = strtotime("2017-08-01");
+        $start_time = strtotime("2017-06-01");
+        $ret = $this->t_teacher_record_list->get_teacher_first_record($start_time);
+        foreach($ret as $val){
+            $data= $this->t_lesson_info_b2->get_lesson_row_info($val["teacherid"],2,0);
+            if($data){
+                $id = $this->t_teacher_record_list->check_lesson_record_exist($data["lessonid"],1,1);  
+                if($id>0){
+                    
+                }else{
+                    $this->t_teacher_record_list->field_update_list($val["id"],[
+                        "lesson_style"   =>1,
+                        "train_lessonid" =>$data["lessonid"],
+                        "lesson_invalid_flag"=>1,
+                        "userid" =>1
+                    ]);
+                }
+            }
+        }
+        dd($ret);
+
         $self_group_info = $this->t_group_user_month->get_group_info_by_adminid(-1 , 756,$start_time);
         dd($self_group_info);
         $group_default_money = $this->t_admin_group_month_time ->get_month_money(90, date("Y-m-d", $start_time )  );

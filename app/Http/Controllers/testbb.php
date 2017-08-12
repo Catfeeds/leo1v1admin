@@ -49,6 +49,9 @@ class testbb extends Controller
 
 
     public function test () {
+
+        // date('Y-m-d H:i:s');
+        dd(date('Y-m-d h:i:s'));
         $teacherid = $this->get_in_int_val('id');
         $start_time = 1501516800;
         $end_time = 1501516800 + 86400;
@@ -99,90 +102,41 @@ class testbb extends Controller
     }
 
 
+    public function get_rate(){
 
-    public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
-        $sum_field_list=[
-            "work_day",
-            "lesson_count",
-            "suc_count",
-            "lesson_per",
-            "order_count",
-            "order_per",
-            "all_price",
-            "money_per",
-            "tea_per",
-            "range"
-        ];
-        $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
-        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr ,"account desc");
-
-        $show_flag = $this->get_in_int_val("show_flag",0);
-
-        $lesson_money = $this->get_in_int_val("lesson_money",477);
-
-        $this->t_lesson_info->switch_tongji_database();
-
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
-
-        $ret_info = $this->t_lesson_info_b2->get_teacher_test_lesson_info_for_jy($start_time,$end_time);
-
-
-        // dd($ret_info);
-
-        foreach($ret_info["list"] as &$item){
-            $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
-            if($item["train_through_new_time"] !=0){
-                $item["work_day"] = ceil((time()-$item["train_through_new_time"])/86400);
-            }else{
-                $item["work_day"] ="";
-            }
-
-            $item["all_money"]  = $item["lesson_count"]*$lesson_money+$item["order_count"]*60+($item["suc_count"]-$item["order_count"])*30;
-            $item["money_per"] = !empty($item["all_money"])?round($item["all_price"]/$item["all_money"]/100,1):0;
-
-            $item["lesson_per"] = !empty($item["lesson_count"])?round($item["suc_count"]/$item["lesson_count"],4)*100:0;
-
-            if($show_flag==1){
-
-                $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($item['teacherid'],$start_time, $end_time);
-                $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
-                $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
-                $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
-            }
-
-        }
-
-
-        // dd($ret_info);
-
-        $num = count($ret_info["list"]);
-        if (!$order_in_db_flag) {
-            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
-        }
-
-        $all_item = [
-            "account" => "全部"
+        $time_arr = [
+            "0"=>strtotime('2017-01-01'),
+            "1"=>strtotime('2017-02-01'),
+            "2"=>strtotime('2017-03-01'),
+            "3"=>strtotime('2017-04-01'),
+            "4"=>strtotime('2017-05-01'),
+            "5"=>strtotime('2017-06-01'),
+            "6"=>strtotime('2017-07-01'),
         ];
 
-        \App\Helper\Utils::list_add_sum_item($ret_info["list"], $all_item,$sum_field_list);
+        $ret_num=[];
+        // dd($time_arr);
 
+        foreach($time_arr as $item){
+            $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
+            $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
 
-        foreach($ret_info["list"] as &$val){
-            if($val["account"]=="全部"){
-                $val["work_day"] = $num>0?ceil(@$val["work_day"]/$num):"";
-                $val["order_per"] = !empty($val["suc_count"])?round($val["order_count"]/$val["suc_count"],4)*100:0;
-                $val["lesson_per"] = !empty($val["lesson_count"])?round($val["suc_count"]/$val["lesson_count"],4)*100:0;
-                $val["all_money"]  = $val["lesson_count"]*$lesson_money+$val["order_count"]*60+($val["suc_count"]-$val["order_count"])*30;
-                $val["money_per"] = !empty($val["all_money"])?round($val["all_price"]/$val["all_money"]/100,1):0;
-                $val["tea_per"] = $val["range"]="";
-            }
         }
 
-        return $ret_info;
+        $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
+
+        // dd(strtotime("2017-01-01 +1 month"));
+        // dd($end_time);
+
+
+
+        dd($ret_num);
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
+        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 4月
+
     }
-
-
 
 
 

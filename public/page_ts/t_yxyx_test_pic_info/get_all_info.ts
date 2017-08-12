@@ -31,8 +31,7 @@ $(function(){
         load_data();
     });
 
-
-    var pic_num = 0;
+    var pic_num = 0;//初始化图片数量
     var do_add_or_update = function( opt_type, item ,id){
         pic_num = 0;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
@@ -49,7 +48,7 @@ $(function(){
         var html_node = $("<div></div>").html(html_txt);
         var pic_url = "";
         var pic_img = "";
-        var old_pic_num = "";
+        var old_pic_num = ""; //修改信息时，记录原来图片数量，判断是否添加图片及保证图片顺序正确
         if (opt_type=="update") {
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
@@ -61,7 +60,9 @@ $(function(){
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="btn btn-info" data_ip="'
-                        +item.pic_arr[i] +'">设为封面</span><span class="btn btn-danger" onclick="del_pic(this)" >删除</span>'
+                        +item.pic_arr[i] +'">设为封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)" ></span>'
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
                         +'<div class="add_header_img'+i+'"><img src="' +item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic'+i
                         +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div></div>';
@@ -69,8 +70,11 @@ $(function(){
                     old_pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="mark btn btn-info" data_ip="'
-                        +item.pic_arr[i] +'">封面</span><span class="btn btn-danger" onclick="del_pic(this)">'
-                        +'删除</span><div class="add_header_img"><img src="'+item.pic_arr[i]
+                        +item.pic_arr[i] +'">封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
+
+                        +'<div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div></div>';
                     pic_num++;
@@ -80,11 +84,53 @@ $(function(){
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
         }
+        //一下大段需优化！
         //追加设为封面函数set_poster
         var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
         //压入删除单张图片函数del_pic
         fun_str = fun_str + '<script> function del_pic(obj){ $(obj).parent().remove();}</script>';
+        //压人图片上移函数
+        fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)-1; var this_prev = $(obj).parent().prev(); if ( id > 1) {$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; $(this_prev).find("span").eq(2).attr("data_id",id); $(this_prev).find("span").eq(3).attr("data_id",id); $(this_prev).children("div:last-child").removeClass("order"+new_id); $(this_prev).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_prev).before(this_con);}} </script>'; 
+        //压入图片下移函数
+        fun_str = fun_str + '<script>  function set_down(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)+1; var this_next = $(obj).parent().next(); if ( $(this_next).find("span").eq(2).attr("data_id") ) {$(obj).attr("data_id", new_id); $(obj).prev().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; $(this_next).find("span").eq(2).attr("data_id",id); $(this_next).find("span").eq(3).attr("data_id",id); $(this_next).children("div:last-child").removeClass("order"+new_id); $(this_next).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
         html_node.find("#id_container_add_tmp").after(fun_str);
+        function set_up(obj){
+            var id = $(obj).attr("data_id");
+            var new_id = parseInt(id)-1;
+            var this_prev = $(obj).parent().prev();
+            if ( id > 1) {
+                $(obj).attr("data_id", new_id);
+                $(obj).next().attr("data_id", new_id);
+                $(obj).parent().children("div:last-child").removeClass("order"+id);
+                $(obj).parent().children("div:last-child").addClass("order"+new_id);
+                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
+                $(this_prev).find("span").eq(2).attr("data_id",id);
+                $(this_prev).find("span").eq(3).attr("data_id",id);
+                $(this_prev).children("div:last-child").removeClass("order"+new_id);
+                $(this_prev).children("div:last-child").addClass("order"+id);
+                $(obj).parent().remove();
+                $(this_prev).before(this_con);
+            }
+        }
+
+        function set_down(obj){
+            var id = $(obj).attr("data_id");
+            var new_id = parseInt(id)+1;
+            var this_next = $(obj).parent().next();
+            if ( $(this_next).find("span").eq(2).attr("data_id") ) {
+                $(obj).attr("data_id", new_id);
+                $(obj).prev().attr("data_id", new_id);
+                $(obj).parent().children("div:last-child").removeClass("order"+id);
+                $(obj).parent().children("div:last-child").addClass("order"+new_id);
+                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
+                $(this_next).find("span").eq(2).attr("data_id",id);
+                $(this_next).find("span").eq(3).attr("data_id",id);
+                $(this_next).children("div:last-child").removeClass("order"+new_id);
+                $(this_next).children("div:last-child").addClass("order"+id);
+                $(obj).parent().remove();
+                $(this_next).after(this_con);
+            }
+        }
 
 
         var title = "";
@@ -129,7 +175,7 @@ $(function(){
                         var test_des   = html_node.find(".add_test_des").val();
                         var test_type  = html_node.find(".add_test_type").val();
                         var test_title = html_node.find(".add_test_title").val();
-                        //add
+                        //创建新图片
                         if (pic_num >1 && old_pic_num <1 ) {
                             for (var i = 0; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
@@ -137,6 +183,7 @@ $(function(){
                                 }
                             }
                         }
+                        //修改信息
                         if (opt_type == "update") {
                             pic = '';
                             for (var i = 0; i < 11; i++) {
@@ -145,6 +192,7 @@ $(function(){
                                 }
                             }
                         }
+                        //修改信息时，新增图片
                         if ( opt_type == "update" && html_node.find(".update_pic").text() ){
                             pic = pic +'|'+ html_node.find(".update_pic").text();
                         }
@@ -156,6 +204,7 @@ $(function(){
                             }
                         }
 
+                        //修改封面图片
                         if(html_node.find('.real_poster').text()) {
                             poster = html_node.find('.real_poster').text();
                         }
@@ -270,8 +319,11 @@ $(function(){
     function add_next_pic(html_node) {
         pic_num++;
         $('#id_container_add_tmp').empty();
-        var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
+        var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num
+            +'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
+
         $('#id_container_add_tmp').append(new_input);
+        //不得超过10张
         if (pic_num < 10) {
             custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
                                  g_args.qiniu_upload_domain_url , true,

@@ -1265,7 +1265,6 @@ class ss_deal extends Controller
         $competition_flag =0;
 
         if ($from_parent_order_type==E\Efrom_parent_order_type::V_1){ //转介绍
-
             $origin_userid=$this->t_student_info->get_origin_userid($userid);
             if (!$origin_userid) {
                 return $this->output_err("没有找到对应的转介绍人");
@@ -1450,14 +1449,13 @@ class ss_deal extends Controller
         $seller_student_status         = $this->get_in_int_val("seller_student_status");
         $contract_from_type = $this->get_in_e_contract_from_type();
 
-
-        $sys_operator           = $this->get_account();
-        $userid= $this->get_in_userid();
-        $grade= $this->get_in_grade();
-        $subject= $this->get_in_subject();
-        $origin= $this->get_in_str_val("origin");
-        $from_test_lesson_id =0;
-        if ($require_id ) {
+        $sys_operator        = $this->get_account();
+        $userid              = $this->get_in_userid();
+        $grade               = $this->get_in_grade();
+        $subject             = $this->get_in_subject();
+        $origin              = $this->get_in_str_val("origin");
+        $from_test_lesson_id = 0;
+        if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
             $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"userid,grade,subject");
@@ -1466,17 +1464,14 @@ class ss_deal extends Controller
             $subject = $tt_item["subject"]*1;
             $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         }else{
-            $from_test_lesson_id=$this->t_test_lesson_subject_require->add_require_and_lessonid(
-                $this->get_account_id()
-                , $this->get_account() , $test_lesson_subject_id,$origin,$seller_student_status) ;
-
+            $from_test_lesson_id = $this->t_test_lesson_subject_require->add_require_and_lessonid(
+                $this->get_account_id(),$this->get_account(),$test_lesson_subject_id,$origin,$seller_student_status
+            );
         }
-
 
         $from_parent_order_type=0;
         $parent_order_id=0 ;
         $default_lesson_count=1;
-
         $order_price_type=\App\OrderPrice\order_price_base::$cur_order_price_type;
 
         $account = $this->get_account();
@@ -1484,11 +1479,13 @@ class ss_deal extends Controller
         $before_lesson_count=0;
         $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count);
 
+        
+
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
-        $promotion_spec_discount= $this->get_in_int_val("promotion_spec_discount");
-        $promotion_spec_present_lesson= $this->get_in_int_val("promotion_spec_present_lesson");
+        $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
+        $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
 
         if( $order_require_flag) {
             if(!$promotion_spec_present_lesson)  {
@@ -1498,8 +1495,8 @@ class ss_deal extends Controller
                 $promotion_spec_discount= $promotion_discount_price;
             }
         }else{
-            $promotion_spec_present_lesson= $promotion_present_lesson;
-            $promotion_spec_discount= $promotion_discount_price;
+            $promotion_spec_present_lesson = $promotion_present_lesson;
+            $promotion_spec_discount       = $promotion_discount_price;
         }
         //最后价格
         $price=$promotion_spec_discount;
@@ -1547,7 +1544,6 @@ class ss_deal extends Controller
         }
 
         return $this->output_succ();
-
     }
 
 
@@ -4480,9 +4476,6 @@ class ss_deal extends Controller
         $complaint_id     = $this->get_in_int_val('complaint_id');
         $assign_remarks   = $this->get_in_str_val('ass_remark');
         $accept_adminid   = $this->get_in_str_val('accept_adminid');
-        // $accept_adminid_nick = $this->get_in_str_val('accept_adminid_nick');
-
-        // $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
 
         $time_date        = date('Y-m-d H:i:s',time(NULL));
 
@@ -4561,14 +4554,14 @@ class ss_deal extends Controller
 
         $complaint_info = $this->t_complaint_info->get_complaint_info_by_id($complaint_id);
 
-        $add_time        = date('Y-m-d,h:i:s',$complaint_info["add_time"]);
+        $add_time        = date('Y-m-d,H:i:s',$complaint_info["add_time"]);
         $complaint_info_str  = $complaint_info['complaint_info'];
         $deal_info       = $complaint_info['deal_info'];
-        $deal_time_date  = date('Y-m-d h:i:s',$complaint_info['deal_time']);
+        $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
-        if ($ret) {
+        if ($ret) 
            $re = $this->t_complaint_info->field_update_list($complaint_id,[
                 "suggest_info"       => $suggest_info,
                 "complaint_state"    => $complaint_state
@@ -4592,7 +4585,7 @@ class ss_deal extends Controller
                     $first_qc = "家长投诉反馈通知";
                     $first_nick = "家长 $parent_nick ";
 
-                    $time_date = date('Y-m-d h:i:m',time(NULL));
+                    $time_date = date('Y-m-d H:i:m',time(NULL));
                     $template_id = "8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I";//投诉结果通知
                     $data_msg = [
                         "first"     => "尊敬的 家长 $parent_nick 您好,您的投诉我们已处理",
@@ -4746,7 +4739,7 @@ class ss_deal extends Controller
             }
             return $this->output_succ();
         }
-    }
+    // }
 
 
     public function reject_complaint(){

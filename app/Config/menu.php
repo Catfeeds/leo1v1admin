@@ -23,8 +23,8 @@ class menu{
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
-                    // ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
-                    ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
+                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
                     ["power_id"=>67, "name"=>"试卷管理",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                 ]
                 ],

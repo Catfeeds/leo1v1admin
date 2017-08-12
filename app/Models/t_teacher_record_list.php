@@ -911,20 +911,35 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+    public function check_lesson_record_exist_teacherid($teacherid,$type,$lesson_style){
+        $sql = $this->gen_sql_new("select id from %s "
+                                  ."where teacherid=%u and type= %u and lesson_style=%u",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $type,
+                                  $lesson_style
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_trial_train_lesson_first($start_time,$end_time,$trial_train_num=1,$subject){
         $where_arr=[
             "tr.type=1",
             "tr.lesson_style=5",
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
-            "tr.trial_train_status>0"
+            "tr.trial_train_status>0",
+            "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select acc,count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
                                   ." from %s tr left join %s l on tr.train_lessonid=l.lessonid"
+                                  ." join %s t on tr.teacherid = t.teacherid "
                                   ." where %s group by tr.acc ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -938,14 +953,17 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.lesson_style=5",
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
-            "tr.trial_train_status>0"
+            "tr.trial_train_status>0",
+            "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
                                   ." from %s tr left join %s l on tr.train_lessonid=l.lessonid"
+                                  ." join %s t on tr.teacherid = t.teacherid "
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);
@@ -989,12 +1007,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
-    public function get_teacher_first_record(){
-        $sql = $this->gen_sql_new("select tr.id,tr.teacherid,record_lesson_list  from %s tr where tr.type=1 and tr.lesson_style=0 and tr.add_time = (select min(add_time) from %s where type= 1 and lesson_style=0 and teacherid = tr.teacherid )",
+    public function get_teacher_first_record($start_time){
+        $sql = $this->gen_sql_new("select tr.id,tr.teacherid,record_lesson_list  from %s tr where tr.type=1 and tr.lesson_style=0 and tr.add_time = (select min(add_time) from %s where type= 1 and lesson_style=0 and teacherid = tr.teacherid ) and tr.add_time >=%u",
                                   self::DB_TABLE_NAME,
-                                  self::DB_TABLE_NAME
+                                  self::DB_TABLE_NAME,
+                                  $start_time
         );
-         return $this->main_get_list($sql);
+        return $this->main_get_list($sql);
     }
 
 
