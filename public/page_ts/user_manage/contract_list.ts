@@ -1989,14 +1989,12 @@ $(function(){
         btn_add_0.on("click", function(){
             add_free( 4 );
         });
-
         btn_add_5.on("click", function(){
              add_free( 5 );
         });
 
 
         var arr=[
-            //[ "", btn_add_new ],
             [ "", btn_add_new_1 ],
             [ "", btn_extend_new_1 ],
             [ "", btn_add_0 ],
