@@ -29,9 +29,8 @@ class order_price_20170701 extends order_price_base
 
 
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
-
-        $now=time(NULL);
-        $new_flag=false;
+        $now = time(NULL);
+        $new_flag = false;
         //周年庆活动
         if ($now> strtotime("2017-08-04") && $now < strtotime( "2017-08-12" )  ){
             $new_flag=true;
@@ -89,7 +88,7 @@ class order_price_20170701 extends order_price_base
         $per_price_0     = static::get_value_from_config($discount_config, 0,1000 )/3;
         $old_per_price   = $lesson_count>=60? $per_price_20: $per_price_0;
         $old_price       = $old_per_price * $lesson_count ;
-        $price= $old_price ;
+        $price = $old_price;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             $present_lesson_config= static::$new_present_lesson_config;
@@ -108,6 +107,9 @@ class order_price_20170701 extends order_price_base
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             $per_price = static::get_value_from_config($discount_config, $check_lesson_count,1000 )/3;
             $price=$per_price*$lesson_count;
+        }
+
+        if($now > strotime("2017-08-15") && $now < strtotime("2017-09-1")){
         }
 
 

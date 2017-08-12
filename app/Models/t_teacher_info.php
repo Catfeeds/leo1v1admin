@@ -2688,11 +2688,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_chaxun_num($item){
-        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item",
+        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0",
                                   self::DB_TABLE_NAME
         );
 
 
         return $this->main_get_value($sql);
+    }
+
+    public function get_new_add_num($item){
+        
     }
 }

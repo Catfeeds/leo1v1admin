@@ -106,20 +106,24 @@ class testbb extends Controller
 
         $time_arr = [
             "0"=>strtotime('2017-01-01'),
-            "1"=>strtotime('2017-01-02'),
-            "2"=>strtotime('2017-01-03'),
-            "3"=>strtotime('2017-01-04'),
-            "4"=>strtotime('2017-01-05'),
-            "5"=>strtotime('2017-01-06'),
-            "6"=>strtotime('2017-01-07'),
+            "1"=>strtotime('2017-02-01'),
+            "2"=>strtotime('2017-03-01'),
+            "3"=>strtotime('2017-04-01'),
+            "4"=>strtotime('2017-05-01'),
+            "5"=>strtotime('2017-06-01'),
+            "6"=>strtotime('2017-07-01'),
         ];
 
         $ret_num=[];
         // dd($time_arr);
 
         foreach($time_arr as $item){
-            $ret_num[] = $this->t_teacher_info->get_chaxun_num($item);
+            $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
+            $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
+
         }
+
+
 
 
         dd($ret_num);
