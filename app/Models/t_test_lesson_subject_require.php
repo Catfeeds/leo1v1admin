@@ -293,7 +293,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." and l.lessonid in (".$lessonid_str.")"
             ." order by lesson_start asc";
             // ." limit 0,1000 ";
-        dd($sql);
+        // dd($sql);
         return $this->main_get_list($sql);
     }
 
