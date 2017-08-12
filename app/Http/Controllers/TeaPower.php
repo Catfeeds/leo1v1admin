@@ -2036,7 +2036,7 @@ trait  TeaPower {
         );
         if($trial_train_num>1){
             $this->t_lesson_info->field_update_list($lessonid,[
-               "trial_train_num" =>$trial_train_num 
+               "trial_train_num" => $trial_train_num
             ]);
         }
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
@@ -2071,7 +2071,6 @@ trait  TeaPower {
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
-              
             }
 
         }

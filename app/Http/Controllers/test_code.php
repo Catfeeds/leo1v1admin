@@ -1772,5 +1772,13 @@ class test_code extends Controller
         }
     }
 
+    public function add_trial(){
+        $teacherid    = $this->get_in_int_val("teacherid",50728);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        $this->add_trial_train_lesson($teacher_info,1);
+    }
+
+
 
 }
