@@ -1800,7 +1800,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr=[];
         $self_group_info = $this->task->t_group_user_month->get_group_info_by_adminid(-1 , $adminid ,$start_time);
         // $self_group_info= $this->t_admin_group_user->get_group_info_by_adminid(-1 , $adminid );
-        
+
         $order_list=$this-> get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
         $all_price = 0;
 

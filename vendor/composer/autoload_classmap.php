@@ -554,6 +554,7 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'SellerStudentNewAddOriginVaildFlag' => $baseDir . '/database/migrations/2017_06_06_183652_seller_student_new_add_origin_vaild_flag.php',
     'TAdminGroupNameAddSubject' => $baseDir . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
+    'TAdminSelfMenuList' => $baseDir . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
     'TAgent' => $baseDir . '/database/migrations/2017_06_02_190744_t_agent.php',
     'TAgentAddBankInfo' => $baseDir . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
     'TAgentAddNickname' => $baseDir . '/database/migrations/2017_07_22_150952_t_agent_add_nickname.php',

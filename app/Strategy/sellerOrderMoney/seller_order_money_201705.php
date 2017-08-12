@@ -18,7 +18,7 @@ class seller_order_money_201705  extends  seller_order_money_base
 
     static function  get_info( $adminid, $start_time, $end_time  )  {
 
-        /** @var $tt \App\Console\Tasks\TaskController */
+        /** @var  \App\Console\Tasks\TaskController  $tt*/
         $tt= new \App\Console\Tasks\TaskController();
         $ret_arr=$tt->t_order_info->get_seller_money_info($adminid,$start_time,$end_time);
 
