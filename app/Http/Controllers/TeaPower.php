@@ -2036,7 +2036,7 @@ trait  TeaPower {
         );
         if($trial_train_num>1){
             $this->t_lesson_info->field_update_list($lessonid,[
-               "trial_train_num" =>$trial_train_num 
+               "trial_train_num" => $trial_train_num
             ]);
         }
         $this->t_homework_info->add(0,0,0,$lessonid,$grade,$teacher_info['subject'],$teacher_info['teacherid']);
@@ -2071,7 +2071,6 @@ trait  TeaPower {
 
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
-              
             }
 
         }
@@ -2111,14 +2110,21 @@ trait  TeaPower {
     }
 
 
-    public function teacher_train_through_deal($teacher_info){
+    public function teacher_train_through_deal($teacher_info,$flag){
         $today_date  = date("Y年m月d日",time());
-        $level_str    = E\Elevel::get_desc($teacher_info['level']);
-        $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
-            "train_through_new"      => 1,
-            "train_through_new_time" => time(),
-        ]);
+        if($flag==0){
+            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+                "train_through_new"      => 1,
+                "train_through_new_time" => time(),
+            ]);
+        }elseif($flag==1){
+            $ret = $this->t_teacher_info->field_update_list($teacher_info["teacherid"],[
+                "train_through_new_time" => time(),
+            ]);
+            $teacher_info['level']=0;
+        }
 
+        $level_str = E\Elevel::get_desc($teacher_info['level']);
         if(isset($teacher_info['email']) && !empty($teacher_info['email']) && strlen($teacher_info['email'])>3){
             $title = "上海理优教研室";
             $html  = $this->get_offer_html($teacher_info);

@@ -17,12 +17,18 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	orderid	:any;
-	aid	:any;
 	pid	:any;
 	p_price	:any;
 	ppid	:any;
 	pp_price	:any;
 	create_time	:any;
+	aid	:any;
+	phone	:any;
+	nickname	:any;
+	p_phone	:any;
+	p_nickname	:any;
+	pp_phone	:any;
+	pp_nickname	:any;
 }
 
 /*

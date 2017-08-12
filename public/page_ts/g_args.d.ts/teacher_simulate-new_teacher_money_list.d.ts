@@ -28,6 +28,7 @@ interface RowData {
 	level_simulate	:any;
 	all_grade	:any;
 	all_subject	:any;
+	all_userid	:any;
 	stu_num	:any;
 	trial_lesson_count	:any;
 	normal_lesson_count	:any;
@@ -43,10 +44,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../human_resource; vi  ../human_resource/new_teacher_money_list.ts
+	 mkdir -p ../teacher_simulate; vi  ../teacher_simulate/new_teacher_money_list.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/human_resource-new_teacher_money_list.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_simulate-new_teacher_money_list.d.ts" />
 
 $(function(){
     function load_data(){

@@ -409,6 +409,10 @@ class ss_deal extends Controller
             "stu_character_info" =>$stu_character_info,
         ];
 
+        if ($db_tt_item["seller_student_status"] != $seller_student_status && $ss_item["seller_resource_type"] ==0 ) {
+            $ss_arr["first_seller_status"]=$seller_student_status;
+        }
+
         //更新首次回访时间
         if (! $ss_item["first_revisit_time"])  {
             $ss_arr["first_revisit_time"]=time(NULL);
@@ -1261,7 +1265,6 @@ class ss_deal extends Controller
         $competition_flag =0;
 
         if ($from_parent_order_type==E\Efrom_parent_order_type::V_1){ //转介绍
-
             $origin_userid=$this->t_student_info->get_origin_userid($userid);
             if (!$origin_userid) {
                 return $this->output_err("没有找到对应的转介绍人");

@@ -83,7 +83,7 @@
                                     @if($var["record_info"])
                                         <a class="opt-fifth-lesson-record-list" >反馈详情</a>
                                     @endif
-                                    @if(in_array($acc,["coco","jack"]))
+                                    @if(in_array($acc,["coco","jack","melody","wander","niki","seth","展慧东","CoCo老师"]))
                                         <a class="opt-reset-acc" >重置审核人</a>
                                     @endif
 

@@ -8,6 +8,9 @@ old
 public/page_js/enum_map.js
 public/page_ts/.*
 storage
+core
+f
+q
 table_config/.*.temp
 *#*
 .*

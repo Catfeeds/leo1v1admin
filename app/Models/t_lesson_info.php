@@ -2290,15 +2290,15 @@ lesson_type in (0,1) "
             $str=" l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 ";
             break;
         case 18:
-            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.wx_comment_flag=0 and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1";
+            $str=" l.lesson_status=2 and l.tea_rate_time=0 and l.tea_attend>0 and l.wx_comment_flag=0 and l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1";
             break;
         case 19:
             $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
-                ." and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_rate_late_flag=0";
+                ." and l.tea_attend>0 and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_rate_late_flag=0";
             break;
         case 20:
             $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
-                ." and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_no_comment_count_down_flag=0";
+                ." and l.tea_attend>0 and l.tea_rate_time=0 and l.wx_comment_flag=1 and l.wx_no_comment_count_down_flag=0";
             break;
         case 21:
             $str="l.lesson_type =1100 and l.train_type =4 and l.lesson_sub_type=1 and l.lesson_status=2"
@@ -2826,7 +2826,7 @@ lesson_type in (0,1) "
             ["lesson_start<%u",$end,0],
             ["s.userid=%u",$studentid,-1],
         ];
-        $teacher_money_type_str = " l.teacher_money_type=m.teacher_money_type";
+        $teacher_money_type_str = " t.teacher_money_type_simulate=m.teacher_money_type";
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_type,l.userid,l.grade,l.lesson_start,l.lesson_end,deduct_come_late,"
                                   ." deduct_check_homework,deduct_change_class,deduct_rate_student,deduct_upload_cw,l.subject,"
@@ -2841,7 +2841,7 @@ lesson_type in (0,1) "
                                   ." left join %s s on l.userid=s.userid "
                                   ." left join %s o on l.lessonid=o.lessonid "
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s m on l.level=m.level "
+                                  ." left join %s m on t.level_simulate=m.level "
                                   ." and m.grade=(case when "
                                   ." l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ." else l.grade"
@@ -9038,7 +9038,20 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
-
+    public function check_train_lesson($teacherid){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            "train_type=4",
+            "lesson_start=0"
+        ];
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
 
 
 

@@ -2063,6 +2063,9 @@ class tea_manage extends Controller
             if($val['grade']==0){
                 $val['grade']=100;
             }
+            if( $val['subject']>=4 && $val['grade']=100){
+                $val['grade']=200;
+            }
             $from_lessonid    = $train_from_lessonid_list[$val['subject']][$val['grade']];
             $from_lesson_info = $this->t_test_lesson_subject->get_from_lesson_info($from_lessonid);
             $val['stu_request_test_lesson_demand'] = $from_lesson_info['stu_request_test_lesson_demand'];
@@ -2076,6 +2079,10 @@ class tea_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info,[
             "acc" => $acc
         ]);
+    }
+
+    public function trial_train_no_pass_list(){
+        
     }
 
     public function set_teacher_record_account(){
@@ -2237,7 +2244,7 @@ class tea_manage extends Controller
                 $teacher_info['tea_nick'] = $nick;
                 $teacher_info['grade']    = $grade;
                 $teacher_info['subject']  = $subject;
-                $teacher_info['level']    = 1;
+                $teacher_info['level']    = 0;
                 $teacher_info['acc']      = $acc;
                 $teacher_info['identity'] = $identity;
                 $teacherid = $this->add_teacher_common($teacher_info);
@@ -2248,7 +2255,7 @@ class tea_manage extends Controller
                 $check_info['subject'] = $subject;
                 $check_info['grade']   = $grade;
                 $this->set_teacher_grade($teacher_info,$check_info);
-                $this->check_teacher_lecture_is_pass($teacher_info);
+                // $this->check_teacher_lecture_is_pass($teacher_info);
             }
         }
 

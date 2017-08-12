@@ -41,6 +41,17 @@
                     </div>
                 </div>
 
+
+                <div class="col-xs-6 col-md-3">
+                    <div class="input-group ">
+                        <span >展示角色</span>
+                        <select id="id_seller_flag" class ="opt-change" >
+                            <option value="0">销售</option>
+                            <option value="1">老师</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >例子成本</span>
@@ -52,8 +63,8 @@
         </div>
         <hr/>
         <table class="common-table">
-            <thead>
-                <tr>
+            <thead >
+                <tr class="show_body">
                     <td>编号</td>
                     <td>销售</td>
                     {!!\App\Helper\Utils::th_order_gen([
@@ -78,7 +89,7 @@
                         <td>{{@$var["account"]}}</td>
                         <td>{{@$var["work_day"]}}天</td>
                         <td>{{@$var["lesson_count"]}}</td>
-                        <td class="success_lesson" data-adminid="{{@$var["cur_require_adminid"]}}">
+                        <td class="success_lesson" data-adminid="{{@$var["cur_require_adminid"]}}" data-teacherid="{{@$var['teacherid']}}">
                             <a href="javascript:;" > {{@$var["suc_count"]}}</a>
                         </td>
                         <td>{{@$var["lesson_per"]}}%</td>

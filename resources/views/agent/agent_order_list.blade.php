@@ -27,9 +27,12 @@
                 <tr>
                     <td>orderid </td>
                     <td>aid </td>
-                    <td>上级转介绍id </td>
+                    <td>微信昵称 </td>
+                    <td>上级手机号 </td>
+                    <td>上级微信昵称 </td>
                     <td>上级转介绍费 </td>
-                    <td>上上级转介绍id </td>
+                    <td>上上级手机号 </td>
+                    <td>上上级微信昵称 </td>
                     <td>上上级转介绍费 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>
@@ -40,9 +43,12 @@
                     <tr>
                         <td>{{@$var["orderid"]}} </td>
                         <td>{{@$var["aid"]}} </td>
-                        <td>{{@$var["pid"]}} </td>
+                        <td>{{@$var["nickname"]}} </td>
+                        <td>{{@$var["p_phone"]}} </td>
+                        <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["p_price"]}} </td>
-                        <td>{{@$var["ppid"]}} </td>
+                        <td>{{@$var["pp_phone"]}} </td>
+                        <td>{{@$var["pp_nickname"]}} </td>
                         <td>{{@$var["pp_price"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>

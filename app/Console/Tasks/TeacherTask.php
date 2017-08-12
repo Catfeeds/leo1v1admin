@@ -885,7 +885,7 @@ class TeacherTask extends TaskController
                 $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                 $data['first']    = "老师您好，请尽快对本节课做出评价。";
                 $data['keyword1'] = "课程评价";
-                $data['keyword2'] = $lesson_time."的模拟课程已结束，请尽快登录老师端，进行评价。";
+                $data['keyword2'] = $lesson_time."的模拟课程已结束，请尽快登录老师后台，进行评价。";
                 $data['keyword3'] = date("Y-m-d H:i",time());
                 $data['remark']   = "";
                 $url = "";
@@ -1009,8 +1009,7 @@ class TeacherTask extends TaskController
                     $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                     $data['first']    = "老师您好，".$lesson_time."的".$subject_str."课程已结束，距离课程评价截止时间只剩15分钟了";
                     $data['keyword1'] = "课程评价";
-                    $data['keyword2'] = "\n 课程时间:".$lesson_day."\n评价方式（任选一种）："
-                                      ." \n1、理优1对1老师帮\n2、理优老师端\n3、老师后台"
+                    $data['keyword2'] = "\n 课程时间:".$lesson_day."\n评价方式:老师后台"
                                       ."\n距离评价截止时间只剩15分钟，请尽快进行评价。";
                     $data['keyword3'] = date("Y-m-d H:i",time());
                     $data['remark']   = "";
@@ -1083,6 +1082,17 @@ class TeacherTask extends TaskController
                     "wx_absenteeism_flag"   => $wx_absenteeism_flag,
                     "absenteeism_flag"      => 1,
                 ]);
+                $id = $this->t_teacher_record_list->check_lesson_record_exist($val["lessonid"],1,5);
+                $this->t_teacher_record_list->field_update_list($id,[
+                    "trial_train_status"               => $status,
+                    "record_info"                      => "旷课",
+                    "add_time"                         => time(),
+                    "acc"                              => "system"
+                ]);
+
+                $teacher_info = $this->t_teacher_info->get_teacher_info($val["teacherid"]);
+                $this->add_trial_train_lesson($teacher_info,1);                  
+
             }
         }
     }

@@ -21,19 +21,22 @@ class wx_yxyx_web extends Controller
     public function __construct() {
         parent::__construct();
         $agent_id = $this->get_agent_id();
-        if($agent_id){
-            $agent = $this->t_agent->get_agent_info_by_id($agent_id);
+        $agent = $this->t_agent->get_agent_info_by_id($agent_id);
+        $agent_id_new = $agent['id'];
+        if($agent_id_new){
             $web_html_url="http://wx-yxyx-web.leo1v1.com";
             $to_url      = $this->get_in_str_val("_url");
             $get_url_arr = preg_split("/\//", $to_url);
             $action      = $get_url_arr[2];
             $url = "$web_html_url/$action.html";
-            if($action == 'bind' or !isset($agent['id'])){
+            if($action == 'bind'){
+                // if($action == 'bind' or !$agent_id_new){
                 $url = "$web_html_url/index.html#bind";
             }
 
             header("Location: $url");
         }else{
+            \App\Helper\Utils::logger('yxyx_yyy');
             $wx_config=\App\Helper\Config::get_config("yxyx_wx");
             $to_url=bin2hex($this->get_in_str_val("_url"));
             $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );

@@ -305,12 +305,27 @@ class common extends Controller
                         "score" => $totalvalue
                     ]);
                 }
+
+                $train_time = $this->t_train_lesson_user->get_max_lesson_time($answer['userid']);
+                $time = strtotime("2017-08-11 18:00");
+                if($train_time > $time){
+                    $train_flag=1;
+                }else{
+                    $train_flag=0;
+                }
+
+
+
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
-                    $this->teacher_train_through_deal($teacher_info);
+                    $this->teacher_train_through_deal($teacher_info,$train_flag);
                     //发送微信通知进行模拟课堂
-                    // $this->add_trial_train_lesson($teacher_info,1);
+                    // $check_flag=$this->t_lesson_info->check_train_lesson($answer['userid']);
+                    if($train_flag==1){
+                        $this->add_trial_train_lesson($teacher_info,1);
+                    }
 
                 }
+               
             }
         }
         echo $str;

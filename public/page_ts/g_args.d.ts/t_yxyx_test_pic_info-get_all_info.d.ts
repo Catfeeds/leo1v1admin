@@ -19,7 +19,6 @@ interface RowData {
 	grade	:any;
 	subject	:any;
 	test_type	:any;
-	pic	:any;
 	poster	:any;
 	create_time	:any;
 	account	:any;

@@ -2,19 +2,21 @@
 /// <reference path="../g_args.d.ts/tongji_ss-seller_test_lesson_info_tongji.d.ts" />
 function load_data(){
     $.reload_self_page ( {
-		order_by_str: g_args.order_by_str,
-		date_type_config:	$('#id_date_type_config').val(),
-		date_type:	$('#id_date_type').val(),
-		opt_date_type:	$('#id_opt_date_type').val(),
-		start_time:	$('#id_start_time').val(),
-		end_time:	$('#id_end_time').val(),
-		show_flag:	$('#id_show_flag').val(),
-		lesson_money:	$('#id_lesson_money').val()
+        order_by_str: g_args.order_by_str,
+        date_type_config:	$('#id_date_type_config').val(),
+        date_type:	$('#id_date_type').val(),
+        opt_date_type:	$('#id_opt_date_type').val(),
+        start_time:	$('#id_start_time').val(),
+        end_time:	$('#id_end_time').val(),
+        show_flag:	$('#id_show_flag').val(),
+        lesson_money:	$('#id_lesson_money').val(),
+        seller_flag:	$('#id_seller_flag').val(),
+
     });
 }
 
 $(function(){
-   
+
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -26,26 +28,41 @@ $(function(){
             load_data();
         }
     });
-	$('#id_order_by_str').val(g_args.order_by_str);
-	$('#id_show_flag').val(g_args.show_flag);
-	$('#id_lesson_money').val(g_args.lesson_money);
+    $('#id_order_by_str').val(g_args.order_by_str);
+    $('#id_show_flag').val(g_args.show_flag);
+    $('#id_seller_flag').val(g_args.seller_flag);
+    $('#id_lesson_money').val(g_args.lesson_money);
+
+    var seller_flag = $('#id_seller_flag').val();
+
+    if(seller_flag == 1){
+        $('.show_body td:nth-child(2)').html('老师');
+        $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
+        $('.data').children("a:last-child").text('查看销售转化率');
+    }else{
+        $('.show_body td:nth-child(2)').html('销售');
+        $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
+        $('.data').children("a:last-child").text('查看老师转化率');
+    }
+
 
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var adminid = opt_data.cur_require_adminid;
+        console.log('身份'+seller_flag);
 
         if(adminid>0){
             $.do_ajax('/tongji_ss/get_seller_teacher_test_lesson_per',{
+                "seller_flag":seller_flag,
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
                 "end_time":g_args.end_time
             },function(resp) {
                 var per = resp.data;
-               // alert("转化率:"+per+"%");
                 BootstrapDialog.alert("转化率:"+per+"%");
 
             });
-            
+
         }else{
             BootstrapDialog.alert("请选择销售!");
         }
@@ -54,6 +71,11 @@ $(function(){
 
     $(".success_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
+        console.log(adminid);
+
+        if(seller_flag>0){
+            adminid = $(this).data('teacherid');
+        }
         //alert(adminid);
         if(adminid > 0){
             var title     = "试听成功详情";
@@ -62,7 +84,8 @@ $(function(){
             $.do_ajax('/tongji_ss/get_seller_test_lesson_success_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
-                "end_time":g_args.end_time
+                "end_time":g_args.end_time,
+                "seller_flag":seller_flag
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){
@@ -72,16 +95,16 @@ $(function(){
                     var time = item["lesson_start_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                   // var rev = item["rev"];
+                    // var rev = item["rev"];
                     html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+realname+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["have_order"]+"</td><td>"+item["test_lesson_order_fail_desc"]+"</td></tr>");
-                });               
+                });
 
             });
 
             var dlg=BootstrapDialog.show({
-                title:title, 
+                title:title,
                 message :  html_node   ,
-                closable: true, 
+                closable: true,
                 buttons:[{
                     label: '返回',
                     cssClass: 'btn',
@@ -91,7 +114,7 @@ $(function(){
                     }
                 }],
                 onshown:function(){
-                    
+
                 }
 
             });
@@ -99,14 +122,9 @@ $(function(){
             dlg.getModalDialog().css("width","1024px");
 
         }
-        
+
     });
 
 
-	$('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
-
-
-
-
-

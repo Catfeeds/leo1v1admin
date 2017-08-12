@@ -891,7 +891,7 @@ $(function(){
         $order_promotion_type.val(1); //赠送课时
         opt_spec();
 
-        var reload_present_info=function() {
+        var reload_present_info = function() {
             var order_promotion_type=  $order_promotion_type.val();
             $.do_ajax("/ss_deal/get_order_price_info",{
                 grade: data.grade,
@@ -967,10 +967,7 @@ $(function(){
                 }
             }]
         });
-
-
     };
-
 
     $(" .opt-change-default_lesson_count").on("click",function(){
         var nick   = $(this).closest("tr") .find(".stu_nick").text();
@@ -1192,12 +1189,9 @@ $(function(){
                         });
                     }
                 },
-
                 //加载数据后，其它的设置
                 "onLoadData"       : null,
-
             });
-
         },false,{
             "adminid" :  g_args.self_adminid
         });
@@ -1989,14 +1983,12 @@ $(function(){
         btn_add_0.on("click", function(){
             add_free( 4 );
         });
-
         btn_add_5.on("click", function(){
              add_free( 5 );
         });
 
 
         var arr=[
-            //[ "", btn_add_new ],
             [ "", btn_add_new_1 ],
             [ "", btn_extend_new_1 ],
             [ "", btn_add_0 ],
@@ -2010,12 +2002,10 @@ $(function(){
             [ "", btn_add_next_1],
         ];
 
-
         if(
             window.location.pathname== "/user_manage/contract_list_seller_add"
                 || window.location.pathname== "/user_manage/contract_list_seller_payed"
         ) {
-
             arr=[
                 //[ "", btn_add_new ],
                 [ "", btn_add_new_1 ],
@@ -2042,10 +2032,7 @@ $(function(){
                 [ "", btn_add_new_no_test_lesson_1 ],
                 [ "", btn_add_5 ],
             ];
-
         }
-
-
 
         $.show_key_value_table("选择合同类型",arr );
     });

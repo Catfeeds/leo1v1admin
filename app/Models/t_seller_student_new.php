@@ -620,32 +620,47 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function set_admin_info_new( $opt_type, $userid, $opt_adminid ,$self_adminid ,  $opt_account, $account ) {
 
-        $ss_info= $this->task->t_seller_student_new->field_get_list($userid,"tmk_student_status,phone ");
+        $now=time(NULL);
+        $ss_info= $this->task->t_seller_student_new->field_get_list($userid,"seller_resource_type,tmk_student_status,phone ,first_admin_master_adminid , first_admin_master_time ,first_admin_revisiterid ,first_admin_revisiterid_time");
         $tmk_student_status=$ss_info["tmk_student_status"];
         $phone=$ss_info["phone"];
-
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
 
 
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
+            $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
                 "admin_revisiterid"  => $opt_adminid,
-                "admin_assign_time"  => time(NULL),
+                "admin_assign_time"  => $now,
                 "sub_assign_adminid_2"  => $up_adminid,
-                "sub_assign_time_2"  => time(NULL) ,
-                "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($up_adminid),
-                "first_seller_adminid" => $opt_adminid,
-                "sub_assign_time_1"  => time(NULL),
+                "sub_assign_time_2"  => $now ,
+                "sub_assign_adminid_1"  => $sub_assign_adminid_1,
+                "sub_assign_time_1"  => $now,
                 "hold_flag" => 1,
 
             ];
 
             if ($opt_type==3 ||  ($tmk_student_status==E\Etmk_student_status::V_3)  ) {
-                $set_arr["tmk_set_seller_time"]=time(NULL);
+                $set_arr["tmk_set_seller_time"]=$now;
                 $set_arr["tmk_set_seller_adminid"]=$opt_adminid;
-                $set_arr["first_tmk_set_seller_time"]=time(null);
+                $set_arr["first_tmk_set_seller_time"]=$now;
             }
+
+            if ( $ss_info["seller_resource_type"]==0) {
+                if (!$ss_info["first_admin_master_time"]) {
+                    $set_arr["first_admin_master_adminid"]=$up_adminid;
+                    $set_arr["first_admin_master_time"]=$now;
+                }
+
+
+                if (!$ss_info["first_admin_revisiterid"]) {
+                    $set_arr["first_admin_revisiterid"]= $opt_adminid;
+                    $set_arr["first_admin_revisiterid_time"]=$now;
+                }
+
+            }
+
             $this->t_test_lesson_subject->set_seller_require_adminid([$userid] , $opt_adminid );
 
             $ret_update = $this->t_book_revisit->add_book_revisit(
@@ -657,6 +672,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                      ,$opt_adminid,$userid);
 
         }else if ( $opt_type ==1){ //分配主管
+            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
                 "sub_assign_adminid_2"  => $opt_adminid,
@@ -665,6 +681,15 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_adminid_1"  => $this->t_admin_main_group_name->get_up_group_adminid($opt_adminid),
                 "sub_assign_time_1"  => time(NULL),
             ];
+
+            if ( $ss_info["seller_resource_type"]==0) {
+                if (!$ss_info["first_admin_master_time"]) {
+                    $set_arr["first_admin_master_adminid"]=$up_adminid;
+                    $set_arr["first_admin_master_time"]=$now;
+                }
+            }
+
+
 
 
             $ret_update = $this->t_book_revisit->add_book_revisit(
@@ -829,7 +854,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $before_24_time=time(NULL) -3600*6;
         if ($seller_level_flag<=3) { //b类以上
             $before_24_time= time(NULL) -3600*3;
-        }   
+        }
 
         $before_48_time= $before_24_time - 86400;
         $check_no_call_time_str=" (( origin_level >0  and n.add_time < $before_24_time )  or ( n.add_time < $before_48_time  )) ";
@@ -1838,7 +1863,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_seller_yxyx(){
         $where_arr = [
-            'n.admin_revisiterid >0',//assigned_count 
+            'n.admin_revisiterid >0',//assigned_count
             'tmk_student_status=3',//tmk_assigned_count
             'global_tq_called_flag=0',//tq_no_call_count
             'global_tq_called_flag <>0',//tq_called_count

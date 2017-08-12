@@ -385,6 +385,11 @@ class main_page extends Controller
         $subject = $this->get_in_int_val("subject",-1);
         
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);
+        foreach($teacher_info as $kk=>$vv){
+            if(in_array($kk,[992,891,486,871])){
+                unset($teacher_info[$kk]);
+            }
+        }
         // $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
         $tea_subject = "";
 
@@ -708,7 +713,7 @@ class main_page extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
-        $all_total = $system_total=$self_total=$fail_total=0;
+        $all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
       
         $video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
@@ -723,6 +728,7 @@ class main_page extends Controller
             $item["self_count"] = $this->t_teacher_lecture_appointment_info->get_self_count($reference,$start_time,$end_time);
             $item["system_count"] = $item["all_count"]-$item["self_count"];
             $all_total   += $item["all_count"];
+            $no_call_total   += $item["no_call_count"];
             $system_total   += $item["system_count"];
             $self_total   += $item["self_count"];
             $item["video_account"] = @$video_account[$accept_adminid]["all_count"];
@@ -775,6 +781,7 @@ class main_page extends Controller
         return $this->pageView(__METHOD__ ,null, [
             "ret_info"    => $ret_info,
             "all_total"   => $all_total,
+            "no_call_total"   => $no_call_total,
             "system_total"   => $system_total,
             "self_total"   => $self_total,
             "data"        =>$data

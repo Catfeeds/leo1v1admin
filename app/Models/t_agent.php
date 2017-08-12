@@ -181,8 +181,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
 
     public function get_agent_info_by_id($id){
-        $where_arr = array();
-        $this->where_arr_add_str_field($where_arr,"id",$id);
+        $where_arr = [
+            ['id = %d',$id],
+        ];
 
         $sql=$this->gen_sql_new ("select * "
                                  ." from %s where %s "
@@ -423,7 +424,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
-            ['a.parentid = %s ',$id],
+            "a.parentid = $id or aa.parentid = $id",
+            // ['a.parentid = %s ',$id],
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
@@ -435,10 +437,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         $sql= $this->gen_sql_new(
             " select a.id,a.phone,s.userid,l.lessonid "
-            . " from %s a "
+            . " from %s a "//子级
+            . " left join %s aa on aa.id = a.parentid "//父级
             . " left join %s s on s.phone = a.phone "
             . " left join %s l on s.userid = l.userid "
             . " where %s ",
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
