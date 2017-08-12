@@ -200,8 +200,6 @@ class wx_yxyx_common extends Controller
     }
 
     public function get_wx_yxyx_js_config(){
-        // $agent_id = $this->get_agent_id();
-        // $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $ref = $this->get_in_str_val("ref");
         $signature_str = $this->get_signature_str($ref);
         $config = [
@@ -241,8 +239,8 @@ class wx_yxyx_common extends Controller
         }
         $jsapi_ticket = $ret_arr["ticket"];
         $ref= $ref?$ref:$_SERVER['HTTP_REFERER'];
-        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo456&timestamp=1501516800"
-                   . "&url=$ref" ;
+        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo456&timestamp=1501516800";
+                   // . "&url=$ref" ;
         \App\Helper\Utils::logger( "signature:$signature" );
 
         $signature_str = sha1($signature);
