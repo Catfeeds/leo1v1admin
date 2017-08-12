@@ -22,7 +22,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s s on s.phone = a.phone"
+                                 ." left join %s s on s.userid = a.userid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
