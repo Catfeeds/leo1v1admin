@@ -49,6 +49,7 @@ $(function(){
         var html_node = $("<div></div>").html(html_txt);
         var pic_url = "";
         var pic_img = "";
+        var old_pic_num = "";
         if (opt_type=="update") {
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
@@ -64,12 +65,14 @@ $(function(){
                         +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
                         +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
                     pic_num++;
+                    old_pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<span onclick="set_poster(this)" class="mark btn" data_ip="'+item.pic_arr[i]
                         +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div>';
                     pic_num++;
+                    old_pic_num++;
                 }
             }
             $('#id_container_add_tmp').append(pic_str);
@@ -121,7 +124,8 @@ $(function(){
                         var test_des   = html_node.find(".add_test_des").val();
                         var test_type  = html_node.find(".add_test_type").val();
                         var test_title = html_node.find(".add_test_title").val();
-                        if (pic_num >1) {
+                        //add
+                        if (pic_num >1 && old_pic_num <1 ) {
                             for (var i = 0; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
@@ -138,6 +142,13 @@ $(function(){
                         }
                         if ( opt_type == "update" && html_node.find(".update_pic").text() ){
                             pic = pic +'|'+ html_node.find(".update_pic").text();
+                        }
+                        if (old_pic_num > 0 && pic_num > (old_pic_num+1)){
+                            for (var i = old_pic_num+1; i <= pic_num; i++) {
+                                if (html_node.find('.add_pic'+i).text()) {
+                                    pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                }
+                            }
                         }
 
                         if(html_node.find('.real_poster').text()) {

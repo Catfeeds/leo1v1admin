@@ -2608,9 +2608,15 @@ class user_deal extends Controller
     {
         
         $teacher_info = $this->t_teacher_info->get_all_un_throuth_info();
+        foreach($teacher_info as $k=>&$val){
+            $val["flag"] = $this->t_train_lesson_user->get_max_lesson_time($val["teacherid"]);
+            if($val["flag"]>0){
+                
+                unset($teacher_info[$k]);
+            }else{
+            }
+        }
         dd($teacher_info);
-        $train_time = $this->t_train_lesson_user->get_max_lesson_time(249811);
-        dd($train_time);
 
         $ret= $this->t_teacher_record_list->get_no_time();
         dd($ret);

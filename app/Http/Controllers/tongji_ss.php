@@ -3699,11 +3699,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $ret_info = $this->seller_test_lesson_info_by_teacher();
         }else{
             $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
+            // dd($ret_info);
 
-            
         }
         return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 
