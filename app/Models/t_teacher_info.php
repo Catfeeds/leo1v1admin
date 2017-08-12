@@ -2729,6 +2729,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        return $sql;
         return $this->main_get_list($sql,function($item){
             return $item['teacherid'];
         });

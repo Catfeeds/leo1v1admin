@@ -124,6 +124,7 @@ class testbb extends Controller
             $ret_num = $this->t_teacher_info->get_leveal_num($item);
         }
 
+        dd($ret_num);
         // dd(count($ret_num));
 
         foreach($ret_num as $i=>$item){
