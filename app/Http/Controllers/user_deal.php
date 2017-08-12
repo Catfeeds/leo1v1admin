@@ -2607,6 +2607,13 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         
+        $ret=  $this->t_train_lesson_user->get_userid_list_new(279743);
+        foreach($ret as $val){
+            $this->t_teacher_info->field_update_list($val["userid"],[
+               "train_through_new"   =>0 
+            ]);
+        }
+        dd($ret);
         $teacher_info = $this->t_teacher_info->get_all_un_throuth_info();
         foreach($teacher_info as $k=>&$val){
             $val["flag"] = $this->t_train_lesson_user->get_max_lesson_time($val["teacherid"]);

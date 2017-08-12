@@ -1082,6 +1082,17 @@ class TeacherTask extends TaskController
                     "wx_absenteeism_flag"   => $wx_absenteeism_flag,
                     "absenteeism_flag"      => 1,
                 ]);
+                $id = $this->t_teacher_record_list->check_lesson_record_exist($val["lessonid"],1,5);
+                $this->t_teacher_record_list->field_update_list($id,[
+                    "trial_train_status"               => $status,
+                    "record_info"                      => "旷课",
+                    "add_time"                         => time(),
+                    "acc"                              => "system"
+                ]);
+
+                $teacher_info = $this->t_teacher_info->get_teacher_info($val["teacherid"]);
+                $this->add_trial_train_lesson($teacher_info,1);                  
+
             }
         }
     }

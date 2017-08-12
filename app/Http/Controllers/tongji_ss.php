@@ -3750,11 +3750,10 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $item["lesson_per"] = !empty($item["lesson_count"])?round($item["suc_count"]/$item["lesson_count"],4)*100:0;
 
             if($show_flag==1){
-
                 $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($item['teacherid'],$start_time, $end_time);
-                $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
-                $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
-                $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
+                // $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
+                // $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
+                // $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
             }
 
         }
@@ -3896,11 +3895,22 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $adminid = $this->get_in_int_val("adminid");
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
-        $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($adminid,$start_time,$end_time);
-        $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
+        $seller_flag = $this->get_in_int_val('seller_flag',-1);
+
+
+        if($seller_flag > 0){
+            $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($adminid,$start_time, $end_time);
+            $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
+        }else{
+            $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($adminid,$start_time,$end_time);
+            $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);
+        }
+
         $per = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
         return  $this->output_succ( [ "data" =>$per] );
     }
+
+
 
     public function tongji_jw_teacher_kpi(){
         $this->t_teacher_info->switch_tongji_database();
