@@ -26,8 +26,8 @@ class wx_yxyx_api extends Controller
     public function __construct() {
         parent::__construct();
         if (! $this->get_agent_id()){
-            echo $this->output_err("未登录");
-            exit;
+            // echo $this->output_err("未登录");
+            // exit;
         }
     }
 
@@ -569,6 +569,73 @@ class wx_yxyx_api extends Controller
     }
 
 
+    public function get_all_test_pic(){
+        //title,date,用户未读取标志（14天内），十张海报（当天之前的，可跳转）
+        $grade     = $this->get_in_int_val('grade',-1);
+        $subject   = $this->get_in_int_val('subject',-1);
+        $test_type = $this->get_in_int_val('test_type',-1);
+        $page_info = $this->get_in_page_info();
+        // $parentid  = $this->get_parentid();
+        $parentid  = 44;
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $parentid);
+        foreach ($ret_info['list'] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+        }
+        //获取十张海报
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster();
+        $count_num  = count($all_id)-1;
+        $poster_arr = [];
+        $num_arr    = [];
+        $loop_num   = 0;
+        while ( $loop_num < 10) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
+            }
+        }
+        // dd($ret_info);
+        return $this->output_succ([
+            ['list'=>$ret_info],
+            ['poster'=>$poster_arr],
+        ]);
+    }
 
+    public function get_one_test_and_other() {
+        //title,poster(当天之前的)
+        $id = $this->get_in_int_val('id',-1);
+        if ($id < 0){
+            return $this->output_err('信息有误！');
+        }
+        $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
+        \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
+        E\Egrade::set_item_value_str($ret_info,"grade");
+        E\Esubject::set_item_value_str($ret_info,"subject");
+        E\Etest_type::set_item_value_str($ret_info,"test_type");
+        $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
+        unset($ret_info['pic']);
+        //获取所有id，随机选取三个
+        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id);
+        $count_num = count($all_id)-1;
+        $id_arr    = [];
+        $num_arr   = [];
+        $loop_num  = 0;
+        while ( $loop_num < 3) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[] = $key;
+                $id_arr[]  = $all_id[$key]['id'];
+                $loop_num++;
+            }
+        }
+        $id_str = '('.join($id_arr,',').')';
+        $create_time = strtotime('today');
+        $other_info = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+        return $this->output_succ([
+            ['list' => $ret_info],
+            ['other'=>$other_info],
+        ]);
+    }
 
 }
