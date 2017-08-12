@@ -36,32 +36,29 @@ $(function(){
     var seller_flag = $('#id_seller_flag').val();
 
     if(seller_flag == 1){
-        // $
         $('.show_body td:nth-child(2)').html('老师');
         $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
-
-        // var ji = $('.show_body last_child').prev('td').prev('td').html();
-        // var ji = $('.show_body last_child').tagName;
+        $('.data').children("a:last-child").text('查看销售转化率');
     }else{
         $('.show_body td:nth-child(2)').html('销售');
         $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
-
-        // $('.show_body last_child').prev('td').prev('td').html('老师签单率');
+        $('.data').children("a:last-child").text('查看老师转化率');
     }
 
 
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var adminid = opt_data.cur_require_adminid;
+        console.log('身份'+seller_flag);
 
         if(adminid>0){
             $.do_ajax('/tongji_ss/get_seller_teacher_test_lesson_per',{
+                "seller_flag":seller_flag,
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
                 "end_time":g_args.end_time
             },function(resp) {
                 var per = resp.data;
-                // alert("转化率:"+per+"%");
                 BootstrapDialog.alert("转化率:"+per+"%");
 
             });
