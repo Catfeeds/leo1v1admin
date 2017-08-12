@@ -218,9 +218,50 @@ class self_manage extends Controller
         return $this->output_succ();
 
     }
-    //回访结束
+
+    public function self_menu_list() {
+        $adminid= $this->get_account_id();
+        $list=$this->t_admin_self_menu->get_list($adminid);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($list) );
+    }
 
 
+    public function self_menu_add() {
+        $url   = $this->get_in_str_val("url");
+        $title = $this->get_in_str_val("title");
+        $icon  = $this->get_in_str_val("icon");
+
+        $adminid=$this->get_account_id();
+        $row=$this->t_admin_self_menu->get_url_info($adminid,$url);
+        if ($row) {
+            return $this->output_err("已经存在：".$row["title"]);
+        }
+        $this->t_admin_self_menu->add($adminid,$title,$url,$icon);
+        return $this->output_succ();
+    }
+
+    public function  self_menu_switch() {
+        $next_flag = $this->get_in_int_val("next_flag");
+        $order_index= $this->get_in_int_val("order_index");
+        $adminid = $this->get_account_id();
+        $order_index2=$this->t_admin_self_menu->get_next_order_index($adminid,$order_index,$next_flag);
+        $id1= $this->t_admin_self_menu->get_id_by_admin_order_index($adminid,$order_index);
+        $id2= $this->t_admin_self_menu->get_id_by_admin_order_index($adminid,$order_index2);
+
+        if ($order_index2) {
+            $this->t_admin_self_menu->switch_order_index($id1,$id2);
+        }
+        return $this->output_succ();
+    }
+
+
+    public function  self_menu_del() {
+        $adminid = $this->get_account_id();
+        $id      = $this->get_in_int_val("id");
+        $this->t_admin_self_menu->del($adminid,$id);
+        return $this->output_succ();
+
+    }
 
 
 
