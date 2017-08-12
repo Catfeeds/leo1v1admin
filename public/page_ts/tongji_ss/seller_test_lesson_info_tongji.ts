@@ -28,10 +28,10 @@ $(function(){
             load_data();
         }
     });
-  $('#id_order_by_str').val(g_args.order_by_str);
-  $('#id_show_flag').val(g_args.show_flag);
-  $('#id_seller_flag').val(g_args.seller_flag);
-  $('#id_lesson_money').val(g_args.lesson_money);
+    $('#id_order_by_str').val(g_args.order_by_str);
+    $('#id_show_flag').val(g_args.show_flag);
+    $('#id_seller_flag').val(g_args.seller_flag);
+    $('#id_lesson_money').val(g_args.lesson_money);
 
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
@@ -44,7 +44,7 @@ $(function(){
                 "end_time":g_args.end_time
             },function(resp) {
                 var per = resp.data;
-               // alert("转化率:"+per+"%");
+                // alert("转化率:"+per+"%");
                 BootstrapDialog.alert("转化率:"+per+"%");
 
             });
@@ -75,7 +75,7 @@ $(function(){
                     var time = item["lesson_start_str"];
                     var subject = item["subject_str"];
                     var grade = item["grade_str"];
-                   // var rev = item["rev"];
+                    // var rev = item["rev"];
                     html_node.find("table").append("<tr><td>"+lessonid+"</td><td>"+time+"</td><td>"+realname+"</td><td>"+nick+"</td><td>"+grade+"</td><td>"+subject+"</td><td>"+item["have_order"]+"</td><td>"+item["test_lesson_order_fail_desc"]+"</td></tr>");
                 });
 
@@ -106,5 +106,5 @@ $(function(){
     });
 
 
-  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-change').set_input_change_event(load_data);
 });
