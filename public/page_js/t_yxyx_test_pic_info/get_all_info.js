@@ -71,8 +71,9 @@ $(function(){
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="mark btn btn-info" data_ip="'
                         +item.pic_arr[i] +'">封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-up btn"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-down btn"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
+
                         +'<div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div></div>';
