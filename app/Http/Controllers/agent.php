@@ -117,6 +117,7 @@ class agent extends Controller
     }
 
     public function check(){
+        dd($_SERVER["HTTP_HOST"]);
         $phone = '15251318621';
         $ret = $this->t_seller_student_new->del_row_by_phone($phone);
         dd($ret);
