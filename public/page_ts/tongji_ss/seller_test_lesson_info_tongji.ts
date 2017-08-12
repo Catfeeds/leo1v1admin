@@ -38,14 +38,15 @@ $(function(){
     if(seller_flag == 1){
         // $
         $('.show_body td:nth-child(2)').html('老师');
-        var jj = $('.show_body td:nth-child(11)').children().html();
+        $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
 
-        console.log(jj);
         // var ji = $('.show_body last_child').prev('td').prev('td').html();
         // var ji = $('.show_body last_child').tagName;
     }else{
         $('.show_body td:nth-child(2)').html('销售');
-        $('.show_body last_child').prev('td').prev('td').html('老师签单率');
+        $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
+
+        // $('.show_body last_child').prev('td').prev('td').html('老师签单率');
     }
 
 
