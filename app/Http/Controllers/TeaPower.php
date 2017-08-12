@@ -1295,8 +1295,10 @@ trait  TeaPower {
             $is_test_user=1;
         }
 
-        if($use_easy_pass){
+        if($use_easy_pass==1){
             $passwd = "123456";
+        }elseif($use_phone_pass){
+
         }else{
             srand(microtime(true)*1000);
             $passwd = (int)$phone+rand(9999999999,99999999999);

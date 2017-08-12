@@ -1551,9 +1551,14 @@ class test_code extends Controller
             $teacherid=62509;
             $id=24;
         }else{
-            $teacherid=62655;
-            $id=26;
+            $phone=$this->get_in_str_val("phone");
+            if($phone==""){
+                return $this->output_err("请输入手机号");
+            }
+            $info = $this->t_teacher_lecture_appointment_info->get_simple_info($phone);
+            $id = $info['id'];
         }
+
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "subject_ex"       => "1",
             "grade_ex"         => "100",

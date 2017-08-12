@@ -46,6 +46,7 @@ class menu{
                 ]],
                 ["power_id"=>13, "name"=>"抢新例子数据", "list"=>[
                     ["power_id"=>1, "name"=>"当前用户可抢数",   "url"=>"/seller_student_new2/seller_get_new_count_admin_list"],
+                    ["power_id"=>5, "name"=>"当前用户抢新统计",   "url"=>"/seller_student_new2/tongji_seller_get_new_count"],
                     ["power_id"=>2, "name"=>"当前用户可抢数明细",   "url"=>"/seller_student_new2/seller_get_new_count_list"],
                     ["power_id"=>3, "name"=>"当前未拨打未拨通",   "url"=>"/seller_student_new2/seller_no_call_to_free_list"],
                 ]],

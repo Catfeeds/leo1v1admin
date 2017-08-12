@@ -131,15 +131,14 @@ class testbb extends Controller
         // dd(strtotime("2017-01-01 +1 month"));
         // dd($end_time);
 
+        /**
+        $sql = $this->gen_sql_new("
+        select sum(if(l.lessonid>0,0,1)) from %s t left join %s l on l.teacherid=t.teacherid  where l.lesson_start> 
 
+**/
 
 
         dd($ret_num);
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
-        // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 4月
-
     }
 
 

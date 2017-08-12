@@ -32,6 +32,7 @@ class url_power_map {
 			'/seller_student_new/test_lesson_order_fail_list'	=>1151106,
 			'/seller_student_new2/get_test_lesson_require_teacher_info'	=>1151107,
 			'/seller_student_new2/seller_get_new_count_admin_list'	=>1151301,
+			'/seller_student_new2/tongji_seller_get_new_count'	=>1151305,
 			'/seller_student_new2/seller_get_new_count_list'	=>1151302,
 			'/seller_student_new2/seller_no_call_to_free_list'	=>1151303,
 			'/tongji_ss/valid_user_count'	=>1152301,
