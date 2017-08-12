@@ -1,5 +1,15 @@
 @extends('layouts.app')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/jquery.base64.js"></script>
+    <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
+
     <script type="text/javascript" src="/page_js/teacher_freeze_limit_record.js"></script>
     <script type="text/javascript" src="/js/svg.js"></script>
     <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
@@ -89,6 +99,12 @@
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
                                 <a class="fa-video-camera opt-play" title="回放"></a>
+                                <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
+                                   data-type="leoedu://meeting.leoedu.com/meeting="
+                                   title="pad实时课程二维码" ></a>
+                                <a class="btn fa fa-qrcode  opt-qr-pad "
+                                   data-type="leoedu://video.leoedu.com/video="
+                                   title="视频播放二维码" > </a>
                                 @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
                                     <a class="opt-edit" title="更改状态">审核 </a>
                                 @endif

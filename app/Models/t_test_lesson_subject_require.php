@@ -275,7 +275,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "select"
             ." tr.test_stu_grade grade,tr.cur_require_adminid,tr.require_time,"
             ." t.subject,"
-            ." ss.phone"
+            ." ss.phone"//
             ." from  db_weiyi.t_test_lesson_subject_require tr "
             ." left join db_weiyi.t_test_lesson_subject t on t.test_lesson_subject_id = tr.test_lesson_subject_id"
             ." left join db_weiyi.t_seller_student_new ss on t.userid = ss.userid"
@@ -287,10 +287,11 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." where"
             ." s.is_test_user=0"
             ." and tr.accept_flag<>2"
-            ." and lesson_start>=1498838400"
-            ." and lesson_end<1501516800"
+            ." and 1498838400<lesson_start<=1498924800"
+            // ." and 1498838400<lesson_end<=1498924800"
             ." order by lesson_start asc"
-            ." limit 0,1000 ";
+            ." limit 0,10 ";
+        // dd($sql);
         return $this->main_get_list($sql);
     }
 

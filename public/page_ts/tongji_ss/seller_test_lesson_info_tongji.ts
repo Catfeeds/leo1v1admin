@@ -36,27 +36,29 @@ $(function(){
     var seller_flag = $('#id_seller_flag').val();
 
     if(seller_flag == 1){
-        // $
         $('.show_body td:nth-child(2)').html('老师');
-        $('.show_body td:nth-child(2)').html('老师');
-
+        $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
+        $('.data').children("a:last-child").text('查看销售转化率');
     }else{
         $('.show_body td:nth-child(2)').html('销售');
+        $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
+        $('.data').children("a:last-child").text('查看老师转化率');
     }
 
 
     $(".opt-teacher-lesson-per").on("click",function(){
         var opt_data=$(this).get_opt_data();
         var adminid = opt_data.cur_require_adminid;
+        console.log('身份'+seller_flag);
 
         if(adminid>0){
             $.do_ajax('/tongji_ss/get_seller_teacher_test_lesson_per',{
+                "seller_flag":seller_flag,
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
                 "end_time":g_args.end_time
             },function(resp) {
                 var per = resp.data;
-                // alert("转化率:"+per+"%");
                 BootstrapDialog.alert("转化率:"+per+"%");
 
             });
@@ -69,6 +71,11 @@ $(function(){
 
     $(".success_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
+        console.log(adminid);
+
+        if(seller_flag>0){
+            adminid = $(this).data('teacherid');
+        }
         //alert(adminid);
         if(adminid > 0){
             var title     = "试听成功详情";
@@ -77,7 +84,8 @@ $(function(){
             $.do_ajax('/tongji_ss/get_seller_test_lesson_success_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
-                "end_time":g_args.end_time
+                "end_time":g_args.end_time,
+                "seller_flag":seller_flag
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){
