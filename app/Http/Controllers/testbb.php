@@ -105,17 +105,21 @@ class testbb extends Controller
     public function get_rate(){
 
         $time_arr = [
-            "time"=>strtotime('2017-01-01'),
-            "time"=>strtotime('2017-01-02'),
-            "time"=>strtotime('2017-01-03'),
-            "time"=>strtotime('2017-01-04'),
-            "time"=>strtotime('2017-01-05'),
-            "time"=>strtotime('2017-01-06'),
-            "time"=>strtotime('2017-01-07'),
+            "0"=>strtotime('2017-01-01'),
+            "1"=>strtotime('2017-01-02'),
+            "2"=>strtotime('2017-01-03'),
+            "3"=>strtotime('2017-01-04'),
+            "4"=>strtotime('2017-01-05'),
+            "5"=>strtotime('2017-01-06'),
+            "6"=>strtotime('2017-01-07'),
         ];
 
+        $ret_num=[];
         dd($time_arr);
 
+        foreach($time_arr as $item){
+            $ret_num = $this->t_teacher_info->get_chaxun_num($item);
+        }
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1483200000; 1月
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1485878400; 2月
         // select count(*) from db_weiyi.t_teacher_info  where create_time <1488297600; 3月
