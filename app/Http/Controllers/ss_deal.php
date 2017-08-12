@@ -1450,12 +1450,12 @@ class ss_deal extends Controller
         $contract_from_type = $this->get_in_e_contract_from_type();
 
 
-        $sys_operator           = $this->get_account();
-        $userid= $this->get_in_userid();
-        $grade= $this->get_in_grade();
-        $subject= $this->get_in_subject();
-        $origin= $this->get_in_str_val("origin");
-        $from_test_lesson_id =0;
+        $sys_operator        = $this->get_account();
+        $userid              = $this->get_in_userid();
+        $grade               = $this->get_in_grade();
+        $subject             = $this->get_in_subject();
+        $origin              = $this->get_in_str_val("origin");
+        $from_test_lesson_id = 0;
         if ($require_id ) {
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
@@ -4557,10 +4557,10 @@ class ss_deal extends Controller
 
         $complaint_info = $this->t_complaint_info->get_complaint_info_by_id($complaint_id);
 
-        $add_time        = date('Y-m-d,h:i:s',$complaint_info["add_time"]);
+        $add_time        = date('Y-m-d,H:i:s',$complaint_info["add_time"]);
         $complaint_info_str  = $complaint_info['complaint_info'];
         $deal_info       = $complaint_info['deal_info'];
-        $deal_time_date  = date('Y-m-d h:i:s',$complaint_info['deal_time']);
+        $deal_time_date  = date('Y-m-d H:i:s',$complaint_info['deal_time']);
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 

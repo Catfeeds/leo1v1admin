@@ -322,7 +322,7 @@ class seller_student_new2 extends Controller
             E\Esubject::set_item_value_str($item);
             $this->cache_set_item_account_nick($item, "cur_require_adminid", "require_admin_nick");
             \App\Helper\Utils::unixtime2date_for_item($item, "require_time");
-            $ret_info[$key]['id'] = $key+25001;
+            $ret_info[$key]['id'] = $key+5001;
             $ret_info[$key]['phone'] = $item['phone'];
             $ret_info[$key]['grade_str'] = $item['grade_str'];
             $ret_info[$key]['subject_str'] = $item['subject_str'];
