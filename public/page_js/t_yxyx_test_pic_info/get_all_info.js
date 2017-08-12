@@ -33,7 +33,6 @@ $(function(){
 
 
     var pic_num = 0;
-    var poster_url = '';
     var do_add_or_update = function( opt_type, item ,id){
         pic_num = 0;
         var html_txt = $.dlg_get_html_by_class('dlg_add_new');
@@ -50,6 +49,7 @@ $(function(){
         var html_node = $("<div></div>").html(html_txt);
         var pic_url = "";
         var pic_img = "";
+        var old_pic_num = "";
         if (opt_type=="update") {
             html_node.find(".add_test_title").val(item.test_title);
             html_node.find(".add_test_des").val(item.test_des);
@@ -60,23 +60,30 @@ $(function(){
 
             for (var i = 0; i < item.pic_arr.length; i++) {
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
-                    pic_str += '<span onclick="set_poster(this)" class="btn" data_ip="'+item.pic_arr[i]
-                        +'">设为封面</span><div class="add_header_img'+i+'"><img src="'
-                        +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
-                        +'" style="display:none">'+item.pic_arr[i]+'</div>';
+                    pic_str += '<div><span onclick="set_poster(this)" class="btn btn-info" data_ip="'
+                        +item.pic_arr[i] +'">设为封面</span><span class="btn btn-danger" onclick="del_pic(this)" >删除</span>'
+                        +'<div class="add_header_img'+i+'"><img src="' +item.pic_arr[i]
+                        +'" width="80px"></div><div class="add_pic'+i
+                        +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div></div>';
                     pic_num++;
+                    old_pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
-                    pic_str += '<span onclick="set_poster(this)" class="mark btn" data_ip="'+item.pic_arr[i]
-                        +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
-                        +'" width="80px"></div><div class="add_pic" style="display:none">'
-                        +item.poster+'</div>';
+                    pic_str += '<div><span onclick="set_poster(this)" class="mark btn btn-info" data_ip="'
+                        +item.pic_arr[i] +'">封面</span><span class="btn btn-danger" onclick="del_pic(this)">'
+                        +'删除</span><div class="add_header_img"><img src="'+item.pic_arr[i]
+                        +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
+                        +item.poster+'</div></div>';
                     pic_num++;
+                    old_pic_num++;
                 }
             }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
         }
+        //追加设为封面函数set_poster
         var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
+        //压入删除单张图片函数del_pic
+        fun_str = fun_str + '<script> function del_pic(obj){ $(obj).parent().remove();}</script>';
         html_node.find("#id_container_add_tmp").after(fun_str);
 
 
@@ -105,7 +112,6 @@ $(function(){
                                              } else {
                                                  html_node.find(".update_header_img").html(pic_img);
                                                  html_node.find(".update_pic").html(pic_url);
-                                                 pic_num++;
                                              }
                                              add_next_pic(html_node);
                                          });
@@ -116,27 +122,40 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-primary',
                     action : function(dialog) {
-                        var pic           = html_node.find(".add_pic").text();
-                        var grade         = html_node.find(".add_grade").val();
-                        var poster        = html_node.find(".add_pic").text();
-                        var subject       = html_node.find(".add_subject").val();
-                        var test_des      = html_node.find(".add_test_des").val();
-                        var test_type     = html_node.find(".add_test_type").val();
-                        var test_title    = html_node.find(".add_test_title").val();
-                        if (pic_num >1) {
-                            for (var i = 1; i <= pic_num; i++) {
+                        var pic        = html_node.find(".add_pic").text();
+                        var grade      = html_node.find(".add_grade").val();
+                        var poster     = html_node.find(".add_pic").text();
+                        var subject    = html_node.find(".add_subject").val();
+                        var test_des   = html_node.find(".add_test_des").val();
+                        var test_type  = html_node.find(".add_test_type").val();
+                        var test_title = html_node.find(".add_test_title").val();
+                        //add
+                        if (pic_num >1 && old_pic_num <1 ) {
+                            for (var i = 0; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                }
+                            }
+                        }
+                        if (opt_type == "update") {
+                            pic = '';
+                            for (var i = 0; i < 11; i++) {
+                                if (html_node.find('.order'+i).text()) {
+                                    pic =  pic+'|'+ html_node.find('.order'+i).text();
                                 }
                             }
                         }
                         if ( opt_type == "update" && html_node.find(".update_pic").text() ){
                             pic = pic +'|'+ html_node.find(".update_pic").text();
                         }
-
-                        if(poster_url != '') {
-                            poster = poster_url;
+                        if (old_pic_num > 0 && pic_num > (old_pic_num+1)){
+                            for (var i = old_pic_num+1; i <= pic_num; i++) {
+                                if (html_node.find('.add_pic'+i).text()) {
+                                    pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                }
+                            }
                         }
+
                         if(html_node.find('.real_poster').text()) {
                             poster = html_node.find('.real_poster').text();
                         }
@@ -267,7 +286,7 @@ $(function(){
                                      $(".add_header_img"+pic_num).html(pic_img);
                                      $(".add_pic"+pic_num).html(pic_url);
                                      html_node = html_node+new_header_img+new_pic;
-                                     add_next_pic();
+                                     add_next_pic(html_node);
                                  });
         }
     }

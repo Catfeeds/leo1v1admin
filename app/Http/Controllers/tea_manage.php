@@ -2081,6 +2081,10 @@ class tea_manage extends Controller
         ]);
     }
 
+    public function trial_train_no_pass_list(){
+        
+    }
+
     public function set_teacher_record_account(){
         $id  = $this->get_in_int_val("id");
         $acc = $this->get_account();
@@ -2240,7 +2244,7 @@ class tea_manage extends Controller
                 $teacher_info['tea_nick'] = $nick;
                 $teacher_info['grade']    = $grade;
                 $teacher_info['subject']  = $subject;
-                $teacher_info['level']    = 1;
+                $teacher_info['level']    = 0;
                 $teacher_info['acc']      = $acc;
                 $teacher_info['identity'] = $identity;
                 $teacherid = $this->add_teacher_common($teacher_info);
@@ -2251,7 +2255,7 @@ class tea_manage extends Controller
                 $check_info['subject'] = $subject;
                 $check_info['grade']   = $grade;
                 $this->set_teacher_grade($teacher_info,$check_info);
-                $this->check_teacher_lecture_is_pass($teacher_info);
+                // $this->check_teacher_lecture_is_pass($teacher_info);
             }
         }
 

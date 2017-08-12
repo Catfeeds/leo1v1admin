@@ -314,8 +314,8 @@ class seller_student_new2 extends Controller
 
     public function test_lesson_plan_list_new()
     {
-        // $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
-        $ret = [];
+        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        // dd($ret);
         $ret_info = [];
         foreach($ret as $key => &$item){
             E\Egrade::set_item_value_str($item);
@@ -329,6 +329,7 @@ class seller_student_new2 extends Controller
             $ret_info[$key]['require_admin_nick'] = $item['require_admin_nick'];
             $ret_info[$key]['require_time'] = $item['require_time'];
         }
+        // dd($ret_info);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
 

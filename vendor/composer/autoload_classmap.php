@@ -617,6 +617,7 @@ return array(
     'TLessonInfoAddTrainLessonWxCur' => $baseDir . '/database/migrations/2017_07_03_111952_t_lesson_info_add_train_lesson_wx_cur.php',
     'TLessonInfoAddTrainNum' => $baseDir . '/database/migrations/2017_08_08_163737_t_lesson_info_add_train_num.php',
     'TLessonInfoAddTrainType' => $baseDir . '/database/migrations/2017_05_31_165842_t_lesson_info_add_train_type.php',
+    'TLessonInfoAddTrainTypeIndex' => $baseDir . '/database/migrations/2017_08_11_220612_t_lesson_info_add_train_type_index.php',
     'TLessonInfoAddUserAgent' => $baseDir . '/database/migrations/2017_07_14_161623_t_lesson_info_add_user_agent.php',
     'TLessonInfoAddWxSendFlag' => $baseDir . '/database/migrations/2017_08_07_151057_t_lesson_info_add_wx_send_flag.php',
     'TLessonInfoDropColumns' => $baseDir . '/database/migrations/2017_07_20_141108_t_lesson_info_drop_columns.php',

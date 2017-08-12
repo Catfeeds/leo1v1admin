@@ -315,5 +315,56 @@ $(function(){
         }
     });
 
+    $(".opt-qr-pad-at-time").on("click",function(){
+        var lessonid= $(this).get_opt_data("lessonid");
+        var url=$(this).data("type");
+        var title = $(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_lesson_xmpp_audio",{
+            "lessonid" :lessonid
+        },function(result){
+
+            var data=result.data;
+
+            var args="title=lessonid:"+lessonid+"&beginTime="+data.lesson_start+"&endTime="+data.lesson_end+"&roomId="+data.roomid+"&xmpp="+data.xmpp+"&webrtc="+data.webrtc+"&ownerId="+data.teacherid+"&type="+data.type+"&audioService="+data.audioService ;
+
+            var args_64 = $.base64.encode(args);
+
+            console.log(args);
+
+            var text = encodeURIComponent(url+args_64);
+
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message :"<div style = \"text-align:center\"><img width=\"350px\" src=\"/common/get_qr?text="+text+"\"></img>" ,
+                closable             : true
+            });
+            //dlg.getModalDialog().css("width","800px");
+
+        });
+
+    });
+    $(".opt-qr-pad").on("click",function(){
+
+        var lessonid= $(this).get_opt_data("lessonid");
+        var url = $(this).data("type");
+        var title=$(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_lesson_xmpp_audio",{
+            "lessonid" :lessonid
+        },function(result){
+            var data = result.data;
+            var args="title=lessonid : "+lessonid+"&beginTime="+data.real_begin_time+"&endTime="+data.real_end_time+"&drawUrl="+data.draw+"&audioUrl="+data.audio;
+            var args_64 = $.base64.encode(args);
+            var text = encodeURIComponent(url+args_64);
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message  : "<div style=\"text-align:center\"><img width=\"300\" src=\"/common/get_qr?text="+text+"\"></img><br/>" +  url+args_64+"<br/> "+args +"</div>",
+                closable : true
+            });
+        });
+    });
+
+
 	$('.opt-change').set_input_change_event(load_data);
 });

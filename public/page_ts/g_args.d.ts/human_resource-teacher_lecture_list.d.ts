@@ -57,6 +57,7 @@ interface RowData {
 	trans_grade	:any;
 	trans_grade_start	:any;
 	trans_grade_end	:any;
+	wx_openid	:any;
 	appointment_id	:any;
 	retrial_info	:any;
 	teacher_accuracy_score	:any;
@@ -71,6 +72,7 @@ interface RowData {
 	is_test_flag_str	:any;
 	status_str	:any;
 	t_subject_str	:any;
+	have_wx_flag	:any;
 }
 
 /*
