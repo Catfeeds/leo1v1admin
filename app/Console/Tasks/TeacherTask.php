@@ -1082,6 +1082,8 @@ class TeacherTask extends TaskController
                     "wx_absenteeism_flag"   => $wx_absenteeism_flag,
                     "absenteeism_flag"      => 1,
                 ]);
+                $id = $this->t_teacher_record_list->check_lesson_record_exist($val["lessonid"],1,5);
+
             }
         }
     }

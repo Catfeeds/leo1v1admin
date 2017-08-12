@@ -314,7 +314,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time <=%u",$end_time,-1],
             // "la.accept_adminid>0"
         ];
-        $sql= $this->gen_sql_new("select count(*) all_count,accept_adminid,m.account "
+        $sql= $this->gen_sql_new("select count(*) all_count,accept_adminid,m.account,sum(if(lecture_revisit_type=0,1,0)) no_call_count "
                                  ." from %s la "
                                  ." left join %s m on la.accept_adminid = m.uid"
                                  ." where %s group by accept_adminid",

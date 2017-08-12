@@ -130,4 +130,8 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
         return $this->main_get_value($sql);
     }
 
+    public function get_userid_list_new($lessonid){
+        $sql = $this->gen_sql_new("select userid from %s where lessonid = %u",self::DB_TABLE_NAME,$lessonid);
+        return $this->main_get_list($sql);
+    }
 }
