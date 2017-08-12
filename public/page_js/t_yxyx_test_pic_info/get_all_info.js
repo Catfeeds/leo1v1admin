@@ -62,12 +62,12 @@ $(function(){
                     pic_str += '<span onclick="set_poster(this)" class="btn" data_ip="'+item.pic_arr[i]
                         +'">设为封面</span><div class="add_header_img'+i+'"><img src="'
                         +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
-                        +'" style="display:none">'+item.pic_arr[i]+'</div>';
+                        +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
                     pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<span onclick="set_poster(this)" class="mark btn" data_ip="'+item.pic_arr[i]
                         +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
-                        +'" width="80px"></div><div class="add_pic" style="display:none">'
+                        +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div>';
                     pic_num++;
                 }
@@ -104,7 +104,6 @@ $(function(){
                                              } else {
                                                  html_node.find(".update_header_img").html(pic_img);
                                                  html_node.find(".update_pic").html(pic_url);
-                                                 pic_num++;
                                              }
                                              add_next_pic(html_node);
                                          });
@@ -126,6 +125,14 @@ $(function(){
                             for (var i = 0; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                }
+                            }
+                        }
+                        if (opt_type == "update") {
+                            pic = '';
+                            for (var i = 0; i < 10; i++) {
+                                if (html_node.find('.order'+i).text()) {
+                                    pic =  pic+'|'+ html_node.find('.order'+i).text();
                                 }
                             }
                         }
@@ -245,7 +252,6 @@ $(function(){
     });
     //多次添加图片
     function add_next_pic(html_node) {
-        pic_num++;
         $('#id_container_add_tmp').empty();
         var new_input = '<input id="id_upload_add_tmp" value="已'+pic_num+'张图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>';
         $('#id_container_add_tmp').append(new_input);
@@ -263,7 +269,7 @@ $(function(){
                                      $(".add_header_img"+pic_num).html(pic_img);
                                      $(".add_pic"+pic_num).html(pic_url);
                                      html_node = html_node+new_header_img+new_pic;
-                                     add_next_pic();
+                                     add_next_pic(html_node);
                                  });
         }
     }

@@ -1627,7 +1627,7 @@ class human_resource extends Controller
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             if(!empty($teacher_info)){
                 $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
-                $this->check_teacher_lecture_is_pass($teacher_info);
+                // $this->check_teacher_lecture_is_pass($teacher_info);
                 $ret = $this->set_teacher_grade($teacher_info,$check_info);
                 if(!$ret){
                     return $this->output_err("更新老师年级出错！请重试！");
@@ -1644,7 +1644,7 @@ class human_resource extends Controller
                     "grade_start"           => $grade_range['grade_start'],
                     "grade_end"             => $grade_range['grade_end'],
                     "not_grade"             => $not_grade,
-                    "level"                 => 1,
+                    "level"                 => 0,
                     "wx_use_flag"           => 1,
                     "trial_lecture_is_pass" => 1,
                 ];
@@ -2480,7 +2480,11 @@ class human_resource extends Controller
             $keyword2   = "已通过";
 
             //升级
-            // $this->check_teacher_lecture_is_pass($teacher_info);
+            if($teacher_info["level"]==0){
+                $this->check_teacher_lecture_is_pass($teacher_info);
+            }else{
+                $teacher_info["level"]=1;
+            }
             
 
             //等级升级通知
@@ -2510,7 +2514,7 @@ class human_resource extends Controller
             }
 
             //邮件推送
-            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+            // $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             $html = $this->teacher_level_up_html($teacher_info);
             $email = $teacher_info["email"];
             if($email){
