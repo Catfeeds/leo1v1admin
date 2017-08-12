@@ -14,7 +14,7 @@ class TTeacherInfoAddTestQuit extends Migration
     {
         Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
         {
-            t_field($table->integer("test_quit"),"可审核科目");
+            t_field($table->integer("test_quit"),"测试标识老师离职");
         });
 
         //

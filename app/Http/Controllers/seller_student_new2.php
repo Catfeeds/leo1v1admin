@@ -734,6 +734,7 @@ class seller_student_new2 extends Controller
             E\Esubject::set_item_value_str($item);
             E\Eregion_version::set_item_value_str($item,"editionid");
             E\Esuccess_flag::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
             if($item["orderid"]>0){
                 $item["order_flag"]="签单";
             }else{

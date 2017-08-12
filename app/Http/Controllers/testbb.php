@@ -104,15 +104,15 @@ class testbb extends Controller
 
     public function get_rate(){
 
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $time_arr = [
-            // "0"=>strtotime('2017-01-01'),
+            "0"=>strtotime('2017-01-01'),
             // "1"=>strtotime('2017-02-01'),
             // "2"=>strtotime('2017-03-01'),
             // "3"=>strtotime('2017-04-01'),
             // "4"=>strtotime('2017-05-01'),
             // "5"=>strtotime('2017-06-01'),
-            "6"=>strtotime('2017-07-01'),
+            // "6"=>strtotime('2017-07-01'),
         ];
 
         $ret_num=[];
@@ -121,11 +121,15 @@ class testbb extends Controller
         foreach($time_arr as $item){
             // $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
             // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
-            $ret_num['leveal'][] = count($this->t_teacher_info->get_leveal_num($item));
+            $ret_num = $this->t_teacher_info->get_leveal_num($item);
         }
 
+        // dd(count($ret_num));
+
         foreach($ret_num as $i=>$item){
-            // $ret_num['has_num'] = $i
+            $this->t_teacher_info->field_update_list($item['teacherid'],[
+                "test_quit"=>1
+            ]);
         }
         // $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
 

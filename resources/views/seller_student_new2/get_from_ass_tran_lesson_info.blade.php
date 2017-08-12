@@ -65,7 +65,7 @@
 
 
                             <td>
-                                @if($master_flag==1)
+                                @if(@$master_flag==1)
                                     <a  href="/user_manage/ass_archive?order_by_str=ass_assign_time%20desc&grade=-1&student_type=-1&revisit_flag=-1&warning_stu=-1&user_name={{$var["userid"]}}"
                                         target="_blank" title="学生信息">{{@$var["nick"]}} </a>
                                 @else
@@ -80,7 +80,7 @@
                             <td >
                                 {{$var["subject_str"]}}
                             </td>
-                            <td>{{$var["ass_nick"]}}</td>
+                            <td>{{$var["name"]}}</td>
                             <td>{{$var["editionid_str"]}}</td>
                             <td>
                                 <a  href="/human_resource/index_ass?teacherid={{$var["teacherid"]}}"
@@ -94,10 +94,8 @@
                                     {!!$var["success_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a href="javascript:;"  class="fa fa-info opt-success-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
                                 @endif
                             </td>
-                            <td>
                                
-                                <td>{{$var["order_flag"]}}</td>
-                            </td>
+                            <td>{{$var["order_flag"]}}</td>
 
 
                             <td>

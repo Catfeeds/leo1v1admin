@@ -2688,7 +2688,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_chaxun_num($item){
-        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0",
+        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0 and train_through_new=1",
                                   self::DB_TABLE_NAME
         );
 
@@ -2702,7 +2702,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $end_time = strtotime( "$n +1 month");
 
 
-        $sql = $this->gen_sql_new("select count(*) from %s  where train_through_new_time>$item and train_through_new_time<$end_time and is_test_user = 0",
+        $sql = $this->gen_sql_new("select count(*) from %s  where train_through_new_time>$item and train_through_new_time<$end_time and is_test_user = 0 ",
+
                                   self::DB_TABLE_NAME
         );
 
@@ -2715,11 +2716,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $n = date('Y-m-d',$item);
         $three_end     = strtotime( "$n +1 month");
-
-        $three_begin   = strtotime( "$n -3 month");
+        $three_begin   = strtotime( "$n -2 month");
         $where_arr = [
             "t.train_through_new =1",
             "t.is_test_user = 0",
+            "create_time <$three_begin",
+            "t.test_quit =0"
         ];
         $sql = $this->gen_sql_new(" select t.teacherid,count(l.lessonid) num from %s t left join %s l on l.teacherid=t.teacherid and l.lesson_start>=$three_begin and l.lesson_end<$three_end  ".
                                   " where %s group by t.teacherid having(num=0) ",
