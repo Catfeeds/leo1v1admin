@@ -103,7 +103,15 @@ $(function(){
                 var sshd_good=[];
                 id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                     sshd_good.push($(this).val());
-                });              
+                });    
+                var not_grade = "";
+                $("input[name='not_grade']:checked").each(function(){
+                    if(not_grade==""){
+                        not_grade = $(this).val();
+                    }else{
+                        not_grade += ","+$(this).val();
+                    }
+                });          
 
                 $.do_ajax("/human_resource/set_trial_train_lesson",{
                     "teacherid"                        : teacherid,

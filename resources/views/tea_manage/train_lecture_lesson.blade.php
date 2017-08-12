@@ -148,6 +148,7 @@
                         >
                             @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东"]))
                                 <a class="fa-edit opt-edit" title="审核"></a>
+                                <a class="opt-edit-new" title="审核-new">审核-new</a>
                                 <a class="opt-del" title="删除">删除</a>
                             @endif
                             @if($var['lesson_status']==0)

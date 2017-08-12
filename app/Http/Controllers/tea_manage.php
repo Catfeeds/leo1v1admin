@@ -2410,6 +2410,293 @@ class tea_manage extends Controller
     }
 
 
+    public function set_train_lecture_status_b1(){
+        $teacherid   = $this->get_in_int_val("teacherid");
+        $lessonid    = $this->get_in_int_val("lessonid");
+        $phone       = $this->get_in_str_val("phone");
+        $nick        = $this->get_in_str_val("nick");
+        $account     = $this->get_in_str_val("account");
+        $flag        = $this->get_in_int_val("flag");
+        $record_info = $this->get_in_str_val("record_info");
+        $grade       = $this->get_in_int_val("grade");
+        $subject     = $this->get_in_int_val("subject");
+        $identity    = $this->get_in_int_val("identity");
+        $acc         = $this->get_account();
+        $lecture_out_list  = $this->get_in_str_val("lecture_out_list");
+        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
+        if($flag==1){
+            if(empty($teacher_info)){
+                $teacher_info['phone']    = $phone;
+                $teacher_info['tea_nick'] = $nick;
+                $teacher_info['grade']    = $grade;
+                $teacher_info['subject']  = $subject;
+                $teacher_info['level']    = 1;
+                $teacher_info['acc']      = $acc;
+                $teacher_info['identity'] = $identity;
+                $teacherid = $this->add_teacher_common($teacher_info);
+                if(!$teacherid){
+                    return $this->output_err("老师添加失败！");
+                }
+            }else{
+                $check_info['subject'] = $subject;
+                $check_info['grade']   = $grade;
+                $this->set_teacher_grade($teacher_info,$check_info);
+                $this->check_teacher_lecture_is_pass($teacher_info);
+            }
+        }
+
+        $appointment_info = $this->t_teacher_lecture_appointment_info->get_simple_info($teacher_info['phone']);
+        $full_time = $appointment_info['full_time'];
+        //微信通知老师
+        $wx_openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
+        if($wx_openid && ($flag==1 || $flag==0)){
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $data=[];
+            $url = "";
+            if($full_time==0){
+                $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                if($flag==1){
+                    $data['first']    = "老师您好,恭喜您已经成功通过试讲";
+                    $data['keyword1'] = "通过";
+                    $data['keyword2'] = "\n账号:".$phone
+                                      ."\n密码:123456"
+                                      ."\n新师培训群号：315540732"
+                                      ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+                    $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
+                }else if($flag==0){
+                    $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
+                    $data['keyword1'] = "未通过";
+                    $data['keyword2'] = "\n您的面试反馈情况是".$record_info
+                                      ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
+                    $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
+                }
+            }elseif($full_time==1){
+                /**
+                   9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                   {{first.DATA}}
+                   评估内容：{{keyword1.DATA}}
+                   评估结果：{{keyword2.DATA}}
+                   时间：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 */
+                $template_id = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                if($flag==1){
+                    $data['first']="老师您好，恭喜您已经成功通过初试。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+                }else{
+                    $data['first']="老师您好，很抱歉您没有通过面试审核。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="未通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
+                }
+            }
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,10,$lessonid);
+        if($record_id){
+            $ret = $this->t_teacher_record_list->field_update_list($record_id,[
+                "record_info"        => $record_info,
+                "trial_train_status" => $flag,
+                "lecture_out_list"   => $lecture_out_listc
+            ]);
+        }else{
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"          => $teacherid,
+                "trial_train_status" => $flag,
+                "train_lessonid"     => $lessonid,
+                "record_info"        => $record_info,
+                "add_time"           => time(),
+                "type"               => 10,
+                "current_acc"        => $acc,
+                "acc"                => $account,
+                "phone_spare"        => $phone,
+                "lecture_out_list"   => $lecture_out_list
+            ]);
+        }
+        if(!$ret){
+            return $this->output_err("添加反馈失败！");
+        }
+        return $this->output_succ();
+    }
+    public function set_train_lecture_status_b2(){
+        $teacherid   = $this->get_in_int_val("teacherid");
+        $lessonid    = $this->get_in_int_val("lessonid");
+        $phone       = $this->get_in_str_val("phone");
+        $nick        = $this->get_in_str_val("nick");
+        $account     = $this->get_in_str_val("account");
+        $flag        = $this->get_in_int_val("flag");
+        $record_info = $this->get_in_str_val("record_info");
+        $grade       = $this->get_in_int_val("grade");
+        $subject     = $this->get_in_int_val("subject");
+        $identity    = $this->get_in_int_val("identity");
+        $acc         = $this->get_account();
+        $reason                             = $this->get_in_str_val("record_info");
+        $lecture_content_design_score       = $this->get_in_int_val("lecture_content_design_score");
+        $lecture_combined_score             = $this->get_in_int_val("lecture_combined_score");
+        $course_review_score                = $this->get_in_int_val("course_review_score");
+        $teacher_mental_aura_score          = $this->get_in_int_val("teacher_mental_aura_score");
+        $teacher_point_explanation_score    = $this->get_in_int_val("teacher_point_explanation_score");
+        $teacher_class_atm_score            = $this->get_in_int_val("teacher_class_atm_score");
+        $teacher_dif_point_score            = $this->get_in_int_val("teacher_dif_point_score");
+        $teacher_blackboard_writing_score   = $this->get_in_int_val("teacher_blackboard_writing_score");
+        $teacher_explain_rhythm_score       = $this->get_in_int_val("teacher_explain_rhythm_score");
+        $teacher_language_performance_score = $this->get_in_int_val("teacher_language_performance_score");
+
+        $teacher_detail_score = array(
+                'lecture_content_design_score'   =>   $lecture_content_design_score,
+                'lecture_combined_score'         =>   $lecture_combined_score,
+                'course_review_score'            =>   $course_review_score,
+                'teacher_mental_aura_score'      =>   $teacher_mental_aura_score,
+                'teacher_point_explanation_score'=>   $teacher_point_explanation_score,
+                'teacher_class_atm_score'        =>   $teacher_class_atm_score,
+                'teacher_dif_point_score'        =>   $teacher_dif_point_score,
+                'teacher_blackboard_writing_score'=>   $teacher_blackboard_writing_score,
+                'teacher_explain_rhythm_score'   =>   $teacher_explain_rhythm_score,
+                'teacher_language_performance_score'   =>   $teacher_language_performance_score
+            );  //1
+        $teacher_detail_score = json_encode($teacher_detail_score);
+        $teacher_lecture_score              = $this->get_in_int_val("total_score");//2
+        $identity                           = $this->get_in_int_val("identity");
+        $work_year                          = $this->get_in_int_val("work_year");//3
+        $sshd_good                          = $this->get_in_str_val("sshd_good");//4
+        $not_grade                          = $this->get_in_str_val("not_grade");//5
+        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
+        if($flag==1){
+            if(empty($teacher_info)){
+                $teacher_info['phone']    = $phone;
+                $teacher_info['tea_nick'] = $nick;
+                $teacher_info['grade']    = $grade;
+                $teacher_info['subject']  = $subject;
+                $teacher_info['level']    = 1;
+                $teacher_info['acc']      = $acc;
+                $teacher_info['identity'] = $identity;
+                $teacherid = $this->add_teacher_common($teacher_info);
+                if(!$teacherid){
+                    return $this->output_err("老师添加失败！");
+                }
+            }else{
+                $check_info['subject'] = $subject;
+                $check_info['grade']   = $grade;
+                $this->set_teacher_grade($teacher_info,$check_info);
+                $this->check_teacher_lecture_is_pass($teacher_info);
+            }
+        }
+
+        $appointment_info = $this->t_teacher_lecture_appointment_info->get_simple_info($teacher_info['phone']);
+        $full_time = $appointment_info['full_time'];
+        //微信通知老师
+        $wx_openid = $this->t_teacher_info->get_wx_openid_by_phone($phone);
+        if($wx_openid && ($flag==1 || $flag==0)){
+            /**
+             * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+             * 标题课程 : 待办事项提醒
+             * {{first.DATA}}
+             * 待办主题：{{keyword1.DATA}}
+             * 待办内容：{{keyword2.DATA}}
+             * 日期：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $data=[];
+            $url = "";
+            if($full_time==0){
+                $template_id = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                if($flag==1){
+                    $data['first']    = "老师您好,恭喜您已经成功通过试讲";
+                    $data['keyword1'] = "通过";
+                    $data['keyword2'] = "\n账号:".$phone
+                                      ."\n密码:123456"
+                                      ."\n新师培训群号：315540732"
+                                      ."\n请在【我的培训】或【培训课程】中查看培训课程,每周我们都会组织新入职老师的培训,帮助各位老师熟悉使用软件,提高教学技能,请您准时参加,培训通过后我们会及时给您安排试听课";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优期待与你一起共同进步,提供高质量教学品质";
+                    $url="https://jq.qq.com/?_wv=1027&k=4Bik1eq";
+                }else if($flag==0){
+                    $data['first']    = "老师您好,通过评审老师的1对1面试,很抱歉您没有通过面试审核,希望您再接再厉";
+                    $data['keyword1'] = "未通过";
+                    $data['keyword2'] = "\n您的面试反馈情况是".$record_info
+                                      ."\n如果对于面试结果有疑问，请添加试讲答疑2群，群号：26592743";
+                    $data['keyword3'] = date("Y-m-d H:i",time());
+                    $data['remark']   = "理优教育致力于打造高水平的教学服务团队,期待您能通过下次面试,加油!如对面试结果有疑问,请联系招聘老师";
+                    $url="https://jq.qq.com/?_wv=1027&k=4BiqfPA";
+                }
+            }elseif($full_time==1){
+                /**
+                   9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                   {{first.DATA}}
+                   评估内容：{{keyword1.DATA}}
+                   评估结果：{{keyword2.DATA}}
+                   时间：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 */
+                $template_id = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                if($flag==1){
+                    $data['first']="老师您好，恭喜您已经成功通过初试。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+                }else{
+                    $data['first']="老师您好，很抱歉您没有通过面试审核。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="未通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
+                }
+            }
+            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,10,$lessonid);
+        if($record_id){
+            $ret = $this->t_teacher_record_list->field_update_list($record_id,[
+                "record_info"        => $record_info,
+                "trial_train_status" => $flag,
+                "lecture_out_list"   => $lecture_out_listc
+            ]);
+        }else{
+            $ret = $this->t_teacher_record_list->row_insert([
+                "teacherid"          => $teacherid,
+                "trial_train_status" => $flag,
+                "train_lessonid"     => $lessonid,
+                "record_info"        => $record_info,
+                "add_time"           => time(),
+                "type"               => 10,
+                "current_acc"        => $acc,
+                "acc"                => $account,
+                "phone_spare"        => $phone,
+                "teacher_detail_score" => $teacher_detail_score,
+                "teacher_lecture_score" => $teacher_lecture_score,
+                "work_year"          => $work_year,
+                "sshd_good"          => $sshd_good,
+                "not_grade "         => $not_grade,
+
+
+            ]);
+        }
+        if(!$ret){
+            return $this->output_err("添加反馈失败！");
+        }
+        return $this->output_succ();
+    }
 
 
 }
