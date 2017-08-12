@@ -104,14 +104,14 @@ class order_price_base {
         }else{
             return static::get_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count);
         }
-
     }
+
     static public function get_price_ex_by_order_price_type( $order_price_type, $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count ) {
         $class_name=static::$order_price_type_config [$order_price_type];
         return $class_name::get_price_ex ( $competition_flag,  $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count);
-
     }
-    static public function get_price_ex_cur(  $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) {
+
+    static public function get_price_ex_cur( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) {
         return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) ;
 
     }
