@@ -134,7 +134,7 @@ $(function(){
                         }
                         if (opt_type == "update") {
                             pic = '';
-                            for (var i = 0; i < 10; i++) {
+                            for (var i = 0; i < 11; i++) {
                                 if (html_node.find('.order'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.order'+i).text();
                                 }
