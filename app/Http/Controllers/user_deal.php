@@ -2611,9 +2611,9 @@ class user_deal extends Controller
         foreach($teacher_info as $k=>&$val){
             $val["flag"] = $this->t_train_lesson_user->get_max_lesson_time($val["teacherid"]);
             if($val["flag"]>0){
-                
                 unset($teacher_info[$k]);
             }else{
+                $this->t_teacher_info->field_update_list($val["teacherid"],["level"=>0]);
             }
         }
         dd($teacher_info);

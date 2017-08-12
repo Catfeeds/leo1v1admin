@@ -37,6 +37,11 @@ $(function(){
 
     if(seller_flag == 1){
         // $
+        $('.show_body td:nth-child(2)').html('老师');
+        $('.show_body td:nth-child(2)').html('老师');
+
+    }else{
+        $('.show_body td:nth-child(2)').html('销售');
     }
 
 

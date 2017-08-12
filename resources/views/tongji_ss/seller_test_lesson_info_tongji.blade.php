@@ -63,8 +63,8 @@
         </div>
         <hr/>
         <table class="common-table">
-            <thead>
-                <tr>
+            <thead >
+                <tr class="show_body">
                     <td>编号</td>
                     <td>销售</td>
                     {!!\App\Helper\Utils::th_order_gen([
