@@ -51,6 +51,7 @@ class order_price_base {
 
     static $next_present_lesson_config = [
     ];
+
     static function get_value_from_config($config,$check_key,$def_value=0) {
         $last_value=$def_value;
         foreach ($config as  $k =>$v ) {
@@ -62,12 +63,11 @@ class order_price_base {
         return $last_value;
     }
 
-
-    static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
+    static public function get_price ($order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
         $present_lesson_count=0;
         $discount_count=100;
 
-        $check_lesson_count= $lesson_count  + $before_lesson_count;
+        $check_lesson_count = $lesson_count+$before_lesson_count;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             $present_lesson_config= $contract_type==0?static::$new_present_lesson_config: static::$next_present_lesson_config;
