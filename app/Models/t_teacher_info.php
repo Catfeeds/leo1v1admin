@@ -2687,6 +2687,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+
+
+
+
+
+
     public function get_chaxun_num($item){
         $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0 and train_through_new=1",
                                   self::DB_TABLE_NAME
@@ -2714,7 +2720,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_leveal_num($item){
 
-        $n = date('Y-m-d',$item);
+        // $n = date('Y-m-d',$item);
         $three_end     = 1501516800;
         $three_begin   = 1483200000;
         $where_arr = [

@@ -107,22 +107,23 @@ class testbb extends Controller
         $this->switch_tongji_database();
         $time_arr = [
             "0"=>strtotime('2017-01-01'),
-            // "1"=>strtotime('2017-02-01'),
-            // "2"=>strtotime('2017-03-01'),
-            // "3"=>strtotime('2017-04-01'),
-            // "4"=>strtotime('2017-05-01'),
-            // "5"=>strtotime('2017-06-01'),
-            // "6"=>strtotime('2017-07-01'),
+            "1"=>strtotime('2017-02-01'),
+            "2"=>strtotime('2017-03-01'),
+            "3"=>strtotime('2017-04-01'),
+            "4"=>strtotime('2017-05-01'),
+            "5"=>strtotime('2017-06-01'),
+            "6"=>strtotime('2017-07-01'),
         ];
 
         $ret_num=[];
 
 
-        // foreach($time_arr as $item){
-            // $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
+        foreach($time_arr as $item){
+            $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
             // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
-            $ret_num = $this->t_teacher_info->get_leveal_num($item);
-        // }
+        // $item = '';
+        // $ret_num = $this->t_teacher_info->get_leveal_num($item);
+        }
 
         dd($ret_num);
         // dd(count($ret_num));

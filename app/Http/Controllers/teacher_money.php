@@ -316,9 +316,13 @@ class teacher_money extends Controller
             //工资补偿
             $list[$i]['lesson_reward_compensate_price'] = ($this->t_teacher_money_list->get_teacher_honor_money(
                 $teacherid,$start,$end,4))/100;
+            //模拟试听奖金
+            $list[$i]['lesson_reward_train'] = ($this->t_teacher_money_list->get_teacher_honor_money(
+                $teacherid,$start,$end,5))/100;
             //伯乐奖
             $list[$i]['lesson_reward_reference'] = ($this->t_teacher_money_list->get_teacher_honor_money(
                 $teacherid,$start,$end,6))/100;
+
             $list[$i]["lesson_ref_money"]  = "0";
             $list[$i]["teacher_ref_money"] = "0";
 
@@ -375,6 +379,7 @@ class teacher_money extends Controller
                 +$item['lesson_reward_compensate']
                 +$item['lesson_reward_compensate_price']
                 +$item['lesson_reward_reference']
+                +$item['lesson_reward_train']
             );
             $item['lesson_normal']       = strval($item['lesson_normal']);
             $item['lesson_trial']        = strval($item['lesson_trial']);
