@@ -3874,8 +3874,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $adminid = $this->get_in_int_val("adminid");
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $seller_flag = $this->get_in_int_val('seller_flag',-1);
 
-        $data = $this->t_lesson_info->get_seller_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        if($seller_flag>0){
+            $data = $this->t_lesson_info_b2->get_teacher_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        }else{
+            $data = $this->t_lesson_info->get_seller_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        }
         foreach($data as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -3886,11 +3891,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $item["have_order"] = "未签";
             }
-
         }
 
         return  $this->output_succ( [ "data" =>$data] );
-
     }
 
     public function get_seller_teacher_test_lesson_per(){

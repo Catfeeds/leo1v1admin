@@ -72,6 +72,10 @@ $(function(){
     $(".success_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
         console.log(adminid);
+
+        if(seller_flag>0){
+            adminid = $(this).data('teacherid');
+        }
         //alert(adminid);
         if(adminid > 0){
             var title     = "试听成功详情";
@@ -80,7 +84,8 @@ $(function(){
             $.do_ajax('/tongji_ss/get_seller_test_lesson_success_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
-                "end_time":g_args.end_time
+                "end_time":g_args.end_time,
+                "seller_flag":seller_flag
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){

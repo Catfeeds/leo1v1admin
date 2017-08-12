@@ -2081,6 +2081,10 @@ class tea_manage extends Controller
         ]);
     }
 
+    public function trial_train_no_pass_list(){
+        
+    }
+
     public function set_teacher_record_account(){
         $id  = $this->get_in_int_val("id");
         $acc = $this->get_account();
