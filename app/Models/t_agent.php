@@ -18,7 +18,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
