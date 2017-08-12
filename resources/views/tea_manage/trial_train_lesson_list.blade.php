@@ -99,7 +99,7 @@
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
                                 <a class="fa-video-camera opt-play" title="回放"></a>
-                                <a class="fa-video-camera opt-play-new" title="回放-new"></a>
+                                <a class="opt-play-new" title="回放-new">回放-new</a>
                                 <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
                                 <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
