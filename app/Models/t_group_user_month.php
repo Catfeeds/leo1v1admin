@@ -80,6 +80,22 @@ class t_group_user_month extends \App\Models\Zgen\z_t_group_user_month
         return $list;
     }
 
+    public function get_group_info_by_adminid( $main_type, $adminid,$month) {
+        $where_arr=[
+            ["main_type=%u", $main_type , -1 ] ,
+            ["gu.month=%u",$month,0],
+            ["g.month=%u",$month,0],
+        ];
+        $sql =$this->gen_sql_new("select g.groupid,g.master_adminid from %s gu, %s g where "
+                                 ."gu.groupid= g.groupid and  "
+                                 ." %s and adminid=%u ",
+                                 self::DB_TABLE_NAME,
+                                 t_group_name_month::DB_TABLE_NAME,
+                                 $where_arr, $adminid);
+        return $this->main_get_row($sql,0);
+    }
+
+
 }
 
 
