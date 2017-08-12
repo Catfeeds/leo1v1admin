@@ -2089,7 +2089,12 @@ class tea_manage extends Controller
         $absenteeism_flag = $this->get_in_int_val("absenteeism_flag",0);
         $is_test_user = $this->get_in_int_val("is_test_user",0);
         $ret_info = $this->t_lesson_info_b2->get_trial_train_no_pass_list($page_info,$start_time,$end_time,$subject,$is_test_user,$absenteeism_flag);
-        dd($ret_info);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"absenteeism_flag");
+            $item["add_time_str"] = date("Y-m-d H:i:s",$item["add_time"]);
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+        }
         return $this->pageView(__METHOD__,$ret_info);
 
     }

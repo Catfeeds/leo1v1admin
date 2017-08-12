@@ -929,14 +929,17 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.lesson_style=5",
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
-            "tr.trial_train_status>0"
+            "tr.trial_train_status>0",
+            "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select acc,count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
                                   ." from %s tr left join %s l on tr.train_lessonid=l.lessonid"
+                                  ." join %s t on tr.teacherid = t.teacherid "
                                   ." where %s group by tr.acc ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -950,14 +953,17 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.lesson_style=5",
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
-            "tr.trial_train_status>0"
+            "tr.trial_train_status>0",
+            "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
                                   ." from %s tr left join %s l on tr.train_lessonid=l.lessonid"
+                                  ." join %s t on tr.teacherid = t.teacherid "
                                   ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_row($sql);

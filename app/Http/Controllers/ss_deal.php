@@ -1479,6 +1479,8 @@ class ss_deal extends Controller
         $before_lesson_count=0;
         $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count);
 
+        
+
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
@@ -1542,7 +1544,6 @@ class ss_deal extends Controller
         }
 
         return $this->output_succ();
-
     }
 
 
