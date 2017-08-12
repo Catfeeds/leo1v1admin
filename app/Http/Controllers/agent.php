@@ -119,6 +119,25 @@ class agent extends Controller
     }
 
     public function check(){
+        $ret = $this->t_agent->get_agent_list();
+        foreach($ret as $item){
+            $id = $item['id'];
+            $userid = $item['userid'];
+            $phone = $item['phone'];
+            if($userid == null or $userid==0){
+                $ret_info[] = $item;
+                $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+                $id_arr[] = $id;
+                if($userid){
+                    $this->t_agent->field_update_list($id,[
+                        "userid" => $userid,
+                    ]);
+                }
+            }
+        }
+        dd($id_arr);
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+
         $agent_id = 54;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
