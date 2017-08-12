@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail ;
 
 class agent extends Controller
 {
-    var $check_login_flag=false;
     public function agent_list() {
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
         $userid        = $this->get_in_userid(-1);
@@ -118,7 +117,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $ret = $this->t_test_lesson_subject_require->get_plan_list_new();
+        $phone = '15251318621';
+        $ret = $this->t_seller_student_new->del_row_by_phone($phone);
         dd($ret);
         $agent_id = 85;
         $agent = $this->t_agent->get_agent_info_by_id($agent_id);
