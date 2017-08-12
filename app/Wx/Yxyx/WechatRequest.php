@@ -447,7 +447,7 @@ class WechatRequest  {
                 'title' => '精品内容',
                 'description' => '',
                 'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/fb5c81ed3a220004b71069645f1128671501667305656.png',
-                'url' => 'http://www.leo1v1.com/wx-invite-article/index.html?p_phone='.$phone,
+                'url' => 'http://wx-yxyx-web.leo1v1.com/wx-invite-article/index.html?p_phone='.$phone,
             );
         }elseif($eventKey == 'feedback'){
             $tuwenList[] = array(
