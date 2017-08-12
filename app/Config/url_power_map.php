@@ -296,6 +296,7 @@ class url_power_map {
 			'/seller_student_new/wiki'	=>1209100,
 			'/self_manage/qingjia'	=>1200200,
 			'/self_manage/flow_list'	=>1201000,
+			'/self_manage/self_menu_list'	=>1201100,
 			'/main_page/seller'	=>1116000,
 			'/human_resource/teacher_info_for_seller'	=>1116700,
 			'/seller_student_new2/test_lesson_plan_list_seller'	=>1117500,

@@ -2716,13 +2716,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $n = date('Y-m-d',$item);
         $three_end     = strtotime( "$n +1 month");
 
-        // $three_begin   = strtotime( "$n -2 month");
+        $three_begin   = strtotime( "$n -2 month");
         $where_arr = [
-            ["l.lesson_start>=%d",$item],
+            ["l.lesson_start>=%d",$three_begin],
             ["l.lesson_end<%d",$three_end],
             "t.is_test_user = 0"
         ];
-        $sql = $this->gen_sql_new(" select sum(if(l.lessonid>0,0,1)) from %s t left join %s l on l.teacherid=t.teacherid".
+        $sql = $this->gen_sql_new(" select sum(if(l.lessonid,0,1)) from %s t left join %s l on l.teacherid=t.teacherid".
                                   " where %s ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
