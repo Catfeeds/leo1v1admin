@@ -254,6 +254,12 @@ class ajax_deal extends Controller
             // "zfb_name"     => $zfb_name,
             // "zfb_account"     => $zfb_account,
         ]);
+        if($type == 1){
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }elseif($type == 2){
+            $this->t_seller_student_new->del_row_by_phone($phone);
+        }
+
         return $this->output_succ();
     }
 

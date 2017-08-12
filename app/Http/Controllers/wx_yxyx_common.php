@@ -129,6 +129,7 @@ class wx_yxyx_common extends Controller
             }
 
             session(["agent_id"=>$id]);
+            session(["wx_yxyx_openid" => $wx_openid]);
             session(["login_user_role"=>10]);
             return $this->output_succ("绑定成功!");
         }else{
@@ -188,7 +189,7 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($type == 1){
-            $userid_add = $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
         }
         if($ret){
             return $this->output_succ("邀请成功!");
