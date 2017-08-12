@@ -49,39 +49,13 @@ class testbb extends Controller
 
 
     public function test () {
+        $teacherid = $this->get_in_int_val('id');
+        $start_time = 1501516800;
+        $end_time = 1501516800 + 86400;
+        $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($teacherid,$start_time, $end_time);
 
-
-        $url_power_map=\App\Config\url_power_map::get_config();
-
-        dd($url_power_map);
-
-        // $group_list=$this->t_authority_group->get_auth_groups();
-        // dd($group_list);
-        $uid = $this->get_account_id();
-
-        $permission = $this->t_manager_info->get_permission($uid);
-
-        $per_arr = explode(',',$permission);
-
-        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95'];
-
-        $result=array_intersect($per_arr,$jiaoxue_part_arr);
-
-        dd($result);
-
-        $role = $this->get_account_role();
-        dd($role);
-
-        // $time = strtotime(date("2017-01-05"));
-        $time['start_time'] = 1483545600;
-        $time['end_time'] = 1483545699;
-
-        $ret =$this->t_teacher_info->get_freeze_and_limit_tea_info($time);
-
-        // $ret = $this->t_teacher_lecture_appointment_info->tongji_teacher_appoinment_lecture_info($time);
+        $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
         dd($ret);
-
-
 
 
     }

@@ -3699,14 +3699,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $ret_info = $this->seller_test_lesson_info_by_teacher();
         }else{
             $ret_info = $this->seller_test_lesson_info_tongji_for_seller();
-            // dd($ret_info);
-
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
 
 
     public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
+        ini_set('max_execution_time', 6000);
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3751,13 +3750,16 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
             if($show_flag==1){
                 $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($item['teacherid'],$start_time, $end_time);
-                // $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
-                // $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
-                // $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
+                if(empty($seller_arr)){
+                    $item["tea_per"] = 0;
+                    $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
+                }else{
+                    $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
+                    $item["tea_per"] = !empty($ret["lesson_count"])?round($ret["order_count"]/$ret["lesson_count"],4)*100:0;
+                    $item["range"] = sprintf("%.2f",$item["order_per"]-$item["tea_per"]);
+                }
             }
-
         }
-
 
         // dd($ret_info);
 
@@ -3872,8 +3874,13 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $adminid = $this->get_in_int_val("adminid");
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
+        $seller_flag = $this->get_in_int_val('seller_flag',-1);
 
-        $data = $this->t_lesson_info->get_seller_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        if($seller_flag>0){
+            $data = $this->t_lesson_info_b2->get_teacher_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        }else{
+            $data = $this->t_lesson_info->get_seller_test_lesson_order_info_new($start_time,$end_time,$adminid);
+        }
         foreach($data as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -3884,11 +3891,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }else{
                 $item["have_order"] = "未签";
             }
-
         }
 
         return  $this->output_succ( [ "data" =>$data] );
-
     }
 
     public function get_seller_teacher_test_lesson_per(){
@@ -3901,6 +3906,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         if($seller_flag > 0){
             $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($adminid,$start_time, $end_time);
             $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
+            if(empty($seller_arr)){
+                $ret = [];
+            }
         }else{
             $teacherid_arr = $this->t_lesson_info->get_seller_test_lesson_teacher_info($adminid,$start_time,$end_time);
             $ret = $this->t_lesson_info->get_seller_teacher_test_lesson_info($start_time,$end_time,$teacherid_arr);

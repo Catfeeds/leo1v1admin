@@ -62,7 +62,7 @@ class seller_order_money_201705  extends  seller_order_money_base
         $require_all_price_1=0;
         $v24_hour_all_price_1 =0;
         $require_and_24_hour_price_1 =0;
-        if ($percent >0 ) {
+        if ($percent >0  ||  $ret_arr["group_adminid"] == $adminid ) {
             $percent_value=$percent/100;
             $group_all_price= $ret_arr[ "group_all_price"];
             $all_price= $ret_arr["all_price"];

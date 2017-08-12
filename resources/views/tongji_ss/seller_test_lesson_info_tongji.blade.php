@@ -89,7 +89,7 @@
                         <td>{{@$var["account"]}}</td>
                         <td>{{@$var["work_day"]}}天</td>
                         <td>{{@$var["lesson_count"]}}</td>
-                        <td class="success_lesson" data-adminid="{{@$var["cur_require_adminid"]}}">
+                        <td class="success_lesson" data-adminid="{{@$var["cur_require_adminid"]}}" data-teacherid="{{@$var['teacherid']}}">
                             <a href="javascript:;" > {{@$var["suc_count"]}}</a>
                         </td>
                         <td>{{@$var["lesson_per"]}}%</td>

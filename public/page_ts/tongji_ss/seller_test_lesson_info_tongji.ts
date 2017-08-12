@@ -37,11 +37,11 @@ $(function(){
 
     if(seller_flag == 1){
         $('.show_body td:nth-child(2)').html('老师');
-        $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
+        $('.show_body td:nth-child(11)').html('销售签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
         $('.data').children("a:last-child").text('查看销售转化率');
     }else{
         $('.show_body td:nth-child(2)').html('销售');
-        $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class="fa td-sort-item fa-sort-down" data-field-name="tea_per"> </a>');
+        $('.show_body td:nth-child(11)').html('老师签单率<a href="javascript:;" class=" fa fa-sort td-sort-item  " data-field-name="tea_per"> </a>');
         $('.data').children("a:last-child").text('查看老师转化率');
     }
 
@@ -71,6 +71,11 @@ $(function(){
 
     $(".success_lesson").on("click",function(){
         var adminid = $(this).data("adminid");
+        console.log(adminid);
+
+        if(seller_flag>0){
+            adminid = $(this).data('teacherid');
+        }
         //alert(adminid);
         if(adminid > 0){
             var title     = "试听成功详情";
@@ -79,7 +84,8 @@ $(function(){
             $.do_ajax('/tongji_ss/get_seller_test_lesson_success_info',{
                 "adminid" : adminid,
                 "start_time":g_args.start_time,
-                "end_time":g_args.end_time
+                "end_time":g_args.end_time,
+                "seller_flag":seller_flag
             },function(resp) {
                 var userid_list = resp.data;
                 $.each(userid_list,function(i,item){

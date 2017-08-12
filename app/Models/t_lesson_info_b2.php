@@ -3031,4 +3031,37 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
+        public function get_teacher_test_lesson_order_info_new($start_time,$end_time,$adminid){
+        $where_arr=[
+            ["l.teacherid=%d",$adminid,-1],
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
+            "t.is_quit = 0",
+            "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status =1",
+            "t.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select distinct o.orderid,l.lesson_start,t.realname,l.subject,l.grade,s.nick,tq.test_lesson_order_fail_desc,l.lessonid"
+                                  ." from %s l left join %s tss on l.lessonid=tss.lessonid"
+                                  ." left join %s tq on tss.require_id =tq.require_id"
+                                  ." left join %s m on tq.cur_require_adminid = m.uid"
+                                  ." left join %s o on l.lessonid = o.from_test_lesson_id"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }
