@@ -1265,7 +1265,6 @@ class ss_deal extends Controller
         $competition_flag =0;
 
         if ($from_parent_order_type==E\Efrom_parent_order_type::V_1){ //转介绍
-
             $origin_userid=$this->t_student_info->get_origin_userid($userid);
             if (!$origin_userid) {
                 return $this->output_err("没有找到对应的转介绍人");
