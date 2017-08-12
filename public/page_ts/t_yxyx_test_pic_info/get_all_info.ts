@@ -62,12 +62,12 @@ $(function(){
                     pic_str += '<span onclick="set_poster(this)" class="btn" data_ip="'+item.pic_arr[i]
                         +'">设为封面</span><div class="add_header_img'+i+'"><img src="'
                         +item.pic_arr[i]+'" width="80px"></div><div class="add_pic'+i
-                        +'" style="display:none">'+item.pic_arr[i]+'</div>';
+                        +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div>';
                     pic_num++;
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<span onclick="set_poster(this)" class="mark btn" data_ip="'+item.pic_arr[i]
                         +'">封面</span><div class="add_header_img"><img src="'+item.pic_arr[i]
-                        +'" width="80px"></div><div class="add_pic" style="display:none">'
+                        +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div>';
                     pic_num++;
                 }
@@ -126,6 +126,14 @@ $(function(){
                             for (var i = 0; i <= pic_num; i++) {
                                 if (html_node.find('.add_pic'+i).text()) {
                                     pic =  pic+'|'+ html_node.find('.add_pic'+i).text();
+                                }
+                            }
+                        }
+                        if (opt_type == "update") {
+                            pic = '';
+                            for (var i = 0; i < 10; i++) {
+                                if (html_node.find('.order'+i).text()) {
+                                    pic =  pic+'|'+ html_node.find('.order'+i).text();
                                 }
                             }
                         }
