@@ -453,7 +453,7 @@ class WechatRequest  {
             $tuwenList[] = array(
                 'title' => '学员反馈',
                 'description' => '',
-                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/799bad5a3b514f096e69bbc4a7896cd91501667344751.jpg',
+                'pic_url' => 'http://7u2f5q.com2.z0.glb.qiniucdn.com/a7ee56745585a55a4703baadfbd9f5c11501667371977.JPG',
                 'url' => 'https://h5.in66.com/inpromo/inweb/in-share/in.html?uid=1EwYvwxb&_ig=share_my_copy',
             );
         }elseif($eventKey == 'card'){
