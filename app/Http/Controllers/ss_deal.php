@@ -1265,7 +1265,6 @@ class ss_deal extends Controller
         $competition_flag =0;
 
         if ($from_parent_order_type==E\Efrom_parent_order_type::V_1){ //转介绍
-
             $origin_userid=$this->t_student_info->get_origin_userid($userid);
             if (!$origin_userid) {
                 return $this->output_err("没有找到对应的转介绍人");
@@ -4480,9 +4479,6 @@ class ss_deal extends Controller
         $complaint_id     = $this->get_in_int_val('complaint_id');
         $assign_remarks   = $this->get_in_str_val('ass_remark');
         $accept_adminid   = $this->get_in_str_val('accept_adminid');
-        // $accept_adminid_nick = $this->get_in_str_val('accept_adminid_nick');
-
-        // $accept_adminid = $this->t_manager_info->get_id_by_account($accept_adminid_nick);
 
         $time_date        = date('Y-m-d H:i:s',time(NULL));
 
