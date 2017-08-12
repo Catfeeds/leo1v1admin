@@ -115,8 +115,8 @@ $(function(){
                 $(obj).parent().children("div:last-child").addClass("order"+new_id);
                 var this_con  = "<div>"+$(obj).parent().html()+"</div>";
                 var this_next = $(obj).parent().next();
-                $(this_next).children("div:last-child").removeClass("order"+new_id);
-                $(this_next).children("div:last-child").addClass("order"+id);
+                $(this_next).children("div:last-child").removeClass("order"+id);
+                $(this_next).children("div:last-child").addClass("order"+new_id);
                 $(obj).parent().remove();
                 $(this_next).after(this_con);
             }
