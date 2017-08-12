@@ -121,7 +121,7 @@ class testbb extends Controller
         foreach($time_arr as $item){
             // $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
             // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
-            $ret_num['leveal'][] = $this->t_teacher_info->get_leveal_num($item);
+            $ret_num['leveal'][] = count($this->t_teacher_info->get_leveal_num($item));
         }
 
         foreach($ret_num as $i=>$item){

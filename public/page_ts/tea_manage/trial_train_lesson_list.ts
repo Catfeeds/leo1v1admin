@@ -398,6 +398,17 @@ $(function(){
             BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
         });
     });
+    
+    $(".opt-play-new").on("click",function(){
+        var lessonid = $(this).get_opt_data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+           // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+        });
+    });
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

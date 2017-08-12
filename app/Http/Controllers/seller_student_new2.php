@@ -729,10 +729,19 @@ class seller_student_new2 extends Controller
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid);
-        dd($ret_info);
-        
-        
-        
+        foreach($ret_info["list"] as &$item){
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,"editionid");
+            E\Esuccess_flag::set_item_value_str($item);
+            if($item["orderid"]>0){
+                $item["order_flag"]="签单";
+            }else{
+                $item["order_flag"]="未签";
+            }
+
+        }
+        return $this->pageView(__METHOD__, $ret_info);
 
     }
 }
