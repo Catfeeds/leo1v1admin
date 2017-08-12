@@ -624,7 +624,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $ss_info= $this->task->t_seller_student_new->field_get_list($userid,"seller_resource_type,tmk_student_status,phone ,first_admin_master_adminid , first_admin_master_time ,first_admin_revisiterid ,first_admin_revisiterid_time");
         $tmk_student_status=$ss_info["tmk_student_status"];
         $phone=$ss_info["phone"];
-
         $set_arr=[];
         if($opt_type==0 || $opt_type==3 ) { //set admin , tmk 设置给cc
 
@@ -673,6 +672,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                                      ,$opt_adminid,$userid);
 
         }else if ( $opt_type ==1){ //分配主管
+            $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $set_arr=[
                 "admin_assignerid"  => $self_adminid,
                 "sub_assign_adminid_2"  => $opt_adminid,
@@ -682,7 +682,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 "sub_assign_time_1"  => time(NULL),
             ];
 
-            if ( $item["seller_resource_type"]==0) {
+            if ( $ss_info["seller_resource_type"]==0) {
                 if (!$ss_info["first_admin_master_time"]) {
                     $set_arr["first_admin_master_adminid"]=$up_adminid;
                     $set_arr["first_admin_master_time"]=$now;
