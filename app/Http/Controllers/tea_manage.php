@@ -2082,7 +2082,7 @@ class tea_manage extends Controller
     }
 
     public function trial_train_no_pass_list(){
-        
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2); 
     }
 
     public function set_teacher_record_account(){

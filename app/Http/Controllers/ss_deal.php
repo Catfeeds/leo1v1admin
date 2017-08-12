@@ -1456,7 +1456,7 @@ class ss_deal extends Controller
         $subject             = $this->get_in_subject();
         $origin              = $this->get_in_str_val("origin");
         $from_test_lesson_id = 0;
-        if ($require_id ) {
+        if($require_id){
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
             $tt_item = $this->t_test_lesson_subject->field_get_list($test_lesson_subject_id,"userid,grade,subject");
@@ -1465,12 +1465,10 @@ class ss_deal extends Controller
             $subject = $tt_item["subject"]*1;
             $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
         }else{
-            $from_test_lesson_id=$this->t_test_lesson_subject_require->add_require_and_lessonid(
-                $this->get_account_id()
-                , $this->get_account() , $test_lesson_subject_id,$origin,$seller_student_status) ;
-
+            $from_test_lesson_id = $this->t_test_lesson_subject_require->add_require_and_lessonid(
+                $this->get_account_id(),$this->get_account(),$test_lesson_subject_id,$origin,$seller_student_status
+            );
         }
-
 
         $from_parent_order_type=0;
         $parent_order_id=0 ;
