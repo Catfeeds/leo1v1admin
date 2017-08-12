@@ -1,5 +1,5 @@
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tea_manage-trial_train_lesson_list.d.ts" />
+/// <reference path="../g_args.d.ts/tea_manage-trial_train_no_pass_list.d.ts" />
 
 $(function(){
     function load_data(){
@@ -9,12 +9,9 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			status:	$('#id_status').val(),
-			lesson_status:	$('#id_lesson_status').val(),
-			grade:	$('#id_grade').val(),
 			subject:	$('#id_subject').val(),
-			teacherid:	$('#id_teacherid').val(),
-			is_test:	$('#id_is_test').val()
+			absenteeism_flag:	$('#id_absenteeism_flag').val(),
+			is_test_user:	$('#id_is_test_user').val()
         });
     }
 
@@ -29,17 +26,13 @@ $(function(){
             load_data();
         }
     });
-
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("boolean",$("#id_absenteeism_flag"));
     Enum_map.append_option_list("boolean",$("#id_is_test_user"));
 
-	$('#id_status').val(g_args.status);
-	$('#id_lesson_status').val(g_args.lesson_status);
-	$('#id_grade').val(g_args.grade);
 	$('#id_subject').val(g_args.subject);
-	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_is_test').val(g_args.is_test);
+	$('#id_absenteeism_flag').val(g_args.absenteeism_flag);
+	$('#id_is_test_user').val(g_args.is_test_user);
 
 
 	$('.opt-change').set_input_change_event(load_data);

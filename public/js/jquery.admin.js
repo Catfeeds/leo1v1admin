@@ -966,7 +966,9 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
             if (result.ret ){
                 BootstrapDialog.alert(result['info']);
             }else{
-                $.reload();
+                if (!window.g_t ) {
+                    $.reload();
+                }
             }
         }
 

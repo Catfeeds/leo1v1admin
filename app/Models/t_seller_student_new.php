@@ -1901,4 +1901,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_list($sql);
     }
 
+    public function del_row_by_phone($phone){
+        $where_arr = [
+            ["phone = %s ",$phone],
+        ];
+        $sql = $this->gen_sql_new(
+            " delete "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_update($sql);
+    }
+
 }

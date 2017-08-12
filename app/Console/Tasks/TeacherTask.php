@@ -1084,7 +1084,7 @@ class TeacherTask extends TaskController
                 ]);
                 $id = $this->t_teacher_record_list->check_lesson_record_exist($val["lessonid"],1,5);
                 $this->t_teacher_record_list->field_update_list($id,[
-                    "trial_train_status"               => $status,
+                    "trial_train_status"               => 2,
                     "record_info"                      => "旷课",
                     "add_time"                         => time(),
                     "acc"                              => "system"

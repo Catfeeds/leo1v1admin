@@ -568,7 +568,6 @@ class wx_yxyx_api extends Controller
         return $data;
     }
 
-
     public function get_all_test_pic(){
         //title,date,用户未读取标志（14天内），十张海报（当天之前的，可跳转）
         $grade     = $this->get_in_int_val('grade',-1);

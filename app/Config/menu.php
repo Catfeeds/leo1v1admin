@@ -453,6 +453,7 @@ class menu{
                 ["power_id"=>91, "name"=>"知识库",   "url"=>"/seller_student_new/wiki"],
                 ["power_id"=>2, "name"=>"请假",   "url"=>"/self_manage/qingjia" ],
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
+                ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
 
             ]],
 

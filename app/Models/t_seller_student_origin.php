@@ -114,14 +114,18 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
             . "sum( global_tq_called_flag =2 and  n.sys_invaild_flag =1 ) tq_call_succ_invalid_count  ,"
             . "avg( if(   add_time<first_call_time , first_call_time-add_time,null) ) avg_first_time, "
             . "sum( global_tq_called_flag =2 and  n.sys_invaild_flag=0  ) tq_call_succ_valid_count  "
-
+            // ."sum()"
             ." from %s n "
             ." left join %s s on s.userid = n.userid".
             " left join %s t on t.userid= n.userid ".
+            // " left join %s a on a.phone= n.phone ".
+            // " left join %s ao on ao.aid= a.id ".
             " where %s group by  check_value ",
             t_seller_student_new::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
+            // t_agent::DB_TABLE_NAME,
+            // t_agent_order::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list_as_page($sql,function($item) {
