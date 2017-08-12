@@ -109,11 +109,6 @@ class order_price_20170701 extends order_price_base
             $price=$per_price*$lesson_count;
         }
 
-        //2017-8-15至2017-9-1 
-        if($now > strotime("2017-08-15") && $now < strtotime("2017-09-1")){
-            $price -= 300;
-        }
-
         return [
              "price"                => $old_price,
              "present_lesson_count" => $present_lesson_count ,
