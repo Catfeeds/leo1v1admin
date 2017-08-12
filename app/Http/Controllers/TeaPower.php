@@ -1297,8 +1297,9 @@ trait  TeaPower {
 
         if($use_easy_pass==1){
             $passwd = "123456";
-        }elseif($use_phone_pass){
-
+        }elseif($use_easy_pass==2){
+            $phone_length = strlen($phone);
+            $passwd = "leo".substr($phone,$phone_length-4,$phone_length);
         }else{
             srand(microtime(true)*1000);
             $passwd = (int)$phone+rand(9999999999,99999999999);
@@ -1906,6 +1907,12 @@ trait  TeaPower {
     }
 
     public function get_full_time_html($data){
+        if(time>strtotime("20107-8-15")){
+            $passwd_str = "leo+手机后4位";
+        }else{
+            $passwd_str = "123456";
+        }
+
         $name = $data['name'];
         $html = "
 <html>
@@ -1952,7 +1959,7 @@ trait  TeaPower {
                             2)所授课程的PPT讲解<br>
                             <span class='red'>
                                 面试账号：{本人报名手机号}<br>
-                                密码：123456<br>
+                                密码：$passwd_str <br>
                                 时间：请在1周内完成试讲（有特殊原因请及时联系招师老师）<br>
                             </span>
                         </li>
