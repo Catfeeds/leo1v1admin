@@ -569,8 +569,8 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_wx_yxyx_js_config(){
-        $agent_id = $this->get_agent_id();
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        // $agent_id = $this->get_agent_id();
+        // $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $ref = $this->get_in_str_val("ref");
         $signature_str = $this->get_signature_str($ref);
         $config = [
