@@ -37,7 +37,7 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_user_info(){
-        $url = $_SERVER["REMOTE_ADDR"];
+        $url = $_SERVER["HTTP_HOST"];
         \App\Helper\Utils::logger('qingqiu_url:'.$url);
         $agent_id   = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
