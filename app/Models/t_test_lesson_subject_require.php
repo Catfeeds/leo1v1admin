@@ -288,7 +288,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ." and lesson_start>=1498838400"
             ." and lesson_end<1501516800"
             ." order by lesson_start asc"
-            ." limit 0,5000 ";
+            ." limit 0,1000 ";
         return $this->main_get_list($sql);
     }
 

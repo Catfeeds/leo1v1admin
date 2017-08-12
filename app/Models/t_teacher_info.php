@@ -2683,7 +2683,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_all_un_throuth_info(){
-        $sql = $this->gen_sql_new("select teacherid,level,trial_lecture_is_pass from %s where train_through_new=0 and level=1 and is_test_user=0 and train_through_new_time=0",self::DB_TABLE_NAME);
+        $sql = $this->gen_sql_new("select teacherid,level,trial_lecture_is_pass from %s where train_through_new=0 and level=1 and is_test_user=0 and train_through_new_time=0 and wx_use_flag=1 and trial_lecture_is_pass=1",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
 

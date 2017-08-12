@@ -16,6 +16,8 @@ interface GargsStatic {
 	have_wx:	number;
 	lecture_status:	number;
 	train_email_flag:	number;
+	is_all:	number;
+	full_time:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -36,19 +38,39 @@ interface RowData {
 	lesson_status	:any;
 	teacherid	:any;
 	nick	:any;
-	phone_spare	:any;
 	user_agent	:any;
 	l_teacherid	:any;
+	record_type	:any;
+	reference	:any;
+	teacher_type	:any;
+	reference_name	:any;
 	trial_train_status	:any;
 	acc	:any;
+	phone_spare	:any;
 	lecture_status	:any;
 	real_teacherid	:any;
 	account	:any;
+	real_begin_time	:any;
+	record_info	:any;
+	identity	:any;
+	add_time	:any;
+	wx_openid	:any;
+	train_email_flag	:any;
+	lecture_status_ex	:any;
+	access_id	:any;
+	train_type	:any;
+	zs_account	:any;
 	lesson_time	:any;
 	lesson_status_str	:any;
+	grade_str	:any;
+	subject_str	:any;
+	train_email_flag_str	:any;
 	trial_train_status_str	:any;
 	tea_nick	:any;
 	lecture_status_str	:any;
+	add_time_str	:any;
+	have_wx_flag	:any;
+	teacher_type_str	:any;
 }
 
 /*
@@ -76,7 +98,9 @@ $(function(){
 			res_teacherid:	$('#id_res_teacherid').val(),
 			have_wx:	$('#id_have_wx').val(),
 			lecture_status:	$('#id_lecture_status').val(),
-			train_email_flag:	$('#id_train_email_flag').val()
+			train_email_flag:	$('#id_train_email_flag').val(),
+			is_all:	$('#id_is_all').val(),
+			full_time:	$('#id_full_time').val()
         });
     }
 
@@ -101,6 +125,8 @@ $(function(){
 	$('#id_have_wx').val(g_args.have_wx);
 	$('#id_lecture_status').val(g_args.lecture_status);
 	$('#id_train_email_flag').val(g_args.train_email_flag);
+	$('#id_is_all').val(g_args.is_all);
+	$('#id_full_time').val(g_args.full_time);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -178,6 +204,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">train_email_flag</span>
                 <input class="opt-change form-control" id="id_train_email_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">is_all</span>
+                <input class="opt-change form-control" id="id_is_all" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">full_time</span>
+                <input class="opt-change form-control" id="id_full_time" />
             </div>
         </div>
 */
