@@ -123,6 +123,10 @@ class testbb extends Controller
 
         }
 
+        $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
+
+        dd(strtotime("2017-01-01 +1 month"));
+        dd($end_time);
 
 
 
