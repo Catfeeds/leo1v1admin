@@ -2474,7 +2474,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_stu_row_by_phone($phone){
         $where_arr = [
             ["type = %u",0],
-            ["phone = %s",$phone,-1],
+            ["phone = '%s'",$phone,-1],
             "is_test_user = 0",
         ];
         $sql = $this->gen_sql_new("select userid,type,nick,phone "
