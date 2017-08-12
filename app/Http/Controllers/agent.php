@@ -117,6 +117,13 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '13022221195';
+        $userid= $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        dd($userid);
+        $userid = 50314;
+        // dd($userid);
+        $student_info = $this->t_student_info->field_get_list($userid,"*");
+        dd($student_info);
         dd($_SERVER["HTTP_HOST"]);
         $phone = '15251318621';
         $ret = $this->t_seller_student_new->del_row_by_phone($phone);
