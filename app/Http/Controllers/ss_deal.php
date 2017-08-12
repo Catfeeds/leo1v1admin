@@ -1512,9 +1512,10 @@ class ss_deal extends Controller
         }
         $from_parent_order_lesson_count=0;
         //8月营销活动
-        if(\App\Helper\Utils::check_env_is_local() || in_array($this->get_account(),["adrian","jim"])){
-            $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type);
-        }
+        $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type);
+
+        // if(\App\Helper\Utils::check_env_is_local() || in_array($this->get_account(),["adrian","jim"])){
+        // }
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -5158,7 +5159,7 @@ class ss_deal extends Controller
      */
     public function get_8_month_activity($userid,$price,$lesson_total,$contract_type){
         $now = time();
-        $activity_start_time = strtotime("2017-8-11");
+        $activity_start_time = strtotime("2017-8-15");
         $activity_end_time   = strtotime("2017-9-1");
         $activity_finish_time = strtotime("2017-12-31");
 

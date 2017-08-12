@@ -2702,10 +2702,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.type=0",
             "o.contract_type in (0,3)"
         ];
-        $sql = $this->gen_sql_new("select s.userid,s.phone,s.grade,s.assistantid,a.nick ass_nick,s,nick,count(o.orderid) num"
+        $sql = $this->gen_sql_new("select s.userid,s.phone,s.grade,s.assistantid,a.nick ass_nick,s.nick,count(o.orderid) num"
                                   ." from %s s left join %s o on s.userid = o.userid"
                                   ." left join %s a on a.assistantid = s.assistantid"
-                                  ." where %s order by s.userid",
+                                  ." where %s group by s.userid order by num desc",
                                   self::DB_TABLE_NAME,
                                   t_order_info::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,

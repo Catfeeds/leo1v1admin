@@ -126,10 +126,9 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
     public function tongji_get_admin_list_get_count($adminid,$start_time, $end_time){
         $time=time(NULL);
         $where_arr=[
-            "end_time>$time",
-            "start_time<$time",
             ["adminid=%d",$adminid , -1],
         ];
+        $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select n.adminid, sum(get_time>0) as get_count "
             ."from %s n "
@@ -206,6 +205,7 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
 
         return $this->main_get_list_as_page($sql);
     }
+
     public function get_admin_list_count($adminid  )   {
 
         $time=time(NULL);
@@ -214,6 +214,25 @@ class t_seller_new_count extends \App\Models\Zgen\z_t_seller_new_count
             "start_time<$time",
             ["adminid=%d",$adminid , -1],
         ];
+        $sql=$this->gen_sql_new(
+            "select n.adminid, sum(count) as count "
+            ."from %s n "
+            ." where %s  "
+            ."group  by adminid "
+            ,self::DB_TABLE_NAME ,
+            $where_arr  );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["adminid"];
+        });
+    }
+    public function tongji_get_admin_list_count($adminid ,$start_time, $end_time )   {
+
+        
+        $where_arr=[
+            ["adminid=%d",$adminid , -1],
+        ];
+        $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
         $sql=$this->gen_sql_new(
             "select n.adminid, sum(count) as count "
             ."from %s n "

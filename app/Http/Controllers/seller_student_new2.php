@@ -444,8 +444,8 @@ class seller_student_new2 extends Controller
     public function tongji_seller_get_new_count(){
         $adminid=$this->get_in_int_val("adminid",-1);
         list($start_time, $end_time) = $this->get_in_date_range_month(0);
-        $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);
-        $admin_map=$this->t_seller_new_count->get_admin_list_count($adminid);
+        $ret_info=$this->t_seller_new_count-> tongji_get_admin_list_get_count($adminid,$start_time, $end_time);
+        $admin_map=$this->t_seller_new_count->tongji_get_admin_list_count($adminid,$start_time, $end_time);
 
         //seller_get_new_count_admin_list get_admin_list_count
         foreach ($ret_info["list"] as  &$item ) {

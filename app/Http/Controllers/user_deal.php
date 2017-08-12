@@ -2609,7 +2609,7 @@ class user_deal extends Controller
         
         $this->switch_tongji_database();
         $ret = $this->t_student_info->get_stu_order_num_info();
-        foreach($ret as &$item){
+        foreach($ret["list"] as &$item){
             E\Egrade::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__,$ret);
