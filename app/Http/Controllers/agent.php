@@ -120,29 +120,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '123334';
-        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-        dd($userid);
-        $ret = $this->t_agent->get_agent_list();
-        foreach($ret as $item){
-            $id = $item['id'];
-            $userid = $item['userid'];
-            $phone = $item['phone'];
-            if($userid == null or $userid==0){
-                $ret_info[] = $item;
-                $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-                $id_arr[] = $id;
-                if($userid){
-                    $this->t_agent->field_update_list($id,[
-                        "userid" => $userid,
-                    ]);
-                }
-            }
-        }
-        dd($id_arr);
-        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-
-        $agent_id = 54;
+        $agent_id = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -156,16 +134,16 @@ class agent extends Controller
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,"*");
-        $userid_new = $student_info['userid'];
-        $type_new = $student_info['type'];
+        $userid_new   = $student_info['userid'];
+        $type_new     = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
-        $level      = 0;
-        $pay        = 0;
-        $cash       = 0;
-        $have_cash  = 0;
-        $num        = 0;
-        $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0){
+        $level        = 0;
+        $pay          = 0;
+        $cash         = 0;
+        $have_cash    = 0;
+        $num          = 0;
+        $my_num       = 0;
+        if($userid != 0 && $type_new == 0 && $is_test_user == 0){//1有userid2在读3非测试
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
             $nick      = $student_info['nick'];
@@ -234,7 +212,7 @@ class agent extends Controller
             'headimgurl' => $agent_info['headimgurl'],
             'nickname'   => $agent_info['nickname'],
         ];
-
+        dd($data);
     }
 
 
