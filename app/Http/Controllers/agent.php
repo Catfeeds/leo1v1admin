@@ -130,89 +130,61 @@ class agent extends Controller
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
-        $student_info = [];
-        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-        // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $student_info = $this->t_student_info->field_get_list($userid,"*");
-        $userid_new   = $student_info['userid'];
-        $type_new     = $student_info['type'];
-        $is_test_user = $student_info['is_test_user'];
-        $level        = 0;
-        $pay          = 0;
-        $cash         = 0;
-        $have_cash    = 0;
-        $num          = 0;
-        $my_num       = 0;
-        if($userid != 0 && $type_new == 0 && $is_test_user == 0){//1有userid2在读3非测试
-            $ret_list  = ['userid'=>0,'price'=>0];
-            $level = 2;
-            $nick      = $student_info['nick'];
-            $ret       = $this->get_pp_pay_cash($phone);
-            $pay       = $ret['pay'];
-            $cash      = $ret['cash'];
-            $num       = $ret['num'];
-            $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
-            if($cash_item['have_cash']){
-                $have_cash = $cash_item['have_cash'];
+        $ret = [];
+        $ret = $this->t_agent->get_p_list_by_phone($phone);
+        $p_count = [];
+        $p_id = array_column($ret,'p_id');
+        if($ret[0]['p_id']){
+            foreach($p_id as $item){
+                $count = 0;
+                foreach($ret as $info){
+                    if($info['p_id'] == $item && $info['id']){
+                        $count++;
+                    }
+                }
+                $p_count[$item] = $count;
             }
-            $count_row = $this->t_agent->get_count_by_phone($phone);
-            $my_num    = $count_row['count'];
-            $test_count = 2;
-        }else{
-            $nick       = $phone;
-            $agent_lsit = [];
-            $agent_item = [];
-            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            foreach($agent_list as $item){
-                if($phone == $item['phone']){
-                    $agent_item = $item;
+            $p_ret = $this->t_agent->get_agent_order_by_phone($p_id);
+            $id = array_column($ret,'id');
+            $ret_new = $this->t_agent_order->get_order_by_id($id);
+            foreach($p_ret as $key=>$item){
+                $ret_list[$key]['name'] = $item['phone'];
+                if($item['nick']){
+                    $ret_list[$key]['name'] = $item['nick'];
                 }
-                if($phone == $item['p_phone']){
-                    $my_num++;
-                }
-            }
-            if($agent_item){
-                $test_lesson = [];
-                $cash_item   = [];
-                $count       = 0;
-                $ret_list    = ['userid'=>0,'price'=>0];
-                $nick        = $phone;
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
-                if($cash_item['have_cash']){
-                    $have_cash = $cash_item['have_cash'];
-                }
-                if(2<=$count){
-                    $level = 2;
-                    $ret = $this->get_pp_pay_cash($phone);
-                    $test_count = 2;
+                $ret_list[$key]['status'] = 0;
+                if($item['order_status']){
+                    $ret_list[$key]['status'] = 2;
                 }else{
-                    $level = 1;
-                    $ret = $this->get_p_pay_cash($phone);
-                    $test_count = $count;
+                    if(isset($item['userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
+                        $count_test = $count_item['count'];
+                        if(0<$count_test){
+                            $ret_list[$key]['status'] = 1;
+                        }
+                    }
                 }
-                $pay  = $ret['pay'];
-                $cash = $ret['cash'];
-                $num  = $ret['num'];
-            }else{
-                return $this->output_err("您暂无资格!");
+                foreach($p_count as $k=>$i){
+                    if($k == $item['p_id']){
+                        $ret_list[$key]['count'] = $i;
+                    }
+                }
+                if($item['p_create_time']){
+                    $ret_list[$key]['time'] = date('Y.m.d',$item['p_create_time']);
+                }else{
+                    $ret_list[$key]['time'] = '';
+                }
+                foreach($ret_new as $k=>$info){
+                    if($info['pid'] == $item['p_id']){
+                        $ret_list[$key]['list'][$k]['name'] = $info['nick'];
+                        $ret_list[$key]['list'][$k]['price'] = $info['price']/100;
+                    }
+                }
             }
+        }else{
+            $ret_list = [];
         }
-        $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
-        $data = [
-            'level'      => $level,
-            'nick'       => $nick,
-            'pay'        => $pay,
-            'cash'       => $cash_new,
-            'have_cash'  => $have_cash/100,
-            'num'        => $num,
-            'my_num'     => $my_num,
-            'count'      => $test_count,
-            'headimgurl' => $agent_info['headimgurl'],
-            'nickname'   => $agent_info['nickname'],
-        ];
-        dd($data);
+        dd($ret_list);
     }
 
 
