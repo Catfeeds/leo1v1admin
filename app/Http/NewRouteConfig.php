@@ -316,7 +316,9 @@ class NewRouteConfig {
         "/tea_manage/get_stu_performance_new"      => true,
         "/tea_manage/get_user_video_info"          => true,
         "/tea_manage/set_test_lesson_comment"      => true,
-        "/tea_manage/get_teacher_info_by_phone"      => true,
+        "/tea_manage/get_teacher_info_by_phone"    => true,
+        "/tea_manage/trial_train_no_pass_list"     => true,
+        
 
         "/small_class/index"                    => true,
         "/small_class/index_ass"                => true,

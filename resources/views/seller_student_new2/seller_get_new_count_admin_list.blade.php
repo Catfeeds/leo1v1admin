@@ -34,9 +34,9 @@
 
 
 
-                        <td>{{$var["count"]}} </td>
-                        <td>{{$var["get_count"]*1}} </td>
-                        <td>{{$var["left_count"]}} </td>
+                        <td>{{@$var["count"]}} </td>
+                        <td>{{@$var["get_count"]*1}} </td>
+                        <td>{{@$var["left_count"]}} </td>
 
                         <td>
                             <div

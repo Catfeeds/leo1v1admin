@@ -829,6 +829,7 @@ $(function(){
             set_title( title2+"/"+title1 );
         }
     }
+    obj.addClass("global-menu-select-item");
 
     reset_item();
     $( window ).bind("resize",reset_item);
@@ -837,6 +838,18 @@ $(function(){
     $("#id_new_seller_system").on("click",function(){
         $.wopen("http://admincc.yb1v1.com");
     });
+
+    $("#id_self_menu_add").on("click",function(){
+        var title= $(".global-menu-select-item").text();
+        var url=   window.location.href.substr( window.location.origin.length);
+        $.do_ajax("/self_manage/self_menu_add",{
+            "title" : title,
+            "url" : url,
+        });
+    });
+
+
+
 
 
     $("#id_ssh_open").on("click",function(){

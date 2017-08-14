@@ -297,7 +297,8 @@ class tea_manage extends Controller
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_set_boolean_color_str(
                 $item["lesson_user_online_status"]
             );
-            $item["room_name"]=\App\Helper\Utils::gen_roomid_name($item["lesson_type"], $item["courseid"], $item["lesson_num"] );
+            $item["lesson_del_flag_str"] = \App\Helper\Common::get_set_boolean_color_str($item["lesson_del_flag"]);
+            $item["room_name"] = \App\Helper\Utils::gen_roomid_name($item["lesson_type"],$item["courseid"],$item["lesson_num"]);
 
             if ($item["test_lesson_origin"]) {
                 $item["origin"]= $item["test_lesson_origin"];
@@ -332,7 +333,6 @@ class tea_manage extends Controller
                 }
             }
             $item['lesson_deduct']=trim($item['lesson_deduct'],"|");
-            E\Eboolean::set_item_value_str($item,"lesson_del_flag");
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Esuccess_flag::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item, "test_confirm_time","_str");
@@ -2082,7 +2082,21 @@ class tea_manage extends Controller
     }
 
     public function trial_train_no_pass_list(){
-        
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2); 
+        $subject = $this->get_in_int_val("subject",-1);
+        $page_info = $this->get_in_page_info();
+        $absenteeism_flag = $this->get_in_int_val("absenteeism_flag",0);
+        $is_test_user = $this->get_in_int_val("is_test_user",0);
+        $ret_info = $this->t_lesson_info_b2->get_trial_train_no_pass_list($page_info,$start_time,$end_time,$subject,$is_test_user,$absenteeism_flag);
+        foreach($ret_info["list"] as &$item){
+            E\Esubject::set_item_value_str($item);
+            E\Eboolean::set_item_value_str($item,"absenteeism_flag");
+            $item["add_time_str"] = date("Y-m-d H:i:s",$item["add_time"]);
+            $item["lesson_start_str"] = date("Y-m-d H:i:s",$item["lesson_start"]);
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
     }
 
     public function set_teacher_record_account(){
@@ -2149,7 +2163,7 @@ class tea_manage extends Controller
 
         $this->switch_tongji_database();
         $teacherid = -1;
-        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby"]) && $is_all==0){
+        if(!in_array($acc,["adrian","夏宏东","ted","jim","ivy","jack","abby","amyshen"]) && $is_all==0){
             $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
             if($teacher_info['teacherid']>0 ){
                 $teacherid = $teacher_info['teacherid'];
@@ -2255,7 +2269,7 @@ class tea_manage extends Controller
                 $check_info['subject'] = $subject;
                 $check_info['grade']   = $grade;
                 $this->set_teacher_grade($teacher_info,$check_info);
-                // $this->check_teacher_lecture_is_pass($teacher_info);
+                $this->check_teacher_lecture_is_pass($teacher_info);
             }
         }
 

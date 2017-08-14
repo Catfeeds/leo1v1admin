@@ -12,7 +12,7 @@ class login extends Controller
 {
 
     var $check_login_flag=false;
-    function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ) {
+    function gen_account_role_menu( $menu, &$power_map ,&$url_power_map ,$check_item_count=true) {
 
         $menu_str        = "";
         $item_count      = 0;
@@ -20,9 +20,7 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
 
-        $is_teaching_flag = 0;
 
-        \App\Helper\Utils::logger("yuanshii22: ".json_encode($url_power_map));
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
@@ -30,20 +28,10 @@ class login extends Controller
             $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map);
 
             if($tmp) {
-
                 $item_count++;
                 if(is_array($tmp)) {
                     $item_1=$tmp[1];
-                    // $menu_str.=$tmp[0];
-
-                    // 修改
-                    if ( substr($item_name,-3)== "部"  ) {
-                        $is_teaching_flag = 1;
-                        $role_str.=$tmp[0];
-                    }else{
-                        $role_str.=$tmp[0];
-                    }
-
+                     $menu_str.=$tmp[0];
                 }else{
                     $menu_str.=$tmp;
                 }
@@ -52,16 +40,7 @@ class login extends Controller
             }
         }
 
-        //修改
-        if($is_teaching_flag == 1){
-            $menu_str.='<li class="treeview " > <a href="#"> <i class="fa fa-folder-o"></i> <span>教学管理事业部</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$role_str.'</ul> </li>';
-            return $menu_str;
-        }
-
-
-
-
-        if ($item_count==1) {
+        if ( $check_item_count && $item_count==1) {
             $menu_str=$item_1;
         }
         return $menu_str;
@@ -279,9 +258,17 @@ class login extends Controller
         $power_map=$arr;
 
         $url_power_map=\App\Config\url_power_map::get_config();
+
         $menu_html ="";
 
         $uid = $this->get_account_id();
+        //收藏列表
+        $self_menu_config=$this->t_admin_self_menu->get_menu_config($uid);
+
+        $tmp_arr=$arr;
+        $tmp_url_power_map= $url_power_map ;
+        $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
+
         $main_department = $this->t_manager_info->get_main_department($uid);
 
         $permission = $this->t_manager_info->get_permission($uid);
@@ -295,7 +282,7 @@ class login extends Controller
         $account_id = $this->get_account_id();
 
         if($main_department == 2 || $account_id == 684 || $account_id == 99){ // 教学管理事业部
-            $menu_html=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map  );
+            $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
 
         $menu      = \App\Helper\Config::get_menu();

@@ -846,15 +846,15 @@ $(function(){
         //原价
         var $discount_price       = html_node.find(".field-discount_price");
         var $order_promotion_desc = html_node.find(".field-order_promotion_desc");
-        var $div_spec            = html_node.find( ".div-spec");
-        var $order_require_flag = html_node.find(".field-order_require_flag");
-        var $nick = html_node.find(".field-nick");
-        var $grade= html_node.find(".field-grade");
-        var $phone= html_node.find(".field-phone");
-        var $subject= html_node.find(".field-subject");
-        var $lesson_count= html_node.find(".field-lesson_count");
-        var $competition_flag= html_node.find(".field-competition_flag");
-        var $pre_money= html_node.find(".field-pre-money");
+        var $div_spec             = html_node.find( ".div-spec");
+        var $order_require_flag   = html_node.find(".field-order_require_flag");
+        var $nick    = html_node.find(".field-nick");
+        var $grade   = html_node.find(".field-grade");
+        var $phone   = html_node.find(".field-phone");
+        var $subject = html_node.find(".field-subject");
+        var $lesson_count     = html_node.find(".field-lesson_count");
+        var $competition_flag = html_node.find(".field-competition_flag");
+        var $pre_money        = html_node.find(".field-pre-money");
 
         var $order_promotion_type = html_node.find(".field-order_promotion_type");
         var $promotion_spec_present_lesson= html_node.find(".field-promotion_spec_present_lesson");
@@ -907,9 +907,7 @@ $(function(){
                 $promotion_spec_discount_price.val( data.discount_price );
 
                 if (order_promotion_type==1) {
-
                     $order_promotion_desc.val("赠送:"+ data.present_lesson_count +"课时" );
-
                 } else if (order_promotion_type==2) {
                     if (data.discount==100) {
                         $order_promotion_desc.val("无折扣" );
@@ -919,7 +917,6 @@ $(function(){
                 }else{
                     $order_promotion_desc.val("");
                 }
-
             });
         };
         $competition_flag.set_input_change_event(reload_present_info);
@@ -947,22 +944,22 @@ $(function(){
                 label  : '确认',
                 action : function(dialog) {
                     $.do_ajax("/ss_deal/seller_add_contract_new",{
-                        require_id :  require_id,
-                        contract_type: contract_type,
-                        contract_from_type: contract_from_type,
-                        competition_flag : $competition_flag.val(),
-                        lesson_total : $lesson_count.val()*100,
-                        discount_reason : $discount_reason.val(),
-                        title :  $receipt_title.val(),
-                        order_require_flag: $order_require_flag.val(),
-                        userid: data.userid,
-                        pre_money: $pre_money.val(),
-                        grade: data.grade,
-                        subject: data.subject,
-                        origin: data.origin,
-                        order_promotion_type :   $order_promotion_type.val(),
-                        promotion_spec_discount :   $promotion_spec_discount_price.val()*100,
-                        promotion_spec_present_lesson :   $promotion_spec_present_lesson.val()*100,
+                        require_id                    : require_id,
+                        contract_type                 : contract_type,
+                        contract_from_type            : contract_from_type,
+                        competition_flag              : $competition_flag.val(),
+                        lesson_total                  : $lesson_count.val()*100,
+                        discount_reason               : $discount_reason.val(),
+                        title                         : $receipt_title.val(),
+                        order_require_flag            : $order_require_flag.val(),
+                        userid                        : data.userid,
+                        pre_money                     : $pre_money.val(),
+                        grade                         : data.grade,
+                        subject                       : data.subject,
+                        origin                        : data.origin,
+                        order_promotion_type          : $order_promotion_type.val(),
+                        promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
+                        promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
                     });
                 }
             }]

@@ -1627,7 +1627,7 @@ class human_resource extends Controller
             $appointment_info = $this->t_teacher_lecture_appointment_info->get_appointment_info_by_id($appointment_id);
             if(!empty($teacher_info)){
                 $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacher_info["teacherid"],3,0,$subject);
-                // $this->check_teacher_lecture_is_pass($teacher_info);
+                $this->check_teacher_lecture_is_pass($teacher_info);
                 $ret = $this->set_teacher_grade($teacher_info,$check_info);
                 if(!$ret){
                     return $this->output_err("更新老师年级出错！请重试！");
@@ -2521,8 +2521,6 @@ class human_resource extends Controller
                 dispatch( new \App\Jobs\SendEmailNew(
                     $email,"【理优1对1】老师晋升通知",$html
                 ));
-
- 
             }
 
 
@@ -4038,7 +4036,7 @@ class human_resource extends Controller
         $new_phone = $this->get_in_str_val("new_phone");
         $acc       = $this->get_account();
 
-        if(!in_array($acc,["adrian","jim"])){
+        if(!in_array($acc,["adrian","jim","zoe"])){
             return $this->output_err("权限不足！");
         }
         if($new_phone==""){
@@ -4051,6 +4049,10 @@ class human_resource extends Controller
             if(empty($teacher_info)){
                 return $this->output_err("老师信息为空!请确定老师手机是否正确!".$phone);
             }
+
+            $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
+                "wx_openid"=>null
+            ]);
 
             $add_info = [
                 "acc"                   => $acc,
@@ -4073,6 +4075,7 @@ class human_resource extends Controller
                 "use_easy_pass"         => 1,
                 "transfer_teacherid"    => $teacher_info['teacherid'],
                 "transfer_time"         => time(),
+                "wx_openid"             => $teacher_info['wx_openid'],
             ];
             $new_teacherid = $this->add_teacher_common($add_info);
         }
@@ -4099,7 +4102,7 @@ class human_resource extends Controller
         $lesson_start  = strtotime($lesson_date);
 
         \App\Helper\Utils::logger("user:".$acc."transfer_teacher old teacherid:".$old_teacherid."new teacherid:".$new_teacherid);
-        if(!in_array($acc,["adrian","jim","alan"])){
+        if(!in_array($acc,["adrian","jim","alan","zoe"])){
             return $this->output_err("权限不足！");
         }
 

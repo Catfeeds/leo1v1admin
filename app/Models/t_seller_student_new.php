@@ -631,6 +631,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $up_adminid=$this->t_admin_group_user->get_master_adminid($opt_adminid);
             $sub_assign_adminid_1 =$this->t_admin_main_group_name->get_up_group_adminid($up_adminid);
             $set_arr=[
+                "admin_assignerid"  => $self_adminid,
                 "admin_revisiterid"  => $opt_adminid,
                 "admin_assign_time"  => $now,
                 "sub_assign_adminid_2"  => $up_adminid,
@@ -1899,6 +1900,21 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
              ."where require_admin_type=2 and a.type=1 "
              ." and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')";
         return $this->main_get_list($sql);
+    }
+
+    public function del_row_by_phone($phone){
+        $where_arr = [
+            ["phone = %s ",$phone],
+        ];
+        $sql = $this->gen_sql_new(
+            " delete "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_update($sql);
     }
 
 }

@@ -1,7 +1,9 @@
 <?php
 return array(
+    ["db_weiyi_admin","t_admin_self_menu", "id"],
     ["db_weiyi","t_yxyx_wxnews_info", "id"],
     ["db_weiyi","t_yxyx_test_pic_info", "id"],
+    ["db_weiyi","t_yxyx_test_pic_visit_info", "test_pic_id"],
 
     ["db_weiyi","t_parent_luck_draw_in_wx","id"],
     ["db_weiyi","t_lesson_time_modify","lessonid"],

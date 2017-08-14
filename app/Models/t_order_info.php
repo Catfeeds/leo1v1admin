@@ -4,7 +4,6 @@ use \App\Models\Zgen as Z;
 use \App\Enums as E;
 
 /**
-
  * @property t_manager_info  $t_manager_info
  * @property t_student_info  $t_student_info
  * @property t_seller_student_new $t_seller_student_new
@@ -527,16 +526,26 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         });
     }
 
-    public function get_order_count($userid){
-        $sql=$this->gen_sql("select count(orderid) "
-                            ." from %s"
-                            ." where userid=%u"
-                            ." and contract_type in (0,1,3)"
-                            ,self::DB_TABLE_NAME
-                            ,$userid
+    public function get_order_count($userid,$start_time=0,$end_time=0,$contract_type="0,1,3",$pay_order=-1){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            ["order_time>%u",$start_time,0],
+            ["order_time<%u",$end_time,0],
+            ["contract_type in (%s)",$contract_type,""],
+        ];
+        if($pay_order>0){
+            $where_arr[] = " contract_status>0 ";
+        }
+
+        $sql = $this->gen_sql_new("select count(orderid) "
+                                  ." from %s"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }
+
     public function add_new_order_seller_new_user_count($sys_operator,$start_time,$end_time){
         $min_start_time=strtotime("2016-12-01");
         if ($start_time<$min_start_time) {
@@ -1279,21 +1288,20 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             'title'                  => $title,
             'default_lesson_count'   => $default_lesson_count,
             'origin'                 => $origin,
-            "price"                  => $price,
             "discount_reason"        => $discount_reason,
             "discount_price"         => $discount_price,
             "from_test_lesson_id"    => $from_test_lesson_id,
             "from_parent_order_type" => $from_parent_order_type,
             "parent_order_id"        => $parent_order_id,
 
-            "order_promotion_type" => $order_promotion_type,
-            "promotion_discount_price" => $promotion_discount_price,
-            "promotion_present_lesson" => $promotion_present_lesson,
-            "promotion_spec_discount" => $promotion_spec_discount,
-            "promotion_spec_present_lesson" => $promotion_spec_present_lesson,
-            "stu_from_type" => $contract_from_type,
+            "order_promotion_type"           => $order_promotion_type,
+            "promotion_discount_price"       => $promotion_discount_price,
+            "promotion_present_lesson"       => $promotion_present_lesson,
+            "promotion_spec_discount"        => $promotion_spec_discount,
+            "promotion_spec_present_lesson"  => $promotion_spec_present_lesson,
+            "stu_from_type"                  => $contract_from_type,
             "from_parent_order_lesson_count" => $from_parent_order_lesson_count,
-            "pre_price" => $pre_price,
+            "pre_price"                      => $pre_price,
         ]);
 
         if ($this->t_student_info->get_is_test_user($userid) !=1 ) {
@@ -1792,7 +1800,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $ret_arr=[];
         $self_group_info = $this->task->t_group_user_month->get_group_info_by_adminid(-1 , $adminid ,$start_time);
         // $self_group_info= $this->t_admin_group_user->get_group_info_by_adminid(-1 , $adminid );
-        
+
         $order_list=$this-> get_1v1_order_seller_month_money($sys_operator, $start_time, $end_time );
         $all_price = 0;
 
@@ -2597,6 +2605,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
                                   ,t_parent_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
-
     }
+
+
 }

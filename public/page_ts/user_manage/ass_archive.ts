@@ -690,7 +690,7 @@ $(function(){
             [ "回访路径",  id_revisit_path] ,
             [ "回访对象",  id_return_record_person] ,
             [ "回访记录",  id_return_record_record] ,
-            [ "最近学习情况", id_recent_learn_info] , 
+            [ "其他情况说明", id_recent_learn_info] , 
             [ "复课时间", id_recover_time],
             ["软件操作是否满意",  $operation_satisfy_flag ],
             ["软件操作不满意的类型",  $operation_satisfy_type ],
@@ -933,7 +933,7 @@ $(function(){
 
                 }else if(id_return_record_type.val()==='3'){ //其他回访
                     if(id_recent_learn_info.val()=== ''){
-                        alert("请输入最近学习情况!");
+                        alert("请输入其他情况说明!");
                         return;
                     }
                     if(id_recover_time.val() <= 0){

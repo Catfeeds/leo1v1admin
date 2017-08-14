@@ -292,7 +292,7 @@
                         <td > {{$var["new_test_listen"]}} </td>
                         <td > {{$var["ass_test_lesson_type_str"]}} </td>
                         <td > {{$var["lesson_count"]/100}}  </td>
-                        <td > {{$var["lesson_del_flag_str"]}}  </td>
+                        <td > {!!  $var["lesson_del_flag_str"] !!}</td>
                         <td > {!!  $var["lesson_user_online_status_str"]!!} </td>
                         <td > {!!  $var["require_lesson_success_flow_status_str"]!!} </td>
                         @if($var["lesson_type"]==2)

@@ -23,8 +23,8 @@ class menu{
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
-                    // ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
-                    ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
+                    // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
                     ["power_id"=>67, "name"=>"试卷管理",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                 ]
                 ],
@@ -46,6 +46,7 @@ class menu{
                 ]],
                 ["power_id"=>13, "name"=>"抢新例子数据", "list"=>[
                     ["power_id"=>1, "name"=>"当前用户可抢数",   "url"=>"/seller_student_new2/seller_get_new_count_admin_list"],
+                    ["power_id"=>5, "name"=>"当前用户抢新统计",   "url"=>"/seller_student_new2/tongji_seller_get_new_count"],
                     ["power_id"=>2, "name"=>"当前用户可抢数明细",   "url"=>"/seller_student_new2/seller_get_new_count_list"],
                     ["power_id"=>3, "name"=>"当前未拨打未拨通",   "url"=>"/seller_student_new2/seller_no_call_to_free_list"],
                 ]],
@@ -453,6 +454,7 @@ class menu{
                 ["power_id"=>91, "name"=>"知识库",   "url"=>"/seller_student_new/wiki"],
                 ["power_id"=>2, "name"=>"请假",   "url"=>"/self_manage/qingjia" ],
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
+                ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
 
             ]],
 
@@ -674,6 +676,7 @@ class menu{
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                 ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
+                ["power_id"=>2, "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                 ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                 ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],

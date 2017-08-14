@@ -254,6 +254,12 @@ class ajax_deal extends Controller
             // "zfb_name"     => $zfb_name,
             // "zfb_account"     => $zfb_account,
         ]);
+        if($type == 1){
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }elseif($type == 2){
+            $this->t_seller_student_new->del_row_by_phone($phone);
+        }
+
         return $this->output_succ();
     }
 
@@ -446,4 +452,13 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function check_parent_count_and_clean() {
+        $userid=$this->get_in_userid();
+        $parent_count=$this->t_parent_child->get_count_by_userid($userid);
+        if ($parent_count!=1) {
+            $this->t_parent_child->del_by_userid($userid);
+            return $this->output_err("家长多个账号,已清除");
+        }
+        return $this->output_succ();
+    }
 }

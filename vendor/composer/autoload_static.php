@@ -820,6 +820,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'SellerStudentNewAddOriginVaildFlag' => __DIR__ . '/../..' . '/database/migrations/2017_06_06_183652_seller_student_new_add_origin_vaild_flag.php',
         'TAdminGroupNameAddSubject' => __DIR__ . '/../..' . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
+        'TAdminSelfMenuList' => __DIR__ . '/../..' . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
         'TAgent' => __DIR__ . '/../..' . '/database/migrations/2017_06_02_190744_t_agent.php',
         'TAgentAddBankInfo' => __DIR__ . '/../..' . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
         'TAgentAddNickname' => __DIR__ . '/../..' . '/database/migrations/2017_07_22_150952_t_agent_add_nickname.php',
