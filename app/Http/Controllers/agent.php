@@ -120,6 +120,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $userid = 58547;
+        $count_item = $this->t_lesson_info_b2->get_test_lesson_by_userid($userid);
+        dd($count_item);
         $agent_id = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
