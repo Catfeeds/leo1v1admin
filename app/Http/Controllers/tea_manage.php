@@ -2546,6 +2546,7 @@ class tea_manage extends Controller
     public function set_train_lecture_status_b2(){
         $teacherid   = $this->get_in_int_val("teacherid");
         $lessonid    = $this->get_in_int_val("lessonid");
+        $record_lesson_list               = $this->get_in_str_val("record_lesson_list","");
         $phone       = $this->get_in_str_val("phone");
         $nick        = $this->get_in_str_val("nick");
         $account     = $this->get_in_str_val("account");
@@ -2566,7 +2567,7 @@ class tea_manage extends Controller
         $teacher_blackboard_writing_score   = $this->get_in_int_val("teacher_blackboard_writing_score");
         $teacher_explain_rhythm_score       = $this->get_in_int_val("teacher_explain_rhythm_score");
         $teacher_language_performance_score = $this->get_in_int_val("teacher_language_performance_score");
-
+        $sshd_good                          = $this->get_in_str_val("sshd_good");
         $teacher_detail_score = array(
                 'lecture_content_design_score'   =>   $lecture_content_design_score,
                 'lecture_combined_score'         =>   $lecture_combined_score,
@@ -2677,7 +2678,7 @@ class tea_manage extends Controller
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
                 "record_info"        => $record_info,
                 "trial_train_status" => $flag,
-                "lecture_out_list"   => $lecture_out_listc
+                "record_info"        => $record_info,
             ]);
         }else{
             $ret = $this->t_teacher_record_list->row_insert([
@@ -2693,11 +2694,10 @@ class tea_manage extends Controller
                 "teacher_detail_score" => $teacher_detail_score,
                 "teacher_lecture_score" => $teacher_lecture_score,
                 "work_year"          => $work_year,
-                "sshd_good"          => $sshd_good,
                 "not_grade "         => $not_grade,
-
-
             ]);
+
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
         }
         if(!$ret){
             return $this->output_err("添加反馈失败！");
