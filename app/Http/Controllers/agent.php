@@ -121,9 +121,9 @@ class agent extends Controller
     }
 
     public function check(){
-        $userid = 280594;
-        $count_item = $this->t_lesson_info_b2->get_test_lesson_by_userid($userid);
-        dd($count_item);
+        // $userid = 280594;
+        // $count_item = $this->t_lesson_info_b2->get_test_lesson_by_userid($userid);
+        // dd($count_item);
         $agent_id = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
@@ -380,7 +380,7 @@ class agent extends Controller
 
 
     public function get_user_info(){
-        $agent_id   = $this->get_agent_id();
+        $agent_id   = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -438,6 +438,7 @@ class agent extends Controller
                 $ret_list    = ['userid'=>0,'price'=>0];
                 $nick        = $phone;
                 $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                dd($test_lesson);
                 $count       = count(array_unique(array_column($test_lesson,'id')));
                 $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
                 if($cash_item['have_cash']){
