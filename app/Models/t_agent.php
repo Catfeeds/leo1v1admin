@@ -443,7 +443,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
-            ['a.parentid = %s ',$id],
+            // ['a.parentid = %d ',$id],
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
