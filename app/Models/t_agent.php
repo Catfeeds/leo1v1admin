@@ -23,13 +23,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone)
     {
         $where_arr = array();
         // if($type == 1){
             // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         // }
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        if($p_phone){
+            $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"

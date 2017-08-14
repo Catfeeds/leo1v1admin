@@ -12,6 +12,7 @@ $(function(){
             parentid:	$('#id_parentid').val(),
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
+            p_phone:	$('#id_p_phone').val(),
             wx_openid:	$('#id_wx_openid').val(),
             bankcard:	$('#id_bankcard').val(),
             idcard:	$('#id_idcard').val(),
@@ -43,6 +44,7 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_parentid').val(g_args.parentid);
     $('#id_phone').val(g_args.phone);
+    $('#id_p_phone').val(g_args.p_phone);
     $('#id_wx_openid').val(g_args.wx_openid);
     $('#id_bankcard').val(g_args.bankcard);
     $('#id_idcard').val(g_args.idcard);
@@ -54,6 +56,10 @@ $(function(){
     $('#id_bank_type').val(g_args.bank_type);
     $('#id_zfb_name').val(g_args.bank_type);
     $('#id_zfb_account').val(g_args.bank_type);
+
+    $("#id_p_phone").on("change",function(){
+        load_data();
+    });
 
     $("#id_add").on("click",function(){
         var $parentid  = $("<input/>");
