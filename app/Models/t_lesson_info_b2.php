@@ -1561,6 +1561,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_test_lesson_by_userid($userid){
+        $where_arr = [
+            ['userid = %d',$userid],
+            // ['lesson_type=%d',2],
+            // ['lesson_del_flag=%d',0],
+            // 'confirm_flag in (0,1)',
+            // 'lesson_user_online_status = 1',
+        ];
+        $sql = $this->gen_sql_new(
+            "select * "
+            ." from %s "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_all_train_interview_lesson_info($start_time,$end_time){
         $where_arr=[
             "l.lesson_type=1100",
