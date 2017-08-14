@@ -119,7 +119,10 @@ class wx_yxyx_common extends Controller
                 $id = $agent_info['id'];
             }else{
                 $userid = null;
-                $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+                $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+                if($userid_new){
+                    $userid = $userid_new;
+                }
                 $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
             }
             if(!$id){
@@ -169,7 +172,6 @@ class wx_yxyx_common extends Controller
             $ret_list = $this->t_agent->get_id_by_phone($phone_str);
             foreach($ret_list as $item){
                 if($phone == $item['phone']){
-                    // $this->t_agent->update_field_list($table_name,$set_field_arr,$id_name,$id_value)
                     return $this->output_err("您已被邀请过!");
                 }
                 if($p_phone = $item['phone']){
@@ -181,15 +183,16 @@ class wx_yxyx_common extends Controller
             $parentid = 0;
         }
 
-        //if($type == 1){
-            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-        //}
-
-
         $userid = null;
-        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($userid_new){
+            $userid = $userid_new;
+        }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
+            if($type == 1){
+                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+            }
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");
