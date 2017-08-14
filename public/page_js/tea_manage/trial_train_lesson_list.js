@@ -44,15 +44,9 @@ $(function(){
         var id_rjcz = $("<select class=\"class_score\" />");
         var id_skhj = $("<select class=\"class_score\" />");
         var id_khfk = $("<select class=\"class_score\" />");
-        var id_lcgf = $("<select class=\"class_score\" />");                  
-        var id_sshd = $("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />鼓励发言 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />善于引导 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"3\" />提问形式多样 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />关注度高 </label>");
-        var id_sshd2=$("<label><input name=\"dog\" type=\"checkbox\" value=\"5\" />空话套话过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"6\" />Yes/No问题过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"7\" />提问形式单一 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"8\" />关注度低 </label> ");
-        var id_ktfw=$("<label><input name=\"ktfw\" type=\"checkbox\" value=\"1\" />语速均匀 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"2\" />轻松愉快 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"3\" />节奏紧凑 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"4\" />生动有趣 </label><label><input name=\"ktfw\" type=\"checkbox\" value=\"5\" />思路清晰</label> ");
-        var id_ktfw2=$("<label><input name=\"kt\" type=\"checkbox\" value=\"6\" />语速过慢/过快 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"7\" />语调沉闷 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"8\" />节奏拖沓 </label><label><input name=\"kt\" type=\"checkbox\" value=\"9\" />枯燥乏味 </label><label><input name=\"kt\" type=\"checkbox\" value=\"10\" />思路混乱 </label>  ");
-        var id_skgf=$("<label><input name=\"skgf\" type=\"checkbox\" value=\"1\" />考纲熟悉 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"2\" />软件使用熟练 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"3\" />讲义精美</label><label><input name=\"skgf\" type=\"checkbox\" value=\"4\" />截图合理 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"5\" />板书规范 </label><label><input name=\"skgf\" type=\"checkbox\" value=\"6\" />普通话标准 </label> ");
-        var id_skgf2 = $("<label><input name=\"sk\" type=\"checkbox\" value=\"7\" />考纲不熟悉 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"8\" />软件使用生疏 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"9\" />讲义凌乱 </label><label><input name=\"sk\" type=\"checkbox\" value=\"10\" />截图不合理 </label><label><input name=\"sk\" type=\"checkbox\" value=\"11\" />板书不规范 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"12\" />有口音 </label> ");
-        var id_jsfg = $("<label><input name=\"jsfg\" type=\"checkbox\" value=\"1\" />平易近人 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"2\" />生动活泼</label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"3\" />幽默风趣 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"4\" />严谨认真 </label> ");
-        var id_jsfg2 = $("<label><input name=\"js\" type=\"checkbox\" value=\"5\" />咄咄逼人</label> <label><input name=\"js\" type=\"checkbox\" value=\"6\" />沉闷乏味 </label> <label><input name=\"js\" type=\"checkbox\" value=\"7\" />缺乏课堂主导性 </label><label><input name=\"js\" type=\"checkbox\" value=\"8\" />散漫随性 </label>  ");
+        var id_lcgf = $("<select class=\"class_score\" />");
+        var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
+       
 
         Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
         Enum_map.append_option_list("teacher_lecture_score",id_yybd,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -88,16 +82,9 @@ $(function(){
             ["模拟试听是否通过",id_trial_train_status],
             ["监课情况",id_jkqk],
             ["意见或建议",id_record],
-            ["标签-师生互动(好)",id_sshd],
-            ["标签-师生互动(不好)",id_sshd2],
-            ["标签-课堂氛围(好)",id_ktfw],
-            ["标签-课堂氛围(不好)",id_ktfw2],
-            ["标签-授课规范(好)",id_skgf],
-            ["标签-授课规范(不好)",id_skgf2],
-            ["标签-教师风格(好)",id_jsfg],
-            ["标签-教师风格(不好)",id_jsfg2],
+            ["老师标签",id_sshd]
         ];
-        
+
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
             cssClass : 'btn-warning',
@@ -116,35 +103,14 @@ $(function(){
                 var sshd_good=[];
                 id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                     sshd_good.push($(this).val());
-                });
-                var sshd_bad=[];
-                id_sshd2.find("input:checkbox[name='dog']:checked").each(function(i) {
-                    sshd_bad.push($(this).val());
-                });
-                var ktfw_good=[];
-                id_ktfw.find("input:checkbox[name='ktfw']:checked").each(function(i) {
-                    ktfw_good.push($(this).val());
-                });
-                var ktfw_bad=[];
-                id_ktfw2.find("input:checkbox[name='kt']:checked").each(function(i) {
-                    ktfw_bad.push($(this).val());
-                });
-                var skgf_good=[];
-                id_skgf.find("input:checkbox[name='skgf']:checked").each(function(i) {
-                    skgf_good.push($(this).val());
-                });
-                var skgf_bad=[];
-                id_skgf2.find("input:checkbox[name='sk']:checked").each(function(i) {
-                    skgf_bad.push($(this).val());
-                });
-
-                var jsfg_good=[];
-                id_jsfg.find("input:checkbox[name='jsfg']:checked").each(function(i) {
-                    jsfg_good.push($(this).val());
-                });
-                var jsfg_bad=[];
-                id_jsfg2.find("input:checkbox[name='js']:checked").each(function(i) {
-                    jsfg_bad.push($(this).val());
+                });    
+                var not_grade = "";
+                $("input[name='not_grade']:checked").each(function(){
+                    if(not_grade==""){
+                        not_grade = $(this).val();
+                    }else{
+                        not_grade += ","+$(this).val();
+                    }
                 });
 
                 $.do_ajax("/human_resource/set_trial_train_lesson",{
@@ -166,15 +132,8 @@ $(function(){
                     "no_tea_related_score"             : id_no_tea_score.val(),
                     "record_info"                      : id_record.val(),
                     "record_monitor_class"             : id_jkqk.val(),
-                    "record_lessonid_list"             : JSON.stringify(opt_data.lessonid),
                     "sshd_good"                        : JSON.stringify(sshd_good),
-                    "sshd_bad"                         : JSON.stringify(sshd_bad),
-                    "ktfw_good"                        : JSON.stringify(ktfw_good),
-                    "ktfw_bad"                         : JSON.stringify(ktfw_bad),
-                    "skgf_good"                        : JSON.stringify(skgf_good),
-                    "skgf_bad"                         : JSON.stringify(skgf_bad),
-                    "jsfg_good"                        : JSON.stringify(jsfg_good),
-                    "jsfg_bad"                         : JSON.stringify(jsfg_bad),
+                    "record_lesson_list"               : JSON.stringify(opt_data.lessonid)
                 });
             }
         },function(){
@@ -215,7 +174,7 @@ $(function(){
                                                   +"</div><audio preload=\"none\"></audio></div>"
                                                  );
                                 BootstrapDialog.show({
-                                    title    : '课程回放:lessonid:'+opt_data.lessonid+", 学生:" + opt_data.stu_nick,
+                                    title    : '课程回放:lessonid:'+opt_data.lessonid,
                                     message  : html_node,
                                     closable : true,
                                     onhide   : function(dialogRef){
@@ -245,6 +204,212 @@ $(function(){
             load_data();
         }
     });
+
+    $(".opt-confirm-score").on("click",function(){
+        var id        = $(this).get_opt_data("id");
+        var lessonid        = $(this).get_opt_data("lessonid");
+        console.log(id);
+        
+        $.do_ajax('/ss_deal/get_train_lesson_record_info',{
+            "id" : id,
+            "lessonid":lessonid
+        },function(resp) {
+            var title = "审核评分详情";
+            var list = resp.data;
+            console.log(list);
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
+            var html_score=
+                "<tr>"
+                +"<td>讲义设计情况评分</td>"
+                +"<td>"+list.tea_process_design_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>语言表达能力评分</td>"
+                +"<td>"+list.language_performance_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>专业知识技能评分</td>"
+                +"<td>"+list.knw_point_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学节奏把握评分</td>"
+                +"<td>"+list.tea_rhythm_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>互动情况评分</td>"
+                +"<td>"+list.tea_concentration_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>板书情况评分</td>"
+                +"<td>"+list.teacher_blackboard_writing_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>软件操作评分</td>"
+                +"<td>"+list.tea_operation_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>授课环境评分</td>"
+                +"<td>"+list.tea_environment_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课后反馈评分</td>"
+                +"<td>"+list.answer_question_cre_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>流程规范情况评分</td>"
+                +"<td>"+list.class_abnormality_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>总分</td>"
+                +"<td>"+list.record_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>非教学相关得分</td>"
+                +"<td>"+list.no_tea_related_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>监课情况</td>"
+                +"<td>"+list.record_monitor_class+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>意见或建议</td>"
+                +"<td>"+list.record_info+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>老师标签</td>"
+                +"<td>"+list.label+"</td>"
+                +"</tr>"
+
+
+
+            html_node.find("table").append(html_score);
+            var dlg=BootstrapDialog.show({
+                title    : title,
+                message  : html_node,
+                closable : true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+    });
+
+
+    $(".opt-reset-acc").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        if(id==0){
+            alert("无数据,请刷新确认!");
+            return;
+        }else{
+            BootstrapDialog.confirm("确定要重置吗？", function(val){
+                if (val) {
+                    $.do_ajax( '/user_deal/reset_record_acc', {
+                        'id' : id
+                    });
+                } 
+            });
+            
+        }
+    });
+
+    $(".opt-qr-pad-at-time").on("click",function(){
+        var lessonid= $(this).get_opt_data("lessonid");
+        var url=$(this).data("type");
+        var title = $(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_lesson_xmpp_audio",{
+            "lessonid" :lessonid
+        },function(result){
+
+            var data=result.data;
+
+            var args="title=lessonid:"+lessonid+"&beginTime="+data.lesson_start+"&endTime="+data.lesson_end+"&roomId="+data.roomid+"&xmpp="+data.xmpp+"&webrtc="+data.webrtc+"&ownerId="+data.teacherid+"&type="+data.type+"&audioService="+data.audioService ;
+
+            var args_64 = $.base64.encode(args);
+
+            console.log(args);
+
+            var text = encodeURIComponent(url+args_64);
+
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message :"<div style = \"text-align:center\"><img width=\"350px\" src=\"/common/get_qr?text="+text+"\"></img>" ,
+                closable             : true
+            });
+            //dlg.getModalDialog().css("width","800px");
+
+        });
+
+    });
+    $(".opt-qr-pad").on("click",function(){
+
+        var lessonid= $(this).get_opt_data("lessonid");
+        var url = $(this).data("type");
+        var title=$(this).attr("title");
+        //得到
+        $.do_ajax("/tea_manage/get_lesson_xmpp_audio",{
+            "lessonid" :lessonid
+        },function(result){
+            var data = result.data;
+            var args="title=lessonid : "+lessonid+"&beginTime="+data.real_begin_time+"&endTime="+data.real_end_time+"&drawUrl="+data.draw+"&audioUrl="+data.audio;
+            var args_64 = $.base64.encode(args);
+            var text = encodeURIComponent(url+args_64);
+            var dlg = BootstrapDialog.show({
+                title: title,
+                message  : "<div style=\"text-align:center\"><img width=\"300\" src=\"/common/get_qr?text="+text+"\"></img><br/>" +  url+args_64+"<br/> "+args +"</div>",
+                closable : true
+            });
+        });
+    });
+
+    $(".opt-set-new-lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        
+        BootstrapDialog.confirm("确定要重新排课吗？", function(val){
+            if (val) {
+                $.do_ajax( '/user_deal/set_new_train_lesson', {
+                    'id' : id,
+                    'lessonid':opt_data.lessonid
+                });
+            } 
+        });
+            
+        
+
+    });
+
+    $(".opt-out-link").on("click",function(){
+        var lessonid = $(this).get_opt_data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+            BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+        });
+    });
+    
+    $(".opt-play-new").on("click",function(){
+        var lessonid = $(this).get_opt_data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+           // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+        });
+    });
+
+
 
 	$('.opt-change').set_input_change_event(load_data);
 });

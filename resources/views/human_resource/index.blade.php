@@ -491,6 +491,7 @@
                                     <a class="opt-set_check_info">审核信息</a>
                                 @endif
                                 @if(in_array($acc,["zoe"]))
+                                    <a class="opt-change-phone" title="更换老师手机">手机</a>
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
                                     <a class="opt-change-teacher_ref_type">渠道</a>
                                 @endif

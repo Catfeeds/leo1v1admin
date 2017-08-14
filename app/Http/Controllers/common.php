@@ -325,7 +325,6 @@ class common extends Controller
                     }
 
                 }
-               
             }
         }
         echo $str;
