@@ -119,6 +119,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '123';
+        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        dd($userid);
         $ret = $this->t_agent->get_agent_list();
         foreach($ret as $item){
             $id = $item['id'];
