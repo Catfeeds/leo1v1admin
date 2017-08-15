@@ -788,6 +788,7 @@ class teacher_level extends Controller
                 "lesson_style"   => $lesson_style,
                 "acc"            => $acc,
                 "add_time"       => time(),
+                "click_time"     => time(),
             ]);
   
         }

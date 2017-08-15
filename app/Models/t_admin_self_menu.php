@@ -45,6 +45,7 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         $sql=$this->gen_sql_new(
             "select id from  %s where adminid=%u and  order_index= %u ",
             self::DB_TABLE_NAME, $adminid, $order_index);
+        return $this->main_get_value($sql);
     }
 
     public function get_next_order_index( $adminid, $order_index ,$next_flag  ) {
@@ -91,7 +92,8 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         }
         $arr=[[
             "name"=>"我的收藏",
-            "list"=> $data
+            "icon" => "fa-star",
+            "list"=> $data,
         ]];
         return $arr;
     }

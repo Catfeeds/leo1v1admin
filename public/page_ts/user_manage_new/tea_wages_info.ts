@@ -462,4 +462,33 @@ $(function(){
         });
     });
 
+    $("opt-reset_lesson").on("click",function(){
+	      var data = $(this).opt_get_data();
+
+        BootstrapDialog.show({
+	          title   : "重置本节课的老师工资类型和等级",
+	          message : "确认重置本节课的老师工资？",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_money/reset_lesson_reward",{
+                        "lessonid" : data.lessonid,
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
+    });
+
 });

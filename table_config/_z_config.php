@@ -31,6 +31,7 @@ return array(
     ["db_weiyi","t_graduating_student_lesson_time_count","id"],
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
+    ["db_weiyi_admin","t_admin_campus_list","campus_id"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
@@ -38,7 +39,6 @@ return array(
     ["db_weiyi_admin","t_seller_new_count","new_count_id"],
     ["db_weiyi_admin","t_seller_new_count_get_detail","id"],
     ["db_weiyi_admin","t_online_count_log","logtime"],
-    ["db_weiyi_admin","t_seller_edit_log","id" ],
     ["db_weiyi","t_seller_student_origin","userid","origin" ],
     ["db_weiyi","t_seller_student_new","userid" ],
     ["db_weiyi","t_test_lesson_subject","test_lesson_subject_id" ],

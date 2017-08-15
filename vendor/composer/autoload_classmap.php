@@ -742,6 +742,7 @@ return array(
     'TTeacherRecordInfoAddLimitNum' => $baseDir . '/database/migrations/2017_04_05_173112_t_teacher_record_info_add_limit_num.php',
     'TTeacherRecordInfoAddNoTeaRelatedScore' => $baseDir . '/database/migrations/2017_05_31_101655_t_teacher_record_info_add_no_tea_related_score.php',
     'TTeacherRecordInfoAddUserid' => $baseDir . '/database/migrations/2017_08_02_132204_t_teacher_record_info_add_userid.php',
+    'TTeacherRecordListAddClickTime' => $baseDir . '/database/migrations/2017_08_15_114949_t_teacher_record_list_add_click_time.php',
     'TTeacherRecordListAddCurrentAcc' => $baseDir . '/database/migrations/2017_06_26_115948_t_teacher_record_list_add_current_acc.php',
     'TTeacherRecordListAddGradeRange' => $baseDir . '/database/migrations/2017_05_02_142338_t_teacher_record_list_add_grade_range.php',
     'TTeacherRecordListAddIndex' => $baseDir . '/database/migrations/2017_08_08_175203_t_teacher_record_list_add_index.php',
