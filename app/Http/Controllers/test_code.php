@@ -1833,15 +1833,12 @@ class test_code extends Controller
 
         $list = $this->t_teacher_money_list->get_teacher_reward_list($start,$end,$type);
         foreach($list as $val){
-            $tea_nick = $this->cache_get_teacher_nick($val['o_teacherid']);
+            $tea_nick_1 = $this->cache_get_teacher_nick($val['teacherid']);
+            $tea_nick_2 = $this->cache_get_teacher_nick($val['o_teacherid']);
             E\Eidentity::set_item_value_str($val);
-            echo $tea_nick."|".$val['identity_str'];
+            echo $tea_nick_1."|".$tea_nick_2."|".$val['identity_str'];
             echo "<br>";
         }
-
-        
-
-
     }
 
 
