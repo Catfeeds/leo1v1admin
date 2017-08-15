@@ -2655,11 +2655,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "is_test_user=0",
 
         ];
-        $sql = $this->gen_sql_new("select origin_userid,count(origin_userid) as count "
-                                  ." from %s"
+        $sql = $this->gen_sql_new("select origin_userid,count(origin_userid) as count ,count(o.userid) as succ"
+                                  ." from %s s"
+                                  ." left join %s o on o.userid=s.userid"
+                                  ." and contract_type =0 and contract_status>0"
                                   ." where %s"
                                   ." group by origin_userid"
                                   ,self::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
