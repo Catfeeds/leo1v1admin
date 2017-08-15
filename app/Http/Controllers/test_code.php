@@ -1827,11 +1827,16 @@ class test_code extends Controller
     }
 
     public function get_reward_list(){
-        $reward_type = $this->get_in_int_val("reward_type");
-        $start=strtotime("2017-7-1");
-        $end=strtotime("2017-8-1");
+        $type  = $this->get_in_int_val("type",6);
+        $start = strtotime("2017-7-1");
+        $end   = strtotime("2017-8-1");
 
         $list = $this->t_teacher_money_list->get_teacher_reward_list($start,$end,$type);
+        foreach($list as $val){
+            $tea_nick = $this->cache_get_teacher_nick($val['teacherid']);
+            echo $val['teacherid']."|".$tea_nick."|".($val['reward_money']/100);
+            echo "<br>";
+        }
     }
 
 
