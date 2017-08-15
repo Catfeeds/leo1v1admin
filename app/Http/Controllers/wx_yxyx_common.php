@@ -273,9 +273,8 @@ class wx_yxyx_common extends Controller
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //随机获取十张海报/不足十张，取所有?
-        $start_time = strtotime('today');
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time);
+        //随机获取十张海报/不足十张，取所有?也取14天之内的
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
@@ -325,9 +324,11 @@ class wx_yxyx_common extends Controller
         E\Etest_type::set_item_value_str($ret_info,"test_type");
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         unset($ret_info['pic']);
-        //获取所有id，随机选取三个(当天之前的)
+        //获取所有id，随机选取三个(当天之前的14天之内)
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('tomorrow');
         $start_time = strtotime('today');
-        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time);
+        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time, $end_time);
         $count_num = count($all_id)-1;
         $id_arr    = [];
         $num_arr   = [];
