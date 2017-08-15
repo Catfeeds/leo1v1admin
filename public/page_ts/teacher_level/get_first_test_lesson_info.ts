@@ -37,9 +37,9 @@ $(function(){
     Enum_map.append_option_list("subject", $('#id_subject'));
     Enum_map.append_option_list("boolean", $('#id_record_flag'));
 
-	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_subject').val(g_args.subject);
-	$('#id_record_flag').val(g_args.record_flag);
+	  $('#id_teacherid').val(g_args.teacherid);
+	  $('#id_subject').val(g_args.subject);
+	  $('#id_record_flag').val(g_args.record_flag);
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
     $(".opt-first-lesson-video").on("click",function(){
         var opt_data = $(this).get_opt_data();
