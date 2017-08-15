@@ -84,6 +84,9 @@ $(function(){
             ["意见或建议",id_record],
             ["老师标签",id_sshd]
         ];
+        if(opt_data.trial_train_num==2){
+            id_trial_train_status.parent().parent().hide(); 
+        }
 
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
