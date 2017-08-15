@@ -440,6 +440,7 @@ class agent extends Controller
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
+                $ret_list[$key]['phone'] = $item['phone'];
                 $ret_list[$key]['name'] = $item['phone'];
                 if($item['nickname']){
                     $ret_list[$key]['name'] = $item['nickname'];
