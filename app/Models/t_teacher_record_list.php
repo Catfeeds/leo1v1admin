@@ -992,6 +992,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         });
     }
 
+
     public function get_test_regular_lesson_first_per($start_time,$end_time,$lesson_style,$subject){
         $where_arr=[
             "tr.type=1",
@@ -1001,14 +1002,13 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.add_time>tr.click_time"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select tr.acc,count(*) all_num, count(tr.add_time-tr.click_time) all_time "
+        $sql = $this->gen_sql_new("select tr.acc,count(*) all_num, sum(tr.add_time-tr.click_time) all_time "
                                   ." from %s tr left join %s l on tr.train_lessonid = l.lessonid"
                                   ." where %s group by tr.acc ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        dd($sql);
         return $this->main_get_list($sql,function($item){
             return $item["acc"];
         });
@@ -1040,6 +1040,19 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
     }
 
+
+    public function get_teacher_openid_list(){
+        $where_arr = [
+            "train_through_new =1",
+            "is_quit = 0",
+        ];
+        $sql = $this->gen_sql_new(" select wx_openid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list();
+    }
 
     
 }

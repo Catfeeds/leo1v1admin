@@ -2448,5 +2448,9 @@ trait  TeaPower {
         return $subject;
     }
 
-
+    public function change_reference(&$phone){
+        if($phone=="18707976382"){
+            $phone="13387970861";
+        }
+    }
 }

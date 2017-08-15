@@ -238,6 +238,13 @@ class common_new extends Controller
         if($check_flag){
             return $this->output_err("该手机号已提交过了,不能重新提交!");
         }
+        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        if(!empty($teacher_info)){
+            return $this->output_err("该手机号已注册,不能重新提交!");
+        }
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && $reference!="13661763881"){
+            return $this->output_err("请填写正确的手机号！");
+        }
         if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");
         }
@@ -247,6 +254,8 @@ class common_new extends Controller
         if($teacher_type=="" || $teacher_type==0){
             return $this->output_err("请选择您的教学经历!");
         }
+        $reference=$this->change_reference($reference);
+
         $grade = $this->check_grade_by_subject($grade,$subject_ex);
         if($grade!=0){
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);

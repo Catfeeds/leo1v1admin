@@ -4721,9 +4721,8 @@ class ss_deal extends Controller
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-
-                    // "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
+                    "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                     // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 
@@ -4964,6 +4963,16 @@ class ss_deal extends Controller
             "account" => "施文斌",
             "account_role_str" => "市场",
         ];
+
+        $ret[] = [
+            "account_role" => "0",
+            "up_groupid" => "0",
+            "master_adminid" => "968",
+            "group_name" => "QC",
+            "account" => "李珉劼",
+            "account_role_str" => "市场-QC",
+        ];
+
         $ret[] = [
             "account_role" => "0",
             "up_groupid" => "0",
