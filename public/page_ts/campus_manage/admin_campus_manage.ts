@@ -10,6 +10,20 @@ $(function(){
 
 
     $("#id_add_campus").on("click",function(){
+        var id_campus_name=$("<input/>");
+        var  arr=[
+            ["名称" ,  id_campus_name]
+        ];
+        
+        $.show_key_value_table("新增校区", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/campus_manage/add_admin_campus",{
+                    "campus_name" :id_campus_name.val(),
+                });
+            }
+        });
         
     });
 

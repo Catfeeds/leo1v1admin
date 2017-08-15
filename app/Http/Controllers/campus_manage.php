@@ -20,5 +20,13 @@ class campus_manage extends Controller
         dd($ret_info);
     }
 
+    public function add_admin_campus(){
+        $campus_name =trim($this->get_in_str_val("campus_name"));
+        $this->t_admin_campus_list->row_insert([
+            "campus_name" =>$campus_name
+        ]);
+        return $this->output_succ();
+    }
+
 
 }

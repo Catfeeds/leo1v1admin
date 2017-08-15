@@ -31,10 +31,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>老师</td>
-                    <td>科目</td>
-                    <td>年级</td>
-                    <td>学生</td>
+                    <td>校区</td>
                     
                     <td> 操作  </td>
                 </tr>
@@ -42,16 +39,7 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["subject_str"]}} </td>
-                        <td>
-                            @if(@$var["grade_start"]>0)
-                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
-                            @else
-                                {{@$var["grade_part_ex_str"]}}
-                            @endif
-                        </td>
-                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["campus_name"]}} </td>
 
                         <td>
                             <div

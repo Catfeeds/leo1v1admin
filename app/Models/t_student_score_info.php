@@ -47,4 +47,18 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             ["userid = %d ",$userid,-1]
         ];
     }
+
+    public function get_stu_score_list_for_score_type($userid,$stu_score_list){
+        $where_arr = [
+            ['userid=%d',$userid,-1],
+            ['stu_score_type=%d',$stu_score_type,-1]
+        ];
+
+        $sql = $this->gen_sql_new(" select stu_score_type, score, total_score, subject from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

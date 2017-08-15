@@ -1132,8 +1132,12 @@ class wx_parent_api extends Controller
 
 
     public function get_history_for_stu_score_type(){
-        $userid = $this->get_in_int_val();
-        $stu_score_type = $this->get_in_int_val('stu_score_type');
+        $userid         = $this->get_in_int_val('userid',-1);
+        $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
+
+        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid,$stu_score_list);
+
+        return $this->output_succ(['data'=>$stu_score_list]);
     }
 
 

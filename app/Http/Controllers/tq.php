@@ -43,13 +43,13 @@ class tq extends Controller
         $ret_info=$this->t_tq_call_info->get_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status );
         $now=time(NULL);
         foreach($ret_info["list"] as &$item) {
-            $item["record_url"]= $record_url;
+            $record_url= $item["record_url"] ;
             if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
                 $item["load_wav_self_flag"]=1;
             }else{
                 $item["load_wav_self_flag"]=0;
             }
-            if (preg_match("api.clink.cn", $record_url ) ) {
+            if (preg_match("/api.clink.cn/", $record_url ) ) {
                 $item["record_url"].=$clink_args;
             }
 
