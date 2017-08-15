@@ -53,6 +53,7 @@
                         <td >教材版本 </td>
                         <td >老师 </td>
                         <td >试听时间 </td>
+                        <td >试听申请人 </td>
                         <td >课时确认 </td>
                         <td >结果设置</td>
 
@@ -87,6 +88,7 @@
                                     target="_blank" title="老师信息">{{@$var["realname"]}} </a>
                             </td>
                             <td>{{$var["lesson_start_str"]}}</td>
+                            <td>{{$var["account"]}}</td>
                             <td>
                                 @if($var["success_flag"]<2)
                                     {!!$var["success_flag_str"]!!}

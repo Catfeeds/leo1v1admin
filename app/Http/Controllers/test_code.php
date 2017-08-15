@@ -1810,5 +1810,20 @@ class test_code extends Controller
         echo $check_flag;
     }
 
+    public function get_list(){
+        $subject_list = [
+            "subject"=>[
+                "cid"  => "1",
+                "name" => "语文",
+                "grade_list"=>[
+                    "100" => "小学",
+                    "200" => "初中",
+                    "300" => "高中",
+                ],
+            ],
+        ];
+
+        return $this->output_succ($subject_list);
+    }
 
 }

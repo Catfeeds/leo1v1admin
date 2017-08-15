@@ -728,7 +728,10 @@ class seller_student_new2 extends Controller
         list($start_time,$end_time )=$this->get_in_date_range(0,0,0,[],3);
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid);
+        $success_flag = $this->get_in_int_val("success_flag",-1);
+        $order_flag = $this->get_in_int_val("order_flag",-1);
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,$order_flag);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
