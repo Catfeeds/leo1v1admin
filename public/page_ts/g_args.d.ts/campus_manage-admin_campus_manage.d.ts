@@ -8,6 +8,10 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	campus_id	:any;
+	campus_name	:any;
+	main_groupid	:any;
+	main_group_name	:any;
 }
 
 /*
