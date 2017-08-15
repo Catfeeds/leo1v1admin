@@ -196,7 +196,7 @@ return array(
     ["db_tool","t_scores_info","id"] ,
     ["db_tool","t_scores_min","id"] ,
     ["db_message","t_sms_msg","recordid"] ,
-    ["db_message","t_weixin_msg","recordid"] 
+    ["db_message","t_weixin_msg","recordid"], 
     // ["db_question","t_lesson_note_list","id"] ,
     //["db_question","t_lesson_note","note_id"] ,
     // ["db_question","t_question","id"] ,
