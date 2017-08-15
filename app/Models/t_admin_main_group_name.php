@@ -267,5 +267,13 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function set_campus_info($campus_id){
+        $sql = $this->gen_sql_new("update %s set campus_id = 0 where campus_id = %u",
+                                  self::DB_TABLE_NAME,
+                                  $campus_id
+        );
+        $this->main_update($sql);
+    }
+
 
 }

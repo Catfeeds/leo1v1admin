@@ -164,4 +164,19 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_reward_list($start,$end,$type){
+        $where_arr = [
+            ["add_time>%u",$start,0],
+            ["add_time<%u",$end,0],
+            ["type=%u",$type,0],
+        ];
+        $sql = $this->gen_sql_new("select sum(money) "
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

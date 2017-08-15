@@ -82,6 +82,9 @@ class campus_manage extends Controller
     public function campus_del(){
         $campus_id = $this->get_in_int_val("campus_id");
         $this->t_admin_campus_list->row_delete($campus_id);
+        $this->t_admin_main_group_name->set_campus_info($campus_id);
+        
+        return $this->output_succ();
  
     }
 }

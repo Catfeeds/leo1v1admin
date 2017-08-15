@@ -1826,4 +1826,13 @@ class test_code extends Controller
         return $this->output_succ($subject_list);
     }
 
+    public function get_reward_list(){
+        $reward_type = $this->get_in_int_val("reward_type");
+        $start=strtotime("2017-7-1");
+        $end=strtotime("2017-8-1");
+
+        $list = $this->t_teacher_money_list->get_teacher_reward_list($start,$end,$type);
+    }
+
+
 }
