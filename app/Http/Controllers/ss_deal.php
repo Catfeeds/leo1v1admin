@@ -4722,7 +4722,7 @@ class ss_deal extends Controller
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                     "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
-
+                    "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                     // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 

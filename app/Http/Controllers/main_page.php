@@ -414,7 +414,7 @@ class main_page extends Controller
 		//第一次试听/第一次常规
 		$test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
 		$test_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,1,$subject);
-		dd($test_first_per); 
+		//dd($test_first_per); 
 		$regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 		$regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
@@ -437,7 +437,7 @@ class main_page extends Controller
 		    $item["train_second_all"] = isset($train_second[$account])?$train_second[$account]["all_num"]:0;
 
 		    $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
-		    $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;;
+		    $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;
 
 		    $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
 		    $item["regular_first_per"] = isset($regular_first_per[$account])?round($regular_first_per[$account]["all_time"]/$regular_first_per[$account]["all_num"]):0;;

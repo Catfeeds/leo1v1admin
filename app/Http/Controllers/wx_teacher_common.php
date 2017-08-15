@@ -66,4 +66,10 @@ class wx_teacher_common extends Controller
         return $this->output_succ();
     }
 
+    //  向 老师推送老师端版本更新 通知
+
+    public function send_wx_to_update_software(){
+        // $teacher_list = $this->t_teacher_info->get_teach
+    }
+
 }

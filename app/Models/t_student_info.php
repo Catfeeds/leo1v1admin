@@ -1249,6 +1249,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
 
         if($user_info["ass_master_adminid"]==0){
+            //获取销售校区
             $master_adminid=0;
             if($user_info["origin_userid"] >0 && $seller_adminid==$adminid){
                 $this->field_update_list($userid,[
