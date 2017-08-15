@@ -10,8 +10,14 @@ declare var g_adminid: any;
 interface RowData {
 	campus_id	:any;
 	campus_name	:any;
-	main_groupid	:any;
-	main_group_name	:any;
+	up_group_name	:any;
+	group_name	:any;
+	account	:any;
+	campus_id_class	:any;
+	up_group_name_class	:any;
+	group_name_class	:any;
+	account_class	:any;
+	level	:any;
 }
 
 /*

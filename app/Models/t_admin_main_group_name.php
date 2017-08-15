@@ -254,4 +254,11 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         $sql = $this->gen_sql_new("select max(main_type) from %s ",self::DB_TABLE_NAME);
         return $this->main_get_value($sql);
     }
+
+    public function get_group_list_by_campus_id ($campus_id) {
+        $sql=$this->gen_sql_new("select groupid,group_name,main_assign_percent,master_adminid,main_type  from %s where campus_id=%u order by main_type  asc " ,
+                                self::DB_TABLE_NAME, $campus_id);
+        return $this->main_get_list($sql);
+    }
+
 }

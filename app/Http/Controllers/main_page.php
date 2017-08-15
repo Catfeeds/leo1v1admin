@@ -417,6 +417,7 @@ class main_page extends Controller
         $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 
+        $all_count=0;
 
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
@@ -436,11 +437,14 @@ class main_page extends Controller
             $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
             $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
             $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
-            if(in_array($item["uid"],[486,754])){
-                $item["per"] = round($item["all_num"]/150*100,2);
-            }else{
-                $item["per"] = round($item["all_num"]/250*100,2);
+            $item["all_target_num"] = 250;
+            if(in_array($item["uid"],[486,754,478])){
+                $item["all_target_num"]=150;
+            }elseif(in_array($item["uid"],[913,923,892])){
+                $item["all_target_num"]=400;
             }
+            $all_count +=$item["all_target_num"];
+            $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
         }
 
 
@@ -474,8 +478,9 @@ class main_page extends Controller
         $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
         $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num];
         $num = count($teacher_info);
-        $all_count = ($num-2)*250+300;
+        // $all_count = ($num-2)*250+300;
         $arr["per"] = round($all_num/$all_count*100,2);
+        $arr["all_target_num"] = $all_count;
         
 
         array_unshift($teacher_info,$arr);

@@ -32,14 +32,19 @@
             <thead>
                 <tr>
                     <td>校区</td>
-                    
+                    <td>主管 </td>
+                    <td>小组 </td>
+                    <td>成员 </td> 
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr>
-                        <td>{{@$var["campus_name"]}} </td>
+                    <tr class="{{$var["level"]}}">
+                        <td data-class_name="{{$var["campus_id_class"]}}" class="campus_id" >{{$var["campus_name"]}}</td>
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["campus_id_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
+                        <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
 
                         <td>
                             <div

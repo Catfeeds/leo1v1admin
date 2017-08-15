@@ -63,7 +63,7 @@
                             <td> {{@$var["train_second_all"]}}</td>
                             <td> {{@$var["test_first"]}}</td>
                             <td> {{@$var["regular_first"]}}</td>
-                            <td> {{@$var["all_num"]}}</td>
+                            <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
                           
 
