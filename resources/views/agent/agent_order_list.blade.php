@@ -26,7 +26,7 @@
             <thead>
                 <tr>
                     <td>orderid </td>
-                    <td>aid </td>
+                    <td>手机号 </td>
                     <td>微信昵称 </td>
                     <td>上级手机号 </td>
                     <td>上级微信昵称 </td>
@@ -42,7 +42,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["orderid"]}} </td>
-                        <td>{{@$var["aid"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_phone"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
