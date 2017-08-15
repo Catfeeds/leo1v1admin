@@ -415,7 +415,6 @@ class main_page extends Controller
         $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 
-        dd($regular_first);
         $all_count=0;
 
         foreach($teacher_info as &$item){
