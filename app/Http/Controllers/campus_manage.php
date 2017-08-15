@@ -15,6 +15,7 @@ class campus_manage extends Controller
    
     public function admin_campus_manage(){
         $ret_info = $this->t_admin_campus_list->get_admin_campus_info(); 
+        $list=[];
         foreach($ret_info["list"] as $val)   {
             $n = $num;
             $list[] = ["main_type"=>$i,"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
