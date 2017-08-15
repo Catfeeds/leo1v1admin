@@ -296,6 +296,16 @@ class t_admin_group_name extends \App\Models\Zgen\z_t_admin_group_name
     }
 
 
+    public function get_master_adminid_by_campus_id($campus_id){
+        $sql = $this->gen_sql_new("select n.master_adminid from %s n"
+                                  ." left join %s am on n.up_groupid = am.groupid"
+                                  ." where am.campus_id = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_admin_main_group_name::DB_TABLE_NAME,
+                                  $campus_id
+        );
+        return $this->main_get_value($sql);
+    }
 
 
 }
