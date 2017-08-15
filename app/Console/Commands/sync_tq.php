@@ -82,9 +82,10 @@ class sync_tq extends cmd_base
                     }
                     //UIN
 
+                    $tquin=  $item["UIN"];
                     $this->task->t_tq_call_info->add(
                         "".$item["PhoneRecId"],
-                        "".$item["UIN"],
+                        "".$tquin,
                         "".$item["Caller_id"],
                         "".$item["Start_time"],
                         "".@$item["End_time"],
@@ -98,7 +99,7 @@ class sync_tq extends cmd_base
                     if ( $duration >60 && $item["Is_called_phone"] ) {
                         $tq_called_flag=2;
                     }
-                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time );
+                    $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
 
                 }
             }

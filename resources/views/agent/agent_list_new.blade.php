@@ -7,7 +7,6 @@
             <thead>
                 <tr>
                     <td>id </td>
-                    <td>上级id</td>
                     <td>手机号</td>
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
@@ -33,7 +32,6 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["id"]}} </td>
-                        <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
