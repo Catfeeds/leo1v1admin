@@ -440,6 +440,7 @@ class WechatRequest  {
         if($eventKey == 'content') {
             $t_agent = new \App\Models\t_agent();
             $agent = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
             if(isset($agent['phone'])){
                 $phone = $agent['phone'];
             }
