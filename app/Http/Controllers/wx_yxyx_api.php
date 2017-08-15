@@ -163,8 +163,8 @@ class wx_yxyx_api extends Controller
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
                 $ret_list[$key]['name'] = $item['phone'];
-                if($item['nick']){
-                    $ret_list[$key]['name'] = $item['nick'];
+                if($item['nickname']){
+                    $ret_list[$key]['name'] = $item['nickname'];
                 }
                 $ret_list[$key]['status'] = 0;
                 if($item['order_status']){
