@@ -412,7 +412,7 @@ class agent extends Controller
 
 
     public function get_my_num(){
-        $agent_id = 54;
+        $agent_id = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         $ret = [];
         $ret = $this->t_agent->get_p_list_by_phone($phone);
