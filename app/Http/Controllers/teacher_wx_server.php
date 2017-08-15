@@ -89,9 +89,8 @@ class  teacher_wx_server extends Controller
 
 
     public function get_fan_list(){
-        // getFansList
-        \App\Teacher\Core\UserManagre
-        // usermanage.php
+        $ret = \App\Teacher\Core\UserManage::getFansList();
+        dd($ret);
     }
 
     public function ceshi () {

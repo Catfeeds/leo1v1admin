@@ -18,7 +18,7 @@
     <section class="content ">
         <div>
             <div class="row " >
-                <div class="col-xs-12 col-md-6"  data-title="时间段">
+                <div class="col-xs-12 col-md-4"  data-title="时间段">
                     <div  id="id_date_range" >
                     </div>
                 </div>
