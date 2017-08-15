@@ -31,6 +31,7 @@ return array(
     ["db_weiyi","t_graduating_student_lesson_time_count","id"],
     ["db_weiyi_admin","t_refund_analysis","id"],
     ["db_weiyi_admin","t_order_refund_confirm_config","id"],
+    ["db_weiyi_admin","t_admin_campus_list","campus_id"],
 
 
     ["db_weiyi_admin","t_admin_card_log","logtime","cardid"],
