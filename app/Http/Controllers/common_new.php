@@ -317,9 +317,8 @@ class common_new extends Controller
              */
             // $template_code = "SMS_85635010";
             // $data['name']  = $name;
-            // $data['time']  = ;
+            // $data['time']  = date("Y-m-d",strtotime("+3 day",time()));
             // \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$data);
-
 
             if($reference != ""){
                 /**

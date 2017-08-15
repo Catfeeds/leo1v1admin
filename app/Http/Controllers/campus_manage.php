@@ -14,7 +14,8 @@ class campus_manage extends Controller
 
    
     public function admin_campus_manage(){
-        
+        $ret_info = $this->t_admin_campus_list->get_admin_campus_info(); 
+        dd($ret_info);
     }
 
 
