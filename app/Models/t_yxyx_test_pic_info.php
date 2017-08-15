@@ -52,6 +52,18 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         );
         return $this->main_get_row($sql);
     }
+    public function add_field_num($id, $field) {
+        $where_arr = [
+            'id='.$id,
+        ];
+        $sql = $this->gen_sql_new( "update %s set {$field}={$field}+1"
+                                   . " where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,$where_arr
+        );
+        $this->main_update($sql);
+    }
+
 
     public function get_all($grade, $subject, $test_type, $page_info){
         $where_arr = [
@@ -86,9 +98,10 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_id_poster( $id=0){
+    public function get_all_id_poster( $id=0, $start_time){
         $where_arr = [
             ['id!=%s', $id, 0],
+            ['create_time<%s', $start_time, 0],
         ];
         $sql = $this->gen_sql_new("select id, poster"
                                   ." from %s"
@@ -99,7 +112,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_for_wx($grade, $subject, $test_type, $page_info, $parentid){
+    public function get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid){
         $where_arr = [
             ['y.grade=%u', $grade , -1],
             ['y.subject=%u', $subject , -1],
@@ -107,14 +120,15 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         ];
         $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.create_time, tv.flag"
                                     ." from %s y "
-                                    ." left join %s tv on y.id=tv.test_pic_info_id and tv.parentid={$parentid}"
+                                    ." left join %s tv on y.id=tv.test_pic_info_id"
+                                    ." and tv.wx_openid={$wx_openid}"
                                     ." where %s"
                                     ,self::DB_TABLE_NAME
                                     ,t_yxyx_test_pic_visit_info::DB_TABLE_NAME
                                     ,$where_arr
         );
+        // dd($sql);
         return $this->main_get_list_by_page($sql,$page_info);
-
     }
 
 
