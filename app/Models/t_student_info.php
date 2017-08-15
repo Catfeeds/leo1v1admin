@@ -1250,6 +1250,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
 
         if($user_info["ass_master_adminid"]==0){
             //获取销售校区
+            $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+            $master_adminid = $this->task->t_admin_group_name->get_master_adminid_by_campus_id($campus_id);
+
             $master_adminid=0;
             if($user_info["origin_userid"] >0 && $seller_adminid==$adminid){
                 $this->field_update_list($userid,[

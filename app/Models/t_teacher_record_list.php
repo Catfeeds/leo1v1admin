@@ -1041,5 +1041,18 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
 
+    public function get_teacher_openid_list(){
+        $where_arr = [
+            "train_through_new =1",
+            "is_quit = 0",
+        ];
+        $sql = $this->gen_sql_new(" select wx_openid from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list();
+    }
+
     
 }
