@@ -20,7 +20,7 @@
         <div>
             <div class="row" >              
                 <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_add_teacher"> 新增校区 </button>
+                    <button class="btn btn-primary" id="id_add_campus"> 新增校区 </button>
                 </div>                 
 
 

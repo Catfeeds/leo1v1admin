@@ -1131,6 +1131,12 @@ class wx_parent_api extends Controller
     }
 
 
+    public function get_history_for_stu_score_type(){
+        $userid = $this->get_in_int_val();
+        $stu_score_type = $this->get_in_int_val('stu_score_type');
+    }
+
+
 
 
 
