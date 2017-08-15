@@ -23,7 +23,10 @@ interface RowData {
 	test_first	:any;
 	regular_first	:any;
 	all_num	:any;
+	test_first_per_str	:any;
+	regular_first_per_str	:any;
 	per	:any;
+	all_target_num	:any;
 }
 
 /*
