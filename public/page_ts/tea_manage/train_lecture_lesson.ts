@@ -318,8 +318,7 @@ $(function(){
 	$('#id_train_email_flag').val(g_args.train_email_flag);
     $.admin_select_user($("#id_train_teacherid"),"teacher",load_data);
 
-    $(".opt-edit").on("click",function()
-    {
+    $(".opt-edit").on("click",function(){
 	    var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_identity    = $("<select/>");
@@ -652,11 +651,11 @@ $(function(){
                                 "teacher_blackboard_writing_score"   : id_teacher_blackboard_writing_score.val(),
                                 "total_score"                        : id_total_score.val(),
                                 "identity"                           : id_identity.val(),
-                                "subject"                            : data.subject,
-                                "grade"                              : data.grade,
+                               // "subject"                            : data.subject,
+                               // "grade"                              : data.grade,
                                 "not_grade"                          : not_grade,
                                 "work_year"                          : id_work_year.val(),
-                                "not_grade"                          : not_grade,
+                               // "not_grade"                          : not_grade,
                                 "sshd_good"                          : JSON.stringify(sshd_good),
                             },function(result){
                                 if(result.ret==-1){

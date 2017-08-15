@@ -932,9 +932,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["phone='%s'",$phone,0]
         ];
 
-        $sql=$this->gen_sql_new("select teacherid from %s where %s"
-                                ,self::DB_TABLE_NAME
-                                ,$where_arr
+        $sql = $this->gen_sql_new("select teacherid from %s where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_value($sql);
     }
@@ -1236,13 +1236,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     ){
         if($type==1){
             $end_time   = time();
-            $start_time = strtotime("-1 month",$end_time);
+            $start_time = strtotime("-2 month",$end_time);
             $where_arr  = [
                 ["create_time>%u",$start_time,0],
                 ["create_time<%u",$end_time,0],
                 ["is_test_user=%u",$is_test_user,-1],
                 "trial_lecture_is_pass=1",
-                "train_through_new=0",
+                "train_through_new_time=0",
             ];
         }elseif($type==2){
             $where_arr = [
@@ -2687,8 +2687,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+
+
+
+
+
+
     public function get_chaxun_num($item){
-        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0",
+        $sql = $this->gen_sql_new("select count(*) from %s  where create_time <$item and is_test_user = 0 and train_through_new=1",
                                   self::DB_TABLE_NAME
         );
 
@@ -2698,14 +2704,40 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_new_add_num($item){
 
-        $end_time = strtotime("$item +1 month");
+        $n = date('Y-m-d',$item);
+        $end_time = strtotime( "$n +1 month");
 
 
-        $sql = $this->gen_sql_new("select count(*) from %s  where train_through_new_time>$item and train_through_new_time<$end_time and is_test_user = 0",
+        $sql = $this->gen_sql_new("select count(*) from %s  where train_through_new_time>$item and train_through_new_time<$end_time and is_test_user = 0 ",
+
                                   self::DB_TABLE_NAME
         );
 
         return $this->main_get_value($sql);
 
+    }
+
+
+    public function get_leveal_num($item){
+
+        // $n = date('Y-m-d',$item);
+        $three_end     = 1501516800;
+        $three_begin   = 1483200000;
+        $where_arr = [
+            "t.train_through_new =1",
+            "t.is_test_user = 0",
+            // "create_time <$three_begin",
+            // "t.test_quit =0"
+        ];
+        $sql = $this->gen_sql_new(" select t.teacherid,count(l.lessonid) num from %s t left join %s l on l.teacherid=t.teacherid and l.lesson_start>=$three_begin and l.lesson_end<$three_end  ".
+                                  " where %s group by t.teacherid having(num=0) ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        // return $sql;
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
     }
 }

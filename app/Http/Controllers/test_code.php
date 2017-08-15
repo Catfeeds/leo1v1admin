@@ -18,7 +18,6 @@ class test_code extends Controller
     var $teacherid;
 
     public function __construct(){
-        $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -1551,9 +1550,14 @@ class test_code extends Controller
             $teacherid=62509;
             $id=24;
         }else{
-            $teacherid=62655;
-            $id=26;
+            $phone=$this->get_in_str_val("phone");
+            if($phone==""){
+                return $this->output_err("请输入手机号");
+            }
+            $info = $this->t_teacher_lecture_appointment_info->get_simple_info($phone);
+            $id = $info['id'];
         }
+
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "subject_ex"       => "1",
             "grade_ex"         => "100",
@@ -1563,10 +1567,17 @@ class test_code extends Controller
             "trans_grade_1v1"  => "",
         ]);
 
+        $teacherid= $this->t_teacher_info->get_teacherid_by_phone($phone);
         $lessonid_list=$this->t_lesson_info_b2->get_lessonid_list_by_userid($teacherid);
         if(is_array($lessonid_list) && !empty($lessonid_list)){
             foreach($lessonid_list as $val){
                 $this->t_lesson_info->row_delete($val['lessonid']);
+            }
+        }
+        $id=$this->t_teacher_lecture_info->get_id_list_by_phone($phone);
+        if(is_array($id) && !empty($id)){
+            foreach($id as $val_l){
+                $this->t_teacher_lecture_info->row_delete($val_l['id']);
             }
         }
 
@@ -1779,6 +1790,40 @@ class test_code extends Controller
         $this->add_trial_train_lesson($teacher_info,1);
     }
 
+    public function add_appointment(){
+        $phone = $this->get_in_str_val("phone");
 
+        $teacher_info['phone']         = "99900020004";
+        $teacher_info['send_sms_flag'] = 0;
+        $teacher_info['wx_use_flag']   = 0;
+        $teacher_info['use_easy_pass'] = "1";
+
+        $this->add_teacher_common($teacher_info);
+    }
+
+    public function check_teacher_lecture(){
+        $phone   = $this->get_in_str_val("phone","99900020004");
+        $subject = $this->get_in_int_val("subject",1);
+        $grade   = $this->get_in_int_val("grade",300);
+
+        $check_flag = $this->t_teacher_lecture_info->check_teacher_lecture_info($phone,$grade,$subject);
+        echo $check_flag;
+    }
+
+    public function get_list(){
+        $subject_list = [
+            "subject"=>[
+                "cid"  => "1",
+                "name" => "语文",
+                "grade_list"=>[
+                    "100" => "小学",
+                    "200" => "初中",
+                    "300" => "高中",
+                ],
+            ],
+        ];
+
+        return $this->output_succ($subject_list);
+    }
 
 }

@@ -6,6 +6,7 @@ interface GargsStatic {
 	end_time:	string;
 	userid:	number;
 	phone:	string;
+	p_phone:	string;
 	grade:	number;//App\Enums\Egrade
 	parentid:	number;
 	wx_openid:	string;
@@ -55,7 +56,6 @@ interface RowData {
 	origin	:any;
 	pp_nickname	:any;
 	pp_phone	:any;
-	s_userid	:any;
 	agent_type	:any;
 }
 
@@ -77,6 +77,7 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			userid:	$('#id_userid').val(),
 			phone:	$('#id_phone').val(),
+			p_phone:	$('#id_p_phone').val(),
 			grade:	$('#id_grade').val(),
 			parentid:	$('#id_parentid').val(),
 			wx_openid:	$('#id_wx_openid').val(),
@@ -108,6 +109,7 @@ $(function(){
     });
 	$('#id_userid').val(g_args.userid);
 	$('#id_phone').val(g_args.phone);
+	$('#id_p_phone').val(g_args.p_phone);
 	$('#id_grade').val(g_args.grade);
 	$('#id_parentid').val(g_args.parentid);
 	$('#id_wx_openid').val(g_args.wx_openid);
@@ -143,6 +145,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">phone</span>
                 <input class="opt-change form-control" id="id_phone" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">p_phone</span>
+                <input class="opt-change form-control" id="id_p_phone" />
             </div>
         </div>
 

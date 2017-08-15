@@ -866,6 +866,13 @@ class tea_manage_new extends Controller
             ]);
         }
 
+        if($id>0){
+            $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+                "lecture_revisit_type"  =>4 
+            ]);
+        }
+
+
         return $this->output_succ();
     }
 
@@ -930,12 +937,7 @@ class tea_manage_new extends Controller
  
         }
 
-        if($id>0){
-            $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-               "lecture_revisit_type"  =>4 
-            ]);
-        }
-
+       
         return $this->output_succ();
 
     }

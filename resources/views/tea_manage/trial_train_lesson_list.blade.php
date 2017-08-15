@@ -99,6 +99,8 @@
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
                                 <a class="fa-video-camera opt-play" title="回放"></a>
+                                <a class="opt-play-new" title="回放-new">回放-new</a>
+                                <a class="btn fa fa-link opt-out-link" title="对外视频发布链接"></a>
                                 <a class="btn fa fa-qrcode  opt-qr-pad-at-time "
                                    data-type="leoedu://meeting.leoedu.com/meeting="
                                    title="pad实时课程二维码" ></a>
@@ -111,8 +113,9 @@
                                 @if($var["trial_train_status"]>0)
                                     <a class="opt-confirm-score" title="审核详情">审核详情</a>
                                 @endif
-                                @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师"]))
+                                @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen"]))
                                     <a class="opt-reset-acc" >重置审核人</a>
+                                    <a class="opt-set-new-lesson" >重新排课</a>
                                 @endif
 
                             </div>

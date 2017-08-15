@@ -174,7 +174,7 @@ $(function(){
             [ "回访路径",  id_revisit_path] ,
             [ "回访对象",  id_return_record_person] ,
             [ "回访记录",  id_return_record_record] ,
-            [ "最近学习情况", id_recent_learn_info] , 
+            [ "其他情况说明", id_recent_learn_info] , 
             [ "复课时间", id_recover_time],
             ["软件操作是否满意",  $operation_satisfy_flag ],
             ["软件操作不满意的类型",  $operation_satisfy_type ],
@@ -417,7 +417,7 @@ $(function(){
 
                 }else if(id_return_record_type.val()==='3'){ //其他回访
                     if(id_recent_learn_info.val()=== ''){
-                        alert("请输入最近学习情况!");
+                        alert("请输入其他情况说明!");
                         return;
                     }
                     if(id_recover_time.val() <= 0){
@@ -1080,7 +1080,7 @@ $(function(){
                                     +"<div id=\"div_table\"><table class = \"table table-bordered table-striped\"  > "
                                     +"<tr><td>回访路径</td><td>"+revisit_path+"</td></tr>"
                                     +"<tr><td>回访对象</td><td>"+revisit_person+"</td></tr>"
-                                    +"<tr><td>最近学习情况</td><td>"+recent_learn_info+"</td></tr>"
+                                    +"<tr><td>其他情况说明</td><td>"+recent_learn_info+"</td></tr>"
                                     +"<tr><td>复课时间</td><td>"+recover_time+"</td></tr>"
                                     +"<tr><td>家长意见或建议</td><td>"+other_parent_info+"</td></tr>"
                                     +"<tr><td>其他预警问题</td><td>"+other_warning_info+"</td></tr>"

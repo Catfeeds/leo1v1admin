@@ -84,7 +84,7 @@ $(function(){
             ["意见或建议",id_record],
             ["老师标签",id_sshd]
         ];
-        
+
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
             cssClass : 'btn-warning',
@@ -111,7 +111,7 @@ $(function(){
                     }else{
                         not_grade += ","+$(this).val();
                     }
-                });          
+                });
 
                 $.do_ajax("/human_resource/set_trial_train_lesson",{
                     "teacherid"                        : teacherid,
@@ -372,6 +372,43 @@ $(function(){
             });
         });
     });
+
+    $(".opt-set-new-lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id= opt_data.id;
+        
+        BootstrapDialog.confirm("确定要重新排课吗？", function(val){
+            if (val) {
+                $.do_ajax( '/user_deal/set_new_train_lesson', {
+                    'id' : id,
+                    'lessonid':opt_data.lessonid
+                });
+            } 
+        });
+            
+        
+
+    });
+
+    $(".opt-out-link").on("click",function(){
+        var lessonid = $(this).get_opt_data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+            BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+        });
+    });
+    
+    $(".opt-play-new").on("click",function(){
+        var lessonid = $(this).get_opt_data("lessonid");
+        $.do_ajax( "/common/encode_text",{
+            "text" : lessonid
+        }, function(ret){
+           // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
+            $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
+        });
+    });
+
 
 
 	$('.opt-change').set_input_change_event(load_data);

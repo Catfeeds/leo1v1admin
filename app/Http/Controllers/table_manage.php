@@ -72,15 +72,13 @@ class table_manage extends Controller
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
 
         return $this->pageView(__METHOD__,$ret_info,[
-            "id1_name"=>$id1_name,
-            "id2_name"=>$id2_name,
-            "db_name"=>$db_name,
-            "table_name"=>$table_name,
-        ] );
-
-
-
+            "id1_name"   => $id1_name,
+            "id2_name"   => $id2_name,
+            "db_name"    => $db_name,
+            "table_name" => $table_name,
+        ]);
     }
+
     public function opt_table_log()
     {
         $start_time = $this->get_in_start_time_from_str( date("Y-m-d", time( ) -7*86400) );
@@ -122,7 +120,7 @@ class table_manage extends Controller
         $sql=$table->gen_sql( "show FULL COLUMNS  FROM %s" ,$db_table_name );
         $list=$table->main_get_list($sql);
         foreach ($list as &$item) {
-            $comment=@hex2bin($item["Comment"]) ;
+            $comment=@hex2bin($item["Comment"]);
             if ($comment) {
                 $item["Comment"]=$comment;
             }
@@ -140,22 +138,23 @@ class table_manage extends Controller
     }
 
     public function change_table_comment() {
+
         $db_name    = $this->get_in_str_val("db_name","db_weiyi");
         $table_name = $this->get_in_str_val("table_name","t_student_info");
-        $comment    = $this->get_in_str_val("comment","");
-        $table=$this->get_table($db_name);
-        $sql=$table->gen_sql(
+        $comment    = bin2hex($this->get_in_str_val("comment",""));
+
+        $table = $this->get_table($db_name);
+        $sql   = $table->gen_sql(
             "alter table %s comment '%s' ",
             [$this-> get_db_table_name( $db_name,$table_name )], $comment);
         $table->main_update($sql);
 
         return outputjson_success();
-
     }
     public function change_field_comment() {
         $db_name    = $this->get_in_str_val("db_name","db_weiyi");
         $table_name = $this->get_in_str_val("table_name","t_student_info");
-        $comment    = $this->get_in_str_val("comment","");
+        $comment    = bin2hex($this->get_in_str_val("comment",""));
         $field = $this->get_in_str_val("field","");
         $table=$this->get_table($db_name);
 
@@ -202,7 +201,7 @@ class table_manage extends Controller
     public function get_table($db_name, $set_utf8=true) {
         $table = $this->t_student_info;
         if ($set_utf8) {
-            $table->main_get_value(  "set names utf8" );
+            $table->main_get_value("set names utf8" );
         }
         return   $table;
     }

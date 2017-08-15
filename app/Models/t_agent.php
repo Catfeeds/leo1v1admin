@@ -8,21 +8,39 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         parent::__construct();
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time)
+    public function get_agent_list(){
+        $where_arr = [
+            // 'userid =0',
+            // 'type =0',
+        ];
+        $sql=$this->gen_sql_new (" select *"
+                                 ." from %s "
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
+
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone)
     {
         $where_arr = array();
         // if($type == 1){
             // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         // }
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        if($p_phone){
+            $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
         $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s s on s.phone = a.phone"
+                                 ." left join %s s on s.userid = a.userid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -52,11 +70,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           '',//test_lesson_count  type=15
           '',//succ_test_lesson_count   type=16
           type = 14
-          select s.origin as check_value  , count(*) as require_count 
-          from  db_weiyi.t_test_lesson_subject_require  tr 
-          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id 
-          join  db_weiyi.t_student_info  s on t.userid= s.userid  
-          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid  
+          select s.origin as check_value  , count(*) as require_count
+          from  db_weiyi.t_test_lesson_subject_require  tr
+          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id
+          join  db_weiyi.t_student_info  s on t.userid= s.userid
+          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid
           where accept_flag =1 and is_test_user=0
           and require_admin_type =2
           and require_time>=1501516800
@@ -397,7 +415,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_level2_pp_price_by_phone($phone){
         $where_arr = [
-            ['a3.phone = %s',$phone],
+            ['a3.phone = "%s"',$phone],
             ['o.order_status = %d',1],
             ['o.is_new_stu = %d',1],
             ['o.contract_type = %d',0],
@@ -425,7 +443,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
-            // ['a.parentid = %s ',$id],
+            // ['a.parentid = %d ',$id],
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
@@ -576,7 +594,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-    
+
     public function get_p_pp_id_by_phone($phone){
         $where_arr = [
             ['a.phone = %s',$phone],

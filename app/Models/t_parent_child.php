@@ -16,6 +16,26 @@ class t_parent_child extends \App\Models\Zgen\z_t_parent_child
         );
         return $this->main_update($sql);
     }
+    public function get_count_by_userid(  $userid) {
+
+        $sql=$this->gen_sql("select count(*) from %s where userid=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$userid
+        );
+        return $this->main_get_value($sql);
+
+    }
+
+    public function del_by_userid(  $userid) {
+
+        $sql=$this->gen_sql("delete from %s where userid=%u"
+                            ,self::DB_TABLE_NAME
+                            ,$userid
+        );
+        return $this->main_update($sql);
+
+    }
+
 
     public function del( $userid, $parent_type,$parentid) {
         $sql=$this->gen_sql("delete from %s  where parentid=%u  and userid=%u and parent_type=%u "

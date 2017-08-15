@@ -441,6 +441,28 @@ class seller_student_new2 extends Controller
 
     }
 
+    public function tongji_seller_get_new_count(){
+        $adminid=$this->get_in_int_val("adminid",-1);
+        list($start_time, $end_time) = $this->get_in_date_range_month(0);
+        $ret_info=$this->t_seller_new_count-> tongji_get_admin_list_get_count($adminid,$start_time, $end_time);
+        $admin_map=$this->t_seller_new_count->tongji_get_admin_list_count($adminid,$start_time, $end_time);
+
+        //seller_get_new_count_admin_list get_admin_list_count
+        foreach ($ret_info["list"] as  &$item ) {
+            $adminid=$item["adminid"];
+            $item["count"]=@$admin_map[$adminid]["count"];
+            $item["left_count"]= @$item["count"]-@$item["get_count"];
+            $this->cache_set_item_account_nick($item);
+        }
+
+        $ret_info=\App\Helper\Common::gen_admin_member_data($ret_info['list'],[],0, strtotime( date("Y-m-01", $start_time )   ));
+        foreach( $ret_info as &$item ) {
+            E\Emain_type::set_item_value_str($item);
+        }
+
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info( $ret_info ));
+    }
+
     public function seller_get_new_count_admin_list(){
         $adminid=$this->get_in_int_val("adminid",-1);
         $ret_info=$this->t_seller_new_count->get_admin_list_get_count($adminid);
@@ -699,5 +721,43 @@ class seller_student_new2 extends Controller
         return $this->pageView(__METHOD__, $ret_info,[
             "master_flag"  =>$master_flag
         ]);
+    }
+
+    public function get_from_ass_tran_lesson_info_master(){
+        $this->set_in_value("master_flag",1);
+        return $this->get_from_ass_tran_lesson_info();
+    }
+    public function get_from_ass_tran_lesson_info(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time )=$this->get_in_date_range(0,0,0,[],3);
+        $master_flag = $this->get_in_int_val("master_flag",0);
+        if($master_flag==0){
+            $account_id = $this->get_account_id();
+        }else{
+            $account_id=-1;
+        }
+        $assistantid = $this->get_in_int_val("assistantid",-1);
+        $page_info = $this->get_in_page_info();
+        $success_flag = $this->get_in_int_val("success_flag",-1);
+        $order_flag = $this->get_in_int_val("order_flag",-1);
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,$order_flag,$account_id);
+        foreach($ret_info["list"] as &$item){
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Eregion_version::set_item_value_str($item,"editionid");
+            E\Esuccess_flag::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item, "lesson_start","_str");
+            if($item["orderid"]>0){
+                $item["order_flag"]="签单";
+            }else{
+                $item["order_flag"]="未签";
+            }
+
+        }
+        return $this->pageView(__METHOD__, $ret_info,[
+            "master_flag"  =>$master_flag
+        ]);
+
     }
 }

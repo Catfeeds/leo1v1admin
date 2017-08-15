@@ -1710,5 +1710,33 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
 
     }
 
+    public function check_teacher_lecture_info($phone,$grade,$subject){
+        $where_arr = [
+            ["phone='%s'",$phone,""],
+            ["grade=%u",$grade,0],
+            ["subject=%u",$subject,0],
+        ];
+        $sql = $this->gen_sql_new("select 1 "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    public function get_id_list_by_phone($phone){
+        $where_arr = [
+            ["phone='%s'",$phone,0]
+        ];
+        $sql = $this->gen_sql_new("select id "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }

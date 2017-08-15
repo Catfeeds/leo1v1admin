@@ -452,4 +452,13 @@ class ajax_deal extends Controller
         return $this->output_succ();
     }
 
+    public function check_parent_count_and_clean() {
+        $userid=$this->get_in_userid();
+        $parent_count=$this->t_parent_child->get_count_by_userid($userid);
+        if ($parent_count!=1) {
+            $this->t_parent_child->del_by_userid($userid);
+            return $this->output_err("家长多个账号,已清除");
+        }
+        return $this->output_succ();
+    }
 }

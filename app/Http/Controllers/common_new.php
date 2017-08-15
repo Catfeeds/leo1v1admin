@@ -231,6 +231,7 @@ class common_new extends Controller
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
         $qq                           = $this->get_in_str_val("qq","");
         $full_time                    = $this->get_in_int_val("full_time");
+        $is_test_user                 = $this->get_in_int_val("is_test_user");
 
         $phone      = substr($phone,0,11);
         $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
@@ -287,16 +288,28 @@ class common_new extends Controller
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert($data);
         if($ret){
+            $teacher_info['phone']         = $phone;
+            $teacher_info['send_sms_flag'] = 0;
+            $teacher_info['wx_use_flag']   = 0;
+            $teacher_info['use_easy_pass'] = 2;
+            $teacher_info['is_test_user']  = $is_test_user;
+            if($is_test_user=1){
+                $data = $this->add_teacher_common($teacher_info);
+            }
+
             \App\Helper\Utils::logger("teacher appointment:".$phone."data:".json_encode($data));
             if($email!=""){
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
+                }elseif($reference=="13661763881"){
+                    $html  = $this->get_email_html_new($name);
                 }else{
                     $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             }
+
 
             if($reference != ""){
                 /**
@@ -341,21 +354,7 @@ class common_new extends Controller
         return $this->output_succ();
     }
 
-    public function send_email_for_8(){
-        $start_time = strtotime("2017-6-10");
-        $end_time   = strtotime("2017-8-3");
-
-        $list = $this->t_teacher_lecture_appointment_info->get_email_list($start_time,$end_time);
-        echo count($list);exit;
-
-        $title = "【理优1对1】试讲邀请和安排";
-        $html  = $this->get_email_html(0,0,0,0,"");
-        $job   = new \App\Jobs\SendCommonEmail($list,$title,$html);
-        dispatch($job);
-    }
-
     public function get_email_html($subject=0,$grade_start=0,$grade_end=0,$grade=0,$name=""){
-        $file_url = \App\Helper\Utils::get_teacher_lecture_file_by_grade($subject,$grade);
         $html     = "
 <html>
     <head>
@@ -422,6 +421,124 @@ class common_new extends Controller
                     <img width='240' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png'/><br>
                     （关注理优1对1老师帮公众号：观看优秀试听课视频）<br/>
                     <img width='240' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ce78e7582c7b841b38a1c95e639f37f01496399082593.png'/><br>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【岗位介绍】
+                    </div>
+                    名称：理优在线1对1授课教师（通过理优教师端进行网络语音或视频授课）
+                    <br/>
+                    时薪：50-100RMB
+                </div>
+                <div>
+                    <div class='t20'>
+                        【关于理优】
+                    </div>
+                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
+                </div>
+            </div>
+    </body>
+</html>
+";
+        return $html;
+    }
+
+    public function get_email_html_new($name=""){
+        $html = "
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <style>
+         .red{color:#ff3451;}
+         .leo_blue{color:#0bceff;}
+         body{font-size:24px;line-height:48px;color:#666;}
+         .t20{margin-top:20px;}
+         .underline{text-decoration:underline;}
+         .download-pc-url{cursor:pointer;}
+
+        </style>
+    </head>
+    <body>
+        <div align='center'>
+            <div style='width:800px;' align='left'>
+                <div align='left'>尊敬的".$name."老师：</div>
+                <div class='t20'>
+                    感谢您对理优1对1的关注，您的报名申请已收到！
+                    <br/>
+                    为了更好的评估您的教学能力，需要您尽快按照如下要求提交试讲视频
+                    <br/>
+                    【面试需知】
+                    <br/>
+                    请下载好<span class='red'>理优老师客户端</span>并准备好<span class='red'>耳机和话筒</span>，用<span class='red'>指定内容</span>在理优老师客户端进行试讲
+                </div>
+                <div>
+                    <ol>
+                        <li>
+                            下载“理优老师客户端”<a class='leo_blue' href='http://www.leo1v1.com/common/download'>点击下载</a>
+                            （面试请务必使用电脑，暂不支持使用iPad和手机）<br>
+                            下载指定简历填写并上传在“理优老师客户端”<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>下载简历</a>
+                        </li>
+                        <li>
+                            登陆客户端，选择试讲方式（有两种方式可以选择<span class='red'>↓↓↓</span>）<br>
+                            1)录制试讲（高校老师推荐）<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>讲义下载</a>
+                            <span class='red'>（无需摄像头）</span><br>
+                            录制讲课视频，录制完成并提交审核，三个工作日内收到审核结果，通过后进行新师培训，完成自测即可入职。<br>
+                            登陆客户端，下载面试学科的PPT并备课，在PPT中点击另存为保存为PDF格式，录制一段不少于五分钟的试讲视频并上传<span class='red'>（录制只会录下您的PPT和声音）</span><br>
+
+                            2)面试试讲（公校老师推荐）<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>讲义下载</a>
+                            <span class='red'>（无需摄像头）</span><br>
+                            进入理优老师客户端预约时间，评审老师和面试老师同时进培训课堂进行面试，
+                            面试通过后，进行新师培训，完成自测即可入职<span class='red'>（录制只会录下您的PPT和声音）</span>
+                            <span class='red'>注意：若面试老师因个人原因需要调整1对1面试时间，请提前1天登陆理优老师端进行修改，
+                                以便招师老师安排其他面试，如未提前通知，将视为永久放弃面试机会。</span>
+                            <br>
+                            <span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</span>
+                        </li>
+                        <li>
+                            面试内容<br>
+                            1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
+                            2)所授课程的PPT讲解<br>
+                            <span class='red'>
+                                面试账号：本人报名手机号<br>
+                                密码：leo+报名手机号后四位<br>
+                                时间：请在1周内完成试讲（有特殊原因请及时联系招师老师）
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+                <div >
+                    <div class='t20'>
+                        【结果通知】
+                    </div>
+                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/><br>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【通关攻略】
+                    </div>
+                    <ol>
+                        <li>确保相对安静的录制环境和稳定的网络环境</li>
+                        <li>请上传讲义和板书，试讲要充分结合板书</li>
+                        <li>注意跟学生的互动（模拟形成一种和学生1对1讲解互动的形式）</li>
+                        <li>简历和PPT完善后需转成PDF格式才能上传</li>
+                        <li>录制前请先充分准备，面试机会只有一次，请认真对待</li>
+                    </ol>
+                </div>
+                <div class='red'>
+                    （温馨提示：为方便审核，请在每次翻页后在白板中画一笔）
+                </div>
+                <div >
+                    <div class='t20'>
+                        【面试步骤】
+                    </div>
+                    1、备课→2、试讲→3、培训→4、入职
+                </div>
+                <div >
+                    <div class='t20'>
+                        【联系我们】
+                    </div>
+                    <img  src='http://7u2f5q.com2.z0.glb.qiniucdn.com/0345859d986c76d7c33f0d6b5531e38c1501322935055.png'/><br>
+                    如有其它疑问，请联系教务老师 <span class='red'>QQ:1689916647</span>
                 </div>
                 <div>
                     <div class='t20'>

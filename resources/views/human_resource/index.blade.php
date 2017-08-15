@@ -491,6 +491,8 @@
                                     <a class="opt-set_check_info">审核信息</a>
                                 @endif
                                 @if(in_array($acc,["zoe"]))
+                                    <a class="opt-change-phone" title="更换老师手机">手机</a>
+                                    <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
                                     <a class="opt-change-teacher_ref_type">渠道</a>
                                 @endif
                                 @if(in_array($acc,["coco","nick","wander","memo","lemon","CoCo老师","lily","melody","niki"]))
@@ -502,7 +504,7 @@
                                 @if(in_array($acc,["jack","adrian","jim","ted","alan","CoCo老师"]))
                                     <a class="opt-set-remark"  title="是否在其他机构代课">机构备注</a>
                                 @endif
-                                <a class="opt-set-grade-range div_show">设置新版年级段</a>
+                                <a class=" opt-set-grade-range div_show">设置新版年级段</a>
                                 <a class=" opt-complaints-teacher div_show" >投诉老师</a>
                                 @if(in_array($acc,["alina","lee","June-王梦琼","nina","jack","jim","michael","alan","adrian","余成芳"]))
                                     <a class=" opt-set-leave"  title="设置请假">请假 </a>
