@@ -6,6 +6,13 @@
     <script type="text/javascript" src="/page_js/select_user.js"></script>
     <section class="content">
         <div class="row  row-query-list "  >
+            <div class="col-xs-6 col-md-2 " data-always_show="1"  >
+                    <div class="input-group ">
+                        <span class="input-group-addon">账号</span>
+                        <input class="opt-change form-control" id="id_adminid" />
+                    </div>
+            </div>
+
             <div class="col-md-3 col-xs-0" data-always_show="1">
                 <div class="input-group col-sm-12"  >
                     <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入用户名/电话，回车查找" />
@@ -27,12 +34,6 @@
                     <select class="opt-change" id="id_account_role">
                     </select>
                 </div>
-            </div>
-            <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">账号</span>
-                        <input class="opt-change form-control" id="id_adminid" />
-                    </div>
             </div>
 
             <div class="col-md-2 col-xs-0">
