@@ -46,6 +46,13 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             ["create_adminid = %d",$parentid,-1],
             ["userid = %d ",$userid,-1]
         ];
+
+        $sql = $this->gen_sql_new(" select subject, stu_score_type, score, grade_rank from %s where %s",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 
     public function get_stu_score_list_for_score_type($userid,$stu_score_list){

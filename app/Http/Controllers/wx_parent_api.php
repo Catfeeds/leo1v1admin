@@ -1118,7 +1118,7 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){ // 获取学生成绩信息
+    function get_student_score_info(){ // 提交后获取学生成绩信息
         $parentid = $this->get_parentid();
         $userid   = $this->get_in_int_val('userid');
         $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
@@ -1126,7 +1126,7 @@ class wx_parent_api extends Controller
     }
 
 
-    public function get_history_for_stu_score_type(){
+    public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $userid         = $this->get_in_int_val('userid',-1);
         $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
 
