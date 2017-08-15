@@ -273,18 +273,29 @@ class wx_yxyx_common extends Controller
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //随机获取十张海报
+        //随机获取十张海报/不足十张，取所有?
         $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
         $loop_num   = 0;
-        while ( $loop_num < 10) {
-            $key = mt_rand(0, $count_num);
-            if( !in_array($key, $num_arr)) {
-                $num_arr[]    = $key;
-                $poster_arr[] = $all_id[$key];
-                $loop_num++;
+        if ($count_num <= 10) {
+            while ( $loop_num < $count_num) {
+                $key = mt_rand(0, $count_num);
+                if( !in_array($key, $num_arr)) {
+                    $num_arr[]    = $key;
+                    $poster_arr[] = $all_id[$key];
+                    $loop_num++;
+                }
+            }
+        } else {
+            while ( $loop_num < 10) {
+                $key = mt_rand(0, $count_num);
+                if( !in_array($key, $num_arr)) {
+                    $num_arr[]    = $key;
+                    $poster_arr[] = $all_id[$key];
+                    $loop_num++;
+                }
             }
         }
         return $this->output_succ([
