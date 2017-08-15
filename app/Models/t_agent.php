@@ -580,7 +580,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_int_or_idlist($where_arr,'a.id',$p_id);
         }
         $sql = $this->gen_sql_new(
-            " select a.id p_id,a.phone,o.userid,a.nickname,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
+            " select a.id p_id,a.phone,a.userid,a.nickname,a.create_time p_create_time,if(o.order_status,o.order_status,0) order_status "
             ." from %s a "
             ." left join %s ao on ao.aid=a.id "
             ." left join %s o on o.orderid=ao.orderid "

@@ -444,7 +444,7 @@ class agent extends Controller
                 $p_count[$item] = $count;
             }
             $p_ret = $this->t_agent->get_agent_order_by_phone($p_id);
-            dd($p_ret,'a');
+            dd($p_ret);
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
