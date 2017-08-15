@@ -300,16 +300,22 @@ class wx_yxyx_common extends Controller
             }
         }
         return $this->output_succ([
-            ['list'=>$ret_info],
+            ['page'=>$ret_info['page_info']],
+            ['list'=>$ret_info['list']],
             ['poster'=>$poster_arr],
         ]);
     }
 
     public function get_one_test_and_other() {
         //title,poster(当天之前的)
-        $id = $this->get_in_int_val('id',-1);
+        $id   = $this->get_in_int_val('id',-1);
+        $flag = $this->get_in_int_val('flag', 1);
+        $wx_openid = $this->get_in_int_val('wx_openid', 1);
         if ($id < 0){
             return $this->output_err('信息有误！');
+        }
+        if (!$flag) {
+            $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
         }
         $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
         $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
