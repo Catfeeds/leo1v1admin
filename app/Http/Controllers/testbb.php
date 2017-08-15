@@ -121,17 +121,26 @@ class testbb extends Controller
            {{remark.DATA}}
          **/
 
+        $date_time = date("Y-m-d");
+
+        $teacher_list = [
+            "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
+        ];
+
         foreach($teacher_list as $item){
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data_teacher['first']      = "QC投诉反馈通知! ";
-            $data_teacher['keyword1']   = $complaint_info_str;
-            $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
-            $data_teacher['remark']     = "";
+            $data_teacher['first']      = "$date_time";
+            $data_teacher['keyword1']   = "【PC老师端4.0.0】";
+            $data_teacher['keyword2']   = "
+1、新增扩科（扩年级）功能；
+2、白板中增加播放视频功能。
+下载地址（老师端后台）：<a href='http://www.leo1v1.com/login/teacher'>http://www.leo1v1.com/login/teacher</a>";
+            $data_teacher['keyword3']   = "$date_time";
 
-            foreach($deal_wx_openid_list as $item_teacher){
-                \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
-            }
-           
+            $data_teacher['remark']     = "更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】";
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
+
         }
 
     }
