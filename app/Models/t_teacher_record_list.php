@@ -992,6 +992,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         });
     }
 
+
     public function get_test_regular_lesson_first_per($start_time,$end_time,$lesson_style,$subject){
         $where_arr=[
             "tr.type=1",
@@ -1008,7 +1009,6 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        //dd($sql);
         return $this->main_get_list($sql,function($item){
             return $item["acc"];
         });
