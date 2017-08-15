@@ -41,9 +41,10 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         return $this->main_get_list($sql);
   }
 
-
-    public function get_stu_score_info_by_userid($userid){
-        $where_arr = [];
+    public function get_score_info_for_parent($parentid,$userid){
+        $where_arr = [
+            ["create_adminid = %d",$parentid,-1],
+            ["userid = %d ",$userid,-1]
+        ];
     }
-
 }

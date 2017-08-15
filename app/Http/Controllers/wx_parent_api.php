@@ -1095,15 +1095,20 @@ class wx_parent_api extends Controller
         $grade_rank  = $this->get_in_int_val('grade_rank');
         $total_score = $this->get_in_int_val('total_score');
         $reason  = $this->get_in_str_val('reason');
+        $parentid = $this->get_parentid();
+        $stu_id   = $this->get_in_int_val('userid');
 
         $ret = $this->t_student_score_info->row_insert([
-            'score'      => $score,
-            'subject'    => $subject,
+            'score'       => $score,
+            'subject'     => $subject,
             'stu_score_type' => $stu_score_type,
             'rank'        => $rank,
             'grade_rank'  => $grade_rank,
             'total_score' => $total_score,
-            'reason'      => $reason
+            'reason'      => $reason,
+            'create_time' => time(),
+            'userid'      => $userid,
+            'create_adminid' => $parentid
         ]);
 
         if($ret){
@@ -1113,10 +1118,13 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){
-        $parent = $this->get_in_int_val('parentid');
-        $userid_list = $this->t_parent_child->get_userid_list_by_parentid($parentid);
-        $userid_str = $userid_list;
+    function get_student_score_info(){ // 获取学生成绩信息
+        $parentid = $this->get_parentid();
+        $userid   = $this->get_in_int_val('userid');
+
+        $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
+        // $userid_list = $this->t_parent_child->get_userid_list_by_parentid($parentid);
+        // $userid_str = $userid_list;
         // 一个家长有两个孩子的情况
         // $score_info = $this->t_student_score_info->get_stu_score_info_by_userid($\App\Helper\Utils::serid);
 

@@ -162,18 +162,19 @@ class wx_yxyx_api extends Controller
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
+                $ret_list[$key]['phone'] = $item['phone'];
                 $ret_list[$key]['name'] = $item['phone'];
-                if($item['nick']){
-                    $ret_list[$key]['name'] = $item['nick'];
+                if($item['nickname']){
+                    $ret_list[$key]['name'] = $item['nickname'];
                 }
                 $ret_list[$key]['status'] = 0;
                 if($item['order_status']){
                     $ret_list[$key]['status'] = 2;
                 }else{
-                    if(isset($item['userid'])){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
-                        $count_test = $count_item['count'];
-                        if(0<$count_test){
+                    if(isset($item['a_userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['a_userid']);
+                        $test_lessonid = $count_item['lessonid'];
+                        if($test_lessonid){
                             $ret_list[$key]['status'] = 1;
                         }
                     }

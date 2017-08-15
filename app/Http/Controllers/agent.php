@@ -120,9 +120,12 @@ class agent extends Controller
     }
 
     public function check(){
-        // $id = 41;
-        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($id);
-        // dd($test_lesson);
+        //agentid查邀请人试听课
+        // $agent_id = 60;//月月
+        $agent_id = 54;//陈
+        // $agent_id = 211;//Amanda
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        dd($test_lesson);
     }
 
 
@@ -314,7 +317,9 @@ class agent extends Controller
 
 
     public function get_user_info(){
-        $agent_id   = 60;
+        // $agent_id = 60;//月月
+        $agent_id = 54;//陈
+        // $agent_id = 211;//Amanda
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -412,8 +417,18 @@ class agent extends Controller
 
 
     public function get_my_num(){
-        $agent_id = 54;
+        // $agent_id = 60;//月月
+        $agent_id = 54;//陈
+        // $agent_id = 211;//Amanda
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
         $ret = [];
         $ret = $this->t_agent->get_p_list_by_phone($phone);
         $p_count = [];
@@ -432,18 +447,19 @@ class agent extends Controller
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
+                $ret_list[$key]['phone'] = $item['phone'];
                 $ret_list[$key]['name'] = $item['phone'];
-                if($item['nick']){
-                    $ret_list[$key]['name'] = $item['nick'];
+                if($item['nickname']){
+                    $ret_list[$key]['name'] = $item['nickname'];
                 }
                 $ret_list[$key]['status'] = 0;
-                if($item['order_status']){
+                if($item['order_status']){//购课
                     $ret_list[$key]['status'] = 2;
-                }else{
-                    if(isset($item['userid'])){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
-                        $count_test = $count_item['count'];
-                        if(0<$count_test){
+                }else{//试听成功
+                    if(isset($item['a_userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['a_userid']);
+                        $test_lessonid = $count_item['lessonid'];
+                        if($test_lessonid){
                             $ret_list[$key]['status'] = 1;
                         }
                     }

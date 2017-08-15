@@ -107,6 +107,7 @@ class NewRouteConfig {
         "teacher_simulate"            => true,
         "t_yxyx_wxnews_info"          => true,
         "t_yxyx_test_pic_info"        => true,
+        "campus_manage"               => true,
     ];
 
     //config

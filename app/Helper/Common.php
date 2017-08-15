@@ -169,7 +169,6 @@ class Common {
         $c->format="json";
         $req = new \AlibabaAliqinFcSmsNumSendRequest();
 
-        //$req->setExtend("123456");
         $req->setSmsType("normal");
         $req->setSmsFreeSignName($sign_name);
 

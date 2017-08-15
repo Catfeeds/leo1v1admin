@@ -107,7 +107,7 @@ class sync_tianrun extends Command
         $db_item=$this->task->t_tq_call_info->field_get_list($id, "id, record_url")  ;
         if ($db_item) { //更新
             if ($db_item["record_url"] != $record_url){
-                $this->task->t_tq_call_info->field_update_list($recid,[
+                $this->task->t_tq_call_info->field_update_list($id,[
                     "record_url" =>  $record_url ,
                 ]);
             }
