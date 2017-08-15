@@ -120,7 +120,7 @@ class testbb extends Controller
         $url_teacher = "";
 
         foreach($teacher_list as $item){
-            dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software( $item['wx_openid']));
+            // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software( $item['wx_openid']));
         }
 
     }
