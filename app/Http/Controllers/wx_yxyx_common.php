@@ -266,7 +266,7 @@ class wx_yxyx_common extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
         $start_time = strtotime('-14 days');
-        $end_time   = strtotime('today');
+        $end_time   = strtotime('tomorrow');
         foreach ($ret_info['list'] as &$item) {
             if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
                 $item['flag'] = 0;
@@ -274,7 +274,8 @@ class wx_yxyx_common extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
         //随机获取十张海报/不足十张，取所有?
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$end_time);
+        $start_time = strtotime('today');
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
