@@ -810,7 +810,7 @@ class common_new extends Controller
             $cdr_answer_time,
             $cdr_end_time,
             $duration,
-            $called_flag
+            $called_flag==2?1:0
             ,
             "");
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time);
