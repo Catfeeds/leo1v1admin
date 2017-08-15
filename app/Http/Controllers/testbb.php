@@ -123,6 +123,10 @@ class testbb extends Controller
 
         $date_time = date("Y-m-d");
 
+        $teacher_list = [
+            "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
+        ];
+
         foreach($teacher_list as $item){
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
             $data_teacher['first']      = "$date_time";
