@@ -112,6 +112,28 @@ class testbb extends Controller
         dd($teacher_list);
 
 
+        // $
+        /**
+           {{first.DATA}}
+           待办主题：{{keyword1.DATA}}
+           待办内容：{{keyword2.DATA}}
+           日期：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
+
+        foreach($teacher_list as $item){
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data_teacher['first']      = "QC投诉反馈通知! ";
+            $data_teacher['keyword1']   = $complaint_info_str;
+            $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
+            $data_teacher['remark']     = "";
+
+            foreach($deal_wx_openid_list as $item_teacher){
+                \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
+            }
+           
+        }
+
     }
 
 
