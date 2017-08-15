@@ -441,7 +441,7 @@ class main_page extends Controller
              $item["test_first_per_str"] = "";
             if($item["test_first_per"]){
                 if($item["test_first_per"]/60>0){
-                    $item["test_first_per_str"] = ($item["test_first_per"]/60)."分".($item["test_first_per"]%60)."秒";
+                    $item["test_first_per_str"] = round($item["test_first_per"]/60)."分".($item["test_first_per"]%60)."秒";
                 }else{
                     $item["test_first_per_str"] .= "秒";
                 }
@@ -451,7 +451,7 @@ class main_page extends Controller
             $item["regular_first_per_str"] = "";
             if($item["regular_first_per"]){
                 if($item["regular_first_per"]/60>0){
-                    $item["regular_first_per_str"] = ($item["regular_first_per"]/60)."分".($item["regular_first_per"]%60)."秒";
+                    $item["regular_first_per_str"] = round($item["regular_first_per"]/60)."分".($item["regular_first_per"]%60)."秒";
                 }else{
                     $item["regular_first_per_str"] .= "秒";
                 }
@@ -501,7 +501,12 @@ class main_page extends Controller
 		$arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num];
 		$num = count($teacher_info);
 		// $all_count = ($num-2)*250+300;
-		$arr["per"] = round($all_num/$all_count*100,2);
+        if($all_count){
+            $arr["per"] = round($all_num/$all_count*100,2);  
+        }else{
+            $arr["per"] = 0;
+        }
+
 		$arr["all_target_num"] = $all_count;
 		
 
