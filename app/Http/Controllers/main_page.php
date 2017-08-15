@@ -414,7 +414,7 @@ class main_page extends Controller
         //第一次试听/第一次常规
         $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
         $test_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,1,$subject);
-        
+       	dd($test_first_per); 
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 
         $all_count=0;

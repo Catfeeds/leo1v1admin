@@ -242,6 +242,9 @@ class common_new extends Controller
         if(!empty($teacher_info)){
             return $this->output_err("该手机号已注册,不能重新提交!");
         }
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && $reference!="13661763881"){
+            return $this->output_err("请填写正确的手机号！");
+        }
         if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");
         }
