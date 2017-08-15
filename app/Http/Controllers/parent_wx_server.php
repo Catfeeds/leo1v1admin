@@ -48,6 +48,7 @@ class  parent_wx_server extends Controller
             array('id'=>'2', 'pid'=>'0', 'name'=>'活动专区', 'type'=>'', 'code'=>''),
             array('id'=>'4', 'pid'=>'2', 'name'=>'活动反馈', 'type'=>'click', 'code'=>'activity'),
             array('id'=>'5', 'pid'=>'2', 'name'=>'精品讲座', 'type'=>'view', 'code'=>'https://m.qlchat.com/live/840000124177916.htm'),
+            array('id'=>'6', 'pid'=>'2', 'name'=>'精品内容', 'type'=>'click', 'code'=>'content'),
 
             array('id'=>'3', 'pid'=>'0', 'name'=>'个人中心', 'type'=>'', 'code'=>''),
             //array('id'=>'6', 'pid'=>'3', 'name'=>'帐号绑定', 'type'=>'view', 'code'=>'http://wx-parent.leo1v1.com/wx_parent/binding'),
