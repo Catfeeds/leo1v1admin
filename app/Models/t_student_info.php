@@ -2655,9 +2655,20 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "is_test_user=0",
 
         ];
-        $sql = $this->gen_sql_new("select count(s.userid) as count,count(o.userid) as succ,"
-                                  ." sum(if(ts.require_admin_type=1,1,0)) as cr,"
-                                  ." sum(if(ts.require_admin_type=2,1,0)) as cc"
+        $sql = $this->gen_sql_new("select origin_userid,count(origin_userid) as count "
+                                  ." from %s"
+                                  ." where %s"
+                                  ." group by origin_userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+        dd($sql);
+        $sql = $this->gen_sql_new("select s.userid ,o.userid as succ, ts.require_admin_type,s.origin_userid,"
+                                  ." count(s.origin_userid) as orc"
+                                  // ." if(ts.require_admin_type=1,1,0) as cr,"
+                                  // ." if(ts.require_admin_type=2,1,0) as cc,"
+                                  // ." count(s.origin_userid) as so"
                                   ." from %s s"
                                   ." left join %s o on o.userid=s.userid "
                                   ." and contract_type =0 and contract_status>0"
@@ -2666,6 +2677,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
                                   ." left join %s ts on s.userid=ts.userid"
                                   ." where %s"
+                                  ." group by s.origin_userid"
+                                  ." order by orc"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
@@ -2674,6 +2687,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
         );
         dd($sql);
+
+        // $sql = $this->gen_sql_new("select count(s.userid) as count,count(o.userid) as succ,"
+        //                           ." sum(if(ts.require_admin_type=1,1,0)) as cr,"
+        //                           ." sum(if(ts.require_admin_type=2,1,0)) as cc,"
+        //                           // ." count(s.origin_userid) as so"
+        //                           ." from %s s"
+        //                           ." left join %s o on o.userid=s.userid "
+        //                           ." and contract_type =0 and contract_status>0"
+        //                           // ." left join %s tsl on tsl.orderid=o.orderid"
+        //                           // ." left join %s tr on tr.require_id=tsl.require_id"
+        //                           // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
+        //                           ." left join %s ts on s.userid=ts.userid"
+        //                           ." where %s"
+        //                           // ." group by so"
+        //                           ,self::DB_TABLE_NAME
+        //                           ,t_order_info::DB_TABLE_NAME
+        //                           // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+        //                           // ,t_test_lesson_subject_require::DB_TABLE_NAME
+        //                           ,t_test_lesson_subject::DB_TABLE_NAME
+        //                           ,$where_arr
+        // );
+        // dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_studentid(){

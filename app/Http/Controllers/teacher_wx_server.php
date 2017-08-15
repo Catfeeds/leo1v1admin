@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 
 use LaneWeChat\Core\WeChatOAuth;
 
-// use LaneWeChat\Core\UserManage;
 use Teacher\Core\UserManagre;
 
 use LaneWeChat\Core\TemplateMessage;
@@ -89,7 +88,8 @@ class  teacher_wx_server extends Controller
 
 
     public function get_fan_list(){
-        $ret = \App\Teacher\Core\UserManage::getFansList();
+        $user = new \Teacher\Core\UserManage();
+        $ret = $user::getFansList();
         dd($ret);
     }
 
