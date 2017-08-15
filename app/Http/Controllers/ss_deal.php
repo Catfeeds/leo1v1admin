@@ -2803,7 +2803,10 @@ class ss_deal extends Controller
 
         if($ass_test_lesson_type==2 && $regular_flag==1){
             $test_info = $this->t_lesson_info->field_get_list($lessonid,"lesson_start,subject,userid,teacherid");
-            $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($item['lesson_start'],$item['subject'],$item['userid']);
+            $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($test_info['lesson_start'],$test_info['subject'],$test_info['userid']);
+            if($test_info["teacherid"] != $old_teacher_arr["teacherid"]){
+                
+            }
  
         }
         return $this->output_succ();
