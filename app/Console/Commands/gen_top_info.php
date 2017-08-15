@@ -60,6 +60,8 @@ class gen_top_info extends Command
             $end_time=$now;
         }
 
+        $this->task->t_order_info->switch_tongji_database();
+        $this->task->t_test_lesson_subject_require->switch_tongji_database();
 
         //
         $tongji_type= E\Etongji_type::V_SELLER_MONTH_REQUIRE_COUNT;
