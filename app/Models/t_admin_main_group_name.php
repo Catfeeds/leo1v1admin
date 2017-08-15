@@ -263,7 +263,7 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
 
     public function get_group_list_campus($page_num){
         $sql=$this->gen_sql_new("select groupid,group_name,master_adminid,main_type from %s where main_type in (1,2)  " ,
-                                self::DB_TABLE_NAME, $main_type);
+                                self::DB_TABLE_NAME);
         return $this->main_get_list_by_page($sql,$page_num);
     }
 

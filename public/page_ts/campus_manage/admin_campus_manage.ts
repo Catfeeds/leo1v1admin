@@ -9,6 +9,7 @@ $(function(){
     }
 
 
+    $(".common-table" ).table_admin_level_4_init();
     $("#id_add_campus").on("click",function(){
         var id_campus_name=$("<input/>");
         var  arr=[
@@ -27,6 +28,13 @@ $(function(){
         
     });
 
+    $(".opt-assign-main-group,.opt-del-campus").each(function(){
+        var opt_data = $(this).get_opt_data();
+        if(opt_data.level != "l-1"){
+            $(this).hide();
+        }
+    });
+
     $(".opt-assign-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();       
         var main_type    = opt_data.main_type;        
@@ -34,7 +42,7 @@ $(function(){
 
 	    $("<div></div>").admin_select_dlg_ajax({
             "opt_type" : "select", // or "list"
-            "url"      : "/user_deal/get_group_list_new",
+            "url"      : "/user_deal/get_group_list_campus",
             //其他参数
             "args_ex" : {
             },
@@ -71,7 +79,7 @@ $(function(){
                 if (groupid>0) {
                     $.do_ajax("/campus_manage/set_campus_id",{
                         "campus_id":opt_data.campus_id,
-                        "up_groupid":up_groupid
+                        "groupid":groupid
                     },function(resp){
                         window.location.reload(); 
                     });
@@ -85,6 +93,28 @@ $(function(){
 
     });
 
+    $(".opt-del-campus").on("click",function(){
+        var opt_data = $(this).get_opt_data();        
+
+        BootstrapDialog.confirm(
+            "要删除校区吗:"+ opt_data.campus_name   + "?",
+            function(val) {
+                if  (val)  {
+                    $.do_ajax( "/campus_manage/campus_del", {
+                        "campus_id": opt_data.campus_id
+                    });
+                }
+            }
+        );
+    });
+
+    $(".opt-del-main-group").each(function(){
+        var opt_data = $(this).get_opt_data();
+        if(opt_data.level != "l-2"){
+            $(this).hide();
+        }
+    });
+
     $(".opt-del-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();        
 
@@ -92,7 +122,7 @@ $(function(){
             "要删除主管分组:"+ opt_data.up_group_name   + "?",
             function(val) {
                 if  (val)  {
-                    $.do_ajax( "/user_deal/admin_main_group_del", {
+                    $.do_ajax( "/campus_manage/admin_main_group_del", {
                         "groupid": opt_data.up_groupid
                     });
                 }
@@ -100,7 +130,7 @@ $(function(){
         );
     });
 
-
+  
 	$('.opt-change').set_input_change_event(load_data);
 });
 

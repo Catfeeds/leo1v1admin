@@ -13,7 +13,7 @@ interface RowData {
 	up_group_name	:any;
 	group_name	:any;
 	account	:any;
-	campus_id_class	:any;
+	main_type_class	:any;
 	up_group_name_class	:any;
 	group_name_class	:any;
 	account_class	:any;

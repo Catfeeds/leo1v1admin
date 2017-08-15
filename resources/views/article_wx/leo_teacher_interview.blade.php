@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--headTrap<body></body><head></head><html></html>--><html>
     <head>
@@ -22,8 +21,8 @@
     var sn = "" || ""|| "dae91670817c4ef091893a7f0b63155b";
     var mid = "100000408" || ""|| "100000408";
     var idx = "1" || "" || "1";
-    window.__allowLoadResFromMp = true; 
-    
+    window.__allowLoadResFromMp = true;
+
 </script>
 <script nonce="318884283" type="text/javascript">
 var page_begintime=+new Date,is_rumor="",norumor="";
@@ -107,7 +106,7 @@ this[e](t,r);
     };
 
     window.getQueryFromURL = function(url) {
-        url = url || 'http://qq.com/s?a=b#rd'; 
+        url = url || 'http://qq.com/s?a=b#rd';
         var tmp = url.split('?'),
             query = (tmp[1] || "").split('#')[0].split('&'),
             params = {};
@@ -116,13 +115,13 @@ this[e](t,r);
             params[arg[0]] = arg[1];
         }
         if (params['pass_ticket']) {
-        	params['pass_ticket'] = encodeURIComponent(params['pass_ticket'].html(false).html(false).replace(/\s/g,"+"));
+          params['pass_ticket'] = encodeURIComponent(params['pass_ticket'].html(false).html(false).replace(/\s/g,"+"));
         }
         return params;
     };
 
     (function() {
-	    var params = getQueryFromURL(location.href);
+      var params = getQueryFromURL(location.href);
         window.uin = params['uin'] || "" || '';
         window.key = params['key'] || "" || '';
         window.wxtoken = params['wxtoken'] || '';
@@ -159,11 +158,6 @@ this[e](t,r);
     <div id="js_top_ad_area" class="top_banner"></div>
     
     <div class="rich_media_inner">
-                <div class="rich_media_global_msg">
-            
-            此为临时链接，仅用于文章预览，将在短期内失效            <a id="js_close_temp" href="##" class="icon_closed">关闭</a>
-        </div>
-                
         <div id="page-content" class="rich_media_area_primary">
             
                         <div id="img-content">
@@ -212,7 +206,19 @@ this[e](t,r);
 
                     
                     
-                    <section data-role="outer" label="Powered by 135editor.com" style="font-size: 16px; font-variant-ligatures: normal; orphans: 2; white-space: normal; widows: 2; font-family: 微软雅黑;"><section style="background-color: rgb(255, 255, 255); box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; width: 528.188px; vertical-align: top; box-shadow: rgb(178, 185, 192) 1px 0px 10px; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="padding: 3px; display: inline-block; background-color: rgb(11, 206, 255); box-sizing: border-box;"><section class="" style="padding: 2px 8px; border: 1px dotted rgb(255, 255, 255); color: rgb(255, 255, 255); line-height: 1.4em; font-size: 13px; box-sizing: border-box;"><p style="box-sizing: border-box;">兼职老师报名链接</p></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="color: rgb(62, 62, 62); letter-spacing: 0px; line-height: 1.5; box-sizing: border-box;"><p style="box-sizing: border-box;">请先填写报名表单，收到邮件后</p><p style="box-sizing: border-box;">查看以下教程</p></section></section></section></section></section></section><br  /><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;"><strong>视频教程</strong></p><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;"><iframe frameborder="0" allowfullscreen="" class="video_iframe" data-vidtype="-1" data-ratio="1.411764705882353" data-w="384" data-src="https://v.qq.com/iframe/preview.html?vid=h0519xg7a3v&amp;width=500&amp;height=375&amp;auto=0"></iframe></p><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;"><br  /></p><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin: 0.5em; box-sizing: border-box;"><section class="" style="height: 2em; display: inline-block; box-sizing: border-box;"><section class="" style="padding-right: 0.3em; padding-left: 0.3em; display: inline-block; vertical-align: top; height: 2em; line-height: 2em; border-top-width: 0.1em; border-style: solid none solid solid; border-color: rgb(0, 166, 255); border-bottom-width: 0.1em; border-left-width: 0.1em; color: rgb(0, 166, 255); box-sizing: border-box;"><p style="text-align: center; box-sizing: border-box;"><strong style="box-sizing: border-box;">准备工作</strong></p></section>
+                    <section data-role="outer" label="Powered by 135editor.com" style="font-size: 16px; font-variant-ligatures: normal; orphans: 2; white-space: normal; widows: 2; font-family: 微软雅黑;"><section style="background-color: rgb(255, 255, 255); box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; width: 528.188px; vertical-align: top; box-shadow: rgb(178, 185, 192) 1px 0px 10px; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="padding: 3px; display: inline-block; background-color: rgb(11, 206, 255); box-sizing: border-box;"><section class="" style="padding: 2px 8px; border: 1px dotted rgb(255, 255, 255); color: rgb(255, 255, 255); line-height: 1.4em; font-size: 13px; box-sizing: border-box;"><p style="box-sizing: border-box;">兼职老师报名链接</p></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="color: rgb(62, 62, 62); letter-spacing: 0px; line-height: 1.5; box-sizing: border-box;"><p style="box-sizing: border-box;">请先填写报名表单，收到邮件后</p><p style="box-sizing: border-box;">查看以下教程</p></section></section></section></section></section></section><br  /><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;"><strong>视频教程</strong></p><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;">
+
+                        <!-- <iframe frameborder="0" allowfullscreen="" class="video_iframe" data-vidtype="-1" data-ratio="1.411764705882353" data-w="384" src="https://v.qq.com/iframe/player.html?vid=w0538xx08c7&tiny=0&auto=0"></iframe> -->
+
+                        <!-- <embed src="https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid=w0538xx08c7&auto=0" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+                           -->
+                        <!-- <iframe frameborder="0" width="640" height="498" src="https://v.qq.com/iframe/player.html?vid=w0538xx08c7&tiny=0&auto=0" allowfullscreen></iframe>
+                             
+                           -->
+
+                        <iframe frameborder="0" width="670" height="502.5" allowfullscreen="" data-vh="502.5" data-vw="670" style="width: 670px !important;height: 502.5px !important;" src="http://v.qq.com/iframe/player.html?vid=w0538xx08c7&amp;width=670&amp;height=502.5&amp;auto=0"></iframe>
+
+                    </p><p style="line-height: 25.6px; text-align: center; box-sizing: border-box;"><br  /></p><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin: 0.5em; box-sizing: border-box;"><section class="" style="height: 2em; display: inline-block; box-sizing: border-box;"><section class="" style="padding-right: 0.3em; padding-left: 0.3em; display: inline-block; vertical-align: top; height: 2em; line-height: 2em; border-top-width: 0.1em; border-style: solid none solid solid; border-color: rgb(0, 166, 255); border-bottom-width: 0.1em; border-left-width: 0.1em; color: rgb(0, 166, 255); box-sizing: border-box;"><p style="text-align: center; box-sizing: border-box;"><strong style="box-sizing: border-box;">准备工作</strong></p></section>
 
                         <section style="margin-left: -0.6em; display: inline-block; vertical-align: top; width: 1.2em; height: 2em; border-bottom-width: 0.1em; border-bottom-style: solid; border-bottom-color: rgb(0, 166, 255); border-right-width: 0.1em; border-right-style: solid; border-right-color: rgb(0, 166, 255); box-sizing: border-box; transform: skew(30deg);"></section><section style="width: 0px; display: inline-block; vertical-align: middle; border-top-width: 1.8em; border-top-style: solid; border-top-color: rgb(0, 166, 255); box-sizing: border-box; border-left-width: 1em !important; border-left-style: solid !important; border-left-color: transparent !important; border-right-width: 1em !important; border-right-style: solid !important; border-right-color: transparent !important;"></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><p>
 
@@ -311,7 +317,30 @@ this[e](t,r);
                             <img data-s="300,640" data-type="jpeg" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E9%9D%A2%E8%AF%95%E6%8A%A5%E5%90%8D/%E4%BF%AE%E6%94%B9%E7%89%88_1/%E9%9D%A2%E8%AF%9505.jpg
                                                                         " class="" data-ratio="0.7328125" data-w="1280"  />
 
-                        </p></section><section class="_135editor" style="border: 0px none; box-sizing: border-box;"><section class=""><section class="">老师可以提前24小时选择修改一次面试时间。</section></section></section></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box;"></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; box-sizing: border-box;"><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; box-sizing: border-box;"><section style="box-sizing: border-box; transform: rotate(0.1deg);"><section style="width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="" style="margin-right: -6px; margin-left: -7px; display: inline-block; vertical-align: middle; width: 556px; border-bottom-width: 2px; border-bottom-style: dotted; border-bottom-color: rgb(0, 166, 255); box-sizing: border-box;"></section><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; width: 528.188px; vertical-align: top; box-shadow: rgb(178, 185, 192) 1px 0px 10px; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="color: rgb(133, 118, 106); font-size: 14px; letter-spacing: 1px; line-height: 1.6; box-sizing: border-box;"><p style="box-sizing: border-box;"><br  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding-right: 10px; padding-left: 10px; text-align: left; box-sizing: border-box;"><p style="text-align: center; box-sizing: border-box;"><span style="font-size: 18px; box-sizing: border-box;"><strong style="box-sizing: border-box;"><span style="color: rgb(11, 206, 255); box-sizing: border-box;">「通关攻略」</span></strong></span></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding: 15px; text-align: left; color: rgb(11, 206, 255); box-sizing: border-box;"><ol class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;">保证相对安静的录制环境和稳定的网络环境</p></li><li><p style="box-sizing: border-box;">要上传讲义和板书，试讲要结合板书</p></li><li><p style="box-sizing: border-box;">注意跟学生的互动（模拟形成一种和学生1对1讲解互动的形式）</p></li><li><p style="box-sizing: border-box;">简历、PPT完善后需转成PDF格式才能上传</p></li><li><p style="box-sizing: border-box;">录制前请先充分准备，面试机会只有一次，要认真对待</p></li></ol><p style="box-sizing: border-box; text-align: center;"><strong><span style="font-family: &#39;Heiti SC Light&#39;; color: rgb(255, 0, 0); font-size: 10.5pt;"><span style="line-height: 23.8px;">（温馨提示：请在每次翻页后在白板中画一笔，保证白板和声音同步</span></span></strong><span style="font-size: 10.5pt; text-align: justify; color: rgb(255, 0, 0);"><span style="font-family: &#39;Heiti SC Light&#39;; line-height: 23.8px;">）</span></span><br  /></p><p><img data-s="300,640" data-type="png" data-src="http://mmbiz.qpic.cn/mmbiz_png/evNLMG0mK9XOic77fiag4rnEoH5KXCRhckoV95Yo2nh1Dbicknw5WR9hB3uGkGSoia11F3O4iac8OSahMKouFunDx9Q/0?wx_fmt=png" class="" data-ratio="0.4" data-w="750"  /></p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; box-sizing: border-box;"><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; box-sizing: border-box;"><section style="box-sizing: border-box; transform: rotate(0.1deg);"><section style="width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="" style="margin-right: -6px; margin-left: -7px; display: inline-block; vertical-align: middle; width: 556px; border-bottom-width: 2px; border-bottom-style: dotted; border-bottom-color: rgb(0, 166, 255); box-sizing: border-box;"></section><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="display: inline-block; width: 556px; vertical-align: top; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; vertical-align: top; box-sizing: border-box;"><section class="" style="margin-bottom: 4px; padding-right: 5px; padding-left: 5px; background-color: rgb(11, 206, 255); color: rgb(247, 247, 247); font-size: 18px; box-sizing: border-box;"><p style="box-sizing: border-box;">相关教程链接</p></section><section style="border-top-width: 2px; border-top-style: dotted; border-top-color: rgb(202, 198, 198); width: 118px; box-sizing: border-box;"></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding-top: 2px; padding-bottom: 2px; text-align: justify; font-size: 15px; color: rgb(74, 96, 101); letter-spacing: 0px; line-height: 1.8; box-sizing: border-box;"><p style="box-sizing: border-box;">[软件]如何下载老师端、语音检测APP</p><p style="box-sizing: border-box;">[PC端]软件使用教程</p><p style="box-sizing: border-box;">[iPad端]软件使用教程</p><p style="box-sizing: border-box;">[讲课白板]功能介绍</p><p style="box-sizing: border-box;">[老师]常见问题处理办法</p><p style="box-sizing: border-box;">[新师培训]常见问题处理办法</p></section></section></section></section></section></section></section></section>
+                        </p></section><section class="_135editor" style="border: 0px none; box-sizing: border-box;"><section class=""><section class="">老师可以提前24小时选择修改一次面试时间。</section></section></section></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box;"></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; box-sizing: border-box;"><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; box-sizing: border-box;"><section style="box-sizing: border-box; transform: rotate(0.1deg);"><section style="width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="" style="margin-right: -6px; margin-left: -7px; display: inline-block; vertical-align: middle; width: 556px; border-bottom-width: 2px; border-bottom-style: dotted; border-bottom-color: rgb(0, 166, 255); box-sizing: border-box;"></section><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; text-align: center; box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; width: 528.188px; vertical-align: top; box-shadow: rgb(178, 185, 192) 1px 0px 10px; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="color: rgb(133, 118, 106); font-size: 14px; letter-spacing: 1px; line-height: 1.6; box-sizing: border-box;"><p style="box-sizing: border-box;"><br  /></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding-right: 10px; padding-left: 10px; text-align: left; box-sizing: border-box;"><p style="text-align: center; box-sizing: border-box;"><span style="font-size: 18px; box-sizing: border-box;"><strong style="box-sizing: border-box;"><span style="color: rgb(11, 206, 255); box-sizing: border-box;">「通关攻略」</span></strong></span></p></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding: 15px; text-align: left; color: rgb(11, 206, 255); box-sizing: border-box;"><ol class=" list-paddingleft-2" style=""><li><p style="box-sizing: border-box;">保证相对安静的录制环境和稳定的网络环境</p></li><li><p style="box-sizing: border-box;">要上传讲义和板书，试讲要结合板书</p></li><li><p style="box-sizing: border-box;">注意跟学生的互动（模拟形成一种和学生1对1讲解互动的形式）</p></li><li><p style="box-sizing: border-box;">简历、PPT完善后需转成PDF格式才能上传</p></li><li><p style="box-sizing: border-box;">录制前请先充分准备，面试机会只有一次，要认真对待</p></li></ol><p style="box-sizing: border-box; text-align: center;"><strong><span style="font-family: &#39;Heiti SC Light&#39;; color: rgb(255, 0, 0); font-size: 10.5pt;"><span style="line-height: 23.8px;">（温馨提示：请在每次翻页后在白板中画一笔，保证白板和声音同步</span></span></strong><span style="font-size: 10.5pt; text-align: justify; color: rgb(255, 0, 0);"><span style="font-family: &#39;Heiti SC Light&#39;; line-height: 23.8px;">）</span></span><br  /></p><p>
+
+
+
+                            <img data-s="300,640" data-type="png" src="http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E5%8E%9F%E7%89%88%E5%9B%BE/%E7%90%86%E4%BC%98%E8%80%81%E5%B8%88%E5%B8%AE-%E9%9D%A2%E8%AF%95%E6%8A%A5%E5%90%8D/%E4%BF%AE%E6%94%B9%E7%89%88_1/298658118.jpg
+                                                                                                                                                                                               " class="" data-ratio="0.4" data-w="750"  /></p></section></section></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 0.5em; margin-bottom: 0.5em; overflow: hidden; box-sizing: border-box;"><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; box-sizing: border-box;"><section style="box-sizing: border-box; transform: rotate(0.1deg);"><section style="width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="" style="margin-right: -6px; margin-left: -7px; display: inline-block; vertical-align: middle; width: 556px; border-bottom-width: 2px; border-bottom-style: dotted; border-bottom-color: rgb(0, 166, 255); box-sizing: border-box;"></section><section class="" style="display: inline-block; vertical-align: middle; width: 6px; height: 6px; background-color: rgb(0, 166, 255); box-sizing: border-box;"></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="margin-top: 10px; margin-bottom: 10px; box-sizing: border-box;"><section class="" style="display: inline-block; width: 556px; vertical-align: top; box-sizing: border-box;"><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box; transform: translate3d(0px, 0px, 0px);"><section class="" style="display: inline-block; vertical-align: top; box-sizing: border-box;"><section class="" style="margin-bottom: 4px; padding-right: 5px; padding-left: 5px; background-color: rgb(11, 206, 255); color: rgb(247, 247, 247); font-size: 18px; box-sizing: border-box;"><p style="box-sizing: border-box;">相关教程链接</p></section><section style="border-top-width: 2px; border-top-style: dotted; border-top-color: rgb(202, 198, 198); width: 118px; box-sizing: border-box;"></section></section></section></section><section class="Powered-by-XIUMI V5" powered-by="xiumi.us" style="box-sizing: border-box;"><section class="" style="box-sizing: border-box;"><section class="" style="padding-top: 2px; padding-bottom: 2px; text-align: justify; font-size: 15px; color: rgb(74, 96, 101); letter-spacing: 0px; line-height: 1.8; box-sizing: border-box;">
+                            <!-- <p style="box-sizing: border-box;">[软件]如何下载老师端、语音检测APP</p>
+                                 <p style="box-sizing: border-box;">[PC端]软件使用教程</p>
+                                 <p style="box-sizing: border-box;">[iPad端]软件使用教程</p>
+                                 <p style="box-sizing: border-box;">[讲课白板]功能介绍</p>
+                                 <p style="box-sizing: border-box;">[老师]常见问题处理办法</p>
+                                 <p style="box-sizing: border-box;">[新师培训]常见问题处理办法</p>
+                               -->
+
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;">
+                                <a href="http://admin.yb1v1.com/article_wx/leo_teacher_software">[软件]如何下载老师端、语音检测APP</a></p>
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;"><a href="http://admin.yb1v1.com/article_wx/leo_teacher_pc">[PC端]软件使用教程</a></p>
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;"><a href="http://admin.yb1v1.com/article_wx/leo_teacher_ipad">[iPad端]软件使用教程</a></p>
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;"><a href="http://admin.yb1v1.com/article_wx/leo_teacher_whiteboard">[讲课白板]功能介绍</a></p>
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;"><a href="http://admin.yb1v1.com/article_wx/leo_teacher_deal_question">[老师]常见问题处理办法</a></p>
+                            <p style="white-space: normal; margin: 0px; padding: 0px; box-sizing: border-box;"><a href="http://admin.yb1v1.com/article_wx/leo_teacher_new_teacher_deal_question">[新师培训]常见问题处理办法</a></p>
+
+
+                        </section></section></section></section></section></section></section></section>
                 </div>
                 <script nonce="318884283" type="text/javascript">
                     var first_sceen__time = (+new Date());
@@ -320,7 +349,7 @@ this[e](t,r);
                         document.getElementById('js_content').addEventListener("selectstart",function(e){ e.preventDefault(); });
                     }
 
-                    
+
                     (function(){
                         if (navigator.userAgent.indexOf("WindowsWechat") != -1){
                             var link = document.createElement('link');
@@ -416,20 +445,20 @@ this[e](t,r);
 
 <script nonce="318884283">
 (function() {
-	function _addVConsole(uri) {
-		var url = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/' + uri;
-		document.write('<script nonce="318884283" type="text/javascript" src="' + url + '"><\/script>');
-	}
-	if (
-		(document.cookie && document.cookie.indexOf('vconsole_open=1') > -1)
-		|| location.href.indexOf('vconsole=1') > -1
-	) {
-		_addVConsole('2.5.1/vconsole.min.js');
-		_addVConsole('plugin/vconsole-elements/1.0.2/vconsole-elements.min.js');
-		_addVConsole('plugin/vconsole-sources/1.0.1/vconsole-sources.min.js');
-		_addVConsole('plugin/vconsole-resources/1.0.0/vconsole-resources.min.js');
-		_addVConsole('plugin/vconsole-mpopt/1.0.0/vconsole-mpopt.js');
-	}
+  function _addVConsole(uri) {
+    var url = '//res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/' + uri;
+    document.write('<script nonce="318884283" type="text/javascript" src="' + url + '"><\/script>');
+  }
+  if (
+    (document.cookie && document.cookie.indexOf('vconsole_open=1') > -1)
+    || location.href.indexOf('vconsole=1') > -1
+  ) {
+    _addVConsole('2.5.1/vconsole.min.js');
+    _addVConsole('plugin/vconsole-elements/1.0.2/vconsole-elements.min.js');
+    _addVConsole('plugin/vconsole-sources/1.0.1/vconsole-sources.min.js');
+    _addVConsole('plugin/vconsole-resources/1.0.0/vconsole-resources.min.js');
+    _addVConsole('plugin/vconsole-mpopt/1.0.0/vconsole-mpopt.js');
+  }
 })();
 </script>
         
@@ -448,7 +477,7 @@ if (typeof getComputedStyle == 'undefined') {
 }
 (function(){
     window.__zoom = 1;
-    
+
     (function(){
         var validArr = ","+([0.875, 1, 1.125, 1.25, 1.375]).join(",")+",";
         var match = window.location.href.match(/winzoom=(\d+(?:\.\d+)?)/);
@@ -482,7 +511,7 @@ if (typeof getComputedStyle == 'undefined') {
             isIE = true;
         }
         if (!max_width) {
-            max_width = window.innerWidth - 30;      
+            max_width = window.innerWidth - 30;
         }
         return max_width;
     };
@@ -528,7 +557,7 @@ if (typeof getComputedStyle == 'undefined') {
         }
     };
     var getQuery = function(name,url){
-        
+
         var u  = arguments[1] || window.location.search,
             reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"),
             r = u.substr(u.indexOf("\?")+1).match(reg);
@@ -548,13 +577,13 @@ if (typeof getComputedStyle == 'undefined') {
             if (ratio_ && ratio_ > 0) {
                 var img_style = getComputedStyle(images[i]);
                 var init_width = images[i].style.width;
-                
+
                 if (init_width) {
                     images[i].setAttribute('_width', init_width);
                     if (init_width != 'auto') width_ = parseFloat(img_style.width);
                 }
                 var parent_width = getParentWidth(images[i])||max_width;
-                var width = width_ > parent_width ? parent_width : width_; 
+                var width = width_ > parent_width ? parent_width : width_;
                 var img_padding_border = getOuterW(images[i])||0;
                 var img_padding_border_top_bottom = getOuterH(images[i])||0;
                 height = (width - img_padding_border) * ratio_ + img_padding_border_top_bottom;
@@ -745,7 +774,7 @@ if (typeof getComputedStyle == 'undefined') {
     var devicetype = "";
     var source_encode_biz = "";
     var source_username = "";
-    
+
     var reprint_ticket = "";
     var source_mid = "";
     var source_idx = "";
@@ -795,30 +824,30 @@ if (typeof getComputedStyle == 'undefined') {
         "1":"1"
             };
 
-    
-    
-    
-    
 
-    
+
+
+
+
+
     var weapp_sn_arr_json = "" || "";
 
-    
+
     var ban_scene = "0" * 1;
 
     var svr_time = "1502776362" * 1;
-    
+
     var is_transfer_msg = ""*1||0;
 
-    var malicious_title_reason_id = "0" * 1; 
+    var malicious_title_reason_id = "0" * 1;
 
         window.wxtoken = "";
-        
-    
-    
-    
-    
-    window.is_login = '0' * 1; 
+
+
+
+
+
+    window.is_login = '0' * 1;
 
     window.__moon_initcallback = function(){
         if(!!window.__initCatch){
@@ -835,8 +864,8 @@ if (typeof getComputedStyle == 'undefined') {
                     sn  : sn
                 },
                 extInfo : {
-                    network_rate : 0.01,    
-                    badjs_rate: 0.1 
+                    network_rate : 0.01,
+                    badjs_rate: 0.1
                 }
             });
         }
@@ -867,7 +896,7 @@ if (typeof getComputedStyle == 'undefined') {
                 "msg" : "[WechatFe][appmsg]" + msg
             });
         }else{
-            
+
             setTimeout(function(){
                 if( top.window.document.addEventListener ){
                     top.window.document.addEventListener('WeixinJSBridgeReady', function(){
@@ -1375,4 +1404,3 @@ __moonf__(); }, 25);</script><script nonce="318884283" type="text/javascript">
     <script nonce="318884283" type="text/javascript">document.addEventListener("touchstart", function() {},false);</script>
 </html>
 <!--tailTrap<body></body><head></head><html></html>-->
-

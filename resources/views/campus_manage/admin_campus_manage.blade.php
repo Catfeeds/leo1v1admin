@@ -41,8 +41,8 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr class="{{$var["level"]}}">
-                        <td data-class_name="{{$var["campus_id_class"]}}" class="campus_id" >{{$var["campus_name"]}}</td>
-                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["campus_id_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
+                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >{{$var["campus_name"]}}</td>
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >{{$var["up_group_name"]}}</td>
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >{{$var["group_name"]}}</td>
                         <td data-class_name="{{$var["account_class"]}}" class="account   {{$var["group_name_class"]}} {{$var["account_class"]}}"  >{{$var["account"]}}</td>
 
@@ -52,6 +52,7 @@
                             >
                                
                                 <a class="opt-assign-main-group">分配小组</a>
+                                <a class="opt-del-campus">删除校区</a> 
                                 <a class="opt-del-main-group">删除</a> 
                             </div>
                         </td>
