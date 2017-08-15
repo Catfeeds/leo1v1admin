@@ -168,9 +168,9 @@ class wx_yxyx_api extends Controller
                     $ret_list[$key]['name'] = $item['nickname'];
                 }
                 $ret_list[$key]['status'] = 0;
-                if($item['order_status']){
+                if($item['order_status']){//购课
                     $ret_list[$key]['status'] = 2;
-                }else{
+                }else{//试听成功
                     if($item['userid']){
                         $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
                         $test_lessonid = $count_item['lessonid'];
