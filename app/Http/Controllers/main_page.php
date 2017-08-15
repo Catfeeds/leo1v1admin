@@ -419,10 +419,10 @@ class main_page extends Controller
 		$regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
 		$all_count=0;
-        $test_first_per = 0;
-        $test_first_num = 0;
-        $regular_first_per = 0;
-        $regular_first_num = 0;
+        	$test_first_per = 0;
+	        $test_first_num = 0;
+	        $regular_first_per = 0;
+	        $regular_first_num = 0;
 		foreach($teacher_info as &$item){
 		    $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
 		    $account = $item["account"];
@@ -479,6 +479,7 @@ class main_page extends Controller
 		    $all_count +=$item["all_target_num"];
 		    $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
 		}
+	dd($teacher_info);
         $test_first_per_str ="";
         if($test_first_per){
             if($test_first_per/60>0){
