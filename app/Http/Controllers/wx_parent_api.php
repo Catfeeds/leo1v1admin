@@ -1113,7 +1113,7 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){
+    function get_student_score_info(){ // 获取学生成绩信息
         $parent = $this->get_in_int_val('parentid');
         $userid_list = $this->t_parent_child->get_userid_list_by_parentid($parentid);
         $userid_str = $userid_list;

@@ -412,8 +412,16 @@ class agent extends Controller
 
 
     public function get_my_num(){
-        $agent_id = 54;
+        $agent_id = 60;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        if(isset($agent_info['phone'])){
+            $phone = $agent_info['phone'];
+        }else{
+            return $this->output_err("请先绑定优学优享账号!");
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
         $ret = [];
         $ret = $this->t_agent->get_p_list_by_phone($phone);
         $p_count = [];

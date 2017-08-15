@@ -152,8 +152,17 @@ class test_boby extends Controller
         $list = [1=>0,2=>0,3=>0,4=>0,7=>0,80=>0];
         foreach ($ret_info as $v) {
             $list[$v['count']] += 1;
-                   }
-        dd($list);
+        }
+        // dd($list);
+        echo '<pre>';
+        var_dump($list);
+        $list = [1=>0,2=>0,3=>0,4=>0,7=>0,80=>0];
+        foreach ($ret_info as $v) {
+            $list[$v['count']] = $list[$v['count']] +$v['succ'];
+        }
+        echo '<pre>';
+        var_dump($list);
+
         dd($ret_info);
     }
 }
