@@ -7,6 +7,8 @@ interface GargsStatic {
 	assistantid:	number;
 	page_num:	number;
 	page_count:	number;
+	success_flag:	number;
+	order_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -34,7 +36,9 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			assistantid:	$('#id_assistantid').val()
+			assistantid:	$('#id_assistantid').val(),
+			success_flag:	$('#id_success_flag').val(),
+			order_flag:	$('#id_order_flag').val()
         });
     }
 
@@ -50,6 +54,8 @@ $(function(){
         }
     });
 	$('#id_assistantid').val(g_args.assistantid);
+	$('#id_success_flag').val(g_args.success_flag);
+	$('#id_order_flag').val(g_args.order_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -64,6 +70,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">assistantid</span>
                 <input class="opt-change form-control" id="id_assistantid" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">success_flag</span>
+                <input class="opt-change form-control" id="id_success_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_flag</span>
+                <input class="opt-change form-control" id="id_order_flag" />
             </div>
         </div>
 */
