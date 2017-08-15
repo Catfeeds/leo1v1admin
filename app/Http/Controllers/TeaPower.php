@@ -1835,7 +1835,7 @@ trait  TeaPower {
     }
 
     //学员结课,清空常规课表
-    public function delete_teacher_regular_lesson($userid,$flag=0,$time=1){
+    public function delete_teacher_regular_lesson($userid,$flag=0,$time=1,$teacherid=-1){
         //$userid = 60022 ;$teacherid= 60011;
         if($flag==1){
             $account="system";
@@ -1844,9 +1844,9 @@ trait  TeaPower {
             $account = $this->get_account();
             $time = time();
         }
-        $list1 = $this->t_week_regular_course->get_teacher_student_time(-1,$userid);
-        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time(-1,$userid);
-        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time(-1,$userid);
+        $list1 = $this->t_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list2 = $this->t_summer_week_regular_course->get_teacher_student_time($teacherid,$userid);
+        $list3 = $this->t_winter_week_regular_course->get_teacher_student_time($teacherid,$userid);
         $nick = $this->t_student_info->get_nick($userid);
         $arr_week = [1=>"一",2=>"二",3=>"三",4=>"四",5=>"五",6=>"六",7=>"日"];
         $list=[];
