@@ -2957,7 +2957,7 @@ class ss_deal extends Controller
     public function delete_lecture_appointment(){
         $id = $this->get_in_int_val("id");
         $acc = $this->get_account();
-        if(in_array($acc,["adrian"])){
+        if(!in_array($acc,["adrian"])){
             return $this->output_err("你没有权限");
         }
 
@@ -5154,12 +5154,12 @@ class ss_deal extends Controller
     }
 
     /**
-     * 2017-8-15至8-31号（以下订单时间为准）内下单用户且课时在90课时以上，可减300元
+     * 2017-8-16至8-31号（以下订单时间为准）内下单用户且课时在90课时以上，可减300元
      * 这些用户在2017-12-31前续费，可减500元
      */
     public function get_8_month_activity($userid,$price,$lesson_total,$contract_type){
         $now = time();
-        $activity_start_time = strtotime("2017-8-15");
+        $activity_start_time = strtotime("2017-8-16");
         $activity_end_time   = strtotime("2017-9-1");
         $activity_finish_time = strtotime("2017-12-31");
 

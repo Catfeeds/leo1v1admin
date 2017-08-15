@@ -61,9 +61,11 @@ $(function(){
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="btn btn-info" data_ip="'
                         +item.pic_arr[i] +'">设为封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)" ></span>'
-                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
-                        +'<div class="add_header_img'+i+'"><img src="' +item.pic_arr[i]
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i
+                        +'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i
+                        +'" onclick="set_down(this)"></span>'
+                        +'<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic'+i
                         +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div></div>';
                     pic_num++;
@@ -71,9 +73,10 @@ $(function(){
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="mark btn btn-info" data_ip="'
                         +item.pic_arr[i] +'">封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
-
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i
+                        +'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i
+                        +'" onclick="set_down(this)"></span>'
                         +'<div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div></div>';
@@ -92,7 +95,7 @@ $(function(){
             +" $(obj).addClass('mark');}} </script>";
         //压入删除单张图片函数del_pic
         fun_str = fun_str + '<script> function del_pic(obj){ $(obj).parent().remove();}</script>';
-        //压人图片上移函数
+        //压人图片上移函数set_up
         fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id");'
             +' var new_id = parseInt(id)-1; var this_prev = $(obj).parent().prev(); '
             +'if ( $(this_prev).find("span").eq(2).attr("data_id") !== undefined) '
@@ -105,7 +108,7 @@ $(function(){
             +'$(this_prev).children("div:last-child").removeClass("order"+new_id); '
             +'$(this_prev).children("div:last-child").addClass("order"+id); '
             +'$(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
-        //压入图片下移函数
+        //压入图片下移函数set_down
         fun_str = fun_str + '<script>  function set_down(obj){var id = $(obj).attr("data_id");'
             +' var new_id = parseInt(id)+1; var this_next = $(obj).parent().next(); '
             +'if ( $(this_next).find("span").eq(2).attr("data_id")!== undefined )'
