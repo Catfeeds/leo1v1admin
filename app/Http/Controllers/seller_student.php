@@ -2115,9 +2115,11 @@ class seller_student extends Controller
         $key2 = trim($this->get_in_str_val('key2', ''));
         $key3 = trim($this->get_in_str_val('key3', ''));
         $key4 = trim($this->get_in_str_val('key4', ''));
+        $value  = trim( $this->get_in_str_val('value') );
         $origin_level = $this->get_in_int_val('origin_level');
 
-        $ret_info=$this->t_origin_key->edit_origin_level_batch( $key1, $key2, $key3, $key4, $origin_level);
+
+        $ret_info=$this->t_origin_key->edit_origin_level_batch( $key1, $key2, $key3, $key4, $value, $origin_level);
 
         return $this->output_succ();
 

@@ -36,29 +36,55 @@
 
         <div  style="overflow: auto;"  >
         <table     class="common-table"  >
-            <thead>
-                <tr>
-                    @foreach( $col_name_list as $col_name  )
-                    <td> {{$col_name}}  </td>
-                    @endforeach
-                    <td> 操作  </td>
-                </tr>
-            </thead>
-            <tbody >
-                @foreach ( $table_data_list as $var )
+            @if ( count($table_data_list)  != 1)
+                <thead>
                     <tr>
                         @foreach( $col_name_list as $col_name  )
-                            <td> {{$var["$col_name"]}}  </td>
+                            <td> {{$col_name}}  </td>
                         @endforeach
-                        <td>
-                            <div
-                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                            >
-                            </div>
-                        </td>
+                        <td> 操作  </td>
                     </tr>
-                @endforeach
-            </tbody>
+                </thead>
+                <tbody >
+                    @foreach ( $table_data_list as $var )
+                        <tr>
+                            @foreach( $col_name_list as $col_name  )
+                                <td> {{$var["$col_name"]}}  </td>
+                            @endforeach
+                            <td>
+                                <div
+                                    {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                                >
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            @else
+
+                <thead>
+                    <tr>
+                        <td>属性</td>
+                        <td> 值</td>
+                        <td> 操作  </td>
+                    </tr>
+                </thead>
+                <tbody >
+
+                        @foreach( $col_name_list as $col_name  )
+                            <tr>
+                                <td> {{$col_name}}  </td>
+                                <td> {{$table_data_list[0][$col_name] }}  </td>
+                                <td>
+                                    <div
+                                        {!!  \App\Helper\Utils::gen_jquery_data( $table_data_list[0])  !!}
+                                    >
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                </tbody>
+            @endif
         </table>
         </div>
         @include("layouts.page")
