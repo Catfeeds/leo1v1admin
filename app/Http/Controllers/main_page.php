@@ -419,10 +419,10 @@ class main_page extends Controller
 		$regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
 		$all_count=0;
-        	$total_test_first_per = 0;
-	        $total_test_first_num = 0;
-	        $total_regular_first_per = 0;
-	        $total_regular_first_num = 0;
+    	$total_test_first_per = 0;
+        $total_test_first_num = 0;
+        $total_regular_first_per = 0;
+        $total_regular_first_num = 0;
 		foreach($teacher_info as &$item){
 		    $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
 		    $account = $item["account"];
@@ -480,11 +480,11 @@ class main_page extends Controller
 		    $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
 		}
         $total_test_first_per_str ="";
-	if($total_test_first_num>0){
-		$total_test_first_per = isset($total_test_first_num)?round($total_test_first_per/$total_test_first_num):0;
-	}else{
-		$total_test_first_per = 0;
-	}
+    	if($total_test_first_num>0){
+    		$total_test_first_per = isset($total_test_first_num)?round($total_test_first_per/$total_test_first_num):0;
+    	}else{
+    		$total_test_first_per = 0;
+    	}
         if($total_test_first_per){
             if($total_test_first_per/60>0){
                 $total_test_first_per_str = round($total_test_first_per/60)."分".($total_test_first_per%60)."秒";
@@ -493,11 +493,11 @@ class main_page extends Controller
             }
         }
         $total_regular_first_per_str = "";
-	if($total_regular_first_num>0){
-		$total_regular_first_per = isset($total_regular_first_num)?round($total_regular_first_per/$total_regular_first_num):0;
-	}else{
-		$total_regular_first_per = 0;
-	}
+    	if($total_regular_first_num>0){
+    		$total_regular_first_per = isset($total_regular_first_num)?round($total_regular_first_per/$total_regular_first_num):0;
+    	}else{
+    		$total_regular_first_per = 0;
+    	}
         if($total_regular_first_per){
                 if($total_regular_first_per/60>0){
                 $total_regular_first_per_str = round($total_regular_first_per/60)."分".($total_regular_first_per%60)."秒";

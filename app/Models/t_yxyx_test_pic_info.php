@@ -98,10 +98,11 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_id_poster( $id=0, $start_time){
+    public function get_all_id_poster( $id=0, $start_time,$end_time){
         $where_arr = [
             ['id!=%s', $id, 0],
-            ['create_time<%s', $start_time, 0],
+            ['create_time>%s', $start_time, 0],
+            ['create_time<%s', $end_time, 0],
         ];
         $sql = $this->gen_sql_new("select id, poster"
                                   ." from %s"
