@@ -61,9 +61,11 @@ $(function(){
                 if (item.pic_arr[i] && item.pic_arr[i] != item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="btn btn-info" data_ip="'
                         +item.pic_arr[i] +'">设为封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)" ></span>'
-                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
-                        +'<div class="add_header_img'+i+'"><img src="' +item.pic_arr[i]
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i
+                        +'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i
+                        +'" onclick="set_down(this)"></span>'
+                        +'<div class="add_header_img'+i+'"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic'+i
                         +' order'+i+'" style="display:none">'+item.pic_arr[i]+'</div></div>';
                     pic_num++;
@@ -71,9 +73,10 @@ $(function(){
                 } else if (item.pic_arr[i] && item.pic_arr[i] == item.poster) {
                     pic_str += '<div><span onclick="set_poster(this)" class="mark btn btn-info" data_ip="'
                         +item.pic_arr[i] +'">封面</span><span class="glyphicon glyphicon-trash btn" onclick="del_pic(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i+'" onclick="set_up(this)"></span>'
-                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i+'" onclick="set_down(this)"></span>'
-
+                        +'<span class="glyphicon glyphicon-arrow-up btn" data_id="'+i
+                        +'" onclick="set_up(this)"></span>'
+                        +'<span class="glyphicon glyphicon-arrow-down btn" data_id="'+i
+                        +'" onclick="set_down(this)"></span>'
                         +'<div class="add_header_img"><img src="'+item.pic_arr[i]
                         +'" width="80px"></div><div class="add_pic order'+i+'" style="display:none">'
                         +item.poster+'</div></div>';
@@ -86,52 +89,39 @@ $(function(){
         }
         //一下大段需优化！
         //追加设为封面函数set_poster
-        var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj) { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip')); $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark'); $(obj).addClass('mark');}} </script>";
+        var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj)"
+            +" { if($(obj).text()!= '封面'){ $('.real_poster').text($(obj).attr('data_ip'));"
+            +" $(obj).text('封面');$('.mark').text('设为封面'); $('.mark').removeClass('mark');"
+            +" $(obj).addClass('mark');}} </script>";
         //压入删除单张图片函数del_pic
         fun_str = fun_str + '<script> function del_pic(obj){ $(obj).parent().remove();}</script>';
-        //压人图片上移函数
-        fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)-1; var this_prev = $(obj).parent().prev(); if ( id > 1) {$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; $(this_prev).find("span").eq(2).attr("data_id",id); $(this_prev).find("span").eq(3).attr("data_id",id); $(this_prev).children("div:last-child").removeClass("order"+new_id); $(this_prev).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_prev).before(this_con);}} </script>'; 
-        //压入图片下移函数
-        fun_str = fun_str + '<script>  function set_down(obj){var id = $(obj).attr("data_id"); var new_id = parseInt(id)+1; var this_next = $(obj).parent().next(); if ( $(this_next).find("span").eq(2).attr("data_id") ) {$(obj).attr("data_id", new_id); $(obj).prev().attr("data_id", new_id); $(obj).parent().children("div:last-child").removeClass("order"+id); $(obj).parent().children("div:last-child").addClass("order"+new_id); var this_con  = "<div>"+$(obj).parent().html()+"</div>"; $(this_next).find("span").eq(2).attr("data_id",id); $(this_next).find("span").eq(3).attr("data_id",id); $(this_next).children("div:last-child").removeClass("order"+new_id); $(this_next).children("div:last-child").addClass("order"+id); $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
+        //压人图片上移函数set_up
+        fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id");'
+            +' var new_id = parseInt(id)-1; var this_prev = $(obj).parent().prev(); '
+            +'if ( $(this_prev).find("span").eq(2).attr("data_id") !== undefined) '
+            +'{$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id);'
+            +' $(obj).parent().children("div:last-child").removeClass("order"+id);'
+            +' $(obj).parent().children("div:last-child").addClass("order"+new_id);'
+            +'var this_con  = "<div>"+$(obj).parent().html()+"</div>";'
+            +' $(this_prev).find("span").eq(2).attr("data_id",id);'
+            +' $(this_prev).find("span").eq(3).attr("data_id",id); '
+            +'$(this_prev).children("div:last-child").removeClass("order"+new_id); '
+            +'$(this_prev).children("div:last-child").addClass("order"+id); '
+            +'$(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
+        //压入图片下移函数set_down
+        fun_str = fun_str + '<script>  function set_down(obj){var id = $(obj).attr("data_id");'
+            +' var new_id = parseInt(id)+1; var this_next = $(obj).parent().next(); '
+            +'if ( $(this_next).find("span").eq(2).attr("data_id")!== undefined )'
+            +' {$(obj).attr("data_id", new_id); $(obj).prev().attr("data_id", new_id);'
+            +' $(obj).parent().children("div:last-child").removeClass("order"+id); '
+            +'$(obj).parent().children("div:last-child").addClass("order"+new_id); '
+            +'var this_con  = "<div>"+$(obj).parent().html()+"</div>"; '
+            +'$(this_next).find("span").eq(2).attr("data_id",id);'
+            +' $(this_next).find("span").eq(3).attr("data_id",id);'
+            +' $(this_next).children("div:last-child").removeClass("order"+new_id);'
+            +' $(this_next).children("div:last-child").addClass("order"+id);'
+            +' $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
         html_node.find("#id_container_add_tmp").after(fun_str);
-        function set_up(obj){
-            var id = $(obj).attr("data_id");
-            var new_id = parseInt(id)-1;
-            var this_prev = $(obj).parent().prev();
-            if ( id > 1) {
-                $(obj).attr("data_id", new_id);
-                $(obj).next().attr("data_id", new_id);
-                $(obj).parent().children("div:last-child").removeClass("order"+id);
-                $(obj).parent().children("div:last-child").addClass("order"+new_id);
-                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
-                $(this_prev).find("span").eq(2).attr("data_id",id);
-                $(this_prev).find("span").eq(3).attr("data_id",id);
-                $(this_prev).children("div:last-child").removeClass("order"+new_id);
-                $(this_prev).children("div:last-child").addClass("order"+id);
-                $(obj).parent().remove();
-                $(this_prev).before(this_con);
-            }
-        }
-
-        function set_down(obj){
-            var id = $(obj).attr("data_id");
-            var new_id = parseInt(id)+1;
-            var this_next = $(obj).parent().next();
-            if ( $(this_next).find("span").eq(2).attr("data_id") ) {
-                $(obj).attr("data_id", new_id);
-                $(obj).prev().attr("data_id", new_id);
-                $(obj).parent().children("div:last-child").removeClass("order"+id);
-                $(obj).parent().children("div:last-child").addClass("order"+new_id);
-                var this_con  = "<div>"+$(obj).parent().html()+"</div>";
-                $(this_next).find("span").eq(2).attr("data_id",id);
-                $(this_next).find("span").eq(3).attr("data_id",id);
-                $(this_next).children("div:last-child").removeClass("order"+new_id);
-                $(this_next).children("div:last-child").addClass("order"+id);
-                $(obj).parent().remove();
-                $(this_next).after(this_con);
-            }
-        }
-
 
         var title = "";
         if (opt_type=="update"){

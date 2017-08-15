@@ -3107,6 +3107,20 @@ class user_deal extends Controller
 
     }
 
+    public function get_group_list_campus ()
+    {
+        $page_num     = $this->get_in_page_num();
+        $ret_info   = $this->t_admin_main_group_name->get_group_list_campus($page_num);
+        foreach($ret_info['list'] as &$item){
+            $item['group_master_nick']= $this->cache_get_account_nick($item['master_adminid']);
+            $item["main_type_str"] = E\Emain_type::get_desc($item["main_type"]);
+        }
+        $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
+        return outputjson_success(array('data' => $ret_info));
+
+    }
+
+
     public function get_group_list_new_month()
     {
         $main_type    = $this->get_in_int_val("main_type");

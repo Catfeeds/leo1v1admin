@@ -111,7 +111,7 @@ class user_manage extends Controller
             $item['lesson_count_left'] = $item['lesson_count_left']/100;
             $item["seller_admin_nick"] = $this->cache_get_account_nick($item["seller_adminid"] );
             $item["assistant_nick"]    = $this->cache_get_assistant_nick ($item["assistantid"] );
-            $item["origin_ass_nick"]   = $this->cache_get_assistant_nick ($item["origin_assistantid"] );
+            $item["origin_ass_nick"]   = $this->cache_get_account_nick($item["origin_assistantid"] );
             $item["ss_assign_time"]    = $item["ass_assign_time"]==0?'未分配':date('Y-m-d H:i:s',$item["ass_assign_time"]);
             $item["cache_nick"]        = $this->cache_get_student_nick($item["userid"]) ;
             \App\Helper\Utils::unixtime2date_for_item($item,"reg_time");

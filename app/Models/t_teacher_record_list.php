@@ -396,7 +396,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }
         $sql = $this->gen_sql_new("select tr.id,l.lessonid,audio,draw,l.teacherid,l.subject,l.grade,t.realname as tea_nick,"
                                   ." t.wx_openid,l.lesson_start,l.lesson_end,l.lesson_status,tr.add_time,tr.record_monitor_class,"
-                                  ." tr.record_info,tr.acc,tr.trial_train_status"
+                                  ." tr.record_info,tr.acc,tr.trial_train_status,l.trial_train_num "
                                   ." from %s tr"
                                   ." left join %s l on tr.train_lessonid=l.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"
@@ -987,6 +987,28 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   t_lesson_info::DB_TABLE_NAME,
                                   $where_arr
         );
+        return $this->main_get_list($sql,function($item){
+            return $item["acc"];
+        });
+    }
+
+    public function get_test_regular_lesson_first_per($start_time,$end_time,$lesson_style,$subject){
+        $where_arr=[
+            "tr.type=1",
+            ["tr.lesson_style=%u",$lesson_style,-1],
+            ["l.subject=%u",$subject,-1],
+            "tr.click_time>0",
+            "tr.add_time>tr.click_time"
+        ];
+        $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select tr.acc,count(*) all_num, count(tr.add_time-tr.click_time) all_time "
+                                  ." from %s tr left join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where %s group by tr.acc ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        dd($sql);
         return $this->main_get_list($sql,function($item){
             return $item["acc"];
         });

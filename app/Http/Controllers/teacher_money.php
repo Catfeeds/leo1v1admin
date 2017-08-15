@@ -45,8 +45,8 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(!in_array($teacher_money_type,[0,1,2,3]) && isset($already_lesson_count)){
-                    $val['already_lesson_count'] = $already_lesson_count;
+                if(in_array($teacher_money_type,[0,1,2,3])){
+                    $already_lesson_count = $val['already_lesson_count'];
                 }
 
                 $val['lesson_base']        = "0";
@@ -58,7 +58,7 @@ class teacher_money extends Controller
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $lesson_reward      = \App\Helper\Utils::get_teacher_lesson_money(
-                            $val['type'],$val['already_lesson_count']
+                            $val['type'],$already_lesson_count
                         );
                         $val['lesson_reward'] = $lesson_reward*$lesson_count;
                         $reward_list['type']  = 2;
@@ -336,8 +336,8 @@ class teacher_money extends Controller
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
-                    if(!in_array($teacher_money_type,[0,1,2,3])){
-                        $val['already_lesson_count'] = $already_lesson_count;
+                    if(in_array($teacher_money_type,[0,1,2,3])){
+                        $already_lesson_count = $val['already_lesson_count'];
                     }
                     if($val['confirm_flag']!=2){
                         $lesson_count = $val['lesson_count']/100;
@@ -348,7 +348,7 @@ class teacher_money extends Controller
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
-                        $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$val['already_lesson_count']);
+                        $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                     }else{
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price($teacher_money_type
                                                                                       ,$val['teacher_type']
@@ -772,7 +772,28 @@ class teacher_money extends Controller
     public function reset_lesson_reward(){
         $lessonid = $this->get_in_int_val("lessonid");
 
+        $teacherid    = $this->t_lesson_info->get_teacherid($lessonid);
+        $lesson_info  = $this->t_lesson_info->get_lesson_info($lessonid);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
 
+        if($lesson_info['teacher_money_type']==$teacher_info['teacher_money_type'] && $lesson_info['level']==$teacher_info['level']){
+            return $this->output_err("该课程信息正确！不用修改！");
+        }
+        $lesson_month = date("Y-m",$lesson_info['lesson_start']);
+        $now_month = date("Y-m",time());
+        if($lesson_month!=$now_month){
+            return $this->output_err("不是本月课程！无法更改！");
+        }
+
+
+        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+            "teacher_money_type" => $teacher_info['teacher_money_type'],
+            "level"              => $teacher_info['level'],
+        ]);
+        if(!$ret){
+            return $this->output_err("更新失败！请重试！");
+        }
+        return $this->output_succ();
     }
 
 

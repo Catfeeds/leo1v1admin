@@ -462,8 +462,8 @@ $(function(){
         });
     });
 
-    $("opt-reset_lesson").on("click",function(){
-	      var data = $(this).opt_get_data();
+    $(".opt-reset_lesson").on("click",function(){
+	      var data = $(this).get_opt_data();
 
         BootstrapDialog.show({
 	          title   : "重置本节课的老师工资类型和等级",

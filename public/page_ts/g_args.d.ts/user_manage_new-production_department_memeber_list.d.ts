@@ -64,6 +64,8 @@ interface RowData {
 	resume_url	:any;
 	main_department	:any;
 	fulltime_teacher_type	:any;
+	become_member_time	:any;
+	leave_member_time	:any;
 	id	:any;
 	gender_str	:any;
 	education_str	:any;

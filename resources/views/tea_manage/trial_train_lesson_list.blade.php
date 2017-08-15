@@ -71,6 +71,7 @@
                     <td>课程信息</td>
                     <td>试听需求</td>
                     <td>课程状态</td>
+                    <td>课次</td>
                     <td>监课情况</td>
                     <td>教研建议</td>
                     <td>审核状态</td>
@@ -90,6 +91,7 @@
                         </td>
                         <td>{{$var["stu_request_test_lesson_demand"]}}</td>
                         <td>{{$var["lesson_status_str"]}}</td>
+                        <td>{{$var["lesson_num"]}}</td>
                         <td>{{$var["record_monitor_class"]}}</td>
                         <td>{{$var["record_info"]}}</td>
                         <td>{{$var["trial_train_status_str"]}}</td>

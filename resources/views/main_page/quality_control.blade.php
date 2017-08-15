@@ -44,7 +44,9 @@
                         <td>模拟试听审核(一审)</td>
                         <td>模拟试听审核(二审) </td>
                         <td>第一次试听课</td>
+                        <td>第一次试听课平均听课时长</td>
                         <td>第一次常规课</td>
+                        <td>第一次常规课平均听课时长</td>
                         <td>总数</td>
 
                         <td>完成率</td>
@@ -62,8 +64,10 @@
                             <td> {{@$var["train_first_all"]}}/{{@$var["train_first_pass"]}}</td>
                             <td> {{@$var["train_second_all"]}}</td>
                             <td> {{@$var["test_first"]}}</td>
+                            <td> {{@$var["test_first_per"]}}</td>
                             <td> {{@$var["regular_first"]}}</td>
-                            <td> {{@$var["all_num"]}}</td>
+                            <td> {{@$var["regular_first_per"]}}</td>
+                            <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
                           
 
