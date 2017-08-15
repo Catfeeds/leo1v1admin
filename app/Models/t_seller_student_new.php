@@ -1133,10 +1133,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_value($sql);
     }
 
-    public  function sync_tq($phone,$tq_called_flag,$call_time) {
+    public  function sync_tq($phone,$tq_called_flag,$call_time,$tquin=0) {
         $userid=$this->get_userid_by_phone($phone);
-        if($userid) {
-            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status");
+        $admin_info=$this->t_manager_info->get_info_by_tquin($tquin,"uid");
+        if($userid && $admin_info)  {
+
+            $item=$this->field_get_list($userid,"tq_called_flag,global_tq_called_flag,admin_revisiterid, competition_call_adminid,  seller_resource_type ,last_contact_time,first_contact_time ,called_time, first_call_time,tmk_student_status ,competition_call_time ");
 
             $set_arr=[];
             if ($item["tq_called_flag"]<$tq_called_flag) {
@@ -1181,10 +1183,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             */
             //同步给销售
             if (  $tq_called_flag ==2
+                  &&  $admin_info["uid"] == $competition_call_adminid
                   &&  $item["seller_resource_type"] ==0
                   &&  $item["tmk_student_status"]<>E\Etmk_student_status::V_3
                   && !$item["admin_revisiterid"]
-                  && $call_time > time(NULL) -3600
+                  &&  $item["competition_call_time"]+3600 > time(NULL)
                   &&  $competition_call_adminid ) {
                 if ($this->t_seller_new_count->check_and_add_new_count($competition_call_adminid ,"获取新例子"))  {
                     \App\Helper\Utils::logger("SET COMPETITION_CALL_ADMINID ");
