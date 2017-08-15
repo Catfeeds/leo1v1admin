@@ -90,7 +90,7 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
 
 
 
-    public function edit_origin_level_batch( $key1, $key2, $key3, $key4, $origin_level){
+    public function edit_origin_level_batch( $key1, $key2, $key3, $key4,$value, $origin_level){
         $where_arr = [
             ["key1='%s'",$key1],
             ["key2='%s'",$key2],
@@ -115,6 +115,9 @@ class t_origin_key extends \App\Models\Zgen\z_t_origin_key
 
         foreach($del_index as $item){
             unset($where_arr[$item]);
+        }
+        if ($value) {
+            $where_arr[]=sprintf( "value like '%s'", $this->ensql($value)) ;
         }
 
         $sql = $this->gen_sql_new("update %s set origin_level=%d ".
