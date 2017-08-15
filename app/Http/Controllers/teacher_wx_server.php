@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 
 use LaneWeChat\Core\WeChatOAuth;
 
-use LaneWeChat\Core\UserManage;
+// use LaneWeChat\Core\UserManage;
+use Teacher\Core\UserManagre;
 
 use LaneWeChat\Core\TemplateMessage;
 
@@ -86,6 +87,12 @@ class  teacher_wx_server extends Controller
         return $this->output_succ(["index" =>$phone_index ]);
     }
 
+
+    public function get_fan_list(){
+        // getFansList
+        \App\Teacher\Core\UserManagre
+        // usermanage.php
+    }
 
     public function ceshi () {
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx636f1058abca1bc1&redirect_uri=http%3A%2F%2Fwx-parent.leo1v1.com%2Farticle_wx%2Fget_openid&response_type=code&scope=snsapi_base&state=1#wechat_redirect";

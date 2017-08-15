@@ -723,15 +723,25 @@ class seller_student_new2 extends Controller
         ]);
     }
 
+    public function get_from_ass_tran_lesson_info_master(){
+        $this->set_in_value("master_flag",1);
+        return $this->get_from_ass_tran_lesson_info();
+    }
     public function get_from_ass_tran_lesson_info(){
         $this->switch_tongji_database();
         list($start_time,$end_time )=$this->get_in_date_range(0,0,0,[],3);
+        $master_flag = $this->get_in_int_val("master_flag",0);
+        if($master_flag==0){
+            $account_id = $this->get_account_id();
+        }else{
+            $account_id=-1;
+        }
         $assistantid = $this->get_in_int_val("assistantid",-1);
         $page_info = $this->get_in_page_info();
         $success_flag = $this->get_in_int_val("success_flag",-1);
         $order_flag = $this->get_in_int_val("order_flag",-1);
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,$order_flag);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,$order_flag,$account_id);
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
             E\Esubject::set_item_value_str($item);
@@ -745,7 +755,9 @@ class seller_student_new2 extends Controller
             }
 
         }
-        return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__, $ret_info,[
+            "master_flag"  =>$master_flag
+        ]);
 
     }
 }
