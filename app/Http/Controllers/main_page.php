@@ -419,7 +419,10 @@ class main_page extends Controller
 		$regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
 		$all_count=0;
-
+        $test_first_per = 0;
+        $test_first_num = 0;
+        $regular_first_per = 0;
+        $regular_first_num = 0;
 		foreach($teacher_info as &$item){
 		    $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
 		    $account = $item["account"];
@@ -438,7 +441,12 @@ class main_page extends Controller
 
 		    $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
 		    $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;
-             $item["test_first_per_str"] = "";
+            if($item["test_first_per"] > 0){
+                $test_first_per += $test_first_per[$account]["all_time"];
+                $test_first_num += $test_first_per[$account]["all_num"];
+            }
+             
+            $item["test_first_per_str"] = "";
             if($item["test_first_per"]){
                 if($item["test_first_per"]/60>0){
                     $item["test_first_per_str"] = round($item["test_first_per"]/60)."分".($item["test_first_per"]%60)."秒";
@@ -448,6 +456,10 @@ class main_page extends Controller
             }
 		    $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
 		    $item["regular_first_per"] = isset($regular_first_per[$account])?round($regular_first_per[$account]["all_time"]/$regular_first_per[$account]["all_num"]):0;
+            if($item["regular_first_per"]){
+                $regular_first_per += $regular_first_per[$account]["all_time"];
+                $regular_first_num += $regular_first_per[$account]["all_num"];
+            }
             $item["regular_first_per_str"] = "";
             if($item["regular_first_per"]){
                 if($item["regular_first_per"]/60>0){
@@ -467,6 +479,22 @@ class main_page extends Controller
 		    $all_count +=$item["all_target_num"];
 		    $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
 		}
+        $test_first_per_str ="";
+        if($test_first_per){
+            if($test_first_per/60>0){
+                $test_first_per_str = round($test_first_per/60)."分".($test_first_per%60)."秒";
+            }else{
+                $test_first_per_str .= "秒";
+            }
+        }
+        $regular_first_per_str = "";
+        if($regular_first_per){
+            if($regular_first_per/60>0){
+                $regular_first_per_str = round($regular_first_per/60)."分".($regular_first_per%60)."秒";
+            }else{
+                $regular_first_per_str .= "秒";
+            }
+        }
 
 
 		\App\Helper\Utils::order_list( $teacher_info,"per", 0 );
@@ -498,7 +526,7 @@ class main_page extends Controller
 		$regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
 		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
-		$arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num];
+		$arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num,"test_first_per_str" => $test_first_per_str, "regular_first_per_str" => $regular_first_per_str];
 		$num = count($teacher_info);
 		// $all_count = ($num-2)*250+300;
         if($all_count){
