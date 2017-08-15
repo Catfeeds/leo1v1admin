@@ -16,14 +16,10 @@ class campus_manage extends Controller
     public function admin_campus_manage(){
         $ret_info = $this->t_admin_campus_list->get_admin_campus_info(); 
         $list=[];
-        foreach($ret_info["list"] as $val)   {
+        foreach($ret_info as $val)   {
             $n = $num;
-            $list[] = ["main_type"=>$i,"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
-            if($monthtime_flag==1){
-                $up_group_list = $task->t_admin_main_group_name->get_group_list($i);
-            }else{
-                $up_group_list = $task->t_main_group_name_month->get_group_list($i,$month);
-            }
+            $list[] = ["campus_id"=>$val["campus_id"],"campus_name"=>$val["campus_name"],"up_group_name"=>"","group_name"=>"","account"=>"","campus_id_class"=>"campus_id-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
+            $up_group_list = $this->t_admin_main_group_name->get_group_list($i);
 
             foreach($up_group_list as $item){
                 $list[] = ["main_type"=>$i,"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"main_type-".$n,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-2","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"]];

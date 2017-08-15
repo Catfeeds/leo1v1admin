@@ -9,9 +9,9 @@ class t_admin_campus_list extends \App\Models\Zgen\z_t_admin_campus_list
 	}
 
     public function get_admin_campus_info(){
-        $sql = $this->gen_sql_new("select campus_id"
+        $sql = $this->gen_sql_new("select campus_id,campus_name"
                            ." from %s",
-                           self::DB_TABLE_NAME,
+                           self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
