@@ -121,8 +121,10 @@ class agent extends Controller
 
     public function check(){
         //agentid查邀请人试听课
-        $id = 54;
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($id);
+        $agent_id = 60;//月月
+        // $agent_id = 54;//陈
+        // $agent_id = 211;//Amanda
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         dd($test_lesson);
     }
 
