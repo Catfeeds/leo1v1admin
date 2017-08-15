@@ -2052,7 +2052,7 @@ trait  TeaPower {
         $this->t_teacher_record_list->row_insert([
             "teacherid"      => $teacher_info['teacherid'],
             "type"           => 1,
-            "add_time"       => time(),
+            "add_time"       => time()+1000,
             "train_lessonid" => $lessonid,
             "lesson_style"   => 5
         ]);
@@ -2448,5 +2448,9 @@ trait  TeaPower {
         return $subject;
     }
 
-
+    public function change_reference(&$phone){
+        if($phone=="18707976382"){
+            $phone="13387970861";
+        }
+    }
 }

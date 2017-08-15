@@ -238,6 +238,13 @@ class common_new extends Controller
         if($check_flag){
             return $this->output_err("该手机号已提交过了,不能重新提交!");
         }
+        $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
+        if(!empty($teacher_info)){
+            return $this->output_err("该手机号已注册,不能重新提交!");
+        }
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && $reference!="13661763881"){
+            return $this->output_err("请填写正确的手机号！");
+        }
         if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");
         }
@@ -247,6 +254,8 @@ class common_new extends Controller
         if($teacher_type=="" || $teacher_type==0){
             return $this->output_err("请选择您的教学经历!");
         }
+        $reference=$this->change_reference($reference);
+
         $grade = $this->check_grade_by_subject($grade,$subject_ex);
         if($grade!=0){
             $grade_range = \App\Helper\Utils::change_grade_to_grade_range($grade);
@@ -299,11 +308,10 @@ class common_new extends Controller
             if($email!=""){
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
-                }elseif($reference=="13661763881"){
+                }else{
                     $data = $this->add_teacher_common($teacher_info);
                     $html = $this->get_email_html_new($name);
-                }else{
-                    $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                    // $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
@@ -311,14 +319,14 @@ class common_new extends Controller
 
             /**
              * 模板类型:短信通知
-             * 模板名称:老师报名模板8-15
-             * 模板ID:SMS_85635010
-             * 模板内容:${name}老师，您好！您已成功报名！您需要在${time}之前，按照要求提交一段试讲审核，相关信息已发至您邮箱（如找不到请检查垃圾箱），请尽快查阅。请关注并绑定“理优1对1老师帮”随时随地了解入职进度。理优致力于打造高水平的教学服务团队，期待您的到来，加油！
+             * 模板名称:老师报名模板new 8-15
+             * 模板ID:SMS_85645014
+             * 模板内容:${name}老师，您好！您已成功报名！请在${time}前，按照要求进行15分钟的课程试讲，相关信息已发至您邮箱（如找不到请检查垃圾箱），请尽快查阅。请关注并绑定“理优1对1老师帮”随时随地了解入职进度。理优致力于打造高水平的教学服务团队，期待您能的到来，加油！ 
              */
-            $template_code = "SMS_85635010";
-            $data['name']  = $name;
-            $data['time']  = date("Y-m-d",strtotime("+3 day",time()));
-            \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$data);
+            $template_code = "SMS_85645014";
+            $sms_data['name']  = $name;
+            $sms_data['time']  = date("Y-m-d",strtotime("+3 day",time()));
+            \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$sms_data);
 
             if($reference != ""){
                 /**
@@ -352,7 +360,7 @@ class common_new extends Controller
 
         \App\Helper\Utils::logger("lecture email:".$email."time :".date("Y-m-d H:i",time()));
         if($email!=""){
-            $html  = $this->get_email_html(0,0,0,0,$name);
+            $html  = $this->get_email_html_new($name);
             $title = "【理优1对1】试讲邀请和安排";
             $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){

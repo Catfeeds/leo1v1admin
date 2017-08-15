@@ -2436,7 +2436,7 @@ class human_resource extends Controller
        
         $acc= $this->t_teacher_record_list->get_acc($id);
         $account = $this->get_account();
-        if($acc != $account){
+        if($acc != $account && $acc !=""){
             return $this->output_err("您没有权限审核,审核人为".$acc);  
         }
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2456,7 +2456,8 @@ class human_resource extends Controller
             "no_tea_related_score"             => $no_tea_related_score,
             "record_monitor_class"             => $record_monitor_class,
             "trial_train_status"               => $status,
-            "add_time"                         => time()
+            "add_time"                         => time(),
+            "acc"                              => $account
         ]);
  
                

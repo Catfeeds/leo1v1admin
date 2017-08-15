@@ -58,6 +58,7 @@ class agent extends Controller
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        $ret_info['list'] = $this->array_unique_fb($ret_info['list']);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
@@ -79,6 +80,20 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    function array_unique_fb($array2D)
+    {
+        foreach ($array2D as $v)
+        {
+            $v = join(",",$v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+            $temp[] = $v;
+        }
+        $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
+        foreach ($temp as $k => $v)
+        {
+            $temp[$k] = explode(",",$v); //再将拆开的数组重新组装
+        }
+        return $temp;
+    }
 
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
@@ -123,10 +138,9 @@ class agent extends Controller
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        // $agent_id = 211;//Amanda
-        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        // dd($test_lesson);
-        $this->t_agent->add_agent_row_new('18964339722','http://wx.qlogo.cn/mmopen/OXfXUtqF0C4ZDgwwbKeGdkKrNb3dkHZgicAa0FlYEibpVMVD2ObdQyuNk0rfYiaAkcEPIsAq9DwVACIjTSggxZ6hWvgVFj0fWBR/0','皇阿玛','oAJiDwPMjDC8WrSbl5ZlXCL-3-4o',null);
+        $agent_id = 211;//Amanda
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        dd($test_lesson);
     }
 
 
