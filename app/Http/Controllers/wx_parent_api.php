@@ -1118,16 +1118,21 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){ // 获取学生成绩信息
+    function get_student_score_info(){ // 提交后获取学生成绩信息
         $parentid = $this->get_parentid();
         $userid   = $this->get_in_int_val('userid');
-
         $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-        // $userid_list = $this->t_parent_child->get_userid_list_by_parentid($parentid);
-        // $userid_str = $userid_list;
-        // 一个家长有两个孩子的情况
-        // $score_info = $this->t_student_score_info->get_stu_score_info_by_userid($\App\Helper\Utils::serid);
 
+    }
+
+
+    public function get_history_for_stu_score_type(){ // 获取学生的历史记录
+        $userid         = $this->get_in_int_val('userid',-1);
+        $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
+
+        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid,$stu_score_list);
+
+        return $this->output_succ(['data'=>$stu_score_list]);
     }
 
 
