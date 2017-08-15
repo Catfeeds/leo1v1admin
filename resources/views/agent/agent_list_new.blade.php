@@ -36,7 +36,7 @@
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["pp_nickname"]}} </td>
-                        <td>{{@$var["s_userid"]}} </td>
+                        <td>{{@$var["userid"]}} </td>
                         @if(@$var['success_flag'])
                             <td>是 </td>
                         @else
