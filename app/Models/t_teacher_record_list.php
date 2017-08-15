@@ -384,6 +384,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "l.lesson_type=1100",
             "l.lesson_sub_type=1",
             "l.train_type=4",
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2"
         ];
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
