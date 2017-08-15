@@ -66,4 +66,5 @@ class wx_teacher_common extends Controller
         return $this->output_succ();
     }
 
+
 }

@@ -329,7 +329,6 @@ $(function(){
         Enum_map.append_option_list("identity",id_identity,true,[5,6,7,8]);
         id_flag.append(flag_html);
 
-        
         var arr = [
             ["是否通过",id_flag],
             ["老师身份",id_identity],

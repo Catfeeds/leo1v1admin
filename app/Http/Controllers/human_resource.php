@@ -2476,16 +2476,11 @@ class human_resource extends Controller
             $ret = $this->t_teacher_info->field_update_list($teacherid,[
                 "trial_train_flag" => 1,
                 "train_through_new"      => 1,
+                "level"                  =>1
                 //"train_through_new_time" => time(),
             ]);
             $keyword2   = "已通过";
-
-            //升级
-            if($teacher_info["level"]==0){
-                $this->check_teacher_lecture_is_pass($teacher_info);
-            }else{
-                $teacher_info["level"]=1;
-            }
+            $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
             
 
             //等级升级通知

@@ -79,7 +79,6 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
         $aid       = $this->get_in_int_val('aid');
@@ -123,10 +122,9 @@ class agent extends Controller
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        // $agent_id = 211;//Amanda
-        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        // dd($test_lesson);
-        $this->t_agent->add_agent_row_new('18964339722','http://wx.qlogo.cn/mmopen/OXfXUtqF0C4ZDgwwbKeGdkKrNb3dkHZgicAa0FlYEibpVMVD2ObdQyuNk0rfYiaAkcEPIsAq9DwVACIjTSggxZ6hWvgVFj0fWBR/0','皇阿玛','oAJiDwPMjDC8WrSbl5ZlXCL-3-4o',null);
+        $agent_id = 211;//Amanda
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        dd($test_lesson);
     }
 
 

@@ -119,7 +119,9 @@ $(function(){
             "onChange": function(v) {
                 $.do_ajax("/ss_deal/course_order_set_test_lessonid", {
                     "courseid": v,
-                    "lessonid": opt_data.lessonid
+                    "lessonid": opt_data.lessonid,
+                    "ass_test_lesson_type" :opt_data.ass_test_lesson_type,
+                    "regular_flag"         :1
                 });
 
             },

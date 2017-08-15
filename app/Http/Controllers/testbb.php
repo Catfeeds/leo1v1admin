@@ -102,56 +102,38 @@ class testbb extends Controller
     }
 
 
-    public function get_rate(){
-
-        $this->switch_tongji_database();
-        $time_arr = [
-            "0"=>strtotime('2017-01-01'),
-            "1"=>strtotime('2017-02-01'),
-            "2"=>strtotime('2017-03-01'),
-            "3"=>strtotime('2017-04-01'),
-            "4"=>strtotime('2017-05-01'),
-            "5"=>strtotime('2017-06-01'),
-            "6"=>strtotime('2017-07-01'),
-        ];
-
-        $ret_num=[];
 
 
-        foreach($time_arr as $item){
-            $ret_num['yuechu'][] = $this->t_teacher_info->get_chaxun_num($item);
-            // $ret_num['new_add'][] = $this->t_teacher_info->get_new_add_num($item);
-        // $item = '';
-        // $ret_num = $this->t_teacher_info->get_leveal_num($item);
+
+    //  向 老师推送老师端版本更新 通知
+
+    public function send_wx_to_update_software(){
+
+        $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
+
+        $date_time = date("Y-m-d");
+
+        $url_teacher = "";
+
+        foreach($teacher_list as $item){
+            $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+            $data_teacher['first']      = "";
+            $data_teacher['keyword1']   = "【PC老师端4.0.0】";
+            $data_teacher['keyword2']   = "
+1、新增扩科（扩年级）功能；
+2、白板中增加播放视频功能。
+下载地址（老师端后台）：
+http://www.leo1v1.com/login/teacher";
+            $data_teacher['keyword3']   = "$date_time";
+
+            $data_teacher['remark']     = "更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】";
+
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_teacher,$url_teacher);
+
         }
 
-        dd($ret_num);
-        // dd(count($ret_num));
-
-        foreach($ret_num as $i=>$item){
-            $this->t_teacher_info->field_update_list($item['teacherid'],[
-                "test_quit"=>1
-            ]);
-        }
-        // $end_time = date('Y-m-d',strtotime("2017-01-01 +1 month"));
-
-        // dd(strtotime("2017-01-01 +1 month"));
-        // dd($end_time);
-
-        /**
-        $sql = $this->gen_sql_new("
-        select sum(if(l.lessonid>0,0,1)) from %s t left join %s l on l.teacherid=t.teacherid  where l.lesson_start> 
-
-**/
-
-        /***
-
-            
-         **/
-
-
-        dd($ret_num);
     }
+
 
 
 

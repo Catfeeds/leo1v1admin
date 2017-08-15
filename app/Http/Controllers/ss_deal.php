@@ -2786,6 +2786,8 @@ class ss_deal extends Controller
     public function course_order_set_test_lessonid() {
         $courseid=$this->get_in_courseid();
         $lessonid=$this->get_in_lessonid();
+        $ass_test_lesson_type = $this->get_in_int_val("ass_test_lesson_type",0);
+        $regular_flag = $this->get_in_int_val("regular_flag",0);
 
         if ($courseid <=0  ) {
             return $this->output_err("请选择课程包!");
@@ -2798,6 +2800,15 @@ class ss_deal extends Controller
         $this->t_test_lesson_subject_sub_list->field_update_list($lessonid,[
            "order_confirm_flag" =>1
         ]);
+
+        if($ass_test_lesson_type==2 && $regular_flag==1){
+            $test_info = $this->t_lesson_info->field_get_list($lessonid,"lesson_start,subject,userid,teacherid");
+            $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($test_info['lesson_start'],$test_info['subject'],$test_info['userid']);
+            if($test_info["teacherid"] != $old_teacher_arr["teacherid"]){
+                
+            }
+ 
+        }
         return $this->output_succ();
     }
 
@@ -4721,9 +4732,8 @@ class ss_deal extends Controller
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-
-                    // "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
+                    "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
                     // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                 ];
 
@@ -4964,6 +4974,16 @@ class ss_deal extends Controller
             "account" => "施文斌",
             "account_role_str" => "市场",
         ];
+
+        $ret[] = [
+            "account_role" => "0",
+            "up_groupid" => "0",
+            "master_adminid" => "968",
+            "group_name" => "QC",
+            "account" => "李珉劼",
+            "account_role_str" => "市场-QC",
+        ];
+
         $ret[] = [
             "account_role" => "0",
             "up_groupid" => "0",

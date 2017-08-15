@@ -2173,16 +2173,24 @@ trait  TeaPower {
             $wx_openid      = $reference_info['wx_openid'];
             $teacher_type   = $reference_info['teacher_type'];
             if(!in_array($teacher_type,[21,22,31])){
-                if(in_array($teacher_info['identity'],[5,6])){
+                if(in_array($teacher_info['identity'],[5,6,7])){
                     $type = 1;
                 }else{
                     $type = 2;
                 }
-                $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
-                $begin_time = strtotime($begin_date);
+
+                $check_flag = $this->check_is_special_reference($reference_info['phone']);
+                if($check_flag){
+                    $begin_time = 0;
+                }else{
+                    $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
+                    $begin_time = strtotime($begin_date);
+                }
+
                 $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                     $reference_info['phone'],$type,$begin_time
                 );
+
                 $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
@@ -2191,6 +2199,7 @@ trait  TeaPower {
                     "add_time"   => time(),
                     "type"       => 6,
                 ]);
+
                 if($wx_openid!=""){
                     $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                     $wx_data["first"]    = $teacher_info['nick']."已成功入职";
@@ -2448,5 +2457,18 @@ trait  TeaPower {
         return $subject;
     }
 
+    public function change_reference(&$phone){
+        if($phone=="18707976382"){
+            $phone="13387970861";
+        }
+    }
 
+    public function check_is_special_reference($phone){
+        if($phone=="13387970861"){
+            $check_flag=1;
+        }else{
+            $check_flag=0;
+        }
+        return $check_flag;
+    }
 }
