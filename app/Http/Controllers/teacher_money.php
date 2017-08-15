@@ -770,7 +770,9 @@ class teacher_money extends Controller
     }
 
     public function reset_lesson_reward(){
-        $lessonid = $this->get_in_int_val("teacherid");
+        $lessonid = $this->get_in_int_val("lessonid");
+
+
     }
 
 

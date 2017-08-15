@@ -18,10 +18,9 @@ class CreateTableTAdminCampusList extends Migration
             t_field($table->integer("campus_name"),"校区名称");
         });
 
-        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
+        Schema::table('db_weiyi_admin.t_admin_main_group_name', function( Blueprint $table)
         {
-            t_field($table->integer("leave_remove_adminid"),"休课解除设置人");
-            t_field($table->integer("leave_remove_time"),"休课解除时间");
+            t_field($table->integer("campus_id"),"校区id");
         });
 
     }

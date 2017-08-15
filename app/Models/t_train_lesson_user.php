@@ -121,7 +121,7 @@ class t_train_lesson_user extends \App\Models\Zgen\z_t_train_lesson_user
 
     public function get_max_lesson_time($userid){
         $sql = $this->gen_sql_new("select max(l.lesson_start) from %s ta "
-                                  ." left join %s l on (ta.lessonid = l.lessonid and l.train_type=1 and l.lesson_status=2)"
+                                  ." left join %s l on (ta.lessonid = l.lessonid and l.train_type=1 and l.lesson_status>0)"
                                   ." where ta.userid = %u",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
