@@ -92,7 +92,8 @@ class t_admin_self_menu extends \App\Models\Zgen\z_t_admin_self_menu
         }
         $arr=[[
             "name"=>"我的收藏",
-            "list"=> $data
+            "icon" => "fa-star",
+            "list"=> $data,
         ]];
         return $arr;
     }
