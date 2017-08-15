@@ -103,6 +103,7 @@
                                     <a class="opt-goto-lesson">课程</a>
                                     <a class="fa-video-camera opt-play" title="回放"></a>
                                     <a class="opt-add_reward" title="添加奖励">奖</a>
+                                    <a class="opt-reset_lesson" title="重置等级">重置</a>
                                 </div>
                             </td>
                         </tr>
