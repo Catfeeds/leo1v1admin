@@ -413,6 +413,8 @@ class main_page extends Controller
 
         //第一次试听/第一次常规
         $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
+        $test_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,1,$subject);
+        
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
 
         $all_count=0;
@@ -435,8 +437,10 @@ class main_page extends Controller
 
             $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
             $item["test_first_per"] = 0;
+
             $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
             $item["regular_first_per"] = 0;
+
             $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
             $item["all_target_num"] = 250;
             if(in_array($item["uid"],[486,754,478])){
