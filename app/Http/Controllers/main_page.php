@@ -438,9 +438,24 @@ class main_page extends Controller
 
 		    $item["test_first"] = isset($test_first[$account])?$test_first[$account]["all_num"]:0;
 		    $item["test_first_per"] = isset($test_first_per[$account])?round($test_first_per[$account]["all_time"]/$test_first_per[$account]["all_num"]):0;
-
+             $item["test_first_per_str"] = "";
+            if($item["test_first_per"]){
+                if($item["test_first_per"]/60>0){
+                    $item["test_first_per_str"] = ($item["test_first_per"]/60)."分".($item["test_first_per"]%60)."秒";
+                }else{
+                    $item["test_first_per_str"] .= "秒";
+                }
+            }
 		    $item["regular_first"] = isset($regular_first[$account])?$regular_first[$account]["all_num"]:0;
-		    $item["regular_first_per"] = isset($regular_first_per[$account])?round($regular_first_per[$account]["all_time"]/$regular_first_per[$account]["all_num"]):0;;
+		    $item["regular_first_per"] = isset($regular_first_per[$account])?round($regular_first_per[$account]["all_time"]/$regular_first_per[$account]["all_num"]):0;
+            $item["regular_first_per_str"] = "";
+            if($item["regular_first_per"]){
+                if($item["regular_first_per"]/60>0){
+                    $item["regular_first_per_str"] = ($item["regular_first_per"]/60)."分".($item["regular_first_per"]%60)."秒";
+                }else{
+                    $item["regular_first_per_str"] .= "秒";
+                }
+            }
 
 		    $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
 		    $item["all_target_num"] = 250;

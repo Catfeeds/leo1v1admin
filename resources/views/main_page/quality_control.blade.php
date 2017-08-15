@@ -64,9 +64,9 @@
                             <td> {{@$var["train_first_all"]}}/{{@$var["train_first_pass"]}}</td>
                             <td> {{@$var["train_second_all"]}}</td>
                             <td> {{@$var["test_first"]}}</td>
-                            <td> {{@$var["test_first_per"]}}</td>
+                            <td> {{@$var["test_first_per_str"]}}</td>
                             <td> {{@$var["regular_first"]}}</td>
-                            <td> {{@$var["regular_first_per"]}}</td>
+                            <td> {{@$var["regular_first_per_str"]}}</td>
                             <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
                           
