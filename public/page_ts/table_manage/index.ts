@@ -41,12 +41,17 @@ $(function(){
                     "db_name"    : db_name,
                     "table_name" : table_name,
                     "comment"    : id_desc.val()
+                },function(result){
+                    if(result.ret==0){
+                        load_data();
+                    }else{
+                        Bootstrap.alert(result.info);
+                    }
                 });
             }
         });
-
-
     });
+
     do_get_env(function( env) {
         if (env != "local") {
             $(".opt-field-comment").hide();

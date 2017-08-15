@@ -549,6 +549,7 @@ class menu{
                 ["power_id"=>12, "name"=>"转介绍例子",   "url"=>"/seller_student/ass_add_student_list"],
                 ["power_id"=>11, "name"=>"试听课跟进-主管",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_master"],
                 ["power_id"=>13, "name"=>"试听课跟进-组长",   "url"=>"/seller_student_new2/get_ass_test_lesson_info_leader"],
+                ["power_id"=>15, "name"=>"转介绍试听跟进-主管", "url"=>"/seller_student_new2/get_from_ass_tran_lesson_info_master"],
                 ["power_id"=>1, "name"=>"签约管理",   "url"=>"/user_manage_new/ass_contract_list"],
                 ["power_id"=>2, "name"=>"助教课时统计",   "url"=>"/user_manage_new/ass_lesson_count_list"],
                 ["power_id"=>3, "name"=>"老师课时统计",   "url"=>"/user_manage_new/tea_lesson_count_list"],
@@ -600,6 +601,7 @@ class menu{
                 ["power_id"=>50, "name"=>"new-试听申请(常规)",   "url"=>"/seller_student_new2/ass_test_lesson_list"],
                 ["power_id"=>56, "name"=>"new-试听申请(转介绍)",   "url"=>"/seller_student_new2/ass_test_lesson_list_tran"],
                 ["power_id"=>11, "name"=>"试听课跟进",   "url"=>"/seller_student_new2/get_ass_test_lesson_info"],
+                ["power_id"=>12, "name"=>"转介绍试听跟进",   "url"=>"/seller_student_new2/get_from_ass_tran_lesson_info"],
 
                 ["power_id"=>51, "name"=>"new-转介绍例子",   "url"=>"/seller_student_new/ass_seller_student_list"],
                 ["power_id"=>52, "name"=>"老师反馈","url"=>"/teacher_feedback/teacher_feedback_list_ass"],

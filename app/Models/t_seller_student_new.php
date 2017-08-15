@@ -845,7 +845,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[] = "origin_level <> 90";
         }
         // E\Etq_called_flag
-
         $seller_level= $this->t_manager_info->get_seller_level($not_adminid);
         // E\Eseller_level
         // E\Eorigin_level
@@ -882,25 +881,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
             break;
         }
-
-        /*
-        switch ( $seller_level_flag ) {
-        case 1 :  //s
-        case 2 :  //a
-            $where_arr[] = "origin_level >0 ";
-            break;
-        case 3 : //b
-            $where_arr[] = "origin_level >1 ";
-            break;
-        case 4 : //c
-        case 5 : //d
-            $where_arr[] = "origin_level >2 ";
-            break;
-        default:
-            $where_arr[] = "false";
-            break;
-        }
-        */
 
         $order_by_src="desc";
         if ($seller_level_flag>=4)   {

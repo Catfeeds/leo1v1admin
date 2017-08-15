@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail ;
 
 class agent extends Controller
 {
-    var $check_login_flag=false;
     public function agent_list() {
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
         $userid        = $this->get_in_userid(-1);

@@ -18,6 +18,11 @@
     <section class="content ">
         <div>
             <div class="row " >
+                <div class="col-xs-12 col-md-4"  data-title="时间段">
+                    <div  id="id_date_range" >
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-2" >
                     <div class="input-group ">
                         <span >助教</span>
@@ -53,6 +58,7 @@
                         <td >教材版本 </td>
                         <td >老师 </td>
                         <td >试听时间 </td>
+                        <td >试听申请人 </td>
                         <td >课时确认 </td>
                         <td >结果设置</td>
 
@@ -87,6 +93,7 @@
                                     target="_blank" title="老师信息">{{@$var["realname"]}} </a>
                             </td>
                             <td>{{$var["lesson_start_str"]}}</td>
+                            <td>{{$var["account"]}}</td>
                             <td>
                                 @if($var["success_flag"]<2)
                                     {!!$var["success_flag_str"]!!}

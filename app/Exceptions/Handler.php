@@ -50,8 +50,9 @@ class Handler extends ExceptionHandler
 
             $ip=@$_SERVER["REMOTE_ADDR"];
             if ( substr($ip,0,9 )!= "121.42.0."  ) { //阿里云盾
+
                 dispatch( new \App\Jobs\send_error_mail(
-                    "","ADMIN ERR 111:" .$e->getMessage(),
+                    "", date("H:i:s")."ADMIN ERR 111:" .$e->getMessage(),
                     $e->getMessage() ."<br>$bt_str".
                     "<br>client_ip:$ip"
                 ));
