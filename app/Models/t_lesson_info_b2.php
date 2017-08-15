@@ -1551,7 +1551,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             'lesson_user_online_status = 1',
         ];
         $sql = $this->gen_sql_new(
-            "select count(lessonid) count"
+            "select lessonid,userid"
             ." from %s "
             ." where %s "
             ,self::DB_TABLE_NAME
