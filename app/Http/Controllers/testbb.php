@@ -108,11 +108,8 @@ class testbb extends Controller
     //  向 老师推送老师端版本更新 通知
 
     public function send_wx_to_update_software(){
-        // $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
-        // dd($teacher_list);
+        $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
 
-
-        // $
         /**
            {{first.DATA}}
            待办主题：{{keyword1.DATA}}
@@ -123,13 +120,13 @@ class testbb extends Controller
 
         $date_time = date("Y-m-d");
 
-        $teacher_list = [
-            [
-                "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
-            ]
-        ];
+        // $teacher_list = [
+        //     [
+        //         "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
+        //     ]
+        // ];
 
-        $url_teacher = "http://www.leo1v1.com/login/common/download";
+        $url_teacher = "";
 
         foreach($teacher_list as $item){
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
