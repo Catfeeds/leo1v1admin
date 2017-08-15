@@ -58,7 +58,7 @@ class agent extends Controller
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
-        $this->array_unique_fb($ret_info['list']);
+        $ret_info['list'] = $this->array_unique_fb($ret_info['list']);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
