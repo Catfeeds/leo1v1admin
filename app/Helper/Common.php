@@ -176,7 +176,10 @@ class Common {
         $req->setSmsParam( json_encode($data) );
         $req->setRecNum( $phone);
         $req->setSmsTemplateCode($template_code);
-        $resp = $c->execute($req);
+        try {
+            $resp = $c->execute($req);
+        }catch(\Exception $e ) {
+        }
         return $resp;
     }
 
