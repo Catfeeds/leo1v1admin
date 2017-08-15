@@ -120,9 +120,10 @@ class agent extends Controller
     }
 
     public function check(){
-        // $id = 41;
-        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($id);
-        // dd($test_lesson);
+        //agentid查邀请人试听课
+        $id = 54;
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($id);
+        dd($test_lesson);
     }
 
 
