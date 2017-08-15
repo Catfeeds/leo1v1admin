@@ -34,6 +34,8 @@ class send_wx_to_teacher_for_update_software extends Job implements ShouldQueue
 
         $teacher_list = $t_teacher_info->get_teacher_openid_list();
 
+        $teacher_list = [];
+
         $date_time = date("Y-m-d");
 
         $url_teacher = "";
