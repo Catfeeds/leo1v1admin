@@ -84,7 +84,8 @@ $(function(){
             ["意见或建议",id_record],
             ["老师标签",id_sshd]
         ];
-
+        console.log(opt_data.trial_train_num==2);
+       
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
             cssClass : 'btn-warning',
@@ -113,11 +114,15 @@ $(function(){
                     }
                 });
 
+                var trial_train_status = id_trial_train_status.val();
+                if(opt_data.trial_train_num==2){
+                    trial_train_status=1;
+                }
                 $.do_ajax("/human_resource/set_trial_train_lesson",{
                     "teacherid"                        : teacherid,
                     "lessonid"                         : opt_data.lessonid,
                     "id"                               : opt_data.id,
-                    "status"                           : id_trial_train_status.val(),
+                    "status"                           : trial_train_status,
                     "tea_process_design_score"         : id_jysj.val(),
                     "language_performance_score"       : id_yybd.val(),
                     "knw_point_score"                  : id_zyzs.val(),
@@ -139,6 +144,10 @@ $(function(){
         },function(){
             id_score.attr("placeholder","满分100分");
             id_record.attr("placeholder","字数不能超过150字");
+            if(opt_data.trial_train_num==2){
+                id_trial_train_status.parent().parent().hide(); 
+            }
+
         });
         arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
             id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));

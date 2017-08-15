@@ -2436,7 +2436,7 @@ class human_resource extends Controller
        
         $acc= $this->t_teacher_record_list->get_acc($id);
         $account = $this->get_account();
-        if($acc != $account){
+        if($acc != $account && $acc !=""){
             return $this->output_err("您没有权限审核,审核人为".$acc);  
         }
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
@@ -2456,7 +2456,8 @@ class human_resource extends Controller
             "no_tea_related_score"             => $no_tea_related_score,
             "record_monitor_class"             => $record_monitor_class,
             "trial_train_status"               => $status,
-            "add_time"                         => time()
+            "add_time"                         => time(),
+            "acc"                              => $account
         ]);
  
                
@@ -2537,7 +2538,6 @@ class human_resource extends Controller
                 ]);
             }
         }elseif($status=2){
-            // $ret = $this->add_trial_train_lesson($teacher_info);
             $keyword2 = "未通过";
             if($teacher_info['wx_openid']!=""){
                 /**
@@ -2558,6 +2558,7 @@ class human_resource extends Controller
                 $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
             }
+            $ret = $this->add_trial_train_lesson($teacher_info,1,2);
 
         }else{
             return $this->output_err("审核状态出错！");

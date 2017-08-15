@@ -1826,4 +1826,20 @@ class test_code extends Controller
         return $this->output_succ($subject_list);
     }
 
+    public function get_reward_list(){
+        $type  = $this->get_in_int_val("type",6);
+        $start = strtotime("2017-7-1");
+        $end   = strtotime("2017-8-1");
+
+        $list = $this->t_teacher_money_list->get_teacher_reward_list($start,$end,$type);
+        foreach($list as $val){
+            $tea_nick_1 = $this->cache_get_teacher_nick($val['teacherid']);
+            $tea_nick_2 = $this->cache_get_teacher_nick($val['o_teacherid']);
+            E\Eidentity::set_item_value_str($val);
+            echo $tea_nick_1."|".$tea_nick_2."|".$val['identity_str'];
+            echo "<br>";
+        }
+    }
+
+
 }

@@ -396,7 +396,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         }
         $sql = $this->gen_sql_new("select tr.id,l.lessonid,audio,draw,l.teacherid,l.subject,l.grade,t.realname as tea_nick,"
                                   ." t.wx_openid,l.lesson_start,l.lesson_end,l.lesson_status,tr.add_time,tr.record_monitor_class,"
-                                  ." tr.record_info,tr.acc,tr.trial_train_status"
+                                  ." tr.record_info,tr.acc,tr.trial_train_status,l.trial_train_num "
                                   ." from %s tr"
                                   ." left join %s l on tr.train_lessonid=l.lessonid"
                                   ." left join %s t on l.teacherid=t.teacherid"

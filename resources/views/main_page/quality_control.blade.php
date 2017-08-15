@@ -67,7 +67,7 @@
                             <td> {{@$var["test_first_per"]}}</td>
                             <td> {{@$var["regular_first"]}}</td>
                             <td> {{@$var["regular_first_per"]}}</td>
-                            <td> {{@$var["all_num"]}}</td>
+                            <td> {{@$var["all_num"]}}/ {{@$var["all_target_num"]}}</td>
                             <td> {{@$var["per"]}}%</td>
                           
 

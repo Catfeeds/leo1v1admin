@@ -164,4 +164,24 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_reward_list($start,$end,$type){
+        $where_arr = [
+            ["tm.add_time>%u",$start,0],
+            ["tm.add_time<%u",$end,0],
+            ["tm.type=%u",$type,0],
+            "t.is_test_user=0",
+            "t2.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select tm.teacherid,t2.teacherid as o_teacherid,t2.identity"
+                                  ." from %s tm "
+                                  ." left join %s t on tm.teacherid=t.teacherid "
+                                  ." left join %s t2 on tm.money_info=t2.teacherid "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

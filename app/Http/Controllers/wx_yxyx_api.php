@@ -168,11 +168,11 @@ class wx_yxyx_api extends Controller
                     $ret_list[$key]['name'] = $item['nickname'];
                 }
                 $ret_list[$key]['status'] = 0;
-                if($item['order_status']){
+                if($item['order_status']){//购课
                     $ret_list[$key]['status'] = 2;
-                }else{
-                    if(isset($item['a_userid'])){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['a_userid']);
+                }else{//试听成功
+                    if($item['userid']){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){
                             $ret_list[$key]['status'] = 1;
@@ -575,19 +575,23 @@ class wx_yxyx_api extends Controller
     }
 
     public function get_all_test_pic(){
-        //title,date,用户未读取标志（14天内），十张海报（当天之前的，可跳转）
+        //title,date,用户未读取标志（14天内的消息），十张海报（当天之前的，可跳转）
         $grade     = $this->get_in_int_val('grade',-1);
         $subject   = $this->get_in_int_val('subject',-1);
         $test_type = $this->get_in_int_val('test_type',-1);
+        $wx_openid = $this->get_in_str_val('wx_openid', 0);
         $page_info = $this->get_in_page_info();
-        // $parentid  = $this->get_parentid();
-        $parentid  = 44;
-        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $parentid);
+        $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
+        $start_time = strtotime('-14 days');
+        $end_time   = strtotime('today');
         foreach ($ret_info['list'] as &$item) {
+            if (!$item['flag'] && $item['create_time'] < $end_time && $item['create_time'] > $start_time) {
+                $item['flag'] = 0;
+            }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //获取十张海报
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster();
+        //随机获取十张海报
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
@@ -600,7 +604,6 @@ class wx_yxyx_api extends Controller
                 $loop_num++;
             }
         }
-        // dd($ret_info);
         return $this->output_succ([
             ['list'=>$ret_info],
             ['poster'=>$poster_arr],
@@ -613,6 +616,7 @@ class wx_yxyx_api extends Controller
         if ($id < 0){
             return $this->output_err('信息有误！');
         }
+        $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
         $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
         \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
         E\Egrade::set_item_value_str($ret_info,"grade");
@@ -620,8 +624,9 @@ class wx_yxyx_api extends Controller
         E\Etest_type::set_item_value_str($ret_info,"test_type");
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         unset($ret_info['pic']);
-        //获取所有id，随机选取三个
-        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id);
+        //获取所有id，随机选取三个(当天之前的)
+        $start_time = strtotime('today');
+        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time);
         $count_num = count($all_id)-1;
         $id_arr    = [];
         $num_arr   = [];
@@ -641,6 +646,11 @@ class wx_yxyx_api extends Controller
             ['list' => $ret_info],
             ['other'=>$other_info],
         ]);
+    }
+
+    public function add_share_num(){
+        $id = $this->get_in_int_val('id',-1);
+        $this->t_yxyx_test_pic_info->add_field_num($id,"share_num");//添加分享次数
     }
 
 }

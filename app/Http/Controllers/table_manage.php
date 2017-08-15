@@ -355,7 +355,11 @@ class table_manage extends Controller
         }
         $col_name_list=[];
         if ($sql) {
-            $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
+            if (preg_match("/\blimit[ \t]+[0-9]+/i", $sql ))  {
+                $ret_info=$this->t_admin_group->main_get_list_as_page($sql);
+            }else{
+                $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
+            }
             if (@$ret_info["list"][0] ) {
                foreach ( $ret_info["list"][0] as $key=>$v ) {
                    $col_name_list[]= $key;
