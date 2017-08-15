@@ -568,6 +568,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $this->t_order_info->switch_tongji_database();
         //合同
+        // dd($field_name,$origin_ex);
         $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];

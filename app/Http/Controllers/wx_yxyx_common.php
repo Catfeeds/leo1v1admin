@@ -190,7 +190,7 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
-            if($type == 1){
+            if($type == 1){//进例子
                 $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
             }
             return $this->output_succ("邀请成功!");
