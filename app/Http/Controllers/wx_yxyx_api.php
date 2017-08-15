@@ -26,8 +26,8 @@ class wx_yxyx_api extends Controller
     public function __construct() {
         parent::__construct();
         if (! $this->get_agent_id()){
-            // echo $this->output_err("未登录");
-            // exit;
+            echo $this->output_err("未登录");
+            exit;
         }
     }
 
