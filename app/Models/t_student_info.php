@@ -60,7 +60,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             break;
         }
 
-        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location from %s ".
+        $sql = $this->gen_sql("select origin_userid, userid, nick,realname, spree, phone, is_test_user, originid, origin, grade, praise, parent_name, parent_type, last_login_ip, last_lesson_time, last_login_time,assistantid, lesson_count_all, lesson_count_left, user_agent,seller_adminid,ass_assign_time ,reg_time,phone_location,origin_assistantid from %s ".
                               "  where  %s  %s  ",
                               self::DB_TABLE_NAME,
                               [$this->where_str_gen($where_arr)],
@@ -2646,7 +2646,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     }
 
 
-
     public function get_stu_origin_rate($start_time, $end_time){
         $where_arr = [
             ['reg_time >=%s', $start_time, 0],
@@ -2661,17 +2660,28 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." and contract_type =0 and contract_status>0"
                                   ." where %s"
                                   ." group by origin_userid"
+                                  . "order by count"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
-        dd($sql);
-        $sql = $this->gen_sql_new("select s.userid ,o.userid as succ, ts.require_admin_type,s.origin_userid,"
-                                  ." count(s.origin_userid) as orc"
-                                  // ." if(ts.require_admin_type=1,1,0) as cr,"
-                                  // ." if(ts.require_admin_type=2,1,0) as cc,"
-                                  // ." count(s.origin_userid) as so"
+    }
+
+    public function get_stu_money_rate($start_time, $end_time){
+        $where_arr = [
+            ['reg_time >=%s', $start_time, 0],
+            ['reg_time <%s', $end_time, 0],
+            "origin_userid>0",
+            "is_test_user=0",
+            // "ts.require_admin_type=1"
+            "ts.require_admin_type=2"
+
+        ];
+        $sql = $this->gen_sql_new("select count(s.userid) as count,count(o.userid) as succ,"
+                                  ." sum(if(ts.require_admin_type=1,1,0)) as cr,"
+                                  ." sum(if(ts.require_admin_type=2,1,0)) as cc,"
+                                  ." sum(o.price) money"
                                   ." from %s s"
                                   ." left join %s o on o.userid=s.userid "
                                   ." and contract_type =0 and contract_status>0"
@@ -2680,8 +2690,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
                                   ." left join %s ts on s.userid=ts.userid"
                                   ." where %s"
-                                  ." group by s.origin_userid"
-                                  ." order by orc"
+                                  // ." group by so"
                                   ,self::DB_TABLE_NAME
                                   ,t_order_info::DB_TABLE_NAME
                                   // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
@@ -2690,28 +2699,6 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ,$where_arr
         );
         dd($sql);
-
-        // $sql = $this->gen_sql_new("select count(s.userid) as count,count(o.userid) as succ,"
-        //                           ." sum(if(ts.require_admin_type=1,1,0)) as cr,"
-        //                           ." sum(if(ts.require_admin_type=2,1,0)) as cc,"
-        //                           // ." count(s.origin_userid) as so"
-        //                           ." from %s s"
-        //                           ." left join %s o on o.userid=s.userid "
-        //                           ." and contract_type =0 and contract_status>0"
-        //                           // ." left join %s tsl on tsl.orderid=o.orderid"
-        //                           // ." left join %s tr on tr.require_id=tsl.require_id"
-        //                           // ." left join %s ts on ts.test_lesson_subject_id=tr.test_lesson_subject_id"
-        //                           ." left join %s ts on s.userid=ts.userid"
-        //                           ." where %s"
-        //                           // ." group by so"
-        //                           ,self::DB_TABLE_NAME
-        //                           ,t_order_info::DB_TABLE_NAME
-        //                           // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-        //                           // ,t_test_lesson_subject_require::DB_TABLE_NAME
-        //                           ,t_test_lesson_subject::DB_TABLE_NAME
-        //                           ,$where_arr
-        // );
-        // dd($sql);
         return $this->main_get_list($sql);
     }
     public function get_studentid(){
