@@ -2606,8 +2606,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
-        $master_adminid = $this->task->t_admin_group_name->get_master_adminid_by_campus_id($campus_id);
+        $seller_adminid = 710;
+        $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+        $master_adminid = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
         dd($master_adminid);
   
         $this->switch_tongji_database();

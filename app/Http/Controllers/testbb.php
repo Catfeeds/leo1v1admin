@@ -108,38 +108,27 @@ class testbb extends Controller
     //  向 老师推送老师端版本更新 通知
 
     public function send_wx_to_update_software(){
+
         $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
-        dd($teacher_list);
-
-
-        // $
-        /**
-           {{first.DATA}}
-           待办主题：{{keyword1.DATA}}
-           待办内容：{{keyword2.DATA}}
-           日期：{{keyword3.DATA}}
-           {{remark.DATA}}
-         **/
 
         $date_time = date("Y-m-d");
 
-        $teacher_list = [
-            "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
-        ];
+        $url_teacher = "";
 
         foreach($teacher_list as $item){
             $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
-            $data_teacher['first']      = "$date_time";
+            $data_teacher['first']      = "";
             $data_teacher['keyword1']   = "【PC老师端4.0.0】";
             $data_teacher['keyword2']   = "
 1、新增扩科（扩年级）功能；
 2、白板中增加播放视频功能。
-下载地址（老师端后台）：<a href='http://www.leo1v1.com/login/teacher'>http://www.leo1v1.com/login/teacher</a>";
+下载地址（老师端后台）：
+http://www.leo1v1.com/login/teacher";
             $data_teacher['keyword3']   = "$date_time";
 
             $data_teacher['remark']     = "更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】";
 
-            \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
+            \App\Helper\Utils::send_teacher_msg_for_wx($item['wx_openid'],$template_id_teacher, $data_teacher,$url_teacher);
 
         }
 
