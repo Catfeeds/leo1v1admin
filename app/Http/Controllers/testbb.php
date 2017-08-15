@@ -108,23 +108,10 @@ class testbb extends Controller
     //  向 老师推送老师端版本更新 通知
 
     public function send_wx_to_update_software(){
+
         $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
 
-        /**
-           {{first.DATA}}
-           待办主题：{{keyword1.DATA}}
-           待办内容：{{keyword2.DATA}}
-           日期：{{keyword3.DATA}}
-           {{remark.DATA}}
-         **/
-
         $date_time = date("Y-m-d");
-
-        // $teacher_list = [
-        //     [
-        //         "wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'
-        //     ]
-        // ];
 
         $url_teacher = "";
 

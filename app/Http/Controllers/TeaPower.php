@@ -2178,6 +2178,7 @@ trait  TeaPower {
                 }else{
                     $type = 2;
                 }
+
                 $check_flag = $this->check_is_special_reference($reference_info['phone']);
                 if($check_flag){
                     $begin_time = 0;
@@ -2185,9 +2186,11 @@ trait  TeaPower {
                     $begin_date = \App\Helper\Config::get_config("teacher_ref_start_time");
                     $begin_time = strtotime($begin_date);
                 }
+
                 $ref_num = $this->t_teacher_lecture_appointment_info->get_reference_num(
                     $reference_info['phone'],$type,$begin_time
                 );
+
                 $ref_price = \App\Helper\Utils::get_reference_money($teacher_info['identity'],$ref_num);
                 $this->t_teacher_money_list->row_insert([
                     "teacherid"  => $reference_info['teacherid'],
@@ -2196,6 +2199,7 @@ trait  TeaPower {
                     "add_time"   => time(),
                     "type"       => 6,
                 ]);
+
                 if($wx_openid!=""){
                     $template_id         = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
                     $wx_data["first"]    = $teacher_info['nick']."已成功入职";
