@@ -171,8 +171,8 @@ class wx_yxyx_api extends Controller
                 if($item['order_status']){
                     $ret_list[$key]['status'] = 2;
                 }else{
-                    if(isset($item['userid'])){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
+                    if(isset($item['a_userid'])){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['a_userid']);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){
                             $ret_list[$key]['status'] = 1;
