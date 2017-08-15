@@ -158,7 +158,7 @@ class test_boby extends Controller
             } else {
                 $list[$key] = $num;
                 $num = 0;
-                $key = $v;
+                $key = $v['count'];
             }
         }
         dd($list);
