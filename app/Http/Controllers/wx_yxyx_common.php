@@ -325,9 +325,8 @@ class wx_yxyx_common extends Controller
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         unset($ret_info['pic']);
         //获取所有id，随机选取三个(当天之前的14天之内)
-        $start_time = strtotime('-14 days');
-        $end_time   = strtotime('tomorrow');
-        $start_time = strtotime('today');
+        $start_time = strtotime('-15 days');
+        $end_time   = strtotime('today');
         $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time, $end_time);
         $count_num = count($all_id)-1;
         $id_arr    = [];
