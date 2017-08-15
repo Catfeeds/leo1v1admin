@@ -95,7 +95,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           and require_admin_type = 2
          */
         $where_arr = array();
-        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         if($type==2){ //已分配销售
             $where_arr[] = 'n.admin_revisiterid >0';
@@ -126,8 +126,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }elseif($type == 16){ //试听成功数
             $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
         }
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,s.userid s_userid "
+        $sql=$this->gen_sql_new (" select a.*,"
+                                 ."aa.nickname p_nickname,aa.phone p_phone,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ."s.userid s_userid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
