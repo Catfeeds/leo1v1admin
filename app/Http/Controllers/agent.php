@@ -79,43 +79,6 @@ class agent extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    // function array_unique_fb($array2D)
-    // {
-    //     foreach ($array2D as $k=>$v){
-    //         $v = join(",",$v); //降维,也可以用implode,将一维数组转换为用逗号连接的字符串
-    //         $temp[$k] = $v;
-    //     }
-    //     $temp = array_unique($temp); //去掉重复的字符串,也就是重复的一维数组
-    //     foreach ($temp as $k => $v){
-    //         $array=explode(",",$v); //再将拆开的数组重新组装
-    //         $temp2[$k]["id"] =$array[0];
-    //         $temp2[$k]["parentid"] =$array[1];
-    //         $temp2[$k]["userid"] =$array[2];
-    //         $temp2[$k]["phone"] =$array[3];
-    //         $temp2[$k]["wx_openid"] =$array[4];
-    //         $temp2[$k]["create_time"] =$array[5];
-    //         $temp2[$k]["bank_address"] =$array[6];
-    //         $temp2[$k]["bank_account"] =$array[7];
-    //         $temp2[$k]["bank_phone"] =$array[8];
-    //         $temp2[$k]["bank_province"] =$array[9];
-    //         $temp2[$k]["bank_city"] =$array[10];
-    //         $temp2[$k]["bank_type"] =$array[11];
-    //         $temp2[$k]["bankcard"] =$array[12];
-    //         $temp2[$k]["idcard"] =$array[13];
-    //         $temp2[$k]["zfb_name"] =$array[14];
-    //         $temp2[$k]["zfb_account"] =$array[15];
-    //         $temp2[$k]["headimgurl"] =$array[16];
-    //         $temp2[$k]["nickname"] =$array[17];
-    //         $temp2[$k]["type"] =$array[18];
-    //         $temp2[$k]["p_nickname"] =$array[19];
-    //         $temp2[$k]["p_phone"] =$array[20];
-    //         $temp2[$k]["pp_nickname"] =$array[21];
-    //         $temp2[$k]["pp_phone"] =$array[22];
-    //         $temp2[$k]["s_userid"] =$array[23];
-    //     }
-    //     return $temp2; 
-    // }
-
     public function agent_order_list() {
         $orderid   = $this->get_in_int_val('orderid');
         $aid       = $this->get_in_int_val('aid');
