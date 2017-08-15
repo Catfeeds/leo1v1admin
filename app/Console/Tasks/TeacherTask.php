@@ -1091,7 +1091,7 @@ class TeacherTask extends TaskController
                 ]);
 
                 $teacher_info = $this->t_teacher_info->get_teacher_info($val["teacherid"]);
-                $this->add_trial_train_lesson($teacher_info,1);                  
+                $this->add_trial_train_lesson($teacher_info,1);
 
             }
         }
