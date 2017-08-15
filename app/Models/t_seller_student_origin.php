@@ -91,7 +91,6 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         default:
             break;
         }
-
         $where_arr=[
             ["origin like '%%%s%%' ",$origin,""],
             'require_admin_type=2',
@@ -102,7 +101,6 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"n.first_seller_adminid",$adminid_list);
-
         $sql = $this->gen_sql_new(
             "select $field_name as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count, sum(global_tq_called_flag=0 and seller_student_status =0  ) no_call_count,sum(n.admin_revisiterid >0) assigned_count,sum( t.seller_student_status = 1) invalid_count,sum(t.seller_student_status =2) no_connected_count,"
             . "sum(t.seller_student_status =100 and  global_tq_called_flag =2 ) have_intention_a_count,sum(t.seller_student_status =101 and  global_tq_called_flag =2) have_intention_b_count,sum(t.seller_student_status =102 and  global_tq_called_flag =2)  have_intention_c_count,  "

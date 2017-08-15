@@ -95,7 +95,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           and require_admin_type = 2
          */
         $where_arr = array();
-        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         if($type==2){ //已分配销售
             $where_arr[] = 'n.admin_revisiterid >0';
@@ -149,7 +149,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-
+        // dd($sql);
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 

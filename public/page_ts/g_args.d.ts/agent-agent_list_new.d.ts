@@ -1,4 +1,5 @@
 interface GargsStatic {
+	type:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -48,11 +49,12 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-
+			type:	$('#id_type').val()
         });
     }
 
 
+	$('#id_type').val(g_args.type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -62,4 +64,11 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">type</span>
+                <input class="opt-change form-control" id="id_type" />
+            </div>
+        </div>
 */
