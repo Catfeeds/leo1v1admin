@@ -149,18 +149,10 @@ class test_boby extends Controller
         $m = $n+3;
         $end_time = strtotime("2017-0".$m."-01");
         $ret_info = $this->t_student_info->get_stu_origin_rate($start_time, $end_time);
-        $list = [];
-        $key = 1;
-        $num = 0;
+        $list = [1=>0,2=>0,3=>0,4=>0,7=>0,80=>0];
         foreach ($ret_info as $v) {
-            if ($key == $v['count']) {
-                $num++;
-            } else {
-                $list[$key] = $num;
-                $num = 0;
-                $key = $v['count'];
-            }
-        }
+            $list[$v['count']] += 1;
+                   }
         dd($list);
         dd($ret_info);
     }
