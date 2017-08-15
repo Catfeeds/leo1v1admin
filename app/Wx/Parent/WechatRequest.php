@@ -423,10 +423,14 @@ class WechatRequest extends \LaneWeChat\Core\WechatRequest {
         }elseif($eventKey == 'content') {
             $openid  = $request['fromusername'];
             $t_agent = new \App\Models\t_agent();
+            \App\Helper\Utils::logger('parent_bbb_openid:'.$openid);
             $agent   = $t_agent->get_agent_info_by_openid($openid);
+            $phone = '';
             if(isset($agent['phone'])){
                 $phone = $agent['phone'];
             }
+            \App\Helper\Utils::logger('parent_bbb_phone:'.$phone);
+
             $tuwenList[] = array(
                 'title' => '精品内容',
                 'description' => '',
