@@ -636,7 +636,7 @@ $(function(){
                                 "teacherid"   : data.teacherid,
                                 "lessonid"    : data.lessonid,
                                 "phone"       : data.phone_spare,
-                                "flag"        : id_flag.val(),
+                                "flag"        : id_res.val(),
                                 "record_info" : id_reason.val(),
                                 "grade"       : data.grade,
                                 "subject"     : data.subject,
