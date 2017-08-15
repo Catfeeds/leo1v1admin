@@ -1000,10 +1000,12 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list($sql);
     }
 
-    public function get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,$order_flag){
+    public function get_from_ass_test_tran_lesson_info($page_info,$start_time,$end_time,$assistantid,$success_flag,
+                                                       $order_flag,$account_id){
         $where_arr=[
             ["a.assistantid = %u",$assistantid,-1],
             ["tss.success_flag = %u",$success_flag,-1],
+            ["s.origin_assistantid = %u",$account_id,-1],
             "l.lesson_del_flag=0",
             "l.lesson_type = 2",
             "tt.require_adminid>0",
