@@ -160,6 +160,7 @@ class test_boby extends Controller
                 $num = 0;
             }
         }
+dd($list);
         dd($ret_info);
     }
 }
