@@ -62,7 +62,7 @@ class agent extends Controller
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
-                $userid_arr[] = $item['s_userid'];
+                $userid_arr[] = $item['userid'];
             }
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
