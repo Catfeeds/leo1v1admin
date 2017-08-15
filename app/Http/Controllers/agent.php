@@ -71,7 +71,7 @@ class agent extends Controller
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info['list'] as &$item){
                 foreach($test_info as $info){
-                    if($item['s_userid'] == $info['userid']){
+                    if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
                     }
                 }
