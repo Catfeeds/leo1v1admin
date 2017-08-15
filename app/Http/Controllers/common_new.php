@@ -299,11 +299,10 @@ class common_new extends Controller
             if($email!=""){
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
-                }elseif($reference=="13661763881"){
+                }else{
                     $data = $this->add_teacher_common($teacher_info);
                     $html = $this->get_email_html_new($name);
-                }else{
-                    $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
+                    // $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
@@ -352,7 +351,7 @@ class common_new extends Controller
 
         \App\Helper\Utils::logger("lecture email:".$email."time :".date("Y-m-d H:i",time()));
         if($email!=""){
-            $html  = $this->get_email_html(0,0,0,0,$name);
+            $html  = $this->get_email_html_new($name);
             $title = "【理优1对1】试讲邀请和安排";
             $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
             if(!$ret){
