@@ -1097,13 +1097,14 @@ class wx_parent_api extends Controller
         $reason  = $this->get_in_str_val('reason');
 
         $ret = $this->t_student_score_info->row_insert([
-            'score'      => $score,
-            'subject'    => $subject,
+            'score'       => $score,
+            'subject'     => $subject,
             'stu_score_type' => $stu_score_type,
             'rank'        => $rank,
             'grade_rank'  => $grade_rank,
             'total_score' => $total_score,
-            'reason'      => $reason
+            'reason'      => $reason,
+            'create_time' => time()
         ]);
 
         if($ret){
