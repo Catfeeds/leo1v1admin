@@ -216,7 +216,7 @@ abstract class NewModel
 
                 $account=@$_SESSION["acc"];
                 $bt_str= "user:$account<br/>.url:" .@$_SERVER["REQUEST_URI"]. "<br/>";
-                $bt_str.=" SLOWSQL:use $diff s:$sql <br/>" ;
+                $bt_str.= date("H:i:s")." SLOWSQL:use $diff s:$sql <br/>" ;
 
                 $e=new \Exception();
                 foreach( $e->getTrace() as &$bt_item ) {
