@@ -582,7 +582,6 @@ class wx_yxyx_api extends Controller
         $wx_openid = $this->get_in_str_val('wx_openid', 0);
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_yxyx_test_pic_info->get_all_for_wx($grade, $subject, $test_type, $page_info, $wx_openid);
-        // dd($ret_info);
         $start_time = strtotime('-14 days');
         $end_time   = strtotime('today');
         foreach ($ret_info['list'] as &$item) {
