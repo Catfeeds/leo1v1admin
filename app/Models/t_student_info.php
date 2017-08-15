@@ -1251,61 +1251,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if($user_info["ass_master_adminid"]==0){
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
-            $master_adminid = $this->task->t_admin_group_name->get_master_adminid_by_campus_id($campus_id);
+            $master_adminid = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+            if(empty($master_adminid)){
 
-            $master_adminid=0;
-            if($user_info["origin_userid"] >0 && $seller_adminid==$adminid){
-                $this->field_update_list($userid,[
-                    "assistantid"     => $origin_assistantid,
-                    "ass_assign_time" => time()
-                ]);
+                $master_adminid=0;
+                if($user_info["origin_userid"] >0 && $seller_adminid==$adminid){
+                    $this->field_update_list($userid,[
+                        "assistantid"     => $origin_assistantid,
+                        "ass_assign_time" => time()
+                    ]);
 
-                $this->t_lesson_info->set_user_assistantid( $userid,$origin_assistantid);
-                $this->t_course_order->set_user_assistantid($userid,$origin_assistantid);
+                    $this->t_lesson_info->set_user_assistantid( $userid,$origin_assistantid);
+                    $this->t_course_order->set_user_assistantid($userid,$origin_assistantid);
 
-                $wx_id_ass = $this->t_manager_info->get_wx_id($adminid);
-                $noti_account = $this->t_manager_info->get_account($adminid);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id_ass,"");
-
-                $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
-
-                if(empty($master_adminid)){
-                    $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
-                    $num_all = count($ass_leader_arr);
-                    $i=0;
-                    foreach($ass_leader_arr as $val){
-                        $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
-                        if (!$json_ret) {
-                            $json_ret=0;
-                        }
-                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", $json_ret);
-                        if($json_ret==1){
-                            $i++;
-                        }
-                    }
-                    if($i==$num_all){
-                        foreach($ass_leader_arr as $val){
-                            \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 0);
-                        }
-                    }
-
-                    if($userid>0){
-                        foreach($ass_leader_arr as $val){
-                            $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
-                            if($json_ret==0){
-                                $master_adminid= $val;
-                                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 1);
-                                break;
-                            }
-                        }
-                    }
-
-                }
-
-            }elseif(!empty($user_info["init_info_pdf_url"])){
-                if($user_info["origin_userid"] >0){
+                    $wx_id_ass = $this->t_manager_info->get_wx_id($adminid);
+                    $noti_account = $this->t_manager_info->get_account($adminid);
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid ($seller_adminid,"通知人:理优教育","学生分配助教通知","您好,学生".$nick."已经分配给助教".$noti_account."老师,助教微信号为:".$wx_id_ass,"");
 
                     $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
+
                     if(empty($master_adminid)){
                         $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
                         $num_all = count($ass_leader_arr);
@@ -1338,43 +1302,81 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                         }
 
                     }
-                }elseif($user_info["assistantid"]>0){
-                    $adminid = $this->t_assistant_info->get_adminid_by_assistand($user_info["assistantid"]);
-                    $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
-                }
-                if(empty($master_adminid)){
-                    $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
-                    $num_all = count($ass_leader_arr);
-                    $i=0;
-                    foreach($ass_leader_arr as $val){
-                        $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
-                        if (!$json_ret) {
-                            $json_ret=0;
-                        }
-                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", $json_ret);
-                        if($json_ret==1){
-                            $i++;
-                        }
-                    }
-                    if($i==$num_all){
-                        foreach($ass_leader_arr as $val){
-                            \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 0);
-                        }
-                    }
 
-                    if($userid>0){
+                }elseif(!empty($user_info["init_info_pdf_url"])){
+                    if($user_info["origin_userid"] >0){
+
+                        $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
+                        if(empty($master_adminid)){
+                            $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
+                            $num_all = count($ass_leader_arr);
+                            $i=0;
+                            foreach($ass_leader_arr as $val){
+                                $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
+                                if (!$json_ret) {
+                                    $json_ret=0;
+                                }
+                                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", $json_ret);
+                                if($json_ret==1){
+                                    $i++;
+                                }
+                            }
+                            if($i==$num_all){
+                                foreach($ass_leader_arr as $val){
+                                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 0);
+                                }
+                            }
+
+                            if($userid>0){
+                                foreach($ass_leader_arr as $val){
+                                    $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
+                                    if($json_ret==0){
+                                        $master_adminid= $val;
+                                        \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 1);
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                    }elseif($user_info["assistantid"]>0){
+                        $adminid = $this->t_assistant_info->get_adminid_by_assistand($user_info["assistantid"]);
+                        $master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($adminid);
+                    }
+                    if(empty($master_adminid)){
+                        $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
+                        $num_all = count($ass_leader_arr);
+                        $i=0;
                         foreach($ass_leader_arr as $val){
                             $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
-                            if($json_ret==0){
-                                $master_adminid= $val;
-                                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 1);
-                                break;
+                            if (!$json_ret) {
+                                $json_ret=0;
+                            }
+                            \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", $json_ret);
+                            if($json_ret==1){
+                                $i++;
                             }
                         }
+                        if($i==$num_all){
+                            foreach($ass_leader_arr as $val){
+                                \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 0);
+                            }
+                        }
+
+                        if($userid>0){
+                            foreach($ass_leader_arr as $val){
+                                $json_ret=\App\Helper\Common::redis_get_json("ASS_AUTO_ASSIGN_$val");
+                                if($json_ret==0){
+                                    $master_adminid= $val;
+                                    \App\Helper\Common::redis_set_json("ASS_AUTO_ASSIGN_$val", 1);
+                                    break;
+                                }
+                            }
+                        }
+
                     }
 
                 }
-
             }
 
             if(!empty($master_adminid)){

@@ -790,9 +790,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             "t.trial_lecture_is_pass=1",
         ];
         if($type==1){
-            $where_arr[] = "t.identity in (5,6)";
+            $where_arr[] = "t.identity in (5,6,7)";
         }else{
-            $where_arr[] = "t.identity not in (5,6)";
+            $where_arr[] = "t.identity not in (5,6,7)";
         }
         if($phone!="13661763881"){
             $where_arr[] = "t.is_test_user=0";

@@ -273,9 +273,8 @@ class wx_yxyx_common extends Controller
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //随机获取十张海报/不足十张，取所有?
-        $start_time = strtotime('today');
-        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time);
+        //随机获取十张海报/不足十张，取所有?也取14天之内的
+        $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
         $num_arr    = [];
@@ -300,16 +299,22 @@ class wx_yxyx_common extends Controller
             }
         }
         return $this->output_succ([
-            ['list'=>$ret_info],
+            ['page'=>$ret_info['page_info']],
+            ['list'=>$ret_info['list']],
             ['poster'=>$poster_arr],
         ]);
     }
 
     public function get_one_test_and_other() {
         //title,poster(当天之前的)
-        $id = $this->get_in_int_val('id',-1);
+        $id   = $this->get_in_int_val('id',-1);
+        $flag = $this->get_in_int_val('flag', 1);
+        $wx_openid = $this->get_in_int_val('wx_openid', 1);
         if ($id < 0){
             return $this->output_err('信息有误！');
+        }
+        if (!$flag) {
+            $this->t_yxyx_test_pic_visit_info->add_visit_info($id,$wx_openid);//添加到访问记录
         }
         $this->t_yxyx_test_pic_info->add_field_num($id,"visit_num");//添加访问量
         $ret_info = $this->t_yxyx_test_pic_info->get_one_info($id);
@@ -319,9 +324,10 @@ class wx_yxyx_common extends Controller
         E\Etest_type::set_item_value_str($ret_info,"test_type");
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         unset($ret_info['pic']);
-        //获取所有id，随机选取三个(当天之前的)
-        $start_time = strtotime('today');
-        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time);
+        //获取所有id，随机选取三个(当天之前的14天之内)
+        $start_time = strtotime('-15 days');
+        $end_time   = strtotime('today');
+        $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time, $end_time);
         $count_num = count($all_id)-1;
         $id_arr    = [];
         $num_arr   = [];

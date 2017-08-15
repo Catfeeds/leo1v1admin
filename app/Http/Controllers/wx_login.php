@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \App\Enums as E;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -58,7 +59,7 @@ class wx_login extends Controller
                     }
                 }else{
 
-            		\App\Helper\Utils::logger("wx_openid_no_find" );
+                    \App\Helper\Utils::logger("wx_openid_no_find" );
                     $message="这是你第一次登录，请让管理员[jim] 绑定你的账号，需要告诉管理员你的微信姓名［".$user_info["nickname"]."］ 和你的后台账号 , 拨打电话联系:15601830297" ;
                 }
                 return $this->pageView(__METHOD__,[],[
@@ -131,8 +132,9 @@ class wx_login extends Controller
                         "tquin" => NULL,
                     ]);
                 }
-                $old_tquin=$this->t_manager_info->field_get_value($id,"tquin");
-                if ($old_tquin<10000000) {//tq
+
+                $call_phone_type = $this->t_manager_info->get_call_phone_type($id);
+                if ( $call_phone_type== E\Ecall_phone_type::V_TQ ) {//tq
                     $this->t_manager_info->field_update_list($id,[
                         "tquin" => $tquin,
                     ]);
