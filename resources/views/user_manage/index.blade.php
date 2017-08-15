@@ -87,6 +87,7 @@
                     <td style="display:none;"   >最近登录IP</td>
                     <td style="display:none;"   >最近上课时间</td>
                     <td >助教</td>
+                    <td >转介绍助教</td>
                     <td style="display:none;">分配助教时间</td>
                     <td style="display:none;">销售</td>
                     <td style="display:none;">大礼包</td>
@@ -122,6 +123,7 @@
                         <td >{{$var["last_login_ip"]}}</td>
                         <td >{{$var["last_lesson_time"]}}</td>
                         <td >{{$var["assistant_nick"]}}</td>
+                        <td >{{$var["origin_ass_nick"]}}</td>
                         <td >{{$var["ass_assign_time"]}}</td>
                         <td >{{$var["seller_admin_nick"]}}</td>
                         <td >{{$var["spree"]}}</td>
