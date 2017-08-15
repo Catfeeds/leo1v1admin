@@ -261,13 +261,15 @@ class login extends Controller
 
         $menu_html ="";
 
-        $uid = $this->get_account_id();
+        $uid = $ret_row["uid"];
         //收藏列表
         $self_menu_config=$this->t_admin_self_menu->get_menu_config($uid);
 
         $tmp_arr=$arr;
         $tmp_url_power_map= $url_power_map ;
         $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
+        \App\Helper\Utils::logger("1 menu_html strlen ".strlen( "$menu_html") );
+
 
         $main_department = $this->t_manager_info->get_main_department($uid);
 
@@ -284,9 +286,11 @@ class login extends Controller
         if($main_department == 2 || $account_id == 684 || $account_id == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
+        \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
 
         $menu      = \App\Helper\Config::get_menu();
         $menu_html .= $this->gen_menu( $arr,$menu,1,1);
+        \App\Helper\Utils::logger("3 menu_html strlen ".strlen( "$menu_html") );
 
         $stu_menu = \App\Helper\Config::get_stu_menu();
         $tea_menu = \App\Helper\Config::get_tea_menu();
