@@ -2593,7 +2593,7 @@ class tea_manage extends Controller
                 'teacher_blackboard_writing_score'=>   $teacher_blackboard_writing_score,
                 'teacher_explain_rhythm_score'   =>   $teacher_explain_rhythm_score,
                 'teacher_language_performance_score'   =>   $teacher_language_performance_score
-            );  //1
+        );  //1
         $teacher_detail_score = json_encode($teacher_detail_score);
         $teacher_lecture_score              = $this->get_in_int_val("total_score");//2
         $identity                           = $this->get_in_int_val("identity");

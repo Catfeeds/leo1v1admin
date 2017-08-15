@@ -84,7 +84,7 @@ $(function(){
             ["意见或建议",id_record],
             ["老师标签",id_sshd]
         ];
-        
+
         $.show_key_value_table("试听评价", arr,{
             label    : '确认',
             cssClass : 'btn-warning',
@@ -111,7 +111,7 @@ $(function(){
                     }else{
                         not_grade += ","+$(this).val();
                     }
-                });          
+                });
 
                 $.do_ajax("/human_resource/set_trial_train_lesson",{
                     "teacherid"                        : teacherid,

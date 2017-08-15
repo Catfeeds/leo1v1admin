@@ -1567,10 +1567,17 @@ class test_code extends Controller
             "trans_grade_1v1"  => "",
         ]);
 
+        $teacherid= $this->t_teacher_info->get_teacherid_by_phone($phone);
         $lessonid_list=$this->t_lesson_info_b2->get_lessonid_list_by_userid($teacherid);
         if(is_array($lessonid_list) && !empty($lessonid_list)){
             foreach($lessonid_list as $val){
                 $this->t_lesson_info->row_delete($val['lessonid']);
+            }
+        }
+        $id=$this->t_teacher_lecture_info->get_id_list_by_phone($phone);
+        if(is_array($id) && !empty($id)){
+            foreach($id as $val_l){
+                $this->t_teacher_lecture_info->row_delete($val_l['id']);
             }
         }
 
@@ -1794,6 +1801,14 @@ class test_code extends Controller
         $this->add_teacher_common($teacher_info);
     }
 
+    public function check_teacher_lecture(){
+        $phone   = $this->get_in_str_val("phone","99900020004");
+        $subject = $this->get_in_int_val("subject",1);
+        $grade   = $this->get_in_int_val("grade",300);
+
+        $check_flag = $this->t_teacher_lecture_info->check_teacher_lecture_info($phone,$grade,$subject);
+        echo $check_flag;
+    }
 
 
 }

@@ -51,18 +51,18 @@ class wx_yxyx_api extends Controller
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,"*");
-        $userid_new = $student_info['userid'];
-        $type_new = $student_info['type'];
+        $userid_new   = $student_info['userid'];
+        $type_new     = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
-        $level      = 0;
-        $pay        = 0;
-        $cash       = 0;
-        $have_cash  = 0;
-        $num        = 0;
-        $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0){
+        $level        = 0;
+        $pay          = 0;
+        $cash         = 0;
+        $have_cash    = 0;
+        $num          = 0;
+        $my_num       = 0;
+        if($userid != 0 && $type_new == 0 && $is_test_user == 0){//1有userid2在读3非测试
             $ret_list  = ['userid'=>0,'price'=>0];
-            $level = 2;
+            $level     = 2;
             $nick      = $student_info['nick'];
             $ret       = $this->get_pp_pay_cash($phone);
             $pay       = $ret['pay'];

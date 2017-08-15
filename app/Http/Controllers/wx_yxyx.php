@@ -355,7 +355,6 @@ class wx_yxyx extends Controller
             \App\Helper\Utils::logger('shibai');
             return $this->output_err("init OssClient fail" );
         }
-
     }
 
 
