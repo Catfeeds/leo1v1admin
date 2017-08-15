@@ -45,9 +45,11 @@ interface RowData {
 	ass_assign_time	:any;
 	reg_time	:any;
 	phone_location	:any;
+	origin_assistantid	:any;
 	user_agent_simple	:any;
 	seller_admin_nick	:any;
 	assistant_nick	:any;
+	origin_ass_nick	:any;
 	ss_assign_time	:any;
 	cache_nick	:any;
 }
