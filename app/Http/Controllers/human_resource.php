@@ -2537,7 +2537,6 @@ class human_resource extends Controller
                 ]);
             }
         }elseif($status=2){
-            // $ret = $this->add_trial_train_lesson($teacher_info);
             $keyword2 = "未通过";
             if($teacher_info['wx_openid']!=""){
                 /**
@@ -2558,6 +2557,7 @@ class human_resource extends Controller
                 $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?id=".$id;
                 \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
             }
+            $ret = $this->add_trial_train_lesson($teacher_info,1,2);
 
         }else{
             return $this->output_err("审核状态出错！");

@@ -2074,6 +2074,11 @@ class tea_manage extends Controller
             E\Elesson_status::set_item_value_str($val);
             $val['lesson_time'] = \App\Helper\Utils::fmt_lesson_time($val['lesson_start'],$val['lesson_end']);
             E\Echeck_status::set_item_value_str($val,"trial_train_status");
+            if($$val["trial_train_num"]==1){
+                $val["lesson_num"]="第一次课";
+            }else{
+                $val["lesson_num"]="第二次课";
+            }
         }
 
         return $this->pageView(__METHOD__,$ret_info,[

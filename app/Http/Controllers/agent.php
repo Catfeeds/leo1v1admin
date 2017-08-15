@@ -122,10 +122,11 @@ class agent extends Controller
     public function check(){
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
-        $agent_id = 54;//陈
+        // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
+        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        // dd($test_lesson);
+        $this->t_agent->add_agent_row_new('18964339722','http://wx.qlogo.cn/mmopen/OXfXUtqF0C4ZDgwwbKeGdkKrNb3dkHZgicAa0FlYEibpVMVD2ObdQyuNk0rfYiaAkcEPIsAq9DwVACIjTSggxZ6hWvgVFj0fWBR/0','皇阿玛','oAJiDwPMjDC8WrSbl5ZlXCL-3-4o',null);
     }
 
 
@@ -318,8 +319,8 @@ class agent extends Controller
 
     public function get_user_info(){
         // $agent_id = 60;//月月
-        $agent_id = 54;//陈
-        // $agent_id = 211;//Amanda
+        // $agent_id = 54;//陈
+        $agent_id = 211;//Amanda
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -418,8 +419,8 @@ class agent extends Controller
 
     public function get_my_num(){
         // $agent_id = 60;//月月
-        $agent_id = 54;//陈
-        // $agent_id = 211;//Amanda
+        // $agent_id = 54;//陈
+        $agent_id = 211;//Amanda
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -444,7 +445,6 @@ class agent extends Controller
                 $p_count[$item] = $count;
             }
             $p_ret = $this->t_agent->get_agent_order_by_phone($p_id);
-            // dd($p_ret);
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
             foreach($p_ret as $key=>$item){
@@ -457,9 +457,8 @@ class agent extends Controller
                 if($item['order_status']){//购课
                     $ret_list[$key]['status'] = 2;
                 }else{//试听成功
-                    if(isset($item['a_userid'])){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['a_userid']);
-                        dd($count_item);
+                    if($item['userid']){
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
                         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){

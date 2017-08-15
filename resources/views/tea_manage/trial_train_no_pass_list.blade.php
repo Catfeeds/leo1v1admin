@@ -57,6 +57,8 @@
                     <td>科目</td>
                     <td>审核时间</td>
                     <td>是否旷课</td>
+                    <td>监课情况</td>
+                    <td>教研建议</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -68,6 +70,9 @@
                         <td>{{$var["subject_str"]}}</td>
                         <td>{{$var["add_time_str"]}}</td>
                         <td>{{$var["absenteeism_flag_str"]}}</td>
+                        <td>{{$var["record_monitor_class"]}}</td>
+                        <td>{{$var["record_info"]}}</td>
+
                         <td >
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}

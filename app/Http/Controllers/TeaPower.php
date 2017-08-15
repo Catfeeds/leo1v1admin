@@ -2096,6 +2096,8 @@ trait  TeaPower {
             $accept_adminid = 790;
         }elseif($reference=="99900020015"){
             $accept_adminid = 955;
+        }elseif($reference=="99900020017"){
+            $accept_adminid = 1000;
         }else{
             $accept_adminid = 0;
         }
@@ -2111,6 +2113,8 @@ trait  TeaPower {
             $reference="99900020014";
         }elseif($accept_adminid == 955){
             $reference="99900020015";
+        }elseif($accept_adminid == 1000){
+            $reference="99900020017";
         }else{
             $reference = 1;
         }

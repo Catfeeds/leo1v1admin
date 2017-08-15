@@ -411,7 +411,7 @@ class teacher_level extends Controller
             $score = $this->t_teacher_advance_list->get_total_score($start_time,$teacherid);
             
             //已排課程工資等級更改
-            $level_start = strtotime("2017-08-01");
+            $level_start = strtotime(date("Y-m-d",time()));
             $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
             $this->t_lesson_info->set_teacher_level_info_from_now($teacherid,$teacher_money_type,$level_after,$level_start);
 

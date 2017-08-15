@@ -240,6 +240,7 @@ $(function(){
                             'key2'     : key2,
                             'key3'     : key3,
                             'key4'     : key4,
+                            "value"    : $("#id_value").val(),
                             "origin_level": origin_level.val()
                         },
                         success: function(data) {

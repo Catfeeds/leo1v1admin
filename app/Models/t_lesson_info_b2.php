@@ -3097,7 +3097,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select t.realname,l.lesson_start,tr.add_time,l.absenteeism_flag,l.subject,l.teacherid"
+        $sql = $this->gen_sql_new("select t.realname,l.lesson_start,tr.add_time,l.absenteeism_flag,l.subject,l.teacherid,"
+                                  ."tr.record_monitor_class, tr.record_info,tr.acc,tr.trial_train_status"
                                   ." from %s l left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5)"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." where %s",

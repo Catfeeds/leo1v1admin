@@ -11,7 +11,7 @@ use Qiniu\Storage\BucketManager;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
-require(app_path("/Libs/OSS/autoload.php"));
+require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
 use OSS\Core\OssException;
 
