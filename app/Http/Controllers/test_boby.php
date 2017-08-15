@@ -158,9 +158,10 @@ class test_boby extends Controller
             } else {
                 $list[$key] = $num;
                 $num = 0;
+                $key = $v;
             }
         }
-dd($list);
+        dd($list);
         dd($ret_info);
     }
 }
