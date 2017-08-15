@@ -51,7 +51,8 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                
-                                   
+                                <a class="opt-assign-main-group">分配小组</a>
+                                <a class="opt-del-main-group">删除</a> 
                             </div>
                         </td>
                     </tr>

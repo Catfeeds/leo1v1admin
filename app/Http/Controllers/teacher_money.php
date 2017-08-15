@@ -45,8 +45,8 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(!in_array($teacher_money_type,[0,1,2,3]) && isset($already_lesson_count)){
-                    $val['already_lesson_count'] = $already_lesson_count;
+                if(in_array($teacher_money_type,[0,1,2,3])){
+                    $already_lesson_count = $val['already_lesson_count'];
                 }
 
                 $val['lesson_base']        = "0";
@@ -58,7 +58,7 @@ class teacher_money extends Controller
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $lesson_reward      = \App\Helper\Utils::get_teacher_lesson_money(
-                            $val['type'],$val['already_lesson_count']
+                            $val['type'],$already_lesson_count
                         );
                         $val['lesson_reward'] = $lesson_reward*$lesson_count;
                         $reward_list['type']  = 2;
@@ -336,8 +336,8 @@ class teacher_money extends Controller
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
-                    if(!in_array($teacher_money_type,[0,1,2,3])){
-                        $val['already_lesson_count'] = $already_lesson_count;
+                    if(in_array($teacher_money_type,[0,1,2,3])){
+                        $already_lesson_count = $val['already_lesson_count'];
                     }
                     if($val['confirm_flag']!=2){
                         $lesson_count = $val['lesson_count']/100;
@@ -348,7 +348,7 @@ class teacher_money extends Controller
                         $val['money']       = \App\Helper\Utils::get_teacher_base_money($teacherid,$val);
                         $val['lesson_base'] = $val['money']*$lesson_count;
                         $list[$i]['lesson_normal'] += $val['lesson_base'];
-                        $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$val['already_lesson_count']);
+                        $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
                     }else{
                         $val['lesson_base'] = \App\Helper\Utils::get_trial_base_price($teacher_money_type
                                                                                       ,$val['teacher_type']
