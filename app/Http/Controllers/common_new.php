@@ -315,11 +315,10 @@ class common_new extends Controller
              * 模板ID:SMS_85635010
              * 模板内容:${name}老师，您好！您已成功报名！您需要在${time}之前，按照要求提交一段试讲审核，相关信息已发至您邮箱（如找不到请检查垃圾箱），请尽快查阅。请关注并绑定“理优1对1老师帮”随时随地了解入职进度。理优致力于打造高水平的教学服务团队，期待您的到来，加油！
              */
-            // $template_code = "SMS_85635010";
-            // $data['name']  = $name;
-            // $data['time']  = ;
-            // \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$data);
-
+            $template_code = "SMS_85635010";
+            $data['name']  = $name;
+            $data['time']  = date("Y-m-d",strtotime("+3 day",time()));
+            \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$data);
 
             if($reference != ""){
                 /**
@@ -811,7 +810,7 @@ class common_new extends Controller
             $cdr_answer_time,
             $cdr_end_time,
             $duration,
-            $called_flag
+            $called_flag==2?1:0
             ,
             "");
         $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time);
