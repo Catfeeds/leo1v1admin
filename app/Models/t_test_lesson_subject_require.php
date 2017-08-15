@@ -1909,7 +1909,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
    }
    public function  tongji_order_fail_seller_set($start_time, $end_time, $origin_userid_flag)
    {
-       $this->switch_readonly_database();
        $where_arr=[
            "lesson_del_flag=0",
        ];
