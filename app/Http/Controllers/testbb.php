@@ -134,14 +134,12 @@ class testbb extends Controller
             $data_teacher['keyword2']   = "
 1、新增扩科（扩年级）功能；
 2、白板中增加播放视频功能。
-下载地址（老师端后台）：http://www.leo1v1.com/login/teacher";
+下载地址（老师端后台）：<a href='http://www.leo1v1.com/login/teacher'>http://www.leo1v1.com/login/teacher</a>";
             $data_teacher['keyword3']   = "$date_time";
 
             $data_teacher['remark']     = "更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】";
 
-            foreach($deal_wx_openid_list as $item_teacher){
-                \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
-            }
+            \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
 
         }
 

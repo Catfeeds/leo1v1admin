@@ -2606,7 +2606,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        
+        $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+        $master_adminid = $this->task->t_admin_group_name->get_master_adminid_by_campus_id($campus_id);
+        dd($master_adminid);
+  
         $this->switch_tongji_database();
         $ret = $this->t_student_info->get_stu_order_num_info();
         foreach($ret["list"] as &$item){
