@@ -26,6 +26,7 @@ interface GargsStatic {
 	assistantid:	number;
 	from_key:	string;
 	from_url:	string;
+	spec_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -35,6 +36,8 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	promotion_spec_is_not_spec_flag	:any;
+	promotion_spec_diff_money	:any;
 	origin_assistantid	:any;
 	from_parent_order_type	:any;
 	lesson_count_all	:any;
@@ -122,6 +125,7 @@ interface RowData {
 	per_price	:any;
 	flow_status_str	:any;
 	pre_money_info	:any;
+	promotion_spec_is_not_spec_flag_str	:any;
 }
 
 /*
@@ -159,10 +163,12 @@ $(function(){
 			referral_adminid:	$('#id_referral_adminid').val(),
 			assistantid:	$('#id_assistantid').val(),
 			from_key:	$('#id_from_key').val(),
-			from_url:	$('#id_from_url').val()
+			from_url:	$('#id_from_url').val(),
+			spec_flag:	$('#id_spec_flag').val()
         });
     }
 
+	Enum_map.append_option_list("boolean",$("#id_spec_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -194,6 +200,7 @@ $(function(){
 	$('#id_assistantid').val(g_args.assistantid);
 	$('#id_from_key').val(g_args.from_key);
 	$('#id_from_url').val(g_args.from_url);
+	$('#id_spec_flag').val(g_args.spec_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -341,6 +348,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">from_url</span>
                 <input class="opt-change form-control" id="id_from_url" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_spec_flag" >
+                </select>
             </div>
         </div>
 */

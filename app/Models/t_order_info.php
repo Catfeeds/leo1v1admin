@@ -1699,7 +1699,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function  del_contract ($orderid,$userid) {
-        $sql = sprintf("delete from %s where orderid = %u  and contract_status = 0 and userid=%u",
+        $sql = sprintf("delete from %s "
+                       . "where orderid = %u  and contract_status = 0 and userid=%u and pre_pay_time=0 ",
                        self::DB_TABLE_NAME,$orderid,$userid);
         return $this->main_update($sql);
     }
@@ -2071,6 +2072,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ,$account_role=-1,$grade=-1,$subject=-1,$tmk_adminid=-1, $need_receipt=-1
         ,$teacherid=-1,$up_master_adminid=-1,$account_id=74,$require_adminid_list=[],$origin_userid=-1, $referral_adminid=-1,
         $opt_date_str="order_time" , $order_by_str= " t2.assistantid asc , order_time desc"
+        ,$spec_flag=-1
     ){
         $where_arr=[];
         if($userid>=0){
@@ -2091,6 +2093,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
+            $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
@@ -2140,7 +2143,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         // $where_arr[] = ["t3.account_role = %u" , $account_role, -1];
 
         $sql = $this->gen_sql_new(
-            "select origin_assistantid,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
+            "select  promotion_spec_is_not_spec_flag, promotion_spec_diff_money , origin_assistantid,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
             ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
             ." t1.from_key,t1.from_url,"
