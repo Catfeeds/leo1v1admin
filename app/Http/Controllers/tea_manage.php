@@ -2079,6 +2079,8 @@ class tea_manage extends Controller
             }else{
                 $val["lesson_num"]="第二次课";
             }
+            \App\Helper\Utils::unixtime2date_for_item($val, "add_time","_str");
+ 
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
