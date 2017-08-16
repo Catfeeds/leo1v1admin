@@ -125,29 +125,18 @@ class agent extends Controller
         // $agent_id = 211;//Amanda
         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         // dd($test_lesson);
-        $userid_null = $this->t_agent->get_userid_null_list();
-        dd($userid_null);
+        $ret_info = $this->t_agent->get_agent_list();
         $ret = [];
-        foreach($userid_null as $item){
+        foreach($ret_info as $item){
             $id = $item['id'];
             $phone = $item['phone'];
+            $userid = $item['userid'];
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-            $ret[] = $this->t_agent->field_update_list($agent_id,[
-                "userid" => $userid_new,
-                // "parentid" => $parentid,
-                // "phone"    => $phone,
-                // "type"     => $type,
-                // "bankcard"      => $bankcard,
-                // "idcard"        => $idcard,
-                // "bank_address"  => $bank_address,
-                // "bank_account"  => $bank_account,
-                // "bank_phone"    => $bank_phone,
-                // "bank_province" => $bank_province,
-                // "bank_city"     => $bank_city,
-                // "bank_type"     => $bank_type,
-                // "zfb_name"     => $zfb_name,
-                // "zfb_account"     => $zfb_account,
-            ]);
+            if(!$userid){
+                $ret[] = $this->t_agent->field_update_list($id,[
+                    "userid" => $userid_new,
+                ]);
+            }
         }
         dd($ret);
     }
