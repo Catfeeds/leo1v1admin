@@ -48,7 +48,7 @@
                     <td>年级</td>
                     <td>科目</td>
                     <td>类型</td>
-                    <!-- <td>图片</td> -->
+                    <td>自定义标签</td>
                     <td>封面</td>
                     <td>操作人员</td>
                     <td>添加时间</td>
@@ -65,6 +65,11 @@
                         <td>{{$var["grade_str"]}}</td>
                         <td>{{$var["subject_str"]}}</td>
                         <td>{{$var["test_type_str"]}}</td>
+                        <td>
+                            @foreach ($var['new_arr'] as $v)
+                                <div>{{$v}}</div>
+                            @endforeach
+                        </td>
                         <td><img src="{{$var["poster"]}}" height="100"></td>
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["create_time"]}}</td>
@@ -112,6 +117,20 @@
 			              <td>
                         <select class="add_test_type" style="width:30%">
                         </select>
+                    </td>
+		            </tr>
+                <tr>
+			              <td style="text-align:right; width:30%;">自定义标签</td>
+			              <td>
+                        <div class="row">
+                            @foreach ($type_arr as $k => $v)
+                                <div class="col-xs-6 col-md-6">
+                                    <label>
+                                        <input type="checkbox" onclick="set_custom(this)" name="add_custom_type" value="{{$k}}">{{$v}}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                     </td>
 		            </tr>
 

@@ -684,6 +684,13 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-12 col-md-6 ">
+                <div class="input-group  ">
+                    <span class="input-group-addon" style="color:red;">是否分享：</span>
+                    <select  class="form-control field-has_share_activity">
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="row div-spec" >
             <div class="col-xs-12 col-md-6 ">

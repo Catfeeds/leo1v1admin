@@ -515,7 +515,6 @@ class tongji_ss extends Controller
         return $this->origin_count();
     }
 
-
     public function origin_count(){
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
@@ -550,10 +549,8 @@ class tongji_ss extends Controller
 
 
         ///  测试区
-
         $data_map=&$ret_info["list"];
         //试听信息
-
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
         foreach ($test_lesson_list as  $test_item ) {
@@ -635,7 +632,53 @@ class tongji_ss extends Controller
         $origin_type = 0;
         if($origin_ex == '优学帮,,,'){
             $origin_type = 1;
+
+            // $ret_info  = $this->t_agent->get_agent_info_new($type=1);
+            // $userid_arr = [];
+
+            // $ret_info_new = [];
+            // $id_arr = array_unique(array_column($ret_info,'id'));
+            // foreach($ret_info as &$item){
+            //     if($item['type'] == 1){
+            //         $userid_arr[] = $item['userid'];
+            //     }
+            //     $item['agent_type'] = $item['type'];
+            //     $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+
+            //     $id = $item['id'];
+            //     $id_arr_new = array_unique(array_column($ret_info_new,'id'));
+            //     if(in_array($id,$id_arr_new)){
+            //     }else{
+            //         $ret_info_new[] = $item;
+            //     }
+            // }
+            // if(count($userid_arr)>0){
+            //     foreach($ret_info_new as $key=>&$item){
+            //         $item['num'] = $key+1;
+            //         if($item['admin_revisiterid'] >0){
+
+            //         }
+            //     }
+            // }
         }
+        // $ret_info['list'][4]['all_count'];
+        // $ret_info['list'][4]['assigned_count'];
+        // $ret_info['list'][4]['tmk_assigned_count'];
+        // $ret_info['list'][4]['tq_no_call_count'];
+        // $ret_info['list'][4]['tq_called_count'];
+        // $ret_info['list'][4]['tq_call_fail_count'];
+        // $ret_info['list'][4]['tq_call_succ_valid_count'];
+        // $ret_info['list'][4]['tq_call_succ_invalid_count'];
+        // $ret_info['list'][4]['tq_call_fail_invalid_count'];
+        // $ret_info['list'][4]['have_intention_a_count'];
+        // $ret_info['list'][4]['have_intention_b_count'];
+        // $ret_info['list'][4]['have_intention_c_count'];
+        // $ret_info['list'][4]['require_count'];
+        // $ret_info['list'][4]['test_lesson_count'];
+        // $ret_info['list'][4]['succ_test_lesson_count'];
+        // $ret_info['list'][4]['order_count'];
+        // $ret_info['list'][4]['user_count'];
+        // $ret_info['list'][4]['order_all_money'];
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
             "grade_map"   => $grade_map,
@@ -4206,12 +4249,6 @@ class tongji_ss extends Controller
         $field_name = 'origin';
         $field_class_name = '';
 
-        // $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
-
-
-
-
-
 
         // 新增
 
@@ -4257,16 +4294,6 @@ class tongji_ss extends Controller
         if ($field_name=="origin") {
             $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
         }
-
-
-
-
-
-        // 新增
-
-
-
-        // dd($origin_info);
 
         // 测试结束
 
@@ -4339,6 +4366,139 @@ class tongji_ss extends Controller
 
 
     }
+
+
+
+
+
+
+
+    public function tongji_seller_test_lesson_order_info_for_jx(){ // for 教学管理事业部
+        list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
+        $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
+        $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $adminid_right              = $this->get_seller_adminid_and_right();
+
+        // 测试区
+        $field_name = 'origin';
+        $field_class_name = '';
+        // 新增
+
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+
+        $data_map = &$origin_info['list'];
+
+
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
+
+        foreach ($test_lesson_list as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
+            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
+        }
+
+
+        $this->t_order_info->switch_tongji_database();
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        foreach ($order_list as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+
+
+
+        foreach ($data_map as &$item ) {
+            $item["title"]= $item["check_value"];
+
+            if ($field_name=="origin") {
+                $item["origin"]= $item["title"];
+            }
+        }
+
+        if ($field_name=="origin") {
+            $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
+        }
+
+        // 测试结束
+
+
+
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_seller_test_lesson_order_info_new($start_time,$end_time,$require_adminid_list);
+        $grade_arr = $subject_arr = $paper_arr = $location_arr=[];
+        foreach($ret_info as $item){
+            if($item["stu_test_paper"]){
+                if($item["tea_download_paper_time"]>0){
+                    $paper="老师已下载";
+                }else{
+                    $paper="老师未下载";
+                }
+            }else{
+                $paper="无试卷";
+            }
+            $location=substr($item["phone_location"], 0, -6);
+            @$grade_arr[$item["grade"]]["num"]++;
+            @$subject_arr[$item["subject"]]["num"]++;
+            @$location_arr[$location]["num"]++;
+            @$paper_arr[$paper]["num"]++;
+            if($item["orderid"]>0){
+                @$grade_arr[$item["grade"]]["order"]++;
+                @$subject_arr[$item["subject"]]["order"]++;
+                @$location_arr[$location]["order"]++;
+                @$paper_arr[$paper]["order"]++;
+            }
+
+        }
+
+
+        foreach($subject_arr as $k=>&$v){
+            if(!isset($v["order"])) $v["order"]=0;
+            $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
+            $v["name"] = E\Esubject::get_desc($k);
+        }
+        \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+        foreach($grade_arr as $kk=>&$vv){
+            if(!isset($vv["order"])) $vv["order"]=0;
+            $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
+            $vv["name"] = E\Egrade::get_desc($kk);
+        }
+        \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+        foreach($location_arr as $kkk=>&$vvv){
+            if(!isset($vvv["order"])) $vvv["order"]=0;
+            $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
+            $vvv["name"] = $kkk;
+        }
+        \App\Helper\Utils::order_list( $location_arr,"per", 0);
+        foreach($paper_arr as $kkkk=>&$vvvv){
+            if(!isset($vvvv["order"])) $vvvv["order"]=0;
+            $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;
+            $vvvv["name"] = $kkkk;
+        }
+        \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+
+        // dd($origin_info);
+        $origin_info = $origin_info['list'];
+
+        return $this->pageView(__METHOD__ ,null, [
+            "subject_arr" => @$subject_arr,
+            "grade_arr"   => @$grade_arr,
+            "paper_arr"   => @$paper_arr,
+            "location_arr"=> @$location_arr,
+            "adminid_right"=>$adminid_right,
+            "origin_info"  => $origin_info
+        ]);
+
+
+    }
+
 
     public function tongji_seller_test_lesson_paper_order_info(){
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3 );

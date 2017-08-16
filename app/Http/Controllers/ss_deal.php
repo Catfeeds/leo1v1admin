@@ -1447,6 +1447,7 @@ class ss_deal extends Controller
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
         $test_lesson_subject_id         = $this->get_in_int_val("test_lesson_subject_id");
         $seller_student_status         = $this->get_in_int_val("seller_student_status");
+        $has_share_activity_flag = $this->get_in_int_val("has_share_activity_flag");
         $contract_from_type = $this->get_in_e_contract_from_type();
 
         $sys_operator        = $this->get_account();
@@ -1522,7 +1523,7 @@ class ss_deal extends Controller
         }
         $from_parent_order_lesson_count=0;
         //8月营销活动
-        $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type);
+        $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
 
         // if(\App\Helper\Utils::check_env_is_local() || in_array($this->get_account(),["adrian","jim"])){
         // }
@@ -5194,15 +5195,15 @@ class ss_deal extends Controller
      * 2017-8-16至8-31号（以下订单时间为准）内下单用户且课时在90课时以上，可减300元
      * 这些用户在2017-12-31前续费，可减500元
      */
-    public function get_8_month_activity($userid,$price,$lesson_total,$contract_type){
+    public function get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag){
         $now = time();
         $activity_start_time  = strtotime("2017-8-16");
         $activity_end_time    = strtotime("2017-9-1");
         $activity_finish_time = strtotime("2017-12-31");
 
         $last_lesson_start = $this->t_lesson_info_b2->get_last_trial_lesson($userid);
-        if($lesson_total>=9000 && ($last_lesson_start+86400)>time()){
-            if($contract_type==0){
+        if($lesson_total>=9000){
+            if($contract_type==0 && ($last_lesson_start+86400)>time() && $has_share_activity_flag==1){
                 if($now>$activity_start_time && $now<$activity_end_time){
                     $price -= 30000;
                 }

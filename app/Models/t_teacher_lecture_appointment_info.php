@@ -926,19 +926,28 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     }
 
     public function get_no_call_all_info_train(){
-        $sql = $this->gen_sql_new("select a.id,a.phone,count(distinct l.id) from %s a left join %s l on a.phone = l.phone and l.status <>4 "
-                                  ." where lecture_revisit_type=0 and l.id is not null group by a.phone",
+        $sql = $this->gen_sql_new("select a.id,a.phone,count(distinct l.lessonid)"
+                                  ." from %s a left join %s t on a.phone = t.phone "
+                                  ." left join %s ta on t.teacherid = ta.userid and ta.train_type=5"
+                                  ." left join %s l on ta.lessonid = l.lessonid and l.train_type=5 and l.lesson_type =1100 and l.lesson_del_flag=0 and l.confirm_flag <2"
+                                  ." where lecture_revisit_type=0 and l.lessonid is not null group by a.phone",
                                   self::DB_TABLE_NAME,
-                                  t_teacher_lecture_info::DB_TABLE_NAME,
-                                  t_teacher_lecture_info::DB_TABLE_NAME
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }
 
-    public function get_no_call_all_info_new(){
+    public function get_no_call_all_info_new($start_time,$end_time){
+        $where_arr=[
+            ["answer_begin_time >=%u",$start_time,-1],
+            ["answer_begin_time <=%u",$end_time,-1],
+        ];
         $sql = $this->gen_sql_new("select id,phone from %s "
-                                  ." where lecture_revisit_type=0 order by id limit 10508,127",
-                                  self::DB_TABLE_NAME
+                                  ." where lecture_revisit_type=0 and %s order by id limit 122,61",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
