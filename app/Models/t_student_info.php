@@ -2064,7 +2064,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.assistantid > 0",
             "(s.is_test_user = 0 or s.is_test_user is null)",
         ];
-        //$this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
         //$sql = $this->gen_sql_new(" select m.uid,s.userid "
                                   ." from %s s  "

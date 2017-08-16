@@ -130,7 +130,7 @@
                                             <td>{{@$var["tran_num"]}} </td>
                                             <td>{{@$var["student_all"]}}</td>
                                             <td>{{@$var["student_finish"]}}</td>
-                                            <td>{{@$var["student_finish_per"]}}</td>
+                                            <td>{{@$var["student_finish_per"]}}%</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
