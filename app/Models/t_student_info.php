@@ -2097,7 +2097,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $where_arr,
                                   $start_time,$end_time
         );
-        //dd($sql);
+        dd($sql);
         return $this->main_get_list($sql);
     }
 
