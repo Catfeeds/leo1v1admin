@@ -130,8 +130,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">状态</span>
-                        <select class="opt-change form-control" id="id_seller_student_status" >
-                        </select>
+                        <input class="opt-change form-control" id="id_seller_student_status" />
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
@@ -364,7 +363,7 @@
                         <td>{{$var["phone_location"]}} </td>
                         <td>
                             @if  ($var["origin_assistantid"]==0)
-                                {{$var["origin"]}} ({{$var["origin_level_str"]}}) <br/>
+                                {{$var["origin"]}} ({{$var["origin_level_str"]}})/{{$var["nickname"]}} <br/>
                             @else
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif

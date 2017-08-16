@@ -49,8 +49,8 @@ $(function(){
     }
 
 
-    Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"),false,
-                                status_opt_list);
+    $('#id_seller_student_status').val(g_args.seller_student_status);
+    $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 
     Enum_map.append_option_list("seller_require_change_flag",$("#id_seller_require_change_flag"),false,[1,2,3]);
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
@@ -186,7 +186,6 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
-    $('#id_seller_student_status').val(g_args.seller_student_status);
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_subject').val(g_args.subject);
     $('#id_has_pad').val(g_args.has_pad);

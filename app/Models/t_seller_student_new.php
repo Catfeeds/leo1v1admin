@@ -316,10 +316,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            
             if($seller_student_status==-2){
                 $where_arr[] = "seller_student_status <> 60";
             }else{
-                $where_arr[]=['seller_student_status=%d', $seller_student_status,-1];
+                $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             }
 
             $status_arr=[];
@@ -563,7 +564,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
             $where_arr[]= $ret_in_str;
 
-            $where_arr[]=['seller_student_status=%d', $seller_student_status,-1];
+            $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             $where_arr[]=['seller_student_sub_status=%d', $seller_student_sub_status,-1];
             $where_arr[]=['tmk_student_status=%d', $tmk_student_status,-1];
             $where_arr[]=['m.del_flag=%d', $admin_del_flag ,-1];

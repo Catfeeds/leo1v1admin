@@ -14,8 +14,8 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	userid:	number;
-	seller_student_status:	number;//App\Enums\Eseller_student_status
-	seller_groupid_ex:	string;
+	seller_student_status:	string;//枚举列表: \App\Enums\Eseller_student_status
+ 	seller_groupid_ex:	string;
 	phone_location:	string;
 	require_admin_type:	number;
 	subject:	number;//App\Enums\Esubject
@@ -209,7 +209,6 @@ $(function(){
     }
 
 	Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
-	Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
 	Enum_map.append_option_list("tq_called_flag",$("#id_tq_called_flag"));
@@ -237,6 +236,7 @@ $(function(){
 	$('#id_origin').val(g_args.origin);
 	$('#id_userid').val(g_args.userid);
 	$('#id_seller_student_status').val(g_args.seller_student_status);
+	$.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 	$('#id_phone_location').val(g_args.phone_location);
 	$('#id_require_admin_type').val(g_args.require_admin_type);
@@ -327,8 +327,7 @@ $(function(){
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span class="input-group-addon">seller_student_status</span>
-                <select class="opt-change form-control" id="id_seller_student_status" >
-                </select>
+                <input class="opt-change form-control" id="id_seller_student_status" />
             </div>
         </div>
 
