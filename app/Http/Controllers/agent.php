@@ -91,6 +91,7 @@ class agent extends Controller
                 }
             }
         }
+        dd($ret_info,$ret_info_new,count($ret_info_new));
         return $this->pageView(__METHOD__,$ret_info_new);
     }
 
