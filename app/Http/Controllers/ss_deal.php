@@ -532,6 +532,7 @@ class ss_deal extends Controller
         if($ass_test_lesson_type==1){
             $origin_info["origin"]="助教-扩课";
         }
+        //$this->t_test_lesson_subject->get_acc
 
         $ret=$this->t_test_lesson_subject_require->add_require(
             $this->get_account_id()

@@ -8,6 +8,7 @@
 <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
 <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
+
 <script type="text/javascript">
  var _KDA = _KDA || [];
  window._KDA = _KDA;
@@ -51,6 +52,7 @@
         onKDAReady();
     }
 </script>
+
 <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <script type="text/javascript" src="/page_js/lib/select_dlg_edit.js?v={{@$_publish_version}}"></script>
     <script type="text/javascript" src="/page_js/lib/select_date_time_range.js?v={{@$_publish_version}}"></script>
@@ -102,9 +104,7 @@
                 <div class="col-xs-6 col-md-2" data-always_show="1" >
                     <div class="input-group ">
                         <span class="input-group-addon">状态</span>
-                        <select class="opt-change form-control" id="id_seller_student_status" >
-                            <option value="-2">非结课无意向学员</option>
-                        </select>
+                        <input class="opt-change form-control" id="id_seller_student_status" />
                     </div>
                 </div>
                 <div style="display:none;" class="col-xs-6 col-md-3">

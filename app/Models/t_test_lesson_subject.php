@@ -832,4 +832,13 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_get_list_by_page($sql,$page_num,30,true);
 
     }
+    public function seller_test_lesson_user_count ($require_adminid )  {
+        $sql= $this->gen_sql_new(
+            "select count(*) from %s where require_adminid=%u and seller_student_status in (  ) ",
+            self::DB_TABLE_NAME,
+            $require_adminid
+        );
+
+    }
+
 }
