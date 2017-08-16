@@ -316,10 +316,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+            
             if($seller_student_status==-2){
                 $where_arr[] = "seller_student_status <> 60";
             }else{
-                $where_arr[]=['seller_student_status=%d', $seller_student_status,-1];
+                $this->where_arr_add_int_or_idlist($where_arr,"seller_student_status",$seller_student_status);
             }
 
             $status_arr=[];
