@@ -162,17 +162,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     {
         $where_arr = array();
         $this->where_arr_add_int_field($where_arr,"a.type",1);
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone "
+        $sql=$this->gen_sql_new (" select a.*,"
+                                 ." aa.nickname p_nickname,aa.phone p_phone,"
+                                 ." aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ." s.origin"
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
+                                 ." left join %s n on n.userid = a.userid"
+                                 ." left join %s t on t.userid= a.userid "
+                                 ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+                                 ." left join %s tss on tss.lessonid = tr.current_lessonid"
+                                 ." left join %s l on l.lessonid = tss.lessonid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_seller_student_new::DB_TABLE_NAME
+                                 ,t_test_lesson_subject::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);
