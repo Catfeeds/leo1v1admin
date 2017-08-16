@@ -9060,7 +9060,7 @@ lesson_type in (0,1) "
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
-            // "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
             "lesson_type = 2",
             "lesson_del_flag = 0",
         ];

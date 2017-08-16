@@ -2611,7 +2611,7 @@ class user_deal extends Controller
         $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_train($start_time,$end_time,-1);
         foreach($list as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
-                "accept_adminid"   =>790
+                "accept_adminid"   =>955
             ]);
         }
         dd(111);

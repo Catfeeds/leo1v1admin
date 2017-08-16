@@ -936,7 +936,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." from %s a left join %s t on a.phone = t.phone "
                                   ." left join %s ta on t.teacherid = ta.userid and ta.train_type=5"
                                   ." left join %s l on ta.lessonid = l.lessonid and l.train_type=5 and l.lesson_type =1100 and l.lesson_del_flag=0 and l.confirm_flag <2"
-                                  ." where l.lessonid is not null and %s group by a.phone order by a.phone limit 224,112 ",
+                                  ." where l.lessonid is not null and %s group by a.phone order by a.phone limit 420,140 ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,

@@ -4455,6 +4455,8 @@ class tongji_ss extends Controller
 
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time);
+
+        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
