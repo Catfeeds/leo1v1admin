@@ -880,8 +880,10 @@ class tongji2 extends Controller
             }
         }
         $student_all = $this->t_student_info->get_ass_first_revisit_info($start_time,$end_time);//在册学生数
-
-
+        $student_all_detail = [];
+        foreach ($student_all as $key => $value) {  
+            $student_all_detail[$value['uid']] = $value['num']; 
+        }
         //dd($new_revisit);
         $refund_score = $this->get_ass_refund_score($start_time,$end_time);
 
@@ -896,6 +898,7 @@ class tongji2 extends Controller
 
 
         foreach($ass_list as $k=>&$val){
+            print_r($k);
             $val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
             $val["userid_list_first_count"] = @$xq_revisit_first[$k]["num"];
