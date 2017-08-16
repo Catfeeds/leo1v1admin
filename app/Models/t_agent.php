@@ -158,6 +158,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
+    public function get_type1_info($page_info)
+    {
+        $where_arr = array();
+        $this->where_arr_add_int_field($where_arr,"a.type",1);
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." left join %s aaa on aaa.id = aa.parentid"
+                                 ." left join %s s on s.userid = a.userid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
+    }
 
     public function get_agent_info_by_phone($phone)
     {

@@ -929,7 +929,12 @@ class tongji2 extends Controller
 
             $val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
-
+            if($val['student_all'] > 0){
+                $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
+            }else{
+                $val["student_finish_per"] = 0;
+            }
+            
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
             if($account_id==-1){
 
