@@ -896,7 +896,7 @@ class tongji2 extends Controller
 	dd($student_online);
         $student_online_detail = [];
         foreach ($student_online as $key => $value) {  
-            $student_finish_online[$value['uid']] = $value['num']; 
+            $student_online_detail[$value['uid']] = $value['num']; 
         }
         //dd($new_revisit);
         $refund_score = $this->get_ass_refund_score($start_time,$end_time);
@@ -938,7 +938,7 @@ class tongji2 extends Controller
             $val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
 
-            $val["student_online"] = isset($student_all_online[$k])?$student_all_online[$k]:0;
+            $val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             if($val['student_all'] > 0){
                 $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
                 $val["student_online_per"] = round($val["student_online"]/$val["student_all"]*100,2);
