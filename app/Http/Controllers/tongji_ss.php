@@ -4431,7 +4431,7 @@ class tongji_ss extends Controller
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
-        $adminid_right              = $this->get_seller_adminid_and_right();
+        $adminid_right        = $this->get_seller_adminid_and_right();
 
         // 测试区
         $field_name = 'origin';

@@ -1243,6 +1243,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ["is_test_user=%u",$is_test_user,-1],
                 "trial_lecture_is_pass=1",
                 "train_through_new_time=0",
+                "t.teacher_type !=3",
             ];
         }elseif($type==2){
             $where_arr = [
