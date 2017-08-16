@@ -1153,7 +1153,7 @@ class common_new extends Controller
             return $this->output_err("老师信息错误！");
         }
 
-        $teacher_info['phone']         = $phone;
+        $teacher_info['phone']         = $info;
         $teacher_info['send_sms_flag'] = 0;
         $teacher_info['wx_use_flag']   = 0;
         $teacher_info['use_easy_pass'] = 2;
