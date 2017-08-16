@@ -546,6 +546,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $this->t_seller_student_origin->switch_tongji_database();
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+
+        // dd($ret_info);
         $data_map=&$ret_info["list"];
         //试听信息
 
