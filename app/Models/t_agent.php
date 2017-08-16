@@ -135,7 +135,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." n.admin_revisiterid,n.tmk_student_status,n.global_tq_called_flag,n.sys_invaild_flag,"
                                  ." t.seller_student_status,t.require_admin_type,"
                                  ." tr.accept_flag,"
-                                 ." l.lesson_user_online_status,l.lesson_start "
+                                 ." l.lesson_user_online_status "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
