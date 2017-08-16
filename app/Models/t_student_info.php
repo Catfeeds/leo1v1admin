@@ -2066,10 +2066,11 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         ];
         $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
+        //$sql = $this->gen_sql_new(" select m.uid,s.userid "
                                   ." from %s s  "
                                   ." left join %s a on s.assistantid = a.assistantid "
                                   ." left join %s m on a.phone = m.phone "
-                                  ." where %s",
+                                  ." where %s group by m.uid",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,

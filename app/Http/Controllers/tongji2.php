@@ -887,6 +887,7 @@ class tongji2 extends Controller
 
         $student_finish = $this->t_student_info->get_ass_first_revisit_info_finish($start_time,$end_time);//结课学生数
         $student_finish_detail = [];
+        //dd($student_finish);
         foreach ($student_finish as $key => $value) {  
             $student_finish_detail[$value['uid']] = $value['num']; 
         }
