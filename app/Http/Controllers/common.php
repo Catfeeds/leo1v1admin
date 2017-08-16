@@ -841,7 +841,7 @@ class common extends Controller
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             // imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             // imagecopymerge($image_3,$image_2,80,1080,0,0,180,180,100);
-            imagecopymerge($image_3,$image_2,294,1082,0,0,180,180,100);
+            imagecopymerge($image_3,$image_2,294,1082,0,0,176,176,100);
             // imagecopymerge($image_3,$image_5,297,209,0,0,160,160,100);
             imagepng($image_3,$agent_qr_url);
 

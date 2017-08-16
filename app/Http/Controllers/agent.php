@@ -57,13 +57,16 @@ class agent extends Controller
     public function agent_list_new(){
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        // $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        $ret_info  = $this->t_agent->get_agent_info_new($type);
         // $ret_info = $this->t_agent->get_type1_info($page_info);
         $userid_arr = [];
 
         $ret_info_new['list'] = [];
-        $id_arr = array_unique(array_column($ret_info['list'],'id'));
-        foreach($ret_info['list'] as &$item){
+        // $id_arr = array_unique(array_column($ret_info['list'],'id'));
+        $id_arr = array_unique(array_column($ret_info,'id'));
+        // foreach($ret_info['list'] as &$item){
+        foreach($ret_info as &$item){
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
@@ -88,11 +91,10 @@ class agent extends Controller
             }
         }
         $ret_info_new['total_num'] = count($ret_info_new['list']);
-        $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
+        $ret_info_new['per_page_count'] = $page_info['page_count'];
         $ret_info_new['page_info']['total_num'] = count($ret_info_new['list']);
-        $ret_info_new['page_info']['per_page_count'] = $ret_info['page_info']['per_page_count'];
-        $ret_info_new['page_info']['page_num'] = $ret_info['page_info']['page_num'];
-        dd($ret_info,$ret_info_new);
+        $ret_info_new['page_info']['per_page_count'] = $page_info['page_count'];
+        $ret_info_new['page_info']['page_num'] = $page_info['page_num'];
         return $this->pageView(__METHOD__,$ret_info_new);
     }
 
