@@ -59,7 +59,7 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
         $userid_arr = [];
-        // dd($ret_info);
+
         $ret_info_new['total_num'] = $ret_info['total_num'];
         $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
         $ret_info_new['page_info'] = $ret_info['page_info'];
@@ -78,12 +78,10 @@ class agent extends Controller
             }else{
                 $ret_info_new['list'][] = $item;
             }
-            // $id_arr =
         }
-        dd($ret_info_new['list']);
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
-            foreach($ret_info['list'] as &$item){
+            foreach($ret_info_new['list'] as &$item){
                 foreach($test_info as $info){
                     if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
@@ -91,7 +89,7 @@ class agent extends Controller
                 }
             }
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        return $this->pageView(__METHOD__,$ret_info_new);
     }
 
     public function agent_order_list() {
