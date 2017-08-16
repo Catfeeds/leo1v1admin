@@ -169,17 +169,51 @@
 
             <div class="row">
                 <div class="col-xs6 col-md-3">
-                    @foreach ($origin_info as $var)
 
-                        <tr class="{{$var["level"]}}">
-                            <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
-                            <td  data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
-                            <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
-                            <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
-                            <td>{{@$var["succ_test_lesson_count"]}}</td>
-                            <td>{{@$var["order_count"]}}</td>
-                        </tr>
-                    @endforeach
+                    <div align="center">渠道转化率</div>
+                    <table class="common-table   ">
+                        <thead>
+                            <tr>
+                                <td >key1</td>
+                                <td >key2</td>
+                                <td >key3</td>
+                                <td >渠道</td>
+                                <td >上课成功数</td>
+                                <td >合同个数</td>
+                                <td >签单率</td>
+                                <td >操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($origin_info as $var)
+                                <tr class="{{$var["level"]}}">
+                                    <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
+                                    <td  data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
+                                    <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
+                                    <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
+                                    <td>{{@$var["succ_test_lesson_count"]}}</td>
+                                    <td>{{@$var["order_count"]}}</td>
+
+
+                                    @if($var["order_count"]>0)
+                                        @if($var['succ_test_lesson_count']>0)
+                                            <td>{{@$var["order_count"]}}</td>
+                                        @else
+                                        @endif
+                                    @endif($var["order_count"]>0)
+                                    <td>0</td>
+                                    @endif
+
+                                    <td>
+                                        <div></div>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
 

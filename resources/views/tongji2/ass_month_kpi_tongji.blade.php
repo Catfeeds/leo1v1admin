@@ -107,6 +107,7 @@
                                         <td>上课学生</td>
                                         <td>上课率</td>
                                         <td>人效</td>
+                                        <td>KPI</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_ass_list">
@@ -138,6 +139,7 @@
                                             <td>{{@$var["student_online"]}}</td>
                                             <td>{{@$var["student_online_per"]}}%</td>
                                             <td>{{@$var["people_per"]}}</td>
+                                            <td>{{@$var["kpi"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
