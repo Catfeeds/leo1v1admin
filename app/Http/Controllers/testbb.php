@@ -112,10 +112,6 @@ class testbb extends Controller
         $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
 
         $date_time = date("Y-m-d");
-        // $teacher_list = [
-        //     ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc']
-        // ];
-
 
         $url_teacher = "";
 
