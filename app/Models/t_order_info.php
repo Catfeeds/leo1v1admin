@@ -780,7 +780,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ["o1.sys_operator='%s'" ,$account,""],
         ];
         $sql = $this->gen_sql_new(
-            "select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade , o1.default_lesson_count* o1.lesson_total/100 as lesson_count , lesson_start "
+            "select  o1.order_time,o1.orderid ,o1.price ,flowid, o1.grade , o1.default_lesson_count* o1.lesson_total/100 as lesson_count , lesson_start, o1.promotion_spec_is_not_spec_flag "
             ." from %s o1 "
             ." left join %s s2 on o1.userid = s2.userid "
             ." left join %s f on (f.from_key_int = o1.orderid  and f.flow_type=2002  ) "
@@ -1815,7 +1815,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             $v_24_hour_flag=false;
             $all_price+= $item["price"];
             //高中 < 90课时 不算
-            if  ($item["flowid"] && !(in_array($item["grade"]*1, [300,301,302,303]) &&  $item["lesson_count"] < 90) ) {
+            if  ($item["flowid"] && !$item["promotion_spec_is_not_spec_flag"] && !(in_array($item["grade"]*1, [300,301,302,303]) &&  $item["lesson_count"] < 90) ) {
                 $require_all_price+= $item["price"];
                 $require_flag=true;
             }
@@ -2094,6 +2094,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
+            $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;

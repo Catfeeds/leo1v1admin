@@ -1143,7 +1143,7 @@ class main_page extends Controller
 	       
 	    }
 
-	    public function assistant_main_leader_new() {
+    public function assistant_main_leader_new() {
 		$this->t_lesson_info->switch_tongji_database();
 		$this->t_month_ass_student_info->switch_tongji_database();
 		$this->t_test_lesson_subject->switch_tongji_database();

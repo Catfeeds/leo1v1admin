@@ -124,9 +124,6 @@ class testbb extends Controller
 
     public function get_orgin(){
 
-
-        // list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
-
         $start_time = 1501516800;
         $end_time   = 1504108800;
 
@@ -137,10 +134,14 @@ class testbb extends Controller
         $field_name = 'origin';
         $field_class_name = '';
 
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
 
         $data_map = &$origin_info['list'];
 
+
+        $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
 
         foreach ($test_lesson_list as  $test_item ) {
@@ -151,23 +152,27 @@ class testbb extends Controller
         }
 
 
+        $this->t_order_info->switch_tongji_database();
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        foreach ($order_list as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+
+
+
         foreach ($data_map as &$item ) {
-            if($field_class_name ) {
-                $item["title"]= $field_class_name::get_desc($item["check_value"]);
-            }else{
-                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
-                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
-                }else{
-                    $item["title"]= $item["check_value"];
-                }
-            }
+            $item["title"]= $item["check_value"];
 
             if ($field_name=="origin") {
                 $item["origin"]= $item["title"];
             }
         }
 
-        // dd($ret_info);
         if ($field_name=="origin") {
             $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
         }

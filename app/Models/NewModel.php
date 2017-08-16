@@ -536,6 +536,20 @@ abstract class NewModel
         $where_arr[]= ["$field_name='%s'" , $value, $def_value ];
     }
 
+
+    public function where_arr_add_boolean_for_value_false(&$where_arr,$field_name, $value, $need_is_null_flag=false) {
+        if ($value ==0 ) {
+            $where_arr[]= "$field_name<>0";
+        }else if ( $value==1){
+            if ($need_is_null_flag ) {
+                $where_arr[]= "($field_name=0 or  $field_name is null)";
+            }else{
+
+                $where_arr[]= "$field_name=0";
+            }
+        }
+    }
+
     public function where_arr_add_boolean_for_value(&$where_arr,$field_name, $value, $need_is_null_flag=false) {
         if ($value ==1 ) {
             $where_arr[]= "$field_name<>0";

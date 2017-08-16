@@ -473,6 +473,9 @@ trait  InputDeal {
         $start_time  = $this->get_in_start_time_from_str($init_start_date, $start_time_str);
         $end_time    = $this->get_in_end_time_from_str($init_end_date,$end_time_str);
         $end_time   += 86400;
+        if ( $end_time - $start_time >30*86400  ) {
+            $this->switch_tongji_database();
+        }
 
         if (count($date_type_config)>0) {
             if (isset( $date_type_config[$date_type] )) {

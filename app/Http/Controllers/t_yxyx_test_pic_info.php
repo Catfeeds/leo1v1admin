@@ -26,11 +26,10 @@ class t_yxyx_test_pic_info extends Controller
                $item['test_des'] = mb_substr( $item['test_des'], 0, 15, "utf-8");
                $item["new_arr"] = explode(',',$item['custom_type']);
                foreach ($item['new_arr'] as &$v) {
-                   $v =  $type_arr[$v];
+                   $v = @$type_arr[$v];
                }
         }
-        // dd($ret_info);
-        return $this->pageView(__METHOD__,$ret_info, array("type_arr" => $type_arr),['qiniu_upload_domain_url' =>
+        return $this->pageView(__METHOD__,$ret_info, array(),['qiniu_upload_domain_url' =>
                                                              Config::get_qiniu_public_url()."/"
         ]);
     }

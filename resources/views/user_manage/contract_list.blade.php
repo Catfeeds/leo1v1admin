@@ -246,7 +246,10 @@
                         <td >{{$var["teacher_nick"]}}</td>
                         <td >{{$var["check_money_desc"]}}</td>
                         <td>{!!$var["flow_status_str"]!!} <br/>
-                            {!!$var["promotion_spec_is_not_spec_flag_str"]!!}
+                            @if ($var["flowid"] )
+                            <br/>价值: {!!$var["promotion_spec_diff_money"]!!}
+                            @endif
+                            <br/>{!!$var["promotion_spec_is_not_spec_flag_str"]!!}
                         </td>
                         <td >{{$var["get_packge_time"]}}</td>
                         <td >{{$var["lesson_count_all"]/100}}</td>
@@ -283,9 +286,10 @@
         </table>
         @include("layouts.page")
         <div class="row">
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-12">
                 <div class="input-group ">
                     <span >总课时数:{{$all_lesson_count}}</span>
+                    <span >特殊申请总价值:{{$all_promotion_spec_diff_money}}</span>
                 </div>
             </div>
         </div>
