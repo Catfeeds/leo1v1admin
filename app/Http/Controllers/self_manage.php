@@ -142,7 +142,7 @@ class self_manage extends Controller
                 $msg= $flow_class::get_line_data( $flow_info["from_key_int"] ,$flow_info["from_key_str"],  $flow_info["from_key2_int"] );
 
                 $this->t_manager_info->send_wx_todo_msg_by_adminid($flow_info["post_adminid"],"审批系统","审批完成:".E\Eflow_type::get_desc($flow_type),$msg,"");
-
+                $flow_class::call_do_succ_end($flowid);
             }else{
                 if (!$next_adminid) {
                     return  $this->output_err("出错,下一个审批人不存在.");
