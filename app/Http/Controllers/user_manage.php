@@ -419,6 +419,7 @@ class user_manage extends Controller
         $assistantid       = $this->get_in_assistantid(-1);
         $from_key          = $this->get_in_str_val('from_key');
         $from_url          = $this->get_in_str_val('from_url');
+        $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -436,6 +437,8 @@ class user_manage extends Controller
             $account_role,$grade,$subject,$tmk_adminid,-1,
             $teacherid, -1 , 0, $require_adminid_list,$origin_userid,
             $referral_adminid,$opt_date_type
+            , " t2.assistantid asc , order_time desc"
+            , $spec_flag
         );
 
         $all_lesson_count = 0;
@@ -492,6 +495,10 @@ class user_manage extends Controller
                 $pre_money_info="无";
             }
             $item["pre_money_info"]=$pre_money_info;
+            $item["promotion_spec_is_not_spec_flag_str"]="";
+            if ($item["promotion_spec_is_not_spec_flag"]) {
+                $item["promotion_spec_is_not_spec_flag_str"]= "<font color=red>已转为非特殊申请</font>";
+            }
         }
 
         return $this->Pageview(__METHOD__,$ret_list,["all_lesson_count" => $all_lesson_count ] );
@@ -501,7 +508,6 @@ class user_manage extends Controller
     public function del_contract(){
         $orderid = $this->get_in_int_val("orderid");
         $userid  = $this->get_in_int_val("userid");
-
 
 
         //get from_type

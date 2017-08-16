@@ -461,4 +461,23 @@ class ajax_deal extends Controller
         }
         return $this->output_succ();
     }
+    public  function order_set_promotion_spec_is_not_spec_flag () {
+        $orderid = $this->get_in_int_val("orderid");
+        $promotion_spec_is_not_spec_flag= $this->get_in_int_val("promotion_spec_is_not_spec_flag" );
+        if (!$this->check_account_in_arr(["jim"]) ) {
+            return  $this->output_err("没有权限");
+        }
+
+        $this->t_order_info->field_update_list($orderid,[
+            "promotion_spec_is_not_spec_flag"=> $promotion_spec_is_not_spec_flag
+        ]);
+        return $this->output_succ();
+    }
+    public function order_reset_diff_money () {
+        $orderid = $this->get_in_int_val("orderid");
+        $before_lesson_count=0;
+        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+        );
+    }
 }
