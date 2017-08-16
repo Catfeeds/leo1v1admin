@@ -57,8 +57,8 @@ class agent extends Controller
     public function agent_list_new(){
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
-        // $ret_info = $this->t_agent->get_type1_info($page_info);
+        // $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        $ret_info = $this->t_agent->get_type1_info($page_info);
         $userid_arr = [];
 
         $ret_info_new['total_num'] = $ret_info['total_num'];
