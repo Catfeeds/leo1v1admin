@@ -60,6 +60,17 @@ class flow_base{
     }
 
 
+    static function call_do_succ_end($flowid) {
+        $flow_info = static::get_flow_info($flowid);
+        $self_info = static::get_self_info($flow_info["from_key_int"], $flow_info["from_key_str"], $flow_info["from_key2_int"] );
+        return  static::do_succ_end( $flow_info, $self_info );
+
+    }
+
+    static function do_succ_end( $flow_info, $self_info ) {
+
+    }
+
 
 
 }
