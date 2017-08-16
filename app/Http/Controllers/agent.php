@@ -66,7 +66,7 @@ class agent extends Controller
         $ret_info_new['page_info'] = $ret_info['page_info'];
         $ret_info_new['list'] = [];
         $id_arr = array_unique(array_column($ret_info['list'],'id'));
-        dd($id_arr);
+        // dd($id_arr);
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
