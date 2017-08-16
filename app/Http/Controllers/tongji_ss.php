@@ -544,6 +544,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         ] );
 
         $this->t_seller_student_origin->switch_tongji_database();
+
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
 
@@ -596,7 +597,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
 
-        // dd($ret_info);
         if ($field_name=="origin") {
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
         }
@@ -632,52 +632,104 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         if($origin_ex == '优学帮,,,'){
             $origin_type = 1;
 
-            // $ret_info  = $this->t_agent->get_agent_info_new($type=1);
-            // $userid_arr = [];
+            list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
+                 $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
+                 $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
+                 $order_count,$user_count,$order_all_money) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+            $ret  = $this->t_agent->get_agent_info_new($type=1);
+            $ret_new = [];
+            $id_arr = array_unique(array_column($ret,'id'));
+            foreach($ret as &$item){
+                if($item['type'] == 1){
+                    $userid_arr[] = $item['userid'];
+                }
+                $item['agent_type'] = $item['type'];
+                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
 
-            // $ret_info_new = [];
-            // $id_arr = array_unique(array_column($ret_info,'id'));
-            // foreach($ret_info as &$item){
-            //     if($item['type'] == 1){
-            //         $userid_arr[] = $item['userid'];
-            //     }
-            //     $item['agent_type'] = $item['type'];
-            //     $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
-
-            //     $id = $item['id'];
-            //     $id_arr_new = array_unique(array_column($ret_info_new,'id'));
-            //     if(in_array($id,$id_arr_new)){
-            //     }else{
-            //         $ret_info_new[] = $item;
-            //     }
-            // }
-            // if(count($userid_arr)>0){
-            //     foreach($ret_info_new as $key=>&$item){
-            //         $item['num'] = $key+1;
-            //         if($item['admin_revisiterid'] >0){
-
-            //         }
-            //     }
-            // }
+                $id = $item['id'];
+                $id_arr_new = array_unique(array_column($ret_new,'id'));
+                if(in_array($id,$id_arr_new)){
+                }else{
+                    $ret_new[] = $item;
+                }
+            }
+            if(count($userid_arr)>0){
+                foreach($ret_new as $key=>&$item){
+                    //例子总数
+                    $all_count = $key+1;
+                    //已分配销售
+                    if($item['admin_revisiterid']>0){
+                        $assigned_count++;
+                    }
+                    //TMK有效
+                    if($item['tmk_student_status'] == 3){
+                        $tmk_assigned_count++;
+                    }
+                    //未拨打
+                    if($item['global_tq_called_flag'] == 0){
+                        $tq_no_call_count++;
+                    }
+                    //已拨打
+                    if($item['global_tq_called_flag'] != 0){
+                        $tq_called_count++;
+                    }
+                    //未接通
+                    if($item['global_tq_called_flag'] == 1){
+                        $tq_call_fail_count++;
+                    }
+                    //已拨通-有效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                        $tq_call_succ_valid_count++;
+                    }
+                    //已拨通-无效
+                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_succ_invalid_count++;
+                    }
+                    //未拨通-无效
+                    if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                        $tq_call_fail_invalid_count++;
+                    }
+                    //有效意向(A)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                        $have_intention_a_count++;
+                    }
+                    //有效意向(B)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                        $have_intention_b_count++;
+                    }
+                    //有效意向(C)
+                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                        $have_intention_c_count++;
+                    }
+                    //预约数&&上课数
+                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2){
+                        $require_count++;
+                        $test_lesson_count++;
+                    }
+                    //试听成功数
+                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1){
+                        $succ_test_lesson_count++;
+                    }
+                }
+            }
+            if(isset($ret_info['list'][4]['all_count'])){
+                $ret_info['list'][4]['all_count'] = $all_count;
+                $ret_info['list'][4]['assigned_count'] = $assigned_count;
+                $ret_info['list'][4]['tmk_assigned_count'] = $tmk_assigned_count;
+                $ret_info['list'][4]['tq_no_call_count'] = $tq_no_call_count;
+                $ret_info['list'][4]['tq_called_count'] = $tq_called_count;
+                $ret_info['list'][4]['tq_call_fail_count'] = $tq_call_fail_count;
+                $ret_info['list'][4]['tq_call_succ_valid_count'] = $tq_call_succ_valid_count;
+                $ret_info['list'][4]['tq_call_succ_invalid_count'] = $tq_call_succ_invalid_count;
+                $ret_info['list'][4]['tq_call_fail_invalid_count'] = $tq_call_fail_invalid_count;
+                $ret_info['list'][4]['have_intention_a_count'] = $have_intention_a_count;
+                $ret_info['list'][4]['have_intention_b_count'] = $have_intention_b_count;
+                $ret_info['list'][4]['have_intention_c_count'] = $have_intention_c_count;
+                $ret_info['list'][4]['require_count'] = $require_count;
+                $ret_info['list'][4]['test_lesson_count'] = $test_lesson_count;
+                $ret_info['list'][4]['succ_test_lesson_count'] = $succ_test_lesson_count;
+            }
         }
-        // $ret_info['list'][4]['all_count'];
-        // $ret_info['list'][4]['assigned_count'];
-        // $ret_info['list'][4]['tmk_assigned_count'];
-        // $ret_info['list'][4]['tq_no_call_count'];
-        // $ret_info['list'][4]['tq_called_count'];
-        // $ret_info['list'][4]['tq_call_fail_count'];
-        // $ret_info['list'][4]['tq_call_succ_valid_count'];
-        // $ret_info['list'][4]['tq_call_succ_invalid_count'];
-        // $ret_info['list'][4]['tq_call_fail_invalid_count'];
-        // $ret_info['list'][4]['have_intention_a_count'];
-        // $ret_info['list'][4]['have_intention_b_count'];
-        // $ret_info['list'][4]['have_intention_c_count'];
-        // $ret_info['list'][4]['require_count'];
-        // $ret_info['list'][4]['test_lesson_count'];
-        // $ret_info['list'][4]['succ_test_lesson_count'];
-        // $ret_info['list'][4]['order_count'];
-        // $ret_info['list'][4]['user_count'];
-        // $ret_info['list'][4]['order_all_money'];
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
             "grade_map"   => $grade_map,
