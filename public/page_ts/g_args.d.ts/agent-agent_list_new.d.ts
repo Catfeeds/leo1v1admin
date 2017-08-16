@@ -32,9 +32,10 @@ interface RowData {
 	type	:any;
 	p_nickname	:any;
 	p_phone	:any;
-	origin	:any;
 	pp_nickname	:any;
 	pp_phone	:any;
+	s_userid	:any;
+	origin	:any;
 	agent_type	:any;
 }
 
