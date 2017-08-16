@@ -4372,7 +4372,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
 
-    public function tongji_seller_test_lesson_order_info_for_jx(){
+    public function tongji_seller_test_lesson_order_info_for_jx(){ // for 教学管理事业部
         list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
         $seller_groupid_ex    = $this->get_in_str_val('seller_groupid_ex', "");
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
@@ -4381,7 +4381,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         // 测试区
         $field_name = 'origin';
         $field_class_name = '';
-
         // 新增
 
         $this->t_seller_student_origin->switch_tongji_database();
