@@ -59,7 +59,6 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
         $userid_arr = [];
-
         // $ret_info_new['total_num'] = $ret_info['total_num'];
         $ret_info_new['total_num'] = 100;
         $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
@@ -90,6 +89,7 @@ class agent extends Controller
                 }
             }
         }
+        dd($ret_info,$ret_info_new);
         return $this->pageView(__METHOD__,$ret_info_new);
     }
 
