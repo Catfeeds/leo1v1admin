@@ -784,7 +784,7 @@ class main_page extends Controller
 
 		$all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
-		$ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
+		$list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
 	      
 		$video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
 		$video_account_real = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
@@ -793,7 +793,9 @@ class main_page extends Controller
 		$one_account_real = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,-2);
 		$one_account_pass = $this->t_teacher_record_list->get_all_interview_count_by_zs($start_time,$end_time,1);
 		foreach($ret_info as $k=>&$item){
-		    $accept_adminid       = $item["accept_adminid"];
+		    $accept_adminid       = $item["uid"];
+            $item["all_count"] = @$list[$accept_adminid]["all_count"];
+            $item["no_call_count"] = @$list[$accept_adminid]["no_call_count"];
 		    $reference = $this->get_zs_reference($accept_adminid);
 		    $item["self_count"] = $this->t_teacher_lecture_appointment_info->get_self_count($reference,$start_time,$end_time);
 		    $item["system_count"] = $item["all_count"]-$item["self_count"];
