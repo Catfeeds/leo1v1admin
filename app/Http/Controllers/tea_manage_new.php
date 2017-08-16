@@ -814,16 +814,19 @@ class tea_manage_new extends Controller
 年级科目:".$grade_str."".$subject_str."
 请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
 
-            //邮件通知面试老师
-            $email = $this->t_teacher_lecture_appointment_info->get_email_by_phone($phone);
-            if($email){
-                dispatch( new \App\Jobs\SendEmailNew(
-                    $email,"【理优1对1】试讲邀请和安排","尊敬的".$realname."老师：<br>
+        //邮件通知面试老师
+        $email = $this->t_teacher_lecture_appointment_info->get_email_by_phone($phone);
+        if($show_account_info==1){
+            $show_account_html="<font color='#FF0000'>账号：".$phone."</font><br><font color='#FF0000'>密码：123456 </font><br>";
+        }else{
+            $show_account_html="";
+        }
+        if($email){
+            dispatch( new \App\Jobs\SendEmailNew(
+                $email,"【理优1对1】试讲邀请和安排","尊敬的".$realname."老师：<br>
 感谢您对理优1对1的关注，您的录制试讲申请已收到！<br>
 为了更好的评估您的教学能力，需要您尽快按照如下要求提交试讲视频<br><br>
-【试讲信息】<br>
-<font color='#FF0000'>账号：".$phone."</font><br>
-<font color='#FF0000'>密码：123456 </font><br>
+【试讲信息】<br>".$show_account_html."
 <font color='#FF0000'>时间：".$lesson_time_str."</font><br><bropt-plan-train_lesson>
 【试讲方式】<br>
  面试试讲（公校老师推荐）<br>
@@ -860,12 +863,11 @@ class tea_manage_new extends Controller
 
 【关于理优】<br>
 理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）"
-                ));
+            ));
 
-                $this->t_lesson_info->field_update_list($lessonid,[
-                    "train_email_flag"  =>1
-                ]);
-            }
+            $this->t_lesson_info->field_update_list($lessonid,[
+                "train_email_flag"  =>1
+            ]);
         }
 
         if($id>0){
