@@ -2606,6 +2606,43 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $teacher_info  = $this->t_teacher_info->get_teacher_info(279577);
+        $ret = $this->add_trial_train_lesson($teacher_info,1,2);
+        dd(111);
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(-7,0);
+        $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
+        $teacherid                  = $this->get_in_int_val('teacherid',"-1");
+        $status                     = $this->get_in_int_val("status",-1);
+        $interview_type             = $this->get_in_int_val("interview_type",-1);
+        $user_name                  = "13667122905";
+        $record_status              = $this->get_in_int_val("record_status",-1);
+        $page_num                   = $this->get_in_page_num();
+        $grade                      = $this->get_in_int_val('grade',-1);
+        $subject                    = $this->get_in_int_val('subject',-1);
+        $have_wx                    = $this->get_in_int_val("have_wx",-1);
+        $lecture_revisit_type       = $this->get_in_int_val("lecture_revisit_type",-1);
+        $lecture_revisit_type_new   = $this->get_in_int_val("lecture_revisit_type_new",-1);
+        $full_time                  = $this->get_in_int_val("full_time",-1);
+        $show_full_time             = $this->get_in_int_val("show_full_time",0);
+        $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
+        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+
+        $adminid = $this->get_account_id();
+        $acc     = $this->get_account();
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994])
+           || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
+            $adminid = -1;
+        }
+
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_all_info(
+            $page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
+            $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
+            $interview_type,$have_wx, $lecture_revisit_type,$full_time,
+            $lecture_revisit_type_new,$fulltime_teacher_type            
+        );
+        dd($ret_info);
+
         $seller_adminid = 710;
         $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
         $master_adminid = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);

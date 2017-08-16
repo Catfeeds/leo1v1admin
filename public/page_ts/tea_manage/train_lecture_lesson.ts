@@ -711,6 +711,13 @@ $(function(){
         });
     });
 
+    $(".opt-test").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        console.log(opt_data.tt_train_type);
+        console.log(opt_data.tt_train_lessonid);
+        console.log(opt_data.tt_id);
+        console.log(opt_data.tt_add_time);
+    });
 
    	$('.opt-change').set_input_change_event(load_data);
 });

@@ -111,7 +111,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             //$this->t_manager_info->send_wx_todo_msg("amanda",from_user,$header_msg,$msg);
 
             $this->t_manager_info->send_wx_todo_msg(
-                "amanda","system","重复预约","电话[$phone]重新提交了预约申请,科目[$subject_desc] ","");
+                "amanda","system","重复预约","电话[$phone]重新提交了预约申请,科目[$subject_desc] ","/seller_student_new/assign_sub_adminid_list?userid=$userid" );
 
             \App\Helper\Utils::logger(" ADD_FAIL NOTI seller ");
             $this->t_manager_info->send_wx_todo_msg_by_adminid(

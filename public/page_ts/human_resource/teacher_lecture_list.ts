@@ -334,7 +334,7 @@ $(function(){
         },function(result){
             var num = result.num;
             console.log(num);
-            if(num>1 && account==""){
+            if(num>1 && account=="" && opt_data.phone != 13079618620){
                 BootstrapDialog.alert("该老师重审次数超过1次,不能再审核,请联系技术人员处理!!");
                 return;
             }
@@ -707,7 +707,7 @@ $(function(){
         },function(result){
             var num = result.num;
             console.log(num);
-            if(num>2){
+            if(num>2  && data.phone != 13079618620){
                 BootstrapDialog.alert("该老师没有审核机会了!!");
                 return;
             }else{

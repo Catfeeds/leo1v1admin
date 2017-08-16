@@ -11,7 +11,8 @@
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
-                    <td>userid</td>
+                    <!-- <td>userid</td> -->
+                    <td>渠道</td>
                     <td>是否成功试听</td>
                     <!-- <td>银行卡号</td>
                          <td>身份证号码</td>
@@ -36,7 +37,8 @@
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["pp_nickname"]}} </td>
-                        <td>{{@$var["s_userid"]}} </td>
+                        <!-- <td>{{@$var["userid"]}} </td> -->
+                        <td>{{@$var["origin"]}} </td>
                         @if(@$var['success_flag'])
                             <td>是 </td>
                         @else

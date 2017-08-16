@@ -2038,10 +2038,67 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   t_revisit_info::DB_TABLE_NAME,
                                   $where_arr
         );
-
         return $this->main_get_list($sql);
-
-
+    }
+    public function get_ass_first_revisit_info(){
+        $where_arr=[
+            //"s.type=0",
+            "s.assistantid > 0",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+        ];
+        $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num"
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." where %s group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    public function get_ass_first_revisit_info_finish($start_time,$end_time){
+        $where_arr=[
+            "s.type=1",
+            "s.assistantid > 0",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." where %s group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+    public function get_ass_first_revisit_info_online($start_time,$end_time){
+        $where_arr=[
+            "s.type=1",
+            "s.assistantid > 0",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+        ];
+        $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
+        //$sql = $this->gen_sql_new(" select m.uid,s.userid "
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s l on a.assistantid = l.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." where %s and l.lesson_start >=%s and l.lesson_start<%s  and l.lesson_status =2 and l.confirm_flag not in (2,3)  and l.lesson_type in (0,1,3) group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $start_time,$end_time
+        );
+        //dd($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_new_assign_stu_info($start_time,$end_time){

@@ -58,25 +58,42 @@ class agent extends Controller
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        // $ret_info = $this->t_agent->get_type1_info($page_info);
         $userid_arr = [];
+
+        $ret_info_new['list'] = [];
+        $id_arr = array_unique(array_column($ret_info['list'],'id'));
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
-                $userid_arr[] = $item['s_userid'];
+                $userid_arr[] = $item['userid'];
             }
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+
+            $id = $item['id'];
+            $id_arr_new = array_unique(array_column($ret_info_new['list'],'id'));
+            if(in_array($id,$id_arr_new)){
+            }else{
+                $ret_info_new['list'][] = $item;
+            }
         }
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
-            foreach($ret_info['list'] as &$item){
+            foreach($ret_info_new['list'] as &$item){
                 foreach($test_info as $info){
-                    if($item['s_userid'] == $info['userid']){
+                    if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
                     }
                 }
             }
         }
-        return $this->pageView(__METHOD__,$ret_info);
+        $ret_info_new['total_num'] = count($ret_info_new['list']);
+        $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
+        $ret_info_new['page_info']['total_num'] = count($ret_info_new['list']);
+        $ret_info_new['page_info']['per_page_count'] = $ret_info['page_info']['per_page_count'];
+        $ret_info_new['page_info']['page_num'] = $ret_info['page_info']['page_num'];
+        dd($ret_info,$ret_info_new);
+        return $this->pageView(__METHOD__,$ret_info_new);
     }
 
     public function agent_order_list() {
@@ -122,11 +139,29 @@ class agent extends Controller
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
+        // $agent_id = 211;//Amanda
+        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        // dd($test_lesson);
     }
 
+    public function update_agent_userid(){
+        $ret_info = $this->t_agent->get_agent_list();
+        $ret = [];
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $phone = $item['phone'];
+            $userid = $item['userid'];
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if(!$userid){
+                if($userid_new){
+                    $ret[] = $this->t_agent->field_update_list($id,[
+                        "userid" => $userid_new,
+                    ]);
+                }
+            }
+        }
+        dd($ret);
+    }
 
     public function update_agent_order($orderid,$userid,$order_price){
         $agent_order = [];

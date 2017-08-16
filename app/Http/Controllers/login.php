@@ -20,12 +20,10 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
 
-
-
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map ,$check_item_count);
 
             if($tmp) {
                 $item_count++;
@@ -46,10 +44,11 @@ class login extends Controller
         return $menu_str;
     }
 
-    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
+    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true) {
 
         if (isset($node["list"])) {
-            \App\Helper\Utils::logger("if3333");
+
+            \App\Helper\Utils::logger('name3: '.$node['name']);
 
             $sub_list_str="";
             $add_count=0 ;
@@ -67,21 +66,25 @@ class login extends Controller
                     }
                 }
             }
-            // if ($add_count>0 && $item_1) {
+
             if ($add_count==1 && $item_1) {
                 $sub_list_str.= $item_1;
             }else{
                 $sub_list_str.= $sub_list_str_tmp;
             }
 
-            if ($sub_list_str) {
+            if ($sub_list_str || $check_item_count==false) {
                 $icon= @$node["icon"];
                 if (!$icon)  {
                     $icon="fa-folder-o";
                 }
+
+                \App\Helper\Utils::logger("sub_list_str33 ".$sub_list_str." name233: ".$node["name"]);
+
                 return  array('<li class="treeview " > <a href="#"> <i class="fa '.$icon.'  "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
             }else{
+
                 return "";
             }
 
@@ -273,18 +276,9 @@ class login extends Controller
         $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
         \App\Helper\Utils::logger("1 menu_html strlen ".strlen( "$menu_html") );
 
-
-        $main_department = $this->t_manager_info->get_main_department($uid);
-
-        $permission = $this->t_manager_info->get_permission($uid);
-
-        $per_arr = explode(',',$permission);
-
-        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95','0'];
-
-        $result = array_intersect($per_arr,$jiaoxue_part_arr);
-
         $account_id = $this->get_account_id();
+
+        $main_department = $this->t_manager_info->get_main_department($account_id);
 
         if($main_department == 2 || $account_id == 684 || $account_id == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);

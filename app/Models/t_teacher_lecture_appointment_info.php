@@ -322,7 +322,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  t_manager_info::DB_TABLE_NAME,
                                  $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
     }
 
     public function get_lecture_video_info_by_accept_adminid($start_time,$end_time,$accept_adminid){
@@ -605,15 +607,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         ];
         $sql = $this->gen_sql_new("select count(tl.phone) lecture_num,sum(if(tl.status=1,1,0)) lecture_pass_num ,ta.reference"
                                   ." from %s ta join %s tl on ta.phone=tl.phone"
-                                  ." where %s and not exists ("
-                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
+                                  ." where %s "
                                   ." and not exists ("
                                   ." select 1 from %s tll where tll.phone=tl.phone and tl.add_time<tll.add_time)"
                                   ." group by reference "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql,function($item){
@@ -628,20 +628,17 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time<%u",$end_time,0],
         ];
         $sql = $this->gen_sql_new("select count(tr.id) train_num,sum(if(tr.trial_train_status=1,1,0)) train_pass_num ,ta.reference"
-                                  ." from %s ta join %s t on ta.phone=t.phone_spare"
+                                  ." from %s ta join %s t on ta.phone=t.phone"
                                   ." join %s tra on tra.userid = t.teacherid"
                                   ." join %s l on tra.lessonid = l.lessonid"
                                   ." join %s tr on tra.lessonid = tr.train_lessonid and tr.type=10"
-                                  ." where %s and not exists ("
-                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
-                                  ." group by reference "
+                                  ." where %s group by reference "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql,function($item){
             return $item["reference"];
@@ -660,15 +657,12 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ."  join %s tt on ta.phone = tt.phone"
                                   ." join %s taaa on tt.teacherid = taaa.userid"
                                   ."  join %s ll on (taaa.lessonid = ll.lessonid and ll.train_type =1)"
-                                  ." where %s  and not exists ("
-                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
-                                  ." group by reference "
+                                  ." where %s  group by reference "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql,function($item){
             return $item["reference"];
