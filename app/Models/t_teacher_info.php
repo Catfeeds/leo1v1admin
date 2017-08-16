@@ -2222,7 +2222,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_research_teacher_list_lesson($page_info,$teacherid){
         $where_arr=[
-            "m.account_role=4",
+            "m.account_role in (4,9)",
             "m.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
             "m.uid not in (790,486,871,891)"

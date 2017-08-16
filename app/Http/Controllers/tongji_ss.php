@@ -4402,14 +4402,11 @@ class tongji_ss extends Controller
 
 
         $this->t_order_info->switch_tongji_database();
-        $order_list= $this->t_order_info->tongji_seller_order_count_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
-
-            $data_map[$check_value]["order_count"] = $order_item["order_count"];
-            $data_map[$check_value]["user_count"] = $order_item["user_count"];
-            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+            $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
 
 

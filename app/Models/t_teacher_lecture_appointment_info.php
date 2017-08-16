@@ -925,16 +925,23 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
-    public function get_no_call_all_info_train(){
+    public function get_no_call_all_info_train($start_time,$end_time,$adminid){
+        $where_arr=[
+            ["l.lesson_start>=%u",$start_time,-1],
+            ["l.lesson_start <=%u",$end_time,-1],
+            ["accept_adminid=%u",$adminid,-1]
+        ];
+
         $sql = $this->gen_sql_new("select a.id,a.phone,count(distinct l.lessonid)"
                                   ." from %s a left join %s t on a.phone = t.phone "
                                   ." left join %s ta on t.teacherid = ta.userid and ta.train_type=5"
                                   ." left join %s l on ta.lessonid = l.lessonid and l.train_type=5 and l.lesson_type =1100 and l.lesson_del_flag=0 and l.confirm_flag <2"
-                                  ." where lecture_revisit_type=0 and l.lessonid is not null group by a.phone",
+                                  ." where l.lessonid is not null and %s group by a.phone order by a.phone limit 224,112 ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }
@@ -945,7 +952,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time <=%u",$end_time,-1],
         ];
         $sql = $this->gen_sql_new("select id,phone from %s "
-                                  ." where lecture_revisit_type=0 and %s order by id limit 1460,365",
+                                  ." where lecture_revisit_type=0 and %s order by id limit 222,74",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

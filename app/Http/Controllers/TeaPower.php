@@ -1907,7 +1907,7 @@ trait  TeaPower {
     }
 
     public function get_full_time_html($data){
-        if(time>strtotime("20107-8-15")){
+        if(time()>strtotime("20107-8-15")){
             $passwd_str = "leo+手机后4位";
         }else{
             $passwd_str = "123456";

@@ -2608,10 +2608,10 @@ class user_deal extends Controller
     {
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
-        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_new($start_time,$end_time);
+        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_train($start_time,$end_time,-1);
         foreach($list as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
-                "accept_adminid"   =>492
+                "accept_adminid"   =>790
             ]);
         }
         dd(111);

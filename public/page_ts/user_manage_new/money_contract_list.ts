@@ -378,6 +378,9 @@ $(function(){
             ["实付价格",id_price],
             ["原始价格",id_discount_price],
         ];
+        id_price.val(data.price);
+        id_discount_price.val(data.discount_price/100);
+
         $.show_key_value_table("修改合同",arr,{
             label    : "确认",
             cssClass : "btn-warning",
