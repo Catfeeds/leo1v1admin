@@ -88,7 +88,7 @@ class seller_student_new extends Controller
         $admin_revisiterid = $this->get_in_int_val('admin_revisiterid', -1);
         $tq_called_flag    = $this->get_in_int_val("tq_called_flag", -1,E\Etq_called_flag::class);
         $global_tq_called_flag = $this->get_in_int_val("global_tq_called_flag", -1,E\Etq_called_flag::class);
-        $seller_student_status = $this->get_in_e_seller_student_status(-1);
+        $seller_student_status = $this->get_in_el_seller_student_status();
 
         $page_num              = $this->get_in_page_num();
         $page_count            = $this->get_in_page_count();

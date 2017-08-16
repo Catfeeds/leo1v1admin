@@ -27,7 +27,8 @@ class tongji_ss extends Controller
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($date_list));
     }
-public function user_count() {$sum_field_list=["add_time_count", "call_count", "call_old_count", "first_revisit_time_count",
+    public function user_count() {
+        $sum_field_list=["add_time_count", "call_count", "call_old_count", "first_revisit_time_count",
             "after_24_first_revisit_time_count",
             //"avg_first_time",
             "test_lesson_count",
