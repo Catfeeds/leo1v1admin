@@ -29,6 +29,7 @@ $(function(){
 
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
+     $(".common-table").table_group_level_4_init();
 	//$('#id_adminid').val(g_args.adminid);
 
 

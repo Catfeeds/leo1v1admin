@@ -80,10 +80,34 @@ class agent extends Controller
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
                 $item['num'] = $key+1;
+
+                $all_count = $key+1;
                 foreach($test_info as $info){
                     if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
                     }
+
+                    //已分配销售
+                    if($item['admin_revisiterid']>0){
+                        $assigned_count = $key+1;
+                    }
+                    //TMK有效
+                    if($item['tmk_student_status'] == 3){
+                        $tmk_assigned_count = $key+1;
+                    }
+                    //未拨打
+                    if($item['global_tq_called_flag'] == 0){
+                        $tq_no_call_count = $key+1;
+                    }
+                    //已拨打
+                    if($item['global_tq_called_flag'] != 0){
+                        $tq_no_call_count = $key+1;
+                    }
+                    //未接通
+                    if($item['global_tq_called_flag'] == 1){
+                        $tq_no_call_count = $key+1;
+                    }
+
                 }
             }
         }

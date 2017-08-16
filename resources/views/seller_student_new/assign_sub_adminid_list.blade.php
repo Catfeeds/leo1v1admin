@@ -320,6 +320,7 @@
                     <td style="width:60px">时间</td>
                     <td style="display:none;">手机号</td>
                     <td >基本信息</td>
+                    <td >地区</td>
                     <td >来源</td>
                     @if ($show_list_flag==0)
                     <td style="display:none;">例子第一次拨打时间</td>
@@ -360,7 +361,7 @@
                             {{$var["nick"]}} <br/>
                             {{$var["seller_resource_type_str"]}}
                         </td>
-
+                        <td>{{$var["phone_location"]}} </td>
                         <td>
                             @if  ($var["origin_assistantid"]==0)
                                 {{$var["origin"]}} ({{$var["origin_level_str"]}}) <br/>

@@ -22,7 +22,8 @@ function load_data(){
         teacherid         : $('#id_teacherid').val(),
         tmk_adminid       : $('#id_tmk_adminid').val(),
         origin_userid     : $('#id_origin_userid').val(),
-        referral_adminid:	$('#id_referral_adminid').val()
+        referral_adminid:	$('#id_referral_adminid').val(),
+        spec_flag:	$('#id_spec_flag').val()
 
     });
 }
@@ -43,6 +44,7 @@ $(function(){
     Enum_map.append_option_list( "contract_from_type", $("#id_stu_from_type"));
     Enum_map.append_option_list( "account_role", $("#id_account_role"));
     Enum_map.append_option_list( "subject", $("#id_subject"));
+    Enum_map.append_option_list("boolean",$("#id_spec_flag"));
     Enum_map.append_option_list( "grade", $("#id_grade"));
 
     $('#id_date_range').select_date_range({
@@ -66,13 +68,14 @@ $(function(){
     $("#id_test_user").val(g_args.test_user);
     $("#id_studentid").val(g_args.studentid);
     $("#id_sys_operator").val(g_args.sys_operator);
-  $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+    $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_stu_from_type").val(g_args.stu_from_type);
-  $('#id_assistantid').val(g_args.assistantid);
-  $('#id_origin_userid').val(g_args.origin_userid);
+    $('#id_assistantid').val(g_args.assistantid);
+    $('#id_origin_userid').val(g_args.origin_userid);
     $("#id_account_role").val(g_args.account_role);
     $('#id_grade').val(g_args.grade);
     $('#id_subject').val(g_args.subject);
+    $('#id_spec_flag').val(g_args.spec_flag);
     $('#id_tmk_adminid').val(g_args.tmk_adminid);
     $('#id_teacherid').val(g_args.teacherid);
 
@@ -149,6 +152,15 @@ $(function(){
 
 
 
+    $(" .opt-reset-spec-diff-money ").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax("/ajax_deal/order_reset_diff_money",{
+            "orderid" : opt_data.orderid
+        });
+
+    });
+
+
 
 
     //点击进入个人主页
@@ -172,18 +184,18 @@ $(function(){
         }
     };
 
-        $.admin_select_user(
+    $.admin_select_user(
         $('#id_referral_adminid'),
         "admin", load_data ,false, {
             " main_type": 2,
             select_btn_config: [
                 {
-                    "label": "[已分配]",
-                    "value": -2
-                }, {
-                    "label": "[未分配]",
-                    "value": 0
-                }]
+                "label": "[已分配]",
+                "value": -2
+            }, {
+                "label": "[未分配]",
+                "value": 0
+            }]
         }
     );
 
@@ -196,12 +208,12 @@ $(function(){
             " main_type": 2,
             select_btn_config: [
                 {
-                    "label": "[已分配]",
-                    "value": -2
-                }, {
-                    "label": "[未分配]",
-                    "value": 0
-                }]
+                "label": "[已分配]",
+                "value": -2
+            }, {
+                "label": "[未分配]",
+                "value": 0
+            }]
         }
     );
 
@@ -212,12 +224,12 @@ $(function(){
             " main_type": 2,
             select_btn_config: [
                 {
-                    "label": "[已分配]",
-                    "value": -2
-                }, {
-                    "label": "[未分配]",
-                    "value": 0
-                }]
+                "label": "[已分配]",
+                "value": -2
+            }, {
+                "label": "[未分配]",
+                "value": 0
+            }]
         }
     );
 
@@ -226,12 +238,12 @@ $(function(){
         "student", load_data ,false, {
             select_btn_config: [
                 {
-                    "label": "[已分配]",
-                    "value": -2
-                }, {
-                    "label": "[未分配]",
-                    "value": 0
-                }]
+                "label": "[已分配]",
+                "value": -2
+            }, {
+                "label": "[未分配]",
+                "value": 0
+            }]
         }
     );
 
@@ -318,46 +330,46 @@ $(function(){
             //字段列表
             'field_list' :[
                 {
-                    title:"渠道",
-                    render:function(val,item) {
-                        return item.origin;
-                    }
-                },{
-                    title:"科目",
-                    render:function(val,item) {
-                        return item.subject_str;
-                    }
-                },{
-
-                    title:"时间",
-                    render:function(val,item) {
-                        return item.require_time ;
-                    }
-
-                },{
-                    title:"教务是否接受",
-                    //width :50,
-                    render:function(val,item) {
-                        return $(item.accept_flag_str );
-                    }
-                },{
-                    title:"课程是否成功",
-                    render:function(val,item) {
-                        return $(item.success_flag_str);
-                    }
-
-                },{
-                    title:"老师",
-                    render:function(val,item) {
-                        return item.teacher_nick;
-                    }
-                },{
-                    title:"上课时间",
-                    render:function(val,item) {
-                        return item.lesson_start;
-                    }
-
+                title:"渠道",
+                render:function(val,item) {
+                    return item.origin;
                 }
+            },{
+                title:"科目",
+                render:function(val,item) {
+                    return item.subject_str;
+                }
+            },{
+
+                title:"时间",
+                render:function(val,item) {
+                    return item.require_time ;
+                }
+
+            },{
+                title:"教务是否接受",
+                //width :50,
+                render:function(val,item) {
+                    return $(item.accept_flag_str );
+                }
+            },{
+                title:"课程是否成功",
+                render:function(val,item) {
+                    return $(item.success_flag_str);
+                }
+
+            },{
+                title:"老师",
+                render:function(val,item) {
+                    return item.teacher_nick;
+                }
+            },{
+                title:"上课时间",
+                render:function(val,item) {
+                    return item.lesson_start;
+                }
+
+            }
             ] ,
             filter_list: [],
 
@@ -378,6 +390,35 @@ $(function(){
             //加载数据后，其它的设置
             "onLoadData"       : null,
         });
+    });
+
+
+    $(" .opt-is-not-spec-flag ").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        if (!opt_data.flowid ) {
+            alert("不是特殊申请的合同");
+            return;
+        }
+
+        var $promotion_spec_is_not_spec_flag=$("<select/>");
+        Enum_map.append_option_list( "boolean", $promotion_spec_is_not_spec_flag,true);
+        $promotion_spec_is_not_spec_flag.val(opt_data.promotion_spec_is_not_spec_flag);
+        var arr=[
+            [ "是否强制设置为正常订单(非特殊申请)", $promotion_spec_is_not_spec_flag ]
+        ];
+
+        $.show_key_value_table("是否强制设置为正常订单(非特殊申请)", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax('/ajax_deal/order_set_promotion_spec_is_not_spec_flag',{
+                    "orderid" : opt_data.orderid,
+                    "promotion_spec_is_not_spec_flag" : $promotion_spec_is_not_spec_flag.val(),
+                } );
+
+            }
+        });
+
     });
 
     $(".opt-change-money").on("click", function(){
@@ -435,7 +476,6 @@ $(function(){
 
     $(".opt-del").on("click", function(){
         var orderid = $(this).parent().data('orderid');
-        alert(orderid);
         var userid  = $(this).parent().data('userid');
 
         var name  = $(this).closest("tr").find(".stu_nick").text();
@@ -641,18 +681,18 @@ $(function(){
             //字段列表
             'field_list' :[
                 {
-                    title:"电话",
-                    field_name:"phone"
-                },{
-                    title:"渠道",
-                    //width :50,
-                    render:function(val,item) {
-                        return item.origin;
-                    }
-                },{
-                    title:"状态",
-                    field_name:"status_str"
+                title:"电话",
+                field_name:"phone"
+            },{
+                title:"渠道",
+                //width :50,
+                render:function(val,item) {
+                    return item.origin;
                 }
+            },{
+                title:"状态",
+                field_name:"status_str"
+            }
             ] ,
             //查询列表
             filter_list:[
@@ -848,6 +888,9 @@ $(function(){
         var $order_promotion_desc = html_node.find(".field-order_promotion_desc");
         var $div_spec             = html_node.find( ".div-spec");
         var $order_require_flag   = html_node.find(".field-order_require_flag");
+
+        var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+
         var $nick    = html_node.find(".field-nick");
         var $grade   = html_node.find(".field-grade");
         var $phone   = html_node.find(".field-phone");
@@ -865,6 +908,7 @@ $(function(){
 
 
         Enum_map.append_option_list( "boolean", $order_require_flag ,true);
+        Enum_map.append_option_list( "boolean", $has_share_activity_flag,true);
         Enum_map.append_option_list( "grade", $grade,true);
         Enum_map.append_option_list( "subject", $subject,true);
         Enum_map.append_option_list( "boolean", $competition_flag,true);
@@ -960,6 +1004,7 @@ $(function(){
                         order_promotion_type          : $order_promotion_type.val(),
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
                         promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
+                        has_share_activity_flag       : $has_share_activity_flag.val(),
                     });
                 }
             }]
@@ -1635,6 +1680,7 @@ $(function(){
 
                 var $need_receipt = $("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
                 var $title        = $("<input/>") ;
+
                 var arr           = [
                     [ "学生", data.nick]  ,
                     [ "电话", data.phone]  ,

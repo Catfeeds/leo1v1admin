@@ -888,6 +888,9 @@ $(function(){
         var $order_promotion_desc = html_node.find(".field-order_promotion_desc");
         var $div_spec             = html_node.find( ".div-spec");
         var $order_require_flag   = html_node.find(".field-order_require_flag");
+
+        var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+
         var $nick    = html_node.find(".field-nick");
         var $grade   = html_node.find(".field-grade");
         var $phone   = html_node.find(".field-phone");
@@ -905,6 +908,7 @@ $(function(){
 
 
         Enum_map.append_option_list( "boolean", $order_require_flag ,true);
+        Enum_map.append_option_list( "boolean", $has_share_activity_flag,true);
         Enum_map.append_option_list( "grade", $grade,true);
         Enum_map.append_option_list( "subject", $subject,true);
         Enum_map.append_option_list( "boolean", $competition_flag,true);
@@ -1000,6 +1004,7 @@ $(function(){
                         order_promotion_type          : $order_promotion_type.val(),
                         promotion_spec_discount       : $promotion_spec_discount_price.val()*100,
                         promotion_spec_present_lesson : $promotion_spec_present_lesson.val()*100,
+                        has_share_activity_flag       : $has_share_activity_flag.val(),
                     });
                 }
             }]
@@ -1675,6 +1680,7 @@ $(function(){
 
                 var $need_receipt = $("<select > <option value=0>否</option>  <option value=1>是</option></select>") ;
                 var $title        = $("<input/>") ;
+
                 var arr           = [
                     [ "学生", data.nick]  ,
                     [ "电话", data.phone]  ,

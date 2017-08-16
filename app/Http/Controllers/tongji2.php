@@ -942,10 +942,19 @@ class tongji2 extends Controller
                 $val["student_online_per"] = 0;
             }
             if($val["student_online"]){
-                $val["people_per"] = round(($val["lesson_money"]+$val["tran_price"]+$val["all_price"])/$val["student_online"],2);
+                $val["people_per"] = round(($val["lesson_money"]+$val["all_price"])/$val["student_online"],2);
             }else{
                 $val["people_per"] = 0;
             }
+            $val["kpi"] = 0;
+            $val["kpi"] = $val["revisit_per"]/100*50+$val["renw_per"]/100*10;
+            if((10-$val["un_first_revisit_num"]*5)>0 && $val["kpi"] > 0){
+                $val["kpi"] += (10-$val["un_first_revisit_num"]*5);
+            }
+            if((10-$val["refund_score"]*5)>0 && $val["kpi"] > 0){
+                $val["kpi"] += (10-$val["refund_score"]*5);
+            }
+	    $val["kpi"] = round($val["kpi"],2);
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
             if($account_id==-1){
 
@@ -958,12 +967,14 @@ class tongji2 extends Controller
 
 
         }
-        //dd($ass_list);
+        foreach($ass_list as $v){  
+            $flag[] = $v['people_per'];  
+        }  
+  
+        array_multisort($flag, SORT_DESC, $ass_list);          
         return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
-
-        //dd( $ass_list);
-
     }
+    
     public function seller_origin_info() {
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
         $origin_ex           = $this->get_in_str_val("origin_ex");
