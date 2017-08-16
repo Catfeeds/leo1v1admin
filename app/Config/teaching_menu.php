@@ -128,7 +128,7 @@ class teaching_menu{
                  ]],
 
                  ["power_id"=>2, "name"=>"班课组",  "list"=>[
-                     ["power_id"=>2, "name"=>"小班课", "list"=> [
+                     ["power_id"=>2, "name"=>"小班课aa1", "list"=> [
                          ["power_id"=>1, "name"=>"小班管理",   "url"=>"/small_class/index"],
                          ["power_id"=>2, "name"=>"小班课次管理",   "url"=>"/small_class/lesson_list"],
                          ["power_id"=>4, "name"=>"小班课次管理-new",   "url"=>"/small_class/lesson_list_new"],

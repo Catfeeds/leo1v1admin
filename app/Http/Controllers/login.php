@@ -48,6 +48,8 @@ class login extends Controller
 
         if (isset($node["list"])) {
 
+            \App\Helper\Utils::logger('name2: '.$node['name']);
+
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;
