@@ -494,6 +494,7 @@ class user_manage extends Controller
             }else{
                 $pre_money_info="无";
             }
+            $item["promotion_spec_diff_money"]/=100;
             $item["pre_money_info"]=$pre_money_info;
             $item["promotion_spec_is_not_spec_flag_str"]="";
             if ($item["promotion_spec_is_not_spec_flag"]) {
