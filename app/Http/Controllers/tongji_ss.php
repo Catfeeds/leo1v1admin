@@ -4233,6 +4233,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         // $adminid = $this->get_in_int_val("adminid",-1);
         // 测试区
+        $field_name = 'origin';
+        $field_class_name = '';
+
         $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
 
         foreach ($origin_info['list'] as &$item ) {
@@ -4257,7 +4260,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
 
-        dd($origin_info);
+        // dd($origin_info);
 
         // 测试结束
 

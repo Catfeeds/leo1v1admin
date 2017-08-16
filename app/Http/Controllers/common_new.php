@@ -254,7 +254,8 @@ class common_new extends Controller
         if($teacher_type=="" || $teacher_type==0){
             return $this->output_err("请选择您的教学经历!");
         }
-        $reference=$this->change_reference($reference);
+        //合并田克平两个推荐渠道到一个账号中
+        $reference = $this->change_reference($reference);
 
         $grade = $this->check_grade_by_subject($grade,$subject_ex);
         if($grade!=0){
