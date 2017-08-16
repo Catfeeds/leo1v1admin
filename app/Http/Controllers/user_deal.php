@@ -2606,13 +2606,13 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_train();
+        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_new();
+        dd($list);
         foreach($list as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
                 "lecture_revisit_type"   =>4
             ]);
         }
-        dd($list);
         $teacher_info  = $this->t_teacher_info->get_teacher_info(279577);
         $ret = $this->add_trial_train_lesson($teacher_info,1,2);
         dd(111);
