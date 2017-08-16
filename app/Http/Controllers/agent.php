@@ -126,6 +126,7 @@ class agent extends Controller
         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         // dd($test_lesson);
         $userid_null = $this->t_agent->get_userid_null_list();
+        dd($userid_null);
         $ret = [];
         foreach($userid_null as $item){
             $id = $item['id'];
