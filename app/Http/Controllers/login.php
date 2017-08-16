@@ -23,7 +23,7 @@ class login extends Controller
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
-            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map);
+            $tmp = $this->gen_account_role_one_item( $item, $power_map,$url_power_map ,$check_item_count);
 
             if($tmp) {
                 $item_count++;
@@ -44,7 +44,7 @@ class login extends Controller
         return $menu_str;
     }
 
-    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
+    function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true) {
 
         if (isset($node["list"])) {
 
@@ -73,8 +73,7 @@ class login extends Controller
                 $sub_list_str.= $sub_list_str_tmp;
             }
 
-
-            if ($sub_list_str) {
+            if ($sub_list_str || $check_item_count==false) {
                 $icon= @$node["icon"];
                 if (!$icon)  {
                     $icon="fa-folder-o";
@@ -85,6 +84,7 @@ class login extends Controller
                 return  array('<li class="treeview " > <a href="#"> <i class="fa '.$icon.'  "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
             }else{
+
                 return "";
             }
 
