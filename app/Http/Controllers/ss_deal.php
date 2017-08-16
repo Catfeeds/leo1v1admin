@@ -5179,13 +5179,14 @@ class ss_deal extends Controller
      */
     public function get_8_month_activity($userid,$price,$lesson_total,$contract_type){
         $now = time();
-        $activity_start_time = strtotime("2017-8-16");
-        $activity_end_time   = strtotime("2017-9-1");
+        $activity_start_time  = strtotime("2017-8-16");
+        $activity_end_time    = strtotime("2017-9-1");
         $activity_finish_time = strtotime("2017-12-31");
 
-        if($lesson_total>=9000){
+        $last_lesson_start = $this->t_lesson_info_b2->get_last_trial_lesson($userid);
+        if($lesson_total>=9000 && ($last_lesson_start+86400)>time()){
             if($contract_type==0){
-                if($now>$activity_start_time && $now<$activity_end_time ){
+                if($now>$activity_start_time && $now<$activity_end_time){
                     $price -= 30000;
                 }
             }elseif($contract_type==3){

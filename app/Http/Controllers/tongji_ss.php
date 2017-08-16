@@ -546,6 +546,16 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $this->t_seller_student_origin->switch_tongji_database();
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
+
+
+        if ($field_name=="origin") {
+            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        }
+
+        dd($ret_info);
+
+
+        // dd($ret_info);
         $data_map=&$ret_info["list"];
         //试听信息
 
@@ -598,6 +608,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         if ($field_name=="origin") {
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
         }
+
 
         $data_list = $this->t_seller_student_origin->get_origin_detail_info($opt_date_str,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list,$tmk_adminid);
         $subject_map      = [];
@@ -681,7 +692,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_not_intention( $field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
-        // dd($ret_info);
+
+
         $data_map=&$ret_info["list"];
 
         $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
