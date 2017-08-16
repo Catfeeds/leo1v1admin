@@ -4433,10 +4433,8 @@ class tongji_ss extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
 
-        // 测试区
         $field_name = 'origin';
         $field_class_name = '';
-        // 新增
 
         $this->t_seller_student_origin->switch_tongji_database();
 
