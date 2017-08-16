@@ -442,6 +442,7 @@ class user_manage extends Controller
         );
 
         $all_lesson_count = 0;
+        $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
             E\Eboolean::set_item_value_str($item,"is_new_stu");
             E\Egrade::set_item_value_str($item);
@@ -499,10 +500,16 @@ class user_manage extends Controller
             $item["promotion_spec_is_not_spec_flag_str"]="";
             if ($item["promotion_spec_is_not_spec_flag"]) {
                 $item["promotion_spec_is_not_spec_flag_str"]= "<font color=red>已转为非特殊申请</font>";
+            }else{
+                if ( $item["flowid"] ) {
+                    $all_promotion_spec_diff_money+= $item["promotion_spec_diff_money"];
+                }
             }
         }
 
-        return $this->Pageview(__METHOD__,$ret_list,["all_lesson_count" => $all_lesson_count ] );
+        return $this->Pageview(__METHOD__,$ret_list,
+                               ["all_lesson_count" => $all_lesson_count,
+                                "all_promotion_spec_diff_money"=> $all_promotion_spec_diff_money ] );
     }
 
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝
