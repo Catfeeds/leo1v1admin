@@ -346,6 +346,7 @@ class common_new extends Controller
                  * {{remark.DATA}}
                  */
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($phone);
+                \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
                 if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){

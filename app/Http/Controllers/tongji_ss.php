@@ -4221,6 +4221,33 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
 
+
+        foreach ($data_map as &$item ) {
+        if($field_class_name ) {
+        $item["title"]= $field_class_name::get_desc($item["check_value"]);
+        }else{
+        if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+        $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+        }else{
+        $item["title"]= $item["check_value"];
+        }
+        }
+
+        if ($field_name=="origin") {
+        $item["origin"]= $item["title"];
+        }
+        }
+
+        // dd($ret_info);
+        if ($field_name=="origin") {
+        $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        }
+
+
+
+
+
+
         */
 
 
