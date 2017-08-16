@@ -51,7 +51,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
-    public function get_agent_info_new($page_info,$type)
+    // public function get_agent_info_new($page_info,$type)
+    public function get_agent_info_new($type)
     {
         /*
           $where_arr = [
@@ -155,7 +156,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-        return $this->main_get_list_by_page( $sql,$page_info);
+        // return $this->main_get_list_by_page( $sql,$page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_type1_info($page_info)
