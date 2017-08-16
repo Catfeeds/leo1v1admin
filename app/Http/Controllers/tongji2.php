@@ -942,9 +942,17 @@ class tongji2 extends Controller
                 $val["student_online_per"] = 0;
             }
             if($val["student_online"]){
-                $val["people_per"] = round(($val["lesson_money"]+$val["tran_price"]+$val["all_price"])/$val["student_online"],2);
+                $val["people_per"] = round(($val["lesson_money"]+$val["all_price"])/$val["student_online"],2);
             }else{
                 $val["people_per"] = 0;
+            }
+            $val["kpi"] = 0;
+            $val["kpi"] = $val["revisit_per"]/100*50+$val["renw_per"]/100*10;
+            if((10-$val["un_first_revisit_num"]*5)>0 && $val["kpi"] > 0){
+                $val["kpi"] += (10-$val["un_first_revisit_num"]*5);
+            }
+            if((10-$val["refund_score"]*5)>0 && $val["kpi"] > 0){
+                $val["kpi"] += (10-$val["refund_score"]*5);
             }
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
             if($account_id==-1){
