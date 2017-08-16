@@ -22,7 +22,7 @@ interface GargsStatic {
 	lesson_del_flag:	number;
 	has_video_flag:	number;//\App\Enums\Eboolean
 	is_with_test_user:	number;
-	lessonid:	string;
+	lessonid:	number;
 	origin:	string;
 	page_num:	number;
 	page_count:	number;
@@ -162,6 +162,7 @@ interface RowData {
 	stu_stability_str	:any;
 	lesson_diff	:any;
 	lesson_user_online_status_str	:any;
+	lesson_del_flag_str	:any;
 	room_name	:any;
 	confirm_admin_nick	:any;
 	confirm_flag_str	:any;
@@ -169,7 +170,6 @@ interface RowData {
 	subject_str	:any;
 	ass_test_lesson_type_str	:any;
 	lesson_deduct	:any;
-	lesson_del_flag_str	:any;
 	test_lesson_fail_flag_str	:any;
 	success_flag_str	:any;
 	test_confirm_time_str	:any;

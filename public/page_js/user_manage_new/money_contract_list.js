@@ -369,4 +369,35 @@ $(function(){
         });
     });
 
+    $(".opt-update-price").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var id_price = $("<input>");
+        var id_discount_price = $("<input>");
+
+        var arr = [
+            ["实付价格",id_price],
+            ["原始价格",id_discount_price],
+        ];
+        $.show_key_value_table("修改合同",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/user_manage_new/update_order_price",{
+                    "orderid"        : data.orderid,
+                    "price"          : id_price.val(),
+                    "discount_price" : id_discount_price.val(),
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                });
+            }
+        });
+
+    });
+
+
+
 });

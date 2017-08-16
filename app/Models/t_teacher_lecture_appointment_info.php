@@ -945,7 +945,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time <=%u",$end_time,-1],
         ];
         $sql = $this->gen_sql_new("select id,phone from %s "
-                                  ." where lecture_revisit_type=0 and %s order by id limit 122,61",
+                                  ." where lecture_revisit_type=0 and %s order by id limit 1460,365",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

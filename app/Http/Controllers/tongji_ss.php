@@ -4396,13 +4396,12 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
 
 
         $this->t_order_info->switch_tongji_database();
-        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
