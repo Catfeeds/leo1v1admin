@@ -44,6 +44,25 @@ class seller_student_new extends Controller
         // return $this->assign_sub_adminid_list();
     }
 
+    //转介绍待分配例子--总监
+    public function assign_member_list_master ( ) {
+        $adminid=$this->get_account_id();
+        $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
+        if (!$self_groupid) {
+            return $this->error_view(["你不是销售主管"]);
+        }
+
+        $this->set_in_value("self_groupid", $self_groupid );
+        $this->set_in_value("sub_assign_adminid_2",$adminid );
+        if (!$this->check_in_has( "admin_revisiterid")) {
+            $this->set_in_value("admin_revisiterid", 0);
+        }
+
+
+        return $this->assign_sub_adminid_list();
+    }
+
+
     //分配例子
     public function assign_sub_adminid_list(){
         $self_groupid = $this->get_in_int_val("self_groupid",-1);

@@ -2083,7 +2083,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.assistantid > 0",
             "(s.is_test_user = 0 or s.is_test_user is null)",
         ];
-        $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
+        $sql = $this->gen_sql_new(" select m.uid,COUNT(DISTINCT l.userid) AS num "
         //$sql = $this->gen_sql_new(" select m.uid,s.userid "
                                   ." from %s s  "
                                   ." left join %s a on s.assistantid = a.assistantid "
@@ -2097,7 +2097,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $where_arr,
                                   $start_time,$end_time
         );
-        //dd($sql);
+        dd($sql);
         return $this->main_get_list($sql);
     }
 

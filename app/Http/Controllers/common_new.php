@@ -225,7 +225,7 @@ class common_new extends Controller
         $school                       = $this->get_in_str_val("school");
         $teacher_type                 = $this->get_in_str_val("teacher_type");
         $self_introduction_experience = $this->get_in_str_val("self_introduction_experience");
-        $reference                    = $this->get_in_str_val("reference");
+        $reference                    = trim($this->get_in_str_val("reference"),"=");
         $custom                       = $this->get_in_str_val("custom");
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
@@ -255,7 +255,9 @@ class common_new extends Controller
             return $this->output_err("请选择您的教学经历!");
         }
         //合并田克平两个推荐渠道到一个账号中
-        $reference = $this->change_reference($reference);
+        if($reference=="18707976382"){
+            $reference = "13387970861";
+        }
 
         $grade = $this->check_grade_by_subject($grade,$subject_ex);
         if($grade!=0){
@@ -266,6 +268,7 @@ class common_new extends Controller
         if($grade_start==0 || $grade_end==0){
             return $this->output_err("请选择规范的年级!");
         }
+
         $accept_adminid = $this->get_zs_accept_adminid($reference);
         $accept_time=0;
         if($accept_adminid>0){
@@ -310,7 +313,9 @@ class common_new extends Controller
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
                 }else{
-                    $this->add_teacher_common($teacher_info);
+                    if($reference != "18790256265"){
+                        $this->add_teacher_common($teacher_info);
+                    }
                     $html = $this->get_email_html_new($name);
                     // $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
@@ -325,9 +330,11 @@ class common_new extends Controller
              * 模板内容:${name}老师，您好！您已成功报名！请在${time}前，按照要求进行15分钟的课程试讲，相关信息已发至您邮箱（如找不到请检查垃圾箱），请尽快查阅。请关注并绑定“理优1对1老师帮”随时随地了解入职进度。理优致力于打造高水平的教学服务团队，期待您能的到来，加油！ 
              */
             $template_code = "SMS_85645014";
-            $sms_data['name']  = $name;
-            $sms_data['time']  = date("Y-m-d",strtotime("+3 day",time()));
-            \App\Helper\Common::send_sms_with_taobao($phone,$template_code,$sms_data);
+            $sms_data = [
+                "name"=>$name,
+                "time"=>date("Y-m-d",strtotime("+3 day",time())),
+            ];
+            \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
 
             if($reference != ""){
                 /**
@@ -342,6 +349,8 @@ class common_new extends Controller
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
                 if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){
+                    \App\Helper\Utils::logger("微信推送".$reference);
+
                     $record_info = $name."已填写报名信息";
                     $status_str  = "已报名";
                     \App\Helper\Utils::send_reference_msg_for_wx($wx_openid,$record_info,$status_str);
