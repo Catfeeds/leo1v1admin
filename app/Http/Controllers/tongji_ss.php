@@ -4205,12 +4205,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $field_name = 'origin';
         $field_class_name = '';
 
-        // $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
-
-
-
-
-
 
         // 新增
 
@@ -4256,16 +4250,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         if ($field_name=="origin") {
             $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
         }
-
-
-
-
-
-        // 新增
-
-
-
-        // dd($origin_info);
 
         // 测试结束
 

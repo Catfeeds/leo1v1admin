@@ -109,7 +109,7 @@ $(function(){
             closeByBackdrop : false,
             onshown         : function(dialog){
                 custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
-                                     g_args.qiniu_upload_domain_url , true,
+                                     g_args.qiniu_upload_domain_url,true,
                                      function (up, info, file){
                                          var res = $.parseJSON(info);
                                          pic_url = g_args.qiniu_upload_domain_url + res.key;
