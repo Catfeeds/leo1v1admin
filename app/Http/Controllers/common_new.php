@@ -343,6 +343,8 @@ class common_new extends Controller
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
                 if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){
+                    \App\Helper\Utils::logger("微信推送".$reference);
+
                     $record_info = $name."已填写报名信息";
                     $status_str  = "已报名";
                     \App\Helper\Utils::send_reference_msg_for_wx($wx_openid,$record_info,$status_str);
