@@ -1,4 +1,6 @@
 interface GargsStatic {
+	page_num:	number;
+	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -8,25 +10,20 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	campus_id	:any;
-	campus_name	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
+	custom_type_id	:any;
+	adminid	:any;
+	type_name	:any;
+	create_time	:any;
+	nick	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../campus_manage; vi  ../campus_manage/admin_campus_manage.ts
+	 mkdir -p ../t_yxyx_custom_type; vi  ../t_yxyx_custom_type/get_all.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/campus_manage-admin_campus_manage.d.ts" />
+/// <reference path="../g_args.d.ts/t_yxyx_custom_type-get_all.d.ts" />
 
 $(function(){
     function load_data(){

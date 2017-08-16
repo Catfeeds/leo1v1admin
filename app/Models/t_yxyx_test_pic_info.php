@@ -72,7 +72,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             ['y.test_type=%u', $test_type , -1],
         ];
         $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
-                                    ."y.test_type, y.poster, y.create_time, a.account"
+                                    ." y.custom_type, y.test_type, y.poster, y.create_time, a.account"
                                     . " from %s y "
                                     . " left join %s a on a.uid=y.adminid"
                                     . " where %s"

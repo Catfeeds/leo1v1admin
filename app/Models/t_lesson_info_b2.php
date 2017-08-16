@@ -461,7 +461,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 t_manager_info::DB_TABLE_NAME,
                                 $start_time,$end_time
         );
-
         return $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
@@ -881,7 +880,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type "
-                                  ." ,am.account zs_account,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,tr.id tt_id "
+                                  ." ,am.account zs_account,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,tr.id tt_id,tl.add_time tt_add_time "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -3108,6 +3107,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function get_last_trial_lesson($userid){
+        $where_arr = [
+            ["userid=%u",$userid,0],
+            "lesson_type=2",
+            "lesson_del_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select max(lesson_start)"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
     }
 
 }

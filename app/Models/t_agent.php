@@ -51,7 +51,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
-    public function get_agent_info_new($page_info,$type)
+    // public function get_agent_info_new($page_info,$type)
+    public function get_agent_info_new($type)
     {
         /*
           $where_arr = [
@@ -140,9 +141,9 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s s on s.userid = a.userid"
                                  // ." left join %s t on t.userid= n.userid "
                                  ." left join %s t on t.userid= a.userid "
-                                 // ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
-                                 // ." left join %s tss on tss.lessonid = tr.current_lessonid"
-                                 // ." left join %s l on l.lessonid = tss.lessonid"
+                                 ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+                                 ." left join %s tss on tss.lessonid = tr.current_lessonid"
+                                 ." left join %s l on l.lessonid = tss.lessonid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -150,12 +151,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_test_lesson_subject::DB_TABLE_NAME
-                                 // ,t_test_lesson_subject_require::DB_TABLE_NAME
-                                 // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-                                 // ,t_lesson_info::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-        return $this->main_get_list_by_page( $sql,$page_info);
+        // return $this->main_get_list_by_page( $sql,$page_info);
+        return $this->main_get_list($sql);
     }
 
     public function get_type1_info($page_info)

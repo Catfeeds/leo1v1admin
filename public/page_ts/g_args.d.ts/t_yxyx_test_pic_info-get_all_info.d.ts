@@ -18,6 +18,7 @@ interface RowData {
 	test_des	:any;
 	grade	:any;
 	subject	:any;
+	custom_type	:any;
 	test_type	:any;
 	poster	:any;
 	create_time	:any;
@@ -25,6 +26,7 @@ interface RowData {
 	grade_str	:any;
 	subject_str	:any;
 	test_type_str	:any;
+	new_arr	:any;
 }
 
 /*

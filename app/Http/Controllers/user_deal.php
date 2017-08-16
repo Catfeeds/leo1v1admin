@@ -2606,6 +2606,14 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info();
+        foreach($list as $val){
+            $ret = $this->t_teacher_lecture_info->check_have_video($val["phone"]);
+        }
+        dd($list);
+        $teacher_info  = $this->t_teacher_info->get_teacher_info(279577);
+        $ret = $this->add_trial_train_lesson($teacher_info,1,2);
+        dd(111);
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(-7,0);
         $lecture_appointment_status = $this->get_in_int_val('lecture_appointment_status',-1);
