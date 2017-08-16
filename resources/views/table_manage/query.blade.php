@@ -95,7 +95,7 @@
 
         <hr/>
         <pre>
-            <code class="sql"> {{$format_sql}} </code>
+            <code class="sql">{{$format_sql}}</code>
         </pre>
 
 @endsection

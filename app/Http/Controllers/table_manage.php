@@ -343,7 +343,7 @@ class table_manage extends Controller
     }
     public function query()  {
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $sql = $this->get_in_str_val("sql");
+        $sql = trim($this->get_in_str_val("sql"));
         $page_info= $this->get_in_page_info();
         $this->t_admin_group->switch_tongji_database();
         $this->t_admin_group->db_query("use $db_name");
@@ -387,7 +387,7 @@ class table_manage extends Controller
 
     public function check_query() {
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $sql = $this->get_in_str_val("sql");
+        $sql = trim($this->get_in_str_val("sql"));
         $this->t_admin_group->switch_tongji_database();
         $this->t_admin_group->db_query("use $db_name");
         try {
