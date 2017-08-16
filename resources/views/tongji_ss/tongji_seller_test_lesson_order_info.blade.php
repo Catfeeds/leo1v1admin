@@ -86,13 +86,13 @@
 
             </div>
             <hr/>
-            
-            
+
+
 
             <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div align="center"> 年级 </div>
-		            <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
+                <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
                         <thead> <tr>  <td> 年级  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
                         <tbody>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="col-xs-6 col-md-3">
                     <div align="center"> 科目</div>
-		            <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
+                <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
                         <thead> <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
                         <tbody>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="col-xs-6 col-md-3">
                     <div align="center">试卷</div>
-		            <div id="id_has_pad_pic" class="demo-placeholder" style="height:400;"></div>
+                <div id="id_has_pad_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
                         <thead> <tr>  <td> 试卷  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
                         <tbody>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="col-xs-6 col-md-3">
                     <div align="center"> 地区</div>
-		            <div id="id_area_pic" class="demo-placeholder" style="height:400;"></div>
+                <div id="id_area_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
                         <thead> <tr>  <td> 地区 </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
                         <tbody>
@@ -167,8 +167,5 @@
             </div>
 
     </section>
-    
+
 @endsection
-
-
-

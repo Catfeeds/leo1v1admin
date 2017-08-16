@@ -156,22 +156,13 @@ class testbb extends Controller
 
 
         foreach ($data_map as &$item ) {
-            if($field_class_name ) {
-                $item["title"]= $field_class_name::get_desc($item["check_value"]);
-            }else{
-                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
-                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
-                }else{
-                    $item["title"]= $item["check_value"];
-                }
-            }
+            $item["title"]= $item["check_value"];
 
             if ($field_name=="origin") {
                 $item["origin"]= $item["title"];
             }
         }
 
-        // dd($ret_info);
         if ($field_name=="origin") {
             $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
         }
