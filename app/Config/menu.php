@@ -27,6 +27,7 @@ class menu{
                     // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
                     ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                     ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
+                    ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
                 ]
                 ],
             ]
@@ -654,6 +655,7 @@ class menu{
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
                 ["power_id"=>12, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
+                ["power_id"=>13, "name"=>"试听转化率统计-教学管理部","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
 
                 ["power_id"=>4, "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
                 ["power_id"=>2, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list"],

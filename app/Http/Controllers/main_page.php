@@ -46,8 +46,8 @@ class main_page extends Controller
         list($start_time,$end_time)= $this->get_in_date_range_month(date("Y-m-01" )  );
         $adminid=$this->get_account_id();
 		/* if($adminid==349){
-		    $adminid=397;
-		    }*/
+           $adminid=397;
+           }*/
 		$self_groupid = $this->t_admin_group_user->get_groupid_by_adminid(2 , $adminid );
 		$get_self_adminid = $this->t_admin_group_name->get_master_adminid($self_groupid);
 		if($adminid == $get_self_adminid){
@@ -56,7 +56,7 @@ class main_page extends Controller
 		    $is_group_leader_flag = 0;
 		}
 		$self_info= $this->t_order_info->get_1v1_order_seller($this->get_account(),
-		    $start_time,$end_time );
+                                                              $start_time,$end_time );
 
 		$ret_info= $this->t_order_info->get_1v1_order_seller_list($start_time,$end_time);
 
@@ -129,8 +129,8 @@ class main_page extends Controller
 		    "is_group_leader_flag"   => $is_group_leader_flag,
 		    "test_lesson_need_count" => $this->t_seller_month_money_target->get_test_lesson_count($adminid,date("Y-m-01") ),
 		]);
-	    }
-	    public  function assistant() {
+    }
+    public  function assistant() {
 		$end_time = strtotime( date("Y-m-d") );
 		$end_time_date = date("Y-m-d") ;
 		$start_time   = $end_time-100*86400;
@@ -182,9 +182,9 @@ class main_page extends Controller
 		    "xs"           =>$xs
 		]);
 
-	    }
+    }
 
-	    public  function assistant_leader() {
+    public  function assistant_leader() {
 		$account_id = $this->get_account_id();
 		$main_type = 1;
 		$is_master = $this->t_admin_main_group_name->check_is_master($main_type,$account_id);
@@ -207,9 +207,9 @@ class main_page extends Controller
 		    $uid = $item["uid"];
 		    $ass_assign_time = $item["ass_assign_time"];
 		    if($ass_assign_time < $start_time){
-			@$except_revisit_info[$uid] +=4;
+                @$except_revisit_info[$uid] +=4;
 		    }else{
-			@$except_revisit_info[$uid] ++;
+                @$except_revisit_info[$uid] ++;
 		    }
 		    @$stu_is_read[$uid]++;
 		}
@@ -267,13 +267,13 @@ class main_page extends Controller
 		foreach( $ret_info as &$item ) {
 		    E\Emain_type::set_item_value_str($item);
 		    if($item["level"] != "l-4"){
-			$item["revisit_per"] = !empty($item["except_revisit_count"])?round($item["revisit_count"]/$item["except_revisit_count"],4)*100:0;
-			$item["read_xs"] = !empty($item["stu_is_read"])?round($item["lesson_count"]/$item["stu_is_read"]):0;
-			$item["lesson_xs"] =  !empty($item["user_count"])?round($item["lesson_count"]/$item["user_count"]):0;
+                $item["revisit_per"] = !empty($item["except_revisit_count"])?round($item["revisit_count"]/$item["except_revisit_count"],4)*100:0;
+                $item["read_xs"] = !empty($item["stu_is_read"])?round($item["lesson_count"]/$item["stu_is_read"]):0;
+                $item["lesson_xs"] =  !empty($item["user_count"])?round($item["lesson_count"]/$item["user_count"]):0;
 
-			$item["lesson_target"]="";
+                $item["lesson_target"]="";
 		    }else{
-			$item["target_per"] =  (!empty($item["lesson_target"])?round($item["read_xs"]/$item["lesson_target"],4):0)."%";
+                $item["target_per"] =  (!empty($item["lesson_target"])?round($item["read_xs"]/$item["lesson_target"],4):0)."%";
 		    }
 
 		}
@@ -283,10 +283,10 @@ class main_page extends Controller
 
 		// dd($ret_info);
 
-	    }
+    }
 
 
-	    public function jw_teacher(){
+    public function jw_teacher(){
 		list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 		// $this->t_test_lesson_subject_require->switch_tongji_database();
 		// $res        = $this->t_test_lesson_subject_sub_list->get_teat_lesson_transfor_info($start_time,$end_time);
@@ -306,14 +306,14 @@ class main_page extends Controller
 		    $item["all_count"] = $item["all_count"]-$item["back_other_count"];
 
 		    if($start_time == strtotime(date("2017-01-01"))){
-			$s = strtotime(date("2017-01-01 00:00:00"));
-			$e = strtotime(date("2017-01-03 12:00:00"));
-			$bc_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info_bc($s,$e);
-			$item["all_count"] += @$bc_info[$item["accept_adminid"]]["all_count"];
-			$item["set_count"] += @$bc_info[$item["accept_adminid"]]["set_count"];
-			$item["gz_count"] += @$bc_info[$item["accept_adminid"]]["gz_count"];
-			$item["back_count"] += @$bc_info[$item["accept_adminid"]]["back_count"];
-			$item["un_count"] += @$bc_info[$item["accept_adminid"]]["un_count"];
+                $s = strtotime(date("2017-01-01 00:00:00"));
+                $e = strtotime(date("2017-01-03 12:00:00"));
+                $bc_info   = $this->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info_bc($s,$e);
+                $item["all_count"] += @$bc_info[$item["accept_adminid"]]["all_count"];
+                $item["set_count"] += @$bc_info[$item["accept_adminid"]]["set_count"];
+                $item["gz_count"] += @$bc_info[$item["accept_adminid"]]["gz_count"];
+                $item["back_count"] += @$bc_info[$item["accept_adminid"]]["back_count"];
+                $item["un_count"] += @$bc_info[$item["accept_adminid"]]["un_count"];
 		    }
 		    // $item["tra_per"] = $item["all_count"]==0?"0":(round($item["tra_count"]/$item["all_count"],4)*100);
 		    $item["tra_count"] = @$tra_info[$item["accept_adminid"]]["tran_count"];
@@ -335,10 +335,10 @@ class main_page extends Controller
 		    $h_s = $val["h"];
 		    $h_e = $h_s+1;
 		    if($h_s<10){
-			$h_s="0".$h_s;
+                $h_s="0".$h_s;
 		    }
 		    if($h_e<10){
-			$h_e="0".$h_e;
+                $h_e="0".$h_e;
 		    }
 
 		    $val["hour"] = $h_s.":00 -".$h_e.":00";
@@ -356,7 +356,7 @@ class main_page extends Controller
 		    $h_s = date("H",$ss["stu_request_test_lesson_time"]);
 		    $h_e = $h_s+1;
 		    if($h_e<10){
-			$h_e="0".$h_e;
+                $h_e="0".$h_e;
 		    }
 
 		    $hour = $h_s.":00 -".$h_e.":00";
@@ -366,20 +366,20 @@ class main_page extends Controller
 
 		//dd($test_week);
 		//$lecture_info = $this->t_teacher_lecture_appointment_info->get_teacher_lecture_tongji($start_time,$end_time);
-		 \App\Helper\Utils::order_list( $ret_info,"all_count", 0 );
-		 return $this->pageView(__METHOD__ ,null, [
-		     "ret_info" => $ret_info,
-		     "all_total" => $all_total,
-		     "none_total"=> $none_total,
-		     "no_assign_total"=> $no_assign_total,
-		     "test_lesson_info"=>$test_lesson_info,
-		     "test_week"=>$test_week,
-		     "cur_num"   =>$cur_num,
-		     "test_num"  =>$test_num
-		 ]);
-	    }
+        \App\Helper\Utils::order_list( $ret_info,"all_count", 0 );
+        return $this->pageView(__METHOD__ ,null, [
+            "ret_info" => $ret_info,
+            "all_total" => $all_total,
+            "none_total"=> $none_total,
+            "no_assign_total"=> $no_assign_total,
+            "test_lesson_info"=>$test_lesson_info,
+            "test_week"=>$test_week,
+            "cur_num"   =>$cur_num,
+            "test_num"  =>$test_num
+        ]);
+    }
 
-	    public function  quality_control(){
+    public function  quality_control(){
 		$this->switch_tongji_database();
 		list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 		$subject = $this->get_in_int_val("subject",-1);
@@ -387,7 +387,7 @@ class main_page extends Controller
 		$teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);//return->uid,account,nick,name
 		foreach($teacher_info as $kk=>$vv){
 		    if(in_array($kk,[992,891,486,871])){
-			unset($teacher_info[$kk]);
+                unset($teacher_info[$kk]);
 		    }
 		}
 		// $teacher_info[349]= ["uid"=>349,"account"=>"jack","name"=>"jack"];
@@ -400,10 +400,10 @@ class main_page extends Controller
 		    $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
 		foreach($real_arr["list"] as $p=>$pp){
 		    if(isset($real_info["list"][$p])){
-			$real_info["list"][$p]["all_count"] += $pp["all_count"];
-			$real_info["list"][$p]["all_num"] += $pp["all_num"];
+                $real_info["list"][$p]["all_count"] += $pp["all_count"];
+                $real_info["list"][$p]["all_num"] += $pp["all_num"];
 		    }else{
-			$real_info["list"][$p]= $pp;
+                $real_info["list"][$p]= $pp;
 		    }
 
 		}
@@ -429,9 +429,9 @@ class main_page extends Controller
 		    $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
 		    $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
 		    foreach($teacher_arr as $k=>$val){
-			if(!isset($teacher_list[$k])){
-			    $teacher_list[$k]=$k;
-			}
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k;
+                }
 		    }
 
 		    $item["suc_count"] = count($teacher_list);
@@ -472,9 +472,9 @@ class main_page extends Controller
 		    $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
 		    $item["all_target_num"] = 250;
 		    if(in_array($item["uid"],[486,754,478])){
-			$item["all_target_num"]=150;
+                $item["all_target_num"]=150;
 		    }elseif(in_array($item["uid"],[913,923,892])){
-			$item["all_target_num"]=400;
+                $item["all_target_num"]=400;
 		    }
 		    $all_count +=$item["all_target_num"];
 		    $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
@@ -499,7 +499,7 @@ class main_page extends Controller
     		$total_regular_first_per = 0;
     	}
         if($total_regular_first_per){
-                if($total_regular_first_per/60>0){
+            if($total_regular_first_per/60>0){
                 $total_regular_first_per_str = round($total_regular_first_per/60)."分".($total_regular_first_per%60)."秒";
             }else{
                 $total_regular_first_per_str .= "秒";
@@ -515,7 +515,7 @@ class main_page extends Controller
 		$teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
 		foreach($teacher_arr_ex as $k=>$val){
 		    if(!isset($teacher_list_ex[$k])){
-			$teacher_list_ex[$k]=$k;
+                $teacher_list_ex[$k]=$k;
 		    }
 		}
 		$video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
@@ -554,8 +554,8 @@ class main_page extends Controller
 
 
 		
-	    }
-	    public function zs_teacher(){
+    }
+    public function zs_teacher(){
 		list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
 		$this->switch_tongji_database();
@@ -566,10 +566,10 @@ class main_page extends Controller
 		$all_subject=["subject_str"=>"总计"];$all_grade=["grade_ex_str"=>"总计"];     
 		foreach($one_subject as $k=>$val){
 		    if(isset($res_subject[$k])){
-			$res_subject[$k]["all_count"] +=$val["all_count"];
-			$res_subject[$k]["all_num"] +=$val["all_num"];
+                $res_subject[$k]["all_count"] +=$val["all_count"];
+                $res_subject[$k]["all_num"] +=$val["all_num"];
 		    }else{
-			$res_subject[$k]=$val;
+                $res_subject[$k]=$val;
 		    }
 		}
 		foreach($res_subject as $key=>&$t){
@@ -582,9 +582,9 @@ class main_page extends Controller
 		    $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$t["subject"]);
 		    $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$t["subject"]);
 		    foreach($teacher_arr as $k=>$l){
-			if(!isset($teacher_list[$k])){
-			    $teacher_list[$k]=$k; 
-			}
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k; 
+                }
 		    }
 		    $t["train_num"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,-1,false);
 		    $t["train_succ"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,1,false);
@@ -611,10 +611,10 @@ class main_page extends Controller
 		$one_succ_grade = $this->t_teacher_record_list->get_all_interview_count_by_grade($start_time,$end_time,1);        
 		foreach($one_grade as $k=>$val){
 		    if(isset($res_grade[$k])){
-			$res_grade[$k]["all_count"] +=$val["all_count"];
-			$res_grade[$k]["all_num"] +=$val["all_num"];
+                $res_grade[$k]["all_count"] +=$val["all_count"];
+                $res_grade[$k]["all_num"] +=$val["all_num"];
 		    }else{
-			$res_grade[$k]=$val;
+                $res_grade[$k]=$val;
 		    }
 		}
 		foreach($res_grade as $key=>&$i){
@@ -625,9 +625,9 @@ class main_page extends Controller
 		    $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,-1,-1,-1,-1,"",$i["grade_ex"]);
 		    $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,-1,"",$i["grade_ex"]);
 		    foreach($teacher_arr as $k=>$l){
-			if(!isset($teacher_list[$k])){
-			    $teacher_list[$k]=$k; 
-			}
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k; 
+                }
 		    }
 		    $i["train_num"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,-1);
 		    $i["train_succ"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,1);
@@ -660,10 +660,10 @@ class main_page extends Controller
 		       
 		foreach($arr["list"] as $k=>$val){
 		    if(isset($list["list"][$k])){
-			$list["list"][$k]["all_count"] += $val["all_count"]; 
-			$list["list"][$k]["all_num"] += $val["all_num"]; 
+                $list["list"][$k]["all_count"] += $val["all_count"]; 
+                $list["list"][$k]["all_num"] += $val["all_num"]; 
 		    }else{
-			$list["list"][$k]= $val;
+                $list["list"][$k]= $val;
 		    }
 		}
 			
@@ -672,9 +672,9 @@ class main_page extends Controller
 		    $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed($account,$start_time,$end_time);
 		    $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time);
 		    foreach($teacher_arr as $k=>$val){
-			if(!isset($teacher_list[$k])){
-			    $teacher_list[$k]=$k; 
-			}
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k; 
+                }
 		    }
 			
 		    $item2["suc_count"] = count($teacher_list);
@@ -705,7 +705,7 @@ class main_page extends Controller
 		$teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
 		foreach($teacher_arr_ex as $k=>$val){
 		    if(!isset($teacher_list_ex[$k])){
-			$teacher_list_ex[$k]=$k; 
+                $teacher_list_ex[$k]=$k; 
 		    }
 		}  
 
@@ -717,14 +717,14 @@ class main_page extends Controller
 
 		foreach($list["list"] as &$item1){
 		    if($item1["account"]=="全部"){
-			$item1["pass_per"] = @$item1["all_count"]==0?0:(round($all_tea_ex/@$item1["all_count"],2))*100;
-			$item1["order_per"] =@$item1["all_lesson"]==0?0:(round(@$item1["have_order"]/@$item1["all_lesson"],2))*100;
-			$item1["all_pass_per"] = !empty(@$item1["all_num"])?(round( @$item1["suc_count"]/$item1["all_num"],2))*100:0;
-			$item1["succ_num"] =  $all_tea_ex;
-			$item1["train_all"] = $train_all;
-			$item1["train_succ"] = $train_succ;
-			$item1["train_per"] =  $train_succ_per;
-			$data = $item1;
+                $item1["pass_per"] = @$item1["all_count"]==0?0:(round($all_tea_ex/@$item1["all_count"],2))*100;
+                $item1["order_per"] =@$item1["all_lesson"]==0?0:(round(@$item1["have_order"]/@$item1["all_lesson"],2))*100;
+                $item1["all_pass_per"] = !empty(@$item1["all_num"])?(round( @$item1["suc_count"]/$item1["all_num"],2))*100:0;
+                $item1["succ_num"] =  $all_tea_ex;
+                $item1["train_all"] = $train_all;
+                $item1["train_succ"] = $train_succ;
+                $item1["train_per"] =  $train_succ_per;
+                $data = $item1;
 		    }
 		}
 
@@ -734,10 +734,10 @@ class main_page extends Controller
 		$train_identity_succ = $this->t_teacher_record_list->get_all_interview_count_by_identity($start_time,$end_time,1);        
 		foreach($train_identity as $k=>$val){
 		    if(isset($lecture_identity[$k])){
-			$lecture_identity[$k]["all_count"] +=$val["all_count"];
-			$lecture_identity[$k]["all_num"] +=$val["all_num"];
+                $lecture_identity[$k]["all_count"] +=$val["all_count"];
+                $lecture_identity[$k]["all_num"] +=$val["all_num"];
 		    }else{
-			$lecture_identity[$k]=$val;
+                $lecture_identity[$k]=$val;
 		    }
 		}
 		foreach($lecture_identity as $key=>&$n){
@@ -748,9 +748,9 @@ class main_page extends Controller
 		    $teacher_list = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,-1,-1,-1,$n["identity_ex"]);
 		    $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,$n["identity_ex"]);
 		    foreach($teacher_arr as $k=>$l){
-			if(!isset($teacher_list[$k])){
-			    $teacher_list[$k]=$k; 
-			}
+                if(!isset($teacher_list[$k])){
+                    $teacher_list[$k]=$k; 
+                }
 		    }
 		    $n["train_num"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,-1);
 		    $n["train_succ"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,1);
@@ -760,7 +760,7 @@ class main_page extends Controller
 
 		    E\Eidentity::set_item_value_str($n,"identity_ex");
 		    if(in_array($n["identity_ex"],[1,2,127])){
-			unset($lecture_identity[$key]);
+                unset($lecture_identity[$key]);
 		    }
 		}
 
@@ -776,7 +776,7 @@ class main_page extends Controller
 		    // "data1"        =>$data1,
 		    "res_identity"=>$lecture_identity
 		]);
-	    }
+    }
 
     public function zs_teacher_new(){
 		$this->switch_tongji_database();
@@ -785,6 +785,8 @@ class main_page extends Controller
 		$all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
 		$list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
+        $list1  = $this->t_teacher_lecture_appointment_info->tongji_no_call_count_by_accept_adminid();
+
 	      
 		$video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
 		$video_account_real = $this->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
@@ -795,7 +797,7 @@ class main_page extends Controller
 		foreach($ret_info as $k=>&$item){
 		    $accept_adminid       = $item["uid"];
             $item["all_count"] = @$list[$accept_adminid]["all_count"];
-            $item["no_call_count"] = @$list[$accept_adminid]["no_call_count"];
+            $item["no_call_count"] = @$list1[$accept_adminid]["no_call_count"];
 		    $reference = $this->get_zs_reference($accept_adminid);
 		    $item["self_count"] = $this->t_teacher_lecture_appointment_info->get_self_count($reference,$start_time,$end_time);
 		    $item["system_count"] = $item["all_count"]-$item["self_count"];
@@ -840,7 +842,7 @@ class main_page extends Controller
 		@$data["one_succ"] = count($teacher_arr_ex);
 		foreach($teacher_arr_ex as $k=>$val){
 		    if(!isset($teacher_list_ex[$k])){
-			$teacher_list_ex[$k]=$k; 
+                $teacher_list_ex[$k]=$k; 
 		    }
 		}  
 
@@ -858,10 +860,10 @@ class main_page extends Controller
 		    "self_total"   => $self_total,
 		    "data"        =>$data
 		]);
-	    }
+    }
 
 
-	    public function assistant_new() {
+    public function assistant_new() {
 		$this->t_lesson_info->switch_tongji_database();
 		$this->t_month_ass_student_info->switch_tongji_database();
 		$this->t_test_lesson_subject->switch_tongji_database();
@@ -934,17 +936,17 @@ class main_page extends Controller
 
 		if(in_array(date("d",$start_time),[28,29,30,31])){
 		    foreach($ass_month as $ks=>$vss){
-			$userid_list = json_decode($vss["userid_list_last"],true);
-			if(empty($userid_list)){
-			    $userid_list=[];
-			}
+                $userid_list = json_decode($vss["userid_list_last"],true);
+                if(empty($userid_list)){
+                    $userid_list=[];
+                }
 
-			$lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
+                $lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
 		    }
 
 		    foreach($ass_list as $k=>&$dal){
-			$dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
-			$dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
+                $dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
+                $dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
 		    }
 		}
 
@@ -971,10 +973,10 @@ class main_page extends Controller
 		]);
 
 
-		    // dd($stu_info);
-		    //dd($up_master_adminid);
+        // dd($stu_info);
+        //dd($up_master_adminid);
 
-	    }
+    }
 
     public function assistant_leader_new() {
 		$this->t_lesson_info->switch_tongji_database();
@@ -1056,17 +1058,17 @@ class main_page extends Controller
 		
 		if(in_array(date("d",$start_time),[28,29,30,31])){
 		    foreach($ass_month as $ks=>$vss){
-			$userid_list = json_decode($vss["userid_list_last"],true);
-			if(empty($userid_list)){
-			    $userid_list=[];
-			}
+                $userid_list = json_decode($vss["userid_list_last"],true);
+                if(empty($userid_list)){
+                    $userid_list=[];
+                }
 		       
-			$lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
+                $lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
 		    }
 
 		    foreach($ass_list as $k=>&$dal){
-			$dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
-			$dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
+                $dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
+                $dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
 		    }
 		}
 
@@ -1104,7 +1106,7 @@ class main_page extends Controller
 		    @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
 		}
 
-		 foreach($ass_group as $key=>&$v){
+        foreach($ass_group as $key=>&$v){
 		    $v["account"] = $this->t_manager_info->get_account($key);
 		    $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
 		    $v["lesson_target"]         =$lesson_target;
@@ -1122,7 +1124,7 @@ class main_page extends Controller
 		foreach($ass_list3 as $k=>$item2){
 		    $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
 		    if($ass_master_adminid == $account_id){
-			$ass_list_group[$k]=$item2;
+                $ass_list_group[$k]=$item2;
 		    }
 		}
 		\App\Helper\Utils::order_list( $ass_list_group,"lesson_ratio", 0 );
@@ -1141,7 +1143,7 @@ class main_page extends Controller
 
 
 	       
-	    }
+    }
 
     public function assistant_main_leader_new() {
 		$this->t_lesson_info->switch_tongji_database();
@@ -1224,17 +1226,17 @@ class main_page extends Controller
 		}
 		if(in_array(date("d",$start_time),[28,29,30,31])){
 		    foreach($ass_last_month as $ks=>$vss){
-			$userid_list = json_decode($vss["userid_list_last"],true);
-			if(empty($userid_list)){
-			    $userid_list=[];
-			}
+                $userid_list = json_decode($vss["userid_list_last"],true);
+                if(empty($userid_list)){
+                    $userid_list=[];
+                }
 		       
-			$lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
+                $lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
 		    }
 
 		    foreach($ass_list as $k=>&$dal){
-			$dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
-			$dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
+                $dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
+                $dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
 		    }
 		}
 
@@ -1339,7 +1341,7 @@ class main_page extends Controller
 
 
 	       
-	    }
+    }
 
 
 

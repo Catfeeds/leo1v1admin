@@ -1875,7 +1875,7 @@ class human_resource extends Controller
             $page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
-            $lecture_revisit_type_new,$fulltime_teacher_type            
+            $lecture_revisit_type_new,$fulltime_teacher_type
         );
 
         foreach($ret_info["list"] as &$item){

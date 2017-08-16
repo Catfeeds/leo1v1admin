@@ -363,7 +363,7 @@
                         <td>{{$var["phone_location"]}} </td>
                         <td>
                             @if  ($var["origin_assistantid"]==0)
-                                {{$var["origin"]}} ({{$var["origin_level_str"]}}) <br/>
+                                {{$var["origin"]}} ({{$var["origin_level_str"]}})/{{$var["nickname"]}} <br/>
                             @else
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif

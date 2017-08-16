@@ -1490,6 +1490,9 @@ trait  TeaPower {
         if(in_array($teacher_info['teacher_type'],[32])){
             $update_arr['teacher_type']=0;
         }
+        if($appointment_info['full_time']==1){
+            $update_arr['teacher_type']=3;
+        }
         // if($teacher_info['level']==0){
         //     $update_arr['level']=1;
         // }
@@ -1907,7 +1910,7 @@ trait  TeaPower {
     }
 
     public function get_full_time_html($data){
-        if(time>strtotime("20107-8-15")){
+        if(time()>strtotime("20107-8-15")){
             $passwd_str = "leo+手机后4位";
         }else{
             $passwd_str = "123456";
