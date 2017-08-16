@@ -29,7 +29,8 @@ class t_yxyx_test_pic_info extends Controller
                    $v = @$type_arr[$v];
                }
         }
-        return $this->pageView(__METHOD__,$ret_info, array(),['qiniu_upload_domain_url' =>
+        // dd($ret_info);
+        return $this->pageView(__METHOD__,$ret_info, array("type_arr" => $type_arr),['qiniu_upload_domain_url' =>
                                                              Config::get_qiniu_public_url()."/"
         ]);
     }
@@ -42,6 +43,7 @@ class t_yxyx_test_pic_info extends Controller
         E\Esubject::set_item_value_str($ret_info,"subject");
         E\Etest_type::set_item_value_str($ret_info,"test_type");
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
+        $ret_info["custom_arr"] = explode(',',$ret_info['custom_type']);
         return outputjson_success(array('ret_info' => $ret_info));
 
     }
@@ -57,8 +59,13 @@ class t_yxyx_test_pic_info extends Controller
         $poster      = $this->get_in_str_val('poster','');
         $create_time = time();
         $adminid     = $this->get_account_id();
-        $ret_info    = $this->t_yxyx_test_pic_info->add_test($test_title, $test_des, $grade, $subject,
-                                                             $test_type, $pic, $poster, $create_time,$adminid);
+        $custom_type = $this->get_in_str_val('custom_type','');
+        $res = preg_match_all('/\d/', $custom_type, $m);
+        if($res) {
+            $custom_type = join(',', $m[0]);
+        }
+        $ret_info = $this->t_yxyx_test_pic_info->add_test($test_title, $test_des, $grade, $subject, $test_type,
+                                                          $pic, $poster, $create_time,$adminid,$custom_type);
         return outputjson_success();
     }
 
@@ -72,8 +79,14 @@ class t_yxyx_test_pic_info extends Controller
         $test_type  = $this->get_in_int_val('test_type','');
         $pic        = $this->get_in_str_val('pic','');
         $poster     = $this->get_in_str_val('poster','');
+        $custom_type = $this->get_in_str_val('custom_type','');
+        $res = preg_match_all('/\d/', $custom_type, $m);
+        if($res) {
+            $custom_type = join(',', $m[0]);
+        }
+
         $ret_info   = $this->t_yxyx_test_pic_info->update_test($id,$test_title, $test_des, $grade, $subject,
-                                                              $test_type, $pic, $poster);
+                                                               $test_type, $pic, $poster, $custom_type);
         return outputjson_success();
     }
 
@@ -82,9 +95,7 @@ class t_yxyx_test_pic_info extends Controller
     public function del_test_info()
     {
         $id = $this->get_in_int_val('id',-1);
-
         $ret_info=$this->t_yxyx_test_pic_info->row_delete($id);
-
         return outputjson_success();
     }
 }
