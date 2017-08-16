@@ -8,7 +8,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
 		parent::__construct();
 	}
 
-    public function add_test($test_title, $test_des, $grade, $subject, $test_type, $pic, $poster, $create_time,$adminid) {
+    public function add_test($test_title, $test_des, $grade, $subject, $test_type, $pic, $poster, $create_time,$adminid, $custom_type) {
         $res = $this->row_insert([
             "test_title"  => $test_title,
             "test_des"    => $test_des,
@@ -19,20 +19,22 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             "poster"      => $poster,
             "create_time" => $create_time,
             "adminid"     => $adminid,
+            "custom_type" => $custom_type,
             "visit_num"   => 0,
             "share_num"   => 0,
         ]);
         return $res;
     }
 
-    public function update_test($id,$test_title, $test_des, $grade, $subject, $test_type, $pic, $poster) {
+    public function update_test($id,$test_title, $test_des, $grade, $subject, $test_type, $pic, $poster, $custom_type) {
         $res = $this->field_update_list( ["id" => $id],[
-            "test_title" => $test_title,
-            "test_des" => $test_des,
-            "grade" => $grade,
-            "subject" => $subject,
-            "pic" => $pic,
-            "poster"  => $poster,
+            "test_title"  => $test_title,
+            "test_des"    => $test_des,
+            "grade"       => $grade,
+            "subject"     => $subject,
+            "pic"         => $pic,
+            "poster"      => $poster,
+            "custom_type" => $custom_type,
         ]);
         return $res;
     }
@@ -42,13 +44,13 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             'id='.$id,
         ];
         $sql = $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
-                                    ."y.test_type, y.pic, y.poster, y.create_time, a.account"
-                                    . " from %s y "
-                                    . " left join %s a on a.uid=y.adminid"
-                                    . " where %s"
-                                    ,self::DB_TABLE_NAME
-                                    ,t_manager_info::DB_TABLE_NAME
-                                    ,$where_arr
+                                   ." y.custom_type, y.test_type, y.pic, y.poster, y.create_time, a.account"
+                                   ." from %s y "
+                                   ." left join %s a on a.uid=y.adminid"
+                                   ." where %s"
+                                   ,self::DB_TABLE_NAME
+                                   ,t_manager_info::DB_TABLE_NAME
+                                   ,$where_arr
         );
         return $this->main_get_row($sql);
     }

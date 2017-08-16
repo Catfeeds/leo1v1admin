@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="col-xs-6 col-md-2">
+            <div style="display:none;" class="col-xs-6 col-md-2">
                 <button class="btn" id="id_opt_count" data-value="{{$opt_count}}" >{{$opt_count}}</button>
                 <button class="btn" id="id_last_count" data-value="{{$last_count}}" >{{$last_count}}</button>
             </div>

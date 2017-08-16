@@ -939,10 +939,15 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
-    public function get_no_call_all_info_new(){
+    public function get_no_call_all_info_new($start_time,$end_time){
+        $where_arr=[
+            ["answer_begin_time >=%u",$start_time,-1],
+            ["answer_begin_time <=%u",$end_time,-1],
+        ];
         $sql = $this->gen_sql_new("select id,phone from %s "
-                                  ." where lecture_revisit_type=0 order by id limit 10508,127",
-                                  self::DB_TABLE_NAME
+                                  ." where lecture_revisit_type=0 and %s order by id limit 122,61",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
         );
         return $this->main_get_list($sql);
     }

@@ -84,6 +84,14 @@ $(function(){
                     old_pic_num++;
                 }
             }
+            for (var i = 0; i < item.custom_arr.length; i++) {
+                html_node.find("input").each(function(){
+                    if (item.custom_arr[i] == $(this).val()) {
+                        $(this).parent().addClass('checked');
+                        $(this).attr('checked', true);
+                    }
+                });
+            }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
         }
@@ -98,29 +106,31 @@ $(function(){
         //压人图片上移函数set_up
         fun_str = fun_str + '<script> function set_up(obj){var id = $(obj).attr("data_id");'
             +' var new_id = parseInt(id)-1; var this_prev = $(obj).parent().prev(); '
-            +'if ( $(this_prev).find("span").eq(2).attr("data_id") !== undefined) '
-            +'{$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id);'
+            +' if ( $(this_prev).find("span").eq(2).attr("data_id") !== undefined) '
+            +' {$(obj).attr("data_id", new_id); $(obj).next().attr("data_id", new_id);'
             +' $(obj).parent().children("div:last-child").removeClass("order"+id);'
             +' $(obj).parent().children("div:last-child").addClass("order"+new_id);'
-            +'var this_con  = "<div>"+$(obj).parent().html()+"</div>";'
+            +' var this_con  = "<div>"+$(obj).parent().html()+"</div>";'
             +' $(this_prev).find("span").eq(2).attr("data_id",id);'
             +' $(this_prev).find("span").eq(3).attr("data_id",id); '
-            +'$(this_prev).children("div:last-child").removeClass("order"+new_id); '
-            +'$(this_prev).children("div:last-child").addClass("order"+id); '
-            +'$(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
+            +' $(this_prev).children("div:last-child").removeClass("order"+new_id); '
+            +' $(this_prev).children("div:last-child").addClass("order"+id); '
+            +' $(obj).parent().remove(); $(this_prev).before(this_con);}} </script>';
         //压入图片下移函数set_down
         fun_str = fun_str + '<script>  function set_down(obj){var id = $(obj).attr("data_id");'
             +' var new_id = parseInt(id)+1; var this_next = $(obj).parent().next(); '
-            +'if ( $(this_next).find("span").eq(2).attr("data_id")!== undefined )'
+            +' if ( $(this_next).find("span").eq(2).attr("data_id")!== undefined )'
             +' {$(obj).attr("data_id", new_id); $(obj).prev().attr("data_id", new_id);'
             +' $(obj).parent().children("div:last-child").removeClass("order"+id); '
-            +'$(obj).parent().children("div:last-child").addClass("order"+new_id); '
-            +'var this_con  = "<div>"+$(obj).parent().html()+"</div>"; '
-            +'$(this_next).find("span").eq(2).attr("data_id",id);'
+            +' $(obj).parent().children("div:last-child").addClass("order"+new_id); '
+            +' var this_con  = "<div>"+$(obj).parent().html()+"</div>"; '
+            +' $(this_next).find("span").eq(2).attr("data_id",id);'
             +' $(this_next).find("span").eq(3).attr("data_id",id);'
             +' $(this_next).children("div:last-child").removeClass("order"+new_id);'
             +' $(this_next).children("div:last-child").addClass("order"+id);'
             +' $(obj).parent().remove(); $(this_next).after(this_con);}} </script>';
+        //压入选择自定义标签函数set_custom
+        fun_str = fun_str + '<script> function set_custom(obj) { $(obj).parent().toggleClass("checked")}</script>';
         html_node.find("#id_container_add_tmp").after(fun_str);
 
         var title = "";
@@ -165,6 +175,7 @@ $(function(){
                         var test_des   = html_node.find(".add_test_des").val();
                         var test_type  = html_node.find(".add_test_type").val();
                         var test_title = html_node.find(".add_test_title").val();
+                        var custom_type = html_node.find("input:checked").serialize();
                         //创建新图片
                         if (pic_num >1 && old_pic_num <1 ) {
                             for (var i = 0; i <= pic_num; i++) {
@@ -212,6 +223,7 @@ $(function(){
                                     ,"test_des"   : test_des
                                     ,"test_type"  : test_type
                                     ,"test_title" : test_title
+                                    ,"custom_type" : custom_type
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -235,6 +247,7 @@ $(function(){
                                     ,"test_des"   : test_des
                                     ,"test_type"  : test_type
                                     ,"test_title" : test_title
+                                    ,"custom_type" : custom_type
                                 },
                                 success : function(result){
                                     if(result.ret==0){
