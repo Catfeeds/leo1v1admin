@@ -893,6 +893,7 @@ class tongji2 extends Controller
         }
 
         $student_online = $this->t_student_info->get_ass_first_revisit_info_online($start_time,$end_time);//上课学生数
+	dd($student_online);
         $student_online_detail = [];
         foreach ($student_online as $key => $value) {  
             $student_online_detail[$value['uid']] = $value['num']; 

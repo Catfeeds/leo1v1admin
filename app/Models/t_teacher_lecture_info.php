@@ -1738,5 +1738,9 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_list($sql);
     }
 
+    public function check_have_video($phone){
+        $sql = $this->gen_sql_new("select 1 from %s where phone = '%s' and status <>4",self::DB_TABLE_NAME,$phone);
+        return $this->main_get_value($sql);
+    }
 
 }

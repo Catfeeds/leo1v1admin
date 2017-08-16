@@ -628,20 +628,17 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time<%u",$end_time,0],
         ];
         $sql = $this->gen_sql_new("select count(tr.id) train_num,sum(if(tr.trial_train_status=1,1,0)) train_pass_num ,ta.reference"
-                                  ." from %s ta join %s t on ta.phone=t.phone_spare"
+                                  ." from %s ta join %s t on ta.phone=t.phone"
                                   ." join %s tra on tra.userid = t.teacherid"
                                   ." join %s l on tra.lessonid = l.lessonid"
                                   ." join %s tr on tra.lessonid = tr.train_lessonid and tr.type=10"
-                                  ." where %s and not exists ("
-                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
-                                  ." group by reference "
+                                  ." where %s group by reference "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_train_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql,function($item){
             return $item["reference"];
@@ -917,6 +914,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $sql = $this->gen_sql_new("select count(*) num from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_value($sql);
 
+    }
+
+    public function get_no_call_all_info(){
+        $sql = $this->gen_sql_new("select id,phone from %s where lecture_revisit_type=0",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
     }
 
 }

@@ -76,6 +76,7 @@
                     <td>教研建议</td>
                     <td>审核状态</td>
                     <td>审核人</td>
+                    <td>审核时间</td>
                     <td class ="caozuo">操作</td>
                 </tr>
             </thead>
@@ -96,6 +97,7 @@
                         <td>{{$var["record_info"]}}</td>
                         <td>{{$var["trial_train_status_str"]}}</td>
                         <td>{{$var["acc"]}}</td>
+                        <td>{{$var["add_time_str"]}}</td>
                         <td >
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}

@@ -482,7 +482,6 @@
                                     <a class="opt-level fa-lock" title="编辑工资分类,等级"></a>
                                     <a class="opt-change-phone" title="更换老师手机">手机</a>
                                     <a class="opt-change-level" title="更改老师等级">等级</a>
-                                    <a class="opt-change-lesson-num">修改排课数</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-teacher_ref_type">渠道</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
@@ -490,6 +489,10 @@
                                     <a class="opt-set_bank_info ">银行卡</a>
                                     <a class="opt-set_check_info">审核信息</a>
                                 @endif
+                                @if(in_array($acc,["ted"]))
+                                    <a class="opt-change-lesson-num">修改排课数</a>
+                                @endif
+
                                 @if(in_array($acc,["zoe"]))
                                     <a class="opt-change-phone" title="更换老师手机">手机</a>
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
