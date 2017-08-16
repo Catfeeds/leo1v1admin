@@ -313,11 +313,8 @@ class common_new extends Controller
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
                 }else{
-                    if($reference != "18790256265"){
-                        $this->add_teacher_common($teacher_info);
-                    }
+                    $this->add_teacher_common($teacher_info);
                     $html = $this->get_email_html_new($name);
-                    // $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
                 $title = "【理优1对1】试讲邀请和安排";
                 $ret   = \App\Helper\Common::send_paper_mail_new($email,$title,$html);
@@ -346,6 +343,7 @@ class common_new extends Controller
                  * {{remark.DATA}}
                  */
                 $reference_info = $this->t_teacher_info->get_reference_info_by_phone($phone);
+                \App\Helper\Utils::logger("reference_info".json_encode($reference_info));
                 $wx_openid      = $reference_info['wx_openid'];
                 $teacher_type   = $reference_info['teacher_type'];
                 if($wx_openid!="" && !in_array($teacher_type,[21,22,31])){
