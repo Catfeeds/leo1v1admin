@@ -26,7 +26,7 @@ class t_yxyx_test_pic_info extends Controller
                $item['test_des'] = mb_substr( $item['test_des'], 0, 15, "utf-8");
                $item["new_arr"] = explode(',',$item['custom_type']);
                foreach ($item['new_arr'] as &$v) {
-                   $v =  $type_arr[$v];
+                   $v = @$type_arr[$v];
                }
         }
         // dd($ret_info);
