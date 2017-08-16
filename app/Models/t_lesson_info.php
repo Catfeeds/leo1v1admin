@@ -9079,7 +9079,7 @@ lesson_type in (0,1) "
                                   ." left join %s t on l.teacherid=t.teacherid"
                                   ." left join %s m on t.phone=m.phone"
                                   ." left join %s mm on tq.cur_require_adminid = mm.uid"
-                                  ." where %s group by check_value" ,
+                                  ." where %s and tq.accept_flag=1 and ts.require_admin_type=2 group by check_value" ,
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,

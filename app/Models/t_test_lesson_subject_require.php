@@ -2543,7 +2543,7 @@ ORDER BY require_time ASC";
     public function tongji_test_lesson_origin_jx( $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex=""){
         switch ( $field_name ) {
         case "origin" :
-            $field_name="s.origin";
+            $field_name="tr.origin";
             break;
 
         case "grade" :
@@ -2558,7 +2558,7 @@ ORDER BY require_time ASC";
         }
 
         $where_arr=[];
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"tr.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
