@@ -37,6 +37,7 @@ interface RowData {
 	s_userid	:any;
 	origin	:any;
 	agent_type	:any;
+	num	:any;
 }
 
 /*

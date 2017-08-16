@@ -893,7 +893,7 @@ class tongji2 extends Controller
         }
 
         $student_online = $this->t_student_info->get_ass_first_revisit_info_online($start_time,$end_time);//上课学生数
-	dd($student_online);
+	//dd($student_online);
         $student_online_detail = [];
         foreach ($student_online as $key => $value) {  
             $student_online_detail[$value['uid']] = $value['num']; 
@@ -947,7 +947,7 @@ class tongji2 extends Controller
                 $val["student_online_per"] = 0;
             }
             if($val["student_online"]){
-                $val["people_per"] = round(($lesson_money+$tran_price+$all_price)/$val["student_online"],2);
+                $val["people_per"] = round(($val["lesson_money"]+$val["tran_price"]+$val["all_price"])/$val["student_online"],2);
             }else{
                 $val["people_per"] = 0;
             }

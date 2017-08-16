@@ -6,7 +6,8 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>id </td>
+                    <!-- <td>id </td> -->
+                    <td>序号 </td>
                     <td>手机号</td>
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
@@ -32,7 +33,8 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["id"]}} </td>
+                        <!-- <td>{{@$var["id"]}} </td> -->
+                        <td>{{@$var["num"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
