@@ -159,6 +159,16 @@ class teaching_menu{
 
              ["power_id"=>40, "name"=>"产品部",  "list"=>[
 
+                 ["power_id"=>2, "name"=>"理优升学帮", "list"=>[
+                     ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
+                     ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],
+                     ["power_id"=>3, "name"=>"查学校",   "url"=>"/school_info/search_school"],
+                     ["power_id"=>4, "name"=>"政策百科",   "url"=>"/news_info/news_ency_info"],
+                     ["power_id"=>5, "name"=>"升学头条",   "url"=>"/news_info/news_headlines_info"],
+                 ]],
+
+
+
                  ["power_id"=>10, "name"=>"理优智能题库", "list"=>[
                      ["power_id"=>1, "name"=>"录入", "list"=>[
                          ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
