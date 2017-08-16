@@ -182,7 +182,9 @@ class wx_yxyx_common extends Controller
         if(!isset($parentid)){
             $parentid = 0;
         }
-
+        if($type == 1){//进例子
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }
         $userid = null;
         $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         if($userid_new){
@@ -190,9 +192,6 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
-            if($type == 1){//进例子
-                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-            }
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");
@@ -325,9 +324,8 @@ class wx_yxyx_common extends Controller
         $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
         unset($ret_info['pic']);
         //获取所有id，随机选取三个(当天之前的14天之内)
-        $start_time = strtotime('-14 days');
-        $end_time   = strtotime('tomorrow');
-        $start_time = strtotime('today');
+        $start_time = strtotime('-15 days');
+        $end_time   = strtotime('today');
         $all_id    = $this->t_yxyx_test_pic_info->get_all_id_poster($id, $start_time, $end_time);
         $count_num = count($all_id)-1;
         $id_arr    = [];

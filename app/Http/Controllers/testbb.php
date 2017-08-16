@@ -109,12 +109,12 @@ class testbb extends Controller
 
     public function send_wx_to_update_software(){
 
-        // $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
+        $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
 
         $date_time = date("Y-m-d");
-        $teacher_list = [
-            ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc']
-        ];
+        // $teacher_list = [
+        //     ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc']
+        // ];
 
 
         $url_teacher = "";

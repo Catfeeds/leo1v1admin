@@ -61,7 +61,7 @@ class agent extends Controller
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             if($item['type'] == 1){
-                $userid_arr[] = $item['s_userid'];
+                $userid_arr[] = $item['userid'];
             }
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
@@ -70,7 +70,7 @@ class agent extends Controller
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info['list'] as &$item){
                 foreach($test_info as $info){
-                    if($item['s_userid'] == $info['userid']){
+                    if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
                     }
                 }
@@ -119,12 +119,28 @@ class agent extends Controller
     }
 
     public function check(){
-        //agentid查邀请人试听课
+                //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
+        // $agent_id = 211;//Amanda
+        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        // dd($test_lesson);
+        $ret_info = $this->t_agent->get_agent_list();
+        $ret = [];
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $phone = $item['phone'];
+            $userid = $item['userid'];
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if(!$userid){
+                if($userid_new){
+                    $ret[] = $this->t_agent->field_update_list($id,[
+                        "userid" => $userid_new,
+                    ]);
+                }
+            }
+        }
+        dd($ret);
     }
 
 
