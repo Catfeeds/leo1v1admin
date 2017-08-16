@@ -68,6 +68,11 @@ class agent extends Controller
             }
             $item['agent_type'] = $item['type'];
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            if($item['lesson_start']){
+                $item['lesson_start'] = date('Y-m-d H:i:s',$item['lesson_start']);
+            }else{
+                $item['lesson_start'] = '';
+            }
 
             $id = $item['id'];
             $id_arr_new = array_unique(array_column($ret_info_new,'id'));
