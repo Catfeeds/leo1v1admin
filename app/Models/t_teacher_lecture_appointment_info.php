@@ -607,15 +607,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         ];
         $sql = $this->gen_sql_new("select count(tl.phone) lecture_num,sum(if(tl.status=1,1,0)) lecture_pass_num ,ta.reference"
                                   ." from %s ta join %s tl on ta.phone=tl.phone"
-                                  ." where %s and not exists ("
-                                  ." select 1 from %s taa where taa.phone=ta.phone and ta.answer_begin_time<taa.answer_begin_time)"
+                                  ." where %s "
                                   ." and not exists ("
                                   ." select 1 from %s tll where tll.phone=tl.phone and tl.add_time<tll.add_time)"
                                   ." group by reference "
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,self::DB_TABLE_NAME
                                   ,t_teacher_lecture_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql,function($item){
