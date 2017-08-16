@@ -631,7 +631,7 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
         }
 
-        dd($ret_info);
+        // dd($ret_info);
         if ($field_name=="origin") {
             $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
         }
