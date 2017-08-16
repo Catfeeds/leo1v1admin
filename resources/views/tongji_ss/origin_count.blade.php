@@ -201,7 +201,7 @@
                          <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
                          <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                          @if($origin_type)
-                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=1">{{@$var["all_count"]}}</a></td>
+                             <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new">{{@$var["all_count"]}}</a></td>
                              <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=2">{{@$var["assigned_count"]}}</a></td>
                              <td ><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=3">{{@$var["tmk_assigned_count"]}}</a></td>
 
