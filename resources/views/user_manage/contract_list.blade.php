@@ -286,9 +286,10 @@
         </table>
         @include("layouts.page")
         <div class="row">
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-12">
                 <div class="input-group ">
                     <span >总课时数:{{$all_lesson_count}}</span>
+                    <span >特殊申请总价值:{{$all_promotion_spec_diff_money}}</span>
                 </div>
             </div>
         </div>

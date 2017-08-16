@@ -165,7 +165,6 @@ $(function(){
                         var test_des   = html_node.find(".add_test_des").val();
                         var test_type  = html_node.find(".add_test_type").val();
                         var test_title = html_node.find(".add_test_title").val();
-                        var custom_type = html_node.find("input[name='add_custom_type']:checked").serialize();
                         //创建新图片
                         if (pic_num >1 && old_pic_num <1 ) {
                             for (var i = 0; i <= pic_num; i++) {
@@ -236,7 +235,6 @@ $(function(){
                                     ,"test_des"   : test_des
                                     ,"test_type"  : test_type
                                     ,"test_title" : test_title
-                                    ,"custom_type" : custom_type
                                 },
                                 success : function(result){
                                     if(result.ret==0){

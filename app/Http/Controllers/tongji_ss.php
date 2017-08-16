@@ -4324,6 +4324,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         \App\Helper\Utils::order_list( $paper_arr,"per", 0);
 
 
+        // dd($origin_info);
+        $origin_info = $origin_info['list'];
 
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,

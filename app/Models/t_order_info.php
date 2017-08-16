@@ -2094,6 +2094,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
             $this->where_arr_add__2_setid_field($where_arr,"t2.assistantid",$assistantid);
             $this->where_arr_add_boolean_for_value($where_arr,"f.flowid", $spec_flag ,true);
+            $this->where_arr_add_boolean_for_value_false($where_arr,"promotion_spec_is_not_spec_flag", $spec_flag ,true);
 
             if ($contract_type==-2) {
                 $where_arr[]="contract_type in(0,1,3)" ;
