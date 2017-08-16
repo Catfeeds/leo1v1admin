@@ -6,7 +6,7 @@ class Config{
 
     static public function get_config($key1,$group= "admin") {
         $config = config($group);
-        return  $config[$key1];
+        return  @$config[$key1];
     }
 
     static public function get_config_2($key1,$key2="",$group= "admin") {
