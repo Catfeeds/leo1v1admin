@@ -461,5 +461,42 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
 
 
 
+    public function get_origin_tongji_info_for_jy( $field_name, $opt_date_str,$start_time,$end_time,$origin,$origin_ex,$seller_groupid_ex,$adminid_list=[],$tmk_adminid=-1){
+        switch ( $field_name ) {
+        case  "grade" :
+            $field_name="s.grade";
+            break;
+        default:
+            break;
+        }
+        $where_arr=[
+            ["origin like '%%%s%%' ",$origin,""],
+            'require_admin_type=2',
+        ];
+        $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"n.first_seller_adminid",$adminid_list);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value "
+            ." from %s n "
+            ." left join %s s on s.userid = n.userid".
+            " left join %s t on t.userid= n.userid ".
+            " where %s group by  check_value ",
+            t_seller_student_new::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_as_page($sql,function($item) {
+            return $item["check_value"];
+        });
+    }
+
+
+
+
+
 
 }
