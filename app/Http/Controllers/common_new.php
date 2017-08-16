@@ -225,7 +225,7 @@ class common_new extends Controller
         $school                       = $this->get_in_str_val("school");
         $teacher_type                 = $this->get_in_str_val("teacher_type");
         $self_introduction_experience = $this->get_in_str_val("self_introduction_experience");
-        $reference                    = $this->get_in_str_val("reference");
+        $reference                    = trim($this->get_in_str_val("reference"),"=");
         $custom                       = $this->get_in_str_val("custom");
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
@@ -266,6 +266,7 @@ class common_new extends Controller
         if($grade_start==0 || $grade_end==0){
             return $this->output_err("请选择规范的年级!");
         }
+
         $accept_adminid = $this->get_zs_accept_adminid($reference);
         $accept_time=0;
         if($accept_adminid>0){
