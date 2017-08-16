@@ -9,8 +9,8 @@
             </div>
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
-                    <span class="input-group-addon">电话</span>
-                    <!-- <input class="opt-change form-control" id="id_phone" /> -->
+                    <span style="display:none;" class="input-group-addon">电话</span>
+                    <input style="display:none;" class="opt-change form-control" id="id_phone" />
                 </div>
             </div>
 
