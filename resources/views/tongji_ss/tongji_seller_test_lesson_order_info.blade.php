@@ -169,7 +169,7 @@
 
             <div class="row">
                 <div class="col-xs6 col-md-3">
-                    @foreach ($table_data_list as $var)
+                    @foreach ($origin_info as $var)
 
                         <tr class="{{$var["level"]}}">
                             <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
