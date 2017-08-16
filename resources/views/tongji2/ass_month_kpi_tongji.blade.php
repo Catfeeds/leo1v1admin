@@ -105,6 +105,9 @@
                                         <td>在册学生数</td>
                                         <td>结课学生数</td>
                                         <td>结课率</td>
+                                        <td>上课学生</td>
+                                        <td>上课率</td>
+                                        <td>人效</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_ass_list">
@@ -131,6 +134,9 @@
                                             <td>{{@$var["student_all"]}}</td>
                                             <td>{{@$var["student_finish"]}}</td>
                                             <td>{{@$var["student_finish_per"]}}%</td>
+                                            <td>{{@$var["student_online"]}}</td>
+                                            <td>{{@$var["student_online_per"]}}%</td>
+                                            <td>{{@$var["people_per"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
