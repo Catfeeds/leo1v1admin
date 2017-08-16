@@ -273,18 +273,18 @@ class login extends Controller
         $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
         \App\Helper\Utils::logger("1 menu_html strlen ".strlen( "$menu_html") );
 
-
-        $main_department = $this->t_manager_info->get_main_department($uid);
-
-        $permission = $this->t_manager_info->get_permission($uid);
-
-        $per_arr = explode(',',$permission);
-
-        $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95','0'];
-
-        $result = array_intersect($per_arr,$jiaoxue_part_arr);
-
         $account_id = $this->get_account_id();
+
+        $main_department = $this->t_manager_info->get_main_department($account_id);
+
+        // $permission = $this->t_manager_info->get_permission($uid);
+
+        // $per_arr = explode(',',$permission);
+
+        // $jiaoxue_part_arr = ['66','52','96','91','70','39','71','97','105','95','0'];
+
+        // $result = array_intersect($per_arr,$jiaoxue_part_arr);
+
 
         if($main_department == 2 || $account_id == 684 || $account_id == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
