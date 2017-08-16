@@ -309,7 +309,7 @@ class common_new extends Controller
                 if($full_time==1){
                     $html = $this->get_full_time_html($data);
                 }else{
-                    $data = $this->add_teacher_common($teacher_info);
+                    $this->add_teacher_common($teacher_info);
                     $html = $this->get_email_html_new($name);
                     // $html  = $this->get_email_html($subject_ex,$grade_start,$grade_end,$grade,$name);
                 }
@@ -1147,5 +1147,22 @@ class common_new extends Controller
         return $content;
     }
 
+    public function add_teacher(){
+        $info = hex2bin($this->get_in_str_val("info"));
+        if($info==""){
+            return $this->output_err("老师信息错误！");
+        }
+
+        $teacher_info['phone']         = $phone;
+        $teacher_info['send_sms_flag'] = 0;
+        $teacher_info['wx_use_flag']   = 0;
+        $teacher_info['use_easy_pass'] = 2;
+        $ret = $this->add_teacher_common($teacher_info);
+        if($ret>0){
+            return $this->output_succ();
+        }else{
+            return $this->output_err($ret);
+        }
+    }
 
 }
