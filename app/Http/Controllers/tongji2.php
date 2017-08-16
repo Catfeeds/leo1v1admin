@@ -966,12 +966,14 @@ class tongji2 extends Controller
 
 
         }
-        //dd($ass_list);
+        foreach($ass_list as $v){  
+            $flag[] = $v['people_per'];  
+        }  
+  
+        array_multisort($flag, SORT_DESC, $ass_list);          
         return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
-
-        //dd( $ass_list);
-
     }
+    
     public function seller_origin_info() {
         list($start_time,$end_time)= $this->get_in_date_range_month(0);
         $origin_ex           = $this->get_in_str_val("origin_ex");
