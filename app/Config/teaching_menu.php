@@ -92,7 +92,7 @@ class teaching_menu{
              ]],
 
              ["power_id"=>32, "name"=>"教研部",  "list"=>[
-                 ["power_id"=>1, "name"=>"教研组",  "list"=>[
+                 ["power_id"=>1, "name"=>"教学组",  "list"=>[
 
                      ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                      ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
@@ -124,17 +124,19 @@ class teaching_menu{
                          ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
                      ]],
 
-                     ["power_id"=>2, "name"=>"班课组",  "list"=>[
-                         ["power_id"=>7, "name"=>"小班课", "list"=> [
-                             ["power_id"=>1, "name"=>"小班管理",   "url"=>"/small_class/index"],
-                             ["power_id"=>2, "name"=>"小班课次管理",   "url"=>"/small_class/lesson_list"],
-                             ["power_id"=>4, "name"=>"小班课次管理-new",   "url"=>"/small_class/lesson_list_new"],
-                             ["power_id"=>3, "name"=>"小班学生列表",   "url"=>"/small_class/student_list"],
-                             ["power_id"=>5, "name"=>"小班学生列表-new",   "url"=>"/small_class/student_list_new"]
-                         ]],
-                     ]]
-
                  ]],
+
+                 ["power_id"=>2, "name"=>"班课组",  "list"=>[
+                     ["power_id"=>7, "name"=>"小班课", "list"=> [
+                         ["power_id"=>1, "name"=>"小班管理",   "url"=>"/small_class/index"],
+                         ["power_id"=>2, "name"=>"小班课次管理",   "url"=>"/small_class/lesson_list"],
+                         ["power_id"=>4, "name"=>"小班课次管理-new",   "url"=>"/small_class/lesson_list_new"],
+                         ["power_id"=>3, "name"=>"小班学生列表",   "url"=>"/small_class/student_list"],
+                         ["power_id"=>5, "name"=>"小班学生列表-new",   "url"=>"/small_class/student_list_new"]
+                     ]],
+                 ]]
+
+
              ]],
 
 

@@ -322,7 +322,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                  t_manager_info::DB_TABLE_NAME,
                                  $where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
     }
 
     public function get_lecture_video_info_by_accept_adminid($start_time,$end_time,$accept_adminid){

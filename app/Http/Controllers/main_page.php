@@ -778,11 +778,12 @@ class main_page extends Controller
 		]);
 	    }
 
-	    public function zs_teacher_new(){
+    public function zs_teacher_new(){
 		$this->switch_tongji_database();
 		list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 
 		$all_total = $system_total=$self_total=$no_call_total=0;
+        $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
 		$ret_info  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
 	      
 		$video_account = $this->t_teacher_lecture_info->get_lecture_info_by_zs_new($start_time,$end_time);
@@ -973,7 +974,7 @@ class main_page extends Controller
 
 	    }
 
-	    public function assistant_leader_new() {
+    public function assistant_leader_new() {
 		$this->t_lesson_info->switch_tongji_database();
 		$this->t_month_ass_student_info->switch_tongji_database();
 		$this->t_test_lesson_subject->switch_tongji_database();
