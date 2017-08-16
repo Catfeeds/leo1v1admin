@@ -658,58 +658,60 @@ class tongji_ss extends Controller
                 foreach($ret_new as $key=>&$item){
                     //例子总数
                     $all_count = $key+1;
-                    //已分配销售
-                    if($item['admin_revisiterid']>0){
-                        $assigned_count++;
-                    }
-                    //TMK有效
-                    if($item['tmk_student_status'] == 3){
-                        $tmk_assigned_count++;
-                    }
-                    //未拨打
-                    if($item['global_tq_called_flag'] == 0){
-                        $tq_no_call_count++;
-                    }
-                    //已拨打
-                    if($item['global_tq_called_flag'] != 0){
-                        $tq_called_count++;
-                    }
-                    //未接通
-                    if($item['global_tq_called_flag'] == 1){
-                        $tq_call_fail_count++;
-                    }
-                    //已拨通-有效
-                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
-                        $tq_call_succ_valid_count++;
-                    }
-                    //已拨通-无效
-                    if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
-                        $tq_call_succ_invalid_count++;
-                    }
-                    //未拨通-无效
-                    if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
-                        $tq_call_fail_invalid_count++;
-                    }
-                    //有效意向(A)
-                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
-                        $have_intention_a_count++;
-                    }
-                    //有效意向(B)
-                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
-                        $have_intention_b_count++;
-                    }
-                    //有效意向(C)
-                    if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
-                        $have_intention_c_count++;
-                    }
-                    //预约数&&上课数
-                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2){
-                        $require_count++;
-                        $test_lesson_count++;
-                    }
-                    //试听成功数
-                    if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1){
-                        $succ_test_lesson_count++;
+                    if($item['lesson_start']>$item['create_time']){
+                        //已分配销售
+                        if($item['admin_revisiterid']>0){
+                            $assigned_count++;
+                        }
+                        //TMK有效
+                        if($item['tmk_student_status'] == 3){
+                            $tmk_assigned_count++;
+                        }
+                        //未拨打
+                        if($item['global_tq_called_flag'] == 0){
+                            $tq_no_call_count++;
+                        }
+                        //已拨打
+                        if($item['global_tq_called_flag'] != 0){
+                            $tq_called_count++;
+                        }
+                        //未接通
+                        if($item['global_tq_called_flag'] == 1){
+                            $tq_call_fail_count++;
+                        }
+                        //已拨通-有效
+                        if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                            $tq_call_succ_valid_count++;
+                        }
+                        //已拨通-无效
+                        if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                            $tq_call_succ_invalid_count++;
+                        }
+                        //未拨通-无效
+                        if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                            $tq_call_fail_invalid_count++;
+                        }
+                        //有效意向(A)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                            $have_intention_a_count++;
+                        }
+                        //有效意向(B)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                            $have_intention_b_count++;
+                        }
+                        //有效意向(C)
+                        if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                            $have_intention_c_count++;
+                        }
+                        //预约数&&上课数
+                        if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2){
+                            $require_count++;
+                            $test_lesson_count++;
+                        }
+                        //试听成功数
+                        if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1){
+                            $succ_test_lesson_count++;
+                        }
                     }
                 }
             }

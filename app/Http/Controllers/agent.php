@@ -76,10 +76,6 @@ class agent extends Controller
                 $ret_info_new[] = $item;
             }
         }
-        list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
-             $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
-             $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-             $order_count,$user_count,$order_all_money) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
