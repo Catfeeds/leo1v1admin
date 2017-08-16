@@ -35,6 +35,14 @@
                   </div>
               </div>
 
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">特殊申请</span>
+                <select class="opt-change form-control" id="id_spec_flag" >
+                </select>
+            </div>
+        </div>
               <div class="col-xs-6 col-md-2">
                   <div class="input-group ">
                       <span class="input-group-addon">测试学员</span>
@@ -237,7 +245,9 @@
                         <td >{{$var["tmk_admin_nick"]}}</td>
                         <td >{{$var["teacher_nick"]}}</td>
                         <td >{{$var["check_money_desc"]}}</td>
-                        <td>{!!$var["flow_status_str"]!!} </td>
+                        <td>{!!$var["flow_status_str"]!!} <br/>
+                            {!!$var["promotion_spec_is_not_spec_flag_str"]!!}
+                        </td>
                         <td >{{$var["get_packge_time"]}}</td>
                         <td >{{$var["lesson_count_all"]/100}}</td>
                         <td >
@@ -247,21 +257,23 @@
                                 <a class="fa-user opt-user" title="个人信息" ></a>
                                 <a style="display:none;" class="fa-edit opt-change-state" title="更改付款状态"> </a>
                                 <a class="fa-trash-o opt-del" title="删除合同"> </a>
-                                <a class="fa-cny opt-change-money" title="更改金额"> </a>
+                                <a class=" fa-unlock  opt-is-not-spec-flag " title="设置为正常订单,非特殊"> </a>
                                 @if (0)
+                                    <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
+                                    <a class="fa-cny opt-change-money" title="更改金额"> </a>
+                                    <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a>
                                     <a class="fa-glass opt-change-contract-starttime" title="修改合同生效时间"> </a>
                                 @endif
-                                <a class="fa-clock-o opt-change-default_lesson_count" title="修改课时数"> </a>
-                                <a class="fa-indent opt-edit-contract " title="修改合同类型"> </a>
+                                <a class="fa-refresh opt-reset-spec-diff-money " title="特殊申请价值"> </a>
                                 <a class="fa-arrow-right  opt-next " title="课时包详情"> </a>
                                 <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
                                 <a class="opt-set-origin" title="设置对应的试听课">试听</a>
-                                <a class="fa  opt-flow-def-list fa-facebook-square" title="审核预期流程" >   </a>
-                                <a class="fa  opt-flow-node-list fa-facebook " title="审核进度"></a>
-                                <a class="fa  opt-get_package_time   fa-gift  " title="发放礼包时间"></a>
-                                <a class="opt-from-data" title="外部订单信息">外 </a>
+                                <a class="fa opt-flow-def-list fa-facebook-square" title="审核预期流程" >   </a>
+                                <a class="fa opt-flow-node-list fa-facebook" title="审核进度"></a>
+                                <a class="fa opt-get_package_time fa-gift" title="发放礼包时间"></a>
+                                <a class="opt-from-data" title="外部订单信息">外</a>
                                 <a class="opt-build-contrat" title="合同pdf">pdf</a>
-                                <a class="opt-mail-contrat" title="合同运单">运单 </a>
+                                <a class="opt-mail-contrat" title="合同运单">运单</a>
                                 <a class="opt-merge_order" title="合并合同">合并</a>
                             </div>
                         </td>
