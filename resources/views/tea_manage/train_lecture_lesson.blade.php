@@ -154,6 +154,10 @@
                             @if($var['lesson_status']==0)
                                 <a class="opt-email" title="补发邮件">邮</a>
                             @endif
+                            @if($acc=="jack")
+                                <a class="opt-test" >测试</a>
+                            @endif
+
                         </div>
                     </td>
                 </tr>
