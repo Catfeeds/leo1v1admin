@@ -133,9 +133,11 @@ class agent extends Controller
             $userid = $item['userid'];
             $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             if(!$userid){
-                $ret[] = $this->t_agent->field_update_list($id,[
-                    "userid" => $userid_new,
-                ]);
+                if($userid_new){
+                    $ret[] = $this->t_agent->field_update_list($id,[
+                        "userid" => $userid_new,
+                    ]);
+                }
             }
         }
         dd($ret);
