@@ -53,22 +53,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_info_new($page_info,$type)
     {
-        $this->where_arr_add_int_field($where_arr,"a.type",$type);
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone "
-                                 ." from %s a "
-                                 ." left join %s aa on aa.id = a.parentid"
-                                 ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s s on s.userid = a.userid"
-                                 ." where %s "
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,self::DB_TABLE_NAME
-                                 ,t_student_info::DB_TABLE_NAME
-                                 ,$where_arr
-        );
-        return $this->main_get_list_by_page($sql,$page_info);
-
         /*
           $where_arr = [
           'n.admin_revisiterid >0',//assigned_count type=2 已分配销售
@@ -111,65 +95,64 @@ class t_agent extends \App\Models\Zgen\z_t_agent
           and require_admin_type = 2
          */
 
-        // $where_arr = array();
-        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
-        // $this->where_arr_add_int_field($where_arr,"a.type",1);
-        // if($type==2){ //已分配销售
-        //     $where_arr[] = 'n.admin_revisiterid >0';
-        // }elseif($type == 3){ //TMK有效
-        //     $where_arr[] = 'tmk_student_status=3';
-        // }elseif($type == 5){ //未拨打
-        //     $where_arr[] = 'global_tq_called_flag=0';
-        // }elseif($type == 6){ //已拨打
-        //     $where_arr[] = 'global_tq_called_flag <>0';
-        // }elseif($type == 7){ //未接通
-        //     $where_arr[] = 'global_tq_called_flag =1';
-        // }elseif($type == 8){ //已拨通-有效
-        //     $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag=0';
-        // }elseif($type == 9){ //已拨通-无效
-        //     $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag =1';
-        // }elseif($type == 10){ //未拨通-无效
-        //     $where_arr[] = 'global_tq_called_flag =1 and  n.sys_invaild_flag =1';
-        // }elseif($type == 11){ //有效意向(A)
-        //     $where_arr[] = 't.seller_student_status =100 and  global_tq_called_flag =2';
-        // }elseif($type == 12){ //有效意向(B)
-        //     $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
-        // }elseif($type == 13){ //有效意向(C)
-        //     $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
-        // }elseif($type == 14){ //预约数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-        // }elseif($type == 15){ //上课数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-        // }elseif($type == 16){ //试听成功数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
-        // }
-        // $sql=$this->gen_sql_new (" select a.*,"
-        //                          ."aa.nickname p_nickname,aa.phone p_phone,"
-        //                          ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-        //                          ."s.userid s_userid "
-        //                          ." from %s a "
-        //                          ." left join %s aa on aa.id = a.parentid"
-        //                          ." left join %s aaa on aaa.id = aa.parentid"
-        //                          ." left join %s n on n.phone = a.phone"
-        //                          ." left join %s s on s.userid = n.userid"
-        //                          ." left join %s t on t.userid= n.userid "
-        //                          ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
-        //                          ." left join %s tss on tss.lessonid = tr.current_lessonid"
-        //                          ." left join %s l on l.lessonid = tss.lessonid"
-        //                          ." where %s "
-        //                          ,self::DB_TABLE_NAME
-        //                          ,self::DB_TABLE_NAME
-        //                          ,self::DB_TABLE_NAME
-        //                          ,t_seller_student_new::DB_TABLE_NAME
-        //                          ,t_student_info::DB_TABLE_NAME
-        //                          ,t_test_lesson_subject::DB_TABLE_NAME
-        //                          ,t_test_lesson_subject_require::DB_TABLE_NAME
-        //                          ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
-        //                          ,t_lesson_info::DB_TABLE_NAME
-        //                          ,$where_arr
-        // );
-        // // dd($sql);
-        // return $this->main_get_list_by_page( $sql,$page_info);
+        $where_arr = array();
+        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        $this->where_arr_add_int_field($where_arr,"a.type",1);
+        if($type==2){ //已分配销售
+            $where_arr[] = 'n.admin_revisiterid >0';
+        }elseif($type == 3){ //TMK有效
+            $where_arr[] = 'tmk_student_status=3';
+        }elseif($type == 5){ //未拨打
+            $where_arr[] = 'global_tq_called_flag=0';
+        }elseif($type == 6){ //已拨打
+            $where_arr[] = 'global_tq_called_flag <>0';
+        }elseif($type == 7){ //未接通
+            $where_arr[] = 'global_tq_called_flag =1';
+        }elseif($type == 8){ //已拨通-有效
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag=0';
+        }elseif($type == 9){ //已拨通-无效
+            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag =1';
+        }elseif($type == 10){ //未拨通-无效
+            $where_arr[] = 'global_tq_called_flag =1 and  n.sys_invaild_flag =1';
+        }elseif($type == 11){ //有效意向(A)
+            $where_arr[] = 't.seller_student_status =100 and  global_tq_called_flag =2';
+        }elseif($type == 12){ //有效意向(B)
+            $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
+        }elseif($type == 13){ //有效意向(C)
+            $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
+        }elseif($type == 14){ //预约数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
+        }elseif($type == 15){ //上课数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
+        }elseif($type == 16){ //试听成功数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
+        }
+        $sql=$this->gen_sql_new (" select a.*,"
+                                 ."aa.nickname p_nickname,aa.phone p_phone,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ."s.userid s_userid "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." left join %s aaa on aaa.id = aa.parentid"
+                                 ." left join %s n on n.phone = a.phone"
+                                 ." left join %s s on s.userid = n.userid"
+                                 ." left join %s t on t.userid= n.userid "
+                                 ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+                                 ." left join %s tss on tss.lessonid = tr.current_lessonid"
+                                 ." left join %s l on l.lessonid = tss.lessonid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,t_seller_student_new::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,t_test_lesson_subject::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_require::DB_TABLE_NAME
+                                 ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        return $this->main_get_list_by_page( $sql,$page_info);
     }
 
 
