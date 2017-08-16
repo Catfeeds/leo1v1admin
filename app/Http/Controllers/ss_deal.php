@@ -532,7 +532,6 @@ class ss_deal extends Controller
         if($ass_test_lesson_type==1){
             $origin_info["origin"]="助教-扩课";
         }
-        //$this->t_test_lesson_subject->get_acc
 
         $ret=$this->t_test_lesson_subject_require->add_require(
             $this->get_account_id()
@@ -1411,6 +1410,7 @@ class ss_deal extends Controller
         $grade= $this->get_in_grade();
         $subject= $this->get_in_subject();
         $origin= $this->get_in_str_val("origin");
+
         if ($require_id ) {
             $test_lesson_subject_id= $this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
             $origin  = $this->t_test_lesson_subject_require->get_origin($require_id);
@@ -1508,6 +1508,21 @@ class ss_deal extends Controller
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
         }
+        //检查 配额 cc
+        if ($promotion_spec_diff_money  &&
+            $this->t_manager_info->get_account_role( $this->get_account_id() ) == E\Eaccount_role::V_2  ) {
+            $now=time(NULL);
+            $start_time= strtotime( date("Y-m-01", $now));
+            $end_time=$now;
+            $spec_diff_money_all= $this->t_order_info->get_spec_diff_money_all($start_time, $end_time, E\Eaccount_role::V_2 );
+            $month_spec_money= \App\Helper\Config::get_config("month_spec_money");
+            $promotion_spec_diff_money_t= $promotion_spec_diff_money/100 ;
+            if ($spec_diff_money_all +$promotion_spec_diff_money_t  > $month_spec_money ){
+                return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
+            }
+
+        }
+
         //最后价格
         $price=$promotion_spec_discount;
         if ($before_lesson_count && $contract_type==0) {
