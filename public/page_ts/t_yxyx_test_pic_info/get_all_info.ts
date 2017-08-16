@@ -84,18 +84,17 @@ $(function(){
                     old_pic_num++;
                 }
             }
+            for (var i = 0; i < item.custom_arr.length; i++) {
+                html_node.find("input").each(function(){
+                    if (item.custom_arr[i] == $(this).val()) {
+                        $(this).parent().addClass('checked');
+                        $(this).attr('checked', true);
+                    }
+                });
+            }
             $('#id_container_add_tmp').append(pic_str);
             html_node.find("#id_container_add_tmp").after(pic_str);
         }
-        for (var i = 0; i < item.custom_arr.length; i++) {
-            html_node.find("input").each(function(){
-                if (item.custom_arr[i] == $(this).val()) {
-                    $(this).parent().addClass('checked');
-                    $(this).attr('checked', true);
-                }
-            });
-        }
-
         //一下大段需优化！
         //追加设为封面函数set_poster
         var fun_str = "<span class='real_poster' style='display:none'></span><script> function set_poster(obj)"
