@@ -828,7 +828,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function get_new_list($page_num,$start_time,$end_time,$grade, $has_pad, $subject,$origin,$phone,$not_adminid , $t_flag=0)
     {
-        $check_time =  time(NULL)  - 2*3600;
+        $check_time =  time(NULL)  - 3600;
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
             ["has_pad=%u", $has_pad, -1 ],
