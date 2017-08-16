@@ -75,6 +75,8 @@ class teaching_menu{
                      ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher" ],
                      ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                      ["power_id"=>5, "name"=>"培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
+                     ["power_id"=>2, "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
+
                  ]],
 
 
