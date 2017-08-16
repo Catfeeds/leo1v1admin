@@ -159,6 +159,13 @@ class teaching_menu{
 
              ["power_id"=>40, "name"=>"产品部",  "list"=>[
 
+
+                 ["power_id"=>1, "name"=>"理优学生端",  "list"=>[
+                     ["power_id"=>1, "name"=>"app首页设置",  "url"=>"/taobao_manage/taobao_type" ],
+                     ["power_id"=>2, "name"=>"商品管理",  "url"=>"/taobao_manage/taobao_item" ]
+                 ]],
+
+
                  ["power_id"=>2, "name"=>"理优升学帮", "list"=>[
                      ["power_id"=>1, "name"=>"查分数线",   "url"=>"/school_info/search_scores"],
                      ["power_id"=>2, "name"=>"找卷子",   "url"=>"/school_info/search_paper"],
