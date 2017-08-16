@@ -122,9 +122,27 @@ class agent extends Controller
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
+        // $agent_id = 211;//Amanda
+        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        // dd($test_lesson);
+        $agent_id = 1407;//Amanda
+        $ret = $this->t_agent->field_update_list($agent_id,[
+            "userid" => 287562,
+            // "parentid" => $parentid,
+            // "phone"    => $phone,
+            // "type"     => $type,
+            // "bankcard"      => $bankcard,
+            // "idcard"        => $idcard,
+            // "bank_address"  => $bank_address,
+            // "bank_account"  => $bank_account,
+            // "bank_phone"    => $bank_phone,
+            // "bank_province" => $bank_province,
+            // "bank_city"     => $bank_city,
+            // "bank_type"     => $bank_type,
+            // "zfb_name"     => $zfb_name,
+            // "zfb_account"     => $zfb_account,
+        ]);
+        dd($ret);
     }
 
 
