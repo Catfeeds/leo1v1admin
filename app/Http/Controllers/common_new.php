@@ -255,7 +255,9 @@ class common_new extends Controller
             return $this->output_err("请选择您的教学经历!");
         }
         //合并田克平两个推荐渠道到一个账号中
-        $reference = $this->change_reference($reference);
+        if($reference=="18707976382"){
+            $reference = "13387970861";
+        }
 
         $grade = $this->check_grade_by_subject($grade,$subject_ex);
         if($grade!=0){
