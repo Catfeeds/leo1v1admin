@@ -343,7 +343,7 @@ class table_manage extends Controller
     }
     public function query()  {
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $sql = $this->get_in_str_val("sql");
+        $sql = trim($this->get_in_str_val("sql"));
         $page_info= $this->get_in_page_info();
         $this->t_admin_group->switch_tongji_database();
         $this->t_admin_group->db_query("use $db_name");
@@ -353,29 +353,54 @@ class table_manage extends Controller
             $sql=trim($sql);
             $sql=substr($sql,0,$len-1);
         }
+
+        $format_sql= $sql;
         $col_name_list=[];
         if ($sql) {
-            if (preg_match("/\blimit[ \t]+[0-9]+/i", $sql ))  {
-                $ret_info=$this->t_admin_group->main_get_list_as_page($sql);
+
+            if (preg_match("/^[ \t]*select/i",$sql) )   {
+                if (preg_match("/\blimit[ \t]+[0-9]+/i", $sql ))  {
+                    $ret_info=$this->t_admin_group->main_get_list_as_page($sql);
+                }else{
+                    $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
+                }
             }else{
-                $ret_info=$this->t_admin_group->main_get_list_by_page($sql,$page_info);
-            }
-            if (@$ret_info["list"][0] ) {
-               foreach ( $ret_info["list"][0] as $key=>$v ) {
-                   $col_name_list[]= $key;
-               }
+                if (preg_match("/^[ \t]*(desc|explain)[ \t]+(.*)/i", $sql,  $matches ) ) {
+                    $format_sql= $matches[2];
+                }
+                $ret_info=$this->t_admin_group->main_get_list_as_page($sql);
             }
         }
-        return $this->pageView(__METHOD__, $ret_info, ["col_name_list"=>$col_name_list] );
+        if (@$ret_info["list"][0] ) {
+            foreach ( $ret_info["list"][0] as $key=>$v ) {
+                $col_name_list[]= $key;
+            }
+        }
+
+        //curl 'http://tool.lu/sql/ajax.html' -H 'Host: tool.lu' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: http://tool.lu/sql/' -H 'Cookie: uuid=3394583a-afcb-4061-926a-a9e6a20370de; Hm_lvt_0fba23df1ee7ec49af558fb29456f532=1502269817,1502354206,1502504099,1502777709; Hm_lpvt_0fba23df1ee7ec49af558fb29456f532=1502849476; slim_session=%7B%22slim.flash%22%3A%5B%5D%7D' -H 'Connection: keep-alive' --data 'code=DELETE+FROM+table1%0D%0AWHERE+NOT+EXISTS+(%0D%0A%09%09SELECT+*%0D%0A%09%09FROM+table2%0D%0A%09%09WHERE+table1.field1+%3D+table2.field1%0D%0A%09%09)%3B&operate=beauty'
+
+
+        $arr= @json_decode(file_get_contents( "http://tool.lu/sql/ajax.html?code=". urlencode($format_sql)  ),true);
+
+        return $this->pageView(__METHOD__, $ret_info, ["col_name_list"=>$col_name_list, "format_sql"=> @$arr["text"] ] );
     }
 
     public function check_query() {
         $db_name=$this->get_in_str_val("db_name","db_weiyi");
-        $sql = $this->get_in_str_val("sql");
+        $sql = trim($this->get_in_str_val("sql"));
         $this->t_admin_group->switch_tongji_database();
         $this->t_admin_group->db_query("use $db_name");
         try {
-            $this->t_admin_group->db_query("explain ". $sql);
+            if (preg_match("/^[ \t]*select/i",$sql) )   {
+                $this->t_admin_group->db_query("explain ". $sql);
+            }else{
+                if ( preg_match("/^[ \t]*update/i",$sql)
+                       || preg_match("/^[ \t]*delete/i",$sql) ) {
+                    return $this->output_err("不支持 update, delete");
+                }else{
+                    $this->t_admin_group->db_query( $sql);
+                }
+            }
         }catch( \Exception $e ) {
             return $this->output_err(  $e->getMessage() );
         }
