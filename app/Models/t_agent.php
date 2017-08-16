@@ -23,6 +23,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    public function get_userid_null_list(){
+        $where_arr = [
+            'userid =null',
+            // 'type =1',
+        ];
+        $sql=$this->gen_sql_new (" select *"
+                                 ." from %s "
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
+
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone)
     {
         $where_arr = array();

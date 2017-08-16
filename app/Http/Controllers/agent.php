@@ -119,12 +119,36 @@ class agent extends Controller
     }
 
     public function check(){
-        //agentid查邀请人试听课
+                //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
-        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        dd($test_lesson);
+        // $agent_id = 211;//Amanda
+        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        // dd($test_lesson);
+        $userid_null = $this->t_agent->get_userid_null_list();
+        $ret = [];
+        foreach($userid_null as $item){
+            $id = $item['id'];
+            $phone = $item['phone'];
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            $ret[] = $this->t_agent->field_update_list($agent_id,[
+                "userid" => $userid_new,
+                // "parentid" => $parentid,
+                // "phone"    => $phone,
+                // "type"     => $type,
+                // "bankcard"      => $bankcard,
+                // "idcard"        => $idcard,
+                // "bank_address"  => $bank_address,
+                // "bank_account"  => $bank_account,
+                // "bank_phone"    => $bank_phone,
+                // "bank_province" => $bank_province,
+                // "bank_city"     => $bank_city,
+                // "bank_type"     => $bank_type,
+                // "zfb_name"     => $zfb_name,
+                // "zfb_account"     => $zfb_account,
+            ]);
+        }
+        dd($ret);
     }
 
 
