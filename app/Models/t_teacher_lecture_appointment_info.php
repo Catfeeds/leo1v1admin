@@ -326,6 +326,19 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             return $item["accept_adminid"];
         });
     }
+    public function tongji_no_call_count_by_accept_adminid(){
+        $sql= $this->gen_sql_new("select count(*) all_count,accept_adminid,m.account,sum(if(lecture_revisit_type=0,1,0)) no_call_count "
+                                 ." from %s la "
+                                 ." left join %s m on la.accept_adminid = m.uid"
+                                 ." group by accept_adminid",
+                                 self::DB_TABLE_NAME,
+                                 t_manager_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["accept_adminid"];
+        });
+    }
+
 
     public function get_lecture_video_info_by_accept_adminid($start_time,$end_time,$accept_adminid){
         $where_arr=[
@@ -936,7 +949,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." from %s a left join %s t on a.phone = t.phone "
                                   ." left join %s ta on t.teacherid = ta.userid and ta.train_type=5"
                                   ." left join %s l on ta.lessonid = l.lessonid and l.train_type=5 and l.lesson_type =1100 and l.lesson_del_flag=0 and l.confirm_flag <2"
-                                  ." where l.lessonid is not null and %s group by a.phone order by a.phone limit 420,140 ",
+                                  ." where l.lessonid is not null and %s group by a.phone order by a.phone limit 1185,395 ",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,

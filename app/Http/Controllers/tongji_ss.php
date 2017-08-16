@@ -4444,7 +4444,7 @@ class tongji_ss extends Controller
 
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
 
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
