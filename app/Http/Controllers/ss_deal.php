@@ -1497,6 +1497,10 @@ class ss_deal extends Controller
             //课时
             $promotion_spec_diff_money+= ($promotion_spec_present_lesson- $promotion_present_lesson ) * ($promotion_discount_price/$lesson_total )*0.6 ;
 
+            if ($promotion_spec_diff_money <0 ) {
+                $promotion_spec_diff_money =0;
+            }
+
 
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
@@ -1553,7 +1557,7 @@ class ss_deal extends Controller
         }
         if ( $promotion_spec_diff_money ) {
             $this->t_order_info->field_update_list($orderid,[
-                "promotion_spec_diff_money" =>  $promotion_spec_diff_money 
+                "promotion_spec_diff_money" =>  $promotion_spec_diff_money
             ]);
         }
         return $this->output_succ();
