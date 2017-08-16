@@ -170,6 +170,7 @@
             <div class="row">
                 <div class="col-xs6 col-md-3">
 
+                    <div align="center">渠道转化率</div>
                     <table class="common-table   ">
                         <thead>
                             <tr>
@@ -192,7 +193,17 @@
                                     <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
                                     <td>{{@$var["succ_test_lesson_count"]}}</td>
                                     <td>{{@$var["order_count"]}}</td>
-                                    <td>{{@$var["order_count"]}}</td>
+
+
+                                    @if($var["order_count"]>0)
+                                        @if($var['succ_test_lesson_count']>0)
+                                            <td>{{@$var["order_count"]}}</td>
+                                        @else
+                                        @endif
+                                    @endif($var["order_count"]>0)
+                                    <td>0</td>
+                                    @endif
+
                                     <td>
                                         <div></div>
                                     </td>

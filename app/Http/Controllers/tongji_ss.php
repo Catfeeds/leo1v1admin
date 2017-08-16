@@ -514,7 +514,6 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         return $this->origin_count();
     }
 
-
     public function origin_count(){
         $origin            = trim($this->get_in_str_val("origin",""));
         $origin_ex         = $this->get_in_str_val('origin_ex', "");
@@ -549,10 +548,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
 
 
         ///  测试区
-
         $data_map=&$ret_info["list"];
         //试听信息
-
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex );
         foreach ($test_lesson_list as  $test_item ) {
@@ -634,7 +631,53 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $origin_type = 0;
         if($origin_ex == '优学帮,,,'){
             $origin_type = 1;
+
+            // $ret_info  = $this->t_agent->get_agent_info_new($type=1);
+            // $userid_arr = [];
+
+            // $ret_info_new = [];
+            // $id_arr = array_unique(array_column($ret_info,'id'));
+            // foreach($ret_info as &$item){
+            //     if($item['type'] == 1){
+            //         $userid_arr[] = $item['userid'];
+            //     }
+            //     $item['agent_type'] = $item['type'];
+            //     $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+
+            //     $id = $item['id'];
+            //     $id_arr_new = array_unique(array_column($ret_info_new,'id'));
+            //     if(in_array($id,$id_arr_new)){
+            //     }else{
+            //         $ret_info_new[] = $item;
+            //     }
+            // }
+            // if(count($userid_arr)>0){
+            //     foreach($ret_info_new as $key=>&$item){
+            //         $item['num'] = $key+1;
+            //         if($item['admin_revisiterid'] >0){
+
+            //         }
+            //     }
+            // }
         }
+        // $ret_info['list'][4]['all_count'];
+        // $ret_info['list'][4]['assigned_count'];
+        // $ret_info['list'][4]['tmk_assigned_count'];
+        // $ret_info['list'][4]['tq_no_call_count'];
+        // $ret_info['list'][4]['tq_called_count'];
+        // $ret_info['list'][4]['tq_call_fail_count'];
+        // $ret_info['list'][4]['tq_call_succ_valid_count'];
+        // $ret_info['list'][4]['tq_call_succ_invalid_count'];
+        // $ret_info['list'][4]['tq_call_fail_invalid_count'];
+        // $ret_info['list'][4]['have_intention_a_count'];
+        // $ret_info['list'][4]['have_intention_b_count'];
+        // $ret_info['list'][4]['have_intention_c_count'];
+        // $ret_info['list'][4]['require_count'];
+        // $ret_info['list'][4]['test_lesson_count'];
+        // $ret_info['list'][4]['succ_test_lesson_count'];
+        // $ret_info['list'][4]['order_count'];
+        // $ret_info['list'][4]['user_count'];
+        // $ret_info['list'][4]['order_all_money'];
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
             "grade_map"   => $grade_map,

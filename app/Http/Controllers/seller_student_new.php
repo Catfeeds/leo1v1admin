@@ -124,7 +124,6 @@ class seller_student_new extends Controller
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,$first_seller_adminid ,$call_phone_count );
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
-
         foreach( $ret_info["list"] as $index=> &$item ) {
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
