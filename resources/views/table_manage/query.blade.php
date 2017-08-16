@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+<link rel="stylesheet" href="/highlight/styles/default.css">
+<script src="/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
     <section class="content">
 
         <div class="row">
@@ -87,6 +90,12 @@
             @endif
         </table>
         </div>
+
         @include("layouts.page")
+
+        <hr/>
+        <pre>
+            <code class="sql"> {{$format_sql}} </code>
+        </pre>
 
 @endsection
