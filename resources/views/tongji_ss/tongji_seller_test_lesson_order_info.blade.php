@@ -166,6 +166,23 @@
 
             </div>
 
+
+            <div class="row">
+                <div class="col-xs6 col-md-3">
+                    @foreach ($origin_info as $var)
+
+                        <tr class="{{$var["level"]}}">
+                            <td data-class_name="{{$var["key1_class"]}}" class="key1" >{{$var["key1"]}}</td>
+                            <td  data-class_name="{{$var["key2_class"]}}" class=" key2  {{$var["key1_class"]}}  {{$var["key2_class"]}} " >{{$var["key2"]}}</td>
+                            <td data-class_name="{{$var["key3_class"]}}" class="key3  {{$var["key2_class"]}} {{$var["key3_class"]}}  "  >{{$var["key3"]}}</td>
+                            <td data-class_name="{{$var["key4_class"]}}" class="key4   {{$var["key3_class"]}} {{$var["key4_class"]}}"  >{{$var["key4"]}}</td>
+                            <td>{{@$var["succ_test_lesson_count"]}}</td>
+                            <td>{{@$var["order_count"]}}</td>
+                        </tr>
+                    @endforeach
+                </div>
+            </div>
+
     </section>
 
 @endsection

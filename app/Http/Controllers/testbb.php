@@ -124,9 +124,6 @@ class testbb extends Controller
 
     public function get_orgin(){
 
-
-        // list($start_time,$end_time) = $this->get_in_date_range(date('Y-m-01',time()), 0 );
-
         $start_time = 1501516800;
         $end_time   = 1504108800;
 
@@ -153,6 +150,19 @@ class testbb extends Controller
             $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
+
+
+        $this->t_order_info->switch_tongji_database();
+        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        foreach ($order_list as  $order_item ) {
+            $check_value=$order_item["check_value"];
+            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
+
+            $data_map[$check_value]["order_count"] = $order_item["order_count"];
+            $data_map[$check_value]["user_count"] = $order_item["user_count"];
+            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+        }
+
 
 
         foreach ($data_map as &$item ) {
