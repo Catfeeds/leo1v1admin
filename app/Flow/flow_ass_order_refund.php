@@ -10,9 +10,8 @@ class flow_ass_order_refund  extends flow_base{
         0=>[ 1 , "退费申请"  ],
         1=>[ 2,"主管审批"  ],
         2=>[ 3,"[部]主审批" ],
-        3=>[ [4,5] ,"财务复核" ],
-        5=>[ 4 ," michael复核 " ],
-        4=>[ -1 ,"校长确认" ],
+        3=>[ [-1,5] ,"财务复核" ],
+        5=>[ -1 ," michael复核 " ],
     ];
     static function get_self_info( $from_key_int,  $from_key_str, $from_key2_int   ) {
         $t_order_refund  = new \App\Models\t_order_refund();
@@ -94,7 +93,12 @@ class flow_ass_order_refund  extends flow_base{
     static function next_node_process_2 ($flowid, $adminid){ //
         //list($flow_info,$self_info)=static::get_info($flowid);
         //301   echo
-        return 301;
+        if (\App\Helper\Utils::check_env_is_release() ){
+            return 301;
+        }else{
+            //jim
+            return 99;
+        }
     }
 
     static function next_node_process_3 ($flowid, $adminid){ //
@@ -106,16 +110,30 @@ class flow_ass_order_refund  extends flow_base{
             //助教
             return [5,188];
         }else{
-            return [4,303];
+
+            return [-1, 0 ];
         }
     }
 
-    static function next_node_process_4 ($flowid, $adminid){ //
+
+    static function next_node_process_5 ($flowid, $adminid){ //
         return 0;
     }
 
-    static function next_node_process_5 ($flowid, $adminid){ //
-        return 303;
+
+    static function do_succ_end( $flow_info, $self_info ) {
+        $task=static::get_task_controler();
+        //$post_admin_nick=$self_info["sys_operator"];
+        $user_nick= $task->cache_get_student_nick($self_info["userid"]);
+        $contract_type_str= E\Econtract_type::get_desc($self_info["contract_type"]);
+        $lesson_total=$self_info["should_refund"] /100;
+        $price=$self_info["real_refund"]/100;
+        $post_admin_nick=$task->cache_get_account_nick($flow_info["post_adminid"]);
+        if (\App\Helper\Utils::check_env_is_release() )  {
+            $task->t_manager_info ->send_wx_todo_msg("xixi","退费完成","申请人[$post_admin_nick], $user_nick-退费课时数: $lesson_total - 金额 :$price ");
+        }else{
+            $task->t_manager_info->send_wx_todo_msg("jim","退费完成","申请人[$post_admin_nick], $user_nick-退费课时数: $lesson_total - 金额 :$price ");
+        }
     }
 
 

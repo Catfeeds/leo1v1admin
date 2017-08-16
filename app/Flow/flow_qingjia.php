@@ -76,10 +76,4 @@ class flow_qingjia extends flow_base{
         return 0;
     }
 
-
-
-
-
-
-
 }
