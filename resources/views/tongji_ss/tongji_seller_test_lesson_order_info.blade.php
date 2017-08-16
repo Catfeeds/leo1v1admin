@@ -193,6 +193,10 @@
                                     <td>{{@$var["succ_test_lesson_count"]}}</td>
                                     <td>{{@$var["order_count"]}}</td>
                                     <td>{{@$var["order_count"]}}</td>
+                                    <td>
+                                        <div></div>
+                                    </td>
+
                                 </tr>
                             @endforeach
 
