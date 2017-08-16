@@ -916,4 +916,11 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
     }
 
+    public function get_no_call_all_info(){
+        $sql = $this->gen_sql_new("select id,phone from %s where lecture_revisit_type=0",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

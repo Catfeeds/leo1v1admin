@@ -548,11 +548,37 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
 
-        if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
-        }
+        ///  测试区
 
-        dd($ret_info);
+
+        // foreach ($ret_info['list'] as &$item ) {
+        //     if($field_class_name ) {
+        //         $item["title"]= $field_class_name::get_desc($item["check_value"]);
+        //     }else{
+        //         if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+        //             $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+        //         }else{
+        //             $item["title"]= $item["check_value"];
+        //         }
+        //     }
+
+        //     if ($field_name=="origin") {
+        //         $item["origin"]= $item["title"];
+        //     }
+        // }
+
+        // if ($field_name=="origin") {
+        //     $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        // }
+
+
+
+
+        // if ($field_name=="origin") {
+        //     $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        // }
+
+        // dd($ret_info);
 
 
         // dd($ret_info);
@@ -4206,6 +4232,40 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $adminid_right              = $this->get_seller_adminid_and_right();
 
         // $adminid = $this->get_in_int_val("adminid",-1);
+        // 测试区
+        $field_name = 'origin';
+        $field_class_name = '';
+
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+
+        foreach ($origin_info['list'] as &$item ) {
+            if($field_class_name ) {
+                $item["title"]= $field_class_name::get_desc($item["check_value"]);
+            }else{
+                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+                }else{
+                    $item["title"]= $item["check_value"];
+                }
+            }
+
+            if ($field_name=="origin") {
+                $item["origin"]= $item["title"];
+            }
+        }
+
+        // if ($field_name=="origin") {
+            $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], "");
+        // }
+
+
+
+        // dd($origin_info);
+
+        // 测试结束
+
+
+
         $ret_info = $this->t_test_lesson_subject_sub_list->get_seller_test_lesson_order_info_new($start_time,$end_time,$require_adminid_list);
         $grade_arr = $subject_arr = $paper_arr = $location_arr=[];
         foreach($ret_info as $item){
@@ -4231,6 +4291,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
 
         }
+
+
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
@@ -4255,6 +4317,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $vvvv["name"] = $kkkk;
         }
         \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+
+
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,
             "grade_arr"   => @$grade_arr,
