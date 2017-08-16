@@ -57,15 +57,12 @@ class agent extends Controller
     public function agent_list_new(){
         $type      = $this->get_in_int_val('type');
         $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_agent->get_agent_info_new($page_info,$type);
+        $ret_info  = $this->t_agent->get_agent_info_new($type);
         $userid_arr = [];
-        // $ret_info_new['total_num'] = $ret_info['total_num'];
-        $ret_info_new['total_num'] = $ret_info['total_num'];
-        $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
-        $ret_info_new['page_info'] = $ret_info['page_info'];
-        $ret_info_new['list'] = [];
+
+        $ret_info_new = [];
         $id_arr = array_unique(array_column($ret_info,'id'));
-        foreach($ret_info['list'] as &$item){
+        foreach($ret_info as &$item){
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
@@ -73,15 +70,16 @@ class agent extends Controller
             $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
 
             $id = $item['id'];
-            $id_arr_new = array_unique(array_column($ret_info_new['list'],'id'));
+            $id_arr_new = array_unique(array_column($ret_info_new,'id'));
             if(in_array($id,$id_arr_new)){
             }else{
-                $ret_info_new['list'][] = $item;
+                $ret_info_new[] = $item;
             }
         }
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
-            foreach($ret_info_new['list'] as &$item){
+            foreach($ret_info_new as $key=>&$item){
+                $item['num'] = $key+1;
                 foreach($test_info as $info){
                     if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
@@ -89,8 +87,7 @@ class agent extends Controller
                 }
             }
         }
-        $ret_info_new['page_info']['total_num'] = count($ret_info_new['list']);
-        return $this->pageView(__METHOD__,$ret_info_new);
+        return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
     public function agent_order_list() {
