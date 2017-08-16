@@ -23,6 +23,7 @@ echo "start url\n";
 $url= "http://$url_fix.admin.yb1v1.com/common_new/show_create_table_list?table_list=". urlencode(json_encode($table_list) );
 //echo $url."\n";
 echo "end url\n";
+//echo $url;
 $json_data=file_get_contents($url);
 
 $table_map = json_decode($json_data,true);

@@ -548,11 +548,11 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info($field_name,$opt_date_str ,$start_time,$end_time,$origin,$origin_ex,"",$adminid_list, $tmk_adminid);
 
 
-        if ($field_name=="origin") {
-            $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
-        }
+        // if ($field_name=="origin") {
+        //     $ret_info["list"]= $this->gen_origin_data($ret_info["list"],["avg_first_time"], $origin_ex);
+        // }
 
-        dd($ret_info);
+        // dd($ret_info);
 
 
         // dd($ret_info);
@@ -4231,6 +4231,8 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             }
 
         }
+
+
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
@@ -4255,6 +4257,9 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
             $vvvv["name"] = $kkkk;
         }
         \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+
+
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,
             "grade_arr"   => @$grade_arr,

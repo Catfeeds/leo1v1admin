@@ -225,7 +225,7 @@ class common_new extends Controller
         $school                       = $this->get_in_str_val("school");
         $teacher_type                 = $this->get_in_str_val("teacher_type");
         $self_introduction_experience = $this->get_in_str_val("self_introduction_experience");
-        $reference                    = $this->get_in_int_val("reference");
+        $reference                    = $this->get_in_str_val("reference");
         $custom                       = $this->get_in_str_val("custom");
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
@@ -242,7 +242,7 @@ class common_new extends Controller
         if(!empty($teacher_info)){
             return $this->output_err("该手机号已注册,不能重新提交!");
         }
-        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && $reference!="13661763881"){
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
             return $this->output_err("请填写正确的手机号！");
         }
         if($qq!="" && !ctype_digit(trim($qq,""))){
