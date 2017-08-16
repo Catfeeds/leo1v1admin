@@ -2609,7 +2609,7 @@ class user_deal extends Controller
         $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_new();
         foreach($list as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
-                "accept_adminid"   =>492
+                "accept_adminid"   =>513
             ]);
         }
         dd($list);

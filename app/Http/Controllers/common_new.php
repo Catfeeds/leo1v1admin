@@ -332,7 +332,7 @@ class common_new extends Controller
                 "name"=>$name,
                 "time"=>date("Y-m-d",strtotime("+3 day",time())),
             ];
-            \App\Helper\Common::sms_common($phone,$template_code,$sms_data);
+            \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
 
             if($reference != ""){
                 /**
