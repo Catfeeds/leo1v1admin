@@ -48,7 +48,7 @@ class  teacher_wx_server extends Controller
 
             array('id'=>'17', 'pid'=>'1', 'name'=>'代理须知', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_agent'),
 
-            array('id'=>'18', 'pid'=>'1', 'name'=>'招师大奖', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_recruit'),
+            // array('id'=>'18', 'pid'=>'1', 'name'=>'招师大奖', 'type'=>'view', 'code'=>'http://admin.yb1v1.com/article_wx/leo_teacher_recruit'),
 
             array('id'=>'5', 'pid'=>'1', 'name'=>'立即报名', 'type'=>'view', 'code'=>'http://wx-teacher.leo1v1.com/wx_teacher_web/tea?reference'),
 

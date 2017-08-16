@@ -96,7 +96,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
          */
 
         $where_arr = array();
-        $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         if($type==2){ //已分配销售
             $where_arr[] = 'n.admin_revisiterid >0';
@@ -128,15 +128,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
         }
         $sql=$this->gen_sql_new (" select a.*,"
-                                 ."aa.nickname p_nickname,aa.phone p_phone,"
-                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.userid s_userid "
+                                 ." aa.nickname p_nickname,aa.phone p_phone,"
+                                 ." aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ." s.userid s_userid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
-                                 ." left join %s n on n.phone = a.phone"
-                                 ." left join %s s on s.userid = n.userid"
-                                 ." left join %s t on t.userid= n.userid "
+                                 // ." left join %s n on n.phone = a.phone"
+                                 ." left join %s n on n.userid = a.userid"
+                                 // ." left join %s s on s.userid = n.userid"
+                                 ." left join %s s on s.userid = a.userid"
+                                 // ." left join %s t on t.userid= n.userid "
+                                 ." left join %s t on t.userid= a.userid "
                                  ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
                                  ." left join %s tss on tss.lessonid = tr.current_lessonid"
                                  ." left join %s l on l.lessonid = tss.lessonid"

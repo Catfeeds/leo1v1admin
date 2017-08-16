@@ -1841,5 +1841,8 @@ class test_code extends Controller
         }
     }
 
+    public function check_test(){
+        return $this->output_succ();
+    }
 
 }

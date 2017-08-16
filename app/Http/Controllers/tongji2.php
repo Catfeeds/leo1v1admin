@@ -879,6 +879,11 @@ class tongji2 extends Controller
                 @$new_revisit[$v["uid"]]["un_first_num"]++;
             }
         }
+        $student_all = $this->t_student_info->get_ass_first_revisit_info($start_time,$end_time);//在册学生数
+        $student_all_detail = [];
+        foreach ($student_all as $key => $value) {  
+            $student_all_detail[$value['uid']] = $value['num']; 
+        }
         //dd($new_revisit);
         $refund_score = $this->get_ass_refund_score($start_time,$end_time);
 
@@ -916,6 +921,8 @@ class tongji2 extends Controller
             $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
 
+            $val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
+
             $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
             if($account_id==-1){
 
@@ -928,7 +935,7 @@ class tongji2 extends Controller
 
 
         }
-
+        //dd($ass_list);
         return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
 
         //dd( $ass_list);
