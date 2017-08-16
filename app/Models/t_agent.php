@@ -101,25 +101,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         if($type==2){ //已分配销售
             $where_arr[] = 'n.admin_revisiterid >0';
         }elseif($type == 3){ //TMK有效
-            $where_arr[] = 'tmk_student_status=3';
+            $where_arr[] = 'n.tmk_student_status=3';
         }elseif($type == 5){ //未拨打
-            $where_arr[] = 'global_tq_called_flag=0';
+            $where_arr[] = 'n.global_tq_called_flag=0';
         }elseif($type == 6){ //已拨打
-            $where_arr[] = 'global_tq_called_flag <>0';
+            $where_arr[] = 'n.global_tq_called_flag <>0';
         }elseif($type == 7){ //未接通
-            $where_arr[] = 'global_tq_called_flag =1';
+            $where_arr[] = 'n.global_tq_called_flag =1';
         }elseif($type == 8){ //已拨通-有效
-            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag=0';
+            $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag=0';
         }elseif($type == 9){ //已拨通-无效
-            $where_arr[] = 'global_tq_called_flag =2 and  n.sys_invaild_flag =1';
+            $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag =1';
         }elseif($type == 10){ //未拨通-无效
-            $where_arr[] = 'global_tq_called_flag =1 and  n.sys_invaild_flag =1';
+            $where_arr[] = 'n.global_tq_called_flag =1 and  n.sys_invaild_flag =1';
         }elseif($type == 11){ //有效意向(A)
-            $where_arr[] = 't.seller_student_status =100 and  global_tq_called_flag =2';
+            $where_arr[] = 't.seller_student_status =100 and  n.global_tq_called_flag =2';
         }elseif($type == 12){ //有效意向(B)
-            $where_arr[] = 't.seller_student_status =101 and  global_tq_called_flag =2';
+            $where_arr[] = 't.seller_student_status =101 and  n.global_tq_called_flag =2';
         }elseif($type == 13){ //有效意向(C)
-            $where_arr[] = 't.seller_student_status =102 and  global_tq_called_flag =2';
+            $where_arr[] = 't.seller_student_status =102 and  n.global_tq_called_flag =2';
         }elseif($type == 14){ //预约数
             $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
         }elseif($type == 15){ //上课数
@@ -130,7 +130,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"
                                  ." aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ." s.userid s_userid "
+                                 ." s.userid s_userid,s.origin "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
@@ -139,7 +139,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  // ." left join %s s on s.userid = n.userid"
                                  ." left join %s s on s.userid = a.userid"
                                  // ." left join %s t on t.userid= n.userid "
-                                 // ." left join %s t on t.userid= a.userid "
+                                 ." left join %s t on t.userid= a.userid "
                                  // ." left join %s tr on tr.test_lesson_subject_id = t.test_lesson_subject_id "
                                  // ." left join %s tss on tss.lessonid = tr.current_lessonid"
                                  // ." left join %s l on l.lessonid = tss.lessonid"
@@ -149,7 +149,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,self::DB_TABLE_NAME
                                  ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
-                                 // ,t_test_lesson_subject::DB_TABLE_NAME
+                                 ,t_test_lesson_subject::DB_TABLE_NAME
                                  // ,t_test_lesson_subject_require::DB_TABLE_NAME
                                  // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                  // ,t_lesson_info::DB_TABLE_NAME
