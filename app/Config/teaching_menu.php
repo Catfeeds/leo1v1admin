@@ -137,21 +137,6 @@ class teaching_menu{
                      ]],
                  ]]
 
-
-
-
-
-                 // ["power_id"=>3, "name"=>"小班课", "list"=>[
-                 //     ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
-                 //     ["power_id"=>2, "name"=>"录入-审核未通过-所有",   "url"=>"/question/question_list_nopass"],
-                 //     ["power_id"=>3, "name"=>"录入-审核未通过-扣10%",   "url"=>"/question/question_list_nopass_10"],
-                 //     ["power_id"=>4, "name"=>"录入-审核未通过-扣50%",   "url"=>"/question/question_list_nopass_50"],
-                 //     ["power_id"=>5, "name"=>"录入-审核未通过-扣100%",   "url"=>"/question/question_list_nopass_100"],
-                 //     ["power_id"=>6, "name"=>"录入-审核未通过-不入库",   "url"=>"/question/question_list_nopass_del"],
-                 //     ["power_id"=>7, "name"=>"录入-审核通过",   "url"=>"/question/question_list_pass"]
-                 // ]],
-
-
              ]],
 
 
