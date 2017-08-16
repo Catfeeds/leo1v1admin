@@ -20,8 +20,6 @@ class login extends Controller
         $role_str        = "";
         $role_item_count = 0;
 
-
-
         foreach ($menu as $item) {
             $item_name=$item["name"];
 
@@ -49,7 +47,6 @@ class login extends Controller
     function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ) {
 
         if (isset($node["list"])) {
-            \App\Helper\Utils::logger("if3333");
 
             $sub_list_str="";
             $add_count=0 ;
@@ -67,7 +64,7 @@ class login extends Controller
                     }
                 }
             }
-            // if ($add_count>0 && $item_1) {
+
             if ($add_count==1 && $item_1) {
                 $sub_list_str.= $item_1;
             }else{

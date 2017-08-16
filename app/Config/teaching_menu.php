@@ -94,7 +94,7 @@ class teaching_menu{
              ["power_id"=>32, "name"=>"教研部",  "list"=>[
 
 
-                 ["power_id"=>1, "name"=>"教学组",  "list"=>[
+                 ["power_id"=>1, "name"=>"教研组",  "list"=>[
                      ["power_id"=>5, "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                      ["power_id"=>7,"name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                      ["power_id"=>23,"name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
