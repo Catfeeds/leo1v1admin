@@ -4232,9 +4232,34 @@ public function user_count() {$sum_field_list=["add_time_count", "call_count", "
         $adminid_right              = $this->get_seller_adminid_and_right();
 
         // $adminid = $this->get_in_int_val("adminid",-1);
-
+        // 测试区
         $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
-        // dd($origin_info);
+
+        foreach ($origin_info['list'] as &$item ) {
+            if($field_class_name ) {
+                $item["title"]= $field_class_name::get_desc($item["check_value"]);
+            }else{
+                if ($field_name=="tmk_adminid" || $field_name=="admin_revisiterid"  ) {
+                    $item["title"]= $this->cache_get_account_nick( $item["check_value"] );
+                }else{
+                    $item["title"]= $item["check_value"];
+                }
+            }
+
+            if ($field_name=="origin") {
+                $item["origin"]= $item["title"];
+            }
+        }
+
+        // if ($field_name=="origin") {
+            $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], "");
+        // }
+
+
+
+        dd($origin_info);
+
+        // 测试结束
 
 
 
