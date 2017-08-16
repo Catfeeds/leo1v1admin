@@ -25,7 +25,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_userid_null_list(){
         $where_arr = [
-            'userid =null',
+            // 'userid = null',
             // 'type =1',
         ];
         $sql=$this->gen_sql_new (" select *"
