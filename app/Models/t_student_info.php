@@ -2038,10 +2038,29 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   t_revisit_info::DB_TABLE_NAME,
                                   $where_arr
         );
-
         return $this->main_get_list($sql);
-
-
+    }
+    public function get_ass_first_revisit_info($start_time,$end_time){
+        $where_arr=[
+            //"s.type=0",
+            "s.assistantid > 0",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.ass_assign_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(" select m.uid,s.userid,r.revisit_time "
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." left join %s r on ( r.userid= s.userid and r.revisit_type=1 and r.sys_operator <> 'system' and r.sys_operator <> '系统' and r.revisit_time >=s.ass_assign_time and (r.revisit_time - s.ass_assign_time)<=86400 )"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_revisit_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        //dd($sql);
+        return $this->main_get_list($sql);
     }
 
     public function get_new_assign_stu_info($start_time,$end_time){

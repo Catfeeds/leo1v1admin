@@ -92,6 +92,7 @@
                                         <td>续费目标</td>
                                         <td>实际续费</td>
                                         <td>续费达成率</td>
+
                                         <td>新学生数</td>
                                         <td>24小时内首次回访量</td>
                                         <td>未首次回访量</td>
@@ -101,6 +102,7 @@
                                         <td>转介绍金额</td>
                                         <td>续费总额</td>
                                         <td>转介绍人数</td>
+                                        <td>在册学生数</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_ass_list">
@@ -113,7 +115,8 @@
                                             <td  > {{@$var["revisit_per"]}}% </td> 
                                             <td  > {{@$var["renw_target"]}} </td> 
                                             <td  > {{@$var["renw_price"]}} </td> 
-                                            <td  > {{@$var["renw_per"]}}% </td> 
+                                            <td  > {{@$var["renw_per"]}}% </td>
+
                                             <td  > {{@$var["new_num"]}} </td> 
                                             <td  > {{@$var["first_revisit_num"]}} </td> 
                                             <td  > {{@$var["un_first_revisit_num"]}} </td> 
@@ -123,6 +126,7 @@
                                             <td>{{@$var["tran_price"]}} </td>
                                             <td>{{@$var["all_price"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
+                                            <td>{{@$var["student_all"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
