@@ -3114,9 +3114,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["userid=%u",$userid,0],
             "lesson_type=2",
+            "lesson_status=2",
             "lesson_del_flag=0"
         ];
-        $sql = $this->gen_sql_new("select max(lesson_start)"
+        $sql = $this->gen_sql_new("select max(lesson_end)"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME

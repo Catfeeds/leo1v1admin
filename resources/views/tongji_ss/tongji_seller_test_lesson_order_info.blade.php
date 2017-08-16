@@ -194,14 +194,14 @@
                                     <td>{{@$var["succ_test_lesson_count"]}}</td>
                                     <td>{{@$var["order_count"]}}</td>
 
-
-                                    @if($var["order_count"]>0)
-                                        @if($var['succ_test_lesson_count']>0)
-                                            <td>{{@$var["order_count"]}}</td>
+                                    @if(@$var["order_count"]>0)
+                                        @if(@$var['succ_test_lesson_count']>0)
+                                            <td>{{@number_format($var["order_count"]/@$var["succ_test_lesson_count"],2)*100}}%</td>
                                         @else
+                                            <td>0%</td>
                                         @endif
-                                    @endif($var["order_count"]>0)
-                                    <td>0</td>
+                                    @else
+                                        <td>0%</td>
                                     @endif
 
                                     <td>
