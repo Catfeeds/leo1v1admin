@@ -437,6 +437,7 @@ class url_power_map {
 			'/main_page/zs_teacher_new'	=>1250100,
 			'/human_resource/index_zs'	=>1250300,
 			'/tongji_ss/tongji_seller_test_lesson_order_info_zs'	=>1251200,
+			'/tongji_ss/tongji_seller_test_lesson_order_info_for_jx'	=>1251300,
 			'/human_resource/teacher_lecture_appointment_info_zs'	=>1250400,
 			'/human_resource/reaearch_teacher_lesson_list'	=>1250200,
 			'/tongji_ss/tongji_zs_reference'	=>1250500,

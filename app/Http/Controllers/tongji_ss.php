@@ -4298,60 +4298,6 @@ class tongji_ss extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right              = $this->get_seller_adminid_and_right();
 
-        // $adminid = $this->get_in_int_val("adminid",-1);
-        // 测试区
-        $field_name = 'origin';
-        $field_class_name = '';
-
-
-        // 新增
-
-        $this->t_seller_student_origin->switch_tongji_database();
-
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
-
-        $data_map = &$origin_info['list'];
-
-
-        $this->t_test_lesson_subject_require->switch_tongji_database();
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
-
-        foreach ($test_lesson_list as  $test_item ) {
-            $check_value=$test_item["check_value"];
-            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
-            $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
-        }
-
-
-        $this->t_order_info->switch_tongji_database();
-        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
-        foreach ($order_list as  $order_item ) {
-            $check_value=$order_item["check_value"];
-            \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
-
-            $data_map[$check_value]["order_count"] = $order_item["order_count"];
-            $data_map[$check_value]["user_count"] = $order_item["user_count"];
-            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
-        }
-
-
-
-        foreach ($data_map as &$item ) {
-            $item["title"]= $item["check_value"];
-
-            if ($field_name=="origin") {
-                $item["origin"]= $item["title"];
-            }
-        }
-
-        if ($field_name=="origin") {
-            $origin_info["list"]= $this->gen_origin_data($origin_info["list"],["avg_first_time"], '');
-        }
-
-        // 测试结束
-
-
 
         $ret_info = $this->t_test_lesson_subject_sub_list->get_seller_test_lesson_order_info_new($start_time,$end_time,$require_adminid_list);
         $grade_arr = $subject_arr = $paper_arr = $location_arr=[];
@@ -4407,7 +4353,6 @@ class tongji_ss extends Controller
 
 
         // dd($origin_info);
-        $origin_info = $origin_info['list'];
 
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,
@@ -4415,7 +4360,6 @@ class tongji_ss extends Controller
             "paper_arr"   => @$paper_arr,
             "location_arr"=> @$location_arr,
             "adminid_right"=>$adminid_right,
-            "origin_info"  => $origin_info
         ]);
 
 
