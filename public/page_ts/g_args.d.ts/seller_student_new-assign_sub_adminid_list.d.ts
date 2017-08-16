@@ -15,8 +15,8 @@ interface GargsStatic {
 	admin_revisiterid:	number;
 	tq_called_flag:	number;//App\Enums\Etq_called_flag
 	global_tq_called_flag:	number;//App\Enums\Etq_called_flag
-	seller_student_status:	number;//\App\Enums\Eseller_student_status
-	page_num:	number;
+	seller_student_status:	string;//枚举列表: \App\Enums\Eseller_student_status
+ 	page_num:	number;
 	page_count:	number;
 	has_pad:	number;//App\Enums\Epad_type
 	sub_assign_adminid_2:	number;
@@ -165,7 +165,6 @@ $(function(){
 	Enum_map.append_option_list("subject",$("#id_subject"));
 	Enum_map.append_option_list("tq_called_flag",$("#id_tq_called_flag"));
 	Enum_map.append_option_list("tq_called_flag",$("#id_global_tq_called_flag"));
-	Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));
 	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
 	Enum_map.append_option_list("seller_student_sub_status",$("#id_seller_student_sub_status"));
 	Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
@@ -199,6 +198,7 @@ $(function(){
 	$('#id_tq_called_flag').val(g_args.tq_called_flag);
 	$('#id_global_tq_called_flag').val(g_args.global_tq_called_flag);
 	$('#id_seller_student_status').val(g_args.seller_student_status);
+	$.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_sub_assign_adminid_2').val(g_args.sub_assign_adminid_2);
 	$('#id_origin_assistantid').val(g_args.origin_assistantid);
@@ -313,8 +313,7 @@ $(function(){
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
                 <span class="input-group-addon">seller_student_status</span>
-                <select class="opt-change form-control" id="id_seller_student_status" >
-                </select>
+                <input class="opt-change form-control" id="id_seller_student_status" />
             </div>
         </div>
 

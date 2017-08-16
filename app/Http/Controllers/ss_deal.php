@@ -2349,10 +2349,13 @@ class ss_deal extends Controller
             $seller_level=3;
         }
 
+
+        /*
         $level_limit_count= @$seller_level_config[$seller_level];
         if($json_ret['opt_count'] >= $level_limit_count){
             return $this->output_err(-1,["info"=>"对不起,您本月的配额已达上限"]);
         }
+        */
 
         $this->t_seller_student_new->field_update_list($userid,[
             "admin_revisiterid"  => $adminid  ,
@@ -2374,8 +2377,8 @@ class ss_deal extends Controller
         );
 
 
-        $json_ret["opt_count"] += 1;
-        \App\Helper\Common::redis_set_json("SELLER_TEST_LESSON_USER_$adminid", $json_ret);
+        //$json_ret["opt_count"] += 1;
+        //\App\Helper\Common::redis_set_json("SELLER_TEST_LESSON_USER_$adminid", $json_ret);
         return $this->output_succ();
     }
 

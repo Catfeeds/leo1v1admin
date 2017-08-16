@@ -69,7 +69,6 @@ $(function(){
     Enum_map.append_option_list("boolean",$("#id_admin_del_flag"));
     Enum_map.append_option_list("subject",$("#id_subject"));
     Enum_map.append_option_list("boolean",$("#id_sys_invaild_flag"));
-    Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"));
     Enum_map.append_option_list("seller_student_sub_status",$("#id_seller_student_sub_status"));
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
     Enum_map.append_option_list("seller_resource_type",$("#id_seller_resource_type"));
@@ -111,11 +110,14 @@ $(function(){
 	  $('#id_show_list_flag').val(g_args.show_list_flag);
     $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
     $('#id_first_seller_adminid').val(g_args.first_seller_adminid);
-    $('#id_seller_student_status').val(g_args.seller_student_status);
+
+	  $('#id_seller_student_status').val(g_args.seller_student_status);
+	  $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();},null, {
+        "已试听" :[290, 300, 301,302,420],
+    } )
     $('#id_sys_invaild_flag').val(g_args.sys_invaild_flag);
     $('#id_seller_student_sub_status').val(g_args.seller_student_sub_status);
     $('#id_origin_level').val(g_args.origin_level);
-    $('#id_seller_student_status').val(g_args.seller_student_status);
     //wx
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
     $('#id_filter_flag').val(g_args.filter_flag);
