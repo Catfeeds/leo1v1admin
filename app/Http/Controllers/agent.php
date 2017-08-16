@@ -76,38 +76,19 @@ class agent extends Controller
                 $ret_info_new[] = $item;
             }
         }
+        list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
+             $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
+             $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
+             $order_count,$user_count,$order_all_money) = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
                 $item['num'] = $key+1;
 
-                $all_count = $key+1;
                 foreach($test_info as $info){
                     if($item['userid'] == $info['userid']){
                         $item['success_flag'] = 1;
                     }
-
-                    //已分配销售
-                    if($item['admin_revisiterid']>0){
-                        $assigned_count = $key+1;
-                    }
-                    //TMK有效
-                    if($item['tmk_student_status'] == 3){
-                        $tmk_assigned_count = $key+1;
-                    }
-                    //未拨打
-                    if($item['global_tq_called_flag'] == 0){
-                        $tq_no_call_count = $key+1;
-                    }
-                    //已拨打
-                    if($item['global_tq_called_flag'] != 0){
-                        $tq_no_call_count = $key+1;
-                    }
-                    //未接通
-                    if($item['global_tq_called_flag'] == 1){
-                        $tq_no_call_count = $key+1;
-                    }
-
                 }
             }
         }

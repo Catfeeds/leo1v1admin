@@ -36,6 +36,15 @@ interface RowData {
 	pp_phone	:any;
 	s_userid	:any;
 	origin	:any;
+	is_test_user	:any;
+	admin_revisiterid	:any;
+	tmk_student_status	:any;
+	global_tq_called_flag	:any;
+	sys_invaild_flag	:any;
+	seller_student_status	:any;
+	require_admin_type	:any;
+	accept_flag	:any;
+	lesson_user_online_status	:any;
 	agent_type	:any;
 	num	:any;
 }
