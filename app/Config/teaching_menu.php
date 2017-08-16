@@ -11,7 +11,7 @@ class teaching_menu{
                  ["power_id"=>1, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                  ["power_id"=>25, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                  ["power_id"=>9,"name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
-
+                 ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
              ]],
 
 
@@ -158,9 +158,8 @@ class teaching_menu{
              ]],
 
              ["power_id"=>40, "name"=>"产品部",  "list"=>[
-                 ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
 
-                 ["power_id"=>10, "name"=>"题库管理", "list"=>[
+                 ["power_id"=>10, "name"=>"理优智能题库", "list"=>[
                      ["power_id"=>1, "name"=>"录入", "list"=>[
                          ["power_id"=>1, "name"=>"录入-编辑",   "url"=>"/question/question_list"],
                          ["power_id"=>2, "name"=>"录入-审核未通过-所有",   "url"=>"/question/question_list_nopass"],
