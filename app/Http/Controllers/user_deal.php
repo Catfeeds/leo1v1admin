@@ -2606,12 +2606,12 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $start_time = strtotime("2017-06-01");
-        $end_time = strtotime("2017-07-01");
-        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_new($start_time,$end_time);
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+        $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_train($start_time,$end_time,-1);
         foreach($list as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
-                "accept_adminid"   =>790
+                "accept_adminid"   =>492
             ]);
         }
         dd(111);

@@ -4446,25 +4446,23 @@ class tongji_ss extends Controller
 
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
-        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
+        $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
 
         foreach ($test_lesson_list as  $test_item ) {
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
-            $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
 
 
         $this->t_order_info->switch_tongji_database();
-        $order_list= $this->t_order_info->tongji_seller_order_count_origin( $field_name,$start_time,$end_time,$require_adminid_list,'','','add_time');
+        $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time);
+
+        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
-
-            $data_map[$check_value]["order_count"] = $order_item["order_count"];
-            $data_map[$check_value]["user_count"] = $order_item["user_count"];
-            $data_map[$check_value]["order_all_money"] = $order_item["order_all_money"];
+            $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
 
 

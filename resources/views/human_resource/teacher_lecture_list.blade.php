@@ -7,7 +7,6 @@
 </script>
 <script type="text/javascript" src="/js/svg.js"></script>
 <script type="text/javascript" src="/js/wb-reply/audio.js"></script>
-
     <section class="content ">
         <div>
             <div class="row">

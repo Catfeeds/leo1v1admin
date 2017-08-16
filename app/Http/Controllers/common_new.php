@@ -269,7 +269,11 @@ class common_new extends Controller
             return $this->output_err("请选择规范的年级!");
         }
 
-        $accept_adminid = $this->get_zs_accept_adminid($reference);
+        if($full_time==1){
+            $accept_adminid=492; 
+        }else{
+            $accept_adminid = $this->get_zs_accept_adminid($reference); 
+        }
         $accept_time=0;
         if($accept_adminid>0){
             $accept_time = time();

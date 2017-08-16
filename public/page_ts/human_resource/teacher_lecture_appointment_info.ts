@@ -787,5 +787,11 @@ $(function(){
         $("#id_fulltime_teacher_type").parent().parent().hide();
     }
 
+    $(".opt-trans_info").on("click",function(){
+        var data = $(this).get_opt_data();
+
+
+    });
+
 
 });
