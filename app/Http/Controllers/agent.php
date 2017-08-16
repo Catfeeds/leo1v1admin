@@ -90,8 +90,8 @@ class agent extends Controller
         $ret_info_new['total_num'] = count($ret_info_new);
         $ret_info_new['per_page_count'] = $ret_info['per_page_count'];
         $ret_info_new['page_info']['total_num'] = count($ret_info_new);
-        $ret_info_new['page_info']['per_page_count'] = $ret_info['per_page_count'];
-        $ret_info_new['page_info']['page_num'] = $ret_info['page_num'];
+        $ret_info_new['page_info']['per_page_count'] = $ret_info['page_info']['per_page_count'];
+        $ret_info_new['page_info']['page_num'] = $ret_info['page_info']['page_num'];
         return $this->pageView(__METHOD__,$ret_info_new);
     }
 
