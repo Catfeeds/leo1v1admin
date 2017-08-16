@@ -119,12 +119,18 @@ class agent extends Controller
     }
 
     public function check(){
-                //agentid查邀请人试听课
+        //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         // dd($test_lesson);
+        $phone = '13917648269';
+        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        dd($phone,$userid_new);
+    }
+
+    public function update_agent_userid(){
         $ret_info = $this->t_agent->get_agent_list();
         $ret = [];
         foreach($ret_info as $item){
@@ -142,7 +148,6 @@ class agent extends Controller
         }
         dd($ret);
     }
-
 
     public function update_agent_order($orderid,$userid,$order_price){
         $agent_order = [];

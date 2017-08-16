@@ -50,8 +50,12 @@ http://www.leo1v1.com/login/teacher";
         $data_teacher['remark']     = "更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】";
 
         \App\Helper\Utils::logger("send_update_software");
+        $wx_openid = $this->wx_openid;
+        if($wx_openid){
+            \App\Helper\Utils::send_teacher_msg_for_wx($this->wx_openid,$template_id_teacher, $data_teacher,$url_teacher);
+        }
 
-        \App\Helper\Utils::send_teacher_msg_for_wx($this->wx_openid,$template_id_teacher, $data_teacher,$url_teacher);
+
 
 
 

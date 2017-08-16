@@ -410,12 +410,17 @@ $(function(){
     
     $(".opt-play-new").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
+        var id = $(this).get_opt_data("id");
         $.do_ajax( "/common/encode_text",{
             "text" : lessonid
         }, function(ret){
            // BootstrapDialog.alert("对外链接 : http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text  );
             $.wopen("http://"+ window.location.hostname + "/tea_manage/show_lesson_video?lessonid=" + ret.text);
         });
+        $.do_ajax("/tea_manage/set_teacher_record_account",{
+            "id" : id
+        });
+
     });
 
 
