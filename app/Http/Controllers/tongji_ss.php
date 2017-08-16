@@ -658,7 +658,7 @@ class tongji_ss extends Controller
                 foreach($ret_new as $key=>&$item){
                     //例子总数
                     $all_count = $key+1;
-                    if($item['lesson_start']>$item['create_time']){
+                    if($item['s.origin'] == '优学优享'){
                         //已分配销售
                         if($item['admin_revisiterid']>0){
                             $assigned_count++;
