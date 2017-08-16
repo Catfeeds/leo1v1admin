@@ -461,7 +461,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 t_manager_info::DB_TABLE_NAME,
                                 $start_time,$end_time
         );
-
         return $this->main_get_list($sql,function($item){
             return $item["uid"];
         });
