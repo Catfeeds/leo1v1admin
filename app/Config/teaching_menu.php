@@ -119,7 +119,6 @@ class teaching_menu{
 
                      ]],
                      ["power_id"=>33, "name"=>"其他",  "list"=>[
-
                          ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                          ["power_id"=>8,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                          ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
@@ -128,7 +127,8 @@ class teaching_menu{
                  ]],
 
                  ["power_id"=>2, "name"=>"班课组",  "list"=>[
-                     ["power_id"=>3, "name"=>"小班课aa111", "list"=> [
+
+                     ["power_id"=>3, "name"=>"小班课", "list"=> [
                          ["power_id"=>1, "name"=>"小班管理",   "url"=>"/small_class/index"],
                          ["power_id"=>2, "name"=>"小班课次管理",   "url"=>"/small_class/lesson_list"],
                          ["power_id"=>4, "name"=>"小班课次管理-new",   "url"=>"/small_class/lesson_list_new"],
