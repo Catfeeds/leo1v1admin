@@ -103,6 +103,8 @@
                                         <td>续费总额</td>
                                         <td>转介绍人数</td>
                                         <td>在册学生数</td>
+                                        <td>结课学生数</td>
+                                        <td>结课率</td>
                                     </tr>
                                 </thead>
                                 <tbody id="id_ass_list">
@@ -127,6 +129,8 @@
                                             <td>{{@$var["all_price"]}} </td>
                                             <td>{{@$var["tran_num"]}} </td>
                                             <td>{{@$var["student_all"]}}</td>
+                                            <td>{{@$var["student_finish"]}}</td>
+                                            <td>{{@$var["student_finish_per"]}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

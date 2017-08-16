@@ -2058,6 +2058,25 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list($sql);
     }
+    public function get_ass_first_revisit_info_finish($start_time,$end_time){
+        $where_arr=[
+            "s.type=1",
+            "s.assistantid > 0",
+            "(s.is_test_user = 0 or s.is_test_user is null)",
+        ];
+        $this->where_arr_add_time_range($where_arr,"s.last_lesson_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new(" select m.uid,count(s.userid) num "
+                                  ." from %s s  "
+                                  ." left join %s a on s.assistantid = a.assistantid "
+                                  ." left join %s m on a.phone = m.phone "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
     public function get_new_assign_stu_info($start_time,$end_time){
         $where_arr=[];
