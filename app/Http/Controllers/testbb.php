@@ -137,10 +137,14 @@ class testbb extends Controller
         $field_name = 'origin';
         $field_class_name = '';
 
-        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
 
         $data_map = &$origin_info['list'];
 
+
+        $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
 
         foreach ($test_lesson_list as  $test_item ) {

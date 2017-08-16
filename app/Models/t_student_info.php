@@ -2089,7 +2089,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." left join %s a on s.assistantid = a.assistantid "
                                   ." left join %s l on a.assistantid = l.assistantid "
                                   ." left join %s m on a.phone = m.phone "
-                                  ." where %s and l.lesson_start >=%s and l.lesson_start<%s  and l.lesson_status =2 and l.confirm_flag not in (2,3)  and l.lesson_type in (0,1,3) group by m.uid",
+                                  ." where %s and l.lesson_start >=%u and l.lesson_start<%u  and l.lesson_status =2 and l.confirm_flag not in (2,3)  and l.lesson_type in (0,1,3) group by m.uid",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
@@ -2097,7 +2097,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   $where_arr,
                                   $start_time,$end_time
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
     }
 
     public function get_new_assign_stu_info($start_time,$end_time){

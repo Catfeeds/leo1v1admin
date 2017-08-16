@@ -1484,7 +1484,7 @@ class ss_deal extends Controller
         $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
         $promotion_spec_discount = $this->get_in_int_val("promotion_spec_discount");
         $promotion_spec_present_lesson = $this->get_in_int_val("promotion_spec_present_lesson");
-
+        $promotion_spec_diff_money =0;
         if( $order_require_flag) {
             if(!$promotion_spec_present_lesson)  {
                 $promotion_spec_present_lesson= $promotion_present_lesson;
@@ -1492,6 +1492,12 @@ class ss_deal extends Controller
             if(!$promotion_spec_discount) {
                 $promotion_spec_discount= $promotion_discount_price;
             }
+            //直接减钱
+            $promotion_spec_diff_money= (  $promotion_discount_price - $promotion_spec_discount   );
+            //课时
+            $promotion_spec_diff_money+= ($promotion_spec_present_lesson- $promotion_present_lesson ) * ($promotion_discount_price/$lesson_total )*0.6 ;
+
+
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
@@ -1545,7 +1551,11 @@ class ss_deal extends Controller
                 $userid,$orderid,
                 $promotion_spec_present_lesson,$competition_flag,$grade,$subject);
         }
-
+        if ( $promotion_spec_diff_money ) {
+            $this->t_order_info->field_update_list($orderid,[
+                "promotion_spec_diff_money" =>  $promotion_spec_diff_money 
+            ]);
+        }
         return $this->output_succ();
     }
 
@@ -2466,7 +2476,7 @@ class ss_deal extends Controller
                 "tmk_desc"=>$tmk_desc,
             ]);
         }
-        
+
         $admin_revisiterid=$this->t_seller_student_new->get_admin_revisiterid($userid);
         if (!$admin_revisiterid ) {
             $this->t_seller_student_new->field_update_list($userid,[
@@ -2805,9 +2815,9 @@ class ss_deal extends Controller
             $test_info = $this->t_lesson_info->field_get_list($lessonid,"lesson_start,subject,userid,teacherid");
             $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($test_info['lesson_start'],$test_info['subject'],$test_info['userid']);
             if($test_info["teacherid"] != $old_teacher_arr["teacherid"]){
-                $this->delete_teacher_regular_lesson($userid,0,1,$old_teacher_arr["teacherid"]); 
+                $this->delete_teacher_regular_lesson($userid,0,1,$old_teacher_arr["teacherid"]);
             }
- 
+
         }
         return $this->output_succ();
     }
@@ -4575,7 +4585,7 @@ class ss_deal extends Controller
         E\Ecomplaint_type::set_item_value_str($complaint_info);
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
-        if ($ret) 
+        if ($ret)
            $re = $this->t_complaint_info->field_update_list($complaint_id,[
                 "suggest_info"       => $suggest_info,
                 "complaint_state"    => $complaint_state
