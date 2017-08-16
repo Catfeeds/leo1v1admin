@@ -97,39 +97,38 @@ class t_agent extends \App\Models\Zgen\z_t_agent
          */
 
         $where_arr = array();
-        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        if($type != 1){
+            $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
+        }
         $this->where_arr_add_int_field($where_arr,"a.type",1);
         if($type==2){ //已分配销售
             $where_arr[] = 'n.admin_revisiterid >0';
-        }else{
-            $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
-            if($type == 3){ //TMK有效
-                $where_arr[] = 'n.tmk_student_status=3';
-            }elseif($type == 5){ //未拨打
-                $where_arr[] = 'n.global_tq_called_flag=0';
-            }elseif($type == 6){ //已拨打
-                $where_arr[] = 'n.global_tq_called_flag <>0';
-            }elseif($type == 7){ //未接通
-                $where_arr[] = 'n.global_tq_called_flag =1';
-            }elseif($type == 8){ //已拨通-有效
-                $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag=0';
-            }elseif($type == 9){ //已拨通-无效
-                $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag =1';
-            }elseif($type == 10){ //未拨通-无效
-                $where_arr[] = 'n.global_tq_called_flag =1 and  n.sys_invaild_flag =1';
-            }elseif($type == 11){ //有效意向(A)
-                $where_arr[] = 't.seller_student_status =100 and  n.global_tq_called_flag =2';
-            }elseif($type == 12){ //有效意向(B)
-                $where_arr[] = 't.seller_student_status =101 and  n.global_tq_called_flag =2';
-            }elseif($type == 13){ //有效意向(C)
-                $where_arr[] = 't.seller_student_status =102 and  n.global_tq_called_flag =2';
-            }elseif($type == 14){ //预约数
-                $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-            }elseif($type == 15){ //上课数
-                $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-            }elseif($type == 16){ //试听成功数
-                $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
-            }
+        }elseif($type == 3){ //TMK有效
+            $where_arr[] = 'n.tmk_student_status=3';
+        }elseif($type == 5){ //未拨打
+            $where_arr[] = 'n.global_tq_called_flag=0';
+        }elseif($type == 6){ //已拨打
+            $where_arr[] = 'n.global_tq_called_flag <>0';
+        }elseif($type == 7){ //未接通
+            $where_arr[] = 'n.global_tq_called_flag =1';
+        }elseif($type == 8){ //已拨通-有效
+            $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag=0';
+        }elseif($type == 9){ //已拨通-无效
+            $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag =1';
+        }elseif($type == 10){ //未拨通-无效
+            $where_arr[] = 'n.global_tq_called_flag =1 and  n.sys_invaild_flag =1';
+        }elseif($type == 11){ //有效意向(A)
+            $where_arr[] = 't.seller_student_status =100 and  n.global_tq_called_flag =2';
+        }elseif($type == 12){ //有效意向(B)
+            $where_arr[] = 't.seller_student_status =101 and  n.global_tq_called_flag =2';
+        }elseif($type == 13){ //有效意向(C)
+            $where_arr[] = 't.seller_student_status =102 and  n.global_tq_called_flag =2';
+        }elseif($type == 14){ //预约数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
+        }elseif($type == 15){ //上课数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
+        }elseif($type == 16){ //试听成功数
+            $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
         }
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"
