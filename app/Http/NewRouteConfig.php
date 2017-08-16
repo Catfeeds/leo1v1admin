@@ -108,6 +108,7 @@ class NewRouteConfig {
         "t_yxyx_wxnews_info"          => true,
         "t_yxyx_test_pic_info"        => true,
         "t_yxyx_custom_type"          => true,
+        "t_yxyx_new_list"             => true,
         "campus_manage"               => true,
     ];
 
