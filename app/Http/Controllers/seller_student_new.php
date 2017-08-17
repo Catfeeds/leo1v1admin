@@ -47,19 +47,14 @@ class seller_student_new extends Controller
     //转介绍待分配例子--总监
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
-        
-        $master_flag = $this->t_admin_main_group_name->check_is_master($adminid);
-        $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
-        if (!$self_groupid) {
-            return $this->error_view(["你不是销售主管"]);
+       
+        $main_master_flag = $this->t_admin_main_group_name->check_is_master(2,$adminid);
+        if ($master_adminid !=1) {
+            return $this->error_view(["你不是销售总监"]);
         }
 
-        $this->set_in_value("self_groupid", $self_groupid );
-        $this->set_in_value("sub_assign_adminid_2",$adminid );
-        if (!$this->check_in_has( "admin_revisiterid")) {
-            $this->set_in_value("admin_revisiterid", 0);
-        }
-
+        $this->set_in_value("main_master_flag", $main_master_flag);
+       
 
         return $this->assign_sub_adminid_list();
     }

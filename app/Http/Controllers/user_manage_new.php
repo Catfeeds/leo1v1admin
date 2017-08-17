@@ -3751,6 +3751,13 @@ class user_manage_new extends Controller
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         $lecture_info = $this->t_teacher_lecture_appointment_info->get_simple_info($phone);
         $lessonid = $this->t_lesson_info_b2->get_train_lesson($teacherid,$lecture_info['subject']);
+        if($lessonid>0){
+            return $this->output_err("此老师已经预约了面试试讲！无法重置！");
+        }
+        $lecture_flag = $this->t_lecture_info->get_lecture_info($phone);
+        if($lecture_flag>0){
+            return $this->output_err("此老师已提交了录制试讲！无法重置！");
+        }
 
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "trans_subject_ex" => "",
@@ -3759,4 +3766,11 @@ class user_manage_new extends Controller
 
         return $this->output_succ();
     }
+
+
+
+
+
+
+
 }

@@ -3140,14 +3140,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
 
-        $sql = $this->gen_sql_new(" select l.stu_performance, tl.success_flag, require_adminid, l.teacherid, m.account as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
+        $sql = $this->gen_sql_new(" select l.lessonid, l.stu_performance, tl.success_flag, require_adminid, l.teacherid, m.account as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
                                   ." left join %s tl on tl.lessonid = l.lessonid "
                                   ." left join %s tr on tr.require_id = tl.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id = tr.test_lesson_subject_id"
                                   ." left join %s m on m.uid = ts.require_adminid "
                                   ." left join %s s on s.userid = l.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
-                                  ." where %s group by l.lessonid",
+                                  ." where %s ",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
@@ -3158,7 +3158,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $where_arr
         );
 
-        return $this->main_get_list($sql);
+        return $this->main_get_list($sql,function($item){
+            return $item['lessonid'];
+        });
     }
 
     public function get_train_lesson($teacherid,$subject){
