@@ -508,7 +508,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1, $call_phone_count=-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1, $call_phone_count=-1,$main_master_flag=0,$self_adminid=-1
     ) {
 
 
