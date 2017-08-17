@@ -2757,7 +2757,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level
+        $start_time,$end_time,$teacherid,$teacher_money_type,$level
     ){
         if($teacherid!=-1){
             $where_arr[]=["t.teacherid=%u",$teacherid,-1];
@@ -2776,7 +2776,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
-                                  ." m1.money,m2.money,ol.price as lesson_price,l.lesson_count,"
+                                  ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
                                   ." deduct_come_late,deduct_change_class,deduct_upload_cw,deduct_rate_student"
                                   ." from %s l "
 
@@ -2804,7 +2804,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
         echo $sql;exit;
-        return $this->main_get_list_as_page($sql);
+        return $this->main_get_list($sql);
     }
 
 
