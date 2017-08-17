@@ -565,6 +565,7 @@ class teacher_money extends Controller
     public function get_teacher_info_for_total_money($info){
         $teacher_money_type = $info['teacher_money_type'];
         $level = $info['level'];
+
         if($info['teacher_type']>20){
             if($info['teacher_type']==32){
                 $level_str="";
