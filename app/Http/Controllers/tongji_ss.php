@@ -639,7 +639,7 @@ class tongji_ss extends Controller
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
-
+            dd($ret);
             $ret_new = [];
             $ret_info_new = [];
             $id_arr = array_unique(array_column($ret,'id'));
@@ -685,7 +685,6 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            dd($order_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
