@@ -904,10 +904,8 @@ class tongji2 extends Controller
         //$kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time,"c.add_time");
         $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
 
-        $cur_start = strtotime(date('Y-m-01',$end_time));
+        $cur_start = strtotime(date('Y-m-01',$start_time));
         $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
-
-
         foreach($ass_list as $k=>&$val){
             $val["userid_list_first"] = isset($userid_list_first[$k])?$userid_list_first[$k]:[];
             $val["userid_list_first_target"] = count($val["userid_list_first"]);
@@ -937,7 +935,7 @@ class tongji2 extends Controller
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
             //$val["student_all"] += $val["student_finish"];
-            $val["student_all"] =  isset($ass_month[$k]["student_all"])?$ass_month[$k]["student_all"]:0;
+            $val["student_all"] =  isset($ass_month[$k]["all_student_new"])?$ass_month[$k]["all_student_new"]:0;
             if($val['student_all'] > 0){
                 $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
                 $val["student_online_per"] = round($val["student_online"]/$val["student_all"]*100,2);

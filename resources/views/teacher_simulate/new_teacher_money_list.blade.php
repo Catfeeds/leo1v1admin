@@ -26,8 +26,8 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span >测试用户</span>
-                        <select id="id_is_test_user" class ="opt-change" ></select>
+                        <span >无视4月份升级</span>
+                        <select id="id_ignore_level_up" class ="opt-change" ></select>
                     </div>
                 </div>
             </div>

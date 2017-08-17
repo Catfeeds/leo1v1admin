@@ -147,6 +147,7 @@
                             {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                         >
                             @if($var['trial_train_status']==-1 || in_array($acc,["adrian","夏宏东","amyshen"]))
+                                <a class="opt-set-server" title="服务器" >切换</a>
                                 <a class="fa-edit opt-edit" title="审核"></a>
                                 <a class="opt-edit-new" title="审核-new">审核-new</a>
                                 <a class="opt-del" title="删除">删除</a>
@@ -164,6 +165,30 @@
             @endforeach
         </tbody>
     </table>
+
+    <div id="id_dlg_set_server" style="display:none;">
+        <div class="row">
+            <div class="col-xs-0 col-md-3">
+            </div>
+
+            <div class="col-xs-6 col-md-3">
+                <select id="id_region" class="form-control">
+                    <option value="h">杭州</option>
+                    <option value="b">北京</option>
+                    <option value="q">青岛-测试</option>
+                </select>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <select id="id_server" class="form-control">
+                    <option value="00">1</option>
+                    <option value="01">2</option>
+                    <option value="02">3</option>
+                    <option value="03">4</option>
+                    <option value="04">5</option>
+                </select>
+            </div>
+        </div>
+    </div>
     @include("layouts.page")
     </section>
 @endsection

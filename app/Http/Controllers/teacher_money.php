@@ -529,7 +529,7 @@ class teacher_money extends Controller
 
             if($type==2){
                 $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-                if(!in_array($teacher_money_type,[0,4,5])){
+                if(!in_array($teacher_money_type,[0,4,5,6])){
                     return $this->output_err("老师工资分类错误！");
                 }
             }elseif($type==3){
@@ -563,30 +563,7 @@ class teacher_money extends Controller
     }
 
     public function get_teacher_info_for_total_money($info){
-        $teacher_money_type = $info['teacher_money_type'];
-        $level = $info['level'];
-        if($info['teacher_type']>20){
-            if($info['teacher_type']==32){
-                $level_str="";
-            }else{
-                $level_str="招师代理";
-            }
-        }else{
-            if($teacher_money_type==0){
-                if($level<3){
-                    $level_str = E\Elevel::$v2s_map[$level+1];
-                }elseif($level==3){
-                    $level_str = "明星";
-                }else{
-                    $level_str = "";
-                }
-            }elseif(in_array($teacher_money_type,[2,3])){
-                $level_str = "高级";
-            }else{
-                $level_str = E\Elevel::$v2s_map[$level];
-            }
-            $level_str.="讲师";
-        }
+        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         $teacher_type = $info['teacher_type']==32?32:0;
         $bank_status  = $info['bankcard']==""?"未绑定":"已绑定";

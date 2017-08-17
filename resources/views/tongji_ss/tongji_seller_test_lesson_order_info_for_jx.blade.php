@@ -124,7 +124,17 @@
                     <div align="center"> 科目</div>
                 <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
-                        <thead> <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
+                        <thead>
+                            <!-- <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr>
+                               -->
+                            {!!\App\Helper\Utils::th_order_gen([
+                                ["科目","name_subject" ],
+                                ["试听成功数","num_subject" ],
+                                ["签单数","order_subject" ],
+                                ["签单率","per_subject"],
+                               ])  !!}
+
+                        </thead>
                         <tbody>
                             @foreach($subject_arr as $v)
                                 <tr>
@@ -142,8 +152,19 @@
                 <div class="col-xs-6 col-md-3">
                     <div align="center">试卷</div>
                 <div id="id_has_pad_pic" class="demo-placeholder" style="height:400;"></div>
-                    <table   class="table table-bordered table-striped"   >
-                        <thead> <tr>  <td> 试卷  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
+                <table   class="table table-bordered table-striped"   >
+                    <thead>
+                        <!-- <tr>  <td> 试卷  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> -->
+
+                        {!!\App\Helper\Utils::th_order_gen([
+                            ["试卷","name_paper" ],
+                            ["试听成功数","num_paper" ],
+                            ["签单数","order_paper" ],
+                            ["签单率","per_paper"],
+                           ])  !!}
+
+                    </thead>
+
                         <tbody>
                             @foreach($paper_arr as $v)
                                 <tr>
@@ -161,7 +182,19 @@
                     <div align="center"> 地区</div>
                 <div id="id_area_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
-                        <thead> <tr>  <td> 地区 </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
+                        <thead>
+
+                            <!-- <tr>  <td> 地区 </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> -->
+                            {!!\App\Helper\Utils::th_order_gen([
+                                ["地区","name_location" ],
+                                ["试听成功数","num_location" ],
+                                ["签单数","order_location" ],
+                                ["签单率","per_location"],
+                            ])  !!}
+
+
+
+                        </thead>
                         <tbody>
                             @foreach($location_arr as $v)
                                 <tr>
