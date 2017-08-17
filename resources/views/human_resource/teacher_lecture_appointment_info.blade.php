@@ -250,6 +250,7 @@
                                     <a class="opt-plan-train_lesson">1v1</a>
                                     <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
                                     <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                    <a class="opt-trans_info" title="设置扩课" >扩</a>
                                 @endif
                             </div>
                         </td>

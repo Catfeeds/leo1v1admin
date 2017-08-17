@@ -169,7 +169,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = array(
             array( "t.gender=%d", $gender, -1 ),
             array( "teacherid=%d", $id, -1 ),
-            "m.account_role in(4,5)",
+            "m.account_role in(4,5,9)",
             "m.del_flag=0"
         );
         if ($nick_phone!=""){
@@ -194,7 +194,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = array(
             array( "t.gender=%d", $gender, -1 ),
             array( "teacherid=%d", $id, -1 ),
-            "m.account_role =4",
+            "m.account_role in(4,9)",
             "m.del_flag=0"
         );
         if ($nick_phone!=""){
@@ -1243,6 +1243,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ["is_test_user=%u",$is_test_user,-1],
                 "trial_lecture_is_pass=1",
                 "train_through_new_time=0",
+                "t.teacher_type !=3",
             ];
         }elseif($type==2){
             $where_arr = [
@@ -2222,7 +2223,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     public function get_research_teacher_list_lesson($page_info,$teacherid){
         $where_arr=[
-            "m.account_role=4",
+            "m.account_role in (4,9)",
             "m.del_flag=0",
             ["t.teacherid=%u",$teacherid,-1],
             "m.uid not in (790,486,871,891)"

@@ -3723,7 +3723,26 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function update_order_price(){
+        $orderid = $this->get_in_int_val("orderid");
+        $price   = $this->get_in_string_val("price");
+        $discount_price   = $this->get_in_string_val("discount_price");
+        $account = $this->get_account();
 
+        if(!in_array($account,["zore","echo"])){
+            return $this->output_err("你没有权限");
+        }
+
+        $ret = $this->t_order_info->field_update_list($orderid,[
+            "price"          => $price*100,
+            "discount_price" => $discount_price*100,
+        ]);
+
+        if(!$ret){
+            return $this->output_err("更新失败！请重试!");
+        }
+        return $this->output_succ();
+    }
 
 
 }

@@ -2543,7 +2543,7 @@ ORDER BY require_time ASC";
     public function tongji_test_lesson_origin_jx( $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex=""){
         switch ( $field_name ) {
         case "origin" :
-            $field_name="s.origin";
+            $field_name="tr.origin";
             break;
 
         case "grade" :
@@ -2558,21 +2558,21 @@ ORDER BY require_time ASC";
         }
 
         $where_arr=[];
-        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"tr.origin");
         $where_arr[]= $ret_in_str;
         $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-        //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
             "select $field_name  as check_value , "
-            ." sum(lesson_user_online_status = 1) as succ_test_lesson_count  "
+            ." sum(lesson_user_online_status = 1 or flow_status=1  ) as succ_test_lesson_count  "
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
             ." join %s tss on tr.current_lessonid=tss.lessonid "
             ." join %s l on tr.current_lessonid=l.lessonid "
             ." join %s s on s.userid = l.userid "
+            ." left join %s f on f.from_key_int = l.lessonid"
             ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
             ." and is_test_user=0 "
             ." and require_admin_type = 2 "
@@ -2583,6 +2583,7 @@ ORDER BY require_time ASC";
             t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
+            t_flow::DB_TABLE_NAME,
             $where_arr,$start_time,$end_time );
 
         return $this->main_get_list($sql);

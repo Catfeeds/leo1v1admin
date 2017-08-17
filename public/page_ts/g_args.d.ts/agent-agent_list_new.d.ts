@@ -45,6 +45,7 @@ interface RowData {
 	require_admin_type	:any;
 	accept_flag	:any;
 	lesson_user_online_status	:any;
+	lesson_start	:any;
 	agent_type	:any;
 	num	:any;
 }

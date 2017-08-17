@@ -11,10 +11,10 @@
 
             <div class="col-xs-6 col-md-3" data-always_show="1"   >
                 <div class="input-group ">
-                    <!-- <input class="opt-change form-control" id="id_phone_name" placeholder="电话,姓名,回车搜索"/> -->
+                    <input class="opt-change form-control" style="display:none;" id="id_phone_name" placeholder="电话,姓名,回车搜索"/>
                 </div>
             </div>
-            
+
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">

@@ -200,6 +200,7 @@
                                 <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
                                 <a class="fa opt-flow-node-list fa-facebook " title="审核进度"></a>
                                 <a class="fa opt-update-order-time" title="修改下单时间">下单时间</a>
+                                <a class="fa opt-update-price" title="修改合同价格">价格</a>
                             </div>
                         </td>
             </tr>

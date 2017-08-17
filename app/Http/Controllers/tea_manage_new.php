@@ -701,7 +701,9 @@ class tea_manage_new extends Controller
         }
 
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $show_account_info = 0;
         if(empty($teacherid)){
+            $show_account_info = 1;
             $teacher_info = [
                 "phone"         => $phone,
                 "tea_nick"      => $tea_nick,
@@ -801,29 +803,31 @@ class tea_manage_new extends Controller
             $url = "";
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
-     
+
         //微信通知教研老师
         $uid = $this->t_manager_info->get_adminid_by_teacherid($record_teacherid);
         $record_realname = $this->t_teacher_info->get_realname($record_teacherid);
-       
+
         $this->t_manager_info->send_wx_todo_msg_by_adminid ($uid,"1对1面试课程",$record_realname."老师您好,您的面试课程已排好","
 面试时间:".$lesson_time_str."
 面试老师:".$realname."
 年级科目:".$grade_str."".$subject_str."
 请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
 
-
         //邮件通知面试老师
         $email = $this->t_teacher_lecture_appointment_info->get_email_by_phone($phone);
+        if($show_account_info==1){
+            $show_account_html="<font color='#FF0000'>账号：".$phone."</font><br><font color='#FF0000'>密码：123456 </font><br>";
+        }else{
+            $show_account_html="";
+        }
         if($email){
             dispatch( new \App\Jobs\SendEmailNew(
                 $email,"【理优1对1】试讲邀请和安排","尊敬的".$realname."老师：<br>
 感谢您对理优1对1的关注，您的录制试讲申请已收到！<br>
 为了更好的评估您的教学能力，需要您尽快按照如下要求提交试讲视频<br><br>
-【试讲信息】<br>
-<font color='#FF0000'>账号：".$phone."</font><br>
-<font color='#FF0000'>密码：123456 </font><br>
-<font color='#FF0000'>时间：".$lesson_time_str."</font><br><br>
+【试讲信息】<br>".$show_account_html."
+<font color='#FF0000'>时间：".$lesson_time_str."</font><br><bropt-plan-train_lesson>
 【试讲方式】<br>
  面试试讲（公校老师推荐）<br>
  电话联系老师预约可排课时间，评审老师和面试老师同时进入理优培训课堂进行面试，面试通过后，进行新师培训并完成自测即可入职<br>
