@@ -576,6 +576,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
         if($main_master_flag==1){
             $where_arr[] = ["sub_assign_adminid_1=%u",$self_adminid,-1];
+            $where_arr[] = "sub_assign_adminid_1>0";
         }
 
         if ( !$order_by_str ) {
