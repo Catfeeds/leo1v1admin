@@ -639,7 +639,7 @@ class tongji_ss extends Controller
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
-            dd($ret);
+
             $ret_new = [];
             $ret_info_new = [];
             $id_arr = array_unique(array_column($ret,'id'));
@@ -683,6 +683,7 @@ class tongji_ss extends Controller
                     $order_all_money += $item['price'];
                 }
             }
+            dd($order_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -4518,12 +4519,16 @@ class tongji_ss extends Controller
 
         }
 
+        //         // return array(false, "", $field_name, $order_flag=="asc" );
 
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
             $v["name"] = E\Esubject::get_desc($k);
         }
+
+        $paixu_arr = explode();
+
 
         \App\Helper\Utils::order_list( $subject_arr,"per", 0);
 
@@ -4535,7 +4540,7 @@ class tongji_ss extends Controller
         }
 
         if(!$order_in_db_flag){
-            
+
         }
         \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
