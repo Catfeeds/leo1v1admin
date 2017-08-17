@@ -732,23 +732,24 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            dd($ret_info);
             if(isset($ret_info['list'][4]['all_count'])){
-                $ret_info['list'][4]['all_count'] = count($ret_info_new);
-                $ret_info['list'][4]['assigned_count'] = count($assigned_count);
-                $ret_info['list'][4]['tmk_assigned_count'] = count($tmk_assigned_count);
-                $ret_info['list'][4]['tq_no_call_count'] = count($tq_no_call_count);
-                $ret_info['list'][4]['tq_called_count'] = count($tq_called_count);
-                $ret_info['list'][4]['tq_call_fail_count'] = count($tq_call_fail_count);
-                $ret_info['list'][4]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
-                $ret_info['list'][4]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
-                $ret_info['list'][4]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
-                $ret_info['list'][4]['have_intention_a_count'] = count($have_intention_a_count);
-                $ret_info['list'][4]['have_intention_b_count'] = count($have_intention_b_count);
-                $ret_info['list'][4]['have_intention_c_count'] = count($have_intention_c_count);
-                $ret_info['list'][4]['require_count'] = count($require_count);
-                $ret_info['list'][4]['test_lesson_count'] = count($test_lesson_count);
-                $ret_info['list'][4]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                foreach([0,1,2,3,4] as $item){
+                    $ret_info['list'][$item]['all_count'] = count($ret_info_new);
+                    $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
+                    $ret_info['list'][$item]['tmk_assigned_count'] = count($tmk_assigned_count);
+                    $ret_info['list'][$item]['tq_no_call_count'] = count($tq_no_call_count);
+                    $ret_info['list'][$item]['tq_called_count'] = count($tq_called_count);
+                    $ret_info['list'][$item]['tq_call_fail_count'] = count($tq_call_fail_count);
+                    $ret_info['list'][$item]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
+                    $ret_info['list'][$item]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
+                    $ret_info['list'][$item]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
+                    $ret_info['list'][$item]['have_intention_a_count'] = count($have_intention_a_count);
+                    $ret_info['list'][$item]['have_intention_b_count'] = count($have_intention_b_count);
+                    $ret_info['list'][$item]['have_intention_c_count'] = count($have_intention_c_count);
+                    $ret_info['list'][$item]['require_count'] = count($require_count);
+                    $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
+                    $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                }
             }
         }
         return $this->pageView(__METHOD__,$ret_info,[
