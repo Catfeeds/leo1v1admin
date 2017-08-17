@@ -2781,21 +2781,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s m1 on l.level=m.level and l.teacher_money_type=m.teacher_money_type "
-                                  ."      and m.grade=(case when "
+                                  ." left join %s m1 on l.level=m1.level and l.teacher_money_type=m1.teacher_money_type "
+                                  ."      and m1.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
-                                  ." left join %s m2 on t.level_simulate=m.level "
-                                  ."      and t.teacher_money_type_simulate=m.teacher_money_type "
-                                  ."      and m.grade=(case when "
+                                  ." left join %s m2 on t.level_simulate=m2.level "
+                                  ."      and t.teacher_money_type_simulate=m2.teacher_money_type "
+                                  ."      and m2.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
 
                                   ." where %s"
-                                  ." group by t.lessonid"
+                                  ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,t_teacher_money_type::DB_TABLE_NAME
