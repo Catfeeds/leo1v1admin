@@ -204,7 +204,6 @@ class agent extends Controller
             $item['p_price'] = $item['p_price']/100;
             $item['pp_price'] = $item['pp_price']/100;
         }
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
