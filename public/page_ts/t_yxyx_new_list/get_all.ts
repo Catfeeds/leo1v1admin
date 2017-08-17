@@ -53,19 +53,19 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-primary',
                     action : function(dialog) {
-                        var title    = html_node.find(".add_title").val();
-                        var des      = html_node.find(".add_des").val();
-                        var pic      = html_node.find(".add_pic").text();
+                        var new_title   = html_node.find(".add_title").val();
+                        var new_content = html_node.find(".add_content").val();
+                        var new_pic     = html_node.find(".add_pic").text();
                         if (opt_type=="update") {
                             $.ajax({
                                 type     : "post",
-                                url      : "/t_yxyx_wxnews_info/update_new_info",
+                                url      : "/t_yxyx_new_list/update_new_info",
                                 dataType : "json",
                                 data : {
-                                    "id"        : id
-                                    ,"title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
+                                    "id"           : id
+                                    ,"new_title"   : new_title
+                                    ,"new_content" : new_des
+                                    ,"new_pic"     : new_pic
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -79,12 +79,12 @@ $(function(){
                         } else {
                             $.ajax({
                                 type     : "post",
-                                url      : "/t_yxyx_wxnews_info/add_new_info",
+                                url      : "/t_yxyx_new_list/add_new_info",
                                 dataType : "json",
                                 data : {
-                                    "title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
+                                    "new_title"    : new_title
+                                    ,"new_content" : new_content
+                                    ,"new_pic"     : new_pic
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -115,7 +115,7 @@ $(function(){
         var id=$(this).get_opt_data( "id" );
         $.ajax({
             type  :"post",
-            url      :"/t_yxyx_wxnews_info/get_one_new",
+            url      :"/t_yxyx_new_list/get_one_new",
             dataType :"json",
             data     :{"id":id},
             success: function(data){
@@ -137,7 +137,7 @@ $(function(){
                 action: function(dialog){
                     $.ajax({
                         type     :"post",
-                        url      :"/t_yxyx_wxnews_info/del_new_info",
+                        url      :"/t_yxyx_new_list/del_new_info",
                         dataType :"json",
                         data     :{"id":id},
                         success  : function(result){

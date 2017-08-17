@@ -3085,8 +3085,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_trial_train_no_pass_list($page_info,$start_time,$end_time,$subject,$is_test_user,$absenteeism_flag){
         $where_arr=[
-            ["l.subject = %u",$subject,-1],  
-            ["t.is_test_user = %u",$is_test_user,-1],  
+            ["l.subject = %u",$subject,-1],
+            ["t.is_test_user = %u",$is_test_user,-1],
             ["l.absenteeism_flag = %u",$absenteeism_flag,-1],
             "l.lesson_del_flag=0",
             "l.confirm_flag <2",
@@ -3126,4 +3126,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
+    public function get_data_for_qc(){
+        $s = 11;
+        $e = 11;
+
+        $sql = $this->gen_sql_new(" select require_adminid, teacherid, userid from %s l  "
+                                  . " left join "
+
+
+        );
+    }
 }

@@ -9,27 +9,24 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 	}
 
         //添加一条新闻
-    public function add_new($title, $des, $pic, $new_link, $adminid, $type, $create_time) {
+    public function add_new($new_title, $new_content, $new_pic, $adminid, $create_time) {
         $res = $this->row_insert([
-            "title" => $title,
-            "des" => $des,
-            "pic" => $pic,
-            "new_link" => $new_link,
-            "adminid"  => $adminid,
-            "type"  => $type,
+            "new_title"   => $new_title,
+            "new_content" => $new_content,
+            "new_pic"     => $new_pic,
+            "adminid"     => $adminid,
             "create_time" => $create_time,
         ]);
         return $res;
     }
 
     //修改新闻
-    public function update_new($id, $title, $des, $pic, $new_link, $type, $create_time) {
+    public function update_new($id, $new_title, $new_content, $new_pic, $adminid, $create_time) {
         $res = $this->field_update_list( ["id" => $id],[
-            "title" => $title,
-            "des" => $des,
-            "pic" => $pic,
-            "new_link" => $new_link,
-            "type"  => $type,
+            "new_title"   => $new_title,
+            "new_content" => $new_content,
+            "new_pic"     => $new_pic,
+            "adminid"     => $adminid,
             "create_time" => $create_time,
         ]);
         return $res;
@@ -40,12 +37,10 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
         $where_arr = [
             'id='.$id,
         ];
-        $sql =  $this->gen_sql_new( "select w.id,w.pic,w.title,w.des,w.adminid,w.type as wxnew_type,w.create_time,w.new_link,a.account"
-                                    . " from %s w "
-                                    . " left join %s a on a.uid=w.adminid"
+        $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content,create_time,adminid"
+                                    . " from %s"
                                     ." where %s"
                                     ,self::DB_TABLE_NAME
-                                    ,t_manager_info::DB_TABLE_NAME
                                     , $where_arr
         );
 

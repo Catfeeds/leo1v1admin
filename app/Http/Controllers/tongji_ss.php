@@ -4396,7 +4396,7 @@ class tongji_ss extends Controller
 
 
         $this->t_order_info->switch_tongji_database();
-        $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time);
+        $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
 
         // dd($order_list);
         foreach ($order_list as  $order_item ) {
