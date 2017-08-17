@@ -2186,6 +2186,12 @@ class ss_deal extends Controller
             $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
         }
 
+        //分配销售总监
+        $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
+        if($account_role==1){
+            
+        }
+
         return $this->output_succ();
 
     }

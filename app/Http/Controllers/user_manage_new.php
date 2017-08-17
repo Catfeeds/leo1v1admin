@@ -3754,7 +3754,7 @@ class user_manage_new extends Controller
         if($lessonid>0){
             return $this->output_err("此老师已经预约了面试试讲！无法重置！");
         }
-        $lecture_flag = $this->t_lecture_info->get_lecture_info($phone);
+        $lecture_flag = $this->t_teacher_lecture_info->check_have_video($phone);
         if($lecture_flag>0){
             return $this->output_err("此老师已提交了录制试讲！无法重置！");
         }
