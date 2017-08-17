@@ -676,7 +676,7 @@ class tongji_ss extends Controller
                 //合同
                 if($item['aoid']){
                     $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($ret_info_new,'aoid'));
+                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
                     if(in_array($orderid,$orderid_arr)){
                     }else{
                         $order_count[] = $item;
