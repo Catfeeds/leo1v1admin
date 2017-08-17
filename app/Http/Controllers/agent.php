@@ -94,7 +94,7 @@ class agent extends Controller
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
-                $item['num'] = $key+1;
+                // $item['num'] = $key+1;
 
                 foreach($test_info as $info){
                     if($item['userid'] == $info['userid']){
@@ -185,7 +185,9 @@ class agent extends Controller
         }elseif($type == 16){ //试听成功数
             $ret_info_new = $succ_test_lesson_count;
         }
-
+        foreach($ret_info_new as $key=>&$item){
+            $item['num'] = $key+1;
+        }
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
