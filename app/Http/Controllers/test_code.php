@@ -1842,7 +1842,13 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        return $this->output_succ();
+        $phone="18790256265";
+        $template_code = 85645014;
+        $sms_data = [
+            "name" => "name",
+            "time" => date("Y-m-d",strtotime("+3 day",time())),
+        ];
+        \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
     }
 
 }
