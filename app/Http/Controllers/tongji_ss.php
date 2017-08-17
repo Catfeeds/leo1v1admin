@@ -4429,10 +4429,10 @@ class tongji_ss extends Controller
             "order_paper",
             "per_paper",
 
-            "name_area",
-            "num_area",
-            "order_area",
-            "per_area",
+            "name_location",
+            "num_location",
+            "order_location",
+            "per_location",
 
 
         ];
@@ -4545,14 +4545,14 @@ class tongji_ss extends Controller
             $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
             $vvv["name"] = $kkk;
         }
-        \App\Helper\Utils::order_list( $location_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $location_arr,"per", 0);
 
         foreach($paper_arr as $kkkk=>&$vvvv){
             if(!isset($vvvv["order"])) $vvvv["order"]=0;
             $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;
             $vvvv["name"] = $kkkk;
         }
-        \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
 
 
 
