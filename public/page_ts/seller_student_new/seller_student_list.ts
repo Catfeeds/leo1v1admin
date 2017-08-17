@@ -587,15 +587,31 @@ $(function(){
 
     $(".opt-set_user_free").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        BootstrapDialog.confirm(
-            "设置释放到公海:" + opt_data.phone ,
-            function(val){
-                if (val) {
-                    $.do_ajax("/ss_deal2/set_user_free",{
-                        "userid" :  opt_data.userid
+        if(opt_data.lessonid){
+            if(opt_data.success_flag){
+                BootstrapDialog.confirm(
+                    "设置释放到公海:" + opt_data.phone ,
+                    function(val){
+                        if (val) {
+                            $.do_ajax("/ss_deal2/set_user_free",{
+                                "userid" :  opt_data.userid
+                            });
+                        }
                     });
-                }
-            });
+            }else{
+                alert('请先确认课时!');
+            }
+        }else{
+            BootstrapDialog.confirm(
+                "设置释放到公海:" + opt_data.phone ,
+                function(val){
+                    if (val) {
+                        $.do_ajax("/ss_deal2/set_user_free",{
+                            "userid" :  opt_data.userid
+                        });
+                    }
+                });
+        }
     });
 
     if (g_args.account_seller_level !=9000 ) {

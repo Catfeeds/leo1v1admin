@@ -13,15 +13,18 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         $sql=$this->gen_sql_new ("select ao.*,"
                                  ." a.phone phone,a.nickname nickname, "
                                  ." aa.phone p_phone,aa.nickname p_nickname, "
-                                 ." aaa.phone pp_phone,aaa.nickname pp_nickname "
+                                 ." aaa.phone pp_phone,aaa.nickname pp_nickname, "
+                                 ." o.price "
                                  ." from %s ao "
                                  ." left join %s a on a.id=ao.aid "
                                  ." left join %s aa on aa.id=ao.pid "
                                  ." left join %s aaa on aaa.id=ao.ppid "
+                                 ." left join %s o on o.orderid=ao.orderid "
                                  ,self::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
+                                 ,t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }

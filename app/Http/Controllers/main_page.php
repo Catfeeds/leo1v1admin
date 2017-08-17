@@ -477,11 +477,16 @@ class main_page extends Controller
 
 		    $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
 		    $item["all_target_num"] = 250;
-		    if(in_array($item["uid"],[486,754,478])){
+		    if(in_array($item["uid"],[486,754])){
                 $item["all_target_num"]=150;
 		    }elseif(in_array($item["uid"],[913,923,892])){
                 $item["all_target_num"]=400;
-		    }
+		    }elseif(in_array($item["uid"],[478])){
+                 $item["all_target_num"]=50;
+            }elseif(in_array($item["uid"],[895])){
+                 $item["all_target_num"]=100;
+            }
+
 		    $all_count +=$item["all_target_num"];
 		    $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
 		}

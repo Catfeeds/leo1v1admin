@@ -1030,7 +1030,6 @@ class tea_manage_new extends Controller
     }
 
     public function set_full_time_teacher_record(){
-        $teacherid   = $this->get_in_int_val("teacherid");
         $phone       = $this->get_in_str_val("phone");
         $flag        = $this->get_in_int_val("flag");
         $record_info = $this->get_in_str_val("record_info");
@@ -1038,11 +1037,15 @@ class tea_manage_new extends Controller
         $account     = $this->get_in_str_val("account");
         $acc         = $this->get_account();
 
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        if(!$teacherid){
+            return $this->output_err("老师id出错！");
+        }
         if($flag==1){
             $this->set_full_time_teacher($teacherid);
         }
 
-        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,11);
+        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,E\Erecord_type::V_12);
         if($record_id){
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
                 "record_info"        => $record_info,
@@ -1054,7 +1057,7 @@ class tea_manage_new extends Controller
                 "trial_train_status" => $flag,
                 "record_info"        => $record_info,
                 "add_time"           => time(),
-                "type"               => 11,
+                "type"               => E\Erecord_type::V_12,
                 "current_acc"        => $acc,
                 "acc"                => $account,
                 "phone_spare"        => $phone

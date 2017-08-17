@@ -636,7 +636,7 @@ class tongji_ss extends Controller
             list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
                  $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
                  $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
 
@@ -673,7 +673,17 @@ class tongji_ss extends Controller
                 }else{
                     $ret_info_new[] = $item;
                 }
-
+                //合同
+                if($item['aoid']){
+                    $orderid = $item['aoid'];
+                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                    if(in_array($orderid,$orderid_arr)){
+                    }else{
+                        $order_count[] = $item;
+                        $user_count[] = $item;
+                        $order_all_money += $item['price'];
+                    }
+                }                 
             }
             // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
@@ -734,21 +744,26 @@ class tongji_ss extends Controller
                 }
             }
             if(isset($ret_info['list'][4]['all_count'])){
-                $ret_info['list'][4]['all_count'] = count($ret_info_new);
-                $ret_info['list'][4]['assigned_count'] = count($assigned_count);
-                $ret_info['list'][4]['tmk_assigned_count'] = count($tmk_assigned_count);
-                $ret_info['list'][4]['tq_no_call_count'] = count($tq_no_call_count);
-                $ret_info['list'][4]['tq_called_count'] = count($tq_called_count);
-                $ret_info['list'][4]['tq_call_fail_count'] = count($tq_call_fail_count);
-                $ret_info['list'][4]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
-                $ret_info['list'][4]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
-                $ret_info['list'][4]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
-                $ret_info['list'][4]['have_intention_a_count'] = count($have_intention_a_count);
-                $ret_info['list'][4]['have_intention_b_count'] = count($have_intention_b_count);
-                $ret_info['list'][4]['have_intention_c_count'] = count($have_intention_c_count);
-                $ret_info['list'][4]['require_count'] = count($require_count);
-                $ret_info['list'][4]['test_lesson_count'] = count($test_lesson_count);
-                $ret_info['list'][4]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                foreach([0,1,2,3,4] as $item){
+                    $ret_info['list'][$item]['all_count'] = count($ret_info_new);
+                    $ret_info['list'][$item]['assigned_count'] = count($assigned_count);
+                    $ret_info['list'][$item]['tmk_assigned_count'] = count($tmk_assigned_count);
+                    $ret_info['list'][$item]['tq_no_call_count'] = count($tq_no_call_count);
+                    $ret_info['list'][$item]['tq_called_count'] = count($tq_called_count);
+                    $ret_info['list'][$item]['tq_call_fail_count'] = count($tq_call_fail_count);
+                    $ret_info['list'][$item]['tq_call_succ_valid_count'] = count($tq_call_succ_valid_count);
+                    $ret_info['list'][$item]['tq_call_succ_invalid_count'] = count($tq_call_succ_invalid_count);
+                    $ret_info['list'][$item]['tq_call_fail_invalid_count'] = count($tq_call_fail_invalid_count);
+                    $ret_info['list'][$item]['have_intention_a_count'] = count($have_intention_a_count);
+                    $ret_info['list'][$item]['have_intention_b_count'] = count($have_intention_b_count);
+                    $ret_info['list'][$item]['have_intention_c_count'] = count($have_intention_c_count);
+                    $ret_info['list'][$item]['require_count'] = count($require_count);
+                    $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
+                    $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                    $ret_info['list'][$item]['order_count'] = count($order_count);
+                    $ret_info['list'][$item]['user_count'] = count($user_count);
+                    $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
+                }
             }
         }
         return $this->pageView(__METHOD__,$ret_info,[
@@ -3868,7 +3883,6 @@ class tongji_ss extends Controller
 
 
     public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
-        ini_set('max_execution_time', 6000);
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3884,6 +3898,9 @@ class tongji_ss extends Controller
         $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+
+        //                 return array(false, "", $field_name, $order_flag=="asc" );
 
         $show_flag = $this->get_in_int_val("show_flag",0);
 
@@ -4438,6 +4455,40 @@ class tongji_ss extends Controller
 
         ///  排序处理;
 
+        $sum_field_list=[
+            "name_grade",
+            "num_grade",
+            "order_grade",
+            "per_grade",
+
+            "name_subject",
+            "num_subject",
+            "order_subject",
+            "per_subject",
+
+            "name_paper",
+            "num_paper",
+            "order_paper",
+            "per_paper",
+
+            "name_location",
+            "num_location",
+            "order_location",
+            "per_location",
+
+
+
+
+        ];
+        $order_field_arr=  $sum_field_list ;
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        // return array(false, "", $field_name, $order_flag=="asc" );
+
+
+        // 排序处理
+
         $field_name = 'origin';
         $field_class_name = '';
 
@@ -4461,7 +4512,6 @@ class tongji_ss extends Controller
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
 
-        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
@@ -4512,37 +4562,63 @@ class tongji_ss extends Controller
 
         }
 
+        //         // return array(false, "", $field_name, $order_flag=="asc" );
 
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
             $v["name"] = E\Esubject::get_desc($k);
         }
-        \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+
+        $paixu_arr = explode('_',$order_field_name);
+
+
+        // \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
+
+
         foreach($grade_arr as $kk=>&$vv){
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
             $vv["name"] = E\Egrade::get_desc($kk);
         }
-        \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+
+        // \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
         foreach($location_arr as $kkk=>&$vvv){
             if(!isset($vvv["order"])) $vvv["order"]=0;
             $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
             $vvv["name"] = $kkk;
         }
-        \App\Helper\Utils::order_list( $location_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $location_arr,"per", 0);
 
         foreach($paper_arr as $kkkk=>&$vvvv){
             if(!isset($vvvv["order"])) $vvvv["order"]=0;
             $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;
             $vvvv["name"] = $kkkk;
         }
-        \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+        $origin_info = $origin_info['list'];
+
+
+        // 排序处理
+        if(!$order_in_db_flag){
+            if($paixu_arr[1] == 'grade' ){
+                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'subject'){
+                \App\Helper\Utils::order_list( $subject_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'location'){
+                \App\Helper\Utils::order_list( $location_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'paper'){
+                \App\Helper\Utils::order_list( $paper_arr,$paixu_arr[0], $order_type);
+            }
+        }
+
+
+
 
 
         // dd($origin_info);
-        $origin_info = $origin_info['list'];
 
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,

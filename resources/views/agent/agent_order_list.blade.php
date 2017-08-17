@@ -2,7 +2,6 @@
 @section('content')
 
     <section class="content ">
-        
         <div>
             <div class="row  row-query-list" >
                 <div class="col-xs-12 col-md-5"  data-title="时间段">
@@ -12,26 +11,27 @@
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group " >
-                        <span >xx</span>
-                        <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  />
+                        <!-- <span >xx</span>
+                             <input type="text" value=""  class="opt-change"  id="id_"  placeholder=""  /> -->
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
-                    <button id="id_add"> 增加</button>
+                    <button style="display:none;" id="id_add"> 增加</button>
                 </div>
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td>orderid </td>
-                    <td>手机号 </td>
                     <td>微信昵称 </td>
-                    <td>上级手机号 </td>
+                    <td>手机号 </td>
+                    <td>合同金额 </td>
+                    <!-- <td>上级手机号 </td> -->
                     <td>上级微信昵称 </td>
                     <td>上级转介绍费 </td>
-                    <td>上上级手机号 </td>
+                    <!-- <td>上上级手机号 </td> -->
                     <td>上上级微信昵称 </td>
                     <td>上上级转介绍费 </td>
                     <td>创建时间 </td>
@@ -42,12 +42,13 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["orderid"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
-                        <td>{{@$var["p_phone"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["price"]}} </td>
+                        <!-- <td>{{@$var["p_phone"]}} </td> -->
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["p_price"]}} </td>
-                        <td>{{@$var["pp_phone"]}} </td>
+                        <!-- <td>{{@$var["pp_phone"]}} </td> -->
                         <td>{{@$var["pp_nickname"]}} </td>
                         <td>{{@$var["pp_price"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
@@ -55,7 +56,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
+                                <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
                                 <a class="fa fa-times opt-del" title="删除"> </a>
                             </div>
                         </td>
@@ -65,6 +66,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

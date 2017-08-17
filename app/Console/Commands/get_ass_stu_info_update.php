@@ -89,6 +89,17 @@ class get_ass_stu_info_update extends Command
         $kk_suc= $task->t_test_lesson_subject->get_ass_kk_tongji_info($start_time,$end_time);
         $refund_info = $task->t_order_refund->get_ass_refund_info($start_time,$end_time);
 
+        $student_finish = $task->t_student_info->get_ass_first_revisit_info_finish($start_time,$end_time);//结课学生数
+        $student_finish_detail = [];
+        foreach ($student_finish as $key => $value) {  
+            $student_finish_detail[$value['uid']] = $value['num']; 
+        }
+
+        $student_all = $task->t_student_info->get_ass_first_revisit_info();//在册学生数
+        $student_all_detail = [];
+        foreach ($student_all as $key => $value) {  
+            $student_all_detail[$value['uid']] = $value['num']; 
+        }
 
         foreach($ass_list as $k=>&$item){
             if(!isset($item["warning_student"])){
@@ -110,6 +121,8 @@ class get_ass_stu_info_update extends Command
             $item["new_refund_money"]      = @$refund_info[$k]["new_price"];
             $item["renw_refund_money"]     = @$refund_info[$k]["renw_price"];
             $item["lesson_total_old"]      = @$lesson_count_list_old[$k];
+            $item["read_student_new"]      = @$lesson_count_list[$k]["user_count"]; //上课学生-new
+            $item["all_student_new"]      = @$student_all_detail[$k] + @$student_finish_detail[$k]; //在册学员-new
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
             if($adminid_exist){
 
@@ -129,7 +142,9 @@ class get_ass_stu_info_update extends Command
                     "refund_student"        =>$item["refund_student"],
                     "new_refund_money"      =>$item["new_refund_money"],
                     "renw_refund_money"     =>$item["renw_refund_money"],
-                    "lesson_total_old"      =>$item["lesson_total_old"]
+                    "lesson_total_old"      =>$item["lesson_total_old"],
+                    "read_student_new"      =>$item["read_student_new"],
+                    "all_student_new"       =>$item["all_student_new"]
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
@@ -152,7 +167,9 @@ class get_ass_stu_info_update extends Command
                     "new_refund_money"      =>$item["new_refund_money"],
                     "renw_refund_money"     =>$item["renw_refund_money"],
                     "lesson_total_old"      =>$item["lesson_total_old"],
-                    "kpi_type"              =>1
+                    "kpi_type"              =>1,
+                    "read_student_new"      =>$item["read_student_new"],
+                    "all_student_new"       =>$item["all_student_new"]
                 ]);
 
             }
@@ -219,18 +236,10 @@ class get_ass_stu_info_update extends Command
                         "time_type"    =>2
                     ]);
                 }
-
-               
                 
-            }
-
-
-                      
+            }             
         }
        
         // dd($ass_list);
-
-       
-              
     }
 }

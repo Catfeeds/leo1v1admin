@@ -678,7 +678,7 @@ $(function(){
         var lessonid = $(this).get_opt_data("lessonid");
         $.do_ajax('/lesson_manage/get_server_type', { 'lessonid': lessonid }, function (result) {
             if (result['ret'] != 0) {
-                BootstrapDialog.alert('活取当次课音频服务器失败');
+                BootstrapDialog.alert('获取当次课音频服务器失败');
                 return;
             }
 

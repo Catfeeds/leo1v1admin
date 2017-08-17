@@ -866,7 +866,7 @@ class Utils  {
             return 0;
         }
 
-        if($teacher_money==3 && $lesson_time<$check_time){
+        if($teacher_type==3 && $lesson_time<$check_time){
             $trial_base = 50;
         }else{
             $trial_base = $teacher_money['trial_base_price'][$check_type]/100;
@@ -884,13 +884,13 @@ class Utils  {
      */
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){
         $type = 0;
-        if(in_array($teacher_money_type,[0,1,2,3])){
+        if(in_array($teacher_money_type,[0,1,2,3,7])){
             if($teacher_type==3){
                 $type=3;
             }else{
                 $type=1;
             }
-        }elseif(in_array($teacher_money_type,[4,5])){
+        }elseif(in_array($teacher_money_type,[4,5,6])){
             $type=2;
         }
         return $type;
@@ -1334,9 +1334,9 @@ class Utils  {
     }
 
     static public function get_teacher_level_str($teacher_info){
-        self::set_default_value($teacher_type,$teacher_info,0,"teacher_type");
-        self::set_default_value($teacher_money_type,$teacher_info,4,"teacher_money_type");
-        self::set_default_value($level,$teacher_info,0,"level");
+        self::set_default_value($teacher_type,$teacher_info,E\Eteacher_type::V_0,"teacher_type");
+        self::set_default_value($teacher_money_type,$teacher_info,E\Eteacher_money_type::V_4,"teacher_money_type");
+        self::set_default_value($level,$teacher_info,E\Elevel::V_0,"level");
 
         if($teacher_type>20){
             $level_str="招师代理";
