@@ -675,6 +675,7 @@ class tongji_ss extends Controller
                 }
 
             }
+            $suc_test_arr = [];
             $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as $key=>&$item){
@@ -730,6 +731,7 @@ class tongji_ss extends Controller
                     //试听成功数
                     if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
                         $succ_test_lesson_count++;
+                        $suc_test_arr[] = $item;
                     }
                 }
             }
