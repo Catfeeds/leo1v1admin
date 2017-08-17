@@ -887,12 +887,13 @@ class tongji2 extends Controller
         foreach ($student_finish as $key => $value) {  
             $student_finish_detail[$value['uid']] = $value['num']; 
         }
-
+        /*
         $student_all = $this->t_student_info->get_ass_first_revisit_info();//在册学生数
         $student_all_detail = [];
         foreach ($student_all as $key => $value) {  
             $student_all_detail[$value['uid']] = $value['num']; 
         }
+        */
         //dd($new_revisit);
         $refund_score = $this->get_ass_refund_score($start_time,$end_time);
 
@@ -903,7 +904,8 @@ class tongji2 extends Controller
         //$kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time,"c.add_time");
         $kk_require_info = $this->t_course_order->get_kk_succ_info($start_time,$end_time);
 
-
+        $cur_start = strtotime(date('Y-m-01',$end_time));
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($cur_start);
 
 
         foreach($ass_list as $k=>&$val){
@@ -930,12 +932,12 @@ class tongji2 extends Controller
             $val["lesson_money"] = round(@$lesson_count_list[$k]["lesson_count"]*$lesson_price_avg/100,2);
             $val["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
 
-            $val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
+            //$val["student_all"] = isset($student_all_detail[$k])?$student_all_detail[$k]:0;
             $val["student_finish"] = isset($student_finish_detail[$k])?$student_finish_detail[$k]:0;
-
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
-            $val["student_all"] += $val["student_finish"];
+            //$val["student_all"] += $val["student_finish"];
+            $val["student_all"] =  isset($ass_month[$k]["student_all"])?$ass_month[$k]["student_all"]:0;
             if($val['student_all'] > 0){
                 $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
                 $val["student_online_per"] = round($val["student_online"]/$val["student_all"]*100,2);
