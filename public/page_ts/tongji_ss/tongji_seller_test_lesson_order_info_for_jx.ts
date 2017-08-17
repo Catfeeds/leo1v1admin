@@ -4,13 +4,14 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			adminid:	$('#id_adminid').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+            order_by_str: g_args.order_by_str,
+			      date_type_config:	$('#id_date_type_config').val(),
+			      date_type:	$('#id_date_type').val(),
+			      opt_date_type:	$('#id_opt_date_type').val(),
+			      start_time:	$('#id_start_time').val(),
+			      end_time:	$('#id_end_time').val(),
+			      adminid:	$('#id_adminid').val(),
+			      seller_groupid_ex:	$('#id_seller_groupid_ex').val()
         });
     }
 
@@ -27,6 +28,7 @@ $(function(){
     });
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
+    $('#id_order_by_str').val(g_args.order_by_str);
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
      $(".common-table").table_group_level_4_init();
