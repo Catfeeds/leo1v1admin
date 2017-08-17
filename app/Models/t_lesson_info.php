@@ -9056,7 +9056,7 @@ lesson_type in (0,1) "
 
 
 
-    public function get_test_person_num_list_subject_other_jx( $start_time,$end_time){
+    public function get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
             ["lesson_start < %u",$end_time,-1],
@@ -9064,6 +9064,9 @@ lesson_type in (0,1) "
             "lesson_type = 2",
             "lesson_del_flag = 0",
         ];
+
+        $this->where_arr_adminid_in_list($where_arr,"ts.require_adminid",$require_adminid_list);
+
 
         $sql = $this->gen_sql_new("select tq.origin as check_value "
                                   ." ,count(distinct c.userid,c.teacherid,c.subject) have_order "

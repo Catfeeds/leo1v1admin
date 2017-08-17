@@ -788,36 +788,32 @@ $(function(){
     }
 
     $(".opt-trans_info").on("click",function(){
-        var data                = $(this).get_opt_data();
-        var id_subject_ex       = $("<select>");
-        var id_grade_ex         = $("<input>");
-        var id_trans_subject_ex = $("<select>");
-        var id_trans_grade_ex   = $("<input>");
+        var data = $(this).get_opt_data();
+	      BootstrapDialog.show({
+	          title   : "清除老师扩课信息",
+	          message : "是否清除老师扩课信息?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/user_manage_new/reset_teacher_trans_subject",{
+                        "id":data.id
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
 
-        var subject        = data.subject_ex;
-        var trans_subject  = data.trans_subject_ex;
-        var grade_ex       = data.grade_ex.split(",");
-        var trans_grade_ex = data.trans_grade_ex.split(",");
-        if(subject==""){
-            subject=-1;
-        }
-        if(trans_subject==""){
-            trans_subject=-1;
-        }
-
-        var arr = [
-            ["科目一",id_subject_ex],
-            ["科目一年级",id_grade_ex],
-            ["科目二",id_trans_subject_ex],
-            ["科目二年级",id_trans_grade_ex],
-        ];
-        Enum_map.append_option_list("subject",id_subject_ex);
-        Enum_map.append_option_list("subject",id_trans_subject_ex);
-        Enum_map.append_checkbox_list("grade",id_grade_ex,"grade_ex",[100,200,300],false);
-        Enum_map.append_checkbox_list("grade",id_trans_grade_ex,"trans_grade_ex",[100,200,300],false);
-        id_subject_ex.val(subject);
-        id_trans_subject_ex.val(trans_subject);
-
+		            }
+	          }]
+        });
 
     });
 

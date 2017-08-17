@@ -3744,5 +3744,14 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function reset_teacher_trans_subject(){
+        $id = $this->get_in_int_val("id");
 
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "trans_subject_ex" => "",
+            "trans_grade_ex"   => "",
+        ]);
+
+        return $this->output_succ();
+    }
 }
