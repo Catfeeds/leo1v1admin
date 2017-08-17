@@ -633,6 +633,13 @@ class ajax_deal2 extends Controller
             E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY )) ) {
             $opt_time = strtotime(date("Y-m-01", $opt_time) );
         }
+
+        if ( $config_date_type== E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY  ) {
+            if (!$this->check_account_in_arr(["jim","yueyue"]))  {
+                return $this->output_err("没有权限");
+            }
+        }
+
         $this->t_config_date->set_config_value($config_date_type,$opt_time,$value);
 
         return $this->output_succ();

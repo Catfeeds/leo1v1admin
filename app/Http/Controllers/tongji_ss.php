@@ -4395,6 +4395,10 @@ class tongji_ss extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
 
+
+
+        ///  排序处理;
+
         $field_name = 'origin';
         $field_class_name = '';
 
@@ -4482,12 +4486,14 @@ class tongji_ss extends Controller
             $vv["name"] = E\Egrade::get_desc($kk);
         }
         \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+
         foreach($location_arr as $kkk=>&$vvv){
             if(!isset($vvv["order"])) $vvv["order"]=0;
             $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
             $vvv["name"] = $kkk;
         }
         \App\Helper\Utils::order_list( $location_arr,"per", 0);
+
         foreach($paper_arr as $kkkk=>&$vvvv){
             if(!isset($vvvv["order"])) $vvvv["order"]=0;
             $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;

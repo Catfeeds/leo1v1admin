@@ -31,9 +31,9 @@ class t_yxyx_new_list extends Controller
 
     public function add_new_info()
     {
-        $new_title   = $this->get_in_str_val('title','');
-        $new_content = $this->get_in_str_val('des','');
-        $new_pic     = $this->get_in_str_val('pic','');
+        $new_title   = $this->get_in_str_val('new_title','');
+        $new_content = $this->get_in_str_val('new_content','');
+        $new_pic     = $this->get_in_str_val('new_pic','');
         $create_time = time();
         $adminid     = $this->get_account_id();
         $ret_info    = $this->t_yxyx_new_list->add_new($new_title, $new_content, $new_pic, $adminid, $create_time);
@@ -43,16 +43,14 @@ class t_yxyx_new_list extends Controller
     public function update_new_info()
     {
         $id          = $this->get_in_int_val('id','');
-        $new_title   = $this->get_in_str_val('title','');
-        $new_content = $this->get_in_str_val('des','');
-        $new_pic     = $this->get_in_str_val('pic','');
+        $new_title   = $this->get_in_str_val('new_title','');
+        $new_content = $this->get_in_str_val('new_content','');
+        $new_pic     = $this->get_in_str_val('new_pic','');
         $create_time = time();
         $adminid     = $this->get_account_id();
         $ret_info    = $this->t_yxyx_new_list->update_new($id, $new_title, $new_content, $new_pic, $adminid, $create_time);
         return outputjson_success();
     }
-
-
 
     public function del_new_info()
     {

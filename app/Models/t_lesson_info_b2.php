@@ -3118,7 +3118,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.train_type=4",
             "l.trial_train_num=1",
             "tr.trial_train_status =2",
-            "t.trial_train_flag=0"
+            "t.train_through_new=0",
+            "l.absenteeism_flag=0"
         ];
         $sql = $this->gen_sql_new("select l.teacherid "
                                   ." from %s l left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5)"
@@ -3200,7 +3201,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
-
 
 
 }
