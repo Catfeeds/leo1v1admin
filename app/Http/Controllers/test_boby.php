@@ -173,6 +173,35 @@ class test_boby extends Controller
         $end_time = strtotime("2017-0".$m."-01");
         $ret_info = $this->t_student_info->get_stu_money_rate($start_time, $end_time);
         dd($ret_info);
+        $sql =  'select aa.phone p_phone,tq.*, account,seller_student_status  from db_weiyi.t_agent a  left join db_weiyi.t_agent aa on aa.id = a.parentid left join db_weiyi.t_agent aaa on aaa.id = aa.parentid left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on aa.phone=tq.phone   join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where a.type=1 and a.create_time > 1501516800 and a.create_time < 1504195200 order by aa.phone limit 0,10';
+        $sql =  'select tq.phone,tq.uid,tq.start_time,tq.end_time,tq.duration,tq.is_called_phone, account,seller_student_status  from db_weiyi.t_agent a  left join db_weiyi.t_agent aa on aa.id = a.parentid left join db_weiyi.t_agent aaa on aaa.id = aa.parentid left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on aa.phone=tq.phone   join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where a.type=1 and a.create_time > 1501516800 and a.create_time < 1504195200 order by aa.phone limit 0,10';
+
+        $sql = " select tq.*, account,seller_student_status from db_weiyi_admin.t_tq_call_info tq left  join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where  tq.phone='13958998177' order by start_time   limit 0,10";
+    }
+    public function phone(){
+        $limit = $this->get_in_str_val('limit');
+        $page_info = $this->get_in_page_info();
+        $ret_info=$this->t_tq_call_info->get_my_info($limit,$page_info);
+        $now=time(NULL);
+        foreach($ret_info["list"] as &$item) {
+            $record_url= $item["record_url"] ;
+            if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
+                $item["load_wav_self_flag"]=1;
+            }else{
+                $item["load_wav_self_flag"]=0;
+            }
+            if (preg_match("/api.clink.cn/", $record_url ) ) {
+                $item["record_url"].=$clink_args;
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
+            E\Eboolean::set_item_value_str($item,"is_called_phone");
+            E\Eseller_student_status::set_item_value_str($item);
+
+            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
+        }
+        return $this->pageView('http://admin.yb1v1.com/tq/get_list_by_phone',$ret_info);
+ 
     }
 
 }
