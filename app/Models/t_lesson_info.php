@@ -222,6 +222,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $cond_str=$this->where_str_gen($where_arr);
 
         $sql=sprintf(" select"
+                     ."    m.account cc_account,"
                      ."    l.lessonid,"
                      ."    l.lesson_del_flag,"
                      ."    l.courseid,"
