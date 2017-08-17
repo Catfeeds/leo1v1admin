@@ -2770,8 +2770,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "
                                   ." t.realname,"
-                                  ." group_concat(distinct(l.grade)) as all_grade,"
-                                  ." group_concat(distinct(l.subject)) as all_subject,"
                                   ." count(distinct(l.userid)) as stu_num, "
                                   ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
                                   ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "

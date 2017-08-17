@@ -1,20 +1,22 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/tongji_ss-tongji_seller_test_lesson_order_info_for_jx.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
-            order_by_str: g_args.order_by_str,
-			      date_type_config:	$('#id_date_type_config').val(),
-			      date_type:	$('#id_date_type').val(),
-			      opt_date_type:	$('#id_opt_date_type').val(),
-			      start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val(),
-			      adminid:	$('#id_adminid').val(),
-			      seller_groupid_ex:	$('#id_seller_groupid_ex').val()
-        });
-    }
 
+
+function load_data(){
+    $.reload_self_page ( {
+        order_by_str: g_args.order_by_str,
+			  date_type_config:	$('#id_date_type_config').val(),
+			  date_type:	$('#id_date_type').val(),
+			  opt_date_type:	$('#id_opt_date_type').val(),
+			  start_time:	$('#id_start_time').val(),
+			  end_time:	$('#id_end_time').val(),
+			  adminid:	$('#id_adminid').val(),
+			  seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+    });
+}
+
+$(function(){
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -31,9 +33,12 @@ $(function(){
     $('#id_order_by_str').val(g_args.order_by_str);
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
-     $(".common-table").table_group_level_4_init();
-	//$('#id_adminid').val(g_args.adminid);
+    $(".common-table").table_group_level_4_init();
 
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });
+
+
+
+

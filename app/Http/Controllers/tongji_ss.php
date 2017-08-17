@@ -673,15 +673,13 @@ class tongji_ss extends Controller
                     $ret_info_new[] = $item;
                 }
                 //合同
-                if($item['aoid']){
-                    $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                    if(in_array($orderid,$orderid_arr)){
-                    }else{
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
+                $orderid = $item['aoid'];
+                $orderid_arr = array_unique(array_column($ret_info_new,'aoid'));
+                if(in_array($orderid,$orderid_arr)){
+                }else{
+                    $order_count[] = $item;
+                    $user_count[] = $item;
+                    $order_all_money += $item['price'];
                 }
             }
             if(count($userid_arr)>0){
@@ -4415,22 +4413,34 @@ class tongji_ss extends Controller
         ///  排序处理;
 
         $sum_field_list=[
-            "work_day",
-            "lesson_count",
-            "suc_count",
-            "lesson_per",
-            "order_count",
-            "order_per",
-            "all_price",
-            "money_per",
-            "tea_per",
-            "range"
-        ];
-        $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
+            "name_grade",
+            "num_grade",
+            "order_grade",
+            "per_grade",
 
+            "name_subject",
+            "num_subject",
+            "order_subject",
+            "per_subject",
+
+            "name_test",
+            "num_test",
+            "order_test",
+            "per_test",
+
+            "name_area",
+            "num_area",
+            "order_area",
+            "per_area",
+
+
+        ];
+        $order_field_arr=  $sum_field_list ;
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        // return array(false, "", $field_name, $order_flag=="asc" );
+
 
         // 排序处理
 
@@ -4513,6 +4523,7 @@ class tongji_ss extends Controller
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
             $v["name"] = E\Esubject::get_desc($k);
         }
+
         \App\Helper\Utils::order_list( $subject_arr,"per", 0);
 
 
@@ -4520,6 +4531,10 @@ class tongji_ss extends Controller
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
             $vv["name"] = E\Egrade::get_desc($kk);
+        }
+
+        if(!$order_in_db_flag){
+            
         }
         \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
