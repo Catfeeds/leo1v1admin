@@ -2781,12 +2781,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
-                                  ." l.money,ol.price as lesson_price,l.lesson_count,"
+                                  ." m.money,ol.price as lesson_price,l.lesson_count,"
                                   ." deduct_come_late,deduct_change_class,deduct_upload_cw,deduct_rate_student"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s m on l.level=m.level and l.teacher_money_type=m.teacher_money_type "
+                                  ."      and m.grade=(case when "
+                                  ."      l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ."      else l.grade"
+                                  ."      end )"
+                                  ." left join %s m on t.level_simulate=m.level and t.teacher_money_type_simulate=m.teacher_money_type "
                                   ."      and m.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"

@@ -23,15 +23,11 @@ class teacher_simulate extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$ignore_level_up
         );
-
+        dd($tea_list);
         foreach($tea_list['list'] as &$val){
             E\Eteacher_money_type::set_item_value_str($val);
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val,"level_simulate");
-            $val['create_time_str']=\App\Helper\Utils::unixtime2date($val['create_time']);
-            $val['trial_lesson_count'] /= 100;
-            $val['normal_lesson_count'] /= 100;
-            $val['all_lesson_count']=$val['trial_lesson_count']+$val['normal_lesson_count'];
         }
 
         return $this->pageView(__METHOD__,$tea_list);
