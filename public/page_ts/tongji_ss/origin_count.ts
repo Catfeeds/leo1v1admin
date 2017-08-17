@@ -16,12 +16,6 @@ function load_data(){
         origin:	$('#id_origin').val()
     });
 }
-function go_to_lesson(obj){
-    alert(1);
-    var par = '&check_value=' + this.attr("data-val");
-    window.open("http://self.admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+par); 
-}
-
 
 $(function(){
 
@@ -167,9 +161,6 @@ $(function(){
 
     $("#id_align").on("click",function(){
         $(".common-table").tbody_scroll_table(500);
-    });
-    $(".boby td span").on("click", function() {
-        alert(2);
     });
 
 });
