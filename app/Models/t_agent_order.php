@@ -18,10 +18,12 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
                                  ." left join %s a on a.id=ao.aid "
                                  ." left join %s aa on aa.id=ao.pid "
                                  ." left join %s aaa on aaa.id=ao.ppid "
+                                 ." left join %s o on o.orderid=ao.orderid "
                                  ,self::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
                                  ,t_agent::DB_TABLE_NAME
+                                 ,t_order_info::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page( $sql,$page_info);
     }
