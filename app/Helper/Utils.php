@@ -866,7 +866,7 @@ class Utils  {
             return 0;
         }
 
-        if($teacher_money==3 && $lesson_time<$check_time){
+        if($teacher_type==3 && $lesson_time<$check_time){
             $trial_base = 50;
         }else{
             $trial_base = $teacher_money['trial_base_price'][$check_type]/100;
@@ -884,13 +884,13 @@ class Utils  {
      */
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){
         $type = 0;
-        if(in_array($teacher_money_type,[0,1,2,3])){
+        if(in_array($teacher_money_type,[0,1,2,3,7])){
             if($teacher_type==3){
                 $type=3;
             }else{
                 $type=1;
             }
-        }elseif(in_array($teacher_money_type,[4,5])){
+        }elseif(in_array($teacher_money_type,[4,5,6])){
             $type=2;
         }
         return $type;

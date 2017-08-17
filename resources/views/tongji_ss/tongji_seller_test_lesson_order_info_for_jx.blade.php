@@ -100,10 +100,10 @@
                             <!-- <tr>  <td> 年级  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr>
                                -->
                             {!!\App\Helper\Utils::th_order_gen([
-                                ["年级","name" ],
-                                ["试听成功数","num" ],
-                                ["签单数","order" ],
-                                ["签单率","per"],
+                                ["年级","name_grade" ],
+                                ["试听成功数","num_grade" ],
+                                ["签单数","order_grade" ],
+                                ["签单率","per_grade"],
                                ])  !!}
 
                         </thead>

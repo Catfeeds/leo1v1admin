@@ -4414,15 +4414,32 @@ class tongji_ss extends Controller
         ///  排序处理;
 
         $sum_field_list=[
-            "name",
-            "num",
-            "order",
-            "per",
+            "name_grade",
+            "num_grade",
+            "order_grade",
+            "per_grade",
+
+            "name_subject",
+            "num_subject",
+            "order_subject",
+            "per_subject",
+
+            "name_test",
+            "num_test",
+            "order_test",
+            "per_test",
+
+            "name_area",
+            "num_area",
+            "order_area",
+            "per_area",
+
+
         ];
         $order_field_arr=  $sum_field_list ;
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr ,"per desc");
+            =$this->get_in_order_by_str($order_field_arr ,"");
 
         // 排序处理
 
