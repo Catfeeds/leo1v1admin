@@ -141,8 +141,8 @@ class testbb extends Controller
     public function push($data,$name='Excel'){
         $objPHPExcel = new PHPExcel();
         /*以下是一些设置 ，什么作者  标题啊之类的*/
-        $objPHPExcel->getProperties()->setCreator("转弯的阳光")
-             ->setLastModifiedBy("转弯的阳光")
+        $objPHPExcel->getProperties()->setCreator("试听课未评价数据")
+             ->setLastModifiedBy("试听课未评价数据")
              ->setTitle("数据EXCEL导出")
              ->setSubject("数据EXCEL导出")
              ->setDescription("备份数据")
@@ -153,9 +153,10 @@ class testbb extends Controller
             $num=$k+1;
             $objPHPExcel->setActiveSheetIndex(0)
                  //Excel的第A列，uid是你查出数组的键值，下面以此类推
-                 ->setCellValue('A'.$num, $v['uid'])
-                 ->setCellValue('B'.$num, $v['email'])
-                 ->setCellValue('C'.$num, $v['password']);
+                 ->setCellValue('A'.$num, $v['lessonid'])
+                 ->setCellValue('B'.$num, $v['seller_name'])
+                 ->setCellValue('C'.$num, $v['stu_nick'])
+                 ->setCellValue('C'.$num, $v['stu_nick']);
         }
 
         $objPHPExcel->getActiveSheet()->setTitle('User');

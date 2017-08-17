@@ -2190,7 +2190,11 @@ class ss_deal extends Controller
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
-            $master_adminid = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+            $master_adminid_arr = $this->t_admin_group_name->get_seller_master_adminid_by_campus_id($campus_id);
+            $list=[];
+            foreach($master_adminid_arr as $val){
+                $list[] = $val["master_adminid"];
+            }
  
         }
 
