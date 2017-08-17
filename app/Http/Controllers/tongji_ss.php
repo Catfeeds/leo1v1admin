@@ -4424,10 +4424,10 @@ class tongji_ss extends Controller
             "order_subject",
             "per_subject",
 
-            "name_test",
-            "num_test",
-            "order_test",
-            "per_test",
+            "name_paper",
+            "num_paper",
+            "order_paper",
+            "per_paper",
 
             "name_area",
             "num_area",
@@ -4562,6 +4562,10 @@ class tongji_ss extends Controller
                 \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], $order_type);
             }elseif($paixu_arr[1] == 'subject'){
                 \App\Helper\Utils::order_list( $subject_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'location'){
+                \App\Helper\Utils::order_list( $location_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'paper'){
+                \App\Helper\Utils::order_list( $paper_arr,$paixu_arr[0], $order_type);
             }
         }
 

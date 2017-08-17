@@ -2756,7 +2756,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_total_list_new(
+    public function get_teacher_simple_list(
         $start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
     ){
         if($teacherid!=-1){

@@ -124,7 +124,13 @@
                     <div align="center"> 科目</div>
                 <div id="id_subject_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
-                        <thead> <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
+                        <!-- <thead> <tr>  <td> 科目  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead> -->
+                        {!!\App\Helper\Utils::th_order_gen([
+                            ["年级","name_subject" ],
+                            ["试听成功数","num_subject" ],
+                            ["签单数","order_subject" ],
+                            ["签单率","per_subject"],
+                           ])  !!}
                         <tbody>
                             @foreach($subject_arr as $v)
                                 <tr>
