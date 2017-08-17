@@ -327,7 +327,7 @@ class teacher_money extends Controller
             $list[$i]["teacher_ref_money"] = "0";
 
             // $check_type=\App\Helper\Utils::check_teacher_money_type($teacher_money_type);
-            if(!in_array($teacher_money_type,[0,1,2,3])){
+            if(!in_array($teacher_money_type,[0,1,2,3,7])){
                 $start_time = strtotime("-1 month",$start);
                 $end_time   = strtotime("-1 month",$end);
                 $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
@@ -336,7 +336,7 @@ class teacher_money extends Controller
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
-                    if(in_array($teacher_money_type,[0,1,2,3])){
+                    if(in_array($teacher_money_type,[0,1,2,3,7])){
                         $already_lesson_count = $val['already_lesson_count'];
                     }
                     if($val['confirm_flag']!=2){

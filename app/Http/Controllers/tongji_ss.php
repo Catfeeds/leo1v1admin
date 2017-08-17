@@ -4441,7 +4441,8 @@ class tongji_ss extends Controller
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"");
-        //                return array(true,"order by  $str", $field_name, $order_flag=="asc" );
+        // return array(false, "", $field_name, $order_flag=="asc" );
+
 
         // 排序处理
 
