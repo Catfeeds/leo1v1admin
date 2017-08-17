@@ -652,7 +652,7 @@ class tongji_ss extends Controller
                 if(in_array($id,$id_arr_new)){
                 }else{
                     //例子总数
-                    $all_count++;
+                    $ret_count[] = $item;
                     if($item['lesson_start']){
                         if($item['lesson_start']>$item['create_time']){
                             $ret_new[] = $item;
@@ -662,6 +662,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            $all_count = count($ret_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as $key=>&$item){
                     //例子总数
