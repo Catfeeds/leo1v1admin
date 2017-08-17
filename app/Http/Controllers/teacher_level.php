@@ -637,6 +637,11 @@ class teacher_level extends Controller
     }
 
 
+    public function get_first_test_lesson_info_jy(){
+        return $this->get_first_test_lesson_info();
+    }
+
+    
     //第一次试听课列表
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
@@ -669,6 +674,12 @@ class teacher_level extends Controller
  
     }
 
+
+    public function get_fifth_test_lesson_info_jy(){
+        return $this->get_fifth_test_lesson_info();
+    }
+
+
     //第五次试听课列表
     public function get_fifth_test_lesson_info(){
         $this->switch_tongji_database();
@@ -699,6 +710,11 @@ class teacher_level extends Controller
         ]);
  
     }
+
+    public function get_first_regular_lesson_info_jy(){
+        return $this->get_first_regular_lesson_info();
+    }
+
 
     //第一次常规课课列表
     public function get_first_regular_lesson_info(){
@@ -732,6 +748,11 @@ class teacher_level extends Controller
         ]);
  
     }
+
+    public function get_fifth_regular_lesson_info_jy(){
+        return $this->get_fifth_regular_lesson_info();
+    }
+
 
     //第五次常规课课列表
     public function get_fifth_regular_lesson_info(){

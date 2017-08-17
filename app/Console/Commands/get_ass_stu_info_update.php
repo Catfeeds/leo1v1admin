@@ -122,7 +122,7 @@ class get_ass_stu_info_update extends Command
             $item["renw_refund_money"]     = @$refund_info[$k]["renw_price"];
             $item["lesson_total_old"]      = @$lesson_count_list_old[$k];
             $item["read_student_new"]      = @$lesson_count_list[$k]["user_count"]; //上课学生-new
-            $item["all_student_new "]      = @$student_all_detail[$k] + @$student_finish_detail[$k]; //在册学员-new
+            $item["all_student_new"]      = @$student_all_detail[$k] + @$student_finish_detail[$k]; //在册学员-new
             $adminid_exist = $task->t_month_ass_student_info->get_ass_month_info($start_time,$k,1);
             if($adminid_exist){
 
@@ -144,7 +144,7 @@ class get_ass_stu_info_update extends Command
                     "renw_refund_money"     =>$item["renw_refund_money"],
                     "lesson_total_old"      =>$item["lesson_total_old"],
                     "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new "]
+                    "all_student_new"       =>$item["all_student_new"]
                 ];
                 $task->t_month_ass_student_info->get_field_update_arr($k,$start_time,1,$update_arr);
             }else{
@@ -169,7 +169,7 @@ class get_ass_stu_info_update extends Command
                     "lesson_total_old"      =>$item["lesson_total_old"],
                     "kpi_type"              =>1,
                     "read_student_new"      =>$item["read_student_new"],
-                    "all_student_new"       =>$item["all_student_new "]
+                    "all_student_new"       =>$item["all_student_new"]
                 ]);
 
             }

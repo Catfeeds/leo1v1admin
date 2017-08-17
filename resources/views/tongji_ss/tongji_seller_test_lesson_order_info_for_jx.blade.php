@@ -224,19 +224,9 @@
                                 <td >key2</td>
                                 <td >key3</td>
                                 <td >渠道</td>
-                                <!-- <td >试听成功数</td>
-                                     <td >签单数</td>
-                                     <td >签单率</td>
-                                   -->
-                                {!!\App\Helper\Utils::th_order_gen([
-                                    ["试听成功数","succ_test_lesson_count_origin" ],
-                                    ["签单数","order_count_origin" ],
-                                    ["签单率","per_origin"],
-                                   ])  !!}
-
-
-
-
+                                <td >试听成功数</td>
+                                <td >签单数</td>
+                                <td >签单率</td>
                                 <td >操作</td>
                             </tr>
                         </thead>

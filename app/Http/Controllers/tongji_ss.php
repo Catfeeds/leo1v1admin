@@ -674,14 +674,16 @@ class tongji_ss extends Controller
                     $ret_info_new[] = $item;
                 }
                 //合同
-                $orderid = $item['aoid'];
-                $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                if(in_array($orderid,$orderid_arr)){
-                }else{
-                    $order_count[] = $item;
-                    $user_count[] = $item;
-                    $order_all_money += $item['price'];
-                }
+                if($item['aoid']){
+                    $orderid = $item['aoid'];
+                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                    if(in_array($orderid,$orderid_arr)){
+                    }else{
+                        $order_count[] = $item;
+                        $user_count[] = $item;
+                        $order_all_money += $item['price'];
+                    }
+                }                 
             }
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
@@ -4434,11 +4436,6 @@ class tongji_ss extends Controller
             "order_location",
             "per_location",
 
-            "num_origin",
-            "order_origin",
-            "per_origin",
-
-
 
 
 
@@ -4561,6 +4558,7 @@ class tongji_ss extends Controller
         }
         // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
 
+        $origin_info = $origin_info['list'];
 
 
         // 排序处理
@@ -4581,7 +4579,6 @@ class tongji_ss extends Controller
 
 
         // dd($origin_info);
-        $origin_info = $origin_info['list'];
 
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,
