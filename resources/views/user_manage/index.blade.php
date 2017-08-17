@@ -115,7 +115,7 @@
                         <td>{{$var["lesson_count_all"]}}</td>
                         <td>{{$var["lesson_count_left"]}}</td>
                         <td >{{$var["praise"]}}</td>
-                        <td >{{$var["is_test_user"]}}</td>
+                        <td >{{$var["is_test_user_str"]}}</td>
                         <td >{{$var["originid"]}}</td>
                         <td >{{$var["origin"]}}</td>
                         <td >{{$var["user_agent_simple"]}}</td>
@@ -165,17 +165,6 @@
                 <span class="input-group-addon">请输入临时密码</span>
                 <input type="text" class="dynamic_passwd" />
             </div>
-        </div>
-    </div>
-    <div style="display:none;" class="cl_dlg_change_type">
-        <div class="mesg_alertCont">
-              <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
-                    <tr>
-                        <td width="30%">设置测试学员：</td>
-                        <td width="70%" class="align_l"><select id="id_set_channel"><option value="-1">请选择</option></select></td>
-
-                    </tr>
-                </table>
         </div>
     </div>
 

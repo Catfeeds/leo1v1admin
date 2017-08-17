@@ -23,6 +23,7 @@
 	reg_time	:any;
 	phone_location	:any;
 	origin_assistantid	:any;
+	is_test_user_str	:any;
 	user_agent_simple	:any;
 	seller_admin_nick	:any;
 	assistant_nick	:any;
