@@ -50,7 +50,7 @@ class teacher_simulate extends Controller
             }
 
             $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
-            $reward_simulate = \App\Helper\Utils::get_teacher_lesson_money(6,$already_lesson_count_simulate);
+            $reward_simulate = \App\Helper\Utils::get_teacher_lesson_money($val['type_simulate'],$already_lesson_count_simulate);
 
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$val['money']);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$val['money_simulate']);
