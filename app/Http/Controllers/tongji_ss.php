@@ -4530,7 +4530,7 @@ class tongji_ss extends Controller
         $paixu_arr = explode('_',$order_field_name);
 
 
-        \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+        \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
 
 
         foreach($grade_arr as $kk=>&$vv){
@@ -4541,8 +4541,7 @@ class tongji_ss extends Controller
 
         if(!$order_in_db_flag){
             if($paixu_arr[1] == 'grade' ){
-
-                \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], 0);
             }
 
         }
