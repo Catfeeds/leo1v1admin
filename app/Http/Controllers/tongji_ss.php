@@ -674,15 +674,13 @@ class tongji_ss extends Controller
                     $ret_info_new[] = $item;
                 }
                 //合同
-                if($item['aoid']){
-                    $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                    if(in_array($orderid,$orderid_arr)){
-                    }else{
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
+                $orderid = $item['aoid'];
+                $orderid_arr = array_unique(array_column($ret_info_new,'aoid'));
+                if(in_array($orderid,$orderid_arr)){
+                }else{
+                    $order_count[] = $item;
+                    $user_count[] = $item;
+                    $order_all_money += $item['price'];
                 }
             }
             if(count($userid_arr)>0){
@@ -4421,7 +4419,6 @@ class tongji_ss extends Controller
             "order",
             "per",
         ];
-        // $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
         $order_field_arr=  $sum_field_list ;
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
@@ -4508,6 +4505,7 @@ class tongji_ss extends Controller
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
             $v["name"] = E\Esubject::get_desc($k);
         }
+
         \App\Helper\Utils::order_list( $subject_arr,"per", 0);
 
 
