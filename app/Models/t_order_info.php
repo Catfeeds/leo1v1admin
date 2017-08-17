@@ -2633,7 +2633,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return intval($this->main_get_value($sql));
     }
 
 
