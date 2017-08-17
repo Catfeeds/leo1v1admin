@@ -134,12 +134,13 @@ class testbb extends Controller
         // 导出excel数据
 
 
-
+        $name = '试听课未评价数据';
+        $this->push($ret,$name);
         dd($ret);
     }
 
-    public function push($data,$name='Excel'){
-        $objPHPExcel = new PHPExcel();
+    public function push($data,$name='试听课未评价数据'){
+        $objPHPExcel = new \PHPExcel();
         /*以下是一些设置 ，什么作者  标题啊之类的*/
         $objPHPExcel->getProperties()->setCreator("试听课未评价数据")
              ->setLastModifiedBy("试听课未评价数据")
@@ -156,16 +157,26 @@ class testbb extends Controller
                  ->setCellValue('A'.$num, $v['lessonid'])
                  ->setCellValue('B'.$num, $v['seller_name'])
                  ->setCellValue('C'.$num, $v['stu_nick'])
-                 ->setCellValue('C'.$num, $v['stu_nick']);
+                 ->setCellValue('D'.$num, $v['tea_name']);
         }
 
-        $objPHPExcel->getActiveSheet()->setTitle('User');
+        $objPHPExcel->getActiveSheet()->setTitle('试听课未评价数据');
         $objPHPExcel->setActiveSheetIndex(0);
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'.$name.'.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        header('Content-type: application/vnd.ms-excel');
+
+        // It will be called file.xls
+        header('Content-Disposition: attachment; filename="file.xls"');
+
+        // Write file to the browser
         $objWriter->save('php://output');
+
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save(public_path()."/wximg/试听课未评价数据.xls");
         exit;
     }
 

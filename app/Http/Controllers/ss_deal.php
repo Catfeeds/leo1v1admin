@@ -2176,27 +2176,64 @@ class ss_deal extends Controller
             "system"
         );
 
-        //分配给原来的销售
-        $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
-        //$admin_revisiterid= $origin_assistantid;
-
-        if ($admin_revisiterid) {
-            $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
-            $nick=$this->t_student_info->get_nick($userid);
-            $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
-        }
-
-        //分配销售总监
+      
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
+            //分配销售总监
+            $sub_assign_adminid_1=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
             $master_adminid_arr = $this->t_admin_group_name->get_seller_master_adminid_by_campus_id($campus_id);
             $list=[];
-            foreach($master_adminid_arr as $val){
-                $list[] = $val["master_adminid"];
+            foreach($master_adminid_arr as $item){
+                $list[] = $item["master_adminid"];
+            }
+            $num_all = count($list);
+            $i=0;
+            foreach($list as $val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+                if (!$json_ret) {
+                    $json_ret=0;
+                }
+                \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", $json_ret);
+                if($json_ret==1){
+                    $i++;
+                }
+            }
+            if($i==$num_all){
+                foreach($list as $val){
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 0);
+                }
+            }
+
+            foreach($list as $val){
+                $json_ret=\App\Helper\Common::redis_get_json("SELLER_MASTER_AUTO_ASSIGN_$val");
+                if($json_ret==0){
+                    $sub_assign_adminid_1= $val;
+                    \App\Helper\Common::redis_set_json("SELLER_MASTER_AUTO_ASSIGN_$val", 1);
+                    break;
+                }
+            }
+            if($sub_assign_adminid_1==0){
+                $sub_assign_adminid_1= 287;
+            }
+            $this->t_seller_student_new->field_update_list($userid,[
+               "sub_assign_adminid_1"  =>$sub_assign_adminid_1 
+            ]);
+
+ 
+        }else{
+            //分配给原来的销售
+            $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
+            //$admin_revisiterid= $origin_assistantid;
+
+            if ($admin_revisiterid) {
+                $this->t_seller_student_new->set_admin_info(0,[$userid],$admin_revisiterid,$admin_revisiterid);
+                $nick=$this->t_student_info->get_nick($userid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             }
  
         }
+        
 
         return $this->output_succ();
 
