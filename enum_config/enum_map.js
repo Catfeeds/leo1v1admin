@@ -2137,6 +2137,29 @@ complaint_user_type : {
 
 },
 
+config_date_type : {
+	desc_map : {
+		'1' : "每月销售特殊申请配额"
+	},
+	simple_desc_map: {
+		'1' : ""
+	},
+	s2v_map:{
+		"month_market_seller_diff_money" : 1
+	},
+	v2s_map:{
+		 '1':  "month_market_seller_diff_money"
+	},
+
+		//每月销售特殊申请配额
+		V_MONTH_MARKET_SELLER_DIFF_MONEY:1,
+
+		//每月销售特殊申请配额
+		S_MONTH_MARKET_SELLER_DIFF_MONEY:"month_market_seller_diff_money"
+
+
+},
+
 confirm_flag : {
 	desc_map : {
 		'0' : "未设置",

@@ -1,5 +1,6 @@
 <?php
 return array(
+    ["db_weiyi_admin","t_config_date", "id"],
     ["db_weiyi_admin","t_admin_self_menu", "id"],
     ["db_weiyi","t_yxyx_wxnews_info", "id"],
     ["db_weiyi","t_yxyx_test_pic_info", "id"],
