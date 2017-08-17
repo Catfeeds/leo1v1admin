@@ -2774,7 +2774,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
                                   ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
-                                  ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade"
+                                  ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
@@ -2800,7 +2800,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
