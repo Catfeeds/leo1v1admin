@@ -802,7 +802,8 @@ $(function(){
 		            cssClass : "btn-warning",
 		            action   : function(dialog) {
                     $.do_ajax("/user_manage_new/reset_teacher_trans_subject",{
-                        "id":data.id
+                        "id"    : data.id,
+                        "phone" : data.phone,
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();

@@ -3745,7 +3745,12 @@ class user_manage_new extends Controller
     }
 
     public function reset_teacher_trans_subject(){
-        $id = $this->get_in_int_val("id");
+        $id    = $this->get_in_int_val("id");
+        $phone = $this->get_in_str_val("phone");
+
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $lecture_info = $this->t_teacher_lecture_appointment_info->get_lecture_info($id);
+
 
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "trans_subject_ex" => "",

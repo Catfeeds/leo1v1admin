@@ -127,6 +127,7 @@ class testbb extends Controller
         $s = $this->get_in_int_val('s');
         $e = $this->get_in_int_val('e');
 
+        $this->t_lesson_info_b2->switch_tongji_database();
         $ret = $this->t_lesson_info_b2->get_data_for_qc($s,$e);
         dd($ret);
     }
