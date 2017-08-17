@@ -103,7 +103,6 @@ class agent extends Controller
                 }
             }
         }
-        // dd($ret_info_new);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
