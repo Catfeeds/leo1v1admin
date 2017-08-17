@@ -880,11 +880,7 @@ class tongji2 extends Controller
             }
         }
 
-        $student_all = $this->t_student_info->get_ass_first_revisit_info();//在册学生数
-        $student_all_detail = [];
-        foreach ($student_all as $key => $value) {  
-            $student_all_detail[$value['uid']] = $value['num']; 
-        }
+
 
         $student_finish = $this->t_student_info->get_ass_first_revisit_info_finish($start_time,$end_time);//结课学生数
         $student_finish_detail = [];
@@ -892,6 +888,11 @@ class tongji2 extends Controller
             $student_finish_detail[$value['uid']] = $value['num']; 
         }
 
+        $student_all = $this->t_student_info->get_ass_first_revisit_info();//在册学生数
+        $student_all_detail = [];
+        foreach ($student_all as $key => $value) {  
+            $student_all_detail[$value['uid']] = $value['num']; 
+        }
         //dd($new_revisit);
         $refund_score = $this->get_ass_refund_score($start_time,$end_time);
 
@@ -934,6 +935,7 @@ class tongji2 extends Controller
 
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
+            $val["student_all"] += $val["student_finish"];
             if($val['student_all'] > 0){
                 $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
                 $val["student_online_per"] = round($val["student_online"]/$val["student_all"]*100,2);

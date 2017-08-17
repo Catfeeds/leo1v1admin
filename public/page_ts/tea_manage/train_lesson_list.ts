@@ -209,7 +209,7 @@ $(function(){
 	                buttons : [{
 		                label  : "返回",
 		                action : function(dialog_alert) {
-			                dialog_alert.close();
+                            dialog_alert.close();
 		                }
 	                }],
                     onshown:function(dialog_alert){
