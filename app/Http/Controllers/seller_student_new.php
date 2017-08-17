@@ -47,6 +47,8 @@ class seller_student_new extends Controller
     //转介绍待分配例子--总监
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
+        
+        $master_flag = $this->t_admin_main_group_name->check_is_master($adminid);
         $self_groupid=$this->t_admin_group_name->get_groupid_by_master_adminid($adminid);
         if (!$self_groupid) {
             return $this->error_view(["你不是销售主管"]);

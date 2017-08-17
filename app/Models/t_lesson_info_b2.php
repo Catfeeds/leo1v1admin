@@ -3147,7 +3147,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." left join %s m on m.uid = ts.require_adminid "
                                   ." left join %s s on s.userid = l.userid"
                                   ." left join %s t on t.teacherid = l.teacherid"
-                                  ." where %s",
+                                  ." where %s group by l.lessonid",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
