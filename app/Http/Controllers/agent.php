@@ -59,14 +59,14 @@ class agent extends Controller
              $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
              $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
              $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-        $type      = $this->get_in_int_val('type');
-        $page_info = $this->get_in_page_info();
-        $ret_info  = $this->t_agent->get_agent_info_new(null);
         $userid_arr = [];
-
+        $ret_new = [];
         $ret_info_new = [];
-        $id_arr = array_unique(array_column($ret_info,'id'));
-        foreach($ret_info as &$item){
+
+        $type      = $this->get_in_int_val('type');
+        $ret  = $this->t_agent->get_agent_info_new(null);
+        $id_arr = array_unique(array_column($ret,'id'));
+        foreach($ret as &$item){
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
             }
@@ -79,10 +79,9 @@ class agent extends Controller
             }
 
             $id = $item['id'];
-            $id_arr_new = array_unique(array_column($ret_info_new,'id'));
+            $id_arr_new = array_unique(array_column($ret_new,'id'));
             if(in_array($id,$id_arr_new)){
             }else{
-                $ret_info_new[] = $item;
                 if($item['lesson_start']){
                     if($item['lesson_start']>$item['create_time']){
                         $ret_new[] = $item;
@@ -91,18 +90,15 @@ class agent extends Controller
                     $ret_new[] = $item;
                 }
             }
-        }
-        if($type){
-            $ret_info_new = $ret_new;
+            //例子总数
+            $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
+            if(in_array($id,$id_arr_new_two)){
+            }else{
+                $ret_info_new[] = $item;
+            }
         }
         if(count($userid_arr)>0){
-            $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
-            foreach($ret_info_new as $key=>&$item){
-                foreach($test_info as $info){
-                    if($item['userid'] == $info['userid']){
-                        $item['success_flag'] = 1;
-                    }
-                }
+            foreach($ret_new as &$item){
                 //已分配销售
                 if($item['admin_revisiterid']>0){
                     $assigned_count[] = $item;
