@@ -2043,6 +2043,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
     public function get_ass_first_revisit_info(){
         $where_arr=[
             //"s.type=0",
+            "s.type in (0,2,3,4)",
             "s.assistantid > 0",
             "(s.is_test_user = 0 or s.is_test_user is null)",
         ];

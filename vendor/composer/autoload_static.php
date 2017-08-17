@@ -913,6 +913,7 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'TMonthAssStudentInfoAddLessonTotalOld' => __DIR__ . '/../..' . '/database/migrations/2017_06_14_150904_t_month_ass_student_info_add_lesson_total_old.php',
         'TMonthAssStudentInfoAddNewRefundMoney' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_113010_t_month_ass_student_info_add_new_refund_money.php',
         'TMonthAssStudentInfoAddReadStudentLast' => __DIR__ . '/../..' . '/database/migrations/2017_06_01_140859_t_month_ass_student_info_add_read_student_last.php',
+        'TMonthAssStudentInfoAddReadStudentNewAllStudentNew' => __DIR__ . '/../..' . '/database/migrations/2017_08_17_141340_t_month_ass_student_info_add_read_student_new_all_student_new.php',
         'TMonthAssWarningStudentInfoAddDoneFlag' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_163142_t_month_ass_warning_student_info_add_done_flag.php',
         'TMonthAssWarningStudentInfoModefiyPrimary' => __DIR__ . '/../..' . '/database/migrations/2017_07_20_160459_t_month_ass_warning_student_info_modefiy_primary.php',
         'TOrderInfoAddChannel' => __DIR__ . '/../..' . '/database/migrations/2017_07_12_164151_t_order_info_add_channel.php',

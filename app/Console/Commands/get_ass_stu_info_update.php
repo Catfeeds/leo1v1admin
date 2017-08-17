@@ -219,18 +219,10 @@ class get_ass_stu_info_update extends Command
                         "time_type"    =>2
                     ]);
                 }
-
-               
                 
-            }
-
-
-                      
+            }             
         }
        
         // dd($ass_list);
-
-       
-              
     }
 }

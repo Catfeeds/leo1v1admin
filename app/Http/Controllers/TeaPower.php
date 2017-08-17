@@ -381,6 +381,8 @@ trait  TeaPower {
                 $tea_subject="(5)";
             }elseif($adminid==770){
                 $tea_subject="(4,6)";
+            }elseif($adminid==895){
+                $tea_subject="(7,8,9)";
             }else{
                 $master_adminid = $this->t_admin_main_group_name->get_master_adminid_list($account_role);
                 if(in_array($adminid,$master_adminid)){
@@ -2434,6 +2436,8 @@ trait  TeaPower {
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
+                $subject=10;
+            }elseif(in_array($adminid,[895])){
                 $subject=13;
             }else{
                 $subject=-1;
@@ -2451,6 +2455,8 @@ trait  TeaPower {
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
+                $subject=10;
+            }elseif(in_array($adminid,[895])){
                 $subject=13;
             }else{
                 $subject=-1;
