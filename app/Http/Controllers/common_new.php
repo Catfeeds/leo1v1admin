@@ -756,6 +756,9 @@ class common_new extends Controller
         */
         $phone=$this->get_in_str_val("customerNumber");
         $cno =$this->get_in_str_val("cno");
+        \App\Helper\Utils::logger("$phone, $cno");
+
+        /*
         // check
         $userid=$this->t_seller_student_new->get_userid_by_phone($phone);
         $ss_info= $this->t_seller_student_new->field_get_list($userid,"*");
@@ -780,6 +783,7 @@ class common_new extends Controller
 
             }
         }
+        */
         return json_encode(["result"=>"success"]);
     }
 
