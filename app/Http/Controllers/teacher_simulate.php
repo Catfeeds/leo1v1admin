@@ -20,10 +20,11 @@ class teacher_simulate extends Controller
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
         $level              = $this->get_in_int_val("level",-1);
         $is_test_user       = $this->get_in_int_val("is_test_user",0);
+        $ignore_level_up    = $this->get_in_int_val("ignore_level_up",0);
         $page_num           = $this->get_in_page_num();
 
-        $tea_list = $this->t_teacher_info->get_teacher_total_list_new(
-            $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
+        $tea_list = $this->t_teacher_info->get_teacher_simple_list(
+            $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user,$ignore_level_up
         );
 
         foreach($tea_list['list'] as &$val){

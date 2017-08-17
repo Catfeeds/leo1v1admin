@@ -4,18 +4,18 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config:	$('#id_date_type_config').val(),
-			date_type:	$('#id_date_type').val(),
-			opt_date_type:	$('#id_opt_date_type').val(),
-			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
-			teacher_money_type:	$('#id_teacher_money_type').val(),
-			level:	$('#id_level').val(),
-			is_test_user:	$('#id_is_test_user').val()
+			      date_type_config   : $('#id_date_type_config').val(),
+			      date_type          : $('#id_date_type').val(),
+			      opt_date_type      : $('#id_opt_date_type').val(),
+			      start_time         : $('#id_start_time').val(),
+			      end_time           : $('#id_end_time').val(),
+			      teacherid          : $('#id_teacherid').val(),
+			      teacher_money_type : $('#id_teacher_money_type').val(),
+			      level              : $('#id_level').val(),
+			      is_test_user       : $('#id_is_test_user').val(),
+			      ignore_level_up    : $('#ignore_level_up').val(),
         });
     }
-
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -31,14 +31,13 @@ $(function(){
     Enum_map.append_option_list( "teacher_money_type", $("#id_teacher_money_type"));
     Enum_map.append_option_list( "level", $("#id_level"));
     Enum_map.append_option_list( "boolean", $("#id_is_test_user"));
+    Enum_map.append_option_list( "boolean", $("#ignore_level_up"));
 	  $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
 	  $('#id_is_test_user').val(g_args.is_test_user);
-	  $('#id_train_through_new').val(g_args.train_through_new);
-	  $('#id_trial_lecture_is_pass').val(g_args.trial_lecture_is_pass);
-
+	  $('#id_ignore_level_up').val(g_args.ignore_level_up);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 });

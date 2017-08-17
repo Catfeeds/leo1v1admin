@@ -2756,8 +2756,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_total_list_new(
-        $start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
+    public function get_teacher_simulate_list(
+        $start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user,$ignore_level_up
     ){
         if($teacherid!=-1){
             $where_arr[]=["t.teacherid=%u",$teacherid,-1];
@@ -2766,11 +2766,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ["t.teacher_money_type=%u",$teacher_money_type,-1],
                 ["t.level=%u",$level,-1],
                 ["t.is_test_user=%u",$is_test_user,-1],
+                ["l.lesson_start>%u",$start_time,0],
+                ["l.lesson_start<%u",$end_time,0],
             ];
         }
-        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "
-                                  ." t.realname,"
-                                  ." count(distinct(l.userid)) as stu_num, "
+        if($ignore_level_up==0){
+            
+        }
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
+                                  ." l"
                                   ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
                                   ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
                                   ." from %s t "

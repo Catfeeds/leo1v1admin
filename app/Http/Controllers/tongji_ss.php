@@ -639,6 +639,7 @@ class tongji_ss extends Controller
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
+
             $ret_new = [];
             $ret_info_new = [];
             $id_arr = array_unique(array_column($ret,'id'));
@@ -673,15 +674,13 @@ class tongji_ss extends Controller
                     $ret_info_new[] = $item;
                 }
                 //合同
-                if($item['aoid']){
-                    $orderid = $item['aoid'];
-                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
-                    if(in_array($orderid,$orderid_arr)){
-                    }else{
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
+                $orderid = $item['aoid'];
+                $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                if(in_array($orderid,$orderid_arr)){
+                }else{
+                    $order_count[] = $item;
+                    $user_count[] = $item;
+                    $order_all_money += $item['price'];
                 }
             }
             if(count($userid_arr)>0){
@@ -4425,15 +4424,22 @@ class tongji_ss extends Controller
             "order_subject",
             "per_subject",
 
-            "name_test",
-            "num_test",
-            "order_test",
-            "per_test",
+            "name_paper",
+            "num_paper",
+            "order_paper",
+            "per_paper",
 
-            "name_area",
-            "num_area",
-            "order_area",
-            "per_area",
+            "name_location",
+            "num_location",
+            "order_location",
+            "per_location",
+
+            "num_origin",
+            "order_origin",
+            "per_origin",
+
+
+
 
 
         ];
@@ -4519,6 +4525,7 @@ class tongji_ss extends Controller
 
         }
 
+        //         // return array(false, "", $field_name, $order_flag=="asc" );
 
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
@@ -4526,7 +4533,10 @@ class tongji_ss extends Controller
             $v["name"] = E\Esubject::get_desc($k);
         }
 
-        \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+        $paixu_arr = explode('_',$order_field_name);
+
+
+        // \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
 
 
         foreach($grade_arr as $kk=>&$vv){
@@ -4535,24 +4545,39 @@ class tongji_ss extends Controller
             $vv["name"] = E\Egrade::get_desc($kk);
         }
 
-        if(!$order_in_db_flag){
-            
-        }
-        \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
         foreach($location_arr as $kkk=>&$vvv){
             if(!isset($vvv["order"])) $vvv["order"]=0;
             $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
             $vvv["name"] = $kkk;
         }
-        \App\Helper\Utils::order_list( $location_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $location_arr,"per", 0);
 
         foreach($paper_arr as $kkkk=>&$vvvv){
             if(!isset($vvvv["order"])) $vvvv["order"]=0;
             $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;
             $vvvv["name"] = $kkkk;
         }
-        \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+
+
+        // 排序处理
+        if(!$order_in_db_flag){
+            if($paixu_arr[1] == 'grade' ){
+                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'subject'){
+                \App\Helper\Utils::order_list( $subject_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'location'){
+                \App\Helper\Utils::order_list( $location_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'paper'){
+                \App\Helper\Utils::order_list( $paper_arr,$paixu_arr[0], $order_type);
+            }
+        }
+
+
+
 
 
         // dd($origin_info);
