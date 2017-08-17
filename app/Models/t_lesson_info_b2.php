@@ -3109,6 +3109,30 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+    public function get_trial_train_no_pass_list_b2($is_test_user){
+        $where_arr=[
+            ["t.is_test_user = %u",$is_test_user,-1],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2",
+            "l.lesson_type=1100",
+            "l.train_type=4",
+            "l.trial_train_num=1",
+            "tr.trial_train_status =2",
+            "t.trial_train_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select l.teacherid "
+                                  ." from %s l left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5)"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
 
     public function get_last_trial_lesson($userid){
         $where_arr = [
