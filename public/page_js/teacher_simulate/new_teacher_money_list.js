@@ -12,7 +12,6 @@ $(function(){
 			      teacherid          : $('#id_teacherid').val(),
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      level              : $('#id_level').val(),
-			      is_test_user       : $('#id_is_test_user').val(),
 			      ignore_level_up    : $('#ignore_level_up').val(),
         });
     }
@@ -30,12 +29,10 @@ $(function(){
 
     Enum_map.append_option_list( "teacher_money_type", $("#id_teacher_money_type"));
     Enum_map.append_option_list( "level", $("#id_level"));
-    Enum_map.append_option_list( "boolean", $("#id_is_test_user"));
     Enum_map.append_option_list( "boolean", $("#ignore_level_up"));
 	  $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
-	  $('#id_is_test_user').val(g_args.is_test_user);
 	  $('#id_ignore_level_up').val(g_args.ignore_level_up);
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
