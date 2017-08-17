@@ -652,6 +652,56 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
+    public function tongji_test_lesson_origin_info( $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value, $page_info){
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="s.origin";
+            break;
+
+        case "grade" :
+            $field_name="l.grade";
+            break;
+
+        case "subject" :
+            $field_name="l.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            [$field_name."=%s",$check_value, 0],
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
+
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        //E\Etest_lesson_fail_flag
+        $sql=$this->gen_sql_new(
+            "select $field_name  as check_value , s.userid, s.phone, s.grade, s.nick"
+            ." from %s tr "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s n  on t.userid=n.userid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s s on s.userid = l.userid "
+            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+            ." and is_test_user=0 "
+            ." and require_admin_type = 2 ",
+            // ." group by check_value " ,
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr,$start_time,$end_time );
+
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
     public function tongji_test_lesson_origin_new(){
         $where_arr = [
             ' accept_flag = 1 ',
