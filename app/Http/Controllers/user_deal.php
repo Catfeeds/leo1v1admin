@@ -2606,6 +2606,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+                $teacherid_list = $this->t_lesson_info_b2->get_trial_train_no_pass_list_b2(1);
+        dd($teacherid_list);
         $start_time = strtotime("2017-07-01");
         $end_time = strtotime("2017-08-01");
         $list = $this->t_teacher_lecture_appointment_info->get_no_call_all_info_train($start_time,$end_time,-1);
