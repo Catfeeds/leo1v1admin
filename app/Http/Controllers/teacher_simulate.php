@@ -12,9 +12,9 @@ class teacher_simulate extends Controller
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
-
-        $start_time = strtotime("2017-1-1");
-        $end_time   = strtotime("2017-7-1");
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        // $start_time = strtotime("2017-1-1");
+        // $end_time   = strtotime("2017-7-1");
 
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
@@ -22,7 +22,7 @@ class teacher_simulate extends Controller
         $is_test_user       = $this->get_in_int_val("is_test_user",0);
         $page_num           = $this->get_in_page_num();
 
-        $tea_list = $this->t_lesson_info_b2->get_teacher_total_list_new(
+        $tea_list = $this->t_teacher_info->get_teacher_total_list_new(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
         );
 
@@ -34,26 +34,6 @@ class teacher_simulate extends Controller
             $val['trial_lesson_count'] /= 100;
             $val['normal_lesson_count'] /= 100;
             $val['all_lesson_count']=$val['trial_lesson_count']+$val['normal_lesson_count'];
-            $grade_str="";
-            if($val['all_grade']!=""){
-                $grade_arr = explode(",",$val['all_grade']);
-                if(!empty($grade_arr)){
-                    foreach($grade_arr as $grade_val){
-                        $grade_str .= E\Egrade::get_desc($grade_val).",";
-                    }
-                }
-            }
-            $subject_str="";
-            if($val['all_subject']!=""){
-                $subject_arr = explode(",",$val['all_subject']);
-                if(!empty($subject_arr)){
-                    foreach($subject_arr as $subject_val){
-                        $subject_str .= E\Esubject::get_desc($subject_val).",";
-                    }
-                }
-            }
-            $val['grade_str']   = $grade_str;
-            $val['subject_str'] = $subject_str;
         }
 
         return $this->pageView(__METHOD__,$tea_list);
