@@ -10,6 +10,12 @@
      var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
      var g_area_map= <?php  echo json_encode ($area_map); ?> ;
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
+     function go_to_lesson(obj){
+         var par = '&check_value=' + $(obj).attr("data-val");
+         if ( $(obj).attr("data-val") !== '') {
+             window.open("http://self.admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+par);
+         }
+     }
     </script>
     <section class="content">
         <div class="book_filter">
@@ -243,7 +249,11 @@
                              <td>{{@$var["have_intention_b_count"]}}</td>
                              <td>{{@$var["have_intention_c_count"]}}</td>
                              <td>{{@$var["require_count"]}}</td>
-                             <td>{{@$var["test_lesson_count"]}}</td>
+                             <td>
+                                 <span onclick="go_to_lesson(this)" data-val="{{@$var["key4"]}}">
+                                     {{@$var["test_lesson_count"]}}
+                                 </span>
+                             </td>
                              <td>{{@$var["succ_test_lesson_count"]}}</td>
                              <td>{{@$var["order_count"]}}</td>
                              <td>{{@$var["user_count"]}}</td>

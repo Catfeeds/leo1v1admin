@@ -675,6 +675,7 @@ class tongji_ss extends Controller
                 }
 
             }
+            // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -732,7 +733,6 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            dd($ret_info);
             if(isset($ret_info['list'][4]['all_count'])){
                 $ret_info['list'][4]['all_count'] = count($ret_info_new);
                 $ret_info['list'][4]['assigned_count'] = count($assigned_count);
@@ -762,6 +762,45 @@ class tongji_ss extends Controller
             "origin_type"  => $origin_type,
         ]);
     }
+
+    public function origin_count_test_lesson_info(){
+        $origin            = trim($this->get_in_str_val("origin",""));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
+        $groupid           = $this->get_in_int_val("groupid",-1);
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+        $check_value       = $this->get_in_str_val("check_value");
+        $check_field_id    = $this->get_in_int_val("check_field_id",1);
+        $page_info         = $this->get_in_page_info();
+        $check_field_config=[
+            1=> ["渠道","origin", "" ],
+            2=> ["年级","grade", E\Egrade::class ],
+            3=> ["科目","subject", E\Esubject::class ],
+            4=> ["tmk人员","tmk_adminid", "" ],
+            5=> ["销售人员","admin_revisiterid", "" ],
+            6=> ["渠道等级","origin_level",   E\Eorigin_level::class  ],
+        ];
+
+        $check_item=$check_field_config[$check_field_id];
+        $field_name       = $check_item[1];
+        $field_class_name = $check_item[2];
+
+        list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
+            0 => array( "add_time", "资源进来时间"),
+            1 => array("tmk_assign_time","微信运营时间"),
+        ] );
+
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        //试听信息
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
 
     public function origin_count_simple(){
         $origin            = trim($this->get_in_str_val("origin",""));
