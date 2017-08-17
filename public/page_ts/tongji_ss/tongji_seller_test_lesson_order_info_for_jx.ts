@@ -15,6 +15,7 @@ $(function(){
         });
     }
 
+    console.log(g_args.order_by_str);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
