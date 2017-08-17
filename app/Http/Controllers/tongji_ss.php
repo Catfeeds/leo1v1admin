@@ -675,7 +675,6 @@ class tongji_ss extends Controller
                 }
 
             }
-            // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -733,6 +732,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            dd($ret_info);
             if(isset($ret_info['list'][4]['all_count'])){
                 $ret_info['list'][4]['all_count'] = count($ret_info_new);
                 $ret_info['list'][4]['assigned_count'] = count($assigned_count);
