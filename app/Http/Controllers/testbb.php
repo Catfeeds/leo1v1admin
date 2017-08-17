@@ -139,8 +139,6 @@ class testbb extends Controller
     }
 
     public function push($data,$name='Excel'){
-        error_reporting(E_ALL);
-        date_default_timezone_set('Europe/London');
         $objPHPExcel = new PHPExcel();
         /*以下是一些设置 ，什么作者  标题啊之类的*/
         $objPHPExcel->getProperties()->setCreator("转弯的阳光")
@@ -165,7 +163,7 @@ class testbb extends Controller
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="'.$name.'.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
         exit;
     }

@@ -2189,7 +2189,9 @@ class ss_deal extends Controller
         //分配销售总监
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
-            
+            $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
+            $master_adminid = $this->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
+ 
         }
 
         return $this->output_succ();

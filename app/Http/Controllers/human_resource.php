@@ -1922,9 +1922,6 @@ class human_resource extends Controller
             $item['trans_grade_str'] = "";
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
-            $item['grade'] = $item['grade_ex'];
-            $item["subject_num"] = $item["subject_ex"];
-
             $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);
             $count = strlen($item["qq"]);
             $item["qq_ex"] = substr($item["qq"],0,3)."***".substr($item["qq"],6,$count-1);
