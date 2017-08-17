@@ -3131,7 +3131,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_user_online_status = 1",
-            "l.stu_performance ='' ",
+            "l.stu_performance is null ",
             "l.lesson_type=2",
             "m.account_role = 2",
             "tl.success_flag =0",
@@ -3140,7 +3140,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
 
-        $sql = $this->gen_sql_new(" select require_adminid, l.teacherid, m.name as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
+        $sql = $this->gen_sql_new(" select l.stu_performance, tl.success_flag, require_adminid, l.teacherid, m.account as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
                                   ." left join %s tl on tl.lessonid = l.lessonid "
                                   ." left join %s tr on tr.require_id = tl.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id = tr.test_lesson_subject_id"
