@@ -102,7 +102,7 @@ class user_manage extends Controller
             $seller_adminid,$order_type,$student_type);
         foreach($ret_info['list'] as &$item) {
             $item['originid']          = E\Estu_origin::get_desc($item['originid']);
-            $item['is_test_user']      = E\Etest_user::get_desc($item['is_test_user']);
+            $item['is_test_user_str']      = E\Etest_user::get_desc($item['is_test_user']);
             $item['user_agent_simple'] = get_machine_info_from_user_agent($item["user_agent"] );
             $item['last_login_ip']     = long2ip( $item['last_login_ip'] );
             \App\Helper\Utils::unixtime2date_for_item($item,"last_lesson_time");

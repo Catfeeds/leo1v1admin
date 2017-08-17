@@ -34,6 +34,15 @@ class flow_seller_order_require  extends flow_base{
 
         $parent_lesson_total=$parent_order_info["lesson_total"]*  $parent_order_info["default_lesson_count"] /100;
 
+        //特殊申请
+        $date_range=\App\Helper\Utils::get_month_range($self_info["order_time"] );
+
+        $spec_diff_money_all= $task->t_order_info->  get_spec_diff_money_all( $date_range["sdate"], $date_range["edate"] ,$task->t_manager_info->get_account_role( $flow_info["post_adminid"] )    );
+        $promotion_spec_diff_money= $self_info["promotion_spec_diff_money"]/100;
+        $role_2_diff_money_def= $task->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY , $date_range["sdate"] );
+
+        $left_diff_money= $role_2_diff_money_def - $spec_diff_money_all;
+
         //if ($contract_type==0 ) {
             return [
                 ["申请人",  $post_admin_nick ] ,
@@ -50,8 +59,9 @@ class flow_seller_order_require  extends flow_base{
                 ["-","-"],
                 ["(完成)续费时间", \App\Helper\Utils::unixtime2date($parent_order_info["order_time"]) ] ,
                 ["(完成)续费课时数", $parent_lesson_total ] ,
-                ["销售说明", $flow_info["post_msg"]  ] ,
+                ["月度配额说明","总共:$role_2_diff_money_def,已消耗 $spec_diff_money_all,剩余 $left_diff_money , 本申请消耗: $promotion_spec_diff_money ", ] ,
 
+                ["销售说明", $flow_info["post_msg"]  ] ,
             ];
             /*
         }else{
