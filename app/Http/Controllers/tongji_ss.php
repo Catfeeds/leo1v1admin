@@ -673,8 +673,19 @@ class tongji_ss extends Controller
                 }else{
                     $ret_info_new[] = $item;
                 }
-
+                //合同
+                if($item['aoid']){
+                    $orderid = $item['aoid'];
+                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                    if(in_array($orderid,$orderid_arr)){
+                    }else{
+                        $order_count[] = $item;
+                        $user_count[] = $item;
+                        $order_all_money += $item['price'];
+                    }
+                }
             }
+            dd($order_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -730,15 +741,8 @@ class tongji_ss extends Controller
                     if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
                         $succ_test_lesson_count[] = $item;
                     }
-                    //合同个数&&合同人数
-                    if($item['aoid']){
-                        $order_count[] = $item;
-                        $user_count[] = $item;
-                        $order_all_money += $item['price'];
-                    }
                 }
             }
-            dd($order_count);
             if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);

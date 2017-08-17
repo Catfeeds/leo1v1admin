@@ -94,7 +94,20 @@
                     <div align="center"> 年级 </div>
                 <div id="id_grade_pic" class="demo-placeholder" style="height:400;"></div>
                     <table   class="table table-bordered table-striped"   >
-                        <thead> <tr>  <td> 年级  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr> </thead>
+                        <thead>
+
+
+                            <!-- <tr>  <td> 年级  </td><td> 试听成功数</td><td> 签单数</td><td> 签单率</td> </tr>
+                               -->
+                            {!!\App\Helper\Utils::th_order_gen([
+                                ["年级","name" ],
+                                ["试听成功数","num" ],
+                                ["签单数","order" ],
+                                ["签单率","per"],
+                               ])  !!}
+
+                        </thead>
+
                         <tbody>
                             @foreach($grade_arr as $v)
                                 <tr>

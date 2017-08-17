@@ -221,9 +221,9 @@
                              <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=14">{{@$var["require_count"]}}</a></td>
                              <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=15">{{@$var["test_lesson_count"]}}</a></td>
                              <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_list_new?type=16">{{@$var["succ_test_lesson_count"]}}</a></td>
-                             <td>{{@$var["order_count"]}}</td>
-                             <td>{{@$var["user_count"]}}</td>
-                             <td>{{@$var["order_all_money"]}}</td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_order_list">{{@$var["order_count"]}}</a></td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_order_list">{{@$var["user_count"]}}</a></td>
+                             <td><a target="_blank" href="http://admin.yb1v1.com/agent/agent_order_list">{{@$var["order_all_money"]}}</a></td>
                          @else
                              <td >{{@$var["all_count"]}}</td>
                              <td >{{@$var["assigned_count"]}}</td>
