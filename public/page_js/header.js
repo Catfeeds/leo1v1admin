@@ -2460,6 +2460,7 @@ $(function(){
             order_by_str= field_name+" "+"desc" ;
         }
 
+
         g_args.order_by_str=order_by_str;
 
         load_data();

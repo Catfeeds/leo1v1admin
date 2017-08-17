@@ -152,7 +152,8 @@ return [
      */
     "teacher_money" => [
         "lesson_full_num"    => "20",
-        "lesson_full_reward" => "10000",
+        // "lesson_full_reward" => "10000",
+        "lesson_full_reward" => "0",
         "trial_train_reward" => "2000",
         "trial_base_price"   => [
             1=>"5000",
