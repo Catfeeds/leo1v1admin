@@ -32,6 +32,8 @@ interface RowData {
 	p_phone	:any;
 	pp_nickname	:any;
 	pp_phone	:any;
+	aoid	:any;
+	price	:any;
 	s_userid	:any;
 	origin	:any;
 	is_test_user	:any;
