@@ -13,7 +13,7 @@
      function go_to_lesson(obj){
          var par = '&check_value=' + $(obj).attr("data-val");
          if ( $(obj).attr("data-val") !== '') {
-             window.open("http://self.admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+par);
+             window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+par);
          }
      }
     </script>
