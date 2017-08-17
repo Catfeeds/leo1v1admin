@@ -93,6 +93,7 @@ class NewRouteConfig {
         "wx_token"                    => true,
         "wx_score"                    => true,
         "main_page"                   => true,
+        "main_page2"                   => true,
         "ss_deal"                     => true,
         "jinshuju"                    => true,
         "wx_teacher"                  => true,

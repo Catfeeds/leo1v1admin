@@ -3109,6 +3109,30 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_list_by_page($sql,$page_info);
     }
+    public function get_trial_train_no_pass_list_b2($is_test_user){
+        $where_arr=[
+            ["t.is_test_user = %u",$is_test_user,-1],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag <2",
+            "l.lesson_type=1100",
+            "l.train_type=4",
+            "l.trial_train_num=1",
+            "tr.trial_train_status =2",
+            "t.trial_train_flag=0"
+        ];
+        $sql = $this->gen_sql_new("select l.teacherid "
+                                  ." from %s l left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5)"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
 
     public function get_last_trial_lesson($userid){
         $where_arr = [
@@ -3126,14 +3150,57 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_data_for_qc(){
-        $s = 11;
-        $e = 11;
+    public function get_data_for_qc($s, $e){ // 临时查询
+        // parent_name
 
-        $sql = $this->gen_sql_new(" select require_adminid, teacherid, userid from %s l  "
-                                  . " left join "
+        $where_arr = [
+            "l.lesson_user_online_status = 1",
+            "tr.stu_advice = '' ",
+            "l.lesson_type=2",
+            "m.account_role = 2",
+            "tl.success_flag =0",
+            ["l.lesson_start>=%d",$s],
+            ["l.lesson_end<%d",$e]
+        ];
 
 
+        $sql = $this->gen_sql_new(" select l.lessonid, tr.stu_advice, l.stu_performance, tl.success_flag, require_adminid, l.teacherid, m.account as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
+                                  ." left join %s tl on tl.lessonid = l.lessonid "
+                                  ." left join %s tr on tr.require_id = tl.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id = tr.test_lesson_subject_id"
+                                  ." left join %s m on m.uid = ts.require_adminid "
+                                  ." left join %s s on s.userid = l.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
         );
+
+        return $this->main_get_list($sql,function($item){
+            return $item['lessonid'];
+        });
     }
+
+    public function get_train_lesson($teacherid,$subject){
+        $where_arr = [
+            ["userid=%u",$teacherid,0],
+            ["subject=%u",$subject,0],
+        ];
+        $sql = $this->gen_sql_new("select lessonid"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
+
 }

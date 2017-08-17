@@ -1880,14 +1880,17 @@ class human_resource extends Controller
 
         foreach($ret_info["list"] as &$item){
             $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
-            E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             if($item['full_time']==1){
                 $item['teacher_type_str']="全职老师";
             }else{
                 E\Eidentity::set_item_value_str($item,"teacher_type");
             }
+
+            E\Electure_appointment_status::set_item_value_str($item,"lecture_appointment_status");
             E\Electure_revisit_type::set_item_value_str($item,"lecture_revisit_type");
             E\Eboolean::set_item_value_str($item,"full_time");
+            E\Esubject::set_item_value_str($item,"subject_ex");
+            E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
             if($item['status']=="-2" && empty($item["train_lessonid"])){
                 $item['status_str'] = "无试讲";
@@ -1902,6 +1905,7 @@ class human_resource extends Controller
             }else{
                  E\Echeck_status::set_item_value_str($item, "status");
             }
+
             $full_status = $item['full_status'];
             if($full_status==="1"){
                 $item['full_status_str']="通过";
@@ -1917,22 +1921,6 @@ class human_resource extends Controller
                 }else{
                     $item['reference_name'] = "自由渠道";
                 }
-            }
-
-            $item['trans_grade_str'] = "";
-            $item['grade'] = $item['grade_ex'];
-            $item["subject_num"] = $item["subject_ex"];
-            if($item['grade_start']>0){
-                $item['tea_subject']  = $item['subject_ex'];
-                $item['tea_textbook'] = $item['textbook'];
-                $item['textbook']     = $this->get_teacher_textbook($item['subject_ex'],$item['textbook']);
-                $item['grade_ex']     = E\Egrade_range::get_desc($item['grade_start'])
-                                      ."-".E\Egrade_range::get_desc($item['grade_end']);
-                $item['subject_ex']   = E\Esubject::get_desc($item['subject_ex']);
-            }
-            if($item['trans_grade']>0){
-                $item['trans_grade_str'] = E\Egrade_range::get_desc($item['trans_grade_start'])."-"
-                    .E\Egrade_range::get_desc($item['trans_grade_end']);
             }
 
             $item["phone_ex"] = preg_replace('/(1[358]{1}[0-9])[0-9]{4}([0-9]{4})/i','$1****$2',$item["phone"]);

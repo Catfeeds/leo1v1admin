@@ -168,9 +168,8 @@
                     <td>QQ</td>
                     <td>邮箱</td>
                     <td>绑定微信</td>
-                    <td>年级段</td>
-                    <td>扩年级情况</td>
                     <td>科目</td>
+                    <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
                     <td>审核状态</td>
@@ -201,21 +200,14 @@
                             </a>
                         </td>
                         <td>
-                            <a href="javascript:;" class="show_detail" data-value="{{$var["qq"]}}" >
-                                {{$var["qq_ex"]}}
-                            </a>
-
+                            <a href="javascript:;" class="show_detail" data-value="{{$var["qq"]}}" >{{$var["qq_ex"]}}</a>
                         </td>
                         <td>
-                            <a href="javascript:;" class="show_detail" data-value="{{$var["email"]}}" >
-                                {{$var["email_ex"]}}
-                            </a>
-
+                            <a href="javascript:;" class="show_detail" data-value="{{$var["email"]}}" >{{$var["email_ex"]}}</a>
                         </td>
                         <td>{{@$var["have_wx_flag"]}}</td>
-                        <td>{{@$var["grade_ex"]}}</td>
-                        <td>{{@$var["trans_grade_str"]}}</td>
-                        <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["subject_ex_str"]}} </td>
+                        <td>{{@$var["trans_subject_ex_str"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
                         <td>

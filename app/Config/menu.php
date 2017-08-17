@@ -35,6 +35,7 @@ class menu{
             ["power_id"=>15, "name"=>"例子-新版", "list"=>[
                 ["power_id"=>1, "name"=>"分配例子",   "url"=>"/seller_student_new/assign_sub_adminid_list"],
                 ["power_id"=>2, "name"=>"分配例子-主管",   "url"=>"/seller_student_new/assign_member_list"],
+                ["power_id"=>5, "name"=>"转介绍待分配例子-总监",   "url"=>"/seller_student_new/assign_member_list_master"],
                 ["power_id"=>3, "name"=>"转介绍例子-全部",   "url"=>"/seller_student_new/ass_master_seller_student_list"],
                 ["power_id"=>31, "name"=>"转介绍例子-主管",   "url"=>"/seller_student_new/ass_master_seller_master_student_list"],
                 ["power_id"=>4, "name"=>"微信运营",   "url"=>"/seller_student_new2/tmk_student_list"],
@@ -256,7 +257,7 @@ class menu{
 
 
             ["power_id"=>7, "name"=>"市场", "list"=>[
-
+                ["power_id"=>1, "name"=>"首页",  "url"=>"/main_page2/market" ],
                 ["power_id"=>8, "name"=>"渠道-统计", "list"=>[
                     ["power_id"=>2, "name"=>"渠道统计 总体", "url"=>"/tongji_ss/origin_count"],
                     ["power_id"=>99, "name"=>"渠道统计-即时", "url"=>"/tongji_ss/origin_count_simple"],
