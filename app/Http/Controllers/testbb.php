@@ -122,7 +122,12 @@ class testbb extends Controller
     }
 
     public function get_data_for_qc(){
-        $ret = $this->t_lesson_info_b2->get_data_for_qc();
+        // $s = 1501516800;
+        // $e = 1502726400;
+        $s = $this->get_in_int_val('s');
+        $e = $this->get_in_int_val('e');
+
+        $ret = $this->t_lesson_info_b2->get_data_for_qc($s,$e);
         dd($ret);
     }
 

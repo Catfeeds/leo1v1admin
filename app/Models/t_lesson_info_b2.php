@@ -3126,19 +3126,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_data_for_qc(){
-        $s = 11;
-        $e = 11;
+    public function get_data_for_qc($s, $e){ // 临时查询
         // parent_name
 
         $where_arr = [
             "l.lesson_user_online_status = 1",
             "l.stu_performance ='' ",
             "l.lesson_type=2",
-            "m.account_role = 2"
+            "m.account_role = 2",
+            "tl.success_flag =0",
+            ["l.lesson_start>=%d",$s],
+            ["l.lesson_end<%d",$e]
         ];
 
-        $sql = $this->gen_sql_new(" select require_adminid, teacherid, userid from %s l  "
+
+        $sql = $this->gen_sql_new(" select require_adminid, l.teacherid, m.name as seller_name, s.nick as stu_nick, l.userid, parent_name, t.realname as tea_name from %s l  "
                                   ." left join %s tl on tl.lessonid = l.lessonid "
                                   ." left join %s tr on tr.require_id = tl.require_id"
                                   ." left join %s ts on ts.test_lesson_subject_id = tr.test_lesson_subject_id"
