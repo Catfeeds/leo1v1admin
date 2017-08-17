@@ -2757,7 +2757,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacherid,$teacher_money_type,$level,$ignore_level_up
+        $start_time,$end_time,$teacherid,$teacher_money_type,$level
     ){
         if($teacherid!=-1){
             $where_arr[]=["t.teacherid=%u",$teacherid,-1];
@@ -2774,24 +2774,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 "lesson_status=2",
             ];
         }
-        if($ignore_level_up==0){
-            $level_str = "l.level=m.level";
-        }else{
-            $level_str = "t.level=m.level";
-        }
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
-                                  ." m.money,ol.price as lesson_price,l.lesson_count,"
+                                  ." m1.money,m2.money,ol.price as lesson_price,l.lesson_count,"
                                   ." deduct_come_late,deduct_change_class,deduct_upload_cw,deduct_rate_student"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s m on l.level=m.level and l.teacher_money_type=m.teacher_money_type "
+                                  ." left join %s m1 on l.level=m.level and l.teacher_money_type=m.teacher_money_type "
                                   ."      and m.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
-                                  ." left join %s m on t.level_simulate=m.level and t.teacher_money_type_simulate=m.teacher_money_type "
+                                  ." left join %s m2 on t.level_simulate=m.level "
+                                  ."      and t.teacher_money_type_simulate=m.teacher_money_type "
                                   ."      and m.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
@@ -2799,13 +2795,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s ol on l.lessonid=ol.lessonid"
 
                                   ." where %s"
-                                  ." group by t.teacherid"
+                                  ." group by t.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
                                   ,t_teacher_money_type::DB_TABLE_NAME
                                   ,t_order_lesson_list::DB_TABLE_NAME
                                   ,$where_arr
         );
+        echo $sql;exit;
         return $this->main_get_list_as_page($sql);
     }
 
