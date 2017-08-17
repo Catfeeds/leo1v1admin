@@ -2768,31 +2768,36 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                 ["t.is_test_user=%u",$is_test_user,-1],
                 ["l.lesson_start>%u",$start_time,0],
                 ["l.lesson_start<%u",$end_time,0],
+                "lesson_del_flag = 0",
+                "confirm_flag!=2",
+                "lesson_type in (0,1,3)",
+                "lesson_status=2",
             ];
         }
         if($ignore_level_up==0){
             $level_str = "l.level=m.level";
         }else{
             $level_str = "t.level=m.level";
-        };
+        }
+
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
-                                  ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
-                                  ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
-                                  ." from %s t "
-                                  ." left join %s l on "
-                                  ." t.teacherid=l.teacherid and l.lesson_status=2 and l.lesson_del_flag=0 and l.confirm_flag!=2"
-                                  ." and l.lesson_start>%u and lesson_start<%u"
+                                  ." l.money,ol.price as lesson_price"
+                                  ." from %s l "
+
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." left join %s m on l.level=m.level and l.teacher_money_type=m.teacher_money_type"
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
+
                                   ." where %s"
                                   ." group by t.teacherid"
-                                  ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,$start_time
-                                  ,$end_time
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list_as_page($sql);
     }
-
 
 
 
