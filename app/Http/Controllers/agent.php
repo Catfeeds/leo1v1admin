@@ -91,6 +91,7 @@ class agent extends Controller
         if($type){
             $ret_info_new = $ret_new;
         }
+        dd(count($ret_info_new));
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
