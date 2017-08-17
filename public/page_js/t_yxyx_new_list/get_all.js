@@ -1,4 +1,3 @@
-
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/t_yxyx_new_list-get_all.d.ts" />
 $(function(){
@@ -6,103 +5,72 @@ $(function(){
         $.reload_self_page({
         });
     }
-
-    var do_add_or_update = function( opt_type, item ,id){
-        var html_txt = $.dlg_get_html_by_class('dlg_add_new_info');
-        html_txt=html_txt.
-            replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
-            replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
-        ;
-        var html_node = $("<div></div>").html(html_txt);
+    var do_add_or_update = function( opt_type, item){
         var pic_url = "";
         var pic_img = "";
 
-        if (opt_type=="update") {
-            pic_url=item.pic;
-            pic_img="<img width=100 src=\""+pic_url+"\" />";
-            html_node.find(".add_header_img").html(pic_img);
-            html_node.find(".add_pic").html(pic_url);
-            html_node.find(".add_title").val(item.title);
-            html_node.find(".add_des").val(item.des);
+        if (opt_type == "update") {
+            pic_url = item.new_pic;
+            pic_img = "<img width=100 src=\""+pic_url+"\" />";
+            $(".add_header_img").html(pic_img);
+            $(".add_pic").html(pic_url);
+            $(".add_title").val(item.new_title);
+            $(".add_content").val(item.new_content);
+        } else {
+            $(".add_header_img").html("");
+            $(".add_pic").html("");
+            $(".add_title").val("");
+            $(".add_content").val("");
         }
 
-        var title = "";
-        if (opt_type=="update"){
-            title="修改信息";
+        if (opt_type == "update"){
+            $("#myModalLabel").text("修改信息");
         }else{
-            title="添加信息";
+            $("#myModalLabel").text("添加信息");
         }
-        BootstrapDialog.show({
-            title           : title,
-            message         : html_node,
-            closable        : true,
-            closeByBackdrop : false,
-            onshown         : function(dialog){
-                custom_qiniu_upload ("id_upload_add_tmp","id_container_add_tmp",
-                                     g_args.qiniu_upload_domain_url , true,
-                                     function (up, info, file){
-                                         var res = $.parseJSON(info);
-                                         pic_url = g_args.qiniu_upload_domain_url + res.key;
-                                         pic_img = "<img width=80 src=\""+pic_url+"\" />";
-                                         html_node.find(".add_header_img").html(pic_img);
-                                         html_node.find(".add_pic").html(pic_url);
-                                     });
-            },
-            buttons: [
-                {
-                    label: '确认',
-                    cssClass: 'btn-primary',
-                    action : function(dialog) {
-                        var new_title   = html_node.find(".add_title").val();
-                        var new_content = html_node.find(".add_content").val();
-                        var new_pic     = html_node.find(".add_pic").text();
-                        if (opt_type=="update") {
-                            $.ajax({
-                                type     : "post",
-                                url      : "/t_yxyx_new_list/update_new_info",
-                                dataType : "json",
-                                data : {
-                                    "id"           : id
-                                    ,"new_title"   : new_title
-                                    ,"new_content" : new_des
-                                    ,"new_pic"     : new_pic
-                                },
-                                success : function(result){
-                                    if(result.ret==0){
-                                        window.location.reload();
-                                    }else{
-                                        dialog.close();
-                                    }
-                                }
-                            });
-
-                        } else {
-                            $.ajax({
-                                type     : "post",
-                                url      : "/t_yxyx_new_list/add_new_info",
-                                dataType : "json",
-                                data : {
-                                    "new_title"    : new_title
-                                    ,"new_content" : new_content
-                                    ,"new_pic"     : new_pic
-                                },
-                                success : function(result){
-                                    if(result.ret==0){
-                                        window.location.reload();
-                                    }else{
-                                        dialog.close();
-                                    }
-                                }
-                            });
+        $(".submit").on("click", function(){
+            var new_title   = $(".add_title").val();
+            var new_content = $(".add_content").val();
+            var new_pic     = $(".add_pic").text();
+            if (opt_type == "update") {
+                $.ajax({
+                    type     : "post",
+                    url      : "/t_yxyx_new_list/update_new_info",
+                    dataType : "json",
+                    data : {
+                        "id"          : item.id
+                        ,"new_title"  : new_title
+                        ,"new_content": new_content
+                        ,"new_pic"    : new_pic
+                    },
+                    success : function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            dialog.close();
                         }
                     }
-                },{
-                    label: '取消',
-                    cssClass: 'btn',
-                    action: function(dialog) {
-                        dialog.close();
+                });
+
+            } else {
+                $.ajax({
+                    type     : "post",
+                    url      : "/t_yxyx_new_list/add_new_info",
+                    dataType : "json",
+                    data : {
+                        "new_title"   : new_title
+                        ,"new_content": new_content
+                        ,"new_pic"    : new_pic
+                    },
+                    success : function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            dialog.close();
+                        }
                     }
-                }]
+                });
+            }
         });
 
     };
@@ -111,19 +79,18 @@ $(function(){
         do_add_or_update("add");
     });
 
-    $(".opt-update-new_info").on("click",function(){
-        var id=$(this).get_opt_data( "id" );
+    $(".opt-update").on("click",function(){
+        var id = $(this).get_opt_data( "id" );
         $.ajax({
-            type  :"post",
+            type     :"post",
             url      :"/t_yxyx_new_list/get_one_new",
             dataType :"json",
             data     :{"id":id},
-            success: function(data){
-                do_add_or_update("update", data.ret_info, id);
+            success  : function(data){
+                do_add_or_update("update", data.ret_info);
             }
         });
     });
-
 
     $(".opt-del").on("click",function(){
         var id=$(this).get_opt_data( "id" );
