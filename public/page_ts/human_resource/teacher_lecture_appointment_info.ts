@@ -605,12 +605,12 @@ $(function(){
             cssClass : "btn-warning",
             action   : function(dialog) {
                 $.do_ajax("/tea_manage_new/set_full_time_teacher_record",{
-                    "teacherid"   : data.teacherid,
                     "phone"       : data.phone,
                     "flag"        : id_flag.val(),
                     "record_info" : id_record_info.val(),
                     "nick"        : data.name,
                 },function(result){
+                    console.log(result);
                     if(result.ret==0){
                         window.location.reload();
                     }else{

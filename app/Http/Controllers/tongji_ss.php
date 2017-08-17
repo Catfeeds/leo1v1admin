@@ -3830,7 +3830,6 @@ class tongji_ss extends Controller
 
 
     public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
-        ini_set('max_execution_time', 6000);
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3846,6 +3845,9 @@ class tongji_ss extends Controller
         $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+
+        //                 return array(false, "", $field_name, $order_flag=="asc" );
 
         $show_flag = $this->get_in_int_val("show_flag",0);
 
@@ -4400,6 +4402,26 @@ class tongji_ss extends Controller
 
         ///  排序处理;
 
+        $sum_field_list=[
+            "work_day",
+            "lesson_count",
+            "suc_count",
+            "lesson_per",
+            "order_count",
+            "order_per",
+            "all_price",
+            "money_per",
+            "tea_per",
+            "range"
+        ];
+        $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
+
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+        // 排序处理
+
         $field_name = 'origin';
         $field_class_name = '';
 
@@ -4423,7 +4445,6 @@ class tongji_ss extends Controller
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
 
-        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
@@ -4481,6 +4502,8 @@ class tongji_ss extends Controller
             $v["name"] = E\Esubject::get_desc($k);
         }
         \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+
+
         foreach($grade_arr as $kk=>&$vv){
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
