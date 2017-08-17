@@ -22,11 +22,15 @@ class teacher_simulate extends Controller
             $start_time,$end_time,$teacherid,$teacher_money_type,$level
         );
 
-        $list = [];
+        $list        = [];
+        $reward_list = [];
         foreach($tea_list['list'] as $val){
             \App\Helper\Utils::check_isset_data($list[$val['teacherid']],[],0);
             $tea_arr              = $list[$val['teacherid']];
             $tea_arr["teacherid"] = $val['teacherid'];
+            if(!in_array($val['teacher_money_type'],[0,1,2,3]) && !isset($reward_list[$val['teacherid']]['already_lesson_count'])){
+                
+            }
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$val['money']);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$val['money_simulate']);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$val['lesson_price']);
