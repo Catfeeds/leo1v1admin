@@ -11,9 +11,13 @@
      var g_area_map= <?php  echo json_encode ($area_map); ?> ;
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
      function go_to_lesson(obj){
-         var par = '&check_value=' + $(obj).attr("data-val");
+         var par = 'check_value=' + $(obj).attr("data-val");
          if ( $(obj).attr("data-val") !== '') {
-             window.open("http://self.admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+par);
+             if(location.search){
+                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+"&"+par);
+             } else {
+                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info?"+par);
+             }
          }
      }
     </script>
