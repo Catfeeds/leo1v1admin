@@ -27,6 +27,7 @@
                     <td>orderid </td>
                     <td>微信昵称 </td>
                     <td>手机号 </td>
+                    <td>合同金额 </td>
                     <!-- <td>上级手机号 </td> -->
                     <td>上级微信昵称 </td>
                     <td>上级转介绍费 </td>
@@ -43,6 +44,7 @@
                         <td>{{@$var["orderid"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["price"]}} </td>
                         <!-- <td>{{@$var["p_phone"]}} </td> -->
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["p_price"]}} </td>
