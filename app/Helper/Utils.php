@@ -880,7 +880,7 @@ class Utils  {
      * 检测老师工资体系(新版试听和老版试听价格不同,公司全职试听课价格为0)
      * @param  teacher_money_type 老师工资分类
      * @param  teacher_type 老师类型
-     * @return boolean
+     * @return integer
      */
     static function check_teacher_money_type($teacher_money_type,$teacher_type=0){
         $type = 0;
