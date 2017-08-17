@@ -678,9 +678,6 @@ class tongji_ss extends Controller
             $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
-                    if($item['phone'] == '13848071881'){
-                        dd($item);
-                    }
                     //已分配销售
                     if($item['admin_revisiterid']>0){
                         $assigned_count[] = $item;
@@ -736,7 +733,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            // dd($ret_new,$succ_test_lesson_count);
+            dd('263',$succ_test_lesson_count);
             if(isset($ret_info['list'][4]['all_count'])){
                 $ret_info['list'][4]['all_count'] = $all_count;
                 $ret_info['list'][4]['assigned_count'] = count($assigned_count);
