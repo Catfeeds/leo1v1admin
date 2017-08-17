@@ -738,6 +738,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            dd($order_count);
             if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
@@ -757,7 +758,7 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
                     $ret_info['list'][$item]['order_count'] = count($order_count);
                     $ret_info['list'][$item]['user_count'] = count($user_count);
-                    $ret_info['list'][$item]['order_all_money'] = $order_all_money;
+                    $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
             }
         }
