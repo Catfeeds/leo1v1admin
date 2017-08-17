@@ -636,7 +636,7 @@ class tongji_ss extends Controller
             list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
                  $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
                  $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
 
@@ -730,8 +730,15 @@ class tongji_ss extends Controller
                     if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
                         $succ_test_lesson_count[] = $item;
                     }
+                    //合同个数&&合同人数
+                    if($item['aoid']){
+                        $order_count[] = $item;
+                        $user_count[] = $item;
+                        $order_all_money += $item['price'];
+                    }
                 }
             }
+            dd($order_count);
             if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
@@ -749,6 +756,9 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['require_count'] = count($require_count);
                     $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
                     $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                    $ret_info['list'][$item]['order_count'] = count($order_count);
+                    $ret_info['list'][$item]['user_count'] = count($user_count);
+                    $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
             }
         }
@@ -3830,7 +3840,6 @@ class tongji_ss extends Controller
 
 
     public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
-        ini_set('max_execution_time', 6000);
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3846,6 +3855,9 @@ class tongji_ss extends Controller
         $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+
+        //                 return array(false, "", $field_name, $order_flag=="asc" );
 
         $show_flag = $this->get_in_int_val("show_flag",0);
 
@@ -4400,6 +4412,26 @@ class tongji_ss extends Controller
 
         ///  排序处理;
 
+        $sum_field_list=[
+            "work_day",
+            "lesson_count",
+            "suc_count",
+            "lesson_per",
+            "order_count",
+            "order_per",
+            "all_price",
+            "money_per",
+            "tea_per",
+            "range"
+        ];
+        $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
+
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+        // 排序处理
+
         $field_name = 'origin';
         $field_class_name = '';
 
@@ -4423,7 +4455,6 @@ class tongji_ss extends Controller
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
 
-        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
@@ -4481,6 +4512,8 @@ class tongji_ss extends Controller
             $v["name"] = E\Esubject::get_desc($k);
         }
         \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+
+
         foreach($grade_arr as $kk=>&$vv){
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
