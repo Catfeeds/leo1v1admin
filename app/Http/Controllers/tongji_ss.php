@@ -675,7 +675,7 @@ class tongji_ss extends Controller
                 }
                 //合同
                 $orderid = $item['aoid'];
-                $orderid_arr = array_unique(array_column($ret_info_new,'aoid'));
+                $orderid_arr = array_unique(array_column($order_count,'aoid'));
                 if(in_array($orderid,$orderid_arr)){
                 }else{
                     $order_count[] = $item;
@@ -683,7 +683,6 @@ class tongji_ss extends Controller
                     $order_all_money += $item['price'];
                 }
             }
-            dd($order_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -4530,7 +4529,7 @@ class tongji_ss extends Controller
         $paixu_arr = explode('_',$order_field_name);
 
 
-        \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
+        // \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
 
 
         foreach($grade_arr as $kk=>&$vv){
@@ -4539,12 +4538,6 @@ class tongji_ss extends Controller
             $vv["name"] = E\Egrade::get_desc($kk);
         }
 
-        if(!$order_in_db_flag){
-            if($paixu_arr[1] == 'grade' ){
-                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], 0);
-            }
-
-        }
         // \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
         foreach($location_arr as $kkk=>&$vvv){
@@ -4560,6 +4553,20 @@ class tongji_ss extends Controller
             $vvvv["name"] = $kkkk;
         }
         \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+
+
+        // 排序处理
+        if(!$order_in_db_flag){
+            if($paixu_arr[1] == 'grade' ){
+                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'subject'){
+                \App\Helper\Utils::order_list( $subject_arr,$paixu_arr[0], $order_type);
+            }
+        }
+
+
+
 
 
         // dd($origin_info);
