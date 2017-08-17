@@ -678,6 +678,9 @@ class tongji_ss extends Controller
             $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
+                    if($item['phone'] == '13848071881'){
+                        dd($item);
+                    }
                     //已分配销售
                     if($item['admin_revisiterid']>0){
                         $assigned_count[] = $item;
