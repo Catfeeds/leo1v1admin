@@ -3129,11 +3129,33 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_data_for_qc(){
         $s = 11;
         $e = 11;
+        // parent_name
+
+        $where_arr = [
+            "l.lesson_user_online_status = 1",
+            "l.stu_performance ='' ",
+            "l.lesson_type=2",
+            "m.account_role = 2"
+        ];
 
         $sql = $this->gen_sql_new(" select require_adminid, teacherid, userid from %s l  "
-                                  . " left join "
-
-
+                                  ." left join %s tl on tl.lessonid = l.lessonid "
+                                  ." left join %s tr on tr.require_id = tl.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id = tr.test_lesson_subject_id"
+                                  ." left join %s m on m.uid = ts.require_adminid "
+                                  ." left join %s s on s.userid = l.userid"
+                                  ." left join %s t on t.teacherid = l.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
         );
+
+        return $this->main_get_list($sql);
     }
 }
