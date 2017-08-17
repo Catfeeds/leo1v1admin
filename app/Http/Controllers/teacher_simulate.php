@@ -17,16 +17,16 @@ class teacher_simulate extends Controller
         $teacherid          = $this->get_in_int_val("teacherid",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
         $level              = $this->get_in_int_val("level",-1);
-        $page_num           = $this->get_in_page_num();
 
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-            $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level
+            $start_time,$end_time,$teacherid,$teacher_money_type,$level
         );
-        dd($tea_list);
-        foreach($tea_list['list'] as &$val){
-            E\Eteacher_money_type::set_item_value_str($val);
-            E\Elevel::set_item_value_str($val);
-            E\Enew_level::set_item_value_str($val,"level_simulate");
+
+        $teacher_money_list = [];
+        foreach($tea_list['list'] as $val){
+            \App\Helper\Utils::check_isset_data($teacher_money_list[$val['teacherid']],[],0);
+
+
         }
 
         return $this->pageView(__METHOD__,$tea_list);
