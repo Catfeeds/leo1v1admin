@@ -1698,7 +1698,7 @@ class tea_manage extends Controller
             $teacherid_list = $userid;
         }else{
             if($type==4){
-                $teacherid_list = $this->t_lesson_info_b2->get_trial_train_no_pass_list_b2($is_test_user);
+                $teacherid_list = $this->t_lesson_info_b2->get_trial_train_no_pass_list_b2(0);
             }else if($type==3){
                 $train_teacher_list = [];
                 $per_teacher_list   = [];
