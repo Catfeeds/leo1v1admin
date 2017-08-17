@@ -185,6 +185,7 @@ class agent extends Controller
         }elseif($type == 16){ //试听成功数
             $ret_info_new = $succ_test_lesson_count;
         }
+        dd($ret_info_new);
         foreach($ret_info_new as $key=>&$item){
             $item['num'] = $key+1;
         }
