@@ -22,9 +22,14 @@ class teacher_simulate extends Controller
             $start_time,$end_time,$teacherid,$teacher_money_type,$level
         );
 
-        $teacher_money_list = [];
+        $list = [];
         foreach($tea_list['list'] as $val){
-            \App\Helper\Utils::check_isset_data($teacher_money_list[$val['teacherid']],[],0);
+            \App\Helper\Utils::check_isset_data($list[$val['teacherid']],[],0);
+            $tea_arr              = $list[$val['teacherid']];
+            $tea_arr["teacherid"] = $val['teacherid'];
+
+            \App\Helper\Utils::check_isset_data($list[$val['teacherid']][',[],0);
+            \App\Helper\Utils::check_isset_data($list[$val['teacherid']]['money'],[],0);
 
 
         }
