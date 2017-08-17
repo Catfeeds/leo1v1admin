@@ -355,7 +355,6 @@ class login extends Controller
         session($_SESSION) ;
         $this->t_admin_users->set_last_ip( $account,$ip );
 
-
         return $this->output_succ( array(
             'permission' => $permission,
         ));
