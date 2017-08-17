@@ -9,6 +9,7 @@
                     <td>id</td>
                     <td>姓名</td>
                     <td>电话</td>
+                    <td>渠道</td>
                     <td> 操作  </td>
                 </tr>
             </thead>
@@ -18,6 +19,7 @@
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["check_value"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
