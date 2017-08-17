@@ -2785,7 +2785,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." left join %s m on l.level=m.level and l.teacher_money_type=m.teacher_money_type"
+                                  ." left join %s m on l.level=m.level and l.teacher_money_type=m.teacher_money_type "
+                                  ."      and m.grade=(case when "
+                                  ."      l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ."      else l.grade"
+                                  ."      end )"
                                   ." left join %s ol on l.lessonid=ol.lessonid"
 
                                   ." where %s"
