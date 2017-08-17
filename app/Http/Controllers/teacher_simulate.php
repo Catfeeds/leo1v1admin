@@ -23,7 +23,7 @@ class teacher_simulate extends Controller
         $ignore_level_up    = $this->get_in_int_val("ignore_level_up",0);
         $page_num           = $this->get_in_page_num();
 
-        $tea_list = $this->t_teacher_info->get_teacher_total_list_new(
+        $tea_list = $this->t_teacher_info->get_teacher_simple_list(
             $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user,$ignore_level_up
         );
 

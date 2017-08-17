@@ -4435,6 +4435,13 @@ class tongji_ss extends Controller
             "order_location",
             "per_location",
 
+            "num_origin",
+            "order_origin",
+            "per_origin",
+
+
+
+
 
         ];
         $order_field_arr=  $sum_field_list ;
