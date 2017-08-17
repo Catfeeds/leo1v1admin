@@ -4436,11 +4436,6 @@ class tongji_ss extends Controller
             "order_location",
             "per_location",
 
-            "num_origin",
-            "order_origin",
-            "per_origin",
-
-
 
 
 
@@ -4576,8 +4571,6 @@ class tongji_ss extends Controller
                 \App\Helper\Utils::order_list( $location_arr,$paixu_arr[0], $order_type);
             }elseif($paixu_arr[1] == 'paper'){
                 \App\Helper\Utils::order_list( $paper_arr,$paixu_arr[0], $order_type);
-            }elseif($paixu_arr[1] == 'origin'){
-                \App\Helper\Utils::order_list( $origin_info,$paixu_arr[0], $order_type);
             }
         }
 
