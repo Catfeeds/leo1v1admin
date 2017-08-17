@@ -122,11 +122,59 @@ class testbb extends Controller
     }
 
     public function get_data_for_qc(){
-        $ret = $this->t_lesson_info_b2->get_data_for_qc();
+        // $s = 1501516800;
+        // $e = 1502726400;
+        $s = $this->get_in_int_val('s');
+        $e = $this->get_in_int_val('e');
+
+        $this->t_lesson_info_b2->switch_tongji_database();
+        $ret = $this->t_lesson_info_b2->get_data_for_qc($s,$e);
+
+
+        // 导出excel数据
+
+
+        // $name = '试听课未评价数据';
+        // $this->push($ret,$name);
         dd($ret);
     }
 
+    public function push($data,$name='试听课未评价数据'){
+        $objPHPExcel = new \PHPExcel();
+        /*以下是一些设置 ，什么作者  标题啊之类的*/
+        $objPHPExcel->getProperties()->setCreator("试听课未评价数据")
+             ->setLastModifiedBy("试听课未评价数据")
+             ->setTitle("数据EXCEL导出")
+             ->setSubject("数据EXCEL导出")
+             ->setDescription("备份数据")
+             ->setKeywords("excel")
+             ->setCategory("result file");
+        /*以下就是对处理Excel里的数据， 横着取数据，主要是这一步，其他基本都不要改*/
+        foreach($data as $k => $v){
+            $num=$k+1;
+            $objPHPExcel->setActiveSheetIndex(0)
+                 //Excel的第A列，uid是你查出数组的键值，下面以此类推
+                 ->setCellValue('A'.$num, $v['lessonid'])
+                 ->setCellValue('B'.$num, $v['seller_name'])
+                 ->setCellValue('C'.$num, $v['stu_nick'])
+                 ->setCellValue('D'.$num, $v['tea_name']);
+        }
 
+        $objPHPExcel->getActiveSheet()->setTitle('试听课未评价数据');
+        $objPHPExcel->setActiveSheetIndex(0);
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="'.$name.'.xls"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+
+
+        $objWriter->save('php://output');
+
+
+        // $objWriter->save(public_path()."/wximg/试听课未评价数据.xls");
+        exit;
+    }
 
 
 }

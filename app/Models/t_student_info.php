@@ -1875,9 +1875,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "m.account_role=1",
             "m.del_flag=0"
         ];
-        $this->where_arr_add_time_range($where_arr,"ass_assign_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"master_assign_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(distinct s.userid) un_revisit_num,m.uid"
-                                  ." from %s s left join %s r on (s.userid= r.userid and revisit_type  = 1)"
+                                  ." from %s s left join %s r on (s.userid= r.userid and revisit_type in (1,4))"
                                   ." left join %s a on s.assistantid = a.assistantid"
                                   ." left join %s m on m.phone= a.phone"
                                   ." where %s and ((ass_assign_time+24*86400)<r.revisit_time or r.revisit_time is null) group by m.uid",
@@ -1899,9 +1899,9 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "m.del_flag=0",
             "g.master_adminid=".$master_adminid
         ];
-        $this->where_arr_add_time_range($where_arr,"ass_assign_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"master_assign_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select m.uid,s.ass_assign_time,r.revisit_time,m.account,s.nick"
-                                  ." from %s s left join %s r on (s.userid= r.userid and revisit_type  = 1)"
+                                  ." from %s s left join %s r on (s.userid= r.userid and revisit_type in (1,4))"
                                   ." left join %s a on s.assistantid = a.assistantid"
                                   ." left join %s m on m.phone= a.phone"
                                   ." left join %s u on u.adminid=m.uid"
@@ -2025,12 +2025,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             "s.assistantid > 0",
             "(s.is_test_user = 0 or s.is_test_user is null)",
         ];
-        $this->where_arr_add_time_range($where_arr,"s.ass_assign_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"s.master_assign_time",$start_time,$end_time);
         $sql = $this->gen_sql_new(" select m.uid,s.userid,r.revisit_time "
                                   ." from %s s  "
                                   ." left join %s a on s.assistantid = a.assistantid "
                                   ." left join %s m on a.phone = m.phone "
-                                  ." left join %s r on ( r.userid= s.userid and r.revisit_type=1 and r.sys_operator <> 'system' and r.sys_operator <> '系统' and r.revisit_time >=s.ass_assign_time and (r.revisit_time - s.ass_assign_time)<=86400 )"
+                                  ." left join %s r on ( r.userid= s.userid and r.revisit_type in (1,4) and r.sys_operator <> 'system' and r.sys_operator <> '系统' and r.revisit_time >=s.ass_assign_time and (r.revisit_time - s.ass_assign_time)<=86400 )"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,

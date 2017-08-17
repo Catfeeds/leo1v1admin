@@ -330,10 +330,11 @@ class common_new extends Controller
              * 模板ID:SMS_86000023
              * 模板内容:${name}老师，您好！您已成功报名！请在${time}前，按照要求进行15分钟的课程试讲，相关信息已发至您邮箱（如找不到请检查垃圾箱），请尽快查阅。请关注并绑定“理优1对1老师帮”随时随地了解入职进度。理优致力于打造高水平的教学服务团队，期待您的到来，加油！
              */
-            $template_code = "SMS_86000023";
+            $template_code = 86000023;
+            $time = date("Y-m-d",strtotime("+3 day",time()));
             $sms_data = [
-                "name"=>$name,
-                "time"=>date("Y-m-d",strtotime("+3 day",time())),
+                "name" => $name,
+                "time" => $time,
             ];
             \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
 
@@ -755,6 +756,9 @@ class common_new extends Controller
         */
         $phone=$this->get_in_str_val("customerNumber");
         $cno =$this->get_in_str_val("cno");
+        \App\Helper\Utils::logger("$phone, $cno");
+
+        /*
         // check
         $userid=$this->t_seller_student_new->get_userid_by_phone($phone);
         $ss_info= $this->t_seller_student_new->field_get_list($userid,"*");
@@ -779,6 +783,7 @@ class common_new extends Controller
 
             }
         }
+        */
         return json_encode(["result"=>"success"]);
     }
 
@@ -833,7 +838,7 @@ class common_new extends Controller
             $called_flag==2?1:0
             ,
             "");
-        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time);
+        $this->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
         return json_encode(["result"=>"success"]);
     }
 

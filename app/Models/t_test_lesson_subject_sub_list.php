@@ -329,7 +329,9 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
     public function get_seller_test_lesson_order_info_new($start_time,$end_time,$require_adminid_list){
         $where_arr=[
             //["tr.cur_require_adminid=%u",$adminid,-1],
-            "lesson_user_online_status=1"
+            "lesson_user_online_status=1",
+            "l.userid>0",
+            // "s.is_test_user"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
         $this->where_arr_adminid_in_list($where_arr,"tr.cur_require_adminid", $require_adminid_list );
