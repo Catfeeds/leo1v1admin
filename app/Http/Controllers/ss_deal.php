@@ -2220,6 +2220,8 @@ class ss_deal extends Controller
                "sub_assign_adminid_1"  =>$sub_assign_adminid_1 
             ]);
 
+            $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
+
  
         }else{
             //分配给原来的销售

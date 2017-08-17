@@ -166,17 +166,13 @@ class testbb extends Controller
         header('Content-Disposition: attachment;filename="'.$name.'.xls"');
         header('Cache-Control: max-age=0');
 
-        header('Content-type: application/vnd.ms-excel');
 
-        // It will be called file.xls
-        header('Content-Disposition: attachment; filename="file.xls"');
 
-        // Write file to the browser
         $objWriter->save('php://output');
 
 
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save(public_path()."/wximg/试听课未评价数据.xls");
+        // $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+        // $objWriter->save(public_path()."/wximg/试听课未评价数据.xls");
         exit;
     }
 

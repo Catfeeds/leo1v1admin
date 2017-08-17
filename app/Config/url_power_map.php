@@ -24,6 +24,7 @@ class url_power_map {
 			'/t_yxyx_new_list/get_all'	=>1010969,
 			'/seller_student_new/assign_sub_adminid_list'	=>1150100,
 			'/seller_student_new/assign_member_list'	=>1150200,
+			'/seller_student_new/assign_member_list_master'	=>1150500,
 			'/seller_student_new/ass_master_seller_student_list'	=>1150300,
 			'/seller_student_new/ass_master_seller_master_student_list'	=>1153100,
 			'/seller_student_new2/tmk_student_list'	=>1150400,
