@@ -76,10 +76,10 @@ class agent extends Controller
 
             $id = $item['id'];
             $id_arr_new = array_unique(array_column($ret_info_new,'id'));
-            if(in_array($id,$id_arr_new)){
-            }else{
+            // if(in_array($id,$id_arr_new)){
+            // }else{
                 $ret_info_new[] = $item;
-            }
+            // }
         }
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
@@ -93,6 +93,7 @@ class agent extends Controller
                 }
             }
         }
+        dd($ret_info_new);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
