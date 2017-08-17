@@ -91,7 +91,6 @@ class agent extends Controller
         if($type){
             $ret_info_new = $ret_new;
         }
-        $succ_test_lesson_count = [];
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
             foreach($ret_info_new as $key=>&$item){
@@ -102,13 +101,8 @@ class agent extends Controller
                         $item['success_flag'] = 1;
                     }
                 }
-                //试听成功数
-                if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
-                    $succ_test_lesson_count[] = $item;
-                }
             }
         }
-        dd($succ_test_lesson_count);
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
