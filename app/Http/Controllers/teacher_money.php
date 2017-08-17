@@ -31,7 +31,7 @@ class teacher_money extends Controller
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        if(!in_array($teacher_money_type,[0,1,2,3])){
+        if(!in_array($teacher_money_type,[0,1,2,3,7])){
             $start = strtotime("-1 month",$start_time);
             $end   = strtotime("-1 month",$end_time);
             $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
@@ -45,7 +45,7 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(in_array($teacher_money_type,[0,1,2,3])){
+                if(in_array($teacher_money_type,[0,1,2,3,7])){
                     $already_lesson_count = $val['already_lesson_count'];
                 }
 

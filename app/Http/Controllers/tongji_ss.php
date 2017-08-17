@@ -4441,6 +4441,7 @@ class tongji_ss extends Controller
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"");
+        //                return array(true,"order by  $str", $field_name, $order_flag=="asc" );
 
         // 排序处理
 
@@ -4531,6 +4532,10 @@ class tongji_ss extends Controller
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
             $vv["name"] = E\Egrade::get_desc($kk);
+        }
+
+        if(!$order_in_db_flag){
+            
         }
         \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
