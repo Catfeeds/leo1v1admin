@@ -3126,4 +3126,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
+    public function get_data_for_qc(){
+        $s = 11;
+        $e = 11;
+
+        $sql = $this->gen_sql_new(" select ");
+    }
 }
