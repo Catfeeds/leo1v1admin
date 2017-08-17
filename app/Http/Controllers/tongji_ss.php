@@ -735,6 +735,7 @@ class tongji_ss extends Controller
                     }
                 }
             }
+            dd($suc_test_arr);
             if(isset($ret_info['list'][4]['all_count'])){
                 $ret_info['list'][4]['all_count'] = $all_count;
                 $ret_info['list'][4]['assigned_count'] = $assigned_count;
