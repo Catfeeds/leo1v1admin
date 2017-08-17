@@ -4,7 +4,7 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            order_by_str: g_args.order_by_str,
+            // order_by_str: g_args.order_by_str,
 			      date_type_config:	$('#id_date_type_config').val(),
 			      date_type:	$('#id_date_type').val(),
 			      opt_date_type:	$('#id_opt_date_type').val(),
@@ -15,7 +15,7 @@ $(function(){
         });
     }
 
-    console.log(g_args.order_by_str);
+    console.log('排序'+g_args.order_by_str);
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -29,7 +29,7 @@ $(function(){
     });
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
 
-    $('#id_order_by_str').val(g_args.order_by_str);
+    // $('#id_order_by_str').val(g_args.order_by_str);
     $("#id_seller_groupid_ex").init_seller_groupid_ex(g_adminid_right);
 
      $(".common-table").table_group_level_4_init();
