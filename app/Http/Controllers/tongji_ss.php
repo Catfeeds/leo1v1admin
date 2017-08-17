@@ -651,13 +651,21 @@ class tongji_ss extends Controller
                 $id_arr_new = array_unique(array_column($ret_new,'id'));
                 if(in_array($id,$id_arr_new)){
                 }else{
-                    $ret_new[] = $item;
+                    //例子总数
+                    $all_count++;
+                    if($item['lesson_start']){
+                        if($item['lesson_start']>$item['create_time']){
+                            $ret_new[] = $item;
+                        }
+                    }else{
+                        $ret_new[] = $item;
+                    }
                 }
             }
             if(count($userid_arr)>0){
                 foreach($ret_new as $key=>&$item){
                     //例子总数
-                    $all_count = $key+1;
+                    // $all_count = $key+1;
                     //已分配销售
                     if($item['admin_revisiterid']>0){
                         $assigned_count++;

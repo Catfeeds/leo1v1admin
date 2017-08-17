@@ -76,10 +76,17 @@ class agent extends Controller
 
             $id = $item['id'];
             $id_arr_new = array_unique(array_column($ret_info_new,'id'));
-            // if(in_array($id,$id_arr_new)){
-            // }else{
-                $ret_info_new[] = $item;
-            // }
+            if(in_array($id,$id_arr_new)){
+            }else{
+                // $all_count++;
+                if($item['lesson_start']){
+                    if($item['lesson_start']>$item['create_time']){
+                        $ret_info_new[] = $item;
+                    }
+                }else{
+                    $ret_info_new[] = $item;
+                }
+            }
         }
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
