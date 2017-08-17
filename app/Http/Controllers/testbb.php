@@ -129,6 +129,13 @@ class testbb extends Controller
 
         $this->t_lesson_info_b2->switch_tongji_database();
         $ret = $this->t_lesson_info_b2->get_data_for_qc($s,$e);
+
+
+        // 导出excel数据
+        
+
+
+
         dd($ret);
     }
 

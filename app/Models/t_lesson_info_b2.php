@@ -3160,4 +3160,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_train_lesson($teacherid,$subject){
+        $where_arr = [
+            ["userid=%u",$teacherid,0],
+            ["subject=%u",$subject,0],
+        ];
+        $sql = $this->gen_sql_new("select lessonid"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
+
 }

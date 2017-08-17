@@ -3749,8 +3749,8 @@ class user_manage_new extends Controller
         $phone = $this->get_in_str_val("phone");
 
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        $lecture_info = $this->t_teacher_lecture_appointment_info->get_lecture_info($id);
-
+        $lecture_info = $this->t_teacher_lecture_appointment_info->get_simple_info($phone);
+        $lessonid = $this->t_lesson_info_b2->get_train_lesson($teacherid,$lecture_info['subject']);
 
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "trans_subject_ex" => "",
