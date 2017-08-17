@@ -661,7 +661,8 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            // $all_count = count($ret_count);
+            $all_count = count($ret_count);
+            dd($ret_count);
             if(count($userid_arr)>0){
                 foreach($ret_new as $key=>&$item){
                     //例子总数
