@@ -179,9 +179,9 @@ class test_boby extends Controller
         $sql = " select tq.*, account,seller_student_status from db_weiyi_admin.t_tq_call_info tq left  join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where  tq.phone='13958998177' order by start_time   limit 0,10";
     }
     public function phone(){
-        $limit = $this->get_in_str_val('limit');
-        $page_info = $this->get_in_page_info();
-        $ret_info=$this->t_tq_call_info->get_my_info($limit,$page_info);
+        // $limit = $this->get_in_str_val('limit');
+        // $page_info = $this->get_in_page_info();
+        $ret_info=$this->t_tq_call_info->get_my_info();
         $now=time(NULL);
         foreach($ret_info["list"] as &$item) {
             $record_url= $item["record_url"] ;
@@ -200,7 +200,7 @@ class test_boby extends Controller
 
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
-        return $this->pageView('http://admin.yb1v1.com/tq/get_list_by_phone',$ret_info);
+        dd($ret_info);
  
     }
 
