@@ -231,6 +231,9 @@ class login extends Controller
     public function reset_power($account) {
         $ret_permission = $this->t_manager_info->get_user_permission(array($account));
 
+        \App\Helper\Utils::logger("loginx4");
+
+
         $permission = array();
         foreach($ret_permission as $key => $value) {
             $permission[$value['account']] = $value['permission'];
@@ -303,6 +306,9 @@ class login extends Controller
 
     public function login()
     {
+        \App\Helper\Utils::logger("loginx1");
+
+
         $account  = strtolower(trim($this->get_in_str_val("account")));
         $password = $this->get_in_str_val('password');
         $seccode  = $this->get_in_str_val('seccode') ;
@@ -327,6 +333,7 @@ class login extends Controller
             return outputjson_error("密码不能和用户名相同，请重置密码！");
         */
 
+        \App\Helper\Utils::logger("loginx2");
         $password = md5($password."#Aaron");
         $ret_db   = $this->t_admin_users->user_login($account, $password);
 
@@ -352,6 +359,10 @@ class login extends Controller
         }
 
         $permission = $this->reset_power($account);
+        \App\Helper\Utils::logger("loginx3");
+
+        // \App\Helper\Utils::logger("account1: $account");
+
         session($_SESSION) ;
         $this->t_admin_users->set_last_ip( $account,$ip );
 

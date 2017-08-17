@@ -23,7 +23,7 @@ class teacher_simulate extends Controller
 
         $list        = [];
         $reward_list = [];
-        foreach($tea_list['list'] as $val){
+        foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
             $tea_arr              = $list[$teacherid];
@@ -52,16 +52,23 @@ class teacher_simulate extends Controller
             $reward = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
             $reward_simulate = \App\Helper\Utils::get_teacher_lesson_money($val['type_simulate'],$already_lesson_count_simulate);
 
-            \App\Helper\Utils::check_isset_data($tea_arr['money'],$val['money']);
-            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$val['money_simulate']);
+            $lesson_count = $val['lesson_count']/100;
+
+            $reward          *= $lesson_count;
+            $reward_simulate *= $lesson_count;
+            $money          = $val['money']*$lesson_count+$reward;
+            $money_simulate = $val['money_simulate']*$lesson_count+$reward_simulate;
+            $lesson_price = $val['lesson_price']/100;
+            \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
+            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
             \App\Helper\Utils::check_isset_data($tea_arr['reward'],$reward);
             \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],$reward_simulate);
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$val['lesson_price']);
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$val['lesson_count']);
-
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$lesson_price);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
+            $list[$teacherid]=$tea_arr;
         }
-
-        return $this->pageView(__METHOD__,$tea_list);
+        dd($list);
+        return $this->pageView(__METHOD__,$list);
     }
 
 
