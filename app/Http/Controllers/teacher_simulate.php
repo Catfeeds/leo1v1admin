@@ -27,10 +27,10 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($list[$val['teacherid']],[],0);
             $tea_arr              = $list[$val['teacherid']];
             $tea_arr["teacherid"] = $val['teacherid'];
-
-            \App\Helper\Utils::check_isset_data($list[$val['teacherid']][',[],0);
-            \App\Helper\Utils::check_isset_data($list[$val['teacherid']]['money'],[],0);
-
+            \App\Helper\Utils::check_isset_data($tea_arr['money'],$val['money']);
+            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$val['money_simulate']);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$val['lesson_price']);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$val['lesson_count']);
 
         }
 
