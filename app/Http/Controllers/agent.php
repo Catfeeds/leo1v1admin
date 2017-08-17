@@ -101,8 +101,91 @@ class agent extends Controller
                         $item['success_flag'] = 1;
                     }
                 }
+                //已分配销售
+                if($item['admin_revisiterid']>0){
+                    $assigned_count[] = $item;
+                }
+                //TMK有效
+                if($item['tmk_student_status'] == 3){
+                    $tmk_assigned_count[] = $item;
+                }
+                //未拨打
+                if($item['global_tq_called_flag'] == 0){
+                    $tq_no_call_count[] = $item;
+                }
+                //已拨打
+                if($item['global_tq_called_flag'] != 0){
+                    $tq_called_count[] = $item;
+                }
+                //未接通
+                if($item['global_tq_called_flag'] == 1){
+                    $tq_call_fail_count[] = $item;
+                }
+                //已拨通-有效
+                if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 0){
+                    $tq_call_succ_valid_count[] = $item;
+                }
+                //已拨通-无效
+                if($item['global_tq_called_flag'] == 2 && $item['sys_invaild_flag'] == 1){
+                    $tq_call_succ_invalid_count[] = $item;
+                }
+                //未拨通-无效
+                if($item['global_tq_called_flag'] == 1 && $item['sys_invaild_flag'] == 1){
+                    $tq_call_fail_invalid_count[] = $item;
+                }
+                //有效意向(A)
+                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 100){
+                    $have_intention_a_count[] = $item;
+                }
+                //有效意向(B)
+                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 101){
+                    $have_intention_b_count[] = $item;
+                }
+                //有效意向(C)
+                if($item['global_tq_called_flag'] == 2 && $item['seller_student_status'] == 102){
+                    $have_intention_c_count[] = $item;
+                }
+                //预约数&&上课数
+                if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 ){
+                    $require_count[] = $item;
+                    $test_lesson_count[] = $item;
+                }
+                //试听成功数
+                if($item['accept_flag'] == 1 && $item['is_test_user'] == 0 && $item['require_admin_type'] == 2 && $item['lesson_user_online_status'] == 1 ){
+                    $succ_test_lesson_count[] = $item;
+                }
             }
         }
+        if($type==2){ //已分配销售
+            $ret_info_new = $assigned_count;
+        }elseif($type == 3){ //TMK有效
+            $ret_info_new = $tmk_assigned_count;
+        }elseif($type == 5){ //未拨打
+            $ret_info_new = $tq_no_call_count;
+        }elseif($type == 6){ //已拨打
+            $ret_info_new = $tq_called_count;
+        }elseif($type == 7){ //未接通
+            $ret_info_new = $tq_call_fail_count;
+        }elseif($type == 8){ //已拨通-有效
+            $ret_info_new = $tq_call_succ_valid_count;
+        }elseif($type == 9){ //已拨通-无效
+            $ret_info_new = $tq_call_succ_invalid_count;
+        }elseif($type == 10){ //未拨通-无效
+            $ret_info_new = $tq_call_fail_invalid_count;
+        }elseif($type == 11){ //有效意向(A)
+            $ret_info_new = $have_intention_a_count;
+        }elseif($type == 12){ //有效意向(B)
+            $ret_info_new = $have_intention_b_count;
+        }elseif($type == 13){ //有效意向(C)
+            $ret_info_new = $have_intention_c_count;
+        }elseif($type == 14){ //预约数
+            $ret_info_new = $require_count;
+        }elseif($type == 15){ //上课数
+            $ret_info_new = $test_lesson_count;
+        }elseif($type == 16){ //试听成功数
+            $ret_info_new = $succ_test_lesson_count;
+        }
+
         return $this->pageView(__METHOD__, \App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 

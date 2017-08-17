@@ -9,7 +9,7 @@ $(function(){
 
     var do_add_or_update = function( opt_type, item ,id){
         var html_txt = $.dlg_get_html_by_class('dlg_add_new_info');
-        html_txt=html_txt.
+        html_txt = html_txt.
             replace(/\"id_upload_add\"/, "\"id_upload_add_tmp\"" ).
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
         ;
@@ -17,13 +17,13 @@ $(function(){
         var pic_url = "";
         var pic_img = "";
 
-        if (opt_type=="update") {
-            pic_url=item.pic;
-            pic_img="<img width=100 src=\""+pic_url+"\" />";
+        if (opt_type == "update") {
+            pic_url = item.new_pic;
+            pic_img = "<img width=100 src=\""+pic_url+"\" />";
             html_node.find(".add_header_img").html(pic_img);
             html_node.find(".add_pic").html(pic_url);
-            html_node.find(".add_title").val(item.title);
-            html_node.find(".add_des").val(item.des);
+            html_node.find(".add_title").val(item.new_title);
+            html_node.find(".add_content").val(item.new_content);
         }
 
         var title = "";
@@ -64,7 +64,7 @@ $(function(){
                                 data : {
                                     "id"           : id
                                     ,"new_title"   : new_title
-                                    ,"new_content" : new_des
+                                    ,"new_content" : new_content
                                     ,"new_pic"     : new_pic
                                 },
                                 success : function(result){
