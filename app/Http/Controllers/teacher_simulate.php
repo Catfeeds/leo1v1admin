@@ -29,6 +29,19 @@ class teacher_simulate extends Controller
             $tea_arr              = $list[$val['teacherid']];
             $tea_arr["teacherid"] = $val['teacherid'];
 
+            $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
+            if($check_type==2 ){
+                if(!isset($reward_list[$val['teacherid']]['already_lesson_count'])){
+                    $last_start_time = strtotime("-1 month",$start_time);
+                    $last_end_time   = strtotime("-1 month",$end_time);
+                    $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+                        $val['teacherid'],$last_start_time,$last_end_time
+                    );
+                    $reward_list[$val["teacherid"]]["already_lesson_count"]=$already_lesson_count;
+                }else{
+                    
+                }
+            }
             if(!in_array($val['teacher_money_type'],[0,1,2,3]) && !isset($reward_list[$val['teacherid']]['already_lesson_count'])){
                 $last_start_time = strtotime("-1 month",$start_time);
                 $last_end_time   = strtotime("-1 month",$end_time);
@@ -45,12 +58,4 @@ class teacher_simulate extends Controller
         return $this->pageView(__METHOD__,$tea_list);
     }
 
-    public function get_teacher_already_lesson_count($val,$already_lesson_count,$type=1){
-        
-        if(!isset($already_lesson_count)){
-            if(in_array($val['teacher_money_type'],[0,1,2,3,7])){
-                
-            }
-        }
-    }
 }
