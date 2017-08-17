@@ -2757,7 +2757,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacherid,$teacher_money_type,$level
+        $page_num,$start_time,$end_time,$teacherid,$teacher_money_type,$level
     ){
         if($teacherid!=-1){
             $where_arr[]=["t.teacherid=%u",$teacherid,-1];
