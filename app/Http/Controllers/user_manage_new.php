@@ -309,7 +309,7 @@ class user_manage_new extends Controller
     }
 
     /**
-     * 新版老师工资计算,如果变动某些固定的工资或扣款,在 config/admin.php 文件中更改 teacher_money 的数值
+     * 老师工资计算,如果变动某些固定的工资或扣款,在 config/admin.php 文件中更改 teacher_money 的数值
      */
     public function tea_wages_info(){
         list($start_time, $end_time) = $this->get_in_date_range(date("Y-m-01",strtotime("-1 month",time())),0, 0,[],3 );
@@ -564,7 +564,6 @@ class user_manage_new extends Controller
             $this->change_num=0;
             $this->late_num=0;
         }
-
 
         if($val['confirm_flag']==2 && $val['deduct_change_class']>0){
             if($val['lesson_cancel_reason_type']==21){
