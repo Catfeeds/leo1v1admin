@@ -2771,10 +2771,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ];
         }
         if($ignore_level_up==0){
-            
-        }
+            $level_str = "l.level=m.level";
+        }else{
+            $level_str = "t.level=m.level";
+        };
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
-                                  ." l"
                                   ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
                                   ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
                                   ." from %s t "

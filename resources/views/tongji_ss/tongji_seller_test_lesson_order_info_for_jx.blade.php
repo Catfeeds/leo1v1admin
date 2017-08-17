@@ -229,8 +229,8 @@
                                      <td >签单率</td>
                                    -->
                                 {!!\App\Helper\Utils::th_order_gen([
-                                    ["试听成功数","succ_test_lesson_count_origin" ],
-                                    ["签单数","order_count_origin" ],
+                                    ["试听成功数","num_origin" ],
+                                    ["签单数","order_origin" ],
                                     ["签单率","per_origin"],
                                    ])  !!}
 
