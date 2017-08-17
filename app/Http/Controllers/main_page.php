@@ -13,6 +13,12 @@ class main_page extends Controller
     function __construct()  {
         parent::__construct();
     }
+    public  function market() {
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        $role_2_diff_money= $this->t_order_info-> get_spec_diff_money_all( $start_time,$end_time,E\Eaccount_role::V_2 );
+        $role_1_diff_money= $this->t_order_info-> get_spec_diff_money_all( $start_time,$end_time,E\Eaccount_role::V_1 );
+
+    }
 
     public  function admin() {
         $adminid = $this->get_account_id();

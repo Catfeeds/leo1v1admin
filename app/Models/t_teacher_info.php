@@ -1276,7 +1276,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             return $item['teacherid'];
         });
     }
-
     public function get_is_week_freeze_info(){
         $sql = $this->gen_sql_new("select * from %s where is_week_freeze=1",self::DB_TABLE_NAME);
         return $this->main_get_list($sql);

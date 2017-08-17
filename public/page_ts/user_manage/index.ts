@@ -177,45 +177,26 @@ $(function(){
 
     $(".opt-test-user").on("click", function(){
         var opt_data=$(this).get_opt_data();
-    var userid=opt_data.userid;
+        var $is_test_user= $("<select/>");
+        Enum_map.append_option_list("boolean", $is_test_user,true );
+        $is_test_user.val(opt_data.is_test_user);
+        var arr=[
+            ["测试用户" , $is_test_user]
+        ];
 
+        $.show_key_value_table("测试用户", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax( "/user_manage/set_test_user", {
 
-        var html_node=$('<div></div>').html($.dlg_get_html_by_class('cl_dlg_change_type'));
-        html_node.find("#id_set_channel").val();
-        BootstrapDialog.show({
-            title: '设置测试用户',
-            message : html_node,
-            closable: false,
-            buttons: [{
-                label: '返回',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            }, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function(dialog) {
-                var user_type     = html_node.find("#id_set_channel").val();
-                $.ajax({
-                  type     :"post",
-                  url      :"/user_manage/set_test_user",
-                  dataType :"json",
-                  data     :{
-                            "userid":userid,
-                            "type":user_type
-                        },
-                  success  : function(result){
-                            if(result['ret'] != 0){
-                                alert(result['info']);
-                            }else{
-                                window.location.reload();
-                            }
-                  }
-                });
-                }
-            }]
+                    "userid":opt_data.userid ,
+                    "type":$is_test_user.val()
+                } );
+            }
         });
-  });
+
+    });
 
 
 

@@ -476,8 +476,49 @@ class ajax_deal extends Controller
     public function order_reset_diff_money () {
         $orderid = $this->get_in_int_val("orderid");
         $before_lesson_count=0;
-        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
-            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+        $item= $this->t_order_info->field_get_list($orderid,"*");
+        /*
+        `order_promotion_type` int(11) NOT NULL COMMENT '促销分类',
+            `promotion_discount_price` int(11) NOT NULL COMMENT '折扣后价格*100',
+            `promotion_present_lesson` int(11) NOT NULL COMMENT '赠送*100',
+            `promotion_spec_discount` int(11) NOT NULL COMMENT '特殊折扣后价格*100',
+            `promotion_spec_present_lesson` int(11) NOT NULL COMMENT '特殊赠送*100',
+        */
+        $lesson_total = $item["default_lesson_count"]*$item["lesson_total"]/100;
+        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+            $item["competition_flag"],
+            $item["order_promotion_type"],
+            $item["contract_type"],
+            $item["grade"],
+            $lesson_total,
+            0
         );
+
+        $promotion_discount_price=$price_ret["discount_price"]*100;
+        $promotion_present_lesson=$price_ret["present_lesson_count"]*100;
+        $promotion_spec_discount = $item["promotion_spec_discount"];
+        $promotion_spec_present_lesson =$item[ "promotion_spec_present_lesson"];
+
+        $promotion_spec_diff_money =0;
+        if(!$promotion_spec_present_lesson)  {
+            $promotion_spec_present_lesson= $promotion_present_lesson;
+        }
+        if(!$promotion_spec_discount) {
+            $promotion_spec_discount= $promotion_discount_price;
+        }
+        //直接减钱
+        $promotion_spec_diff_money= (  $promotion_discount_price - $promotion_spec_discount   );
+        //课时
+        $promotion_spec_diff_money+= ($promotion_spec_present_lesson- $promotion_present_lesson ) * ($promotion_discount_price/$lesson_total )*0.6 ;
+
+        if ($promotion_spec_diff_money <0 ) {
+            $promotion_spec_diff_money =0;
+        }
+
+        $this->t_order_info->field_update_list($orderid,[
+            "promotion_spec_diff_money" => $promotion_spec_diff_money
+        ]);
+
+        return $this->output_succ();
     }
 }

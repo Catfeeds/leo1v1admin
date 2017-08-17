@@ -2611,11 +2611,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_spec_diff_money_all($start_time, $end_time,$account_role ) {
+    public function get_spec_diff_money_all($start_time, $end_time,$account_role , $contract_status = -1 ) {
         $where_arr=[
             ["m.account_role=%u", $account_role, -1  ],
             "promotion_spec_is_not_spec_flag=0",
+            "is_test_user=0",
         ];
+        $this->where_arr_add_int_or_idlist($where_arr,"contract_status",$contract_status);
 
         $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
 
@@ -2623,14 +2625,16 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "select  sum(promotion_spec_diff_money)/100 "
             . "from %s o"
             ." left join %s m on m.account=o.sys_operator "
+            ." left join %s s on s.userid=o.userid "
             ." left join %s f on ( f.from_key_int = o.orderid  and f.flow_type in ( 2002 ))"
             . " where %s  ",
             self::DB_TABLE_NAME,
             t_manager_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
             t_flow::DB_TABLE_NAME,
             $where_arr
         );
-        $this->main_get_value($sql);
+        return intval($this->main_get_value($sql));
     }
 
 

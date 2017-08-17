@@ -3745,7 +3745,19 @@ class user_manage_new extends Controller
     }
 
     public function reset_teacher_trans_subject(){
-        $id = $this->get_in_int_val("id");
+        $id    = $this->get_in_int_val("id");
+        $phone = $this->get_in_str_val("phone");
+
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $lecture_info = $this->t_teacher_lecture_appointment_info->get_simple_info($phone);
+        $lessonid = $this->t_lesson_info_b2->get_train_lesson($teacherid,$lecture_info['trans_subject_ex']);
+        if($lessonid>0){
+            return $this->output_err("此老师已经预约了面试试讲！无法重置！");
+        }
+        $lecture_flag = $this->t_teacher_lecture_info->check_have_video($phone);
+        if($lecture_flag>0){
+            return $this->output_err("此老师已提交了录制试讲！无法重置！");
+        }
 
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
             "trans_subject_ex" => "",
@@ -3754,4 +3766,11 @@ class user_manage_new extends Controller
 
         return $this->output_succ();
     }
+
+
+
+
+
+
+
 }

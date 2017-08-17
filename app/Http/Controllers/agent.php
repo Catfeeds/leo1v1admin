@@ -79,7 +79,17 @@ class agent extends Controller
             if(in_array($id,$id_arr_new)){
             }else{
                 $ret_info_new[] = $item;
+                if($item['lesson_start']){
+                    if($item['lesson_start']>$item['create_time']){
+                        $ret_new[] = $item;
+                    }
+                }else{
+                    $ret_new[] = $item;
+                }
             }
+        }
+        if($type){
+            $ret_info_new = $ret_new;
         }
         if(count($userid_arr)>0){
             $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
