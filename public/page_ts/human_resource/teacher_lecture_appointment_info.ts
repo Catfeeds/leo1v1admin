@@ -789,7 +789,31 @@ $(function(){
 
     $(".opt-trans_info").on("click",function(){
         var data = $(this).get_opt_data();
+	      BootstrapDialog.show({
+	          title   : "清除老师扩课信息",
+	          message : "是否清除老师扩课信息?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/user_manage_new/reset_teacher_trans_subject",{
+                        "id":data.id
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
 
+		            }
+	          }]
+        });
 
     });
 
