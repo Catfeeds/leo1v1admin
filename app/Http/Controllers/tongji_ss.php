@@ -684,7 +684,7 @@ class tongji_ss extends Controller
                         $order_all_money += $item['price'];
                     }
                 }                 
-           }
+            }
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售

@@ -937,7 +937,7 @@ class tongji2 extends Controller
             //$val["student_online"] = isset($student_online_detail[$k])?$student_online_detail[$k]:0;
             $val["student_online"] = isset($lesson_count_list[$k])?$lesson_count_list[$k]["user_count"]:0;
             //$val["student_all"] += $val["student_finish"];
-            $val["student_all"] =  isset($ass_month[$k]["student_all"])?$ass_month[$k]["student_all"]:0;
+            $val["student_all"] =  isset($ass_month[$k]["student_all_new"])?$ass_month[$k]["student_all_new"]:0;
             if($val['student_all'] > 0){
                 $val["student_finish_per"] = round($val["student_finish"]/$val["student_all"]*100,2);
                 $val["student_online_per"] = round($val["student_online"]/$val["student_all"]*100,2);
