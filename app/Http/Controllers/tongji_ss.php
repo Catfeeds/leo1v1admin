@@ -667,6 +667,7 @@ class tongji_ss extends Controller
                         $ret_new[] = $item;
                     }
                 }
+                //例子总数
                 $id_arr_new_two = array_unique(array_column($ret_info_new,'id'));
                 if(in_array($id,$id_arr_new_two)){
                 }else{
@@ -674,12 +675,9 @@ class tongji_ss extends Controller
                 }
 
             }
-            dd($ret_info_new);
-            $all_count = count($ret_info_count);
+            $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as $key=>&$item){
-                    //例子总数
-                    // $all_count = $key+1;
                     //已分配销售
                     if($item['admin_revisiterid']>0){
                         $assigned_count++;
