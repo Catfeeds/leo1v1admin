@@ -878,6 +878,8 @@ class Utils  {
     /**
      * 2017年02月24日16:18:42
      * 检测老师工资体系(新版试听和老版试听价格不同,公司全职试听课价格为0)
+     * type 1,3 课时累计由学生决定
+     * type 2 课时累计由上月决定
      * @param  teacher_money_type 老师工资分类
      * @param  teacher_type 老师类型
      * @return integer

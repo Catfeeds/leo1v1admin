@@ -48,8 +48,6 @@ class login extends Controller
 
         if (isset($node["list"])) {
 
-            \App\Helper\Utils::logger('name3: '.$node['name']);
-
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;
@@ -78,8 +76,6 @@ class login extends Controller
                 if (!$icon)  {
                     $icon="fa-folder-o";
                 }
-
-                \App\Helper\Utils::logger("sub_list_str33 ".$sub_list_str." name233: ".$node["name"]);
 
                 return  array('<li class="treeview " > <a href="#"> <i class="fa '.$icon.'  "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
