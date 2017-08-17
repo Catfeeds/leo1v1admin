@@ -4413,22 +4413,16 @@ class tongji_ss extends Controller
         ///  排序处理;
 
         $sum_field_list=[
-            "work_day",
-            "lesson_count",
-            "suc_count",
-            "lesson_per",
-            "order_count",
-            "order_per",
-            "all_price",
-            "money_per",
-            "tea_per",
-            "range"
+            "name",
+            "num",
+            "order",
+            "per",
         ];
-        $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
-
+        // $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
+        $order_field_arr=  $sum_field_list ;
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
-            =$this->get_in_order_by_str($order_field_arr ,"account desc");
+            =$this->get_in_order_by_str($order_field_arr ,"per desc");
 
         // 排序处理
 
