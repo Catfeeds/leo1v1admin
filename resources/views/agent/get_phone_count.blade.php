@@ -48,6 +48,7 @@
                     <td>时间</td>
                     <td>拨打者</td>
                     <td>拨打者id</td>
+                    <td>角色</td>
                     <td>电话</td>
                     <td>状态</td>
                     <td>是否打通</td>
@@ -61,6 +62,7 @@
                         <td>{{$var["start_time"]}} </td>
                         <td>{{$var["account"]}} </td>
                         <td>{{$var["uid"]}} </td>
+                        <td>{{$var["account_role_str"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["seller_student_status_str"]}} </td>
                         <td> <font color="{{ $var["is_called_phone"]?"green":"red"   }}"> {{$var["is_called_phone_str"]}} </font> </td>

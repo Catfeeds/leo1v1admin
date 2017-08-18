@@ -1138,6 +1138,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
             E\Eboolean::set_item_value_str($item,"is_called_phone");
             E\Eseller_student_status::set_item_value_str($item);
+            E\Eaccount_role::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->pageView(__METHOD__,$ret_info);
