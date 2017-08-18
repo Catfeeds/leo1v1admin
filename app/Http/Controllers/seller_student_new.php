@@ -336,7 +336,7 @@ class seller_student_new extends Controller
             E\Etest_lesson_fail_flag::set_item_value_str($item);
             E\Etest_lesson_order_fail_flag::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"confirm_adminid","confirm_admin_nick");
-
+            $this->cache_set_item_student_nick($item);
             $this->cache_set_item_teacher_nick($item);
             $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");
             $this->cache_set_item_student_nick($item,"origin_userid","origin_user_nick");
@@ -401,9 +401,30 @@ class seller_student_new extends Controller
                 $item["lesson_price"] = "";
             }
             $item["all_price"] = $item["price"]+$item["discount_price"];
+
+            if($item['test_lesson_order_fail_flag'] == null){
+                $item['test_lesson_order_fail_flag'] = 0;
+            }
+            if(in_array($item['test_lesson_order_fail_flag'],[1001,1002,1003,1004])){//自身原因
+                $item['test_lesson_order_fail_flag_one'] = 10;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1101,1102,1103])){//价格原因
+                $item['test_lesson_order_fail_flag_one'] = 11;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1201,1202])){//品牌信任度
+                $item['test_lesson_order_fail_flag_one'] = 12;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,])){//教学能力
+                $item['test_lesson_order_fail_flag_one'] = 13;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1401,1402,1403])){//教学态度
+                $item['test_lesson_order_fail_flag_one'] = 14;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1501,1502,1503,1504])){//产品问题
+                $item['test_lesson_order_fail_flag_one'] = 15;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1601,1602,1603,1604])){//时间问题
+                $item['test_lesson_order_fail_flag_one'] = 16;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1701])){//考虑中
+                $item['test_lesson_order_fail_flag_one'] = 17;
+            }else{//未设置
+                $item['test_lesson_order_fail_flag_one'] = 0;
+            }
         }
-
-
         $count_info =$this->t_seller_student_new->get_seller_count_list(
             $admin_revisiterid,  $status_list_str, $userid, $seller_student_status ,
             $origin, $opt_date_str, $start_time, $end_time, $grade, $subject,
@@ -444,7 +465,6 @@ class seller_student_new extends Controller
         $page_hide_list = $this->get_page_hide_list($cur_page);
 
         $ret_info = $this->seller_student_list_data();
-
         unset($ret_info["count_info"]);
 
         $adminid = $this->get_account_id();
@@ -604,11 +624,11 @@ class seller_student_new extends Controller
                 return $this->output_err("今天的配额,已经用完了");
             }
             //检查是否有成功试听未回访
-            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-            // $userid_new = $lesson_call_end['userid'];
-            // if($userid_new){
-            //     return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
-            // }
+            $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            $userid_new = $lesson_call_end['userid'];
+            if($userid_new){
+                return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
+            }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
@@ -1054,6 +1074,53 @@ class seller_student_new extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
+
+    public function test_lesson_order_fail_list_new() {
+        $cur_require_adminid=$this->get_in_int_val("cur_require_adminid",-1);
+        $this->get_in_int_val("hide_cur_require_adminid",0);
+        list($start_time, $end_time)=$this->get_in_date_range(-30,0);
+        $page_num          = $this->get_in_page_num();
+        $origin_userid_flag = $this->get_in_enum_val(E\Eboolean::class , -1,"origin_userid_flag" );
+        $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
+        $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
+        $userid=$this->get_in_userid(-1 );
+        $ret_info=$this->t_test_lesson_subject_require->get_order_fail_list($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
+        foreach ($ret_info["list"] as &$item ) {
+            $this->cache_set_item_student_nick($item);
+            $this->cache_set_item_teacher_nick($item);
+            $this->cache_set_item_account_nick ($item,"cur_require_adminid",
+                                                "cur_require_admin_nick");
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item);
+            E\Econtract_status::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
+            \App\Helper\Utils::unixtime2date_for_item($item,"test_lesson_order_fail_set_time");
+            if(in_array($item['test_lesson_order_fail_flag'],[1001,1002,1003,1004])){//自身原因
+                $item['test_lesson_order_fail_flag_one'] = 10;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1101,1102,1103])){//价格原因
+                $item['test_lesson_order_fail_flag_one'] = 11;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1201,1202])){//品牌信任度
+                $item['test_lesson_order_fail_flag_one'] = 12;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,])){//教学能力
+                $item['test_lesson_order_fail_flag_one'] = 13;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1401,1402,1403])){//教学态度
+                $item['test_lesson_order_fail_flag_one'] = 14;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1501,1502,1503,1504])){//产品问题
+                $item['test_lesson_order_fail_flag_one'] = 15;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1601,1602,1603,1604])){//时间问题
+                $item['test_lesson_order_fail_flag_one'] = 16;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1701])){//考虑中
+                $item['test_lesson_order_fail_flag_one'] = 17;
+            }else{//未设置
+                $item['test_lesson_order_fail_flag_one'] = 0;
+            }
+        }
+        return $ret_info['list'][0];
+    }
+
+
 
     public function test_lesson_order_fail_list_ass() {
         return $this->test_lesson_order_fail_list_seller();
