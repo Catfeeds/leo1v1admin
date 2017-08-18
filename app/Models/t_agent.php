@@ -495,6 +495,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
+            'l.lesson_start > a.create_time',
             // "s.origin = '优学优享'",
         ];
 
