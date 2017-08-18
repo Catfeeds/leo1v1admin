@@ -12,14 +12,21 @@
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
      function go_to_lesson(obj){
          var par = 'check_value=' + $(obj).attr("data-val");
-         if ( $(obj).attr("data-val") !== '') {
-             if(location.search){
-                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+"&"+par);
-             } else {
-                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info?"+par);
-             }
+         if(location.search){
+             window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+"&"+par);
+         } else {
+             window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info?"+par);
          }
      }
+     function go_to_order(obj){
+         var par = 'check_value=' + $(obj).attr("data-val");
+         if(location.search){
+             window.open("http://admin.yb1v1.com/tongji_ss/origin_count_order_info"+location.search+"&"+par);
+         } else {
+             window.open("http://admin.yb1v1.com/tongji_ss/origin_count_order_info?"+par);
+         }
+     }
+
     </script>
     <section class="content">
         <div class="book_filter">
@@ -254,12 +261,17 @@
                              <td>{{@$var["have_intention_c_count"]}}</td>
                              <td>{{@$var["require_count"]}}</td>
                              <td>
-                                 <span onclick="go_to_lesson(this)" data-val="{{@$var["key4"]}}">
+                                 <a href="javascript:;" onclick="go_to_lesson(this)" data-val="{{@$var["key4"]}}">
                                      {{@$var["test_lesson_count"]}}
-                                 </span>
+                                 </a>
                              </td>
                              <td>{{@$var["succ_test_lesson_count"]}}</td>
-                             <td>{{@$var["order_count"]}}</td>
+                             <td>
+                                 <a href="javascript:;" onclick="go_to_order(this)" data-val="{{@$var["key4"]}}">
+                                     {{@$var["order_count"]}}
+                                 </a>
+                             </td>
+
                              <td>{{@$var["user_count"]}}</td>
                              <td>{{@$var["order_all_money"]}}</td>
                          @endif
