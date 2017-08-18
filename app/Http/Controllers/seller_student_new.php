@@ -47,7 +47,7 @@ class seller_student_new extends Controller
     //转介绍待分配例子--总监
     public function assign_member_list_master ( ) {
         $adminid=$this->get_account_id();
-       
+
         $main_master_flag = $this->t_admin_main_group_name->check_is_master(2,$adminid);
         if($adminid==349){
             $main_master_flag=1;
@@ -59,7 +59,7 @@ class seller_student_new extends Controller
         $this->set_in_value("main_master_flag", $main_master_flag);
         $this->set_in_value("admin_revisiterid", 0);
         $this->set_in_value("sub_assign_adminid_2", 0);
-       
+
 
         return $this->assign_sub_adminid_list();
     }
@@ -1032,9 +1032,26 @@ class seller_student_new extends Controller
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start","","Y-m-d H:i");
             \App\Helper\Utils::unixtime2date_for_item($item,"test_lesson_order_fail_set_time");
-
+            if(in_array($item['test_lesson_order_fail_flag'],[1001,1002,1003,1004])){//自身原因
+                $item['test_lesson_order_fail_flag_one'] = 10;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1101,1102,1103])){//价格原因
+                $item['test_lesson_order_fail_flag_one'] = 11;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1201,1202])){//品牌信任度
+                $item['test_lesson_order_fail_flag_one'] = 12;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1311,1312,1313,])){//教学能力
+                $item['test_lesson_order_fail_flag_one'] = 13;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1401,1402,1403])){//教学态度
+                $item['test_lesson_order_fail_flag_one'] = 14;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1501,1502,1503,1504])){//产品问题
+                $item['test_lesson_order_fail_flag_one'] = 15;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1601,1602,1603,1604])){//时间问题
+                $item['test_lesson_order_fail_flag_one'] = 16;
+            }elseif(in_array($item['test_lesson_order_fail_flag'],[1701])){//考虑中
+                $item['test_lesson_order_fail_flag_one'] = 17;
+            }else{//未设置
+                $item['test_lesson_order_fail_flag_one'] = 0;
+            }
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1141,7 +1158,7 @@ class seller_student_new extends Controller
             E\Epad_type::set_item_value_str($item,"has_pad");
             E\Etq_called_flag::set_item_value_str($item,"global_tq_called_flag");
             E\Eorigin_level::set_item_value_str($item);
-           
+
             $this->cache_set_item_account_nick($item,"sub_assign_adminid_2","sub_assign_admin_2_nick");
             $this->cache_set_item_account_nick($item,"admin_revisiterid","admin_revisiter_nick");
             $this->cache_set_item_account_nick($item,"origin_assistantid","origin_assistant_nick");

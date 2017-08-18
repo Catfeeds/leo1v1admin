@@ -42,7 +42,7 @@
                         <td>{{@$var["pp_nickname"]}} </td>
                         <!-- <td>{{@$var["userid"]}} </td> -->
                         <td>{{@$var["origin"]}} </td>
-                        @if(@$var['success_flag'])
+                        @if(@$var['lesson_user_online_status'])
                             <td>是 </td>
                         @else
                             <td>否 </td>

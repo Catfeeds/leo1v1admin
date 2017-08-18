@@ -83,7 +83,7 @@
                         <td>{{$var["contract_status_str"]}} </td>
                         <td>{{$var["test_lesson_order_fail_set_time"]}} </td>
                         <td>{{ $var["test_lesson_order_fail_flag"]? $var["test_lesson_order_fail_flag_str"]:""}} </td>
-                            <td>{{ $var["test_lesson_order_fail_desc"]}} </td>
+                        <td>{{ $var["test_lesson_order_fail_desc"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

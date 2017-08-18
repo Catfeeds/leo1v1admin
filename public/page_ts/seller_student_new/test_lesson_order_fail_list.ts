@@ -49,26 +49,42 @@ $(function(){
     );
     $.admin_select_user($('#id_userid'), "student", load_data );
 
-
-
+    var set_select_option_list=function(){
+        $("body").on("change","#edit_flag_one",function(){
+            if($('#edit_flag_one').val() == 0){
+                $('#edit_flag').html("<option value='0'>未设置</option>");
+            }else{
+                Enum_map.append_child_option_list("test_lesson_order_fail_flag", $(this),$("#edit_flag"),true);
+            }
+        });
+    };
+    set_select_option_list();
 
     $(".opt-edit").on("click",function(){
         var opt_data=$(this).get_opt_data();
 
-        var $test_lesson_order_fail_flag=$("<select/>");
+        var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
+        var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");
         var $test_lesson_order_fail_desc =$("<textarea/>");
         var arr=[
             ["上课时间", opt_data.lesson_start ] ,
             ["学生", opt_data.student_nick ] ,
             ["老师", opt_data.teacher_nick] ,
-            ["签约失败分类", $test_lesson_order_fail_flag ] ,
+            ["签约失败一级分类", $test_lesson_order_fail_flag_one ] ,
+            ["签约失败二级分类", $test_lesson_order_fail_flag ] ,
             ["签约失败说明", $test_lesson_order_fail_desc ] ,
         ];
 
-      Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
+        Enum_map.append_option_list("test_lesson_order_fail_flag_one",$test_lesson_order_fail_flag_one, true);
+        if(opt_data.test_lesson_order_fail_flag_one == 0){
+            $test_lesson_order_fail_flag.html("<option value='0'>未设置</option>");
+        }else{
+            Enum_map.append_child_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag_one,$("#edit_flag"),true);
+        }
+        // Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
+        $test_lesson_order_fail_flag_one.val( opt_data.test_lesson_order_fail_flag_one);
         $test_lesson_order_fail_flag.val( opt_data.test_lesson_order_fail_flag);
         $test_lesson_order_fail_desc.val( opt_data.test_lesson_order_fail_desc);
-
         var dlg=$.show_key_value_table( "签约失败设置", arr , {
             label: '确认',
             cssClass: 'btn-warning',
@@ -79,7 +95,6 @@ $(function(){
                     "test_lesson_order_fail_desc" : $test_lesson_order_fail_desc.val(),
                 });
             }});
-
     });
 
 
