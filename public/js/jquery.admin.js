@@ -594,12 +594,8 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                             noti_origin_file_func(this.origin_file_name);
                         }
 
-                  if(info.response){
-                      complete_func(up, info.response, file ,ctminfo);
-                  }else{
-                      complete_func(up, info, file,ctminfo );
-                  }
-
+                  console.log(info);
+                        complete_func(up, info.response, file, ctminfo);
               },
               'Error': function(up, err, errTip) {
                 console.log('Things below are from Error');
