@@ -38,13 +38,12 @@ $(function(){
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
+                    $.do_ajax("/user_deal/get_teacher_interview_info",{
                         "phone"           : phone,
                         "teacherid"       : opt_data.teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".lesson_money").text(lesson_price); 
-                        $tr.find(".final_money").text(final_price); 
+                        $tr.find(".interview_info").text(resp.data); 
                         
                         do_index++;
                         do_one();
