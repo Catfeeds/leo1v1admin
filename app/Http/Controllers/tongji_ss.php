@@ -6563,7 +6563,6 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_single( $field_name,$opt_date_str ,$start_time,$end_time,"",$origin_ex, $origin_level );
 
-        // dd($ret_info);
 
         foreach ($ret_info["list"] as &$item ) {
             $item["title"]= $item["check_value"];
