@@ -69,10 +69,22 @@ class t_seller_student_origin extends \App\Models\Zgen\z_t_seller_student_origin
         $where_arr[]= $ret_in_str;
         $this->where_arr_add_int_or_idlist($where_arr,"origin_level",$origin_level);
 
-        $sql = $this->gen_sql_new("select $field_name as check_value ,count(*) all_count,sum(global_tq_called_flag <>0) tq_called_count,sum(global_tq_called_flag=0 ) tq_no_call_count, sum(global_tq_called_flag=0 and global_seller_student_status =0  ) no_call_count,sum(n.admin_revisiterid >0) assigned_count,sum( global_seller_student_status = 1) invalid_count,sum(global_seller_student_status =2) no_connected_count,sum(global_seller_student_status =100) have_intention_a_count,sum(global_seller_student_status =101) have_intention_b_count,sum(global_seller_student_status =102)  have_intention_c_count,  sum( global_tq_called_flag =1 ) tq_call_fail_count ,sum( global_tq_called_flag =2 and  global_seller_student_status=1 ) tq_call_succ_invalid_count, sum( tmk_student_status=3 ) tmk_valid_count ".
-                                  " from %s n "
+        $sql = $this->gen_sql_new("select $field_name as check_value ,count(*) all_count"
+                                  .",sum(global_tq_called_flag <>0) tq_called_count"
+                                  .",sum(global_tq_called_flag=0 ) tq_no_call_count"
+                                  .",sum(global_tq_called_flag=0 and global_seller_student_status =0  ) no_call_count"
+                                  .",sum(n.admin_revisiterid >0) assigned_count"
+                                  .",sum( global_seller_student_status = 1) invalid_count"
+                                  .",sum(global_seller_student_status =2) no_connected_count"
+                                  .",sum(global_seller_student_status =100) have_intention_a_count"
+                                  .",sum(global_seller_student_status =101) have_intention_b_count"
+                                  .",sum(global_seller_student_status =102)  have_intention_c_count"
+                                  .",sum( global_tq_called_flag =1 ) tq_call_fail_count"
+                                  .",sum( global_tq_called_flag =2 and  global_seller_student_status=1) "
+                                  ." tq_call_succ_invalid_count, sum( tmk_student_status=3 ) tmk_valid_count"
+                                  ." from %s n "
                                   ." left join %s s on s.userid = n.userid"
-                                  . " where %s group by  check_value ",
+                                  ." where %s group by  check_value ",
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   $where_arr

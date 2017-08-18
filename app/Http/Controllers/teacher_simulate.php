@@ -70,12 +70,17 @@ class teacher_simulate extends Controller
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
             $lesson_price     = $val['lesson_price']/100;
 
+            if(in_array($val['contract_type'],[0,3])){
+                $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+            }
+
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
             \App\Helper\Utils::check_isset_data($tea_arr['reward'],$reward);
             \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],$reward_simulate);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$lesson_price);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
 
             $list[$teacherid] = $tea_arr;
         }
@@ -84,20 +89,35 @@ class teacher_simulate extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
-    public function get_simulate_price($lesson_total=0,$grade=101){
-        if($grade<200){
-            $grade=101;
+    public function get_lesson_price_simulate($info){
+        $lesson_total  = $info['lesson_total']*$info['default_lesson_count']/100;
+        if($lesson_total>0){
+            $has_promotion = 1;
+            if($info['price'] < $info['discount_price']){
+                $has_promotion = 2;
+            }
+            $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
+                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0
+            );
+            $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
+            $lesson_price_simulate=$info['lesson_count']*$per_price_simulate/100;
+        }else{
+            $lesson_price_simulate=0;
         }
-        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
-        $price_config[$grade];
-        foreach($price_config[$grade] as $key=>$val ){
-            if
-        }
-
-
-
-
+        return round($lesson_price_simulate,2);
     }
 
+    public function get_simulate_price(){
+        $competition_flag = 0;
+        $has_promotion    = 2;
+        $contract_type    = 0;
+        $grade            = 101;
+        $lesson_total     = 450;
+
+        $price = \App\OrderPrice\order_price_base::get_price_ex_cur(
+            $competition_flag,$has_promotion,$contract_type,$grade,$lesson_total,0
+        );
+        var_dump($price);
+    }
 
 }

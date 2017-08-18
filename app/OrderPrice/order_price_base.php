@@ -25,6 +25,7 @@ class order_price_base {
         305=> 150,
         */
     ];
+
     static $new_discount_config = [
         /*
         30 => 98,
@@ -45,7 +46,6 @@ class order_price_base {
         */
     ];
 
-
     static $next_discount_config =[
     ];
 
@@ -53,6 +53,7 @@ class order_price_base {
     ];
 
     static function get_value_from_config($config,$check_key,$def_value=0) {
+
         $last_value=$def_value;
         foreach ($config as  $k =>$v ) {
             if ($k > $check_key )  {
@@ -64,8 +65,8 @@ class order_price_base {
     }
 
     static public function get_price ($order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
-        $present_lesson_count=0;
-        $discount_count=100;
+        $present_lesson_count = 0;
+        $discount_count       = 100;
 
         $check_lesson_count = $lesson_count+$before_lesson_count;
 
@@ -73,21 +74,21 @@ class order_price_base {
             $present_lesson_config= $contract_type==0?static::$new_present_lesson_config: static::$next_present_lesson_config;
             $present_lesson_count=static::get_value_from_config($present_lesson_config, $check_lesson_count );
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-            $discount_config= $contract_type==0?static::$new_discount_config: static::$next_discount_config;
-            $discount_count=static::get_value_from_config($discount_config, $check_lesson_count,100 );
+            $discount_config = $contract_type==0?static::$new_discount_config: static::$next_discount_config;
+            $discount_count  = static::get_value_from_config($discount_config, $check_lesson_count,100);
         }
 
-        $price=static::$grade_price_config[$grade]*$lesson_count;
+        $price = static::$grade_price_config[$grade]*$lesson_count;
 
         return [
-             "price"=>$price,
-             "present_lesson_count"  => $present_lesson_count ,
-             "discount_price"=>$discount_count*$price/100,
-             "discount_count" => $discount_count,
-             "order_promotion_type" => $order_promotion_type,
-             "contract_type" => $contract_type,
-             "grade" => $grade,
-             "lesson_count" => $lesson_count,
+            "price"                => $price,
+            "present_lesson_count" => $present_lesson_count,
+            "discount_price"       => $discount_count*$price/100,
+            "discount_count"       => $discount_count,
+            "order_promotion_type" => $order_promotion_type,
+            "contract_type"        => $contract_type,
+            "grade"                => $grade,
+            "lesson_count"         => $lesson_count,
         ];
     }
 

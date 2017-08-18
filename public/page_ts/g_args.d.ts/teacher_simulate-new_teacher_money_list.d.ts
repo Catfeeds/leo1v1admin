@@ -4,12 +4,8 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	teacherid:	number;
 	teacher_money_type:	number;
 	level:	number;
-	is_test_user:	number;
-	page_num:	number;
-	page_count:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -57,10 +53,8 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			teacherid:	$('#id_teacherid').val(),
 			teacher_money_type:	$('#id_teacher_money_type').val(),
-			level:	$('#id_level').val(),
-			is_test_user:	$('#id_is_test_user').val()
+			level:	$('#id_level').val()
         });
     }
 
@@ -75,10 +69,8 @@ $(function(){
             load_data();
         }
     });
-	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_level').val(g_args.level);
-	$('#id_is_test_user').val(g_args.is_test_user);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -91,13 +83,6 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">teacherid</span>
-                <input class="opt-change form-control" id="id_teacherid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
                 <span class="input-group-addon">teacher_money_type</span>
                 <input class="opt-change form-control" id="id_teacher_money_type" />
             </div>
@@ -107,13 +92,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">level</span>
                 <input class="opt-change form-control" id="id_level" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">is_test_user</span>
-                <input class="opt-change form-control" id="id_is_test_user" />
             </div>
         </div>
 */

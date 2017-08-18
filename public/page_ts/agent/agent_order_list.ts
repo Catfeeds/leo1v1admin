@@ -63,11 +63,11 @@ $(function(){
         $pp_price.val(opt_data.pp_price);
         var arr=[
             ["orderid",  $orderid],
-            ["aid",  $aid],
-            ["pid",  $pid],
-            ["p_price",  $p_price],
-            ["ppid",  $ppid],
-            ["pp_price",  $pp_price],
+            // ["aid",  $aid],
+            // ["pid",  $pid],
+            ["上级转介绍费",  $p_price],
+            // ["ppid",  $ppid],
+            ["上上级转介绍费",  $pp_price],
         ];
 
         $.show_key_value_table("修改信息", arr ,{
@@ -76,11 +76,11 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/ajax_deal/agent_order_edit",{
                     "orderid":opt_data.orderid,
-                    "aid":$aid.val(),
-                    "orderid_new":$orderid.val(),
-                    "pid" : $pid.val() ,
+                    // "aid":$aid.val(),
+                    // "orderid_new":$orderid.val(),
+                    // "pid" : $pid.val() ,
                     "p_price" : $p_price.val() ,
-                    "ppid" : $ppid.val(),
+                    // "ppid" : $ppid.val(),
                     "pp_price" : $pp_price.val()
                 })
             }

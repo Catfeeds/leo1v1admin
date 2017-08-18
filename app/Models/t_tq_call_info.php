@@ -259,7 +259,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
           [customerProvince] => 上海
           [customerCity] => 上海
           [numberTrunk] => 02151368906
-          [queueName] => 
+          [queueName] =>
           [cno] => 2001
           [clientNumber] => 02145947224
           [status] => 双方接听
@@ -268,16 +268,62 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
           [bridgeDuration] => 00:00:05
           [cost] => 0.000
           [totalDuration] => 00:00:24
-          [recordFile] => 
+          [recordFile] =>
           [inCaseLib] => 不在
           [score] => 0
           [callType] => 点击外呼
           [comment] => 无
-          [taskName] => 
+          [taskName] =>
           [endReason] => 否
-          [userField] => 
+          [userField] =>
           [sipCause] => 200
         */
+
+    }
+
+    public function get_agent_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$type) {
+        $where_arr=[
+            ["m.uid=%u", $uid, -1] ,
+            ["tq.is_called_phone=%u", $is_called_phone, -1] ,
+            ["tq.phone='%s'", $phone, ''] ,
+            ["tq.start_time>=%u", $start_time, -1],
+            ["tq.start_time<%u", $end_time, -1] ,
+            ["a.type=%s", $type, -1] ,
+        ];
+        $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status);
+
+        $sql=$this->gen_sql_new(
+            "select distinct tq.*, m.account,t.seller_student_status,m.account_role "
+            ." from %s a"
+            ." left join %s s on s.userid=a.userid "
+            ." left join %s tq on a.phone=tq.phone "
+            ." left join %s m on  tq.uid=m.tquin "
+            ." left join %s n on  n.phone= tq.phone  "
+            ." left join %s t on  t.userid= s.userid "
+            ."  where  %s order by start_time ",
+            t_agent::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            $where_arr);
+
+        return $this->main_get_list_by_page($sql,$page_num);
+
+    }
+
+    public function get_user_call_admin_count( $phone, $start_time ) {
+        $where_arr=[
+            "phone"=> $phone,
+            "start_time> $start_time",
+        ];
+        $sql= $this->gen_sql_new(
+            "select count( distinct uid ) from %s where %s  ", 
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
 
     }
 

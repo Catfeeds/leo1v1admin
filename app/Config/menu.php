@@ -25,6 +25,7 @@ class menu{
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
                     ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
                     // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
                     ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                     ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
                     ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
@@ -357,10 +358,10 @@ class menu{
                 ["power_id"=>30, "name"=>"退费原因编辑",   "url"=>"/order_refund_confirm_config/refund_info"],
                 ["power_id"=>31, "name"=>"家长投诉",   "url"=>"/user_manage_new/parent_report"],
                 ["power_id"=>33, "name"=>"投诉处理-QC",   "url"=>"/user_manage/qc_complaint"],
-                // ["power_id"=>34, "name"=>"投诉处理-部门",   "url"=>"/user_manage/complaint_department_deal/"],
                 ["power_id"=>35, "name"=>"投诉处理-老师",   "url"=>"/user_manage/complaint_department_deal_teacher"],
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
-                ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc/"],
+                ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
+                ["power_id"=>38, "name"=>"软件反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 

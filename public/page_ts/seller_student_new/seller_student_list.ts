@@ -244,6 +244,16 @@ $(function(){
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
         }
+
+
+        //强制填写签单失败原因
+        // $.do_ajax("/seller_student_new/test_lesson_order_fail_list_seller",{
+        // } ,function(ret){
+            // alert('a');
+        //     ret=ret.data;
+        //     alert(ret.require_id);
+        // });
+
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 
@@ -1849,4 +1859,39 @@ function init_edit() {
 
     });
 
+    $(".opt-invalid-reason").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
+        var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");
+        var $test_lesson_order_fail_desc =$("<textarea/>");
+        var arr=[
+            ["上课时间", opt_data.lesson_start ] ,
+            ["学生", opt_data.student_nick ] ,
+            ["老师", opt_data.teacher_nick] ,
+            ["签约失败一级分类", $test_lesson_order_fail_flag_one ] ,
+            ["签约失败二级分类", $test_lesson_order_fail_flag ] ,
+            ["签约失败说明", $test_lesson_order_fail_desc ] ,
+        ];
+
+        Enum_map.append_option_list("test_lesson_order_fail_flag_one",$test_lesson_order_fail_flag_one, true);
+        if(opt_data.test_lesson_order_fail_flag_one == 0){
+            $test_lesson_order_fail_flag.html("<option value='0'>未设置</option>");
+        }else{
+            Enum_map.append_child_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag_one,$("#edit_flag"),true);
+        }
+        // Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
+        $test_lesson_order_fail_flag_one.val( opt_data.test_lesson_order_fail_flag_one);
+        $test_lesson_order_fail_flag.val( opt_data.test_lesson_order_fail_flag);
+        $test_lesson_order_fail_desc.val( opt_data.test_lesson_order_fail_desc);
+        var dlg=$.show_key_value_table( "签约失败设置", arr , {
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax( "/ss_deal/set_order_fail_info", {
+                    "require_id" : opt_data.require_id,
+                    "test_lesson_order_fail_flag" : $test_lesson_order_fail_flag.val(),
+                    "test_lesson_order_fail_desc" : $test_lesson_order_fail_desc.val(),
+                });
+            }});
+    });
 }

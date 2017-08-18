@@ -121,6 +121,9 @@
                                     <a class="opt-reset-acc" >重置审核人</a>
                                     <a class="opt-set-new-lesson" >重新排课</a>
                                 @endif
+                                @if($acc=="jack")
+                                    <a class="opt-test">测试</a>
+                                @endif
 
                             </div>
                         </td>

@@ -946,8 +946,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_all_train_num($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
-            ["t.train_through_new=%u",$train_through_new,-1]
+            "l.lesson_del_flag=0",
+            // ["t.train_through_new=%u",$train_through_new,-1]
         ];
+        if($train_through_new==1){
+            $where_arr[] = "t.train_through_new_time>0";
+        }
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -962,10 +966,62 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
+    public function get_all_train_num_new($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
+        $where_arr = [
+            "l.train_type=1",
+            "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time
+            // ["t.train_through_new=%u",$train_through_new,-1]
+        ];
+        if($train_through_new==1){
+            $where_arr[] = "t.train_through_new_time>0";
+        }
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+                                  ." from %s l left join %s ta on l.lessonid = ta.lessonid"
+                                  ." left join %s t on ta.userid  = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    
+    public function get_all_trial_train_num($start_time,$end_time,$teacher_list,$trial_train_status,$flag=false){
+        $where_arr = [
+            "l.train_type=4",
+            "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time,
+            // ["t.train_through_new=%u",$train_through_new,-1]
+            ["tr.trial_train_status",$trial_train_status,-1],
+            "tr.trial_train_status<3"
+        ];
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on tr.train_lessonid = l.lessonid and tr.type=1 and tr.lesson_style=5 "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
     public function get_all_train_num_real($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
+            "l.lesson_del_flag=0",
             ["t.train_through_new=%u",$train_through_new,-1],
             "lo.lessonid is not null and lo.lessonid>0"
         ];
@@ -2828,10 +2884,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
             ' l.lesson_type = 2 ',
-            ' l.lesson_del_flag = 1 ',
-            ' l.lesson_start > 1501516800 ',
-            // ' lss.success_flag = 0 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_start > 1502899200 ',
             ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];

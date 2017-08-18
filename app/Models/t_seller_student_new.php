@@ -138,6 +138,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
                     "first_revisit_time"   => 0,
+                    "sys_invaild_flag" => 0,
+                    "call_admin_count" => 0,
                     "add_time"             => time(NULL),
                 ]);
             }else{
@@ -317,7 +319,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 ["require_admin_type=%u",$require_admin_type,-1]
             ];
             $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
-            
+
             if($seller_student_status==-2){
                 $where_arr[] = "seller_student_status <> 60";
             }else{
@@ -386,7 +388,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
 
         $sql=$this->gen_sql_new(
-            "select   tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
+            "select   tr.require_id,tss.lessonid,tss.call_end_time,tr.curl_stu_request_test_lesson_time except_lesson_time,last_lesson_time, competition_call_adminid, competition_call_time,  pay_time, tr.test_lesson_order_fail_desc, tr.test_lesson_order_fail_flag ,seller_student_sub_status,f.flow_status as  stu_test_paper_flow_status, f.flowid as stu_test_paper_flowid ,o.price/100 as order_price, s.user_agent, tr.notify_lesson_day1, tr.notify_lesson_day2, tss.confirm_time,tss.confirm_adminid, tss.fail_greater_4_hour_flag , tr.current_lessonid, tss.test_lesson_fail_flag, tss.success_flag,  tss.fail_greater_4_hour_flag,  tss.fail_reason, t.current_require_id, t.test_lesson_subject_id ,add_time,   seller_student_status,  s.userid,s.nick, s.origin, ss.phone_location,ss.phone,ss.userid,ss.sub_assign_adminid_2,ss.admin_revisiterid, ss.admin_assign_time, ss.sub_assign_time_2 , s.origin_assistantid , s.origin_userid  ,  t.subject, s.grade,ss.user_desc, ss.has_pad, ss.last_revisit_time,ss.last_revisit_msg,tq_called_flag,next_revisit_time,l.lesson_start,l.lesson_del_flag, tr.require_time, l.teacherid, t.stu_test_paper, t.tea_download_paper_time,tr.seller_require_change_flag ,tr.seller_require_change_time  ,accept_adminid,t.stu_request_test_lesson_time,tt.phone tea_phone,tt.user_agent tea_user_agent,l.stu_performance rate_score,a.phone ass_phone,a.nick ass_name,l.lesson_status,o.contract_status,s.type study_type,s.lesson_count_all ,s.lesson_count_left,o.contract_type,o.price ,o.lesson_total ,o.discount_price ,o.order_status,tr.accept_flag ,s.init_info_pdf_url ,o.orderid  , tss.parent_confirm_time , p.wx_openid as parent_wx_openid,t.stu_request_lesson_time_info,t.stu_request_test_lesson_demand,ss.stu_score_info,ss.stu_character_info,t.textbook,s.editionid,tr.no_accept_reason,s.last_lesson_time,s.type stu_type,tmk_desc, tmk_student_status "
             .",aga.nickname "
             ."from  %s t "
             ." left join %s ss on  ss.userid = t.userid "
@@ -572,7 +574,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
             $this->where_arr_add__2_setid_field($where_arr,"ss.admin_revisiterid",$admin_revisiterid);
             $this->where_arr_add__2_setid_field($where_arr,"ss.sub_assign_adminid_2", $sub_assign_adminid_2);
-            
+
         }
 
         if($main_master_flag==1){
@@ -1589,13 +1591,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
-        $deal_count=$item_arr["call_admin_count"];
+        //$deal_count=$item_arr["call_admin_count"];
+        $phone=$item_arr["phone"];
+
         $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
         $invalid_str="";
-        if ($deal_count >=5  &&  $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
-            $invalid_flag=true;
-            $invalid_str=" $deal_count 人拨打,未接通";
+        if ( $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
+            $deal_count=  $this->task->t_tq_call_info->get_user_call_admin_count($phone,$add_time);
+            if ($deal_count >=5   ) {
+                $invalid_flag=true;
+                $invalid_str=" $deal_count 人拨打,未接通";
+            }
         }
+
         if ($invalid_count >=3 ) {
             $invalid_flag=true;
             $invalid_str=" 被cc 设置无效资源: $invalid_count 次 ";
@@ -1606,7 +1614,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
             if ($invalid_flag) {
                 $this->set_sys_invaild_flag($userid);
-                $this->task->t_book_revisit->add_book_revisit($item_arr["phone"],"系统:判定无效-". $invalid_str ,"system");
+                $this->task->t_book_revisit->add_book_revisit($phone,"系统:判定无效-". $invalid_str ,"system");
             }else{
                 $this->field_update_list($userid,[
                     "sys_invaild_flag" => 0,

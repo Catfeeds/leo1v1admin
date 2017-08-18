@@ -1260,6 +1260,7 @@ class user_manage extends Controller
 
     public function update_agent_order($orderid,$userid,$order_price){
         $agent_order = [];
+        $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
         if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
@@ -1274,7 +1275,7 @@ class user_manage extends Controller
                     $level2 = $this->check_agent_level($ret_info['pp_phone']);
                 }
                 $price           = $order_price/100;
-                $level1_price    = $price/20;
+                $level1_price    = $price/20>500?500:$price/20;
                 $level2_p_price  = $price/10>1000?1000:$price/10;
                 $level2_pp_price = $price/20>500?500:$price/20;
                 $pid = $ret_info['pid'];
@@ -1938,6 +1939,7 @@ class user_manage extends Controller
 
     public function complaint_department_deal_teacher(){
         $this->set_in_value('account_type',2);
+        // $this->set_in_value('complained_feedback_type',1); // 显示工作类型
         return $this->complaint_department_deal();
     }
 
@@ -1951,11 +1953,19 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
+    public function complaint_department_deal_product(){
+        $this->set_in_value('account_type',2);
+        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
+        return $this->complaint_department_deal();
+    }
+
+
     public function complaint_department_deal(){
-        $page_info = $this->get_in_page_info();
-        $account_id = $this->get_account_id();
+        $page_info    = $this->get_in_page_info();
+        $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
+        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
@@ -1983,7 +1993,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type );
 
 
         foreach($ret_info['list'] as $index=>&$item){
