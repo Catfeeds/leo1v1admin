@@ -235,10 +235,10 @@ class agent extends Controller
         // $agent_id = 211;//Amanda
         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         // dd($test_lesson);
-        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        $img = file_get_contents($url); 
-        file_put_contents('1.gif',$img); 
-        echo '<img src="1.gif">';
+        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
+        // $img = file_get_contents($url); 
+        // file_put_contents('1.gif',$img); 
+        // echo '<img src="1.gif">';
 
         // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
         // header("content-type:image/png");
@@ -247,6 +247,7 @@ class agent extends Controller
         // imagedestroy($imgg);
 
         // dd($imgg);
+        $this->update_agent_order($orderid=21007,$userid=277867,$price=3420000);
     }
 
     /**
@@ -311,9 +312,9 @@ class agent extends Controller
     }
 
     public function update_agent_order($orderid,$userid,$order_price){
-        $agent_order = [];
-        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
+        // $agent_order = [];
+        // $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
+        // if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -341,17 +342,18 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
-                $this->t_agent_order->row_insert([
-                    'orderid'     => $orderid,
-                    'aid'         => $ret_info['id'],
-                    'pid'         => $pid,
-                    'p_price'     => $p_price,
-                    'ppid'        => $ppid,
-                    'pp_price'    => $pp_price,
-                    'create_time' => time(null),
-                ]);
+                dd($level1,$price,$level1_price,$p_price);
+                // $this->t_agent_order->row_insert([
+                //     'orderid'     => $orderid,
+                //     'aid'         => $ret_info['id'],
+                //     'pid'         => $pid,
+                //     'p_price'     => $p_price,
+                //     'ppid'        => $ppid,
+                //     'pp_price'    => $pp_price,
+                //     'create_time' => time(null),
+                // ]);
             }
-        }
+        // }
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
@@ -1109,40 +1111,6 @@ class agent extends Controller
             ['list' => $ret_info],
             ['other'=>$other_info],
         ]);
-    }
-
-    public function get_phone_count(){
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],1);
-        $phone           = $this->get_in_phone();
-        $is_called_phone = $this->get_in_int_val("is_called_phone",-1, E\Eboolean::class );
-        $uid             = $this->get_in_int_val("uid",-1);
-        $page_num        = $this->get_in_page_num();
-        $seller_student_status  = $this->get_in_el_seller_student_status();
-        $type            = $this->get_in_int_val('agent_type');
-
-        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
-
-        $ret_info=$this->t_tq_call_info->get_agent_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$type );
-        $now=time(NULL);
-        foreach($ret_info["list"] as &$item) {
-            $record_url= $item["record_url"] ;
-            if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
-                $item["load_wav_self_flag"]=1;
-            }else{
-                $item["load_wav_self_flag"]=0;
-            }
-            if (preg_match("/api.clink.cn/", $record_url ) ) {
-                $item["record_url"].=$clink_args;
-            }
-
-            \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
-            E\Eboolean::set_item_value_str($item,"is_called_phone");
-            E\Eseller_student_status::set_item_value_str($item);
-            E\Eaccount_role::set_item_value_str($item);
-            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
-        }
-        return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 }

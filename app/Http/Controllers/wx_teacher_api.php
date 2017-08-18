@@ -135,16 +135,17 @@ class wx_teacher_api extends Controller
 
 
     public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
-        $complaint_info    = $this->get_in_str_val('complaint_info');
-        $complaint_img_url = $this->get_in_str_val('complaint_img_url');
-        $suggest_info      = $this->get_in_str_val('suggest_info');
+        $complaint_info    = $this->get_in_str_val('complaint_info','');
+        $serverId_str      = $this->get_in_str_val('serverId_str','');
+        $suggest_info      = $this->get_in_str_val('suggest_info','');
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_adminid_type = $this->get_in_int_val('complained_adminid_type'); // 被投诉人类型
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
         $complaint_type = $this->get_in_int_val('complaint_type');
 
-
+        $sever_name = $_SERVER['SERVER_NAME'];
+        $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -318,14 +319,10 @@ class wx_teacher_api extends Controller
 
             return $this->output_succ();
         }
-
-
     }
 
 
     //  处理反馈图片上传
-
-
     /**
        老师帮 微信
        只有一张图片时 直接将图片放入数据库 不需要压缩
@@ -375,15 +372,11 @@ class wx_teacher_api extends Controller
     public function savePicToServer($serverId ,$appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ) {
 
         $accessToken = $this->get_wx_token_jssdk( $appid_tec, $appscript_tec);
-        \App\Helper\Utils::logger('other1'.$accessToken);
-        \App\Helper\Utils::logger('mediawx'.$serverId);
 
         // 要存在你服务器哪个位置？
         $route = md5(date('YmdHis').rand());
         $savePathFile = '/tmp/'.$route.'.jpg';
-        // $savePathFile = public_path('wximg').'/'.$route.'.jpg';
         $targetName   = $savePathFile;
-        \App\Helper\Utils::logger('savePathFileurl'.$savePathFile);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
@@ -423,32 +416,6 @@ class wx_teacher_api extends Controller
         }
 
     }
-
-
-
-
-
-    function outputJson($array){
-        global $_GET;
-        $json_data=json_encode($array ,JSON_UNESCAPED_UNICODE) ;
-        if ( !$json_data) { //数据出问题了
-            deal_json_utf8_encode( $array );
-            $json_data=json_encode($array ,JSON_UNESCAPED_UNICODE) ;
-
-        }
-        if (!$json_data) {
-            $json_data=json_encode(["ret" => 6002,  "info"=> "JSON　出错"]  ,JSON_UNESCAPED_UNICODE);
-            logger("ERROR  JSON ..");
-        }
-
-        if( isset ($_GET['callback']) ) {
-            return htmlspecialchars($_GET['callback']) . '(' . $json_data . ')';
-        }else{
-            return  $json_data ;
-        }
-    }
-
-
 
     public function get_signature_str( $ref, $appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
         $token = $this->get_wx_token_jssdk(  $appid_tec, $appscript_tec);
@@ -492,20 +459,5 @@ class wx_teacher_api extends Controller
         return $json_jssdk_data;
     }
 
-    public function output_succ($arr=null) {
-        return $this->outputjson_success($arr );
-    }
-
-
-    function outputjson_success($array=null){
-        if (!is_array( $array) ){
-            $array=array();
-        }
-
-        $array['ret']  = 0;
-        $array['info'] = '成功';
-
-        return $this->outputJson( $array );
-    }
 
 }
