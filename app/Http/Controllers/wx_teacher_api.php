@@ -386,4 +386,11 @@ class wx_teacher_api extends Controller
         }
     }
 
+    public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
+
+        $wx        = new \App\Helper\Wx();
+        return $wx->get_wx_token($appid_tec,$appscript_tec);
+    }
+
+
 }
