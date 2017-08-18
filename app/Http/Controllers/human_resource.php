@@ -1446,6 +1446,8 @@ class human_resource extends Controller
             $tea_subject="(6)";   
         }elseif($adminid==770){
             $tea_subject="(4,6)";   
+        }elseif($adminid==895){
+            $tea_subject="(7,8,9)";
         }
 
         $grade        = $this->get_in_int_val("grade",-1);

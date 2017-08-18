@@ -100,7 +100,7 @@ class wx_teacher_api extends Controller
             $qc_openid_arr = [
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼 
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -132,6 +132,108 @@ class wx_teacher_api extends Controller
             return $this->output_succ();
         }
     }
+
+
+    public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
+        $department = $this->get_in_int_val('department');
+        $name       = $this->get_in_str_val('name');
+        $complaint_info    = $this->get_in_str_val('complaint_info');
+        $complaint_img_url = $this->get_in_str_val('complaint_img_url');
+        $suggest_info      = $this->get_in_str_val('suggest_info');
+        $teacherid         = $this->get_teacherid();
+        $complained_adminid_type = $this->get_in_int_val('complained_adminid_type'); // 被投诉人
+        $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
+        $complaint_type = $this->get_in_int_val('complaint_type');
+
+
+
+        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
+        if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
+            return $this->output_err("投诉已受理,请勿重复提交..");
+        }
+
+        // * 插入到投诉数据库中
+        $account_type   = '2'; // 老师类型
+
+        $ret_info_qc = $this->t_complaint_info->row_insert([
+            'complaint_type' => $complaint_type,
+            'userid'         => $teacherid,
+            'account_type'   => $account_type,
+            'add_time'       => time(NULL),
+            'complaint_info' => $complaint_info,
+        ]);
+
+
+        if ($ret_info_qc) {
+
+            // 通知QC处理
+            $log_time_date = date('Y-m-d H:i:s',time(NULL));
+            $opt_nick= $this->cache_get_teacher_nick($report_uid);
+
+            /**
+               {{first.DATA}}
+               待办主题：{{keyword1.DATA}}
+               待办内容：{{keyword2.DATA}}
+               日期：{{keyword3.DATA}}
+               {{remark.DATA}}
+             **/
+
+            $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
+            $data_msg = [
+                "first"     => "$opt_nick 老师发布了一条投诉",
+                "keyword1"  => "常规投诉",
+                "keyword2"  => "老师投诉内容:$report_msg",
+                "keyword3"  => "投诉时间 $log_time_date ",
+            ];
+            $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+            $wx=new \App\Helper\Wx();
+
+            $qc_openid_arr = [
+                // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
+                "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
+                "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
+                "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
+            ];
+
+            foreach($qc_openid_arr as $qc_item){
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+            }
+
+            // 给投诉老师反馈
+            /**
+             *kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc
+             {{first.DATA}}
+             反馈内容：{{keyword1.DATA}}
+             处理结果：{{keyword2.DATA}}
+             {{remark.DATA}}
+            **/
+            $url = '';
+            $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($report_uid);
+
+            $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+            $data['first']      = "您好,您的反馈我们已经收到! ";
+            $data['keyword1']   = $report_msg;
+            $data['keyword2']   = "已提交";
+            $data['remark']     = "我们会在3个工作日内处理,感谢您的反馈!";
+            \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher, $data,$url);
+
+            return $this->output_succ();
+        }
+
+
+
+
+    }
+
+    public function teacher_feed_back_software(){
+
+    }
+
+
+
 
 
 

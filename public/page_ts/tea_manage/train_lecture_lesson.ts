@@ -687,6 +687,11 @@ $(function(){
                     //console.log(arr[0][1]);
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                         id_total_score.val(parseInt(id_lecture_combined_score.val())+parseInt( id_lecture_content_design_score.val())+parseInt(id_teacher_language_performance_score.val())+parseInt(id_teacher_explain_rhythm_score.val())+parseInt(id_teacher_point_explanation_score.val())+parseInt(id_course_review_score.val())+parseInt(id_teacher_dif_point_score.val())+parseInt(id_teacher_mental_aura_score.val())+parseInt(id_teacher_class_atm_score.val())+parseInt(id_teacher_blackboard_writing_score.val()));
+                        if(id_total_score.val() <60){
+                            id_res.val(0);
+                        }else{
+                            id_res.val(1);
+                        }
 
                     });
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);

@@ -360,6 +360,12 @@ class common_new extends Controller
                 }
             }
 
+
+            //全职老师报名微信推送蔡老师
+            if($full_time==1 && $accept_adminid>0){
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"全职老师注册成功","全职老师注册成功",$name."老师已成功注册报名,请为他安排1对1面试课程",""); 
+            }
+
             return $this->output_succ();
         }else{
             return $this->output_err("添加失败，请重试！");
