@@ -690,15 +690,17 @@ class user_deal extends Controller
                 "keyword2"  => "您 从 $old_lesson_start 至 $old_lesson_end 的课程 已调整为 $lesson_start 至 $lesson_end",
                 "remark"     => " 修改人: $operation_name 联系电话: $operation_phone"
             ];
-            $this->t_teacher_info->send_template_msg($teacherid,$template_id,$data_msg,$url);
+            if(!empty($lesson_info['lesson_start'])){
+                $this->t_teacher_info->send_template_msg($teacherid,$template_id,$data_msg,$url);
 
-            $wx=new \App\Helper\Wx();
-            $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                $wx=new \App\Helper\Wx();
+                $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
 
-            // 获取教务的openid
-            $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
-            if ($jw_openid) {
-                $wx->send_template_msg($jw_openid,$template_id,$data_msg ,$url);
+                // 获取教务的openid
+                $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
+                if ($jw_openid) {
+                    $wx->send_template_msg($jw_openid,$template_id,$data_msg ,$url);
+                }
             }
 
             return $this->output_succ();
@@ -5405,6 +5407,21 @@ class user_deal extends Controller
 
         return $this->output_succ();
 
+    }
+
+    public function get_teacher_interview_info(){
+        $phone = $this->get_in_str_val("phone");
+        $teacherid = $this->get_in_int_val("teacherid");
+        $info = $this->t_teacher_lecture_info->get_last_interview_by_phone($phone);
+        $str = $this->t_teacher_record_list->get_last_interview_by_phone($teacherid);
+        if(empty($info)){
+            $data = $str;
+        }elseif(empty($str)){
+            $data = $info;
+        }else{
+            $data = $info.";".$str; 
+        }
+        return $this->output_succ(["data"=>$data]);
     }
 
 }

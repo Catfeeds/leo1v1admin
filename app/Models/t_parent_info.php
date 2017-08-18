@@ -116,10 +116,14 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
 
 
     public function wx_binding_from_qrcode( $wx_openid,  $phone  ) {
+        $db_wx_openid = '';
         $parent_item=$this->get_parentid_by_phone( $phone );
         $parentid= $parent_item["parentid"];
-        $db_wx_openid=$this->get_wx_openid($parentid);
-        if ($db_wx_openid && $db_wx_openid !=  $wx_openid   ) {
+        if($parentid){
+            $db_wx_openid=$this->get_wx_openid($parentid);
+        }
+
+        if ($db_wx_openid && ($db_wx_openid !=  $wx_openid   )) {
             $content = " 家长账号[$phone] 已经被别人绑定了 ";
         }else{
             $openid2= $this->get_parentid_by_wx_openid($wx_openid);

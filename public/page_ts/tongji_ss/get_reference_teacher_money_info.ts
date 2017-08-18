@@ -16,13 +16,13 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".course_plan").get_opt_data();
-                var teacherid = opt_data.teacherid;
-                if(teacherid>0){
-                    $.do_ajax("/teacher_money/get_teacher_total_money",{
+                var phone = opt_data.phone;
+                if(phone>0){
+                   /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
                         "start_time"       : "2017-06-20",
-                        "end_time"         : "2017-08-09",
+                        "end_time"         : "2017-08-018",
                     },function(resp){
                         console.log(resp.data);
                         var lesson_price=0;
@@ -37,7 +37,18 @@ $(function(){
                         
                         do_index++;
                         do_one();
+                        });*/
+                    $.do_ajax("/user_deal/get_teacher_interview_info",{
+                        "phone"           : phone,
+                        "teacherid"       : opt_data.teacherid
+                    },function(resp){
+                        console.log(resp.data);
+                        $tr.find(".interview_info").text(resp.data); 
+                        
+                        do_index++;
+                        do_one();
                     });
+
                 }else{
                     do_index++;
                     do_one();

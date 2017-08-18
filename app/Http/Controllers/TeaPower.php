@@ -381,6 +381,8 @@ trait  TeaPower {
                 $tea_subject="(5)";
             }elseif($adminid==770){
                 $tea_subject="(4,6)";
+            }elseif($adminid==895){
+                $tea_subject="";
             }else{
                 $master_adminid = $this->t_admin_main_group_name->get_master_adminid_list($account_role);
                 if(in_array($adminid,$master_adminid)){
@@ -2434,6 +2436,8 @@ trait  TeaPower {
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
+                $subject=10;
+            }elseif(in_array($adminid,[895])){
                 $subject=13;
             }else{
                 $subject=-1;
@@ -2451,6 +2455,8 @@ trait  TeaPower {
             }else if(in_array($adminid,[770])){
                 $subject=12;
             }elseif(in_array($adminid,[478])){
+                $subject=10;
+            }elseif(in_array($adminid,[895])){
                 $subject=13;
             }else{
                 $subject=-1;
@@ -2468,4 +2474,45 @@ trait  TeaPower {
         }
         return $check_flag;
     }
+
+    /**
+     * 获取老师上月累计课时
+     * @param teacher_money_type 老师工资类型
+     * @param teacher_type 老师类型
+     * @param start_time 开始时间
+     * @param end_time 结束时间
+     */
+    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){
+        $last_start_time = strtotime("-1 month",$start_time);
+        $last_end_time   = strtotime("-1 month",$end_time);
+        $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
+            $teacherid,$last_start_time,$last_end_time,$teacher_money_type
+        );
+        return $already_lesson_count;
+    }
+
+    /**
+     * 获取模拟课时单价
+     */
+    public function get_simulate_price($lesson_total=0,$grade=101){
+        if($grade<200){
+            $grade = 101;
+        }
+        
+        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
+
+        $last_per_price = 0;
+        foreach($price_config[$grade] as $key=>$val ){
+            if($lesson_total>=$key){
+                $last_per_price = $val;
+            }else{
+                break;
+            }
+        }
+
+        return $last_per_price;
+    }
+
+
+
 }

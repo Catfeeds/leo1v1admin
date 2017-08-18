@@ -31,7 +31,7 @@ class teacher_money extends Controller
         $start_time = $this->get_in_int_val("start_time",strtotime(date("Y-m-01",time())));
         $end_time   = $this->get_in_int_val("end_time",strtotime("+1 month",$start_time));
         $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-        if(!in_array($teacher_money_type,[0,1,2,3])){
+        if(!in_array($teacher_money_type,[0,1,2,3,7])){
             $start = strtotime("-1 month",$start_time);
             $end   = strtotime("-1 month",$end_time);
             $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
@@ -45,7 +45,7 @@ class teacher_money extends Controller
                 $base_list   = [];
                 $reward_list = [];
                 $full_list   = [];
-                if(in_array($teacher_money_type,[0,1,2,3])){
+                if(in_array($teacher_money_type,[0,1,2,3,7])){
                     $already_lesson_count = $val['already_lesson_count'];
                 }
 
@@ -327,7 +327,7 @@ class teacher_money extends Controller
             $list[$i]["teacher_ref_money"] = "0";
 
             // $check_type=\App\Helper\Utils::check_teacher_money_type($teacher_money_type);
-            if(!in_array($teacher_money_type,[0,1,2,3])){
+            if(!in_array($teacher_money_type,[0,1,2,3,7])){
                 $start_time = strtotime("-1 month",$start);
                 $end_time   = strtotime("-1 month",$end);
                 $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start_time,$end_time);
@@ -336,7 +336,7 @@ class teacher_money extends Controller
             $lesson_list = $this->t_lesson_info->get_lesson_list_for_wages($teacherid,$start,$end);
             if(!empty($lesson_list)){
                 foreach($lesson_list as $key=>&$val){
-                    if(in_array($teacher_money_type,[0,1,2,3])){
+                    if(in_array($teacher_money_type,[0,1,2,3,7])){
                         $already_lesson_count = $val['already_lesson_count'];
                     }
                     if($val['confirm_flag']!=2){
@@ -529,7 +529,7 @@ class teacher_money extends Controller
 
             if($type==2){
                 $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
-                if(!in_array($teacher_money_type,[0,4,5])){
+                if(!in_array($teacher_money_type,[0,4,5,6])){
                     return $this->output_err("老师工资分类错误！");
                 }
             }elseif($type==3){
@@ -563,30 +563,7 @@ class teacher_money extends Controller
     }
 
     public function get_teacher_info_for_total_money($info){
-        $teacher_money_type = $info['teacher_money_type'];
-        $level = $info['level'];
-        if($info['teacher_type']>20){
-            if($info['teacher_type']==32){
-                $level_str="";
-            }else{
-                $level_str="招师代理";
-            }
-        }else{
-            if($teacher_money_type==0){
-                if($level<3){
-                    $level_str = E\Elevel::$v2s_map[$level+1];
-                }elseif($level==3){
-                    $level_str = "明星";
-                }else{
-                    $level_str = "";
-                }
-            }elseif(in_array($teacher_money_type,[2,3])){
-                $level_str = "高级";
-            }else{
-                $level_str = E\Elevel::$v2s_map[$level];
-            }
-            $level_str.="讲师";
-        }
+        $level_str = \App\Helper\Utils::get_teacher_level_str($info);
 
         $teacher_type = $info['teacher_type']==32?32:0;
         $bank_status  = $info['bankcard']==""?"未绑定":"已绑定";

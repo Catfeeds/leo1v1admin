@@ -647,6 +647,7 @@ return array(
     'TMonthAssStudentInfoAddLessonTotalOld' => $baseDir . '/database/migrations/2017_06_14_150904_t_month_ass_student_info_add_lesson_total_old.php',
     'TMonthAssStudentInfoAddNewRefundMoney' => $baseDir . '/database/migrations/2017_06_01_113010_t_month_ass_student_info_add_new_refund_money.php',
     'TMonthAssStudentInfoAddReadStudentLast' => $baseDir . '/database/migrations/2017_06_01_140859_t_month_ass_student_info_add_read_student_last.php',
+    'TMonthAssStudentInfoAddReadStudentNewAllStudentNew' => $baseDir . '/database/migrations/2017_08_17_141340_t_month_ass_student_info_add_read_student_new_all_student_new.php',
     'TMonthAssWarningStudentInfoAddDoneFlag' => $baseDir . '/database/migrations/2017_07_20_163142_t_month_ass_warning_student_info_add_done_flag.php',
     'TMonthAssWarningStudentInfoModefiyPrimary' => $baseDir . '/database/migrations/2017_07_20_160459_t_month_ass_warning_student_info_modefiy_primary.php',
     'TOrderInfoAddChannel' => $baseDir . '/database/migrations/2017_07_12_164151_t_order_info_add_channel.php',

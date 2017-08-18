@@ -41,6 +41,7 @@ interface RowData {
 	contract_status_str	:any;
 	subject_str	:any;
 	grade_str	:any;
+	test_lesson_order_fail_flag_one	:any;
 }
 
 /*

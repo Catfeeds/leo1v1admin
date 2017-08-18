@@ -131,6 +131,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"
                                  ." aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ." ao.orderid aoid,"
+                                 ." o.price,"
                                  ." s.userid s_userid,s.origin,s.is_test_user, "
                                  ." n.admin_revisiterid,n.tmk_student_status,n.global_tq_called_flag,n.sys_invaild_flag,"
                                  ." t.seller_student_status,t.require_admin_type,"
@@ -139,6 +141,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
+                                 ." left join %s ao on ao.aid = a.id"
+                                 ." left join %s o on o.orderid = ao.orderid"
                                  ." left join %s n on n.userid = a.userid"
                                  ." left join %s s on s.userid = a.userid"
                                  ." left join %s t on t.userid= a.userid "
@@ -149,6 +153,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
+                                 ,t_agent_order::DB_TABLE_NAME
+                                 ,t_order_info::DB_TABLE_NAME
                                  ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_test_lesson_subject::DB_TABLE_NAME
@@ -482,14 +488,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
-            // ['a.parentid = %d ',$id],
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             's.is_test_user = 0',
-            // "s.origin = '优学优享'",
+            'l.lesson_start > a.create_time',
         ];
 
         $sql= $this->gen_sql_new(

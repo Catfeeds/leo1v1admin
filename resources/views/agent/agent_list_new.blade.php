@@ -28,7 +28,7 @@
                     <td>类型</td>
                     <td>上课时间</td>
                     <td>创建时间</td>
-                    <!-- <td>操作</td> -->
+                    <td>操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
                         <td>{{@$var["pp_nickname"]}} </td>
                         <!-- <td>{{@$var["userid"]}} </td> -->
                         <td>{{@$var["origin"]}} </td>
-                        @if(@$var['success_flag'])
+                        @if(@$var['lesson_user_online_status'])
                             <td>是 </td>
                         @else
                             <td>否 </td>
@@ -66,15 +66,15 @@
                         @endif
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
-                        <!-- <td>
-                             <div
-                             {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                             >
-                             <a class="fa fa-edit opt-edit aaa"  title="编辑"> </a>
-                             <a class="fa fa-times opt-del" title="删除"> </a>
+                        <td>
+                            <div
+                                {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
+                            >
+                                <a style="display:none;" class="fa fa-edit opt-edit aaa"  title="编辑"> </a>
+                                <a style="display:none;" class="fa fa-times opt-del" title="删除"> </a>
 
-                             </div>
-                             </td> -->
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -13,10 +13,33 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                               $user_id);
         return $this->main_get_list_by_page($sql,$page_info);
     }
+    public function get_all_list($page_info,$username,$grade,$semester,$stu_score_type ){
+        $where_arr = [
+            [" u.realname= '%s'",$username,''],
+            [" s.grade = %d ",$grade,-1],
+            [" s.semester = %d ",$semester,-1],
+            [" s.stu_score_type = %d ",$stu_score_type,-1],
+        ];
+        $sql = $this->gen_sql_new(" select s.userid,s.create_time,s.create_adminid,s.subject,"
+                                  ."s.stu_score_type,s.stu_score_time,s.score,s.rank,s.semester,"
+                                  ."s.total_score,s.grade,s.grade_rank,s.status,s.month,"
+                                  ."u.realname,u.school,m.name "
+                                  ." from      %s s "
+                                  ." left join %s u on s.userid         = u.userid "
+                                  ." left join %s m on s.create_adminid = m.uid "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME, //学生表userid
+                                  t_manager_info::DB_TABLE_NAME, //管理员表uid
+                                  $where_arr
+        );
 
-  public function set_every_month_student_score($time)
-  {
-       $where_str=$this->where_str_gen([
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+    public function set_every_month_student_score($time)
+    {
+        $where_str=$this->where_str_gen([
             ["t1.competition_flag=%u",0, -1 ] ,
             "t1.course_type=0"  ,
         ]);
@@ -39,7 +62,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
                             ,[$where_str]
         );
         return $this->main_get_list($sql);
-  }
+    }
 
     public function get_score_info_for_parent($parentid,$userid){
         $where_arr = [

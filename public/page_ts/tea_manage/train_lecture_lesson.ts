@@ -687,6 +687,11 @@ $(function(){
                     //console.log(arr[0][1]);
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
                         id_total_score.val(parseInt(id_lecture_combined_score.val())+parseInt( id_lecture_content_design_score.val())+parseInt(id_teacher_language_performance_score.val())+parseInt(id_teacher_explain_rhythm_score.val())+parseInt(id_teacher_point_explanation_score.val())+parseInt(id_course_review_score.val())+parseInt(id_teacher_dif_point_score.val())+parseInt(id_teacher_mental_aura_score.val())+parseInt(id_teacher_class_atm_score.val())+parseInt(id_teacher_blackboard_writing_score.val()));
+                        if(id_total_score.val() <60){
+                            id_res.val(0);
+                        }else{
+                            id_res.val(1);
+                        }
 
                     });
                     arr[0][1].parent().parent().parent().parent().parent().parent().parent().parent().css("width",970);
@@ -719,6 +724,63 @@ $(function(){
         console.log(opt_data.tt_add_time);
     });
 
+    $(".opt-set-server").on("click", function () {
+        var courseid = $(this).get_opt_data("courseid");
+        $.ajax({
+            url: '/stu_manage/get_course_server',
+            type: 'POST',
+            data: {
+                'courseid': courseid
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data['ret'] == 0) {
+                    var html_node = $.dlg_need_html_by_id("id_dlg_set_server");
+
+                    html_node.find("#id_region").val(data['info'][0]);
+                    html_node.find("#id_server").val(data['info'][1]);
+                    BootstrapDialog.show({
+                        title: '选择服务器',
+                        message: html_node,
+                        buttons: [{
+                            label: '返回',
+                            action: function (dialog) {
+                                dialog.close();
+                            }
+                        }, {
+                                label: '确认',
+                                cssClass: 'btn-warning',
+                                action: function (dialog) {
+                                    var region = html_node.find("#id_region").val();
+                                    var server = html_node.find("#id_server").val();
+                                    if (region == -1 || server == -1) {
+                                        alert("请选择地区以及服务器!");
+                                        return;
+                                    }
+                                    $.ajax({
+                                        url: '/stu_manage/set_course_server',
+                                        type: 'POST',
+                                        data: {
+                                            'courseid': courseid,
+                                            'region': region,
+                                            'id': server
+                                        },
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            if (data['ret'] == 0) {
+                                                window.location.reload();
+                                            } else {
+                                                alert(data['info']);
+                                            }
+                                        }
+                                    });
+                                }
+                            }]
+                    });
+                }
+            }
+        });
+    });
+
    	$('.opt-change').set_input_change_event(load_data);
 });
-

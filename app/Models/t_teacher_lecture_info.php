@@ -1743,4 +1743,13 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_value($sql);
     }
 
+    public function get_last_interview_by_phone($phone){
+        $sql = $this->gen_sql_new("select tl.reason from %s tl where tl.phone= '%s' and tl.confirm_time = (select max(confirm_time)  from %s where phone = tl.phone)",
+                                  self::DB_TABLE_NAME,
+                                  $phone,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
 }

@@ -652,6 +652,56 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list($sql);
     }
 
+    public function tongji_test_lesson_origin_info( $field_name, $start_time,$end_time,$adminid_list=[],$tmk_adminid=-1,$origin_ex="",$check_value, $page_info){
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="s.origin";
+            break;
+
+        case "grade" :
+            $field_name="l.grade";
+            break;
+
+        case "subject" :
+            $field_name="l.subject";
+            break;
+        default:
+            break;
+        }
+
+        $where_arr=[
+            "{$field_name}='{$check_value}'",
+        ];
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_adminid_in_list($where_arr,"t.require_adminid",$adminid_list);
+
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        //E\Etest_lesson_fail_flag
+        $sql=$this->gen_sql_new(
+            "select $field_name  as check_value , s.userid, s.phone, s.grade, s.nick, l.lesson_user_online_status"
+            ." from %s tr "
+            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+            ." join %s n  on t.userid=n.userid "
+            ." join %s tss on tr.current_lessonid=tss.lessonid "
+            ." join %s l on tr.current_lessonid=l.lessonid "
+            ." join %s s on s.userid = l.userid "
+            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+            ." and is_test_user=0 "
+            ." and require_admin_type = 2 ",
+            // ." group by check_value " ,
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            $where_arr,$start_time,$end_time );
+
+        return $this->main_get_list_by_page($sql,$page_info);
+    }
+
+
     public function tongji_test_lesson_origin_new(){
         $where_arr = [
             ' accept_flag = 1 ',
@@ -1874,6 +1924,37 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
        return $this->main_get_list_by_page($sql,$page_num);
 
    }
+
+   public function  get_order_fail_list_row($cur_require_adminid,$origin_userid_flag,$order_flag,$userid)
+   {
+       $where_arr=[
+           "lesson_del_flag=0",
+           "require_time>1502899200",
+           "test_lesson_order_fail_flag in (0,null)",
+           [ "l.userid=%u", $userid, -1],
+       ];
+       $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
+       $this->where_arr_add_boolean_for_value($where_arr,"origin_userid",$origin_userid_flag );
+       $this->where_arr_add_boolean_for_value($where_arr,"contract_status",$order_flag,true);
+       $sql= $this->gen_sql_new(
+           "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
+           " from %s tr".
+           " left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id".
+           " left join %s tss on tr.current_lessonid = tss.lessonid ".
+           " left join %s l on tr.current_lessonid = l.lessonid ".
+           " left join %s s on l.userid = s.userid ".
+           " left join %s o on tss.lessonid = o.from_test_lesson_id".
+           " where %s  order by lesson_start desc ",
+           self::DB_TABLE_NAME,
+           t_test_lesson_subject::DB_TABLE_NAME,
+           t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+           t_lesson_info::DB_TABLE_NAME,
+           t_student_info::DB_TABLE_NAME,
+           t_order_info::DB_TABLE_NAME,
+           $where_arr);
+       return $this->main_get_row($sql);
+   }
+
 
     public function  tongji_get_order_fail($start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$require_admin_type)
    {

@@ -53,7 +53,6 @@ class deal_wx_pic extends Job implements ShouldQueue
         //
         $lessonid            =  $this->lessonid ;
         $serverId_str        =  $this->serverid_list;
-        // $serverId            =  $this->serverid;
         $sever_name          =  $this->sever_name;
 
         $t_test_lesson_subject  = new \App\Models\t_test_lesson_subject();

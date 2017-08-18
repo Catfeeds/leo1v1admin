@@ -1051,11 +1051,17 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
 
     public function get_adminid_list_by_account_role($account_role){
+        $where_arr=[];
+        if($account_role==-2){
+            $where_arr[]="account_role in (4,9)"; 
+        }else{
+            $where_arr[]=["account_role=%u",$account_role,-1];
+        }
         $sql = $this->gen_sql_new("select uid,account,a.nick,m.name from %s m left join %s a on m.phone = a.phone ".
-                                  "where account_role=%u and del_flag =0 and uid <> 325 and uid<>74",
+                                  "where %s and del_flag =0 and uid <> 325 and uid<>74",
                                   self::DB_TABLE_NAME,
                                   t_assistant_info::DB_TABLE_NAME,
-                                  $account_role
+                                  $where_arr
         );
 
         return  $this->main_get_list($sql,function($item){
@@ -1504,4 +1510,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         return $this->main_get_value($sql);
     }
 
+    public function get_some_info($sql){
+        return $this->main_get_list($sql);
+    }
 }

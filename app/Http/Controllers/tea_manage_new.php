@@ -1020,9 +1020,9 @@ class tea_manage_new extends Controller
         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $data['first']    = "老师您好！";
         $data['keyword1'] = "邀请参训通知";
-        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周4期：周中19点周末15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答问卷，考核通过后即收到【入职offer】开启您的线上教学之旅。";
+        $data['keyword2'] = "经系统核查您试讲通过多日培训未通过，为方便老师参加，特将培训增设到每周3期：周三、五19点周日15点，老师可自由选择；若时间冲突，可登录教师端，在【我的培训】中观看回放后，点击【自我测评】回答，通过后即收到【入职offer】并可在【老师后台】设置【模拟课程时间】。";
         $data['keyword3'] = date("Y-m-d",time());
-        $data['remark']   = "答题过程中有任何问题可私聊【师训】沈老师获得指导~课程多多，福利多多~期待老师的加入！";
+        $data['remark']   = "过程中有任何疑问可咨询【师训】沈老师~课程多多，福利多多~期待老师加入！";
 
         $job = new \App\Jobs\SendTeacherWx($list,$template_id,$data,"");
         dispatch($job);
@@ -1030,7 +1030,6 @@ class tea_manage_new extends Controller
     }
 
     public function set_full_time_teacher_record(){
-        $teacherid   = $this->get_in_int_val("teacherid");
         $phone       = $this->get_in_str_val("phone");
         $flag        = $this->get_in_int_val("flag");
         $record_info = $this->get_in_str_val("record_info");
@@ -1038,11 +1037,15 @@ class tea_manage_new extends Controller
         $account     = $this->get_in_str_val("account");
         $acc         = $this->get_account();
 
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        if(!$teacherid){
+            return $this->output_err("老师id出错！");
+        }
         if($flag==1){
             $this->set_full_time_teacher($teacherid);
         }
 
-        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,11);
+        $record_id = $this->t_teacher_record_list->check_have_record($teacherid,E\Erecord_type::V_12);
         if($record_id){
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[
                 "record_info"        => $record_info,
@@ -1054,7 +1057,7 @@ class tea_manage_new extends Controller
                 "trial_train_status" => $flag,
                 "record_info"        => $record_info,
                 "add_time"           => time(),
-                "type"               => 11,
+                "type"               => E\Erecord_type::V_12,
                 "current_acc"        => $acc,
                 "acc"                => $account,
                 "phone_spare"        => $phone

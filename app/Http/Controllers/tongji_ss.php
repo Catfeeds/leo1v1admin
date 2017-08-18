@@ -636,7 +636,7 @@ class tongji_ss extends Controller
             list($all_count,$assigned_count,$tmk_assigned_count,$tq_no_call_count,$tq_called_count,$tq_call_fail_count,
                  $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
                  $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
-                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+                 $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
             $userid_arr = [];
 
@@ -673,8 +673,19 @@ class tongji_ss extends Controller
                 }else{
                     $ret_info_new[] = $item;
                 }
-
+                //合同
+                if($item['aoid']){
+                    $orderid = $item['aoid'];
+                    $orderid_arr = array_unique(array_column($order_count,'aoid'));
+                    if(in_array($orderid,$orderid_arr)){
+                    }else{
+                        $order_count[] = $item;
+                        $user_count[] = $item;
+                        $order_all_money += $item['price'];
+                    }
+                }                 
             }
+            // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){
                 foreach($ret_new as &$item){
                     //已分配销售
@@ -749,6 +760,9 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['require_count'] = count($require_count);
                     $ret_info['list'][$item]['test_lesson_count'] = count($test_lesson_count);
                     $ret_info['list'][$item]['succ_test_lesson_count'] = count($succ_test_lesson_count);
+                    $ret_info['list'][$item]['order_count'] = count($order_count);
+                    $ret_info['list'][$item]['user_count'] = count($user_count);
+                    $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
             }
         }
@@ -763,6 +777,93 @@ class tongji_ss extends Controller
             "origin_type"  => $origin_type,
         ]);
     }
+
+    public function origin_count_test_lesson_info(){
+        $origin            = trim($this->get_in_str_val("origin",""));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
+        $groupid           = $this->get_in_int_val("groupid",-1);
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+        $check_value       = $this->get_in_str_val("check_value");
+        $check_field_id    = $this->get_in_int_val("check_field_id",1);
+        $page_info         = $this->get_in_page_info();
+        $check_field_config=[
+            1=> ["渠道","origin", "" ],
+            2=> ["年级","grade", E\Egrade::class ],
+            3=> ["科目","subject", E\Esubject::class ],
+            4=> ["tmk人员","tmk_adminid", "" ],
+            5=> ["销售人员","admin_revisiterid", "" ],
+            6=> ["渠道等级","origin_level",   E\Eorigin_level::class  ],
+        ];
+
+        $check_item=$check_field_config[$check_field_id];
+        $field_name       = $check_item[1];
+        $field_class_name = $check_item[2];
+
+        list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
+            0 => array( "add_time", "资源进来时间"),
+            1 => array("tmk_assign_time","微信运营时间"),
+        ] );
+
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        //试听信息
+        $this->t_test_lesson_subject_require->switch_tongji_database();
+        $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
+        foreach($ret_info["list"] as &$item){
+            if ($item['lesson_user_online_status']) {
+                $item['lesson_user_online_status_str'] = '是';
+            } else{
+                $item['lesson_user_online_status_str'] = '是';
+            }
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+    public function origin_count_order_info(){
+        $origin            = trim($this->get_in_str_val("origin",""));
+        $origin_ex         = $this->get_in_str_val('origin_ex', "");
+        $seller_groupid_ex = $this->get_in_str_val('seller_groupid_ex', "");
+        $adminid_list      = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
+        $admin_revisiterid = $this->get_in_int_val("admin_revisiterid", -1);
+        $groupid           = $this->get_in_int_val("groupid",-1);
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+        $check_value       = $this->get_in_str_val("check_value");
+        $check_field_id    = $this->get_in_int_val("check_field_id",1);
+        $page_info         = $this->get_in_page_info();
+        $check_field_config=[
+            1=> ["渠道","origin", "" ],
+            2=> ["年级","grade", E\Egrade::class ],
+            3=> ["科目","subject", E\Esubject::class ],
+            4=> ["tmk人员","tmk_adminid", "" ],
+            5=> ["销售人员","admin_revisiterid", "" ],
+            6=> ["渠道等级","origin_level",   E\Eorigin_level::class  ],
+        ];
+
+        $check_item=$check_field_config[$check_field_id];
+        $field_name       = $check_item[1];
+        $field_class_name = $check_item[2];
+
+        list($start_time,$end_time ,$opt_date_str)=$this->get_in_date_range_month( date("Y-m-01"), 0, [
+            0 => array( "add_time", "资源进来时间"),
+            1 => array("tmk_assign_time","微信运营时间"),
+        ] );
+
+        $this->t_seller_student_origin->switch_tongji_database();
+
+        //订单信息
+        $ret_info= $this->t_order_info->tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex,$opt_date_str,$check_value,$page_info);
+
+        foreach($ret_info["list"] as &$item){
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
+            $item['price'] = $item['price']/100;
+
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 
     public function origin_count_simple(){
         $origin            = trim($this->get_in_str_val("origin",""));
@@ -3278,6 +3379,7 @@ class tongji_ss extends Controller
         return  $this->output_succ( [ "data" =>$list] );
 
     }
+
     public function tongji_teaching_and_research_teacher_test_lesson_info(){
          $this->t_lesson_info->switch_tongji_database();
          $this->t_research_teacher_rerward_list->switch_tongji_database();
@@ -3487,6 +3589,224 @@ class tongji_ss extends Controller
          ]);
 
     }
+
+
+
+
+    public function tongji_teaching_and_research_teacher_test_lesson_info_zj(){
+         $this->t_lesson_info->switch_tongji_database();
+         $this->t_research_teacher_rerward_list->switch_tongji_database();
+         $this->t_teacher_lecture_info->switch_tongji_database();
+         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+         $tea_arr  = $this->t_manager_info->get_research_teacher_list(4);
+         $tea_arr[]=57701;//邓惠元老师
+         $list = $this->t_research_teacher_rerward_list->tongji_week_teacher_order_turn_info($start_time,$end_time);
+         $first_reward_list = $this->t_research_teacher_rerward_list->tongji_research_teacher_first_reward($start_time,$end_time);
+         $order_num_list = $this->t_teacher_lecture_info->get_research_teacher_test_lesson_info($start_time,$end_time,$tea_arr);
+         foreach($order_num_list as &$ww){
+             $ww["order_per"] = !empty($ww["person_num"])?round($ww["order_num"]/$ww["person_num"],4)*100:0;
+             $ww["reward"] = @$list[$ww["uid"]]["reward_count"];
+             $ww["first_reward"] = @$first_reward_list[$ww["uid"]]["first_reward_count"];
+             $ww["first_reward_num"] = @$first_reward_list[$ww["uid"]]["first_reward_num"];
+             $ww["reward_num"] = @$list[$ww["uid"]]["num"];
+             if($start_time>= strtotime(date("2017-05-01")) && $ww["order_num"]>=10){
+                 if($ww["order_per"]>=35){
+                     $ww["order_reward"] = 500;
+                 }else if($ww["order_per"]>=25){
+                     $ww["order_reward"] = 300;
+                 }elseif($ww["order_per"]>=15){
+                     $ww["order_reward"] = 100;
+                 }else{
+                     $ww["order_reward"] = "";
+                 }
+             }else{
+                 $ww["order_reward"] = "";
+             }
+
+         }
+
+         //  dd($order_num_list);
+         $account_id = $this->get_account_id();
+         $list_subject = $this->get_admin_tea_subject_and_arr($account_id);
+         $tea_subject = $list_subject["tea_subject"];
+         $subject_grade_arr= $list_subject["subject_grade_arr"];
+
+         //检测是否组长
+         $master_flag = $list_subject["master_flag"];
+         $this->set_in_value("master_flag",$master_flag);
+         $master_flag = $this->get_in_int_val("master_flag");
+
+         foreach($subject_grade_arr as $k=>&$item){
+                 $res = $this->t_lesson_info->get_research_test_lesson_info_list($item["subject"],$item["grade"],$start_time,$end_time);
+                 $item["all_lesson"] = $res["all_lesson"];
+                 $item["order_num"] = $res["order_num"];
+                 $item["order_per"] = !empty($res["all_lesson"])?round($res["order_num"]/$res["all_lesson"],4)*100:0;
+         }
+         \App\Helper\Utils::order_list( $subject_grade_arr,"subject", 1);
+
+         $subject_order_per_list = $this->t_lesson_info->get_subject_order_list_new($start_time,$end_time);
+         $zh_subject_new=$zh_subject_lesson=$wz_subject_new=$wz_subject_lesson=0;
+         foreach($subject_order_per_list as $k=>&$item){
+             if($item["subject"]>3){
+                 @$zh_subject_new +=$item["order_num"];
+                 @$zh_subject_lesson +=$item["all_lesson"];
+                 unset($subject_order_per_list[$k]);
+             }
+             if($item["subject"]==1 || $item["subject"]==3 ){
+                 @$wz_subject_new +=$item["order_num"];
+                 @$wz_subject_lesson +=$item["all_lesson"];
+                 unset($subject_order_per_list[$k]);
+             }
+
+             E\Esubject::set_item_value_str($item,"subject");
+             $item["order_per"] = !empty($item["all_lesson"])?round($item["order_num"]/$item["all_lesson"],4)*100:0;
+         }
+
+         $zh_order_per = !empty($zh_subject_lesson)?round($zh_subject_new/$zh_subject_lesson,4)*100:0;
+         $wz_order_per = !empty($wz_subject_lesson)?round($wz_subject_new/$wz_subject_lesson,4)*100:0;
+         $subject_order_per_list["-2"]=["order_num"=>$zh_subject_new,"subject_str"=>"综合学科","all_lesson"=>$zh_subject_lesson,"order_per"=>$zh_order_per,"subject"=>"-2"];
+         $subject_order_per_list["-3"]=[
+             "order_num"   => $wz_subject_new,
+             "subject_str" => "文科组",
+             "all_lesson"  => $wz_subject_lesson,
+             "order_per"   => $wz_order_per,
+             "subject"    => "-3"
+         ];
+
+
+         $subject_order_per_list_sub1 = $this->t_lesson_info->get_subject_order_list_new2($start_time,$end_time);
+         $zh_subject_new=$zh_subject_lesson=$wz_subject_new=$wz_subject_lesson=0;
+         foreach($subject_order_per_list_sub1 as $k=>&$item){
+             if($item["subject"]>3){
+                 @$zh_subject_new +=$item["order_num"];
+                 @$zh_subject_lesson +=$item["all_lesson"];
+                 unset($subject_order_per_list_sub1[$k]);
+             }
+             if($item["subject"]==1 || $item["subject"]==3 ){
+                 @$wz_subject_new +=$item["order_num"];
+                 @$wz_subject_lesson +=$item["all_lesson"];
+                 unset($subject_order_per_list_sub1[$k]);
+             }
+
+             E\Esubject::set_item_value_str($item,"subject");
+             $item["order_per"] = !empty($item["all_lesson"])?round($item["order_num"]/$item["all_lesson"],4)*100:0;
+         }
+
+         $zh_order_per = !empty($zh_subject_lesson)?round($zh_subject_new/$zh_subject_lesson,4)*100:0;
+         $wz_order_per = !empty($wz_subject_lesson)?round($wz_subject_new/$wz_subject_lesson,4)*100:0;
+         $subject_order_per_list_sub1["-2"]=[
+             "order_num"   => $zh_subject_new,
+             "subject_str" => "综合学科",
+             "all_lesson"  => $zh_subject_lesson,
+             "order_per"   => $zh_order_per,
+             "subject"    => "-2"
+         ];
+         $subject_order_per_list_sub1["-3"]=[
+             "order_num"   => $wz_subject_new,
+             "subject_str" => "文科组",
+             "all_lesson"  => $wz_subject_lesson,
+             "order_per"   => $wz_order_per,
+             "subject"    => "-3"
+         ];
+
+
+         $subject_order_per_list_sub2 = $this->t_lesson_info->get_subject_order_list_new3($start_time,$end_time);
+         $zh_subject_new=$zh_subject_lesson=$wz_subject_new=$wz_subject_lesson=0;
+         foreach($subject_order_per_list_sub2 as $k=>&$item){
+             if($item["subject"]>3){
+                 @$zh_subject_new    += $item["order_num"];
+                 @$zh_subject_lesson += $item["all_lesson"];
+                 unset($subject_order_per_list_sub2[$k]);
+             }
+             if($item["subject"]==1 || $item["subject"]==3 ){
+                 @$wz_subject_new +=$item["order_num"];
+                 @$wz_subject_lesson +=$item["all_lesson"];
+                 unset($subject_order_per_list_sub2[$k]);
+             }
+
+             E\Esubject::set_item_value_str($item,"subject");
+             $item["order_per"] = !empty($item["all_lesson"])?round($item["order_num"]/$item["all_lesson"],4)*100:0;
+         }
+
+         $zh_order_per = !empty($zh_subject_lesson)?round($zh_subject_new/$zh_subject_lesson,4)*100:0;
+         $wz_order_per = !empty($wz_subject_lesson)?round($wz_subject_new/$wz_subject_lesson,4)*100:0;
+         $subject_order_per_list_sub2["-2"]=[
+             "order_num"   => $zh_subject_new,
+             "subject_str" => "综合学科",
+             "all_lesson"  => $zh_subject_lesson,
+             "order_per"   => $zh_order_per,
+             "subject"     => "-2"
+         ];
+         $subject_order_per_list_sub2["-3"]=[
+             "order_num"   => $wz_subject_new,
+             "subject_str" => "文科组",
+             "all_lesson"  => $wz_subject_lesson,
+             "order_per"   => $wz_order_per,
+             "subject"    => "-3"
+         ];
+
+         foreach($subject_order_per_list as $k=>&$item){
+             $item["kk_num"]  = @$subject_order_per_list_sub1[$k]["order_num"];
+             $item["hls_num"] = @$subject_order_per_list_sub2[$k]["order_num"];
+             $item["kk_per"]  = @$subject_order_per_list_sub1[$k]["order_per"];
+             $item["hls_per"] = @$subject_order_per_list_sub2[$k]["order_per"];
+         }
+
+         $qz_tea_arr   = $this->t_manager_info->get_research_teacher_list(5);
+         $qz_tea_list  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$start_time,$end_time);
+         $qz_order_num = $qz_all_lesson=0;
+         foreach($qz_tea_list as &$val){
+             if($tea_subject==-3 || $tea_subject==0){
+                 $val["order_per"]=!empty($val["all_lesson"])?round($val["order_num"]/$val["all_lesson"],4)*100:0;
+                 // $subject_grade_arr[] = $val;
+             }
+             $qz_order_num +=$val["order_num"];
+             $qz_all_lesson +=$val["all_lesson"];
+         }
+         $qz_tea_list_kk = $this->t_lesson_info->get_qz_test_lesson_info_list2($qz_tea_arr,$start_time,$end_time);
+         $qz_kk_num = $qz_kk_lesson=0;
+         foreach($qz_tea_list_kk as &$val){
+             $qz_kk_num +=$val["order_num"];
+             $qz_kk_lesson +=$val["all_lesson"];
+         }
+         $qz_tea_list_hls = $this->t_lesson_info->get_qz_test_lesson_info_list3($qz_tea_arr,$start_time,$end_time);
+         $qz_hls_num = $qz_hls_lesson=0;
+         foreach($qz_tea_list_hls as &$val){
+             $qz_hls_num +=$val["order_num"];
+             $qz_hls_lesson +=$val["all_lesson"];
+         }
+         $qz_order_per = !empty($qz_all_lesson)?round($qz_order_num/$qz_all_lesson,4)*100:0;
+         $qz_kk_per = !empty($qz_kk_lesson)?round($qz_kk_num/$qz_kk_lesson,4)*100:0;
+         $qz_hls_per = !empty($qz_hls_lesson)?round($qz_hls_num/$qz_hls_lesson,4)*100:0;
+         // $subject_order_per_list[]=["order_num"=>$qz_order_num,"subject_str"=>"全职老师","all_lesson"=>$qz_all_lesson,"order_per"=>$qz_order_per,"kk_num"=>$qz_kk_num,"kk_per"=>$qz_kk_per,"hls_num"=>$qz_hls_num,"hls_per"=>$qz_hls_per];
+         \App\Helper\Utils::order_list( $subject_order_per_list,"order_per", 0);
+         $order_reward_list = $order_num_list;
+         /*  foreach($order_reward_list as $o=>$n){
+             if($n["teacherid"]==130462){
+                 unset($order_reward_list[$o]);
+             }
+             }*/
+         \App\Helper\Utils::order_list($order_reward_list,"reward", 0);
+         \App\Helper\Utils::order_list( $order_num_list,"order_per", 0);
+         $person_kpi = $this->t_research_teacher_kpi_info->get_month_kpi_info(1,$start_time);
+         \App\Helper\Utils::order_list( $person_kpi,"total_score", 0);
+         $subject_kpi = $this->t_research_teacher_kpi_info->get_month_kpi_info(2,$start_time);
+         \App\Helper\Utils::order_list( $subject_kpi,"total_score", 0);
+         return $this->pageView(__METHOD__,null,[
+             "subject_grade_arr"        => $subject_grade_arr,
+             "order_num_list"           => $order_num_list,
+             "order_reward_list"        => $order_reward_list,
+             "subject_order_per_list"   => $subject_order_per_list,
+             "person_kpi"               => $person_kpi,
+             "subject_kpi"              => $subject_kpi,
+         ]);
+
+    }
+
+
+
+
+
 
     public function get_research_teacher_grade_info(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
@@ -3830,7 +4150,6 @@ class tongji_ss extends Controller
 
 
     public function seller_test_lesson_info_by_teacher(){ // 处理老师的试听转化率
-        ini_set('max_execution_time', 6000);
         $sum_field_list=[
             "work_day",
             "lesson_count",
@@ -3846,6 +4165,9 @@ class tongji_ss extends Controller
         $order_field_arr=  array_merge(["account" ] ,$sum_field_list );
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
             =$this->get_in_order_by_str($order_field_arr ,"account desc");
+
+
+        //                 return array(false, "", $field_name, $order_flag=="asc" );
 
         $show_flag = $this->get_in_int_val("show_flag",0);
 
@@ -4396,9 +4718,36 @@ class tongji_ss extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
 
-
-
         ///  排序处理;
+        $sum_field_list=[
+            "name_grade",
+            "num_grade",
+            "order_grade",
+            "per_grade",
+
+            "name_subject",
+            "num_subject",
+            "order_subject",
+            "per_subject",
+
+            "name_paper",
+            "num_paper",
+            "order_paper",
+            "per_paper",
+
+            "name_location",
+            "num_location",
+            "order_location",
+            "per_location",
+        ];
+        $order_field_arr=  $sum_field_list ;
+
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            =$this->get_in_order_by_str($order_field_arr ,"");
+        // return array(false, "", $field_name, $order_flag=="asc" );
+
+
+        // 排序处理
 
         $field_name = 'origin';
         $field_class_name = '';
@@ -4408,7 +4757,6 @@ class tongji_ss extends Controller
         $origin_info = $this->t_seller_student_origin->get_origin_tongji_info_for_jy('origin', 'add_time' ,$start_time,$end_time,"","","",$require_adminid_list, 0);
 
         $data_map = &$origin_info['list'];
-
 
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
@@ -4423,13 +4771,11 @@ class tongji_ss extends Controller
         $this->t_order_info->switch_tongji_database();
         $order_list= $this->t_lesson_info->get_test_person_num_list_subject_other_jx( $start_time,$end_time,$require_adminid_list);
 
-        // dd($order_list);
         foreach ($order_list as  $order_item ) {
             $check_value=$order_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
             $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
-
 
 
         foreach ($data_map as &$item ) {
@@ -4474,37 +4820,63 @@ class tongji_ss extends Controller
 
         }
 
+        //         // return array(false, "", $field_name, $order_flag=="asc" );
 
         foreach($subject_arr as $k=>&$v){
             if(!isset($v["order"])) $v["order"]=0;
             $v["per"] = !empty($v["num"])?round(@$v["order"]/$v["num"],4)*100:0;
             $v["name"] = E\Esubject::get_desc($k);
         }
-        \App\Helper\Utils::order_list( $subject_arr,"per", 0);
+
+        $paixu_arr = explode('_',$order_field_name);
+
+
+        // \App\Helper\Utils::order_list( $subject_arr,"per", $order_type);
+
+
         foreach($grade_arr as $kk=>&$vv){
             if(!isset($vv["order"])) $vv["order"]=0;
             $vv["per"] = !empty($vv["num"])?round(@$vv["order"]/$vv["num"],4)*100:0;
             $vv["name"] = E\Egrade::get_desc($kk);
         }
-        \App\Helper\Utils::order_list( $grade_arr,"per", 0);
+
+        // \App\Helper\Utils::order_list( $grade_arr,"per", 0);
 
         foreach($location_arr as $kkk=>&$vvv){
             if(!isset($vvv["order"])) $vvv["order"]=0;
             $vvv["per"] = !empty($vvv["num"])?round(@$vvv["order"]/$vvv["num"],4)*100:0;
             $vvv["name"] = $kkk;
         }
-        \App\Helper\Utils::order_list( $location_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $location_arr,"per", 0);
 
         foreach($paper_arr as $kkkk=>&$vvvv){
             if(!isset($vvvv["order"])) $vvvv["order"]=0;
             $vvvv["per"] = !empty($vvvv["num"])?round(@$vvvv["order"]/$vvvv["num"],4)*100:0;
             $vvvv["name"] = $kkkk;
         }
-        \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+        // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
+
+        $origin_info = @$origin_info['list'];
+
+
+        // 排序处理
+        if(!$order_in_db_flag){
+            if($paixu_arr[1] == 'grade' ){
+                \App\Helper\Utils::order_list( $grade_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'subject'){
+                \App\Helper\Utils::order_list( $subject_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'location'){
+                \App\Helper\Utils::order_list( $location_arr,$paixu_arr[0], $order_type);
+            }elseif($paixu_arr[1] == 'paper'){
+                \App\Helper\Utils::order_list( $paper_arr,$paixu_arr[0], $order_type);
+            }
+        }
+
+
+
 
 
         // dd($origin_info);
-        $origin_info = $origin_info['list'];
 
         return $this->pageView(__METHOD__ ,null, [
             "subject_arr" => @$subject_arr,
@@ -6191,7 +6563,6 @@ class tongji_ss extends Controller
 
         $ret_info = $this->t_seller_student_origin->get_origin_tongji_info_single( $field_name,$opt_date_str ,$start_time,$end_time,"",$origin_ex, $origin_level );
 
-        // dd($ret_info);
 
         foreach ($ret_info["list"] as &$item ) {
             $item["title"]= $item["check_value"];
@@ -6976,15 +7347,15 @@ class tongji_ss extends Controller
             @$lesson_avg["lesson_per"] +=$val["lesson_per"];
             @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
             @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
-            if($val["lesson_per_month"]>=140){
+            if($val["lesson_per"]>=140){
                 $val["reward"] = 500;
-            }elseif($val["lesson_per_month"]>=130){
+            }elseif($val["lesson_per"]>=130){
                 $val["reward"] = 400;
-            }elseif($val["lesson_per_month"]>=120){
+            }elseif($val["lesson_per"]>=120){
                 $val["reward"] = 300;
-            }elseif($val["lesson_per_month"]>=110){
+            }elseif($val["lesson_per"]>=110){
                 $val["reward"] = 200;
-            }elseif($val["lesson_per_month"]>=100){
+            }elseif($val["lesson_per"]>=100){
                 $val["reward"] = 100;
             }
 
@@ -7001,13 +7372,13 @@ class tongji_ss extends Controller
 
 
         }
-        \App\Helper\Utils::order_list( $list,"lesson_per_month", 0);
+        \App\Helper\Utils::order_list( $list,"lesson_per", 0);
         foreach($list as $ku=>&$ukk){
-            if($ku==0 && $ukk["lesson_per_month"]>=80){
+            if($ku==0 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=200;
-            }elseif($ku==1 && $ukk["lesson_per_month"]>=80){
+            }elseif($ku==1 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=150;
-            }else if($ku==2 && $ukk["lesson_per_month"]>=80){
+            }else if($ku==2 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=100;
             }
 

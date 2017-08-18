@@ -2756,41 +2756,133 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
-    public function get_teacher_total_list_new(
-        $start_time,$end_time,$teacherid,$teacher_money_type,$level,$is_test_user
+    public function get_teacher_simulate_list(
+        $start_time,$end_time,$teacher_money_type,$level
     ){
-        if($teacherid!=-1){
-            $where_arr[]=["t.teacherid=%u",$teacherid,-1];
-        }else{
-            $where_arr = [
-                ["t.teacher_money_type=%u",$teacher_money_type,-1],
-                ["t.level=%u",$level,-1],
-                ["t.is_test_user=%u",$is_test_user,-1],
-            ];
-        }
-        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.test_transfor_per,t.create_time, "
-                                  ." t.realname,"
-                                  ." group_concat(distinct(l.grade)) as all_grade,"
-                                  ." group_concat(distinct(l.subject)) as all_subject,"
-                                  ." count(distinct(l.userid)) as stu_num, "
-                                  ." sum(if(lesson_type=2,lesson_count,0)) as trial_lesson_count, "
-                                  ." sum(if(lesson_type in (0,1,3),lesson_count,0)) as normal_lesson_count "
-                                  ." from %s t "
-                                  ." left join %s l on "
-                                  ." t.teacherid=l.teacherid and l.lesson_status=2 and l.lesson_del_flag=0 and l.confirm_flag!=2"
-                                  ." and l.lesson_start>%u and lesson_start<%u"
+        $where_arr = [
+            ["t.teacher_money_type=%u",$teacher_money_type,-1],
+            ["t.level=%u",$level,-1],
+            ["l.lesson_start>%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
+            "t.is_test_user=0",
+            "lesson_del_flag = 0",
+            "confirm_flag!=2",
+            "lesson_type in (0,1,3)",
+            "lesson_status=2",
+            "teacher_type!=3"
+        ];
+
+        $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
+                                  ." t.level_simulate,t.teacher_money_type_simulate,"
+                                  ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
+                                  ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type,"
+                                  ." o.contract_type,o.lesson_total,o.default_lesson_count,o.grade as order_grade,"
+                                  ." o.competition_flag,o.price,o.discount_price"
+                                  ." from %s l "
+
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." left join %s m1 on l.level=m1.level and l.teacher_money_type=m1.teacher_money_type "
+                                  ."      and m1.grade=(case when "
+                                  ."      l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ."      else l.grade"
+                                  ."      end )"
+                                  ." left join %s m2 on t.level_simulate=m2.level "
+                                  ."      and t.teacher_money_type_simulate=m2.teacher_money_type "
+                                  ."      and m2.grade=(case when "
+                                  ."      l.competition_flag=1 then if(l.grade<200,203,303) "
+                                  ."      else l.grade"
+                                  ."      end )"
+                                  ." left join %s ol on l.lessonid=ol.lessonid"
+                                  ." left join %s o on ol.orderid=o.orderid"
+
                                   ." where %s"
-                                  ." group by t.teacherid"
-                                  ,self::DB_TABLE_NAME
+                                  ." group by l.lessonid"
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,$start_time
-                                  ,$end_time
+                                  ,self::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
+                                  ,t_teacher_money_type::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list_as_page($sql);
+        return $this->main_get_list($sql);
     }
 
+    public function get_tea_lesson_info($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
 
+        $sql = $this->gen_sql_new("select sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count "
+                                  ." , sum(if(l.lesson_type=2,l.lesson_count,0)) as test_count "
+                                  ." , sum(if(l.lesson_type not in(0,2),l.lesson_count,0)) as other_count "
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_true_level($teacherid){
+        $where_arr = [
+            ["teacherid=%s",$teacherid, 0],
+        ];
+        $sql = $this->gen_sql_new("select level,teacher_money_type"
+                           ." from %s"
+                           ." where %s"
+                           ,self::DB_TABLE_NAME
+                           ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_student_by_teacherid($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
+
+        $sql = $this->gen_sql_new("select distinct s.face"
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_teacher_lesson_detail($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+        ];
+
+        $sql = $this->gen_sql_new("select t,deduct_change_class"
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 }

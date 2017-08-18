@@ -29,6 +29,7 @@ interface RowData {
 	p_nickname	:any;
 	pp_phone	:any;
 	pp_nickname	:any;
+	price	:any;
 }
 
 /*

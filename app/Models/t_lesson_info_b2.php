@@ -875,13 +875,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,l.lesson_end,l.lesson_name,l.audio,l.draw,l.grade,l.subject,"
-                                  ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,"
+                                  ." l.lesson_status,t.teacherid,t.nick,t.user_agent,l.teacherid as l_teacherid,l.courseid,"
                                   ." tr.type as record_type,ap.reference,ap.teacher_type ,tp.realname reference_name,"
                                   ." if(tr.trial_train_status is null,-1,tr.trial_train_status) as trial_train_status,tr.acc,"
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
-                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type "
-                                  ." ,am.account zs_account,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,tr.id tt_id,tl.add_time tt_add_time "
+                                  ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type, "
+                                  ." am.account zs_account,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
+                                  ." tr.id tt_id,tl.add_time tt_add_time "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
                                   ." left join %s t on tl.userid=t.teacherid"
@@ -945,8 +946,12 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_all_train_num($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
-            ["t.train_through_new=%u",$train_through_new,-1]
+            "l.lesson_del_flag=0",
+            // ["t.train_through_new=%u",$train_through_new,-1]
         ];
+        if($train_through_new==1){
+            $where_arr[] = "t.train_through_new_time>0";
+        }
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
@@ -961,10 +966,62 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
+    public function get_all_train_num_new($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
+        $where_arr = [
+            "l.train_type=1",
+            "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time
+            // ["t.train_through_new=%u",$train_through_new,-1]
+        ];
+        if($train_through_new==1){
+            $where_arr[] = "t.train_through_new_time>0";
+        }
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+                                  ." from %s l left join %s ta on l.lessonid = ta.lessonid"
+                                  ." left join %s t on ta.userid  = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    
+    public function get_all_trial_train_num($start_time,$end_time,$teacher_list,$trial_train_status,$flag=false){
+        $where_arr = [
+            "l.train_type=4",
+            "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time,
+            // ["t.train_through_new=%u",$train_through_new,-1]
+            ["tr.trial_train_status",$trial_train_status,-1],
+            "tr.trial_train_status<3"
+        ];
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on tr.train_lessonid = l.lessonid and tr.type=1 and tr.lesson_style=5 "
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
     public function get_all_train_num_real($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
+            "l.lesson_del_flag=0",
             ["t.train_through_new=%u",$train_through_new,-1],
             "lo.lessonid is not null and lo.lessonid>0"
         ];
@@ -1097,7 +1154,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
         $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
                                   "from %s l left join %s s on l.userid = s.userid ".
-                                  "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 ".
+                                  "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
                                   "order by l.lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
@@ -1402,7 +1459,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.train_type =5",
             "l.lesson_start>".time(),
             "tt.user_agent is not null && tt.user_agent <> ''",
-            "tt.user_agent not like '%%3.2.0%%' and tt.user_agent not like '%%5.0.4%%'",
+            "tt.user_agent not like '%%4.0.0%%' and tt.user_agent not like '%%5.0.4%%'",
             "tal.accept_adminid >0",
             "tt.user_agent_wx_update=0"
         ];
@@ -2680,7 +2737,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
-            $where_arr[]="l.subject in (7,8,9,10)";
+            $where_arr[]="l.subject in (7,8,9)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2719,7 +2776,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
-            $where_arr[]="l.subject in (7,8,9,10)";
+            $where_arr[]="l.subject in (7,8,9)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2761,7 +2818,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
-            $where_arr[]="l.subject in (7,8,9,10)";
+            $where_arr[]="l.subject in (7,8,9)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2803,7 +2860,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
-            $where_arr[]="l.subject in (7,8,9,10)";
+            $where_arr[]="l.subject in (7,8,9)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -2827,10 +2884,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
             ' l.lesson_type = 2 ',
-            ' l.lesson_del_flag = 1 ',
-            ' l.lesson_start > 1501516800 ',
-            // ' lss.success_flag = 0 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_start > 1502899200 ',
             ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];

@@ -50,12 +50,15 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="opt-assign btn fa" title="分配处理人">分</a>
-                                <a class="opt-assign_remark btn fa" title="分配备注">备</a>
-                                <a class="opt-reject btn fa" title="驳回分配">驳</a>
-                                <a class="btn fa fa-gavel opt-deal" title="处理投诉"></a>
-                                <a class="fa-list-alt opt-complaint-all btn fa" title="投诉处理详情"></a>
-                                <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
+                                @if(@$var['complained_feedback_type']<2)
+                                    <a class="opt-assign btn fa" title="分配处理人">分配</a>
+                                    <a class="opt-assign_remark btn fa" title="分配备注">备注</a>
+                                    <a class="opt-reject btn fa" title="驳回分配">驳回</a>
+                                    <a class="btn fa fa-gavel opt-deal" title="处理投诉"></a>
+                                    <a class="fa-list-alt opt-complaint-all btn fa" title="投诉处理详情"></a>
+                                    <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
+                                    <a title="投诉图片" class="opt-complaint-img">图片</a>
+                                @endif
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"></a> -->
                                 <!-- <a class="fa fa-times opt-del" title="删除"> </a>
                                    -->

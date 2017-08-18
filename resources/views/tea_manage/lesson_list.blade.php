@@ -313,6 +313,7 @@
                         <td > {{$var["lesson_intro"]}} </td>
                         <td > {{$var["performance"]}} </td>
                         <td > {{$var["require_admin_nick"]}} </td>
+                        <!-- <td > {{$var["cc_account"]}} </td> -->
                         <td > {{$var["stu_user_agent"]}} </td>
                         <td >
                             {{$var["record_audio_server1"]}} <br/>

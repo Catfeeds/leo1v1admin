@@ -87,4 +87,13 @@ class campus_manage extends Controller
         return $this->output_succ();
  
     }
+
+    public function update_admin_campus_name(){
+        $campus_id = $this->get_in_int_val("campus_id");
+        $campus_name =trim($this->get_in_str_val("campus_name"));
+        $this->t_admin_campus_list->field_update_list($campus_id,[
+            "campus_name"  =>$campus_name 
+        ]);
+        return $this->output_succ();
+    }
 }

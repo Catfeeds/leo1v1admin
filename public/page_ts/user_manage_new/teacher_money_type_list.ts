@@ -11,7 +11,7 @@ $(function(){
     Enum_map.append_option_list("teacher_money_type",$("#id_teacher_money_type"),true);
 
     var level_map = "level";
-    if(g_args.teacher_money_type>=6){
+    if(g_args.teacher_money_type==6){
         level_map = "new_level";
     }
     Enum_map.append_option_list(level_map,$("#id_level"),true);

@@ -222,6 +222,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
         $cond_str=$this->where_str_gen($where_arr);
 
         $sql=sprintf(" select"
+                     ."    m.account cc_account,"
                      ."    l.lessonid,"
                      ."    l.lesson_del_flag,"
                      ."    l.courseid,"
@@ -2163,12 +2164,15 @@ lesson_type in (0,1) "
            # "confirm_flag in (0,1)"
         ];
 
-        $sql = $this->gen_sql_new("select lesson_type,confirm_flag,lesson_cancel_reason_type,courseid,lessonid,l.userid,lesson_count,l.lesson_status,l.teacherid,lesson_start,lesson_num,lesson_end,l.grade,l.subject,confirm_reason,lesson_cancel_reason_next_lesson_time,s.phone".
-                                  " from %s l left join %s s on l.userid = s.userid where %s"
+        $sql = $this->gen_sql_new("select lesson_type,confirm_flag,lesson_cancel_reason_type,courseid,lessonid,l.userid,lesson_count,l.lesson_status,l.teacherid,lesson_start,lesson_num,lesson_end,l.grade,l.subject,confirm_reason,lesson_cancel_reason_next_lesson_time,s.phone,a.nick ass_nick,l.lesson_name ".
+                                  " from %s l left join %s s on l.userid = s.userid "
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s"
                                   ." and lesson_del_flag=0 "
                                   ."  order by lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
@@ -3193,13 +3197,19 @@ lesson_type in (0,1) "
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_last_month_lesson_count($teacherid,$start,$end){
+    public function get_teacher_last_month_lesson_count($teacherid,$start,$end,$teacher_money_type=0){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
-            "lesson_type<1000",
         ];
+        if($teacher_money_type==E\Eteacher_money_type::V_6){
+            $where_arr[]="lesson_type in (0,1,3)";
+        }else{
+            $where_arr[]="lesson_type <1000";
+        }
+
+
         $sql = $this->gen_sql_new("select sum(lesson_count) "
                                   ." from %s"
                                   ." where %s"

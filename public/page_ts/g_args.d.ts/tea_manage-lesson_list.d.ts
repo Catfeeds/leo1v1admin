@@ -36,6 +36,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	cc_account	:any;
 	lessonid	:any;
 	lesson_del_flag	:any;
 	courseid	:any;

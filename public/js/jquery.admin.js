@@ -865,7 +865,13 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                             noti_process (0);
                         }
                 console.log('Things below are from FileUploaded');
-                        complete_func(up, info, file, ctminfo);
+                  console.log(1111);
+                  if(info.response){
+                      complete_func(up, info.response, file, ctminfo);
+                  }else{
+                      complete_func(up, info, file, ctminfo); 
+                  }
+
               },
               'Error': function(up, err, errTip) {
                 console.log('Things below are from Error');
@@ -1210,7 +1216,7 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
         }
         
         var field_list=[];
-        if (type=="research_teacher") {
+        if (type=="research_teacher" || type=="teacher") {
             field_list= [
                 {
                     title:"id",

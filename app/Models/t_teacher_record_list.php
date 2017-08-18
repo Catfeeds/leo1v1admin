@@ -390,7 +390,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
         }elseif($tea_subject==13){
-            $where_arr[]="l.subject in (7,8,9,10)";
+            $where_arr[]="l.subject in (7,8,9)";
         }else{
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
@@ -999,7 +999,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["tr.lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
             "tr.click_time>0",
-            "tr.add_time>tr.click_time"
+            "tr.add_time>tr.click_time",
+            "tr.add_time-tr.click_time<3600"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tr.acc,count(*) all_num, sum(tr.add_time-tr.click_time) all_time "
@@ -1038,6 +1039,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   $start_time
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_last_interview_by_phone($teacherid){
+        $sql = $this->gen_sql_new("select tr.record_info from %s tr where tr.type=10 and tr.teacherid = %u and tr.add_time = (select max(add_time) from %s where teacherid = tr.teacherid and type=10)",
+                                  self::DB_TABLE_NAME,
+                                  $teacherid,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
     }
 
 
