@@ -2165,17 +2165,17 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
           'UploadComplete': function() {
             console.log(' UploadComplete .. end ');
           },
-          'FileUploaded' : function(up, file, info) {
-                    if(noti_process) {
-                        noti_process (0);
-                    }
-            console.log('Things below are from FileUploaded');
-            if(info.response){
-                complete_func(up, info.response, file, ctminfo);
-            }else{
-                complete_func(up, info, file, ctminfo);
-            }
-          },
+            'FileUploaded' : function(up, file, info) {
+                if(noti_process) {
+                    noti_process (0);
+                }
+                console.log('Things below are from FileUploaded');
+                if(info.response){
+                    complete_func(up, info.response, file ,ctminfo);
+                }else{
+                    complete_func(up, info, file,ctminfo );
+                }
+            },
           'Error': function(up, err, errTip) {
             console.log('Things below are from Error');
                     BootstrapDialog.alert(errTip);

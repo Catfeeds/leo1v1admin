@@ -71,9 +71,9 @@ class teacher_simulate extends Controller
             $lesson_price     = $val['lesson_price']/100;
 
             $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
-            $has_promotion = 0;
+            $has_promotion = 1;
             if($val['price']<$val['discount_price']){
-                $has_promotion = 1;
+                $has_promotion = 2;
             }
             $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
                 $val['competition_flag'],$has_promotion,$val['contract_type'],$val['grade'],$lesson_total,0
@@ -95,7 +95,15 @@ class teacher_simulate extends Controller
     }
 
     public function get_simulate_price(){
-        $price = \App\OrderPrice\order_price_base::get_price_ex_cur(0,2,0,101,90,0);
+        $competition_flag = 0;
+        $has_promotion    = 2;
+        $contract_type    = 0;
+        $grade            = 101;
+        $lesson_total     = 450;
+
+        $price = \App\OrderPrice\order_price_base::get_price_ex_cur(
+            $competition_flag,$has_promotion,$contract_type,$grade,$lesson_total,0
+        );
         var_dump($price);
     }
 

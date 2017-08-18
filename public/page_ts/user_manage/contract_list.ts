@@ -476,6 +476,7 @@ $(function(){
 
     $(".opt-del").on("click", function(){
         var orderid = $(this).parent().data('orderid');
+        console.log(orderid);
         var userid  = $(this).parent().data('userid');
 
         var name  = $(this).closest("tr").find(".stu_nick").text();
