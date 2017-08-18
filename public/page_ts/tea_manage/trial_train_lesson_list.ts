@@ -151,6 +151,11 @@ $(function(){
         });
         arr[0][1].parent().parent().parent().parent().parent().parent().parent().find(".class_score").on("change",function(){
             id_score.val(parseInt(id_jysj.val())+parseInt(id_yybd.val())+parseInt(id_zyzs.val())+parseInt(id_jxjz.val())+parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
+            if(id_score.val() <60){
+                id_trial_train_status.val(2);
+            }else{
+                id_trial_train_status.val(1);
+            }
             id_no_tea_score.val(parseInt(id_hdqk.val())+parseInt(id_bsqk.val())+parseInt(id_rjcz.val())+parseInt(id_skhj.val())+parseInt(id_khfk.val())+parseInt(id_lcgf.val()));
         });
     });

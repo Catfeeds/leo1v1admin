@@ -272,22 +272,21 @@ class wx_teacher_api extends Controller
 
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
-                "first"     => "$opt_nick 老师发布了一条投诉",
-                "keyword1"  => "常规投诉",
-                "keyword2"  => "老师投诉内容:$report_msg",
-                "keyword3"  => "投诉时间 $log_time_date ",
+                "first"     => "$opt_nick 老师发布了一条软件使用反馈",
+                "keyword1"  => "软件使用反馈",
+                "keyword2"  => "老师反馈内容:$report_msg",
+                "keyword3"  => "反馈时间 $log_time_date ",
             ];
             $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
             $wx=new \App\Helper\Wx();
 
             $qc_openid_arr = [
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
-                "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 // "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
-                "orwGAs9GLgIN85K4nViZZ-MH5ZM8",  // haku 
+                "orwGAs9GLgIN85K4nViZZ-MH5ZM8",  // haku
+                "orwGAs3JTSM8qO0Yn0e9HrI9GCUI",  // 付玉文
             ];
 
             foreach($qc_openid_arr as $qc_item){
