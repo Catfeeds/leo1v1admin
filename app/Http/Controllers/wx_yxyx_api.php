@@ -60,7 +60,7 @@ class wx_yxyx_api extends Controller
         $have_cash    = 0;
         $num          = 0;
         $my_num       = 0;
-        if($userid != 0 && $type_new == 0 && $is_test_user == 0){//1有userid2在读3非测试
+        if($userid != 0 && $type_new == 0 && $is_test_user == 0){//1有userid2在读3非测试4学生经过优学优享渠道
             $ret_list  = ['userid'=>0,'price'=>0];
             $level     = 2;
             $nick      = $student_info['nick'];
