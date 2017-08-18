@@ -424,6 +424,10 @@ $(function(){
     });
 
 
+    $(".opt-test").on("click",function(){
+        var data = '{"hash":"FowenjfaE1uV_1oBhiH54IrpCcm3","key":"cf730e61cd80dd3eb69c3a63891655631503039454512.jpg"}';
+       	console.log(JSON.parse( data + "" )); 
+    });
 
 	$('.opt-change').set_input_change_event(load_data);
 });

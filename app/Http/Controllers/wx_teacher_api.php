@@ -237,6 +237,7 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
 
 
+        // 处理图片上传
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -252,7 +253,7 @@ class wx_teacher_api extends Controller
             'account_type'   => $account_type,
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
-            'complaint_img_url' => $complaint_img_url,
+            // 'complaint_img_url' => $complaint_img_url,
         ]);
 
 
@@ -281,12 +282,12 @@ class wx_teacher_api extends Controller
 
             $qc_openid_arr = [
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
-                "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                // "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                // "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
-                "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                // "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
-                "orwGAswxkjf1agdPpFYmZxSwYJsI" // coco 老师 [张科]
+                "orwGAs9GLgIN85K4nViZZ-MH5ZM8",  // haku 
             ];
 
             foreach($qc_openid_arr as $qc_item){
