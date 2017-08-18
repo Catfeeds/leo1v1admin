@@ -1191,6 +1191,7 @@ $(function(){
                             }
                         },function(){
                             $.custom_upload_file('id_upload_change_reason',true,function (up, info, file) {
+                                console.log(info);
                                 var res = $.parseJSON(info);
 
                                 $("#change_reason_url").val(res.key);

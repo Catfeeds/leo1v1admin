@@ -599,6 +599,7 @@ class main_page extends Controller
 		    }
 		    $t["train_num"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,-1,false);
 		    $t["train_succ"] = $this->t_lesson_info_b2->get_all_train_num($start_time,$end_time,$teacher_list,1,false);
+		    $t["trial_train_num"] = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list,-1,false);
 		    $t["succ_per"] = !empty($t["all_count"])?round($t["succ"]/$t["all_count"]*100,2):0;
 		    $t["succ_num_per"] = !empty($t["all_num"])?round($t["succ_num"]/$t["all_num"]*100,2):0;
 		    $t["train_per"] = !empty($t["train_num"])?round($t["train_succ"]/$t["train_num"]*100,2):0;

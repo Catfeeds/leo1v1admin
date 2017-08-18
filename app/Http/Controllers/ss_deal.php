@@ -2177,7 +2177,7 @@ class ss_deal extends Controller
             //分配销售总监
             $sub_assign_adminid_1=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
-            $master_adminid_arr = $this->t_admin_group_name->get_seller_master_adminid_by_campus_id($campus_id);
+            $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id($campus_id);
             $list=[];
             foreach($master_adminid_arr as $item){
                 $list[] = $item["master_adminid"];
