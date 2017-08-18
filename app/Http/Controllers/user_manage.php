@@ -1952,6 +1952,13 @@ class user_manage extends Controller
         return $this->complaint_department_deal();
     }
 
+    public function complaint_department_deal_product(){
+        $this->set_in_value('account_type',3);
+        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
+        return $this->complaint_department_deal();
+    }
+
+
     public function complaint_department_deal(){
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
