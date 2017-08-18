@@ -946,6 +946,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_all_train_num($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
+            "l.lesson_del_flag=0",
             // ["t.train_through_new=%u",$train_through_new,-1]
         ];
         if($train_through_new==1){
@@ -965,11 +966,37 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
-    
-    public function get_all_trial_train_num($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
+    public function get_all_train_num_new($teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
-            ["t.train_through_new=%u",$train_through_new,-1]
+            "l.lesson_del_flag=0",
+            // ["t.train_through_new=%u",$train_through_new,-1]
+        ];
+        if($train_through_new==1){
+            $where_arr[] = "t.train_through_new_time>0";
+        }
+        $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+                                  ." from %s l left join %s ta on l.lessonid = ta.lessonid"
+                                  ." left join %s t on ta.userid  = t.teacherid"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+    
+    public function get_all_trial_train_num($start_time,$end_time,$teacher_list,$trial_train_status,$flag=false){
+        $where_arr = [
+            "l.train_type=4",
+            "l.lesson_del_flag=0",
+            // ["t.train_through_new=%u",$train_through_new,-1]
+            ["tr.trial_train_status",$trial_train_status,-1]
         ];
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
@@ -990,6 +1017,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_all_train_num_real($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
+            "l.lesson_del_flag=0",
             ["t.train_through_new=%u",$train_through_new,-1],
             "lo.lessonid is not null and lo.lessonid>0"
         ];

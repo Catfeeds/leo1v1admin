@@ -19,6 +19,7 @@ class url_power_map {
 			'/agent/agent_cash_list'	=>1010911,
 			'/agent/agent_list_new'	=>1010912,
 			'/agent/check'	=>1010913,
+			'/agent/get_phone_count'	=>1010966,
 			'/t_yxyx_test_pic_info/get_all_info'	=>1010967,
 			'/t_yxyx_custom_type/get_all'	=>1010968,
 			'/t_yxyx_new_list/get_all'	=>1010969,
