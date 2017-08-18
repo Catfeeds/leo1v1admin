@@ -74,6 +74,7 @@ class order_price_base {
             $present_lesson_count=static::get_value_from_config($present_lesson_config, $check_lesson_count );
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             $discount_config = $contract_type==0?static::$new_discount_config: static::$next_discount_config;
+            dd($discount_config);
             $discount_count  = static::get_value_from_config($discount_config, $check_lesson_count,100 );
         }
 
