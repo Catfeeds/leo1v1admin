@@ -140,7 +140,6 @@ class wx_teacher_api extends Controller
         $suggest_info      = $this->get_in_str_val('suggest_info','');
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
-        $complained_adminid_type = $this->get_in_int_val('complained_adminid_type'); // 被投诉人类型
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
         $complaint_type = $this->get_in_int_val('complaint_type');
 
@@ -162,9 +161,9 @@ class wx_teacher_api extends Controller
             'add_time'       => time(NULL),
             'suggest_info'   => $suggest_info,
             'complaint_info' => $complaint_info,
+            'complaint_img_url'       => $complaint_img_url,
+            'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            'complaint_img_url' => $complaint_img_url,
-            'complained_adminid_type' => $complained_adminid_type,
         ]);
 
 
@@ -234,16 +233,11 @@ class wx_teacher_api extends Controller
     public function teacher_feed_back_software(){ // 软件反馈处理
         $complaint_type    = $this->get_in_int_val('complaint_type'); // 新增4 软件反馈
         $complaint_info    = $this->get_in_str_val('complaint_info');
-        $serverId_str      = $this->get_in_str_val('serverids'); // 图片ids
+        $serverId_str      = $this->get_in_str_val('serverId_str',''); // 图片ids
         $teacherid         = $this->get_teacherid();
 
         $sever_name = $_SERVER["SERVER_NAME"];
-
-        // 处理图片上传
-
         $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
-
-        // 处理图片上传
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -329,43 +323,20 @@ class wx_teacher_api extends Controller
     **/
     public function deal_feedback_img($serverId_str,$sever_name)
     {
-        $serverId_str        =  $this->serverid_list;
-        $sever_name          =  $this->sever_name;
-
         $serverIdLists = json_decode($serverId_str,true);
         $alibaba_url   = array();
-        $alibaba_url_origi   = array();
 
-        if(count($serverIdLists) == 1){
+        foreach($serverIdLists as $serverId){
+            $imgStateInfo = $this->savePicToServer($serverId);
+            $savePathFile = $imgStateInfo['savePathFile'];
+            $file_name = $this->put_img_to_alibaba($savePathFile);
 
-            $imgStateInfo = $this->savePicToServer($serverIdLists['0']);
-
-            $savePathFile_one = $imgStateInfo['savePathFile'];
-
-            $file_name  = $this->put_img_to_alibaba($savePathFile_one);
-
-            unlink($savePathFile_one);
-
-            return $file_name;
-
-        }elseif(count($serverIdLists) > 1){
-            foreach($serverIdLists as $serverId){
-                $imgStateInfo = $this->savePicToServer($serverId);
-                $savePathFile = $imgStateInfo['savePathFile'];
-                $file_name = $this->put_img_to_alibaba($savePathFile);
-
-                $alibaba_url[]       = $file_name ;
-                unlink($savePathFile);
-            }
-
-            $alibaba_url_str = implode(',',$alibaba_url);
-
-            foreach($alibaba_url_origi as $item_orgi){
-                unlink($item_orgi);
-            }
-            unlink($tar_name);
-            return $alibaba_url_str;
+            $alibaba_url[] = $file_name ;
+            unlink($savePathFile);
         }
+
+        $alibaba_url_str = implode(',',$alibaba_url);
+        return $alibaba_url_str;
     }
 
 
@@ -388,7 +359,6 @@ class wx_teacher_api extends Controller
         curl_close($ch);
         fclose($fp);
         $msg['savePathFile'] = $savePathFile;
-
         return $msg;
     }
 
@@ -414,49 +384,12 @@ class wx_teacher_api extends Controller
             \App\Helper\Utils::logger( "init OssClient fail");
             return "" ;
         }
-
     }
-
-    public function get_signature_str( $ref, $appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
-        $token = $this->get_wx_token_jssdk(  $appid_tec, $appscript_tec);
-
-        $key_arr     = "wx_tec_jssdk_arr_$appid_tec";
-        $key_str     = 'wx_tec_jssdk_str_$appid_tec';
-
-        $ret_arr = \App\Helper\Common::redis_get_json($key_arr);
-        $now     = time(NULL);
-
-        if (!$ret_arr || !isset($ret_arr["ticket"])  ||  $ret_arr["get_time"]+7000 <  $now ) {
-
-            $jssdk    = $this->get_wx_jsapi_ticket($token);
-            $ret_arr  = \App\Helper\Utils::json_decode_as_array($jssdk);
-            $ret_arr["get_time"] = time(NULL);
-            \App\Helper\Common::redis_set_json($key_arr,$ret_arr );
-
-        }
-
-        $jsapi_ticket = $ret_arr["ticket"];
-
-        $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo123&timestamp=1494474414"
-                   . "&url=$ref" ;
-
-        \App\Helper\Utils::logger( "signature:$signature" );
-
-        $signature_str = sha1($signature);
-        return $signature_str;
-    }
-
 
     public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
 
         $wx        = new \App\Helper\Wx();
         return $wx->get_wx_token($appid_tec,$appscript_tec);
-    }
-
-    public function get_wx_jsapi_ticket($token){
-        $json_jssdk_data=file_get_contents("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=$token&type=jsapi ");
-
-        return $json_jssdk_data;
     }
 
 
