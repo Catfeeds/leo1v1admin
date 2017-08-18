@@ -1181,12 +1181,6 @@ class seller_student_new extends Controller
         $key="DEAL_NEW_USER_$adminid";
         $userid=\App\Helper\Common::redis_get($key)*1;
 
-        if ($userid==0) {
-            return $this->pageView(
-                __METHOD__ , null,
-                ["user_info"=>null, "count_info"=>$count_info ]
-            );
-        }
 
         $now=time(NULL);
 
@@ -1238,8 +1232,16 @@ class seller_student_new extends Controller
             $success_flag=true;
         }
 
+
         $this->set_filed_for_js("open_flag",$success_flag?1:0);
         //list($start_time,$end_time)= $this->get_in_date_range(-7,0 );
+        if ($userid==0) {
+            return $this->pageView(
+                __METHOD__ , null,
+                ["user_info"=>null, "count_info"=>$count_info ]
+            );
+        }
+
 
 
         $this->set_filed_for_js("userid", $userid);

@@ -28,6 +28,16 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
             $tea_arr              = $list[$teacherid];
             $tea_arr["teacherid"] = $teacherid;
+            E\Eteacher_money_type::set_item_value_str($val);
+            E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
+            E\Elevel::set_item_value_str($val);
+            E\Enew_level::set_item_value_str($val,"level_simulate");
+
+            \App\Helper\Utils::check_isset_data($tea_arr['realname'],$val['realname'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_str'],$val['teacher_money_type_str'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_simulate_str'],$val['teacher_money_type_simulate_str'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
+            \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
             if($check_type==2){
