@@ -2807,6 +2807,61 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_tea_lesson_info($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
 
+        $sql = $this->gen_sql_new("select sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count "
+                                  ." , sum(if(l.lesson_type=2,l.lesson_count,0)) as test_count "
+                                  ." , sum(if(l.lesson_type not in(0,2),l.lesson_count,0)) as other_count "
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
+    public function get_teacher_true_level($teacherid){
+        $where_arr = [
+            ["teacherid=%s",$teacherid, 0],
+        ];
+        $sql = $this->gen_sql_new("select level,teacher_money_type"
+                           ." from %s"
+                           ." where %s"
+                           ,self::DB_TABLE_NAME
+                           ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_student_by_teacherid($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
+
+        $sql = $this->gen_sql_new("select distinct s.face"
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
