@@ -999,7 +999,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["tr.trial_train_status",$trial_train_status,-1]
         ];
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
                                   ." from %s l left join %s ta on l.lessonid = ta.lessonid"
@@ -1012,6 +1012,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
+
 
 
     public function get_all_train_num_real($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
