@@ -2777,7 +2777,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
                                   ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type,"
                                   ." o.contract_type,o.lesson_total,o.default_lesson_count,o.grade as order_grade,"
-                                  ." o.competition_flag,o.price,o.discount_price"
+                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "

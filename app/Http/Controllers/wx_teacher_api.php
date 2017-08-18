@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 
-use App\Jobs\deal_feedback_img;
 
 
 
@@ -322,7 +321,7 @@ class wx_teacher_api extends Controller
     public function deal_feedback_img($serverId_str,$sever_name)
     {
         $serverIdLists = json_decode($serverId_str,true);
-        $alibaba_url   = array();
+        $alibaba_url   = [];
 
         foreach($serverIdLists as $serverId){
             $imgStateInfo = $this->savePicToServer($serverId);

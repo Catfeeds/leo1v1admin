@@ -21,8 +21,12 @@ class teacher_simulate extends Controller
             $start_time,$end_time,$teacher_money_type,$level
         );
 
-        $list        = [];
-        $reward_list = [];
+        $list                      = [];
+        $reward_list               = [];
+        $all_money                 = 0;
+        $all_lesson_price          = 0;
+        $all_money_simulate        = 0;
+        $all_lesson_price_simulate = 0;
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
@@ -39,26 +43,30 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
+            $month_key  = date("Y-m",$val['lesson_start']);
+
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
             if($check_type==2){
-                if(!isset($reward_list[$teacherid]['already_lesson_count'])){
+                if(!isset($reward_list[$teacherid][$month_key]['already_lesson_count'])){
+                    $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
+                    $last_start_time = strtotime("-1 month",$last_end_time);
                     $already_lesson_count = $this->get_already_lesson_count(
                         $start_time,$end_time,$teacherid,$val['teacher_money_type']
                     );
                 }
-                $reward_list[$teacherid]['already_lesson_count']          = $already_lesson_count;
-                $reward_list[$teacherid]['already_lesson_count_simulate'] = $already_lesson_count;
+                $reward_list[$teacherid][$month_key]['already_lesson_count']          = $already_lesson_count;
+                $reward_list[$teacherid][$month_key]['already_lesson_count_simulate'] = $already_lesson_count;
             }else{
                 $already_lesson_count=$val['already_lesson_count'];
             }
 
-            if(!isset($reward_list[$teacherid]['already_lesson_count_simulate'])){
+            if(!isset($reward_list[$teacherid][$month_key]['already_lesson_count'])){
                 $already_lesson_count_simulate = $this->get_already_lesson_count(
                     $start_time,$end_time,$teacherid,$val['teacher_money_type_simulate']
                 );
-                $reward_list[$teacherid]['already_lesson_count_simulate'] = $already_lesson_count_simulate;
+                $reward_list[$teacherid][$month_key]['already_lesson_count_simulate'] = $already_lesson_count_simulate;
             }else{
-                $already_lesson_count_simulate=$reward_list[$teacherid]['already_lesson_count_simulate'];
+                $already_lesson_count_simulate=$reward_list[$teacherid][$month_key]['already_lesson_count_simulate'];
             }
 
             $reward           = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
@@ -66,12 +74,16 @@ class teacher_simulate extends Controller
             $lesson_count     = $val['lesson_count']/100;
             $reward          *= $lesson_count;
             $reward_simulate *= $lesson_count;
+
             $money            = $val['money']*$lesson_count+$reward;
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
+
             $lesson_price     = $val['lesson_price']/100;
 
             if(in_array($val['contract_type'],[0,3])){
                 $lesson_price_simulate = $this->get_lesson_price_simulate($val);
+            }else{
+                $lesson_price_simulate = 0;
             }
 
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
@@ -82,11 +94,21 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
 
+            $all_money                 += $money;
+            $all_lesson_price          += $lesson_price;
+            $all_money_simulate        += $money_simulate;
+            $all_lesson_price_simulate += $lesson_price_simulate;
+
             $list[$teacherid] = $tea_arr;
         }
 
         $list = \App\Helper\Utils::list_to_page_info($list);
-        return $this->pageView(__METHOD__,$list);
+        return $this->pageView(__METHOD__,$list,[
+            "all_money"                 => $all_money,
+            "all_money_simulate"        => $all_money_simulate,
+            "all_lesson_price"          => $all_lesson_price,
+            "all_lesson_price_simulate" => $all_lesson_price_simulate
+        ]);
     }
 
     public function get_lesson_price_simulate($info){

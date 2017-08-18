@@ -19,6 +19,17 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="input-group ">
+                        <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
+                        <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
+                        <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
+                        <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
+                    </div>
+                </div>
+            </div>
+        <hr />
         </div>
         <hr/>
         <table class="common-table">
@@ -28,13 +39,13 @@
                     <td>常规课时</td>
                     <td>工资类型</td>
                     <td>等级</td>
-                    <td>工资</td>
+                    <td>总工资</td>
                     <td>课时奖励</td>
                     <td>课程收入</td>
 
                     <td>模拟工资类型</td>
                     <td>模拟工资等级</td>
-                    <td>模拟工资</td>
+                    <td>模拟总工资</td>
                     <td>模拟课时奖励</td>
                     <td>模拟课程收入</td>
                     <td>操作</td>

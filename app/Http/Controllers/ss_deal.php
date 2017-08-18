@@ -5266,7 +5266,7 @@ class ss_deal extends Controller
         $activity_finish_time = strtotime("2017-12-31");
 
         $last_lesson_start = $this->t_lesson_info_b2->get_last_trial_lesson($userid);
-        $check_time = strtotime("+1 day",date("Y-m-d 23:59",$last_lesson_start));
+        $check_time = strtotime("+1 day",date("Y-m-d 23:59",$last_lesson_start*1));
         if($lesson_total>=9000){
             if($contract_type==0 && $check_time>time() && $has_share_activity_flag==1){
                 if($now>$activity_start_time && $now<$activity_end_time){
