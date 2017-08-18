@@ -50,6 +50,7 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
+
                                 <a class="opt-assign btn fa" title="分配处理人">分</a>
                                 <a class="opt-assign_remark btn fa" title="分配备注">备</a>
                                 <a class="opt-reject btn fa" title="驳回分配">驳</a>

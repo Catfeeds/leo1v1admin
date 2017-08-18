@@ -318,7 +318,12 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             "phone"=> $phone,
             "start_time> $start_time",
         ];
-        $sql= $this->gen_sql_new("select count( distinct uid ) from %s  ",$__args__)
+        $sql= $this->gen_sql_new(
+            "select count( distinct uid ) from %s where %s  ", 
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
 
     }
 

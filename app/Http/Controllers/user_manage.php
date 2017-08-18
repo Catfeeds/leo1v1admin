@@ -1961,11 +1961,11 @@ class user_manage extends Controller
 
 
     public function complaint_department_deal(){
-        $page_info = $this->get_in_page_info();
-        $account_id = $this->get_account_id();
+        $page_info    = $this->get_in_page_info();
+        $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
-        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',0);
+        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
