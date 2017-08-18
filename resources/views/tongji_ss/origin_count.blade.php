@@ -12,8 +12,8 @@
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
      function go_to_info(obj, opt_type){
          var par = 'check_value=' + $(obj).attr("data-val");
-         if(location.search){
-             if ($(obj).attr("data-val") !== ''){
+         if ($(obj).attr("data-val") !== ''){
+             if(location.search){
                  window.open("http://admin.yb1v1.com/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
              } else {
                  window.open("http://admin.yb1v1.com/tongji_ss/origin_count_"+opt_type+"_info?"+par);
