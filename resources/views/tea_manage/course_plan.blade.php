@@ -47,6 +47,8 @@
                     <td>年级 </td>
                     <td>科目</td>
                     <td>状态 </td>
+                    <td>课程名字 </td>
+                    <td>助教</td>
                     <td>开始 </td>
                     <td>结束 </td>
                     <td>课次</td>
@@ -67,6 +69,8 @@
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["lesson_status_str"]}} </td>
+                        <td>{{@$var["lesson_name"]}} </td>
+                        <td>{{@$var["ass_nick"]}} </td>
                         <td>{{@$var["lesson_start_str"]}} </td>
                         <td>{{@$var["lesson_end_str"]}} </td>
                         <td>{{@$var["lesson_num"]}} </td>

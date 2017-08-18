@@ -70,16 +70,17 @@ class teacher_simulate extends Controller
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
             $lesson_price     = $val['lesson_price']/100;
 
-            $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
+
+            $lesson_price_simulate = $this->get_lesson_price_simulate($val["competition_flag"]);
+            $lesson_total  = $val['lesson_total']*$val['default_lesson_count']/100;
             $has_promotion = 1;
-            if($val['price']<$val['discount_price']){
+            if($val['price'] < $val['discount_price']){
                 $has_promotion = 2;
             }
-
             $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
                 $val['competition_flag'],$has_promotion,$val['contract_type'],$val['grade'],$lesson_total,0
             );
-            $per_price_simulate = $price_arr_simulate['price'];
+            $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
 
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);

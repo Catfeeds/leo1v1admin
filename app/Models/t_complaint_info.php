@@ -35,7 +35,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
     }
 
 
-    public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag){
+    public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type){
         $where_arr = [
             ["ta.assign_flag=%d",0],
             ["tc.account_type=%d",$account_type],

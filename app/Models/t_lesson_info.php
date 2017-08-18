@@ -2164,12 +2164,15 @@ lesson_type in (0,1) "
            # "confirm_flag in (0,1)"
         ];
 
-        $sql = $this->gen_sql_new("select lesson_type,confirm_flag,lesson_cancel_reason_type,courseid,lessonid,l.userid,lesson_count,l.lesson_status,l.teacherid,lesson_start,lesson_num,lesson_end,l.grade,l.subject,confirm_reason,lesson_cancel_reason_next_lesson_time,s.phone".
-                                  " from %s l left join %s s on l.userid = s.userid where %s"
+        $sql = $this->gen_sql_new("select lesson_type,confirm_flag,lesson_cancel_reason_type,courseid,lessonid,l.userid,lesson_count,l.lesson_status,l.teacherid,lesson_start,lesson_num,lesson_end,l.grade,l.subject,confirm_reason,lesson_cancel_reason_next_lesson_time,s.phone,a.nick ass_nick,l.lesson_name ".
+                                  " from %s l left join %s s on l.userid = s.userid "
+                                  ." left join %s a on s.assistantid = a.assistantid"
+                                  ." where %s"
                                   ." and lesson_del_flag=0 "
                                   ."  order by lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list_by_page($sql,$page_num,10);
     }
