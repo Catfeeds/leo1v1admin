@@ -2881,10 +2881,10 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $where_arr = [
             ' l.lesson_type = 2 ',
-            ' l.lesson_del_flag = 1 ',
-            ' l.lesson_start > 1501516800 ',
-            // ' lss.success_flag = 0 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_start > 1502899200 ',
             ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
