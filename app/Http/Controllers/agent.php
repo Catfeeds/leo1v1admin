@@ -235,10 +235,10 @@ class agent extends Controller
         // $agent_id = 211;//Amanda
         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
         // dd($test_lesson);
-        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        $img = file_get_contents($url); 
-        file_put_contents('1.gif',$img); 
-        echo '<img src="1.gif">';
+        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
+        // $img = file_get_contents($url); 
+        // file_put_contents('1.gif',$img); 
+        // echo '<img src="1.gif">';
 
         // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
         // header("content-type:image/png");
@@ -247,6 +247,9 @@ class agent extends Controller
         // imagedestroy($imgg);
 
         // dd($imgg);
+
+        $ret =  $this->update_agent_order($orderid=21007,$userid=277867,$order_price=3420000);
+        dd($ret);
     }
 
     /**
@@ -341,17 +344,18 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
-                $this->t_agent_order->row_insert([
-                    'orderid'     => $orderid,
-                    'aid'         => $ret_info['id'],
-                    'pid'         => $pid,
-                    'p_price'     => $p_price,
-                    'ppid'        => $ppid,
-                    'pp_price'    => $pp_price,
-                    'create_time' => time(null),
-                ]);
+                // $this->t_agent_order->row_insert([
+                //     'orderid'     => $orderid,
+                //     'aid'         => $ret_info['id'],
+                //     'pid'         => $pid,
+                //     'p_price'     => $p_price,
+                //     'ppid'        => $ppid,
+                //     'pp_price'    => $pp_price,
+                //     'create_time' => time(null),
+                // ]);
             }
         }
+        return [$orderid,$ret_info['id'],$p_price,$pp_price,$level1,$level2];
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
@@ -1138,6 +1142,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
             E\Eboolean::set_item_value_str($item,"is_called_phone");
             E\Eseller_student_status::set_item_value_str($item);
+            E\Eaccount_role::set_item_value_str($item);
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->pageView(__METHOD__,$ret_info);

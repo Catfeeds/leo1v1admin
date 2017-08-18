@@ -293,7 +293,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status);
 
         $sql=$this->gen_sql_new(
-            "select distinct tq.*, m.account,t.seller_student_status "
+            "select distinct tq.*, m.account,t.seller_student_status,m.account_role "
             ." from %s a"
             ." left join %s s on s.userid=a.userid "
             ." left join %s tq on a.phone=tq.phone "
