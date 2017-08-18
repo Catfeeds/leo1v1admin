@@ -84,6 +84,20 @@ class teacher_simulate extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
+    public function get_simulate_price($lesson_total=0,$grade=101){
+        if($grade<200){
+            $grade=101;
+        }
+        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
+        $price_config[$grade];
+        foreach($price_config[$grade] as $key=>$val ){
+            if
+        }
+
+
+
+
+    }
 
 
 }

@@ -1894,13 +1894,13 @@ class human_resource extends Controller
             E\Esubject::set_item_value_str($item,"subject_ex");
             E\Esubject::set_item_value_str($item,"trans_subject_ex");
 
-            if($item['status']=="-2" && empty($item["train_lessonid"])){
+            if($item['status']=="-2" && empty($item["lesson_start"])){
                 $item['status_str'] = "无试讲";
-            }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["train_lessonid"]>0) || empty($item["train_lessonid"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["train_lessonid"]>0))){
+            }elseif(($item['status']==0 && (($item["trial_train_status"] ==-2 && $item["lesson_start"]>0) || empty($item["lesson_start"]))) || (($item['status']==0 || $item['status']=="-2") && ($item["trial_train_status"] ==-2 && $item["lesson_start"]>0))){
                 $item['status_str'] = "未审核";
             }elseif($item['status']==1 || $item["trial_train_status"]==1){
                 $item['status_str'] = "已通过";
-            }else if(($item['status']==2 && ($item["trial_train_status"]==0 || empty($item["train_lessonid"]) )) || (($item['status']==2 || $item['status']=="-2") && $item["trial_train_status"]==0 )) {
+            }else if(($item['status']==2 && ($item["trial_train_status"]==0 || empty($item["lesson_start"]) )) || (($item['status']==2 || $item['status']=="-2") && $item["trial_train_status"]==0 )) {
                 $item['status_str'] = "未通过";
             }elseif($item["trial_train_status"]==2){
                 $item['status_str'] ="老师未到";
