@@ -2864,4 +2864,24 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
 
     }
+
+    public function get_teacher_lesson_detail($teacherid, $start_time, $end_time){
+        $where_arr = [
+            ['t.teacherid=%s', $teacherid, 0],
+            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start<%s', $end_time, 0],
+        ];
+
+        $sql = $this->gen_sql_new("select t,deduct_change_class"
+                                  ." from %s t "
+                                  ." left join %s l on t.teacherid=l.teacherid "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 }

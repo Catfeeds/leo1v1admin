@@ -91,7 +91,6 @@ class teacher_simulate extends Controller
         $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
         $price_config[$grade];
         foreach($price_config[$grade] as $key=>$val ){
-            if
         }
 
 
