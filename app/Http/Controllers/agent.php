@@ -314,9 +314,10 @@ class agent extends Controller
     }
 
     public function update_agent_order($orderid,$userid,$order_price){
-        $agent_order = [];
-        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
+        // $agent_order = [];
+        // $ret_info = [];
+        // $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
+        // if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -344,6 +345,7 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
+                dd($level1,$price,$level1_price,$p_price);
                 // $this->t_agent_order->row_insert([
                 //     'orderid'     => $orderid,
                 //     'aid'         => $ret_info['id'],
@@ -353,9 +355,10 @@ class agent extends Controller
                 //     'pp_price'    => $pp_price,
                 //     'create_time' => time(null),
                 // ]);
-            }
-        }
-        return [$orderid,$ret_info['id'],$p_price,$pp_price,$level1,$level2];
+        //     }
+        // }
+        $ret = [$orderid,$ret_info['id'],$p_price,$pp_price,$level1,$level2];
+        return $ret;
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
