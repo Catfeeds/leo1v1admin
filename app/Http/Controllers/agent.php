@@ -352,8 +352,8 @@ class agent extends Controller
                 //     'pp_price'    => $pp_price,
                 //     'create_time' => time(null),
                 // ]);
-            // }
-        }
+            }
+        // }
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
