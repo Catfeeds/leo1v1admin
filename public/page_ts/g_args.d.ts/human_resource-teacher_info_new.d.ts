@@ -165,6 +165,9 @@ interface RowData {
 	transfer_time	:any;
 	check_subject	:any;
 	check_grade	:any;
+	teacher_money_type_simulate	:any;
+	level_simulate	:any;
+	test_quit	:any;
 	teacher_type_str	:any;
 	gender_str	:any;
 	subject_str	:any;
