@@ -49,6 +49,7 @@
                         <td>{{$var['money']}}</td>
                         <td>{{$var['reward']}}</td>
                         <td>{{$var['lesson_price']}}</td>
+
                         <td>{{$var['teacher_money_type_simulate_str']}}</td>
                         <td>{{$var['level_simulate_str']}}</td>
                         <td>{{$var['money_simulate']}}</td>
