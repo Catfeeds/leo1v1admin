@@ -54,9 +54,11 @@ class teacher_simulate extends Controller
 
             if(!isset($reward_list[$teacherid]['already_lesson_count_simulate'])){
                 $already_lesson_count_simulate = $this->get_already_lesson_count(
-                    $start_time,$end_time,$teacherid
+                    $start_time,$end_time,$teacherid,$val['teacher_money_type_simulate']
                 );
-                $reward_list[$teacherid]['already_lesson_count_simulate']=$already_lesson_count_simulate;
+                $reward_list[$teacherid]['already_lesson_count_simulate'] = $already_lesson_count_simulate;
+            }else{
+                $already_lesson_count_simulate=$reward_list[$teacherid]['already_lesson_count_simulate'];
             }
 
             $reward           = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
@@ -82,6 +84,20 @@ class teacher_simulate extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
+    public function get_simulate_price($lesson_total=0,$grade=101){
+        if($grade<200){
+            $grade=101;
+        }
+        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
+        $price_config[$grade];
+        foreach($price_config[$grade] as $key=>$val ){
+            if
+        }
+
+
+
+
+    }
 
 
 }

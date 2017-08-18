@@ -382,7 +382,7 @@ trait  TeaPower {
             }elseif($adminid==770){
                 $tea_subject="(4,6)";
             }elseif($adminid==895){
-                $tea_subject="(7,8,9)";
+                $tea_subject="";
             }else{
                 $master_adminid = $this->t_admin_main_group_name->get_master_adminid_list($account_role);
                 if(in_array($adminid,$master_adminid)){
@@ -2482,11 +2482,11 @@ trait  TeaPower {
      * @param start_time 开始时间
      * @param end_time 结束时间
      */
-    public function get_already_lesson_count($start_time,$end_time,$teacherid){
+    public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){
         $last_start_time = strtotime("-1 month",$start_time);
         $last_end_time   = strtotime("-1 month",$end_time);
         $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count(
-            $teacherid,$last_start_time,$last_end_time
+            $teacherid,$last_start_time,$last_end_time,$teacher_money_type
         );
         return $already_lesson_count;
     }

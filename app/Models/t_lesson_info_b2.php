@@ -1403,7 +1403,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.train_type =5",
             "l.lesson_start>".time(),
             "tt.user_agent is not null && tt.user_agent <> ''",
-            "tt.user_agent not like '%%3.2.0%%' and tt.user_agent not like '%%5.0.4%%'",
+            "tt.user_agent not like '%%4.0.0%%' and tt.user_agent not like '%%5.0.4%%'",
             "tal.accept_adminid >0",
             "tt.user_agent_wx_update=0"
         ];

@@ -199,6 +199,9 @@ class seller_student_new2 extends Controller
         $require_id                 = $this->get_in_int_val("require_id",-1);
         $has_1v1_lesson_flag        = $this->get_in_int_val("has_1v1_lesson_flag",-1,E\Eboolean::class);
 
+        if($adminid==349){
+            $require_adminid= 527;
+        }
         $ret_info = $this->t_test_lesson_subject_require->get_plan_list(
             $page_num, $opt_date_str, $start_time,$end_time ,$grade,
             $subject, $test_lesson_student_status,$teacherid, $userid,$lessonid ,

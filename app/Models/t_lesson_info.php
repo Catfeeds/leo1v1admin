@@ -3194,13 +3194,19 @@ lesson_type in (0,1) "
         return $this->main_get_row($sql);
     }
 
-    public function get_teacher_last_month_lesson_count($teacherid,$start,$end){
+    public function get_teacher_last_month_lesson_count($teacherid,$start,$end,$teacher_money_type=0){
         $where_arr = [
             ["teacherid=%u",$teacherid,0],
             ["lesson_start>%u",$start,0],
             ["lesson_start<%u",$end,0],
-            "lesson_type<1000",
         ];
+        if($teacher_money_type==E\Eteacher_money_type::V_6){
+            $where_arr[]="lesson_type in (0,1,3)";
+        }else{
+            $where_arr[]="lesson_type <1000";
+        }
+
+
         $sql = $this->gen_sql_new("select sum(lesson_count) "
                                   ." from %s"
                                   ." where %s"

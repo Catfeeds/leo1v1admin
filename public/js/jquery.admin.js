@@ -1210,7 +1210,7 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
         }
         
         var field_list=[];
-        if (type=="research_teacher") {
+        if (type=="research_teacher" || type=="teacher") {
             field_list= [
                 {
                     title:"id",
