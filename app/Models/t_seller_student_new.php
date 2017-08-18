@@ -138,6 +138,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                 $this->field_update_list($userid,[
                     "seller_resource_type" => 0,
                     "first_revisit_time"   => 0,
+                    "sys_invaild_flag" => 0,
+                    "call_admin_count" => 0,
                     "add_time"             => time(NULL),
                 ]);
             }else{
