@@ -2058,8 +2058,12 @@ function custom_qiniu_upload (btn_id,containerid,domain,is_public,complete_fun,m
         console.log('success');
       },
       'FileUploaded' : function(up, file, info) {
-        console.log('Things below are from FileUploaded');
-                complete_fun(up, info, file );
+          console.log('Things below are from FileUploaded');
+          if(info.response){
+              complete_fun(up, info.response, file );
+          }else{
+              complete_fun(up, info, file );
+          }
       },
       'Error': function(up, err, errTip) {
         console.log('Things below are from Error');
@@ -2166,7 +2170,11 @@ function custom_upload_file(btn_id,  is_public_bucket , complete_func, ctminfo ,
                         noti_process (0);
                     }
             console.log('Things below are from FileUploaded');
-                    complete_func(up, info, file, ctminfo);
+            if(info.response){
+                complete_func(up, info.response, file, ctminfo);
+            }else{
+                complete_func(up, info, file, ctminfo);
+            }
           },
           'Error': function(up, err, errTip) {
             console.log('Things below are from Error');
