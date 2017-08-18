@@ -327,7 +327,7 @@ class agent extends Controller
                     $level2 = $this->check_agent_level($ret_info['pp_phone']);
                 }
                 $price           = $order_price/100;
-                $level1_price    = $price/20;
+                $level1_price    = $price/20>500?500:$price/20;
                 $level2_p_price  = $price/10>1000?1000:$price/10;
                 $level2_pp_price = $price/20>500?500:$price/20;
                 $pid = $ret_info['pid'];
