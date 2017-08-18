@@ -162,6 +162,7 @@ class NewRouteConfig {
         "/user_manage/complaint_department_deal_teacher"        => true,
         "/user_manage/complaint_department_deal_parent"        => true,
         "/user_manage/complaint_department_deal_qc"        => true,
+        "/user_manage/complaint_department_deal_product"   => true,
         "/user_manage/qc_complaint"               => true,
         "/user_manage/set_graduating_lesson_time"               => true,
         "/user_manage/get_weeks"                                => true,
@@ -220,6 +221,7 @@ class NewRouteConfig {
         "/user_manage/tongji_login_ip_info"                     => true,
         "/user_manage/no_type_student_score"                    => true,
         "/user_manage/tongji_student_subject"                   => true,
+        "/user_manage/student_school_score_stat"                => true,
 
 
         "/authority/get_account_role" => true,
@@ -354,7 +356,6 @@ class NewRouteConfig {
         "/stu_manage/index"                    => true,
         "/stu_manage/score_list"                    => true,
         "/stu_manage/todo_list"                    => true,
-        
         "/stu_manage/call_list"                    => true,
         "/stu_manage/set_week_comment_num"     => true,
         "/stu_manage/set_enable_video"         => true,

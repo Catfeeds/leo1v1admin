@@ -5409,4 +5409,19 @@ class user_deal extends Controller
 
     }
 
+    public function get_teacher_interview_info(){
+        $phone = $this->get_in_str_val("phone");
+        $teacherid = $this->get_in_int_val("teacherid");
+        $info = $this->t_teacher_lecture_info->get_last_interview_by_phone($phone);
+        $str = $this->t_teacher_record_list->get_last_interview_by_phone($teacherid);
+        if(empty($info)){
+            $data = $str;
+        }elseif(empty($str)){
+            $data = $info;
+        }else{
+            $data = $info.";".$str; 
+        }
+        return $this->output_succ(["data"=>$data]);
+    }
+
 }

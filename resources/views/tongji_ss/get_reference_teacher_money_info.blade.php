@@ -15,16 +15,15 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>老师</td>
-                    <td>电话</td>
-                    <td>年级</td>
-                    <td>科目</td>
-                    <td>学校</td>
-                    <td>类型</td>
-                    <td>是否入职</td>
-                    <td>入职时间</td>
-                    <td>课时金额</td>
-                    <td>可提成金额</td>
+                    <td>姓名</td>
+                    <td>教学经历</td>
+                    <td>联系方式</td>
+                    <td>QQ</td>
+                    <td>邮箱</td>
+                    <td>擅长科目</td>
+                    <td>擅长年级</td>
+                    <td>毕业院校</td>
+                    <td>面试评价</td>
                     <td> 操作</td>
                 </tr>
             </thead>
@@ -32,15 +31,14 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["grade_ex"]}} </td>
-                        <td>{{@$var["subject_ex"]}} </td>
-                        <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
-                        <td>{{@$var["train_through_new_str"]}} </td>
-                        <td>{{@$var["train_through_new_time_str"]}} </td>
-                        <td class="lesson_money"> </td>
-                        <td class="final_money"></td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["qq"]}} </td>
+                        <td>{{@$var["email"]}} </td>
+                        <td>{{@$var["subject_ex"]}} </td>
+                        <td>{{@$var["grade_ex"]}} </td>
+                        <td>{{@$var["school"]}} </td>
+                        <td class="interview_info"></td>
                         <td>
                             <div class="row-data" {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a class="fa fa-list course_plan" title="按课程包排课"> </a>

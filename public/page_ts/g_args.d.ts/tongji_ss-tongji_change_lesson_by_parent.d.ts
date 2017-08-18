@@ -16,14 +16,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	require_adminid	:any;
-	userid	:any;
-	nick	:any;
-	parent_nick	:any;
-	assistantid	:any;
-	lesson_cancel_reason_type	:any;
-	lesson_count_total	:any;
-	ass_nick	:any;
 }
 
 /*

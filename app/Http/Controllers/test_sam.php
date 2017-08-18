@@ -198,7 +198,7 @@ class test_sam  extends Controller
         ]);
         $response = new \Illuminate\Http\Response($ret_str);
         return  $response->withCookie(cookie('lesson_type',$lesson_type , 45000))
-          ->withCookie(cookie('subject', $subject, 45000));
+            ->withCookie(cookie('subject', $subject, 45000));
     }
     
     private function get_lesson_quiz_cfg($lesson_quiz_status, $lesson_type)
@@ -356,12 +356,12 @@ class test_sam  extends Controller
     public function tes1t(){
         $a = 10;
         $b = 12;
-       $c = 20;
-          $d = 20;
+        $c = 20;
+        $d = 20;
         $e = 90;
     }
     public function test()
     {
-        
+    
     }
 }

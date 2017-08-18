@@ -43,7 +43,7 @@ class teacher_simulate extends Controller
             if($check_type==2){
                 if(!isset($reward_list[$teacherid]['already_lesson_count'])){
                     $already_lesson_count = $this->get_already_lesson_count(
-                        $start_time,$end_time,$teacherid
+                        $start_time,$end_time,$teacherid,$val['teacher_money_type']
                     );
                 }
                 $reward_list[$teacherid]['already_lesson_count']          = $already_lesson_count;
@@ -70,16 +70,9 @@ class teacher_simulate extends Controller
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
             $lesson_price     = $val['lesson_price']/100;
 
-            $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
-            $has_promotion = 1;
-            if($val['price']<$val['discount_price']){
-                $has_promotion = 2;
+            if(in_array($val['contract_type'],[0,3])){
+                $lesson_price_simulate = $this->get_lesson_price_simulate($val);
             }
-
-            $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
-                $val['competition_flag'],$has_promotion,$val['contract_type'],$val['grade'],$lesson_total,0
-            );
-            $per_price_simulate = $price_arr_simulate['price'];
 
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
@@ -87,12 +80,31 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],$reward_simulate);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$lesson_price);
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
 
             $list[$teacherid] = $tea_arr;
         }
 
         $list = \App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$list);
+    }
+
+    public function get_lesson_price_simulate($info){
+        $lesson_total  = $info['lesson_total']*$info['default_lesson_count']/100;
+        if($lesson_total>0){
+            $has_promotion = 1;
+            if($info['price'] < $info['discount_price']){
+                $has_promotion = 2;
+            }
+            $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
+                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0
+            );
+            $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
+            $lesson_price_simulate=$info['lesson_count']*$per_price_simulate/100;
+        }else{
+            $lesson_price_simulate=0;
+        }
+        return round($lesson_price_simulate,2);
     }
 
     public function get_simulate_price(){

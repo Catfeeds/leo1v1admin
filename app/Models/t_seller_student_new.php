@@ -1591,13 +1591,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
-        $deal_count=$item_arr["call_admin_count"];
+        //$deal_count=$item_arr["call_admin_count"];
+        $phone=$item_arr["phone"];
+
         $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
         $invalid_str="";
-        if ($deal_count >=5  &&  $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
-            $invalid_flag=true;
-            $invalid_str=" $deal_count 人拨打,未接通";
+        if ( $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
+            $deal_count=  $this->task->t_tq_call_info->get_user_call_admin_count($phone,$add_time);
+            if ($deal_count >=5   ) {
+                $invalid_flag=true;
+                $invalid_str=" $deal_count 人拨打,未接通";
+            }
         }
+
         if ($invalid_count >=3 ) {
             $invalid_flag=true;
             $invalid_str=" 被cc 设置无效资源: $invalid_count 次 ";
@@ -1608,7 +1614,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
             if ($invalid_flag) {
                 $this->set_sys_invaild_flag($userid);
-                $this->task->t_book_revisit->add_book_revisit($item_arr["phone"],"系统:判定无效-". $invalid_str ,"system");
+                $this->task->t_book_revisit->add_book_revisit($phone,"系统:判定无效-". $invalid_str ,"system");
             }else{
                 $this->field_update_list($userid,[
                     "sys_invaild_flag" => 0,

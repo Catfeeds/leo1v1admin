@@ -141,7 +141,7 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
-        $complaint_type = $this->get_in_int_val('complaint_type');
+        $complaint_type   = $this->get_in_int_val('complaint_type');
 
         $sever_name = $_SERVER['SERVER_NAME'];
         $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
@@ -164,6 +164,7 @@ class wx_teacher_api extends Controller
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
+            'complained_feedback_type' => 1
         ]);
 
 
@@ -224,10 +225,6 @@ class wx_teacher_api extends Controller
 
             return $this->output_succ();
         }
-
-
-
-
     }
 
     public function teacher_feed_back_software(){ // 软件反馈处理
@@ -254,6 +251,7 @@ class wx_teacher_api extends Controller
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
             'complaint_img_url' => $complaint_img_url,
+            'complained_feedback_type' => 2
         ]);
 
 

@@ -259,7 +259,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
           [customerProvince] => 上海
           [customerCity] => 上海
           [numberTrunk] => 02151368906
-          [queueName] => 
+          [queueName] =>
           [cno] => 2001
           [clientNumber] => 02145947224
           [status] => 双方接听
@@ -268,14 +268,14 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
           [bridgeDuration] => 00:00:05
           [cost] => 0.000
           [totalDuration] => 00:00:24
-          [recordFile] => 
+          [recordFile] =>
           [inCaseLib] => 不在
           [score] => 0
           [callType] => 点击外呼
           [comment] => 无
-          [taskName] => 
+          [taskName] =>
           [endReason] => 否
-          [userField] => 
+          [userField] =>
           [sipCause] => 200
         */
 
@@ -310,6 +310,20 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $where_arr);
 
         return $this->main_get_list_by_page($sql,$page_num);
+
+    }
+
+    public function get_user_call_admin_count( $phone, $start_time ) {
+        $where_arr=[
+            "phone"=> $phone,
+            "start_time> $start_time",
+        ];
+        $sql= $this->gen_sql_new(
+            "select count( distinct uid ) from %s where %s  ", 
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_value($sql);
 
     }
 

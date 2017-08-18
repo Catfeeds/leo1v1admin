@@ -1041,6 +1041,15 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_list($sql);
     }
 
+    public function get_last_interview_by_phone($teacherid){
+        $sql = $this->gen_sql_new("select tr.record_info from %s tr where tr.type=10 and tr.teacherid = %u and tr.add_time = (select max(add_time) from %s where teacherid = tr.teacherid and type=10)",
+                                  self::DB_TABLE_NAME,
+                                  $teacherid,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_value($sql);
+    }
+
 
 
     

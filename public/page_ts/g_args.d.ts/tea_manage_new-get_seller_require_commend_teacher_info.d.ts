@@ -20,39 +20,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	id	:any;
-	add_time	:any;
-	ass_adminid	:any;
-	userid	:any;
-	change_reason	:any;
-	except_teacher	:any;
-	subject	:any;
-	grade	:any;
-	textbook	:any;
-	phone_location	:any;
-	stu_score_info	:any;
-	stu_character_info	:any;
-	record_teacher	:any;
-	accept_reason	:any;
-	accept_flag	:any;
-	accept_adminid	:any;
-	accept_time	:any;
-	nick	:any;
-	account	:any;
-	change_reason_url	:any;
-	commend_teacherid	:any;
-	accept_account	:any;
-	stu_request_test_lesson_demand	:any;
-	stu_request_lesson_time_info	:any;
-	stu_request_test_lesson_time	:any;
-	wx_send_time	:any;
-	id_index	:any;
-	add_time_str	:any;
-	accept_time_str	:any;
-	stu_request_test_lesson_time_str	:any;
-	subject_str	:any;
-	grade_str	:any;
-	stu_request_lesson_time_info_str	:any;
 }
 
 /*

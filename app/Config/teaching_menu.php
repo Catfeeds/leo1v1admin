@@ -165,6 +165,7 @@ class teaching_menu{
 
              ["power_id"=>40, "name"=>"产品部",  "list"=>[
 
+                 ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
 
                  ["power_id"=>1, "name"=>"理优学生端",  "list"=>[
                      ["power_id"=>1, "name"=>"app首页设置",  "url"=>"/taobao_manage/taobao_type" ],

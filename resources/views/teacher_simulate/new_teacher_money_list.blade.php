@@ -36,6 +36,7 @@
                     <td>模拟工资等级</td>
                     <td>模拟工资</td>
                     <td>模拟课时奖励</td>
+                    <td>模拟课程收入</td>
                     <td>操作</td>
                 </tr>
             </thead>
@@ -54,6 +55,7 @@
                         <td>{{$var['level_simulate_str']}}</td>
                         <td>{{$var['money_simulate']}}</td>
                         <td>{{$var['reward_simulate']}}</td>
+                        <td>{{$var['lesson_price_simulate']}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
                             </div>
