@@ -1211,14 +1211,5 @@ class common_new extends Controller
         dd($ret_info);
         return $level;
     }
-    public function get_teacher_student(){//p4
-        $teacherid = 50658;
-        $start_time = strtotime('2017-08-01');
-        $end_time = strtotime('2017-09-01');
-        $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-        dd($ret_info);
-        return $level;
-    }
-
 
 }
