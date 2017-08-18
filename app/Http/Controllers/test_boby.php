@@ -173,8 +173,31 @@ class test_boby extends Controller
         $end_time = strtotime("2017-0".$m."-01");
         $ret_info = $this->t_student_info->get_stu_money_rate($start_time, $end_time);
         dd($ret_info);
-        $sql =  'select tq.phone,tq.uid,tq.start_time,tq.end_time,tq.duration,tq.is_called_phone, account,seller_student_status  from db_weiyi.t_agent a  left join db_weiyi.t_agent aa on aa.id = a.parentid left join db_weiyi.t_agent aaa on aaa.id = aa.parentid left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on aa.phone=tq.phone   join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where a.type=1 and a.create_time > 1501516800 and a.create_time < 1504195200 order by aa.phone limit 0,10';
 
+        $sql =  'select distinct tq.phone,tq.uid,tq.start_time,tq.end_time,tq.is_called_phone,
+                 m.account,t.seller_student_status
+                 from db_weiyi.t_agent a
+                 left join db_weiyi.t_student_info s on s.userid = a.userid
+                 left join db_weiyi_admin.t_tq_call_info tq on a.phone=tq.phone
+                 left join db_weiyi_admin.t_manager_info m on tq.uid=m.tquin
+                 left join db_weiyi.t_seller_student_new n on n.phone= tq.phone
+                 left join db_weiyi.t_test_lesson_subject t on t.userid= s.userid
+                 where a.type=1 and a.create_time > 1501516800
+                 and a.create_time < 1504195200 order by a.phone limit 0,10';
+
+    }
+
+    public function get_info(){
+        $sql =  'select distinct tq.phone,tq.uid,tq.start_time,tq.end_time,tq.is_called_phone, m.account,t.seller_student_status from db_weiyi.t_agent a left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on a.phone=tq.phone left join db_weiyi_admin.t_manager_info m on tq.uid=m.tquin left join db_weiyi.t_seller_student_new n on n.phone= tq.phone left join db_weiyi.t_test_lesson_subject t on t.userid= s.userid where a.type=1 and tq.start_time>1501516800 and a.create_time>1501516800 order by a.phone ';
+        $ret_info = $this->t_manager_info->get_some_info($sql);
+        $s = '<table border=1><tr><td>电话</td><td>uid</td><td>拨打时间</td><td>是否接通</td><td>拨打者</td><td>状态</td></tr>';
+        foreach ($ret_info as $item) {
+            $s = $s."<tr><td>".$item['phone']."</td><td>".$item['uid']."</td><td>"
+                .date('Y-m-d H:i:s',$item['start_time'])."</td><td>".$item['is_called_phone']."</td><td>"
+                .$item['account']."</td><td>".$item['seller_student_status']."</td></tr>";
+        }
+        $s = $s.'</table>';
+        return $s;
     }
 
 }

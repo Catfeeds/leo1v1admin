@@ -4718,10 +4718,7 @@ class tongji_ss extends Controller
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $adminid_right        = $this->get_seller_adminid_and_right();
 
-
-
         ///  排序处理;
-
         $sum_field_list=[
             "name_grade",
             "num_grade",
@@ -4742,10 +4739,6 @@ class tongji_ss extends Controller
             "num_location",
             "order_location",
             "per_location",
-
-
-
-
         ];
         $order_field_arr=  $sum_field_list ;
 
@@ -4765,7 +4758,6 @@ class tongji_ss extends Controller
 
         $data_map = &$origin_info['list'];
 
-
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_jx( $field_name,$start_time,$end_time,$require_adminid_list,'', '' );
 
@@ -4784,7 +4776,6 @@ class tongji_ss extends Controller
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value ] );
             $data_map[$check_value]["order_count"] = $order_item["have_order"];
         }
-
 
 
         foreach ($data_map as &$item ) {
@@ -4865,7 +4856,7 @@ class tongji_ss extends Controller
         }
         // \App\Helper\Utils::order_list( $paper_arr,"per", 0);
 
-        $origin_info = $origin_info['list'];
+        $origin_info = @$origin_info['list'];
 
 
         // 排序处理
@@ -7357,15 +7348,15 @@ class tongji_ss extends Controller
             @$lesson_avg["lesson_per"] +=$val["lesson_per"];
             @$lesson_avg["lesson_per_month"] +=$val["lesson_per_month"];
             @$lesson_avg["lesson_count_left"] +=$val["lesson_count_left"];
-            if($val["lesson_per_month"]>=140){
+            if($val["lesson_per"]>=140){
                 $val["reward"] = 500;
-            }elseif($val["lesson_per_month"]>=130){
+            }elseif($val["lesson_per"]>=130){
                 $val["reward"] = 400;
-            }elseif($val["lesson_per_month"]>=120){
+            }elseif($val["lesson_per"]>=120){
                 $val["reward"] = 300;
-            }elseif($val["lesson_per_month"]>=110){
+            }elseif($val["lesson_per"]>=110){
                 $val["reward"] = 200;
-            }elseif($val["lesson_per_month"]>=100){
+            }elseif($val["lesson_per"]>=100){
                 $val["reward"] = 100;
             }
 
@@ -7382,13 +7373,13 @@ class tongji_ss extends Controller
 
 
         }
-        \App\Helper\Utils::order_list( $list,"lesson_per_month", 0);
+        \App\Helper\Utils::order_list( $list,"lesson_per", 0);
         foreach($list as $ku=>&$ukk){
-            if($ku==0 && $ukk["lesson_per_month"]>=80){
+            if($ku==0 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=200;
-            }elseif($ku==1 && $ukk["lesson_per_month"]>=80){
+            }elseif($ku==1 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=150;
-            }else if($ku==2 && $ukk["lesson_per_month"]>=80){
+            }else if($ku==2 && $ukk["lesson_per"]>=80){
                 $ukk["other_reward"]=100;
             }
 

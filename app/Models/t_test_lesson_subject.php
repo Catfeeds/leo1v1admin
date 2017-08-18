@@ -724,7 +724,6 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
                                   $alibaba_url_str,
                                   $lessonid
         );
-        \App\Helper\Utils::logger('chenggong2');
         return $this->main_update($sql);
     }
 

@@ -275,5 +275,15 @@ class t_admin_main_group_name extends \App\Models\Zgen\z_t_admin_main_group_name
         $this->main_update($sql);
     }
 
+    public function get_seller_master_adminid_by_campus_id($campus_id){
+        $sql = $this->gen_sql_new("select master_adminid from %s "
+                                  ." where campus_id = %u and main_type=2",
+                                  self::DB_TABLE_NAME,
+                                  $campus_id
+        );
+        return $this->main_get_list($sql);
+    }
+
+
 
 }

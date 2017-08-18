@@ -1499,11 +1499,9 @@ class ss_deal extends Controller
             //课时
             $promotion_spec_diff_money+= ($promotion_spec_present_lesson- $promotion_present_lesson ) * ($promotion_discount_price/$lesson_total )*0.6 ;
 
-            if ($promotion_spec_diff_money <0 ) {
+            if($promotion_spec_diff_money <0 ){
                 $promotion_spec_diff_money =0;
             }
-
-
         }else{
             $promotion_spec_present_lesson = $promotion_present_lesson;
             $promotion_spec_discount       = $promotion_discount_price;
@@ -1540,9 +1538,6 @@ class ss_deal extends Controller
         $from_parent_order_lesson_count=0;
         //8月营销活动
         $price = $this->get_8_month_activity($userid,$price,$lesson_total,$contract_type,$has_share_activity_flag);
-
-        // if(\App\Helper\Utils::check_env_is_local() || in_array($this->get_account(),["adrian","jim"])){
-        // }
 
         $orderid=$this->t_order_info->add_contract(
             $sys_operator,  $userid , $origin, $competition_flag,$contract_type,$grade,$subject,$lesson_total,$price ,  $discount_price ,$discount_reason , $need_receipt, $title ,$requirement, $from_test_lesson_id , $from_parent_order_type, $parent_order_id, $default_lesson_count ,
@@ -2182,7 +2177,7 @@ class ss_deal extends Controller
             //分配销售总监
             $sub_assign_adminid_1=0;
             $campus_id = $this->t_admin_group_user->get_campus_id_by_adminid($origin_assistantid);
-            $master_adminid_arr = $this->t_admin_group_name->get_seller_master_adminid_by_campus_id($campus_id);
+            $master_adminid_arr = $this->t_admin_main_group_name->get_seller_master_adminid_by_campus_id($campus_id);
             $list=[];
             foreach($master_adminid_arr as $item){
                 $list[] = $item["master_adminid"];

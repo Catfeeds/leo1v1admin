@@ -3724,11 +3724,11 @@ class user_manage_new extends Controller
 
     public function update_order_price(){
         $orderid = $this->get_in_int_val("orderid");
-        $price   = $this->get_in_string_val("price");
-        $discount_price   = $this->get_in_string_val("discount_price");
+        $price   = $this->get_in_str_val("price");
+        $discount_price   = $this->get_in_str_val("discount_price");
         $account = $this->get_account();
 
-        if(!in_array($account,["zore","echo"])){
+        if(!in_array($account,["zero","echo"])){
             return $this->output_err("你没有权限");
         }
 
