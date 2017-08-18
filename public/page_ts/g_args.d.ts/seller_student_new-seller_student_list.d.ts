@@ -43,6 +43,7 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	require_id	:any;
 	lessonid	:any;
 	call_end_time	:any;
 	except_lesson_time	:any;
@@ -148,6 +149,7 @@ interface RowData {
 	test_lesson_fail_flag_str	:any;
 	test_lesson_order_fail_flag_str	:any;
 	confirm_admin_nick	:any;
+	student_nick	:any;
 	teacher_nick	:any;
 	origin_assistant_nick	:any;
 	origin_user_nick	:any;
@@ -159,6 +161,7 @@ interface RowData {
 	seller_require_change_flag_str	:any;
 	lesson_price	:any;
 	all_price	:any;
+	test_lesson_order_fail_flag_one	:any;
 }
 
 /*
