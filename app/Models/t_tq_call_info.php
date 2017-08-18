@@ -281,18 +281,19 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     }
 
-        public function get_agent_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ) {
+    public function get_agent_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ,$type) {
         $where_arr=[
             ["m.uid=%u", $uid, -1] ,
             ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
             ["tq.start_time>=%u", $start_time, -1],
             ["tq.start_time<%u", $end_time, -1] ,
+            ["a.type=%s", $type, -1] ,
         ];
         $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status);
 
         $sql=$this->gen_sql_new(
-            "select distinct tq.*, m.account,t.seller_student_status "
+            "select distinct tq.*, m.account,t.seller_student_status,m.account_role "
             ." from %s a"
             ." left join %s s on s.userid=a.userid "
             ." left join %s tq on a.phone=tq.phone "

@@ -258,7 +258,7 @@ class wx_teacher_api extends Controller
             'account_type'   => $account_type,
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
-            // 'complaint_img_url' => $complaint_img_url,
+            'complaint_img_url' => $complaint_img_url,
         ]);
 
 
@@ -357,31 +357,18 @@ class wx_teacher_api extends Controller
                 $savePathFile = $imgStateInfo['savePathFile'];
                 $file_name = $this->put_img_to_alibaba($savePathFile);
 
-                $alibaba_url_origi[] = $savePathFile;
                 $alibaba_url[]       = $file_name ;
+                unlink($savePathFile);
             }
 
-            $alibaba_url_str_compress = implode(' ',$alibaba_url_origi);
-            $tar_name = "/tmp/".md5(date('YmdHis').rand()).".tar.gz";
-            $cmd = "tar -cvzf $tar_name $alibaba_url_str_compress ";
-            $ret_tar = \App\Helper\Utils::exec_cmd($cmd);
-
-            $file_name_origi = $this->put_img_to_alibaba($tar_name);
+            $alibaba_url_str = implode(',',$alibaba_url);
 
             foreach($alibaba_url_origi as $item_orgi){
                 unlink($item_orgi);
             }
             unlink($tar_name);
-            return $file_name_origi;
+            return $alibaba_url_str;
         }
-        // 处理压缩图片
-
-
-        // 处理压缩图片
-
-        $alibaba_url_str = implode(',',$alibaba_url);
-
-        $ret = $t_test_lesson_subject->put_pic_to_alibaba($lessonid, $alibaba_url_str);
     }
 
 

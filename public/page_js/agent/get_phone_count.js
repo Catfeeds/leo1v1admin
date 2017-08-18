@@ -16,10 +16,12 @@ $(function(){
             phone:	$('#id_phone').val(),
             is_called_phone:	$('#id_is_called_phone').val(),
             seller_student_status:	$('#id_seller_student_status').val(),
-            uid:	$('#id_uid').val()
+            uid:	$('#id_uid').val(),
+            agent_type:$('#id_agent_type').val()
         });
     }
 
+    Enum_map.append_option_list("agent_type", $("#id_agent_type"));
     Enum_map.append_option_list("boolean",$("#id_is_called_phone"));
 
     $('#id_date_range').select_date_range({
@@ -78,6 +80,7 @@ $(function(){
     });
 
 
+    $("#id_agent_type").val(g_args.agent_type);
     $('#id_phone').val(g_args.phone);
     $('#id_is_called_phone').val(g_args.is_called_phone);
     $('#id_uid').val(g_args.uid);
