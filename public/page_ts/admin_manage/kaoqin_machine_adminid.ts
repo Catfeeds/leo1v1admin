@@ -105,4 +105,12 @@ $(function(){
     });
 
 
+    $("#id_sync").on("click",function(){
+        $.do_ajax("/ajax_deal2/sync_kaoqin_machine",{
+            "machine_id" : $("#id_machine_id").val()
+        });
+
+    });
+
+
 });

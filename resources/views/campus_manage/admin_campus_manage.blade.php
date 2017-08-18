@@ -51,6 +51,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                
+                                <a class="opt-edit-name">修改</a>
                                 <a class="opt-assign-main-group">分配小组</a>
                                 <a class="opt-del-campus">删除校区</a> 
                                 <a class="opt-del-main-group">删除</a> 
