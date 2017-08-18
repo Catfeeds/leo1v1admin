@@ -2124,4 +2124,27 @@ class user_manage extends Controller
                 "ret_info" => @$ret_student_subject,
         ]);
     }
+     /**
+     * @author    sam
+     * @function  学生分数列表显示
+     */
+    public function  student_school_score_stat() {
+        $username = $this->get_in_str_val("username");
+        $grade    = $this->get_in_int_val("grade",-1);
+        $semester = $this->get_in_int_val("semester",-1);
+        $stu_score_type = $this->get_in_int_val("stu_score_type",-1);
+        $page_info=$this->get_in_page_info();
+        $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type);
+        foreach( $ret_info["list"] as $key => &$item ) {
+            $ret_info['list'][$key]['num'] = $key + 1;
+            //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
+            \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
+            E\Esemester::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            E\Estu_score_type::set_item_value_str($item);
+            $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+        }
+        return $this->pageView(__METHOD__, $ret_info);
+    }
 }

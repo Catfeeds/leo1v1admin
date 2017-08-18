@@ -1,0 +1,7582 @@
+[33mcommit 06f670c84a62c0991faf42a216529e6a48a6adc1[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 12:02:15 2017 +0800
+
+    fix
+
+[33mcommit 58b353b20b69eec8fa585d0c0b4b3448c715d637[m
+Merge: c43a27a5 15789486
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:59:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c43a27a544595100a9a498b0be6eb3fba9a9a329[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:59:18 2017 +0800
+
+    fix
+
+[33mcommit 15789486e18c44dc963a99722776e578c2ba83c1[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:58:43 2017 +0800
+
+    fix
+
+[33mcommit c94023c2e204a278a52c5336de2052128ba130d8[m
+Merge: 00053410 2ff4e5e9
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:39:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 00053410024ede841003d86802aec1d2d30f18d7[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:39:22 2017 +0800
+
+    fix
+
+[33mcommit 2ff4e5e91f31ff0f40071c2949f7c2eb6f0a4dfc[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:38:50 2017 +0800
+
+    fix
+
+[33mcommit 87b69f0501ffdf6cc0d6349b8edafc0292e8c3d4[m
+Merge: 1ff32403 774198c0
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:36:43 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1ff3240319e3400beeb5dd409a9d7aa00905d48b[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:36:40 2017 +0800
+
+    fix
+
+[33mcommit 774198c0e2a9f7f60b7e0465d858efe23bdd800d[m
+Merge: 20a9c3bb 94d3f2b7
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:35:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 94d3f2b7f7f3f0c5cc25832dd43f22f0a801f6e4[m
+Merge: 2384b9db eb36e913
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:34:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2384b9db20e564e8f38716f1bfbad5831739fbc3[m
+Merge: c8ca72c5 506cf274
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:34:31 2017 +0800
+
+    fix
+
+[33mcommit 20a9c3bb513e2f9980516039ef8f8c419d2cf6d2[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:34:27 2017 +0800
+
+    fix
+
+[33mcommit eb36e91396869bc7da54a898c9981b5b2551eb50[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:33:59 2017 +0800
+
+    fix
+
+[33mcommit c8ca72c53e228b308de0b567c82fd0da5d3cd6ef[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:33:37 2017 +0800
+
+    fix
+
+[33mcommit 624eb317acb5e00a9ed777e1416a600317ba40f9[m
+Merge: 3b95e1f9 506cf274
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:31:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3b95e1f9f689a3db37f675feebb82d66cc67353b[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:31:27 2017 +0800
+
+    fix
+
+[33mcommit 506cf274eedf3b29ff62a7270b6547c454e7c7e0[m
+Merge: 9912f199 5a1bc22b
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:30:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9912f19916a386cca3a59b4fcf87fdfa2ffa43bf[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:30:21 2017 +0800
+
+    fix
+
+[33mcommit 5a1bc22b3af8f2e32516b8dee2be4ee8a266cf34[m
+Merge: dc845eea c0e3ce07
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:27:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c0e3ce079309f325643cf649d811a2ab5072b71d[m
+Merge: fffbdc36 2897815d
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:26:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fffbdc3689c09c5ef7b2b994890895912cbbc15a[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:26:47 2017 +0800
+
+    fix
+
+[33mcommit dc845eead208b740f9a54d3583a8fddb25acba7c[m
+Merge: 23ead921 2897815d
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:24:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 23ead921939781b5acd53a84925b3bdf56c202a1[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:24:22 2017 +0800
+
+    fix
+
+[33mcommit 2897815d9c7e7980c53053f4f9f093f1350db3ad[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:23:48 2017 +0800
+
+    fix
+
+[33mcommit e4c7a7510d1b2aa5e8cdc08f1ca73ebc8f2348a8[m
+Merge: 5f07e547 869db89b
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:20:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5f07e547896b06508accb85667997c9fb1606b27[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:20:35 2017 +0800
+
+    fix
+
+[33mcommit 869db89b516a0502adde4a243c78263c514bb126[m
+Merge: 99b366e9 20a8a3a5
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:20:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 99b366e951ce7803dc5c728c0fc0bf24b0cf9801[m
+Merge: a8b28072 a5d149df
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:14:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    t
+
+[33mcommit a8b28072bf9240294da58fe7f2e9c0cc6c6bfd9e[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 11:14:23 2017 +0800
+
+    fix
+
+[33mcommit 20a8a3a523f50930b860bb318e942f8b77f618b8[m
+Merge: 22bcf422 a5d149df
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:14:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 22bcf4228ae4b16ece626cbc38a15c69d6b71426[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 11:14:18 2017 +0800
+
+    fix
+
+[33mcommit a5d149df9ac9f7eef544efc6a1362a24e1fdb5c9[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 11:13:14 2017 +0800
+
+    fix
+
+[33mcommit 2f0c3e0a257aedc2f0c7636d2cdd9b3634294b78[m
+Merge: d9e73575 d75296e4
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 10:55:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d9e735751fa9fa3e33dd8d41c81a572798a3f63d[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 10:55:26 2017 +0800
+
+    fix
+
+[33mcommit d75296e40b05d66ded8edf898b54af0e9ae88394[m
+Merge: 11883095 86ab4130
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 10:54:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1188309578f4397c1181ce339bc2238aa409bf34[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 10:54:26 2017 +0800
+
+    fix
+
+[33mcommit 86ab4130a1509baaa13024fe6deeda055d41252b[m
+Merge: 67aba1d9 127f73fe
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 10:36:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 67aba1d93b290fc9663594a3d8079b4ec5bd5d69[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 9 10:36:38 2017 +0800
+
+    fix
+
+[33mcommit 127f73fe0f66d0aca5d59dc487b1a8965681875d[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 10:36:00 2017 +0800
+
+    fix
+
+[33mcommit 4004e521b60a96df8decbcd0ec917431b7a9b8fd[m
+Merge: 033ad466 115b3e14
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 09:57:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 033ad466a2de11e714a026380705251e2cea935f[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 09:57:47 2017 +0800
+
+    fix
+
+[33mcommit 115b3e141e9f3ceb579f3f7fef72049fd8395914[m
+Merge: c2b0df1c 3ad0ae2a
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 09:56:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c2b0df1c62867bed2011c392d02986c6bdc39d51[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 09:56:51 2017 +0800
+
+    fix
+
+[33mcommit 3ad0ae2a1a2d13a8aa0f2ee5287f1a6c28f2fb9a[m
+Merge: 9d4a826b 55c3e889
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 09:50:44 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9d4a826b764d6b20750f56ca84ff4c1b29cb2fff[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 9 09:50:26 2017 +0800
+
+    fix
+
+[33mcommit 55c3e889f0528f2820464dcb4be85b9aa8f67fb1[m
+Merge: 0ecd0492 de09a0e9
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 09:49:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0ecd0492f8658ef1cc64c5fc560aa17d560def67[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 9 09:49:02 2017 +0800
+
+    fix
+
+[33mcommit ac883e26ab655767b67ade900d3fe92d0157ac7e[m
+Merge: 2b600dd5 de09a0e9
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:50:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2b600dd579909fe36420c74d0c90a22443ef3da1[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:50:43 2017 +0800
+
+    fix
+
+[33mcommit de09a0e9281a67db02b1c45dd0dfd957dae41885[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:49:59 2017 +0800
+
+    fix
+
+[33mcommit 0c8ebcf37c8e83b9062e75ca49de7a22fc23f4f0[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:49:14 2017 +0800
+
+    fix
+
+[33mcommit 50dc8f17533a79bf6ec8c45f22fa65decc95d5da[m
+Merge: c1ed5752 53afd5c0
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:46:54 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c1ed575241f1d2fb5decf9d948fdd0f58885f237[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:46:42 2017 +0800
+
+    fix
+
+[33mcommit 53afd5c02005e8e679dcb825474d9b273c02d104[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:45:59 2017 +0800
+
+    fix
+
+[33mcommit bdcdb7ad50469fc8aa1fdcf21291dc1654b8669f[m
+Merge: 2cc4a604 02a0d5b8
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:33:33 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2cc4a604ac3635ce69f1b9316bc45cfbe381e86b[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:33:26 2017 +0800
+
+    fix
+
+[33mcommit 02a0d5b894a0587d52d77d5365fa4fa3e7f706a7[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:32:47 2017 +0800
+
+    fix
+
+[33mcommit fde7d5bc177073f228488f94abca1c80d4f4f796[m
+Merge: 6b3612ed e011364c
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:27:02 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6b3612ed47fcb43c2dc3f78b17c0a8ec0153ed21[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 19:26:59 2017 +0800
+
+    fix
+
+[33mcommit e011364c2f7d02ea4a8aa67a48e61a1e7c5f0bee[m
+Merge: f615839b 575201dc
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:26:02 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f615839bd0bdbf6ada78e5acda689321f69afd51[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 19:25:56 2017 +0800
+
+    fix
+
+[33mcommit 575201dcf8ed9ff514dc97029410ac838d9c3380[m
+Merge: 6dc9c74b dc00089f
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 18:18:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6dc9c74bea68449c7806092d360e561a8666db08[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 18:18:13 2017 +0800
+
+    fix
+
+[33mcommit dc00089f528d5aaff1afbfc3870b03d7e764e7d7[m
+Merge: 5e4cf9ff fc6aed35
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 18:17:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5e4cf9ff7b75106ab6d3afebf834deaf258ca236[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 18:17:35 2017 +0800
+
+    fix
+
+[33mcommit 2725ce46159fe3807f6bf1e92c03c7a8c722754b[m
+Merge: e6fa2dfe fc6aed35
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 18:13:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e6fa2dfe4044c1bb61866e6699a2403d689dd1d4[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 18:12:46 2017 +0800
+
+    fix
+
+[33mcommit fc6aed353d495fb20dd512372d20cdd1cf5c5c40[m
+Merge: 56c80076 795fe2f7
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 18:12:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 795fe2f79b781d3569a025c3e76b8d014f899d27[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 18:09:55 2017 +0800
+
+    fix
+
+[33mcommit 56c80076e6bfb557010dc56c5651669971534405[m
+Merge: c6288ade 301be26a
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 18:05:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c6288ade394827269ae19beeb2731024e35f2a9a[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 18:05:03 2017 +0800
+
+    fix
+
+[33mcommit 301be26a7329e112ee4cf9d7630af4071a5b4b55[m
+Merge: c85a5cd3 8d14b7e6
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 18:04:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c85a5cd32b14f27b5227faa43cc1fb842e0380bb[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 18:04:17 2017 +0800
+
+    fix
+
+[33mcommit 8d14b7e6eef8ed733b9c826a84e75316a9fb5119[m
+Merge: defbb857 af420ce1
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:46:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit defbb8571d2629346104dd821515942b9b2e88a2[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:46:32 2017 +0800
+
+    fix
+
+[33mcommit af420ce14e5266ede62b96bb03915f827733a3af[m
+Merge: cf2e1b2f 08157d8c
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 8 17:45:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit cf2e1b2fa92a2abc1a14e18a98be5000eb66d717[m
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 8 17:45:36 2017 +0800
+
+    fix
+
+[33mcommit 08157d8c250d84c02eee87ff927ae05b79c14bac[m
+Merge: 13a9d6b2 6f3e6e94
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:39:50 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 13a9d6b2549af504233010d24e5a9e395ec5e303[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:39:39 2017 +0800
+
+    fix
+
+[33mcommit 6f3e6e94575ff90589f9b28e1d745549bbfb88cb[m
+Merge: 5c703846 2d8db4ab
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 17:38:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5c703846c3f3bf2a15fff9229c619ffe85876f84[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 17:38:46 2017 +0800
+
+    fix
+
+[33mcommit 2d8db4ab0f721c6a69cf4c05bd76ea85be8e3ace[m
+Merge: d1ff8baa bb8502ad
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:11:50 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d1ff8baa7acd4f5ba3edd93932773e5ffb50acb9[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:11:38 2017 +0800
+
+    fix
+
+[33mcommit bb8502ad604ce5904add9f5ddc600a4d40ee82f2[m
+Merge: 58ea5bb7 06897d66
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 17:10:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 58ea5bb73fa8f20c60e609da63e1cf6ffaf6ec89[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 17:10:49 2017 +0800
+
+    fix
+
+[33mcommit a03a92351a991a4398624f3f7f0c79389eb2ce04[m
+Merge: 0f5a4f13 06897d66
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 17:01:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 06897d66720d02fc4104e5368eeb19db36cad315[m
+Merge: c498ecb7 9ebc8171
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 17:00:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c498ecb73552244e08afa9b03bb79d16b387bf45[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 17:00:45 2017 +0800
+
+    fix
+
+[33mcommit 0f5a4f13b1c6f1185cb57e1116711122bad2ba32[m
+Merge: 8622c81d 9ebc8171
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:46:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8622c81d651a346fe200782c9494554a4d01e605[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:46:43 2017 +0800
+
+    fix
+
+[33mcommit 9ebc8171c1a2508af3b7574be60a13b185ce5cd7[m
+Merge: 84ca4f65 1324c4af
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 16:45:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 84ca4f653f18392b8ac087c2ab4c4fe8b35ca65f[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 16:45:51 2017 +0800
+
+    fix
+
+[33mcommit 1324c4af90a53094a0a40fd36aff4b347b1e4965[m
+Merge: bdd440d5 cd54fcee
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:45:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bdd440d5a50a87176a0ca763919305c3a97a3cf5[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:45:04 2017 +0800
+
+    fix
+
+[33mcommit cd54fcee36de3c12161971f641222b8df70a027e[m
+Merge: fa0cbbb9 4d8fb07e
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 16:44:20 2017 +0800
+
+    fix
+
+[33mcommit fa0cbbb9c6e4b1a800ab9955b66468d7efc4efe4[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 16:43:39 2017 +0800
+
+    fix
+
+[33mcommit 4d8fb07e6e423644d3e2a8a218fce0cc8be6a689[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:32:26 2017 +0800
+
+    fix
+
+[33mcommit b3fdfd7144e836c71edf2937f64cc9d87f1003bb[m
+Merge: 50a37316 0c17d68c
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:23:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 50a373167c826800d536fb8badea4df3ec3016e8[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:23:02 2017 +0800
+
+    fix
+
+[33mcommit 0c17d68cb61910ad5a0b9f3ff4c20ac7a36e5e6d[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 16:22:31 2017 +0800
+
+    fix
+
+[33mcommit 1578cb264e2c0a784dd348560d5e87a3ac68b9aa[m
+Merge: fffb616b 9739bc24
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:07:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fffb616b67027647e36158d20e00c0f48de47954[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:07:06 2017 +0800
+
+    fix
+
+[33mcommit 27e1fbe1f1de20e86085fae5a79b9ff80fdc8663[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 16:01:08 2017 +0800
+
+    fix
+
+[33mcommit 9739bc244889807afbc1b7dd46a6ebb941f56e36[m
+Merge: 61647a95 804d9e1c
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 16:00:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 61647a959560b4533df71cde9be069936cb87edc[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 15:59:58 2017 +0800
+
+    fix
+
+[33mcommit f5911df9ae1772f73adfb9f9668148beb5a81ee3[m
+Merge: ba8e2bc6 804d9e1c
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 15:16:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ba8e2bc64d50cc3448654e84c797fc22e16964f6[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 15:16:16 2017 +0800
+
+    fix
+
+[33mcommit 804d9e1cf3e0767424bc9580a8e8fb13fb6f3bb1[m
+Merge: 30dcf2a9 c8e39e51
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 15:15:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 30dcf2a97f72da543b344eb5d1832ca5e393ebf1[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 15:15:43 2017 +0800
+
+    fix
+
+[33mcommit c8e39e5191d1a69c0146cafe7df9d730aca70047[m
+Merge: 7151fc45 9f7ef44d
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 15:06:33 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7151fc45768bd408b3c7d8dc2fd68f5c3643af95[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 15:06:25 2017 +0800
+
+    fox
+
+[33mcommit 9f7ef44db3be514de99e7f9d7c8c2ff3dad2cd0f[m
+Merge: f50a814d 5bab9ac1
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 15:05:51 2017 +0800
+
+    fix
+
+[33mcommit f50a814d7855953359b19154af7fd25e950c11e9[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 8 15:03:46 2017 +0800
+
+    fix
+
+[33mcommit 5bab9ac1e0fb9a4966184e62d75f771be0ed9a2d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 14:42:15 2017 +0800
+
+    fix
+
+[33mcommit d3e9f2beae6723e5ceb8a7bec7935fcd5a4916ce[m
+Merge: fe5f1bdf 8c31c5d7
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 14:34:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fe5f1bdf35b98ef761094548cabd49ea4578cd2d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 14:34:35 2017 +0800
+
+    fix
+
+[33mcommit 8c31c5d736449cfc0bcf83284090e322bffa647c[m
+Merge: 6e893324 dc58edb1
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 12:56:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6e893324258f6c93f3460d147878f2f5995aae7b[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 12:55:48 2017 +0800
+
+    fix
+
+[33mcommit dc58edb189c3477a72558928934d95d8cc759cd9[m
+Merge: 0f7eac65 ffc79594
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 8 12:55:06 2017 +0800
+
+    fix
+
+[33mcommit 0f7eac65cb0dc089db121b830744f511be20645d[m
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 8 12:53:43 2017 +0800
+
+    fix
+
+[33mcommit ffc795948b4a372ea6484d0174ea8897e2b7b92e[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 12:21:54 2017 +0800
+
+    fix:
+
+[33mcommit 754e9dfdc96e8839f7b5a2bf046d3a2d37df2b75[m
+Merge: 40865c76 a8a9c679
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 11:58:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 40865c763f31dd0457edeb7af1c42006305f2ad4[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 11:58:04 2017 +0800
+
+    fix
+
+[33mcommit a8a9c679c343d64a728a0e18aacd5ab82033b112[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 11:56:27 2017 +0800
+
+    fix
+
+[33mcommit 443bd755e9c589def6f7d7c97246ee06efabcfe0[m
+Merge: 8330a264 b3c69272
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 11:32:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8330a26496a0512d93d5a9a35773e230cbe8a5c8[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 11:32:34 2017 +0800
+
+    fix
+
+[33mcommit b3c692724042102d219511a673519c282f553bf3[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 11:32:10 2017 +0800
+
+    fix
+
+[33mcommit eee7b6ff117127f8075f6b8885b9da16fd068320[m
+Merge: 4d8cdb40 f7ab1e8a
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 10:26:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4d8cdb405d97feebc1040590b7db394b867298b1[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 10:26:45 2017 +0800
+
+    fix
+
+[33mcommit f7ab1e8a007410fd2fc4cb5cd1334099c4417807[m
+Merge: ccd2ee67 bb1f4a9e
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 10:26:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ccd2ee6709cde677597598132ea52a510c2ee58a[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 10:25:58 2017 +0800
+
+    fix
+
+[33mcommit 987bd7c5c5fab6883df3891149bd24a744ea7df9[m
+Merge: 30aaf2cd bb1f4a9e
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 10:13:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bb1f4a9ed09c42bae14a0cf9334c0f9e6d8de45b[m
+Merge: a48d7ed6 934c745f
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 10:12:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a48d7ed66eed2833f1022d69cad3246aab7b0380[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 10:12:00 2017 +0800
+
+    fix
+
+[33mcommit 30aaf2cd42218348976e401204b790a6afd3e27e[m
+Merge: 0f068c7b 934c745f
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 10:10:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0f068c7b286d86748aea92fef1c66213ff395d8c[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 10:10:29 2017 +0800
+
+    fix
+
+[33mcommit 934c745f496171eb3a61aa29beb54256f52de7b5[m
+Merge: 8c66bad1 af74a912
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 10:08:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8c66bad16a2a4886810c84edc4d7f5d768d0f420[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 8 10:07:11 2017 +0800
+
+    fix
+
+[33mcommit a5f9e0382ad0ddc75d03c8d9160bcf543b7c015f[m
+Merge: 607f4667 af74a912
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 09:54:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit af74a912e32f515afcdf7ebdc4e2202283bf9eee[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 09:53:50 2017 +0800
+
+    fix
+
+[33mcommit 607f46678d2f0618ecdba4beb066a3fec3007366[m
+Merge: a7a5b2cc bac74ebc
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 08:54:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a7a5b2cc8af3aa964c36df37d31b26c27f20ffca[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 8 08:54:29 2017 +0800
+
+    fxi
+
+[33mcommit bac74ebc69fb388cb11d47cff9611056c0680265[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 8 08:51:21 2017 +0800
+
+    fxi
+
+[33mcommit 662d7e2120acf56cb4736f261ef47eb66235a66f[m
+Merge: 6edc3673 61949c3a
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 21:47:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 61949c3ae0c4e47cecd2f432600b85c263c3d6d5[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 21:46:57 2017 +0800
+
+    fix
+
+[33mcommit 6edc367358b14e6e6c5bac7dd413417a01bbfe82[m
+Merge: 0e2c48e7 edc26d34
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 21:26:14 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit edc26d34a05a2ac9e329ba5ff91f755eb70d7a2d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 21:25:27 2017 +0800
+
+    fix
+
+[33mcommit 0e2c48e7b90ed17449469da5b0b674ba6d55988c[m
+Merge: 56bd3185 2bfa43a1
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 18:59:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2bfa43a19ca81f28ca63c619a6e56bc7f640fbf1[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 18:58:47 2017 +0800
+
+    fix
+
+[33mcommit 56bd31851d6bb06fe0256c0623cde422e4a5c3cf[m
+Merge: 083fd597 6305b7a7
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 18:20:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 083fd5977097ff0f1cf3efefa47bfb35a0f971e5[m
+Merge: 8898e44e 1bb72cf7
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 18:20:29 2017 +0800
+
+    fix
+
+[33mcommit 6305b7a70af3e05bd23d868b5c1f8479fa6355fc[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 18:16:31 2017 +0800
+
+    fix
+
+[33mcommit 8898e44e9fa6e71370c8850261eea779417ad60b[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:54:02 2017 +0800
+
+    f
+
+[33mcommit 1bb72cf7400828b702e56209b53fe1614bacf732[m
+Merge: cc09023d c4962577
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 17:50:43 2017 +0800
+
+    fix
+
+[33mcommit cc09023d82a14969b2989e21384ffe6c4a30a4cc[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 17:50:13 2017 +0800
+
+    fix
+
+[33mcommit ed14a3e087f8b355821c9739bad1db3e6adf0a14[m
+Merge: d171711e c4962577
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:34:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d171711e6779cea931a174a28c802bdf6c202f2f[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:34:38 2017 +0800
+
+    fix
+
+[33mcommit c4962577f6f2b9f4cdfe2ba906c7f56d8ec0f6d5[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 17:34:02 2017 +0800
+
+    fix
+
+[33mcommit 0bd2a71e341ccfd85eaedd231b83112c04aae207[m
+Merge: cc44a0ef fd2f00d1
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:30:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit cc44a0ef20f4d0185c0109e453d3f2a60db6db37[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:30:30 2017 +0800
+
+    fix
+
+[33mcommit fd2f00d14ff97ea24a52b12e297581b526b75aac[m
+Merge: ea55bde3 37e3eb17
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 17:30:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ea55bde3609dc3803e0970e56c7948f80602e262[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 17:29:59 2017 +0800
+
+    fix
+
+[33mcommit 37e3eb1745d37aeaa4b96b50448ea42c0ece9305[m
+Merge: 85c8f72e 601f5059
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:14:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 85c8f72e5685a099bfd8ec96de549bfb871d38a9[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 17:14:24 2017 +0800
+
+    gix
+
+[33mcommit 601f50598c107ab46bc027cc57ee42f2d98b9337[m
+Merge: 535fb7fb 58d137ff
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 17:13:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 535fb7fb2c2488834da308c66c9d0353f754fe84[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 17:13:30 2017 +0800
+
+    fix
+
+[33mcommit 64aed243eac10865ab9463ee792cb05173902995[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:54:41 2017 +0800
+
+    fix
+
+[33mcommit 58d137ff1d4563279d4379cf44df5a17456bced2[m
+Merge: 108aea0b 5d473ced
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:53:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 108aea0b47ba178cc6698988c1bed2ff77881f31[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:53:23 2017 +0800
+
+    fix
+
+[33mcommit 5d473ced59f3866d9dbe6a08f0bca2b123064f69[m
+Merge: fb05a685 12ff2865
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:53:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fb05a6852fc0acfca8fe9dd9f2c016b2c3964b9b[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:53:00 2017 +0800
+
+    fix
+
+[33mcommit 12ff286541c989760e21d60d80b7db4d88551da5[m
+Merge: 236a2562 66a73871
+Author: sam <sam@leoedu.com>
+Date:   Sat Aug 5 16:52:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 236a256246d558520f8089fd3d22911a6e1ae977[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Aug 5 16:52:34 2017 +0800
+
+    fix
+
+[33mcommit 2b48261a75cd22926234290d6b1d4279b93329bd[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:26:01 2017 +0800
+
+    fix
+
+[33mcommit be800d71732aade042802e6b13146fbe97624d20[m
+Merge: 34ffbf0f 66a73871
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:25:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 66a738719f33a140a4fceded2c3785ba906fd434[m
+Merge: 9ad5edca d0c65ab6
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:25:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9ad5edca2b32588926026a76a0dcb421eee6523e[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:25:31 2017 +0800
+
+    fix
+
+[33mcommit d0c65ab624db60d87ed5de75b9369908df544430[m
+Merge: 1b398263 24c9a1fe
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 16:25:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1b3982638ba3441198f365a15421c8d18def7d47[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 16:25:08 2017 +0800
+
+    seller_student_new call_admin_count
+
+[33mcommit 34ffbf0fa0c3d954b82a383ca8060df857ec71bb[m
+Merge: ed0e6e51 24c9a1fe
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:20:31 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ed0e6e51efc17acc4220673e670f157c2ef775d8[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:20:13 2017 +0800
+
+    fix
+
+[33mcommit 7ce2128df9308b27de408a5ece05fb4eef9b726b[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:19:05 2017 +0800
+
+    fix
+
+[33mcommit 24c9a1feb7b96a0d6549ec7daac33078111cd7d8[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:18:39 2017 +0800
+
+    fxi
+
+[33mcommit e4c9ff8120be652cdf59628ed85c594b47e133b8[m
+Merge: ce100eb2 338936e4
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:07:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ce100eb29775215125697e34b9b0f4a4d808c7db[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:07:09 2017 +0800
+
+    fix
+
+[33mcommit 338936e4cde94843adda205d8668e7f333002d46[m
+Merge: 3f166c62 d69985f2
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:06:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3f166c62f8ebbbb8967c98143ff8b425d25437d8[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 16:06:28 2017 +0800
+
+    fix
+
+[33mcommit d69985f2fc07146cf1f02fd451b987436d3a5763[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 16:05:07 2017 +0800
+
+    fix
+
+[33mcommit 9c1954efd8589279123a293f88992c9197100926[m
+Merge: 665a5a82 c67a0575
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 15:46:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c67a057531a6b8661d0d532b4c678fd500b5c715[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 15:46:06 2017 +0800
+
+    fix
+
+[33mcommit 665a5a82b3c129ee69b52a9b221e08199b016c00[m
+Merge: d4090f96 940f08b7
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 15:15:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 940f08b73e7ac422c54fa4f78ece3a1e1baa2453[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 15:14:41 2017 +0800
+
+    fix sys_invalid_fag
+
+[33mcommit d4090f9664f7a267bbfd1e60bd8f934a186ec42f[m
+Merge: a11666d9 e3681b14
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 15:05:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e3681b14c921381d8f097fb59db7a4a19205b778[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 15:04:53 2017 +0800
+
+    fix
+
+[33mcommit b866f0545fe08cc789b7a54d053d8c0cc9cd66eb[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 14:56:55 2017 +0800
+
+    fix
+
+[33mcommit a11666d9bd73d40a8a0ea3358891701a6752663f[m
+Merge: bacec19b ed86395c
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 14:40:01 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ed86395c7881eb881a4d739003f25846ba9b51cb[m
+Merge: a31e9067 d50f602c
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 14:38:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a31e9067f6457938a50d251d53a25a1fc7c0ee61[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 14:37:55 2017 +0800
+
+     order pre money
+
+[33mcommit bacec19be1c1e058c2d8ad10afc5901ff2963528[m
+Merge: 8a7cfdf9 d50f602c
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 14:37:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8a7cfdf92070cd95802a4f244716c86991be34be[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 14:36:57 2017 +0800
+
+    fix
+
+[33mcommit d50f602ca9ff9f2e55795620cd9852db6ca680f4[m
+Merge: ae03ea04 67d7e53f
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 14:36:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ae03ea04d3ab1dec4020458ea150a04b7d016315[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 14:36:07 2017 +0800
+
+    fix
+
+[33mcommit 67d7e53f45685630f16e2f9668b54fd770ec591f[m
+Merge: 17485aec 3db7dcc4
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 13:59:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 17485aecde16c4cb671998b44dd04f375cbeab84[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 13:59:47 2017 +0800
+
+    fix
+
+[33mcommit 3db7dcc4d48f086ad0948fb5d3a71c73697738aa[m
+Merge: 310651e9 631231e3
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 13:46:52 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 310651e9a60d4a55a4f849b370e3c6adc76ffe65[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 13:46:39 2017 +0800
+
+    fix
+
+[33mcommit 631231e3bede580be6190332236559b50609fe18[m
+Merge: 5321916a 625d56de
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 13:46:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5321916a6c80f6d9e9336c91bf3cde1c2801537e[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 13:45:58 2017 +0800
+
+    fix
+
+[33mcommit d7354ef4cce943db7298c22786274f55e2abe423[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 13:12:44 2017 +0800
+
+    fix
+
+[33mcommit 625d56de32e14c5bd510caee44263b1410537012[m
+Merge: 83ab073d d99687ca
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 12:52:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 83ab073dbd14768ea9e75dc3e3b8780b8b04d89c[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 12:51:38 2017 +0800
+
+    fix
+
+[33mcommit d99687ca863c27747335cf27a26a0afb54a78410[m
+Merge: 1751cab2 09287a34
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 12:51:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1751cab2b7a4641d137390ed7f8c1a85d26bd26a[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 12:51:03 2017 +0800
+
+    fix
+
+[33mcommit 09287a346a0b0bbc6718eb0ae152b2b78a28d792[m
+Merge: 2fb27e22 9f7f9923
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 12:40:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2fb27e2243f2ff15a0b9a0439338ab2c46bb54ed[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 12:40:07 2017 +0800
+
+    fix
+
+[33mcommit 9f7f9923d32ab76c4e1c5f22f81037879557f115[m
+Merge: d754913c 458a682c
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 12:39:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d754913c44c6b693118bf83c3d3124de10c99331[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 12:39:37 2017 +0800
+
+    fix
+
+[33mcommit 458a682cb699eb6d36cc546ff520745e6e85f2bd[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:59:47 2017 +0800
+
+    fix
+
+[33mcommit bd95001f274567e3ed37a725ddda6d988372c4f8[m
+Merge: fb97deca 47bcf466
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:53:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fb97deca50f7773efd35141584a1b7d2bed87016[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:53:45 2017 +0800
+
+    fix
+
+[33mcommit 47bcf46635a3750c1cb890b5c78c6fae589ed91c[m
+Merge: 035b5b77 4b52da2a
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:45:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 035b5b770b480f1cdd4bfaf2d7eae5c26bc41428[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:45:25 2017 +0800
+
+    fix
+
+[33mcommit 4b52da2aa120eba3b6359fda7173d4816683286c[m
+Merge: 4ba886cc 97d8cead
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 11:44:33 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4ba886cc59df82b0140839996e231a4819b98f4a[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 11:44:28 2017 +0800
+
+    fix
+
+[33mcommit a5818f9061286a2ebffc246787442c7a1f028433[m
+Merge: 0f6ed1f7 97d8cead
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:39:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0f6ed1f703184283ff8f806d5e0a5ff5da366e1e[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:38:59 2017 +0800
+
+    fix
+
+[33mcommit 97d8ceada89341693eadb1f81ad63bf69e4bb8e7[m
+Merge: 13ca88bb e422783e
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:38:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 13ca88bb940bdaf0419025fb0b725df4b8146dcb[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:38:24 2017 +0800
+
+    fix
+
+[33mcommit e422783ee78a130efaa9404446ab469cd5e85263[m
+Merge: d7ee4afd 8b2f27f7
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:37:09 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d7ee4afd92e291e737cbce3094ae6f5165c6abae[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:36:56 2017 +0800
+
+    fix
+
+[33mcommit 8b2f27f72986a59ec578f509f908851905542d3c[m
+Merge: f101dbe9 96ed4e43
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:29:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f101dbe9d4e4b86c218f5ab612717b1ac90ab181[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:28:41 2017 +0800
+
+    fix
+
+[33mcommit 96ed4e4383a6ac60dd559015e762f585c966d1ce[m
+Merge: b456a7dc e49626ca
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 11:28:14 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b456a7dca536963e000c7489a3380eeb04011ef0[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 11:27:57 2017 +0800
+
+    fix
+
+[33mcommit 996247720b4e3cccd2b15c7b6e70338459b8677d[m
+Merge: 0191d0bc e49626ca
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:27:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0191d0bcec42330a37e7aed21dd1bfa32c7709eb[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:27:21 2017 +0800
+
+    fix
+
+[33mcommit e49626cab7fc15674ce43340b3f581cc075d0be0[m
+Merge: 212955cb 4a8416c1
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:27:02 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 212955cbfc928911661bb204bef84e1f6180ff62[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:26:54 2017 +0800
+
+    fix
+
+[33mcommit 9120e2a5dcd1b411a8e938e349ba33b3d82de99e[m
+Merge: f86a18f1 4a8416c1
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:26:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4a8416c1b5d567a8059e3e70e5d15d4e7406c574[m
+Merge: 0f026287 4763aa72
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:26:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0f0262874bc015408dfd77a988a9be4ba3bcf037[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 11:25:43 2017 +0800
+
+    fix
+
+[33mcommit f86a18f17444a17847f46103a65a1979c40b3669[m
+Merge: a9f36567 4763aa72
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:25:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a9f36567a42a8c4eb2810912a5fce21a4e6d4ccb[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:25:01 2017 +0800
+
+    fix
+
+[33mcommit 4763aa72d32b3d376c471df57a3d8044fde30852[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:24:37 2017 +0800
+
+    fix
+
+[33mcommit 77e9c2c901ea42c9f5f7392639ecb64b4bc27b7c[m
+Merge: c27fa067 ae8a56ff
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:11:01 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c27fa0674905ae2948532ce71444199d8bb73298[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:10:51 2017 +0800
+
+    fix
+
+[33mcommit ae8a56ffb23eea4fb963ceab9f124e5df1e24a4c[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:10:22 2017 +0800
+
+    fix
+
+[33mcommit 3b2f087847e8f3919300beb1b1ee88537cae4f10[m
+Merge: da3acec4 ecfa43af
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:03:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit da3acec4d121a28a8f3fa20fec56de6bcf53a1be[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 11:03:43 2017 +0800
+
+    fix
+
+[33mcommit ecfa43af8cfc0b6622f4ddf9e43e59196b597b14[m
+Merge: 7d55794f ebec94ff
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:03:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7d55794fa69dfc141951c488b46f2c7ff8471ccf[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 11:03:10 2017 +0800
+
+    fix
+
+[33mcommit e102a457c1f65472917d3c270d3b8db2b13b03f1[m
+Merge: 2e83054c ebec94ff
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:55:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2e83054cbbbd612f32026c349f712b5aef0f809c[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:55:32 2017 +0800
+
+    fix
+
+[33mcommit ebec94ff70d144faaf3532ef324d4e39d2b293d5[m
+Merge: 30c45a24 89d1baa3
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 10:55:15 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 30c45a242e5842ce4819b80020543c0fdbd10b88[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 10:55:05 2017 +0800
+
+    fix
+
+[33mcommit 89d1baa39efed20b480a849100abe3b72f67e9f0[m
+Merge: c8f63903 5dcd1d44
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:55:03 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c8f63903612be41c2596dfa9050343f41ab530f8[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:54:59 2017 +0800
+
+    fix
+
+[33mcommit 9f3a3647c1bbce78722e4f20419175964f358a7a[m
+Merge: a56186e0 5dcd1d44
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:53:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a56186e0bc04a8c535fc4f5c546bf39394d206c3[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:53:17 2017 +0800
+
+    fix
+
+[33mcommit 5dcd1d448fbdd653d02fd0e1f80a718229e8a75e[m
+Merge: c0a1035b 30df7f2e
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 10:52:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c0a1035b168544be8d459c665f146238f9718971[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Aug 5 10:52:08 2017 +0800
+
+    fix
+
+[33mcommit 1fab1d2282471ca7e1dece665be4749b25f4ecb1[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:44:57 2017 +0800
+
+    fix
+
+[33mcommit 30df7f2e5c4813029343e9aaea29396bdf9a812f[m
+Merge: b8e8c1e5 f747efce
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:43:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f747efce0acdcbf8cf48145d3ee5f7199553c982[m
+Merge: 55e754f9 249e7d0e
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:42:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 55e754f9384abae44b33cbb75bda3b8645e11db8[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:42:37 2017 +0800
+
+    fix
+
+[33mcommit b8e8c1e599b384ee84bf908c1c25dcbe5e9f082a[m
+Merge: 600c4ff4 249e7d0e
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:42:31 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 600c4ff42ef8992499eb167b68a5087ec0bc6c1d[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:42:13 2017 +0800
+
+    fix
+
+[33mcommit 249e7d0e73ba8a7ef85cc9804e6e5dd1625b7dbf[m
+Merge: 6385f24d 1ff20063
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:41:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6385f24dfc3c3bc816ea6037fa7714daee8130d6[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:41:36 2017 +0800
+
+    fix
+
+[33mcommit 1ff20063509672c8c5c1aab75e9adddff1b01fb8[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:32:59 2017 +0800
+
+    fix
+
+[33mcommit 056a77e674908bf334e8fa0fd6a23f26678aa931[m
+Merge: 888f590b 0c4fe07a
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:27:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 888f590b58dac59372742a8fac7cb17c01b58802[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:27:07 2017 +0800
+
+    fix
+
+[33mcommit 0c4fe07ac7f7c03981f26f31dcb5c97b38079685[m
+Merge: 482351f5 5ea39e66
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:26:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 482351f58cebf523f71da94db2e60aec78c05100[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:26:25 2017 +0800
+
+    fix
+
+[33mcommit 5ea39e6627a34e6606419066a83ee48798221498[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:21:02 2017 +0800
+
+    fix
+
+[33mcommit 9215b29e5e6a3490e897cabdce84ec30e683677a[m
+Merge: 22067640 f971c2ce
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:20:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 22067640a63aa04dd52021971ecb64fa02dded40[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 10:20:16 2017 +0800
+
+    fix
+
+[33mcommit f971c2ceba116c14d4d0485f84509e6935be87a5[m
+Merge: 9b894a5b 3ed17e83
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:14:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9b894a5b20cbb83f53905bb8ed71cf36bab3875f[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:14:00 2017 +0800
+
+    fix
+
+[33mcommit 3ed17e83dc70df1540c07acd523538c1f63c44ac[m
+Merge: 92ee8359 fefda6b1
+Author: sam <sam@leoedu.com>
+Date:   Sat Aug 5 10:13:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 92ee835917934f14d65ceb180e36c19dcc896adb[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Aug 5 10:12:58 2017 +0800
+
+    fix
+
+[33mcommit 216f074f9b6ddcd97c6cb0505aeddc2f87612131[m
+Merge: c0dec4e1 fefda6b1
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:11:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c0dec4e1083d8ccf648db9b51def52a949115939[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:11:26 2017 +0800
+
+    fix
+
+[33mcommit fefda6b1e99fbb4d7b30a693a2f335f2003747a4[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:10:54 2017 +0800
+
+    fix
+
+[33mcommit dddbb9501f33a02ee42288ca7eb0f922be94491f[m
+Merge: 3765e7c7 0d5706de
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:03:15 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3765e7c70a150b07c59e0b44ccc1abe429b7be94[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:03:03 2017 +0800
+
+    fxi
+
+[33mcommit 0d5706deb8393b3987130f2ecc8a6e750f71003c[m
+Merge: 09a7956d ef25444c
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:02:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 09a7956d4daf89e7a1de7d25d5c161bbd4778df2[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 10:02:24 2017 +0800
+
+    fix
+
+[33mcommit ef25444c01a17aa666de6afcf6fca5c75fdb5ced[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 10:00:36 2017 +0800
+
+    fix
+
+[33mcommit 68eea7aa64708d7dbdeaf97cad66127b1e1af5a8[m
+Merge: 4b1ddf8d 1b178c1c
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 09:56:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4b1ddf8d368a784aac3b5a2332b69efa12c36550[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 09:56:03 2017 +0800
+
+    fix
+
+[33mcommit 1b178c1cd3daebba19f0de8225824e69353e439b[m
+Merge: 04c81613 eb8382e9
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 09:55:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 04c8161397801d9d97ac5d661461a34a07528cfc[m
+Author: boby <boby@leoedu.com>
+Date:   Sat Aug 5 09:55:20 2017 +0800
+
+    fix
+
+[33mcommit cfe3521b153d28ad2fcdb918066cd12bec6bf1fb[m
+Merge: 216706da eb8382e9
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 09:53:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 216706da8c7328cf2d9972edeb67052fe84eb692[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Aug 5 09:53:10 2017 +0800
+
+    fix
+
+[33mcommit eb8382e9689001300562f3363e8f25a9f4eabbc9[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Aug 5 09:52:23 2017 +0800
+
+    fix
+
+[33mcommit ae6df05a3409885581d87495004ec2cb760edf06[m
+Merge: 2088b323 c700d1e2
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:46:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2088b323355861258ef0f7ca87a58596020a8cc5[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:45:57 2017 +0800
+
+    fix
+
+[33mcommit c700d1e2a5325fd95163b927fa2bfd15124317f7[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 19:45:28 2017 +0800
+
+    fix
+
+[33mcommit 86744c855a38106203c3cac837217ee5ae64c27e[m
+Merge: 10fa53d5 8bee782b
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:38:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 10fa53d5d9ee8d7bdb8ad3b75bdca8ec8f90d0df[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:38:19 2017 +0800
+
+    fix
+
+[33mcommit 8bee782be6dcca8fa748046926b4a4d9c854c3c0[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 19:37:46 2017 +0800
+
+    fix
+
+[33mcommit bf63ce40a844d42cfd9c9beced9f9f760b6f83c5[m
+Merge: a8666dce 1d80f038
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:35:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a8666dcebc2920b1914a7beb8bc06c5e71040692[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 19:35:19 2017 +0800
+
+    fix
+
+[33mcommit 1d80f03814f706b5cf626ed207c583b930319019[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 19:34:53 2017 +0800
+
+    fix
+
+[33mcommit 6fb26959f2bd828e5876d47f4c1a8df6d869c4c7[m
+Merge: b28a6a0a 391b7bcc
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:49:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b28a6a0adf3c53f8d1b76e62935123cd92cb9218[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:49:02 2017 +0800
+
+    fix
+
+[33mcommit 391b7bccea75861c44c6fd674aa1900f07e72db3[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:47:40 2017 +0800
+
+    fix
+
+[33mcommit 3f7082bafc46f4ff5db00b57126f8f265c248686[m
+Merge: 4f148b09 0bc1a980
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:42:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4f148b099efdf61b221ac58224e9b667b9b7eb06[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:42:17 2017 +0800
+
+    fix
+
+[33mcommit 0bc1a980e3426617e7ba1ed492ff4f7c8743ff2e[m
+Merge: bdaccb30 50ab297e
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:41:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bdaccb30b0872162d9e7193b126aaf21acbaf775[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:41:47 2017 +0800
+
+    fix
+
+[33mcommit 50ab297eecb67fa3a25ec0d8b546aabee3dfe7fa[m
+Merge: e33be416 89f939bf
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 18:39:50 2017 +0800
+
+    fix
+
+[33mcommit e33be4169dda015ab48e009e1842e493c12bf609[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 18:39:00 2017 +0800
+
+    fix
+
+[33mcommit 89f939bfe6b53d25d1ba1a7e753a5cf75ffeea92[m
+Merge: ceabad1b 321c1f39
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:37:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ceabad1b036f572dbc22917274d535aa20fae989[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:37:07 2017 +0800
+
+    fix
+
+[33mcommit 321c1f3937f916ed6d7e4ff1f37e53bdbf5f33db[m
+Merge: 79fbaa75 ce2b3268
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 18:36:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 79fbaa75db6fd08e876352d7d4f3d426f9edd9d0[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 18:36:28 2017 +0800
+
+    fix
+
+[33mcommit ce2b3268ccf37eae03ba33cd9683363ea8b8fe08[m
+Merge: e4b6e7ef 2684cf3b
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:24:03 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e4b6e7ef570a6b4c466251c10166cbb7296339b7[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:23:53 2017 +0800
+
+    fix
+
+[33mcommit ee20a303a35cac05d7900613aed85c09b086616c[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:23:27 2017 +0800
+
+    fix
+
+[33mcommit 2684cf3b285f715836bdbfb5724a2d7047da6612[m
+Merge: cf57419d b5a50b92
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 18:23:18 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit cf57419dbbcf9be589f92f3f191eca04ee18af14[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 18:23:09 2017 +0800
+
+    fix
+
+[33mcommit b5a50b92997ba168bd68387354b04e2d36596b92[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:22:57 2017 +0800
+
+    fix
+
+[33mcommit 48610d4750ca2a38a884701a20a20287c8711db4[m
+Merge: fc7b9c56 3aeb2654
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:18:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fc7b9c567c272c8ce3c7d8010a45c9cf47dc4375[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:18:36 2017 +0800
+
+    fix
+
+[33mcommit 3aeb2654a1fceb33ab0c2ae34132bb5b39aed207[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:18:13 2017 +0800
+
+    fix
+
+[33mcommit ba96e33ac99f807114c311a6e262e1ea6cffa3c8[m
+Merge: da4f4e34 3014ff87
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:12:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit da4f4e34fcbf95d383011c92b0ac4bb60e1a9328[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:12:21 2017 +0800
+
+    fix
+
+[33mcommit 3014ff87799dc7d6ba35254ab3e95007c91730d6[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:11:54 2017 +0800
+
+    fix
+
+[33mcommit 42dee0da9782d17380a7e176daf2461f1ddf3262[m
+Merge: 1ce25454 fb05dcea
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:07:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1ce254541fbeb10a9279f6e5a37f85b10ed49a6e[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:07:25 2017 +0800
+
+    fix
+
+[33mcommit fb05dceac0a316109024a705dd962eb5cc73864d[m
+Merge: edbf549d 9bee10db
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:05:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit edbf549d983d04dad475197666f6de6270c56f2d[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:05:51 2017 +0800
+
+    fix
+
+[33mcommit c1bea4adf9f4810769bdfbfff375616a1cb56cc0[m
+Merge: 16b12492 9bee10db
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:02:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9bee10db5516958af3e471ebf09af4d71686d279[m
+Merge: 0e8f44d0 2053ca3f
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 18:01:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 16b12492744ca7e0742b2b96f91e334f45e6bb22[m
+Merge: f17c444d 2053ca3f
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:01:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f17c444dc1cf1c61b587ead759cde00871b9294d[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 18:01:33 2017 +0800
+
+    fix
+
+[33mcommit 0e8f44d0601ed0636d4082f1425a2ad7640733d2[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 18:01:09 2017 +0800
+
+    fix
+
+[33mcommit 2053ca3f4c0279ac8d8c778183ac3c066766d06f[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 18:01:08 2017 +0800
+
+    fix
+
+[33mcommit 6723f1c9ba99b43a56607492c2f66ffc33edf7e0[m
+Merge: ff09c88f faf84c59
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:57:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ff09c88fa7097c9fe580b219d986a81d8d7685f2[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:57:07 2017 +0800
+
+    fix
+
+[33mcommit faf84c59a620b19d2cc27261a4fafe73aa0e57eb[m
+Merge: fa00a912 e24da904
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 17:56:31 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit fa00a912d5319cef88e345404599abdaf9d82b5b[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 17:56:26 2017 +0800
+
+    fix
+
+[33mcommit e24da904b717da13d73ae4b3249deafea1a37b65[m
+Merge: c246c996 e7c9359f
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:53:24 2017 +0800
+
+    fix
+
+[33mcommit c246c99696303cc088a9f03d69b02b3dac07ed36[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:52:04 2017 +0800
+
+    fix
+
+[33mcommit e7c9359fcb3dfdd2e156fa6770c425015dbdc379[m
+Merge: b6885c8f b73461e9
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 17:51:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b6885c8f1cb07405bd6bfb2f40322773289186ef[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 17:51:28 2017 +0800
+
+    fix
+
+[33mcommit 88660120643ac38bce39bf9136112e3b13f01422[m
+Merge: 91bd8da7 b73461e9
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:50:01 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 91bd8da769be2e7c0c368ce56504ebc6992f34ad[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 17:49:50 2017 +0800
+
+    fix
+
+[33mcommit b73461e97212c10cb7aea2c2a72309a7165245b9[m
+Merge: e7cf6766 d565f37e
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 17:49:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e7cf6766097cc8387878b547e4ad77eb6de0db9e[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 17:49:15 2017 +0800
+
+    fix
+
+[33mcommit d565f37e5d9afe40cae94dda5012ff7cbc1bd5d9[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 17:39:59 2017 +0800
+
+    fix
+
+[33mcommit 8ecc696627dd323cd2a28e7a12ac32e1c0850fcd[m
+Merge: c0cc1479 d211b1e0
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 16:57:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c0cc1479434786767a77fcf214283a3657e0f90c[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 16:57:18 2017 +0800
+
+    fix
+
+[33mcommit d211b1e016ceeb1c40c6ab7c77ba71069a7ce7c0[m
+Merge: 549c6827 0e0f52e4
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 16:46:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 549c68278bbeebdfebc3c69b87c12a8c6fbe2f86[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 16:46:08 2017 +0800
+
+    fix
+
+[33mcommit 0e0f52e462f8cb3e02665a20b1b3f5840441af7c[m
+Merge: 6419e429 b16f1bab
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 16:45:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6419e429b78687c6cc76a9764faa462b52cdb610[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 16:45:17 2017 +0800
+
+    fix
+
+[33mcommit b16f1bab123078239a90e7bbbc0579466c9db51f[m
+Merge: 63c35a8f b0d2bf46
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 16:06:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 63c35a8f2f89669d30ef6900746e70bd2292a49d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 16:06:23 2017 +0800
+
+    fix
+
+[33mcommit 147768b1ac4767baa0e649649c779278a0ee0ca2[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 16:06:10 2017 +0800
+
+    fix
+
+[33mcommit b0d2bf4678019e62e05f235a555d00361e3db29d[m
+Merge: f5356e0f fbde83fe
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 15:26:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f5356e0f2898fccad3a685952684d19d238fe47b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 15:26:34 2017 +0800
+
+    fix
+
+[33mcommit fbde83fe5b3d891a20c69db4d2a427d14e183522[m
+Merge: 9cd413e8 63f8d51e
+Author: sam <sam@leoedu.com>
+Date:   Fri Aug 4 15:25:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9cd413e8feb3e0bab7630f975e565b4a2eca33ae[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Aug 4 15:25:40 2017 +0800
+
+    fix
+
+[33mcommit 63f8d51ece09006200ed28a40749aaa6abb61caf[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 15:09:54 2017 +0800
+
+    fix
+
+[33mcommit db175f51de57f036acf4d79dd6410ad92c266945[m
+Merge: b3627bbf 8a185391
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 15:04:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b3627bbf2f22cfc838cc95171ea9b972c64cb09f[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 15:04:01 2017 +0800
+
+    fix
+
+[33mcommit 64db76521e5ee34d20990be99721b20dde3fbfd4[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 15:03:51 2017 +0800
+
+    fix
+
+[33mcommit 8a185391089f9f39005ec514f39d81d70747214e[m
+Merge: 56769aa4 212b1f95
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 14:29:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 56769aa432ac69296d25334c99eb74675d684757[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 14:29:08 2017 +0800
+
+    fix
+
+[33mcommit 212b1f95fed925ec638bfda04625f97c16a20ecf[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Aug 4 14:28:30 2017 +0800
+
+    fix
+
+[33mcommit 716d79b9cd5a082ee50ce019c8261ae47f800c5f[m
+Merge: 65560a16 4f3931aa
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 14:17:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-08-04
+
+[33mcommit 65560a16572e6daada416bb204e3c83d5d269453[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 14:17:10 2017 +0800
+
+    fix
+
+[33mcommit 4f3931aa8a18e04aa2e1723419cb14d3b672c958[m
+Merge: 185e27d6 c3ee36d3
+Author: sam <sam@leoedu.com>
+Date:   Fri Aug 4 14:16:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-08-04
+
+[33mcommit 185e27d64ebac321f29f780ad7128aa05d121342[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Aug 4 14:16:18 2017 +0800
+
+    fix
+
+[33mcommit 86554d448299afd4918ccca80f5800302c5e1b3c[m
+Merge: aec5ef4c c3ee36d3
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 13:10:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c3ee36d3b6632c2391301044f7122546dbac3355[m
+Merge: 87c573d9 b2c9b4b5
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 13:09:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 87c573d96cd79903dc0970ce290114d75bc4ca00[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 13:09:13 2017 +0800
+
+    fix
+
+[33mcommit aec5ef4c45f59bbeada509524c7a2f3aa7119e03[m
+Merge: c2015ae1 b2c9b4b5
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 12:47:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c2015ae1917bec5a83abd4f1cb692c98f95a6132[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 12:46:51 2017 +0800
+
+    fix
+
+[33mcommit b2c9b4b506fb8293ed8dde6537f667eeb96d593e[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 12:46:23 2017 +0800
+
+    fxi
+
+[33mcommit ffe649fdfe762b5a4992f5d03df2656cb2ee3902[m
+Merge: 66266e53 aef95dc0
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 12:01:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 66266e5378569588da40f3d65186230a61d5667f[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 12:01:04 2017 +0800
+
+    fix
+
+[33mcommit aef95dc0023e35141270526a94f8fe17cc29a044[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 12:00:39 2017 +0800
+
+    fix
+
+[33mcommit 5e9b212ab49e2f13a028d5a07f6115e36056e00e[m
+Merge: 82583705 455b338b
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 11:56:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 825837059d590772b385cb561ac8cc8e4def0431[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 11:56:05 2017 +0800
+
+    fix
+
+[33mcommit 455b338bb42cbc2b02e4a39eb5b4e5d43ef5123a[m
+Merge: ebc4762f 636008c1
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 11:55:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ebc4762f0d12cf6a1c4759b0aab1ac7857b2aa75[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 11:55:17 2017 +0800
+
+    fix
+
+[33mcommit 636008c18ba386d182e1384ab9e4c5a8514ca9a8[m
+Merge: 72185556 265403ef
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 11:39:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 72185556a5af7e34c4b76a0044535968c68f15e3[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 11:39:22 2017 +0800
+
+    fix
+
+[33mcommit 265403ef27788d74becd267705b4bbbbdcde90de[m
+Merge: d975e9d7 814c9095
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:20:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d975e9d716fafbf0a9a044a65d9472372033ae48[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:19:59 2017 +0800
+
+    fix
+
+[33mcommit 814c90958165990eb5ee14a6e76e8cc7c8ccdf7b[m
+Merge: 3f8a57fc cd50c70e
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 10:18:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3f8a57fcc9d40771ae8af4be73cce986de6af20a[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 10:18:52 2017 +0800
+
+    fix
+
+[33mcommit cd50c70edd0b203c03d3d44cd46b4a566bdb0e47[m
+Merge: 789e15f9 06bd4014
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 10:09:44 2017 +0800
+
+    fix
+
+[33mcommit 06bd4014f905c4b6ee4106f5aa25782b8d918db4[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:07:16 2017 +0800
+
+    fix
+
+[33mcommit 789e15f926c1897a782c335de9840604d4f14bdf[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Aug 4 10:06:58 2017 +0800
+
+    fix
+
+[33mcommit 42f716830e29103151ed8fa0bf5a6514d61f3c23[m
+Merge: 98bb3fb4 5b534545
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:05:06 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 98bb3fb4546b344a64c024e52292ce2128ddc5db[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:04:44 2017 +0800
+
+    fix
+
+[33mcommit 5b534545ab56d938b322c9a098145438b50fbb11[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 10:04:10 2017 +0800
+
+    fix
+
+[33mcommit 5a6383d2fdd3ef53e42ce85c2e99b6f2b63d2993[m
+Merge: 1244205e fcc1d193
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:01:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1244205e49d9d74fb5b2a1044e05e4c7d8cc989b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 10:00:53 2017 +0800
+
+    fix
+
+[33mcommit fcc1d1939a644e136393ed8e431f0e12d7bfdb06[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 10:00:17 2017 +0800
+
+    fix
+
+[33mcommit 20445a6e8a696aa1acd930fb4790bfa6e83f0162[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:56:08 2017 +0800
+
+    fix
+
+[33mcommit 8f296837bb1189df15ded246d4c6fcc963949e60[m
+Merge: 2c3c6b70 1e901159
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:54:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2c3c6b70c4ab3ea1cb3167ed39d896c998f8b737[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:54:21 2017 +0800
+
+    fix
+
+[33mcommit dbca7c80237315446a75ea2d215721647b7b8a36[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:54:01 2017 +0800
+
+    fix
+
+[33mcommit 1e901159f71236b36f3fe235aaf0aa51b1513aa4[m
+Merge: d58a5400 f3c51d15
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 09:53:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d58a540031aed647f06e67bc84ce226b181d7f68[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 09:53:25 2017 +0800
+
+    fix
+
+[33mcommit f3c51d15c033448787f80c69c154ca41363198be[m
+Merge: 10eb3f2e 1441b9d1
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 09:53:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 10eb3f2ee55a6f2a3671bbaea503a6b76800f013[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Aug 4 09:53:06 2017 +0800
+
+    fix
+
+[33mcommit d74815f1e4b859cfccb9a6c39de34ae2bc9b211d[m
+Merge: c6f535e6 1441b9d1
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:49:44 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c6f535e6f115e745551b77d8a4a97220ca3326af[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:49:12 2017 +0800
+
+    fix
+
+[33mcommit 1441b9d11963e21884bd787883757b5ad3db7dd6[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 09:48:39 2017 +0800
+
+    fix
+
+[33mcommit efba10db74feb6069a5abfa7d8220f7c83be46dc[m
+Merge: 2db39c43 63746f32
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:39:52 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2db39c438555d153cd746caaf5977573a52bfbd6[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Aug 4 09:39:19 2017 +0800
+
+    fix
+
+[33mcommit 63746f32a12dda0208c86b1cb2611bdd15c17962[m
+Merge: 9528db3c 4e8f1427
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 09:38:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 9528db3cf600c96ac0d419eebf29687ed2c24075[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Aug 4 09:38:03 2017 +0800
+
+    fix
+
+[33mcommit 4e8f1427698cb7d7e1852ce667af01cb60b0d7e7[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 19:57:32 2017 +0800
+
+    fix
+
+[33mcommit 165cb62ee765a12fe1e38e09a26356ee486a16ce[m
+Merge: f1272647 75244101
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 19:54:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f12726478d22f86ce3c64b75fa545f87b387f52f[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 19:54:42 2017 +0800
+
+    fix
+
+[33mcommit 7524410157d035cdb3da5ccc897b436324726b7d[m
+Merge: 73092c2d d136d713
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 19:05:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 73092c2d8fd03f8d275608a2bd6f43e38c493ee8[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 19:05:45 2017 +0800
+
+    fix
+
+[33mcommit d136d713b9fec0dc34d4a14841a933f4f0f05ed7[m
+Merge: 089fd5a8 b9895526
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 19:05:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 089fd5a88857d16d9b0105d9df9cc996fe21a1f5[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 19:04:50 2017 +0800
+
+    fix
+
+[33mcommit b98955261de11c3f266a701064fb7c4c5c0879b3[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 19:01:57 2017 +0800
+
+    fix
+
+[33mcommit f5657aa2f2af3784c195c6140677fb0100c90f67[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 19:01:28 2017 +0800
+
+    fix
+
+[33mcommit 9776b89065d9a132240563113d5cdbbad988f377[m
+Merge: 1de5a65c 29dc2580
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 19:00:54 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1de5a65c23471ededc1a8801dfb51e795278a5f0[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 19:00:42 2017 +0800
+
+    fix
+
+[33mcommit 29dc258045cc471f7f5b0b13272f6cebb13ad5c8[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 18:53:45 2017 +0800
+
+    fix
+
+[33mcommit 210d56952a16b4720feb65250d704273344a3a8d[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 18:33:09 2017 +0800
+
+    fix
+
+[33mcommit 31a09c6ffa9768874bbb3c5d07ddc37ff9ae813f[m
+Merge: a4f41592 e3b50659
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 17:49:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a4f415922c14b3717345538e82b1dff7072becdf[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 17:49:10 2017 +0800
+
+    fix
+
+[33mcommit e3b50659790b300bcbdc6bce745e9a0d18b32951[m
+Merge: 3231065a 3f999645
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:49:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3231065a4045a1926dd064bfe39b2083b56c1722[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:48:50 2017 +0800
+
+    fix
+
+[33mcommit 3f999645914193ac5c10f504f94819a0eee82600[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 17:48:00 2017 +0800
+
+    fix
+
+[33mcommit 5bbf94b5738441a4b2f4ea492accf7e90af8853a[m
+Merge: 0b9fcea0 c6c47b7f
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:42:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0b9fcea06e212d6d76dd89336ec8de67e868f924[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:42:02 2017 +0800
+
+    fix
+
+[33mcommit c6c47b7f4b4f8c8be38eac45fd680913537c257a[m
+Merge: 9e0993ea 4e572e37
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 17:37:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9e0993eac02c35b1ebe3a72fe6c7592105966667[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 17:37:27 2017 +0800
+
+    fix
+
+[33mcommit 4e572e370826fecce901c8dbcbfd8cd34e3b0dd1[m
+Merge: f3b54864 ba965725
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:21:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f3b54864fbf1733d699f1741d735c26a65067d51[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 17:20:54 2017 +0800
+
+    fix
+
+[33mcommit ba9657254193423ea4d9eb4670909601e3a3075b[m
+Merge: f34f956b 95a39969
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 17:20:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f34f956b823136b821980dd73f520e53996637b4[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 17:20:06 2017 +0800
+
+    fix
+
+[33mcommit 04684c35d64642cdafb5734e6a9d561b746df839[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 17:17:27 2017 +0800
+
+    fix
+
+[33mcommit 68334a095016d7e4076fa38a6662b6fd0eb22e1e[m
+Merge: d41a295a 95a39969
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:21:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d41a295a23600034dcfe460f8a97bd993f4578a8[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:21:06 2017 +0800
+
+    fix
+
+[33mcommit 95a399699d415829578035b7ffa549954c43b819[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:20:41 2017 +0800
+
+    fix
+
+[33mcommit 269faf7fdc893272e68d74993474d95b2ec37ba2[m
+Merge: e15c9a78 9b8d7153
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:13:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e15c9a78bece8c04503085607d408177169243e1[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:13:14 2017 +0800
+
+    fix
+
+[33mcommit 9b8d7153d26d65e658d4a15d5d0a98f05cada387[m
+Merge: a63cf7bd 1bc69f0b
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:12:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a63cf7bd01ea34737afb81423deff3d715a2654f[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:12:01 2017 +0800
+
+    fix
+
+[33mcommit 01e75afc7959b498d7b9a3f569e0e6a74e053af7[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:08:23 2017 +0800
+
+    fix
+
+[33mcommit d0e24ffbedfb2e2dc09ba26cb4b4eb6c623f3b3b[m
+Merge: 9625b3ba d6c533a4
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:08:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1bc69f0b38961661f16c4411d5ab9742bc61b25f[m
+Merge: ad6f0667 d6c533a4
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:07:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ad6f0667c044038b7982f486f29702dfbd965587[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:07:21 2017 +0800
+
+    fix
+
+[33mcommit d6c533a4e494337153bc71d2bfcd6be337b71ac7[m
+Merge: 0951e0b7 ebbb8a74
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 16:06:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0951e0b78052c32d9be38e65503e87f817931ba7[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 16:06:26 2017 +0800
+
+    fix
+
+[33mcommit 9625b3bac174dbb819d173403a26cadf49633143[m
+Merge: 66a771c0 ebbb8a74
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:06:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 66a771c0b140ccd987edd2cf1cd1dcdc7d8748bc[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 16:06:18 2017 +0800
+
+    fix
+
+[33mcommit ebbb8a74f6e050e606a3588b701206ddee2b18e6[m
+Merge: 5c89c48a ea7d8f7a
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:02:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5c89c48a544ba168ace7bfaff7e57f82cf5523b1[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 16:02:15 2017 +0800
+
+    fix
+
+[33mcommit ea7d8f7a939d5ba26722fb6b42fb644e2d6b3772[m
+Merge: d7c9dd01 bdcd8644
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 16:01:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d7c9dd01b1ac14416f17270e186374788cd54169[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 16:01:30 2017 +0800
+
+    fix
+
+[33mcommit f41390f5c986e676400a7c2bfc2d739e05286ab8[m
+Merge: 0a12af8c bdcd8644
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:52:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0a12af8c388b25b17c209f7f5ad5733d967cec2f[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:52:24 2017 +0800
+
+    fix
+
+[33mcommit bdcd8644ec8dae0b555a23e2ddf3f6fdc851595b[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:51:42 2017 +0800
+
+    fix
+
+[33mcommit ff30e1b0cc87394e82fb1b09e55faa738f21b980[m
+Merge: dc40fe91 3ee966fd
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:48:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit dc40fe9196c104676f60fb6655c47bac12b8cf90[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:47:49 2017 +0800
+
+    fix
+
+[33mcommit 3ee966fd4cc3be1ab91991aa52f9315045329de9[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:47:12 2017 +0800
+
+    fix
+
+[33mcommit cc0aa516e5843384ec628fdeb3b674ecaf6bdd97[m
+Merge: 11d04b2f d5780c4f
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:37:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 11d04b2f035fc4eac59f44425329f2397cb0e506[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:37:38 2017 +0800
+
+    fix
+
+[33mcommit d5780c4f16bdeed32c30b418c454ce8132086d82[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:36:39 2017 +0800
+
+    fix
+
+[33mcommit 8d062c12181b451007c3958ccb8b0b05c97c4c61[m
+Merge: c75c7fe9 30ab8af8
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:31:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c75c7fe9c2f199c61e2df3dfce41081090effde6[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:30:56 2017 +0800
+
+    fix
+
+[33mcommit 30ab8af8efca46a918be2b3055ed7eed45a4b700[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:30:24 2017 +0800
+
+    fix
+
+[33mcommit c076df6dedfab2e1a256c1f1dd09da38989364fa[m
+Merge: e15eaf4e a0941d07
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:24:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e15eaf4e36249cafd1bce7dbfd09c623eeaee549[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:23:55 2017 +0800
+
+    fxi
+
+[33mcommit a0941d078fff034b51d4bc5f24601bf73990797d[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:23:24 2017 +0800
+
+    fix
+
+[33mcommit d9ed517a3ae0a12def6607df5ab0894d5cf78cde[m
+Merge: 4c82ef62 3844727d
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:09:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4c82ef6246822efe480d64edc22ae1f5bfd56dfd[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:09:26 2017 +0800
+
+    fix
+
+[33mcommit 3844727df48633980c0ba5e9e8197809c744d1c3[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 15:08:20 2017 +0800
+
+    fix
+
+[33mcommit ff7cc08eefda4d37eb1917e9fb5b591665c43e7a[m
+Merge: d31d3aaf 907f4a90
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:00:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d31d3aaf264edf0de535166e5b9751e01e4186a3[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 15:00:07 2017 +0800
+
+    fix
+
+[33mcommit 907f4a9095c7e152fadb1af08ce2c0fcf878ccaf[m
+Merge: 7a4a8340 10890f7d
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:59:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7a4a8340b24e62d84f0e574f46867d190d6efa20[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:59:24 2017 +0800
+
+    fix
+
+[33mcommit 10890f7dde05d6ce3b16be2ec5dc846b27678343[m
+Merge: c293edd6 43ed65aa
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:33:14 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 43ed65aa984f26324180dd9163a66e74c8807d3d[m
+Merge: 31fbfcd9 0b6d0170
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:33:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 31fbfcd9c864598fd6676237475d5f575ae605e8[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:32:56 2017 +0800
+
+    fix
+
+[33mcommit c293edd6b26e4d47ab0540e5403e61e5acab972e[m
+Merge: 64d4d3f9 0b6d0170
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:31:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 64d4d3f992b20f8ac3d616894c83123e2d3df271[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:31:17 2017 +0800
+
+    fix
+
+[33mcommit 0b6d0170b87d0f98e7643b42949b414af96506fa[m
+Merge: b4d6e1c7 426f077c
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 14:30:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b4d6e1c7f27e8a026b71e63cfd05994f772abf5f[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 14:30:34 2017 +0800
+
+    fix
+
+[33mcommit 426f077cfa49181f5e97fc437f0e2499320ea17e[m
+Merge: e01a0041 feb55ca4
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:25:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e01a00413da0fd0991ed45fe391d50b277f22435[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:25:09 2017 +0800
+
+    fix
+
+[33mcommit 6189f008ecb040e1cc08f07eac45416dc7befb12[m
+Merge: 9a4a0a3c 52258898
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:24:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit feb55ca466b913ccf6f8241964e180b671233142[m
+Merge: f43a24af 52258898
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 14:24:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9a4a0a3cdc46f752b8cadbbbb242509c4976fac2[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:24:31 2017 +0800
+
+    fix
+
+[33mcommit f43a24afc7f9fddeda4943497960f41ee9627087[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 14:24:29 2017 +0800
+
+    fix
+
+[33mcommit 6ae39a4b599401829eac1c7358428f63c1df97e7[m
+Merge: 63b8904c 52258898
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:21:52 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 522588987ea164d9cca402f09a30048639b8387c[m
+Merge: d0859975 751ce729
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 14:21:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d0859975d8b55e050e59cfff0b470e056af22680[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 14:21:20 2017 +0800
+
+    fix
+
+[33mcommit 63b8904c616bc0976c0a18139cc0a98970510691[m
+Merge: 653adf1e 751ce729
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:19:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 653adf1eb73343cdeaecc8c2b7268f61999699a1[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:19:21 2017 +0800
+
+    fix
+
+[33mcommit 751ce72977b3dfb88da5e49337c7b2c09e14ae34[m
+Merge: f08a9749 a56b750f
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:19:03 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f08a974999eee68394179659721a315d2ac956b2[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:18:56 2017 +0800
+
+    fix
+
+[33mcommit 525cdaa934285712333357b078c4a5096257078d[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:14:14 2017 +0800
+
+    fix
+
+[33mcommit a56b750f34c65d45eabe179a7b06f137ef9fe031[m
+Merge: 03bb6239 f826a859
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:11:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 03bb6239eebea9c40c9c3604efa8fec3502c456a[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:11:00 2017 +0800
+
+    fix
+
+[33mcommit f826a8598ac9a436af279037ccc94f7881c217cf[m
+Merge: 1cf88787 912cc54a
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:09:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1cf887871a7e72f271298a02a833e72430387c1e[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 14:09:09 2017 +0800
+
+    fix
+
+[33mcommit 8912e7f64b1a9f86d23195204fbd5b713ad48107[m
+Merge: 7a69356b 912cc54a
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 14:02:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 912cc54a116d674b00d2de1cfae3d8aace9e4b11[m
+Merge: 4273b389 a96063c6
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 14:02:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4273b389d8b955060983f3c4f80cf88b1e05727d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 14:01:56 2017 +0800
+
+    fix
+
+[33mcommit 7a69356b1f0e9faf6d671b295ccab20d7528cea1[m
+Merge: 7c119ec5 a96063c6
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:57:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7c119ec5dc1d64b91e115e69c846839d686cc516[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:56:51 2017 +0800
+
+    fxi
+
+[33mcommit a96063c60eefecaad0d143ec1b05c6a3bebf32fc[m
+Merge: 109b0f18 244d5a73
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:56:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 109b0f188621f93e2c1adc5232fdc05c2edc2d0e[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:56:14 2017 +0800
+
+    fix
+
+[33mcommit 87b09d1220774b125d6caa3ad8cf8d568d8e645c[m
+Merge: 149eb327 244d5a73
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:53:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 244d5a7323fce37b3af6d4a0667907efc6626d7d[m
+Merge: 5c5a9fbb d777d014
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 13:51:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5c5a9fbb8d696113c16e9050b8a3cb5f8a7bc8ae[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 13:51:48 2017 +0800
+
+    tongji call count
+
+[33mcommit 149eb3273df603ce9dbf8b81beb6164484dfba51[m
+Merge: f233f4b6 d777d014
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:50:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f233f4b699f1d021a58235744d9140093054e645[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:50:39 2017 +0800
+
+    fix
+
+[33mcommit d777d01481d1c138f3f7a0a75f407f4dd6ab4118[m
+Merge: 517f281a 3c4b2673
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:50:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 517f281ac61be6f6c600f47b3512996ad7b6a600[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:50:07 2017 +0800
+
+    fix
+
+[33mcommit 899414e3a26653533a52316b9d4f9a5e328faeae[m
+Merge: 2ccc90b3 3c4b2673
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:42:09 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3c4b26739da05fa20d9512ea01673e367fbaf689[m
+Merge: ed49ad97 a642c1b7
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 13:41:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ed49ad978da02eb005da17ae8a234a3c164cfcec[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 13:41:30 2017 +0800
+
+    fix
+
+[33mcommit 2ccc90b3cb1c47f247d78eb6d217f3618961bf71[m
+Merge: d32468bc a642c1b7
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:03:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d32468bca5911b2168831318db217d52edad5c2c[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 13:03:07 2017 +0800
+
+    fix
+
+[33mcommit a642c1b76249d6323ea4d1e15f245e42648fd613[m
+Merge: ab771da2 b59db92e
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:02:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ab771da2baa8ee1ba1457445d468ecb17f3d352e[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 13:02:37 2017 +0800
+
+    fix
+
+[33mcommit b59db92e4c06911b83c5e42c4b607403fa7f90c2[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 12:05:07 2017 +0800
+
+    fix
+
+[33mcommit 360c21fd5035cbb42ea41466103e9d67f78b34a4[m
+Merge: e8d33ad8 12fa3ebd
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:51:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e8d33ad83d1797ec82335c43a232306f20a47b8d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:51:09 2017 +0800
+
+    fix
+
+[33mcommit 12fa3ebdb5cbbaface1b65713572945671fa8d91[m
+Merge: 7b395541 6c4df66b
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:44:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7b39554151ce2eead3ad3defb1fc1c41f59a2024[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:44:03 2017 +0800
+
+    fix
+
+[33mcommit 6c4df66b06482dc6df80442fb84f9859b345a053[m
+Merge: 53f7e660 f3752eb4
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 11:42:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 53f7e6604581b425c8167a04d394e5505da6b0b7[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 11:42:17 2017 +0800
+
+    fix
+
+[33mcommit e5a1d14a16886fe382a312a17f5505980b3e96e4[m
+Merge: 15a1d764 f3752eb4
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:25:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 15a1d76402fc3f7236e5721660c969dc2142ba30[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:25:46 2017 +0800
+
+    fix
+
+[33mcommit f3752eb468036b5af39b67cb29523d90c166e78b[m
+Merge: 0fe2cfe6 7d0637cc
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:25:14 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0fe2cfe60c051abb984a910ea9a920af366a095a[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:25:12 2017 +0800
+
+    fix
+
+[33mcommit 7d0637cc6edae4ed8b213b234bbc495c3e65626e[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:23:15 2017 +0800
+
+    fix
+
+[33mcommit 999e9f53f5c7a9158d81e727114e60d608650b91[m
+Merge: 58578c3d 8e3ba956
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:17:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 58578c3d6a9e71f72a5cd3102f18622b340692fb[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:16:57 2017 +0800
+
+    fix
+
+[33mcommit 8e3ba95665dbeb99e53769bf38f7b549bbe31469[m
+Merge: af751268 df1abf0e
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:16:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit af751268417ba188642f8a7cb5769c3324335748[m
+Merge: e17fbbe3 79022d67
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:14:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e17fbbe38539fd97fbebeba952f55cbad253dfc8[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:14:36 2017 +0800
+
+    fix
+
+[33mcommit df1abf0e6b9cfa42ab1679c5ea34a550e06f4a31[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:14:04 2017 +0800
+
+    fix
+
+[33mcommit 7aa76afea6f0d5716bcd2affc8678576cb4ba31c[m
+Merge: b6ca2e3c 79022d67
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:10:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 79022d677ce052b399515316c8a9b1cd16215237[m
+Merge: 3aaf021b 037fc62c
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 11:10:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3aaf021b4b2d147d72fe3c9e90f2406767505074[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 11:10:10 2017 +0800
+
+    fix
+
+[33mcommit 037fc62c92400bcaba94144b5aa9b76560107632[m
+Merge: 4106e1b7 cadcb3fc
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:09:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4106e1b7ed3ca06a9a9ab2681c555b63e57c9d13[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:09:33 2017 +0800
+
+    fix
+
+[33mcommit b6ca2e3c31f25c041ee575a417a56ba0cd6d478c[m
+Merge: 30644d78 cadcb3fc
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:08:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 74a74fbc4e271a58e3bbb540b119b4a134e7017b[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:08:13 2017 +0800
+
+    fix
+
+[33mcommit 30644d78498718ea4c3f0c91e39b87c1335623e4[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 11:08:05 2017 +0800
+
+    fix
+
+[33mcommit 7e9c38e533874af7c6489e327435a3e5286d9c60[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Aug 3 11:08:01 2017 +0800
+
+    fix
+
+[33mcommit cadcb3fceaf13e1ad729dd852ebda56fad1c9a2d[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 11:07:36 2017 +0800
+
+    fix
+
+[33mcommit cb8f2f9ee026268b0bf08f06ae648f4c9ae82753[m
+Merge: 0f19545a 18264a8e
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 10:54:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0f19545ab95a5696f23e7b08d9c59cdbb77c22fe[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 10:54:09 2017 +0800
+
+    fix
+
+[33mcommit 18264a8e6dee5e843e6a794b2cb28ff0d985c4cc[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 10:53:25 2017 +0800
+
+    fix
+
+[33mcommit d2f5b3fab39208d08e42bcd1a312f3fee7058b2f[m
+Merge: d6a57428 fb78ed0a
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 10:42:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d6a574289608d8876506ba5de124c854cd752818[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Aug 3 10:42:28 2017 +0800
+
+    fix
+
+[33mcommit fb78ed0af3a762de7eaa4dbca0e04cd31a9ba1e3[m
+Merge: 434eed7f 74a1461e
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 10:20:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 434eed7f574ca9557dabab5c51df069130ad4eb8[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 10:19:51 2017 +0800
+
+    fix
+
+[33mcommit 74a1461eaa3c40eb3914c501b664695ef0f391e6[m
+Merge: e4c4e290 202e266b
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 10:15:50 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e4c4e290f97c273fe624ad40d94d3eb201968645[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 10:15:44 2017 +0800
+
+    fix
+
+[33mcommit 202e266bd1f9dd38545a8368e0a3ae7d0f7dfc15[m
+Merge: b919eae9 c5f4d0b5
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 09:25:57 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b919eae9fbe390a3768cbc94b1cfbe3b5246aef1[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Aug 3 09:25:32 2017 +0800
+
+    fix
+
+[33mcommit c5f4d0b5d0ddccb1c97a7a09c67165555c7b5a77[m
+Author: boby <boby@leoedu.com>
+Date:   Thu Aug 3 09:23:35 2017 +0800
+
+    fix
+
+[33mcommit 3e11ce04bff282a348cdd2f43367d53dc351b1b7[m
+Merge: 5a835d9f 5d14eb8a
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 19:36:10 2017 +0800
+
+    fix
+
+[33mcommit 5a835d9fc46538c4373289451c8afcba773d1265[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 19:34:35 2017 +0800
+
+    fix
+
+[33mcommit e3419172c5e3313c2288df7d4e72860a06dbff08[m
+Merge: 1f25ae4a 89478535
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 19:34:16 2017 +0800
+
+    fix
+
+[33mcommit 5d14eb8a499b7247360639c39805eebe74ec0139[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 19:28:59 2017 +0800
+
+    fix
+
+[33mcommit 1f25ae4a8f2c17b40a2830660447a00c1ceda91b[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 19:00:52 2017 +0800
+
+    fix
+
+[33mcommit 89478535c0051dca69ddae9280099861f5f78273[m
+Merge: 60842eab 90196793
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 18:55:06 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 60842eab99b249cc476f5e89e9a53a4e80e084ef[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 18:54:59 2017 +0800
+
+    fix
+
+[33mcommit 90196793cfb74bf8f2b0ed4062c2cbd8d7da2014[m
+Merge: d2456143 72085832
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:52:52 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d2456143c5502e78dead936ab17eb9f897e8db36[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:52:44 2017 +0800
+
+    fix
+
+[33mcommit 720858328b03bdbc849754915cd018a7c0622020[m
+Merge: 8ce997a5 722142e4
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:48:21 2017 +0800
+
+    fix
+
+[33mcommit 8ce997a57473942e5040bf6a002bb5dfd21a6a73[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:45:42 2017 +0800
+
+    fix
+
+[33mcommit 722142e43e3413b4453488ae696494cd91514629[m
+Merge: 0a5248d0 310e3b09
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 2 18:45:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0a5248d02158d50acb66631cd4a480393e51d695[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 2 18:45:12 2017 +0800
+
+    fix
+
+[33mcommit 310e3b09b442f185eddb7088ce8c63d742155d92[m
+Merge: bbe49095 268044d7
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 18:42:43 2017 +0800
+
+    fix
+
+[33mcommit bbe49095e6ed0ee88f7a84600261effa30f4e2b4[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 18:39:31 2017 +0800
+
+    试听课数统计
+
+[33mcommit 6edc9bd0290c904f903c7de2e68d05f07615bf44[m
+Merge: b796be71 268044d7
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:27:09 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 268044d70850a9bf2b3ba3b53428d7b923d6a6c7[m
+Merge: 701cc01a 21a2d621
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:26:48 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 701cc01ae2768c55891e1e56076f1a7aac2430cc[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:26:39 2017 +0800
+
+    fix
+
+[33mcommit b796be71fb17a157b4a165d76862767c5b847a06[m
+Merge: 1e1f9065 21a2d621
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:26:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1e1f9065b48efa854ecaf48c2021b36242ee8320[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:26:08 2017 +0800
+
+    fix
+
+[33mcommit 21a2d621462fd9019c28039b08922fab23c647ad[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:25:35 2017 +0800
+
+    fix
+
+[33mcommit 8f0a61f88c6a28d824805961e2b827d2abfbd6e7[m
+Merge: 95253303 91eeffdc
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:24:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 952533032b7a0b81a56b5412b43a1f0d83b05bcf[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:23:58 2017 +0800
+
+    fix
+
+[33mcommit 35061d266df52021cc8911af700a21921bc65770[m
+Merge: fb8caf46 91eeffdc
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:22:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 91eeffdce8129dda01d5493ad7d94be2875fd773[m
+Merge: af64c961 9f2beb8f
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:22:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit af64c961614de678a0ad7745f42062397c18b9b5[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:22:08 2017 +0800
+
+    fix
+
+[33mcommit fb8caf46512164891acba495f28d7225d2a6bb97[m
+Merge: 5bd009f8 9f2beb8f
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:12:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5bd009f87bff1964b376ef714e9806eb3bd9a0f9[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:12:20 2017 +0800
+
+    fix
+
+[33mcommit 9f2beb8f65662e5884ac19b055874168527f07eb[m
+Merge: 55548732 2a2171f3
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:11:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 555487327136144ac10fc74d51ed021e2c283945[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:11:44 2017 +0800
+
+    fix
+
+[33mcommit fda1a1e764ee4f02a00f4325694f449ee28fd571[m
+Merge: 4e1842d7 2a2171f3
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:10:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4e1842d7a5d0b229509b6f232e4cb5cfe26b0f93[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:10:07 2017 +0800
+
+    fix
+
+[33mcommit 2a2171f3ebcf35c2da513d935a6496940267a1a4[m
+Merge: 6475c010 9c0547d0
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:10:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9c0547d08ebcbc5ce880401a97712a1e93e75c11[m
+Merge: 8691c504 e43c5a67
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:09:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8691c5046449c588e82ebec035ba2236f12fb86b[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:09:35 2017 +0800
+
+    fix
+
+[33mcommit 6475c010e2048af86952890aec548df023986daf[m
+Merge: 240b1795 a18526f5
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:08:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 240b17957a177f583757c646b902c256e2cfeaee[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 18:08:37 2017 +0800
+
+    fix
+
+[33mcommit e43c5a67c9dbe9eacc5ae520463606f65b267d74[m
+Merge: de87b71d a18526f5
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:08:24 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit de87b71d9ce3182f59a8724dc93dd2c160266c05[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:08:06 2017 +0800
+
+    fix
+
+[33mcommit a18526f5c34a7ccac31742d8a16668ae808fcad0[m
+Merge: eeb8b13f 9b174427
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 2 18:06:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 08-02
+
+[33mcommit eeb8b13fb9e6954ae56e9c85be6dcad5e84411b5[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Aug 2 18:06:37 2017 +0800
+
+    fix
+
+[33mcommit c6efe1d4d5841a430b473f7d6581b44c363da977[m
+Merge: 4ce6ea10 9b174427
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:04:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4ce6ea10707c56ec6a74da0f802af68f59228125[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 18:04:26 2017 +0800
+
+    fix
+
+[33mcommit 9b1744276f3e848c961d6d8a97ae310207c508e7[m
+Merge: baf81e25 16130166
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:03:52 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit baf81e25ce66eb50a6389f2a7cfe18832d031162[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 18:03:41 2017 +0800
+
+    fix
+
+[33mcommit 16130166bc2805d8b5e57d0ca8d8e153b6081217[m
+Merge: c0046e1d c590c2de
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 14:53:48 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c0046e1d243204d126be63a0e86ed3636fe545a5[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 14:53:35 2017 +0800
+
+    fix
+
+[33mcommit c590c2de404432b4cd1f115205fce9dc5b7e2b83[m
+Merge: 4952fa95 badde7d9
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 14:52:31 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4952fa95ba3cc15281e3c4616740c46d2427e98e[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 14:52:24 2017 +0800
+
+    修改表格样式
+
+[33mcommit badde7d927c46d9248fad76fe132f82d8c119d88[m
+Merge: 6d290962 c5c1bf24
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 14:41:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6d2909622458c081e33624a0bd485aba83bd50f3[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 14:41:27 2017 +0800
+
+    fix
+
+[33mcommit c5c1bf24c435829f588977e6698724b4a5a9e610[m
+Merge: d82ccaa2 1b3d9f32
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 14:39:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d82ccaa20bb44e9ede5cc6f8ae1086ecd989f2a4[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 14:39:06 2017 +0800
+
+    添加phone饼图
+
+[33mcommit 510d8b9d869c525018523a14420fbbdfa40e9c9a[m
+Merge: 2a998226 1b3d9f32
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 14:36:18 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1b3d9f32f35c7d2ac3cd8a8492ce0149021ebffa[m
+Merge: bc956c8e 517cd9bf
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 14:24:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bc956c8e4bbb5bbe80ceae382c9aba221813607c[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 14:24:46 2017 +0800
+
+    fix
+
+[33mcommit 2a998226d568627343d0c0b923ed87aeb52523ba[m
+Merge: 68808440 517cd9bf
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 13:15:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 68808440fcdfbd8d6658b36b53719cb03d138fcd[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 13:14:41 2017 +0800
+
+    fix
+
+[33mcommit 517cd9bf7510fc7d2521c56ca977849a831eafec[m
+Merge: 00317d8d e2876524
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 13:13:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 00317d8d4ce27946ef4bb00f9d94816e3cf5bcc5[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 13:13:42 2017 +0800
+
+    fxi
+
+[33mcommit e2876524a74d0c9830de006be4ae248a75b98547[m
+Merge: 0b932748 64aa6070
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 13:07:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 0b932748476ca6db04fc44ab897c6b209c70c0dc[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 13:07:42 2017 +0800
+
+    fix
+
+[33mcommit 64aa6070c21666e0bf73eaade61f82480a1dc3bd[m
+Merge: b58a0179 bc85f4d1
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 13:06:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit b58a0179dc3b6e80daf6751617bc94c0a52ea83a[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 13:06:25 2017 +0800
+
+    fix
+
+[33mcommit 5879c1b95d25cf73edae7d32257800f7a24782dd[m
+Merge: 37507dac bc85f4d1
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:49:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bc85f4d162fe3e0744596d1ccfb8bcf39c38a2ec[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 12:48:51 2017 +0800
+
+    table query
+
+[33mcommit 37507dac2fbf3d8b1318bd631087e77eb059c739[m
+Merge: 81e77217 570fab92
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:45:09 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 570fab9238774c0b0eed6e87c4cd1a6abbf9cb90[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 12:44:16 2017 +0800
+
+    fix table query
+
+[33mcommit 81e7721776d8e75d4e705c5cb6fa06cfcf552612[m
+Merge: e9892a3a 7fad61d2
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:38:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e9892a3aa9af70a807f29003b9360f858c24817f[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:38:50 2017 +0800
+
+    fix
+
+[33mcommit 7fad61d26cd61ed4564fdf2128abefb1957bbe24[m
+Merge: bf1ebc33 d8c8fed0
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 12:38:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bf1ebc331e297201c43cf7f0c77f3c19c38a4f30[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Aug 2 12:37:57 2017 +0800
+
+    fix
+
+[33mcommit 17be44240eea54ae8a71af36d99b51848f05b74e[m
+Merge: 3b489faf d8c8fed0
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:07:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 3b489fafdc3665389c938e7c8abcd7103b44a9df[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:07:17 2017 +0800
+
+    fix
+
+[33mcommit d8c8fed0168f51817f3fecb399e2f335fa39d073[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 12:06:35 2017 +0800
+
+    fix
+
+[33mcommit b5e1d1e7e8050737fc1ac54db6075e985298605b[m
+Merge: 24c95e4a ced8cd6f
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:05:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 24c95e4a44b0fc13174decfad2c527502d4eae27[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 12:04:52 2017 +0800
+
+    fix
+
+[33mcommit ced8cd6f9661d000f3bbb35d9b8df009877fd687[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 12:04:11 2017 +0800
+
+    fix
+
+[33mcommit f0d99819453794bb019a71c13ba658c16761bad3[m
+Merge: aebcc9fc 221d4d09
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:50:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit aebcc9fc9300054935398fe9e3ef3300848fbc1a[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:50:23 2017 +0800
+
+    fix
+
+[33mcommit 221d4d0940c982760948f8dd28aaa281d5a033bd[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:49:54 2017 +0800
+
+    fix
+
+[33mcommit 6b1980de90f9200332cdc10d384b6e2c71eaf109[m
+Merge: 726fa6d6 4bd805b5
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:41:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 726fa6d693e2f178c561456426c09507cc06c079[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:41:11 2017 +0800
+
+    fix
+
+[33mcommit 4bd805b59ef49388eb481bfb76befd9427c1a569[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:40:43 2017 +0800
+
+    fix
+
+[33mcommit 30ab344860aa01703cc5b8a10db4152a082c12d9[m
+Merge: 7a27d5bf 84c64ec4
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:34:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7a27d5bfd19886e3d1bddab64a5c16294d74bd42[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:34:22 2017 +0800
+
+    fix
+
+[33mcommit 84c64ec45ee24bc78228c59b55225f39678fb1d1[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:33:53 2017 +0800
+
+    fix
+
+[33mcommit d129e051761de0c837b97d7301e5bc0abff39a75[m
+Merge: f4aeb1df 88be17e0
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:28:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit f4aeb1df0e69949d77eb6b1f4db37afe8fd7a68d[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:28:00 2017 +0800
+
+    fix
+
+[33mcommit 88be17e0456f59417b0f98790a335efd025cfea7[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:27:22 2017 +0800
+
+    fix
+
+[33mcommit f795ec7ac0b251dec84a1b5193acc54ef6333549[m
+Merge: a1bf098d 337ad859
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:21:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit a1bf098daac1d61fb66f3a88b3a3c7c260d0cfbc[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:21:03 2017 +0800
+
+    fix
+
+[33mcommit 337ad8598a11f63a28d3b20ee5daf41494fbf774[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:20:39 2017 +0800
+
+    fix
+
+[33mcommit 7110e1a65df28a8d2d37c1edca62df316bebeabf[m
+Merge: fd337911 6a830531
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:18:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit fd337911b5e1cf074a8416df01419814ddbea563[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 11:18:00 2017 +0800
+
+    fix
+
+[33mcommit 6a8305311f215ed78e8c2edc5e96c45770146f89[m
+Merge: 7b19e1fb 4b36c113
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:16:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7b19e1fb32ee5e5b8a100c3999e24c93609e6d0d[m
+Author: tom <tom@leoedu.com>
+Date:   Wed Aug 2 11:16:35 2017 +0800
+
+    fix
+
+[33mcommit 4b36c113a3d621c2b60afd17a89f9d810f7d432e[m
+Merge: 4f334ba3 44402b7d
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 10:29:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4f334ba316b3082afc6d7e71215ece885dad6021[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 10:28:49 2017 +0800
+
+    fix
+
+[33mcommit 44402b7de218e2e77614f4aa9a48fc9ccfa30bba[m
+Merge: 4c4b0f81 257cef8d
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 10:26:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 4c4b0f819f59fb9f485f321ddd49765ea50a1971[m
+Author: boby <boby@leoedu.com>
+Date:   Wed Aug 2 10:26:00 2017 +0800
+
+    fix
+
+[33mcommit 257cef8ddba125ea3b561c0e9967db65d3b7d354[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Aug 2 09:49:56 2017 +0800
+
+    fix
+
+[33mcommit 2639ed8580bb59690ccee7d03b200b6ba2fd573d[m
+Merge: 92d57e4c fd3f0374
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 18:17:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 92d57e4c7d303eddccbb2df6e93dc4a810609eb9[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 18:17:34 2017 +0800
+
+    fix
+
+[33mcommit fd3f0374537bd121cd9ace9400c9911a96bb0d37[m
+Merge: 1f74800f ad2aa70c
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 1 18:16:44 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 1f74800f8927e75221b1bbaf42b20c9ceccba0db[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 1 18:16:30 2017 +0800
+
+    fix
+
+[33mcommit ad2aa70c4ec382f13cb53a1c93a9446503a81554[m
+Merge: 7a7cfd28 171a9620
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 18:11:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-08-01
+
+[33mcommit 7a7cfd28879629246b0715201097eadfe68619be[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 18:11:44 2017 +0800
+
+    fix
+
+[33mcommit 171a9620c6afdb1d84f97326607ded96885630ee[m
+Merge: c8d1be55 1545effd
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 1 18:11:02 2017 +0800
+
+    fx
+
+[33mcommit c8d1be55d7856f9958fdbe2742f9354908537ce4[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 1 18:08:59 2017 +0800
+
+    fix
+
+[33mcommit 22c6e36a10b2a638162b457c33236f153dc7c47b[m
+Merge: c7c20df5 1545effd
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:50:39 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit c7c20df5400d413db9e2bcf69684b19375588775[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:50:26 2017 +0800
+
+    fix
+
+[33mcommit 1545effd05540e2174caf64688e57ac3d1848993[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 17:50:02 2017 +0800
+
+    fix
+
+[33mcommit 231c70455241336da458abbd0620a4eca9496f1c[m
+Merge: 1db91d0e 8002fe61
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:33:45 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 1db91d0ecbb12b5e4b961def87b98f3f18b98b02[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:33:36 2017 +0800
+
+    fix
+
+[33mcommit 8002fe61f7946d67914db7ef1b1f491e39215da9[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 17:29:32 2017 +0800
+
+    fxi
+
+[33mcommit 076ed278de63e9a4b67eea67746f39d06638ce02[m
+Merge: 451a1cb7 c74a10a8
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:24:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 451a1cb7118e341ad6601cc8f8814d5eaa7ee070[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 17:24:15 2017 +0800
+
+    fix
+
+[33mcommit c74a10a84e7576963c5ec1957cdb352b72499511[m
+Merge: 6517f519 3725c92f
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 17:23:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 6517f519c8fe8b278eb38aa41a96e72b5ebb9582[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 17:23:36 2017 +0800
+
+    fix
+
+[33mcommit 51cc14da3dc26ad66b9a3df96f89b2746e7f3b4f[m
+Merge: 14a839f6 3725c92f
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 16:57:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 14a839f65278b8c2b591c70f52c365e488609d90[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 16:57:12 2017 +0800
+
+    fix
+
+[33mcommit 3725c92f69b6abeb08057404ff5830a944796318[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 1 16:56:22 2017 +0800
+
+    fix
+
+[33mcommit c6ffdd6292639a20055cf174ff065a2430638a3e[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 16:28:46 2017 +0800
+
+    fix
+
+[33mcommit 678cca7758aa066c0a7e8ae81d75af1ad73d9239[m
+Merge: 411853d9 5e46799f
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 16:28:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 411853d97021c4440ea8df8674efd244aee27739[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 16:27:51 2017 +0800
+
+    fix
+
+[33mcommit 5e46799f22d754bc6f742c78b90635cce1c4e8ba[m
+Merge: d57879a4 847328a7
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 1 16:26:50 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d57879a429153202b1b2e305f01e646f61fd408c[m
+Merge: ce21c9ad 87cfc773
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Aug 1 16:26:39 2017 +0800
+
+    fix
+
+[33mcommit 847328a70809411356ad6f8fe1e54b3e112efb59[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 16:25:18 2017 +0800
+
+    fix
+
+[33mcommit c78f251af506ac3711683c12c03488a8617fae8f[m
+Merge: 5784bf01 87cfc773
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 15:07:34 2017 +0800
+
+    fix
+
+[33mcommit 5784bf015246818f36976daf51cbdf77ff0fdf09[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 14:56:04 2017 +0800
+
+    fx
+
+[33mcommit 4abc8c67885a26fc21580af7e9cd502579b832ec[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 14:54:44 2017 +0800
+
+    fix
+
+[33mcommit 87cfc77367015290091f13c94ab5bbf497bffe33[m
+Merge: a1782b1c 617b00db
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 1 14:53:52 2017 +0800
+
+    fx
+
+[33mcommit a1782b1cfe814c26aef5766db906858084620361[m
+Author: boby <boby@leoedu.com>
+Date:   Tue Aug 1 14:51:10 2017 +0800
+
+    fix
+
+[33mcommit 617b00db373de8c766e2b79b1673c5f89f842b3f[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 1 11:57:23 2017 +0800
+
+    fix
+
+[33mcommit febb5aff3642c90f08683c90a58e254bf96170d5[m
+Merge: 8dc93dd9 165a0671
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 1 10:53:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam
+
+[33mcommit 8dc93dd911feea77f5726bf04fa530f745ac9e22[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Aug 1 10:53:27 2017 +0800
+
+    fix
+
+[33mcommit 2808dd8f82f17c4602d65a19787735d6017feb36[m
+Merge: 9f2b0e39 165a0671
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 10:47:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 9f2b0e3957a61a84b0e3bea610ac8e14ec015f54[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 10:47:31 2017 +0800
+
+    fix
+
+[33mcommit 165a0671824a861c8c9340c67f170b0e1c93f3f4[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 10:46:54 2017 +0800
+
+    fix
+
+[33mcommit f4f9f88dd8ec73872f2fbb71fbaad82d3ae8e9b4[m
+Merge: 1ef49a5c 380ed464
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 10:45:35 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 1ef49a5c1bdb665f5ef4a31bca32da862b6995ed[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 10:45:20 2017 +0800
+
+    fix
+
+[33mcommit 380ed4648168519eb9c6d452d37566815d72636d[m
+Merge: 2645466e 26d92c05
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 10:44:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 2645466e45cd7c8107d59946f492445170a08861[m
+Author: tom <tom@leoedu.com>
+Date:   Tue Aug 1 10:43:58 2017 +0800
+
+    fix
+
+[33mcommit 26d92c055ffbce53467e17dcd1f9de3b2631e439[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Aug 1 10:12:47 2017 +0800
+
+    fix
+
+[33mcommit 75a3d7a254413d94362ccf735fdcae801ec08199[m
+Merge: c57fa04c 9e85f7df
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 19:14:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit c57fa04c7406ef3cf5a6a21817be1104f9e28f2e[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 19:14:11 2017 +0800
+
+    fix
+
+[33mcommit 9e85f7df99104614ba2bb4819fc91b8dfc30a019[m
+Merge: bc39c792 4bee7311
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 19:12:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit bc39c792ee56a6af38b319b06a1405b44f8237aa[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 19:12:40 2017 +0800
+
+    fix
+
+[33mcommit 4bee7311a3d2273ab7288439a722a37bf0ea7bfd[m
+Merge: 8cb7ae45 67eb86fa
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 19:11:18 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    ii
+
+[33mcommit 8cb7ae450c90c78128a603d8e041921aef88b9a9[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 19:11:11 2017 +0800
+
+    ax
+
+[33mcommit 67eb86faed79ffa2630d8e5676149215c46ff047[m
+Merge: 0c666fd0 76345a17
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 19:10:21 2017 +0800
+
+    fix
+
+[33mcommit 0c666fd0db7ef607185fe5755b4ede2de3f2a83e[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 19:08:13 2017 +0800
+
+    ff
+
+[33mcommit 702c122dc17b35d25f2b78bc00d6a827cec2eebc[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 19:07:28 2017 +0800
+
+    ffx
+
+[33mcommit 8fe0ab76f41e827654e583eecdbf3009bf672bb6[m
+Merge: 309381ad 76345a17
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 18:55:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 309381adc861f9a70d3805fb8b7668d62e1ebed0[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 18:55:30 2017 +0800
+
+    fix
+
+[33mcommit 76345a17fb5a9b262d23647c3abbf5863cee6f98[m
+Merge: c049fd72 f9d9164c
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 18:53:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit c049fd72457cc37ffb3d6d38d2e88887fef42196[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 18:53:07 2017 +0800
+
+    fix
+
+[33mcommit f9d9164c0214793d5d956e6516439845e7d959ba[m
+Merge: 0bfd2a83 9f52588e
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 18:51:39 2017 +0800
+
+    merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-07-29
+
+[33mcommit 0bfd2a83ebf97d7e99fa269e06c86a9b9092ce03[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 18:51:15 2017 +0800
+
+    fx
+
+[33mcommit 9f52588ebd3836d04fb257e2e42c5cc8614050ed[m
+Merge: 95e5cc18 17361deb
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 18:50:15 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-07-29
+
+[33mcommit 95e5cc18c170b2b09ee200ba0267a02a27d08571[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 18:50:02 2017 +0800
+
+    fxx
+
+[33mcommit a67733b9cc6557eae22e4b92e20212008556c666[m
+Merge: 4b7061cc 17361deb
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:48:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 4b7061cc273dee22ebd21929ce8e087955f6dcb6[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:48:12 2017 +0800
+
+    fix
+
+[33mcommit 17361deb6487291add4ae8820b4617206cd78152[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 16:47:30 2017 +0800
+
+    fix
+
+[33mcommit 192e3c3aec29a4a178585b140cda99d65e0df201[m
+Merge: a1616c94 7ed95eee
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:43:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit a1616c948790e035e4a534c7c299784894841279[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:43:21 2017 +0800
+
+    fix
+
+[33mcommit 7ed95eeed0088395c48e4a7ad63aad97ed215ccd[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 16:42:48 2017 +0800
+
+    fix
+
+[33mcommit fbdb57cfcd95d648bbb2bb0a667a9856f1c05270[m
+Merge: 6c29c16c 4dd59330
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:21:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 6c29c16ce01dffec89f177d0204a8dd80bf70da3[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 16:21:30 2017 +0800
+
+    fix
+
+[33mcommit 4dd5933025591fbd9059a15c54ef2d4f6c395a49[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 16:20:50 2017 +0800
+
+    fix
+
+[33mcommit c0a42e88f9ade4f132682462fb69bac74adaab74[m
+Merge: 46d1ac04 9d663ba3
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 15:27:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 46d1ac04b882fff675bc83f44af55afab12b4f6e[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 15:27:32 2017 +0800
+
+    ffx
+
+[33mcommit e2eb78e0f4c9affbbafbed7deac229a0899438b8[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 15:23:38 2017 +0800
+
+    fx
+
+[33mcommit 9d663ba3b203bc97778f835d1fbcc275fcc3499c[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 15:21:44 2017 +0800
+
+    fix
+
+[33mcommit a7960d5b3f63552a22cd66c9fa460e94c881050a[m
+Merge: 86023294 417e3ebb
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:51:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 8602329420e36fd3a69c63325928d3cdf5ed89d4[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:50:56 2017 +0800
+
+    fix
+
+[33mcommit 417e3ebbaa48472bcd7a64835dbd8ac14a042c54[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:50:19 2017 +0800
+
+    fix
+
+[33mcommit b55e6db6ffcbbc4ed52ebcc5bd6b212650a546eb[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:45:42 2017 +0800
+
+    fix
+
+[33mcommit 78dce56132415c129cf9ed2a32bc72dc3eff6779[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:39:40 2017 +0800
+
+    fix
+
+[33mcommit acff82cf5d2637986e5b362a98160e67f9c28112[m
+Merge: d39a4632 3ed2b60e
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:29:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit d39a4632f0efba188c808960d8daa1e00640a827[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:29:23 2017 +0800
+
+    fix
+
+[33mcommit 3ed2b60ed1095e4b2098f7b6123c7874a9e765a9[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:28:19 2017 +0800
+
+    fix
+
+[33mcommit 606169b598f984a0c6002e0fc703064f64897725[m
+Merge: 183df90a bc2a7122
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:14:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 183df90a4c20d249ca0c67d6c4189dd4fa8bf76d[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:14:30 2017 +0800
+
+    fxi
+
+[33mcommit bc2a712285101c5ffefa4bf9fb447cf6b15b88b9[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:13:38 2017 +0800
+
+    fix
+
+[33mcommit 9619798dd46a0e5aa4243df0fb45b3718e14a7ed[m
+Merge: 4e8083cd c3ad28cb
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:05:54 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 4e8083cd758dbb952308901358bf45557e88bc61[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 14:05:44 2017 +0800
+
+    fix
+
+[33mcommit c3ad28cb3eb6bb01e571eb76725880f00eca9c15[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 14:04:40 2017 +0800
+
+    fix
+
+[33mcommit 9d33e18063728862aef508481ba07401aa61aee2[m
+Merge: 4edd4b97 59a5f880
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:49:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 4edd4b9707e6d9dddebf96ec01145abfbbf9e269[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:48:55 2017 +0800
+
+    fix
+
+[33mcommit 59a5f88053bd24919949cd41f96354eba6639870[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 13:48:06 2017 +0800
+
+    fix
+
+[33mcommit 0f7fe5e2474649c6d32a26828ee871cfbcf88921[m
+Merge: 6697969f 660c0882
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:44:43 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 6697969fa0742b1cbe7f3a94b71703aa6a81bd2d[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:44:29 2017 +0800
+
+    fix
+
+[33mcommit 660c08824a88fdc3780352972318407041d26d89[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 13:43:54 2017 +0800
+
+    fix
+
+[33mcommit b1ae9d03ffa69dad21e433ecb3bacaf1e87941e1[m
+Merge: 7eba2161 fc509862
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:35:36 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7eba216199dafc1b25600bb6063a57d513813251[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 13:35:27 2017 +0800
+
+    fix
+
+[33mcommit fc509862eb74153a7e17aa444c50b615d3d15370[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 13:34:39 2017 +0800
+
+    fix
+
+[33mcommit 4acdf81bd08f770ef1294a2c461324fe9c01abf3[m
+Merge: fc0162cc 4c930d58
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 12:48:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 4c930d58e5978497e25f1d1ad6b60c21e96ae2c3[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 12:48:05 2017 +0800
+
+    fix
+
+[33mcommit fc0162cc4412a13e26533fe84b15682c36d9402f[m
+Merge: 7e469c4e 4cbb160a
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 12:45:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7e469c4e7fa419dc81bf576077927402922693e9[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 12:45:07 2017 +0800
+
+    fix
+
+[33mcommit 4cbb160aa38543f51048a0461a9b1adfc0dc97b8[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 12:44:31 2017 +0800
+
+    fix
+
+[33mcommit e70e1726a788173676c02b499323ca3a36ff10e8[m
+Merge: 2fbc5845 c91e1246
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 12:36:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 2fbc584599c2a04f88b9ac1bfccb3a1487c0adb6[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 12:35:46 2017 +0800
+
+    fix
+
+[33mcommit c91e1246295a7780356aba9ed0bee6315dc281d3[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 12:34:39 2017 +0800
+
+    fix
+
+[33mcommit ce21c9add8647e9743815afcb2074da1df16a7e2[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 12:15:58 2017 +0800
+
+    fix
+
+[33mcommit ddf716c1389d1c4c9de69c2d615f379a909f94af[m
+Merge: 0835b861 68484aa9
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 11:52:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 0835b861e7c8c321dbac4bc4f6f4cbf76f20934b[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 11:51:49 2017 +0800
+
+    fix
+
+[33mcommit 68484aa91357dc10d4f3b3510f7931bfb39a71c0[m
+Merge: b725604d 941a564d
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 11:51:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit b725604deb506023d227fb8112b7d6ae1c201626[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 11:51:04 2017 +0800
+
+    fix
+
+[33mcommit 941a564de5ed21562c973fdf5cfa15e736115921[m
+Merge: a7751a34 83e541fe
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 11:40:12 2017 +0800
+
+    fdx
+
+[33mcommit a7751a3431a057876d97c8f6f8aa2b8d5c6f2c8c[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 11:37:02 2017 +0800
+
+    fff
+
+[33mcommit 83e541fed0cf8564e422ed59cd9d21c2fcd79284[m
+Merge: 694ab4a1 78eda630
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 11:35:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    2017-07-29 sam
+
+[33mcommit 694ab4a1ed60d2ec8d72647a65392703f5cf0b43[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 11:34:51 2017 +0800
+
+    fix
+
+[33mcommit 78eda63039d48ead45d439818628c54bded46201[m
+Merge: c74ed7c6 2f04548a
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 11:34:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit c74ed7c6db5f09db483328c85123f51106f68cda[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 11:34:08 2017 +0800
+
+    fix
+
+[33mcommit 2f04548a216d4889f1f5c3ef74703c6ac03249e2[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 10:56:24 2017 +0800
+
+    fix
+
+[33mcommit 52964d8c373cad4e27302f413a0dc98057f2fc4e[m
+Merge: da043995 b821f774
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 10:38:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit da04399529332206c3b4c5a1bc945abde410ea30[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 10:37:44 2017 +0800
+
+    fix
+
+[33mcommit b821f7742357af34bf96febad5f0eed72bf0812f[m
+Merge: 9f710897 8cb7cc39
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 10:31:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 9f710897ddc29a80be2f3201e4ec963d51b82139[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 10:31:22 2017 +0800
+
+    fix
+
+[33mcommit 8cb7cc397d5c3488ee66ac0b2786aae6dc7b641a[m
+Merge: abac716d ebe0b6f7
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 10:30:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit abac716d0e4f538723bfa78fc751bc0281d3d9bb[m
+Author: tom <tom@leoedu.com>
+Date:   Sat Jul 29 10:30:22 2017 +0800
+
+    fix
+
+[33mcommit 0a0f93f1a4c6d02228605c47b3516d7357dd8089[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 10:29:23 2017 +0800
+
+    fix
+
+[33mcommit ebe0b6f7c5377517660ef217937d30e72e5c1737[m
+Merge: 28c4fbb5 9d5877b5
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 10:28:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-07-29　
+
+[33mcommit 28c4fbb5db36de5fa491cacdd800dd5949342919[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 29 10:27:42 2017 +0800
+
+    fix
+
+[33mcommit 561886d17ef36131b739f82d1541f5e5597bf00c[m
+Merge: d83e10fc 9d5877b5
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 09:54:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit d83e10fc035947432b058193e050b72da00bef70[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 29 09:54:21 2017 +0800
+
+    fix
+
+[33mcommit 9d5877b55aa54309dfb17fe3b1d739ab6a7ee9e4[m
+Merge: 54c7a40c 61043646
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 09:53:34 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 54c7a40cbdf97e8108ae71a5ba146d2f1ed2447e[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 29 09:53:16 2017 +0800
+
+    slow sql log
+
+[33mcommit 9a4d1680412c435219007b7d4dec7c3a293294f0[m
+Merge: 7806b39e 61043646
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:57:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7806b39eca37b4b1787a4f9f952e7078a6146e2b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:57:27 2017 +0800
+
+    fix
+
+[33mcommit 6104364616bee8286b9949534e00780be9046e5d[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 17:56:53 2017 +0800
+
+    fix
+
+[33mcommit 6bc9fe3918423b8858750d5761b13241d99a2f6c[m
+Merge: 1bc5004c 6204d413
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:53:15 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 1bc5004c37e2884bf4ffe2b262cea85c3d5e12f0[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:52:55 2017 +0800
+
+    fix
+
+[33mcommit 6204d4139870eb98bf83d6b0d345b123a951571d[m
+Merge: 87e3b39b ba33f3bf
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 17:52:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit ba33f3bfa21ce1092b1f7e1a6689d9e5d4c8572b[m
+Merge: 5bb504c5 25711303
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:50:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 5bb504c59c859dbfc1631b163da2b10e35f73837[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:50:26 2017 +0800
+
+    fix
+
+[33mcommit 87e3b39b0cf30a333e198db2d506537796ce8b84[m
+Merge: 0f3b1555 a5932c06
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 17:49:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 0f3b1555937926894fe4b92838b442e3722a48bd[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 17:49:25 2017 +0800
+
+    fix
+
+[33mcommit 25711303c8c17c9cd424526eea34cf7d99f118d0[m
+Merge: bfccdf51 a5932c06
+Author: sam <sam@leoedu.com>
+Date:   Fri Jul 28 17:48:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam 2017-07-28
+
+[33mcommit bfccdf51b2b574df535b94f395dddbf097b38c75[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Jul 28 17:48:53 2017 +0800
+
+    fix
+
+[33mcommit 0dde4a36e09af1d5e059d191663ad98eeb64331f[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Jul 28 17:46:24 2017 +0800
+
+    fox
+
+[33mcommit 52a6bb62f4b44537e9aabdf9291a7f5fc4d3773f[m
+Merge: 4bf62a96 a5932c06
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:11:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a5932c06eb93108707f97c2f5dfac4e2f14e667e[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Jul 28 17:10:09 2017 +0800
+
+    fix
+
+[33mcommit 4bf62a965d2c3529257ee551c9c34c8ae2252cb4[m
+Merge: a73e0c24 895c591e
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:03:18 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a73e0c24f7a9341b35a3d37fa436059c5861b402[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 17:02:45 2017 +0800
+
+    fix
+
+[33mcommit 895c591e99c08c337eeedd12553ed5dac190c4a5[m
+Merge: 66557476 044118a1
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 17:02:15 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6655747694f204ad5c0d7a30ac72510a19ea6f2e[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 17:02:04 2017 +0800
+
+    fix
+
+[33mcommit cf282c674d36f10e441846e576c1bced0900fb47[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 17:01:58 2017 +0800
+
+    fix
+
+[33mcommit 56e0624ea017ab980179ecf683dec96e20b7dc15[m
+Merge: 889180c3 044118a1
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 16:49:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 889180c3ac58d7d96632a52fdf0d8cc8a5d1f160[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 16:49:14 2017 +0800
+
+    boby
+
+[33mcommit 044118a14465be22b7270d311d536c26d201917d[m
+Merge: f33adec5 1a34f32f
+Author: boby <boby@leoedu.com>
+Date:   Fri Jul 28 16:47:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f33adec5d0539490b70134233ee07699fa355109[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Jul 28 16:47:34 2017 +0800
+
+    boby
+
+[33mcommit 115e00de7cc0b1b8db7a77219a04132499e0b3c5[m
+Merge: 0f45b5cb 1a34f32f
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:49:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 0f45b5cb4e7804aea98ca5267900d38aa4ed0f28[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:49:09 2017 +0800
+
+    fix
+
+[33mcommit 1a34f32f4fd6072184a39ac63b83060d17c61c16[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:48:49 2017 +0800
+
+    fix
+
+[33mcommit 66ccfbb0ebb0bf2b21f55f7b8c071dbf6d4a021c[m
+Merge: 05a99667 814566c0
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:43:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 05a996674dc2b4a074009fbfbb5b65dd422be601[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:43:17 2017 +0800
+
+    fix
+
+[33mcommit 814566c0b6dd8928c7a90883e8968c61fe591762[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:42:40 2017 +0800
+
+    fix
+
+[33mcommit 40213148d89287e8b7c3eada3944d281fbd9a54b[m
+Merge: 18f7d365 2255ec7d
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:38:51 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 18f7d3659753500cf16b415694e61868310df735[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:38:40 2017 +0800
+
+    fix
+
+[33mcommit 2255ec7d58c360631e954e45752da8b9540b9666[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:38:09 2017 +0800
+
+    fix
+
+[33mcommit 426c97e1d9ad09d3377c7cbc7ad054a3fd28cdbd[m
+Merge: 092cdad7 993b1421
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:29:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 092cdad75ab7db0cf90b1b0bbe2b00f1d8978331[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:29:35 2017 +0800
+
+    fix
+
+[33mcommit 993b1421cc6a395f250423fac4fb55439d40567e[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:28:55 2017 +0800
+
+    fix
+
+[33mcommit 8987347ad8c9236890fa850797e3e6b151d92157[m
+Merge: 4f8edf63 0baaef42
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:27:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 4f8edf6356fba3c497e247d047cee46d50d5e23d[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:27:00 2017 +0800
+
+    fix
+
+[33mcommit 0baaef42f607607e2f476c490013f5b73018cc47[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:26:16 2017 +0800
+
+    fix
+
+[33mcommit adabcd3b3528c3d36b23112943fcc58ca5314a16[m
+Merge: a55dbad8 a28f905a
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:19:33 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit a55dbad8430d4351db432f172cdde8148facc417[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:19:15 2017 +0800
+
+    fix
+
+[33mcommit a28f905a4ed46c6dd5620b9c57068c06b22e72b8[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:18:44 2017 +0800
+
+    fix
+
+[33mcommit f8d4d1ddcb0bb7b2bc392a1cd7d5a7cccf499870[m
+Merge: 62b941c7 1d78c2c6
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:17:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 62b941c7eb76727735e1a1964533fddcdfd85da0[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:17:04 2017 +0800
+
+    fix
+
+[33mcommit 1d78c2c6f7e1230b900be82a90201909a60299e9[m
+Merge: 8f85958f f3269ef8
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:16:09 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 8f85958fa16d12c5791175fb2ddcb29c89decb7f[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 15:16:02 2017 +0800
+
+    fix
+
+[33mcommit f3269ef81b90fe70b9a83b7b60958b1dc573afde[m
+Merge: b35598d5 cebc046e
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 15:10:57 2017 +0800
+
+    fix
+
+[33mcommit b35598d5d5ef4bf933ebe77f0ee96eb00f5fe0ee[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 15:10:21 2017 +0800
+
+    fix
+
+[33mcommit 082ed7e6d7785686e2aa9932e8f58bc0f5cfc4c7[m
+Merge: e8334d09 cebc046e
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:09:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    boby
+
+[33mcommit e8334d093996a927f7c32c358a5ec45b5d2498ce[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:09:02 2017 +0800
+
+    fix
+
+[33mcommit cebc046e4220bee411d0f9887eeb7a941250748b[m
+Merge: 7040915a e0eb6ef4
+Author: boby <boby@leoedu.com>
+Date:   Fri Jul 28 15:04:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7040915ae05454e894c85eee0ae4bce70e288098[m
+Author: boby <boby@leoedu.com>
+Date:   Fri Jul 28 15:04:04 2017 +0800
+
+    fix
+
+[33mcommit e0eb6ef458ffbf405662cad7ddba143677ff8dfa[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 15:02:40 2017 +0800
+
+    fix
+
+[33mcommit 6fae08130d05d6aa5106f9f151b4da3db6b4ec6d[m
+Merge: 561cb1e6 9e3b3ddb
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 14:59:13 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 9e3b3ddb57dcf7780007560b9d2d9c0503ca87cf[m
+Merge: 15ac8b65 9c56b8be
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 14:58:18 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 15ac8b65e576d22895db682d4731b5228b1141e9[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 14:58:05 2017 +0800
+
+    fix
+
+[33mcommit 561cb1e6baad1a087ea3b5d3c4bb37c9e8d52645[m
+Merge: c094abc2 9c56b8be
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 14:54:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit c094abc205451620c7279ab4c37c11ba9b7fcc15[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 14:53:49 2017 +0800
+
+    fix
+
+[33mcommit 9c56b8be85e424b8561674b91d859c76db1525f1[m
+Merge: 824de218 2e96e719
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 14:53:02 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 824de218583199d3661e352798a42e0dd562bb1c[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 14:52:56 2017 +0800
+
+    fix
+
+[33mcommit 2e96e719c91af3628d77e4acb68d26a9152d06a7[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 14:29:04 2017 +0800
+
+    fix
+
+[33mcommit a68c55cda546ec17903b2a13b394f6be25a93326[m
+Merge: 9a672835 e9e11af1
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 14:15:47 2017 +0800
+
+    fix
+
+[33mcommit e9e11af1ffd05dc63bdbf26afd53bbd3298070c3[m
+Merge: 409d8c52 3fbd1988
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 14:14:22 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 409d8c521fd1852ff2d570343156fa68f3eac924[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 28 14:14:10 2017 +0800
+
+    fix
+
+[33mcommit 9a672835d2609b4b1f78c1b7c730aafc9bdd0ec6[m
+Merge: 900512da 3fbd1988
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 13:26:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 900512da802e23c3489050f5654fb17867c0be75[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 13:25:47 2017 +0800
+
+    fix
+
+[33mcommit 3fbd1988c5336b8ceef5b7b67f6ca8880dd9b6e0[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 13:25:06 2017 +0800
+
+    fix
+
+[33mcommit 65298a16a237388754dc48bdd04f0a0db52bc11e[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 13:21:10 2017 +0800
+
+    fix
+
+[33mcommit 3e55368f46c43685a1801e1964711bd75fa76f84[m
+Merge: de797311 58b605d5
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 13:20:20 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit de797311ffadf4bc0b19a3b9181caf648f0cfb94[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 13:20:05 2017 +0800
+
+    fix
+
+[33mcommit 58b605d5e4ad5e29980493dcdb33846f17185ae7[m
+Merge: cbeb7302 fa23c735
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 13:19:06 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit cbeb7302c3bd4fff6fce7ba58f9cde7430187db7[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 12:03:34 2017 +0800
+
+    fix
+
+[33mcommit fa23c7358082f777dbf2ba1573c50cf297eb3ca6[m
+Merge: 0041c186 04a1c51e
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:58:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    fix-aa
+
+[33mcommit 0041c1860b48a2c23897d716f902d1f8aca57d77[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:57:48 2017 +0800
+
+    fix-a
+
+[33mcommit 04a1c51e5f383f000589fbab99556dd7aff7a34f[m
+Merge: a9596e02 26c0fc87
+Author: sam <sam@leoedu.com>
+Date:   Fri Jul 28 10:56:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    sam_fix
+
+[33mcommit a9596e022d1950bd7cdd12cee7b94c7ddb16c70c[m
+Author: sam <sam@leoedu.com>
+Date:   Fri Jul 28 10:56:18 2017 +0800
+
+    sam_fix
+
+[33mcommit 7f0fcaf80f3f742bd3a5830018390b8fa309fc6d[m
+Merge: 5b4f034b 26c0fc87
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:56:02 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 5b4f034bb444d235b35ddc915f665a780b02dffa[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:55:38 2017 +0800
+
+    fix
+
+[33mcommit 26c0fc877b3a176786518b2072616787f3389321[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:55:06 2017 +0800
+
+    fix
+
+[33mcommit 7c9c25860b2b706e878e35c79cfff0b913f66899[m
+Merge: f4fd8da1 c99beba3
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:50:06 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit f4fd8da1de3f63aa5964c158d99a67fb29f4d4f6[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:49:46 2017 +0800
+
+    fix
+
+[33mcommit c99beba301933f70debc05edd50c486973d7e9db[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:49:13 2017 +0800
+
+    fix
+
+[33mcommit bf4a626dd15526295325ae2c371ed4f0d85822a0[m
+Merge: e3a1f3ad 195c4f41
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:36:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit e3a1f3ad305b98e17e06a726a333be6045884484[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:36:44 2017 +0800
+
+    fix
+
+[33mcommit 195c4f410a2502df18396f5493d39ef8124aeef1[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:36:08 2017 +0800
+
+    fix
+
+[33mcommit bb59d3dc77cc0a8f8dc8e860e33df068fc0a951e[m
+Merge: 6c981c5a fc144a35
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:32:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 6c981c5a16734632ab4e456574123d5b7576e7a4[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:32:39 2017 +0800
+
+    fix
+
+[33mcommit fc144a35ba165cbbb8cbd0d2b39a9dbaf119b138[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:31:56 2017 +0800
+
+    fix
+
+[33mcommit 6a048e5e69c6bcadfef5a13119988e55fb1f7e0d[m
+Merge: 59071ac2 3dec2578
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:28:16 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 59071ac22b0e48a79d92c39afde77c86f16452aa[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:28:05 2017 +0800
+
+    fix
+
+[33mcommit 3dec25785c45a8ba3168b358861ede33d380ba63[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:27:29 2017 +0800
+
+    fix
+
+[33mcommit 98c3cdba128d3e60abf0e058f8c266f391ba2842[m
+Merge: bd8e0cce 9b7f9f73
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:23:25 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit bd8e0cce587596544ee2e9f544d418ffb5801c80[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:23:07 2017 +0800
+
+    fix
+
+[33mcommit 9b7f9f73ba8c5775eb392cc5b5f70584237d447c[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:22:17 2017 +0800
+
+    fix
+
+[33mcommit 1ff485355d31888e5a131ef763384573eb65449d[m
+Merge: bda6d848 9ac15a0f
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:16:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit bda6d84838928caf6efdcf15fc7e94f8abe03e2b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:16:21 2017 +0800
+
+    fix
+
+[33mcommit 9ac15a0f3ce318e0d4d4842a355a462789c0644b[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:15:26 2017 +0800
+
+    fix
+
+[33mcommit 54dc7be230b5cae2851f3c5d7d9b23fd78ad3758[m
+Merge: 7c516562 098363f6
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:06:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7c516562f11deebf55dd124318980705169f2130[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 10:05:49 2017 +0800
+
+    fix
+
+[33mcommit 098363f60d1c84a942441f2cb7cae24e4494987a[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 10:05:01 2017 +0800
+
+    fix
+
+[33mcommit cf2b7e779cae1cb04b8957badb9e0d350f86c45e[m
+Merge: 7708a179 034e44b7
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:59:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 7708a179bf03f0b12d459bc9dcc82ccb23c08413[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:59:01 2017 +0800
+
+    fix
+
+[33mcommit 034e44b74d268a931e4ee26577f6ec3880989483[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 09:58:17 2017 +0800
+
+    fix
+
+[33mcommit f2f603aef04502257c7bbde1e8e2f28fff3868de[m
+Merge: e291bf02 2551cd60
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:51:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit e291bf020c84cebb36bd1bba14e73285d00ab642[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:51:06 2017 +0800
+
+    fix
+
+[33mcommit 2551cd6059633ac934571823df5096950b555d46[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 09:46:15 2017 +0800
+
+    fix
+
+[33mcommit 991a345072b15ba5c7b83ab469289e0103b4bb34[m
+Merge: 76222374 49056334
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:41:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 762223740099404925762ecbb86f99bce34ac98c[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 28 09:40:53 2017 +0800
+
+    fix
+
+[33mcommit 4905633486ccbf1b8c4fc154ee006942106603bb[m
+Merge: b586223b 0d3441e8
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 09:40:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit b586223b896561a453c0b478442ba26cbb1a2fec[m
+Author: tom <tom@leoedu.com>
+Date:   Fri Jul 28 09:39:48 2017 +0800
+
+    fix
+
+[33mcommit c8c10956236b9ca77b2f7c64634991182f40cf76[m
+Merge: b5d107f4 0d3441e8
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:52:33 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 0d3441e84a522e26baeffccac1a13f88c0792b16[m
+Merge: 3ac2fdad 7b56c4dc
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 19:52:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 3ac2fdad4921b35f3335d13cd96a39d5a3b9a810[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 19:51:46 2017 +0800
+
+    fix
+
+[33mcommit b5d107f4bf17dd4959659c7efb995b10f1e48d87[m
+Merge: 8cd5a4b7 7b56c4dc
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:30:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 8cd5a4b7166530654587a83958752daa201dc01c[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:29:50 2017 +0800
+
+    fix
+
+[33mcommit 7b56c4dcb486e9021195d76976f198f37adf3951[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 19:28:31 2017 +0800
+
+    fix
+
+[33mcommit 57ee75213e8200478b65d744012298a850d3a43e[m
+Merge: 913895c2 c5de5a30
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:13:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 913895c2840a20f1029ec08983fa78664f614d1d[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:12:49 2017 +0800
+
+    fix
+
+[33mcommit c5de5a3014c100cc8407d2d185059a6c8f42d4fb[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 19:11:54 2017 +0800
+
+    fix
+
+[33mcommit 01c6aad29fbf19b2f8de1c851741c88ab5b8cd7d[m
+Merge: f1410973 6061b31a
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:08:17 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit f1410973560d4a1a4dc13e0da556ea89637ffde8[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:08:06 2017 +0800
+
+    fix
+
+[33mcommit 6061b31a2ff970d56b575bb9c52a706bfc5c2f53[m
+Merge: 55f4aaf0 6ddee760
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 19:06:23 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 55f4aaf0be1276a05d369ace346ae02acbdb0fad[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 19:06:18 2017 +0800
+
+    fix
+
+[33mcommit b2faa418cf52c40852feac2444cfc161013e62b7[m
+Merge: 807598b8 6ddee760
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 19:01:08 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 807598b8bb854583f0f8cff75c8f651a68b0e655[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:59:56 2017 +0800
+
+    fix
+
+[33mcommit 6ddee760010270c70531ca5ac0b44f4ec29072b9[m
+Merge: 643efe5a 6f390c1f
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 18:59:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 643efe5adbe1b3ddd7e60efa913bca37ddfbb612[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 18:59:08 2017 +0800
+
+    fix T
+
+[33mcommit 77bcc342716858d06ef3cd67abc045d24749bf4c[m
+Merge: 451278f1 6f390c1f
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:48:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 451278f1c7591e0dfb6508d2fc0b7c0eefb651c2[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:48:35 2017 +0800
+
+    fix
+
+[33mcommit 6f390c1f9ea1f60afc96f6bcba4cd2911ca176ce[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:47:50 2017 +0800
+
+    fix
+
+[33mcommit e797bf1e10078f07077de572120e87c249fd6c49[m
+Merge: 3d6b6a01 6dd19060
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:46:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 3d6b6a01c7be278ab69e62a5fbe6b8161f4cd6b1[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:45:52 2017 +0800
+
+    fix
+
+[33mcommit 6dd19060e62e7c4da0e70715367c1e98e4a028cd[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:45:10 2017 +0800
+
+    fix
+
+[33mcommit f2e9dbccc65637c724bc6d7d6d104a06501e757f[m
+Merge: 9071f50a cf84f21c
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:43:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 9071f50a869be7c8a3e1daddc31dbeea12827438[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:42:55 2017 +0800
+
+    fix
+
+[33mcommit cf84f21c9031377824e0f0816700db9a3d17e5df[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:42:09 2017 +0800
+
+    fix
+
+[33mcommit 2eaad7e0d6847b06a587ea284dcfd507cde2e2cc[m
+Merge: a8ba17a4 7529f2a0
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:36:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit a8ba17a49fdbe07340ecb0ea9b6a19acde86e09d[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:36:13 2017 +0800
+
+    fix
+
+[33mcommit 7529f2a01f1e7c20982d0f240301670df2a5edc9[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:35:21 2017 +0800
+
+    fix
+
+[33mcommit 9df0a4e531c1a3e69c47fb7fd0358375a2b51cd9[m
+Merge: 2245cb36 9bd43012
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:08:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 2245cb36bec4e668c772ac107c3e2401d4bec925[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:08:13 2017 +0800
+
+    fix
+
+[33mcommit 9bd43012359f78115a5e2f6f5a14b36c792afb94[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:07:24 2017 +0800
+
+    fix
+
+[33mcommit 82936e2b1750c05627d21f50750ca2e8898d4b58[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:03:34 2017 +0800
+
+    jix
+
+[33mcommit 8895565a2275b5686340b5d35d0ab840169ea502[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 18:02:48 2017 +0800
+
+    jix
+
+[33mcommit f3bcbae7ceef2828fcc3ee7a0a6205f0361db876[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 18:01:18 2017 +0800
+
+    jix
+
+[33mcommit d9ebbcda9e04a2c0a305b81e88201a498716f8e8[m
+Merge: 8361af8e 95635c03
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:56:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 8361af8ef3cc7b1636a72201b6a75e5876e82fe7[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:56:23 2017 +0800
+
+    fix
+
+[33mcommit 95635c03a2b0d885776b2b310e94aa000a9a99b3[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:55:41 2017 +0800
+
+    fix
+
+[33mcommit 306cf4061b9a279c1630dd7ecf5f2bc545dac02f[m
+Merge: 54d66fb9 db666167
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:53:50 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 54d66fb9f5f206eeaf4919f3db137cc6a6dbb24b[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:53:32 2017 +0800
+
+    fix
+
+[33mcommit db666167baede09eb0b2ba48d407e6aba1da72f7[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:52:34 2017 +0800
+
+    fix
+
+[33mcommit 508adb7e3bdff5c9aca2690c88facc87698a7d56[m
+Merge: eda20a95 18484dc1
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:50:58 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit eda20a95bf6743f1e27bb4d5bd34a4923d84bc80[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:50:30 2017 +0800
+
+    fix
+
+[33mcommit 18484dc14724355a03c9f7b34201ed5654491057[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:49:20 2017 +0800
+
+    fix
+
+[33mcommit 61f018c44c3563bf235dd34aaa10ee43c2d6a6a0[m
+Merge: ec83f50a 9aabdd0c
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:40:06 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit ec83f50ae85a62e5669095886c7d630eb11661d3[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:39:38 2017 +0800
+
+    fix
+
+[33mcommit 9aabdd0c67ed7759f0364a267ec449cbe376bf8e[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:38:21 2017 +0800
+
+    fix
+
+[33mcommit c779e4a811f34d3448c93b61bafca4a561de9a1b[m
+Merge: 93bc52df 986d70f9
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:34:31 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 93bc52df17d41e1b42c74fe6aa746970626209f0[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:34:00 2017 +0800
+
+    fix
+
+[33mcommit 986d70f91e9c3bd858efe6e87ad8888f9e4dcace[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:33:09 2017 +0800
+
+    fix
+
+[33mcommit bcd4b785be7f010d34d402344cd86429a201a734[m
+Merge: d725e52c 78e58aef
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:28:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit d725e52cdb96b294d72ad67aa30f7059c4486dfe[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 17:28:20 2017 +0800
+
+    fix
+
+[33mcommit 78e58aefce379b549d500d18759bb645302b0faf[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 17:27:26 2017 +0800
+
+    fix
+
+[33mcommit c10bccd924192fafd418e3cf858e05ccc8619048[m
+Merge: efaebc8d 0dafe653
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:13:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit efaebc8d92e82bf7656e2ce748806dd1fc564c71[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:12:52 2017 +0800
+
+    fix
+
+[33mcommit 0dafe6534700be76bfc22e4cc1308c30f3604e68[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 16:11:49 2017 +0800
+
+    fix
+
+[33mcommit 74f560258616d2803389825cbb5ac46442d91022[m
+Merge: e46a6324 a6a08236
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:08:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit e46a632486058d47d3e99b44b45ed43a387b111f[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:08:14 2017 +0800
+
+    fix
+
+[33mcommit a6a082364e81559b359081fb99d0012010d25022[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 16:07:00 2017 +0800
+
+    fix
+
+[33mcommit c19f1067643b8712ade81253763b30696e35ed8e[m
+Merge: ddc4ea6c 11d6b769
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:02:30 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit ddc4ea6cb557c2e47d8595c141ed9360cef4d6be[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 16:02:12 2017 +0800
+
+    xx
+
+[33mcommit 11d6b7690742ec279343b317945fcceff7341197[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 16:00:26 2017 +0800
+
+    xx
+
+[33mcommit 2f4565257b4e6b0a3d1bae22c606eb551f990151[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:59:18 2017 +0800
+
+    fix
+
+[33mcommit 7dcee111e52b945a47f4afb6735a933cfbbadcc2[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:56:09 2017 +0800
+
+    fix
+
+[33mcommit a3a88af226ebb216936249be8a81241966a47d10[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:52:55 2017 +0800
+
+    fix
+
+[33mcommit b744838c5d9d24655a329a2fd397d99d1ed8a7f1[m
+Merge: 87544ad8 d57c2f41
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:42:47 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 87544ad8b43c366a936855802b3fd4c1cb195db3[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:39:57 2017 +0800
+
+    fix
+
+[33mcommit a515e43ca85a05eb28b7d1db6a29b373601a501b[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 15:36:48 2017 +0800
+
+    fix
+
+[33mcommit d57c2f411cebbe459ff82231ace1e646bd19e592[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 15:35:43 2017 +0800
+
+    fix
+
+[33mcommit 02509a0acfb42bca4d710a88b57694d1cc5b096f[m
+Merge: 118181b5 e694df14
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 15:33:05 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit e694df14812239b3e824cf4f4079c0bccab181e8[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 15:32:08 2017 +0800
+
+    fix
+
+[33mcommit 118181b59865aad2b607e7337842bd828fdf4484[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 15:29:43 2017 +0800
+
+    fix
+
+[33mcommit 49288ad05690cb5c793ad36d4586f21d7f7ee1ca[m
+Merge: 9cb418e1 01ad0032
+Author: kevin <kevin@leoedu.com>
+Date:   Thu Jul 27 15:29:01 2017 +0800
+
+    fix
+
+[33mcommit 9cb418e1df9eb513cf312311877fb2481c2d870a[m
+Author: kevin <kevin@leoedu.com>
+Date:   Thu Jul 27 15:17:46 2017 +0800
+
+    fix
+
+[33mcommit 01ad0032e1a0312dc948339c20fabf87924cedbe[m
+Merge: 100f4d75 d6c14971
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 14:55:40 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 100f4d75cd64fe5d7a5a3c1751c97358ce7fd69a[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 14:55:32 2017 +0800
+
+    fix
+
+[33mcommit 1ed241884ec7de070fa2b670074993c2c759489a[m
+Merge: f77271b4 d6c14971
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 14:45:41 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit f77271b4a1893112d7eb04b6ddeb5a16406b6089[m
+Merge: 12e79918 6d455884
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 14:45:29 2017 +0800
+
+    ss
+
+[33mcommit d6c14971d085163e4c1b63ae4f769d37807ad2ac[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 14:40:08 2017 +0800
+
+    fix
+
+[33mcommit 03d3f6e132ccd811dbeeab6d1efc5dcf841c63bc[m
+Merge: 1389389b fc18169e
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 14:27:37 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit 1389389ba8ab12978d328936ce05112fb91b56f7[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 14:27:23 2017 +0800
+
+    fix
+
+[33mcommit fc18169ef1426022c30e1c9777628b284b90517d[m
+Merge: 5be0e9d3 6d455884
+Author: sam <sam@leoedu.com>
+Date:   Thu Jul 27 13:22:31 2017 +0800
+
+    xx
+
+[33mcommit 5be0e9d3b1ffd65f3a9a89b7a47dfdb87817e047[m
+Author: sam <sam@leoedu.com>
+Date:   Thu Jul 27 13:20:37 2017 +0800
+
+    ffxx
+
+[33mcommit 12e79918156e6844660c38298f1e9e7219943748[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 13:09:32 2017 +0800
+
+    fix
+
+[33mcommit 6d455884e82501f1c77b307feb4ce2f80557f56b[m
+Merge: bd1ad4ce e30d4a45
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 13:07:53 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    tom
+
+[33mcommit bd1ad4cec11b1ede5932de830409b1b78eaa7d7e[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 13:07:05 2017 +0800
+
+    fix
+
+[33mcommit e30d4a453a0e622fff8171a7a649022755d62daf[m
+Merge: 6bbe602d 0751c81c
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 12:03:01 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6bbe602ddd6ca0b2bbb5e3c513592d1a70774bb1[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 12:02:43 2017 +0800
+
+    fix
+
+[33mcommit 481912754a6b3a846857d55660007c802f978665[m
+Merge: 1face4c8 0751c81c
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 11:54:54 2017 +0800
+
+    xx
+
+[33mcommit 1face4c82310e600e78dc4d2031ea6926b0fa48a[m
+Author: tom <tom@leoedu.com>
+Date:   Thu Jul 27 11:49:53 2017 +0800
+
+    xx
+
+[33mcommit 0751c81c2e8e4ae16fbf93934713d7e68f7c5b72[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 11:30:08 2017 +0800
+
+    fix
+
+[33mcommit 4289eba3c0fd114d36a071658810ed2b2a4cfcc1[m
+Merge: 0014151b 6e395f2d
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 27 11:29:38 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6e395f2d4ad11cb30abb8999e4d6415250e9dc89[m
+Merge: 086a51a9 663c33d1
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 11:28:48 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 086a51a9e52277b0ba1eefbfb039c0d0ba0ba990[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 27 11:28:31 2017 +0800
+
+    fiox
+
+[33mcommit 0014151b2ba652906c04e0c50dd339b75c2f1913[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 19:01:16 2017 +0800
+
+    fix
+
+[33mcommit b474ab5c345b48a096162912efed56aa15fb22d4[m
+Merge: cb6db2b5 663c33d1
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 18:56:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    
+    Conflicts:
+            public/page_ts/g_args.d.ts/.row-stu_manage-score_list.tmp
+            public/page_ts/g_args.d.ts/stu_manage-score_list.d.ts
+
+[33mcommit cb6db2b58eb389e6800b3736180c5acbfd662408[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 18:52:24 2017 +0800
+
+    fix
+
+[33mcommit 663c33d19dd9fe194b9647cc7caccea26b0a5885[m
+Merge: fd287ece b2dc1319
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 18:42:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+    优化
+
+[33mcommit fd287ecec1a5976b16ce8d3007c2dd940984d875[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 18:42:03 2017 +0800
+
+    fix
+
+[33mcommit 2a76e50c6d1d3eed99cf78155d4acb780fd04c54[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 18:39:13 2017 +0800
+
+    fix
+
+[33mcommit a017230c138b20ec895670e25890c46979466e81[m
+Merge: 59469aeb b2dc1319
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 18:14:14 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b2dc1319c4d2192769601932f77a32fc2c0647a5[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 26 18:13:10 2017 +0800
+
+    fix
+
+[33mcommit 59469aebd48cb3ad27eece5b4e51ad1a2b4cbe11[m
+Merge: 023ee275 eeefe20a
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 16:40:43 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 023ee2758e886f9311fbab6df0d75ac477e61382[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 16:40:02 2017 +0800
+
+    fix
+
+[33mcommit eeefe20aaff7e0353e71636346c5024e961417b5[m
+Merge: 47c72d9a 7c44327b
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 26 16:39:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 47c72d9aaf00dc71cdac1edb5b2a95a96a761104[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 26 16:39:13 2017 +0800
+
+    fix
+
+[33mcommit f9dbd63dba1b3d3db3022d059e4f2c22d7c79f11[m
+Merge: 2104f4c1 7c44327b
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 15:29:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2104f4c1a3d8ee5731e65a3c4be4e6e4a8b75ec7[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 15:28:53 2017 +0800
+
+    fix
+
+[33mcommit 7c44327b4a5e6a34e91a809f737f6eef84ec4875[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 15:24:10 2017 +0800
+
+    fix
+
+[33mcommit aea926d8eeb835391a37316ec254bc1eb3d5005b[m
+Merge: a278e68b 8b364997
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 09:59:41 2017 +0800
+
+    fix
+
+[33mcommit a278e68b031476ae69f61d8f2be1f2d7f86ba6b3[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 09:57:55 2017 +0800
+
+    fix
+
+[33mcommit 8b3649973519b9deba8822d32907edc96accdf96[m
+Merge: ba2eea6e 7f4880f1
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 09:56:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ba2eea6edd6b542d3d7aa07fb78a4b1b8f396e38[m
+Author: sam <sam@leoedu.com>
+Date:   Wed Jul 26 09:55:55 2017 +0800
+
+    xx
+
+[33mcommit 49076b70cac7945ccf324f991b14dcd6e7c27e30[m
+Merge: fc0a4d94 7f4880f1
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 26 09:49:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7f4880f1fa3205316b0ac72ccedb974506581c54[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 26 09:48:31 2017 +0800
+
+    fix
+
+[33mcommit fc0a4d94743895dc960d1fad652713b9e9dded65[m
+Merge: 27bf52a4 f6f0b20e
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 18:56:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f6f0b20e7f470ff750bc2ffb837c6466f2309484[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 18:56:24 2017 +0800
+
+    fix
+
+[33mcommit 27bf52a496a1c0fb3f7560eaa57eba709ecf9440[m
+Merge: bee8eab9 255a8fc3
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 18:54:56 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 255a8fc361196f53b9dfc979dc4b7e9a550ed84f[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 18:54:35 2017 +0800
+
+    fix
+
+[33mcommit bee8eab9946c0d7f72bfe08970d954ab3c9e7533[m
+Merge: 2bb37bfc 1edaaff4
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 18:32:07 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 2bb37bfc194bc9f98e1ba8d5fb2cc1fc3ab30544[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 18:31:58 2017 +0800
+
+    fix
+
+[33mcommit 09212712f1abab49f149876f9d440e669e2c9d99[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 18:31:45 2017 +0800
+
+    fix
+
+[33mcommit 1edaaff4eb53301474326508123955e1362ad032[m
+Merge: 8589f417 b69d7c54
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 18:29:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 8589f417b255ae4497040137bc0c1e51b0ec1ff6[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 18:29:33 2017 +0800
+
+    fix
+
+[33mcommit b69d7c5449a0459407b0bb44e81928d7913ac0e7[m
+Merge: 05a2b2bd d206f0f0
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 12:30:27 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 05a2b2bd4b920c6cb88a5b96317697f08e4e0fbe[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 12:30:21 2017 +0800
+
+    fix
+
+[33mcommit d206f0f0d36cfe5c8eaa35fa07e89000f7c9f073[m
+Merge: ccf3bb35 444a9f93
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 11:55:32 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ccf3bb35008281b9613d956e9e8a6c8ff083732a[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 22 11:55:26 2017 +0800
+
+    fix
+
+[33mcommit acb218cb8d7c48ebd3bf28a6b00bb1c901c13cc0[m
+Merge: 856d105f 444a9f93
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 10:18:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 856d105f14242e47fbf33ae879b602cdd190189b[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 10:18:18 2017 +0800
+
+    fix
+
+[33mcommit 444a9f93e4f51417e7ab06d040c7c2f946ae1030[m
+Merge: 2f31a4d2 f0c54b15
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 10:14:34 2017 +0800
+
+    fix
+
+[33mcommit 2f31a4d2d02d3135ade13e1e5cdfd2af44661522[m
+Merge: 8dd13dae cada50f0
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 22 10:12:49 2017 +0800
+
+    fix
+
+[33mcommit f0c54b155de88471720857f8f5cc7b6caa467097[m
+Merge: cd45e21a cada50f0
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 10:05:46 2017 +0800
+
+    fix
+
+[33mcommit cd45e21af7c5141007fc4190203f8068ada92595[m
+Author: sam <sam@leoedu.com>
+Date:   Sat Jul 22 10:04:43 2017 +0800
+
+    xx
+
+[33mcommit 8dd13dae80b0f83d4661d142f46b486a371c0ad0[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 21 12:21:04 2017 +0800
+
+    fix
+
+[33mcommit 7e9ad104f49f19da9ada92fb298c30f07145eb50[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 21 12:20:35 2017 +0800
+
+    fix
+
+[33mcommit cada50f0fe9a3ed794d04807de053c5e1bca7057[m
+Merge: 2fa10667 7e31e26b
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 21 12:19:51 2017 +0800
+
+    fix
+
+[33mcommit 2fa106671be37a1672cbf10dd76d2ea53259b8dd[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 21 12:18:58 2017 +0800
+
+    fix
+
+[33mcommit 7e31e26b4cfd1b7539cc3f560d95dfd2011ab2e6[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 21 12:17:55 2017 +0800
+
+    fix
+
+[33mcommit 7ca0c3046654df3cc55711d8afa1b60ef1dfa902[m
+Merge: 43429351 98f08bdc
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 21 11:20:20 2017 +0800
+
+    fix
+
+[33mcommit 43429351c2514156c590adf7d0dd252ff8d28abb[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 21 11:11:42 2017 +0800
+
+    fix
+
+[33mcommit 98f08bdc89a4a60d4a7b8534ff72e8589fc3b664[m
+Author: kevin <kevin@leoedu.com>
+Date:   Fri Jul 21 09:48:17 2017 +0800
+
+    fix
+
+[33mcommit 533a54a8c6a66792eb1ac686e6b01067ea72a225[m
+Merge: 7013e0f7 98330192
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 19 15:24:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 7013e0f70856ed0f169f172a2390f21f2c0cadd8[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 19 15:24:24 2017 +0800
+
+    fix
+
+[33mcommit 9833019261803184968e74a8627242b3cd5c2212[m
+Merge: e0446bcf 50fca936
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 19 15:23:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit e0446bcf32d5caf94ec2f92cf0901c1f176b0fcf[m
+Author: jim <xcwenn@qq.comm>
+Date:   Wed Jul 19 15:23:35 2017 +0800
+
+    fix
+
+[33mcommit 50fca9366924add3ec1d5b43a781d13f76acd9d9[m
+Merge: bf24dd77 ddadc268
+Author: kevin <kevin@leoedu.com>
+Date:   Tue Jul 18 19:40:28 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit bf24dd7715d4f38feb830abc5bc12a34e07bae22[m
+Author: kevin <kevin@leoedu.com>
+Date:   Tue Jul 18 19:39:59 2017 +0800
+
+    fix
+
+[33mcommit ddadc26866fab95685c65b3afdd1991168e3f6df[m
+Author: kevin <kevin@leoedu.com>
+Date:   Tue Jul 18 19:32:30 2017 +0800
+
+    fix
+
+[33mcommit ba06fc997b637f04aa582bb0723bb2229cf26860[m
+Merge: af5b7996 bbaed71e
+Author: jim <jim@leoedu.com>
+Date:   Tue Jul 18 15:33:12 2017 +0800
+
+    fix
+
+[33mcommit af5b799661528ab98775c580e9e1f5ceb1c198d5[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Jul 18 15:30:33 2017 +0800
+
+    fix
+
+[33mcommit bbaed71ea03a9e635adc9d243b6dfc5f1260828d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Jul 18 15:29:41 2017 +0800
+
+    fix
+
+[33mcommit bdcc1d59d20b9908c89d7ed31e48d6e22b9a90ff[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Jul 18 15:22:00 2017 +0800
+
+    fix
+
+[33mcommit 1340da869bdc3f5d70f6c159b41b0c54f0e18fb3[m
+Merge: efc484ef fe906e00
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Jul 18 14:53:41 2017 +0800
+
+    fix
+
+[33mcommit efc484ef130c2a990be0b10d268bdffd3ee89111[m
+Author: jim <xcwenn@qq.comm>
+Date:   Tue Jul 18 14:53:28 2017 +0800
+
+    fix
+
+[33mcommit fe906e009a9b8e14bfbb99fc3db11b814a563b71[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Jul 18 14:52:26 2017 +0800
+
+    fix
+
+[33mcommit 1f00cadc81c0b0e40b652e5c6e9d8cbad432da78[m
+Merge: cc3a66ec ca1b4dab
+Author: sam <sam@leoedu.com>
+Date:   Tue Jul 18 13:57:41 2017 +0800
+
+    fix
+
+[33mcommit cc3a66eca7315a8734541c24c34006d8fab84624[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Jul 18 13:56:39 2017 +0800
+
+    fix
+
+[33mcommit c1aec263eba70cfea3011a7380a54a635e81f069[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Jul 18 13:56:12 2017 +0800
+
+    fix
+
+[33mcommit ca1b4dab1b43e7d57c0898d737112381cea26524[m
+Merge: 5a1f2c72 1ee8c7f8
+Author: jim <jim@leoedu.com>
+Date:   Tue Jul 18 13:55:42 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 5a1f2c722c7587fd1328def6a6af509e737dfd2e[m
+Author: jim <jim@leoedu.com>
+Date:   Tue Jul 18 13:55:33 2017 +0800
+
+    fix
+
+[33mcommit 1ee8c7f85fff0b021389eadcb70ffb4499fb2ae1[m
+Author: sam <sam@leoedu.com>
+Date:   Tue Jul 18 11:11:31 2017 +0800
+
+    fix install
+
+[33mcommit 97269e3e19eb1f73afe58c3f7dad4f2359808d09[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 16:00:52 2017 +0800
+
+    fix
+
+[33mcommit 18f4dbb9759ccd5a4089304ca49e5c72085c13cc[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 15:55:13 2017 +0800
+
+    xx
+
+[33mcommit 66733b1ebfee6bb004ca7507c505050a54a2fda5[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 15:49:22 2017 +0800
+
+    fix
+
+[33mcommit a13cd6efc6292faa729a9809cc664ac61729616e[m
+Merge: 6e0e25e5 e737f433
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 15:41:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 6e0e25e5183aa4a430c0a34827a96b2aaf405df2[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 15:41:34 2017 +0800
+
+    fix
+
+[33mcommit e737f4331486ca0ba1bfc949f55137fa07eada65[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 15:41:02 2017 +0800
+
+    fix
+
+[33mcommit 554b8039f05704fc39f75d72eb3ed95e2aafe1f4[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 15:40:47 2017 +0800
+
+    fix
+
+[33mcommit 08bad74b9a67d788ff3f4c921fb625880586c8cd[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 14:50:59 2017 +0800
+
+    fix
+
+[33mcommit 192b2cc97063fb00a6450d8e61a528ac08bb91b0[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 14:36:41 2017 +0800
+
+    fix
+
+[33mcommit 33f5a33bae09736d7efb551743f9259ef5031d29[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 14:32:02 2017 +0800
+
+    fix
+
+[33mcommit f3b40639e61f4756e8fd46bf48030abc018d3bed[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 14:08:23 2017 +0800
+
+    fix
+
+[33mcommit 501703dc7a115bf229d22eb7c4e53e29be4d13f1[m
+Merge: f67b7fbd b60ec1c2
+Author: kevin <kevin@leoedu.com>
+Date:   Sat Jul 15 14:03:59 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit f67b7fbd18aea53d7a63598bdd4eb72354e6fd4c[m
+Author: kevin <kevin@leoedu.com>
+Date:   Sat Jul 15 14:03:47 2017 +0800
+
+    fix
+
+[33mcommit b60ec1c27e5f8a0937227a121706c7d4418c1036[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 13:59:52 2017 +0800
+
+    fix
+
+[33mcommit db8ae3f0f907d489422fb2418737580d242f4d76[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:55:35 2017 +0800
+
+    fix
+
+[33mcommit e3732a141219aa6091b413a14e64d7aeabdcc657[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:54:07 2017 +0800
+
+    fix
+
+[33mcommit acbdebd6636415e63c6e85543d68bcc104110c34[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:52:31 2017 +0800
+
+    fix
+
+[33mcommit c2f99e110ae09fbe2cb464b1705151adcebae0e4[m
+Merge: c03d3ef5 62e4650a
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:51:43 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c03d3ef5c67256341ff2b31f2f4bf3c0c344b9d6[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:51:24 2017 +0800
+
+    fix
+
+[33mcommit 62e4650a3de75095da0ddff533824e148694fb8c[m
+Merge: 73b66fb9 a5b03165
+Author: kevin <kevin@leoedu.com>
+Date:   Sat Jul 15 13:51:10 2017 +0800
+
+    fix
+
+[33mcommit 73b66fb94fc4f4e3a9b8241cf9429de46bb2c7fd[m
+Author: kevin <kevin@leoedu.com>
+Date:   Sat Jul 15 13:50:15 2017 +0800
+
+    login log
+
+[33mcommit 1b7c9e420528ba405d1de4aa31127cb363c7e363[m
+Merge: 7f8ddc8f a5b03165
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 13:20:21 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a5b0316527a9b63b390e9e90237b3a5d10100361[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 13:19:49 2017 +0800
+
+    fix
+
+[33mcommit 7f8ddc8f5b76e2d13e484fdf8098d32a26b6a0d6[m
+Merge: b005889c 966e8e67
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 11:57:29 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 966e8e67719468777c0a0e7e5305b36b9b61de29[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 11:57:01 2017 +0800
+
+    fix
+
+[33mcommit b005889c312f8254a3da057de957d9d238350af2[m
+Merge: 2fb7220a c792490b
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 11:52:19 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit c792490bac9e2e33976f2debfc94ad57a4a9bc8c[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 11:52:01 2017 +0800
+
+    fix
+
+[33mcommit 2fb7220a7b8f3abfd08599a07f7235c0d42a26d5[m
+Merge: 360eb0a6 3bba9807
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 11:46:49 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 360eb0a6fdde5263987c6ddd8770298f77dd70f6[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 11:46:46 2017 +0800
+
+    fix
+
+[33mcommit 3bba9807b6a2aa87bb56913afcb24e7464504f41[m
+Merge: a66721d3 e3fc587f
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 11:45:00 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit a66721d3c10da9d6ffe558764d4f5c4f75969bcc[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 11:44:48 2017 +0800
+
+    fix
+
+[33mcommit e3fc587fd56c6fbb9c63de60981fa13fed84192d[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 10:08:07 2017 +0800
+
+    fix
+
+[33mcommit 77e666a9df888f276ca856367fa3f24a81148ef0[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 10:06:55 2017 +0800
+
+    fix
+
+[33mcommit a4f41a5e8f2b159040107fa07fb09d36a9fb5e12[m
+Merge: 74bbc09f eae38522
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 10:05:04 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 74bbc09f1b2ae80bffd92ced4e2df612fb6d0695[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 10:04:57 2017 +0800
+
+    fix
+
+[33mcommit eae38522d8339c27dbdf0e310097be2ea50fc365[m
+Merge: 42be141c e75faa57
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 10:00:59 2017 +0800
+
+    fix
+
+[33mcommit 42be141c63da1f92cc3e5707f77760ad3795008c[m
+Author: jim <jim@leoedu.com>
+Date:   Sat Jul 15 09:59:19 2017 +0800
+
+    fix
+
+[33mcommit e75faa5777dd302b208f002f4550619e1fd074e8[m
+Merge: 36302b12 5f7b259c
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 09:58:11 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 36302b12f061099ada2b029f2415fb7cc3bbfd0f[m
+Author: jim <xcwenn@qq.comm>
+Date:   Sat Jul 15 09:57:46 2017 +0800
+
+    fix flow order
+
+[33mcommit 5f7b259c9db4cb1668d083f402102592e0ce3d35[m
+Author: kevin <kevin@leoedu.com>
+Date:   Fri Jul 14 14:24:01 2017 +0800
+
+    fix
+
+[33mcommit c9a12cad31953bb7485895a8bb774e1c89705826[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 14:13:46 2017 +0800
+
+    fix
+
+[33mcommit 01bddd0f87939301985e75dff37ea4c2f1e6c727[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 13:22:16 2017 +0800
+
+    fix
+
+[33mcommit 65e6ff727b98c4fa2a88b23e21977d7244bc208b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 13:21:25 2017 +0800
+
+    fix
+
+[33mcommit 362baa5931049fe116566cccecb7420cffd77c3f[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 13:19:50 2017 +0800
+
+    fix
+
+[33mcommit 58e2eb328c5870185f08af32e62442294c409580[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 13:08:05 2017 +0800
+
+    fix
+
+[33mcommit e669996884f722a1da45e8ae2379d137d4670add[m
+Merge: fb79fa9a 942ee2bc
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 13:07:26 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 942ee2bcbe6626954cb50b2eb56ee8b0a2a64c77[m
+Merge: 23662286 b38ef74c
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 13:06:03 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 23662286a28f5f5109b922a3d81f666bf85e4c05[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 13:05:50 2017 +0800
+
+    clean d.ts
+
+[33mcommit fbd524de6f37ea207d984aaa9fe524eb52b20d0e[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 13:04:05 2017 +0800
+
+    fix
+
+[33mcommit fb79fa9aee50729c75aa50020ed8a220bcbbf2e5[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 13:03:14 2017 +0800
+
+    fix
+
+[33mcommit b38ef74cfc5e8a2c3466d569b9f4975b24c0d247[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 12:56:05 2017 +0800
+
+    fix
+
+[33mcommit 84d9a70a48e1b6b75709d51e8f1dd7dccb3e77bf[m
+Merge: 425e4c36 89d57576
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 12:48:12 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 425e4c36b9b77731fa30634c68d016e27710134b[m
+Author: jim <jim@leoedu.com>
+Date:   Fri Jul 14 12:47:54 2017 +0800
+
+    fix
+
+[33mcommit 89d57576c3a8f57a9ace1b8ce8e434a40f5863a4[m
+Author: jim <xcwenn@qq.comm>
+Date:   Fri Jul 14 12:47:28 2017 +0800
+
+    fix
+
+[33mcommit 9aad9fee083e448e3bcad728fdd29b14062d8f5a[m
+Merge: b6c4b7f1 0a459a06
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 19:24:55 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b6c4b7f1ed97bbc216a1c3b79d6c1e6a97252e5d[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 19:24:51 2017 +0800
+
+    fix
+
+[33mcommit 0a459a06ed357b0aaeeb7b7e269f64474ee81436[m
+Author: kevin <kevin@leoedu.com>
+Date:   Thu Jul 13 19:21:59 2017 +0800
+
+    fix
+
+[33mcommit d9ae83250738e63ac145c66d5dc5f68cbcaef561[m
+Merge: ad1e9c8c 2a71b63e
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 18:42:10 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit ad1e9c8c62c0e392d3932495135277f89454d9ca[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 18:41:57 2017 +0800
+
+    fix
+
+[33mcommit 2a71b63ef59c80c95496d9ec295a9d7dacad4566[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 17:36:24 2017 +0800
+
+    fix
+
+[33mcommit 2d7f16fee1c625700ad93bc0c939e9035bb6a26f[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 17:32:43 2017 +0800
+
+    fix
+
+[33mcommit 8220671e04463294bce2f127645ede24bf3c1e9b[m
+Merge: 1974818f b650f3e0
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 17:31:46 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit b650f3e07049929eb1c99077488a1e235991ed66[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 17:31:29 2017 +0800
+
+    install.log
+
+[33mcommit ca728d7ddccf7fa1298b20a612b0af920b0e2c60[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 17:31:05 2017 +0800
+
+    fix
+
+[33mcommit 1974818fb231d5be356cf3fe422eb42a6feabb67[m
+Merge: 55d2438f 4f2d7159
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 16:38:48 2017 +0800
+
+    Merge branch 'master' of 192.168.0.5:root/admin_yb1v1
+
+[33mcommit 55d2438f103e09331c5e43420fda77cb8c347128[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 16:38:44 2017 +0800
+
+    fix
+
+[33mcommit 4f2d7159fd1747891cc9876d2c7bcc981d517e8e[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 16:37:47 2017 +0800
+
+    fix
+
+[33mcommit 9cbc5eeb69b12363b37a761bd6588a9e2c01c10c[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 16:35:10 2017 +0800
+
+    fix
+
+[33mcommit ad5191c7a4ea7142c21a715502d57bd6833b6c73[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 16:07:57 2017 +0800
+
+    fix
+
+[33mcommit e19dda096d0493099840d54ec1da3a544db21196[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 16:05:02 2017 +0800
+
+    fix
+
+[33mcommit 9154ee52187195216cdb6de25d20e6ce5d9c1eb1[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 15:48:34 2017 +0800
+
+    fix
+
+[33mcommit be31b4d7b937f680107be68b4a5ce512dfee3cab[m
+Author: jim <xcwenn@qq.comm>
+Date:   Thu Jul 13 15:44:10 2017 +0800
+
+    fix
+
+[33mcommit 7a3626092c2115bff5ce921d36f74b94a9237d8a[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 15:41:49 2017 +0800
+
+    fix
+
+[33mcommit f1d2ad285a6380ac8eb4c6ddcdf3b7a9abc3fbe8[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 15:37:40 2017 +0800
+
+    fix
+
+[33mcommit 24a907f9472466ed41141cba5fd7b31812dce738[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 15:21:02 2017 +0800
+
+    fix
+
+[33mcommit ae978201053f523a661093e5d1ae694a5f6ba13e[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 15:14:28 2017 +0800
+
+    f
+
+[33mcommit 847d45a1857b12a30b39875d64dc4e9f74908d4a[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 15:12:28 2017 +0800
+
+    ss
+
+[33mcommit 86cd5201414b130113f84f968d80c7b68da05095[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 13:10:19 2017 +0800
+
+    fix
+
+[33mcommit 906aa4695e6c55cbe844ebe0f7eed7f69ed83a2c[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 13:08:23 2017 +0800
+
+    fix
+
+[33mcommit c4989f53955e6a68b109645d6bf6e69503bdb4a7[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 13:06:59 2017 +0800
+
+    fix
+
+[33mcommit 4aa8ebc8bdf37869a3897d104205daa9d5882378[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 12:27:31 2017 +0800
+
+    fix
+
+[33mcommit fa02b3d400d62bda7382574d881a1471c7943735[m
+Author: jim <jim@leoedu.com>
+Date:   Thu Jul 13 12:27:03 2017 +0800
+
+    clean
+
+[33mcommit ed525872acf98ff464988cfb101971d32f06ffac[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 12 18:26:16 2017 +0800
+
+    fix
+
+[33mcommit ca99da2e8c467f0273a8390e37b3812fdc1d2b42[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 12 16:14:32 2017 +0800
+
+    init
+
+[33mcommit ccd70aba159711e27ec42c76a8e1ea756443d4c5[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 12 16:00:16 2017 +0800
+
+    f
+
+[33mcommit 89ebc4b814cfc8ac57255acc84e3643c44c0da47[m
+Author: jim <jim@leoedu.com>
+Date:   Wed Jul 12 15:57:54 2017 +0800
+
+    init
