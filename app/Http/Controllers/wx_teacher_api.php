@@ -135,19 +135,17 @@ class wx_teacher_api extends Controller
 
 
     public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
-        $complaint_info    = $this->get_in_str_val('complaint_info');
+        $complaint_info    = $this->get_in_str_val('complaint_info','');
         $serverId_str      = $this->get_in_str_val('serverId_str','');
-        $suggest_info      = $this->get_in_str_val('suggest_info');
+        $suggest_info      = $this->get_in_str_val('suggest_info','');
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_adminid_type = $this->get_in_int_val('complained_adminid_type'); // 被投诉人类型
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
         $complaint_type = $this->get_in_int_val('complaint_type');
 
+        $sever_name = $_SERVER['SERVER_NAME'];
         $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
-
-
-
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
