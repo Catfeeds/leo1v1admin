@@ -120,21 +120,13 @@ class testbb extends Controller
     }
 
     public function get_data_for_qc(){
-        // $s = 1501516800;
-        // $e = 1502726400;
-        $s = $this->get_in_int_val('s');
-        $e = $this->get_in_int_val('e');
+        $parentid = '';
+        $db_wx_openid=$this->t_parent_info->get_wx_openid($parentid);
+        dd($db_wx_openid);
 
-        $this->t_lesson_info_b2->switch_tongji_database();
-        $ret = $this->t_lesson_info_b2->get_data_for_qc($s,$e);
-
-
-        // 导出excel数据
-
-
-        // $name = '试听课未评价数据';
-        // $this->push($ret,$name);
-        dd($ret);
+        if(1 && 2!=2){
+            dd(1);
+        }
     }
 
     public function push($data,$name='试听课未评价数据'){

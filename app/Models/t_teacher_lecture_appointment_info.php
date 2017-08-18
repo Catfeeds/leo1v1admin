@@ -99,12 +99,12 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["la.full_time=%u", $full_time, -1 ],
         ];
         if($lecture_revisit_type==5){
-            $where_arr[] = "(la.lecture_revisit_type=5 or ta.lessonid is not null)";
+            $where_arr[] = "(la.lecture_revisit_type=5 or ta.lesson_start>0)";
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type, -1 ];
         }
         if($lecture_revisit_type_new==-2){
-            $where_arr[] = "llll.lesson_start>0";
+            $where_arr[] = "ta.lesson_start>0";
         }else{
             $where_arr[] = ["la.lecture_revisit_type=%u", $lecture_revisit_type_new, -1 ];
         }
@@ -112,19 +112,19 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
 
 
         if($interview_type==0){
-            $where_arr[] = "l.status is null and ta.lessonid is null";
+            $where_arr[] = "l.status is null and (ta.lesson_start is null or ta.lesson_start=0)";
         }elseif($interview_type==1){
             $where_arr[] = "l.status is not null ";
         }elseif($interview_type==2){
-            $where_arr[] = "ta.lessonid is not null";
+            $where_arr[] = "(ta.lesson_start is null or ta.lesson_start=0)";
         }
 
         if($status==0){
-            $where_arr[] ="((l.status=0 and ((tr.id is null and ta.lessonid is not null) or ta.lessonid is null )) or ((l.status is null or l.status=0) && (tr.id is null and ta.lessonid is not null)) )";
+            $where_arr[] ="((l.status=0 and ((tr.id is null and ta.lesson_start>0) or (ta.lesson_start is null or ta.lesson_start=0))) or ((l.status is null or l.status=0) && (tr.id is null and ta.lesson_start>0)) )";
         }else if($status==1){
             $where_arr[] ="(l.status=1 or tr.trial_train_status =1)";
         }else if($status==2){
-            $where_arr[] ="((l.status=2 and (tr.trial_train_status =0 or ta.lessonid is null )) or ((l.status=2 or l.status is null) and tr.trial_train_status =0))";
+            $where_arr[] ="((l.status=2 and (tr.trial_train_status =0 or (ta.lesson_start is null or ta.lesson_start=0))) or ((l.status=2 or l.status is null) and tr.trial_train_status =0))";
         }else{
             $where_arr[]=["l.status=%u", $status, -1 ];
         }
@@ -177,8 +177,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." la.grade_ex,la.subject_ex,la.trans_grade_ex,la.trans_subject_ex,grade_1v1,trans_grade_1v1,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
-                                  ." if(l.status is null,'-2',l.status) as status,llll.lesson_start,"
-                                  ." if(ta.lessonid is not null,4,la.lecture_revisit_type) lecture_revisit_type,"
+                                  ." if(l.status is null,'-2',l.status) as status,ta.lesson_start,"
+                                  ." if(ta.lesson_start >0,4,la.lecture_revisit_type) lecture_revisit_type,"
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"
@@ -190,9 +190,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." left join %s t on t.phone=la.reference"
                                   ." left join %s m on la.accept_adminid=m.uid"
                                   ." left join %s tt on la.phone = tt.phone"
-                                  ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and not exists ("
-                                  ." select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and ta.add_time<taa.add_time)"
-                                  ." left join %s llll on llll.lessonid = ta.lessonid"
+                                  ." left join %s ta on ta.userid = tt.teacherid and ta.train_type=5 and ta.lesson_type =1100 and ta.lesson_del_flag=0 and ta.confirm_flag <2 and not exists (select 1 from %s taa where taa.userid=ta.userid and taa.train_type=5 and taa.lesson_type=1100 and ta.lesson_start<taa.lesson_start and taa.lesson_del_flag=0 and taa.confirm_flag <2)"
                                   ." left join %s tr on tr.train_lessonid = ta.lessonid and tr.type=10"
                                   ." left join %s tr2 on tt.teacherid = tr2.teacherid and tr2.type=12"
                                   ." left join %s ttt on  la.phone = ttt.phone"
@@ -206,8 +204,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ,t_teacher_info::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_teacher_info::DB_TABLE_NAME
-                                  ,t_train_lesson_user::DB_TABLE_NAME
-                                  ,t_train_lesson_user::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
                                   ,t_teacher_record_list::DB_TABLE_NAME
