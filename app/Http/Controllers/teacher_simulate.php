@@ -75,6 +75,7 @@ class teacher_simulate extends Controller
             if($val['price']<$val['discount_price']){
                 $has_promotion = 2;
             }
+
             $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
                 $val['competition_flag'],$has_promotion,$val['contract_type'],$val['grade'],$lesson_total,0
             );

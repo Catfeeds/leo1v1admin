@@ -254,6 +254,7 @@ class url_power_map {
 			'/user_manage/complaint_department_deal_teacher'	=>1093500,
 			'/user_manage/complaint_department_deal_parent'	=>1093600,
 			'/user_manage/complaint_department_deal_qc'	=>1093700,
+			'/user_manage/complaint_department_deal_product'	=>1093800,
 			'/tongji_ex/top_list'	=>1101000,
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,
