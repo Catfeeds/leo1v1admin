@@ -966,7 +966,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_value($sql);
     }
-    public function get_all_train_num_new($teacher_list,$train_through_new,$flag=false){
+    public function get_all_train_num_new($start_time,$end_time,$teacher_list,$train_through_new,$flag=false){
         $where_arr = [
             "l.train_type=1",
             "l.lesson_del_flag=0",
