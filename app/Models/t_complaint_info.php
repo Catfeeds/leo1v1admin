@@ -48,9 +48,11 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         }
 
 
-        // if(){
-            
-        // }
+        if($complained_feedback_type == 1){
+            $where_arr[] = ["tc.complained_feedback_type = %d",$complained_feedback_type];
+        }elseif($complained_feedback_type == 2){
+
+        }
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
