@@ -10,7 +10,8 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	seller_student_status:	string;//枚举列表: \App\Enums\Eseller_student_status
- }
+ 	agent_type:	number;
+}
 declare module "g_args" {
     export = g_args;
 }
@@ -53,7 +54,8 @@ $(function(){
 			phone:	$('#id_phone').val(),
 			is_called_phone:	$('#id_is_called_phone').val(),
 			uid:	$('#id_uid').val(),
-			seller_student_status:	$('#id_seller_student_status').val()
+			seller_student_status:	$('#id_seller_student_status').val(),
+			agent_type:	$('#id_agent_type').val()
         });
     }
 
@@ -74,6 +76,7 @@ $(function(){
 	$('#id_uid').val(g_args.uid);
 	$('#id_seller_student_status').val(g_args.seller_student_status);
 	$.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
+	$('#id_agent_type').val(g_args.agent_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -110,6 +113,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_student_status</span>
                 <input class="opt-change form-control" id="id_seller_student_status" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">agent_type</span>
+                <input class="opt-change form-control" id="id_agent_type" />
             </div>
         </div>
 */
