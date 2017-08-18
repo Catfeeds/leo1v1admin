@@ -43,7 +43,7 @@ class teacher_simulate extends Controller
             if($check_type==2){
                 if(!isset($reward_list[$teacherid]['already_lesson_count'])){
                     $already_lesson_count = $this->get_already_lesson_count(
-                        $start_time,$end_time,$teacherid
+                        $start_time,$end_time,$teacherid,$val['teacher_money_type']
                     );
                 }
                 $reward_list[$teacherid]['already_lesson_count']          = $already_lesson_count;
