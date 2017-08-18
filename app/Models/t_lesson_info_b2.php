@@ -970,6 +970,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.train_type=1",
             "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time
             // ["t.train_through_new=%u",$train_through_new,-1]
         ];
         if($train_through_new==1){
@@ -995,19 +996,21 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.train_type=4",
             "l.lesson_del_flag=0",
+            "l.lesson_start>".$start_time,
             // ["t.train_through_new=%u",$train_through_new,-1]
-            ["tr.trial_train_status",$trial_train_status,-1]
+            ["tr.trial_train_status",$trial_train_status,-1],
+            "tr.trial_train_status<3"
         ];
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
-                                  ." from %s l left join %s ta on l.lessonid = ta.lessonid"
-                                  ." left join %s t on ta.userid  = t.teacherid"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on tr.train_lessonid = l.lessonid and tr.type=1 and tr.lesson_style=5 "
                                   ." where %s",
                                   self::DB_TABLE_NAME,
-                                  t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_value($sql);
