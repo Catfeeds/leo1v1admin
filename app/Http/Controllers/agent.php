@@ -1111,4 +1111,35 @@ class agent extends Controller
         ]);
     }
 
+    public function get_phone_count(){
+        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],1);
+        $phone           = $this->get_in_phone();
+        $is_called_phone = $this->get_in_int_val("is_called_phone",-1, E\Eboolean::class );
+        $uid             = $this->get_in_int_val("uid",-1);
+        $page_num        = $this->get_in_page_num();
+        $seller_student_status  = $this->get_in_el_seller_student_status();
+
+        $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
+
+        $ret_info=$this->t_tq_call_info->get_agent_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status );
+        $now=time(NULL);
+        foreach($ret_info["list"] as &$item) {
+            $record_url= $item["record_url"] ;
+            if ($now-$item["start_time"] >1*86400 && (preg_match("/saas.yxjcloud.com/", $record_url  )|| preg_match("/121.196.236.95/", $record_url  ) ) ){
+                $item["load_wav_self_flag"]=1;
+            }else{
+                $item["load_wav_self_flag"]=0;
+            }
+            if (preg_match("/api.clink.cn/", $record_url ) ) {
+                $item["record_url"].=$clink_args;
+            }
+
+            \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
+            E\Eboolean::set_item_value_str($item,"is_called_phone");
+            E\Eseller_student_status::set_item_value_str($item);
+            $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+
+    }
 }

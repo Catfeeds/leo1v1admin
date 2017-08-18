@@ -25,6 +25,7 @@ class menu{
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
                     ["power_id"=>13, "name"=>"test",   "url"=>"/agent/check"],
                     // ["power_id"=>13, "name"=>"test",   "url"=>"/seller_student_new2/test_lesson_plan_list_new"],
+                    ["power_id"=>66, "name"=>"电话统计",   "url"=>"/agent/get_phone_count"],
                     ["power_id"=>67, "name"=>"学员反馈",   "url"=>"/t_yxyx_test_pic_info/get_all_info"],
                     ["power_id"=>68, "name"=>"自定义标签",   "url"=>"/t_yxyx_custom_type/get_all"],
                     ["power_id"=>69, "name"=>"精品内容",   "url"=>"/t_yxyx_new_list/get_all"],
