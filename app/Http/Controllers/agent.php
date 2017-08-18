@@ -1118,10 +1118,11 @@ class agent extends Controller
         $uid             = $this->get_in_int_val("uid",-1);
         $page_num        = $this->get_in_page_num();
         $seller_student_status  = $this->get_in_el_seller_student_status();
+        $type            = $this->get_in_int_val('agent_type');
 
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
 
-        $ret_info=$this->t_tq_call_info->get_agent_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status );
+        $ret_info=$this->t_tq_call_info->get_agent_call_phone_list($page_num,$start_time,$end_time,$uid,$is_called_phone,$phone, $seller_student_status,$type );
         $now=time(NULL);
         foreach($ret_info["list"] as &$item) {
             $record_url= $item["record_url"] ;
