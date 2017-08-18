@@ -38,6 +38,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <button  class="btn  btn-primary fa fa-plus " id="id_add"> 账号 </button>
+                        <button  class="btn  btn-warning   " id="id_sync"> 同步 </button>
                     </div>
                 </div>
 

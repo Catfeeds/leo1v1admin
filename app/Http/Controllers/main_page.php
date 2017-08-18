@@ -390,7 +390,7 @@ class main_page extends Controller
 		list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
 		$subject = $this->get_in_int_val("subject",-1);
 		
-		$teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(4);//return->uid,account,nick,name
+		$teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
 		foreach($teacher_info as $kk=>$vv){
 		    if(in_array($kk,[992,891,486,871])){
                 unset($teacher_info[$kk]);

@@ -1152,6 +1152,61 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function tongji_seller_order_info( $field_name,$start_time,$end_time,$adminid_list=[],$tmk_adminid=-1 ,$origin_ex,$opt_date_str, $check_value, $page_info) {
+
+
+        switch ( $field_name ) {
+        case "origin" :
+            $field_name="o.origin";
+            break;
+
+        case "grade" :
+            $field_name="o.grade";
+            break;
+        default:
+            break;
+        }
+
+        if($field_name=="tmk_adminid"){
+            $where_arr=[
+                "{$field_name}='{$check_value}'",
+                "contract_type in ( 0 )",
+                "is_test_user=0",
+                "contract_status >0 ",
+                "tmk_adminid >0 ",
+                "order_time>tmk_assign_time",
+            ];
+        } else {
+            $where_arr=[
+                "{$field_name}='{$check_value}'",
+                "contract_type in ( 0 )",
+                "is_test_user=0",
+                "contract_status >0 ",
+            ];
+
+        }
+
+        $ret_in_str=$this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+        $where_arr[]= $ret_in_str;
+        $this->where_arr_add_time_range($where_arr,"order_time",$start_time,$end_time);
+        $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
+
+        $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
+        $sql = $this->gen_sql_new(
+            "select $field_name as check_value, o.pay_time, o.price , o.orderid, s.nick, s.phone "
+            ." from   %s  o  "
+            ." left join %s m  on o.sys_operator=m.account "
+            ." left join %s s  on o.userid=s.userid "
+            ." left join %s n  on o.userid=n.userid "
+            ." where %s ",
+            self::DB_TABLE_NAME ,
+            t_manager_info::DB_TABLE_NAME ,
+            t_student_info::DB_TABLE_NAME,
+            t_seller_student_new::DB_TABLE_NAME,
+            $where_arr );
+        // dd($sql);
+        return $this->main_get_list_by_page($sql, $page_info);
+    }
 
     public function tongji_seller_order_count($start_time,$end_time) {
         $where_arr=[

@@ -64,7 +64,7 @@ class TeacherMoneyTask extends TaskController
         $lessonid = "";
         foreach($list as $val){
             if($type==3){
-                if($val['require_admin_type']==2){
+                if($val['require_admin_type']==E\Eaccount_role::V_2){
                     $money = 16000;
                 }else{
                     $money = 10000;

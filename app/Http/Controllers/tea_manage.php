@@ -232,6 +232,10 @@ class tea_manage extends Controller
             $has_video_flag, $lesson_user_online_status,$fulltime_flag,
             $lesson_del_flag,$fulltime_teacher_type
         );
+
+
+
+
         $lesson_list       = array();
         $lesson_status_cfg = array( 0 => "未上", 1 => "进行",2 => "结束",3=>"终结");
         $lesson_cw_cfg     = array( 0 => "未传", 1=> "已传" );
@@ -2064,7 +2068,7 @@ class tea_manage extends Controller
             if($val['grade']==0){
                 $val['grade']=100;
             }
-            if( $val['subject']>=4 && $val['grade']=100){
+            if( $val['subject']>=4 && $val['grade']==100){
                 $val['grade']=200;
             }
             $from_lessonid    = $train_from_lessonid_list[$val['subject']][$val['grade']];

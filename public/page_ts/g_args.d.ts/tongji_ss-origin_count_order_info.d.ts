@@ -1,23 +1,60 @@
+interface GargsStatic {
+	origin:	string;
+	origin_ex:	string;
+	seller_groupid_ex:	string;
+	admin_revisiterid:	number;
+	groupid:	number;
+	tmk_adminid:	number;
+	check_value:	string;
+	check_field_id:	number;
+	page_num:	number;
+	page_count:	number;
+	date_type_config:	string;
+	date_type:	number;
+	opt_date_type:	number;
+	start_time:	string;
+	end_time:	string;
+}
+declare module "g_args" {
+    export = g_args;
+}
+declare var g_args: GargsStatic;
+declare var g_account: string;
+declare var g_account_role: any;
+declare var g_adminid: any;
+interface RowData {
+	check_value	:any;
+	pay_time	:any;
+	price	:any;
+	orderid	:any;
+	nick	:any;
+	phone	:any;
+}
+
+/*
+
+tofile: 
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/origin_count_order_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-origin_count_test_lesson_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-origin_count_order_info.d.ts" />
 
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			      origin:	$('#id_origin').val(),
-			      origin_ex:	$('#id_origin_ex').val(),
-			      seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			      admin_revisiterid:	$('#id_admin_revisiterid').val(),
-			      groupid:	$('#id_groupid').val(),
-			      tmk_adminid:	$('#id_tmk_adminid').val(),
-			      check_value:	$('#id_check_value').val(),
-			      check_field_id:	$('#id_check_field_id').val(),
-			      date_type_config:	$('#id_date_type_config').val(),
-			      date_type:	$('#id_date_type').val(),
-			      opt_date_type:	$('#id_opt_date_type').val(),
-			      start_time:	$('#id_start_time').val(),
-			      end_time:	$('#id_end_time').val()
+			origin:	$('#id_origin').val(),
+			origin_ex:	$('#id_origin_ex').val(),
+			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+			admin_revisiterid:	$('#id_admin_revisiterid').val(),
+			groupid:	$('#id_groupid').val(),
+			tmk_adminid:	$('#id_tmk_adminid').val(),
+			check_value:	$('#id_check_value').val(),
+			check_field_id:	$('#id_check_field_id').val(),
+			date_type_config:	$('#id_date_type_config').val(),
+			date_type:	$('#id_date_type').val(),
+			opt_date_type:	$('#id_opt_date_type').val(),
+			start_time:	$('#id_start_time').val(),
+			end_time:	$('#id_end_time').val()
         });
     }
 
@@ -32,19 +69,22 @@ $(function(){
             load_data();
         }
     });
-	  $('#id_origin').val(g_args.origin);
-	  $('#id_origin_ex').val(g_args.origin_ex);
-	  $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
-	  $('#id_admin_revisiterid').val(g_args.admin_revisiterid);
-	  $('#id_groupid').val(g_args.groupid);
-	  $('#id_tmk_adminid').val(g_args.tmk_adminid);
-	  $('#id_check_value').val(g_args.check_value);
-	  $('#id_check_field_id').val(g_args.check_field_id);
-	  $('.opt-change').set_input_change_event(load_data);
+	$('#id_origin').val(g_args.origin);
+	$('#id_origin_ex').val(g_args.origin_ex);
+	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_admin_revisiterid').val(g_args.admin_revisiterid);
+	$('#id_groupid').val(g_args.groupid);
+	$('#id_tmk_adminid').val(g_args.tmk_adminid);
+	$('#id_check_value').val(g_args.check_value);
+	$('#id_check_field_id').val(g_args.check_field_id);
+
+
+	$('.opt-change').set_input_change_event(load_data);
 });
 
 
 
+*/
 /* HTML ...
 
         <div class="col-xs-6 col-md-2">

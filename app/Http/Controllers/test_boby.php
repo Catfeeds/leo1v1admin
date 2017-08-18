@@ -173,6 +173,8 @@ class test_boby extends Controller
         $end_time = strtotime("2017-0".$m."-01");
         $ret_info = $this->t_student_info->get_stu_money_rate($start_time, $end_time);
         dd($ret_info);
+        $sql =  'select tq.phone,tq.uid,tq.start_time,tq.end_time,tq.duration,tq.is_called_phone, account,seller_student_status  from db_weiyi.t_agent a  left join db_weiyi.t_agent aa on aa.id = a.parentid left join db_weiyi.t_agent aaa on aaa.id = aa.parentid left join db_weiyi.t_student_info s on s.userid = a.userid left join db_weiyi_admin.t_tq_call_info tq on aa.phone=tq.phone   join db_weiyi_admin.t_manager_info m on  tq.uid=m.tquin  left  join db_weiyi.t_seller_student_new n on  n.phone= tq.phone   left  join db_weiyi.t_test_lesson_subject t on  t.userid= n.userid   where a.type=1 and a.create_time > 1501516800 and a.create_time < 1504195200 order by aa.phone limit 0,10';
+
     }
 
 }

@@ -48,8 +48,6 @@ class login extends Controller
 
         if (isset($node["list"])) {
 
-            \App\Helper\Utils::logger('name3: '.$node['name']);
-
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;
@@ -78,8 +76,6 @@ class login extends Controller
                 if (!$icon)  {
                     $icon="fa-folder-o";
                 }
-
-                \App\Helper\Utils::logger("sub_list_str33 ".$sub_list_str." name233: ".$node["name"]);
 
                 return  array('<li class="treeview " > <a href="#"> <i class="fa '.$icon.'  "></i> <span>'.$node["name"].'</span> <i class="fa fa-angle-left pull-right"></i> </a> <ul class="treeview-menu"> '.$sub_list_str.'</ul> </li>', $sub_list_str);
 
@@ -235,6 +231,9 @@ class login extends Controller
     public function reset_power($account) {
         $ret_permission = $this->t_manager_info->get_user_permission(array($account));
 
+        \App\Helper\Utils::logger("loginx4");
+
+
         $permission = array();
         foreach($ret_permission as $key => $value) {
             $permission[$value['account']] = $value['permission'];
@@ -307,6 +306,9 @@ class login extends Controller
 
     public function login()
     {
+        \App\Helper\Utils::logger("loginx1");
+
+
         $account  = strtolower(trim($this->get_in_str_val("account")));
         $password = $this->get_in_str_val('password');
         $seccode  = $this->get_in_str_val('seccode') ;
@@ -331,6 +333,7 @@ class login extends Controller
             return outputjson_error("密码不能和用户名相同，请重置密码！");
         */
 
+        \App\Helper\Utils::logger("loginx2");
         $password = md5($password."#Aaron");
         $ret_db   = $this->t_admin_users->user_login($account, $password);
 
@@ -356,9 +359,12 @@ class login extends Controller
         }
 
         $permission = $this->reset_power($account);
+        \App\Helper\Utils::logger("loginx3");
+
+        // \App\Helper\Utils::logger("account1: $account");
+
         session($_SESSION) ;
         $this->t_admin_users->set_last_ip( $account,$ip );
-
 
         return $this->output_succ( array(
             'permission' => $permission,

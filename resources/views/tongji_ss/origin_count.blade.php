@@ -10,13 +10,13 @@
      var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
      var g_area_map= <?php  echo json_encode ($area_map); ?> ;
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
-     function go_to_lesson(obj){
+     function go_to_info(obj, opt_type){
          var par = 'check_value=' + $(obj).attr("data-val");
-         if ( $(obj).attr("data-val") !== '') {
+         if ($(obj).attr("data-val") !== ''){
              if(location.search){
-                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info"+location.search+"&"+par);
+                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_"+opt_type+"_info"+location.search+"&"+par);
              } else {
-                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_test_lesson_info?"+par);
+                 window.open("http://admin.yb1v1.com/tongji_ss/origin_count_"+opt_type+"_info?"+par);
              }
          }
      }
@@ -254,12 +254,17 @@
                              <td>{{@$var["have_intention_c_count"]}}</td>
                              <td>{{@$var["require_count"]}}</td>
                              <td>
-                                 <span onclick="go_to_lesson(this)" data-val="{{@$var["key4"]}}">
+                                 <a href="javascript:;" onclick="go_to_info(this,'test_lesson')" data-val="{{@$var["key4"]}}">
                                      {{@$var["test_lesson_count"]}}
-                                 </span>
+                                 </a>
                              </td>
                              <td>{{@$var["succ_test_lesson_count"]}}</td>
-                             <td>{{@$var["order_count"]}}</td>
+                             <td>
+                                 <a href="javascript:;" onclick="go_to_info(this,'order')" data-val="{{@$var["key4"]}}">
+                                     {{@$var["order_count"]}}
+                                 </a>
+                             </td>
+
                              <td>{{@$var["user_count"]}}</td>
                              <td>{{@$var["order_all_money"]}}</td>
                          @endif

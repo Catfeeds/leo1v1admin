@@ -9,7 +9,7 @@ $(function(){
 			      opt_date_type      : $('#id_opt_date_type').val(),
 			      start_time         : $('#id_start_time').val(),
 			      end_time           : $('#id_end_time').val(),
-			      teacherid          : $('#id_teacherid').val(),
+			      // teacherid          : $('#id_teacherid').val(),
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      level              : $('#id_level').val(),
         });
@@ -28,10 +28,10 @@ $(function(){
 
     Enum_map.append_option_list( "teacher_money_type", $("#id_teacher_money_type"));
     Enum_map.append_option_list( "level", $("#id_level"));
-	  $('#id_teacherid').val(g_args.teacherid);
+	  // $('#id_teacherid').val(g_args.teacherid);
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
-    $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
+    // $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
 	  $('.opt-change').set_input_change_event(load_data);
 });

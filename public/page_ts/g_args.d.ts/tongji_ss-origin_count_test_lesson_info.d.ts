@@ -28,6 +28,8 @@ interface RowData {
 	phone	:any;
 	grade	:any;
 	nick	:any;
+	lesson_user_online_status	:any;
+	lesson_user_online_status_str	:any;
 }
 
 /*

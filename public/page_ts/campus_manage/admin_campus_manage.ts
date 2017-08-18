@@ -28,13 +28,32 @@ $(function(){
         
     });
 
-    $(".opt-assign-main-group,.opt-del-campus").each(function(){
+    $(".opt-assign-main-group,.opt-del-campus,.opt-edit-name").each(function(){
         var opt_data = $(this).get_opt_data();
         if(opt_data.level != "l-1"){
             $(this).hide();
         }
     });
 
+    $(".opt-edit-name").on("click",function(){
+        var opt_data = $(this).get_opt_data();  
+        var id_campus_name=$("<input/>");
+        var  arr=[
+            ["名称" ,  id_campus_name]
+        ];
+        
+        $.show_key_value_table("修改", arr ,{
+            label: '确认',
+            cssClass: 'btn-warning',
+            action: function(dialog) {
+                $.do_ajax("/campus_manage/update_admin_campus_name",{
+                    "campus_name" :id_campus_name.val(),
+                    "campus_id":opt_data.campus_id,
+                });
+            }
+        });
+ 
+    });
     $(".opt-assign-main-group").on("click",function(){
         var opt_data = $(this).get_opt_data();       
         var main_type    = opt_data.main_type;        
