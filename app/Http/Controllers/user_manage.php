@@ -1939,7 +1939,7 @@ class user_manage extends Controller
 
     public function complaint_department_deal_teacher(){
         $this->set_in_value('account_type',2);
-        $this->set_in_value('complained_feedback_type',1); // 显示工作类型
+        // $this->set_in_value('complained_feedback_type',1); // 显示工作类型
         return $this->complaint_department_deal();
     }
 

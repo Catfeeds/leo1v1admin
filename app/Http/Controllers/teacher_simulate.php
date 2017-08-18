@@ -104,7 +104,7 @@ class teacher_simulate extends Controller
         }else{
             $lesson_price_simulate=0;
         }
-        return $lesson_price_simulate;
+        return round($lesson_price_simulate,2);
     }
 
     public function get_simulate_price(){
