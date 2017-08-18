@@ -70,6 +70,16 @@ class teacher_simulate extends Controller
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
             $lesson_price     = $val['lesson_price']/100;
 
+            $lesson_total = $val['lesson_total']*$val['default_lesson_count']/100;
+            $has_promotion = 0;
+            if($val['price']<$val['discount_price']){
+                $has_promotion = 1;
+            }
+            $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
+                $val['competition_flag'],$has_promotion,$val['contract_type'],$val['grade'],$lesson_total,0
+            );
+            $per_price_simulate = $price_arr_simulate['price'];
+
             \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
             \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
             \App\Helper\Utils::check_isset_data($tea_arr['reward'],$reward);
@@ -84,19 +94,9 @@ class teacher_simulate extends Controller
         return $this->pageView(__METHOD__,$list);
     }
 
-    public function get_simulate_price($lesson_total=0,$grade=101){
-        if($grade<200){
-            $grade=101;
-        }
-        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
-        $price_config[$grade];
-        foreach($price_config[$grade] as $key=>$val ){
-        }
-
-
-
-
+    public function get_simulate_price(){
+        $price = \App\OrderPrice\order_price_base::get_price_ex_cur(0,2,0,101,90,0);
+        var_dump($price);
     }
-
 
 }

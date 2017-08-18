@@ -2491,6 +2491,28 @@ trait  TeaPower {
         return $already_lesson_count;
     }
 
+    /**
+     * 获取模拟课时单价
+     */
+    public function get_simulate_price($lesson_total=0,$grade=101){
+        if($grade<200){
+            $grade = 101;
+        }
+        
+        $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
+
+        $last_per_price = 0;
+        foreach($price_config[$grade] as $key=>$val ){
+            if($lesson_total>=$key){
+                $last_per_price = $val;
+            }else{
+                break;
+            }
+        }
+
+        return $last_per_price;
+    }
+
 
 
 }
