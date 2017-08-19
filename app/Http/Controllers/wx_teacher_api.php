@@ -136,7 +136,6 @@ class wx_teacher_api extends Controller
 
 
     // 返回需要反馈的部门
-    /*
     public function  get_department(){
         $department_arr = [
             1=>'教研部',
@@ -147,14 +146,15 @@ class wx_teacher_api extends Controller
             8=>"咨询一部",
             9=>"咨询二部",
             10=>"咨询三部",
-	array(11,"","销售运营部" ),
-	array(12,"","助教部" ),
-	array(13,"","教务部" ),
-'
+            11=>"销售运营部",
+            12=>"助教部",
+            13=>"教务部",
         ];
+
+
+        return $this->output_succ(['data'=>$department_arr]);
     }
 
-    */
 
     public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
         $complaint_info    = $this->get_in_str_val('complaint_info','');
