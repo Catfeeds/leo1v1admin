@@ -2916,6 +2916,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.lesson_end > 1502899200',
             ' l.lesson_end < '.$time,
             ' lss.call_end_time = 0 ',
+            ' lss.success_flag in (0,1) ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
