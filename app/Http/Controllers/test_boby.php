@@ -199,6 +199,12 @@ class test_boby extends Controller
         $s = $s.'</table>';
         return $s;
 
+
+
+        $userid = 241823;
+        $phone = 18662703451;
+        $sql = ' select orderid,contract_type ,contractid ,pay_time ,price ,userid ,origin from db_weiyi.t_order_info where userid=241823';
+
     }
 
 }

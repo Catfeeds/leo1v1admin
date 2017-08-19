@@ -107,6 +107,29 @@ $(function(){
 
     };
 
+    var look_new_content = function( item){
+        var html_node = "";
+        html_node = html_node+"<h3>"+item.new_title+"</h3>";
+        html_node = html_node+item.new_content;
+        var title = "查看信息";
+        BootstrapDialog.show({
+            title           : title,
+            message         : html_node,
+            closable        : true,
+            closeByBackdrop : false,
+            onshown         : function(dialog){},
+            buttons: [
+                {
+                    label: '确认',
+                    cssClass: 'btn-primary',
+                    action: function(dialog) {
+                        dialog.close();
+                    }
+                }]
+        });
+
+    };
+
     $(".add_new_info").on("click",function(){
         do_add_or_update("add");
     });
@@ -123,7 +146,6 @@ $(function(){
             }
         });
     });
-
 
     $(".opt-del").on("click",function(){
         var id=$(this).get_opt_data( "id" );
@@ -154,6 +176,19 @@ $(function(){
                 }
             }]
         });
+    });
+    $(".opt-look").on("click", function(){
+        var id=$(this).get_opt_data( "id" );
+        $.ajax({
+            type  :"post",
+            url      :"/t_yxyx_new_list/get_one_new",
+            dataType :"json",
+            data     :{"id":id},
+            success: function(data){
+                look_new_content(data.ret_info);
+            }
+        });
+
     });
 });
 
