@@ -1124,7 +1124,6 @@ class wx_parent_api extends Controller
         $parentid = $this->get_parentid();
         $userid   = $this->get_in_int_val('userid');
         $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-
     }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
