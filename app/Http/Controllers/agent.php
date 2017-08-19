@@ -236,7 +236,7 @@ class agent extends Controller
         // imagedestroy($imgg);
 
         // dd($imgg);
-        $this->update_lesson_call_end_time($adminid=335);
+        $this->update_lesson_call_end_time($adminid=734);
     }
 
     public function get_agent_test_lesson($agent_id){
