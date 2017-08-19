@@ -229,10 +229,17 @@ class agent extends Controller
     }
 
     public function check(){
-        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+        //检查是否有成功试听未回访
+        $lesson_call_end_one = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=941);//何可
+        $lesson_call_end_two = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=429);//胡月月
+        $lesson_call_end_three = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=725);//杨玉玉
+        dd($lesson_call_end_one,$lesson_call_end_two,$lesson_call_end_three);
+        $userid_new = $lesson_call_end['userid'];
+        if($userid_new){
+            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid,$userid_new);
+            return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
+        }
 
-        $ret = $this->t_lesson_info_b2->get_call_end_time_by_adminid(99);
-        dd($ret);
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈

@@ -260,6 +260,7 @@ $(function(){
         // $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         // } ,function(ret){
         //     if(ret.require_id){
+        //         window.location.href="http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller"; 
         //         var opt_data=ret;
         //         var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
         //         var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");

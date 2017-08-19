@@ -2906,17 +2906,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
-    public function get_call_end_time_by_adminid_new($adminid,$userid_new){
+    public function get_call_end_time_by_adminid_new($adminid){
         $time = time();
         $where_arr = [
-            ' l.userid = '.$userid_new,
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
             ' l.lesson_end > 1502899200 ',
-            ' l.lesson_end <  '.$time,
-            ' lss.call_end_time <> 0 ',
+            ' l.lesson_end <  1503072000',
+            ' lss.call_end_time == 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
@@ -2930,7 +2929,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
         );
-        return $this->main_get_row($sql);
+        return $this->main_get_list($sql);
     }
 
 
