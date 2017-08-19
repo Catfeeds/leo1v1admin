@@ -155,6 +155,7 @@
                                     <a href="javascript:;" title="生成学生和家长账号" class="opt-set-user-phone">生成账号</a>
                                     <a href="javascript:;" title="生成助教账号" class="opt-gen-ass">助</a>
                                     <a href="javascript:;" title="用户操作日志" class="opt-log">log</a>
+                                    <a href="javascript:;" title="同步老师档案入职时间" class="opt-set-train-through-time">同</a>
                                 </div>
                             </td>
                         </tr>
