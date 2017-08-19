@@ -652,7 +652,7 @@ class ajax_deal2 extends Controller
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
         $this->t_teacher_info->field_update_list($teacherid,[
             "train_through_new"   =>1,
-            "train_through_new_time"=>time()
+            "train_through_new_time"=>$create_time
         ]);
         return $this->output_succ();
     }

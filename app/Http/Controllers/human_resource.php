@@ -4122,7 +4122,13 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
-
+        $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
+            "is_test_user" => 1,
+            "wx_use_flag"  => 0,
+        ]);
+        if(!$ret){
+            return $this->output_err("更新老师信息失败！");
+        }
         $this->t_course_order->commit();
 
         $from_user  = "转移老师信息";
