@@ -168,13 +168,12 @@ class wx_teacher_api extends Controller
         $sever_name = $_SERVER['SERVER_NAME'];
         // $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name); [原始]
 
-
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
         $appscript = '61bbf741a09300f7f2fd0a861803f920';
 
-        $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
-
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+        $complaint_img_url = $ret_arr['complaint_img_url'];
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -264,7 +263,9 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
 
         $sever_name = $_SERVER["SERVER_NAME"];
-        $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
+
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
+        $complaint_img_url = $ret_arr['complaint_img_url'];
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {

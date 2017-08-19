@@ -297,11 +297,8 @@ class wx_yxyx_common extends Controller
                 }
             }
         }
-        return $this->output_succ([
-            ['page'=>$ret_info['page_info']],
-            ['list'=>$ret_info['list']],
-            ['poster'=>$poster_arr],
-        ]);
+        $ret_info['poster'] = $poster_arr;
+        return $this->output_succ(["home_info"=>$ret_info]);
     }
 
     public function get_one_test_and_other() {
@@ -341,11 +338,8 @@ class wx_yxyx_common extends Controller
         }
         $id_str = '('.join($id_arr,',').')';
         $create_time = strtotime('today');
-        $other_info = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
-        return $this->output_succ([
-            ['list' => $ret_info],
-            ['other'=>$other_info],
-        ]);
+        $ret_info['other'] = $this->t_yxyx_test_pic_info->get_other_info($id_str, $create_time);
+        return $this->output_succ(['list' => $ret_info]);
     }
 
     public function add_share_num(){

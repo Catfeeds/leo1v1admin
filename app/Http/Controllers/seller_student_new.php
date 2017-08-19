@@ -1039,7 +1039,6 @@ class seller_student_new extends Controller
         $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
         $userid=$this->get_in_userid(-1 );
-
         $ret_info=$this->t_test_lesson_subject_require->get_order_fail_list($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
         foreach ($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
@@ -1085,13 +1084,14 @@ class seller_student_new extends Controller
         $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
         $userid=$this->get_in_userid(-1 );
+
         $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
-        $require_id = 0;
-        if(isset($ret_info['require_id'])){
-            $require_id = $ret_info['require_id'];
+        $ret = 0;
+        if($ret_info['require_id']){
+            $ret = $ret_info['require_id'];
         }
 
-        return $require_id;
+        return $ret;
     }
 
 
