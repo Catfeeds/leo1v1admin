@@ -18,7 +18,9 @@
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
+
   <link rel="stylesheet" href="/css/skin-blue-light.css">
+
   <!-- Morris chart -->
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.css">
   <!-- jvectormap -->
@@ -27,9 +29,12 @@
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+
+  <link type="text/css" rel="stylesheet" href="/css/al_page.css" />
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+  <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/plugins/iCheck/all.css" type="text/css" >
   <link href="/css/new_header.css" rel="stylesheet" type="text/css" />
 
         <style>
@@ -57,7 +62,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="/teacher_info/index" class="logo">
+            <a href="/" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b  >理</b></span>
                 <!-- logo for regular state and mobile devices -->
@@ -70,13 +75,21 @@
                     <span class="sr-only">切换菜单栏</span>
                 </a>
 
-                <ul class="nav navbar-nav">
-                <li><a href="javascript:;" id="header_title1" >  </a></li>
-                </ul>
+
+                <div class="navbar-custom-menu " style="float:left;">
+
+                    <ul class="nav navbar-nav"  >
+                        <li><a href="javascript:;" id="header_title1"  style="font-size:18px">  </a></li>
+                    </ul>
+                </div>
 
 
 
-                <div class="navbar-right">
+
+
+                <div class="navbar-custom-menu ">
+
+
 
                     <ul class="nav navbar-nav" id="_id_noti_info">
                         <!-- Messages: style can be found in dropdown.less-->
@@ -166,16 +179,6 @@
     <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Main content -->
-      @yield('content')
-    <!-- /.content -->
-  </div>
-
-</div>
-<!-- ./wrapper -->
-
 <!-- jQuery 3 -->
 <script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -212,13 +215,13 @@
 <script src="/AdminLTE-2.4.0-rc/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
+<script src="/AdminLTE-2.4.0-rc/plugins/iCheck/icheck.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- AdminLTE for demo purposes -->
 
-        <script src="/js/jquery.admin.js?{{$_publish_version}}" type="text/javascript"></script>
+        <script src="/js/jquery.admin.js?{{@$_publish_version}}" type="text/javascript"></script>
 
-        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{$_publish_version}}"></script>
-        <script src="/page_js/lib/select_dlg_ajax.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script type="text/javascript" src="/page_ts/{{$_ctr}}/{{$_act}}.js?{{@$_publish_version}}"></script>
         <script src="/page_js/enum_map.js?{{@$_publish_version}}" type="text/javascript"></script>
         <script src="/page_js/new_header.js?{{@$_publish_version}}" type="text/javascript"></script>
 
@@ -232,8 +235,26 @@
                  var g_adminid="{{$_adminid}}";
                 </script>
 
+        <script type="text/javascript">
+         g_power_list= {!! $_power_list !!} ;
+        </script>
+
         <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
         <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
+        <script src="/page_js/lib/select_dlg_ajax.js?{{@$_publish_version}}" type="text/javascript"></script>
+        <script type="text/javascript" src="/page_js/lib/select_dlg.js"></script>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+      @yield('content')
+    <!-- /.content -->
+  </div>
+
+</div>
+<!-- ./wrapper -->
+
 
 </body>
 </html>
