@@ -76,6 +76,9 @@ $(function(){
     $(".opt-refresh-call").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
+        $.do_ajax("/ss_deal/sync_tq", {
+            "phone": opt_data.phone,
+        });
         if(opt_data.lessonid){
             $.do_ajax("/seller_student_new/refresh_call_end",{
                 "lessonid" : opt_data.lessonid,

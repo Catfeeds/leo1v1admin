@@ -229,37 +229,29 @@ class agent extends Controller
     }
 
     public function check(){
-        //检查是否有成功试听未回访
-        $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,286791);
-        $lesson_call_end_one = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=941);//何可
-        $lesson_call_end_two = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=429);//胡月月
-        $lesson_call_end_three = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=725);//杨玉玉
-        dd($lesson_call_end_one,$lesson_call_end_two,$lesson_call_end_three);
-        $userid_new = $lesson_call_end['userid'];
-        if($userid_new){
-            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid,$userid_new);
-            return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
+        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
+        header("content-type:image/png");
+        $imgg = $this->yuan_img($url);
+        imagepng($imgg);
+        imagedestroy($imgg);
+
+        dd($imgg);
+    }
+
+    public function get_agent_test_lesson($agent_id){
+        $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+        dd($test_lesson);
+    }
+
+    public function update_lesson_call_end_time($adminid){
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret_info[] = $item;
+                $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
         }
-
-        //agentid查邀请人试听课
-        // $agent_id = 60;//月月
-        // $agent_id = 54;//陈
-        // $agent_id = 211;//Amanda
-        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
-        // dd($test_lesson);
-        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        // $img = file_get_contents($url); 
-        // file_put_contents('1.gif',$img); 
-        // echo '<img src="1.gif">';
-
-        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        // header("content-type:image/png");
-        // $imgg = $this->yuan_img($url);
-        // imagepng($imgg);
-        // imagedestroy($imgg);
-
-        // dd($imgg);
-        $this->update_agent_order($orderid=21007,$userid=277867,$price=3420000);
+        dd($lesson_call_end);
     }
 
     /**
