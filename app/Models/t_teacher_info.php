@@ -2904,8 +2904,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s "
+                                  ." where %s"
                                   ." group by level_simulate"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
     }

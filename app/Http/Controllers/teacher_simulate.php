@@ -105,8 +105,8 @@ class teacher_simulate extends Controller
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);
             $l_val['lesson_price_different'] = round(($l_val['lesson_price_simulate']-$l_val['lesson_price']),2);
         }
-        $level_list = Redis::get("level_list");
 
+        $level_list = json_decode(Redis::get("level_simulate_count"));
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
@@ -119,7 +119,7 @@ class teacher_simulate extends Controller
             "all_money_different"        => round($all_money_different,2),
             "all_lesson_price_different" => round($all_lesson_price_different,2),
             "level_list"                 => $level_list,
-            "account"                    => $account,
+            "acc"                        => $acc,
         ]);
     }
 
@@ -176,6 +176,7 @@ class teacher_simulate extends Controller
     }
 
     public function get_level_simulate_list(){
+        $type = $this->get_in_int_val("type");
         $level_list = $this->t_teacher_info->get_level_simulate_list();
         $level_count = [];
         if(!empty($level_list)){
@@ -184,6 +185,15 @@ class teacher_simulate extends Controller
                 \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']],$val['level_num'],0);
             }
         }
+
+        if($type==1){
+            \App\Helper\Utils::debug_to_html( $level_count );
+        }
+
+        $key = "level_simulate_count";
+        Redis::set($key,json_encode($level_count));
+
+        return $this->output_succ();
     }
 
 }

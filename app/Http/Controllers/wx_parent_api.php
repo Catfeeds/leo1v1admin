@@ -60,9 +60,11 @@ class wx_parent_api extends Controller
     public function get_lesson_info() {
         $parentid = $this->get_parentid();
 
+        $type = $this->get_in_int_val('type',-1); // 0: 常规课 2: 试听课
+
         // $parentid = 54573;//测试
 
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid);
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
             $item['is_modify_time_flag'] = $item['is_modify_time_flag']?$item['is_modify_time_flag']:0;
             $lesson_num= $item["lesson_num"];
