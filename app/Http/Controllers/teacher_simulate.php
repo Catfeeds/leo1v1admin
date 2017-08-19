@@ -233,10 +233,10 @@ class teacher_simulate extends Controller
             $all_money   = $data;
         }else{
             $has_month_flip = array_flip($has_month);
+            $all_money = json_decode(Redis::get($this->all_money_count_key),true);
+
             if(!array_key_exists($month_key,$has_month_flip)){
                 $has_month[] = $month_key;
-
-                $all_money = json_decode(Redis::get($this->all_money_count_key),true);
                 $all_money['all_money']                 += $data['all_money'];
                 $all_money['all_money_simulate']        += $data['all_money_simulate'];
                 $all_money['all_lesson_price']          += $data['all_lesson_price'];
@@ -246,8 +246,6 @@ class teacher_simulate extends Controller
                 unset($all_money['start_time']);
                 unset($all_money['acc']);
                 unset($all_money['level_list']);
-            }else{
-                
             }
         }
 
