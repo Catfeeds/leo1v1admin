@@ -2646,7 +2646,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             " t.is_test_user =0",
             "l.confirm_flag in (0,1,4)",
             "l.lesson_del_flag=0",
-            "l.lesson_type in (0,3)",
+            // "l.lesson_type in (0,3)",
             "l.lesson_status=2",
             "l.lesson_start>=".$start_time,
             "l.lesson_start<".$end_time
@@ -2955,6 +2955,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$lesson_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_teacher_identity_list_new(){
+        $sql = $this->gen_sql_new("select teacherid,t.identity,tl.identity identity_ex"
+                                  ." from %s t left join %s tl on t.phone= tl.phone and tl.identity>0"
+                                  ." where t.identity=0 and tl.identity>4 order by teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
     }

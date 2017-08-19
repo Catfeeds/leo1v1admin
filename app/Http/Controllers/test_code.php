@@ -1842,7 +1842,7 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        $phone="18790256265";
+        $phone="13917746147";
         $template_code = 85645014;
         $sms_data = [
             "name" => "name",

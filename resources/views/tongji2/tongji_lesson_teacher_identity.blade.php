@@ -10,6 +10,17 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" >
+                    <div class="input-group ">
+                        <span >课程类型</span>
+                        <select id="id_lesson_type" class ="opt-change" >
+                            <option value="-1">全部</option>
+                            <option value="-2">常规</option>
+                            <option value="2">试听</option>
+                        </select>
+                    </div>
+                </div>
+
                
             </div>
         </div>
