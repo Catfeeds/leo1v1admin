@@ -246,15 +246,18 @@ class teacher_simulate extends Controller
                 unset($all_money['start_time']);
                 unset($all_money['acc']);
                 unset($all_money['level_list']);
-                Redis::set($this->all_money_count_key,json_encode($all_money));
+            }else{
+                
             }
         }
 
         Redis::set($this->has_month_key,json_encode($has_month));
+        Redis::set($this->all_money_count_key,json_encode($all_money));
     }
 
     public function del_redis_simulate_money(){
-
+        Redis::del($this->has_month_key);
+        Redis::del($this->all_money_count_key);
     }
 
 
