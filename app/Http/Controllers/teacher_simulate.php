@@ -177,6 +177,7 @@ class teacher_simulate extends Controller
 
     public function get_level_simulate_list(){
         $type = $this->get_in_int_val("type");
+
         $level_list = $this->t_teacher_info->get_level_simulate_list();
         $level_count = [];
         if(!empty($level_list)){
