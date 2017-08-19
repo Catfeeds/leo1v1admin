@@ -42,7 +42,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
     public function get_last_grade_rank($subject,$userid){
         $sql = $this->gen_sql(" select grade_rank "
                               ." from %s "
-                              ."  where subject = $subject and userid = $userid order by create_time limit 1",
+                              ."  where subject = $subject and userid = $userid order by create_time desc limit 1",
                               self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }
