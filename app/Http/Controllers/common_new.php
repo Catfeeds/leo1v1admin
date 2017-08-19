@@ -1194,7 +1194,6 @@ class common_new extends Controller
         $start_time = strtotime('2017-08-01');
         $end_time   = strtotime('2017-09-01');
         $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
-        dd($ret_info);
         $ret_info['normal_count'] = $ret_info['normal_count']/100;
         $ret_info['test_count']   = $ret_info['test_count']/100;
         $ret_info['other_count']  = $ret_info['other_count']/100;
