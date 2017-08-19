@@ -40,6 +40,7 @@
                         <td class="remove-for-xs">
                             <div class="btn-group" data-id="{{$var["id"]}}">
                                 <a href="javascript:;" class="btn fa fa-edit opt-update-new_info" title="更改"></a>
+                                <a href="javascript:;" class="btn fa-hand-o-up opt-look" title="查看"></a>
                                 <a href="javascript:;" class="btn fa fa-trash-o opt-del" title="删除"></a>
                             </div>
                         </td>
