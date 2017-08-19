@@ -819,29 +819,28 @@ class common extends Controller
         if(!$is_exists){
             // $text         = "http://wx-yxyx-web.leo1v1.com/#/student-form?p_phone=".$phone;
             $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
-            $qr_url       = "/tmp/".$phone.".png";
             $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
+            $qr_url       = "/tmp/".$phone.".png";
             $agent_qr_url = "/tmp/".$phone_qr_name;
-            $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
-            $image_4 = imagecreatefrompng($headimgurl);     //微信头像
-            if($row['headimgurl']){
-               $headimgurl = $row['headimgurl'];
-               $datapath ="/tmp/".$phone."_headimg.png";
-               $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
-               shell_exec($wgetshell);
-               $image_4 = imagecreatefromjpeg($datapath);     //微信头像
-               \App\Helper\Utils::logger('yxyx_head_new:'.$row['headimgurl']);
-            }
+            // $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
+            // $image_4 = imagecreatefrompng($headimgurl);     //微信头像
+            // if($row['headimgurl']){
+            //    $headimgurl = $row['headimgurl'];
+            //    $datapath ="/tmp/".$phone."_headimg_new.png";
+            //    $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
+            //    shell_exec($wgetshell);
+            //    $image_4 = imagecreatefromjpeg($datapath);     //微信头像
+            // }
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_5 = imageCreatetruecolor(190,190);     //新建图
+            // $image_5 = imageCreatetruecolor(190,190);     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
-            imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
+            // imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,344,1318,0,0,212,212,100);
-            imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
+            // imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
             imagepng($image_3,$agent_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($agent_qr_url);
@@ -854,7 +853,7 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
-            imagedestroy($image_4);
+            // imagedestroy($image_4);
         }else{
             $file_name=$phone_qr_name;
         }
