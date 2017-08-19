@@ -2903,10 +2903,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "is_test_user=0",
             "teacher_type!=3",
         ];
+        $lesson_arr = [
+            "t.teacherid=teacherid",
+            "lesson_type in (0,1,3)",
+        ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s t"
                                   ." where %s"
-                                  ." and exists (select 1 from %s where  )"
+                                  ." and exists (select 1 from %s where %s)"
                                   ." group by level_simulate"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
