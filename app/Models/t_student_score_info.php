@@ -23,7 +23,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             "s.status = 0",
         ];
         $sql = $this->gen_sql_new(" select s.userid,s.create_time,s.create_adminid,s.subject,"
-                                  ."s.stu_score_type,s.stu_score_time,s.score,s.rank,s.semester,"
+                                  ."s.stu_score_type,s.stu_score_time,s.score,s.total_score,s.rank,s.semester,"
                                   ."s.total_score,s.grade,s.grade_rank,s.status,s.month,s.rank_up,s.rank_down, "
                                   ."u.realname,u.school,m.name "
                                   ." from      %s s "
@@ -43,6 +43,20 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
         $sql = $this->gen_sql(" select grade_rank "
                               ." from %s "
                               ."  where subject = $subject and userid = $userid order by create_time desc limit 1",
+                              self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+    public function get_last_grade_rank_b1($subject,$userid,$create_time){
+        $sql = $this->gen_sql(" select grade_rank "
+                              ." from %s "
+                              ."  where subject = $subject and userid = $userid and create_time < $create_time order by create_time desc limit 1",
+                              self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
+    public function get_last_grade_rank_b2($subject,$userid,$create_time){
+        $sql = $this->gen_sql(" select * "
+                              ." from %s "
+                              ."  where subject = $subject and userid = $userid and create_time > $create_time order by create_time asc limit 1",
                               self::DB_TABLE_NAME);
         return $this->main_get_list($sql);
     }

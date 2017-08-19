@@ -48,8 +48,6 @@ class deal_wx_pic extends Job implements ShouldQueue
      */
     public function handle()
     {
-        \App\Helper\Utils::logger('job JIM');
-
         //
         $lessonid            =  $this->lessonid ;
         $serverId_str        =  $this->serverid_list;

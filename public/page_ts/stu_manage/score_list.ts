@@ -53,7 +53,9 @@ $(function(){
             cssClass :   "btn-warning",
             action   :   function(dialog){
                 $.do_ajax('/ajax_deal2/score_edit',{
-                    "id" : opt_data.id,
+                    "userid"        : g_sid,
+                    "create_time"   : opt_data.create_time,
+                    "id"            : opt_data.id,
                     "subject"       : id_subject.val(),
                     "stu_score_type": id_stu_score_type.val(),
                     "score"         : id_score.val(),

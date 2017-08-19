@@ -52,14 +52,17 @@
                     <td>历史</td>
                     <td>地理</td>
                     <td>科学</td>
-                    <td>班级排名</td>
-                    <td>年级排名</td>
-                    <td>进步次数</td>
-                    <td>退步次数</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["班级排名","rank" ],
+                        ["年级排名","grade_rank" ],
+                        ["进步次数","rank_up" ],
+                        ["退步次数","rank_down" ],
+                       ])  !!}
                     <td>学校</td>
                     <td>录入者</td>
                     <td>详情</td>
                     <td></td>
+                     
                 </tr>
             </thead>
             <tbody>
@@ -72,7 +75,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         @for($i=1; $i <@11; $i++)
                             @if($var["subject"] == $i)
-                                <td>{{@$var["score"]}} </td>
+                                    <td>{{intval(100*$var["score"]/$var['total_score'])}}</td>
                             @else
                                 <td></td>
                             @endif
@@ -88,8 +91,6 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>

@@ -48,7 +48,7 @@ $(function(){
     $("#id_del_flag").val(g_args.del_flag);
     $('#id_cardid').val(g_args.cardid);
     $('#id_tquin').val(g_args.tquin);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )

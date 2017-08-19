@@ -1284,7 +1284,6 @@ class stu_manage extends Controller
         $userid = $this->sid;
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_student_score_info->get_list($page_info,$userid);
-        
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']

@@ -184,6 +184,7 @@ class ajax_deal2 extends Controller
      * @function  更新学生考试成绩信息
      */
     public function score_edit(){
+        $userid           = $this->get_in_int_val("userid");
         $id               = $this->get_in_int_val("id");
         $subject          = $this->get_in_int_val("subject");
         $stu_score_type   = $this->get_in_int_val("stu_score_type");
@@ -196,7 +197,27 @@ class ajax_deal2 extends Controller
         $grade            = $this->get_in_int_val("grade");
         $grade_rank       = $this->get_in_str_val("grade_rank");
         $status           = $this->get_in_int_val("status");
-        $create_adminid   =  $this->get_account_id();
+        $create_adminid   = $this->get_account_id();
+        $create_time      = $this->get_in_str_val("create_time");
+        $create_time = strtotime($create_time);
+        $rank_arr = explode("/",$grade_rank);
+        $rank_now = $rank_arr[0];
+        $grade_rank_last = $this->t_student_score_info->get_last_grade_rank_b1($subject,$userid,$create_time);
+        if($grade_rank_last  && $rank_now != ''){
+            $grade_rank_last = $grade_rank_last[0]["grade_rank"];
+            $rank_last_arr = explode("/",$grade_rank_last);
+            $rank_last = $rank_last_arr[0];
+            if($rank_last - $rank_now >= 0){
+                $rank_up = $rank_last-$rank_now;
+                $rank_down = '';
+            }else{
+                $rank_up = '';
+                $rank_down = $rank_now - $rank_last;
+            }
+        }else{
+            $rank_up = '';
+            $rank_down = '';
+        }
         $data = [
             'id'            =>   $id,
             'create_adminid'=>   $create_adminid,
@@ -209,11 +230,50 @@ class ajax_deal2 extends Controller
             'total_score'   =>   $total_score,
             'grade'         =>   $grade,
             'grade_rank'    =>   $grade_rank,
-            'status'        =>   $status
+            'status'        =>   $status,
+            "rank_up"       =>   $rank_up,
+            "rank_down"     =>   $rank_down,
          ];
 
-        $ret = $this->t_student_score_info->field_update_list($id,$data);
+        $ret = $this->t_student_score_info->field_update_list($id,$data);//更新当前字段值
+
+        $grade_rank_next = $this->t_student_score_info->get_last_grade_rank_b2($subject,$userid,$create_time);
+        if($grade_rank_next  && $rank_now != ''){
+
+            $grade_rank_next_arr = $grade_rank_next[0]["grade_rank"];
+            $rank_next_arr = explode("/",$grade_rank_next_arr);
+            $rank_next = $rank_next_arr[0];
+            if($rank_next - $rank_now >= 0){
+                $rank_down = $rank_next-$rank_now;
+                $rank_up = '';
+            }else{
+                $rank_down = '';
+                $rank_up = $rank_now - $rank_next;
+            }
+            $data = [
+                'id'            =>   $grade_rank_next[0]['id'],
+                'create_adminid'=>   $grade_rank_next[0]['create_adminid'],
+                'subject'       =>   $grade_rank_next[0]['subject'],
+                'stu_score_type'=>   $grade_rank_next[0]['stu_score_type'],
+                'score'         =>   $grade_rank_next[0]['score'],
+                'rank'          =>   $grade_rank_next[0]['rank'],
+                'file_url'      =>   $grade_rank_next[0]['file_url'],
+                'semester'      =>   $grade_rank_next[0]['semester'],
+                'total_score'   =>   $grade_rank_next[0]['total_score'],
+                'grade'         =>   $grade_rank_next[0]['grade'],
+                'grade_rank'    =>   $grade_rank_next[0]['grade_rank'],
+                'status'        =>   $grade_rank_next[0]['status'],
+                "rank_up"       =>   $rank_up,
+                "rank_down"     =>   $rank_down,
+            ];
+
+            $ret = $this->t_student_score_info->field_update_list($grade_rank_next[0]['id'],$data);//houmian
+        }else{
+
+        }
+        
         //dd($ret);
+
         return $this->output_succ();
     }
 
@@ -244,11 +304,11 @@ class ajax_deal2 extends Controller
             $rank_last_arr = explode("/",$grade_rank_last);
             $rank_last = $rank_last_arr[0];
             if($rank_last - $rank_now >= 0){
-                $rank_up = "+".($rank_last-$rank_now);
+                $rank_up = $rank_last-$rank_now;
                 $rank_down = '';
             }else{
                 $rank_up = '';
-                $rank_down = "-".($rank_now - $rank_last);
+                $rank_down = $rank_now - $rank_last;
             }
         }else{
             $rank_up = '';
