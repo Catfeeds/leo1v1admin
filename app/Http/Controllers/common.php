@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_gg.png";
+        $phone_qr_name = $phone."_qr_agent_as.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -821,7 +821,8 @@ class common extends Controller
             $text         = "http://www.leo1v1.com/market-invite/index.html?p_phone=".$phone."&type=1";
             $qr_url       = "/tmp/".$phone.".png";
             // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/e1e96219645d2c0658973305cfc640ec1500451878002.png";
-            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d7d9d2d7da45f640932ec1c1abe136c71502852336588.png";
+            // $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d7d9d2d7da45f640932ec1c1abe136c71502852336588.png";
+            $bg_url       = "http://7u2f5q.com2.z0.glb.qiniucdn.com/d8563e7ad928cf9535fc5c90e17bb2521503108001175.jpg";
             $agent_qr_url = "/tmp/".$phone_qr_name;
             // $headimgurl = "http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png";
             // $image_4 = imagecreatefrompng($headimgurl);     //微信头像
@@ -834,7 +835,8 @@ class common extends Controller
             // }
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
-            $image_1 = imagecreatefrompng($bg_url);     //背景图
+            // $image_1 = imagecreatefrompng($bg_url);     //背景图
+            $image_1 = imagecreatefromjpeg($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
             // $image_5 = imageCreatetruecolor(160,160);     //新建图
