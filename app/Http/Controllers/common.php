@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_fg.png";
+        $phone_qr_name = $phone."_qr_agent_wq.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -830,13 +830,14 @@ class common extends Controller
                $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                shell_exec($wgetshell);
                $image_4 = imagecreatefromjpeg($datapath);     //微信头像
+               \App\Helper\Utils::logger('yxyx_head_new:'.$row['headimgurl']);
             }
             \App\Helper\Utils::get_qr_code_png($text,$qr_url,5,4,3);
 
             $image_1 = imagecreatefrompng($bg_url);     //背景图
             $image_2 = imagecreatefrompng($qr_url);     //二维码
             $image_3 = imageCreatetruecolor(imagesx($image_1),imagesy($image_1));     //新建图
-            $image_5 = imageCreatetruecolor(160,160);     //新建图
+            $image_5 = imageCreatetruecolor(190,190);     //新建图
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
             imagecopymerge($image_3,$image_2,344,1318,0,0,212,212,100);
