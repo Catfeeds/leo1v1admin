@@ -2879,7 +2879,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select sum(if (l.deduct_change_class=1,1,0)) as change_count"
-                                  .",sum(if(l.teacher_comment!='',1,0)) as comment_count"
+                                  .",sum(if(l.tea_rate_time>0,1,0)) as evaluate_count"
                                   .",count(l.stu_praise) as praise_count"
                                   .",sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count"
                                   .",sum(if (l.tea_cw_status=1,1,0)) as tea_cw_count"
