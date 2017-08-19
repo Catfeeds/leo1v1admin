@@ -2857,7 +2857,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
 
-        $sql = $this->gen_sql_new("select distinct s.face"
+        $sql = $this->gen_sql_new("select distinct s.face,s.userid"
                                   ." from %s t "
                                   ." left join %s l on t.teacherid=l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
