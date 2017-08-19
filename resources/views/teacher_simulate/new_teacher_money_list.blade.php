@@ -6,6 +6,12 @@
                 <div class="col-xs-12 col-md-4" data-title="时间段">
                     <div id="id_date_range"> </div>
                 </div>
+                <div class="col-xs-12 col-md-2">
+                    <div class="input-group ">
+                        <span >老师:</span>
+                        <input type="text" id="id_teacherid" class="opt-change"/>
+                    </div>
+                </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >工资分类</span>
@@ -19,6 +25,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="input-group ">
+                        <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
+                        <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
+                        <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
+                        <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
+                        <span class="input-group-addon">总工资差别:{{@$all_money_different}}</span>
+                        <span class="input-group-addon">课程收入差别:{{@$all_lesson_price_different}}</span>
+                    </div>
+                </div>
+            </div>
+        <hr />
         </div>
         <hr/>
         <table class="common-table">
@@ -28,15 +47,19 @@
                     <td>常规课时</td>
                     <td>工资类型</td>
                     <td>等级</td>
-                    <td>工资</td>
+                    <td>总工资</td>
                     <td>课时奖励</td>
                     <td>课程收入</td>
 
                     <td>模拟工资类型</td>
                     <td>模拟工资等级</td>
-                    <td>模拟工资</td>
+                    <td>模拟总工资</td>
                     <td>模拟课时奖励</td>
                     <td>模拟课程收入</td>
+
+                    <td>老师工资差别</td>
+                    <td>课程收入差别</td>
+
                     <td>操作</td>
                 </tr>
             </thead>
@@ -56,8 +79,12 @@
                         <td>{{$var['money_simulate']}}</td>
                         <td>{{$var['reward_simulate']}}</td>
                         <td>{{$var['lesson_price_simulate']}}</td>
+
+                        <td>{{$var['money_different']}}</td>
+                        <td>{{$var['lesson_price_different']}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
+                                <a class="opt-set_simulate_info" title="重置等级">设置模拟信息</a>
                             </div>
                         </td>
                     </tr>

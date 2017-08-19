@@ -683,7 +683,7 @@ class tongji_ss extends Controller
                         $user_count[] = $item;
                         $order_all_money += $item['price'];
                     }
-                }                 
+                }
             }
             // $all_count = count($ret_info_new);
             if(count($userid_arr)>0){

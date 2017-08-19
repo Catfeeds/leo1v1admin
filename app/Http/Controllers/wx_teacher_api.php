@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 
-use App\Jobs\deal_feedback_img;
 
 
 
@@ -141,7 +140,7 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
-        $complaint_type = $this->get_in_int_val('complaint_type');
+        $complaint_type   = $this->get_in_int_val('complaint_type');
 
         $sever_name = $_SERVER['SERVER_NAME'];
         $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
@@ -322,7 +321,7 @@ class wx_teacher_api extends Controller
     public function deal_feedback_img($serverId_str,$sever_name)
     {
         $serverIdLists = json_decode($serverId_str,true);
-        $alibaba_url   = array();
+        $alibaba_url   = [];
 
         foreach($serverIdLists as $serverId){
             $imgStateInfo = $this->savePicToServer($serverId);

@@ -16,25 +16,18 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	teacherid	:any;
-	teacher_money_type	:any;
-	level	:any;
-	test_transfor_per	:any;
-	create_time	:any;
 	realname	:any;
-	level_simulate	:any;
-	all_grade	:any;
-	all_subject	:any;
-	all_userid	:any;
-	stu_num	:any;
-	trial_lesson_count	:any;
-	normal_lesson_count	:any;
 	teacher_money_type_str	:any;
+	teacher_money_type_simulate_str	:any;
 	level_str	:any;
 	level_simulate_str	:any;
-	create_time_str	:any;
-	all_lesson_count	:any;
-	grade_str	:any;
-	subject_str	:any;
+	money	:any;
+	money_simulate	:any;
+	reward	:any;
+	reward_simulate	:any;
+	lesson_price	:any;
+	lesson_count	:any;
+	lesson_price_simulate	:any;
 }
 
 /*

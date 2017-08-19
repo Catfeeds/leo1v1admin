@@ -627,6 +627,7 @@ class seller_student_new extends Controller
             $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
             $userid_new = $lesson_call_end['userid'];
             if($userid_new){
+                // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid,$userid_new);
                 return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
             }
 

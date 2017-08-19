@@ -1939,7 +1939,6 @@ class user_manage extends Controller
 
     public function complaint_department_deal_teacher(){
         $this->set_in_value('account_type',2);
-        // $this->set_in_value('complained_feedback_type',1); // 显示工作类型
         return $this->complaint_department_deal();
     }
 
@@ -1988,6 +1987,8 @@ class user_manage extends Controller
         }else{
             $account_id_str = $account_id;
         }
+
+
 
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "add_time", "投诉时间"),

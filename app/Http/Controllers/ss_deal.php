@@ -1513,7 +1513,7 @@ class ss_deal extends Controller
             $start_time= strtotime( date("Y-m-01", $now));
             $end_time=$now;
             $spec_diff_money_all= $this->t_order_info->get_spec_diff_money_all($start_time, $end_time, E\Eaccount_role::V_2 );
-            $month_spec_money= \App\Helper\Config::get_config("month_spec_money");
+            $month_spec_money= $this->t_config_date->get_config_value(E\Econfig_date_type::V_MONTH_MARKET_SELLER_DIFF_MONEY ,strtotime(date("Y-m-01")  ) ) ;
             $promotion_spec_diff_money_t= $promotion_spec_diff_money/100 ;
             if ($spec_diff_money_all +$promotion_spec_diff_money_t  > $month_spec_money ){
                 return  $this->output_err("市场配额不足,额度 $month_spec_money, 已用 [$spec_diff_money_all],  需要  [$promotion_spec_diff_money_t] ");
@@ -3635,6 +3635,9 @@ class ss_deal extends Controller
             if ($this->get_account()=="zore" ) {
                 $ytx_account="liyou2";
             }
+            if ( $ytx_account=="liyou" ) {
+                return $this->output_err("云通讯,暂停拨打");
+            }
             //if ( $this->  )
 
             \App\Helper\Utils::logger(" PHONE: $ytx_phone ");
@@ -4209,6 +4212,9 @@ class ss_deal extends Controller
         $end_date  = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
         $phone=$this->get_in_phone();
         $ytx_account= $this->get_in_str_val("ytx_account","liyou2");
+        if ($ytx_account=="liyou") {
+            return $this->output_err("云通讯暂停");
+        }
 
 
         $ytx_phone=session("ytx_phone");
@@ -5266,7 +5272,7 @@ class ss_deal extends Controller
         $activity_finish_time = strtotime("2017-12-31");
 
         $last_lesson_start = $this->t_lesson_info_b2->get_last_trial_lesson($userid);
-        $check_time = strtotime("+1 day",date("Y-m-d 23:59",$last_lesson_start));
+        $check_time = strtotime("+1 day",strtotime( date("Y-m-d 23:59",$last_lesson_start*1)));
         if($lesson_total>=9000){
             if($contract_type==0 && $check_time>time() && $has_share_activity_flag==1){
                 if($now>$activity_start_time && $now<$activity_end_time){
