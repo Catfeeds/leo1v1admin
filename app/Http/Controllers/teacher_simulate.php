@@ -256,6 +256,7 @@ class teacher_simulate extends Controller
     public function del_redis_simulate_money(){
         Redis::del($this->has_month_key);
         Redis::del($this->all_money_count_key);
+        return $this->output_succ();
     }
 
 

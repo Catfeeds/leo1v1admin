@@ -1143,16 +1143,21 @@ class wx_parent_api extends Controller
 
     public function deal_paper_upload(){ // 处理家长上传试卷
         $serverId_list = $this->get_in_str_val('serverids');
-
         // 家长微信号
-        $appid = 'wx636f1058abca1bc1';
+        $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
 
         $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
+        $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+            "stu_cw_url" => $complaint_img_url
+        ]);
 
-        // $this->
-
+        if($ret){
+            return $this->output_succ();
+        }else{
+            return $this->output_err('图片上传失败,请稍后重试.....');
+        }
     }
 
 
