@@ -166,7 +166,15 @@ class wx_teacher_api extends Controller
         $complaint_type   = $this->get_in_int_val('complaint_type');
 
         $sever_name = $_SERVER['SERVER_NAME'];
-        $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
+        // $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name); [原始]
+
+
+        // 老师帮微信号
+        $appid = 'wxa99d0de03f407627';
+        $appscript = '61bbf741a09300f7f2fd0a861803f920';
+
+        $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -341,7 +349,7 @@ class wx_teacher_api extends Controller
        老师帮 微信
        只有一张图片时 直接将图片放入数据库 不需要压缩
     **/
-    public function deal_feedback_img($serverId_str,$sever_name)
+    public function deal_feedback_img($serverId_str,$sever_namem, $appid, $appscript)
     {
         $serverIdLists = json_decode($serverId_str,true);
         $alibaba_url   = [];
@@ -396,12 +404,9 @@ class wx_teacher_api extends Controller
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
 
-            \App\Helper\Utils::logger('config_url'. $config["public"]["url"]."/".$file_name);
-
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
-            \App\Helper\Utils::logger( "init OssClient fail");
             return "" ;
         }
     }

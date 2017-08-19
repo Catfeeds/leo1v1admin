@@ -3061,31 +3061,85 @@ class ss_deal extends Controller
     public function add_lecture_appointment_one(){
         $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
         $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
-        $custom                       = $this->get_in_str_val("custom");
+        // $custom                       = $this->get_in_str_val("custom");
         $name                         = $this->get_in_str_val("name");
         $phone                        = $this->get_in_str_val("phone");
         $email                        = $this->get_in_str_val("email");
-        $grade_ex                     = $this->get_in_str_val("grade_ex");
-        $subject_ex                   = $this->get_in_str_val("subject_ex");
-        $textbook                     = $this->get_in_str_val("textbook");
+        $qq                           = $this->get_in_str_val("qq");
+        $grade_ex                     = $this->get_in_int_val("grade_ex");
+        $subject_ex                   = $this->get_in_int_val("subject_ex");
+        // $textbook                     = $this->get_in_str_val("textbook");
         $school                       = $this->get_in_str_val("school");
-        $teacher_type                 = $this->get_in_str_val("teacher_type");
-        $self_introduction_experience = trim($this->get_in_str_val("self_introduction_experience"));
+        $teacher_type                 = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
+        //$self_introduction_experience = trim($this->get_in_str_val("self_introduction_experience"));
         $reference                    = $this->get_in_str_val("reference");
-        $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status");
-        $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin");
+        // $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status");
+        //$lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin");
         $acc                          = $this->get_account();
 
-        $ret = $this->t_teacher_lecture_appointment_info->add_all_info(
-            $answer_begin_time,$answer_end_time,$custom,$name,$phone,
-            $email,$grade_ex,$subject_ex,$textbook,$school,
-            $teacher_type ,$self_introduction_experience,$reference,$acc,$lecture_appointment_status,
-            $lecture_appointment_origin
-        );
-
+        if(empty($answer_begin_time) || empty($phone) || empty($name)){
+             return $this->output_err("答题时间/手机号/名字不能为空");
+        }
+      
+        $id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
+        if($id>0){
+             return $this->output_err("该手机号已存在");
+        }
+        $this->t_teacher_lecture_appointment_info->row_insert([
+            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_end_time"    =>$answer_end_time,
+            "name"               =>$name,
+            "phone"              =>$phone,
+            "email"              =>$email,
+            "qq"                 =>$qq,
+            "subject_ex"         =>$subject_ex,
+            "grade_ex"           =>$grade_ex,
+            "school"             =>$school,
+            "teacher_type"       =>$teacher_type,
+            "reference"          =>$reference,
+            "accept_adminid"     =>$this->get_account_id(),
+            "accept_time"        =>time(),
+            "lecture_revisit_type" =>$lecture_revisit_type,
+            "hand_flag"          =>1
+        ]);
         return $this->output_succ();
     }
 
+    public function update_lecture_appointment_info(){
+        $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
+        $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
+        $name                         = $this->get_in_str_val("name");
+        $id                           = $this->get_in_str_val("id");
+        $email                        = $this->get_in_str_val("email");
+        $qq                           = $this->get_in_str_val("qq");
+        $grade_ex                     = $this->get_in_int_val("grade_ex");
+        $subject_ex                   = $this->get_in_int_val("subject_ex");
+        $school                       = $this->get_in_str_val("school");
+        $teacher_type                 = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
+        $reference                    = $this->get_in_str_val("reference");
+        $acc                          = $this->get_account();
+
+        if(empty($answer_begin_time) || empty($name)){
+            return $this->output_err("答题时间/手机号/名字不能为空");
+        }
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_end_time"    =>$answer_end_time,
+            "name"               =>$name,
+            "email"              =>$email,
+            "qq"                 =>$qq,
+            "subject_ex"         =>$subject_ex,
+            "grade_ex"           =>$grade_ex,
+            "school"             =>$school,
+            "teacher_type"       =>$teacher_type,
+            "reference"          =>$reference,
+            "lecture_revisit_type" =>$lecture_revisit_type,
+        ]);
+        return $this->output_succ();
+
+    }
     public function set_green_channel_teacherid(){
         $require_id = $this->get_in_int_val("require_id");
         $green_channel_teacherid = $this->get_in_int_val("green_channel_teacherid");

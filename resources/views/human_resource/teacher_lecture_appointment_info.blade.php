@@ -166,6 +166,7 @@
                     </td>
                     <td>教师姓名</td>
                     <td>报名时间</td>
+                    <td>入职时间</td>
                     <td>电话</td>
                     <td>QQ</td>
                     <td>邮箱</td>
@@ -174,7 +175,7 @@
                     <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
-                    <td width="300px">审核状态</td>
+                    <td style="width:220px">审核状态</td>
                     @if($show_full_time==0)
                         <td >推荐人</td>
                         <td>回访状态</td>
@@ -183,8 +184,8 @@
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
-                    <td width="100px">客户端版本</td>
-                    <td width="100px">操作</td>
+                    <td style="width:220px">客户端版本</td>
+                    <td >操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -193,9 +194,10 @@
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
                         <td>{{@$var["name"]}} </td>
                         <td>{{@$var["answer_time"]}} </td>
+                        <td>{{@$var["train_through_new_time_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_detail" data-value="{{$var["phone"]}}" >
-                                @if(in_array($account_id,["448","349"]))
+                                @if(in_array($account_id,["448","349","967"]))
                                     {{$var["phone"]}}
                                 @else
                                     {{$var["phone_ex"]}}
@@ -247,6 +249,9 @@
                                     <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
                                     <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                     <a class="opt-trans_info" title="设置扩课" >扩</a>
+                                @endif
+                                @if(@$var["hand_flag"]==1)
+                                    <a class="opt-edit-hand" title="修改" >修改</a>
                                 @endif
                             </div>
                         </td>

@@ -1882,6 +1882,8 @@ class human_resource extends Controller
         );
 
         foreach($ret_info["list"] as &$item){
+            $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
+            $item["end"] = date("Y-m-d H:i:s",$item["answer_end_time"]);
             $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
             if($item['full_time']==1){
                 $item['teacher_type_str']="全职老师";
@@ -1944,6 +1946,7 @@ class human_resource extends Controller
             }else{
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
+            \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
         }
 
         $account_id = $this->get_account_id();
