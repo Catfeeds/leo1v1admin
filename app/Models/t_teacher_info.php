@@ -2757,11 +2757,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type,$level
+        $start_time,$end_time,$teacher_money_type,$level,$teacher_id
     ){
+
         $where_arr = [
-            ["t.teacher_money_type=%u",$teacher_money_type,-1],
-            ["t.level=%u",$level,-1],
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "t.is_test_user=0",
@@ -2771,6 +2770,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_status=2",
             "teacher_type!=3"
         ];
+        if($teacher_id>0){
+            $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
+        }else{
+            $where_arr[]=["t.teacher_money_type=%u",$teacher_money_type,-1];
+            $where_arr[]=["t.level=%u",$level,-1];
+        }
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
                                   ." t.level_simulate,t.teacher_money_type_simulate,"

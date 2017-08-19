@@ -5397,13 +5397,19 @@ class user_deal extends Controller
     public function set_new_train_lesson(){
         $id = $this->get_in_int_val("id");
         $lessonid = $this->get_in_int_val("lessonid");
-        $this->t_lesson_info->field_update_list($lessonid,[
+        /* $this->t_lesson_info->field_update_list($lessonid,[
             "lesson_del_flag"  =>1
         ]);
-        $this->t_teacher_record_list->row_delete($id);
+        $this->t_teacher_record_list->row_delete($id);*/
+        $this->t_teacher_record_list->field_update_list($id,[
+            "trial_train_status"  =>4,
+            "add_time"            =>time()           
+        ]);
+        $trial_train_num = $this->t_lesson_info->get_trial_train_num($lessonid);
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
         $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
-        $this->add_trial_train_lesson($teacher_info,1);
+        
+        $this->add_trial_train_lesson($teacher_info,2,$trial_train_num);
 
         return $this->output_succ();
 

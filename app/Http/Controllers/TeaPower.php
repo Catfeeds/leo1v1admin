@@ -2087,6 +2087,32 @@ trait  TeaPower {
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
             }
 
+        }elseif($flag==2){
+            if(isset($teacher_info['wx_openid']) && !empty($teacher_info['wx_openid'])){
+                /**
+                 * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                 * 标题课程 : 待办事项提醒
+                 * {{first.DATA}}
+                 * 待办主题：{{keyword1.DATA}}
+                 * 待办内容：{{keyword2.DATA}}
+                 * 日期：{{keyword3.DATA}}
+                 * {{remark.DATA}}
+                 */
+
+                $data=[];
+                $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+                $data['first']    = "请尽快登录老师后台完成模拟试听";
+                $data['keyword1'] = "模拟试听";
+                $data['keyword2'] = "老师您好,很抱歉您的授课视频因数据不完整导致无法成功上传,请老师重新录制课程,期待老师的课程";
+                $data['keyword3'] = date("Y-m-d H:i",time());
+                $data['remark']   = "通过模拟试听即可获得晋升，理优教育致力于打造高水平的教学服务团队，期待您能通过审核，加油！";
+                $url = "";
+                // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_info['wx_openid'],$template_id,$data,$url);
+                // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
+            }
+
         }
 
         return true;

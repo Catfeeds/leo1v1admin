@@ -3635,6 +3635,9 @@ class ss_deal extends Controller
             if ($this->get_account()=="zore" ) {
                 $ytx_account="liyou2";
             }
+            if ( $ytx_account=="liyou" ) {
+                return $this->output_err("云通讯,暂停拨打");
+            }
             //if ( $this->  )
 
             \App\Helper\Utils::logger(" PHONE: $ytx_phone ");
@@ -4209,6 +4212,9 @@ class ss_deal extends Controller
         $end_date  = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
         $phone=$this->get_in_phone();
         $ytx_account= $this->get_in_str_val("ytx_account","liyou2");
+        if ($ytx_account=="liyou") {
+            return $this->output_err("云通讯暂停");
+        }
 
 
         $ytx_phone=session("ytx_phone");
@@ -5266,7 +5272,7 @@ class ss_deal extends Controller
         $activity_finish_time = strtotime("2017-12-31");
 
         $last_lesson_start = $this->t_lesson_info_b2->get_last_trial_lesson($userid);
-        $check_time = strtotime("+1 day",date("Y-m-d 23:59",$last_lesson_start*1));
+        $check_time = strtotime("+1 day",strtotime( date("Y-m-d 23:59",$last_lesson_start*1)));
         if($lesson_total>=9000){
             if($contract_type==0 && $check_time>time() && $has_share_activity_flag==1){
                 if($now>$activity_start_time && $now<$activity_end_time){
