@@ -198,6 +198,7 @@ class test_boby extends Controller
         }
         $s = $s.'</table>';
         return $s;
+
     }
 
 }
