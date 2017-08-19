@@ -995,6 +995,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_del_flag=0",
             ["tr.trial_train_status=%u",$trial_train_status,-1],
             "tr.trial_train_status<3",
+            "tr.trial_train_status>0",
             "l.lesson_start>".$start_time
         ];
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);

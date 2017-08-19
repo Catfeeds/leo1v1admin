@@ -50,7 +50,7 @@ class teacher_simulate extends Controller
             $month_key  = date("Y-m",$val['lesson_start']);
             $key = "already_lesson_count_".$month_key."_".$teacherid;
             $already_lesson_count_simulate = Redis::get($key);
-            if($already_lesson_count_simulate == null){
+            if($already_lesson_count_simulate === null){
                 $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
                 $last_start_time = strtotime("-1 month",$last_end_time);
                 $already_lesson_count_simulate = $this->get_already_lesson_count(
@@ -63,7 +63,7 @@ class teacher_simulate extends Controller
             if($check_type==2){
                 $already_lesson_count = $already_lesson_count_simulate;
             }else{
-                $already_lesson_count =$val['already_lesson_count'];
+                $already_lesson_count = $val['already_lesson_count'];
             }
 
             $reward           = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
