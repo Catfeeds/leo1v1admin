@@ -229,6 +229,10 @@ class agent extends Controller
     }
 
     public function check(){
+        $time = strtotime(date('Y-m-d',time()).'00:00:00');
+
+        $ret = $this->t_lesson_info_b2->get_call_end_time_by_adminid(99);
+        dd($ret);
         //agentid查邀请人试听课
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
