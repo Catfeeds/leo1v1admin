@@ -1489,6 +1489,9 @@ class tea_manage extends Controller
         return outputjson_success(array('data' => $ret_info));
     }
 
+    public function train_lesson_list_fulltime(){
+         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+    }
     public function train_lesson_list_research(){
         return $this->train_lesson_list();
     }
