@@ -2900,7 +2900,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_level_simulate_list(){
         $where_arr = [
             "train_through_new=1",
-            "is_test_user=0"
+            "is_test_user=0",
+            "teacher_type!=3",
         ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s "

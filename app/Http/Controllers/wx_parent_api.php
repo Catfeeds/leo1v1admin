@@ -59,9 +59,7 @@ class wx_parent_api extends Controller
 
     public function get_lesson_info() {
         $parentid = $this->get_parentid();
-
         $type = $this->get_in_int_val('type',-1); // 0: 常规课 2: 试听课
-
         // $parentid = 54573;//测试
 
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
@@ -1089,6 +1087,7 @@ class wx_parent_api extends Controller
 
 
 
+    // 家长微信端上传试卷
     public function input_student_score (){ //家长录入学生成绩
         $score   = $this->get_in_int_val('score');
         $subject = $this->get_in_int_val('subject');
@@ -1120,12 +1119,11 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){ // 提交后获取学生成绩信息
-        $parentid = $this->get_parentid();
-        $userid   = $this->get_in_int_val('userid');
-        $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-
-    }
+    // function get_student_score_info(){ // 提交后获取学生成绩信息
+    //     $parentid = $this->get_parentid();
+    //     $userid   = $this->get_in_int_val('userid');
+    //     $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
+    // }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $userid         = $this->get_in_int_val('userid',-1);
@@ -1134,6 +1132,20 @@ class wx_parent_api extends Controller
         $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid,$stu_score_list);
 
         return $this->output_succ(['data'=>$stu_score_list]);
+    }
+
+    public function get_score_info(){ // 获取成绩详情
+        $id         = $this->get_in_int_val('id');
+        $score_info = $this->t_student_score_info->get_score_info($id);
+        return $this->output_succ(['data'=>$score_info]);
+    }
+
+
+    public function deal_paper_upload(){ // 处理家长上传试卷
+        $serverId_list = $this->get_in_str_val('serverids');
+
+
+
     }
 
 

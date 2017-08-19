@@ -166,7 +166,11 @@ class wx_teacher_api extends Controller
         $complaint_type   = $this->get_in_int_val('complaint_type');
 
         $sever_name = $_SERVER['SERVER_NAME'];
-        $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
+        // $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name); [原始]
+        // \App\Helper\Utils::logger();
+
+        $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
+
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -401,7 +405,6 @@ class wx_teacher_api extends Controller
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
-            \App\Helper\Utils::logger( "init OssClient fail");
             return "" ;
         }
     }
