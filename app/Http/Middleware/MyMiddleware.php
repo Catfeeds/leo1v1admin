@@ -28,6 +28,7 @@ class MyMiddleware
 
         // \Utils::debug_to_html(   );
         $arr=[];
+        $in_start_time=time(NULL);
 
 
 
@@ -81,7 +82,10 @@ class MyMiddleware
 
         \App\Helper\Utils::logger("ROUTE START ");
         $ret=$next($request);
-        \App\Helper\Utils::logger("ROUTE END ");
+
+        $in_end_time=time(NULL);
+        $diff= $in_end_time- $in_start_time;
+        \App\Helper\Utils::logger("WORK_TIME:$diff URL:". $request->url());
         \App\Models\NewDB::close_all_dbs();
         return $ret;
 

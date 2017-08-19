@@ -1988,6 +1988,8 @@ class user_manage extends Controller
             $account_id_str = $account_id;
         }
 
+
+
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
