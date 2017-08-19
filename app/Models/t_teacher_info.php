@@ -2639,7 +2639,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     //获取每月有课老师的类型统计
-    public function get_lesson_teacher_identity_info($start_time,$end_time){
+    public function get_lesson_teacher_identity_info($start_time,$end_time,$lesson_type){
         $where_arr = [
             " t.train_through_new=1 ",
             " t.is_quit=0 ",
@@ -2651,6 +2651,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>=".$start_time,
             "l.lesson_start<".$end_time
         ];
+        if($lesson_type==-2){
+            $where_arr[]="l.lesson_type in(0,3)";
+        }elseif($lesson_type==2){
+            $where_arr[] = "l.lesson_type=2";
+        }else{
+            $where_arr[]="l.lesson_type in (0,2,3)";
+        }
 
         $sql = $this->gen_sql_new("select t.identity,count(distinct l.teacherid) num "
                                   ." from %s t left join %s l on t.teacherid =l.teacherid"
