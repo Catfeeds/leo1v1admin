@@ -2638,6 +2638,31 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    //获取每月有课老师的类型统计
+    public function get_lesson_teacher_identity_info($start_time,$end_time){
+        $where_arr = [
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,4)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,3)",
+            "l.lesson_status=2",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select t.identity,count(distinct l.teacherid) num "
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." where %s group by t.identity"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
+
     public function set_simulate_info($teacher_money_type,$level,$level_simulate){
         $where_arr = [
             ["teacher_money_type_simulate=%u",$teacher_money_type,0],

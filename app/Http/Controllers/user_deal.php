@@ -2610,7 +2610,7 @@ class user_deal extends Controller
     {
         // $this->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_appointment_info->get_teacher_type_list();
-        dd($ret_info);
+        dd(111);
         foreach($ret_info as $val){
             $this->t_teacher_lecture_appointment_info->field_update_list($val["id"],[
                "teacher_type"  =>0
