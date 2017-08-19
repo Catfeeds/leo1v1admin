@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_ff.png";
+        $phone_qr_name = $phone."_qr_agent_fg.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -853,7 +853,7 @@ class common extends Controller
             imagedestroy($image_1);
             imagedestroy($image_2);
             imagedestroy($image_3);
-            // imagedestroy($image_4);
+            imagedestroy($image_4);
         }else{
             $file_name=$phone_qr_name;
         }
