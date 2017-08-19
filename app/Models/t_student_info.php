@@ -1251,9 +1251,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
-            $campus_id2 = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
-            if($campus_id2 != $campus_id){
-                $campus_id = $campus_id2;
+            if($user_info["origin_assistantid"]>0){
+                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
             }
             $master_adminid = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
             if(empty($master_adminid)){

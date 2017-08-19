@@ -180,10 +180,15 @@ class teacher_simulate extends Controller
 
         $level_list = $this->t_teacher_info->get_level_simulate_list();
         $level_count = [];
+        $level_all = 0;
         if(!empty($level_list)){
             foreach($level_list as $val){
+                $level_all += $val['level_num'];
                 E\Enew_level::set_item_value_str($val,"level_simulate");
-                \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']],$val['level_num'],0);
+                \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']]['level_num'],$val['level_num'],0);
+            }
+            foreach($level_count as &$c_val){
+                $c_val['level_per'] = round($c_val['level_num']/$level_all,2);
             }
         }
 

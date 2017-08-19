@@ -174,7 +174,7 @@
                     <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
-                    <td width="300px">审核状态</td>
+                    <td style="width:220px">审核状态</td>
                     @if($show_full_time==0)
                         <td >推荐人</td>
                         <td>回访状态</td>
@@ -183,8 +183,8 @@
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
-                    <td width="100px">客户端版本</td>
-                    <td width="100px">操作</td>
+                    <td style="width:220px">客户端版本</td>
+                    <td >操作</td>
                 </tr>
             </thead>
             <tbody>
