@@ -1119,11 +1119,11 @@ class wx_parent_api extends Controller
         }
     }
 
-    function get_student_score_info(){ // 提交后获取学生成绩信息
-        $parentid = $this->get_parentid();
-        $userid   = $this->get_in_int_val('userid');
-        $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
-    }
+    // function get_student_score_info(){ // 提交后获取学生成绩信息
+    //     $parentid = $this->get_parentid();
+    //     $userid   = $this->get_in_int_val('userid');
+    //     $score_info = $this->t_student_score_info->get_score_info_for_parent($parentid,$userid);
+    // }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
         $userid         = $this->get_in_int_val('userid',-1);
@@ -1132,6 +1132,17 @@ class wx_parent_api extends Controller
         $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid,$stu_score_list);
 
         return $this->output_succ(['data'=>$stu_score_list]);
+    }
+
+    public function get_score_info(){ // 获取成绩详情
+        $userid = $this->get_in_int_val('lessonid');
+        $parentid = $this->get_parentid();
+
+    }
+
+
+    public function deal_paper_upload(){ // 处理家长上传试卷
+
     }
 
 

@@ -5403,7 +5403,8 @@ class user_deal extends Controller
         $this->t_teacher_record_list->row_delete($id);*/
         $this->t_teacher_record_list->field_update_list($id,[
             "trial_train_status"  =>4,
-            "add_time"            =>time()           
+            "add_time"            =>time(),
+            "acc"                 =>$this->get_account()
         ]);
         $trial_train_num = $this->t_lesson_info->get_trial_train_num($lessonid);
         $teacherid = $this->t_lesson_info->get_teacherid($lessonid);

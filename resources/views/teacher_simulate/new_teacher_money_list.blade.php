@@ -51,7 +51,8 @@
                 <div class="col-xs-6 col-md-6">
                     <div class="input-group ">
                         @foreach($level_list as $l_key => $l_val)
-                            <span class="input-group-addon">{{$l_key}}:{{$l_val['level_num']}} | {{$l_val['level_per']}}</span>
+                            <span class="input-group-addon">{{$l_key}}:{{$l_val['level_num']}}
+                                | {{round($l_val['level_per'],2)*100}}%</span>
                         @endforeach
                     </div>
                 </div>

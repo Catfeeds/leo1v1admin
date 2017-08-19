@@ -11,6 +11,8 @@ class teacher_simulate extends Controller
     use CacheNick;
     use TeaPower;
 
+    var $level_simulate_count_key="level_simulate_count";
+
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
@@ -106,12 +108,12 @@ class teacher_simulate extends Controller
             $l_val['lesson_price_different'] = round(($l_val['lesson_price_simulate']-$l_val['lesson_price']),2);
         }
 
-        $level_list = json_decode(Redis::get("level_simulate_count"),true);
+        $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
-        $list = \App\Helper\Utils::list_to_page_info($list);
-        return $this->pageView(__METHOD__,$list,[
+
+        $show_data = [
             "all_money"                  => round($all_money,2),
             "all_money_simulate"         => round($all_money_simulate,2),
             "all_lesson_price"           => round($all_lesson_price,2),
@@ -120,7 +122,12 @@ class teacher_simulate extends Controller
             "all_lesson_price_different" => round($all_lesson_price_different,2),
             "level_list"                 => $level_list,
             "acc"                        => $acc,
-        ]);
+            "start_time"                 => $start_time,
+        ];
+        $this->set_redis_data($show_data);
+
+        $list = \App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$list,$show_data);
     }
 
     public function get_lesson_price_simulate($info){
@@ -178,14 +185,15 @@ class teacher_simulate extends Controller
     public function get_level_simulate_list(){
         $type = $this->get_in_int_val("type");
 
-        $level_list = $this->t_teacher_info->get_level_simulate_list();
+        $level_list  = $this->t_teacher_info->get_level_simulate_list();
         $level_count = [];
-        $level_all = 0;
+        $level_all   = 0;
         if(!empty($level_list)){
             foreach($level_list as $val){
                 $level_all += $val['level_num'];
                 E\Enew_level::set_item_value_str($val,"level_simulate");
                 \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']]['level_num'],$val['level_num'],0);
+                \App\Helper\Utils::check_isset_data($level_count["all"]['level_num'],$val['level_num']);
             }
             foreach($level_count as &$c_val){
                 $c_val['level_per'] = round($c_val['level_num']/$level_all,2);
@@ -196,10 +204,38 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::debug_to_html( $level_count );
         }
 
-        $key = "level_simulate_count";
+        $key = $this->level_simulate_count_key;
         Redis::set($key,json_encode($level_count));
 
         return $this->output_succ();
     }
+
+    public function check_month_redis_key($data){
+        $month_key = date("Y-m",$data['start_time']);
+
+        $has_month_key = "has_month";
+        $has_month = json_decode(Redis::get($has_month_key),true);
+        if(!isset($has_month)){
+            $has_month   = [];
+            $has_month[] = $month_key;
+        }else{
+            $has_month_flip = array_flip($has_month);
+            if(!array_key_exists($month_key,$has_month_flip)){
+                $has_month[]=$month_key;
+            }
+        }
+
+        if(!empty($has_month)){
+            Redis::set($has_month_key,json_encode($has_month));
+        }
+
+        $all_money_count_key = "all_money_count";
+        $all_money = json_decode(Redis::get($all_money_count_key),true);
+        if(!isset($all_money)){
+
+        }
+    }
+
+
 
 }

@@ -25,7 +25,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             ["phone='%s'",$phone,""]
         ];
-        $sql = $this->gen_sql_new("select appointment_id"
+        $sql = $this->gen_sql_new("select id"
                                   ." from %s "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME

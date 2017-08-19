@@ -13,6 +13,11 @@ class TTeacherLectureAppointmentInfoAddHandFlag extends Migration
     public function up()
     {
         //
+        Schema::table('db_weiyi.t_teacher_lecture_appointment_info', function( Blueprint $table)
+        {
+            t_field($table->tinyInteger("hand_flag"),"招师手动添加标识");
+        });
+
     }
 
     /**

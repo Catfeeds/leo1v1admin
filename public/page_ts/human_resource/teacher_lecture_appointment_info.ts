@@ -230,15 +230,15 @@ $(function(){
         var id_name                         = $("<input />");
         var id_phone                        = $("<input />");
         var id_email                        = $("<input />");
-        var id_custom                       = $("<input />");
-        var id_grade_ex                     = $("<input />");
-        var id_subject_ex                   = $("<input />");
+        var id_qq                           = $("<input />");
+        var id_grade_ex                     = $("<select />");
+        var id_subject_ex                   = $("<select />");
         var id_textbook                     = $("<input />");
         var id_school                       = $("<input />");
-        var id_teacher_type                 = $("<input />");
+        var id_teacher_type                 = $("<select />");
         var id_reference                    = $("<input />");
         var id_self_introduction_experience = $("<textarea />");
-        var id_lecture_appointment_status   = $("<select/>");        
+        var id_lecture_revisit_type         = $("<select/>");        
 
         id_answer_end_time.datetimepicker({
             datepicker:true,
@@ -253,22 +253,23 @@ $(function(){
             step:1
         });
 
-        Enum_map.append_option_list("lecture_appointment_status", id_lecture_appointment_status, true );
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
+        Enum_map.append_option_list("subject", id_subject_ex, true );
+        Enum_map.append_option_list("grade_part", id_grade_ex, true );
+        Enum_map.append_option_list("identity", id_teacher_type, true );
         var arr=[
             ["答题开始时间", id_answer_begin_time],         
             ["答题结束时间", id_answer_end_time],           
-            ["自定义字段", id_custom],          
             ["姓名", id_name],           
             ["电话", id_phone],          
             ["邮箱", id_email],          
+            ["qq", id_qq],          
             ["年级段", id_grade_ex],         
             ["科目", id_subject_ex],                     
-            ["教材", id_textbook],           
             ["毕业院校", id_school],           
             ["师资", id_teacher_type],           
-            ["自我介绍及经验", id_self_introduction_experience],           
-            ["推荐人", id_reference],           
-            ["状态", id_lecture_appointment_status],         
+            ["推荐人(手机)", id_reference],           
+            ["回访状态", id_lecture_revisit_type],         
         ];
 
         $.show_key_value_table("新增试讲预约", arr ,{
@@ -278,18 +279,16 @@ $(function(){
                 $.do_ajax('/ss_deal/add_lecture_appointment_one',{
                     "answer_begin_time"            : id_answer_begin_time.val(),
                     "answer_end_time"              : id_answer_end_time.val(),
-                    "custom"                       : id_custom.val(),
                     "name"                         : id_name.val(),
                     "phone"                        : id_phone.val(),
                     "email"                        : id_email.val(),
+                    "qq"                           : id_qq.val(),
                     "grade_ex"                     : id_grade_ex.val(),
                     "subject_ex"                   : id_subject_ex.val(),
-                    "textbook"                     : id_textbook.val(),
                     "school"                       : id_school.val(),
                     "teacher_type"                 : id_teacher_type.val(),
-                    "self_introduction_experience" : id_self_introduction_experience.val(),
                     "reference"                    : id_reference.val(),
-                    "lecture_appointment_status"   : id_lecture_appointment_status.val()                                
+                    "lecture_revisit_type"         : id_lecture_revisit_type.val()                                
                 });
             }
         });
