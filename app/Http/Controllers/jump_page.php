@@ -11,8 +11,6 @@ class jump_page extends Controller
     var $check_login_flag=false;
 
     function index()  {
-        \App\Helper\Utils::logger("xiwjys");
-
         $url=$this->get_in_str_val("url");
 
         $wx= new \App\Helper\Wx( \App\Helper\Config::get_teacher_wx_appid()  , \App\Helper\Config::get_teacher_wx_appsecret()  );
