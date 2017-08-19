@@ -1144,12 +1144,14 @@ class wx_parent_api extends Controller
     public function deal_paper_upload(){ // 处理家长上传试卷
         $serverId_list = $this->get_in_str_val('serverids');
 
+        // 家长微信号
         $appid = 'wx636f1058abca1bc1';
-        $appscript = 
+        $appscript = '756ca8483d61fa9582d9cdedf202e73e';
+
         $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
-        define("WECHAT_APPID", ''); //理优公众号
-        define("WECHAT_APPSECRET",'756ca8483d61fa9582d9cdedf202e73e');//理优
+
+        // $this->
 
     }
 
