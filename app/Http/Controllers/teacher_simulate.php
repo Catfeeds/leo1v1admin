@@ -11,7 +11,9 @@ class teacher_simulate extends Controller
     use CacheNick;
     use TeaPower;
 
-    var $level_simulate_count_key="level_simulate_count";
+    var $level_simulate_count_key = "level_simulate_count";
+    var $all_money_count_key      = "all_money_count";
+    var $has_month_key            = "has_month";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -124,12 +126,17 @@ class teacher_simulate extends Controller
             "acc"                        => $acc,
             "start_time"                 => $start_time,
         ];
-        $this->set_redis_data($show_data);
+        $this->check_month_redis_key($show_data);
+        $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
+        $show_data["final_money"] = $final_money_list;
 
         $list = \App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$list,$show_data);
     }
 
+    /**
+     * 获取课程的模拟收入
+     */
     public function get_lesson_price_simulate($info){
         $lesson_total  = $info['lesson_total']*$info['default_lesson_count']/100;
         if($lesson_total>0){
@@ -158,12 +165,9 @@ class teacher_simulate extends Controller
         return round($lesson_price_simulate,2);
     }
 
-    public function get_teacher_already_lesson_count($val){
-        $month = date("Y-m",$val['lesson_start']);
-        $key = $teacherid."_".$month;
-
-    }
-
+    /**
+     * 更新老师的模拟信息 
+     */
     public function update_teacher_simulate_info(){
         $teacherid      = $this->get_in_int_val("teacherid");
         $level_simulate = $this->get_in_int_val("level_simulate");
@@ -181,6 +185,9 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 更新redis中模拟等级的分布列表
+     */
     public function get_level_simulate_list(){
         $type = $this->get_in_int_val("type");
 
@@ -209,12 +216,17 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
+    /**
+     * 更新redis中已结算工资月份
+     */
     public function check_month_redis_key($data){
         $month_key = date("Y-m",$data['start_time']);
+        $now_month_key = date("Y-m",time());
+        if($month_key==$now_month_key){
+            return true;
+        }
 
-        $all_money_count_key = "all_money_count";
-        $has_month_key = "has_month";
-        $has_month = json_decode(Redis::get($has_month_key),true);
+        $has_month = json_decode(Redis::get($this->has_month_key),true);
         if(!isset($has_month)){
             $has_month   = [];
             $has_month[] = $month_key;
@@ -224,21 +236,21 @@ class teacher_simulate extends Controller
             if(!array_key_exists($month_key,$has_month_flip)){
                 $has_month[] = $month_key;
 
-                $all_money = json_decode(Redis::get($all_money_count_key),true);
+                $all_money = json_decode(Redis::get($this->all_money_count_key),true);
                 $all_money['all_money']                 += $data['all_money'];
                 $all_money['all_money_simulate']        += $data['all_money_simulate'];
                 $all_money['all_lesson_price']          += $data['all_lesson_price'];
                 $all_money['all_lesson_price_simulate'] += $data['all_lesson_price_simulate'];
                 $all_money['all_money_different']        = $all_money['all_money_simulate']-$all_money['all_money'];
                 $all_money['all_lesson_price_different'] = $all_money['all_lesson_price_simulate']-$all_money['all_lesson_price'];
+                unset($all_money['start_time']);
+                unset($all_money['acc']);
+                unset($all_money['level_list']);
+                Redis::set($this->all_money_count_key,json_encode($all_money));
             }
         }
-        unset($all_money['start_time']);
-        unset($all_money['acc']);
-        unset($all_money['level_list']);
 
-        Redis::set($has_month_key,json_encode($has_month));
-        Redis::set($all_money_count_key,json_encode($all_money));
+        Redis::set($this->has_month_key,json_encode($has_month));
     }
 
 

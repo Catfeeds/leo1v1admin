@@ -38,6 +38,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="input-group ">
+                        <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
+                        <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
+                        <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
+                        <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
+                        <span class="input-group-addon">总工资差别:{{@$all_money_different}}</span>
+                        <span class="input-group-addon">课程收入差别:{{@$all_lesson_price_different}}</span>
+                    </div>
+                </div>
+            </div>
             @endif
             <div class="row">
                 <div class="col-xs-6 col-md-6">

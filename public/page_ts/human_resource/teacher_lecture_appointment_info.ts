@@ -584,7 +584,7 @@ $(function(){
 
     });
 
-    if(g_args.tea_adminid !=349 && g_args.tea_adminid !=72 && g_args.tea_adminid !=448){
+    if(g_args.tea_adminid !=349 && g_args.tea_adminid !=72 && g_args.tea_adminid !=448 && g_args.tea_adminid !=967 ){
         $(".fa-download").hide();
         $(".page-opt-show-all-xls").hide();
     }
@@ -689,7 +689,7 @@ $(function(){
     });
 
     $(".opt-edit-hand").on("click",function(){
-        var data           = $(this).get_opt_data();
+        var opt_data           = $(this).get_opt_data();
         var id_answer_begin_time            = $("<input />");
         var id_answer_end_time              = $("<input />");
         var id_name                         = $("<input />");
@@ -734,6 +734,17 @@ $(function(){
             ["推荐人(手机)", id_reference],           
             ["回访状态", id_lecture_revisit_type],         
         ];
+        id_answer_begin_time.val(opt_data.begin);
+        id_answer_end_time.val(opt_data.end);
+        id_name.val(opt_data.name);
+        id_email.val(opt_data.email);
+        id_qq.val(opt_data.qq);
+        id_grade_ex.val(opt_data.grade_ex);
+        id_subject_ex.val(opt_data.subject_ex);
+        id_school.val(opt_data.school);
+        id_teacher_type.val(opt_data.teacher_type);
+        id_reference.val(opt_data.reference);
+        id_lecture_revisit_type.val(opt_data.lecture_revisit_type);
 
         $.show_key_value_table("修改试讲预约", arr ,{
             label    : '确认',

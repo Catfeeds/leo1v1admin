@@ -166,6 +166,7 @@
                     </td>
                     <td>教师姓名</td>
                     <td>报名时间</td>
+                    <td>入职时间</td>
                     <td>电话</td>
                     <td>QQ</td>
                     <td>邮箱</td>
@@ -193,9 +194,10 @@
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
                         <td>{{@$var["name"]}} </td>
                         <td>{{@$var["answer_time"]}} </td>
+                        <td>{{@$var["train_through_new_time_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_detail" data-value="{{$var["phone"]}}" >
-                                @if(in_array($account_id,["448","349"]))
+                                @if(in_array($account_id,["448","349","967"]))
                                     {{$var["phone"]}}
                                 @else
                                     {{$var["phone_ex"]}}

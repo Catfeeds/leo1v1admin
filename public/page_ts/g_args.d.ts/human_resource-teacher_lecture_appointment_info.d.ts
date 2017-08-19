@@ -39,6 +39,7 @@ interface RowData {
 	email	:any;
 	textbook	:any;
 	school	:any;
+	train_through_new_time	:any;
 	grade_ex	:any;
 	subject_ex	:any;
 	trans_grade_ex	:any;
@@ -73,6 +74,8 @@ interface RowData {
 	hand_flag	:any;
 	full_status	:any;
 	full_record_info	:any;
+	begin	:any;
+	end	:any;
 	answer_time	:any;
 	teacher_type_str	:any;
 	lecture_appointment_status_str	:any;
@@ -87,6 +90,7 @@ interface RowData {
 	email_ex	:any;
 	have_wx_flag	:any;
 	lecture_revisit_type_new_str	:any;
+	train_through_new_time_str	:any;
 }
 
 /*

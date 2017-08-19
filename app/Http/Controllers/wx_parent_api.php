@@ -1142,7 +1142,10 @@ class wx_parent_api extends Controller
 
 
     public function deal_paper_upload(){ // 处理家长上传试卷
-        
+        $serverId_list = $this->get_in_str_val('serverids');
+
+
+
     }
 
 

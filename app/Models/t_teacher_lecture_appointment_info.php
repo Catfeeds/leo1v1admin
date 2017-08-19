@@ -175,7 +175,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ];
         }
 
-        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,"
+        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,tt.train_through_new_time,"
                                   ." la.grade_ex,la.subject_ex,la.trans_grade_ex,la.trans_subject_ex,grade_1v1,trans_grade_1v1,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
