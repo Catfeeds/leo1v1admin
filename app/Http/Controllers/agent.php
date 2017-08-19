@@ -236,7 +236,9 @@ class agent extends Controller
         // imagedestroy($imgg);
 
         // dd($imgg);
-        $this->update_lesson_call_end_time($adminid=734);
+        $phone = $this->get_in_str_val('phone');
+        $adminid = $this->t_manager_info->get_id_by_phone($phone);
+        $this->update_lesson_call_end_time_new($adminid);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -244,10 +246,26 @@ class agent extends Controller
         dd($test_lesson);
     }
 
-    public function update_lesson_call_end_time($adminid){
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-        if(isset($lesson_call_end['lessonid'])){
-            $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lesson_call_end['lessonid']);
+    public function update_lesson_call_end_time(){
+        $adminid = $this->get_in_int_val('adminid');
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }else{
+            $ret = 1;
+        }
+
+        return $ret;
+    }
+
+    public function update_lesson_call_end_time_new($adminid){
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
         }
         dd($lesson_call_end);
     }
