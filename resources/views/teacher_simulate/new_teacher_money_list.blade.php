@@ -78,8 +78,8 @@
                 @foreach($teacher_money_type_list as $key=>$val)
                 <tr>
                     <td>{{$key}}</td>
-                    <td>{{round($val['money']/$val['lesson_price'],2)*100}}%</td>
-                    <td>{{round($val['money_simulate']/$val['lesson_price_simulate'],2)*100}}%</td>
+                    <td>{{round($val['money']/$all_lesson_price,2)*100}}%</td>
+                    <td>{{round($val['money_simulate']/$all_lesson_price_simulate,2)*100}}%</td>
                 </tr>
                 @endforeach
             </table>
@@ -97,8 +97,8 @@
                 @foreach($all_teacher_money_type_list as $key=>$val)
                 <tr>
                     <td>{{$key}}</td>
-                    <td>{{round($val['money']/$val['lesson_price'],2)*100}}%</td>
-                    <td>{{round($val['money_simulate']/$val['lesson_price_simulate'],2)*100}}%</td>
+                    <td>{{round($val['money']/$final_money['all_lesson_price'],2)*100}}%</td>
+                    <td>{{round($val['money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%</td>
                 </tr>
                 @endforeach
             </table>

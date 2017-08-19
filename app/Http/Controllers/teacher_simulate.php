@@ -13,8 +13,8 @@ class teacher_simulate extends Controller
 
     var $level_simulate_count_key   = "level_simulate_count";
     var $all_money_count_key        = "all_money_count";
-    var $has_month_key              = "has_month";
     var $all_teacher_money_type_key = "all_teacher_money_type_count";
+    var $has_month_key              = "has_month";
     var $teacher_money_type_key     = "teacher_money_type_count";
 
     public function new_teacher_money_list(){
@@ -95,8 +95,8 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
 
             // 工资类型的统计
-            \App\Helper\Utils::check_isset_data($teacher_money_type_list[$month_key][$val['teacher_money_type_simulate_str']],[],0);
-            $money_type_arr = $teacher_money_type_list[$month_key][$val['teacher_money_type_simulate_str']];
+            \App\Helper\Utils::check_isset_data($teacher_money_type_list[$month_key][$val['teacher_money_type_str']],[],0);
+            $money_type_arr = $teacher_money_type_list[$month_key][$val['teacher_money_type_str']];
             \App\Helper\Utils::check_isset_data($money_type_arr['money'],$money);
             \App\Helper\Utils::check_isset_data($money_type_arr['money_simulate'],$money_simulate);
             \App\Helper\Utils::check_isset_data($money_type_arr['reward'],$reward);
@@ -104,7 +104,7 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($money_type_arr['lesson_price'],$lesson_price);
             \App\Helper\Utils::check_isset_data($money_type_arr['lesson_count'],$lesson_count);
             \App\Helper\Utils::check_isset_data($money_type_arr['lesson_price_simulate'],$lesson_price_simulate);
-            $teacher_money_type_list[$month_key][$val['teacher_money_type_simulate_str']]=$money_type_arr;
+            $teacher_money_type_list[$month_key][$val['teacher_money_type_str']]=$money_type_arr;
 
             $all_money                 += $money;
             $all_lesson_price          += $lesson_price;
@@ -131,19 +131,20 @@ class teacher_simulate extends Controller
             "all_lesson_price_simulate"  => round($all_lesson_price_simulate,2),
             "all_money_different"        => round($all_money_different,2),
             "all_lesson_price_different" => round($all_lesson_price_different,2),
-            "level_list"                 => $level_list,
             "acc"                        => $acc,
             "start_time"                 => $start_time,
         ];
+
         //刷新本月的总工资统计
         $this->check_month_redis_key($show_data);
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
-        
 
         $show_data["final_money"]                 = $final_money_list;
         $show_data["all_teacher_money_type_list"] = $all_teacher_money_type_list;
         $show_key = date("Y-m",$start_time);
         $show_data["teacher_money_type_list"]     = $teacher_money_type_list[$show_key];
+        $show_data['level_list'] = $level_list;
+
         $list = \App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$list,$show_data);
     }
@@ -263,16 +264,16 @@ class teacher_simulate extends Controller
         Redis::set($this->has_month_key,json_encode($has_month));
     }
 
-    public function check_all_moeny_redis_key($has_month){
+    public function check_all_money_redis_key($has_month){
         $all_money = [];
         foreach($has_month as $m_key => $m_val){
-            \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['$money']);
-            \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['$money_simulate']);
-            \App\Helper\Utils::check_isset_data($all_money['reward'],$m_val['$reward']);
-            \App\Helper\Utils::check_isset_data($all_money['reward_simulate'],$m_val['$reward_simulate']);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['$lesson_price']);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_count'],$m_val['$lesson_count']);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['$lesson_price_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money']);
+                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['reward'],$m_val['reward']);
+                \App\Helper\Utils::check_isset_data($all_money['reward_simulate'],$m_val['reward_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_count'],$m_val['lesson_count']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate']);
         }
         Redis::set($this->all_money_count_key,json_encode($all_money));
     }
@@ -296,9 +297,9 @@ class teacher_simulate extends Controller
 
     public function del_redis_simulate_money(){
         Redis::del($this->all_teacher_money_type_key);
+        Redis::del($this->all_money_count_key);
         Redis::del($this->teacher_money_type_key);
         Redis::del($this->has_month_key);
-        Redis::del($this->all_money_count_key);
         return $this->output_succ();
     }
 
