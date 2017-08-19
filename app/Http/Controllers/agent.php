@@ -229,13 +229,14 @@ class agent extends Controller
     }
 
     public function check(){
-        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        header("content-type:image/png");
-        $imgg = $this->yuan_img($url);
-        imagepng($imgg);
-        imagedestroy($imgg);
+        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
+        // header("content-type:image/png");
+        // $imgg = $this->yuan_img($url);
+        // imagepng($imgg);
+        // imagedestroy($imgg);
 
-        dd($imgg);
+        // dd($imgg);
+        $this->update_lesson_call_end_time($adminid=335);
     }
 
     public function get_agent_test_lesson($agent_id){
