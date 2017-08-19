@@ -1126,10 +1126,10 @@ class wx_parent_api extends Controller
     // }
 
     public function get_history_for_stu_score_type(){ // 获取学生的历史记录
-        $userid         = $this->get_in_int_val('userid',-1);
+        $parentid       = $this->get_in_int_val('parentid',-1);
         $stu_score_type = $this->get_in_int_val('stu_score_type',-1);
 
-        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($userid,$stu_score_list);
+        $stu_score_list = $this->t_student_score_info->get_stu_score_list_for_score_type($parentid,$stu_score_list);
 
         return $this->output_succ(['data'=>$stu_score_list]);
     }
@@ -1143,15 +1143,30 @@ class wx_parent_api extends Controller
 
     public function deal_paper_upload(){ // 处理家长上传试卷
         $serverId_list = $this->get_in_str_val('serverids');
+
+        $type = $this->get_in_int_val('type'); // 课程类型
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
 
-        $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
-        $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-            "stu_cw_url" => $complaint_img_url
-        ]);
+        /**
+           [和产品待确认]
+           1: 试听课目前可以上传试卷
+           2: 常规课目前可以上传作业
+         **/
+
+        if($type == 2){ // 试听课
+            $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
+                "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
+                "stu_test_paper" => $ret_arr['file_name_origi']
+            ]);
+        }else{ // 常规课
+            $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+            ]);
+        }
 
         if($ret){
             return $this->output_succ();

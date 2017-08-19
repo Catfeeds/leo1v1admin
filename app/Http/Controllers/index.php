@@ -235,7 +235,8 @@ class index extends Controller
                         //正常登录
                     }
                 }
-            }else if ( $tq_uin )  { // tq
+            }else if ( $tq_uin  && false )  { // tq
+
                 $tq_url= "http://passport.sh.tq.cn/check.do?token=$tq_token&uin=$tq_uin";
                 \App\Helper\Utils::logger("TQ:$tq_url");
                 $ch = curl_init();

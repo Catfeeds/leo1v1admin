@@ -281,6 +281,7 @@ class NewRouteConfig {
         "/tea_manage/get_train_lesson_user"        => true,
         "/tea_manage/train_lesson_list"            => true,
         "/tea_manage/train_lesson_list_research"   => true,
+        "/tea_manage/train_lesson_list_fulltime"   => true,
         "/tea_manage/get_open_course_list_for_js"  => true,
         "/tea_manage/get_open_package_list_for_js" => true,
         "/tea_manage/get_open_from_list_for_js"    => true,

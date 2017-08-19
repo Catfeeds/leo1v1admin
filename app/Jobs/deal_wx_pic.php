@@ -48,8 +48,6 @@ class deal_wx_pic extends Job implements ShouldQueue
      */
     public function handle()
     {
-        \App\Helper\Utils::logger('job JIM');
-
         //
         $lessonid            =  $this->lessonid ;
         $serverId_str        =  $this->serverid_list;
@@ -77,7 +75,6 @@ class deal_wx_pic extends Job implements ShouldQueue
         }
 
         foreach($serverIdLists as $serverId){
-            \App\Helper\Utils::logger("xunhuakaishi:$serverId");
             $imgStateInfo = $this->savePicToServer($serverId);
 
             $savePathFile = $imgStateInfo['savePathFile'];
@@ -85,7 +82,6 @@ class deal_wx_pic extends Job implements ShouldQueue
             $alibaba_url_origi[] = $savePathFile;
 
             $file_name = $this->put_img_to_alibaba($savePathFile);
-            \App\Helper\Utils::logger("JIM urlxx $serverId $savePathFile  $file_name ");
 
             $alibaba_url[] = $file_name ;
         }
@@ -103,11 +99,7 @@ class deal_wx_pic extends Job implements ShouldQueue
 
             $ret_tar = \App\Helper\Utils::exec_cmd($cmd);
 
-            \App\Helper\Utils::logger("tar_name:$tar_name");
-
             $file_name_origi = $this->put_img_to_alibaba($tar_name);
-
-            \App\Helper\Utils::logger("file_name_origi_str_two:$file_name_origi");
 
             $ret = $t_test_lesson_subject->save_pic_compress_url($lessonid, $file_name_origi);
 

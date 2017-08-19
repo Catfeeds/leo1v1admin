@@ -25,75 +25,76 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_reset_money_count"> 重置统计信息</button>
+                    <button class="btn btn-primary" id="id_reset_money_count">清空统计信息</button>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-primary" id="id_reset_level_count">重置等级信息</button>
                 </div>
             </div>
             @if(in_array($acc,["adrian","ted"]))
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <div class="input-group ">
-                            <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
-                            <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
-                            <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
-                            <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
-                            <span class="input-group-addon">总工资差别:{{@$all_money_different}}</span>
-                            <span class="input-group-addon">课程收入差别:{{@$all_lesson_price_different}}</span>
-                        </div>
-                    </div>
-                </div>
-                @if(!empty($final_money) && is_array($final_money))
-                    <div class="row">
-                        <div class="col-xs-6 col-md-6">
-                            <div class="input-group ">
-                                <span class="input-group-addon">统计总工资:{{@$final_money['all_money']}}</span>
-                                <span class="input-group-addon">统计总课程收入:{{@$final_money['all_lesson_price']}}</span>
-                                <span class="input-group-addon">统计模拟总工资:{{@$final_money['all_money_simulate']}}</span>
-                                <span class="input-group-addon">统计模拟课程收入:{{@$final_money['all_lesson_price_simulate']}}</span>
-                                <span class="input-group-addon">统计总工资差别:{{@$final_money['all_money_different']}}</span>
-                                <span class="input-group-addon">统计课程收入差别:{{@$final_money['all_lesson_price_different']}}</span>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                <table class="common-table">
+                    <tr>
+                        <td></td>
+                        <td>总工资</td>
+                        <td>课程收入</td>
+                        <td>模拟工资</td>
+                        <td>模拟收入</td>
+                        <td>总工资差别</td>
+                        <td>总收入差别</td>
+                    </tr>
+                    <tr>
+                        <td>本月统计</td>
+                        <td>{{@$all_money}}</td>
+                        <td>{{@$all_lesson_price}}</td>
+                        <td>{{@$all_money_simulate}}</td>
+                        <td>{{@$all_lesson_price_simulate}}</td>
+                        <td>{{@$all_money_different}}</td>
+                        <td>{{@$all_lesson_price_different}}</td>
+                    </tr>
+                    @if(!empty($final_money) && is_array($final_money))
+                        <tr>
+                            <td>1-7月统计</td>
+                            <td>{{@$final_money['all_money']}}</td>
+                            <td>{{@$final_money['all_lesson_price']}}</td>
+                            <td>{{@$final_money['all_money_simulate']}}</td>
+                            <td>{{@$final_money['all_lesson_price_simulate']}}</td>
+                            <td>{{@$final_money['all_money_different']}}</td>
+                            <td>{{@$final_money['all_lesson_price_different']}}</td>
+                        </tr>
+                    @endif
+                </table>
             @endif
-            <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <div class="input-group ">
-                        <span class="input-group-addon">
-                            工资成本:
-                            {{round($all_money/$all_lesson_price,2)*100}}%
-                        </span>
-                        <span class="input-group-addon">
-                            模拟工资成本:
-                            {{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <div class="input-group ">
-                        <span class="input-group-addon">
-                            统计工资成本:
-                            {{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%
-                        </span>
-                        <span class="input-group-addon">
-                            统计模拟工资成本:
-                            {{round($final_money['all_money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <div class="input-group ">
-                        @foreach($level_list as $l_key => $l_val)
-                            <span class="input-group-addon">{{$l_key}}:{{$l_val['level_num']}}
-                                | {{round($l_val['level_per'],2)*100}}%</span>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+            <table class="common-table">
+                <tr>
+                    <td></td>
+                    <td>工资成本</td>
+                    <td>模拟工资成本</td>
+                </tr>
+                <tr>
+                    <td>本月全部老师</td>
+                    <td>{{round($all_money/$all_lesson_price,2)*100}}%</td>
+                    <td>{{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%</td>
+                </tr>
+                <tr>
+                    <td>1-7月全部老师</td>
+                    <td>{{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%</td>
+                    <td>{{round($final_money['all_money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%</td>
+                </tr>
+            </table>
+            <table class="common-table">
+                <tr>
+                    <td>等级</td>
+                    <td>人数</td>
+                    <td>占比</td>
+                </tr>
+                @foreach($level_list as $l_key => $l_val)
+                    <tr>
+                        <td>{{$l_key}}</td>
+                        <td>{{$l_val['level_num']}}</td>
+                        <td>{{round($l_val['level_per'],2)*100}}%</td>
+                    </tr>
+                @endforeach
+            </table>
         <hr />
         </div>
         <hr/>

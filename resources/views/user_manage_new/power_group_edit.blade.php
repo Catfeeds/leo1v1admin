@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app_new2')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg.js?v={{@$_publish_version}}"></script>
     <style >
-     .icheckbox_minimal.has_same{
-         background-position: -140px 0;
+     .icheckbox_flat-green.has_same{
+         background-position: -110px 0;
      }
     </style>
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>

@@ -835,7 +835,7 @@ class tongji2 extends Controller
         return $this->ass_month_kpi_tongji();
 
     }
-
+   
     public function ass_month_kpi_tongji(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
@@ -967,13 +967,16 @@ class tongji2 extends Controller
 
             }
 
-
+            
         }
-        foreach($ass_list as $v){  
-            $flag[] = $v['people_per'];  
-        }  
+        if(!empty($ass_list)){
+            foreach($ass_list as $v){  
+                $flag[] = $v['people_per'];  
+            }  
   
-        array_multisort($flag, SORT_DESC, $ass_list);          
+        
+            array_multisort($flag, SORT_DESC, $ass_list);
+        }
         return $this->pageView(__METHOD__,null,["ass_list"=>$ass_list]);
     }
     
@@ -1041,6 +1044,14 @@ class tongji2 extends Controller
         $ret_info=$this->t_admin_card_log->get_list( null, $start_time,$end_time,-1,0);
 
     }
+
+    public function tongji_lesson_teacher_identity(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        
+        $ret_info = $this->t_teacher_info->get_lesson_teacher_identity_info($start_time,$end_time);
+        dd($ret_info);
+    }
+
 
 
 }

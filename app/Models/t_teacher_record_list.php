@@ -539,7 +539,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=10",
             ["tr.acc= '%s'",$account,""],
             ["ttt.teacherid = %u",$teacher_account,-1],
-            ["t.identity = %u",$identity,-1],
+            ["taa.teacher_type = %u",$identity,-1],
             "(tr.acc is not null && tr.acc <> '')",
             "tr.trial_train_status =1"
         ];
@@ -566,6 +566,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   // ." left join %s tt on t.phone_spare = tt.phone"
                                   ." left join %s m on m.account = tr.acc "
                                   ." left join %s ttt on m.phone = ttt.phone "
+                                  ." left join %s taa on t.phone = taa.phone "
                                   ." where %s and t.teacherid>0 ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
@@ -574,6 +575,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
                                   //t_teacher_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );
         $arr = $this->main_get_list($sql);
@@ -681,6 +683,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.lesson_start <= %u",$end_time,-1],
             //  "(tr.acc <> 'adrian' && tr.acc <> 'alan' && tr.acc <> 'jack')",
             "tr.type=10",
+            "tt.teacherid <> 224514",
             ["tr.trial_train_status=%u",$trial_train_status,-1]
         ];
         $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,l.subject,count(*) all_num,l.grade grade_ex "
@@ -708,18 +711,16 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["tr.trial_train_status=%u",$trial_train_status,-1]
         ];
         $sql = $this->gen_sql_new("select count(distinct tt.phone_spare) all_count,l.subject,count(*) all_num,"
-                                  ." tt.identity identity_ex "
+                                  ." tal.teacher_type identity_ex "
                                   ." from %s tr left join %s ta on tr.train_lessonid = ta.lessonid "
                                   ." left join %s tt on ta.userid = tt.teacherid "
                                   ." left join %s l on tr.train_lessonid = l.lessonid"
-                                  ." left join %s tal on tt.phone_spare = tal.phone and not exists ("
-                                  ." select 1 from %s taa where taa.phone=tal.phone and tal.answer_begin_time<taa.answer_begin_time)"
+                                  ." left join %s tal on tt.phone = tal.phone "
                                   ." where %s and l.subject>0 group by identity_ex ",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
-                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   $where_arr
         );

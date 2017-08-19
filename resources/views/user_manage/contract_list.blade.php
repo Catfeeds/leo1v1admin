@@ -271,7 +271,6 @@
                                 <a class="fa-arrow-right  opt-next " title="课时包详情"> </a>
                                 <a class="fa-link opt-relation-order" title="关联的合同信息"> </a>
                                 <a class="opt-set-origin" title="设置对应的试听课">试听</a>
-                                <a class="fa opt-flow-def-list fa-facebook-square" title="审核预期流程" >   </a>
                                 <a class="fa opt-flow-node-list fa-facebook" title="审核进度"></a>
                                 <a class="fa opt-get_package_time fa-gift" title="发放礼包时间"></a>
                                 <a class="opt-from-data" title="外部订单信息">外</a>

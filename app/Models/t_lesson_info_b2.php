@@ -1083,7 +1083,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start>%u",$start_time,0],
             ["lesson_start<%u",$end_time,0],
             "lesson_type=1100",
-            "train_type=1",
+            "l.train_type=1",
             "is_test_user=0",
         ];
         $through_arr = [
@@ -1837,7 +1837,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start<=%d",$end_time, -1 ] ,
             ["l.lesson_type in (%s)",$lesson_type_in_str, "" ] ,
             ["l.userid=%u",$userid, -1 ] ,
-            ["l.teacherid=%u",$teacherid, 0 ] ,
+            //["l.teacherid=%u",$teacherid, 0 ] ,
             "l.lesson_del_flag=0",
         ];
 

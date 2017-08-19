@@ -100,6 +100,7 @@ interface JQueryStatic {
     //<script type="text/javascript" src="/page_js/lib/flow.js"></script>
     flow_show_define_list( flowid );
     flow_show_node_list(flowid);
+    flow_show_all_info(flowid);
     check_power( powerid: number  ):boolean;
 }
 
@@ -143,7 +144,7 @@ interface JQuery {
     admin_select_dlg(conf:Object):void;
     select_date_range(conf:Object):void;
 
-    iCheck(str:string):JQuery;
+    iCheck(str:any):JQuery;
 
     iCheckValue():any;
 
