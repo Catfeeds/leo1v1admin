@@ -66,7 +66,7 @@
             @endif
             <table class="common-table">
                 <tr>
-                    <td></td>
+                    <td>本月</td>
                     <td>工资成本</td>
                     <td>模拟工资成本</td>
                 </tr>
@@ -75,11 +75,32 @@
                     <td>{{round($all_money/$all_lesson_price,2)*100}}%</td>
                     <td>{{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%</td>
                 </tr>
+                @foreach($teacher_money_type_list as $key=>$val)
+                <tr>
+                    <td>{{$key}}</td>
+                    <td>{{round($val['money']/$val['lesson_price'],2)*100}}%</td>
+                    <td>{{round($val['money_simulate']/$val['lesson_price_simulate'],2)*100}}%</td>
+                </tr>
+                @endforeach
+            </table>
+            <table class="common-table">
+                <tr>
+                    <td>1-7月</td>
+                    <td>工资成本</td>
+                    <td>模拟工资成本</td>
+                </tr>
                 <tr>
                     <td>1-7月全部老师</td>
                     <td>{{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%</td>
                     <td>{{round($final_money['all_money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%</td>
                 </tr>
+                @foreach($all_teacher_money_type_list as $key=>$val)
+                <tr>
+                    <td>{{$key}}</td>
+                    <td>{{round($val['money']/$val['lesson_price'],2)*100}}%</td>
+                    <td>{{round($val['money_simulate']/$val['lesson_price_simulate'],2)*100}}%</td>
+                </tr>
+                @endforeach
             </table>
             <table class="common-table">
                 <tr>
