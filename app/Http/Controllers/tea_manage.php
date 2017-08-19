@@ -1490,7 +1490,10 @@ class tea_manage extends Controller
     }
 
     public function train_lesson_list_fulltime(){
-         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        $page_num        = $this->get_in_page_num();
+        return $this->pageView(__METHOD__,null);
+
     }
     public function train_lesson_list_research(){
         return $this->train_lesson_list();

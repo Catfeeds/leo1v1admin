@@ -28,23 +28,32 @@
                     <button class="btn btn-primary" id="id_reset_money_count">清空统计信息</button>
                 </div>
                 <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_reset_money_count">清空统计信息</button>
+                    <button class="btn btn-primary" id="id_reset_level_count">重置等级信息</button>
                 </div>
             </div>
             @if(in_array($acc,["adrian","ted"]))
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <div class="input-group ">
-                            <span class="input-group-addon">本月全部老师</span>
-                            <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
-                            <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
-                            <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
-                            <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
-                            <span class="input-group-addon">总工资差别:{{@$all_money_different}}</span>
-                            <span class="input-group-addon">课程收入差别:{{@$all_lesson_price_different}}</span>
+                <table class="common-table">
+                    <tr>
+                        <td></td>
+                        <td>本月统计</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="input-group ">
+                                <span class="input-group-addon">本月全部老师</span>
+                                <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
+                                <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
+                                <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
+                                <span class="input-group-addon">模拟课程收入:{{@$all_lesson_price_simulate}}</span>
+                                <span class="input-group-addon">总工资差别:{{@$all_money_different}}</span>
+                                <span class="input-group-addon">课程收入差别:{{@$all_lesson_price_different}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </table>
                 @if(!empty($final_money) && is_array($final_money))
                     <div class="row">
                         <div class="col-xs-6 col-md-6">

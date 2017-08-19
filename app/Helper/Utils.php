@@ -1432,18 +1432,35 @@ class Utils  {
     {
         $serverIdLists = json_decode($serverId_str,true);
         $alibaba_url   = [];
+        $alibaba_url_origi = [];
+
+        $ret = [];
 
         foreach($serverIdLists as $serverId){
             $imgStateInfo = $this->savePicToServer($serverId);
             $savePathFile = $imgStateInfo['savePathFile'];
             $file_name = $this->put_img_to_alibaba($savePathFile);
-
+            $alibaba_url_origi[] = $savePathFile;
             $alibaba_url[] = $file_name ;
             unlink($savePathFile);
         }
 
-        $alibaba_url_str = implode(',',$alibaba_url);
-        return $alibaba_url_str;
+        $ret['alibaba_url_str'] = implode(',',$alibaba_url);
+
+        // 原始图片处理压缩包
+        if ( count($serverIdLists)>1) {
+            $alibaba_url_str_compress = implode(' ',$alibaba_url_origi);
+            $tar_name  = "/tmp/".md5(date('YmdHis').rand()).".tar.gz";
+            $cmd       = "tar -cvzf $tar_name $alibaba_url_str_compress ";
+            $ret_tar   = \App\Helper\Utils::exec_cmd($cmd);
+            $ret['file_name_origi'] = $this->put_img_to_alibaba($tar_name);
+            @unlink($tar_name);
+            foreach($alibaba_url_origi as $item_orgi){
+                @unlink($item_orgi);
+            }
+        }
+
+        return $ret;
     }
 
 
