@@ -138,11 +138,6 @@
                                id="id_user_name" placeholder="姓名,手机号,QQ,科目,年级段,教材,院校,师资 回车查找"/>
                     </div>
                 </div>               
-                <div class="col-md-2 col-xs-6">
-                    <div>
-                        <button class="btn btn-primary" id="id_upload_csv_cp">上传教师试讲预约csv</button>
-                    </div>
-                </div>
                 <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
@@ -179,7 +174,7 @@
                     <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
-                    <td>审核状态</td>
+                    <td width="300px">审核状态</td>
                     @if($show_full_time==0)
                         <td >推荐人</td>
                         <td>回访状态</td>
@@ -188,7 +183,8 @@
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
-                    <td>操作</td>
+                    <td width="100px">客户端版本</td>
+                    <td width="100px">操作</td>
                 </tr>
             </thead>
             <tbody>
@@ -236,6 +232,7 @@
                                 @endif
                             </td>
                         @endif
+                        <td>{{@$var["user_agent"]}} </td>
                         <td>
                             <div {!! \App\Helper\Utils::gen_jquery_data($var) !!} >
                                 <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
