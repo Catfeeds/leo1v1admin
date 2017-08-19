@@ -3659,16 +3659,7 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
-    public function stu_lesson_info() {
-        $this->switch_tongji_database();
-        $user_name = trim($this->get_in_str_val('user_name',''));
-        $page_num  = $this->get_in_page_num();
-        $ret_info  = $this->t_lesson_info_b2->get_student_lesson( $page_num,$user_name);
-        return $this->Pageview(__METHOD__,$ret_info);
-
-    }
-
-    public function merge_order(){
+   public function merge_order(){
         $orderid      = $this->get_in_int_val("orderid");
         $orderid_goal = $this->get_in_int_val("orderid_goal");
         $acc          = $this->get_account();
