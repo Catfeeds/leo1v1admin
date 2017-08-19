@@ -88,7 +88,8 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
     public function get_all_info($page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
                                  $user_name,$status,$adminid=-1,$record_status=-1,$grade=-1,$subject=-1,
                                  $teacher_ref_type,$interview_type=-1,$have_wx=-1, $lecture_revisit_type=-1,
-                                 $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1
+                                 $full_time=-1, $lecture_revisit_type_new=-1,$fulltime_teacher_type=-1,
+                                 $accept_adminid=-1
     ){
         $where_arr = [
             ["answer_begin_time>=%u", $start_time, -1 ],
@@ -97,6 +98,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["t.teacherid=%u", $teacherid, -1 ],
             ["la.accept_adminid=%u", $adminid, -1 ],
             ["la.full_time=%u", $full_time, -1 ],
+            ["la.accept_adminid=%u", $accept_adminid, -1 ],
         ];
         if($lecture_revisit_type==5){
             $where_arr[] = "(la.lecture_revisit_type=5 or ta.lesson_start>0)";

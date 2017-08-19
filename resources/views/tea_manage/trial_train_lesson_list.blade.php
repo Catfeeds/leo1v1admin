@@ -118,7 +118,7 @@
                                     @if($var["trial_train_status"]>0)
                                         <a class="opt-confirm-score" title="审核详情">审核详情</a>
                                     @endif
-                                    @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen"]))
+                                    @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen","wander"]))
                                         <a class="opt-reset-acc" >重置审核人</a>
                                     @endif
                                     <a class="opt-set-new-lesson" >视频出错</a>

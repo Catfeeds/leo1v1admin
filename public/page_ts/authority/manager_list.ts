@@ -741,4 +741,17 @@ $(function(){
         window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
     });
 
+    $(".opt-set-train-through-time").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要同步老师档案入职时间吗?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/set_teacher_train_through_info', {
+                    'phone' : opt_data.phone,
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+
+    });
+
 });

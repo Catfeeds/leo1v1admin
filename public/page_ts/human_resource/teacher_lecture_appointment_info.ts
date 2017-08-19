@@ -4,23 +4,24 @@ $(function(){
     function load_data(){
         $.reload_self_page ({
             date_type                  : $('#id_date_type').val(),
-			      opt_date_type              : $('#id_opt_date_type').val(),
-			      start_time                 : $('#id_start_time').val(),
-			      end_time                   : $('#id_end_time').val(),
+			opt_date_type              : $('#id_opt_date_type').val(),
+			start_time                 : $('#id_start_time').val(),
+			end_time                   : $('#id_end_time').val(),
             lecture_appointment_status : $('#id_lecture_appointment_status').val(),
             teacherid                  : $('#id_teacherid').val(),
-			      user_name                  : $('#id_user_name').val(),
-			      status                     : $('#id_status').val(),
-			      record_status              : $('#id_record_status').val(),
-			      grade                      : $('#id_grade').val(),
-			      subject                    : $('#id_subject').val(),
-			      teacher_ref_type           : $('#id_teacher_ref_type').val(),
-			      interview_type             : $('#id_interview_type').val(),
-			      lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
-			      lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
-			      have_wx                    : $('#id_have_wx').val(),
-			      full_time                  : $('#id_full_time').val(),
-			      fulltime_teacher_type                  : $('#id_fulltime_teacher_type').val(),
+			user_name                  : $('#id_user_name').val(),
+			status                     : $('#id_status').val(),
+			record_status              : $('#id_record_status').val(),
+			grade                      : $('#id_grade').val(),
+			subject                    : $('#id_subject').val(),
+			teacher_ref_type           : $('#id_teacher_ref_type').val(),
+			interview_type             : $('#id_interview_type').val(),
+			lecture_revisit_type       : $('#id_lecture_revisit_type').val(),
+			lecture_revisit_type_new   : $('#id_lecture_revisit_type_new').val(),
+			have_wx                    : $('#id_have_wx').val(),
+			full_time                  : $('#id_full_time').val(),
+			fulltime_teacher_type                  : $('#id_fulltime_teacher_type').val(),
+			accept_adminid:	$('#id_accept_adminid').val(),
         });
     }
 
@@ -70,6 +71,7 @@ $(function(){
 	$('#id_lecture_revisit_type').val(g_args.lecture_revisit_type);
 	$('#id_lecture_revisit_type_new').val(g_args.lecture_revisit_type_new);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+	$('#id_accept_adminid').val(g_args.accept_adminid);
     $.enum_multi_select($("#id_teacher_ref_type"),"teacher_ref_type", function( ){
         load_data();
     });
@@ -78,6 +80,10 @@ $(function(){
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 
     $('.opt-change').set_input_change_event(load_data);
+    $.admin_select_user(
+        $('#id_accept_adminid'),
+        "admin", load_data,false,{"main_type":8});
+
     
     var upload_func = function(id,url) {
         var j_uploader = new plupload.Uploader({

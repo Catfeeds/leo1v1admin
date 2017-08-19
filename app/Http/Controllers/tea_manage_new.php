@@ -29,7 +29,7 @@ class tea_manage_new extends Controller
         }
 
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");
-        if ( !$this->check_account_in_arr( ["jim","fly","adrian"] ) ) {
+        if ( !$this->check_account_in_arr( ["jim","fly","adrian","low-key"] ) ) {
             return $this->output_err("没有权限:". $account);
         }
 

@@ -64,7 +64,7 @@ class wx_parent_api extends Controller
 
         $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid);
         foreach ($ret_list as &$item ) {
-
+            $item['is_modify_time_flag'] = $item['is_modify_time_flag']?1:0;
             $lesson_num= $item["lesson_num"];
             $lessonid= $item["lessonid"];
             $userid= $item["userid"];

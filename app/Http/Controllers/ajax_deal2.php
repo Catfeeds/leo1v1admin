@@ -665,4 +665,16 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function set_teacher_train_through_info(){
+        $phone           = $this->get_in_str_val('phone'); 
+        $adminid = $this->get_in_int_val("adminid");
+        $create_time = $this->t_manager_info->get_create_time($adminid);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "train_through_new"   =>1,
+            "train_through_new_time"=>$create_time
+        ]);
+        return $this->output_succ();
+    }
+
 }
