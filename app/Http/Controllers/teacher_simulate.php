@@ -180,8 +180,9 @@ class teacher_simulate extends Controller
         $key = "test_a";
         $check_a = Redis::get($key);
         if($check_a===null){
-            
+            Redis::set($key,$a);
         }
+        var_dump($check_a);exit;
     }
 
 
