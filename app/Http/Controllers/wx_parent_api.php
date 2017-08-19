@@ -1087,6 +1087,7 @@ class wx_parent_api extends Controller
 
 
 
+    // 家长微信端上传试卷
     public function input_student_score (){ //家长录入学生成绩
         $score   = $this->get_in_int_val('score');
         $subject = $this->get_in_int_val('subject');

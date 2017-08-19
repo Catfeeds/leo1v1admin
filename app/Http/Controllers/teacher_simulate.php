@@ -106,7 +106,7 @@ class teacher_simulate extends Controller
             $l_val['lesson_price_different'] = round(($l_val['lesson_price_simulate']-$l_val['lesson_price']),2);
         }
 
-        $level_list = json_decode(Redis::get("level_simulate_count"));
+        $level_list = json_decode(Redis::get("level_simulate_count"),true);
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
