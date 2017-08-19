@@ -112,13 +112,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new(
             "select  tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
-            ." lesson_type,lesson_num"
+            ." lesson_type,lesson_num, tlm.is_modify_time_flag"
             ." from %s l "
             ." join %s pc on l.userid = pc.userid "
             ." left join %s tl on  (tl.lessonid = l.lessonid  and label_origin =1 ) "
             ." left join %s tss  on  tss.lessonid= l.lessonid "
             ." left join %s tsr  on  tsr.require_id = tss.require_id "
             ." left join %s tls  on  tls.test_lesson_subject_id= tsr.test_lesson_subject_id "
+            ." left join %s tlm on tlm.lessonid=l.lessonid"
             ." where %s  order by lesson_start desc "
             ,self::DB_TABLE_NAME
             ,t_parent_child::DB_TABLE_NAME
@@ -126,6 +127,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
+            ,t_lesson_time_modify::DB_TABLE_NAME
             ,$where_arr
         );
 

@@ -18,6 +18,7 @@ class teacher_simulate extends Controller
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
         $level              = $this->get_in_int_val("level",-1);
+        $acc                = $this->get_account();
 
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
             $start_time,$end_time,$teacher_money_type,$level,$teacher_id
@@ -35,6 +36,7 @@ class teacher_simulate extends Controller
             $tea_arr                   = $list[$teacherid];
             $tea_arr["teacherid"]      = $teacherid;
             $tea_arr["level_simulate"] = $val["level_simulate"];
+
             E\Eteacher_money_type::set_item_value_str($val);
             E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
             E\Elevel::set_item_value_str($val);
@@ -103,6 +105,8 @@ class teacher_simulate extends Controller
             $l_val['money_different']        = round(($l_val['money_simulate']-$l_val['money']),2);
             $l_val['lesson_price_different'] = round(($l_val['lesson_price_simulate']-$l_val['lesson_price']),2);
         }
+        $level_list = Redis::get("level_list");
+
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
@@ -114,6 +118,8 @@ class teacher_simulate extends Controller
             "all_lesson_price_simulate"  => round($all_lesson_price_simulate,2),
             "all_money_different"        => round($all_money_different,2),
             "all_lesson_price_different" => round($all_lesson_price_different,2),
+            "level_list"                 => $level_list,
+            "account"                    => $account,
         ]);
     }
 
@@ -168,5 +174,8 @@ class teacher_simulate extends Controller
         }
         return $this->output_succ();
     }
+
+    
+
 
 }
