@@ -222,7 +222,8 @@ class teacher_simulate extends Controller
     public function check_month_redis_key($data){
         $month_key = date("Y-m",$data['start_time']);
         $now_month_key = date("Y-m",time());
-        if($month_key==$now_month_key){
+        $check_time    = strtotime("2017-1-1");
+        if($month_key==$now_month_key || $data['start_time']<$check_time){
             return true;
         }
 
@@ -256,6 +257,7 @@ class teacher_simulate extends Controller
     public function del_redis_simulate_money(){
         Redis::del($this->has_month_key);
         Redis::del($this->all_money_count_key);
+        return $this->output_succ();
     }
 
 

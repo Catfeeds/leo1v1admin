@@ -3,6 +3,11 @@
 
 $(function(){
 
+
+    $("input[type=\"checkbox\"]").iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass   : 'iradio_flat-green'
+    });
     var reload_data=function() {
         $.reload_self_page( {
 			      show_flag:	$('#id_show_flag').val(),
@@ -37,7 +42,7 @@ $(function(){
 
     $("#id_show_power").on("click",function(){
         $(this).closest("table").find(" tbody tr ").hide();
-        var $checked_list=$(".icheckbox_minimal.checked");
+        var $checked_list=$(".icheckbox_flat-green.checked");
         $.each($checked_list,function(){
             var $item = $(this);
             var $td   = $item.parent();
@@ -120,7 +125,7 @@ $(function(){
 
     $("#id_submit_power").on("click",function(){
 
-        var $checked_list=$(".icheckbox_minimal.checked");
+        var $checked_list=$(".icheckbox_flat-green.checked");
 
         var power_list=[];
         $.each($checked_list,function(){
@@ -129,6 +134,7 @@ $(function(){
                 power_list.push(powerid);
             }
         });
+
        var power_list_str=power_list.join(",");
         $.do_ajax("/user_manage_new/set_group_power", {
             "groupid" :g_args.groupid,
@@ -255,6 +261,7 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         $.do_ajax("/user_deal/set_reload_power_time",{});
     });
+
 
 
 

@@ -61,6 +61,32 @@ $(function(){
 
     });
 
+    $("#id_reset_money_count").on("click",function(){
+	      BootstrapDialog.show({
+	          title   : "清除统计信息",
+	          message : "是否清除统计信息?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_simulate/del_redis_simulate_money",{
+                    },function(result){
+                        if(result.ret==0){
+                            dialog.close();
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+
+    });
 
 
 	  $('.opt-change').set_input_change_event(load_data);

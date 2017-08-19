@@ -26,6 +26,7 @@
                     <td>班级排名</td>
                     <td>年级排名</td>
                     <td>试卷</td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -55,7 +56,6 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-edit opt-edit"  title="修改信息"></a>
-                                <a class="fa fa-trash-o opt-del" title="删除信息"></a>
                             </div>
                         </td>
                     </tr>

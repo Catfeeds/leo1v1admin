@@ -265,7 +265,7 @@ $(function(){
             id_teacher.append("是否启用批量平铺功能");
             id_teacher.append(id_tea_cw_pic);
 
-            Enum_map.append_option_list("boolean",id_tea_cw_pic,true);
+            //Enum_map.append_option_list("boolean",id_tea_cw_pic,true);
             id_tea_cw_pic.val(tea_cw_pic_flag);
 
             id_pdf_question_count.val(opt_data.pdf_question_count);
@@ -430,10 +430,10 @@ $(function(){
         var point_stu_desc      = '';
         var point_stu_desc2     = '';
 
-        Enum_map.append_option_list( "performance", $total_judgement,true);
-        Enum_map.append_option_list( "homework_situation", $homework_situation,true);
-        Enum_map.append_option_list( "content_grasp", $content_grasp,true);
-        Enum_map.append_option_list( "lesson_interact", $lesson_interact,true);
+        //Enum_map.append_option_list( "performance", $total_judgement,true);
+        //Enum_map.append_option_list( "homework_situation", $homework_situation,true);
+        //Enum_map.append_option_list( "content_grasp", $content_grasp,true);
+        //Enum_map.append_option_list( "lesson_interact", $lesson_interact,true);
 
         $.do_ajax("/tea_manage/get_stu_performance",{
             "lessonid":lessonid

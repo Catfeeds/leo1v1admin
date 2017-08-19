@@ -24,6 +24,9 @@
                         <select id="id_level" class ="opt-change" ></select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-primary" id="id_reset_money_count">重置统计信息</button>
+                </div>
             </div>
             @if(in_array($acc,["adrian","ted"]))
                 <div class="row">
@@ -56,8 +59,31 @@
             <div class="row">
                 <div class="col-xs-6 col-md-6">
                     <div class="input-group ">
-                        <span class="input-group-addon">工资成本:{{round($all_money/$all_lesson_price,2)*100}}%</span>
-                        <span class="input-group-addon">模拟工资成本:{{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%</span>
+                        <span class="input-group-addon">
+                            工资成本:
+                            {{round($all_money/$all_lesson_price,2)*100}}%
+                        </span>
+                        <span class="input-group-addon">
+                            模拟工资成本:
+                            {{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <div class="input-group ">
+                        <span class="input-group-addon">
+                            1-7月全部老师:
+                        </span>
+                        <span class="input-group-addon">
+                            统计工资成本:
+                            {{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%
+                        </span>
+                        <span class="input-group-addon">
+                            统计模拟工资成本:
+                            {{round($final_money['all_money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%
+                        </span>
                     </div>
                 </div>
             </div>
