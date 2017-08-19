@@ -317,7 +317,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         $where_arr=[
             "phone"=> $phone,
             "start_time> $start_time",
-            "m.account_role=2 ", // cc E\Eaccount_role
+            "m.account_role <>7 ", // cc E\Eaccount_role
         ];
         $sql= $this->gen_sql_new(
             "select count( distinct uid ) from tq.%s tq"
