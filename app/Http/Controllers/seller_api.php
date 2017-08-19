@@ -398,6 +398,8 @@ no_confirm_count,"课程未确认数"
     }
 
     public function get_new_seller_student_list_for_grab(){
+        return $this->output_err("关闭");
+
         $c=new seller_student_new();
         $ret_arr=$c->get_new_list_data();
         $list = $ret_arr["ret_info"]["list"];

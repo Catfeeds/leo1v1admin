@@ -25,7 +25,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             ["phone='%s'",$phone,""]
         ];
-        $sql = $this->gen_sql_new("select appointment_id"
+        $sql = $this->gen_sql_new("select id"
                                   ." from %s "
                                   ." where %s "
                                   ,self::DB_TABLE_NAME
@@ -175,7 +175,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ];
         }
 
-        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,"
+        $sql = $this->gen_sql_new("select la.id,la.name,la.phone,la.email,la.textbook,la.school,tt.train_through_new_time,"
                                   ." la.grade_ex,la.subject_ex,la.trans_grade_ex,la.trans_subject_ex,grade_1v1,trans_grade_1v1,"
                                   ." la.teacher_type,la.custom,la.self_introduction_experience,la.full_time,"
                                   ." la.lecture_appointment_status,la.reference,la.answer_begin_time,la.answer_end_time,"
@@ -184,7 +184,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"
-                                  ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,"
+                                  ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,tt.user_agent,la.hand_flag,"
                                   ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info"
                                   ." from %s la"
                                   ." left join %s l on l.phone=la.phone and not exists ("

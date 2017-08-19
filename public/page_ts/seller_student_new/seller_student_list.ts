@@ -76,6 +76,9 @@ $(function(){
     $(".opt-refresh-call").on("click",function(){
         var me=this;
         var opt_data=$(this).get_opt_data();
+        $.do_ajax("/ss_deal/sync_tq", {
+            "phone": opt_data.phone,
+        });
         if(opt_data.lessonid){
             $.do_ajax("/seller_student_new/refresh_call_end",{
                 "lessonid" : opt_data.lessonid,
@@ -247,171 +250,172 @@ $(function(){
 
 
         //提交签单失败原因
-        // var set_select_option_list=function(){
-        //     $("body").on("change","#edit_flag_one",function(){
-        //         if($('#edit_flag_one').val() == 0){
-        //             $('#edit_flag').html("<option value='0'>未设置</option>");
-        //         }else{
-        //             Enum_map.append_child_option_list("test_lesson_order_fail_flag", $(this),$("#edit_flag"),true);
-        //         }
-        //     });
-        // };
-        // set_select_option_list();
-        // $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
-        // } ,function(ret){
-        //     if(ret.require_id){
-        //         window.location.href="http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller"; 
-        //         var opt_data=ret;
-        //         var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
-        //         var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");
-        //         var $test_lesson_order_fail_desc =$("<textarea/>");
-        //         var arr=[
-        //             ["上课时间", opt_data.lesson_start ] ,
-        //             ["学生", opt_data.student_nick ] ,
-        //             ["老师", opt_data.teacher_nick] ,
-        //             ["签约失败一级分类", $test_lesson_order_fail_flag_one ] ,
-        //             ["签约失败二级分类", $test_lesson_order_fail_flag ] ,
-        //             ["签约失败说明", $test_lesson_order_fail_desc ] ,
-        //         ];
-        //         Enum_map.append_option_list("test_lesson_order_fail_flag_one",$test_lesson_order_fail_flag_one, true);
-        //         if(opt_data.test_lesson_order_fail_flag_one == 0){
-        //             $test_lesson_order_fail_flag.html("<option value='0'>未设置</option>");
-        //         }else{
-        //             Enum_map.append_child_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag_one,$("#edit_flag"),true);
-        //         }
-        //         // Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
-        //         $test_lesson_order_fail_flag_one.val( opt_data.test_lesson_order_fail_flag_one);
-        //         $test_lesson_order_fail_flag.val( opt_data.test_lesson_order_fail_flag);
-        //         $test_lesson_order_fail_desc.val( opt_data.test_lesson_order_fail_desc);
-        //         var dlg=$.show_key_value_table( "签约失败设置", arr , {
-        //             label: '确认',
-        //             cssClass: 'btn-warning',
-        //             action: function(dialog) {
-        //                 $.do_ajax( "/ss_deal/set_order_fail_info", {
-        //                     "require_id" : opt_data.require_id,
-        //                     "test_lesson_order_fail_flag" : $test_lesson_order_fail_flag.val(),
-        //                     "test_lesson_order_fail_desc" : $test_lesson_order_fail_desc.val(),
-        //                 });
-        //             }});
-        //     }else{
-        //         $.do_ajax("/ss_deal/get_user_info",{
-        //             "userid" : opt_data.userid ,
-        //             "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
-        //         } ,function(ret){
-        //             ret=ret.data;
+        var set_select_option_list=function(){
+            $("body").on("change","#edit_flag_one",function(){
+                if($('#edit_flag_one').val() == 0){
+                    $('#edit_flag').html("<option value='0'>未设置</option>");
+                }else{
+                    Enum_map.append_child_option_list("test_lesson_order_fail_flag", $(this),$("#edit_flag"),true);
+                }
+            });
+        };
+        set_select_option_list();
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
+        } ,function(ret){
+            if(ret){
+                alert('您有签单失败原因未填写,请先填写完再来排课吧');
+                window.location.href="http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller"; 
+                // var opt_data=ret;
+                // var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
+                // var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");
+                // var $test_lesson_order_fail_desc =$("<textarea/>");
+                // var arr=[
+                //     ["上课时间", opt_data.lesson_start ] ,
+                //     ["学生", opt_data.student_nick ] ,
+                //     ["老师", opt_data.teacher_nick] ,
+                //     ["签约失败一级分类", $test_lesson_order_fail_flag_one ] ,
+                //     ["签约失败二级分类", $test_lesson_order_fail_flag ] ,
+                //     ["签约失败说明", $test_lesson_order_fail_desc ] ,
+                // ];
+                // Enum_map.append_option_list("test_lesson_order_fail_flag_one",$test_lesson_order_fail_flag_one, true);
+                // if(opt_data.test_lesson_order_fail_flag_one == 0){
+                //     $test_lesson_order_fail_flag.html("<option value='0'>未设置</option>");
+                // }else{
+                //     Enum_map.append_child_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag_one,$("#edit_flag"),true);
+                // }
+                // // Enum_map.append_option_list("test_lesson_order_fail_flag",$test_lesson_order_fail_flag, true);
+                // $test_lesson_order_fail_flag_one.val( opt_data.test_lesson_order_fail_flag_one);
+                // $test_lesson_order_fail_flag.val( opt_data.test_lesson_order_fail_flag);
+                // $test_lesson_order_fail_desc.val( opt_data.test_lesson_order_fail_desc);
+                // var dlg=$.show_key_value_table( "签约失败设置", arr , {
+                //     label: '确认',
+                //     cssClass: 'btn-warning',
+                //     action: function(dialog) {
+                //         $.do_ajax( "/ss_deal/set_order_fail_info", {
+                //             "require_id" : opt_data.require_id,
+                //             "test_lesson_order_fail_flag" : $test_lesson_order_fail_flag.val(),
+                //             "test_lesson_order_fail_desc" : $test_lesson_order_fail_desc.val(),
+                //         });
+                //     }});
+            }else{
+                $.do_ajax("/ss_deal/get_user_info",{
+                    "userid" : opt_data.userid ,
+                    "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
+                } ,function(ret){
+                    ret=ret.data;
 
-        //             if( ret.editionid == 0) {
-        //                 alert("没有设置教材版本!");
-        //                 $(me).parent().find(".opt-edit").click();
-        //                 return;
-        //             }
-
-
-        //             if( ret.stu_request_test_lesson_time  =="无" ) {
-        //                 alert("没有试听时间!");
-        //                 $(me).parent().find(".opt-edit").click();
-        //                 return;
-        //             }
+                    if( ret.editionid == 0) {
+                        alert("没有设置教材版本!");
+                        $(me).parent().find(".opt-edit").click();
+                        return;
+                    }
 
 
-
-        //             var require_time= $.strtotime( ret.stu_request_test_lesson_time);
-        //             var need_start_time=0;
-        //             var now=(new Date()).getTime()/1000;
-        //             var min_date_time="";
-        //             var nowDayOfWeek = (new Date()).getDay();
-        //             if ( (new Date()).getHours() <18 ) {
-        //                 min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
-        //             }else{
-        //                 if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
-
-        //                     min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
-        //                 }else{
-        //                     min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
-        //                 }
-        //             }
-        //             need_start_time=$.strtotime(min_date_time );
-        //             if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
-        //                 alert("年级不对,请确认准确年级!"+ ret.grade );
-        //                 $(me).parent().find(".opt-edit").click();
-        //                 return;
-        //             }
-
-        //             if (require_time < need_start_time ) {
-        //                 alert("申请时间不能早于 "+ min_date_time );
-        //                 $(me).parent().find(".opt-edit").click();
-        //                 return;
-        //                 //申请时间
-        //             }
-
-        //             var id_stu_test_ipad_flag = $("<select/>");
-        //             var id_not_test_ipad_reason = $("<textarea>");
-        //             var id_user_agent = $("<div />");
-
-        //             var id_grade_select = $("<select />");
+                    if( ret.stu_request_test_lesson_time  =="无" ) {
+                        alert("没有试听时间!");
+                        $(me).parent().find(".opt-edit").click();
+                        return;
+                    }
 
 
 
-        //             Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
-        //             Enum_map.append_option_list("grade", id_grade_select, true);
+                    var require_time= $.strtotime( ret.stu_request_test_lesson_time);
+                    var need_start_time=0;
+                    var now=(new Date()).getTime()/1000;
+                    var min_date_time="";
+                    var nowDayOfWeek = (new Date()).getDay();
+                    if ( (new Date()).getHours() <18 ) {
+                        min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
+                    }else{
+                        if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
 
-        //             if(ret.user_agent ==""){
-        //                 id_user_agent.html("您还没有设备信息!");
-        //                 id_user_agent.css("color","red");
-        //             }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
-        //                 id_user_agent.html(ret.user_agent);
-        //                 id_user_agent.css("color","red");
-        //             }else{
-        //                 id_user_agent.html(ret.user_agent);
-        //             }
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+                        }else{
+                            min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+                        }
+                    }
+                    need_start_time=$.strtotime(min_date_time );
+                    if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
+                        alert("年级不对,请确认准确年级!"+ ret.grade );
+                        $(me).parent().find(".opt-edit").click();
+                        return;
+                    }
 
-        //             var arr=[
-        //                 ["姓名",  ret.stu_nick ],
-        //                 ["年级", id_grade_select ],
-        //                 ["科目", ret.subject_str ],
-        //                 ["学校", ret.school ],
-        //                 ["试听时间",  ret.stu_request_test_lesson_time ],
-        //                 ["试听需求",  ret.stu_request_test_lesson_demand ],
-        //                 ["机器版本",  id_user_agent ],
-        //                 ["是否已经连线测试 ", id_stu_test_ipad_flag],
-        //                 ["未连线测试原因", id_not_test_ipad_reason]
-        //             ];
+                    if (require_time < need_start_time ) {
+                        alert("申请时间不能早于 "+ min_date_time );
+                        $(me).parent().find(".opt-edit").click();
+                        return;
+                        //申请时间
+                    }
 
-        //             id_grade_select.val(ret.grade);
+                    var id_stu_test_ipad_flag = $("<select/>");
+                    var id_not_test_ipad_reason = $("<textarea>");
+                    var id_user_agent = $("<div />");
 
-        //             id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
-        //             id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
+                    var id_grade_select = $("<select />");
 
-        //             id_stu_test_ipad_flag.on("change",function(){
-        //                 if(id_stu_test_ipad_flag.val() == 1){
-        //                     id_not_test_ipad_reason.parent().parent().hide();
-        //                 }else{
-        //                     id_not_test_ipad_reason.parent().parent().show();
-        //                 }
-        //             });
 
-        //             $.show_key_value_table("试听申请", arr, {
-        //                 label: '确认',
-        //                 cssClass: 'btn-warning',
-        //                 action: function (dialog) {
-        //                     $.do_ajax("/ss_deal/require_test_lesson", {
-        //                         "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
-        //                         "userid" : opt_data.userid ,
-        //                         "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
-        //                         "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
-        //                         "test_stu_grade" : id_grade_select.val(),
-        //                     });
-        //                 }
-        //             },function(){
-        //                 if(id_stu_test_ipad_flag.val() == 1){
-        //                     id_not_test_ipad_reason.parent().parent().hide();
-        //                 }else{
-        //                     id_not_test_ipad_reason.parent().parent().show();
-        //                 }
-        //             });
-        //         });
-        //     }
-        // });
+
+                    Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+                    Enum_map.append_option_list("grade", id_grade_select, true);
+
+                    if(ret.user_agent ==""){
+                        id_user_agent.html("您还没有设备信息!");
+                        id_user_agent.css("color","red");
+                    }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
+                        id_user_agent.html(ret.user_agent);
+                        id_user_agent.css("color","red");
+                    }else{
+                        id_user_agent.html(ret.user_agent);
+                    }
+
+                    var arr=[
+                        ["姓名",  ret.stu_nick ],
+                        ["年级", id_grade_select ],
+                        ["科目", ret.subject_str ],
+                        ["学校", ret.school ],
+                        ["试听时间",  ret.stu_request_test_lesson_time ],
+                        ["试听需求",  ret.stu_request_test_lesson_demand ],
+                        ["机器版本",  id_user_agent ],
+                        ["是否已经连线测试 ", id_stu_test_ipad_flag],
+                        ["未连线测试原因", id_not_test_ipad_reason]
+                    ];
+
+                    id_grade_select.val(ret.grade);
+
+                    id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
+                    id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
+
+                    id_stu_test_ipad_flag.on("change",function(){
+                        if(id_stu_test_ipad_flag.val() == 1){
+                            id_not_test_ipad_reason.parent().parent().hide();
+                        }else{
+                            id_not_test_ipad_reason.parent().parent().show();
+                        }
+                    });
+
+                    $.show_key_value_table("试听申请", arr, {
+                        label: '确认',
+                        cssClass: 'btn-warning',
+                        action: function (dialog) {
+                            $.do_ajax("/ss_deal/require_test_lesson", {
+                                "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
+                                "userid" : opt_data.userid ,
+                                "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
+                                "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
+                                "test_stu_grade" : id_grade_select.val(),
+                            });
+                        }
+                    },function(){
+                        if(id_stu_test_ipad_flag.val() == 1){
+                            id_not_test_ipad_reason.parent().parent().hide();
+                        }else{
+                            id_not_test_ipad_reason.parent().parent().show();
+                        }
+                    });
+                });
+            }
+        });
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 
@@ -434,122 +438,122 @@ $(function(){
           return ;
           }
         */
-        $.do_ajax("/ss_deal/get_user_info",{
-            "userid" : opt_data.userid ,
-            "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
-        } ,function(ret){
-            ret=ret.data;
+        // $.do_ajax("/ss_deal/get_user_info",{
+        //     "userid" : opt_data.userid ,
+        //     "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
+        // } ,function(ret){
+        //     ret=ret.data;
 
-            if( ret.editionid == 0) {
-                alert("没有设置教材版本!");
-                $(me).parent().find(".opt-edit").click();
-                return;
-            }
-
-
-            if( ret.stu_request_test_lesson_time  =="无" ) {
-                alert("没有试听时间!");
-                $(me).parent().find(".opt-edit").click();
-                return;
-            }
+        //     if( ret.editionid == 0) {
+        //         alert("没有设置教材版本!");
+        //         $(me).parent().find(".opt-edit").click();
+        //         return;
+        //     }
 
 
-
-            var require_time= $.strtotime( ret.stu_request_test_lesson_time);
-            var need_start_time=0;
-            var now=(new Date()).getTime()/1000;
-            var min_date_time="";
-            var nowDayOfWeek = (new Date()).getDay();
-            if ( (new Date()).getHours() <18 ) {
-                min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
-            }else{
-                if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
-
-                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
-                }else{
-                    min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
-                }
-            }
-            need_start_time=$.strtotime(min_date_time );
-            if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
-                alert("年级不对,请确认准确年级!"+ ret.grade );
-                $(me).parent().find(".opt-edit").click();
-                return;
-            }
-
-            if (require_time < need_start_time ) {
-                alert("申请时间不能早于 "+ min_date_time );
-                $(me).parent().find(".opt-edit").click();
-                return;
-                //申请时间
-            }
-
-            var id_stu_test_ipad_flag = $("<select/>");
-            var id_not_test_ipad_reason = $("<textarea>");
-            var id_user_agent = $("<div />");
-
-            var id_grade_select = $("<select />");
+        //     if( ret.stu_request_test_lesson_time  =="无" ) {
+        //         alert("没有试听时间!");
+        //         $(me).parent().find(".opt-edit").click();
+        //         return;
+        //     }
 
 
 
-            Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
-            Enum_map.append_option_list("grade", id_grade_select, true);
+        //     var require_time= $.strtotime( ret.stu_request_test_lesson_time);
+        //     var need_start_time=0;
+        //     var now=(new Date()).getTime()/1000;
+        //     var min_date_time="";
+        //     var nowDayOfWeek = (new Date()).getDay();
+        //     if ( (new Date()).getHours() <18 ) {
+        //         min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 08:00:00"  );
+        //     }else{
+        //         if( nowDayOfWeek==5 ||  nowDayOfWeek==6){
 
-            if(ret.user_agent ==""){
-                id_user_agent.html("您还没有设备信息!");
-                id_user_agent.css("color","red");
-            }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
-                id_user_agent.html(ret.user_agent);
-                id_user_agent.css("color","red");
-            }else{
-                id_user_agent.html(ret.user_agent);
-            }
+        //             min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 16:00:00"  );
+        //         }else{
+        //             min_date_time= $.DateFormat(now+86400 , "yyyy-MM-dd 14:00:00"  );
+        //         }
+        //     }
+        //     need_start_time=$.strtotime(min_date_time );
+        //     if ($.inArray( ret.grade*1, [101,102,103,104,105,106,201,202,203, 301,302,303 ]  ) == -1 ) {
+        //         alert("年级不对,请确认准确年级!"+ ret.grade );
+        //         $(me).parent().find(".opt-edit").click();
+        //         return;
+        //     }
 
-            var arr=[
-                ["姓名",  ret.stu_nick ],
-                ["年级", id_grade_select ],
-                ["科目", ret.subject_str ],
-                ["学校", ret.school ],
-                ["试听时间",  ret.stu_request_test_lesson_time ],
-                ["试听需求",  ret.stu_request_test_lesson_demand ],
-                ["机器版本",  id_user_agent ],
-                ["是否已经连线测试 ", id_stu_test_ipad_flag],
-                ["未连线测试原因", id_not_test_ipad_reason]
-            ];
+        //     if (require_time < need_start_time ) {
+        //         alert("申请时间不能早于 "+ min_date_time );
+        //         $(me).parent().find(".opt-edit").click();
+        //         return;
+        //         //申请时间
+        //     }
 
-            id_grade_select.val(ret.grade);
+        //     var id_stu_test_ipad_flag = $("<select/>");
+        //     var id_not_test_ipad_reason = $("<textarea>");
+        //     var id_user_agent = $("<div />");
 
-            id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
-            id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
+        //     var id_grade_select = $("<select />");
 
-            id_stu_test_ipad_flag.on("change",function(){
-                if(id_stu_test_ipad_flag.val() == 1){
-                    id_not_test_ipad_reason.parent().parent().hide();
-                }else{
-                    id_not_test_ipad_reason.parent().parent().show();
-                }
-            });
 
-            $.show_key_value_table("试听申请", arr, {
-                label: '确认',
-                cssClass: 'btn-warning',
-                action: function (dialog) {
-                    $.do_ajax("/ss_deal/require_test_lesson", {
-                        "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
-                        "userid" : opt_data.userid ,
-                        "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
-                        "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
-                        "test_stu_grade" : id_grade_select.val(),
-                    });
-                }
-            },function(){
-                if(id_stu_test_ipad_flag.val() == 1){
-                    id_not_test_ipad_reason.parent().parent().hide();
-                }else{
-                    id_not_test_ipad_reason.parent().parent().show();
-                }
-            });
-        });
+
+        //     Enum_map.append_option_list("boolean", id_stu_test_ipad_flag, true);
+        //     Enum_map.append_option_list("grade", id_grade_select, true);
+
+        //     if(ret.user_agent ==""){
+        //         id_user_agent.html("您还没有设备信息!");
+        //         id_user_agent.css("color","red");
+        //     }else if(ret.user_agent.indexOf("ipad") <0 && ret.user_agent.indexOf("iPad")<0){
+        //         id_user_agent.html(ret.user_agent);
+        //         id_user_agent.css("color","red");
+        //     }else{
+        //         id_user_agent.html(ret.user_agent);
+        //     }
+
+        //     var arr=[
+        //         ["姓名",  ret.stu_nick ],
+        //         ["年级", id_grade_select ],
+        //         ["科目", ret.subject_str ],
+        //         ["学校", ret.school ],
+        //         ["试听时间",  ret.stu_request_test_lesson_time ],
+        //         ["试听需求",  ret.stu_request_test_lesson_demand ],
+        //         ["机器版本",  id_user_agent ],
+        //         ["是否已经连线测试 ", id_stu_test_ipad_flag],
+        //         ["未连线测试原因", id_not_test_ipad_reason]
+        //     ];
+
+        //     id_grade_select.val(ret.grade);
+
+        //     id_stu_test_ipad_flag.val(ret.stu_test_ipad_flag);
+        //     id_not_test_ipad_reason.val(ret.not_test_ipad_reason);
+
+        //     id_stu_test_ipad_flag.on("change",function(){
+        //         if(id_stu_test_ipad_flag.val() == 1){
+        //             id_not_test_ipad_reason.parent().parent().hide();
+        //         }else{
+        //             id_not_test_ipad_reason.parent().parent().show();
+        //         }
+        //     });
+
+        //     $.show_key_value_table("试听申请", arr, {
+        //         label: '确认',
+        //         cssClass: 'btn-warning',
+        //         action: function (dialog) {
+        //             $.do_ajax("/ss_deal/require_test_lesson", {
+        //                 "test_lesson_subject_id"  : opt_data.test_lesson_subject_id,
+        //                 "userid" : opt_data.userid ,
+        //                 "stu_test_ipad_flag" : id_stu_test_ipad_flag.val(),
+        //                 "not_test_ipad_reason" : id_not_test_ipad_reason.val(),
+        //                 "test_stu_grade" : id_grade_select.val(),
+        //             });
+        //         }
+        //     },function(){
+        //         if(id_stu_test_ipad_flag.val() == 1){
+        //             id_not_test_ipad_reason.parent().parent().hide();
+        //         }else{
+        //             id_not_test_ipad_reason.parent().parent().show();
+        //         }
+        //     });
+        // });
     });
 
 

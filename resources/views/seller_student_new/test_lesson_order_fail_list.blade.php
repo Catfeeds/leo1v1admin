@@ -78,7 +78,6 @@
                         <td>{{$var["teacher_nick"]}} </td>
                         <td>{{$var["subject_str"]}} </td>
                         <td>{{$var["grade_str"]}} </td>
-                        <td>{{$var["lesson_start"]}} </td>
                         <td>{{ $var["test_lesson_fail_flag"]? $var["test_lesson_fail_flag_str"]:""}} </td>
                         <td>{{$var["contract_status_str"]}} </td>
                         <td>{{$var["test_lesson_order_fail_set_time"]}} </td>

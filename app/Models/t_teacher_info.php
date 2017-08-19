@@ -2832,7 +2832,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_teacher_true_level($teacherid){
@@ -2857,7 +2857,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
 
-        $sql = $this->gen_sql_new("select distinct s.face"
+        $sql = $this->gen_sql_new("select distinct s.face,s.userid"
                                   ." from %s t "
                                   ." left join %s l on t.teacherid=l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
@@ -2879,7 +2879,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new("select sum(if (l.deduct_change_class=1,1,0)) as change_count"
-                                  .",sum(if(l.teacher_comment!='',1,0)) as comment_count"
+                                  .",sum(if(l.tea_rate_time>0,1,0)) as evaluate_count"
                                   .",count(l.stu_praise) as praise_count"
                                   .",sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count"
                                   .",sum(if (l.tea_cw_status=1,1,0)) as tea_cw_count"
@@ -2900,14 +2900,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_level_simulate_list(){
         $where_arr = [
             "train_through_new=1",
-            "is_test_user=0"
+            "is_test_user=0",
+            "teacher_type!=3",
         ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s "
+                                  ." where %s"
                                   ." group by level_simulate"
                                   ,self::DB_TABLE_NAME
+                                  ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 }

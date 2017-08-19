@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
         Commands\fulltime_teacher_interview_info::class,
         Commands\seller_new_count_day_gen::class,
         Commands\zs_lecture_info_day::class,        
+        Commands\zs_lecture_info_all::class,        
         Commands\update_ass_warning_list::class,        
         Commands\fulltime_teacher_kaoqin::class,
         Commands\zs_train_interview_info_wx::class,
