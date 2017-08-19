@@ -624,12 +624,11 @@ class seller_student_new extends Controller
                 return $this->output_err("今天的配额,已经用完了");
             }
             //检查是否有成功试听未回访
-            // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-            // $userid_new = $lesson_call_end['userid'];
-            // if($userid_new){
-            //     // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid,$userid_new);
-            //     return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
-            // }
+            $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+            $userid_new = $lesson_call_end['userid'];
+            if($userid_new){
+                return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
+            }
 
             $row_data= $this->t_seller_student_new->field_get_list($userid,"competition_call_time, competition_call_adminid, admin_revisiterid,phone ");
             $competition_call_time = $row_data["competition_call_time"];
@@ -1351,16 +1350,13 @@ class seller_student_new extends Controller
     }
 
     public function refresh_call_end(){
-        // $admin_id = $this->get_account_id();
-        // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        // if(count($lesson_call_end)>0){
-        //     foreach($lesson_call_end as $item){
-        //         $ret_info[] = $item;
-        //         $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-        //     }
-        // }else{
-        //     $ret = 3;
-        // }
+        $adminid = $this->get_account_id();
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }
 
         $lessonid = $this->get_in_int_val('lessonid');
         $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);

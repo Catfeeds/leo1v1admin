@@ -448,6 +448,7 @@ class authority extends Controller
         return $this->manager_list( );
 
 
+
     }
 
     public function manager_list_for_kaoqin() {
