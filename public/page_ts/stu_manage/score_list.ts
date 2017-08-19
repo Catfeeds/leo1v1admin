@@ -104,8 +104,8 @@ $(function(){
         var id_stu_score_type = $("<select/>");  //选择考试类型
         var id_score          = $("<input placeholder=\"输入考试成绩\" />");   //输入考试分数
         var id_total_score    = $("<input placeholder=\"输入满分分数\" />");   //输入考试总分
-        var id_rank           = $("<input placeholder=\"输入班级排名\" />");   //输入班级排名
-        var id_grade_rank     = $("<input placeholder=\"输入年级排名\" />");   //输入年级排名
+        var id_rank           = $("<input placeholder=\"输入班级排名 格式:1/33或者1\" />");   //输入班级排名
+        var id_grade_rank     = $("<input placeholder=\"输入年级排名 格式:2/99或者2\" />");   //输入年级排名
 
         var $upload_div  = $("<div > <button id=\"id_upload_from_url\" > 上传</button>  <a href=\"\" target=\"_blank\">预览 </a>   </div>");
         var $upload_btn  = $upload_div.find("button") ;
