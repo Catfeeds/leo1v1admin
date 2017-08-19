@@ -98,17 +98,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list($sql);
     }
-    public function get_list_by_parent_id( $parentid,$lessonid=-1) {
+    public function get_list_by_parent_id( $parentid,$lessonid=-1,$type) {
         $check_lesson_time=time(NULL)-180*86400;
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
+            // ["lesson_type=%d",$type,-1],
             "lesson_type=2", //试听
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
         ];
 
-        //`ass_comment_audit` tinyint(4) NOT NULL DEFAULT '0' COMMENT '助教对老师评价的审核状态0未评价1未审批 2未通过 3已经通过',
         $sql = $this->gen_sql_new(
             "select  tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
@@ -990,7 +990,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    
+
     public function get_all_trial_train_num($start_time,$end_time,$teacher_list,$trial_train_status,$flag=false){
         $where_arr = [
             "l.train_type=4",
@@ -2914,8 +2914,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
             ' l.lesson_end > 1502899200',
-            ' l.lesson_end <  1503108000',
+            ' l.lesson_end < '.$time,
             ' lss.call_end_time = 0 ',
+            ' lss.success_flag in (0,1) ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(

@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            @if(in_array($account,["adrian","erick"]))
+            @if(in_array($acc,["adrian","erick"]))
             <div class="row">
                 <div class="col-xs-6 col-md-6">
                     <div class="input-group ">

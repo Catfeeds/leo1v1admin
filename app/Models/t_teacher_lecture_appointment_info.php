@@ -184,7 +184,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." if(tr.trial_train_status is null,-2,tr.trial_train_status) trial_train_status,"
                                   ." l.subject,l.grade,la.acc,l.reason ,tr.record_info ,ta.lessonid train_lessonid,"
                                   ." if(t.nick='',t.realname,t.nick) as reference_name,reference,t.teacherid,m.account,"
-                                  ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,"
+                                  ." tt.teacherid train_teacherid,la.qq,ttt.wx_openid,tt.user_agent,"
                                   ." tr2.trial_train_status as full_status,tr2.record_info as full_record_info"
                                   ." from %s la"
                                   ." left join %s l on l.phone=la.phone and not exists ("

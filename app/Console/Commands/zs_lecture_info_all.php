@@ -45,6 +45,8 @@ class zs_lecture_info_all extends Command
         //整体完成率
         $start_time = strtotime("2017-08-11");
         $end_time = time();
+        $subject=-1;
+        $tea_subject="";
 		
 		$teacher_info = $task->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
 		foreach($teacher_info as $kk=>$vv){
@@ -108,10 +110,13 @@ class zs_lecture_info_all extends Command
         }
 
         $admin_list = [349];
-        // $admin_list = [72,349,448,329];
+        $admin_list = [72,349,448,329];
+        $date1 = "2017-08-11";
+        $date2 = date("Y-m-d H:i:s",time());
+
 
         foreach($admin_list as $yy){
-            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"整体进度","质监月项目进度汇总","\n面试数通过人数:".$video_real["all_count"]."/".$all_tea_ex."\n模拟试听审核数(一审):".$train_first_all["all_num"]."/".$train_first_all["pass_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all."\n整体完成率:".$all_per."%","http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date."&end_time=".$date."&subject=-1 ");
+            $task->t_manager_info->send_wx_todo_msg_by_adminid ($yy,"整体进度","质监月项目进度汇总","\n面试数通过人数:".$all_tea_ex."/".$video_real["all_count"]."\n模拟试听审核数(一审):".$train_first_all["pass_num"]."/".$train_first_all["all_num"]."\n模拟试听审核数(二审):".$train_second_all["all_num"]."\n第一次试听审核:".$test_first_all."\n第一次常规审核:".$regular_first_all."\n整体完成率:".$all_per."%","http://admin.yb1v1.com/main_page/quality_control?date_type_config=undefined&date_type=null&opt_date_type=0&start_time=".$date1."&end_time=".$date2."&subject=-1");
         }
 
 

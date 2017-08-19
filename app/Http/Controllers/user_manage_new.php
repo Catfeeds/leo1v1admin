@@ -3659,7 +3659,7 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
-    public function merge_order(){
+   public function merge_order(){
         $orderid      = $this->get_in_int_val("orderid");
         $orderid_goal = $this->get_in_int_val("orderid_goal");
         $acc          = $this->get_account();
