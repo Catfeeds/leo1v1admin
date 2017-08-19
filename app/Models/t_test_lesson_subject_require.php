@@ -1928,7 +1928,10 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
    public function  get_test_fail_row(
        $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
    {
+       $time = time();
        $where_arr=[
+           "l.lesson_end>1502899200",
+           "l.lesson_end<".$time,
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",
            [ "l.userid=%u", $userid, -1],
