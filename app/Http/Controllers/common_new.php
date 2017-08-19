@@ -1189,8 +1189,7 @@ class common_new extends Controller
     }
 
     public function get_teacher_lesson(){//p 2
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid  = 50658;
+        $teacherid = $this->get_in_int_var("teacherid");
         $start_time = strtotime('2017-08-01');
         $end_time   = strtotime('2017-09-01');
         $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
@@ -1201,8 +1200,7 @@ class common_new extends Controller
     }
 
     public function get_teacher_level(){//p3
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = 50658;
+        $teacherid = $this->get_in_int_var("teacherid");
         $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
         if($ret_info['teacher_money_type'] == 0) {
             $level = $ret_info['level'] + 2;
@@ -1212,7 +1210,7 @@ class common_new extends Controller
         return $this->output_succ(["level"=>$level]);
     }
     public function get_teacher_student(){//p4
-        $teacherid = 50658;
+        $teacherid = $this->get_in_int_var("teacherid");
         $start_time = strtotime('2017-08-01');
         $end_time = strtotime('2017-09-01');
         $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
@@ -1221,7 +1219,7 @@ class common_new extends Controller
     }
 
     public function get_teacher_some_lesson_info(){//p5
-        $teacherid = 50658;
+        $teacherid = $this->get_in_int_var("teacherid");
         $start_time = strtotime('2017-08-01');
         $end_time = strtotime('2017-09-01');
         $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
