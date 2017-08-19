@@ -1223,13 +1223,16 @@ class common_new extends Controller
             $end_time = strtotime('2017-09-01');
             $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
             $stu_num  = count($ret_info);
-            return $this->output_succ(["stu_num"=>$stu_num,"face"=>$ret_info]);
+            foreach ($ret_info as $item) {
+                $face[] = $item['face'];
+            }
+            return $this->output_succ(["stu_num"=>$stu_num,"face"=>$face]);
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
     }
 
-    public function get_teacher_some_lesson_info(){//p5
+    public function get_tea_lesson_some_info(){//p5
         $teacherid = $this->get_in_int_val("teacherid");
         if ($teacherid) {
             $start_time = strtotime('2017-08-01');
