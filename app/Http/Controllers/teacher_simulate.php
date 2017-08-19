@@ -175,15 +175,9 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
-    public function test_redis(){
-        $a=[1,2];
-        $key = "test_a";
-        $check_a = Redis::get($key);
-        if($check_a===null){
-            Redis::set($key,$a);
-        }
-        var_dump($check_a);exit;
-    }
+    public function get_level_simulate_list(){
+        $level_list = $this->t_teacher_info->get_level_simulate_list();
 
+    }
 
 }

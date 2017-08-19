@@ -475,7 +475,7 @@
                                 <a class="opt-set-refuse-record div_show">添加拒接反馈</a>
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
-                                @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku"]))
+                                @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku","low-key"]))
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
                                     <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
