@@ -175,7 +175,14 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
-    
+    public function test_redis(){
+        $a=[1,2];
+        $key = "test_a";
+        $check_a = Redis::get($key);
+        if($check_a===null){
+            
+        }
+    }
 
 
 }
