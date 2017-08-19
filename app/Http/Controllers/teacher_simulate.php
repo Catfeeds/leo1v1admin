@@ -177,7 +177,13 @@ class teacher_simulate extends Controller
 
     public function get_level_simulate_list(){
         $level_list = $this->t_teacher_info->get_level_simulate_list();
-
+        $level_count = [];
+        if(!empty($level_list)){
+            foreach($level_list as $val){
+                E\Enew_level::set_item_value_str($val,"level_simulate");
+                \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']],$val['level_num'],0);
+            }
+        }
     }
 
 }
