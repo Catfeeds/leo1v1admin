@@ -143,6 +143,11 @@
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
                     </div>
                 </div>
+                <div class="col-md-1 remove-for-xs col-xs-6 "" >
+                    <div>
+                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
+                    </div>
+                </div>
                 <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>

@@ -2337,7 +2337,113 @@ class ss_deal extends Controller
         }
 
     }
+    public function upload_from_xls_cp(){
+        $grade_map = [
+            '小学'   => 100,
+            '初中'   => 200,
+            '高中'   => 300,
+        ];
+        $subject_map = array(
+            "语文" => 1,
+            "数学" => 2,
+            "英语" => 3,
+            "化学" => 4,
+            "物理" => 5,
+            "生物" => 6,
+            "政治" => 7,
+            "历史" => 8,
+            "地理" => 9,
+        );
+        $identity_map = array(
+            0 => "未设置",
+            5 => "机构老师",
+            6 => "公校老师",
+            7 => "其他在职人士",
+            8 => "在校学生",
+        );
+        $type_arr=[
+            "未联系"=>0,
+            "未接通" =>1,
+            "待跟进" =>2,
+            "无意向" =>3,
+            "没意向" =>3,
+            "已预约"=>4
+        ];
+        $file = Input::file('file');
 
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            $objPHPExcel = $objReader->load($realPath);
+            
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0){
+                    unset($arr[$k]);
+                }
+                // $val[-1] = strlen($val[1]);
+                if(strlen($val[1])==4){
+                    $val[1]="0".$val[1];
+                }
+                if(strlen($val[2])==4){
+                    $val[2]="0".$val[2];
+                }
+
+            }
+            foreach($arr as $item){
+                $name              = $item[0];
+                $answer_begin_time = strtotime($item[1]);
+                $answer_end_time   = strtotime($item[2]);
+                $phone             = intval($item[3]);
+                $qq                = $item[4];
+                $email             = $item[5];
+                $subject           = $item[6];//
+                $grade             = $item[7];//
+                $school            = $item[8];
+                $teacher_type      = $item[9];
+                $reference         = $item[10];
+                $lecture_revisit_type = $item[11];
+                if (isset($grade_map[$grade])) {
+                    $grade_ex = $grade_map[$grade] ;
+                }
+                if (isset($subject_map[$subject])) {
+                    $subject_ex = $subject_map[$subject] ;
+                }
+                if (isset($identity_map[$teacher_type])) {
+                    $teacher_type = $identity_map[$teacher_type] ;
+                }
+                if (isset($type_arr[$lecture_revisit_type])) {
+                    $lecture_revisit_type = $type_arr[$lecture_revisit_type] ;
+                }
+
+
+                $this->t_teacher_lecture_appointment_info->row_insert([
+                    "answer_begin_time"  =>$answer_begin_time, 
+                    "answer_end_time"    =>$answer_end_time,
+                    "name"               =>$name,
+                    "phone"              =>$phone,
+                    "email"              =>$email,
+                    "qq"                 =>$qq,
+                    "subject_ex"         =>$subject_ex,
+                    "grade_ex"           =>$grade_ex,
+                    "school"             =>$school,
+                    "teacher_type"       =>$teacher_type,
+                    "reference"          =>$reference,
+                    "accept_adminid"     =>$this->get_account_id(),
+                    "accept_time"        =>time(),
+                    "lecture_revisit_type" =>$lecture_revisit_type,
+                    "hand_flag"          =>1
+                ]);
+            }
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+    }
     public function upload_lecture_from_xls(){
         $type_arr=[
             "未联系"=>0,
