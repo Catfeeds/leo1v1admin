@@ -158,7 +158,59 @@ jQuery.extend({
 
         });
 
-    }
+    },
 
+    flow_show_all_info: function (flowid) {
+
+        $.do_ajax("/self_manage/flow_table_data",{
+            flowid:flowid,
+        },function(resp){
+            var arr=resp.table_data;
+            arr.push([$("<font color=blue>审核人/时间</font>"), $("<font color=blue>审核状态/说明</font>")]);
+
+
+            $.each(resp.node_list,function(i,item){
+                arr.push([$( "<div>"+item["admin_nick"]+"<br/>" + item["check_time"] +"</div>" ),  $("<div> " +item["node_name"]+ ":" +item["flow_check_flag_str"]  +"<br/>" +  item["check_msg"] + "</div>") ]);
+            });
+
+            var table_obj=$("<table class=\"table table-bordered table-striped\"  > <tr> <thead> <td style=\"text-align:right;\">属性  </td>  <td> 值 </td> </thead></tr></table>");
+
+            $.each(arr , function( index,element){
+                var row_obj=$("<tr> </tr>" );
+                var td_obj=$( "<td style=\"text-align:right; width:30%;\"></td>" );
+                var v=element[0] ;
+                td_obj.append(v);
+                row_obj.append(td_obj);
+                td_obj=$( "<td ></td>" );
+
+                td_obj.append( element[1] );
+                row_obj.append(td_obj);
+                table_obj.append(row_obj);
+            });
+            var all_btn_config=[{
+
+                label: '预期审核流程',
+                cssClass: 'btn-warning',
+                action: function(dialog) {
+                    $.flow_show_define_list(flowid);
+                }},{
+
+                label: '返回',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }];
+
+            BootstrapDialog.show({
+                title: "审核进度",
+                message :  table_obj ,
+                closable: true,
+                buttons: all_btn_config
+            });
+
+
+        });
+
+    }
 
 });

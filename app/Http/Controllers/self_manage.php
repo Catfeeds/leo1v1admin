@@ -105,6 +105,9 @@ class self_manage extends Controller
     {
         $flowid    = $this->get_in_int_val("flowid");
         $flow_type = $this->get_in_int_val("flow_type");
+        if (!$flow_type) {
+            $flow_type= $this->t_flow->get_flow_type($flowid);
+        }
 
         $flow_class = \App\Flow\flow::get_flow_class($flow_type);
         $table_data = $flow_class::get_table_data($flowid);

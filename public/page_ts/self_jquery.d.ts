@@ -100,6 +100,7 @@ interface JQueryStatic {
     //<script type="text/javascript" src="/page_js/lib/flow.js"></script>
     flow_show_define_list( flowid );
     flow_show_node_list(flowid);
+    flow_show_all_info(flowid);
     check_power( powerid: number  ):boolean;
 }
 
