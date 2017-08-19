@@ -1197,8 +1197,7 @@ class common_new extends Controller
         $ret_info['normal_count'] = $ret_info['normal_count']/100;
         $ret_info['test_count']   = $ret_info['test_count']/100;
         $ret_info['other_count']  = $ret_info['other_count']/100;
-        dd($ret_info);
-        return $this->output_succ(["second"=>$ret_info]);
+        return $this->output_succ(["lesson_info"=>$ret_info]);
     }
 
     public function get_teacher_level(){//p3
@@ -1217,9 +1216,8 @@ class common_new extends Controller
         $start_time = strtotime('2017-08-01');
         $end_time = strtotime('2017-09-01');
         $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-        $ret_info['num'] = count($ret_info);
-        dd($ret_info);
-        return $this->output_succ(["second"=>$ret_info]);
+        $stu_num  = count($ret_info);
+        return $this->output_succ(["stu_num"=>$stu_num,"face"=>$ret_info]);
     }
 
     public function get_teacher_some_lesson_info(){//p5
@@ -1227,8 +1225,7 @@ class common_new extends Controller
         $start_time = strtotime('2017-08-01');
         $end_time = strtotime('2017-09-01');
         $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-        dd($ret_info);
-        return $level;
+        return $this->output_succ(["list"=>$ret_info]);
     }
 
 
