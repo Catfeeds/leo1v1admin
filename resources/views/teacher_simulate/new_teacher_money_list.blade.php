@@ -32,6 +32,7 @@
                 <div class="row">
                     <div class="col-xs-6 col-md-6">
                         <div class="input-group ">
+                            <span class="input-group-addon">本月全部老师</span>
                             <span class="input-group-addon">老师总工资:{{@$all_money}}</span>
                             <span class="input-group-addon">课程收入:{{@$all_lesson_price}}</span>
                             <span class="input-group-addon">模拟总工资:{{@$all_money_simulate}}</span>
@@ -45,6 +46,7 @@
                     <div class="row">
                         <div class="col-xs-6 col-md-6">
                             <div class="input-group ">
+                                <span class="input-group-addon">1-7月全部老师</span>
                                 <span class="input-group-addon">统计总工资:{{@$final_money['all_money']}}</span>
                                 <span class="input-group-addon">统计总课程收入:{{@$final_money['all_lesson_price']}}</span>
                                 <span class="input-group-addon">统计模拟总工资:{{@$final_money['all_money_simulate']}}</span>
@@ -59,6 +61,7 @@
             <div class="row">
                 <div class="col-xs-6 col-md-6">
                     <div class="input-group ">
+                        <span class="input-group-addon">本月全部老师</span>
                         <span class="input-group-addon">
                             工资成本:
                             {{round($all_money/$all_lesson_price,2)*100}}%
@@ -73,9 +76,7 @@
             <div class="row">
                 <div class="col-xs-6 col-md-6">
                     <div class="input-group ">
-                        <span class="input-group-addon">
-                            1-7月全部老师:
-                        </span>
+                        <span class="input-group-addon">1-7月全部老师</span>
                         <span class="input-group-addon">
                             统计工资成本:
                             {{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%
