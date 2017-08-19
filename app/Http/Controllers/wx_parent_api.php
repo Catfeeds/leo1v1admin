@@ -1151,9 +1151,16 @@ class wx_parent_api extends Controller
 
         $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
-        $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-            // "stu_cw_url" => $complaint_img_url // 新建一个字段 存放 常规课的试卷
-        ]);
+
+        if($type == 2){ // 试听课
+            $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
+                "stu_cw_url" => $complaint_img_url // 新建一个字段 存放 常规课的试卷
+            ]);
+        }else{ // 常规课
+            $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                // "stu_cw_url" => $complaint_img_url // 新建一个字段 存放 常规课的试卷
+            ]);
+        }
 
         if($ret){
             return $this->output_succ();
