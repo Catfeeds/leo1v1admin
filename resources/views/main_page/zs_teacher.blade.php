@@ -163,9 +163,12 @@
                                         <td>面试通过人数</td>
                                         <td>面试通过率(次数)</td>
                                         <td>面试通过率(人数)</td>
-                                        <td>培训数</td>
-                                        <td>培训通过数</td>
-                                        <td>培训通过率</td>
+                                        <td>新师培训数</td>
+                                        <td>新师培训通过数</td>
+                                        <td>新师培训通过率</td>
+                                        <td>模拟试听数</td>
+                                        <td>模拟试听通过数</td>
+                                        <td>模拟试听通过率</td>
 
                                     </tr>
                                 </thead>
@@ -181,7 +184,11 @@
                                             <td>{{@$var["succ_per"]}}% </td> 
                                             <td>{{@$var["train_num"]}} </td> 
                                             <td>{{@$var["train_succ"]}} </td> 
-                                            <td>{{@$var["train_per"]}} %</td> 
+                                            <td>{{@$var["train_per"]}} %</td>
+                                            <td>{{@$var["trial_train_num"]}} </td> 
+                                            <td>{{@$var["trial_train_succ"]}} </td> 
+                                            <td>{{@$var["trial_train_per"]}} %</td> 
+
 
                                         </tr>
                                     @endforeach
@@ -195,7 +202,11 @@
                                         <td>{{@$data["pass_per"]}}% </td> 
                                         <td>{{@$data["train_all"]}} </td> 
                                         <td>{{@$data["train_succ"]}} </td> 
-                                        <td>{{@$data["train_per"]}} </td> 
+                                        <td>{{@$data["train_per"]}} </td>
+                                        <td>{{@$data["trial_train_all"]}} </td> 
+                                        <td>{{@$data["trial_train_succ"]}} </td> 
+                                        <td>{{@$data["trial_train_per"]}} </td> 
+
                                     </tr>
 
                                 </tbody>
@@ -222,9 +233,12 @@
                                         <td>面试通过人数</td>
                                         <td>面试通过率(次数)</td>
                                         <td>面试通过率(人数)</td>
-                                        <td>培训数</td>
-                                        <td>培训通过数</td>
-                                        <td>培训通过率</td>
+                                        <td>新师培训数</td>
+                                        <td>新师培训通过数</td>
+                                        <td>新师培训通过率</td>
+                                        <td>模拟试听数</td>
+                                        <td>模拟试听通过数</td>
+                                        <td>模拟试听通过率</td>
 
                                     </tr>
                                 </thead>
@@ -240,7 +254,11 @@
                                             <td>{{@$var["succ_per"]}}% </td> 
                                             <td>{{@$var["train_num"]}} </td> 
                                             <td>{{@$var["train_succ"]}} </td> 
-                                            <td>{{@$var["train_per"]}} %</td> 
+                                            <td>{{@$var["train_per"]}} %</td>
+                                            <td>{{@$var["trial_train_num"]}} </td> 
+                                            <td>{{@$var["trial_train_succ"]}} </td> 
+                                            <td>{{@$var["trial_train_per"]}} %</td> 
+
 
                                         </tr>
                                     @endforeach
@@ -254,7 +272,11 @@
                                         <td>{{@$data["pass_per"]}}% </td> 
                                         <td>{{@$data["train_all"]}} </td> 
                                         <td>{{@$data["train_succ"]}} </td> 
-                                        <td>{{@$data["train_per"]}} </td> 
+                                        <td>{{@$data["train_per"]}} </td>
+                                        <td>{{@$data["trial_train_all"]}} </td> 
+                                        <td>{{@$data["trial_train_succ"]}} </td> 
+                                        <td>{{@$data["trial_train_per"]}} </td> 
+
                                     </tr>
 
                                 </tbody>

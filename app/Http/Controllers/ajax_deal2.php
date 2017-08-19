@@ -236,6 +236,24 @@ class ajax_deal2 extends Controller
         $total_score      = $this->get_in_int_val("total_score");
         $grade            = $this->get_in_int_val("grade");
         $grade_rank       = $this->get_in_str_val("grade_rank");
+        $rank_arr = explode("/",$grade_rank);
+        $rank_now = $rank_arr[0];
+        $grade_rank_last = $this->t_student_score_info->get_last_grade_rank($subject,$userid);
+        if($grade_rank_last  && $rank_now != ''){
+            $grade_rank_last = $grade_rank_last[0]["grade_rank"];
+            $rank_last_arr = explode("/",$grade_rank_last);
+            $rank_last = $rank_last_arr[0];
+            if($rank_last - $rank_now >= 0){
+                $rank_up = "+".($rank_last-$rank_now);
+                $rank_down = '';
+            }else{
+                $rank_up = '';
+                $rank_down = "-".($rank_now - $rank_last);
+            }
+        }else{
+            $rank_up = '';
+            $rank_down = '';
+        }
 
 
         $ret_info = $this->t_student_score_info->row_insert([
@@ -252,6 +270,8 @@ class ajax_deal2 extends Controller
             "total_score"           => $total_score,
             "grade"                 => $grade,
             "grade_rank"            => $grade_rank,
+            "rank_up"               => $rank_up,
+            "rank_down"             => $rank_down,
         ],false,false,true);
         return $this->output_succ();
     }
@@ -642,6 +662,18 @@ class ajax_deal2 extends Controller
 
         $this->t_config_date->set_config_value($config_date_type,$opt_time,$value);
 
+        return $this->output_succ();
+    }
+
+    public function set_teacher_train_through_info(){
+        $phone           = $this->get_in_str_val('phone'); 
+        $adminid = $this->get_in_int_val("adminid");
+        $create_time = $this->t_manager_info->get_create_time($adminid);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        $this->t_teacher_info->field_update_list($teacherid,[
+            "train_through_new"   =>1,
+            "train_through_new_time"=>$create_time
+        ]);
         return $this->output_succ();
     }
 

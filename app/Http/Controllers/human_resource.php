@@ -1864,7 +1864,8 @@ class human_resource extends Controller
         $full_time                  = $this->get_in_int_val("full_time",-1);
         $show_full_time             = $this->get_in_int_val("show_full_time",0);
         $teacher_ref_type           = $this->get_in_enum_list(E\Eteacher_ref_type::class);
-        $fulltime_teacher_type = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $fulltime_teacher_type      = $this->get_in_int_val("fulltime_teacher_type", -1);
+        $accept_adminid             = $this->get_in_int_val("accept_adminid", -1);
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
@@ -1877,7 +1878,7 @@ class human_resource extends Controller
             $page_num,$start_time,$end_time,$teacherid,$lecture_appointment_status,
             $user_name,$status,$adminid,$record_status,$grade,$subject,$teacher_ref_type,
             $interview_type,$have_wx, $lecture_revisit_type,$full_time,
-            $lecture_revisit_type_new,$fulltime_teacher_type
+            $lecture_revisit_type_new,$fulltime_teacher_type,$accept_adminid
         );
 
         foreach($ret_info["list"] as &$item){
@@ -4113,7 +4114,6 @@ class human_resource extends Controller
                 return $this->output_err("更新课程(lesson)出错！请重试！");
             }
         }
-        $this->t_course_order->commit();
 
         $regular_count = $this->t_week_regular_course->get_regular_count($old_teacherid);
         if($regular_count>0){
@@ -4123,6 +4123,14 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
+        $ret = $this->t_teacher_info->field_update_list($old_teacherid,[
+            "is_test_user" => 1,
+            "wx_use_flag"  => 0,
+        ]);
+        if(!$ret){
+            return $this->output_err("更新老师信息失败！");
+        }
+        $this->t_course_order->commit();
 
         $from_user  = "转移老师信息";
         $header_msg = "$acc 将 $old_teacherid 的信息转移至 $new_teacherid 上";

@@ -45,8 +45,8 @@
                     <td>语文</td>
                     <td>数学</td>
                     <td>英语</td>
-                    <td>物理</td>
                     <td>化学</td>
+                    <td>物理</td>
                     <td>生物</td>
                     <td>政治</td>
                     <td>历史</td>
@@ -65,8 +65,8 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
+                        <td><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{@$var["realname"]}}</a></td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["semester_str"]}} </td>
                         <td>{{@$var["stu_score_type_str"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
@@ -79,8 +79,8 @@
                         @endfor
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["rank_up"]}} </td>
+                        <td>{{@$var["rank_down"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["create_admin_nick"]}} </td>
                         <td><a href="{{url('stu_manage/score_list?sid=').$var['userid']}}" target="_blank">详情</a></td>

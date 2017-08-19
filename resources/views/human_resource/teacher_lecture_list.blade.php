@@ -97,6 +97,7 @@
                     <td width="120px">跨科面试情况</td>
                     <td>推荐人</td>
                     <td>负责人</td>
+                    <td>客户端版本</td>
                     <td style="display:none">测试数据</td>
                     <td class ="caozuo">操作</td>
                 </tr>
@@ -126,6 +127,7 @@
                         </td>
                         <td>{{$var["reference_name"]}}</td>
                         <td>{{$var["account"]}}</td>
+                        <td>{{$var["user_agent"]}}</td>
                         <td>{{$var["is_test_flag_str"]}}</td>
                         <td class ="caozuo">
                             <div

@@ -28,6 +28,8 @@ interface RowData {
 	grade_rank	:any;
 	status	:any;
 	month	:any;
+	rank_up	:any;
+	rank_down	:any;
 	realname	:any;
 	school	:any;
 	name	:any;
