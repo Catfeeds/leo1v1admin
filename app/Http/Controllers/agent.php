@@ -236,11 +236,6 @@ class agent extends Controller
         // imagedestroy($imgg);
 
         // dd($imgg);
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid=335);
-        $userid_new = $lesson_call_end['userid'];
-        dd($lesson_call_end);
-
-
         $this->update_lesson_call_end_time($adminid=335);
     }
 
@@ -250,7 +245,7 @@ class agent extends Controller
     }
 
     public function update_lesson_call_end_time($adminid){
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
                 $ret_info[] = $item;
