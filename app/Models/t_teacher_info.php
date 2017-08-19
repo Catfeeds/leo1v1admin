@@ -2906,6 +2906,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $lesson_arr = [
             "t.teacherid=teacherid",
             "lesson_type in (0,1,3)",
+            "lesson_del_flag=0",
+            "confirm_flag!=2",
         ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s t"
@@ -2914,6 +2916,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." group by level_simulate"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$lesson_arr
         );
         return $this->main_get_list($sql);
     }

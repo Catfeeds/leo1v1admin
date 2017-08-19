@@ -29,7 +29,7 @@ class teacher_simulate extends Controller
         );
 
         $list                      = [];
-        $reward_list               = [];
+        $teacher_money_type_list   = [];
         $all_money                 = 0;
         $all_lesson_price          = 0;
         $all_money_simulate        = 0;
@@ -45,7 +45,6 @@ class teacher_simulate extends Controller
             E\Eteacher_money_type::set_item_value_str($val,"teacher_money_type_simulate");
             E\Elevel::set_item_value_str($val);
             E\Enew_level::set_item_value_str($val,"level_simulate");
-
             \App\Helper\Utils::check_isset_data($tea_arr['realname'],$val['realname'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_str'],$val['teacher_money_type_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['teacher_money_type_simulate_str'],$val['teacher_money_type_simulate_str'],0);
@@ -210,9 +209,7 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::debug_to_html( $level_count );
         }
 
-        $key = $this->level_simulate_count_key;
-        Redis::set($key,json_encode($level_count));
-
+        Redis::set($this->level_simulate_count_key,json_encode($level_count));
         return $this->output_succ();
     }
 

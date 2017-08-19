@@ -78,7 +78,6 @@
  
            
             <div class="row">
-
                 <div class="col-xs-12 col-md-12">
                     <div class="panel panel-warning"  >
                         <div class="panel-heading center-title ">
@@ -281,22 +280,12 @@
 
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
-
-
-                
             </div>
-           
-
-
-
         </div>
-
     </section>
-    
 @endsection
 
 
