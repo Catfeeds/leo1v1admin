@@ -143,7 +143,7 @@ interface JQuery {
     admin_select_dlg(conf:Object):void;
     select_date_range(conf:Object):void;
 
-    iCheck(str:string):JQuery;
+    iCheck(str:any):JQuery;
 
     iCheckValue():any;
 
