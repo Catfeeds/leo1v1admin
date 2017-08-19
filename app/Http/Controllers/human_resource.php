@@ -4113,7 +4113,6 @@ class human_resource extends Controller
                 return $this->output_err("更新课程(lesson)出错！请重试！");
             }
         }
-        $this->t_course_order->commit();
 
         $regular_count = $this->t_week_regular_course->get_regular_count($old_teacherid);
         if($regular_count>0){
@@ -4123,6 +4122,8 @@ class human_resource extends Controller
                 return $this->output_err("更新常规课表(regular)出错！请重试！");
             }
         }
+
+        $this->t_course_order->commit();
 
         $from_user  = "转移老师信息";
         $header_msg = "$acc 将 $old_teacherid 的信息转移至 $new_teacherid 上";

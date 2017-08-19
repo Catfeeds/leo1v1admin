@@ -136,7 +136,7 @@ class wx_teacher_api extends Controller
 
 
     // 返回需要反馈的部门
-    public function  get_department(){
+    public function  get_feedback_department(){
         $department_arr = [
             1=>'教研部',
             2=>'教学质量组',
