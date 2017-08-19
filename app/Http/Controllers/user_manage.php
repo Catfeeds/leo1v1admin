@@ -180,6 +180,7 @@ class user_manage extends Controller
 
     public function ass_archive()
     {
+        $this->switch_tongji_database();
         $sum_field_list=[
             "userid",
             "nick",

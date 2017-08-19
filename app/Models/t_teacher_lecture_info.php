@@ -413,7 +413,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "tl.is_test_flag =0",
             "tl.account <> 'adrian'"
         ];
-        $sql = $this->gen_sql_new("select tl.identity identity_ex, count(*) all_num,count(distinct tl.phone) all_count,sum(if(tl.status=1,1,0)) suc_count,sum(tl.confirm_time-tl.add_time) time_count from %s tl "
+        $sql = $this->gen_sql_new("select ta.teacher_type identity_ex, count(*) all_num,count(distinct tl.phone) all_count,sum(if(tl.status=1,1,0)) suc_count,sum(tl.confirm_time-tl.add_time) time_count from %s tl "
                                   ." left join %s ta on tl.phone = ta.phone "
                                   ." where %s group by identity_ex",
                                   self::DB_TABLE_NAME,
@@ -478,7 +478,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "(tl.account is not null && tl.account <> '')",
             "tl.is_test_flag =0",
             ["tl.subject=%u",$subject,-1],
-            ["tl.identity = %u",$identity,-1],
+            ["ta.teacher_type = %u",$identity,-1],
             ["tt.teacherid = %u",$teacher_account,-1],
             ["ttt.teacherid = %u",$reference_teacherid,-1],
         ];

@@ -1188,45 +1188,63 @@ class common_new extends Controller
     }
 
     public function get_teacher_lesson(){//p 2
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid  = 50658;
-        $start_time = strtotime('2017-08-01');
-        $end_time   = strtotime('2017-09-01');
-        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
-        $ret_info['normal_count'] = $ret_info['normal_count']/100;
-        $ret_info['test_count']   = $ret_info['test_count']/100;
-        $ret_info['other_count']  = $ret_info['other_count']/100;
-        return $this->output_succ(["lesson_info"=>$ret_info]);
+        $teacherid = $this->get_in_int_val("teacherid");
+        if ($teacherid) {
+            $start_time = strtotime('2017-08-01');
+            $end_time   = strtotime('2017-09-01');
+            $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
+            $ret_info['normal_count'] = $ret_info['normal_count']/100;
+            $ret_info['test_count']   = $ret_info['test_count']/100;
+            $ret_info['other_count']  = $ret_info['other_count']/100;
+            return $this->output_succ(["lesson_info"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
     }
 
     public function get_teacher_level(){//p3
-        // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = 50658;
-        $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
-        if($ret_info['teacher_money_type'] == 0) {
-            $level = $ret_info['level'] + 2;
+        $teacherid = $this->get_in_int_val("teacherid");
+        if ($teacherid) {
+            $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
+            if($ret_info['teacher_money_type'] == 0) {
+                $level = $ret_info['level'] + 2;
+            } else {
+                $level = $ret_info['level'] + 1;
+            }
+            return $this->output_succ(["level"=>$level]);
         } else {
-            $level = $ret_info['level'] + 1;
+            return $this->output_err("信息有误，未查询到老师信息！");
         }
-        return $this->output_succ(["level"=>$level]);
     }
     public function get_teacher_student(){//p4
-        $teacherid = 50658;
-        $start_time = strtotime('2017-08-01');
-        $end_time = strtotime('2017-09-01');
-        $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-        $stu_num  = count($ret_info);
-        return $this->output_succ(["stu_num"=>$stu_num,"face"=>$ret_info]);
+        $teacherid = $this->get_in_int_val("teacherid");
+        if ($teacherid) {
+            $start_time = strtotime('2017-08-01');
+            $end_time = strtotime('2017-09-01');
+            $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+            foreach ($ret_info as $item) {
+                $face[] = @$item['face'];
+            }
+            $stu_info['stu_num'] = count($ret_info);
+            $stu_info['face'] = $face;
+            return $this->output_succ(["stu_info"=>$stu_info]);
+        } else {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
     }
 
-    public function get_teacher_some_lesson_info(){//p5
-        $teacherid = 50658;
-        $start_time = strtotime('2017-08-01');
-        $end_time = strtotime('2017-09-01');
-        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-        return $this->output_succ(["list"=>$ret_info]);
-    }
+    public function get_tea_lesson_some_info(){//p5
+        $teacherid = $this->get_in_int_val("teacherid");
+        if ($teacherid) {
+            $start_time = strtotime('2017-08-01');
+            $end_time = strtotime('2017-09-01');
+            $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+            return $this->output_succ(["list"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
 
+    }
 
 
 }

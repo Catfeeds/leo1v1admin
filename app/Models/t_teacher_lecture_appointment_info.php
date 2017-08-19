@@ -971,5 +971,13 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
+    public function get_teacher_type_list(){
+        $sql = $this->gen_sql_new("update %s set teacher_type=0 "
+                                  ." where teacher_type=0 or teacher_type is null or teacher_type='' or teacher_type=-1 ",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_update($sql);
+    }
+
 
 }

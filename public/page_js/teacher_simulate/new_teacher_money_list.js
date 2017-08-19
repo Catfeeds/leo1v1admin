@@ -85,6 +85,33 @@ $(function(){
 		            }
 	          }]
         });
+    });
+
+    $("#id_reset_level_count").on("click",function(){
+        BootstrapDialog.show({
+	          title   : "重置等级信息",
+	          message : "是否重置模拟等级信息？",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_simulate/get_level_simulate_list",{
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
+
 
     });
 
