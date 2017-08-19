@@ -87,7 +87,7 @@ $(function(){
         });
     });
 
-    $("id_reset_level_count").on("click",function(){
+    $("#id_reset_level_count").on("click",function(){
         BootstrapDialog.show({
 	          title   : "重置等级信息",
 	          message : "是否重置模拟等级信息？",

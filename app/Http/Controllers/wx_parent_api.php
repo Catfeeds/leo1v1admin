@@ -1151,6 +1151,12 @@ class wx_parent_api extends Controller
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
+        /**
+           [和产品待确认]
+           1: 试听课目前可以上传试卷
+           2: 常规课目前可以上传作业
+         **/
+
         if($type == 2){ // 试听课
             $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
                 "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
@@ -1158,8 +1164,7 @@ class wx_parent_api extends Controller
             ]);
         }else{ // 常规课
             $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                "stu_cw_url" => $ret_arr['file_name_origi'] //
-                // "stu_cw_url" => $ret_arr['file_name_origi'] // 新建一个字段 存放 常规课的试卷
+                "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
             ]);
         }
 

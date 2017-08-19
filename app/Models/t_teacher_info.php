@@ -2902,12 +2902,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "train_through_new=1",
             "is_test_user=0",
             "teacher_type!=3",
+            "t.level_simulate!=0",
         ];
+        $start = strtotime("2017-1-1");
+        $end = strtotime("2017-8-1");
         $lesson_arr = [
             "t.teacherid=teacherid",
             "lesson_type in (0,1,3)",
             "lesson_del_flag=0",
             "confirm_flag!=2",
+            ["lesson_start>%u",$start,0],
+            ["lesson_start<%u",$end,0],
         ];
         $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
                                   ." from %s t"
