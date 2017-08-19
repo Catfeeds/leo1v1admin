@@ -1420,4 +1420,77 @@ class Utils  {
         return $phone;
     }
 
+
+
+
+        //  处理反馈图片上传
+    /**
+       老师帮 微信
+       只有一张图片时 直接将图片放入数据库 不需要压缩
+    **/
+   static public function deal_feedback_img($serverId_str,$sever_name)
+    {
+        $serverIdLists = json_decode($serverId_str,true);
+        $alibaba_url   = [];
+
+        foreach($serverIdLists as $serverId){
+            $imgStateInfo = $this->savePicToServer($serverId);
+            $savePathFile = $imgStateInfo['savePathFile'];
+            $file_name = $this->put_img_to_alibaba($savePathFile);
+
+            $alibaba_url[] = $file_name ;
+            unlink($savePathFile);
+        }
+
+        $alibaba_url_str = implode(',',$alibaba_url);
+        return $alibaba_url_str;
+    }
+
+
+    public function savePicToServer_for_img($serverId ,$appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ) {
+        $accessToken = $this->get_wx_token_jssdk( $appid_tec, $appscript_tec);
+        // 要存在你服务器哪个位置？
+        $route = md5(date('YmdHis').rand());
+        $savePathFile = '/tmp/'.$route.'.jpg';
+        $targetName   = $savePathFile;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        $fp = fopen($targetName,'wb');
+        curl_setopt($ch,CURLOPT_URL,"http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=$accessToken&media_id=$serverId");
+        curl_setopt($ch,CURLOPT_FILE,$fp);
+        curl_setopt($ch,CURLOPT_HEADER,0);
+        $msg['state'] = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        $msg['savePathFile'] = $savePathFile;
+        return $msg;
+    }
+
+    public function put_img_to_alibaba($target){
+        try {
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"],
+                false
+            );
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+            return $config["public"]["url"]."/".$file_name;
+        } catch (OssException $e) {
+            return "" ;
+        }
+    }
+
+    public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
+        $wx        = new \App\Helper\Wx();
+        return $wx->get_wx_token($appid_tec,$appscript_tec);
+    }
+
+
 };

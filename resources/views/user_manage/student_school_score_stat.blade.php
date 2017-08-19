@@ -45,42 +45,45 @@
                     <td>语文</td>
                     <td>数学</td>
                     <td>英语</td>
-                    <td>物理</td>
                     <td>化学</td>
+                    <td>物理</td>
                     <td>生物</td>
                     <td>政治</td>
                     <td>历史</td>
                     <td>地理</td>
                     <td>科学</td>
-                    <td>班级排名</td>
-                    <td>年级排名</td>
-                    <td>进步次数</td>
-                    <td>退步次数</td>
+                    {!!\App\Helper\Utils::th_order_gen([
+                        ["班级排名","rank" ],
+                        ["年级排名","grade_rank" ],
+                        ["进步次数","rank_up" ],
+                        ["退步次数","rank_down" ],
+                       ])  !!}
                     <td>学校</td>
                     <td>录入者</td>
                     <td>详情</td>
                     <td></td>
+                     
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["realname"]}} </td>
-                        <td>{{@$var["grade"]}} </td>
+                        <td><a href="{{url('stu_manage?sid=').$var['userid']}}" target="_blank">{{@$var["realname"]}}</a></td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["semester_str"]}} </td>
                         <td>{{@$var["stu_score_type_str"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         @for($i=1; $i <@11; $i++)
                             @if($var["subject"] == $i)
-                                <td>{{@$var["score"]}} </td>
+                                    <td>{{intval(100*$var["score"]/$var['total_score'])}}</td>
                             @else
                                 <td></td>
                             @endif
                         @endfor
                         <td>{{@$var["rank"]}} </td>
                         <td>{{@$var["grade_rank"]}} </td>
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["rank_up"]}} </td>
+                        <td>{{@$var["rank_down"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["create_admin_nick"]}} </td>
                         <td><a href="{{url('stu_manage/score_list?sid=').$var['userid']}}" target="_blank">详情</a></td>
@@ -88,8 +91,6 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>

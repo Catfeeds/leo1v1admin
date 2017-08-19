@@ -1172,6 +1172,18 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                             value :  5 ,
                             text :  "全职老师"
 
+                        },{
+                            value :  6 ,
+                            text :  "薪资运营"
+                        },{
+                            value :  7 ,
+                            text :  "TMK"
+                        },{
+                            value :  8 ,
+                            text :  "招师"
+                        },{
+                            value :  9 ,
+                            text :  "质监"
                         }]
                     },{
                         size_class: "col-md-8" ,

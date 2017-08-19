@@ -1,15 +1,16 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/user_manage-student_school_score_stat.d.ts" />
+function load_data(){
+    $.reload_self_page ( {
+        order_by_str: g_args.order_by_str,
+			  username:	$('#id_username').val(),
+			  grade:	$('#id_grade').val(),
+			  semester:	$('#id_semester').val(),
+			  stu_score_type:	$('#id_stu_score_type').val()
+    });
+}
 
 $(function(){
-    function load_data(){
-        $.reload_self_page ( {
-			      username:	$('#id_username').val(),
-			      grade:	$('#id_grade').val(),
-			      semester:	$('#id_semester').val(),
-			      stu_score_type:	$('#id_stu_score_type').val()
-        });
-    }
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("semester",$("#id_semester"));
     Enum_map.append_option_list("stu_score_type",$("#id_stu_score_type"));

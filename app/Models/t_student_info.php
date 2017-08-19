@@ -1211,7 +1211,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                 return ;
             }
         }
-        $user_info = $this->field_get_list($userid,"nick,init_info_pdf_url,origin_userid,assistantid,ass_master_adminid");
+        $user_info = $this->field_get_list($userid,"nick,init_info_pdf_url,origin_userid,assistantid,ass_master_adminid,origin_assistantid");
         $nick = $user_info["nick"];
 
         $ass_account=$this->t_assistant_info->get_account_by_id($assistantid);
@@ -1248,9 +1248,12 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         $origin_assistantid = $this->get_assistantid($user_info["origin_userid"]);
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
 
-        if($user_info["ass_master_adminid"]==0){
+        if($user_info["ass_master_adminid"]==0  && !empty($user_info["init_info_pdf_url"])){
             //获取销售校区
             $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($seller_adminid);
+            if($user_info["origin_assistantid"]>0){
+                $campus_id = $this->task->t_admin_group_user->get_campus_id_by_adminid($user_info["origin_assistantid"]);
+            }
             $master_adminid = $this->task->t_admin_group_name->get_ass_master_adminid_by_campus_id($campus_id);
             if(empty($master_adminid)){
 

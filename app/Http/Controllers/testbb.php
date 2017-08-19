@@ -50,17 +50,8 @@ class testbb extends Controller
 
     public function test () {
 
-        // date('Y-m-d H:i:s');
-        dd(date('Y-m-d h:i:s'));
-        $teacherid = $this->get_in_int_val('id');
-        $start_time = 1501516800;
-        $end_time = 1501516800 + 86400;
-        $seller_arr = $this->t_lesson_info_b2->get_test_lesson_info_by_teacherid($teacherid,$start_time, $end_time);
-
-        $ret = $this->t_lesson_info_b2->get_teacher_test_lesson_info_by_seller($start_time,$end_time,$seller_arr);
-        dd($ret);
-
-
+        $t = $this->get_in_int_val('t',-1);
+        dd($t);
     }
 
     public function lesson_send_msg(){
@@ -103,68 +94,9 @@ class testbb extends Controller
 
 
 
-    //  向 老师推送老师端版本更新 通知
-
-    public function send_wx_to_update_software(){
-
-        $teacher_list = $this->t_teacher_info->get_teacher_openid_list();
-
-        $date_time = date("Y-m-d");
-
-        $url_teacher = "";
-
-        foreach($teacher_list as $item){
-            // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software( $item['wx_openid']));
-        }
-
-    }
-
-    public function get_data_for_qc(){
-        $parentid = '';
-        $db_wx_openid=$this->t_parent_info->get_wx_openid($parentid);
-        dd($db_wx_openid);
-
-        if(1 && 2!=2){
-            dd(1);
-        }
-    }
-
-    public function push($data,$name='试听课未评价数据'){
-        $objPHPExcel = new \PHPExcel();
-        /*以下是一些设置 ，什么作者  标题啊之类的*/
-        $objPHPExcel->getProperties()->setCreator("试听课未评价数据")
-             ->setLastModifiedBy("试听课未评价数据")
-             ->setTitle("数据EXCEL导出")
-             ->setSubject("数据EXCEL导出")
-             ->setDescription("备份数据")
-             ->setKeywords("excel")
-             ->setCategory("result file");
-        /*以下就是对处理Excel里的数据， 横着取数据，主要是这一步，其他基本都不要改*/
-        foreach($data as $k => $v){
-            $num=$k+1;
-            $objPHPExcel->setActiveSheetIndex(0)
-                 //Excel的第A列，uid是你查出数组的键值，下面以此类推
-                 ->setCellValue('A'.$num, $v['lessonid'])
-                 ->setCellValue('B'.$num, $v['seller_name'])
-                 ->setCellValue('C'.$num, $v['stu_nick'])
-                 ->setCellValue('D'.$num, $v['tea_name']);
-        }
-
-        $objPHPExcel->getActiveSheet()->setTitle('试听课未评价数据');
-        $objPHPExcel->setActiveSheetIndex(0);
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'.$name.'.xls"');
-        header('Cache-Control: max-age=0');
-
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
 
 
-        $objWriter->save('php://output');
 
-
-        // $objWriter->save(public_path()."/wximg/试听课未评价数据.xls");
-        exit;
-    }
 
 
 }

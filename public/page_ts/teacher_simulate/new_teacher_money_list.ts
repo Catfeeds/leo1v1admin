@@ -9,7 +9,7 @@ $(function(){
 			      opt_date_type      : $('#id_opt_date_type').val(),
 			      start_time         : $('#id_start_time').val(),
 			      end_time           : $('#id_end_time').val(),
-			      // teacherid          : $('#id_teacherid').val(),
+			      teacher_id         : $('#id_teacherid').val(),
 			      teacher_money_type : $('#id_teacher_money_type').val(),
 			      level              : $('#id_level').val(),
         });
@@ -28,10 +28,66 @@ $(function(){
 
     Enum_map.append_option_list( "teacher_money_type", $("#id_teacher_money_type"));
     Enum_map.append_option_list( "level", $("#id_level"));
-	  // $('#id_teacherid').val(g_args.teacherid);
+	  $('#id_teacherid').val(g_args.teacher_id);
 	  $('#id_teacher_money_type').val(g_args.teacher_money_type);
 	  $('#id_level').val(g_args.level);
-    // $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
+    $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
+
+    $(".opt-set_simulate_info").on("click",function(){
+	      var data = $(this).get_opt_data();
+        var id_level_simulate = $("<select/>");
+        var arr = [
+            ["模拟等级",id_level_simulate]
+        ];
+        Enum_map.append_option_list("new_level",id_level_simulate,true);
+        id_level_simulate.val(data.level_simulate);
+
+        $.show_key_value_table("更改模拟信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_simulate/update_teacher_simulate_info",{
+                    "level_simulate" : id_level_simulate.val(),
+                    "teacherid"      : data.teacherid
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+
+    });
+
+    $("#id_reset_money_count").on("click",function(){
+	      BootstrapDialog.show({
+	          title   : "清除统计信息",
+	          message : "是否清除统计信息?",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/teacher_simulate/del_redis_simulate_money",{
+                    },function(result){
+                        if(result.ret==0){
+                            dialog.close();
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+
+    });
+
 
 	  $('.opt-change').set_input_change_event(load_data);
 });

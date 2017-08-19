@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 
-use App\Jobs\deal_feedback_img;
 
 
 
@@ -134,6 +133,29 @@ class wx_teacher_api extends Controller
     }
 
 
+
+
+    // 返回需要反馈的部门
+    public function  get_feedback_department(){
+        $department_arr = [
+            1=>'教研部',
+            2=>'教学质量组',
+            3=>'培训部',
+            4=>"师训部",
+            5=>"老师运营组",
+            8=>"咨询一部",
+            9=>"咨询二部",
+            10=>"咨询三部",
+            11=>"销售运营部",
+            12=>"助教部",
+            13=>"教务部",
+        ];
+
+
+        return $this->output_succ(['data'=>$department_arr]);
+    }
+
+
     public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
         $complaint_info    = $this->get_in_str_val('complaint_info','');
         $serverId_str      = $this->get_in_str_val('serverId_str','');
@@ -144,7 +166,15 @@ class wx_teacher_api extends Controller
         $complaint_type   = $this->get_in_int_val('complaint_type');
 
         $sever_name = $_SERVER['SERVER_NAME'];
-        $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name);
+        // $complaint_img_url = $this->deal_feedback_img($serverId_str,$sever_name); [原始]
+
+
+        // 老师帮微信号
+        $appid = 'wxa99d0de03f407627';
+        $appscript = '61bbf741a09300f7f2fd0a861803f920';
+
+        $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -319,10 +349,10 @@ class wx_teacher_api extends Controller
        老师帮 微信
        只有一张图片时 直接将图片放入数据库 不需要压缩
     **/
-    public function deal_feedback_img($serverId_str,$sever_name)
+    public function deal_feedback_img($serverId_str,$sever_namem, $appid, $appscript)
     {
         $serverIdLists = json_decode($serverId_str,true);
-        $alibaba_url   = array();
+        $alibaba_url   = [];
 
         foreach($serverIdLists as $serverId){
             $imgStateInfo = $this->savePicToServer($serverId);
@@ -374,12 +404,9 @@ class wx_teacher_api extends Controller
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
 
-            \App\Helper\Utils::logger('config_url'. $config["public"]["url"]."/".$file_name);
-
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
-            \App\Helper\Utils::logger( "init OssClient fail");
             return "" ;
         }
     }

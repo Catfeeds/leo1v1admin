@@ -1988,6 +1988,8 @@ class user_manage extends Controller
             $account_id_str = $account_id;
         }
 
+
+
         list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
@@ -2129,21 +2131,34 @@ class user_manage extends Controller
      * @function  学生分数列表显示
      */
     public function  student_school_score_stat() {
+        $sum_field_list=[
+            "rank",
+            "grade_rank",
+            "rank_up",
+            "rank_down"
+        ];
+        $order_field_arr = array_merge(["create_time"],$sum_field_list);
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type )
+            = $this->get_in_order_by_str($order_field_arr,"create_time desc");
+
         $username = $this->get_in_str_val("username");
         $grade    = $this->get_in_int_val("grade",-1);
         $semester = $this->get_in_int_val("semester",-1);
         $stu_score_type = $this->get_in_int_val("stu_score_type",-1);
         $page_info=$this->get_in_page_info();
-        $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type);
+        $is_test_user = 0;//1测试用户
+        $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
-            //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time","","Y/m/d");
             \App\Helper\Utils::unixtime2date_for_item($item,"stu_score_time","","Y/m/d");
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
+        }
+        if (!$order_in_db_flag) {
+            \App\Helper\Utils::order_list( $ret_info["list"], $order_field_name, $order_type );
         }
         return $this->pageView(__METHOD__, $ret_info);
     }

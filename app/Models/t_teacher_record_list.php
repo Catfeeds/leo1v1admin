@@ -932,6 +932,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
             "tr.trial_train_status>0",
+            "tr.trial_train_status<3",
             "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);

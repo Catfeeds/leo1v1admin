@@ -41,11 +41,11 @@ class wx_parent_for_prize extends Controller
     // var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
-        // if (! $this->get_parentid()  ) {
+        if (! $this->get_parentid()  ) {
 
-        //     // echo $this->output_err("未登录");
-        //     // exit;
-        // }
+            echo $this->output_err("未登录");
+            exit;
+        }
 
     }
 
@@ -59,7 +59,7 @@ class wx_parent_for_prize extends Controller
 
         // $parentid = 54573;//测试
 
-        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid);
+        $ret_list=$this->t_lesson_info_b2->get_list_by_parent_id($parentid,$lessonid=-1,$type);
         foreach ($ret_list as &$item ) {
 
             $lesson_num= $item["lesson_num"];

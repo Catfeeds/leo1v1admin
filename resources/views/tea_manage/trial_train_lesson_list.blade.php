@@ -111,18 +111,20 @@
                                 <a class="btn fa fa-qrcode  opt-qr-pad "
                                    data-type="leoedu://video.leoedu.com/video="
                                    title="视频播放二维码" > </a>
-                                @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
-                                    <a class="opt-edit" title="更改状态">审核 </a>
-                                @endif
-                                @if($var["trial_train_status"]>0)
-                                    <a class="opt-confirm-score" title="审核详情">审核详情</a>
-                                @endif
-                                @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen"]))
-                                    <a class="opt-reset-acc" >重置审核人</a>
-                                    <a class="opt-set-new-lesson" >重新排课</a>
-                                @endif
-                                @if($acc=="jack")
-                                    <a class="opt-test">测试</a>
+                                @if($var["trial_train_status"] <3)
+                                    @if(in_array($acc,["adrian","jim",$var['acc'],"jack"]))
+                                        <a class="opt-edit" title="更改状态">审核 </a>
+                                    @endif
+                                    @if($var["trial_train_status"]>0)
+                                        <a class="opt-confirm-score" title="审核详情">审核详情</a>
+                                    @endif
+                                    @if(in_array($acc,["coco","jack","seth","展慧东","CoCo老师","amyshen","wander"]))
+                                        <a class="opt-reset-acc" >重置审核人</a>
+                                    @endif
+                                    <a class="opt-set-new-lesson" >视频出错</a>
+                                    @if($acc=="jack")
+                                        <a class="opt-test">测试</a>
+                                    @endif
                                 @endif
 
                             </div>

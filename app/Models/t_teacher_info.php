@@ -2757,11 +2757,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type,$level
+        $start_time,$end_time,$teacher_money_type,$level,$teacher_id
     ){
+
         $where_arr = [
-            ["t.teacher_money_type=%u",$teacher_money_type,-1],
-            ["t.level=%u",$level,-1],
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
             "t.is_test_user=0",
@@ -2771,13 +2770,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_status=2",
             "teacher_type!=3"
         ];
+        if($teacher_id>0){
+            $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
+        }else{
+            $where_arr[]=["t.teacher_money_type=%u",$teacher_money_type,-1];
+            $where_arr[]=["t.level=%u",$level,-1];
+        }
 
         $sql = $this->gen_sql_new("select t.teacherid,t.teacher_money_type,t.level,t.realname,"
                                   ." t.level_simulate,t.teacher_money_type_simulate,"
                                   ." m1.money,m2.money as money_simulate,ol.price as lesson_price,l.lesson_count,"
                                   ." l.already_lesson_count,m1.type,m2.type as type_simulate,l.grade,t.teacher_type,"
                                   ." o.contract_type,o.lesson_total,o.default_lesson_count,o.grade as order_grade,"
-                                  ." o.competition_flag,o.price,o.discount_price"
+                                  ." o.competition_flag,o.price,o.discount_price,l.lesson_start"
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
@@ -2827,7 +2832,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
 
     public function get_teacher_true_level($teacherid){
@@ -2852,7 +2857,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
 
-        $sql = $this->gen_sql_new("select distinct s.face"
+        $sql = $this->gen_sql_new("select distinct s.face,s.userid"
                                   ." from %s t "
                                   ." left join %s l on t.teacherid=l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
@@ -2873,16 +2878,38 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['l.lesson_start<%s', $end_time, 0],
         ];
 
-        $sql = $this->gen_sql_new("select t,deduct_change_class"
+        $sql = $this->gen_sql_new("select sum(if (l.deduct_change_class=1,1,0)) as change_count"
+                                  .",sum(if(l.tea_rate_time>0,1,0)) as evaluate_count"
+                                  .",count(l.stu_praise) as praise_count"
+                                  .",sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count"
+                                  .",sum(if (l.tea_cw_status=1,1,0)) as tea_cw_count"
+                                  .",sum(if (l.stu_cw_status=1,1,0)) as stu_cw_count"
+                                  .",sum(if (h.work_status>0,1,0)) as homework_count"
                                   ." from %s t "
                                   ." left join %s l on t.teacherid=l.teacherid "
+                                  ." left join %s h on l.lessonid=h.lessonid "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_homework_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+    public function get_level_simulate_list(){
+        $where_arr = [
+            "train_through_new=1",
+            "is_test_user=0",
+            "teacher_type!=3",
+        ];
+        $sql = $this->gen_sql_new("select level_simulate,count(1) as level_num"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by level_simulate"
+                                  ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
     }
-
-
 }

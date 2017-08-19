@@ -1,4 +1,5 @@
 interface GargsStatic {
+	order_by_str:	string;
 	username:	string;
 	grade:	number;
 	semester:	number;
@@ -21,13 +22,15 @@ interface RowData {
 	stu_score_type	:any;
 	stu_score_time	:any;
 	score	:any;
+	total_score	:any;
 	rank	:any;
 	semester	:any;
-	total_score	:any;
 	grade	:any;
 	grade_rank	:any;
 	status	:any;
 	month	:any;
+	rank_up	:any;
+	rank_down	:any;
 	realname	:any;
 	school	:any;
 	name	:any;
@@ -49,6 +52,7 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			order_by_str:	$('#id_order_by_str').val(),
 			username:	$('#id_username').val(),
 			grade:	$('#id_grade').val(),
 			semester:	$('#id_semester').val(),
@@ -57,6 +61,7 @@ $(function(){
     }
 
 
+	$('#id_order_by_str').val(g_args.order_by_str);
 	$('#id_username').val(g_args.username);
 	$('#id_grade').val(g_args.grade);
 	$('#id_semester').val(g_args.semester);
@@ -70,6 +75,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">

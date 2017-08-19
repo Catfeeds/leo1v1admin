@@ -645,9 +645,12 @@ class main_page extends Controller
 		    }
 		    $i["train_num"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,-1);
 		    $i["train_succ"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,1);
+            $i["trial_train_num"] = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list,-1,false);
+		    $i["trial_train_succ"] = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list,1,false);
 		    $i["succ_per"] = !empty($i["all_count"])?round($i["succ"]/$i["all_count"]*100,2):0;
 		    $i["succ_num_per"] = !empty($i["all_num"])?round($i["succ_num"]/$i["all_num"]*100,2):0;
 		    $i["train_per"] = !empty($i["train_num"])?round($i["train_succ"]/$i["train_num"]*100,2):0;
+		    $i["trial_train_per"] = !empty($i["trial_train_num"])?round($i["trial_train_succ"]/$i["trial_train_num"]*100,2):0;
 		    @$all_grade["succ"] +=$i["succ"];
 		    @$all_grade["succ_num"] +=$i["succ_num"];
 		    @$all_grade["all_count"] +=$i["all_count"];
@@ -727,6 +730,10 @@ class main_page extends Controller
 		$train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
 		$train_succ = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,1);
 		$train_succ_per = !empty($train_all)?round($train_succ/$train_all*100,2)."%":"";
+        $trial_train_all = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list_ex,-1);
+		$trial_train_succ = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list_ex,1);
+		$trial_train_succ_per = !empty($trial_train_all)?round($trial_train_succ/$trial_train_all*100,2)."%":"";
+
 
 
 		foreach($list["list"] as &$item1){
@@ -738,6 +745,9 @@ class main_page extends Controller
                 $item1["train_all"] = $train_all;
                 $item1["train_succ"] = $train_succ;
                 $item1["train_per"] =  $train_succ_per;
+                $item1["trial_train_all"] = $trial_train_all;
+                $item1["trial_train_succ"] = $trial_train_succ;
+                $item1["trial_train_per"] =  $trial_train_succ_per;
                 $data = $item1;
 		    }
 		}
@@ -768,9 +778,13 @@ class main_page extends Controller
 		    }
 		    $n["train_num"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,-1);
 		    $n["train_succ"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,1);
+            $n["trial_train_num"] = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list,-1,false);
+		    $n["trial_train_succ"] = $this->t_lesson_info_b2->get_all_trial_train_num($start_time,$end_time,$teacher_list,1,false);
+
 		    $n["succ_per"] = !empty($n["all_count"])?round($n["succ"]/$n["all_count"]*100,2):0;
 		    $n["succ_num_per"] = !empty($n["all_num"])?round($n["succ_num"]/$n["all_num"]*100,2):0;
 		    $n["train_per"] = !empty($n["train_num"])?round($n["train_succ"]/$n["train_num"]*100,2):0;
+		    $n["trial_train_per"] = !empty($n["trial_train_num"])?round($n["trial_train_succ"]/$n["trial_train_num"]*100,2):0;
 
 		    E\Eidentity::set_item_value_str($n,"identity_ex");
 		    if(in_array($n["identity_ex"],[1,2,127])){

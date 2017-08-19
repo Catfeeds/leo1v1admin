@@ -155,6 +155,9 @@
                                     <a href="javascript:;" title="生成学生和家长账号" class="opt-set-user-phone">生成账号</a>
                                     <a href="javascript:;" title="生成助教账号" class="opt-gen-ass">助</a>
                                     <a href="javascript:;" title="用户操作日志" class="opt-log">log</a>
+                                    @if($var["account_role"]==5)
+                                        <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

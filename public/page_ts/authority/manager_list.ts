@@ -48,7 +48,7 @@ $(function(){
     $("#id_del_flag").val(g_args.del_flag);
     $('#id_cardid').val(g_args.cardid);
     $('#id_tquin').val(g_args.tquin);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
@@ -739,6 +739,19 @@ $(function(){
     $(".opt-log").on("click",function(){
         var opt_data=$(this).get_opt_data();
         window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
+    });
+
+    $(".opt-set-train-through-time").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要同步老师档案入职时间吗?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/set_teacher_train_through_info', {
+                    'phone' : opt_data.phone,
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+
     });
 
 });
