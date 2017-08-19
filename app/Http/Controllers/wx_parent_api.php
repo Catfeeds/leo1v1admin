@@ -1150,6 +1150,7 @@ class wx_parent_api extends Controller
 
         $complaint_img_url = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
+        $this->t_lesson_info_b2->field_update_list($lessonid,$set_field_arr);
 
         // $this->
 
