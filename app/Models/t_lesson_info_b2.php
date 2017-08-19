@@ -2919,7 +2919,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.lesson_user_online_status = 1 ',
             ' l.lesson_end > 1502899200 ',
             ' l.lesson_end <  1503072000',
-            ' lss.call_end_time == 0 ',
+            ' lss.call_end_time = 0 ',
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
