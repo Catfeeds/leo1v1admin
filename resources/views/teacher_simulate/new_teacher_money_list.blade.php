@@ -24,6 +24,9 @@
                         <select id="id_level" class ="opt-change" ></select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <button class="btn btn-primary" id="id_reset_money_count"> 重置统计信息</button>
+                </div>
             </div>
             @if(in_array($acc,["adrian","ted"]))
                 <div class="row">
