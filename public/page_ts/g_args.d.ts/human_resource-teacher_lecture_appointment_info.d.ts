@@ -70,6 +70,7 @@ interface RowData {
 	qq	:any;
 	wx_openid	:any;
 	user_agent	:any;
+	hand_flag	:any;
 	full_status	:any;
 	full_record_info	:any;
 	answer_time	:any;

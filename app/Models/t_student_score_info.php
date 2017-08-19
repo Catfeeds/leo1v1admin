@@ -101,4 +101,10 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
 
         return $this->main_get_list($sql);
     }
+
+    public function get_score_info($id){
+        $sql = $this->gen_sql_new(" select grade, total_score, stu_score_type, score, grade_rank, rank from %s ");
+
+        return $this->main_get_list($sql);
+    }
 }

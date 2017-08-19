@@ -590,7 +590,7 @@ $(function(){
     }
 
     $(".opt-edit-full_time").on("click",function(){
-	      var data           = $(this).get_opt_data();
+	    var data           = $(this).get_opt_data();
         var id_flag        = $("<select/>");
         var id_record_info = $("<textarea/>");
         var flag_html      = "<option value='0'>不通过</option>"
@@ -687,6 +687,76 @@ $(function(){
         });
 
     });
+
+    $(".opt-edit-hand").on("click",function(){
+        var data           = $(this).get_opt_data();
+        var id_answer_begin_time            = $("<input />");
+        var id_answer_end_time              = $("<input />");
+        var id_name                         = $("<input />");
+        var id_email                        = $("<input />");
+        var id_qq                           = $("<input />");
+        var id_grade_ex                     = $("<select />");
+        var id_subject_ex                   = $("<select />");
+        var id_textbook                     = $("<input />");
+        var id_school                       = $("<input />");
+        var id_teacher_type                 = $("<select />");
+        var id_reference                    = $("<input />");
+        var id_self_introduction_experience = $("<textarea />");
+        var id_lecture_revisit_type         = $("<select/>");        
+
+        id_answer_end_time.datetimepicker({
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i:s',
+            step:1
+        });
+        id_answer_begin_time.datetimepicker({
+            datepicker:true,
+            timepicker:true,
+            format:'Y-m-d H:i:s',
+            step:1
+        });
+
+        Enum_map.append_option_list("lecture_revisit_type", id_lecture_revisit_type, true,[0,1,2,3,4] );
+        Enum_map.append_option_list("subject", id_subject_ex, true );
+        Enum_map.append_option_list("grade_part", id_grade_ex, true );
+        Enum_map.append_option_list("identity", id_teacher_type, true );
+        var arr=[
+            ["答题开始时间", id_answer_begin_time],         
+            ["答题结束时间", id_answer_end_time],           
+            ["姓名", id_name],           
+            ["邮箱", id_email],          
+            ["qq", id_qq],          
+            ["年级段", id_grade_ex],         
+            ["科目", id_subject_ex],                     
+            ["毕业院校", id_school],           
+            ["师资", id_teacher_type],           
+            ["推荐人(手机)", id_reference],           
+            ["回访状态", id_lecture_revisit_type],         
+        ];
+
+        $.show_key_value_table("修改试讲预约", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                $.do_ajax('/ss_deal/update_lecture_appointment_info',{
+                    "answer_begin_time"            : id_answer_begin_time.val(),
+                    "answer_end_time"              : id_answer_end_time.val(),
+                    "name"                         : id_name.val(),
+                    "email"                        : id_email.val(),
+                    "qq"                           : id_qq.val(),
+                    "grade_ex"                     : id_grade_ex.val(),
+                    "subject_ex"                   : id_subject_ex.val(),
+                    "school"                       : id_school.val(),
+                    "teacher_type"                 : id_teacher_type.val(),
+                    "reference"                    : id_reference.val(),
+                    "lecture_revisit_type"         : id_lecture_revisit_type.val(),
+                    "id"                           : opt_data.id
+                });
+            }
+        });
+    });
+
 
 
 });

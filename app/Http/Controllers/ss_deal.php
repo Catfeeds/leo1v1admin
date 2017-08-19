@@ -3071,6 +3071,7 @@ class ss_deal extends Controller
         // $textbook                     = $this->get_in_str_val("textbook");
         $school                       = $this->get_in_str_val("school");
         $teacher_type                 = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
         //$self_introduction_experience = trim($this->get_in_str_val("self_introduction_experience"));
         $reference                    = $this->get_in_str_val("reference");
         // $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status");
@@ -3099,6 +3100,8 @@ class ss_deal extends Controller
             "reference"          =>$reference,
             "accept_adminid"     =>$this->get_account_id(),
             "accept_time"        =>time(),
+            "lecture_revisit_type" =>$lecture_revisit_type,
+            "hand_flag"          =>1
         ]);
         return $this->output_succ();
     }

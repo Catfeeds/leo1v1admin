@@ -213,28 +213,35 @@ class teacher_simulate extends Controller
     public function check_month_redis_key($data){
         $month_key = date("Y-m",$data['start_time']);
 
+        $all_money_count_key = "all_money_count";
         $has_month_key = "has_month";
         $has_month = json_decode(Redis::get($has_month_key),true);
         if(!isset($has_month)){
             $has_month   = [];
             $has_month[] = $month_key;
+            $all_money   = $data;
         }else{
             $has_month_flip = array_flip($has_month);
             if(!array_key_exists($month_key,$has_month_flip)){
                 $has_month[]=$month_key;
+
+                $all_money = json_decode(Redis::get($all_money_count_key),true);
+                $all_money['all_money']                 += $data['all_money'];
+                $all_money['all_money_simulate']        += $data['all_money_simulate'];
+                $all_money['all_lesson_price']          += $data['all_lesson_price'];
+                $all_money['all_lesson_price_simulate'] += $data['all_lesson_price_simulate'];
+                $all_money['all_money_different']        = $all_money['all_money_simulate']-$all_money['all_money'];
+                $all_money['all_lesson_price_different'] = $all_money['all_lesson_price_simulate']-$all_money['all_lesson_price'];
             }
-        }
 
-        if(!empty($has_month)){
-            Redis::set($has_month_key,json_encode($has_month));
-        }
-
-        $all_money_count_key = "all_money_count";
-        $all_money = json_decode(Redis::get($all_money_count_key),true);
-        if(!isset($all_money)){
 
         }
+
+
+        Redis::set($has_month_key,json_encode($has_month));
+        Redis::set($all_money_count_key,json_encode($all_money));
     }
+
 
 
 

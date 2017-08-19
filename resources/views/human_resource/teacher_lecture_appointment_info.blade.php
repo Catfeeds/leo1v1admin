@@ -248,6 +248,9 @@
                                     <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
                                     <a class="opt-trans_info" title="设置扩课" >扩</a>
                                 @endif
+                                @if(@$var["hand_flag"]==1)
+                                    <a class="opt-edit-hand" title="修改" >修改</a>
+                                @endif
                             </div>
                         </td>
                     </tr>
