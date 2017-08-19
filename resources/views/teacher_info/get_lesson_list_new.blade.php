@@ -21,13 +21,15 @@
  }
 </style>
 <section class="content">
+
     <div class="row">
+
         <div class="col-xs-12 col-md-4">
-            <div class="input-group">
+            <div class="input-group "  >
                 <span >日期</span>
-                <input type="text" id="id_start_date" class="opt-change"/>
+                <input type="text" id="id_start_date" class="opt-change form-control input-group-addon  "/>
                 <span >-</span>
-                <input type="text" id="id_end_date" class="opt-change"/>
+                <input type="text" id="id_end_date" class="opt-change form-control input-group-addon  "/>
             </div>
         </div>
         <div class="col-xs-6 col-md-2">
