@@ -262,9 +262,9 @@ $(function(){
         set_select_option_list();
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
-            if(ret.require_id){
-                alert('您有签单失败原因未填写,请先填写完再来排课吧');
-                window.location.href="http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller"; 
+            // if(ret.require_id){
+                // alert('您有签单失败原因未填写,请先填写完再来排课吧');
+                // window.location.href="http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller"; 
                 // var opt_data=ret;
                 // var $test_lesson_order_fail_flag_one=$("<select id='edit_flag_one' />");
                 // var $test_lesson_order_fail_flag=$("<select id='edit_flag' />");
@@ -297,7 +297,7 @@ $(function(){
                 //             "test_lesson_order_fail_desc" : $test_lesson_order_fail_desc.val(),
                 //         });
                 //     }});
-            }else{
+            // }else{
                 $.do_ajax("/ss_deal/get_user_info",{
                     "userid" : opt_data.userid ,
                     "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
@@ -414,7 +414,7 @@ $(function(){
                         }
                     });
                 });
-            }
+            // }
         });
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
