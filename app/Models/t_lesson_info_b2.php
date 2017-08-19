@@ -999,12 +999,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "l.lesson_start>".$start_time,
             // ["t.train_through_new=%u",$train_through_new,-1]
             ["tr.trial_train_status",$trial_train_status,-1],
-            "tr.trial_train_status<3"
+            "tr.trial_train_status<3",
         ];
+        /*  if($trial_train_status==1){
+            $where_arr[]="tr.trial_train_status=1";
+            }*/
         $where_arr[]=$this->where_get_in_str("t.teacherid",$teacher_list,$flag);
         // $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(distinct t.teacherid)"
+        $sql = $this->gen_sql_new("select count(distinct tr.teacherid)"
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on tr.train_lessonid = l.lessonid and tr.type=1 and tr.lesson_style=5 "
                                   ." where %s",
@@ -2906,6 +2909,33 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         );
         return $this->main_get_row($sql);
     }
+
+    public function get_call_end_time_by_adminid_new($adminid){
+        $time = time();
+        $where_arr = [
+            ' l.lesson_type = 2 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
+            ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_end > 1502899200 ',
+            ' l.lesson_end <  1503072000',
+            ' lss.call_end_time = 0 ',
+            [' lsr.cur_require_adminid = %d ',$adminid],
+        ];
+        $sql = $this->gen_sql_new(
+            " select l.userid,l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            ." from %s l "
+            ." left join %s lss on lss.lessonid = l.lessonid "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_fulltime_teacher_interview_info($start_time,$end_time){
         $where_arr=[
