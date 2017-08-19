@@ -3106,6 +3106,40 @@ class ss_deal extends Controller
         return $this->output_succ();
     }
 
+    public function update_lecture_appointment_info(){
+        $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
+        $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
+        $name                         = $this->get_in_str_val("name");
+        $id                           = $this->get_in_str_val("id");
+        $email                        = $this->get_in_str_val("email");
+        $qq                           = $this->get_in_str_val("qq");
+        $grade_ex                     = $this->get_in_int_val("grade_ex");
+        $subject_ex                   = $this->get_in_int_val("subject_ex");
+        $school                       = $this->get_in_str_val("school");
+        $teacher_type                 = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
+        $reference                    = $this->get_in_str_val("reference");
+        $acc                          = $this->get_account();
+
+        if(empty($answer_begin_time) || empty($name)){
+            return $this->output_err("答题时间/手机号/名字不能为空");
+        }
+        $this->t_teacher_lecture_appointment_info->field_update_list($id,[
+            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_end_time"    =>$answer_end_time,
+            "name"               =>$name,
+            "email"              =>$email,
+            "qq"                 =>$qq,
+            "subject_ex"         =>$subject_ex,
+            "grade_ex"           =>$grade_ex,
+            "school"             =>$school,
+            "teacher_type"       =>$teacher_type,
+            "reference"          =>$reference,
+            "lecture_revisit_type" =>$lecture_revisit_type,
+        ]);
+        return $this->output_succ();
+
+    }
     public function set_green_channel_teacherid(){
         $require_id = $this->get_in_int_val("require_id");
         $green_channel_teacherid = $this->get_in_int_val("green_channel_teacherid");

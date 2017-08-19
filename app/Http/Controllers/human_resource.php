@@ -1882,6 +1882,8 @@ class human_resource extends Controller
         );
 
         foreach($ret_info["list"] as &$item){
+            $item["begin"] = date("Y-m-d H:i:s",$item["answer_begin_time"]);
+            $item["end"] = date("Y-m-d H:i:s",$item["answer_end_time"]);
             $item["answer_time"] = date("Y-m-d H:i:s",$item["answer_begin_time"])."-".date("H:i:s",$item["answer_end_time"]);
             if($item['full_time']==1){
                 $item['teacher_type_str']="全职老师";

@@ -164,7 +164,6 @@ class teacher_simulate extends Controller
 
     }
 
-
     public function update_teacher_simulate_info(){
         $teacherid      = $this->get_in_int_val("teacherid");
         $level_simulate = $this->get_in_int_val("level_simulate");
@@ -223,7 +222,7 @@ class teacher_simulate extends Controller
         }else{
             $has_month_flip = array_flip($has_month);
             if(!array_key_exists($month_key,$has_month_flip)){
-                $has_month[]=$month_key;
+                $has_month[] = $month_key;
 
                 $all_money = json_decode(Redis::get($all_money_count_key),true);
                 $all_money['all_money']                 += $data['all_money'];
@@ -233,10 +232,10 @@ class teacher_simulate extends Controller
                 $all_money['all_money_different']        = $all_money['all_money_simulate']-$all_money['all_money'];
                 $all_money['all_lesson_price_different'] = $all_money['all_lesson_price_simulate']-$all_money['all_lesson_price'];
             }
-
-
         }
-
+        unset($all_money['start_time']);
+        unset($all_money['acc']);
+        unset($all_money['level_list']);
 
         Redis::set($has_month_key,json_encode($has_month));
         Redis::set($all_money_count_key,json_encode($all_money));
