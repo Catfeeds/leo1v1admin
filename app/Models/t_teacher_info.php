@@ -2873,9 +2873,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['l.lesson_start<%s', $end_time, 0],
         ];
 
-        $sql = $this->gen_sql_new("select t,deduct_change_class"
+        $sql = $this->gen_sql_new("select sum(if (t.deduct_change_class=1,1,0)) as change_count"
+                                  .",sum(if(t.teacher_comment!='',1,0)) as comment_count"
+                                  .",count(t.stu_praise) as praise_count"
+                                  .",sum(if (t.tea_cw_status=1,1,0)) as tea_cw_count"
+                                  .",sum(if (t.stu_cw_status=1,1,0)) as stu_cw_count"
+                                  .",sum(if (h.work_status>0,1,0)) as homework_count"
                                   ." from %s t "
                                   ." left join %s l on t.teacherid=l.teacherid "
+                                  ." left join %s h on l.lessonid=h.lessonid "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
