@@ -253,7 +253,9 @@ class teacher_simulate extends Controller
         Redis::set($this->has_month_key,json_encode($has_month));
     }
 
+    public function del_redis_simulate_money(){
 
+    }
 
 
 }
