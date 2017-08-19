@@ -230,6 +230,7 @@ class agent extends Controller
 
     public function check(){
         //检查是否有成功试听未回访
+        $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,284928);
         $lesson_call_end_one = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=941);//何可
         $lesson_call_end_two = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=429);//胡月月
         $lesson_call_end_three = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid=725);//杨玉玉
