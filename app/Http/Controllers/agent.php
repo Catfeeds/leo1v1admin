@@ -238,7 +238,7 @@ class agent extends Controller
         // dd($imgg);
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid=335);
         $userid_new = $lesson_call_end['userid'];
-        dd($userid_new);
+        dd($lesson_call_end);
 
 
         $this->update_lesson_call_end_time($adminid=335);
