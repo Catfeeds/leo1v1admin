@@ -2135,7 +2135,8 @@ class user_manage extends Controller
         $semester = $this->get_in_int_val("semester",-1);
         $stu_score_type = $this->get_in_int_val("stu_score_type",-1);
         $page_info=$this->get_in_page_info();
-        $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type);
+        $is_test_user = 0;//1测试用户
+        $ret_info=$this->t_student_score_info->get_all_list($page_info,$username,$grade,$semester,$stu_score_type,$is_test_user);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             //$ret_info['list'][$key]['score'] = 100 * $ret_info['list'][$key]['score'] /  $ret_info['list'][$key]['total_score']
