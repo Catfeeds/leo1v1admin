@@ -1204,7 +1204,7 @@ class common_new extends Controller
         // $teacherid = $this->get_in_int_val("teacherid");
         $teacherid = 50658;
         $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
-        if($ret_info['teacher_money_type'] === 0) {
+        if($ret_info['teacher_money_type'] == 0) {
             $level = $ret_info['level'] + 2;
         } else {
             $level = $ret_info['level'] + 1;
