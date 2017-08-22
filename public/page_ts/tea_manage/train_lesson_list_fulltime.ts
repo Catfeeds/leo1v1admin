@@ -158,45 +158,14 @@ $(function(){
 
     $(".opt-add_train_lesson_user").on("click",function(){
         var data                 = $(this).get_opt_data();
-        var id_train_lesson_type = $("<select/>");
-        var id_train_lessonid    = $("<input/>");
-        var id_subject           = $("<div />");
-        var id_grade             = $("<div />");
-        var id_create_day        = $("<input/>");
-        var id_through_day       = $("<input/>");
-        var id_test_transfor_per = $("<div />");
-        var id_is_test_user      = $("<select />");
-        var id_has_limit         = $("<select />");
-        var id_is_freeze         = $("<select />");
-        var id_min_per           = "<input id='id_min_per' width='100' />";
-        var id_max_per           = "<input id='id_max_per' width='100' />";
-        var transfor_html        = "小于"+id_min_per+"<br>大于"+id_max_per;
+       
+        var id_start       = $("<input/>");
+        var id_end         = $("<input/>");
         var arr  = [
-            ["培训课程类型",id_train_lesson_type],
-            ["源培训课程",id_train_lessonid],
-            ["老师科目",id_subject],
-            ["老师年级",id_grade],
-            ["老师试讲通过时间(天)",id_create_day],
-            ["老师培训通过时间(天)",id_through_day],
-            ["老师转化率(不用填%)",id_test_transfor_per],
-            ["是否被限课",id_has_limit],
-            ["是否被冻结",id_is_freeze],
+            ["入职时间(上限)",id_start],
+            ["入职时间(下限)",id_end]
         ];
-
-        if(acc=="adrian" || acc=="jim"){
-            var test=["测试老师",id_is_test_user];
-            Enum_map.append_option_list("boolean",id_is_test_user,true);
-            arr.push(test);
-        }
-
-        Enum_map.append_option_list("train_lesson_type",id_train_lesson_type,true);
-        Enum_map.append_option_list("boolean",id_has_limit);
-        Enum_map.append_option_list("boolean",id_is_freeze);
-        Enum_map.append_checkbox_list("subject",id_subject,"tea_subject");
-        Enum_map.append_checkbox_list("grade_part_ex",id_grade,"tea_grade");
-        id_create_day.val(30);
-        id_through_day.val("不限制");
-        id_test_transfor_per.html(transfor_html);
+       
 
         $.show_key_value_table("菜单",arr,{
             label    : "确定",
@@ -212,32 +181,12 @@ $(function(){
 		                }
 	                }],
                     onshown:function(dialog_alert){
-                        var subject_str = "";
-                        var grade_str   = "";
-                        $("input[name='tea_subject']:checked").each(function(){
-                            subject_str+=$(this).val()+",";
-                        });
-                        $("input[name='tea_grade']:checked").each(function(){
-                            grade_str+=$(this).val()+",";
-                        });
-                        var is_test_user=0;
-                        if(acc=="adrian" || acc=="jim"){
-                            is_test_user=id_is_test_user.val();
-                        }
-
+                       
                         $.do_ajax("/tea_manage/add_train_lesson_user",{
-                            "type"           : id_train_lesson_type.val(),
-                            "subject"        : subject_str,
-                            "grade_part_ex"  : grade_str,
-                            "create_day"     : id_create_day.val(),
-                            "through_day"    : id_through_day.val(),
-                            "min_per"        : $("#id_min_per").val(),
-                            "max_per"        : $("#id_max_per").val(),
-                            "lessonid"       : data.lessonid,
-                            "is_test_user"   : is_test_user,
-                            "has_limit"      : id_has_limit.val(),
-                            "is_freeze"      : id_is_freeze.val(),
-                            "train_lessonid" : id_train_lessonid.val(),
+                            "type"           : 5,
+                            "through_start"  : id_start.val(),
+                            "through_end"    : id_end.val(),
+                            "lessonid"       : data.lessonid
                         },function(result){
                             BootstrapDialog.alert(result.info);
                             dialog_alert.close();
@@ -249,120 +198,6 @@ $(function(){
                     }
                 });
             }
-        },function(){
-            id_train_lessonid.admin_select_dlg_ajax({
-                "opt_type" : "select",
-                "url"      : "/tea_manage/get_lesson_list",
-                "args_ex"  : {
-                    "type" : "train_lesson"
-                },
-                select_primary_field : "lessonid",
-                select_display       : "lesson_name",
-                'field_list'         : [{
-                    title      : "lessonid",
-                    width      : 50,
-                    field_name : "lessonid"
-                },{
-                    title      : "课程名称",
-                    field_name : "lesson_name",
-                }],filter_list:[
-                    [{
-                        size_class : "col-md-8" ,
-                        title      : "课程名称",
-                        'arg_name' : "lesson_name",
-                        type       : "input"
-                    }]
-                ],
-            });
-
-            id_subject.parents("tr").hide();
-            id_grade.parents("tr").hide();
-            id_create_day.parents("tr").hide();
-            id_through_day.parents("tr").hide();
-            id_test_transfor_per.parents("tr").hide();
-            id_has_limit.parents("tr").hide();
-            id_is_freeze.parents("tr").hide();
-            id_train_lessonid.parents("tr").hide();
-            
-
-            id_train_lesson_type.on("change",function(){
-                var lesson_type = $(this).val();
-                if(lesson_type==1 || lesson_type==4){
-                    id_subject.parents("tr").hide();
-                    id_grade.parents("tr").hide();
-                    id_create_day.parents("tr").hide();
-                    id_through_day.parents("tr").hide();
-                    id_test_transfor_per.parents("tr").hide();
-                    id_has_limit.parents("tr").hide();
-                    id_is_freeze.parents("tr").hide();
-                    id_train_lessonid.parents("tr").hide();
-                }else if(lesson_type==2){
-                    id_subject.parents("tr").show();
-                    id_grade.parents("tr").show();
-                    id_create_day.parents("tr").show();
-                    id_through_day.parents("tr").show();
-                    id_test_transfor_per.parents("tr").show();
-                    id_has_limit.parents("tr").show();
-                    id_is_freeze.parents("tr").show();
-                    id_train_lessonid.parents("tr").hide();
-                }else if(lesson_type==3){
-                    id_subject.parents("tr").hide();
-                    id_grade.parents("tr").hide();
-                    id_create_day.parents("tr").hide();
-                    id_through_day.parents("tr").hide();
-                    id_test_transfor_per.parents("tr").show();
-                    id_has_limit.parents("tr").hide();
-                    id_is_freeze.parents("tr").hide();
-                    id_train_lessonid.parents("tr").show();
-                }
-            });
-
-            id_create_day.blur(function(){
-                var day=$(this).val();
-                if(day=="" || day==0){
-                    $(this).val("不限制");
-                }
-            });
-            id_create_day.focus(function(){
-                if($(this).val()=="不限制"){
-                    $(this).val("");
-                }
-            });
-            id_through_day.blur(function(){
-                var day=$(this).val();
-                if(day=="" || day==0){
-                    $(this).val("不限制");
-                }
-            });
-            id_through_day.focus(function(){
-                if($(this).val()=="不限制"){
-                    $(this).val("");
-                }
-            });
-            $("#id_min_per").blur(function(){
-                var day=$(this).val();
-                if(day=="" || day==0){
-                    $(this).val("不限制");
-                }
-            });
-            $("#id_min_per").focus(function(){
-                if($(this).val()=="不限制"){
-                    $(this).val("");
-                }
-            });
-            $("#id_max_per").blur(function(){
-                var day=$(this).val();
-                if(day=="" || day==0){
-                    $(this).val("不限制");
-                }
-            });
-            $("#id_max_per").focus(function(){
-                if($(this).val()=="不限制"){
-                    $(this).val("");
-                }
-            });
-
-
         });
     });
 

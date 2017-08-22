@@ -18,6 +18,7 @@ $(function(){
 			phone            : $('#id_phone').val(),
 			teacherid        : $('#id_teacherid').val(),
 			is_test_flag     : $('#id_is_test_flag').val(),
+			full_time        : $('#id_full_time').val(),
 			have_wx:	$('#id_have_wx').val()
         });
     }
@@ -40,6 +41,7 @@ $(function(){
     Enum_map.append_option_list("is_test",$("#id_is_test_flag"));
     Enum_map.append_option_list("boolean",$("#id_trans_grade"));
     Enum_map.append_option_list("boolean",$("#id_have_wx"));
+    Enum_map.append_option_list("boolean",$("#id_full_time"));
 
 	$('#id_grade').val(g_args.grade);
 	$('#id_trans_grade').val(g_args.trans_grade);
@@ -49,6 +51,7 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_is_test_flag').val(g_args.is_test_flag);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_full_time').val(g_args.full_time);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 
 

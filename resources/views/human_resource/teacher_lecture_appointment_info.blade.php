@@ -198,7 +198,7 @@
                     <tr>
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
                         <td>{{@$var["name"]}} </td>
-                        <td>{{@$var["answer_time"]}} </td>
+                        <td>{{@$var["begin"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
                         <td>
                             <a href="javascript:;" class="show_detail" data-value="{{$var["phone"]}}" >
