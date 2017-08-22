@@ -98,7 +98,7 @@ class testbb extends Controller
         // $img = $this->get_in_str_val('img');
 
         $img = [
-            0=>'l_t_pdf_193451_0.png'
+            0=>'123.jpg'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -141,7 +141,7 @@ class testbb extends Controller
                 $tmp_name = time().'_'.rand().'png';
 
                if(strstr($name,'jpg')){
-                   imagejpeg($rotate,$hostdir."/$tmp_name.png");
+                   imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
                }elseif(strstr($name,'png')){
                    imagepng($rotate,$hostdir."/$tmp_name.png");
                }
@@ -158,17 +158,17 @@ class testbb extends Controller
 
         // $domain = config('admin')['qiniu']['public']['url'];
         // http://admin.yb1v1.com/tea_manage/lesson_list
-        // $pdf_name_tmp = 'http://admin.yb1v1.com/'.$hostdir.'/'.time().'_'.rand().'.pdf';
-        $pdf_name_tmp = 'http://admin.yb1v1.com/'.$hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
+        // $pdf_name_tmp = 'http://admin.yb1v1.com/wximg/'.time().'_'.rand().'.pdf';
         // $domain = config('admin')['qiniu']['public']['url'];
 
         // $a = $domain.'/'.time().'_'.rand().'.pdf';
-        $a = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
+        // $a = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
 
-        dd($a);
+        // dd($a);
         // $pdf_name_tmp = time().'_'.rand().'.pdf';
 
-        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FI');
 
 
 
