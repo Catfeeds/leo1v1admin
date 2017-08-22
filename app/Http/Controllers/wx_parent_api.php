@@ -1198,7 +1198,7 @@ class wx_parent_api extends Controller
 
         header("Content-type:text/html;charset=utf-8");
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false); 
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
