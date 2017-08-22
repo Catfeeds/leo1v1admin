@@ -1418,6 +1418,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_fulltime(){
+        $this->set_in_value("fulltime_flag",1);
+        return $this->teacher_lecture_list();
+    }
     public function teacher_lecture_list_zs(){
         return $this->teacher_lecture_list();
     }
@@ -1460,6 +1464,10 @@ class human_resource extends Controller
         $is_test_flag = $this->get_in_int_val('is_test_flag',0);
         $have_wx = $this->get_in_int_val('have_wx',-1);
         $full_time = $this->get_in_int_val('full_time',-1);
+        $fulltime_flag = $this->get_in_int_val('fulltime_flag');
+        if($fulltime_flag==1){
+            $full_time=1;
+        }
 
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
