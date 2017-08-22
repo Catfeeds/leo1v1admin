@@ -25,10 +25,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../teacher_level; vi  ../teacher_level/get_first_regular_lesson_info.ts
+	 mkdir -p ../teacher_level; vi  ../teacher_level/get_fifth_regular_lesson_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_level-get_first_regular_lesson_info.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-get_fifth_regular_lesson_info.d.ts" />
 
 $(function(){
     function load_data(){
