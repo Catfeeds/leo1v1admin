@@ -369,7 +369,7 @@ trait  TeaPower {
 
     public function get_tea_subject_and_right_by_adminid($adminid){
         if($adminid==349){
-            $adminid=349;
+            $adminid=480;
         }
         $arr_group    = ["小学科"=>"(4,5,6,7,8,9,10)","数学组"=>"(2)","文综组"=>"(1,3)","物理组"=>"(5)"];
         $account_role = $this->t_manager_info->get_account_role($adminid);

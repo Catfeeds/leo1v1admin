@@ -2609,7 +2609,16 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $ret = $this->t_teacher_record_list->get_no_second_train_lesson();
-        dd($ret);
+        $arr=[];
+        foreach($ret as $v){
+            $teacherid = $v["teacherid"];
+            if($v["trial_train_status"]==2){
+                $arr[]=$v["teacherid"];
+                $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
+                $this->add_trial_train_lesson($teacher_info,1,2);
+            }
+        }
+        dd($arr);
         $ret = $this->get_not_free_time_list(4,100);
         dd($ret);
         // $this->switch_tongji_database();

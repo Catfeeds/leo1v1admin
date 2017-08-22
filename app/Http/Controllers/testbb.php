@@ -146,16 +146,30 @@ class testbb extends Controller
 
 
         $pdf_name_tmp = time().'_'.rand().'.pdf';
-        $pdf_info = $pdf->Output("$pdf_name_tmp", 'I');
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
+
+        // dd($pdf_info);
+
+        // $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
+
+        // $pdf_file = fopen($pdf_name,'w');
+        // fwrite($pdf_file,$pdf_info);
+        // fclose($pdf_file);
+
+        // dd($pdf_file); //输出pdf文件
+
+    }
+
+    public function cc(){
+        $hostdir = public_path('wximg');
 
         $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
-        dd($pdf_name);
+        $pdf_info = 11;
 
-        $pdf_file = fopen($pdf_name);
+        $pdf_file = fopen($pdf_name,'w');
         fwrite($pdf_file,$pdf_info);
         fclose($pdf_file);
 
-        // dd($pdf_file); //输出pdf文件
 
     }
 
