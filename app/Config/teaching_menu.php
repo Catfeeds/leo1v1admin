@@ -43,7 +43,6 @@ class teaching_menu{
              ["power_id"=>37, "name"=>"质监组",  "list"=>[
                  ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                  ["power_id"=>1, "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
-                 //tongji_teaching_and_research_teacher_test_lesson_info_zj
                  ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                  ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                  ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],

@@ -45,9 +45,7 @@ class login extends Controller
     }
 
     function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true) {
-
         if (isset($node["list"])) {
-
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;

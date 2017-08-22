@@ -27,8 +27,8 @@ $(function(){
 
     $.admin_select_user( $("#id_teacherid"),"teacher", load_data);
 
-    $("#id_add_lesson").on("click",function(){
-        do_add_or_update_lesson_info("add",0);
+    $("#id_add_trial_train_lesson").on("click",function(){
+        do_add_or_update_lesson_info("add",0,7);
     });
 
     $(".opt-lesson").on("click",function(){
@@ -36,7 +36,7 @@ $(function(){
         do_add_or_update_lesson_info("update",lessonid);
     });
 
-    var do_add_or_update_lesson_info = function(type_str,lessonid){
+    var do_add_or_update_lesson_info = function(type_str,lessonid,train_type=-1){
         var id_lesson_name  = $("<input/>");
         var id_lesson_start = $("<input/>");
         var id_lesson_end   = $("<input/>");
@@ -61,6 +61,10 @@ $(function(){
             ["子分类",id_sub_type],
             ["培训类型",id_train_type],
         ];
+        if(train_type==7){
+            id_train_type.val(train_type);
+        }
+
 
         if(type_str=="update"){
             $.do_ajax("/tea_manage/get_train_lesson",{
@@ -82,7 +86,7 @@ $(function(){
                 }
             });
         }
-
+      
         $.show_key_value_table("培训课程信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
@@ -120,6 +124,9 @@ $(function(){
 		        format     : 'H:i',
 		        step       : 30 
 	        });
+            if(train_type==7){
+                id_train_type.parent().parent().hide();
+            }
         });
     }
 
@@ -682,30 +689,7 @@ $(function(){
         });
     }
 
-    $("#id_add_trial_train_lesson").on("click",function(){
-        var id_teacherid = $("<input />");
-        var arr = [
-            ["老师",id_teacherid]
-        ];
-        $.show_key_value_table("选择老师",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-                $.do_ajax("/common/add_trial_train_lesson_by_admin",{
-                    "teacherid":id_teacherid.val()
-                },function(result){
-                    if(result.ret==0){
-                        window.location.reload();
-                    }else{
-                        BootstrapDialog.alert(result.info);
-                    }
-                })
-            }
-        },function(){
-            $.admin_select_user( id_teacherid,"teacher");
-        });
-
-    });
+   
 
 
 });

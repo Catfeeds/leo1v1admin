@@ -41,11 +41,11 @@ $(function(){
         }
 
         var arr = [
-            ["1-5年级",id_money_101],
-            ["6-8年级",id_money_106],
-            ["9年级",id_money_203],
-            ["10-11年级",id_money_301],
-            ["12年级",id_money_303],
+            ["小一～小五",id_money_101],
+            ["小六～初二",id_money_106],
+            ["初三",id_money_203],
+            ["高一～高二",id_money_301],
+            ["高三",id_money_303],
         ];
 
         id_money_101.val(money_101);
@@ -72,8 +72,7 @@ $(function(){
                     }else{
                         BootstrapDialog.alert(result.info);
                     }
-                })
-
+                });
             }
         });
 

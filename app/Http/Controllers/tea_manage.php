@@ -1490,9 +1490,45 @@ class tea_manage extends Controller
     }
 
     public function train_lesson_list_fulltime(){
+        $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num        = $this->get_in_page_num();
-        return $this->pageView(__METHOD__,null);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $lesson_status   = $this->get_in_int_val("lesson_status",-1);
+        $acc             = $this->get_account();
+        $ret_info = $this->t_lesson_info->get_train_lesson(
+            $page_num,$start_time,$end_time,$teacherid,$lesson_status,
+            -1,-1,7
+        );
+        if(!empty($ret_info['list'])){
+            $server_map = $this->gen_server_map($ret_info['list']);
+        }
+
+        $n = 1;
+        foreach($ret_info['list'] as &$val){
+            \App\Helper\Utils::unixtime2date_range($val);
+            E\Esubject::set_item_value_str($val);
+            E\Egrade::set_item_value_str($val);
+            E\Elesson_status::set_item_value_str($val);
+            E\Econtract_type::set_item_value_str($val,"lesson_type");
+            if($val['tea_cw_url']==""){
+                $val['cw_status']="未上传";
+            }else{
+                $val['cw_status']="已上传";
+            }
+
+            $val['index']  = $n;
+            $n++;
+            $server_info   = @$server_map[$val['courseid']];
+            $val['region'] = @$server_info['region'];
+            $val['ip']     = @$server_info['ip'];
+            $val['port']   = @$server_info['webrtc_port'];
+            $val['server_type_str'] = \App\Helper\Utils::get_server_type_str($val);
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" => $acc
+        ]);
 
     }
     public function train_lesson_list_research(){
