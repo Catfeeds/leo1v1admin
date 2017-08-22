@@ -18,6 +18,7 @@ class teaching_menu{
                  ["power_id"=>12, "name"=>"试听转化率统计-临时","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                  ["power_id"=>14, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
                  ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
+                 ["power_id"=>2, "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
 
              ]],
 
