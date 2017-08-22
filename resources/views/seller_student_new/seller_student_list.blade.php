@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/js/jquery.md5.js"></script>
 
 <script type="text/javascript">
+ var account = {{$account}};
  var _KDA = _KDA || [];
  window._KDA = _KDA;
  (function(){
