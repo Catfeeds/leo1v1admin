@@ -1160,15 +1160,24 @@ class wx_parent_api extends Controller
          **/
 
         if($type == 2){ // 试听课
+            if($paper_type == 1){ // 存放试卷
+                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
+                    "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
+                    "stu_test_paper" => $ret_arr['file_name_origi']
+                ]);
+            }elseif($paper_type == 2){ // 存放作业
 
-            $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
-                "stu_test_paper" => $ret_arr['file_name_origi']
-            ]);
+            }
         }else{ // 常规课
-            $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
-            ]);
+            if($paper_type == 1){ // 存放试卷
+                $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                ]);
+            }elseif($paper_type == 2){ // 存放作业
+                $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                ]);
+            }
         }
 
         if($ret){

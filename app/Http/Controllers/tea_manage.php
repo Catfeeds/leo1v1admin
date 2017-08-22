@@ -1725,6 +1725,8 @@ class tea_manage extends Controller
         $has_limit      = $this->get_in_int_val("has_limit",-1);
         $is_freeze      = $this->get_in_int_val("is_freeze",-1);
         $train_lessonid = $this->get_in_int_val("train_lessonid",-1);
+        $through_start  = strtotime($this->get_in_str_val("through_start"));
+        $through_end  = strtotime($this->get_in_str_val("through_end"));
 
         $lesson_teacher = $this->t_lesson_info->get_teacherid($lessonid);
         if($userid!=0 && $lesson_teacher==$userid){
@@ -1744,6 +1746,8 @@ class tea_manage extends Controller
         }else{
             if($type==4){
                 $teacherid_list = $this->t_lesson_info_b2->get_trial_train_no_pass_list_b2(0);
+            }elseif($type==5){
+                $teacherid_list = $this->t_teacher_info->get_fulltime_teacher_by_time($through_start,$through_end);
             }else if($type==3){
                 $train_teacher_list = [];
                 $per_teacher_list   = [];

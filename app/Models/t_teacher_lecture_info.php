@@ -9,7 +9,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
     public function get_teacher_lecture_list($page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,
-                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1
+                                             $teacherid,$tea_subject="",$is_test_flag=1,$trans_grade=-1,$have_wx=-1,$full_time=-1
     ){
         if($phone==''){
             if($opt_date_type=="add_time"){
@@ -25,6 +25,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                 ['b.status=%u',$status,-1],
                 ['b.is_test_flag=%u',$is_test_flag,-1],
                 ['t.teacherid=%u',$teacherid,-1],
+                ['la.full_time=%u',$full_time,-1],
                 ["not exists(select 1 from %s where b.grade=grade and b.phone=phone and b.subject=subject and b.add_time<add_time)",
                  self::DB_TABLE_NAME,""],
             ];
@@ -62,7 +63,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." tt.subject t_subject,tt.teacherid as t_teacherid,tt.create_time as t_create_time,"
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
                                   ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"
-                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score  "
+                                  ." la.id as appointment_id,b.retrial_info,b.teacher_accuracy_score,la.full_time  "
                                   ." from %s as b"
                                   ." left join %s la on b.phone=la.phone"
                                   ." left join %s t on t.phone=la.reference"
