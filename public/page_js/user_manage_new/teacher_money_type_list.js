@@ -23,11 +23,54 @@ $(function(){
 
     $("#id_add_teacher_money_type").on("click",function(){
 	      var teacher_money_type = $("#id_teacher_money_type").val();
-	      var level = $("#id_level").val();
+	      var level              = $("#id_level").val();
+        var id_money_101          = $("<input>");
+        var id_money_106          = $("<input>");
+        var id_money_203          = $("<input>");
+        var id_money_301          = $("<input>");
+        var id_money_303          = $("<input>");
+        var money_101          = $(".grade_101").data("money");
+        var money_106          = $(".grade_106").data("money");
+        var money_203          = $(".grade_203").data("money");
+        var money_301          = $(".grade_301").data("money");
+        var money_303          = $(".grade_303").data("money");
 
         if(teacher_money_type!=6){
-            
+            BootstrapDialog.alert("此工资类型不允许修改！");
+            return false;
         }
+
+        var arr = [
+            ["1-5年级",id_money_101],
+            ["6-8年级",id_money_106],
+            ["9年级",id_money_203],
+            ["10-11年级",id_money_301],
+            ["12年级",id_money_303],
+        ];
+
+        id_money_101.val(money_101);
+        id_money_106.val(money_106);
+        id_money_203.val(money_203);
+        id_money_301.val(money_301);
+        id_money_303.val(money_303);
+
+        $.show_key_value_table("修改工资",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_money/",{
+                    "":
+                },function(result){
+                    if(result.ret==0){
+                        window.location.reload();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+
+            }
+        });
+
     });
 
 

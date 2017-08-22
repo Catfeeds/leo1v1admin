@@ -37,7 +37,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["grade_str"]}}</td>
-                        <td>{{$var["money_0"]}}</td>
+                        <td class="grade_{{$var['grade']}}" data-money="{{$var['money_0']}}">{{$var["money_0"]}}</td>
                         <td>{{@$var["money_1"]}}</td>
                         <td>{{@$var["money_2"]}}</td>
                         <td>{{@$var["money_3"]}}</td>
