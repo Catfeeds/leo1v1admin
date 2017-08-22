@@ -542,13 +542,14 @@ class agent extends Controller
         $userid_new = $student_info['userid'];
         $type_new = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
+        $type = $student_info['type'];
         $level      = 0;
         $pay        = 0;
         $cash       = 0;
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0){
+        if($userid_new && $type_new == 0 && $is_test_user == 0 && $type == 1){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
             $nick      = $student_info['nick'];
