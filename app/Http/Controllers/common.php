@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_dn.png";
+        $phone_qr_name = $phone."_qr_agent_wn.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -833,7 +833,8 @@ class common extends Controller
                 $datapath ="/tmp/".$phone."_headimg.png";
                 $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                 shell_exec($wgetshell);
-                $image_4 = $this->yuan_img($datapath);
+                $imgg = $this->yuan_img($datapath);
+                $image_4 = imagejpeg($imgg);
                 // $image_4 = imagecreatefromjpeg($datapath);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
