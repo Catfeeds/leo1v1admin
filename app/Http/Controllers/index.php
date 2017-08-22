@@ -167,6 +167,8 @@ class index extends Controller
 
                 /**  @var  wx \App\Helper\Wx */
 
+                \App\Helper\Utils::logger("login_code 1");
+
                 $wx= new \App\Helper\Wx();
                 global $_SERVER;
                 if (!$code) {
