@@ -463,6 +463,7 @@ class seller_student_new extends Controller
         $this->switch_tongji_database();
         $cur_page       = $this->get_in_int_val("cur_page");
         $page_hide_list = $this->get_page_hide_list($cur_page);
+        $account        = $this->get_account();
 
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
@@ -484,11 +485,13 @@ class seller_student_new extends Controller
         //test
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
+
         return $this->pageView(__METHOD__,$ret_info, [
-            "page_hide_list" => $page_hide_list,
-            "cur_page" => $cur_page,
-            "is_seller_master"=>$is_seller_master
-        ] );
+            "page_hide_list"   => $page_hide_list,
+            "cur_page"         => $cur_page,
+            "is_seller_master" => $is_seller_master,
+            "account"          => $account
+        ]);
     }
 
     //销售自己的例子
