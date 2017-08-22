@@ -1891,7 +1891,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql = $this->gen_sql_new("select distinct subject,teacherid,userid,grade from %s  where %s ",t_lesson_info::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
-
    public function  get_order_fail_list(
        $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
    {

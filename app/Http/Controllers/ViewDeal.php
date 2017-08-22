@@ -503,6 +503,15 @@ trait  ViewDeal {
         ] );
     }
 
+    function teacher_error_view($errors) {
+        $data=["errors"=>$errors];
+        return static::view_with_header_info ("common.teacher_errors", $data ,[
+            "_ctr"=> "common",
+            "_publish_version"=> \App\Config\publish_version::$version ,
+            "_act"=> "errors",
+        ] );
+    }
+
 
     function out_xls($ret_info) {
 
