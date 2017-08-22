@@ -51,12 +51,19 @@ interface RowData {
 	headimgurl	:any;
 	nickname	:any;
 	type	:any;
+	agent_level	:any;
+	test_lessonid	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	origin	:any;
+	lesson_start	:any;
+	lesson_user_online_status	:any;
 	pp_nickname	:any;
 	pp_phone	:any;
 	agent_type	:any;
+	agent_type_str	:any;
+	agent_level_str	:any;
+	lesson_user_online_status_str	:any;
 }
 
 /*
