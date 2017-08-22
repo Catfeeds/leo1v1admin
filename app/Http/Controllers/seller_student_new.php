@@ -627,7 +627,6 @@ class seller_student_new extends Controller
             $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
             $userid_new = $lesson_call_end['userid'];
             if($userid_new){
-                // $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid,$userid_new);
                 return $this->output_err("有试听课成功未回访",["userid" =>$userid_new]);
             }
 
@@ -1039,7 +1038,6 @@ class seller_student_new extends Controller
         $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
         $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
         $userid=$this->get_in_userid(-1 );
-
         $ret_info=$this->t_test_lesson_subject_require->get_order_fail_list($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
         foreach ($ret_info["list"] as &$item ) {
             $this->cache_set_item_student_nick($item);
@@ -1076,22 +1074,14 @@ class seller_student_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function test_lesson_order_fail_list_new() {
-        $cur_require_adminid=$this->get_in_int_val("cur_require_adminid",-1);
-        $this->get_in_int_val("hide_cur_require_adminid",0);
-        list($start_time, $end_time)=$this->get_in_date_range(-30,0);
-        $page_num          = $this->get_in_page_num();
-        $origin_userid_flag = $this->get_in_enum_val(E\Eboolean::class , -1,"origin_userid_flag" );
-        $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
-        $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
-        $userid=$this->get_in_userid(-1 );
-        $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
-        $require_id = 0;
+    public function test_lesson_order_fail_list_new(){
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
+        $ret = 0;
         if(isset($ret_info['require_id'])){
-            $require_id = $ret_info['require_id'];
+            $ret = $ret_info['require_id'];
         }
-
-        return $require_id;
+        return $ret;
     }
 
 
@@ -1353,6 +1343,15 @@ class seller_student_new extends Controller
     public function refresh_call_end(){
         $lessonid = $this->get_in_int_val('lessonid');
         $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+
+        $adminid = $this->get_account_id();
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }
+
         return $ret;
     }
 

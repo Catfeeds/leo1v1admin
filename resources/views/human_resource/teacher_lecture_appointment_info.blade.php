@@ -143,6 +143,11 @@
                         <button class="btn btn-danger" id="id_add_teacher_lecture_appointment">新增试讲预约</button>
                     </div>
                 </div>
+                <div class="col-md-1 remove-for-xs col-xs-6 "" >
+                    <div>
+                        <button class="btn btn-primary" id="id_upload_xls"> 上传xls </button>
+                    </div>
+                </div>
                 <div class="col-md-2 col-xs-6 "  >
                     <div>
                         <button class="btn btn-warning" id="id_update_lecture_appointment_status">批量修改状态</button>
@@ -241,6 +246,8 @@
                                 @if($show_full_time==1)
                                     <a class="opt-set-lecture-revisit-type " title="设置邀约状态" >邀约状态</a>
                                     <a class="opt-edit-full_time" title="全职老师审核">二面评价</a>
+                                    <a class="fa-comments opt-return-back-list " title="回访列表" ></a>
+                                    <a class="opt-set-lecture-revisit-type " title="设置回访状态" >回访状态</a>
                                 @else
                                     <a class="fa-edit opt-edit" title="编辑状态"></a>
                                     <a class="fa-times opt-del" title="删除"></a>

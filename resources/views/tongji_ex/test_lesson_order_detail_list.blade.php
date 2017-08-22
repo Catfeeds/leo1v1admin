@@ -38,11 +38,13 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
-                    <td>申请时间 </td>
+                    <td>试听时间</td>
                     <td>cc</td>
                     <td>学生</td>
                     <td>电话</td>
                     <td>城市</td>
+                    <td>科目</td>
+                    <td>年级</td>
                     <td>老师</td>
                     <td>渠道</td>
                     <td>转介绍</td>
@@ -53,11 +55,13 @@
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["require_time"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["account"]}} </td>
                         <td>{{@$var["stu_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["phone_location"]}} </td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["tea_nick"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["origin_userid"]}} </td>

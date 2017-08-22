@@ -1045,5 +1045,16 @@ class tongji2 extends Controller
 
     }
 
+    public function tongji_lesson_teacher_identity(){
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $lesson_type= $this->get_in_int_val("lesson_type",-1);
+        $ret_info = $this->t_teacher_info->get_lesson_teacher_identity_info($start_time,$end_time,$lesson_type);
+        foreach($ret_info["list"] as &$item){
+            E\Eidentity::set_item_value_str($item);
+        }
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
+
 
 }

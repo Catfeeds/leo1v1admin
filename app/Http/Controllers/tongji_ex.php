@@ -41,6 +41,10 @@ class tongji_ex extends Controller
         $page_info= $this->get_in_page_info();
 
         $ret_info=$this->t_test_lesson_subject_require->test_lesson_order_detail_list($page_info,$start_time,$end_time,$cur_require_adminid,$origin_ex,$teacherid);
+        foreach ($ret_info["list"] as &$item ){
+            E\Egrade::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+        }
         return $this->pageView(__METHOD__,$ret_info);
     }
 

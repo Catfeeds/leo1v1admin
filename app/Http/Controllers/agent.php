@@ -229,14 +229,12 @@ class agent extends Controller
     }
 
     public function check(){
-        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        // header("content-type:image/png");
-        // $imgg = $this->yuan_img($url);
-        // imagepng($imgg);
-        // imagedestroy($imgg);
-
-        // dd($imgg);
-        $this->update_lesson_call_end_time($adminid=335);
+        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
+        header("content-type:image/png");
+        $imgg = $this->yuan_img($url);
+        imagepng($imgg);
+        imagedestroy($imgg);
+        dd($imgg);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -244,12 +242,25 @@ class agent extends Controller
         dd($test_lesson);
     }
 
-    public function update_lesson_call_end_time($adminid){
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
+    public function update_lesson_call_end_time(){
+        $adminid = $this->get_in_int_val('adminid');
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
-                $ret_info[] = $item;
-                $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }else{
+            $ret = 1;
+        }
+
+        return $ret;
+    }
+
+    public function update_lesson_call_end_time_new($adminid){
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
             }
         }
         dd($lesson_call_end);

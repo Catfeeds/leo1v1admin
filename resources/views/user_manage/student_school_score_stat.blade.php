@@ -75,7 +75,7 @@
                         <td>{{@$var["create_time"]}} </td>
                         @for($i=1; $i <@11; $i++)
                             @if($var["subject"] == $i)
-                                    <td>{{intval(100*$var["score"]/$var['total_score'])}}</td>
+                                    <td>{{$var["score"]}}</td>
                             @else
                                 <td></td>
                             @endif

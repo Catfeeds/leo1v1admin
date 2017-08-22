@@ -17,12 +17,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	field_name	:any;
-	test_lesson_count	:any;
-	order_count	:any;
-	order_money	:any;
-	percent	:any;
-	title	:any;
 }
 
 /*

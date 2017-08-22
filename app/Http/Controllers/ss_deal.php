@@ -1378,13 +1378,14 @@ class ss_deal extends Controller
         $account = $this->get_account();
         $require_id =$this->get_in_require_id();
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
+        $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
         //$before_lesson_count = $this->t_order_info->get_order_all_lesson_count($userid, $account )/100;
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
         $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
-            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
         );
         return $this->output_succ(["data"=>$ret]);
     }
@@ -1479,7 +1480,7 @@ class ss_deal extends Controller
         $account = $this->get_account();
         //$before_lesson_count= $this->t_order_info->get_order_all_lesson_count($userid, $account);
         $before_lesson_count=0;
-        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count);
+        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, ["from_test_lesson_id" => $from_test_lesson_id] );
 
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
@@ -2337,7 +2338,112 @@ class ss_deal extends Controller
         }
 
     }
+    public function upload_from_xls_cp(){
+        $grade_map = [
+            '小学'   => 100,
+            '初中'   => 200,
+            '高中'   => 300,
+        ];
+        $subject_map = array(
+            "语文" => 1,
+            "数学" => 2,
+            "英语" => 3,
+            "化学" => 4,
+            "物理" => 5,
+            "生物" => 6,
+            "政治" => 7,
+            "历史" => 8,
+            "地理" => 9,
+            "科学" => 10,
+        );
+        $identity_map = array(
+            0 => "未设置",
+            5 => "机构老师",
+            6 => "公校老师",
+            7 => "其他在职人士",
+            8 => "在校学生",
+        );
+        $type_arr=[
+            "未联系"=>0,
+            "未接通" =>1,
+            "待跟进" =>2,
+            "无意向" =>3,
+            "没意向" =>3,
+            "已预约"=>4
+        ];
+        $file = Input::file('file');
 
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            $objPHPExcel = $objReader->load($realPath);
+            
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach($arr as $k=>&$val){
+                if(empty($val[0]) || $k==0){
+                    unset($arr[$k]);
+                }
+                // $val[-1] = strlen($val[1]);
+                if(strlen($val[1])==4){
+                    $val[1]="0".$val[1];
+                }
+                if(strlen($val[2])==4){
+                    $val[2]="0".$val[2];
+                }
+
+            }
+            foreach($arr as $item){
+                $name              = $item[0];
+                $answer_begin_time = strtotime($item[1]);
+                $answer_end_time   = strtotime($item[2]);
+                $phone             = intval($item[3]);
+                $qq                = $item[4];
+                $email             = $item[5];
+                $subject           = $item[6];//
+                $grade             = $item[7];//
+                $school            = $item[8];
+                $teacher_type      = $item[9];
+                $reference         = $item[10];
+                $lecture_revisit_type = $item[11];
+                if (isset($grade_map[$grade])) {
+                    $grade_ex = $grade_map[$grade] ;
+                }
+                if (isset($subject_map[$subject])) {
+                    $subject_ex = $subject_map[$subject] ;
+                }
+                if (isset($identity_map[$teacher_type])) {
+                    $teacher_type = $identity_map[$teacher_type] ;
+                }
+                if (isset($type_arr[$lecture_revisit_type])) {
+                    $lecture_revisit_type = $type_arr[$lecture_revisit_type] ;
+                }
+
+
+                $this->t_teacher_lecture_appointment_info->row_insert([
+                    "answer_begin_time"  =>$answer_begin_time, 
+                    "answer_end_time"    =>$answer_end_time,
+                    "name"               =>$name,
+                    "phone"              =>$phone,
+                    "email"              =>$email,
+                    "qq"                 =>$qq,
+                    "subject_ex"         =>$subject_ex,
+                    "grade_ex"           =>$grade_ex,
+                    "school"             =>$school,
+                    "teacher_type"       =>$teacher_type,
+                    "reference"          =>$reference,
+                    "lecture_revisit_type" =>$lecture_revisit_type,
+                    "hand_flag"          =>1
+                ]);
+            }
+            return outputjson_success();
+        } else {
+            //return 111;
+            //dd(222);
+            return outputjson_ret(false);
+        }
+    }
     public function upload_lecture_from_xls(){
         $type_arr=[
             "未联系"=>0,
@@ -5329,9 +5435,11 @@ class ss_deal extends Controller
         $check_time = strtotime("+1 day",strtotime( date("Y-m-d 23:59",$last_lesson_start*1)));
         if($lesson_total>=9000){
             if($contract_type==0 && $check_time>time() && $has_share_activity_flag==1){
+                /*
                 if($now>$activity_start_time && $now<$activity_end_time){
                     $price -= 30000;
                 }
+                */
             }elseif($contract_type==3){
                 if($now>$activity_start_time && $now<$activity_finish_time){
                     $has_normal_order=$this->t_order_info->get_order_count(
