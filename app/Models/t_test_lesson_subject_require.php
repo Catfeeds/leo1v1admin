@@ -679,7 +679,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , s.userid, s.phone, s.grade, s.nick, tss.success_flag"
+            "select $field_name  as check_value , l.lesson_start, s.userid, s.phone, s.grade, s.nick, tss.success_flag"
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
