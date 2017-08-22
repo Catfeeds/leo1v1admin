@@ -1459,11 +1459,12 @@ class human_resource extends Controller
         $teacherid    = $this->get_in_int_val('teacherid',-1);
         $is_test_flag = $this->get_in_int_val('is_test_flag',0);
         $have_wx = $this->get_in_int_val('have_wx',-1);
+        $full_time = $this->get_in_int_val('full_time',-1);
 
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx
+            $trans_grade,$have_wx,$full_time
         );
 
         $num = 0;
@@ -1475,6 +1476,7 @@ class human_resource extends Controller
                     $val['trans_grade'] = 0;
                 }
                 E\Eboolean::set_item_value_str($val,"trans_grade");
+                E\Eboolean::set_item_value_str($val,"full_time");
                 $num++;
                 $val['num'] = $num;
                 \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
