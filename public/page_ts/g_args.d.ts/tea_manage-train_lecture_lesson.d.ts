@@ -18,6 +18,7 @@ interface GargsStatic {
 	train_email_flag:	number;
 	is_all:	number;
 	full_time:	number;
+	fulltime_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -100,7 +101,8 @@ $(function(){
 			lecture_status:	$('#id_lecture_status').val(),
 			train_email_flag:	$('#id_train_email_flag').val(),
 			is_all:	$('#id_is_all').val(),
-			full_time:	$('#id_full_time').val()
+			full_time:	$('#id_full_time').val(),
+			fulltime_flag:	$('#id_fulltime_flag').val()
         });
     }
 
@@ -127,6 +129,7 @@ $(function(){
 	$('#id_train_email_flag').val(g_args.train_email_flag);
 	$('#id_is_all').val(g_args.is_all);
 	$('#id_full_time').val(g_args.full_time);
+	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -218,6 +221,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">full_time</span>
                 <input class="opt-change form-control" id="id_full_time" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_flag</span>
+                <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
 */

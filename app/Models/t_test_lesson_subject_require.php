@@ -679,7 +679,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , s.userid, s.phone, s.grade, s.nick, tss.success_flag"
+            "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid, s.phone, s.grade, s.nick, tss.success_flag"
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
@@ -1891,7 +1891,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql = $this->gen_sql_new("select distinct subject,teacherid,userid,grade from %s  where %s ",t_lesson_info::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
-
    public function  get_order_fail_list(
        $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
    {

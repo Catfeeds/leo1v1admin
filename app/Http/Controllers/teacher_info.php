@@ -64,7 +64,7 @@ class teacher_info extends Controller
         };
         $ret_info = $this->t_lesson_info_b2->get_teacher_lesson_list_www(
             $teacherid,$userid,$start_time,$end_time,$lesson_type_in_str
-        ); 
+        );
         $train_from_lessonid_list = \App\Helper\Config::get_config("trian_lesson_from_lessonid","train_lesson");
         foreach($ret_info["list"] as &$item){
             $lessonid    = $item["lessonid"];
@@ -1807,5 +1807,210 @@ class teacher_info extends Controller
     }
     public function test () {
         return $this->pageView(__METHOD__,[]);
+    }
+
+
+    public function  file_store()   {
+
+        $teacherid      = $this->get_login_teacher();
+        $dir= $this->get_in_str_val("dir");
+        if (!$dir) {
+            $dir= "/";
+        }
+
+        $store=new \App\FileStore\file_store_tea();
+        $ret_list=$store->list_dir($teacherid, $dir);
+        foreach ( $ret_list  as &$item  ) {
+            if (!$item["is_dir"]) {
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            }
+            $item["abs_path"] =  $dir .$item["file_name"];
+            $item["file_size"]= \App\Helper\Common::size_str(@$item["file_size"] );
+        }
+
+        array_unshift( $ret_list, [ "is_dir" => true,
+                                    "no_share_flag" =>true,
+                                    "file_name" => "返回上级目录" ,
+                                    "abs_path" => dirname($dir),
+                                    "file_size" =>"",
+                                    "create_time" =>"",
+        ] );
+
+
+        return $this->pageView(
+            __METHOD__,
+            \App\Helper\Utils::list_to_page_info($ret_list) ,["cur_dir"=>$dir] );
+
+    }
+
+    public function file_store_add_dir()  {
+        $teacherid      = $this->get_login_teacher();
+        $dir= $this->get_in_str_val("dir");
+        $dir_name = trim($this->get_in_str_val("dir_name"));
+        $obj_dir=$dir.$dir_name;
+
+        \App\Helper\Utils::logger("obj_dir:$obj_dir");
+        $store=new \App\FileStore\file_store_tea();
+        $store->add_dir($teacherid,$obj_dir);
+        \App\Helper\Utils::logger("ok ..");
+
+        return $this->output_succ();
+    }
+    public function get_upload_token() {
+        $store=new \App\FileStore\file_store_tea();
+        $dir = $this->get_in_str_val("dir");
+        $teacherid      = $this->get_login_teacher();
+
+        $pre_dir=$store->get_dir($teacherid,$dir );
+        $token=$store->get_upload_token();
+        return $this->output_succ(["upload_token"=> $token, "pre_dir" => $pre_dir ]);
+
+    }
+    public function get_download_url() {
+        $file_path = $this->get_in_str_val("file_path");
+        $teacherid      = $this->get_login_teacher();
+
+        $store=new \App\FileStore\file_store_tea();
+        $auth=$store->get_auth();
+        $file_path = $store->get_file_path($teacherid,$file_path);
+        $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
+        return $this->output_succ(["url" => $authUrl]);
+    }
+    public function get_share_link() {
+        $teacherid      = $this->get_login_teacher();
+        $share_path = $this->get_in_str_val("share_path");
+
+        $now=time();
+        $create_time=$now;
+        $end_time=$create_time+86400*10;
+        $arr=[
+            "teacherid" => $teacherid,
+            "share_path" => $share_path,
+            "create_time" => $create_time,
+            "end_time" => $end_time ,
+            "md5_sum" => substr( md5("$teacherid:$share_path:$create_time,$end_time"), 0, 16)
+        ];
+        $key= "xcwen142857xcwAB";
+        $sign= \App\Helper\Common::encrypt( json_encode($arr),$key);
+
+        return $this->output_succ(["sign"=> $sign] );
+        //echo urlencode($sign)."<br/>";
+        //echo \App\Helper\Common::decrypt($sign,$key);
+
+    }
+
+    public function base_info() {
+
+    }
+
+    public function file_store_rename() {
+        $teacherid      = $this->get_login_teacher();
+        $old_path= $this->get_in_str_val("old_path");
+        $new_name= $this->get_in_str_val("new_name");
+        $store=new \App\FileStore\file_store_tea();
+        $store->rename_file($teacherid,$old_path,$new_name);
+        return $this->output_succ();
+    }
+    public  function file_share() {
+
+        $sign=$this->get_in_str_val("sign");
+        $dir = $this->get_in_str_val("dir");
+        if (!$dir) {
+            $dir="/";
+        }
+        $key= "xcwen142857xcwAB";
+        $data=@\App\Helper\Utils::json_decode_as_array(\App\Helper\Common::decrypt($sign,$key));
+        if (!is_array($data)) {
+            //check md5
+            return $this->error_view([
+                "无效链接"
+            ]);
+        }
+        $teacherid = $data["teacherid"] ;
+        $share_path = $data["share_path"] ;
+        $create_time = $data["create_time"] ;
+        $end_time = $data["end_time"] ;
+        $md5_sum= $data["md5_sum"] ;
+
+
+
+        if( $md5_sum!== substr( md5("$teacherid:$share_path:$create_time,$end_time"), 0, 16)) {
+            return $this->error_view([
+                "md5 校验失败"
+            ]);
+        }
+
+        $file_name="";
+        if ($share_path[strlen( $share_path)-1]!="/") {
+            $file_name=basename($share_path );
+            $share_path=dirname($share_path );
+        }
+
+
+        $store=new \App\FileStore\file_store_tea();
+        $obj_dir=  rtrim(  rtrim ($share_path,"/"). "/" . trim( $dir , "/" ), "/")  ."/";
+        $ret_list=$store->list_dir($teacherid, $obj_dir);
+        $list=[];
+        foreach ( $ret_list  as $item  ) {
+            if (!$item["is_dir"]) {
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            }
+            $item["abs_path"] =  $dir .$item["file_name"];
+            $item["file_size"]= \App\Helper\Common::size_str(@$item["file_size"] );
+            if ( $file_name ==""  ) {
+                $list[]=$item;
+            }else if ( $file_name== $item["file_name"]) {
+                $list[]=$item;
+            }
+        }
+
+        array_unshift( $list, [
+            "is_dir"      => 1,
+            "file_name"   => "返回上级目录" ,
+            "abs_path"    => dirname($dir),
+            "file_size"   => "",
+            "create_time" => "",
+        ]);
+
+        return $this->pageView(
+                __METHOD__,
+                \App\Helper\Utils::list_to_page_info($list) ,["cur_dir"=>$dir] );
+
+    }
+
+    public function get_share_download_url( ) {
+
+
+        $sign=$this->get_in_str_val("sign");
+        $file_path= $this->get_in_str_val("file_path");
+        $key= "xcwen142857xcwAB";
+        $data=@\App\Helper\Utils::json_decode_as_array(\App\Helper\Common::decrypt($sign,$key));
+        if (!is_array($data)) {
+            //check md5
+            return $this->error_view([
+                "无效链接"
+            ]);
+        }
+        $teacherid = $data["teacherid"] ;
+        $share_path = $data["share_path"] ;
+        $create_time = $data["create_time"] ;
+        $end_time = $data["end_time"] ;
+        $md5_sum= $data["md5_sum"] ;
+
+        if( $md5_sum!== substr( md5("$teacherid:$share_path:$create_time,$end_time"), 0, 16)) {
+            return $this->error_view([
+                "md5 校验失败"
+            ]);
+        }
+
+
+        $store=new \App\FileStore\file_store_tea();
+
+        $auth=$store->get_auth();
+
+        $file_path =    rtrim ($share_path,"/"). "/" . trim( $file_path)   ;
+        $file_path = $store->get_file_path($teacherid,$file_path);
+        $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
+        return $this->output_succ(["url" => $authUrl]);
     }
 }

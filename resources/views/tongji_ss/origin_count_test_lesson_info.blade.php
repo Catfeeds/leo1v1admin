@@ -10,6 +10,8 @@
                     <td>姓名</td>
                     <td>电话</td>
                     <td>渠道</td>
+                    <td>状态</td>
+                    <td>上课时间</td>
                     <td>试听是否成功</td>
                     <td></td>
                 </tr>
@@ -21,6 +23,8 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["check_value"]}} </td>
+                        <td>{{@$var["seller_student_status_str"]}} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["success_flag_str"]}} </td>
                         <td>
                             <div

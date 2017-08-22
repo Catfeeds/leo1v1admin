@@ -8,7 +8,6 @@ interface GargsStatic {
 	end_time:	string;
 	subject:	number;
 	teacherid:	number;
-	userid:	number;
 	record_flag:	number;
 	acc:	string;
 }
@@ -25,10 +24,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../teacher_level; vi  ../teacher_level/get_first_regular_lesson_info.ts
+	 mkdir -p ../teacher_level; vi  ../teacher_level/get_fifth_test_lesson_info.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_level-get_first_regular_lesson_info.d.ts" />
+/// <reference path="../g_args.d.ts/teacher_level-get_fifth_test_lesson_info.d.ts" />
 
 $(function(){
     function load_data(){
@@ -40,7 +39,6 @@ $(function(){
 			end_time:	$('#id_end_time').val(),
 			subject:	$('#id_subject').val(),
 			teacherid:	$('#id_teacherid').val(),
-			userid:	$('#id_userid').val(),
 			record_flag:	$('#id_record_flag').val(),
 			acc:	$('#id_acc').val()
         });
@@ -59,7 +57,6 @@ $(function(){
     });
 	$('#id_subject').val(g_args.subject);
 	$('#id_teacherid').val(g_args.teacherid);
-	$('#id_userid').val(g_args.userid);
 	$('#id_record_flag').val(g_args.record_flag);
 	$('#id_acc').val(g_args.acc);
 
@@ -83,13 +80,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">teacherid</span>
                 <input class="opt-change form-control" id="id_teacherid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">userid</span>
-                <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
 
