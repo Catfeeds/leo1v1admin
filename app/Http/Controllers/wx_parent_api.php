@@ -1192,11 +1192,16 @@ class wx_parent_api extends Controller
     }
 
 
+    public function test(){
+        
+    }
 
-    public function img_to_pdf(){
+    public function img_to_pdf($filesnames){
         ini_set("memory_limit",'-1');
 
         header("Content-type:text/html;charset=utf-8");
+
+        $hostdir = public_path('/wximg');
 
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
@@ -1228,7 +1233,7 @@ class wx_parent_api extends Controller
 
             }
         }
-
+        $pdf->Output('1.pdf', 'I'); //输出pdf文件
 
     }
 
