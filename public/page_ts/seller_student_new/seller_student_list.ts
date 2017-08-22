@@ -239,21 +239,19 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 ) {
+        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213) {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
         }
 
-
-
-        // $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
-        // } ,function(ret){
-        //     if(ret.require_id){
-        //         alert('您有签单失败原因未填写,请先填写完哦!');
-        //         window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller';
-        //     }
-        // });
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
+        } ,function(ret){
+            if(ret.require_id){
+                alert('您有签单失败原因未填写,请先填写完哦!');
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller';
+            }
+        });
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 

@@ -29,7 +29,7 @@
                         <td>{{@$var["office_device_type_str"]}} </td>
                         <td>{{@$var["device_id"]}} </td>
                         <td>{{@$var["device_opt_type_str"]}}</td>
-                        <td>{{@$var["other_info"]}}</td>
+                        <td>{{@$var["value"]}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

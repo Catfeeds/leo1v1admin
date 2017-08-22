@@ -42,6 +42,24 @@
                         <td></td>
                     </tr>
 
+
+                    <tr>
+                        <td>操作</td>
+                        <td>
+                            <button class="btn btn-primary" id="id_open_ex">重置遥控,开启空调 </button>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>操作</td>
+                        <td>
+                            -------
+                        </td>
+                        <td></td>
+                    </tr>
+
                     <tr>
                         <td>操作</td>
                         <td>

@@ -1418,6 +1418,10 @@ class human_resource extends Controller
 
     }
 
+    public function teacher_lecture_list_fulltime(){
+        $this->set_in_value("fulltime_flag",1);
+        return $this->teacher_lecture_list();
+    }
     public function teacher_lecture_list_zs(){
         return $this->teacher_lecture_list();
     }
@@ -1459,11 +1463,16 @@ class human_resource extends Controller
         $teacherid    = $this->get_in_int_val('teacherid',-1);
         $is_test_flag = $this->get_in_int_val('is_test_flag',0);
         $have_wx = $this->get_in_int_val('have_wx',-1);
+        $full_time = $this->get_in_int_val('full_time',-1);
+        $fulltime_flag = $this->get_in_int_val('fulltime_flag');
+        if($fulltime_flag==1){
+            $full_time=1;
+        }
 
         $this->t_teacher_lecture_info->switch_tongji_database();
         $ret_info = $this->t_teacher_lecture_info->get_teacher_lecture_list(
             $page_num,$opt_date_type,$start_time,$end_time,$grade,$subject,$status,$phone,$teacherid,$tea_subject,$is_test_flag,
-            $trans_grade,$have_wx
+            $trans_grade,$have_wx,$full_time
         );
 
         $num = 0;
@@ -1475,6 +1484,7 @@ class human_resource extends Controller
                     $val['trans_grade'] = 0;
                 }
                 E\Eboolean::set_item_value_str($val,"trans_grade");
+                E\Eboolean::set_item_value_str($val,"full_time");
                 $num++;
                 $val['num'] = $num;
                 \App\Helper\Utils::unixtime2date_for_item($val,"add_time","_str");
@@ -1873,7 +1883,7 @@ class human_resource extends Controller
 
         $adminid = $this->get_account_id();
         $acc     = $this->get_account();
-        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994])
+        if(in_array($adminid,[349,72,186,68,500,897,967,480,974,985,994,986])
            || in_array($acc,['jim','adrian',"alan","ted","夏宏东","low-key"])){
             $adminid = -1;
         }
@@ -2729,6 +2739,9 @@ class human_resource extends Controller
         $check_flag=$this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
         if($check_flag){
             return $this->output_err("手机号已存在!");
+        }
+        if($teacher_type=="" || $teacher_type==0){
+            return $this->output_err("请选择老师身份!");
         }
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert([
@@ -4196,6 +4209,9 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_list);
     }
 
+    public function reaearch_teacher_lesson_list_fulltime(){
+        return $this->reaearch_teacher_lesson_list();
+    }
     public function reaearch_teacher_lesson_list(){
         $teacherid = $this->get_in_int_val("teacherid",-1);
         $page_info = $this->get_in_page_info();

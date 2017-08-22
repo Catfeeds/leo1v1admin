@@ -167,6 +167,8 @@ class index extends Controller
 
                 /**  @var  wx \App\Helper\Wx */
 
+                \App\Helper\Utils::logger("login_code 1");
+
                 $wx= new \App\Helper\Wx();
                 global $_SERVER;
                 if (!$code) {
@@ -315,6 +317,8 @@ class index extends Controller
         //$url="/".$arr[1]."/".$arr[2];
 
     }
+
+
     public function reset_name() {
         $list=$this->t_paper_info->get_list_for_test();
         foreach ($list as $item)  {

@@ -17,6 +17,9 @@ interface JQueryStatic {
     get_page_select_date_str(has_date_type?):string;
     plupload_Uploader(config:any):any;
     get_action_str():string;
+
+    flow_dlg_show(title, add_func , flow_type, from_key_int,  from_key2_int?, from_key_str? ):void;
+
     /*
         $.show_key_value_table("新增申请", arr ,{
             label: '确认',
@@ -26,8 +29,6 @@ interface JQueryStatic {
         });
             */
 
-
-    flow_dlg_show(title, add_func , flow_type, from_key_int,  from_key2_int?, from_key_str? ):void;
 
     show_key_value_table (title:string,arr:Array<Array<any>> ,btn_config?:Object,onshownfunc?: ()=>void, close_flag?:boolean ,width? ):void;
 

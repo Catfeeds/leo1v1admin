@@ -103,8 +103,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
-            // ["lesson_type=%d",$type,-1],
-            "lesson_type=2", //试听
+            ["lesson_type=%d",$type,-1],
+            // "lesson_type=2", //试听
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
         ];
@@ -2907,6 +2907,34 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_call_end_time_by_adminid_new($adminid){
+        $time = time();
+        $where_arr = [
+            ' l.lesson_type = 2 ',
+            ' l.lesson_del_flag = 0 ',
+            ' l.confirm_flag <2 ',
+            ' l.lesson_user_online_status = 1 ',
+            ' l.lesson_end > 1502899200 ',
+            ' l.lesson_end <  '.$time,
+            ' lss.call_end_time = 0 ',
+            ' lss.success_flag in (0,1) ',
+            [' lsr.cur_require_adminid = %d ',$adminid],
+        ];
+        $sql = $this->gen_sql_new(
+            " select l.userid,l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            ." from %s l "
+            ." left join %s lss on lss.lessonid = l.lessonid "
+            ." left join %s lsr on lsr.require_id = lss.require_id "
+            ." where %s "
+            ,self::DB_TABLE_NAME
+            ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+            ,t_test_lesson_subject_require::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_fulltime_teacher_interview_info($start_time,$end_time){
         $where_arr=[
             "l.lesson_del_flag=0",
@@ -3259,6 +3287,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_succ_test_lesson($userid ) {
     }
 
 

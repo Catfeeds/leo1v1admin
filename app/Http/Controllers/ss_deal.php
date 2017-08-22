@@ -1378,13 +1378,14 @@ class ss_deal extends Controller
         $account = $this->get_account();
         $require_id =$this->get_in_require_id();
         $userid= $this->t_test_lesson_subject_require->get_userid($require_id);
+        $from_test_lesson_id = $this->t_test_lesson_subject_require->get_current_lessonid($require_id);
 
         //$before_lesson_count = $this->t_order_info->get_order_all_lesson_count($userid, $account )/100;
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
         $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
-            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count
+            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
         );
         return $this->output_succ(["data"=>$ret]);
     }
@@ -1479,7 +1480,7 @@ class ss_deal extends Controller
         $account = $this->get_account();
         //$before_lesson_count= $this->t_order_info->get_order_all_lesson_count($userid, $account);
         $before_lesson_count=0;
-        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count);
+        $price_ret=\App\OrderPrice\order_price_base::get_price_ex_cur($competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_total/100,$before_lesson_count, ["from_test_lesson_id" => $from_test_lesson_id] );
 
         $discount_price= $price_ret["price"]*100;
         $promotion_discount_price=$price_ret["discount_price"]*100;
@@ -2353,6 +2354,7 @@ class ss_deal extends Controller
             "政治" => 7,
             "历史" => 8,
             "地理" => 9,
+            "科学" => 10,
         );
         $identity_map = array(
             0 => "未设置",
@@ -2431,9 +2433,9 @@ class ss_deal extends Controller
                     "school"             =>$school,
                     "teacher_type"       =>$teacher_type,
                     "reference"          =>$reference,
-                    "accept_adminid"     =>$this->get_account_id(),
-                    "accept_time"        =>time(),
                     "lecture_revisit_type" =>$lecture_revisit_type,
+                    "accept_adminid"      =>$this->get_account_id(),
+                    "accept_time"         =>time(),
                     "hand_flag"          =>1
                 ]);
             }
@@ -3165,28 +3167,24 @@ class ss_deal extends Controller
     }
 
     public function add_lecture_appointment_one(){
-        $answer_begin_time            = strtotime($this->get_in_str_val("answer_begin_time"));
-        $answer_end_time              = strtotime($this->get_in_str_val("answer_end_time"));
-        // $custom                       = $this->get_in_str_val("custom");
-        $name                         = $this->get_in_str_val("name");
-        $phone                        = $this->get_in_str_val("phone");
-        $email                        = $this->get_in_str_val("email");
-        $qq                           = $this->get_in_str_val("qq");
-        $grade_ex                     = $this->get_in_int_val("grade_ex");
-        $subject_ex                   = $this->get_in_int_val("subject_ex");
-        // $textbook                     = $this->get_in_str_val("textbook");
-        $school                       = $this->get_in_str_val("school");
-        $teacher_type                 = $this->get_in_int_val("teacher_type");
-        $lecture_revisit_type                 = $this->get_in_int_val("lecture_revisit_type");
-        //$self_introduction_experience = trim($this->get_in_str_val("self_introduction_experience"));
-        $reference                    = $this->get_in_str_val("reference");
-        // $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status");
-        //$lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin");
-        $acc                          = $this->get_account();
+        $answer_begin_time    = strtotime($this->get_in_str_val("answer_begin_time"));
+        $answer_end_time      = strtotime($this->get_in_str_val("answer_end_time"));
+        $name                 = $this->get_in_str_val("name");
+        $phone                = $this->get_in_str_val("phone");
+        $email                = $this->get_in_str_val("email");
+        $qq                   = $this->get_in_str_val("qq");
+        $grade_ex             = $this->get_in_int_val("grade_ex");
+        $subject_ex           = $this->get_in_int_val("subject_ex");
+        $school               = $this->get_in_str_val("school");
+        $teacher_type         = $this->get_in_int_val("teacher_type");
+        $lecture_revisit_type = $this->get_in_int_val("lecture_revisit_type");
+        $reference            = $this->get_in_str_val("reference");
+        $acc                  = $this->get_account();
 
-        if(empty($answer_begin_time) || empty($phone) || empty($name)){
+        if(empty($answer_begin_time) || empty($phone) || empty($name) || empty($teacher_type)){
              return $this->output_err("答题时间/手机号/名字不能为空");
         }
+
       
         $id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         if($id>0){
@@ -5435,9 +5433,11 @@ class ss_deal extends Controller
         $check_time = strtotime("+1 day",strtotime( date("Y-m-d 23:59",$last_lesson_start*1)));
         if($lesson_total>=9000){
             if($contract_type==0 && $check_time>time() && $has_share_activity_flag==1){
+                /*
                 if($now>$activity_start_time && $now<$activity_end_time){
                     $price -= 30000;
                 }
+                */
             }elseif($contract_type==3){
                 if($now>$activity_start_time && $now<$activity_finish_time){
                     $has_normal_order=$this->t_order_info->get_order_count(

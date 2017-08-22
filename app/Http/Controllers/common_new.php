@@ -1220,13 +1220,14 @@ class common_new extends Controller
         $teacherid = $this->get_in_int_val("teacherid");
         if ($teacherid) {
             $start_time = strtotime('2017-08-01');
-            $end_time = strtotime('2017-09-01');
-            $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+            $end_time   = strtotime('2017-09-01');
+            $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+            $face       = [];
             foreach ($ret_info as $item) {
                 $face[] = @$item['face'];
             }
             $stu_info['stu_num'] = count($ret_info);
-            $stu_info['face'] = $face;
+            $stu_info['face']    = $face;
             return $this->output_succ(["stu_info"=>$stu_info]);
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
@@ -1239,12 +1240,23 @@ class common_new extends Controller
             $start_time = strtotime('2017-08-01');
             $end_time = strtotime('2017-09-01');
             $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+            foreach ($ret_info as &$item) {
+                $item = intval($item);
+            }
             return $this->output_succ(["list"=>$ret_info]);
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
-
     }
 
+    public function get_no_contract_stu(){
+
+        $start_time = strtotime('2017-06-01');
+        $end_time   = strtotime('2017-09-01');
+        // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
+
+        // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
+         // dispatch($job);
+    }
 
 }

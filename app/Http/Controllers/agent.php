@@ -223,20 +223,18 @@ class agent extends Controller
             if($item['cash']){
                 $item['cash'] = $item['cash']/100;
             }
+            $item['check_money_desc'] = $item['check_money_desc']?$item['check_money_desc']:'';
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function check(){
-        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        // header("content-type:image/png");
-        // $imgg = $this->yuan_img($url);
-        // imagepng($imgg);
-        // imagedestroy($imgg);
-
-        // dd($imgg);
-        $this->update_lesson_call_end_time($adminid=734);
+        $image = imageCreatetruecolor(190,190);     //新建微信头像图
+        $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
+        imagefill($image,0,0,$zhibg);
+        imagecolortransparent($image,$zhibg);
+        $datapath_new ="/tmp/"."hhh_headimg_new.png";
+        imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -244,10 +242,26 @@ class agent extends Controller
         dd($test_lesson);
     }
 
-    public function update_lesson_call_end_time($adminid){
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid($adminid);
-        if(isset($lesson_call_end['lessonid'])){
-            $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lesson_call_end['lessonid']);
+    public function update_lesson_call_end_time(){
+        $adminid = $this->get_in_int_val('adminid');
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
+        }else{
+            $ret = 1;
+        }
+
+        return $ret;
+    }
+
+    public function update_lesson_call_end_time_new($adminid){
+        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
+        if(count($lesson_call_end)>0){
+            foreach($lesson_call_end as $item){
+                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
+            }
         }
         dd($lesson_call_end);
     }
@@ -261,8 +275,12 @@ class agent extends Controller
     function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
+        // dd($ext['extension']);
         switch ($ext['extension']) {
         case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
             $src_img = imagecreatefromjpeg($imgpath);
             break;
         case 'png':
@@ -505,7 +523,8 @@ class agent extends Controller
     public function get_user_info(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
+        $agent_id = 1571;//三千笔墨绘你一世倾
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -519,16 +538,18 @@ class agent extends Controller
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,"*");
+        dd($student_info);
         $userid_new = $student_info['userid'];
         $type_new = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
+        $type = $student_info['type'];
         $level      = 0;
         $pay        = 0;
         $cash       = 0;
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0){
+        if($userid_new && $type_new == 0 && $is_test_user == 0 && $type == 1){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
             $nick      = $student_info['nick'];
