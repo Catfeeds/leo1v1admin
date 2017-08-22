@@ -2968,4 +2968,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_fulltime_teacher_by_time($start_time, $end_time){
+        $where_arr=[
+            "t.is_test_user=0",
+            "t.is_quit=0",
+            "m.account_role=5",
+            "m.del_flag=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"t.train_through_new_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select t.teacherid from %s t"
+                                  ." left join %s m on t.phone = m.phone"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }

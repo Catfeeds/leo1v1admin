@@ -15,9 +15,8 @@ class TLessonInfoAddStuTestPaperImg extends Migration
         //
         Schema::table('db_weiyi.t_lesson_info', function( Blueprint $table)
         {
-            // t_field($table->string("stu_test_paper",4096),"学生试卷链接");
-            // t_field($table->string("stu_test_paper_compress",512),"学生试卷压缩包链接");
-            // t_field($table->string("stu_homework_compress",4096),"学生家庭作业压缩包链接");
+            t_field($table->string("stu_test_paper",4096),"学生试卷链接");
+            t_field($table->string("stu_test_paper_compress",512),"学生试卷压缩包链接");
 
         });
 

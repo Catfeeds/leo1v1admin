@@ -2434,6 +2434,8 @@ class ss_deal extends Controller
                     "teacher_type"       =>$teacher_type,
                     "reference"          =>$reference,
                     "lecture_revisit_type" =>$lecture_revisit_type,
+                    "accept_adminid"      =>$this->get_account_id(),
+                    "accept_time"         =>time(),
                     "hand_flag"          =>1
                 ]);
             }
