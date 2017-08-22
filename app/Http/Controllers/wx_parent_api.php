@@ -1141,10 +1141,12 @@ class wx_parent_api extends Controller
     }
 
 
-    public function deal_paper_upload(){ // 处理家长上传试卷
+    public function deal_paper_upload(){ // 处理家长上传[试卷 | 作业]
         $serverId_list = $this->get_in_str_val('serverids');
 
         $type = $this->get_in_int_val('type'); // 课程类型
+
+        $paper_type = $this->get_in_int_val('paper_type'); // 试卷类型 //1 : 代表试卷 2: 代表作业
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
@@ -1158,6 +1160,7 @@ class wx_parent_api extends Controller
          **/
 
         if($type == 2){ // 试听课
+
             $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
                 "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
                 "stu_test_paper" => $ret_arr['file_name_origi']
