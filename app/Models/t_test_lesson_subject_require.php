@@ -2572,9 +2572,10 @@ ORDER BY require_time ASC";
         $where_arr=[
             "s.is_test_user=0"
             ," l.teacherid>0"
+            ,"l.lesson_user_online_status=1"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         if ($group_by_field =="origin" ) {
             $group_by_field="s.origin";
@@ -2597,20 +2598,21 @@ ORDER BY require_time ASC";
     }
     public function test_lesson_order_detail_list($page_info, $start_time, $end_time, $cur_require_adminid ,$origin_ex , $teacherid ) {
 
-
         $where_arr=[
             "s.is_test_user=0"
             ," l.teacherid>0"
+            ,"l.lesson_user_online_status=1"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
 
         $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$cur_require_adminid);
         $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
         $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+
         $sql=$this->gen_sql_new(
-            "select m.account , s.phone, s.phone_location,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
+            "select m.account , s.phone, s.phone_location, l.grade, l.subject, tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time , from_unixtime( l.lesson_start) lesson_start, "
             . "  from_unixtime( l.lesson_start) lesson_time ,   o.price/100 as price ,  s.origin_userid, s.origin,"
             . " s.userid, l.teacherid" .
             " from  db_weiyi.t_test_lesson_subject_require tr ".

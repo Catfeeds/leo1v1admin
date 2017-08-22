@@ -315,6 +315,8 @@ class index extends Controller
         //$url="/".$arr[1]."/".$arr[2];
 
     }
+
+
     public function reset_name() {
         $list=$this->t_paper_info->get_list_for_test();
         foreach ($list as $item)  {

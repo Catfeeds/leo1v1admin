@@ -9,6 +9,13 @@ class order_price_base {
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
     ];
 
+    /**
+     * @return \App\Console\Tasks\TaskController
+     */
+    static function get_task_controler() {
+        return new \App\Console\Tasks\TaskController ();
+    }
+
     static $grade_price_config=[
         /*
         101=> 70,
@@ -64,7 +71,7 @@ class order_price_base {
         return $last_value;
     }
 
-    static public function get_price ($order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
+    static public function get_price ($order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count,$args){
         $present_lesson_count = 0;
         $discount_count       = 100;
 
@@ -92,30 +99,30 @@ class order_price_base {
         ];
     }
 
-    static public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count)
+    static public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args)
     {
         //默认初三价格
-        return static::get_price( $order_promotion_type, $contract_type, E\Egrade::V_203,$lesson_count ,$before_lesson_count );
+        return static::get_price( $order_promotion_type, $contract_type, E\Egrade::V_203,$lesson_count ,$before_lesson_count ,$args);
     }
 
 
 
     // ------------------
-    static public function get_price_ex( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) {
+    static public function get_price_ex( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) {
         if ($competition_flag) {
-            return static::get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count);
+            return static::get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args);
         }else{
-            return static::get_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count);
+            return static::get_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args);
         }
     }
 
-    static public function get_price_ex_by_order_price_type( $order_price_type, $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count ) {
+    static public function get_price_ex_by_order_price_type( $order_price_type, $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args ) {
         $class_name=static::$order_price_type_config [$order_price_type];
-        return $class_name::get_price_ex ( $competition_flag,  $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count);
+        return $class_name::get_price_ex ( $competition_flag,  $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args);
     }
 
-    static public function get_price_ex_cur( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) {
-        return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count) ;
+    static public function get_price_ex_cur( $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args) {
+        return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) ;
     }
 
 }
