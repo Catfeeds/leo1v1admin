@@ -138,7 +138,6 @@ class testbb extends Controller
                 //gd库操作  旋转90度
                 $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
-                // imagejpeg($rotate,$hostdir.'/123/'.$name.'_1.jpg');
                 $tmp_name = time().'_'.rand().'png';
 
                if(strstr($name,'jpg')){
@@ -148,20 +147,18 @@ class testbb extends Controller
                }
 
                 //tcpdf操作  添加图片到pdf中
-
                if(strstr($name,'jpg')){
                    $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
                }elseif(strstr($name,'png')){
                    $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'PNG', '', 'center', true, 1000);
                }
 
-
             }
         }
 
         // $domain = config('admin')['qiniu']['public']['url'];
-
-        $pdf_name_tmp = $hostdir.'/'.time().'_'.rand().'.pdf';
+        // http://admin.yb1v1.com/tea_manage/lesson_list
+        $pdf_name_tmp = 'http://admin.yb1v1.com/'.$hostdir.'/'.time().'_'.rand().'.pdf';
         // $domain = config('admin')['qiniu']['public']['url'];
 
         // $a = $domain.'/'.time().'_'.rand().'.pdf';
