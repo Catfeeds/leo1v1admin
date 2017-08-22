@@ -3298,16 +3298,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             "l.lesson_start > $create_time",
-            'tss.success_flag < 2',
         ];
 
         $sql= $this->gen_sql_new(
             " select l.lessonid "
             . " from %s l "
-            . " left join %s tss on tss.lessonid = l.lessonid "
             . " where %s ",
             t_lesson_info::DB_TABLE_NAME,
-            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_row($sql);
