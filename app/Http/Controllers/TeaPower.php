@@ -2588,7 +2588,7 @@ trait  TeaPower {
     }
 
     public function get_check_teacherid_str($subject,$grade){
-        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list($subject,$grade);
+        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list_new($subject,$grade);
         $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list,",");
 
         return $teacherid_str;
