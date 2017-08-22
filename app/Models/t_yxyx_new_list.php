@@ -57,15 +57,29 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
     }
 
+    public function get_all_for_wx(){
+        $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content"
+                                    . " from %s"
+                                    ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_one_new_for_wx($id) {
+        $where_arr = [
+            'id='.$id,
+        ];
+        $sql =  $this->gen_sql_new( "select id,new_title,new_content"
+                                    . " from %s"
+                                    ." where %s"
+                                    ,self::DB_TABLE_NAME
+                                    , $where_arr
+        );
+
+        return $this->main_get_row($sql);
+
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
 
