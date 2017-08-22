@@ -49,8 +49,8 @@ $(function(){
     }
 
 
-    Enum_map.append_option_list("seller_student_status",$("#id_seller_student_status"),false,
-                                status_opt_list);
+    $('#id_seller_student_status').val(g_args.seller_student_status);
+    $.enum_multi_select( $('#id_seller_student_status'), 'seller_student_status', function(){load_data();} )
 
     Enum_map.append_option_list("seller_require_change_flag",$("#id_seller_require_change_flag"),false,[1,2,3]);
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
@@ -73,6 +73,28 @@ $(function(){
         }
     });
 
+    $(".opt-refresh-call").on("click",function(){
+        var me=this;
+        var opt_data=$(this).get_opt_data();
+        if(opt_data.lessonid){
+            $.do_ajax("/seller_student_new/refresh_call_end",{
+                "lessonid" : opt_data.lessonid,
+            },function(ret){
+                if(ret){
+                    if(ret == 3){
+                        alert('该试听课已回访!');
+                    }else{
+                        alert('刷新成功!');
+                        window.location.href = "http://admin.yb1v1.com/seller_student_new/deal_new_user";
+                    }
+                }else{
+                    alert('刷新回访失败,请重新拨打回访!');
+                }
+            });
+        }else{
+            alert('请先排试听课!');
+        }
+    });
 
 
     $(".opt-match-teacher").on("click",function(){
@@ -164,7 +186,6 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
     $("#id_seller_groupid_ex").init_seller_groupid_ex();
-    $('#id_seller_student_status').val(g_args.seller_student_status);
     $('#id_phone_location').val(g_args.phone_location);
     $('#id_subject').val(g_args.subject);
     $('#id_has_pad').val(g_args.has_pad);
@@ -218,11 +239,19 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 ) {
+        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213) {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
         }
+
+        $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
+        } ,function(ret){
+            if(ret.require_id){
+                alert('您有签单失败原因未填写,请先填写完哦!');
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller';
+            }
+        });
         /*
           if (!opt_data.stu_test_paper && opt_data.stu_test_paper_flow_status != 2 )  {//申请
 
@@ -543,6 +572,7 @@ $(function(){
                     $.do_ajax("/ajax_deal2/set_tmk_valid",{
                         userid : opt_data.userid,
                         tmk_student_status: $tmk_student_status.val(),
+                        tmk_student_status_old: opt_data.tmk_student_status,
                         tmk_desc: $tmk_desc.val(),
                     });
                 };
@@ -563,6 +593,19 @@ $(function(){
 
     });
 
+    $(".opt-set_user_free").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        BootstrapDialog.confirm(
+            "设置释放到公海:" + opt_data.phone ,
+            function(val){
+                if (val) {
+                    $.do_ajax("/ss_deal2/set_user_free",{
+                        "userid" :  opt_data.userid
+                    });
+                }
+            });
+    });
+
     if (g_args.account_seller_level !=9000 ) {
         $(".opt-tmk-valid").hide();
     }
@@ -580,6 +623,20 @@ function init_edit() {
         } ,function(ret){
             var data=ret.data;
             var html_node = $.dlg_need_html_by_id( "id_dlg_post_user_info");
+            var show_noti_info_flag=false;
+            var $note_info=html_node.find(".note-info");
+            var note_msg="";
+            if (data.test_lesson_count >0 ) {
+                show_noti_info_flag=true;
+                note_msg="已有试听课:"+data.test_lesson_count +"次" ;
+            }
+
+            if (!show_noti_info_flag) {
+                $note_info.hide();
+            }else{
+                $note_info.find("span").html( note_msg);
+            }
+
             if( data.status !=0 ) {
                 html_node.find("#id_stu_rev_info").removeClass("btn-primary");
                 html_node.find("#id_stu_rev_info").addClass("btn-warning");
@@ -1035,9 +1092,9 @@ function init_edit() {
             }
 
             var title= '用户信息['+opt_data.phone+':'+opt_data.phone_location+']';
-            if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
-                title= title+"-渠道:["+origin+"]";
-            }
+            // if( g_args.account_seller_level >=100  && g_args.account_seller_level<400 ) { //S,A, B
+            //     title= title+"-渠道:["+origin+"]";
+            // }
 
             var dlg=BootstrapDialog.show({
                 title:  title,
@@ -1711,12 +1768,22 @@ function init_edit() {
             "studentid" : opt_data.userid,
             "phone"     : opt_data.phone,
         },function(){
-                var dlg = BootstrapDialog.show({
-                    title: "分享给家长-关注微信家长端 学生["+ opt_data.phone +":"+ opt_data.nick+ "]",
-                    message:
-                    $('<img src= "/seller_student_new/erweima?phone='+opt_data.phone+'"/>'),
-                    closable: true
-                });
+
+            $.do_ajax("/ajax_deal/check_parent_count_and_clean",{
+                "userid" : opt_data.userid
+            },function(resp){
+                if (resp.ret==0) {
+                    var dlg = BootstrapDialog.show({
+                        title: "分享给家长-关注微信家长端 学生["+ opt_data.phone +":"+ opt_data.nick+ "]",
+                        message:
+                        $('<img src= "/seller_student_new/erweima?phone='+opt_data.phone+'"/>'),
+                        closable: true
+                    });
+                }else{
+                    alert(resp.info);
+                }
+
+            });
                 //dlg.getModalDialog().css("width", "600px");
 
         });

@@ -8,7 +8,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 		parent::__construct();
 	}
     public function get_agent_cash_list($page_info){
-        $sql=$this->gen_sql_new("select ac.*,a.phone "
+        $sql=$this->gen_sql_new("select ac.*,a.nickname,a.phone "
                                 ." from %s ac "
                                 ." left join %s a on a.id = ac.aid "
                                 ,self::DB_TABLE_NAME

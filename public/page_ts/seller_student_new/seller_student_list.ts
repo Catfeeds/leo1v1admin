@@ -239,13 +239,11 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 ) {
+        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213) {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
         }
-
-
 
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){

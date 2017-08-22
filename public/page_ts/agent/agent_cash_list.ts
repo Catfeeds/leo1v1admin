@@ -43,20 +43,23 @@ $(function(){
 
     $(".opt-money-check").on("click",function(){
         var opt_data = $(this).get_opt_data();
-
-        var $type = $("<select><option value='0'>请选择</option><option value='1'>通过</option><option value='0'>未通过</option></select>");
-        $type.val(opt_data.type);
+        var $check_money_flag = $("<select><option value='0'>请选择</option><option value='1'>通过</option><option value='0'>未通过</option></select>");
+        var $check_money_desc = $("<textarea rows='' cols=''>");
+        $check_money_flag.val(opt_data.check_money_flag);
+        $check_money_desc.val(opt_data.check_money_desc);
         var arr=[
-            ["财务审核",  $type],
+            ["财务审核",  $check_money_flag],
+            ["财务审核说明",  $check_money_desc],
         ];
 
-        $.show_key_value_table("修改信息", arr ,{
+        $.show_key_value_table("财务确认", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
                 $.do_ajax("/ajax_deal/agent_cash_edit",{
                     "id":opt_data.id,
-                    "type" : $type.val()
+                    "check_money_flag" : $check_money_flag.val(),
+                    "check_money_desc" : $check_money_desc.val()
                 })
             }
         })
