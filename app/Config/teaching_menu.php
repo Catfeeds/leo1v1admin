@@ -15,6 +15,8 @@ class teaching_menu{
                  ["power_id"=>13, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
                  ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                  ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
+                 ["power_id"=>12, "name"=>"试听转化率统计-临时","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
+
              ]],
 
 

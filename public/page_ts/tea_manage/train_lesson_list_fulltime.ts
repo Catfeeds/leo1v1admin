@@ -33,7 +33,7 @@ $(function(){
 
     $(".opt-lesson").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
-        do_add_or_update_lesson_info("update",lessonid);
+        do_add_or_update_lesson_info("update",lessonid,7);
     });
 
     var do_add_or_update_lesson_info = function(type_str,lessonid,train_type=-1){

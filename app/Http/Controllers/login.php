@@ -46,6 +46,11 @@ class login extends Controller
 
     function  gen_account_role_one_item ($node,&$power_map,&$url_power_map ,$check_item_count=true) {
         if (isset($node["list"])) {
+
+            // if($node['name'] == '角色-教研'){
+            //     unset($node);
+            // }
+
             $sub_list_str="";
             $add_count=0 ;
             $item_1="" ;
@@ -178,7 +183,8 @@ class login extends Controller
 
         foreach ($menu as $item) {
             $item_name=$item["name"];
-            \App\Helper\Utils::logger("XX:". substr($item_name,0,7));
+
+
             $tmp=$this->gen_one_item( $item, $start,$level,$power_map);
             if($tmp) {
                 $item_count++;
@@ -281,7 +287,6 @@ class login extends Controller
 
         $menu      = \App\Helper\Config::get_menu();
         $menu_html .= $this->gen_menu( $arr,$menu,1,1);
-        \App\Helper\Utils::logger("3 menu_html strlen ".strlen( "$menu_html") );
 
         $stu_menu = \App\Helper\Config::get_stu_menu();
         $tea_menu = \App\Helper\Config::get_tea_menu();
