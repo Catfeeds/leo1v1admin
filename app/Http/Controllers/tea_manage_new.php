@@ -997,14 +997,18 @@ class tea_manage_new extends Controller
         $adminid       = $this->get_account_id();
         $account       = $this->get_account();
 
-        if($lesson_status==0 && in_array($account"adrian")){
-            $ret = $this->t_lesson_info->field_update_list($lessonid,[
-                "lesson_del_flag" => 1,
-                "confirm_adminid" => $adminid
-            ]);
+        if($lesson_status==0 || in_array($account,["adrian","夏宏东","jack"])){
         }else{
             return $this->output_err("课程状态不对！无法删除！");
         }
+
+        if($update_flag){
+            $ret = $this->t_lesson_info->field_update_list($lessonid,[
+                "lesson_del_flag" => 1,
+                "confirm_adminid" => $adminid
+            ]);   
+        }
+
 
         if(!$ret){
             return $this->output_err("删除失败！请重试！");
