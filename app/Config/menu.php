@@ -762,7 +762,6 @@ class menu{
 
                 ]],
                 ["power_id"=>33, "name"=>"其他",  "list"=>[
-
                     ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
                     ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                     ["power_id"=>23, "name"=>"老师/助教退费责任统计",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
