@@ -98,7 +98,7 @@ class testbb extends Controller
         // $img = $this->get_in_str_val('img');
 
         $img = [
-            0=>'123.jpg'
+            0=>'123.png'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -135,18 +135,51 @@ class testbb extends Controller
                 $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
                 // imagejpeg($rotate,$hostdir.'/123/'.$name.'_1.jpg');
-                imagejpeg($rotate,$hostdir.'/111_1.jpg');
+                $tmp_name = time().'_'.rand().'png';
+                imagejpeg($rotate,$hostdir."/$tmp_name.png");
                 //tcpdf操作  添加图片到pdf中
                 // $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
-                $pdf->Image($hostdir.'/111_1.jpg', 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
+                $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
 
             }
         }
 
+        // $domain = config('admin')['qiniu']['public']['url'];
 
-        $pdf_info = $pdf->Output('1.pdf', 'I');
+        $pdf_name_tmp = $hostdir.'/'.time().'_'.rand().'.pdf';
+        $domain = config('admin')['qiniu']['public']['url'];
 
-        dd($pdf_info); //输出pdf文件
+        $a = $domain.'/'.time().'_'.rand().'.pdf';
+        dd($a);
+        // $pdf_name_tmp = time().'_'.rand().'.pdf';
+
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
+
+
+
+
+        // dd($pdf_info);
+
+        // $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
+
+        // $pdf_file = fopen($pdf_name,'w');
+        // fwrite($pdf_file,$pdf_info);
+        // fclose($pdf_file);
+
+        // dd($pdf_file); //输出pdf文件
+
+    }
+
+    public function cc(){
+        $hostdir = public_path('wximg');
+
+        $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_info = 11;
+
+        $pdf_file = fopen($pdf_name,'w');
+        fwrite($pdf_file,$pdf_info);
+        fclose($pdf_file);
+
 
     }
 
