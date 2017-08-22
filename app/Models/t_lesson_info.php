@@ -3282,10 +3282,10 @@ lesson_type in (0,1) "
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"
                                   ." where %s"
-                                  ." and lesson_type=2"
-                                  ." and stu_test_paper!=''"
+                                  ." and l.lesson_type=2"
+                                  ." and t3.stu_test_paper!=''"
                                   ." and t1.success_flag!=2"
-                                  ." and tea_download_paper_time=0"
+                                  ." and t3.tea_download_paper_time=0"
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,t_test_lesson_subject_require::DB_TABLE_NAME

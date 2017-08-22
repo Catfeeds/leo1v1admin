@@ -94,7 +94,7 @@ class teacher_interview_pass_info_wx extends Command
              $tea_arr[72]="Erick";
             $tea_arr[448]="rolon";
             $tea_arr[349]="Jack";
-            $tea_arr=["349"=>"Jack"];
+            // $tea_arr=["349"=>"Jack"];
             foreach($tea_arr as $k=>$ttt){
                 $task->t_manager_info->send_wx_todo_msg_by_adminid ($k,"理优面试组","新老师入职情况汇总",$ttt."老师你好,".$subject_str."组面试".$p["all_count"]."位,入职".@$video_succ[$subject]["all_count"]."位,通过率".$pass_per.",平均审核时长".$sub_ave_time."天,所有学科平均面试通过率为".$ave_per.",所有学科平均审核时长".$ave_time."天
  请赶紧对新入职老师组织入职培训和学科培训,期待通过培训打造强大稳定的在线".$subject_str."教学Team","http://admin.yb1v1.com/tongji_ss/teacher_interview_info_tongji?order_by_str=pass_per%20asc&date_type=null&opt_date_type=0&start_time=".$start."&end_time=".$end."&subject=".$subject);
@@ -126,7 +126,7 @@ class teacher_interview_pass_info_wx extends Command
             }
         }
 
-        $list=["349"=>"Jack"];
+        //$list=["349"=>"Jack"];
         foreach($list as $k=>&$val){
             $pass_per_account = (round(@$video_succ_list[$k]["all_count"]/$val["all_count"],2)*100)."%";
             $account_ave_time = !empty($val["video_num"])?round($val["time_count"]/$val["all_count"]/86400,1):0;
