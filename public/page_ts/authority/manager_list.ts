@@ -741,6 +741,19 @@ $(function(){
         window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
     });
 
+    $(".opt-refresh_call_end").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax('/agent/update_lesson_call_end_time', {
+            'adminid' : opt_data.uid
+        },function(resp){
+            if(resp){
+                alert('刷新成功!');
+            }else{
+                alert('刷新失败!');
+            }
+        });
+    });
+
     $(".opt-set-train-through-time").on("click",function(){
         var opt_data=$(this).get_opt_data();
         BootstrapDialog.confirm( "要同步老师档案入职时间吗?", function(val){

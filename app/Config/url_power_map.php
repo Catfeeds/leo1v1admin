@@ -455,6 +455,7 @@ class url_power_map {
 			'/human_resource/get_teacher_lecture_fail_score_info_zs'	=>1251110,
 			'/human_resource/origin_list'	=>1250800,
 			'/human_resource/zs_origin_list'	=>1250900,
+			'/tongji2/tongji_lesson_teacher_identity'	=>1251400,
 			'/main_page/quality_control'	=>1370100,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj'	=>1370200,
 			'/tea_manage/lesson_list_zj'	=>1370300,

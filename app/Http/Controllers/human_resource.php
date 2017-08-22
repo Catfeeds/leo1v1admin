@@ -1586,6 +1586,10 @@ class human_resource extends Controller
         $jsfg_bad                           = $this->get_in_str_val("jsfg_bad");
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
+        if($identity<=0){
+            return $this->output_err("请选择老师身份！"); 
+        }
+
 
         if($teacher_lecture_score<55){
             $status=2;
