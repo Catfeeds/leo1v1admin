@@ -813,10 +813,12 @@ class tongji_ss extends Controller
         $this->t_test_lesson_subject_require->switch_tongji_database();
         $ret_info=$this->t_test_lesson_subject_require->tongji_test_lesson_origin_info( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex ,$check_value,$page_info);
         foreach($ret_info["list"] as &$item){
-            if ($item['lesson_user_online_status']) {
-                $item['lesson_user_online_status_str'] = '是';
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            E\Eseller_student_status::set_item_value_str($item);
+            if ($item['success_flag'] != 2) {
+                $item['success_flag_str'] = '是';
             } else{
-                $item['lesson_user_online_status_str'] = '是';
+                $item['success_flag_str'] = '否';
             }
         }
         return $this->pageView(__METHOD__,$ret_info);

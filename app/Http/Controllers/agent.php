@@ -223,22 +223,18 @@ class agent extends Controller
             if($item['cash']){
                 $item['cash'] = $item['cash']/100;
             }
+            $item['check_money_desc'] = $item['check_money_desc']?$item['check_money_desc']:'';
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
     public function check(){
-        // $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        // header("content-type:image/png");
-        // $imgg = $this->yuan_img($url);
-        // imagepng($imgg);
-        // imagedestroy($imgg);
-
-        // dd($imgg);
-        $phone = $this->get_in_str_val('phone');
-        $adminid = $this->t_manager_info->get_id_by_phone($phone);
-        $this->update_lesson_call_end_time_new($adminid);
+        $image = imageCreatetruecolor(190,190);     //新建微信头像图
+        $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
+        imagefill($image,0,0,$zhibg);
+        imagecolortransparent($image,$zhibg);
+        $datapath_new ="/tmp/"."hhh_headimg_new.png";
+        imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -279,8 +275,12 @@ class agent extends Controller
     function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
+        // dd($ext['extension']);
         switch ($ext['extension']) {
         case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
             $src_img = imagecreatefromjpeg($imgpath);
             break;
         case 'png':
@@ -523,7 +523,9 @@ class agent extends Controller
     public function get_user_info(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
+        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -546,7 +548,7 @@ class agent extends Controller
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0){
+        if($userid_new && $type_new == 1 && $is_test_user == 0){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
             $nick      = $student_info['nick'];
@@ -623,7 +625,9 @@ class agent extends Controller
     public function get_my_num(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
+        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -661,8 +665,7 @@ class agent extends Controller
                     $ret_list[$key]['status'] = 2;
                 }else{//试听成功
                     if($item['userid']){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
-                        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid'],$item['p_create_time']);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){
                             $ret_list[$key]['status'] = 1;

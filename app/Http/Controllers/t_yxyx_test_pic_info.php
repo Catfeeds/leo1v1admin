@@ -24,7 +24,7 @@ class t_yxyx_test_pic_info extends Controller
                E\Esubject::set_item_value_str($item,"subject");
                E\Etest_type::set_item_value_str($item,"test_type");
                $item['test_des'] = mb_substr( $item['test_des'], 0, 15, "utf-8");
-               $item["new_arr"] = explode(',',$item['custom_type']);
+               $item["new_arr"]  = explode(',',$item['custom_type']);
                foreach ($item['new_arr'] as &$v) {
                    $v = @$type_arr[$v];
                }
@@ -42,7 +42,7 @@ class t_yxyx_test_pic_info extends Controller
         E\Egrade::set_item_value_str($ret_info,"grade");
         E\Esubject::set_item_value_str($ret_info,"subject");
         E\Etest_type::set_item_value_str($ret_info,"test_type");
-        $ret_info['pic_arr'] = explode( '|',$ret_info['pic']);
+        $ret_info['pic_arr']    = explode( '|',$ret_info['pic']);
         $ret_info["custom_arr"] = explode(',',$ret_info['custom_type']);
         return outputjson_success(array('ret_info' => $ret_info));
 
@@ -85,7 +85,7 @@ class t_yxyx_test_pic_info extends Controller
             $custom_type = join(',', $m[0]);
         }
 
-        $ret_info   = $this->t_yxyx_test_pic_info->update_test($id,$test_title, $test_des, $grade, $subject,
+        $ret_info = $this->t_yxyx_test_pic_info->update_test($id,$test_title, $test_des, $grade, $subject,
                                                                $test_type, $pic, $poster, $custom_type);
         return outputjson_success();
     }
@@ -95,7 +95,7 @@ class t_yxyx_test_pic_info extends Controller
     public function del_test_info()
     {
         $id = $this->get_in_int_val('id',-1);
-        $ret_info=$this->t_yxyx_test_pic_info->row_delete($id);
+        $ret_info = $this->t_yxyx_test_pic_info->row_delete($id);
         return outputjson_success();
     }
 }

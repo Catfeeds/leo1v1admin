@@ -2,6 +2,7 @@ interface GargsStatic {
 	teacherid:	number;
 	subject:	number;
 	page_num:	number;
+	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;

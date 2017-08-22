@@ -28,7 +28,7 @@ class order_price_20170701 extends order_price_base
     ];
 
 
-    static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count){
+    static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count,$args){
 
         $present_lesson_count=0;
         $check_lesson_count= $lesson_count  + $before_lesson_count;
@@ -71,6 +71,17 @@ class order_price_20170701 extends order_price_base
             $free_money=300;
         }else  if ( $lesson_count >=30*3 ) {
             $free_money=200;
+        }
+        $from_test_lesson_id=@$args["from_test_lesson_id"];
+        $task= self::get_task_controler();
+
+        \App\Helper\Utils::logger("hd free_money= $free_money");
+
+        //当配活动
+        $lesson_end= $task->t_lesson_info_b2->get_lesson_end($from_test_lesson_id);
+        if ( $lesson_count>=30*3 && $lesson_end &&  time(NULL)- $lesson_end <86400) {
+            $free_money+=300;
+            \App\Helper\Utils::logger("hd 2 free_money= $free_money");
         }
 
         return [

@@ -6,6 +6,9 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 
+require_once app_path('/Libs/TCPDF/tcpdf.php');
+require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
+
 class testbb extends Controller
 {
     use CacheNick;
@@ -89,6 +92,120 @@ class testbb extends Controller
 
 
     }
+
+
+    public function test_img(){
+        // $img = $this->get_in_str_val('img');
+
+        $img = [
+            0=>'l_t_pdf_193451_14.png',
+            1=>'l_t_pdf_193451_19.png'
+        ];
+        $ret = $this->img_to_pdf($img);
+    }
+
+    public function img_to_pdf($filesnames){
+        ini_set("memory_limit",'-1');
+
+        header("Content-type:text/html;charset=utf-8");
+
+        $hostdir = public_path('wximg');
+
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
+        foreach ($filesnames as $name) {
+            if(strstr($name,'jpg') || (strstr($name,'png') )){//如果是图片则添加到pdf中
+                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+                $pdf->AddPage();//添加一个页面
+                $filename = $hostdir.'/'.$name;//拼接文件路径
+
+                //gd库操作  读取图片
+                if(strstr($name,'jpg')){
+                    $source = imagecreatefromjpeg($filename);
+                }elseif(strstr($name,'png')){
+                    $source = imagecreatefrompng($filename);
+                }
+                //gd库操作  旋转90度
+                $rotate = imagerotate($source, 0, 0);
+                //gd库操作  生成旋转后的文件放入别的目录中
+                $tmp_name = time().'_'.rand().'png';
+
+               if(strstr($name,'jpg')){
+                   imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
+               }elseif(strstr($name,'png')){
+                   imagepng($rotate,$hostdir."/$tmp_name.png");
+               }
+
+                //tcpdf操作  添加图片到pdf中
+               if(strstr($name,'jpg')){
+                   $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 210, 297, 'JPG', '', 'center', true, 1000);
+               }elseif(strstr($name,'png')){
+                   $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 210, 297, 'PNG', '', 'center', true, 1000);
+               }
+
+            }
+        }
+
+        $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
+
+
+        if (ob_get_contents()) {
+        }
+        header('Content-Description: File Transfer');
+        if (headers_sent()) {
+        }
+        header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+        header('Pragma: public');
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+        // force download dialog
+        if (strpos(php_sapi_name(), 'cgi') === false) {
+            header('Content-Type: application/force-download');
+            header('Content-Type: application/octet-stream', false);
+            header('Content-Type: application/download', false);
+            header('Content-Type: application/pdf', false);
+        } else {
+            header('Content-Type: application/pdf');
+        }
+        // use the Content-Disposition header to supply a recommended filename
+        header('Content-Disposition: attachment; filename="'.basename($name).'"');
+        header('Content-Transfer-Encoding: binary');
+        TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
+
+
+
+
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'I');
+
+        dd($pdf_info);
+
+    }
+
+    public function cc(){
+        $hostdir = public_path('wximg');
+
+        $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_info = 11;
+
+        $pdf_file = fopen($pdf_name,'w');
+        fwrite($pdf_file,$pdf_info);
+        fclose($pdf_file);
+
+
+    }
+
+
 
 
 

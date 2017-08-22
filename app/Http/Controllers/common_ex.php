@@ -157,6 +157,7 @@ class common_ex extends Controller
         $textbook  = $this->get_in_str_val("textbook");
         $self_introduction_experience= $this->get_in_str_val("self_introduction_experience");
 
+
         $check_flag=\App\Helper\Utils::check_phone($phone);
         if(!$check_flag){
             return $this->output_err("请输入正确的手机号！");

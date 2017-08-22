@@ -22,6 +22,10 @@ use Qiniu\Storage\BucketManager;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
+require_once app_path('/Libs/TCPDF/tcpdf.php');
+require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
+
+
 //require(app_path("/Libs/OSS/autoload.php"));
 //use OSS\OssClient;
 //use OSS\Core\OssException;
@@ -1141,10 +1145,12 @@ class wx_parent_api extends Controller
     }
 
 
-    public function deal_paper_upload(){ // 处理家长上传试卷
+    public function deal_paper_upload(){ // 处理家长上传[试卷 | 作业]
         $serverId_list = $this->get_in_str_val('serverids');
 
         $type = $this->get_in_int_val('type'); // 课程类型
+
+        $paper_type = $this->get_in_int_val('paper_type'); // 试卷类型 //1 : 代表试卷 2: 代表作业
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
@@ -1158,14 +1164,24 @@ class wx_parent_api extends Controller
          **/
 
         if($type == 2){ // 试听课
-            $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
-                "stu_test_paper" => $ret_arr['file_name_origi']
-            ]);
+            if($paper_type == 1){ // 存放试卷
+                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
+                    "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
+                    "stu_test_paper" => $ret_arr['file_name_origi']
+                ]);
+            }elseif($paper_type == 2){ // 存放作业
+
+            }
         }else{ // 常规课
-            $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
-            ]);
+            if($paper_type == 1){ // 存放试卷
+                $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                ]);
+            }elseif($paper_type == 2){ // 存放作业
+                $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
+                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                ]);
+            }
         }
 
         if($ret){
@@ -1173,6 +1189,52 @@ class wx_parent_api extends Controller
         }else{
             return $this->output_err('图片上传失败,请稍后重试.....');
         }
+    }
+
+
+    public function test(){
+        
+    }
+
+    public function img_to_pdf($filesnames){
+        ini_set("memory_limit",'-1');
+
+        header("Content-type:text/html;charset=utf-8");
+
+        $hostdir = public_path('/wximg');
+
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
+        foreach ($filesnames as $name) {
+            if(strstr($name,'jpg')){//如果是图片则添加到pdf中
+                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+                $pdf->AddPage();//添加一个页面
+                $filename = $hostdir.'\\'.$name;//拼接文件路径
+
+                //gd库操作  读取图片
+                $source = imagecreatefromjpeg($filename);
+                //gd库操作  旋转90度
+                $rotate = imagerotate($source, 90, 0);
+                //gd库操作  生成旋转后的文件放入别的目录中
+                imagejpeg($rotate,$hostdir.'\\123\\'.$name.'_1.jpg');
+                //tcpdf操作  添加图片到pdf中
+                $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
+
+            }
+        }
+        $pdf->Output('1.pdf', 'I'); //输出pdf文件
+
     }
 
 

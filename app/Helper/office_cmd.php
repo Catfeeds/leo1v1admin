@@ -2,12 +2,14 @@
 namespace App\Helper;
 class office_cmd{
     static $key="office_cmd";
-    static function add_one(  $office_device_type ,$device_id,$device_opt_type ) {
+    static function add_one(  $office_device_type ,$device_id,$device_opt_type , $office_device_sub_type, $value ) {
         $item=[
             "create_time" => time(NULL),
             "office_device_type" => $office_device_type,
             "device_id" => $device_id ,
             "device_opt_type" => $device_opt_type ,
+            "device_sub_type" => $office_device_sub_type,
+            "value" => $value
         ];
         static::add_one_item($item);
 

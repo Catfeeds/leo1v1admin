@@ -103,8 +103,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             ["pc.parentid = %u", $parentid, -1 ],
             ["l.lessonid= %u", $lessonid, -1 ],
-            // ["lesson_type=%d",$type,-1],
-            "lesson_type=2", //试听
+            ["lesson_type=%d",$type,-1],
+            // "lesson_type=2", //试听
             "lesson_del_flag=0",
             "lesson_start>$check_lesson_time", //试听
         ];
@@ -1598,13 +1598,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_test_lesson_count_by_userid($userid){
+    public function get_test_lesson_count_by_userid($userid,$create_time){
         $where_arr = [
             ['userid = %d',$userid],
             ['lesson_type=%d',2],
             ['lesson_del_flag=%d',0],
             'confirm_flag in (0,1)',
             'lesson_user_online_status = 1',
+            "lesson_start>$create_time",
         ];
         $sql = $this->gen_sql_new(
             "select lessonid,userid"
@@ -3287,6 +3288,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
+    }
+
+    public function get_succ_test_lesson($userid ) {
     }
 
 

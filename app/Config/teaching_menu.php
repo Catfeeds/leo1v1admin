@@ -15,6 +15,12 @@ class teaching_menu{
                  ["power_id"=>13, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
                  ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                  ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
+                 ["power_id"=>12, "name"=>"试听转化率统计-临时","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
+                 ["power_id"=>14, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
+                 ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
+                 ["power_id"=>2, "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
+                 ["power_id"=>8, "name"=>"试听转化率统计-临时", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
+
              ]],
 
 
@@ -43,7 +49,6 @@ class teaching_menu{
              ["power_id"=>37, "name"=>"质监组",  "list"=>[
                  ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
                  ["power_id"=>1, "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
-                 //tongji_teaching_and_research_teacher_test_lesson_info_zj
                  ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                  ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                  ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
@@ -151,9 +156,15 @@ class teaching_menu{
 
                  ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
 
+                 ["power_id"=>14, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_fulltime"],
+                 ["power_id"=>15, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_fulltime"],
+                 ["power_id"=>16, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_fulltime"],
+
+
                  ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
                  ["power_id"=>1, "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
                  ["power_id"=>12, "name"=>"全职老师上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
+                 ["power_id"=>13, "name"=>"全职老师培训","url"=>"/tea_manage/train_lesson_list_fulltime"],
 
 
                  ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],

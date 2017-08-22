@@ -48,6 +48,14 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
+                        <span >是否全职老师</span>
+                        <select id="id_full_time" class ="opt-change" >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
                         <span >绑定微信</span>
                         <select id="id_have_wx" class ="opt-change" >
                         </select>
@@ -87,6 +95,7 @@
                     <td>科目</td>
                     <td width="150px">视频标题</td>
                     <td>老师身份</td>
+                    <td>全职老师</td>
                     <td width="150px">教材版本</td>
                     <td>视频添加时间</td>
                     <td style="display:none">试讲预约提交时间</td>
@@ -113,6 +122,7 @@
                         <td>{{$var["subject_str"]}}</td>
                         <td>{{$var["title"]}}</td>
                         <td>{{$var["identity_str"]}}</td>
+                        <td>{{$var["full_time_str"]}}</td>
                         <td>{{$var["textbook"]}}</td>
                         <td>{{$var["add_time_str"]}}</td>
                         <td>{{$var["answer_begin_time_str"]}}</td>

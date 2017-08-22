@@ -43,13 +43,11 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
         $where_arr = [
             'id='.$id,
         ];
-        $sql = $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
-                                   ." y.custom_type, y.test_type, y.pic, y.poster, y.create_time, a.account"
-                                   ." from %s y "
-                                   ." left join %s a on a.uid=y.adminid"
+        $sql = $this->gen_sql_new( "select id, test_title, test_des, grade, subject, visit_num, share_num,"
+                                   ." custom_type, test_type, pic, poster, create_time"
+                                   ." from %s "
                                    ." where %s"
                                    ,self::DB_TABLE_NAME
-                                   ,t_manager_info::DB_TABLE_NAME
                                    ,$where_arr
         );
         return $this->main_get_row($sql);
@@ -73,7 +71,7 @@ class t_yxyx_test_pic_info extends \App\Models\Zgen\z_t_yxyx_test_pic_info
             ['y.subject=%u', $subject , -1],
             ['y.test_type=%u', $test_type , -1],
         ];
-        $sql =  $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
+        $sql = $this->gen_sql_new( "select y.id, y.test_title, y.test_des, y.grade, y.subject, "
                                     ." y.custom_type, y.test_type, y.poster, y.create_time, a.account"
                                     . " from %s y "
                                     . " left join %s a on a.uid=y.adminid"

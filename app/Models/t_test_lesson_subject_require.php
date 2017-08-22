@@ -679,7 +679,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         //E\Etest_lesson_fail_flag
         $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , s.userid, s.phone, s.grade, s.nick, l.lesson_user_online_status"
+            "select $field_name  as check_value , t.seller_student_status,l.lesson_start, s.userid, s.phone, s.grade, s.nick, tss.success_flag"
             ." from %s tr "
             ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
             ." join %s n  on t.userid=n.userid "
@@ -1891,7 +1891,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $sql = $this->gen_sql_new("select distinct subject,teacherid,userid,grade from %s  where %s ",t_lesson_info::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
     }
-
    public function  get_order_fail_list(
        $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
    {
@@ -1926,23 +1925,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
    }
 
-   public function  get_test_fail_row(
-       $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
+   public function  get_test_fail_row($cur_require_adminid)
    {
        $time = time();
        $where_arr=[
-           "l.lesson_end>1502899200",
-           "l.lesson_end<".$time,
+           "require_time>1502899200",
+           "require_time<".$time,
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",
-           [ "l.userid=%u", $userid, -1],
            'contract_status = 0',
        ];
-       $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
-       $this->where_arr_add_boolean_for_value($where_arr,"origin_userid",$origin_userid_flag );
-       // $this->where_arr_add_boolean_for_value($where_arr,"contract_status",$order_flag,true);
-
 
        $sql= $this->gen_sql_new(
            "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
@@ -1960,7 +1953,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            t_student_info::DB_TABLE_NAME,
            t_order_info::DB_TABLE_NAME,
            $where_arr);
-       return $this->main_get_row($sql,$page_num);
+       return $this->main_get_row($sql);
    }
 
 
@@ -2572,9 +2565,10 @@ ORDER BY require_time ASC";
         $where_arr=[
             "s.is_test_user=0"
             ," l.teacherid>0"
+            ,"l.lesson_user_online_status=1"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
         if ($group_by_field =="origin" ) {
             $group_by_field="s.origin";
@@ -2597,20 +2591,21 @@ ORDER BY require_time ASC";
     }
     public function test_lesson_order_detail_list($page_info, $start_time, $end_time, $cur_require_adminid ,$origin_ex , $teacherid ) {
 
-
         $where_arr=[
             "s.is_test_user=0"
             ," l.teacherid>0"
+            ,"l.lesson_user_online_status=1"
         ];
 
-        $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
 
         $this->where_arr_add_int_or_idlist($where_arr,"cur_require_adminid",$cur_require_adminid);
         $this->where_arr_add_int_or_idlist($where_arr,"l.teacherid",$teacherid);
         $where_arr[]= $this->t_origin_key->get_in_str_key_list($origin_ex,"s.origin");
+
         $sql=$this->gen_sql_new(
-            "select m.account , s.phone, s.phone_location,  tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time,"
+            "select m.account , s.phone, s.phone_location, l.grade, l.subject, tea.nick as tea_nick ,s.nick as stu_nick , tr.cur_require_adminid, from_unixtime( tr.require_time) require_time , from_unixtime( l.lesson_start) lesson_start, "
             . "  from_unixtime( l.lesson_start) lesson_time ,   o.price/100 as price ,  s.origin_userid, s.origin,"
             . " s.userid, l.teacherid" .
             " from  db_weiyi.t_test_lesson_subject_require tr ".

@@ -10,6 +10,7 @@ interface GargsStatic {
 	teacherid:	number;
 	userid:	number;
 	record_flag:	number;
+	acc:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -40,7 +41,8 @@ $(function(){
 			subject:	$('#id_subject').val(),
 			teacherid:	$('#id_teacherid').val(),
 			userid:	$('#id_userid').val(),
-			record_flag:	$('#id_record_flag').val()
+			record_flag:	$('#id_record_flag').val(),
+			acc:	$('#id_acc').val()
         });
     }
 
@@ -59,6 +61,7 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_userid').val(g_args.userid);
 	$('#id_record_flag').val(g_args.record_flag);
+	$('#id_acc').val(g_args.acc);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -94,6 +97,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">record_flag</span>
                 <input class="opt-change form-control" id="id_record_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">acc</span>
+                <input class="opt-change form-control" id="id_acc" />
             </div>
         </div>
 */

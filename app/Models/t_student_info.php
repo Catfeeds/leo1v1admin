@@ -2806,4 +2806,26 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_stu_id_phone($start_time, $end_time){
+        $where_arr = [
+            ['reg_time>=%s', $start_time,0],
+            ['reg_time<%s', $end_time,0],
+            'is_test_user=0',
+            'last_lesson_time<1',
+            'lesson_count_left<1',
+        ];
+        $sql = $this->gen_sql_new("select distinct s.reg_time,s.userid,s.phone,if (ts.require_adminid>0,1,0) as test_flag"
+                                  ." from %s s "
+                                  ." left join %s ts on s.userid=ts.userid"
+                                  ." where %s "
+                                  ." order by reg_time desc"
+                                  ." limit 10000"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_test_lesson_subject::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

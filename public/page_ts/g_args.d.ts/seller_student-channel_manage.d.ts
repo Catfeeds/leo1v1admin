@@ -1,4 +1,5 @@
 interface GargsStatic {
+	key1_filed_hide:	number;
 	key1:	string;
 	key2:	string;
 	key3:	string;
@@ -7,7 +8,6 @@ interface GargsStatic {
 	origin_level:	number;
 	page_num:	number;
 	page_count:	number;
-	key1_filed_hide:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -39,24 +39,24 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
+			key1_filed_hide:	$('#id_key1_filed_hide').val(),
 			key1:	$('#id_key1').val(),
 			key2:	$('#id_key2').val(),
 			key3:	$('#id_key3').val(),
 			key4:	$('#id_key4').val(),
 			value:	$('#id_value').val(),
-			origin_level:	$('#id_origin_level').val(),
-			key1_filed_hide:	$('#id_key1_filed_hide').val()
+			origin_level:	$('#id_origin_level').val()
         });
     }
 
 
+	$('#id_key1_filed_hide').val(g_args.key1_filed_hide);
 	$('#id_key1').val(g_args.key1);
 	$('#id_key2').val(g_args.key2);
 	$('#id_key3').val(g_args.key3);
 	$('#id_key4').val(g_args.key4);
 	$('#id_value').val(g_args.value);
 	$('#id_origin_level').val(g_args.origin_level);
-	$('#id_key1_filed_hide').val(g_args.key1_filed_hide);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -66,6 +66,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">key1_filed_hide</span>
+                <input class="opt-change form-control" id="id_key1_filed_hide" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
@@ -106,13 +113,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">origin_level</span>
                 <input class="opt-change form-control" id="id_origin_level" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">key1_filed_hide</span>
-                <input class="opt-change form-control" id="id_key1_filed_hide" />
             </div>
         </div>
 */

@@ -1490,9 +1490,45 @@ class tea_manage extends Controller
     }
 
     public function train_lesson_list_fulltime(){
+        $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num        = $this->get_in_page_num();
-        return $this->pageView(__METHOD__,null);
+        $teacherid       = $this->get_in_int_val("teacherid",-1);
+        $lesson_status   = $this->get_in_int_val("lesson_status",-1);
+        $acc             = $this->get_account();
+        $ret_info = $this->t_lesson_info->get_train_lesson(
+            $page_num,$start_time,$end_time,$teacherid,$lesson_status,
+            -1,-1,7
+        );
+        if(!empty($ret_info['list'])){
+            $server_map = $this->gen_server_map($ret_info['list']);
+        }
+
+        $n = 1;
+        foreach($ret_info['list'] as &$val){
+            \App\Helper\Utils::unixtime2date_range($val);
+            E\Esubject::set_item_value_str($val);
+            E\Egrade::set_item_value_str($val);
+            E\Elesson_status::set_item_value_str($val);
+            E\Econtract_type::set_item_value_str($val,"lesson_type");
+            if($val['tea_cw_url']==""){
+                $val['cw_status']="未上传";
+            }else{
+                $val['cw_status']="已上传";
+            }
+
+            $val['index']  = $n;
+            $n++;
+            $server_info   = @$server_map[$val['courseid']];
+            $val['region'] = @$server_info['region'];
+            $val['ip']     = @$server_info['ip'];
+            $val['port']   = @$server_info['webrtc_port'];
+            $val['server_type_str'] = \App\Helper\Utils::get_server_type_str($val);
+        }
+
+        return $this->pageView(__METHOD__,$ret_info,[
+            "acc" => $acc
+        ]);
 
     }
     public function train_lesson_list_research(){
@@ -1689,6 +1725,8 @@ class tea_manage extends Controller
         $has_limit      = $this->get_in_int_val("has_limit",-1);
         $is_freeze      = $this->get_in_int_val("is_freeze",-1);
         $train_lessonid = $this->get_in_int_val("train_lessonid",-1);
+        $through_start  = strtotime($this->get_in_str_val("through_start"));
+        $through_end  = strtotime($this->get_in_str_val("through_end"));
 
         $lesson_teacher = $this->t_lesson_info->get_teacherid($lessonid);
         if($userid!=0 && $lesson_teacher==$userid){
@@ -1708,6 +1746,8 @@ class tea_manage extends Controller
         }else{
             if($type==4){
                 $teacherid_list = $this->t_lesson_info_b2->get_trial_train_no_pass_list_b2(0);
+            }elseif($type==5){
+                $teacherid_list = $this->t_teacher_info->get_fulltime_teacher_by_time($through_start,$through_end);
             }else if($type==3){
                 $train_teacher_list = [];
                 $per_teacher_list   = [];
@@ -2149,6 +2189,11 @@ class tea_manage extends Controller
     }
 
 
+    public function train_lecture_lesson_fulltime(){
+        $this->set_in_value("fulltime_flag",1);
+        return $this->train_lecture_lesson_zs();
+    }
+
     public function train_lecture_lesson_zs(){
         $this->set_in_value("is_all",1);
         return $this->train_lecture_lesson();
@@ -2177,7 +2222,11 @@ class tea_manage extends Controller
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
         $is_all           = $this->get_in_int_val("is_all");
-        $full_time          = $this->get_in_int_val("full_time",-1);
+        $full_time        = $this->get_in_int_val("full_time",-1);
+        $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
+        if($fulltime_flag==1){
+            $full_time=1;
+        }
 
         $this->switch_tongji_database();
         $teacherid = -1;
@@ -2268,7 +2317,7 @@ class tea_manage extends Controller
         $identity    = $this->get_in_int_val("identity");
         $acc         = $this->get_account();
 
-        if($identity<=0){
+        if($identity<=0 && $flag <2){
             return $this->output_err("请选择老师身份！"); 
         }
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);

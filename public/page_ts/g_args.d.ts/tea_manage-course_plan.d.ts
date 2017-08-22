@@ -36,6 +36,8 @@ interface RowData {
 	confirm_reason	:any;
 	lesson_cancel_reason_next_lesson_time	:any;
 	phone	:any;
+	ass_nick	:any;
+	lesson_name	:any;
 	teacher_nick	:any;
 	user_nick	:any;
 	level	:any;

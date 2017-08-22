@@ -263,6 +263,7 @@ class NewRouteConfig {
         "/tea_manage/train_lecture_lesson_zs"     => true,
         "/tea_manage/train_lecture_lesson"        => true,
         "/tea_manage/train_lecture_lesson_zj"     => true,
+        "/tea_manage/train_lecture_lesson_fulltime"=> true,
         "/tea_manage/add_train_lesson_by_xls"     => true,
         "/tea_manage/set_teacher_record_account"  => true,
         "/tea_manage/trial_train_lesson_list"     => true,
@@ -417,6 +418,7 @@ class NewRouteConfig {
         "/human_resource/set_teacher_ref_type"            => true,
         "/human_resource/teacher_lecture_list"             => true,
         "/human_resource/teacher_lecture_list_research"    => true,
+        "/human_resource/teacher_lecture_list_fulltime"    => true,
         "/human_resource/teacher_lecture_list_zj"    => true,
         "/human_resource/teacher_lecture_list_zs"    => true,
         "/human_resource/set_teacher_level"                => true,
@@ -513,6 +515,7 @@ class NewRouteConfig {
         "/human_resource/reset_lecture_account"               => true,
         "/human_resource/quit_teacher_info"                   => true,
         "/human_resource/reaearch_teacher_lesson_list"        => true,
+        "/human_resource/reaearch_teacher_lesson_list_fulltime" => true,
         
 
         "/ass_manage/add_manager" => true,

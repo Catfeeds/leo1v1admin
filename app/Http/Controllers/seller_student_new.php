@@ -463,6 +463,7 @@ class seller_student_new extends Controller
         $this->switch_tongji_database();
         $cur_page       = $this->get_in_int_val("cur_page");
         $page_hide_list = $this->get_page_hide_list($cur_page);
+        $account        = $this->get_account();
 
         $ret_info = $this->seller_student_list_data();
         unset($ret_info["count_info"]);
@@ -484,11 +485,13 @@ class seller_student_new extends Controller
         //test
         $this->set_filed_for_js("jack_flag",$adminid);
         $this->set_filed_for_js("admin_seller_level", session("seller_level" ) );
+
         return $this->pageView(__METHOD__,$ret_info, [
-            "page_hide_list" => $page_hide_list,
-            "cur_page" => $cur_page,
-            "is_seller_master"=>$is_seller_master
-        ] );
+            "page_hide_list"   => $page_hide_list,
+            "cur_page"         => $cur_page,
+            "is_seller_master" => $is_seller_master,
+            "account"          => $account
+        ]);
     }
 
     //销售自己的例子
@@ -1074,22 +1077,13 @@ class seller_student_new extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    public function test_lesson_order_fail_list_new() {
-        $cur_require_adminid=$this->get_in_int_val("cur_require_adminid",-1);
-        $this->get_in_int_val("hide_cur_require_adminid",0);
-        list($start_time, $end_time)=$this->get_in_date_range(-30,0);
-        $page_num          = $this->get_in_page_num();
-        $origin_userid_flag = $this->get_in_enum_val(E\Eboolean::class , -1,"origin_userid_flag" );
-        $order_flag = $this->get_in_enum_val(E\Eboolean::class , -1 ,"order_flag");
-        $test_lesson_fail_flag = $this->get_in_enum_val(E\Etest_lesson_order_fail_flag::class , -1 );
-        $userid=$this->get_in_userid(-1 );
-
-        $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag,$test_lesson_fail_flag,$userid);
+    public function test_lesson_order_fail_list_new(){
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
         $ret = 0;
-        if($ret_info['require_id']){
+        if(isset($ret_info['require_id'])){
             $ret = $ret_info['require_id'];
         }
-
         return $ret;
     }
 

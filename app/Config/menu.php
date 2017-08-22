@@ -767,7 +767,6 @@ class menu{
 
                 ]],
                 ["power_id"=>33, "name"=>"其他",  "list"=>[
-
                     ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
                     ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
                     ["power_id"=>23, "name"=>"老师/助教退费责任统计",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
@@ -783,10 +782,15 @@ class menu{
                 ["power_id"=>4, "name"=>"全职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_fulltime"],
 
                 ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
+                ["power_id"=>14, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_fulltime"],
+                ["power_id"=>15, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_fulltime"],
+                ["power_id"=>16, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_fulltime"],
+
 
                 ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
                 ["power_id"=>1, "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
                 ["power_id"=>12, "name"=>"全职老师上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
+                ["power_id"=>13, "name"=>"全职老师培训","url"=>"/tea_manage/train_lesson_list_fulltime"],
 
 
                 ["power_id"=>6, "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],
