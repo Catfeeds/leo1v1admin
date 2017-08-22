@@ -229,8 +229,15 @@ class agent extends Controller
     }
 
     public function check(){
-        $url = 'http://loemobile.oss-cn-shanghai.aliyuncs.com/wx/%E4%BC%98%E5%AD%A6%E4%BC%98%E4%BA%AB%E5%BE%AE%E4%BF%A1/1905646072.jpg';
-        dd('a');
+        $phone = '15251318621';
+        $headimgurl = 'http://wx.qlogo.cn/mmopen/dx4Y70y9Xcu9RFKZfRHy6b9qmwBAjRhsCo20RWsQTz7b0riagHQNR8qs62M23T0MRibco1x76guAedlRZfNw5ZoA/0';
+        $datapath ="/tmp/".$phone."_headimg.jpeg";
+        $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
+        shell_exec($wgetshell);
+
+        $imgg = $this->yuan_img($datapath);
+        $datapath_new ="/tmp/".$phone."_headimg_new.png";
+        imagepng($imgg,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -273,6 +280,9 @@ class agent extends Controller
         $src_img = null;
         switch ($ext['extension']) {
         case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
             $src_img = imagecreatefromjpeg($imgpath);
             break;
         case 'png':
