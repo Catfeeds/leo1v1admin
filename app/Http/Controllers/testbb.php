@@ -6,6 +6,9 @@ use \App\Enums as E;
 
 use Illuminate\Support\Facades\Mail ;
 
+require_once app_path('/Libs/TCPDF/tcpdf.php');
+require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
+
 class testbb extends Controller
 {
     use CacheNick;
@@ -92,9 +95,12 @@ class testbb extends Controller
 
 
     public function test_img(){
-        $img = $this->get_in_str_val('img');
+        // $img = $this->get_in_str_val('img');
 
-        $ret = $this->img_to_pdf();
+        $img = [
+            0=>'123.jpg'
+        ];
+        $ret = $this->img_to_pdf($img);
     }
 
     public function img_to_pdf($filesnames){
@@ -102,9 +108,9 @@ class testbb extends Controller
 
         header("Content-type:text/html;charset=utf-8");
 
-        $hostdir = public_path('/wximg');
+        $hostdir = public_path('wximg');
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
         $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
@@ -121,20 +127,26 @@ class testbb extends Controller
             if(strstr($name,'jpg') || (strstr($name,'png') )){//如果是图片则添加到pdf中
                 // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
                 $pdf->AddPage();//添加一个页面
-                $filename = $hostdir.'\\'.$name;//拼接文件路径
+                $filename = $hostdir.'/'.$name;//拼接文件路径
 
                 //gd库操作  读取图片
                 $source = imagecreatefromjpeg($filename);
                 //gd库操作  旋转90度
-                $rotate = imagerotate($source, 90, 0);
+                $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
-                imagejpeg($rotate,$hostdir.'\\123\\'.$name.'_1.jpg');
+                // imagejpeg($rotate,$hostdir.'/123/'.$name.'_1.jpg');
+                imagejpeg($rotate,$hostdir.'/111_1.jpg');
                 //tcpdf操作  添加图片到pdf中
-                $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
+                // $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
+                $pdf->Image($hostdir.'/111_1.jpg', 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
 
             }
         }
-        $pdf->Output('1.pdf', 'I'); //输出pdf文件
+
+
+        $pdf_info = $pdf->Output('1.pdf', 'I');
+
+        dd($pdf_info); //输出pdf文件
 
     }
 
