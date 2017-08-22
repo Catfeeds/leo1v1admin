@@ -1177,16 +1177,7 @@ class agent extends Controller
         foreach($ret_info as $item){
             $id = $item['id'];
             $phone = $item['phone'];
-            $userid = $item['userid'];
             $create_time = $item['create_time'];
-            $lessonid_new = 0;
-            if($userid){
-                $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
-                $lessonid = $ret['lessonid'];
-                if($lessonid){
-                    $lessonid_new = $lessonid;
-                }
-            }
             $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $userid_new   = $student_info['userid'];
@@ -1212,6 +1203,14 @@ class agent extends Controller
                     }
                 }else{
                     $level = 0;
+                }
+            }
+            $lessonid_new = 0;
+            if($userid && $is_test_user == 0){
+                $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+                $lessonid = $ret['lessonid'];
+                if($lessonid){
+                    $lessonid_new = $lessonid;
                 }
             }
             $this->t_agent->field_update_list($id,[
