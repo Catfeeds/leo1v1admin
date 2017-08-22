@@ -21,7 +21,7 @@
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["check_value"]}} </td>
-                        <td>{{@$var["lesson_user_online_status_str"]}} </td>
+                        <td>{{@$var["success_flag"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
