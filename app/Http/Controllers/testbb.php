@@ -144,9 +144,13 @@ class testbb extends Controller
             }
         }
 
-        $domain = config('admin')['qiniu']['public']['url'];
+        // $domain = config('admin')['qiniu']['public']['url'];
 
         $pdf_name_tmp = $hostdir.'/'.time().'_'.rand().'.pdf';
+        $domain = config('admin')['qiniu']['public']['url'];
+
+        $a = $domain.'/'.time().'_'.rand().'.pdf';
+        dd($a);
         // $pdf_name_tmp = time().'_'.rand().'.pdf';
 
         $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
