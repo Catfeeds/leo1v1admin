@@ -278,6 +278,7 @@ class agent extends Controller
     function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
+        // dd($ext['extension']);
         switch ($ext['extension']) {
         case 'jpg':
             $src_img = imagecreatefromjpeg($imgpath);
