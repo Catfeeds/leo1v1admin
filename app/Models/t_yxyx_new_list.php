@@ -38,10 +38,10 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
             'id='.$id,
         ];
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content,create_time,adminid"
-                                    . " from %s"
+                                    ." from %s"
                                     ." where %s"
                                     ,self::DB_TABLE_NAME
-                                    , $where_arr
+                                    ,$where_arr
         );
 
         return $this->main_get_row($sql);
@@ -50,7 +50,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
         //新闻信息
     public function get_all_list($page_info){
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content,create_time,adminid"
-                                    . " from %s"
+                                    ." from %s"
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page($sql,$page_info);
@@ -59,7 +59,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
 
     public function get_all_for_wx(){
         $sql =  $this->gen_sql_new( "select id,new_pic,new_title,new_content"
-                                    . " from %s"
+                                    ." from %s"
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
@@ -71,7 +71,7 @@ class t_yxyx_new_list extends \App\Models\Zgen\z_t_yxyx_new_list
             'id='.$id,
         ];
         $sql =  $this->gen_sql_new( "select id,new_title,new_content"
-                                    . " from %s"
+                                    ." from %s"
                                     ." where %s"
                                     ,self::DB_TABLE_NAME
                                     , $where_arr
