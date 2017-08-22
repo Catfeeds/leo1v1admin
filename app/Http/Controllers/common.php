@@ -841,7 +841,7 @@ class common extends Controller
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             // $color = imagecolorallocate($image_5, 255, 255, 255);
-            $color = imagecolorallocatealpha($image_5,255,0,0,127);
+            $color = imagecolorallocatealpha($image_5,0,0,0,127);
             imagefill($image_5, 0, 0, $color);
             imageColorTransparent($image_5, $color);
 
