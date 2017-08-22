@@ -58,8 +58,8 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
-                $.do_ajax("/teacher_money/",{
-                    "":
+                $.do_ajax("/user_manager_new/update_teacher_money_type",{
+                    "teacher_money_type":id_teacher_money_type.val()
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
