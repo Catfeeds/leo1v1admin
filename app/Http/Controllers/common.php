@@ -834,7 +834,9 @@ class common extends Controller
                 $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
                 shell_exec($wgetshell);
                 $imgg = $this->yuan_img($datapath);
-                $image_4 = imagejpeg($imgg);
+                $datapath_new ="/tmp/".$phone."_headimg_new.png";
+                imagepng($imgg,$datapath_new);
+                $image_4 = imagecreatefrompng($datapath_new);
                 // $image_4 = imagecreatefromjpeg($datapath);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
