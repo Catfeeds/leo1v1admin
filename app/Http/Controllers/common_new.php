@@ -233,7 +233,9 @@ class common_new extends Controller
         $full_time                    = $this->get_in_int_val("full_time");
         $is_test_user                 = $this->get_in_int_val("is_test_user");
 
-        $phone      = substr($phone,0,11);
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
+            return $this->output_err("请填写正确的手机号！");
+        }
         $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
         if($check_flag){
             return $this->output_err("该手机号已提交过了,不能重新提交!");
@@ -241,9 +243,6 @@ class common_new extends Controller
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
         if(!empty($teacher_info)){
             return $this->output_err("该手机号已注册,不能重新提交!");
-        }
-        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
-            return $this->output_err("请填写正确的手机号！");
         }
         if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");

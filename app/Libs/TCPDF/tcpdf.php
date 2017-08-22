@@ -7563,8 +7563,8 @@ class TCPDF {
 		}
 		$dest = strtoupper($dest);
 		if ($dest[0] != 'F') {
-			$name = preg_replace('/[\s]+/', '_', $name);
-			$name = preg_replace('/[^a-zA-Z0-9_\.-]/', '', $name);
+			// $name = preg_replace('/[\s]+/', '_', $name);
+			// $name = preg_replace('/[^a-zA-Z0-9_\.-]/', '', $name);
 		}
 		if ($this->sign) {
 			// *** apply digital signature to the document ***
@@ -7693,31 +7693,37 @@ class TCPDF {
 					header('Content-Disposition: inline; filename="'.basename($name).'"');
 					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
 				} elseif ($dest == 'FD') {
-					// send headers to browser
-					if (ob_get_contents()) {
-						$this->Error('Some data has already been output, can\'t send PDF file');
-					}
-					header('Content-Description: File Transfer');
-					if (headers_sent()) {
-						$this->Error('Some data has already been output to browser, can\'t send PDF file');
-					}
-					header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-					header('Pragma: public');
-					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-					header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-					// force download dialog
-					if (strpos(php_sapi_name(), 'cgi') === false) {
-						header('Content-Type: application/force-download');
-						header('Content-Type: application/octet-stream', false);
-						header('Content-Type: application/download', false);
-						header('Content-Type: application/pdf', false);
-					} else {
-						header('Content-Type: application/pdf');
-					}
-					// use the Content-Disposition header to supply a recommended filename
-					header('Content-Disposition: attachment; filename="'.basename($name).'"');
-					header('Content-Transfer-Encoding: binary');
-					TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
+                    /**
+                       此处代码将文件下载到本地
+                    **/
+
+
+
+					// // send headers to browser
+					// if (ob_get_contents()) {
+					// 	$this->Error('Some data has already been output, can\'t send PDF file');
+					// }
+					// header('Content-Description: File Transfer');
+					// if (headers_sent()) {
+					// 	$this->Error('Some data has already been output to browser, can\'t send PDF file');
+					// }
+					// header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
+					// header('Pragma: public');
+					// header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+					// header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+					// // force download dialog
+					// if (strpos(php_sapi_name(), 'cgi') === false) {
+					// 	header('Content-Type: application/force-download');
+					// 	header('Content-Type: application/octet-stream', false);
+					// 	header('Content-Type: application/download', false);
+					// 	header('Content-Type: application/pdf', false);
+					// } else {
+					// 	header('Content-Type: application/pdf');
+					// }
+					// // use the Content-Disposition header to supply a recommended filename
+					// header('Content-Disposition: attachment; filename="'.basename($name).'"');
+					// header('Content-Transfer-Encoding: binary');
+					// TCPDF_STATIC::sendOutputData(file_get_contents($name), filesize($name));
 				}
 				break;
 			}
