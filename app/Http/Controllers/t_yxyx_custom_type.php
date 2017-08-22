@@ -20,7 +20,7 @@ class t_yxyx_custom_type extends Controller
 
     public function get_one_type() {
         $custom_type_id = $this->get_in_int_val('custom_type_id',-1);
-        $ret_info = $this->t_yxyx_custom_type->get_one_type($custom_type_id);
+        $ret_info       = $this->t_yxyx_custom_type->get_one_type($custom_type_id);
         \App\Helper\Utils::unixtime2date_for_item($ret_info,"create_time");
         $ret_info["nick"] = $this->cache_get_account_nick($ret_info["adminid"] );
         return outputjson_success(array('ret_info' => $ret_info));
@@ -29,7 +29,7 @@ class t_yxyx_custom_type extends Controller
 
     public function add_type()
     {
-        $type_name = trim($this->get_in_str_val('type_name',''));
+        $type_name      = trim($this->get_in_str_val('type_name',''));
         $custom_type_id = $this->get_in_int_val('custom_type_id',-1);
         if($custom_type_id > 0) {
             $this->t_yxyx_custom_type->update_type($custom_type_id,$type_name);

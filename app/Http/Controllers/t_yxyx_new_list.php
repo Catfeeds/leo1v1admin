@@ -9,8 +9,8 @@ class t_yxyx_new_list extends Controller
     use CacheNick;
     public function get_all(){
         // $type = $this->get_in_int_val('type',-1);
-        $page_info= $this->get_in_page_info();
-        $ret_info = $this->t_yxyx_new_list->get_all_list($page_info);
+        $page_info = $this->get_in_page_info();
+        $ret_info  = $this->t_yxyx_new_list->get_all_list($page_info);
         foreach ($ret_info['list'] as &$item) {
                \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
                $item["nick"] = $this->cache_get_account_nick($item["adminid"]);
@@ -55,9 +55,8 @@ class t_yxyx_new_list extends Controller
     public function del_new_info()
     {
         $id = $this->get_in_int_val('id',-1);
-        $ret_info=$this->t_yxyx_new_list->row_delete($id);
+        $ret_info = $this->t_yxyx_new_list->row_delete($id);
         return outputjson_success();
     }
-
 
 }

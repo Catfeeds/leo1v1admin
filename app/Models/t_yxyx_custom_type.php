@@ -18,7 +18,7 @@ class t_yxyx_custom_type extends \App\Models\Zgen\z_t_yxyx_custom_type
 
     public function update_type($custom_type_id,$type_name) {
         $res = $this->field_update_list( ["custom_type_id" => $custom_type_id],[
-            "type_name"  => $type_name,
+            "type_name" => $type_name,
         ]);
         return $res;
     }
@@ -28,8 +28,8 @@ class t_yxyx_custom_type extends \App\Models\Zgen\z_t_yxyx_custom_type
             ['custom_type_id=%s', $custom_type_id,0],
         ];
         $sql = $this->gen_sql_new( "select custom_type_id,type_name,create_time,adminid"
-                                   . " from %s "
-                                   . " where %s"
+                                   ." from %s "
+                                   ." where %s"
                                    ,self::DB_TABLE_NAME
                                    ,$where_arr
         );
@@ -37,8 +37,8 @@ class t_yxyx_custom_type extends \App\Models\Zgen\z_t_yxyx_custom_type
     }
 
     public function get_all_custom_type($page_info){
-        $sql =  $this->gen_sql_new( "select custom_type_id,type_name,create_time,adminid "
-                                    . " from %s "
+        $sql = $this->gen_sql_new( "select custom_type_id,type_name,create_time,adminid "
+                                    ." from %s "
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list_by_page($sql,$page_info);
@@ -47,22 +47,11 @@ class t_yxyx_custom_type extends \App\Models\Zgen\z_t_yxyx_custom_type
 
     public function get_type_id_name_info()
     {
-        $sql =  $this->gen_sql_new( "select custom_type_id,type_name"
-                                    . " from %s "
+        $sql = $this->gen_sql_new( "select custom_type_id,type_name"
+                                    ." from %s "
                                     ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
