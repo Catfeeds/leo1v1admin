@@ -2819,6 +2819,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                                   ." from %s s "
                                   ." left join %s ts on s.userid=ts.userid"
                                   ." where %s "
+                                  ." order by reg_time desc"
+                                  ." limit 10000"
                                   ,self::DB_TABLE_NAME
                                   ,t_test_lesson_subject::DB_TABLE_NAME
                                   ,$where_arr
