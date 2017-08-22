@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_rr.png";
+        $phone_qr_name = $phone."_qr_agent_hx.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -841,12 +841,12 @@ class common extends Controller
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
             $color = imagecolorallocate($image_5, 255, 255, 255);
+            // $color = imagecolorallocatealpha($image_5,0,0,0,127);
             imagefill($image_5, 0, 0, $color);
             imageColorTransparent($image_5, $color);
 
             imagecopyresampled($image_3,$image_1,0,0,0,0,imagesx($image_1),imagesy($image_1),imagesx($image_1),imagesy($image_1));
             imagecopyresampled($image_5,$image_4,0,0,0,0,imagesx($image_5),imagesy($image_5),imagesx($image_4),imagesy($image_4));
-            // imagecopymerge($image_3,$image_2,344,1318,0,0,212,212,100);
             imagecopymerge($image_3,$image_2,372,1346,0,0,imagesx($image_2),imagesx($image_2),100);
             imagecopymerge($image_3,$image_5,354,35,0,0,190,190,100);
             imagepng($image_3,$agent_qr_url);
