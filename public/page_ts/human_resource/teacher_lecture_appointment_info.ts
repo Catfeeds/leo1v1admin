@@ -807,37 +807,31 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 var title = "空闲时间选择";
-                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\">
-                    <th width=\"120px\">时段</th>
-                    <th>周一 </th>
-                    <th>周二 </th>
-                    <th>周三 </th>
-                    <th>周四 </th>
-                    <th>周五 </th>
-                    <th>周六 </th>
-                    <th>周日 </th>
-                </tr>
-                <tbody id="id_time_body_1" >
-                    <tr data-timeid="07"><td>07:00-07:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="08"><td>08:00-08:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="09"><td>09:00-09:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="10"><td>10:00-10:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="11"><td>11:00-11:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="12"><td>12:00-12:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="13"><td>13:00-13:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="14"><td>14:00-14:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="15"><td>15:00-15:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="16"><td>16:00-16:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="17"><td>17:00-17:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="18"><td>18:00-18:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="19"><td>19:00-19:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="20"><td>20:00-20:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="21"><td>21:00-21:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                    <tr data-timeid="22"><td>22:00-22:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-                </tbody></table>");
+                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th>周一 </th><th>周二 </th><th>周三 </th><th>周四 </th><th>周五 </th><th>周六 </th><th>周日 </th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"07\"><td>07:00-07:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"08\"><td>08:00-08:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"09\"><td>09:00-09:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10\"><td>10:00-10:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11\"><td>11:00-11:59</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> </tbody></table>");
+                var dlg=BootstrapDialog.show({
+                    title:title, 
+                    message :  html_node   ,
+                    closable: true, 
+                    buttons:[{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+                        
+                    }
+
+                });
+
+                dlg.getModalDialog().css("width","1024px");
+
 
             }
         }]);
+        return;
 
         alert(111);
         var teacherid = $(this).data("teacherid");
