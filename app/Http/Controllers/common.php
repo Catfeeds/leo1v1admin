@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_qp.png";
+        $phone_qr_name = $phone."_qr_agent_oo.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -838,7 +838,7 @@ class common extends Controller
                 $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
                 imagepng($imgg,$datapath_new);
                 // $image_4 = imagecreatefrompng($datapath_new);
-                $image_4 = imagecreatefromjpeg($datapath);
+                $image_4 = imagecreatefromjpeg($datapath_new);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
 
@@ -921,7 +921,6 @@ class common extends Controller
     function yuan_img($imgpath = './tx.jpg') {
         $ext     = pathinfo($imgpath);
         $src_img = null;
-        \App\Helper\Utils::logger('yxyx_ext:'.$ext['extension']);
         switch ($ext['extension']) {
         case 'jpg':
             $src_img = imagecreatefromjpeg($imgpath);
