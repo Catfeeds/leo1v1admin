@@ -2189,6 +2189,11 @@ class tea_manage extends Controller
     }
 
 
+    public function train_lecture_lesson_fulltime(){
+        $this->set_in_value("fulltime_flag",1);
+        return $this->train_lecture_lesson_zs();
+    }
+
     public function train_lecture_lesson_zs(){
         $this->set_in_value("is_all",1);
         return $this->train_lecture_lesson();
@@ -2217,7 +2222,11 @@ class tea_manage extends Controller
         $lecture_status   = $this->get_in_int_val("lecture_status",-1);
         $train_email_flag = $this->get_in_int_val("train_email_flag",-1);
         $is_all           = $this->get_in_int_val("is_all");
-        $full_time          = $this->get_in_int_val("full_time",-1);
+        $full_time        = $this->get_in_int_val("full_time",-1);
+        $fulltime_flag    = $this->get_in_int_val("fulltime_flag");
+        if($fulltime_flag==1){
+            $full_time=1;
+        }
 
         $this->switch_tongji_database();
         $teacherid = -1;
