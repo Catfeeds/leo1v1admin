@@ -223,8 +223,8 @@ class agent extends Controller
             if($item['cash']){
                 $item['cash'] = $item['cash']/100;
             }
-            $item['check_money_desc'] = $item['check_money_desc']?$item['check_money_desc']:'';
         }
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 

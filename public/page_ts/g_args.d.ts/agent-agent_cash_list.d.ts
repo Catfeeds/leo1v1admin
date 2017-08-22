@@ -18,6 +18,11 @@ interface RowData {
 	is_suc_flag	:any;
 	create_time	:any;
 	type	:any;
+	check_money_flag	:any;
+	check_money_adminid	:any;
+	check_money_time	:any;
+	check_money_desc	:any;
+	nickname	:any;
 	phone	:any;
 }
 
