@@ -835,10 +835,10 @@ class common extends Controller
                 shell_exec($wgetshell);
 
                 $imgg = $this->yuan_img($datapath);
-                $datapath_new ="/tmp/".$phone."_headimg_new.png";
+                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
                 imagepng($imgg,$datapath_new);
                 // $image_4 = imagecreatefrompng($datapath_new);
-                $image_4 = imagecreatefrompng($datapath);
+                $image_4 = imagecreatefromjpeg($datapath);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
 
@@ -948,6 +948,7 @@ class common extends Controller
         $y_y = $r; //圆心Y坐标
         for ($x = 0; $x < $w; $x++) {
             for ($y = 0; $y < $h; $y++) {
+                \App\Helper\Utils::logger('yxyx_src_img:'.$src_img);
                 $rgbColor = imagecolorat($src_img, $x, $y);
                 if (((($x - $r) * ($x - $r) + ($y - $r) * ($y - $r)) < ($r * $r))) {
                     imagesetpixel($img, $x, $y, $rgbColor);
