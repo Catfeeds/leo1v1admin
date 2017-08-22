@@ -2806,4 +2806,19 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         );
         return $this->main_get_list_as_page($sql);
     }
+
+    public function get_stu_id_phone($start_time, $end_time){
+        $where_arr = [
+            ['reg_time>=%s', $start_time,0],
+            ['reg_time<%s', $end_time,0],
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.phone"
+                                  ." from %s s "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_list($sql);
+    }
 }

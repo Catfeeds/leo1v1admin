@@ -1222,6 +1222,7 @@ class common_new extends Controller
             $start_time = strtotime('2017-08-01');
             $end_time = strtotime('2017-09-01');
             $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+            dd($ret_info);
             foreach ($ret_info as $item) {
                 $face[] = @$item['face'];
             }
@@ -1243,8 +1244,12 @@ class common_new extends Controller
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
-
     }
 
+    public function get_no_contract_stu(){
+        $start_time = strtotime('2017-06-01');
+        $end_time = strtotime('2017-09-01');
+        $ret_info = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
+    }
 
 }
