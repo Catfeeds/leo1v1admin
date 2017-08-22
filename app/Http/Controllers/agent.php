@@ -235,7 +235,8 @@ class agent extends Controller
         // imagepng($imgg);
         // imagedestroy($imgg);
         // dd($imgg);
-        $ret = $this->t_agent->get_agent_info_by_phone($phone='15955750665');
+        // $ret = $this->t_agent->get_agent_info_by_phone($phone='15955750665');
+        $ret = $this->t_agent->get_agent_info_by_phone($phone='15251318621');
         dd($ret);
     }
 
