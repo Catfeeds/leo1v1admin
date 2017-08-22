@@ -20,5 +20,17 @@ $(function(){
 	  $('#id_level').val(g_args.level);
 
 	  $('.opt-change').set_input_change_event(load_data);
+
+    $("#id_add_teacher_money_type").on("click",function(){
+	      var teacher_money_type = $("#id_teacher_money_type").val();
+	      var level = $("#id_level").val();
+
+        if(teacher_money_type!=6){
+            
+        }
+    });
+
+
+
 });
 
