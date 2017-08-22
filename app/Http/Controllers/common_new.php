@@ -1254,7 +1254,15 @@ class common_new extends Controller
         $start_time = strtotime('2017-06-01');
         $end_time   = strtotime('2017-09-01');
         $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
-        dd($ret_info);
+        $list = [];
+        foreach ($ret_info as $item) {
+            if ($item['test_flag'] == 1) {
+                $list['test'][] = $item;
+            } else {
+                $list['no_test'][] = $item;
+            }
+        }
+        dd($list);
     }
 
 }
