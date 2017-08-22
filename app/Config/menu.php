@@ -361,6 +361,11 @@ class menu{
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                 ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                 ["power_id"=>38, "name"=>"软件反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
+                ["power_id"=>39, "name"=>"需求提交",   "url"=>"/requirement/requirement_info"],
+                ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
+                ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
+                ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
+
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 

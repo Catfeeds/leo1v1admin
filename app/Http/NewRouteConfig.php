@@ -544,6 +544,12 @@ class NewRouteConfig {
         "/customer_service/complaint_info"               => true,
         "/customer_service/proposal_info"                => true,
 
+        "/requirement/add_requirement_info"              => true,
+        "/requirement/requirement_info"                  => true,
+        "/requirement/requirement_info_product"          => true,
+        "/requirement/requirement_info_development"      => true,
+        "/requirement/requirement_info_test"             => true,
+
     ];
 
     static $dev_url_map = [
