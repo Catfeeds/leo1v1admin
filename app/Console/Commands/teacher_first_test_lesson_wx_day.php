@@ -42,7 +42,7 @@ class teacher_first_test_lesson_wx_day extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         //$start_time = strtotime(date("Y-m-d",time()));
-        $end_time = strtotime(date("Y-m-d",time()));
+        $end_time = strtotime(date("Y-m-d",time()))-86400;
         $start_time = $end_time-86400;
         $start=date("Y-m-d H:i:s",$start_time);
         $end = date("Y-m-d H:i:s",$end_time);
