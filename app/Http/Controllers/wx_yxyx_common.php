@@ -347,4 +347,29 @@ class wx_yxyx_common extends Controller
         $this->t_yxyx_test_pic_info->add_field_num($id,"share_num");//添加分享次数
     }
 
+    public function get_yxyx_all_new(){
+        $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
+        foreach ($ret_info as &$item) {
+            $item['new_content'] = mb_substr( str_replace(PHP_EOL, '', strip_tags($item['new_content'])),0,30);
+        }
+        if ($ret_info) {
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+        // dd($ret_info);
+    }
+
+    public function get_yxyx_one_new(){
+        $id = $this->get_in_int_val("id", -1);
+        $ret_info = $this->t_yxyx_new_list->get_one_new_for_wx($id);
+        if ($ret_info) {
+            return $this->output_succ(["data"=>$ret_info]);
+        } else {
+            return $this->output_err("信息有误！");
+        }
+        // dd($ret_info);
+    }
+
+
 }
