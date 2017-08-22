@@ -258,7 +258,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["t.teacherid = %u",$teacher_account,-1],
             ["tt.teacherid = %u",$reference_teacherid,-1],
             ["tl.identity = %u",$identity,-1],
-            "(tl.account is not null && tl.account <> '')",
+            //  "(tl.account is not null && tl.account <> '')",
             "tl.is_test_flag =0"
         ];
         if(!empty($tea_subject)){
@@ -366,7 +366,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             ["tl.add_time <= %u",$end_time,-1],
             "tl.is_test_flag =0",
             "tl.account <> 'adrian'",
-            "(tl.account is not null && tl.account <> '')",
+            //  "(tl.account is not null && tl.account <> '')",
         ];
         if($status==-2){
             $where_arr[] = "tl.status <>4";

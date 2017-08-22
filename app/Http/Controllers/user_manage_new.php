@@ -3758,10 +3758,30 @@ class user_manage_new extends Controller
         return $this->output_succ();
     }
 
+    public function update_teacher_money_type(){
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $level     = $this->get_in_int_val("level");
+        $money_101 = $this->get_in_int_val("money_101");
+        $money_106 = $this->get_in_int_val("money_106");
+        $money_203 = $this->get_in_int_val("money_203");
+        $money_301 = $this->get_in_int_val("money_301");
+        $money_303 = $this->get_in_int_val("money_303");
 
+        $check_time = strtotime("2017-9-1");
+        if($teacher_money_type!=6 || time()>$check_time){
+            return $this->output_err("此类型工资不能个修改!");
+        }
+
+        $ret = $this->t_teacher_money_type->update_teacher_money_type(
+            $teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303
+        );
+
+
+    }
 
 
 
 
 
 }
+

@@ -63,8 +63,24 @@ class t_teacher_money_type extends \App\Models\Zgen\z_t_teacher_money_type
                                   ,$where_arr
         );
         return $this->main_get_value($sql);
-
     }
 
+    public function update_teacher_money_type($teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303){
+        $where_arr = [
+            ["teacher_money_type=%u",$teacher_money_type,0],
+            ["level=%u",$level,0],
+        ];
+        $where_arr_101 = $where_arr;
+        $where_arr_101 = array_push($where_arr,"grade<106");
 
+        $sql = $this->gen_sql_new("update %s set "
+                                  ." money "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 }
