@@ -39,18 +39,14 @@ class agent extends Controller
                 }
             }
             $item['agent_type'] = $item['type'];
-            $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
+            E\Eagent_type::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            E\Eagent_level::set_item_value_str($item);
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"] );
+
         }
-        if(count($userid_arr)>0){
-            $test_info = $this->t_lesson_info_b2->get_suc_test_by_userid($userid_arr);
-            foreach($ret_info['list'] as &$item){
-                foreach($test_info as $info){
-                    if($item['userid'] == $info['userid']){
-                        $item['success_flag'] = 1;
-                    }
-                }
-            }
-        }
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -524,8 +520,9 @@ class agent extends Controller
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
+        $agent_id = 1509;//王朝刚
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -621,13 +618,17 @@ class agent extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
+    public function user_list() {
+
+    }
 
     public function get_my_num(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
+        $agent_id = 1509;//王朝刚
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -1167,6 +1168,60 @@ class agent extends Controller
             $item["duration"]= \App\Helper\Common::get_time_format($item["duration"]);
         }
         return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+
+    public function update_agent_level(){
+        $ret_info = $this->t_agent->get_agent_list();
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $phone = $item['phone'];
+            $userid = $item['userid'];
+            $create_time = $item['create_time'];
+            $lessonid_new = 0;
+            if($userid){
+                $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+                $lessonid = $ret['lessonid'];
+                if($lessonid){
+                    $lessonid_new = $lessonid;
+                }
+            }
+            $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            $student_info = $this->t_student_info->field_get_list($userid,"*");
+            $userid_new   = $student_info['userid'];
+            $type_new     = $student_info['type'];
+            $is_test_user = $student_info['is_test_user'];
+            $level        = 0;
+            if($userid != 0 && $type_new == 0 && $is_test_user == 0){//在读非测试
+                $level     = 2;
+            }else{
+                $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
+                foreach($agent_list as $item){
+                    if($phone == $item['phone']){
+                        $agent_item = $item;
+                    }
+                }
+                if($agent_item){
+                    $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                    $count       = count(array_unique(array_column($test_lesson,'id')));
+                    if(2<=$count){
+                        $level = 2;
+                    }else{
+                        $level = 1;
+                    }
+                }else{
+                    $level = 0;
+                }
+            }
+            $this->t_agent->field_update_list($id,[
+                "agent_level" => $level,
+                "test_lessonid" => $lessonid_new,
+            ]);
+        }
+    }
+
+    public function update_agent_test_lessonid($agent_id){
 
     }
 
