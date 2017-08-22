@@ -1392,7 +1392,7 @@ class common extends Controller
 
             // 初始化 UploadManager 对象并进行文件的上传。
             $uploadMgr = new UploadManager();
-            \App\Helper\Utils::logger("start...");
+            \App\Helper\Utils::logger("start...:$bucket");
             list($ret, $err) = $uploadMgr->putFile($token, $qiniu_file_name,  $realPath );
             \App\Helper\Utils::logger( "error:" . json_encode($err) );
 

@@ -120,73 +120,65 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
 
-                    <li ><a href="/teacher_info/index2"><i class="fa fa-circle-o"></i> <span> 课程列表 </span> </a></li>
-        <li  ><a href="index2.html"><i class="fa fa-circle-o"></i> <span> 当前课表 </span> </a></li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-dashboard"></i> <span>老师档案</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li ><a href="/teacher_info/index" ><i class="fa fa-circle-o"></i>基本属性 </a></li>
-            <li ><a href="index2.html"><i class="fa fa-circle-o"></i>我的学生</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+                    <li ><a href="/teacher_info/index"><i class="fa fa-circle-o"></i> <span> 课程列表 </span> </a></li>
+                    <li  ><a href="/teacher_info/current_course"><i class="fa fa-circle-o"></i> <span> 当前课表 </span> </a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i> <span>老师档案</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li ><a href="/teacher_info/" ><i class="fa fa-circle-o"></i>基本属性 </a></li>
+                            <li ><a href="index2.html"><i class="fa fa-circle-o"></i>我的学生</a></li>
+                            <li ><a href="index2.html"><i class="fa fa-circle-o"></i>操作台</a></li>
+                            <li ><a href="index2.html"><i class="fa fa-circle-o"></i>薪资相关</a></li>
+                        </ul>
+                    </li>
+                    <li  ><a href="/teacher_info/file_store"><i class="fa fa-circle-o"></i> <span>资料库</span> </a></li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- jQuery 3 -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+         $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Main content -->
-      @yield('content')
-    <!-- /.content -->
-  </div>
+        <script src="/js/bootstrap3-dialog/js/bootstrap-dialog.js" type="text/javascript"></script>
 
-</div>
-<!-- ./wrapper -->
-
-<!-- jQuery 3 -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button);
-</script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<script src="/js/bootstrap3-dialog/js/bootstrap-dialog.js" type="text/javascript"></script>
-
-<!-- Morris.js charts -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/raphael/raphael.min.js"></script>
-<script src="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.min.js"></script>
-<!-- Sparkline -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/moment/min/moment.min.js"></script>
-<script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<!-- Slimscroll -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="/AdminLTE-2.4.0-rc/bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- AdminLTE for demo purposes -->
+        <!-- Morris.js charts -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/raphael/raphael.min.js"></script>
+        <script src="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.min.js"></script>
+        <!-- Sparkline -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+        <!-- jvectormap -->
+        <script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="/AdminLTE-2.4.0-rc/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-knob/dist/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/moment/min/moment.min.js"></script>
+        <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <!-- datepicker -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="/AdminLTE-2.4.0-rc/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <!-- Slimscroll -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="/AdminLTE-2.4.0-rc/bower_components/fastclick/lib/fastclick.js"></script>
+        <!-- AdminLTE App -->
+        <script src="/AdminLTE-2.4.0-rc/dist/js/adminlte.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <!-- AdminLTE for demo purposes -->
 
         <script src="/js/jquery.admin.js?{{$_publish_version}}" type="text/javascript"></script>
 
@@ -200,6 +192,19 @@
 
         <script type="text/javascript" src="/js/jquery.datetimepicker.js"></script>
         <script type="text/javascript" src="/page_js/lib/select_date_range.js?{{@$_publish_version}}"></script>
+
+
+
+
+        <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+      @yield('content')
+    <!-- /.content -->
+  </div>
+
+</div>
+<!-- ./wrapper -->
 
 </body>
 </html>
