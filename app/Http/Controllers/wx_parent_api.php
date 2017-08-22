@@ -1189,6 +1189,15 @@ class wx_parent_api extends Controller
 
 
 
+    public function img_to_pdf(){
+        ini_set("memory_limit",'-1');
+
+        header("Content-type:text/html;charset=utf-8");
+
+    }
+
+
+
 
 
 
