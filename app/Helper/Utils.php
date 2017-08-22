@@ -1420,6 +1420,16 @@ class Utils  {
         return $phone;
     }
 
+    static public function array_keys_to_string($array,$point=","){
+        $keys_string = "";
+        if(is_array($array) && !empty($array)){
+            $keys_array = array_keys($array);
+            $keys_string = implode($point,$keys_array);
+        }
+        return $keys_string;
+    }
+
+
 
 
 

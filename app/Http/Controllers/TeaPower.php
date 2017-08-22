@@ -2539,5 +2539,132 @@ trait  TeaPower {
     }
 
 
+    //获取质监/教研 空闲时间
+    public function get_not_free_time_list($subject,$grade){
+        $start_time = strtotime("+1 day",strtotime(date("Y-m-d 9:00",time())));
+        $end_time   = strtotime("+1 week",strtotime(date("Y-m-d 20:00",time())));
+
+        if($subject==0 || $grade==0){
+            return $this->output_err("请选择正确的年级和科目");
+        }
+        $teacherid_str  = $this->get_check_teacherid_str($subject,$grade);
+        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list($subject,$grade);
+        $lesson_list    = $this->t_lesson_info->get_not_free_lesson_list($start_time,$end_time,$teacherid_str);
+
+        $free_list = [];
+        if(is_array($lesson_list) && !empty($lesson_list)){
+            $lesson_data = [];
+            foreach($teacherid_list as $t_key=>$t_val){
+                \App\Helper\Utils::check_isset_data($lesson_data[$t_key],[],0);
+                $this->get_tea_rearch_time_block($lesson_data[$t_key],$t_val['account_role']);
+                foreach($lesson_list as $l_val){
+                    if($l_val['teacherid']==$t_key){
+                        $this->change_time_to_range($lesson_data[$t_key],$l_val['lesson_start'],$l_val['lesson_end']);
+                    }
+                }
+            }
+            foreach($lesson_data as $l2_key=>$l2_val){
+                if(empty($free_list)){
+                    $free_list = $l2_val;
+                }else{
+                    $free_list = array_intersect($free_list,$l2_val);
+                }
+            }
+            $free_list = array_values(array_unique($free_list));
+        }
+
+        $free_time_list = [];
+        if(!empty($free_list)){
+            foreach($free_list as $time_val){
+                $time=explode("~",$time_val);
+                $free_time_list[] = [
+                    "lesson_start" => $time[0],
+                    "lesson_end"   => $time[1],
+                ];
+            }
+        }
+
+        return $this->output_succ(\OUTPUT_get_not_free_time_list_out::class,[
+            "not_free_time_list" => $free_time_list
+        ]);
+    }
+
+    public function get_check_teacherid_str($subject,$grade){
+        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list($subject,$grade);
+        $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list,",");
+
+        return $teacherid_str;
+    }
+
+    /**
+     * 教研未来一周只有周二能排课
+     * 质监只有周二到周六能排课
+     * 中午12:00~13:00都不能排课
+     * @param account_role 4 教研 9 质监
+     */
+    public function get_tea_rearch_time_block(&$lesson_data,$account_role){
+        $start_date = date("Y-m-d 9:00",time());
+        $half_start = date("Y-m-d 12:00",time());
+        $half_end   = date("Y-m-d 13:00",time());
+        $night_start= date("Y-m-d 18:00",time());
+        $end_date   = date("Y-m-d 20:00",time());
+        for($i=1;$i<=7;$i++){
+            $start_day       = strtotime("+".$i." day",strtotime($start_date));
+            $half_start_day  = strtotime("+".$i." day",strtotime($half_start));
+            $half_end_day    = strtotime("+".$i." day",strtotime($half_end));
+            $night_start_day = strtotime("+".$i." day",strtotime($night_start));
+            $end_day         = strtotime("+".$i." day",strtotime($end_date));
+
+            $week_day = date("w",$start_day);
+            if($account_role==E\Eaccount_role::V_4){
+                if($week_day != 2){
+                    $this->change_time_to_range($lesson_data,$start_day,$end_day);
+                }
+            }elseif($account_role==E\Eaccount_role::V_9){
+                if(in_array($week_day,[0,1])){
+                    $this->change_time_to_range($lesson_data,$start_day,$end_day);
+                }
+            }
+            $this->change_time_to_range($lesson_data,$half_start_day,$half_end_day);
+            $this->change_time_to_range($lesson_data,$night_start_day,$end_day);
+        }
+        
+    }
+
+
+    public function change_time_to_range(&$lesson_data,$lesson_start,$lesson_end){
+        for(;$lesson_start<=$lesson_end;){
+            if($lesson_start==$lesson_end){
+                break;
+            }
+            $time_range=$this->get_time_block($lesson_start);
+            array_push($lesson_data,$time_range);
+            $lesson_start += 1800;
+        }
+    }
+
+    /**
+     * 把时间戳转化成时间范围
+     */
+    public function get_time_block($time){
+        $time_prefix      = date("Y-m-d H",$time);
+        $time_prefix_now  = date("H",$time);
+        $time_prefix_next = date("H",($time+3600));
+        $time_minute      = date("i",$time);
+
+        if($time_minute>=30){
+            $time_range = $time_prefix.":30~".$time_prefix_next.":00";
+        }else{
+            $time_range = $time_prefix.":00~".$time_prefix_now.":30";
+        }
+        return $time_range;
+    }
+
+
+
+
+
+
+
 
 }

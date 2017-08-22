@@ -9109,6 +9109,24 @@ lesson_type in (0,1) "
     }
 
 
+    public function get_not_free_lesson_list($start_time,$end_time,$teacherid){
+        $where_arr = [
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<=%u",$end_time,0],
+            ["teacherid in (%s)",$teacherid,0],
+            "lesson_type !=4001",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select lesson_start,lesson_end,teacherid"
+                                  ." from %s force index(lesson_type_and_start) "
+                                  ." where %s"
+                                  ." order by lesson_start asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 
 }
