@@ -932,6 +932,8 @@ $(function(){
             var args="title=lessonid : "+lessonid+"&beginTime="+data.real_begin_time+"&endTime="+data.real_end_time+"&drawUrl="+data.draw+"&audioUrl="+data.audio;
             var args_64 = $.base64.encode(args);
             var text = encodeURIComponent(url+args_64);
+
+            console.log(text);
             var dlg = BootstrapDialog.show({
                 title: title,
                 message  : "<div style=\"text-align:center\"><img width=\"300\" src=\"/common/get_qr?text="+text+"\"></img><br/>" +  url+args_64+"<br/> "+args +"</div>",
