@@ -2548,7 +2548,7 @@ trait  TeaPower {
             return $this->output_err("请选择正确的年级和科目");
         }
         $teacherid_str  = $this->get_check_teacherid_str($subject,$grade);
-        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list($subject,$grade);
+        $teacherid_list = $this->t_teacher_info->get_admin_teacher_list_new($subject,$grade);
         $lesson_list    = $this->t_lesson_info->get_not_free_lesson_list($start_time,$end_time,$teacherid_str);
 
         $free_list = [];
@@ -2584,9 +2584,7 @@ trait  TeaPower {
             }
         }
 
-        return $this->output_succ(\OUTPUT_get_not_free_time_list_out::class,[
-            "not_free_time_list" => $free_time_list
-        ]);
+        return $free_time_list;
     }
 
     public function get_check_teacherid_str($subject,$grade){
