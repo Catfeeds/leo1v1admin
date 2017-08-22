@@ -1203,6 +1203,20 @@ class common_new extends Controller
     }
 
     public function get_teacher_level(){//p3
+        $tea_title = [
+            1 => "一星教师",
+            2 => "二星教师",
+            3 => "三星教师",
+            4 => "四星教师",
+            5 => "五星教师",
+        ];
+        $tea_des = [
+            1 => "一星教师,???",
+            2 => "二星教师,???",
+            3 => "三星教师,???",
+            4 => "四星教师,???",
+            5 => "五星教师,???",
+        ];
         $teacherid = $this->get_in_int_val("teacherid");
         if ($teacherid) {
             $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
@@ -1211,7 +1225,10 @@ class common_new extends Controller
             } else {
                 $level = $ret_info['level'] + 1;
             }
-            return $this->output_succ(["level"=>$level]);
+            $list['level'] = $level;
+            $list['tea_title'] = $tea_title[$level];
+            $list['tea_des'] = $tea_des[$level];
+            return $this->output_succ(["tea_info"=>$list]);
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
