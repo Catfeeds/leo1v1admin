@@ -160,8 +160,9 @@ class testbb extends Controller
 
 
 
-        $pdf_info = $pdf->Output("$pdf_name_tmp", 'E');
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'I');
 
+        dd($pdf_info);
 
 
         // send headers to browser
