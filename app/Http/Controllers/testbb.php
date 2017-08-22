@@ -98,7 +98,8 @@ class testbb extends Controller
         // $img = $this->get_in_str_val('img');
 
         $img = [
-            0=>'123.jpg'
+            0=>'l_t_pdf_193451_14.png',
+            1=>'l_t_pdf_193451_19.png'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -148,9 +149,9 @@ class testbb extends Controller
 
                 //tcpdf操作  添加图片到pdf中
                if(strstr($name,'jpg')){
-                   $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
+                   $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 210, 297, 'JPG', '', 'center', true, 1000);
                }elseif(strstr($name,'png')){
-                   $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'PNG', '', 'center', true, 1000);
+                   $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 210, 297, 'PNG', '', 'center', true, 1000);
                }
 
             }
@@ -165,46 +166,11 @@ class testbb extends Controller
         dd($pdf_info);
 
 
-        // send headers to browser
-        // if (ob_get_contents()) {
-        //     $this->Error('Some data has already been output, can\'t send PDF file');
-        // }
-        // header('Content-Description: File Transfer');
-        // if (headers_sent()) {
-        //     $this->Error('Some data has already been output to browser, can\'t send PDF file');
-        // }
-        // header('Cache-Control: private, must-revalidate, post-check=0, pre-check=0, max-age=1');
-        // header('Pragma: public');
-        // header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-        // header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-        // // force download dialog
-        // if (strpos(php_sapi_name(), 'cgi') === false) {
-        //     header('Content-Type: application/force-download');
-        //     header('Content-Type: application/octet-stream', false);
-        //     header('Content-Type: application/download', false);
-        //     header('Content-Type: application/pdf', false);
-        // } else {
-        //     header('Content-Type: application/pdf');
-        // }
-        // // use the Content-Disposition header to supply a recommended filename
-        // header('Content-Disposition: attachment; filename="'.basename($pdf_name_tmp).'"');
-        // header('Content-Transfer-Encoding: binary');
 
 
 
 
 
-
-
-        // dd($pdf_info);
-
-        // $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
-
-        // $pdf_file = fopen($pdf_name,'w');
-        // fwrite($pdf_file,$pdf_info);
-        // fclose($pdf_file);
-
-        // dd($pdf_file); //输出pdf文件
 
     }
 
