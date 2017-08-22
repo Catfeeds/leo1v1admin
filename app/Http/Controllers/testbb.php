@@ -98,7 +98,7 @@ class testbb extends Controller
         // $img = $this->get_in_str_val('img');
 
         $img = [
-            0=>'123.jpg'
+            0=>'123.png'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -135,11 +135,11 @@ class testbb extends Controller
                 $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
                 // imagejpeg($rotate,$hostdir.'/123/'.$name.'_1.jpg');
-                $tmp_name = time().'_'.rand().'jpg';
-                imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
+                $tmp_name = time().'_'.rand().'png';
+                imagejpeg($rotate,$hostdir."/$tmp_name.png");
                 //tcpdf操作  添加图片到pdf中
                 // $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
-                $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
+                $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
 
             }
         }
