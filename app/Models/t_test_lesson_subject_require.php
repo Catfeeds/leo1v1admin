@@ -1926,23 +1926,17 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
    }
 
-   public function  get_test_fail_row(
-       $page_num,$start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$order_flag ,$test_lesson_order_fail_flag,$userid)
+   public function  get_test_fail_row($cur_require_adminid)
    {
        $time = time();
        $where_arr=[
-           "l.lesson_end>1502899200",
-           "l.lesson_end<".$time,
+           "require_time>1502899200",
+           "require_time<".$time,
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",
-           [ "l.userid=%u", $userid, -1],
            'contract_status = 0',
        ];
-       $this->where_arr_add_time_range($where_arr,"require_time",$start_time,$end_time);
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
-       $this->where_arr_add_boolean_for_value($where_arr,"origin_userid",$origin_userid_flag );
-       // $this->where_arr_add_boolean_for_value($where_arr,"contract_status",$order_flag,true);
-
 
        $sql= $this->gen_sql_new(
            "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
@@ -1960,7 +1954,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
            t_student_info::DB_TABLE_NAME,
            t_order_info::DB_TABLE_NAME,
            $where_arr);
-       return $this->main_get_row($sql,$page_num);
+       return $this->main_get_row($sql);
    }
 
 
