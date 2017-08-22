@@ -813,7 +813,7 @@ class common extends Controller
             return "";
         }
         $qiniu         = \App\Helper\Config::get_config("qiniu");
-        $phone_qr_name = $phone."_qr_agent_vv.png";
+        $phone_qr_name = $phone."_qr_agent_vo.png";
         $qiniu_url     = $qiniu['public']['url'];
         $is_exists     = \App\Helper\Utils::qiniu_file_stat($qiniu_url,$phone_qr_name);
         if(!$is_exists){
@@ -830,14 +830,14 @@ class common extends Controller
             $image_4 = imagecreatefrompng($headimgurl);     //微信头像
             if($row['headimgurl']){
                 $headimgurl = $row['headimgurl'];
-                $datapath ="/tmp/".$phone."_headimg.png";
-                $wgetshell ='wget -O '.$datapath.' "'.$row['headimgurl'].'" ';
+                $datapath ="/tmp/".$phone."_headimg.jpeg";
+                $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
                 shell_exec($wgetshell);
+
                 $imgg = $this->yuan_img($datapath);
-                $datapath_new ="/tmp/".$phone."_headimg_new.png";
-                imagepng($imgg,$datapath_new);
-                // $image_4 = imagecreatefrompng($datapath_new);
-                $image_4 = imagecreatefromjpeg($datapath);
+                $datapath_new ="/tmp/".$phone."_headimg_new.jpeg";
+                imagejpeg($imgg,$datapath_new);
+                $image_4 = imagecreatefromjpeg($datapath_new);
             }
             $image_5 = imageCreatetruecolor(190,190);     //新建微信头像图
 
@@ -859,6 +859,7 @@ class common extends Controller
             imagedestroy($image_2);
             imagedestroy($image_3);
             imagedestroy($image_4);
+            imagedestroy($image_5);
         }else{
             $file_name=$phone_qr_name;
         }
@@ -922,6 +923,9 @@ class common extends Controller
         $src_img = null;
         switch ($ext['extension']) {
         case 'jpg':
+            $src_img = imagecreatefromjpeg($imgpath);
+            break;
+        case 'jpeg':
             $src_img = imagecreatefromjpeg($imgpath);
             break;
         case 'png':

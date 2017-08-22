@@ -1175,7 +1175,7 @@ class wx_parent_api extends Controller
                 ]);
             }elseif($paper_type == 2){ // 存放作业
                 $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                    "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
                 ]);
             }
         }
