@@ -538,6 +538,7 @@ class agent extends Controller
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,"*");
+        dd($student_info);
         $userid_new = $student_info['userid'];
         $type_new = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
