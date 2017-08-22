@@ -2551,7 +2551,6 @@ trait  TeaPower {
         $teacherid_list = $this->t_teacher_info->get_admin_teacher_list_new($subject,$grade);
         $lesson_list    = $this->t_lesson_info->get_not_free_lesson_list($start_time,$end_time,$teacherid_str);
 
-        return $teacherid_list;
         $free_list = [];
         if(is_array($lesson_list) && !empty($lesson_list)){
             $lesson_data = [];
