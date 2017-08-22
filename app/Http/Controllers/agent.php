@@ -524,7 +524,8 @@ class agent extends Controller
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 1571;//三千笔墨绘你一世倾
+        $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -538,18 +539,16 @@ class agent extends Controller
         $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
         // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
         $student_info = $this->t_student_info->field_get_list($userid,"*");
-        dd($student_info);
         $userid_new = $student_info['userid'];
         $type_new = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
-        $type = $student_info['type'];
         $level      = 0;
         $pay        = 0;
         $cash       = 0;
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
-        if($userid_new && $type_new == 0 && $is_test_user == 0 && $type == 1){
+        if($userid_new && $type_new == 1 && $is_test_user == 0){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
             $nick      = $student_info['nick'];
@@ -626,7 +625,8 @@ class agent extends Controller
     public function get_my_num(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
+        $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
