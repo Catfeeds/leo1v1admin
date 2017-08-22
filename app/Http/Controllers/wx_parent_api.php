@@ -22,6 +22,10 @@ use Qiniu\Storage\BucketManager;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
 
+require_once app_path('TCPDF/tcpdf.php');
+require_once app_path('TCPDF/config/tcpdf_config.php');
+
+
 //require(app_path("/Libs/OSS/autoload.php"));
 //use OSS\OssClient;
 //use OSS\Core\OssException;
@@ -1193,7 +1197,6 @@ class wx_parent_api extends Controller
         ini_set("memory_limit",'-1');
 
         header("Content-type:text/html;charset=utf-8");
-
     }
 
 
