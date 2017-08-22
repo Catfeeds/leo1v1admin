@@ -1055,10 +1055,10 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     }
 
     public function get_no_second_train_lesson(){
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,count(distinct l.lessonid) num"
-                                  ." from %s l left join %s tr on l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,count(distinct l.lessonid) num,tr.trial_train_status"
+                                  ." from %s l left join %s tr on l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5 and tr.trial_train_status=2"
                                   ." left join %s t on l.teacherid = t.teacherid"
-                                  ." where l.lesson_type=1100 and l.train_type=4 and tr.trial_train_status=2  having(num=1) group by l.teacherid",
+                                  ." where l.lesson_type=1100 and l.train_type=4  group by l.teacherid having(num=1) ",
                                   t_lesson_info::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME

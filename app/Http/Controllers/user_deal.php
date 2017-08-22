@@ -2608,8 +2608,6 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        $ret = $this->t_teacher_record_list->get_no_second_train_lesson();
-        dd($ret);
         $ret = $this->get_not_free_time_list(4,100);
         dd($ret);
         // $this->switch_tongji_database();

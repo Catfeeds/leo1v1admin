@@ -2281,6 +2281,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list($sql);
     }
 
+    public function get_admin_teacher_list_new($subject,$grade){
+        $where_arr = [
+            ["t.check_subject=%u",$subject,0],
+            ["t.check_grade like '%%%s%%'",$grade,""],
+            "m.account_role in (4,9)",
+        ];
+
+        $sql = $this->gen_sql_new("select teacherid,account_role "
+                                  ." from %s t"
+                                  ." left join %s m on t.phone=m.phone"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
+
+
 
     public function get_tea_subject_count(){
         $sql = $this->gen_sql_new("select count(*) num,subject from %s where is_test_user=0 and is_quit=0 group by subject",self::DB_TABLE_NAME);

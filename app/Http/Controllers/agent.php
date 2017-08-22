@@ -523,7 +523,8 @@ class agent extends Controller
     public function get_user_info(){
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
+        $agent_id = 1571;//三千笔墨绘你一世倾
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];

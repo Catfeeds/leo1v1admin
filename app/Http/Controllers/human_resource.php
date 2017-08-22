@@ -2740,6 +2740,9 @@ class human_resource extends Controller
         if($check_flag){
             return $this->output_err("手机号已存在!");
         }
+        if($teacher_type=="" || $teacher_type==0){
+            return $this->output_err("请选择老师身份!");
+        }
 
         $ret = $this->t_teacher_lecture_appointment_info->row_insert([
             "name"         => $name,
