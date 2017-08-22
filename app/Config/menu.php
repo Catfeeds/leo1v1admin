@@ -777,6 +777,10 @@ class menu{
                 ["power_id"=>4, "name"=>"全职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info_fulltime"],
 
                 ["power_id"=>10, "name"=>"全职老师面试",   "url"=>"/human_resource/teacher_lecture_appointment_info_full_time"],
+                ["power_id"=>14, "name"=>"教研老师信息",   "url"=>"/human_resource/reaearch_teacher_lesson_list_fulltime"],
+                ["power_id"=>15, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_fulltime"],
+                ["power_id"=>16, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_fulltime"],
+
 
                 ["power_id"=>3, "name"=>"全职老师档案",   "url"=>"/human_resource/index_fulltime"],
                 ["power_id"=>1, "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
