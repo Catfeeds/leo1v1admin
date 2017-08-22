@@ -41,19 +41,13 @@ $(function(){
     });
 
 
-    $(".opt-edit").on("click",function(){
+    $(".opt-money-check").on("click",function(){
         var opt_data = $(this).get_opt_data();
 
-        var $aid=$("<input/>");
-        var $cash=$("<input/>");
-        var $type = $("<select><option value='0'>请选择</option><option value='1'>银行卡</option><option value='2'>支付宝</option></select>");
-        $aid.val(opt_data.aid);
-        $cash.val(opt_data.cash);
+        var $type = $("<select><option value='0'>请选择</option><option value='1'>通过</option><option value='0'>未通过</option></select>");
         $type.val(opt_data.type);
         var arr=[
-            ["转介绍id",  $aid],
-            ["提现金额",  $cash],
-            ["提现类型",  $type],
+            ["财务审核",  $type],
         ];
 
         $.show_key_value_table("修改信息", arr ,{
@@ -62,8 +56,6 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/ajax_deal/agent_cash_edit",{
                     "id":opt_data.id,
-                    "aid" : $aid.val(),
-                    "cash" : $cash.val(),
                     "type" : $type.val()
                 })
             }
