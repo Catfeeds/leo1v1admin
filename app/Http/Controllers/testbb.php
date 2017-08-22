@@ -158,6 +158,7 @@ class testbb extends Controller
 
         // $domain = config('admin')['qiniu']['public']['url'];
         // http://admin.yb1v1.com/tea_manage/lesson_list
+        // $pdf_name_tmp = 'http://admin.yb1v1.com/'.$hostdir.'/'.time().'_'.rand().'.pdf';
         $pdf_name_tmp = 'http://admin.yb1v1.com/'.$hostdir.'/'.time().'_'.rand().'.pdf';
         // $domain = config('admin')['qiniu']['public']['url'];
 
