@@ -14,6 +14,8 @@ interface GargsStatic {
 	teacherid:	number;
 	is_test_flag:	number;
 	have_wx:	number;
+	full_time:	number;
+	fulltime_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -98,7 +100,9 @@ $(function(){
 			phone:	$('#id_phone').val(),
 			teacherid:	$('#id_teacherid').val(),
 			is_test_flag:	$('#id_is_test_flag').val(),
-			have_wx:	$('#id_have_wx').val()
+			have_wx:	$('#id_have_wx').val(),
+			full_time:	$('#id_full_time').val(),
+			fulltime_flag:	$('#id_fulltime_flag').val()
         });
     }
 
@@ -121,6 +125,8 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_is_test_flag').val(g_args.is_test_flag);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_full_time').val(g_args.full_time);
+	$('#id_fulltime_flag').val(g_args.fulltime_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -184,6 +190,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">have_wx</span>
                 <input class="opt-change form-control" id="id_have_wx" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">full_time</span>
+                <input class="opt-change form-control" id="id_full_time" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">fulltime_flag</span>
+                <input class="opt-change form-control" id="id_fulltime_flag" />
             </div>
         </div>
 */
