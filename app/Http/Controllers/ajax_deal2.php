@@ -27,8 +27,15 @@ class ajax_deal2 extends Controller
     public function office_cmd_add () {
         $office_device_type = $this->get_in_e_office_device_type();
         $device_opt_type    = $this->get_in_e_device_opt_type();
+
+
         $device_id    = $this->get_in_int_val("device_id");
-        \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type);
+        $value = $this->get_in_int_val("value");
+        $device_sub_type=1;//海尔
+        if (in_array ($device_id , [1,2,6,7,8,11,13,14] )) {
+            $device_sub_type=2;//美的
+        }
+        \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type,$device_sub_type ,$value);
         return $this->output_succ();
     }
 

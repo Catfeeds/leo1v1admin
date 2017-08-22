@@ -2156,6 +2156,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
+    	    if($ret_info['list'][$key]['total_score']){
+	          $ret_info['list'][$key]['score'] = intval(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+	     }
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
