@@ -2353,6 +2353,7 @@ class ss_deal extends Controller
             "政治" => 7,
             "历史" => 8,
             "地理" => 9,
+            "科学" => 10,
         );
         $identity_map = array(
             0 => "未设置",
@@ -2431,8 +2432,6 @@ class ss_deal extends Controller
                     "school"             =>$school,
                     "teacher_type"       =>$teacher_type,
                     "reference"          =>$reference,
-                    "accept_adminid"     =>$this->get_account_id(),
-                    "accept_time"        =>time(),
                     "lecture_revisit_type" =>$lecture_revisit_type,
                     "hand_flag"          =>1
                 ]);
