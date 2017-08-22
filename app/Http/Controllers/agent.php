@@ -229,15 +229,12 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '15251318621';
-        $headimgurl = 'http://wx.qlogo.cn/mmopen/dx4Y70y9Xcu9RFKZfRHy6b9qmwBAjRhsCo20RWsQTz7b0riagHQNR8qs62M23T0MRibco1x76guAedlRZfNw5ZoA/0';
-        $datapath ="/tmp/".$phone."_headimg.jpeg";
-        $wgetshell ='wget -O '.$datapath.' "'.$headimgurl.'" ';
-        shell_exec($wgetshell);
-
-        $imgg = $this->yuan_img($datapath);
-        $datapath_new ="/tmp/".$phone."_headimg_new.png";
-        imagepng($imgg,$datapath_new);
+        $image = imageCreatetruecolor(190,190);     //新建微信头像图
+        $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
+        imagefill($image,0,0,$zhibg);
+        imagecolortransparent($image,$zhibg);
+        $datapath_new ="/tmp/"."hhh_headimg_new.png";
+        imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
