@@ -664,7 +664,7 @@ class agent extends Controller
                     $ret_list[$key]['status'] = 2;
                 }else{//试听成功
                     if($item['userid']){
-                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid']);
+                        $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid'],$item['create_time']);
                         // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){
