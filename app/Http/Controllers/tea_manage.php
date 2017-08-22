@@ -2317,7 +2317,7 @@ class tea_manage extends Controller
         $identity    = $this->get_in_int_val("identity");
         $acc         = $this->get_account();
 
-        if($identity<=0){
+        if($identity<=0 && $flag <2){
             return $this->output_err("请选择老师身份！"); 
         }
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
