@@ -59,7 +59,13 @@ $(function(){
             cssClass : "btn-warning",
             action   : function(dialog) {
                 $.do_ajax("/user_manager_new/update_teacher_money_type",{
-                    "teacher_money_type":id_teacher_money_type.val()
+                    "teacher_money_type" : teacher_money_type,
+                    "level"     : level,
+                    "money_101" : id_money_101.val(),
+                    "money_106" : id_money_106.val(),
+                    "money_203" : id_money_203.val(),
+                    "money_301" : id_money_301.val(),
+                    "money_303" : id_money_303.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();

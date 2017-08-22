@@ -3761,11 +3761,11 @@ class user_manage_new extends Controller
     public function update_teacher_money_type(){
         $teacher_money_type = $this->get_in_int_val("teacher_money_type");
         $level     = $this->get_in_int_val("level");
-        $grade_101 = $this->get_in_int_val("grade_101");
-        $grade_106 = $this->get_in_int_val("grade_106");
-        $grade_203 = $this->get_in_int_val("grade_203");
-        $grade_301 = $this->get_in_int_val("grade_301");
-        $grade_303 = $this->get_in_int_val("grade_303");
+        $money_101 = $this->get_in_int_val("money_101");
+        $money_106 = $this->get_in_int_val("money_106");
+        $money_203 = $this->get_in_int_val("money_203");
+        $money_301 = $this->get_in_int_val("money_301");
+        $money_303 = $this->get_in_int_val("money_303");
 
         
 
