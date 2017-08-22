@@ -524,8 +524,8 @@ class agent extends Controller
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        // $agent_id = 1571;//三千笔墨绘你一世倾
-        $agent_id = 427;//周圣杰 Eros
+        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -626,7 +626,8 @@ class agent extends Controller
         // $agent_id = 60;//月月
         // $agent_id = 54;//陈
         // $agent_id = 211;//Amanda
-        $agent_id = 427;//周圣杰 Eros
+        $agent_id = 1571;//三千笔墨绘你一世倾
+        // $agent_id = 427;//周圣杰 Eros
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -665,7 +666,6 @@ class agent extends Controller
                 }else{//试听成功
                     if($item['userid']){
                         $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid'],$item['p_create_time']);
-                        // $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
                         $test_lessonid = $count_item['lessonid'];
                         if($test_lessonid){
                             $ret_list[$key]['status'] = 1;
