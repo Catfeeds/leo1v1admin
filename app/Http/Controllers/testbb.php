@@ -130,16 +130,18 @@ class testbb extends Controller
                 $filename = $hostdir.'/'.$name;//拼接文件路径
 
                 //gd库操作  读取图片
-                $source = imagecreatefromjpeg($filename);
+                $source = imagecreatefrompng($filename);
+                // $source = imagecreatefromjpeg($filename);
                 //gd库操作  旋转90度
                 $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
                 // imagejpeg($rotate,$hostdir.'/123/'.$name.'_1.jpg');
                 $tmp_name = time().'_'.rand().'png';
-                imagejpeg($rotate,$hostdir."/$tmp_name.png");
+                // imagejpeg($rotate,$hostdir."/$tmp_name.png");
+                imagepng($rotate,$hostdir."/$tmp_name.png");
                 //tcpdf操作  添加图片到pdf中
                 // $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
-                $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'JPG', '', 'center', true, 1000);
+                $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 100, 100, 'PNG', '', 'center', true, 1000);
 
             }
         }
