@@ -239,7 +239,8 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-        if (!opt_data.parent_wx_openid && g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213) {
+        if (!opt_data.parent_wx_openid &&
+            ((g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 ) || account=="alan")) {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
@@ -275,7 +276,7 @@ $(function(){
           }
         */
         $.do_ajax("/ss_deal/get_user_info",{
-            "userid" : opt_data.userid ,
+            "userid"                 : opt_data.userid ,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
         } ,function(ret){
             ret=ret.data;
