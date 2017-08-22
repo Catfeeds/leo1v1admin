@@ -1,4 +1,4 @@
- /// <reference path="../common.d.ts" />
+/// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/main_page-assistant_main_leader_new.d.ts" />
 
 $(function(){
