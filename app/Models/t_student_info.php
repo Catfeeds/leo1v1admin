@@ -2815,7 +2815,7 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
             'last_lesson_time<1',
             'lesson_count_left<1',
         ];
-        $sql = $this->gen_sql_new("select distinct s.userid,s.phone,if (ts.require_adminid>0,1,0) as test_flag"
+        $sql = $this->gen_sql_new("select distinct s.reg_time,s.userid,s.phone,if (ts.require_adminid>0,1,0) as test_flag"
                                   ." from %s s "
                                   ." left join %s ts on s.userid=ts.userid"
                                   ." where %s "
