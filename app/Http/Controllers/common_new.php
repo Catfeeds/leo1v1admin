@@ -1222,7 +1222,7 @@ class common_new extends Controller
             $start_time = strtotime('2017-08-01');
             $end_time = strtotime('2017-09-01');
             $ret_info = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-            dd($ret_info);
+            $face     = [];
             foreach ($ret_info as $item) {
                 $face[] = @$item['face'];
             }
@@ -1240,6 +1240,9 @@ class common_new extends Controller
             $start_time = strtotime('2017-08-01');
             $end_time = strtotime('2017-09-01');
             $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+            foreach ($ret_info as &$item) {
+                $item = intval($item);
+            }
             return $this->output_succ(["list"=>$ret_info]);
         } else {
             return $this->output_err("信息有误，未查询到老师信息！");
