@@ -272,7 +272,7 @@ class wx_yxyx_common extends Controller
             }
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
         }
-        //随机获取十张海报/不足十张，取所有?也取14天之内的
+        //随机获取十张海报/不足十张，取所有?取14天之内的
         $all_id     = $this->t_yxyx_test_pic_info->get_all_id_poster(0,$start_time,$end_time);
         $count_num  = count($all_id)-1;
         $poster_arr = [];
@@ -302,7 +302,6 @@ class wx_yxyx_common extends Controller
     }
 
     public function get_one_test_and_other() {
-        //title,poster(当天之前的)
         $id   = $this->get_in_int_val('id',-1);
         $flag = $this->get_in_int_val('flag', 1);
         $wx_openid = $this->get_in_int_val('wx_openid', 1);
