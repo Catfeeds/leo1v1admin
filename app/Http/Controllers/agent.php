@@ -627,7 +627,7 @@ class agent extends Controller
         $student_info = [];
         $userid = $agent_info['userid'];
 
-        $level        = $agent_info['agent_level'];
+        $level        = (int)$agent_info['agent_level'];
         $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
         $headimgurl   = $agent_info['headimgurl']?$agent_info['headimgurl']:'';
         $nickname     = $agent_info['nickname']?$agent_info['nickname']:'';
