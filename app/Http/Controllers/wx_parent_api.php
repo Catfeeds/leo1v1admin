@@ -1157,11 +1157,8 @@ class wx_parent_api extends Controller
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
-
-        //alibaba_url_str
         $img_arr = explode(',',$ret_arr['alibaba_url_str']);
         $homework_pdf_url = \App\Helper\Utils::img_to_pdf($img_arr);
-
 
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷

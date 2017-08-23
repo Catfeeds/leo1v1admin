@@ -831,13 +831,7 @@ $(function(){
                             $this.find("td").each(function(i,item){
                                 if (i!=0) {//过滤１
                                     var $td=$(item);
-                                    if ($td.hasClass("select_free_time")) {
-                                        var tmp_date=$.DateFormat(start_time+(i-1)*86400,"yyyy-MM-dd" );
-                                        free_list.push ([
-                                            ""+tmp_date +" "+ timeid+ ":00",
-                                            ""+ timeid + ":59",
-                                        ]);
-                                    }
+                                    $td.addClass("select_free_time");
                                 }
                             });
                         });
