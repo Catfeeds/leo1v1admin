@@ -1181,6 +1181,7 @@ class agent extends Controller
             $phone = $item['phone'];
             $create_time = $item['create_time'];
             $userid = $item['userid'];
+            $wx_openid = $item['wx_openid'];
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
@@ -1188,24 +1189,16 @@ class agent extends Controller
             $level        = 0;
             if($userid && $type_new == 0 && $is_test_user == 0 && $student_info){//在读非测试
                 $level     = 2;
-            }else{
-                $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-                foreach($agent_list as $item){
-                    if($phone == $item['phone']){
-                        $agent_item = $item;
-                    }
-                }
-                if($agent_item){
-                    $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                    $count       = count(array_unique(array_column($test_lesson,'id')));
-                    if(2<=$count){
-                        $level = 2;
-                    }else{
-                        $level = 1;
-                    }
+            }elseif($wx_openid){//绑定
+                $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
+                $count       = count(array_unique(array_column($test_lesson,'id')));
+                if(2<=$count){
+                    $level = 2;
                 }else{
-                    $level = 0;
+                    $level = 1;
                 }
+            }else{//非绑定
+                $level = 0;
             }
             $this->t_agent->field_update_list($id,[
                 "agent_level" => $level
@@ -1217,10 +1210,10 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_agent_list();
         foreach($ret_info as $item){
             $id = $item['id'];
-            $create_time = $item['create_time'];
             $userid = $item['userid'];
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $is_test_user = $student_info['is_test_user'];
+            $create_time = $item['create_time'];
             $lessonid_new = 0;
             if($userid && $is_test_user == 0 && $student_info){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
