@@ -2730,5 +2730,29 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
 
+    public function get_agent_order_money_list($userid_list ) {
+        if (count($userid_list)==0) {
+            return [];
+        }
+        $where_arr=[
+            "o.order_time > a.create_time ",
+            "o.contract_status in (1,2)",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"o.userid",$userid_list);
+
+        $sql=$this->gen_sql_new(
+            "select a.userid ,sum(price) as price from %s o  "
+            ."join %s a on a.userid=o.userid  "
+            . " where %s  group by a.userid ",
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $where_arr
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["userid"];
+        });
+
+    }
 
 }

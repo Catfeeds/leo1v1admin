@@ -786,6 +786,9 @@ class tea_manage_new extends Controller
         $lesson_time_str = $lesson_time." ".$start_str."-".$end_str; 
 
 
+        //删除之前排课(相同科目年级,未上课程)
+        $this->delete_train_lesson_before($lessonid,$subject,$grade,$teacherid);
+
 
         //微信通知面试老师
         /**
@@ -991,6 +994,11 @@ class tea_manage_new extends Controller
         $start_str = date("H:i",$lesson_start);
         $end_str = date("H:i",$lesson_start+1800);
         $lesson_time_str = $lesson_time." ".$start_str."-".$end_str; 
+
+
+        //删除之前排课(相同科目年级)
+        $this->delete_train_lesson_before($lessonid,$subject,$grade,$teacherid);
+
 
 
 

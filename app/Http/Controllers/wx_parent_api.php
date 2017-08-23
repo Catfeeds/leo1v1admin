@@ -1149,6 +1149,8 @@ class wx_parent_api extends Controller
     public function deal_paper_upload(){ // 处理家长上传[试卷 | 作业]
         $serverId_list = $this->get_in_str_val('serverids');
 
+        $lessonid = $this->get_in_int_val('lessonid');
+
         $type = $this->get_in_int_val('type'); // 课程类型
 
         $paper_type = $this->get_in_int_val('paper_type'); // 试卷类型 //1 : 代表试卷 2: 代表作业
@@ -1164,14 +1166,9 @@ class wx_parent_api extends Controller
 
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷
-                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                    "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
-                    "stu_test_paper" => $ret_arr['file_name_origi']
-                ]);
+                $ret = $this->t_test_lesson_subject->update_paper($lessonid,$ret_arr['alibaba_url_str'],$ret_arr['file_name_origi']);
             }elseif($paper_type == 2){ // 存放作业
-                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                    "homework_pdf" => $homework_pdf_url
-                ]);
+                $ret = $this->t_test_lesson_subject->update_homework($lessonid,$homework_pdf_url);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 存放试卷
@@ -1199,17 +1196,32 @@ class wx_parent_api extends Controller
         $lesson_type = $this->get_in_int_val('lesson_type');
         $paper_type  = $this->get_in_int_val('paper_type');
 
+        $qiniu_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
+
         if($lesson_type == 2){ // 试听课
             if($paper_type == 1){ // 试卷
-                // $paper_url = $this->t_test_lesson_subject->get_
-            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
+                return $this->output_succ(['data'=>$paper_url['stu_lesson_pic']]);
+            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
+
+                if($paper_url['homework_pdf']){
+                    $paper_url['homework_pdf'] = $qiniu_url.$paper_url['homework_pdf'];
+                }
+                return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 试卷
-
+                $paper_url = $this->t_lesson_info_b2->get_stu_test_paper($lessonid);
+                return $this->output_succ(['data'=>$paper_url]);
             }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_lesson_info_b2->get_stu_cw_url($lessonid);
 
+                if($paper_url){
+                    $paper_url = $qiniu_url.$paper_url;
+                }
+                return $this->output_succ(['data'=>$paper_url]);
             }
         }
 

@@ -61,7 +61,7 @@ class zs_lecture_info_all extends Command
 		foreach($teacher_info as &$item){
 		   
 		    $item["all_target_num"] = 250;
-		    if(in_array($item["uid"],[486,754])){
+		    if(in_array($item["uid"],[486,754,683,1011])){
                 $item["all_target_num"]=150;
 		    }elseif(in_array($item["uid"],[913,923,892])){
                 $item["all_target_num"]=400;

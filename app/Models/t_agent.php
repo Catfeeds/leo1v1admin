@@ -23,15 +23,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone)
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level )
     {
         $where_arr = [];
-        $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }else if ( $phone ) {
+            $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        }else {
+            $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
+            $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
+            $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
         }
-        $this->where_arr_add_int_field($where_arr,"a.type",$type);
-        $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
+
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
@@ -694,4 +699,34 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list($sql);
     }
+    public  function get_link_list_py_ppid($ppid) {
+
+        $where_arr = [
+            ['a2.id= %d',$ppid ],
+        ];
+
+        $sql = $this->gen_sql_new(
+            " select"
+            . " a1.userid as p_userid,a1.id as pid,  a1.nickname p_nick, a1.phone p_phone,  "
+            . " a1.agent_level p_agent_level , a1.test_lessonid p_test_lessonid,    "
+            . " a1.type p_agent_type, "
+            . " a1.test_lessonid  p_test_lessonid, "
+
+            . " a.userid as userid, a.id as id,  a.nickname nick, a.phone phone, "
+            . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
+            . " a.type agent_type, "
+            . " a.test_lessonid  test_lessonid "
+
+            ." from %s a2 ".
+            " left join %s a1 on a2.id=a1.parentid".
+            " left join %s a on a1.id=a.parentid".
+            " where %s ",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 }

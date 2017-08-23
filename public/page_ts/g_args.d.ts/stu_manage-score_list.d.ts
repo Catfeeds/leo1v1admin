@@ -30,6 +30,7 @@ interface RowData {
 	month	:any;
 	rank_up	:any;
 	rank_down	:any;
+	admin_type	:any;
 	num	:any;
 	subject_str	:any;
 	semester_str	:any;

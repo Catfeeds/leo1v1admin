@@ -288,7 +288,7 @@ class teacher_money extends Controller
             $j     = $i+1;
             $start = strtotime("+".$i."month",$start_date);
             $end   = strtotime("+".$j."month",$start_date);
-            if($end==$now_date){
+            if($end==$now_date || $end>$now_date){
                 $flag = false;
             }
 

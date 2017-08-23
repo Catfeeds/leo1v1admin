@@ -6,17 +6,28 @@
                 <div class="col-xs-12 col-md-4" data-title="时间段">
                     <div id="id_date_range"> </div>
                 </div>
-                <div class="col-xs-6 col-md-2" data-always_show="1">
-                    <div class="input-group ">
-                        <input type="text" class=" form-control click_on put_name opt-change"  data-field="p_phone" id="id_p_phone"  placeholder="上级手机号 回车查找" />
-                    </div>
-                </div>
 
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
                     </div>
                 </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon" data-always_show="1" >等级</span>
+                <input class="opt-change form-control" id="id_agent_level" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2" data-always_show="1">
+            <div class="input-group ">
+                <span class="input-group-addon">是否试听</span>
+                <select class="opt-change form-control" id="id_test_lesson_flag" >
+                </select>
+            </div>
+        </div>
+
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <span class="input-group-addon">绑定类型</span>
@@ -24,6 +35,12 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2" data-always_show="1">
+                    <div class="input-group ">
+                        <input type="text" class=" form-control click_on put_name opt-change"  data-field="p_phone" id="id_p_phone"  placeholder="上级手机号 回车查找" />
+                    </div>
+                </div>
+
                 <!-- <div class="col-xs-6 col-md-2" data-always_show="1">
                      <div class="input-group ">
                      <span class="input-group-addon">是否成功试听</span>
@@ -63,8 +80,15 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
-                        <td>{{@$var["p_nickname"]}} </td>
-                        <td>{{@$var["pp_nickname"]}} </td>
+                        <td>
+                            {{@$var["p_nickname"]}} <br/>
+                            {{@$var["p_phone"]}}
+                        </td>
+
+                        <td>
+                            {{@$var["pp_nickname"]}} <br/>
+                            {{@$var["pp_phone"]}}
+                        </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["agent_level_str"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
@@ -79,6 +103,7 @@
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
+                                <a class="fa fa-group  opt-user-link"  title="下线"> </a>
 
                             </div>
                         </td>
