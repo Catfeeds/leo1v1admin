@@ -2621,10 +2621,9 @@ class user_deal extends Controller
                 }
                 //dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
-                dd($teacher_tags);
                 $tags= explode(",",$teacher_tags);
                 $str ="";
-                if(empty($tags)){
+                if(empty($tags) || empty($teacher_tags)){
                     foreach($list as $k){
                         $str .= $k.",";
                     }
@@ -2639,9 +2638,13 @@ class user_deal extends Controller
                         }
                     }
                     $str = implode(",",$tags);
+                    $str .= $str.",";
                 }
-                dd($str);
-                
+                if($val["teacherid"]==50728){
+                    $this->t_teacher_info->field_update_list($val["teacherid"],[
+                        "teacher_tags"  =>$str
+                    ]);
+                }
             }
             
         }

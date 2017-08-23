@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Libs;
 use \App\Helper\Config;
+use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
