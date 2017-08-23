@@ -7,6 +7,24 @@
     <script type="text/javascript" src="/js/qiniu/ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <style>
+     #cal_week th  {
+         text-align:center;  
+     }
+
+     #cal_week td  {
+         text-align:center;  
+     }
+
+     #cal_week .select_free_time {
+         background-color : red;
+     }
+     #cal_week .have_lesson {
+         background-color : red;
+     }
+
+    </style>
+
     <section class="content ">
         <div>
             <div class="row ">

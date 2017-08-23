@@ -58,7 +58,7 @@
 
 </head>
 <body class="hold-transition skin-blue-light isidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper" style="position:static;">
 
         <header class="main-header">
             <!-- Logo -->

@@ -4947,7 +4947,7 @@ class user_deal extends Controller
         $ret = $this->get_not_free_time_list($subject,$grade);
         $arr=[];
         foreach($ret as $v){
-            $t= strtotime($v["lesson_start"]);
+            $t= $v["lesson_start"];
             $arr[$t]  = $t;
         }
         return $this->output_succ(["data"=>$arr]);

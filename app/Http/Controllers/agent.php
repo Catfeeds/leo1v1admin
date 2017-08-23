@@ -39,9 +39,8 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
-            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"] );
+            $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -614,6 +613,18 @@ class agent extends Controller
     }
 
     public function agent_user_wechat () {
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        return $this->pageView(__METHOD__,NULL);
 
     }
 
@@ -1174,7 +1185,6 @@ class agent extends Controller
             $phone = $item['phone'];
             $create_time = $item['create_time'];
             $userid = $item['userid'];
-            // $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
@@ -1201,8 +1211,22 @@ class agent extends Controller
                     $level = 0;
                 }
             }
+            $this->t_agent->field_update_list($id,[
+                "agent_level" => $level
+            ]);
+        }
+    }
+
+    public function update_agent_test_lessonid(){
+        $ret_info = $this->t_agent->get_agent_list();
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $create_time = $item['create_time'];
+            $userid = $item['userid'];
+            $student_info = $this->t_student_info->field_get_list($userid,"*");
+            $is_test_user = $student_info['is_test_user'];
             $lessonid_new = 0;
-            if($userid && $is_test_user == 0){
+            if($userid && $is_test_user == 0 && $student_info){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
                 $lessonid = $ret['lessonid'];
                 if($lessonid){
@@ -1210,14 +1234,9 @@ class agent extends Controller
                 }
             }
             $this->t_agent->field_update_list($id,[
-                "agent_level" => $level,
-                "test_lessonid" => $lessonid_new,
+                "test_lessonid" => $lessonid_new
             ]);
         }
-    }
-
-    public function update_agent_test_lessonid($agent_id){
-
     }
 
 

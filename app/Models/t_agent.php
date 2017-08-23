@@ -41,7 +41,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
-                                 ." left join %s l on l.userid = a.userid"
+                                 ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -275,6 +275,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_list_by_phone($phone){
         $where_arr = [
+            //TODO
             'a2.phone = '.$phone.' or a1.phone ='.$phone,
         ];
         $sql=$this->gen_sql_new("select a1.phone phone,a2.phone p_phone,a1.id"

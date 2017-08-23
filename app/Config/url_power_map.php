@@ -14,6 +14,7 @@ class url_power_map {
 			'/user_manage/refund_analysis'	=>1010708,
 			'/user_manage_new/notify_phone'	=>1010706,
 			'/agent/agent_list'	=>1010910,
+			'/agent/agent_user_wechat'	=>1010914,
 			'/agent/agent_order_list'	=>1010908,
 			'/agent/agent_cash_list'	=>1010911,
 			'/agent/agent_list_new'	=>1010912,

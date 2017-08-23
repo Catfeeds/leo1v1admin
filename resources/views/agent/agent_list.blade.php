@@ -43,14 +43,13 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
-                    <td>手机号</td>
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
-                    <td>userid</td>
+                    <td>手机号</td>
                     <td>会员等级</td>
-                    <td>试听时间</td>
                     <td>是否成功试听</td>
+                    <td>试听时间</td>
                     <td>类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
@@ -62,17 +61,14 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>{{@$var["p_nickname"]}} </td>
                         <td>{{@$var["pp_nickname"]}} </td>
-                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["agent_level_str"]}} </td>
-                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
-
-                        <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["lesson_start"]}} </td>
+                        <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
