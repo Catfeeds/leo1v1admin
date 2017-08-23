@@ -1183,28 +1183,28 @@ class agent extends Controller
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
             $is_test_user = $student_info['is_test_user'];
-            $level        = 0;
-            if($userid != 0 && $type_new == 0 && $is_test_user == 0){//在读非测试
-                $level     = 2;
-            }else{
-                $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-                foreach($agent_list as $item){
-                    if($phone == $item['phone']){
-                        $agent_item = $item;
-                    }
-                }
-                if($agent_item){
-                    $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                    $count       = count(array_unique(array_column($test_lesson,'id')));
-                    if(2<=$count){
-                        $level = 2;
-                    }else{
-                        $level = 1;
-                    }
-                }else{
-                    $level = 0;
-                }
-            }
+            // $level        = 0;
+            // if($userid != 0 && $type_new == 0 && $is_test_user == 0){//在读非测试
+            //     $level     = 2;
+            // }else{
+            //     $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
+            //     foreach($agent_list as $item){
+            //         if($phone == $item['phone']){
+            //             $agent_item = $item;
+            //         }
+            //     }
+            //     if($agent_item){
+            //         $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+            //         $count       = count(array_unique(array_column($test_lesson,'id')));
+            //         if(2<=$count){
+            //             $level = 2;
+            //         }else{
+            //             $level = 1;
+            //         }
+            //     }else{
+            //         $level = 0;
+            //     }
+            // }
             $lessonid_new = 0;
             if($userid && $is_test_user == 0){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);

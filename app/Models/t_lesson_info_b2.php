@@ -3298,6 +3298,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             'l.confirm_flag in (0,1) ',
             'l.lesson_user_online_status = 1',
             "l.lesson_start > $create_time",
+            "l.userid = $userid",
         ];
 
         $sql= $this->gen_sql_new(
