@@ -20,10 +20,13 @@ $(function(){
         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_info?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
-            alert(JSON.stringify(data ));
+            //data= {":{"level":2,"nick":"叶子君","pay":0,"cash":0,"have_cash":0,"num":0,"my_num":"0","count":2,"headimgurl":"http://wx.qlogo.cn/mmopen/rHBRSAHSNHgmSWpfYqVtoT5dDdozIGWkuuGd1U4fZibNT6rg3U8Lbic1MGVesiaA0gB5uDia2r6icicolibgdGjBcR0D0hThqNia8uej/0","nickname":"苹果🍎"},"ret":0,"info":"成功"};
+            var user= data.user_info_list;
+            $("#id_f_agent_level").text(Enum_map.get_desc("agent_level", user.level ));
         },
         error:function(){
             alert('fail');
         }
     });
+
 });
