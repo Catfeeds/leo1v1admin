@@ -807,9 +807,14 @@ $(function(){
             cssClass : 'btn-warning',
             action   : function(dialog) {
                 var subject = id_subject.val();
+                //alert(subject);
                 var grade = id_grade.val();
+                if(subject >5){
+                    alert("小学科不能按此方式排课");
+                    return;
+                }
                 var title = "空闲时间选择";
-                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th>周一 </th><th>周二 </th><th>周三 </th><th>周四 </th><th>周五 </th><th>周六 </th><th>周日 </th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
+                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
                 
                 $.do_ajax('/user_deal/get_teacher_no_free_list',{
                     "subject" : subject,
@@ -820,11 +825,22 @@ $(function(){
                    // alert(next_day);
                    // console.log(userid_list);
                     var tb = html_node.find("#id_time_body_1").find("tr");
+                    var th = html_node.find("#th_list_1");
+                    th.each(function(){
+                        var $this=$(this);
+                        $this.find("th").each(function(i,item){
+                            if (i!=0) {
+                                var $th=$(item);
+                                var tmp_date1=$.DateFormat(next_day+(i-1)*86400,"MM-dd" );
+                                $th.text(tmp_date1);
+                            }
+                        });
+                    });
                    // console.log(tb);
                                        
                     $.each(userid_list,function(u,it){
                         //console.log(u);
-                        //console.log(it);
+                        console.log(it);
                         tb.each(function() {
                             var $this=$(this);
                             var timeid=$this.data("timeid");
@@ -834,7 +850,7 @@ $(function(){
 
                                     var $td=$(item);
                                     var tmt = tmp_date+" "+timeid;
-                                   // console.log(tmt);
+                                  //  console.log(tmt);
                                     if(tmt == it){
                                         $td.addClass("select_free_time");
                                     }
@@ -843,8 +859,62 @@ $(function(){
                         });
 
                     });
+
+                    tb.each(function() {
+                        var $this=$(this);
+                        var timeid=$this.data("timeid");
+                        $this.find("td").each(function(i,item){
+                            if (i!=0) {//过滤１
+                                var tmp_date=$.DateFormat(next_day+(i-1)*86400,"yyyy-MM-dd" );
+
+                                var $td=$(item);
+                                var tmt = tmp_date+" "+timeid;
+                                $td.on("click",function(){
+                                    if ($td.hasClass("select_free_time")) {
+                                        alert("不能排课!");
+                                        return;
+                                    }else{
+                                        BootstrapDialog.show({
+	                                        title   : "排课",
+	                                        message : "确认排课么？",
+	                                        buttons : [{
+		                                        label  : "返回",
+		                                        action : function(dialog) {
+			                                        dialog.close();
+		                                        }
+	                                        }, {
+		                                        label    : "确认",
+		                                        cssClass : "btn-warning",
+		                                        action   : function(dialog) {
+                                                    $.do_ajax("/tea_managa_new/set_train_lesson_new",{
+                                                        "subject":subject,
+                                                        "grade"   :grade,
+                                                        "id" :    opt_data.id,
+                                                        "phone"            : opt_data.phone,
+                                                        "tea_nick"         : opt_data.name,
+                                                        "day"    :tmp_date,  
+                                                        "time": tmt
+                                                    },function(result){
+                                                        if(result.ret==0){
+                                                            window.location.reload();
+                                                        }else{
+                                                            BootstrapDialog.alert(result.info);
+                                                        }
+                                                    })
+		                                        }
+	                                        }]
+                                        });
+ 
+                                    }
+  
+                                });
+                            }
+                        });
+                    });
+
                 });
 
+                
 
                 var dlg=BootstrapDialog.show({
                     title:title, 

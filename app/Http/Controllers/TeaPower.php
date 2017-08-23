@@ -2599,12 +2599,12 @@ trait  TeaPower {
     /**
      * 教研未来一周只有周二能排课
      * 质监只有周二到周六能排课
-     * 中午12:00~13:00都不能排课
+     * 中午12:30~13:00都不能排课
      * @param account_role 4 教研 9 质监
      */
     public function get_tea_rearch_time_block(&$lesson_data,$account_role){
         $start_date = date("Y-m-d 9:00",time());
-        $half_start = date("Y-m-d 12:00",time());
+        $half_start = date("Y-m-d 12:30",time());
         $half_end   = date("Y-m-d 13:00",time());
         $night_start= date("Y-m-d 18:00",time());
         $end_date   = date("Y-m-d 20:00",time());

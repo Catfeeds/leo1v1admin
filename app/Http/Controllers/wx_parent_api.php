@@ -1155,8 +1155,9 @@ class wx_parent_api extends Controller
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
+        $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
 
         $img_arr = explode(',',$ret_arr['alibaba_url_str']);
         $homework_pdf_url = \App\Helper\Utils::img_to_pdf($img_arr);
@@ -1190,6 +1191,20 @@ class wx_parent_api extends Controller
         }else{
             return $this->output_err('图片上传失败,请稍后重试.....');
         }
+    }
+
+
+    public function get_paper_url(){ // 获取预览图片
+        $lesson_id   = $this->get_in_int_val('lessonid');
+        $lesson_type = $this->get_in_int_val('lesson_type');
+        $paper_type  = $this->get_in_int_val('paper_type');
+
+        if($lesson_type == 2){ // 试听课
+
+        }else{ // 常规课
+
+        }
+
     }
 
 

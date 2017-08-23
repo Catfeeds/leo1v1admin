@@ -17,7 +17,7 @@
      }
 
      #cal_week .select_free_time {
-         background-color : #17a6e8;
+         background-color : red;
      }
      #cal_week .have_lesson {
          background-color : red;

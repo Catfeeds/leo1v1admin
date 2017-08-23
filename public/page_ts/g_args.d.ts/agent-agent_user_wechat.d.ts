@@ -1,5 +1,5 @@
 interface GargsStatic {
-	phone:	string;
+	phone:	number;
 	id:	number;
 }
 declare module "g_args" {
