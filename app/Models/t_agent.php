@@ -487,6 +487,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
+    public function get_son_test_lesson_count_by_id($id){
+        $where_arr=[
+            "a.parentid = $id or aa.parentid = $id",
+            "a.test_lessonid <> 0",
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select a.id,a.phone,a.test_lessonid "
+            . " from %s a "
+            . " left join %s aa on aa.id = a.parentid "
+            . " where %s ",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_agent_test_lesson_count_by_id($id){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
@@ -503,7 +522,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             " select a.id,a.phone,s.userid,l.lessonid "
             . " from %s a "//子级
             . " left join %s aa on aa.id = a.parentid "//父级
-            . " left join %s s on s.phone = a.phone "
+            . " left join %s s on s.userid = a.userid "
             . " left join %s l on s.userid = l.userid "
             . " where %s ",
             self::DB_TABLE_NAME,
