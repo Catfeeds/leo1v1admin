@@ -1844,10 +1844,10 @@ class test_code extends Controller
 
     public function check_test(){
         $month_key = "2017-7";
-        $teacherid = 107415;
+        $teacherid = 107000;
         $key="already_lesson_count_".$month_key."_".$teacherid;
         $a = Redis::get($key);
-        dd($key);
+        dd($a);
     }
 
 
