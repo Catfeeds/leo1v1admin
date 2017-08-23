@@ -1182,7 +1182,6 @@ class agent extends Controller
             $phone = $item['phone'];
             $create_time = $item['create_time'];
             $userid = $item['userid'];
-            // $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
@@ -1209,23 +1208,32 @@ class agent extends Controller
                     $level = 0;
                 }
             }
-            // $lessonid_new = 0;
-            // if($userid && $is_test_user == 0){
-            //     $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
-            //     $lessonid = $ret['lessonid'];
-            //     if($lessonid){
-            //         $lessonid_new = $lessonid;
-            //     }
-            // }
             $this->t_agent->field_update_list($id,[
                 "agent_level" => $level
-                // "test_lessonid" => $lessonid_new,
             ]);
         }
     }
 
-    public function update_agent_test_lessonid($agent_id){
-
+    public function update_agent_test_lessonid(){
+        $ret_info = $this->t_agent->get_agent_list();
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $create_time = $item['create_time'];
+            $userid = $item['userid'];
+            $student_info = $this->t_student_info->field_get_list($userid,"*");
+            $is_test_user = $student_info['is_test_user'];
+            $lessonid_new = 0;
+            if($userid && $is_test_user == 0 && $student_info){
+                $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+                $lessonid = $ret['lessonid'];
+                if($lessonid){
+                    $lessonid_new = $lessonid;
+                }
+            }
+            $this->t_agent->field_update_list($id,[
+                "test_lessonid" => $lessonid_new
+            ]);
+        }
     }
 
 
