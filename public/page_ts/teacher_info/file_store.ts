@@ -46,18 +46,25 @@ $(function(){
         } );
     });
 
+    function do_share(path) {
+        $.do_ajax("/teacher_info/get_share_link",{
+            "share_path" : path,
+        },function(resp){
+            $.wopen("/teacher_info/file_share?sign=" +encodeURIComponent(resp.sign)   );
+        });
 
+    }
 
     $(".opt-share").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        var base_url=opt_data.abs_path;
-        $.do_ajax("/teacher_info/get_share_link",{
-            "share_path" : opt_data.abs_path,
-        },function(resp){
-            $.wopen("/teacher_info/file_share?sign=" +encodeURIComponent(resp.sign)   );
-
-        });
+        do_share( opt_data.abs_path );
     });
+
+
+    $("#id_share_cur").on("click",function(){
+        do_share( g_args.dir);
+    });
+
 
     $(".opt-download").on("click",function(){
         var opt_data=$(this).get_opt_data();
