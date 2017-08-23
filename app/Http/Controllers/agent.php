@@ -518,9 +518,9 @@ class agent extends Controller
 
 
     public function get_user_info(){
-        // $agent_id = 60;//月月
+        $agent_id = 60;//月月
         // $agent_id = 54;//陈
-        $agent_id = 211;//Amanda
+        // $agent_id = 211;//Amanda
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
@@ -545,6 +545,7 @@ class agent extends Controller
         $have_cash  = 0;
         $num        = 0;
         $my_num     = 0;
+        $test_count = 0;
         if($userid_new && $type_new == 1 && $is_test_user == 0){
             $ret_list  = ['userid'=>0,'price'=>0];
             $level = 2;
