@@ -619,7 +619,11 @@ class agent extends Controller
             $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
             $id=$agent_info["id"];
         }
-        $this->set_in_value("id",$id);
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
         return $this->pageView(__METHOD__,NULL);
 
     }

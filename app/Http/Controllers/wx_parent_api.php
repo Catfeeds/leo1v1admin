@@ -1113,6 +1113,7 @@ class wx_parent_api extends Controller
             'reason'      => $reason,
             'create_time' => time(),
             'userid'      => $userid,
+            'admin_type'  => 1, // 代表家长
             'create_adminid' => $parentid
         ]);
 
@@ -1139,7 +1140,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_score_info(){ // 获取成绩详情
-        $id         = $this->get_in_int_val('id');
+        $id         = $this->get_in_int_val('scoreid');
         $score_info = $this->t_student_score_info->get_score_info($id);
         return $this->output_succ(['data'=>$score_info]);
     }
@@ -1154,14 +1155,12 @@ class wx_parent_api extends Controller
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
+        $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
 
-
-        //alibaba_url_str
         $img_arr = explode(',',$ret_arr['alibaba_url_str']);
         $homework_pdf_url = \App\Helper\Utils::img_to_pdf($img_arr);
-
 
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷
@@ -1192,6 +1191,20 @@ class wx_parent_api extends Controller
         }else{
             return $this->output_err('图片上传失败,请稍后重试.....');
         }
+    }
+
+
+    public function get_paper_url(){ // 获取预览图片
+        $lesson_id   = $this->get_in_int_val('lessonid');
+        $lesson_type = $this->get_in_int_val('lesson_type');
+        $paper_type  = $this->get_in_int_val('paper_type');
+
+        if($lesson_type == 2){ // 试听课
+
+        }else{ // 常规课
+
+        }
+
     }
 
 
