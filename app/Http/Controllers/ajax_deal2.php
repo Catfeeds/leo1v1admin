@@ -756,7 +756,9 @@ class ajax_deal2 extends Controller
              return $this->output_err("没有试卷");
         }
         
+        $file_url = "f59b6c7e660afbd216fd6ca5613ffdf81489146606255.jpg";
         $url = \App\Helper\Utils::gen_download_url($file_url);
+        dd($url);
         return $this->output_succ(["data"=>$url]);
     }
 

@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Helper\Common;
+use \App\Enums as E;
+
 
 class send_wx_msg_for_trial_train_lesson_next_day extends Command
 {
@@ -20,6 +23,7 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
      */
     protected $description = 'Command description';
 
+    public $task;
     /**
      * Create a new command instance.
      *
@@ -28,6 +32,8 @@ class send_wx_msg_for_trial_train_lesson_next_day extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->task= new \App\Console\Tasks\TaskController();
+
     }
 
     /**

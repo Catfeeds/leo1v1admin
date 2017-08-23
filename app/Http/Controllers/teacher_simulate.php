@@ -125,6 +125,7 @@ class teacher_simulate extends Controller
             "acc"                        => $acc,
             "start_time"                 => $start_time,
         ];
+
         $this->check_month_redis_key($show_data);
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
         $show_data["final_money"] = $final_money_list;
