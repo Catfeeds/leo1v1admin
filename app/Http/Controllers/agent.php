@@ -246,7 +246,8 @@ class agent extends Controller
         return $ret;
     }
 
-    public function update_lesson_call_end_time_new($adminid){
+    public function update_lesson_call_end_time_new(){
+        $adminid = 378;
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
