@@ -2610,44 +2610,42 @@ class user_deal extends Controller
     {
         $ret = $this->t_teacher_label->get_teacher_all_label_info();
         foreach($ret as $val){
-            if($val["teacherid"]==50728){
-                $arr = json_decode($val["tea_label_type"],true);
+            $arr = json_decode($val["tea_label_type"],true);
  
-                // dd($arr);
-                if(!empty($arr)){
-                    $list=[];
-                    foreach($arr as $v){
-                        $s =  E\Etea_label_type::get_desc($v); 
-                        $list[$s] = $s;
-                    }
-                    //dd($list);
-                    $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
-                    \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
-                    \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
-                    $teacher_tags = trim($teacher_tags,",");
-                    $tags= explode(",",$teacher_tags);
-                    $str ="";
-                    if(empty($tags) || empty($teacher_tags)){
-                        foreach($list as $k){
-                            $str .= $k.",";
-                        }
-                    }else{
-                        $tags_list=[];
-                        foreach($tags as $v){
-                            $tags_list[$v]=$v;
-                        }
-                        foreach($list as $k){
-                            if(!isset($tags_list[$k]) && !empty($k)){
-                                $tags[] = $k;
-                            }
-                        }
-                        $str = implode(",",$tags);
-                        $str .= ",";
-                    }
-                    $this->t_teacher_info->field_update_list($val["teacherid"],[
-                        "teacher_tags"  =>$str
-                    ]);
+            // dd($arr);
+            if(!empty($arr)){
+                $list=[];
+                foreach($arr as $v){
+                    $s =  E\Etea_label_type::get_desc($v); 
+                    $list[$s] = $s;
                 }
+                //dd($list);
+                $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
+                \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
+                $teacher_tags = trim($teacher_tags,",");
+                $tags= explode(",",$teacher_tags);
+                $str ="";
+                if(empty($tags) || empty($teacher_tags)){
+                    foreach($list as $k){
+                        $str .= $k.",";
+                    }
+                }else{
+                    $tags_list=[];
+                    foreach($tags as $v){
+                        $tags_list[$v]=$v;
+                    }
+                    foreach($list as $k){
+                        if(!isset($tags_list[$k]) && !empty($k)){
+                            $tags[] = $k;
+                        }
+                    }
+                    $str = implode(",",$tags);
+                    $str .= ",";
+                }
+                $this->t_teacher_info->field_update_list($val["teacherid"],[
+                    "teacher_tags"  =>$str
+                ]);
             }
             
         }

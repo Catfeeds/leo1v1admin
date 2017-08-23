@@ -1843,6 +1843,12 @@ class test_code extends Controller
     }
 
     public function check_test(){
+        $level_simulate_count_key = "level_simulate_count";
+        $all_money_count_key      = "all_money_count";
+        $has_month_key            = "has_month";
+        $already_lesson_count_key = "already_lesson_count";
+
+
         $month_key = "2017-7";
         $teacherid = 107000;
         $key="already_lesson_count_".$month_key."_".$teacherid;
