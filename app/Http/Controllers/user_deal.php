@@ -2625,7 +2625,6 @@ class user_deal extends Controller
                     \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
                     \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
                     $tags= explode(",",$teacher_tags);
-                    dd($tags);
                     $str ="";
                     if(empty($tags) || empty($teacher_tags)){
                         foreach($list as $k){
@@ -2637,7 +2636,7 @@ class user_deal extends Controller
                             $tags_list[$v]=$v;
                         }
                         foreach($list as $k){
-                            if(!isset($tags_list[$k])){
+                            if(!isset($tags_list[$k]) && !empty($k)){
                                 $tags[] = $k;
                             }
                         }

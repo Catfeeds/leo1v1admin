@@ -19,8 +19,6 @@ class teacher_simulate extends Controller
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
 
-
-
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
         $level              = $this->get_in_int_val("level",-1);
