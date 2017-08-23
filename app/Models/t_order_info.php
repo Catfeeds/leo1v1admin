@@ -2713,7 +2713,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-
+    public function get_nomal_order_by_userid($userid){
+        $where_arr = [
+            "o.userid = $userid",
+            "o.contract_type = 0",
+            "o.contract_status = 1",
+            "o.order_status = 1",
+        ];
+        $sql = $this->gen_sql_new("select o.orderid"
+                                  ." from %s o"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
 
