@@ -14,6 +14,7 @@ class teacher_simulate extends Controller
     var $level_simulate_count_key = "level_simulate_count";
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
+    var $already_lesson_count_key = "already_lesson_count";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -34,7 +35,7 @@ class teacher_simulate extends Controller
         $all_lesson_price          = 0;
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
-        $already_lesson_count_list = [];
+        $already_lesson_count_list = json_decode(Redis::get($this->already_lesson_count_key),true);
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
@@ -60,7 +61,6 @@ class teacher_simulate extends Controller
             }else{
                 $already_lesson_count_simulate = $already_lesson_count_list[$key];
             }
-
             if($already_lesson_count_simulate === null){
                 $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
                 $last_start_time = strtotime("-1 month",$last_end_time);
@@ -69,6 +69,18 @@ class teacher_simulate extends Controller
                 );
                 Redis::set($key,$already_lesson_count_simulate);
             }
+
+            // $month_key  = date("Y-m",$val['lesson_start']);
+            // if(!isset($already_lesson_count_list[$month_key][$teacherid])){
+            //     $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
+            //     $last_start_time = strtotime("-1 month",$last_end_time);
+            //     $already_lesson_count_simulate = $this->get_already_lesson_count(
+            //         $start_time,$end_time,$teacherid,$val['teacher_money_type']
+            //     );
+            //     $already_lesson_count_list[$month_key][$teacherid] = $already_lesson_count_simulate;
+            // }else{
+            //     $already_lesson_count_simulate = $already_lesson_count_list[$month_key][$teacherid];
+            // }
 
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
             if($check_type==2){

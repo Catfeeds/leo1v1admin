@@ -2624,6 +2624,7 @@ class user_deal extends Controller
                     $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
                     \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
                     \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
+                    $teacher_tags = trim($teacher_tags,",");
                     $tags= explode(",",$teacher_tags);
                     $str ="";
                     if(empty($tags) || empty($teacher_tags)){
@@ -2641,6 +2642,7 @@ class user_deal extends Controller
                             }
                         }
                         $str = implode(",",$tags);
+                        $str .= ",";
                     }
                     $this->t_teacher_info->field_update_list($val["teacherid"],[
                         "teacher_tags"  =>$str
