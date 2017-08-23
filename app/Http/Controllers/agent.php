@@ -444,10 +444,11 @@ class agent extends Controller
     public function get_cash($ret_list){
         $cash = 0;
         foreach($ret_list as $key=>$item){
-            $userid  = $item['userid'];
-            $pay     = $item['price'];
-            $ret_row = $this->t_lesson_info_b2->get_lesson_count_by_userid($userid);
-            $count   = $ret_row['count'];
+            $userid     = $item['userid'];
+            $pay        = $item['price'];
+            $order_time = $item['order_time'];
+            $ret_row    = $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$order_time);
+            $count      = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
             $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
@@ -864,6 +865,7 @@ class agent extends Controller
             }else{
                 $ret_list[$key]['parent_name'] = '';
             }
+            $ret_list[$key]['order_time'] = $item['order_time'];
         }
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){
@@ -907,6 +909,7 @@ class agent extends Controller
             }else{
                 $ret_list[$key]['parent_name'] = '';
             }
+            $ret_list[$key]['order_time'] = $item['order_time'];
         }
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){

@@ -1375,13 +1375,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_lesson_count_by_userid($userid){
+    public function get_lesson_count_by_userid($userid,$order_time){
         $where_arr = [
             ['lesson_del_flag=%d',0],
             ['lesson_status=%d',2],
             ['lesson_type = %d',0],
             ['userid = %d',$userid],
             'confirm_flag in (0,1)',
+            "lesson_start>$order_time",
         ];
         $sql = $this->gen_sql_new("select count(lessonid) count "
                 ." from %s "
