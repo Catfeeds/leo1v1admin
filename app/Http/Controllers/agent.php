@@ -22,6 +22,11 @@ class agent extends Controller
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
+        foreach($ret_info['list'] as $p_item){
+            $userid_arr =  $item["userid"];
+        }
+        $order_map=$this->t_order_info->get_agent_order_money_list($userid_arr);
+
         foreach($ret_info['list'] as &$item){
             $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
             $item['agent_type'] = $item['type'];
@@ -30,7 +35,9 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
+            $item["price"]= @$order_map["price"]/100;
         }
+
         return $this->pageView(__METHOD__,$ret_info);
     }
 

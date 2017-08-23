@@ -65,8 +65,9 @@
                     <td>上上级微信昵称</td>
                     <td>手机号</td>
                     <td>会员等级</td>
-                    <td>是否成功试听</td>
                     <td>试听时间</td>
+                    <td>是否成功试听</td>
+                    <td>合同金额</td>
                     <td>类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
@@ -90,8 +91,10 @@
                         </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["agent_level_str"]}} </td>
-                        <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
                         <td>{{@$var["lesson_start"]}} </td>
+                        <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
+                        <td>{{@$var["price"]}} </td>
+
                         <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
