@@ -549,7 +549,6 @@ class agent extends Controller
         $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
         if($level == 2){
             $ret       = $this->get_pp_pay_cash($phone);
-            dd($ret);
             $pay       = $ret['pay'];
             $cash      = $ret['cash'];
             $num       = $ret['num'];
@@ -584,6 +583,7 @@ class agent extends Controller
             }
         }
         $cash_new = (int)(($cash-$have_cash/100)*100)/100;
+        $cash_new = $cash_new>0?$cash_new:0;
         $data = [
             'level'      => $level,
             'nick'       => $nick,
