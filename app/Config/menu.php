@@ -19,6 +19,7 @@ class menu{
                 ],
                 ["power_id"=>9, "name"=>"优学优享", "list"=> [
                     ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>10, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],

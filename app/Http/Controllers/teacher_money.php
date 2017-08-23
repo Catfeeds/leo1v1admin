@@ -249,8 +249,8 @@ class teacher_money extends Controller
             }
             $now_time = strtotime("+1 month",strtotime(date("Y-m-01",time())));
         }elseif($type=="admin"){
-            $start_time   = strtotime($this->get_in_str_val("start_time"));
-            $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time")));
+            $start_time   = strtotime($this->get_in_str_val("start_time",date("Y-m-d",time())));
+            $now_time     = strtotime("+1 day",strtotime($this->get_in_str_val("end_time",date("Y-m-d",time()))));
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
             $teacher_ref_type = $teacher_info['teacher_ref_type'];

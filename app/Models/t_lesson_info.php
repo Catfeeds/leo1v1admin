@@ -9063,6 +9063,23 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
+    public function check_train_lesson_new($teacherid){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            "train_type=4",
+            "lesson_del_flag=0"
+            // "lesson_start=0"
+        ];
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
 
 

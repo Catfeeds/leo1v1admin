@@ -1968,6 +1968,9 @@ class human_resource extends Controller
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $this->set_in_value("fulltime_flag",$show_full_time);
         $fulltime_flag= $this->get_in_int_val("fulltime_flag");
+        $next_day = strtotime(date("Y-m-d",time()+86400));
+        $this->set_in_value("next_day",$next_day);
+        $next_day = $this->get_in_int_val("next_day");
 
         return $this->pageView(__METHOD__,$ret_info,[
             "account_id"     => $account_id,

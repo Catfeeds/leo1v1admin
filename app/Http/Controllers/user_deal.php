@@ -4950,7 +4950,7 @@ class user_deal extends Controller
             $t= strtotime($v["lesson_start"]);
             $arr[$t]  = $t;
         }
-        return $this->output_succ(["data"=>arr]);
+        return $this->output_succ(["data"=>$arr]);
         //dd($arr);
     }
 }
