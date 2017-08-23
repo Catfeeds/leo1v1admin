@@ -522,7 +522,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -705,7 +706,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
