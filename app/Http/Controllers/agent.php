@@ -513,7 +513,104 @@ class agent extends Controller
         // $agent_id = 211;//Amanda
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
-        $agent_id = 1509;//王朝刚
+        // $agent_id = 1509;//王朝刚
+        // $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
+        // if(isset($agent_info['phone'])){
+        //     $phone = $agent_info['phone'];
+        // }else{
+        //     return $this->output_err("请先绑定优学优享账号!");
+        // }
+        // if(!preg_match("/^1\d{10}$/",$phone)){
+        //     return $this->output_err("请输入规范的手机号!");
+        // }
+        // $student_info = [];
+        // $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        // // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        // $student_info = $this->t_student_info->field_get_list($userid,"*");
+        // $userid_new = $student_info['userid'];
+        // $type_new = $student_info['type'];
+        // $is_test_user = $student_info['is_test_user'];
+        // $level      = 0;
+        // $pay        = 0;
+        // $cash       = 0;
+        // $have_cash  = 0;
+        // $num        = 0;
+        // $my_num     = 0;
+        // if($userid_new && $type_new == 1 && $is_test_user == 0){
+        //     $ret_list  = ['userid'=>0,'price'=>0];
+        //     $level = 2;
+        //     $nick      = $student_info['nick'];
+        //     $ret       = $this->get_pp_pay_cash($phone);
+        //     $pay       = $ret['pay'];
+        //     $cash      = $ret['cash'];
+        //     $num       = $ret['num'];
+        //     $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
+        //     if($cash_item['have_cash']){
+        //         $have_cash = $cash_item['have_cash'];
+        //     }
+        //     $count_row = $this->t_agent->get_count_by_phone($phone);
+        //     $my_num    = $count_row['count'];
+        //     $test_count = 2;
+        // }else{
+        //     $nick       = $phone;
+        //     $agent_lsit = [];
+        //     $agent_item = [];
+        //     $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
+        //     foreach($agent_list as $item){
+        //         if($phone == $item['phone']){
+        //             $agent_item = $item;
+        //         }
+        //         if($phone == $item['p_phone']){
+        //             $my_num++;
+        //         }
+        //     }
+        //     if($agent_item){
+        //         $test_lesson = [];
+        //         $cash_item   = [];
+        //         $count       = 0;
+        //         $ret_list    = ['userid'=>0,'price'=>0];
+        //         $nick        = $phone;
+        //         $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+        //         $count       = count(array_unique(array_column($test_lesson,'id')));
+        //         $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
+        //         if($cash_item['have_cash']){
+        //             $have_cash = $cash_item['have_cash'];
+        //         }
+        //         if(2<=$count){
+        //             $level = 2;
+        //             $ret = $this->get_pp_pay_cash($phone);
+        //             $test_count = 2;
+        //         }else{
+        //             $level = 1;
+        //             $ret = $this->get_p_pay_cash($phone);
+        //             $test_count = $count;
+        //         }
+        //         $pay  = $ret['pay'];
+        //         $cash = $ret['cash'];
+        //         $num  = $ret['num'];
+        //     }else{
+        //         return $this->output_err("您暂无资格!");
+        //     }
+        // }
+        // $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
+        // $data = [
+        //     'level'      => $level,
+        //     'nick'       => $nick,
+        //     'pay'        => $pay,
+        //     'cash'       => $cash_new,
+        //     'have_cash'  => $have_cash/100,
+        //     'num'        => $num,
+        //     'my_num'     => $my_num,
+        //     'count'      => $test_count,
+        //     'headimgurl' => $agent_info['headimgurl'],
+        //     'nickname'   => $agent_info['nickname'],
+        // ];
+
+
+
+
+
+        $agent_id = 85;
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -524,35 +621,27 @@ class agent extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
         $student_info = [];
-        $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-        // $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $student_info = $this->t_student_info->field_get_list($userid,"*");
-        $userid_new = $student_info['userid'];
-        $type_new = $student_info['type'];
-        $is_test_user = $student_info['is_test_user'];
-        $level      = 0;
-        $pay        = 0;
-        $cash       = 0;
-        $have_cash  = 0;
-        $num        = 0;
-        $my_num     = 0;
-        if($userid_new && $type_new == 1 && $is_test_user == 0){
-            $ret_list  = ['userid'=>0,'price'=>0];
-            $level = 2;
-            $nick      = $student_info['nick'];
+        $userid = $agent_info['userid'];
+
+        $level        = $agent_info['agent_level'];
+        $nick         = $agent_info['nickname']?$agent_info['nickname']:$phone;
+        $headimgurl   = $agent_info['headimgurl']?$agent_info['headimgurl']:'';
+        $nickname     = $agent_info['nickname']?$agent_info['nickname']:'';
+        $pay          = 0;
+        $cash         = 0;
+        $have_cash    = 0;
+        $num          = 0;
+        $my_num_count = $this->t_agent->get_count_by_phone($phone);
+        $my_num       = $my_num_count['count']?$my_num_count['count']:0;
+        $cash_item    = $this->t_agent_cash->get_cash_by_phone($phone);
+        $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
+        if($level == 2){
             $ret       = $this->get_pp_pay_cash($phone);
             $pay       = $ret['pay'];
             $cash      = $ret['cash'];
             $num       = $ret['num'];
-            $cash_item = $this->t_agent_cash->get_cash_by_phone($phone);
-            if($cash_item['have_cash']){
-                $have_cash = $cash_item['have_cash'];
-            }
-            $count_row = $this->t_agent->get_count_by_phone($phone);
-            $my_num    = $count_row['count'];
             $test_count = 2;
         }else{
-            $nick       = $phone;
             $agent_lsit = [];
             $agent_item = [];
             $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
@@ -560,28 +649,17 @@ class agent extends Controller
                 if($phone == $item['phone']){
                     $agent_item = $item;
                 }
-                if($phone == $item['p_phone']){
-                    $my_num++;
-                }
             }
             if($agent_item){
                 $test_lesson = [];
                 $cash_item   = [];
-                $count       = 0;
                 $ret_list    = ['userid'=>0,'price'=>0];
-                $nick        = $phone;
                 $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
                 $count       = count(array_unique(array_column($test_lesson,'id')));
-                $cash_item   = $this->t_agent_cash->get_cash_by_phone($phone);
-                if($cash_item['have_cash']){
-                    $have_cash = $cash_item['have_cash'];
-                }
                 if(2<=$count){
-                    $level = 2;
                     $ret = $this->get_pp_pay_cash($phone);
                     $test_count = 2;
                 }else{
-                    $level = 1;
                     $ret = $this->get_p_pay_cash($phone);
                     $test_count = $count;
                 }
@@ -606,7 +684,6 @@ class agent extends Controller
             'nickname'   => $agent_info['nickname'],
         ];
         dd($data);
-        return $this->output_succ(["user_info_list" =>$data]);
     }
     public function agent_user_link () {
 
