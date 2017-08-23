@@ -463,7 +463,6 @@ class agent extends Controller
                 $ret_list[$key]['order_cash'] = 0;
             }
         }
-        dd($cash,$ret_list);
         $data = ['cash'=>$cash,'list'=>$ret_list];
         return $data;
     }
@@ -550,6 +549,7 @@ class agent extends Controller
         $have_cash    = $cash_item['have_cash']?$cash_item['have_cash']:0;
         if($level == 2){
             $ret       = $this->get_pp_pay_cash($phone);
+            dd($ret);
             $pay       = $ret['pay'];
             $cash      = $ret['cash'];
             $num       = $ret['num'];
