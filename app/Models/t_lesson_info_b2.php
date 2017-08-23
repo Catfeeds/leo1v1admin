@@ -3290,7 +3290,25 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_succ_test_lesson($userid ) {
+    public function get_succ_test_lesson($userid,$create_time) {
+        $where_arr=[
+            ['l.lesson_type = %d ',2],
+            ['l.lesson_del_flag = %d ',0],
+            ['l.lesson_status = %d ',2],
+            'l.confirm_flag in (0,1) ',
+            'l.lesson_user_online_status = 1',
+            "l.lesson_start > $create_time",
+            "l.userid = $userid",
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select l.lessonid "
+            . " from %s l "
+            . " where %s ",
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
     }
 
 

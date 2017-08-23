@@ -789,6 +789,51 @@ $(function(){
     });
 
     $(".opt-1v1-lesson-set-new").on("click",function(){
+        var opt_data          = $(this).get_opt_data();
+        var id_subject        = $("<select/>");
+        var id_grade          = $("<select/>");
+
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
+        id_subject.val(opt_data.subject_ex);
+
+        var arr = [
+            ["科目",  id_subject ]  ,
+            ["年级 ", id_grade]  ,
+        ];
+
+        $.show_key_value_table("选择科目年级", arr ,[{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var title = "空闲时间选择";
+                var html_node = $("<table class=\"table table-bordered table-striped\" id=\"cal_week\"><tr id=\"th_list_1\"><th width=\"120px\">时段</th><th>周一 </th><th>周二 </th><th>周三 </th><th>周四 </th><th>周五 </th><th>周六 </th><th>周日 </th></tr><tbody id=\"id_time_body_1\" > <tr data-timeid=\"09:00\"><td>09:00-09:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"09:30\"><td>09:30-10:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr> <tr data-timeid=\"10:00\"><td>10:00-10:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"10:30\"><td>10:30:11:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:00\"><td>11:00-11:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"11:30\"><td>11:30-12:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:00\"><td>12:00-12:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"12:30\"><td>12:30-13:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:00\"><td>13:00-13:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"13:30\"><td>13:30-14:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:00\"><td>14:00-14:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"14:30\"><td>14:30-15:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:00\"><td>15:00-15:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"15:30\"><td>15:30-16:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:00\"><td>16:00-16:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"16:30\"><td>16:30-17:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:00\"><td>17:00-17:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"17:30\"><td>17:30-18:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:00\"><td>18:00-18:30</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr><tr data-timeid=\"18:30\"><td>18:30-19:00</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr></tbody></table>");
+                
+                var dlg=BootstrapDialog.show({
+                    title:title, 
+                    message :  html_node   ,
+                    closable: true, 
+                    buttons:[{
+                        label: '返回',
+                        cssClass: 'btn',
+                        action: function(dialog) {
+                            dialog.close();
+
+                        }
+                    }],
+                    onshown:function(){
+                        
+                    }
+
+                });
+
+                dlg.getModalDialog().css("width","1024px");
+
+
+            }
+        }]);
+        return;
+
         alert(111);
         var teacherid = $(this).data("teacherid");
         if(teacherid > 0){

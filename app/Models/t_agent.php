@@ -32,17 +32,19 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,"
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin, a.agent_level, l.lesson_start, l.lesson_user_online_status, "
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
+                                 ." left join %s l on l.userid = a.userid"
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);

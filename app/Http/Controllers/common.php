@@ -783,6 +783,7 @@ class common extends Controller
             imagepng($image_3,$teacher_qr_url);
 
             $file_name = \App\Helper\Utils::qiniu_upload($teacher_qr_url);
+
             if($file_name!=''){
                 $cmd_rm = "rm /tmp/".$phone."*.png";
                 \App\Helper\Utils::exec_cmd($cmd_rm);
