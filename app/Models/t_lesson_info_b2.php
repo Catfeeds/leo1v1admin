@@ -569,6 +569,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["lesson_start<%u",$end_time,0],
             "s.type <> 1",
             "l.lesson_type<>2",
+            "l.lesson_type<1000",
             "l.lesson_del_flag=0",
             "l.confirm_flag <2"
         ];
