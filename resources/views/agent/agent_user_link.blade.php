@@ -17,22 +17,22 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td> p1 </td>
-                    <td> p2 </td>
+                    <td> 一级</td>
+                    <td> 二级 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["p_nick"]}} </td>
-                        <td>{{@$var["nick"]}} </td>
+                        <td>{{@$var["p_nick"]}}/{{@$var["p_phone"]}} </td>
+                        <td> {{@$var["nick"]}}/{{@$var["phone"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
+
+                                <a style="display:none;"  class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>
                         </td>

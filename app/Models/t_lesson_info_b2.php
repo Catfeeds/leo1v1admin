@@ -3338,9 +3338,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $lessonid,
                                   $teacherid,
                                   $subject,
-                                  $grade                                  
+                                  $grade
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_test_lesson_info_halfhour(){  // 试听课开课前半个小时 通知
+        $half_hour = time();
     }
 
 
