@@ -1192,8 +1192,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-        $sql = $this->gen_sql_new("select $field_name as check_value, o.pay_time, o.price , o.orderid,"
-                                  ." s.nick, s.phone , o.grade, o.subject, o.lesson_count, o.lesson_left"
+        $sql = $this->gen_sql_new("select $field_name as check_value,o.price,o.orderid,s.nick,s.phone,o.grade,"
+                                  ."o.pay_time,o.subject,o.lesson_total, o.lesson_left, o.default_lesson_count"
                                   ." from   %s  o  "
                                   ." left join %s m  on o.sys_operator=m.account "
                                   ." left join %s s  on o.userid=s.userid "
