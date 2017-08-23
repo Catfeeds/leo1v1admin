@@ -27,7 +27,7 @@
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
-                        <td>{{@$var["lesson_count"]}} </td>
+                        <td>{{@$var["lesson_all"]}} </td>
                         <td>{{@$var["lesson_left"]}} </td>
                         <td>{{@$var["price"]}} </td>
                         <td>{{@$var["pay_time"]}} </td>
