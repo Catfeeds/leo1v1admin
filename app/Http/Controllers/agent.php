@@ -624,6 +624,7 @@ class agent extends Controller
         $map=[];
         foreach ($list as $item) {
         }
+        dd($list);
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         //dd($list);
