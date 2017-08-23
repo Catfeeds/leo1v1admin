@@ -465,6 +465,9 @@ trait  ViewDeal {
             $data["_stu_menu_html"] = session("stu_menu_html") ;
         }else if (  $ctrl == "teacher_info_admin"  ) {
             $data["_tea_menu_html"] = session("tea_menu_html") ;
+        }else if (  $ctrl == "teacher_info"  ) { //老师后台
+            $data["_nick"] =  session("nick") ;
+            $data["_face"] =  session("face") ;
         }else{
             $data["_menu_html"] = session("menu_html") ;
         }

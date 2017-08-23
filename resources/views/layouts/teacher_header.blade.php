@@ -70,13 +70,13 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/AdminLTE-2.4.0-rc/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">周咨询</span>
+                                <img src="{{$_face}}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ $_nick }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="/AdminLTE-2.4.0-rc/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="{{$_face}}" class="img-circle" alt="User Image">
 
                                     <p>
                                         Alexander Pierce - Web Developer
@@ -104,7 +104,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="#" class="btn btn-default btn-flat">退出系统</a>
                                     </div>
                                 </li>
                             </ul>

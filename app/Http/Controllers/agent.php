@@ -23,8 +23,9 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
         foreach($ret_info['list'] as $p_item){
-            $userid_arr[] =  $p_item["userid"];
+            $userid_arr =  $p_item["userid"];
         }
+
         $order_map=$this->t_order_info->get_agent_order_money_list($userid_arr);
 
         foreach($ret_info['list'] as &$item){
