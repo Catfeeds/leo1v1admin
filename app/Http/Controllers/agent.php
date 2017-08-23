@@ -725,7 +725,12 @@ class agent extends Controller
             }
         }
 
-        dd($map);
+        $ret_list=[];
+        foreach ( $map as $p1 ) {
+            $ret_list[];
+            foreach ( $p1["list"] as $p2 ) {
+            }
+        }
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         //dd($list);
