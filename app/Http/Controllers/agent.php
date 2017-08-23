@@ -1214,7 +1214,7 @@ class agent extends Controller
                 }
             }
             $this->t_agent->field_update_list($id,[
-                "agent_level" => $level,
+                // "agent_level" => $level,
                 "test_lessonid" => $lessonid_new,
             ]);
         }
