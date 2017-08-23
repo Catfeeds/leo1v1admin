@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Mail;
 class test_boby extends Controller
 {
     use CacheNick;
+
+    public function get_b_txt($file_name="b"){
+        $info = file_get_contents("/home/boby/".$file_name.".txt");
+        $arr  = explode("\n",$info);
+        return $arr;
+    }
+
     public function p_list(){
         $page_info= $this->get_in_page_info();
         $nick_phone= $this->get_in_str_val("nick_phone");
@@ -173,18 +180,6 @@ class test_boby extends Controller
         $end_time = strtotime("2017-0".$m."-01");
         $ret_info = $this->t_student_info->get_stu_money_rate($start_time, $end_time);
         dd($ret_info);
-
-        $sql =  'select distinct tq.phone,tq.uid,tq.start_time,tq.end_time,tq.is_called_phone,
-                 m.account,t.seller_student_status
-                 from db_weiyi.t_agent a
-                 left join db_weiyi.t_student_info s on s.userid = a.userid
-                 left join db_weiyi_admin.t_tq_call_info tq on a.phone=tq.phone
-                 left join db_weiyi_admin.t_manager_info m on tq.uid=m.tquin
-                 left join db_weiyi.t_seller_student_new n on n.phone= tq.phone
-                 left join db_weiyi.t_test_lesson_subject t on t.userid= s.userid
-                 where a.type=1 and a.create_time > 1501516800
-                 and a.create_time < 1504195200 order by a.phone limit 0,10';
-
     }
 
     public function get_info(){
@@ -199,5 +194,15 @@ class test_boby extends Controller
         $s = $s.'</table>';
         return $s;
     }
+
+    //通过订单号查询老师，科目
+    public function get_teacher_subject_by_orderid(){
+        $arr = $this->get_b_txt();
+        $orderid_str = "(".join(",",$arr)."0)";
+        // dd($orderid_str);
+        $ret_info = $this->t_order_info->get_teacherid_subject_by_orderid($orderid_str);
+        dd($ret_info);
+    }
+
 
 }

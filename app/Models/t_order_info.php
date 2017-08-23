@@ -2693,7 +2693,25 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return intval($this->main_get_value($sql));
     }
 
-
+    public function get_teacherid_subject_by_orderid($orderid_str){
+        $where_arr = [
+            "o.orderid in $orderid_str",
+            "o.contract_type not in (1,2)",
+        ];
+        $sql = $this->gen_sql_new("select t.teacherid, t.nick, l.subject"
+                                  ." from %s o"
+                                  ." left join %s ol on o.orderid=ol.orderid"
+                                  ." left join %s l on l.lessonid=ol.lessonid"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 
 
