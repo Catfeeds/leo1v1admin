@@ -2621,6 +2621,8 @@ class user_deal extends Controller
                 }
                 //dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
+                dd($teacher_tags);
                 $tags= explode(",",$teacher_tags);
                 dd($tags);
                 $str ="";

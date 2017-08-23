@@ -52,12 +52,11 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
-
             $month_key  = date("Y-m",$val['lesson_start']);
             $key = "already_lesson_count_".$month_key."_".$teacherid;
             if(!isset($already_lesson_count_list[$key])){
-                $already_lesson_count_simulate = Redis::get($key);
-                $already_lesson_count_list[$key]=$already_lesson_count_simulate;
+                $already_lesson_count_simulate   = Redis::get($key);
+                $already_lesson_count_list[$key] = $already_lesson_count_simulate;
             }else{
                 $already_lesson_count_simulate = $already_lesson_count_list[$key];
             }
