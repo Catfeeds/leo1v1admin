@@ -2905,7 +2905,7 @@ class user_manage_new extends Controller
         $money = $this->get_in_str_val("money");
         $add_time = $this->get_in_str_val("add_time");
         $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
-        $teacherid = $this->get_in_str_val("teacherid");
+        $teacherid = $this->get_in_int_val("teacherid");
         $account = $this->get_account();
 
         $update_arr = [
