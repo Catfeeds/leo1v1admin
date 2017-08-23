@@ -4945,6 +4945,12 @@ class user_deal extends Controller
         $subject = $this->get_in_int_val("subject",1);
         $grade = $this->get_in_int_val("grade",200);
         $ret = $this->get_not_free_time_list($subject,$grade);
-        dd($ret);
+        $arr=[];
+        foreach($ret as $v){
+            $t= strtotime($v["lesson_start"]);
+            $arr[$t]  = $t;
+        }
+        return $this->output_succ(["data"=>arr]);
+        //dd($arr);
     }
 }
