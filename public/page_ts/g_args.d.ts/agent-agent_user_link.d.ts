@@ -10,6 +10,16 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	pid	:any;
+	p_nick	:any;
+	p_phone	:any;
+	p_agent_level	:any;
+	p_test_lessonid	:any;
+	id	:any;
+	nick	:any;
+	phone	:any;
+	agent_level	:any;
+	test_lessonid	:any;
 }
 
 /*

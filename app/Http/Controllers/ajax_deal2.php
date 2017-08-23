@@ -755,8 +755,8 @@ class ajax_deal2 extends Controller
         if(!empty($stu_test_paper)){
              return $this->output_err("没有试卷");
         }
-        $domain = config('admin')['qiniu']['public']['url'];
-        $url = $domain."/".$stu_test_paper;
+        
+        $url = \App\Helper\Utils::gen_download_url($file_url);
         return $this->output_succ(["data"=>$url]);
     }
 
