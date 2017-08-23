@@ -319,8 +319,8 @@ class common extends Controller
                 if($totalvalue>=90 && $teacher_info['train_through_new']==0){
                     $this->teacher_train_through_deal($teacher_info,$train_flag);
                     //发送微信通知进行模拟课堂
-                    // $check_flag=$this->t_lesson_info->check_train_lesson($answer['userid']);
-                    if($train_flag==1){
+                    $check_flag=$this->t_lesson_info->check_train_lesson_new($answer['userid']);
+                    if($train_flag==1 && empty($check_flag)){
                         $this->add_trial_train_lesson($teacher_info,1);
                     }
 
