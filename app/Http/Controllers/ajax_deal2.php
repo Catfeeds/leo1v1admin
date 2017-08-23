@@ -752,12 +752,12 @@ class ajax_deal2 extends Controller
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
         $test_lesson_subject_id =$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id); 
         $stu_test_paper  = $this->t_test_lesson_subject->get_stu_test_paper($test_lesson_subject_id);
-        if(empty($stu_test_paper)){
+        if(!empty($stu_test_paper)){
              return $this->output_err("没有试卷");
         }
         $domain = config('admin')['qiniu']['public']['url'];
-        dd($domain);
-
+        $url = $domain."/".$stu_test_paper;
+        return $this->output_succ(["data"=>$url]);
     }
 
 }

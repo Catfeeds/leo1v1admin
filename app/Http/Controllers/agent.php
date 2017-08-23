@@ -602,8 +602,10 @@ class agent extends Controller
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
         $list=$this->t_agent->get_link_list_py_ppid($id );
-        dd($list);
-        return $this->pageView(__METHOD__,NULL);
+        
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__, $ret_info);
+
     }
 
     public function agent_user_wechat () {

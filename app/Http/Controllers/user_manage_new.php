@@ -2905,13 +2905,15 @@ class user_manage_new extends Controller
         $money = $this->get_in_str_val("money");
         $add_time = $this->get_in_str_val("add_time");
         $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
+        $teacherid = $this->get_in_str_val("teacherid");
         $account = $this->get_account();
 
-        $update_arr=[
+        $update_arr = [
             "type"       => $type,
             "money_info" => $money_info,
             "money"      => $money,
             "acc"        => $account,
+            "teacherid"  => $teacherid,
         ];
 
         if($add_time!=""){
