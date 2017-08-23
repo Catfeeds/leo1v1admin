@@ -861,7 +861,10 @@ class tongji_ss extends Controller
         foreach($ret_info["list"] as &$item){
             \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
             $item['price'] = $item['price']/100;
-
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            $item['lesson_count']= $item['lesson_count'];
+            $item['lesson_left']= $item['lesson_left'];
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
