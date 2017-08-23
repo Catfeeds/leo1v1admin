@@ -1201,17 +1201,17 @@ class agent extends Controller
                     $level = 0;
                 }
             }
-            $lessonid_new = 0;
-            if($userid && $is_test_user == 0){
-                $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
-                $lessonid = $ret['lessonid'];
-                if($lessonid){
-                    $lessonid_new = $lessonid;
-                }
-            }
+            // $lessonid_new = 0;
+            // if($userid && $is_test_user == 0){
+            //     $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+            //     $lessonid = $ret['lessonid'];
+            //     if($lessonid){
+            //         $lessonid_new = $lessonid;
+            //     }
+            // }
             $this->t_agent->field_update_list($id,[
-                "agent_level" => $level,
-                "test_lessonid" => $lessonid_new,
+                "agent_level" => $level
+                // "test_lessonid" => $lessonid_new,
             ]);
         }
     }
