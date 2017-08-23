@@ -99,8 +99,8 @@ class testbb extends Controller
 
         $img = [
             // 0=>'123.jpg'
-            0=>'l_t_pdf_193451_2.png',
-            1=>'l_t_pdf_220858_14.png'
+            0=>'l_t_pdf_193451_5.png',
+            1=>'l_t_pdf_220858_15.png'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -163,7 +163,8 @@ class testbb extends Controller
 
         $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
 
-        dd($pdf_url);
+        return $pdf_url;
+
 
     }
 
