@@ -840,17 +840,26 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
     }
 
-    public function update_paper( $userid_list ,$adminid ){
+    public function update_paper( $lessonid ,$stu_lesson_pic, $stu_test_paper ){
 
-        $sql=$this->gen_sql_new(
-            "update %s set  stu_lesson_pic=%s  "
-            ."where %s and  require_admin_type=%u",
-            self::DB_TABLE_NAME,
-            $adminid,
-            $in_str,
-            E\Eaccount_role::V_2
-        );
+        $sql = $this->gen_sql_new(" update %s ts,".
+                                  "  %s tr, ".
+                                  "  %s tss ".
+                                  " %s l ".
+                                  " set t.stu_lesson_pic='%s'".
+                                  " where tss.lessonid=%d "
+                                  . " and tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                  . " and tr.require_id = tss.require_id  ",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $alibaba_url_str,
+                                  $lessonid);
+
+
         return $this->main_update($sql);
+
     }
 
 

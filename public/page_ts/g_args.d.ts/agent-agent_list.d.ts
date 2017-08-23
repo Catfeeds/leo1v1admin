@@ -7,10 +7,12 @@ interface GargsStatic {
 	userid:	number;
 	phone:	string;
 	p_phone:	string;
-	agent_type:	number;
-	page_num:	number;
+	agent_type:	string;//枚举列表: \App\Enums\Eagent_type
+ 	page_num:	number;
 	page_count:	number;
-}
+	test_lesson_flag:	number;//\App\Enums\Eboolean
+	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
+ }
 declare module "g_args" {
     export = g_args;
 }
@@ -72,10 +74,13 @@ $(function(){
 			userid:	$('#id_userid').val(),
 			phone:	$('#id_phone').val(),
 			p_phone:	$('#id_p_phone').val(),
-			agent_type:	$('#id_agent_type').val()
+			agent_type:	$('#id_agent_type').val(),
+			test_lesson_flag:	$('#id_test_lesson_flag').val(),
+			agent_level:	$('#id_agent_level').val()
         });
     }
 
+	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -91,6 +96,10 @@ $(function(){
 	$('#id_phone').val(g_args.phone);
 	$('#id_p_phone').val(g_args.p_phone);
 	$('#id_agent_type').val(g_args.agent_type);
+	$.enum_multi_select( $('#id_agent_type'), 'agent_type', function(){load_data();} )
+	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+	$('#id_agent_level').val(g_args.agent_level);
+	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -126,6 +135,21 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">agent_type</span>
                 <input class="opt-change form-control" id="id_agent_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_test_lesson_flag" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">agent_level</span>
+                <input class="opt-change form-control" id="id_agent_level" />
             </div>
         </div>
 */

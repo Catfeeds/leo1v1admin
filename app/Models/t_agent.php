@@ -32,6 +32,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
 
         $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+        $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
         $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
         $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
         $sql=$this->gen_sql_new (" select a.*,"
