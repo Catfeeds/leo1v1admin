@@ -105,7 +105,7 @@ $(function(){
     $('.opt-user').on('click',function(){
         var opt_data=$(this).get_opt_data();
         window.open(
-            '/lesson_record?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
+            '/stu_manage/lesson_record?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
         );
     });
 
