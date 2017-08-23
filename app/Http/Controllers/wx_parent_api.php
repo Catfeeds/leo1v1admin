@@ -1196,11 +1196,20 @@ class wx_parent_api extends Controller
         $lesson_type = $this->get_in_int_val('lesson_type');
         $paper_type  = $this->get_in_int_val('paper_type');
 
+        $qiniu_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
+
         if($lesson_type == 2){ // 试听课
             if($paper_type == 1){ // 试卷
-                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic($lessonid);
-            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
+                return $this->output_succ(['data'=>$paper_url['stu_lesson_pic']]);
+            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
+
+                if($paper_url['homework_pdf']){
+                    $paper_url['homework_pdf'] = $qiniu_url.$paper_url['homework_pdf'];
+                }
+                return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 试卷

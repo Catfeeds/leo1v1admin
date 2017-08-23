@@ -4957,7 +4957,7 @@ class user_deal extends Controller
     public function get_train_lesson_comment(){
         $lessonid = $this->get_in_int_val("lessonid",281011);
         $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
-        $arr= jason_decode($stu_comment,true);
-        dd($arr);
+        $arr= json_decode($stu_comment,true);
+        return $this->output_succ(["data"=>$arr]);
     }
 }

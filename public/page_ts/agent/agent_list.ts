@@ -34,6 +34,7 @@ $(function(){
     $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
     $('#id_p_phone').val(g_args.p_phone);
+    $('#id_phone').val(g_args.phone);
 
 	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
 	  $('#id_agent_level').val(g_args.agent_level);

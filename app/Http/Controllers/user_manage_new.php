@@ -2899,13 +2899,17 @@ class user_manage_new extends Controller
     }
 
     public function update_teacher_money_list_info(){
-        $id       = $this->get_in_int_val("id");
-        $type     = $this->get_in_int_val("type");
+        $id = $this->get_in_int_val("id");
+        $type = $this->get_in_int_val("type");
         $money_info = $this->get_in_str_val("money_info");
-        $money    = $this->get_in_str_val("money");
+        $money = $this->get_in_str_val("money");
         $add_time = $this->get_in_str_val("add_time");
         $add_time_old = $this->get_in_str_val("add_time_old");
         $account = $this->get_account();
+
+        if($add_time!=""){
+            $add_time = strtotime();
+        }
 
         $ret = $this->t_teacher_money_list->field_update_list($id,[
             "type"       => $type,

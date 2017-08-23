@@ -881,10 +881,18 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
     }
 
 
-    public function get_stu_lesson_pic($lessonid){
-        $sql = $this->gen_sql_new(" select tr.stu_lesson_pic from %s ts ".
-                                  " left join %s tr.test_lesson_subject_id = ts.test_lesson_subject_id"
+    public function get_stu_lesson_pic_and_homework($lessonid){
+        $sql = $this->gen_sql_new(" select ts.stu_lesson_pic, ts. from %s ts "
+                                  ." left join %s tr on  tr.test_lesson_subject_id = ts.test_lesson_subject_id"
+                                  ." left join %s tss on tss.require_id = tr.require_id  "
+                                  ." where tss.lessonid = %d",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list,
+                                  $lessonid
         );
+
+        return $this->main_get_row($sql);
     }
 
 }

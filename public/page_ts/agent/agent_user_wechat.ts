@@ -42,7 +42,9 @@ $(function(){
         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_my_num?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
-            console.log(data);
+            //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}
+            alert( JSON.stringify(data.list[0] ) );
+
         },
         error:function(){
             alert('fail');

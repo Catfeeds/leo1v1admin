@@ -26,15 +26,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level )
     {
         $where_arr = [];
-        $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
+        }else if ( $phone ) {
+            $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
+        }else {
+            $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
+            $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
+            $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
         }
 
-        $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
-        $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
-        $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
-        $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
