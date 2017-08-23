@@ -183,6 +183,7 @@ class agent extends Controller
         $p_price   = $this->get_in_int_val('p_price');
         $ppid      = $this->get_in_int_val('ppid');
         $pp_price  = $this->get_in_int_val('pp_price');
+        $userid  = $this->get_in_int_val('userid');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
