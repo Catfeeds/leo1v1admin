@@ -1170,7 +1170,9 @@ class wx_parent_api extends Controller
                     "stu_test_paper" => $ret_arr['file_name_origi']
                 ]);
             }elseif($paper_type == 2){ // 存放作业
-
+                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
+                    "homework_pdf" => $homework_pdf_url
+                ]);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 存放试卷

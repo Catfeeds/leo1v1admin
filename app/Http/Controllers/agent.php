@@ -619,6 +619,14 @@ class agent extends Controller
     }
 
     public function agent_user_wechat () {
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        $this->set_in_value("id",$id);
+        return $this->pageView(__METHOD__,NULL);
 
     }
 

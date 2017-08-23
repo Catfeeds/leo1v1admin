@@ -1580,12 +1580,10 @@ class Utils  {
         $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
         $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
 
-        // $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
         $pdf_url = $this->qiniu_upload($pdf_name_tmp);
 
+        unlink($pdf_name_tmp);
         return $pdf_url;
-
-
     }
 
 

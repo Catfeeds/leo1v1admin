@@ -818,24 +818,30 @@ $(function(){
                     var userid_list   = resp.data;
                     var next_day = g_args.next_day;
                     alert(next_day);
-                    // console.log(userid_list);
-                    var grade_count   = resp.grade;
-                    var subject_count = resp.subject;
-                    for(var i in grade_count){
-                        html_node.find("#div_grade").append("<div class=\"col-md-1\">"+i+":"+grade_count[i]+"</div>");
-                    }
-                    for(var i in subject_count){
-                        html_node.find("#div_subject").append("<div class=\"col-md-1\">"+i+":"+subject_count[i]+"</div>");
-                    }
-
-                    /*html_node.prepend("<div class=\"col-md-12\"><div class=\"col-md-2\">年级统计:</div><div class=\"col-md-3\">小学:"+grade_count.primary+"</div><div class=\"col-md-3\">初中:"+grade_count.junior+"</div><div class=\"col-md-3\">高中:"+grade_count.senior+"</div></div><br><br><br>");*/
-                    
+                    console.log(userid_list);
+                    var tb = html_node.find("#id_time_body_1").find("tr");
+                    console.log(tb);
+                                       
                     $.each(userid_list,function(i,item){
-                        var userid = item["userid"];
-                        var name = item["nick"];
-                        var subject = item["subject_str"];
-                        var grade = item["grade_str"];
-                        html_node.find("table").append("<tr><td>"+userid+"</td><td>"+name+"</td><td>"+grade+"</td><td>"+subject+"</td></tr>");
+                        console.log(i);
+                        console.log(item);
+                        tb.each(function() {
+                            var $this=$(this);
+                            var timeid=$this.data("timeid");
+                            $this.find("td").each(function(i,item){
+                                if (i!=0) {//过滤１
+                                    var $td=$(item);
+                                    if ($td.hasClass("select_free_time")) {
+                                        var tmp_date=$.DateFormat(start_time+(i-1)*86400,"yyyy-MM-dd" );
+                                        free_list.push ([
+                                            ""+tmp_date +" "+ timeid+ ":00",
+                                            ""+ timeid + ":59",
+                                        ]);
+                                    }
+                                }
+                            });
+                        });
+
                     });
                 });
 
