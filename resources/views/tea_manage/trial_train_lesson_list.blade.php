@@ -129,6 +129,7 @@
                                 @if($var["stu_comment"])
                                     <a class="opt-get-stu-comment">课后评价</a> 
                                 @endif
+                                <a class="opt-show-stu-test-paper">查看试卷</a> 
 
                             </div>
                         </td>

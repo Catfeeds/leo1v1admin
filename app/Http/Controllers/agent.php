@@ -727,7 +727,7 @@ class agent extends Controller
 
         $ret_list=[];
         foreach ( $map as $p1 ) {
-            $ret_list[];
+            $ret_list[ ]= ["p1_name"] ;
             foreach ( $p1["list"] as $p2 ) {
             }
         }
