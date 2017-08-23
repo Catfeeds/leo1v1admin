@@ -704,6 +704,10 @@ class agent extends Controller
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
         $list=$this->t_agent->get_link_list_py_ppid($id );
+        $userid_list=[];
+        foreach ($list as $item) {
+            $userid_list[] = $item["p_userid"];
+        }
         $map=[];
         foreach ($list as $item) {
             $pid=$item["pid"];

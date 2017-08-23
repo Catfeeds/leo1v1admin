@@ -50,16 +50,19 @@ class send_wx_msg_for_test_lesson extends Command
 
     }
 
-    // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
 
 
     public function send_wx_msg(){
         /**
+         // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
+
            {{first.DATA}}
            上课时间：{{keyword1.DATA}}
            课程类型：{{keyword2.DATA}}
            教师姓名：{{keyword3.DATA}}
            {{remark.DATA}}
          **/
+
+        $data_tec[];
     }
 }
