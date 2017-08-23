@@ -498,5 +498,10 @@ $(function(){
         
     });
 
+    $(".opt-show-stu-test-paper").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        
+    });
+
 	$('.opt-change').set_input_change_event(load_data);
 });
