@@ -2619,7 +2619,7 @@ class user_deal extends Controller
                     $s =  E\Etea_label_type::get_desc($v); 
                     $list[$s] = $s;
                 }
-                dd($list);
+                //dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
                 $tags= explode(",",$teacher_tags);
                 $str ="";

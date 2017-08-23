@@ -48,7 +48,7 @@ class send_wx_msg_for_test_lesson extends Command
         $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_halfhour();
 
         foreach($test_lesson_list_halfhour as $item){
-
+            $this->send_wx_msg($item,1);
         }
 
 
@@ -56,7 +56,7 @@ class send_wx_msg_for_test_lesson extends Command
 
 
 
-    public function send_wx_msg($item){
+    public function send_wx_msg($item, $type){
         /**
          // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
 
