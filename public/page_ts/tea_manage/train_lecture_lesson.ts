@@ -782,5 +782,11 @@ $(function(){
         });
     });
 
+    $(".opt-resume_url").on("click",function(){
+        var url=$(this).get_opt_data("resume_url");
+        window.open(url, '_blank');
+    });
+
+
    	$('.opt-change').set_input_change_event(load_data);
 });

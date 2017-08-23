@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log ;
  * 图像操作类库
  */
 class Image
-{ 
+{
 
     /**
        +----------------------------------------------------------
@@ -34,7 +34,7 @@ class Image
             }
             $imageSize = filesize($img);
             $info = array(
-                "width" => $imageInfo[0], "height" => $imageInfo[1], "type" => $imageType, "size" => $imageSize, "mime" => $imageInfo['mime'] 
+                "width" => $imageInfo[0], "height" => $imageInfo[1], "type" => $imageType, "size" => $imageSize, "mime" => $imageInfo['mime']
             );
             return $info;
         }
@@ -136,17 +136,17 @@ class Image
                 $width = ( int ) ($srcWidth * $scale);
                 $height = ( int ) ($srcHeight * $scale);
             }
-            
+
             // 载入原图
             $createFun = 'ImageCreateFrom' . ($type == 'jpg' ? 'jpeg' : $type);
             $srcImg = $createFun($image);
-            
+
             //创建缩略图
             if ($type != 'gif' && function_exists('imagecreatetruecolor'))
                 $thumbImg = imagecreatetruecolor($width, $height);
             else
                 $thumbImg = imagecreate($width, $height);
-                
+
             // 复制图片
             if (function_exists("ImageCopyResampled"))
                 ImageCopyResampled($thumbImg, $srcImg, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
@@ -158,17 +158,17 @@ class Image
                 $background_color = imagecolorallocate($thumbImg, 0, 255, 0); //  指派一个绿色
                 imagecolortransparent($thumbImg, $background_color); //  设置为透明色，若注释掉该行则输出绿色的图
             }
-            
+
             // 对jpeg图形设置隔行扫描
             if ('jpg' == $type || 'jpeg' == $type)
                 imageinterlace($thumbImg, $interlace);
-                
+
             //$gray=ImageColorAllocate($thumbImg,255,0,0);
             //ImageString($thumbImg,2,5,5,"ThinkPHP",$gray);
             // 生成图片
             $imageFun = 'image' . ($type == 'jpg' ? 'jpeg' : $type);
             $filename = empty($filename) ? substr($image, 0, strrpos($image, '.')) . $suffix . '.' . $type : $filename;
-            
+
             $imageFun($thumbImg, $filename);
             ImageDestroy($thumbImg);
             ImageDestroy($srcImg);
@@ -204,8 +204,8 @@ class Image
             [ $verifyName => $value ]
         );
 
-        
-		//$_SESSION['test']  = $randval;
+
+        //$_SESSION['test']  = $randval;
         $width = ($length * 9 + 10) > $width ? $length * 9 + 10 : $width;
         if ($type != 'gif' && function_exists('imagecreatetruecolor')) {
             $im = @imagecreatetruecolor($width, $height);
@@ -214,20 +214,20 @@ class Image
             $im = @imagecreate($width, $height);
         }
         $r = Array(
-            225, 255, 255, 223 
+            225, 255, 255, 223
         );
         $g = Array(
-            225, 236, 237, 255 
+            225, 236, 237, 255
         );
         $b = Array(
-            225, 236, 166, 125 
+            225, 236, 166, 125
         );
         $key = mt_rand(0, 3);
-        
+
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]); //背景色（随机）
         $borderColor = imagecolorallocate($im, 100, 100, 100); //边框色
         $pointColor = imagecolorallocate($im, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)); //点颜色
-        
+
         @imagefilledrectangle($im, 0, 0, $width - 1, $height - 1, $backColor);
         @imagerectangle($im, 0, 0, $width - 1, $height - 1, $borderColor);
         $stringColor = imagecolorallocate($im, mt_rand(0, 200), mt_rand(0, 120), mt_rand(0, 120));
@@ -240,10 +240,10 @@ class Image
             $fontcolor = imagecolorallocate($im, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
             imagesetpixel($im, mt_rand(0, $width), mt_rand(0, $height), $pointColor);
         }
-        
-        @imagestring($im, 5, 5, 3, $randval, $stringColor);
-        //@imagettftext($im, 24, 0, 12, $height*0.75, $fontcolor, app_path("../fonts/") . "/VINERITC.TTF", $randval);
-        
+
+        //@imagestring($im, 12, 5, 3, $randval, $stringColor);
+        @imagettftext($im, 24, 0, 12, $height*0.75, $fontcolor, app_path("../fonts/") . "/VINERITC.TTF", $randval);
+
         Image::output($im, $type);
     }
     static function buildImageVerify2($length = 4, $mode = 1, $case=false, $type = 'png', $width = 48, $height = 22, $verifyName = 'verify' )
@@ -255,7 +255,7 @@ class Image
             [ $verifyName => $value ]
         );
 
-        
+
         $_SESSION['test']  = $randval;
         $width = ($length * 9 + 10) > $width ? $length * 9 + 10 : $width;
         if ($type != 'gif' && function_exists('imagecreatetruecolor')) {
@@ -265,20 +265,20 @@ class Image
             $im = @imagecreate($width, $height);
         }
         $r = Array(
-            225, 255, 255, 223 
+            225, 255, 255, 223
         );
         $g = Array(
-            225, 236, 237, 255 
+            225, 236, 237, 255
         );
         $b = Array(
-            225, 236, 166, 125 
+            225, 236, 166, 125
         );
         $key = mt_rand(0, 3);
-        
+
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]); //背景色（随机）
         $borderColor = imagecolorallocate($im, 100, 100, 100); //边框色
         $pointColor = imagecolorallocate($im, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255)); //点颜色
-        
+
         @imagefilledrectangle($im, 0, 0, $width - 1, $height - 1, $backColor);
         @imagerectangle($im, 0, 0, $width - 1, $height - 1, $borderColor);
         $stringColor = imagecolorallocate($im, mt_rand(0, 200), mt_rand(0, 120), mt_rand(0, 120));
@@ -291,10 +291,10 @@ class Image
             $fontcolor = imagecolorallocate($im, mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
             imagesetpixel($im, mt_rand(0, $width), mt_rand(0, $height), $pointColor);
         }
-        
+
         @imagestring($im, 5, 20, 3, $randval, $stringColor);
         //@imagettftext($im, 24, 0, 12, $height*0.75, $fontcolor, app_path("../fonts/") . "/VINERITC.TTF", $randval);
-        
+
         Image::output($im, $type);
     }
 
@@ -399,13 +399,13 @@ class Image
         $_SESSION['verifyCode'] = $verifyCode;
         $im = imagecreate($width, $height);
         $r = array(
-            225, 255, 255, 223 
+            225, 255, 255, 223
         );
         $g = array(
-            225, 236, 237, 255 
+            225, 236, 237, 255
         );
         $b = array(
-            225, 236, 166, 125 
+            225, 236, 166, 125
         );
         $key = mt_rand(0, 3);
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]);
@@ -447,10 +447,10 @@ class Image
     static function UPCA($code, $type = 'png', $lw = 2, $hi = 100)
     {
         static $Lencode = array(
-            '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011' 
+            '0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'
         );
         static $Rencode = array(
-            '1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100' 
+            '1110010', '1100110', '1101100', '1000010', '1011100', '1001110', '1010000', '1000100', '1001000', '1110100'
         );
         $ends = '101';
         $center = '01010';
@@ -535,37 +535,37 @@ class Image
        * @throws ThinkExecption
        +----------------------------------------------------------
     */
-    
+
     static public function water($source, $water, $savename = null, $alpha = 80)
     {
         //检查文件是否存在
         if (! file_exists($source) || ! file_exists($water))
             return false;
-            
+
         //图片信息
         $sInfo = self::getImageInfo($source);
         $wInfo = self::getImageInfo($water);
-        
+
         //如果图片小于水印图片，不生成图片
         if ($sInfo["width"] < $wInfo["width"] || $sInfo['height'] < $wInfo['height'])
             return false;
-            
+
         //建立图像
         $sCreateFun = "imagecreatefrom" . $sInfo['type'];
         $sImage = $sCreateFun($source);
         $wCreateFun = "imagecreatefrom" . $wInfo['type'];
         $wImage = $wCreateFun($water);
-        
+
         //设定图像的混色模式
         imagealphablending($wImage, true);
-        
+
         //图像位置,默认为右下角右对齐
         $posY = $sInfo["height"] - $wInfo["height"];
         $posX = $sInfo["width"] - $wInfo["width"];
-        
+
         //生成混合图像
         imagecopymerge($sImage, $wImage, $posX, $posY, 0, 0, $wInfo['width'], $wInfo['height'], $alpha);
-        
+
         //输出图像
         $ImageFun = 'Image' . $sInfo['type'];
         //如果没有给出保存文件名，默认为原图像名
@@ -576,7 +576,7 @@ class Image
         //保存图像
         $ImageFun($sImage, $savename);
         imagedestroy($sImage);
-    
+
     }
 
     static function output($im, $type = 'png')
