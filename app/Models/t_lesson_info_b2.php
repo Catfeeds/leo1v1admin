@@ -110,7 +110,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $sql = $this->gen_sql_new(
-            "select  tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
+            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
             ." lesson_type,lesson_num, tlm.is_modify_time_flag"
             ." from %s l "
@@ -120,6 +120,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ." left join %s tsr  on  tsr.require_id = tss.require_id "
             ." left join %s tls  on  tls.test_lesson_subject_id= tsr.test_lesson_subject_id "
             ." left join %s tlm on tlm.lessonid=l.lessonid"
+            ." left join %s tsc on tsc.userid=l.userid"
             ." where %s  order by lesson_start desc "
             ,self::DB_TABLE_NAME
             ,t_parent_child::DB_TABLE_NAME
@@ -128,6 +129,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
             ,t_lesson_time_modify::DB_TABLE_NAME
+            ,t_student_score_info::DB_TABLE_NAME
             ,$where_arr
         );
 
@@ -3326,6 +3328,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_train_lesson_before($lessonid,$subject,$grade,$teacherid){
+        $sql = $this->gen_sql_new("select lessonid from %s"
+                                  ." where lessonid <>%u and userid =%u and subject=%u and grade=%u "
+                                  ." and lesson_status=0 and lesson_del_flag=0 and lesson_type=1100 and train_type=5",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $teacherid,
+                                  $subject,
+                                  $grade                                  
+        );
+        return $this->main_get_list($sql);
     }
 
 

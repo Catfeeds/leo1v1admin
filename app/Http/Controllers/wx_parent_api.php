@@ -506,6 +506,9 @@ class wx_parent_api extends Controller
         $parent_modify_remark = $this->get_in_str_val('parent_modify_remark');
         $lessonid = $this->get_in_int_val('lessonid');
 
+        $lesson_type = $this->get_in_int_val('lesson_type');
+
+
         $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
 
@@ -1213,9 +1216,15 @@ class wx_parent_api extends Controller
             }
         }else{ // 常规课
             if($paper_type == 1){ // 试卷
-
+                $paper_url = $this->t_lesson_info_b2->get_stu_test_paper($lessonid);
+                return $this->output_succ(['data'=>$paper_url]);
             }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_lesson_info_b2->get_stu_cw_url($lessonid);
 
+                if($paper_url){
+                    $paper_url = $qiniu_url.$paper_url;
+                }
+                return $this->output_succ(['data'=>$paper_url]);
             }
         }
 

@@ -2608,6 +2608,8 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $rr = $this->delete_train_lesson_before(1,4,200,289273);
+        dd($rr);
         $ret = $this->get_not_free_time_list(1,200);
         dd($ret);
         // $this->switch_tongji_database();

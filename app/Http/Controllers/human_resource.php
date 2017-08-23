@@ -1962,6 +1962,17 @@ class human_resource extends Controller
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
+
+            if(empty($item["grade_ex"])){
+                $item["grade_ex_str"]="未设置";
+            }else{
+                $not_grade_arr=explode(",",$item["grade_ex"]);
+                $item["grade_ex_str"]="";
+                foreach($not_grade_arr as $ty){
+                    $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
+                }
+                $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
+            }
         }
 
         $account_id = $this->get_account_id();

@@ -43,7 +43,19 @@ $(function(){
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
             //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}
-            alert( JSON.stringify(data.list[0] ) );
+            //,0未试听,1试听成功,2已购课
+            var status_conf={
+                0 :  "未试听",
+                1 :  "试听成功",
+                2 :  "已购课",
+            };
+
+            var str="" ;
+            $.each( data.list, function(){
+                str+="<tr><td>"+this.phone +" <td> "+this.name+" <td> "+ status_conf[this.status]  +" <td> "+this.count+" <td> "+this.time+" </tr>";
+            } );
+            $("#id_my_list").html(str);
+            //id_my_list
 
         },
         error:function(){

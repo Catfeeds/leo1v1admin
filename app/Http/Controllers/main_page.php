@@ -477,7 +477,7 @@ class main_page extends Controller
 
 		    $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
 		    $item["all_target_num"] = 250;
-		    if(in_array($item["uid"],[486,754])){
+		    if(in_array($item["uid"],[486,754,683,1011])){
                 $item["all_target_num"]=150;
 		    }elseif(in_array($item["uid"],[913,923,892])){
                 $item["all_target_num"]=400;

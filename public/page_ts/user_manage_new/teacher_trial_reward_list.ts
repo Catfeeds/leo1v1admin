@@ -42,6 +42,7 @@ $(function(){
         var id_money_info = $("<input/>");
         var id_money      = $("<input/>");
         var id_add_time   = $("<input/>");
+        var id_teacherid  = $("<input/>");
 
         Enum_map.append_option_list("reward_type",id_type,true);
         id_type.val(data.type);
@@ -81,6 +82,8 @@ $(function(){
 		            timepicker : true,
 		            format     : 'Y-m-d H:i',
 	          });
+            $.admin_select_user(id_teacherid,"teacher");
+            id_teacherid.val(data.teacherid);
         });
     });
 

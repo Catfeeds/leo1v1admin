@@ -608,6 +608,25 @@ class agent extends Controller
         dd($data);
         return $this->output_succ(["user_info_list" =>$data]);
     }
+    public function agent_user_link () {
+
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+        $this->t_agent->get_link_list_py_pid($id);
+        $this->t_agent->get_link_list_py_ppid($id);
+
+
+        return $this->pageView(__METHOD__,NULL);
+    }
 
     public function agent_user_wechat () {
         $phone=$this->get_in_phone();
