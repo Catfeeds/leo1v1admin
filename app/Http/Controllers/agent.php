@@ -698,10 +698,8 @@ class agent extends Controller
         }
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
-        $this->t_agent->get_link_list_py_pid($id);
-        $this->t_agent->get_link_list_py_ppid($id);
-
-
+        $list=$this->t_agent->get_link_list_py_ppid($id );
+        dd($list);
         return $this->pageView(__METHOD__,NULL);
     }
 

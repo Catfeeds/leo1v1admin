@@ -506,8 +506,6 @@ class wx_parent_api extends Controller
         $parent_modify_remark = $this->get_in_str_val('parent_modify_remark');
         $lessonid = $this->get_in_int_val('lessonid');
 
-        $lesson_type = $this->get_in_int_val('lesson_type'); // 课程类型
-
         $lesson_start_time = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $stu_nick          = $this->t_student_info->get_stu_nick_by_lessonid($lessonid);
 

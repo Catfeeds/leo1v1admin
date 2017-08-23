@@ -744,4 +744,20 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+
+    //获取试听课学生试卷
+    public function get_stu_test_paper(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        $test_lesson_subject_id =$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id); 
+        $stu_test_paper  = $this->t_test_lesson_subject->get_stu_test_paper($test_lesson_subject_id);
+        if(empty($stu_test_paper)){
+             return $this->output_err("没有试卷");
+        }
+        $domain = config('admin')['qiniu']['public']['url'];
+        dd($domain);
+
+    }
+
 }

@@ -706,18 +706,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ];
 
         $sql = $this->gen_sql_new(
-            " select a1.id as pid,  a.* ".
-            " from %s a ".
-            " left join %s a1 on a1.id=a.parentid".
-            " left join %s a2 on a2.id=a1.parentid".
+            " select"
+            . " a1.id as pid,  a1.nickname p_nick, a1.phone p_phone, "
+            . " a1.agent_level p_agent_level , a1.test_lessonid p_test_lessonid,  "
+            . " a.id as id,  a.nickname nick, a.phone phone, "
+            . " a.agent_level agent_level , a.test_lessonid test_lessonid  "
+            ." from %s a2 ".
+            " left join %s a1 on a2.id=a1.parentid".
+            " left join %s a on a1.id=a.parentid".
             " where %s ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_row($sql);
-
+        return $this->main_get_list($sql);
     }
 
 }

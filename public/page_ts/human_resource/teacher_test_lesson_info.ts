@@ -698,6 +698,7 @@ $(function(){
                         +"<a class=\"url_video\"  data-nick=\""+nick+"\" data-lessonid=\""+lessonid+"\">点击回放</a><br><br><br>"
                         +"<a class=\"url_class\" data-subject=\""+item["subject"]+"\" data-time=\""+item["lesson_start"]+"\" data-grade=\""+item["grade"]+"\" data-url=\"http://admin.yb1v1.com/player/playback.html?draw="+encodeURIComponent(item["draw_url"])+"&audio="+encodeURIComponent(item["audio_url"])+"&start="+item["real_begin_time"]+"\">推荐视频</a><br><br><br>"
                         +"<a href=\"javascript:;\" class=\"add_record\" data-lessonid=\""+lessonid+"\" data-teacherid=\""+teacherid+"\">反馈</a>"
+                        +"<a class=\"stu_test_paper\"  data-nick=\""+nick+"\" data-lessonid=\""+lessonid+"\">试卷下载</a><br><br><br>"
                         +"</td>"
                         +"<td>"+rev+"</td>"
                         +"<td>"+item["have_order"]+"</td>"
@@ -705,7 +706,8 @@ $(function(){
                         +"</tr>";
                     html_node.find("table").append(html);
                 });
-                html_node.find("table").find(".url_video").each(function(){
+
+                html_node.find("table").find(".stu_test_paper").each(function(){
                     $(this).on("click",function(){
                         var nick = $(this).data("nick");
 
@@ -719,7 +721,7 @@ $(function(){
                                 var audio_url = result.audio_url;
                                 var draw_url = result.draw_url;
                                 var real_begin_time = result.real_begin_time;
-                                                               
+                                
                                 //alert(audio_url);
                                 var w = $.check_in_phone()?329 : 558;
                                 var h = w/4*3;
@@ -740,6 +742,23 @@ $(function(){
 
                             }
                         });
+
+                        
+                    });
+                    
+                });
+
+                html_node.find("table").find(".url_video").each(function(){
+                    $(this).on("click",function(){
+                        var nick = $(this).data("nick");
+
+                        var lessonid = $(this).data("lessonid");
+                        $.do_ajax( '/ajax_deal2/get_stu_test_paper', {
+                            "lessonid" :lessonid
+                        },function(resp){
+                            
+                        });
+                  
 
                                               
                     });

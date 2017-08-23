@@ -51,6 +51,7 @@ $(function(){
         id_add_time.val(data.add_time_str);
 
         var arr = [
+            ["奖励老师",id_teacherid],
             ["奖励类型",id_type],
             ["奖励备注",id_money_info],
             ["奖励金额",id_money],
@@ -82,8 +83,8 @@ $(function(){
 		            timepicker : true,
 		            format     : 'Y-m-d H:i',
 	          });
-            $.admin_select_user(id_teacherid,"teacher");
             id_teacherid.val(data.teacherid);
+            $.admin_select_user(id_teacherid,"teacher");
         });
     });
 
