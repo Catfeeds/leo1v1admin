@@ -359,9 +359,10 @@ class common_new extends Controller
                 }
             }
 
-            //全职老师推送蔡老师
+            //全职老师推送蔡老师,范老师
             if($full_time==1 && $accept_adminid>0){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"全职老师注册成功","全职老师注册成功",$name."老师已经成功注册报名,请尽快安排1对1面试课程","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师注册成功","全职老师注册成功",$name."老师已经成功注册报名,请尽快安排1对1面试课程","");
             }
 
 
@@ -1272,6 +1273,20 @@ class common_new extends Controller
 
         // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
         // dispatch($job);
+    }
+
+    public function get_teacher_money(){
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        return $this->output_succ(["money"=>$money]);
     }
 
 }

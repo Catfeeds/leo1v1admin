@@ -34,6 +34,7 @@ $(function(){
 
     $(".opt-edit").on("click",function(){
         var opt_data  = $(this).get_opt_data();
+        console.log(opt_data.stu_comment);
         var teacherid = opt_data.teacherid;
         var id_jysj = $("<select class=\"class_score\" />");
         var id_yybd = $("<select class=\"class_score\" />");
@@ -425,6 +426,82 @@ $(function(){
     $(".opt-test").on("click",function(){
         var data = '{"hash":"FowenjfaE1uV_1oBhiH54IrpCcm3","key":"cf730e61cd80dd3eb69c3a63891655631503039454512.jpg"}';
        	console.log(JSON.parse( data + "" )); 
+    });
+
+    $(".opt-get-stu-comment").on("click",function(){
+        var lessonid        = $(this).get_opt_data("lessonid");
+        console.log(lessonid);
+        
+        $.do_ajax('/user_deal/get_train_lesson_comment',{
+            "lessonid":lessonid
+        },function(resp) {
+            var title = "课后评价详情";
+            var list = resp.data;
+            console.log(list);
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>类别</td><td>详情</td><tr></table></div>");                          
+            var html_score=
+                "<tr>"
+                +"<td>试听情况</td>"
+                +"<td>"+list.stu_lesson_content+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>学习态度</td>"
+                +"<td>"+list.stu_lesson_status+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>学习基础情况</td>"
+                +"<td>"+list.stu_study_status+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>学生优点</td>"
+                +"<td>"+list.stu_advantages+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>学生有待提高</td>"
+                +"<td>"+list.stu_disadvantages+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>培训计划</td>"
+                +"<td>"+list.stu_lesson_plan+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学方向</td>"
+                +"<td>"+list.stu_teaching_direction+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>意见、建议等</td>"
+                +"<td><textarea>"+list.stu_advice+"</textarea></td>"
+                +"</tr>";
+
+
+
+            html_node.find("table").append(html_score);
+            var dlg=BootstrapDialog.show({
+                title    : title,
+                message  : html_node,
+                closable : true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+        
+    });
+
+    $(".opt-show-stu-test-paper").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var url = opt_data.paper_url;
+        window.open(url, '_blank');   
     });
 
 	$('.opt-change').set_input_change_event(load_data);

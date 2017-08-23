@@ -1842,15 +1842,12 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        $phone="13917746147";
-        $template_code = 85645014;
-        $sms_data = [
-            "name" => "name",
-            "time" => date("Y-m-d",strtotime("+3 day",time())),
-        ];
-        \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?teacherid=50728&type=admin";
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        $money = $ret["data"][0]["lesson_price"];
+        return $this->output_succ(["money"=>$money]);
     }
-
 
 
 }

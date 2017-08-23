@@ -57,7 +57,7 @@ class send_teacher_train_interview_before extends Command
             $lesson_time = date("Y-m-d",$val["lesson_start"]);
             $start_str = date("H:i",$val["lesson_start"]);
             $end_str = date("H:i",$val["lesson_end"]);
-            $lesson_time_str = $lesson_time." ".$start_str."-".$end_str; 
+            $lesson_time_str = $lesson_time." ".$start_str."-".$end_str;
 
 
             //微信通知面试老师
@@ -87,8 +87,8 @@ class send_teacher_train_interview_before extends Command
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
                 // \App\Helper\Utils::send_teacher_msg_for_wx("oJ_4fxLZ3twmoTAadSSXDGsKFNk8",$template_id,$data,$url);
 
-               
- 
+
+
             }
             //微信通知教研老师
             $name = $task->t_manager_info->get_account($val["uid"]);
@@ -97,18 +97,18 @@ class send_teacher_train_interview_before extends Command
 面试老师:".$val["train_realname"]."
 年级科目:".$grade_str."".$subject_str."
 请准备好耳机和话筒,并在面试开始前5分钟进入软件","http://admin.yb1v1.com/tea_manage/train_lecture_lesson?lessonid=".$lessonid);
-           
-            
+
+
             $task->t_lesson_info->field_update_list($lessonid,[
-                "train_lesson_wx_before"  =>1 
+                "train_lesson_wx_before"  =>1
             ]);
 
 
-                      
+
 
         }
-             
-               
+
+
 
     }
 }

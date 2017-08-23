@@ -195,6 +195,7 @@
                     <td>邮箱</td>
                     <td>绑定微信</td>
                     <td>科目</td>
+                    <td>年级</td>
                     <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
@@ -236,6 +237,7 @@
                         </td>
                         <td>{{@$var["have_wx_flag"]}}</td>
                         <td>{{@$var["subject_ex_str"]}} </td>
+                        <td>{{@$var["grade_ex_str"]}} </td>
                         <td>{{@$var["trans_subject_ex_str"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>

@@ -2682,6 +2682,18 @@ trait  TeaPower {
     }
 
 
+    public function delete_train_lesson_before($lessonid,$subject,$grade,$teacherid){
+        $list = $this->t_lesson_info_b2->get_train_lesson_before($lessonid,$subject,$grade,$teacherid);
+        if(!empty($list)){
+            foreach($list as $val){
+                $this->t_lesson_info->field_update_list($val["lessonid"],[
+                   "lesson_del_flag"  =>1 
+                ]);
+            }
+        }       
+    }
+
+
 
 
 

@@ -17,7 +17,7 @@ class teacher_simulate extends Controller
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
+        list($start_time,$end_time) = $this->get_in_date_range("2017-7-1",0,0,null,3);
 
         $teacher_id         = $this->get_in_int_val("teacher_id",-1);
         $teacher_money_type = $this->get_in_int_val("teacher_money_type",0);
@@ -34,6 +34,7 @@ class teacher_simulate extends Controller
         $all_lesson_price          = 0;
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
+        $already_lesson_count_list = [];
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
@@ -54,7 +55,13 @@ class teacher_simulate extends Controller
 
             $month_key  = date("Y-m",$val['lesson_start']);
             $key = "already_lesson_count_".$month_key."_".$teacherid;
-            $already_lesson_count_simulate = Redis::get($key);
+            if(!isset($already_lesson_count_list[$key])){
+                $already_lesson_count_simulate = Redis::get($key);
+                $already_lesson_count_list[$key]=$already_lesson_count_simulate;
+            }else{
+                $already_lesson_count_simulate = $already_lesson_count_list[$key];
+            }
+
             if($already_lesson_count_simulate === null){
                 $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
                 $last_start_time = strtotime("-1 month",$last_end_time);
@@ -125,10 +132,10 @@ class teacher_simulate extends Controller
             "acc"                        => $acc,
             "start_time"                 => $start_time,
         ];
+
         $this->check_month_redis_key($show_data);
         $final_money_list = json_decode(Redis::get($this->all_money_count_key),true);
         $show_data["final_money"] = $final_money_list;
-
         $list = \App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$list,$show_data);
     }

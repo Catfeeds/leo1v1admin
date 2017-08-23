@@ -110,7 +110,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $sql = $this->gen_sql_new(
-            "select  tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
+            "select  tsc.id as scoreid , tls.test_lesson_subject_id,tls.stu_lesson_pic,l.lessonid,lesson_start,lesson_end,l.teacherid,l.userid,l.subject,l.grade,"
             ." ass_comment_audit,tl.level as parent_report_level,lesson_status, tss.parent_confirm_time, "
             ." lesson_type,lesson_num, tlm.is_modify_time_flag"
             ." from %s l "
@@ -120,6 +120,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ." left join %s tsr  on  tsr.require_id = tss.require_id "
             ." left join %s tls  on  tls.test_lesson_subject_id= tsr.test_lesson_subject_id "
             ." left join %s tlm on tlm.lessonid=l.lessonid"
+            ." left join %s tsc on tsc.userid=l.userid"
             ." where %s  order by lesson_start desc "
             ,self::DB_TABLE_NAME
             ,t_parent_child::DB_TABLE_NAME
@@ -128,6 +129,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,t_test_lesson_subject::DB_TABLE_NAME
             ,t_lesson_time_modify::DB_TABLE_NAME
+            ,t_student_score_info::DB_TABLE_NAME
             ,$where_arr
         );
 
@@ -1161,26 +1163,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $teacherid, $start_time,
                                   $end_time, $lesson_type_list_str,time(NULL));
 
-        return $this->main_get_list_by_page($sql,$page_num,10);
+        return $this->main_get_list_by_page($sql,$page_num,100);
 
     }
 
-    /**
-
-       "from t_lesson_info l, t_student_info s " +
-       "where l.userid = s.userid and l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) " +
-       "order by l.lesson_start desc",
 
 
-     **/
-
-
-
-    // public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
-    //     $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
+    // public function get_comment_list_by_page_tmp ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
+    //     $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time from (select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
     //                               "from %s l left join %s s on l.userid = s.userid ".
-    //                               "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and l.lesson_type=2 and l.confirm_flag<2 and l.lesson_start< %d and l.stu_attend<>0 ".
-    //                               "order by l.lesson_start desc",
+    //                               "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
+    //                               "order by l.lesson_start desc)",
     //                               self::DB_TABLE_NAME,
     //                               t_student_info::DB_TABLE_NAME,
     //                               $teacherid, $start_time,
@@ -1189,6 +1182,31 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     //     return $this->main_get_list_by_page($sql,$page_num,10);
 
     // }
+
+
+
+
+
+
+    /**
+       public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
+       $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
+       "from %s l left join %s s on l.userid = s.userid ".
+       "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
+       "order by l.lesson_start desc",
+       self::DB_TABLE_NAME,
+       t_student_info::DB_TABLE_NAME,
+       $teacherid, $start_time,
+       $end_time, $lesson_type_list_str,time(NULL));
+
+       return $this->main_get_list_by_page($sql,$page_num,10);
+
+       }
+     **/
+
+
+
+
 
 
 
@@ -3311,6 +3329,48 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+
+    public function get_train_lesson_before($lessonid,$subject,$grade,$teacherid){
+        $sql = $this->gen_sql_new("select lessonid from %s"
+                                  ." where lessonid <>%u and userid =%u and subject=%u and grade=%u "
+                                  ." and lesson_status=0 and lesson_del_flag=0 and lesson_type=1100 and train_type=5",
+                                  self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $teacherid,
+                                  $subject,
+                                  $grade
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_test_lesson_info_halfhour(){  // 试听课开课前半个小时 通知
+        $lesson_begin = time()+30*60;
+        $lesson_end   = time()+31*60;
+
+        $where_arr = [
+            "l.lesson_type=2", //试听课
+            ["l.lesson_start>%d",$lesson_begin],
+            ["l.lesson_start<=%d",$lesson_end]
+        ];
+
+        $sql = $this->gen_sql_new(" select l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
     }
 
 
