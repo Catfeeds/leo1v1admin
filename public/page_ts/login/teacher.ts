@@ -23,7 +23,7 @@ $(function(){
 
         password = $.md5(password);
         $.ajax({
-            'url':'/login/login',
+            'url':'/login/login_teacher',
             'type': 'POST',
             'data': {'account':account,'password':password,'seccode':seccode},
             'dataType': 'jsonp',
@@ -33,13 +33,12 @@ $(function(){
                     if (to_url  ){
                         window.location.href= to_url;
                     }else{
-                        window.location.reload();
+                        window.location.href=  "/teacher_info";
                     }
                 } else {
                     $('#id_errmsg').html( "错误:"+ data["ret"] +":"+ data["info"] );
                     $('#verify_image').attr('src', '/login/get_verify_code?r='+Math.random());
                 }
-        console.log(data);
             }
 
         });
@@ -58,6 +57,11 @@ $(function(){
     $('#verify_image').on('click', function(){
         $(this).attr('src', '/login/get_verify_code?r='+Math.random());
     });
+
+    $("#id_user_login").on("click",function(){
+        login_fun();
+        return false;
+    } );
 
 });
 
