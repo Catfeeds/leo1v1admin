@@ -1194,13 +1194,18 @@ class agent extends Controller
             $userid = $item['userid'];
             $wx_openid = $item['wx_openid'];
             $student_info = $this->t_student_info->field_get_list($userid,"*");
-            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
+            $orderid = 0;
+            if($userid){
+                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
+                if($order_info['orderid']){
+                    $orderid = $order_info['orderid'];
+                }
+            }
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
             $is_test_user = $student_info['is_test_user'];
-            $order_id     = $order_info['orderid'];
             $level        = 0;
-            if($userid && $type_new == 0 && $is_test_user == 0 && $student_info && $order_id){//在读非测试
+            if($userid && $type_new == 0 && $is_test_user == 0 && $student_info && $orderid){//在读非测试
                 $level     = 2;
             }elseif($wx_openid){//绑定
                 $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
