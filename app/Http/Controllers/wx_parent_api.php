@@ -1157,11 +1157,6 @@ class wx_parent_api extends Controller
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
-        /**
-           [和产品待确认]
-           1: 试听课目前可以上传试卷
-           2: 常规课目前可以上传作业
-         **/
 
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷
@@ -1190,61 +1185,6 @@ class wx_parent_api extends Controller
             return $this->output_err('图片上传失败,请稍后重试.....');
         }
     }
-
-
-    public function test(){
-        
-    }
-
-    public function img_to_pdf($filesnames){
-        ini_set("memory_limit",'-1');
-
-        header("Content-type:text/html;charset=utf-8");
-
-        $hostdir = public_path('/wximg');
-
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-
-        foreach ($filesnames as $name) {
-            if(strstr($name,'jpg')){//如果是图片则添加到pdf中
-                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
-                $pdf->AddPage();//添加一个页面
-                $filename = $hostdir.'\\'.$name;//拼接文件路径
-
-                //gd库操作  读取图片
-                $source = imagecreatefromjpeg($filename);
-                //gd库操作  旋转90度
-                $rotate = imagerotate($source, 90, 0);
-                //gd库操作  生成旋转后的文件放入别的目录中
-                imagejpeg($rotate,$hostdir.'\\123\\'.$name.'_1.jpg');
-                //tcpdf操作  添加图片到pdf中
-                $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
-
-            }
-        }
-        $pdf->Output('1.pdf', 'I'); //输出pdf文件
-
-    }
-
-
-
-
-
-
-
-
-
 
 
 }

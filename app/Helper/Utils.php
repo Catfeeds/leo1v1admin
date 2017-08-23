@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Input;
 use App\Enums as  E;
 use \App\Libs;
 
+require_once app_path('/Libs/TCPDF/tcpdf.php');
+require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
+
 class Utils  {
 
     static function init_hour_list(&$list, $init_item=[]) {
@@ -1518,6 +1521,73 @@ class Utils  {
         $wx        = new \App\Helper\Wx();
         return $wx->get_wx_token($appid_tec,$appscript_tec);
     }
+
+
+
+    static public function img_to_pdf($filesnames){
+        ini_set("memory_limit",'-1');
+
+        header("Content-type:text/html;charset=utf-8");
+
+        $hostdir = public_path('wximg');
+
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
+        foreach ($filesnames as $name) {
+            if(strstr($name,'jpg') || (strstr($name,'png') )){//如果是图片则添加到pdf中
+                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+                $pdf->AddPage();//添加一个页面
+                $filename = $hostdir.'/'.$name;//拼接文件路径
+
+                //gd库操作  读取图片
+                if(strstr($name,'jpg')){
+                    $source = imagecreatefromjpeg($filename);
+                }elseif(strstr($name,'png')){
+                    $source = imagecreatefrompng($filename);
+                }
+                //gd库操作  旋转90度
+                $rotate = imagerotate($source, 0, 0);
+                //gd库操作  生成旋转后的文件放入别的目录中
+                $tmp_name = time().'_'.rand().'png';
+
+                if(strstr($name,'jpg')){
+                    imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
+                }elseif(strstr($name,'png')){
+                    imagepng($rotate,$hostdir."/$tmp_name.png");
+                }
+
+                //tcpdf操作  添加图片到pdf中
+                if(strstr($name,'jpg')){
+                    $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 210, 297, 'JPG', '', 'center', true, 1000);
+                }elseif(strstr($name,'png')){
+                    $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 210, 297, 'PNG', '', 'center', true, 1000);
+                }
+
+            }
+        }
+
+        $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
+
+        // $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
+        $pdf_url = $this->qiniu_upload($pdf_name_tmp);
+
+        return $pdf_url;
+
+
+    }
+
 
 
 };

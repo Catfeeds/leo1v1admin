@@ -4941,4 +4941,10 @@ class user_deal extends Controller
         return $this->output_succ(["data"=>$data]);
     }
 
+    public function get_teacher_no_free_list(){
+        $subject = $this->get_in_int_val("subject",1);
+        $grade = $this->get_in_int_val("grade",200);
+        $ret = $this->get_not_free_time_list($subject,$grade);
+        dd($ret);
+    }
 }

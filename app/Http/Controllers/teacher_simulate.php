@@ -154,7 +154,7 @@ class teacher_simulate extends Controller
                 $info['grade']=$info['grade'];break;
             }
             $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
-                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0
+                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0,0
             );
             $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
             $lesson_price_simulate=$info['lesson_count']*$per_price_simulate/100;
