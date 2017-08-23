@@ -2621,6 +2621,7 @@ class user_deal extends Controller
                 }
                 //dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                dd($teacher_tags);
                 $tags= explode(",",$teacher_tags);
                 $str ="";
                 if(empty($tags)){
@@ -2628,9 +2629,13 @@ class user_deal extends Controller
                         $str .= $k.",";
                     }
                 }else{
-                    foreach($tags as $tt){
-                        if(!isset($list[$tt])){
-                            $tags[] = $tt;
+                    $tags_list=[];
+                    foreach($tags as $v){
+                        $tags_list[$v]=$v;
+                    }
+                    foreach($list as $k){
+                        if(!isset($tags_list[$k])){
+                            $tags[] = $k;
                         }
                     }
                     $str = implode(",",$tags);

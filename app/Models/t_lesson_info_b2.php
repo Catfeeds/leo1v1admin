@@ -3343,9 +3343,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_test_lesson_info_halfhour(){  // 试听课开课前半个小时 通知
-        $lesson_begin = time()+30*60;
-        $lesson_end   = time()+31*60;
+    public function get_test_lesson_info_halfhour($lesson_begin, $lesson_end){  // 试听课开课前半个小时 通知
 
         $where_arr = [
             "l.lesson_type=2", //试听课

@@ -1842,11 +1842,11 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?teacherid=50728&type=admin";
-        $ret =\App\Helper\Utils::send_curl_post($url);
-        $ret = json_decode($ret,true);
-        $money = $ret["data"][0]["lesson_price"];
-        return $this->output_succ(["money"=>$money]);
+        $month_key = "2017-7";
+        $teacherid = 107415;
+        $key="already_lesson_count_".$month_key."_".$teacherid;
+        $a = Redis::get($key);
+        dd($key);
     }
 
 
