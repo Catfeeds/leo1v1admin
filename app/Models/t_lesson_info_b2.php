@@ -1393,6 +1393,24 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_lesson_count_by_userid_new($userid,$order_time){
+        $where_arr = [
+            ['lesson_del_flag=%d',0],
+            ['lesson_status=%d',2],
+            ['lesson_type = %d',0],
+            ['userid = %d',$userid],
+            'confirm_flag in (0,1)',
+            "lesson_start>$order_time",
+        ];
+        $sql = $this->gen_sql_new("select * "
+                                  ." from %s "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_all_ass_stu_lesson_info($start_time,$end_time){
         $where_arr=[
