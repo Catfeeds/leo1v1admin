@@ -254,6 +254,11 @@ class agent extends Controller
                 $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
             }
         }
+        $lessonid = 288233;
+        if($lessonid){
+            $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+            dd($ret);
+        }
         dd($lesson_call_end);
     }
 
