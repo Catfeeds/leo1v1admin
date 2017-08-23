@@ -1435,6 +1435,7 @@ class human_resource extends Controller
     }
 
     public function teacher_lecture_list(){
+        $this->switch_tongji_database();
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01",time(NULL)),0,1,[
             1 => array("add_time","添加时间"),
             2 => array("confirm_time", "审核时间"),

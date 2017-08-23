@@ -2698,7 +2698,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.orderid in $orderid_str",
             "o.contract_type not in (1,2)",
         ];
-        $sql = $this->gen_sql_new("select t.teacherid, t.nick, l.subject"
+        $sql = $this->gen_sql_new("select distinct o.orderid, t.teacherid, t.nick, l.subject"
                                   ." from %s o"
                                   ." left join %s ol on o.orderid=ol.orderid"
                                   ." left join %s l on l.lessonid=ol.lessonid"

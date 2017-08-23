@@ -3007,4 +3007,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_teacherid_by_role($role_str,$subject,$grade){
+        $where_arr = [
+            ["account_role in (%s)",$role_str,""],
+            ["check_subject=%u",$subject,0],
+            ["check_grade like '%%%s%%'",$grade,""],
+        ];
+
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s t"
+                                  ." left join %s m on t.phone=m.phone "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_manager_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
+
 }

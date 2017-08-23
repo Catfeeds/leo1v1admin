@@ -679,14 +679,23 @@ class tea_manage_new extends Controller
         $lesson_start     = $this->get_in_str_val("time");
         $subject          = $this->get_in_int_val("subject");
         $grade            = $this->get_in_int_val("grade");
-        $record_teacherid = $this->get_in_int_val("record_teacherid");
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
-        if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
+       
+        if(empty($subject) || empty($lesson_start)){
             return $this->output_err("请填写完整"); 
         }
 
         $lesson_start = strtotime($lesson_start);
+        $record_teacherid_list = $this->get_train_lesson_teacherid($subject,$grade,$lesson_start);
+        if(empty($record_teacherid_list)){
+            return $this->output_err("没有合适的老师！");
+        }else{
+            $record_teacherid  =  $record_teacherid_list[0];
+        }
+
+        \App\Helper\Utils::logger("hhahaha".$record_teacherid);
+       
         if($lesson_start <= time()){
             return $this->output_err("请填写正确的上课时间"); 
         }
