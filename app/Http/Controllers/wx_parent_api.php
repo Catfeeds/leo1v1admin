@@ -1113,6 +1113,7 @@ class wx_parent_api extends Controller
             'reason'      => $reason,
             'create_time' => time(),
             'userid'      => $userid,
+            'admin_type'  => 1, // 代表家长
             'create_adminid' => $parentid
         ]);
 
