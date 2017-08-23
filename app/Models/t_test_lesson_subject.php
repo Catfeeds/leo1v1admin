@@ -840,4 +840,18 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
     }
 
+    public function update_paper( $userid_list ,$adminid ){
+
+        $sql=$this->gen_sql_new(
+            "update %s set  stu_lesson_pic=%s  "
+            ."where %s and  require_admin_type=%u",
+            self::DB_TABLE_NAME,
+            $adminid,
+            $in_str,
+            E\Eaccount_role::V_2
+        );
+        return $this->main_update($sql);
+    }
+
+
 }

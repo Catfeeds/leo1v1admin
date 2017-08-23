@@ -14,23 +14,13 @@ class agent extends Controller
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $p_phone       = $this->get_in_str_val('p_phone');
-        $grade         = $this->get_in_grade(-1);
-        $parentid      = $this->get_in_parentid(-1);
-        $wx_openid     = $this->get_in_wx_openid();
-        $bankcard      = $this->get_in_str_val('bankcard');
-        $idcard        = $this->get_in_str_val('idcard');
-        $bank_address  = $this->get_in_str_val('bank_address');
-        $bank_account  = $this->get_in_str_val('bank_account');
-        $bank_phone    = $this->get_in_str_val('bank_phone');
-        $bank_province = $this->get_in_str_val('bank_province');
-        $bank_city     = $this->get_in_str_val('bank_city');
-        $bank_type     = $this->get_in_str_val('bank_type');
-        $zfb_name      = $this->get_in_str_val('zfb_name');
-        $zfb_account   = $this->get_in_str_val('zfb_account');
         $type          = $this->get_in_int_val('agent_type');
-        $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone);
+        $test_lesson_flag= $this->get_in_e_boolean(-1, "test_lesson_flag" );
+        $agent_type= $this->get_in_el_agent_type();
+        $agent_level = $this->get_in_el_agent_level();
+
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
             $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;

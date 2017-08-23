@@ -16,7 +16,6 @@ $(function(){
     $('.opt-change').set_input_change_event(load_data);
    $.ajax({
         type : "get",
-        async:false,
         url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_info?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
@@ -32,6 +31,18 @@ $(function(){
             $("#id_f_num").text( user.num);
             $("#id_f_my_num").text( user.my_num);
             $("#id_f_count").text( user.count);
+        },
+        error:function(){
+            alert('fail');
+        }
+    });
+
+   $.ajax({
+        type : "get",
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_my_num?_agent_id="+g_args.id ,
+        dataType : "jsonp",//数据类型为jsonp
+        success : function(data){
+            console.log(data);
         },
         error:function(){
             alert('fail');

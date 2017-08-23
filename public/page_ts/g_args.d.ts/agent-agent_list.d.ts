@@ -7,19 +7,6 @@ interface GargsStatic {
 	userid:	number;
 	phone:	string;
 	p_phone:	string;
-	grade:	number;//App\Enums\Egrade
-	parentid:	number;
-	wx_openid:	string;
-	bankcard:	string;
-	idcard:	string;
-	bank_address:	string;
-	bank_account:	string;
-	bank_phone:	string;
-	bank_province:	string;
-	bank_city:	string;
-	bank_type:	string;
-	zfb_name:	string;
-	zfb_account:	string;
 	agent_type:	number;
 	page_num:	number;
 	page_count:	number;
@@ -85,24 +72,10 @@ $(function(){
 			userid:	$('#id_userid').val(),
 			phone:	$('#id_phone').val(),
 			p_phone:	$('#id_p_phone').val(),
-			grade:	$('#id_grade').val(),
-			parentid:	$('#id_parentid').val(),
-			wx_openid:	$('#id_wx_openid').val(),
-			bankcard:	$('#id_bankcard').val(),
-			idcard:	$('#id_idcard').val(),
-			bank_address:	$('#id_bank_address').val(),
-			bank_account:	$('#id_bank_account').val(),
-			bank_phone:	$('#id_bank_phone').val(),
-			bank_province:	$('#id_bank_province').val(),
-			bank_city:	$('#id_bank_city').val(),
-			bank_type:	$('#id_bank_type').val(),
-			zfb_name:	$('#id_zfb_name').val(),
-			zfb_account:	$('#id_zfb_account').val(),
 			agent_type:	$('#id_agent_type').val()
         });
     }
 
-	Enum_map.append_option_list("grade",$("#id_grade"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -117,19 +90,6 @@ $(function(){
 	$('#id_userid').val(g_args.userid);
 	$('#id_phone').val(g_args.phone);
 	$('#id_p_phone').val(g_args.p_phone);
-	$('#id_grade').val(g_args.grade);
-	$('#id_parentid').val(g_args.parentid);
-	$('#id_wx_openid').val(g_args.wx_openid);
-	$('#id_bankcard').val(g_args.bankcard);
-	$('#id_idcard').val(g_args.idcard);
-	$('#id_bank_address').val(g_args.bank_address);
-	$('#id_bank_account').val(g_args.bank_account);
-	$('#id_bank_phone').val(g_args.bank_phone);
-	$('#id_bank_province').val(g_args.bank_province);
-	$('#id_bank_city').val(g_args.bank_city);
-	$('#id_bank_type').val(g_args.bank_type);
-	$('#id_zfb_name').val(g_args.zfb_name);
-	$('#id_zfb_account').val(g_args.zfb_account);
 	$('#id_agent_type').val(g_args.agent_type);
 
 
@@ -159,98 +119,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">p_phone</span>
                 <input class="opt-change form-control" id="id_p_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">年级</span>
-                <select class="opt-change form-control" id="id_grade" >
-                </select>
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">parentid</span>
-                <input class="opt-change form-control" id="id_parentid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">wx_openid</span>
-                <input class="opt-change form-control" id="id_wx_openid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bankcard</span>
-                <input class="opt-change form-control" id="id_bankcard" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">idcard</span>
-                <input class="opt-change form-control" id="id_idcard" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_address</span>
-                <input class="opt-change form-control" id="id_bank_address" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_account</span>
-                <input class="opt-change form-control" id="id_bank_account" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_phone</span>
-                <input class="opt-change form-control" id="id_bank_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_province</span>
-                <input class="opt-change form-control" id="id_bank_province" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_city</span>
-                <input class="opt-change form-control" id="id_bank_city" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_type</span>
-                <input class="opt-change form-control" id="id_bank_type" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">zfb_name</span>
-                <input class="opt-change form-control" id="id_zfb_name" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">zfb_account</span>
-                <input class="opt-change form-control" id="id_zfb_account" />
             </div>
         </div>
 

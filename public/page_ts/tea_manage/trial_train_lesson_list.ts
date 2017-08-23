@@ -399,6 +399,8 @@ $(function(){
 
     $(".opt-out-link").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
+        var comment = $(this).get_opt_data("stu_comment");
+        console.log(comment);
         $.do_ajax( "/common/encode_text",{
             "text" : lessonid
         }, function(ret){
