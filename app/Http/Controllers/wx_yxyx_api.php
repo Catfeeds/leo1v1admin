@@ -99,7 +99,7 @@ class wx_yxyx_api extends Controller
             }
         }
         $cash_new = (int)(($cash-$have_cash/100)*100)/100;
-        // $cash_new = $cash_new>=0?$cash_new:0;
+        $cash_new = $cash_new>=0?$cash_new:0;
         $data = [
             'level'      => $level,
             'nick'       => $nick,
@@ -279,7 +279,7 @@ class wx_yxyx_api extends Controller
             }else{
                 $ret_list[$key]['parent_name'] = '';
             }
-            $ret_list[$key]['order_time'] = $item['create_time'];
+            $ret_list[$key]['order_time'] = $item['order_time'];
         }
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){
