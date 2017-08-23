@@ -1140,7 +1140,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_score_info(){ // 获取成绩详情
-        $id         = $this->get_in_int_val('id');
+        $id         = $this->get_in_int_val('scoreid');
         $score_info = $this->t_student_score_info->get_score_info($id);
         return $this->output_succ(['data'=>$score_info]);
     }

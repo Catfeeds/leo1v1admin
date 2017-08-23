@@ -817,21 +817,27 @@ $(function(){
                 },function(resp) {
                     var userid_list   = resp.data;
                     var next_day = g_args.next_day;
-                    alert(next_day);
-                    console.log(userid_list);
+                   // alert(next_day);
+                   // console.log(userid_list);
                     var tb = html_node.find("#id_time_body_1").find("tr");
-                    console.log(tb);
+                   // console.log(tb);
                                        
-                    $.each(userid_list,function(i,item){
-                        console.log(i);
-                        console.log(item);
+                    $.each(userid_list,function(u,it){
+                        //console.log(u);
+                        //console.log(it);
                         tb.each(function() {
                             var $this=$(this);
                             var timeid=$this.data("timeid");
                             $this.find("td").each(function(i,item){
                                 if (i!=0) {//过滤１
+                                    var tmp_date=$.DateFormat(next_day+(i-1)*86400,"yyyy-MM-dd" );
+
                                     var $td=$(item);
-                                    $td.addClass("select_free_time");
+                                    var tmt = tmp_date+" "+timeid;
+                                   // console.log(tmt);
+                                    if(tmt == it){
+                                        $td.addClass("select_free_time");
+                                    }
                                 }
                             });
                         });

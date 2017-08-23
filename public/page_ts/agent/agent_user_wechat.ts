@@ -4,7 +4,7 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-            phone: g_args.phone	,
+            phone: $("#id_phone").val(),
             id: g_args.id
         });
     }
