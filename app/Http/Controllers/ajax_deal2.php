@@ -752,12 +752,15 @@ class ajax_deal2 extends Controller
         $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
         $test_lesson_subject_id =$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id); 
         $stu_test_paper  = $this->t_test_lesson_subject->get_stu_test_paper($test_lesson_subject_id);
-        if(!empty($stu_test_paper)){
+        if(empty($stu_test_paper)){
              return $this->output_err("没有试卷");
         }
         
-        //$file_url = "f59b6c7e660afbd216fd6ca5613ffdf81489146606255.jpg";
+        \App\Helper\Utils::logger("url:$stu_test_paper");
+
+        // $stu_test_paper = "f59b6c7e660afbd216fd6ca5613ffdf81489146606255.jpg";
         $url = \App\Helper\Utils::gen_download_url($stu_test_paper);
+        \App\Helper\Utils::logger("url2:$url");
         // dd($url);
         return $this->output_succ(["data"=>$url]);
     }

@@ -706,8 +706,26 @@ class agent extends Controller
         $list=$this->t_agent->get_link_list_py_ppid($id );
         $map=[];
         foreach ($list as $item) {
+            $pid=$item["pid"];
+            $p_nick=$item["p_nick"];
+            $p_phone=$item["p_phone"];
+            $p_agent_level=$item["p_agent_level"];
+            $p_test_lessonid=$item["p_test_lessonid"];
+            $id=$item["id"];
+            $nick=$item["nick"];
+            $phone=$item["phone"];
+            $agent_level=$item["agent_level"];
+            $test_lessonid=$item["test_lessonid"];
+            if ( !isset($map[$pid]) ){
+                $item["list"]=[];
+                $map[$pid]=$item ;
+            }
+            if( $id ) {
+                $map[$pid]["list"][]= $item ;
+            }
         }
-        dd($list);
+
+        dd($map);
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
         //dd($list);
