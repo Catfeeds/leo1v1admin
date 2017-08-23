@@ -97,7 +97,7 @@ class wx_yxyx_api extends Controller
                 return $this->output_err("您暂无资格!");
             }
         }
-        $cash_new     = (int)(($cash-$have_cash/100)*100)/100;
+        $cash_new = (int)(($cash-$have_cash/100)*100)/100;
         $data = [
             'level'      => $level,
             'nick'       => $nick,
