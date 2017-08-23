@@ -74,12 +74,16 @@
 
                         <tr>
                             <td>
+                                微信昵称
+                            <td id="id_f_nickname"> </td>
+                        <tr>
+                            <td>
                                 微信头像url
                             </td>
 
                             <td > <img
                                 id="id_f_headimgurl"
-                                  src=""/>  </td>
+                                      src="" style="width:100px; "/>  </td>
                         </tr>
 
 
