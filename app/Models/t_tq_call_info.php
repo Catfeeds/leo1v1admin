@@ -315,7 +315,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     public function get_user_call_admin_count( $phone, $start_time ) {
         $where_arr=[
-            "phone"=> $phone,
+            "phone" => $phone,
             "start_time> $start_time",
             "m.account_role <>7 ", // cc E\Eaccount_role
         ];
