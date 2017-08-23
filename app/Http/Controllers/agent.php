@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail ;
 class agent extends Controller
 {
     public function agent_list() {
-        list($start_time,$end_time)=$this->get_in_date_range(0,0,0,null,1);
+        list($start_time,$end_time)=$this->get_in_date_range_week(0);
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $p_phone       = $this->get_in_str_val('p_phone');
@@ -618,7 +618,7 @@ class agent extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
-    public function user_list() {
+    public function agent_user_wechat () {
 
     }
 

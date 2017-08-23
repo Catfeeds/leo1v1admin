@@ -816,6 +816,8 @@ $(function(){
                     "grade"   : grade
                 },function(resp) {
                     var userid_list   = resp.data;
+                    var next_day = g_args.next_day;
+                    alert(next_day);
                     // console.log(userid_list);
                     var grade_count   = resp.grade;
                     var subject_count = resp.subject;

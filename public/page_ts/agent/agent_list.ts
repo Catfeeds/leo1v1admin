@@ -201,4 +201,10 @@ $(function(){
     });
 
     $('.opt-change').set_input_change_event(load_data);
+    
+    $(".opt-wechat-desc").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+	      
+    });
+
 });
