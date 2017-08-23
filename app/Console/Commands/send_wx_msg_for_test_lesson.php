@@ -41,8 +41,25 @@ class send_wx_msg_for_test_lesson extends Command
         $task = new \App\Console\Tasks\TaskController();
 
         // 获取试听课 课前30分钟
-        $test_lesson_list = $task->t_lesson_info_b2->get_test_lesson_info_halfhour();
+        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_halfhour();
+
+        foreach($test_lesson_list_halfhour as $item){
+
+        }
 
 
+    }
+
+    // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
+
+
+    public function send_wx_msg(){
+        /**
+           {{first.DATA}}
+           上课时间：{{keyword1.DATA}}
+           课程类型：{{keyword2.DATA}}
+           教师姓名：{{keyword3.DATA}}
+           {{remark.DATA}}
+         **/
     }
 }

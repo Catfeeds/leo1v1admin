@@ -716,6 +716,10 @@ class agent extends Controller
             $phone=$item["phone"];
             $agent_level=$item["agent_level"];
             $test_lessonid=$item["test_lessonid"];
+            E\Eagent_level::set_item_value_str($item);
+            E\Eagent_level::set_item_value_str($item,"p_agent_level");
+            E\Eagent_type::set_item_value_str($item);
+            E\Eagent_type::set_item_value_str($item,"p_agent_type");
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
                 $map[$pid]=$item ;
@@ -725,15 +729,16 @@ class agent extends Controller
             }
         }
 
+
         $ret_list=[];
         foreach ( $map as $p1 ) {
             $ret_list[ ]= [
-               "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"],
-               "p1_id"=> $p1["p_id"],
+                "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
+               "p1_id"=> $p1["pid"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
-                    "p2_name"=> $p2["nick"]."/".$p2["phone"],
+                    "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
                     "p2_id"=> $p2["id"],
                 ] ;
             }

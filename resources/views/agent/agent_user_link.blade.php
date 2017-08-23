@@ -18,15 +18,20 @@
             <thead>
                 <tr>
                     <td> 一级</td>
+                    <td> 一级 试听 </td>
+                    <td>  一级签单 </td>
                     <td> 二级 </td>
+                    <td> 二级 试听 </td>
+                    <td> 二级 签单</td>
+
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var["p_nick"]}}/{{@$var["p_phone"]}} </td>
-                        <td> {{@$var["nick"]}}/{{@$var["phone"]}} </td>
+                        <td>{{@$var["p1_name"]}}</td>
+                        <td> {{@$var["p2_name"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

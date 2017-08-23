@@ -2131,6 +2131,11 @@ class tea_manage extends Controller
                 $val["lesson_num"]="第二次课";
             }
             \App\Helper\Utils::unixtime2date_for_item($val, "add_time","_str");
+            if($from_lesson_info["stu_test_paper"]){
+                $val["paper_url"] = \App\Helper\Utils::gen_download_url($from_lesson_info["stu_test_paper"]);
+            }else{
+                $val["paper_url"] = "";
+            }
  
         }
 

@@ -500,7 +500,8 @@ $(function(){
 
     $(".opt-show-stu-test-paper").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        
+        var url = opt_data.paper_url;
+        window.open(url, '_blank');   
     });
 
 	$('.opt-change').set_input_change_event(load_data);

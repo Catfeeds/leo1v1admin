@@ -9,8 +9,8 @@ $(function(){
             start_time    :    $('#id_start_time').val(),
             end_time      :    $('#id_end_time').val(),
 
-			      test_lesson_flag:	$('#id_test_lesson_flag').val(),
-			      agent_level:	$('#id_agent_level').val(),
+            test_lesson_flag:	$('#id_test_lesson_flag').val(),
+            agent_level:	$('#id_agent_level').val(),
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
             p_phone:	$('#id_p_phone').val(),
@@ -18,7 +18,7 @@ $(function(){
         })
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
-	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+  Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -36,9 +36,9 @@ $(function(){
     $('#id_p_phone').val(g_args.p_phone);
     $('#id_phone').val(g_args.phone);
 
-	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
-	  $('#id_agent_level').val(g_args.agent_level);
-	  $.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
+  $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+    $('#id_agent_level').val(g_args.agent_level);
+    $.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 
     $("#id_p_phone").on("change",function(){
         load_data();
@@ -188,6 +188,13 @@ $(function(){
     $(".opt-wechat-desc").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.wopen("/agent/agent_user_wechat?id="+ opt_data.id  );
+    });
+
+
+    $(".opt-user-link").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_user_link?id="+ opt_data.id  );
+
     });
 
 });
