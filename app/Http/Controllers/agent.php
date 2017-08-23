@@ -247,7 +247,8 @@ class agent extends Controller
     }
 
     public function update_lesson_call_end_time_new(){
-        $adminid = 378;
+        // $adminid = 378;
+        $adminid = 904;
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
@@ -255,11 +256,11 @@ class agent extends Controller
             }
         }
         $lessonid = 288233;
-        if($lessonid){
-            $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
-            dd($ret);
-        }
-        dd($lesson_call_end);
+        // if($lessonid){
+        //     $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+        // }
+        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin=9753526,$phone=13776695190,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503231300);
+        // dd($lesson_call_end,$lesson_call_list);
     }
 
     /**
