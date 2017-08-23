@@ -886,7 +886,7 @@ $(function(){
 		                                        label    : "确认",
 		                                        cssClass : "btn-warning",
 		                                        action   : function(dialog) {
-                                                    $.do_ajax("/tea_managa_new/set_train_lesson_new",{
+                                                    $.do_ajax("/tea_manage_new/set_train_lesson_new",{
                                                         "subject":subject,
                                                         "grade"   :grade,
                                                         "id" :    opt_data.id,

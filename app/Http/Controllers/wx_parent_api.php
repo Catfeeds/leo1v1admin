@@ -1200,9 +1200,17 @@ class wx_parent_api extends Controller
         $paper_type  = $this->get_in_int_val('paper_type');
 
         if($lesson_type == 2){ // 试听课
+            if($paper_type == 1){ // 试卷
+                // $paper_url = $this->t_test_lesson_subject->get_
+            }elseif($paper_type == 2){ // 作业
 
+            }
         }else{ // 常规课
+            if($paper_type == 1){ // 试卷
 
+            }elseif($paper_type == 2){ // 作业
+
+            }
         }
 
     }
