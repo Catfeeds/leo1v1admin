@@ -99,6 +99,7 @@ class wx_yxyx_api extends Controller
             }
         }
         $cash_new = (int)(($cash-$have_cash/100)*100)/100;
+        // $cash_new = $cash_new>=0?$cash_new:0;
         $data = [
             'level'      => $level,
             'nick'       => $nick,
