@@ -2731,6 +2731,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
 
     public function get_agent_order_money_list($userid_list ) {
+        if (count($userid_list)==0) {
+            return [];
+        }
         $where_arr=[
             "o.order_time > a.create_time ",
             "o.contract_status in (1,2)",

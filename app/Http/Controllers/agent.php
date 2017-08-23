@@ -23,7 +23,7 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
         foreach($ret_info['list'] as $p_item){
-            $userid_arr =  $item["userid"];
+            $userid_arr[] =  $p_item["userid"];
         }
         $order_map=$this->t_order_info->get_agent_order_money_list($userid_arr);
 
@@ -35,7 +35,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
-            $item["price"]= @$order_map["price"]/100;
+            $item["price"]= @$order_map[$item["userid"] ]["price"]/100;
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -639,8 +639,11 @@ class agent extends Controller
             E\Eagent_level::set_item_value_str($item,"p_agent_level");
             E\Eagent_type::set_item_value_str($item);
             E\Eagent_type::set_item_value_str($item,"p_agent_type");
-            E\Eboolean::set_item_value_color_str($item,"p_test_lessonid" );
-            E\Eboolean::set_item_value_color_str($item,"test_lessonid" );
+
+            $item["test_lesson_flag"]= $item["test_lessonid"]>0?1:0;
+            $item["p_test_lesson_flag"]= $item["p_test_lessonid"]>0?1:0;
+            E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
+            E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
 
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
@@ -656,14 +659,14 @@ class agent extends Controller
             $ret_list[ ]= [
                 "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
                "p1_id"=> $p1["pid"],
-                "p1_test_lesson_flag_str"=> $p1["p_test_lessonid_str"],
+                "p1_test_lesson_flag_str"=> $p1["p_test_lesson_flag_str"],
                 "p1_price"=> $p1["p_price"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
                     "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
                     "p2_id"=> $p2["id"],
-                    "p2_test_lesson_flag_str"=> $p2["test_lessonid_str"],
+                    "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
                     "p2_price"=> $p2["price"],
                 ] ;
             }

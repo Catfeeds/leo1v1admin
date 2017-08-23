@@ -2611,8 +2611,32 @@ class user_deal extends Controller
         $ret = $this->t_teacher_label->get_teacher_all_label_info();
         foreach($ret as $val){
             $arr = json_decode($val["tea_label_type"],true);
+ 
+            // dd($arr);
             if(!empty($arr)){
+                $list=[];
+                foreach($arr as $v){
+                    $s =  E\Etea_label_type::get_desc($v); 
+                    $list[$s] = $s;
+                }
+                dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                $tags= explode(",",$teacher_tags);
+                $str ="";
+                if(empty($tags)){
+                    foreach($list as $k){
+                        $str .= $k.",";
+                    }
+                }else{
+                    foreach($tags as $tt){
+                        if(!isset($list[$tt])){
+                            $tags[] = $tt;
+                        }
+                    }
+                    $str = implode(",",$tags);
+                }
+                dd($str);
+                
             }
             
         }
