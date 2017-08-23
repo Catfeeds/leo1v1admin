@@ -142,22 +142,16 @@ class wx_yxyx_api extends Controller
             $p_ret = $this->t_agent->get_agent_order_by_phone($p_id);
             $id = array_column($ret,'id');
             $ret_new = $this->t_agent_order->get_order_by_id($id);
-            foreach($p_ret as $key=>$item){
+            foreach($p_ret as $key=>&$item){
                 $ret_list[$key]['phone'] = $item['phone'];
-                $ret_list[$key]['name'] = $item['phone'];
-                if($item['nickname']){
-                    $ret_list[$key]['name'] = $item['nickname'];
-                }
+                $ret_list[$key]['name'] = $item['nickname']?$item['nickname']:$item['phone'];
                 $ret_list[$key]['status'] = 0;
                 if($item['order_status']){//购课
                     $ret_list[$key]['status'] = 2;
-                }else{//试听成功
-                    if($item['userid']){
+                }else{
+                    if($item['userid']){//试听成功
                         $count_item = $this->t_lesson_info_b2->get_test_lesson_count_by_userid($item['userid'],$item['p_create_time']);
-                        $test_lessonid = $count_item['lessonid'];
-                        if($test_lessonid){
-                            $ret_list[$key]['status'] = 1;
-                        }
+                        $ret_list[$key]['status'] = $count_item['lessonid']?1:0;
                     }
                 }
                 foreach($p_count as $k=>$i){
@@ -165,11 +159,7 @@ class wx_yxyx_api extends Controller
                         $ret_list[$key]['count'] = $i;
                     }
                 }
-                if($item['p_create_time']){
-                    $ret_list[$key]['time'] = date('Y.m.d',$item['p_create_time']);
-                }else{
-                    $ret_list[$key]['time'] = '';
-                }
+                \App\Helper\Utils::unixtime2date_for_item($item,"p_create_time");
                 foreach($ret_new as $k=>$info){
                     if($info['pid'] == $item['p_id']){
                         $ret_list[$key]['list'][$k]['name'] = $info['nick'];
