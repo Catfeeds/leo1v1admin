@@ -17,14 +17,16 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>  </td>
+                    <td> p1 </td>
+                    <td> p2 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["p_nick"]}} </td>
+                        <td>{{@$var["nick"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

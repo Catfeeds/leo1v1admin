@@ -622,6 +622,7 @@ class agent extends Controller
         $list=$this->t_agent->get_link_list_py_ppid($id );
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        dd($list);
         return $this->pageView(__METHOD__, $ret_info);
 
     }
