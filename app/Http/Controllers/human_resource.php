@@ -2336,6 +2336,7 @@ class human_resource extends Controller
         $jsfg_good                        = $this->get_in_str_val("jsfg_good");
         $jsfg_bad                         = $this->get_in_str_val("jsfg_bad");
         $trial_train_status               = $this->get_in_int_val("trial_train_status");
+        $lessonid                         = $this->get_in_int_val("lessonid");
 
         $add_time = time();
         if($teacherid==0 || $type==0 || $record_info=="" || $record_score>100){
@@ -2367,6 +2368,7 @@ class human_resource extends Controller
             "acc"                              => $this->get_account(),
             "record_monitor_class"             => $record_monitor_class,
             "record_lesson_list"               => $record_lesson_list,
+            "lessonid"                         => $lessonid,
             "trial_train_status"               => $trial_train_status
         ]);
 
@@ -2386,7 +2388,9 @@ class human_resource extends Controller
 
         if($ret){
             $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
-            $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list);
+            // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list);
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+
 
             $openid = $this->t_teacher_info->get_wx_openid($teacherid);
             if($openid!=''){

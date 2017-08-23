@@ -12,6 +12,8 @@ declare var g_adminid: any;
 interface RowData {
 	p1_name	:any;
 	p1_id	:any;
+	p1_test_lesson_flag_str	:any;
+	p1_price	:any;
 }
 
 /*

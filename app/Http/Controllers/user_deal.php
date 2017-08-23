@@ -2608,6 +2608,15 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $ret = $this->t_teacher_label->get_teacher_all_label_info();
+        foreach($ret as $val){
+            $arr = json_decode($val["tea_label_type"],true);
+            if(!empty($arr)){
+                $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+            }
+            
+        }
+        dd($ret);
         $rr = $this->delete_train_lesson_before(1,4,200,289273);
         dd($rr);
         $ret = $this->get_not_free_time_list(1,200);

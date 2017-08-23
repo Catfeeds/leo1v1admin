@@ -52,7 +52,7 @@ class send_wx_msg_for_test_lesson extends Command
 
 
 
-    public function send_wx_msg(){
+    public function send_wx_msg($item){
         /**
          // gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk // 老师帮
 
@@ -61,8 +61,48 @@ class send_wx_msg_for_test_lesson extends Command
            课程类型：{{keyword2.DATA}}
            教师姓名：{{keyword3.DATA}}
            {{remark.DATA}}
+
+
+           rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+           {{first.DATA}}
+           待办主题：{{keyword1.DATA}}
+           待办内容：{{keyword2.DATA}}
+           日期：{{keyword3.DATA}}
+           {{remark.DATA}}
+
+        **/
+
+
+        /**
+         // 待办主题  9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU  // 家长
+           {{first.DATA}}
+           待办主题：{{keyword1.DATA}}
+           待办内容：{{keyword2.DATA}}
+           日期：{{keyword3.DATA}}
+           {{remark.DATA}}
+
+
+           //SqAHV3G2UM71LmLFRYeE0ub1-lDU0_JgrDNhdDd-FTA  // 课程开课通知
+
+
          **/
 
-        $data_tec[];
+
+
+
+        $template_id_teacher = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
+        $data_tea = [
+            "first" => '老师您好，您于30分钟后有一节xx课。',
+            "keyword1" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+            "keyword2" => '试听课',
+            "keyword3" => "'".$item['teacher_nick']."'",
+            "remark"   => "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作"
+        ];
+
+        $url_tea = '';
+
+        \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
+
+
     }
 }

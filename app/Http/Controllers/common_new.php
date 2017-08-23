@@ -1275,4 +1275,18 @@ class common_new extends Controller
         // dispatch($job);
     }
 
+    public function get_teacher_money(){
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        return $this->output_succ(["money"=>$money]);
+    }
+
 }

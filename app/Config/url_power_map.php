@@ -497,7 +497,6 @@ class url_power_map {
 			'/human_resource/teacher_test_lesson_info'	=>1320100,
 			'/tongji_ss/test_lesson_order_per_subject'	=>1322100,
 			'/human_resource/index_tea_qua'	=>1321400,
-			'/tongji_ss/teacher_first_test_lesson_week'	=>1321300,
 			'/human_resource/teacher_record_detail_list_new'	=>1322800,
 			'/human_resource/teacher_record_detail_list'	=>1321600,
 			'/tea_manage/lesson_list_research'	=>1320300,

@@ -31,7 +31,11 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["p1_name"]}}</td>
+                        <td> {!! @$var["p1_test_lesson_flag_str"] !!} </td>
+                        <td> {!! @$var["p1_price"] !!} </td>
                         <td> {{@$var["p2_name"]}} </td>
+                        <td> {!! @$var["p2_test_lesson_flag_str"] !!} </td>
+                        <td> {!! @$var["p2_price"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}

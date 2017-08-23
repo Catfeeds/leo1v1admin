@@ -602,27 +602,39 @@ class agent extends Controller
         }
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
+
         $list=$this->t_agent->get_link_list_py_ppid($id );
+
         $userid_list=[];
         foreach ($list as $item) {
             $userid_list[] = $item["p_userid"];
+            $userid_list[] = $item["userid"];
         }
+        $order_map= $this->t_order_info->get_agent_order_money_list($userid_list);
+
         $map=[];
         foreach ($list as $item) {
             $pid=$item["pid"];
             $p_nick=$item["p_nick"];
+            $p_userid=$item["p_userid"];
             $p_phone=$item["p_phone"];
             $p_agent_level=$item["p_agent_level"];
             $p_test_lessonid=$item["p_test_lessonid"];
             $id=$item["id"];
+            $userid=$item["userid"];
             $nick=$item["nick"];
             $phone=$item["phone"];
             $agent_level=$item["agent_level"];
             $test_lessonid=$item["test_lessonid"];
+            $item["p_price"] = @$order_map[$p_userid] ["price"]/100 ;
+            $item["price"] = @$order_map[$userid] ["price"]/100 ;
             E\Eagent_level::set_item_value_str($item);
             E\Eagent_level::set_item_value_str($item,"p_agent_level");
             E\Eagent_type::set_item_value_str($item);
             E\Eagent_type::set_item_value_str($item,"p_agent_type");
+            E\Eboolean::set_item_value_color_str($item,"p_test_lessonid" );
+            E\Eboolean::set_item_value_color_str($item,"test_lessonid" );
+
             if ( !isset($map[$pid]) ){
                 $item["list"]=[];
                 $map[$pid]=$item ;
@@ -632,17 +644,20 @@ class agent extends Controller
             }
         }
 
-
         $ret_list=[];
         foreach ( $map as $p1 ) {
             $ret_list[ ]= [
                 "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
                "p1_id"=> $p1["pid"],
+                "p1_test_lesson_flag_str"=> $p1["p_test_lessonid_str"],
+                "p1_price"=> $p1["p_price"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
                     "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
                     "p2_id"=> $p2["id"],
+                    "p2_test_lesson_flag_str"=> $p2["test_lessonid_str"],
+                    "p2_price"=> $p2["price"],
                 ] ;
             }
         }
