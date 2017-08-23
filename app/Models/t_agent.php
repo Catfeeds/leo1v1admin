@@ -699,14 +699,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list($sql);
     }
-    public  function get_link_list_py_ppid($pid) {
+    public  function get_link_list_py_ppid($ppid) {
 
         $where_arr = [
-            ['a2.id= %d',$pid ],
+            ['a2.id= %d',$ppid ],
         ];
 
         $sql = $this->gen_sql_new(
-            " select a.id,a.phone,a.parentid pid,a1.phone p_phone,a1.parentid ppid,a2.phone pp_phone".
+            " select a1.id as pid,  a.* ".
             " from %s a ".
             " left join %s a1 on a1.id=a.parentid".
             " left join %s a2 on a2.id=a1.parentid".
@@ -719,4 +719,5 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
 
     }
+
 }
