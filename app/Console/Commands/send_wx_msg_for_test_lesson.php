@@ -116,7 +116,9 @@ class send_wx_msg_for_test_lesson extends Command
             $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
             $remark_ass = "请及时跟进";
         }elseif($type == 2){
-            
+            $remark_tea = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+            $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
+            $remark_ass = "请及时跟进";
         }
 
         // 给老师发送

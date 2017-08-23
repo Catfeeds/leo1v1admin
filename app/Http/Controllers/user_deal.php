@@ -2638,6 +2638,7 @@ class user_deal extends Controller
                         }
                     }
                     $str = implode(",",$tags);
+                    dd($str);
                     $str .= $str.",";
                 }
                 if($val["teacherid"]==50728){
