@@ -355,7 +355,8 @@ class wx_yxyx_common extends Controller
     public function get_yxyx_all_new(){
         $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
         foreach ($ret_info as &$item) {
-            $item['new_content'] = mb_substr( str_replace(PHP_EOL, '', strip_tags($item['new_content'])),0,30);
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
         }
         if ($ret_info) {
             return $this->output_succ(["data"=>$ret_info]);

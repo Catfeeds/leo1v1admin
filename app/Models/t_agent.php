@@ -25,14 +25,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone)
     {
-        $where_arr = array();
+        $where_arr = [];
         $this->where_arr_add_str_field($where_arr,"a.phone",$phone);
         if($p_phone){
             $this->where_arr_add_str_field($where_arr,"aa.phone",$p_phone);
         }
         $this->where_arr_add_int_field($where_arr,"a.type",$type);
         $where_arr[] = sprintf("a.create_time > %d and a.create_time < %d", $start_time,$end_time);
-        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin, a.agent_level, l.lesson_start, l.lesson_user_online_status, "
+        $sql=$this->gen_sql_new (" select a.*,aa.nickname p_nickname,aa.phone p_phone,s.origin,a.agent_level,"
+                                 ."if(a.lessonid,l.lesson_start,l.lesson_start = 0), l.lesson_user_online_status, "
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
