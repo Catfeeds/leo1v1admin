@@ -17,6 +17,22 @@
                         <input type="text" class=" form-control click_on put_name opt-change"  data-field="phone" id="id_phone"  placeholder="手机号 回车查找" />
                     </div>
                 </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">等级</span>
+                <input class="opt-change form-control" id="id_agent_level" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">是否试听</span>
+                <select class="opt-change form-control" id="id_test_lesson_flag" >
+                </select>
+            </div>
+        </div>
+
                 <div class="col-xs-6 col-md-2" data-always_show="1">
                     <div class="input-group ">
                         <span class="input-group-addon">绑定类型</span>
@@ -62,8 +78,15 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
-                        <td>{{@$var["p_nickname"]}} </td>
-                        <td>{{@$var["pp_nickname"]}} </td>
+                        <td>
+                            {{@$var["p_nickname"]}} <br/>
+                            {{@$var["p_phone"]}}
+                        </td>
+
+                        <td>
+                            {{@$var["pp_nickname"]}} <br/>
+                            {{@$var["pp_phone"]}}
+                        </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["agent_level_str"]}} </td>
                         <td>{!! @$var["lesson_user_online_status_str"] !!} </td>

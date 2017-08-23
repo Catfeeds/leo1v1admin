@@ -126,6 +126,9 @@
                                         <a class="opt-test">测试</a>
                                     @endif
                                 @endif
+                                @if($var["stu_comment"])
+                                    <a class="opt-get-stu-comment">课后评价</a> 
+                                @endif
 
                             </div>
                         </td>

@@ -34,6 +34,7 @@ $(function(){
 
     $(".opt-edit").on("click",function(){
         var opt_data  = $(this).get_opt_data();
+        console.log(opt_data.stu_comment);
         var teacherid = opt_data.teacherid;
         var id_jysj = $("<select class=\"class_score\" />");
         var id_yybd = $("<select class=\"class_score\" />");
@@ -425,6 +426,104 @@ $(function(){
     $(".opt-test").on("click",function(){
         var data = '{"hash":"FowenjfaE1uV_1oBhiH54IrpCcm3","key":"cf730e61cd80dd3eb69c3a63891655631503039454512.jpg"}';
        	console.log(JSON.parse( data + "" )); 
+    });
+
+    $(".opt-get-stu-comment").on("click",function(){
+        var lessonid        = $(this).get_opt_data("lessonid");
+        console.log(lessonid);
+        
+        $.do_ajax('/user_deal/get_train_lesson_comment',{
+            "lessonid":lessonid
+        },function(resp) {
+            var title = "审核评分详情";
+            var list = resp.data;
+            console.log(list);
+            var html_node= $("<div  id=\"div_table\"><table   class=\"table table-bordered \"><tr><td>评分项</td><td>得分</td><tr></table></div>");                          
+            var html_score=
+                "<tr>"
+                +"<td>讲义设计情况评分</td>"
+                +"<td>"+list.tea_process_design_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>语言表达能力评分</td>"
+                +"<td>"+list.language_performance_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>专业知识技能评分</td>"
+                +"<td>"+list.knw_point_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>教学节奏把握评分</td>"
+                +"<td>"+list.tea_rhythm_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>互动情况评分</td>"
+                +"<td>"+list.tea_concentration_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>板书情况评分</td>"
+                +"<td>"+list.teacher_blackboard_writing_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>软件操作评分</td>"
+                +"<td>"+list.tea_operation_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>授课环境评分</td>"
+                +"<td>"+list.tea_environment_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>课后反馈评分</td>"
+                +"<td>"+list.answer_question_cre_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>流程规范情况评分</td>"
+                +"<td>"+list.class_abnormality_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>总分</td>"
+                +"<td>"+list.record_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>非教学相关得分</td>"
+                +"<td>"+list.no_tea_related_score+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>监课情况</td>"
+                +"<td>"+list.record_monitor_class+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>意见或建议</td>"
+                +"<td>"+list.record_info+"</td>"
+                +"</tr>"
+                +"<tr>"
+                +"<td>老师标签</td>"
+                +"<td>"+list.label+"</td>"
+                +"</tr>"
+
+
+
+            html_node.find("table").append(html_score);
+            var dlg=BootstrapDialog.show({
+                title    : title,
+                message  : html_node,
+                closable : true,
+                buttons:[{
+                    label: '返回',
+                    cssClass: 'btn',
+                    action: function(dialog) {
+                        dialog.close();
+
+                    }
+                }],
+                onshown:function(){
+                }
+
+            });
+
+            dlg.getModalDialog().css("width","1024px");
+        });
+        
     });
 
 	$('.opt-change').set_input_change_event(load_data);

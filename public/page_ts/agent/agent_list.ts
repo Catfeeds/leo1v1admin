@@ -10,25 +10,15 @@ $(function(){
             end_time      :    $('#id_end_time').val(),
 
 			      test_lesson_flag:	$('#id_test_lesson_flag').val(),
-			      agent_level:	$('#id_agent_level').val()
+			      agent_level:	$('#id_agent_level').val(),
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
             p_phone:	$('#id_p_phone').val(),
-            wx_openid:	$('#id_wx_openid').val(),
-            bankcard:	$('#id_bankcard').val(),
-            idcard:	$('#id_idcard').val(),
-            bank_address:	$('#id_bank_address').val(),
-            bank_account:	$('#id_bank_account').val(),
-            bank_phone:	$('#id_bank_phone').val(),
-            bank_province:	$('#id_bank_province').val(),
-            bank_city:	$('#id_bank_city').val(),
-            bank_type:	$('#id_bank_type').val(),
-            zfb_name:	$('#id_zfb_name').val(),
-            zfb_account:	$('#id_zfb_account').val(),
             agent_type:$('#id_agent_type').val()
         })
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
+	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -44,6 +34,10 @@ $(function(){
     $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
     $('#id_p_phone').val(g_args.p_phone);
+
+	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+	  $('#id_agent_level').val(g_args.agent_level);
+	  $.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 
     $("#id_p_phone").on("change",function(){
         load_data();

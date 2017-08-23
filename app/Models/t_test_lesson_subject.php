@@ -845,22 +845,46 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql = $this->gen_sql_new(" update %s ts,".
                                   "  %s tr, ".
                                   "  %s tss ".
-                                  " %s l ".
-                                  " set t.stu_lesson_pic='%s'".
+                                  " set ts.stu_lesson_pic='%s', ts.stu_test_paper=%s".
                                   " where tss.lessonid=%d "
-                                  . " and tr.test_lesson_subject_id = t.test_lesson_subject_id"
-                                  . " and tr.require_id = tss.require_id  ",
+                                  . " and tr.require_id = tss.require_id  "
+                                  . " and tr.test_lesson_subject_id = ts.test_lesson_subject_id",
                                   self::DB_TABLE_NAME,
                                   t_test_lesson_subject_require::DB_TABLE_NAME,
                                   t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                                  t_lesson_info::DB_TABLE_NAME,
-                                  $alibaba_url_str,
+                                  $stu_lesson_pic,
+                                  $stu_test_paper,
                                   $lessonid);
-
 
         return $this->main_update($sql);
 
     }
 
+
+    public function update_homework( $lessonid , $homework_pdf ){
+
+        $sql = $this->gen_sql_new(" update %s ts,".
+                                  "  %s tr, ".
+                                  "  %s tss ".
+                                  " set ts.homework_pdf='%s' ".
+                                  " where tss.lessonid=%d "
+                                  . " and tr.require_id = tss.require_id  "
+                                  . " and ts.test_lesson_subject_id = tr.test_lesson_subject_id",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $homework_pdf,
+                                  $lessonid);
+
+        return $this->main_update($sql);
+
+    }
+
+
+    public function get_stu_lesson_pic($lessonid){
+        $sql = $this->gen_sql_new(" select tr.stu_lesson_pic from %s ts ".
+                                  " left join %s tr.test_lesson_subject_id = ts.test_lesson_subject_id"
+        );
+    }
 
 }

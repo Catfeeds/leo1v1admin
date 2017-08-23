@@ -1168,9 +1168,7 @@ class wx_parent_api extends Controller
             if($paper_type == 1){ // 存放试卷
                 $ret = $this->t_test_lesson_subject->update_paper($lessonid,$ret_arr['alibaba_url_str'],$ret_arr['file_name_origi']);
             }elseif($paper_type == 2){ // 存放作业
-                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                    // "homework_pdf" => $homework_pdf_url
-                ]);
+                $ret = $this->t_test_lesson_subject->update_homework($lessonid,$homework_pdf_url);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 存放试卷
@@ -1200,7 +1198,7 @@ class wx_parent_api extends Controller
 
         if($lesson_type == 2){ // 试听课
             if($paper_type == 1){ // 试卷
-                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic();
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic($lessonid);
             }elseif($paper_type == 2){ // 作业
 
             }

@@ -37,7 +37,7 @@ $(function(){
     
     $('.opt-change').set_input_change_event(load_data);
     $(".opt-edit").on("click",function(){
-	    var data          = $(this).get_opt_data();
+	      var data          = $(this).get_opt_data();
         var id_type       = $("<select/>");
         var id_money_info = $("<input/>");
         var id_money      = $("<input/>");
@@ -47,21 +47,26 @@ $(function(){
         id_type.val(data.type);
         id_money_info.val(data.money_info);
         id_money.val(data.money);
+        id_add_time.val(data.add_time_str);
 
         var arr = [
             ["奖励类型",id_type],
             ["奖励备注",id_money_info],
             ["奖励金额",id_money],
+            ["添加时间",id_add_time],
         ];
+
         $.show_key_value_table("修改",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
                 $.do_ajax("/user_manage_new/update_teacher_money_list_info",{
-                    "id"         : data.id,
-                    "type"       : id_type.val(),
-                    "money_info" : id_money_info.val(),
-                    "money"      : id_money.val()*100,
+                    "id"           : data.id,
+                    "type"         : id_type.val(),
+                    "money_info"   : id_money_info.val(),
+                    "money"        : id_money.val()*100,
+                    "add_time"     : id_add_time.val(),
+                    "add_time_old" : data.add_time_str,
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
@@ -70,6 +75,12 @@ $(function(){
                     }
                 })
             }
+        },function(){
+	          id_add_time.datetimepicker({
+		            lang       : 'ch',
+		            timepicker : true,
+		            format     : 'Y-m-d H:i',
+	          });
         });
     });
 
@@ -136,11 +147,11 @@ $(function(){
                 })
             }
         },function(){
-	        id_add_time.datetimepicker({
-		        lang       : 'ch',
-		        timepicker : true,
-		        format     : 'Y-m-d H:i',
-	        });
+	          id_add_time.datetimepicker({
+		            lang       : 'ch',
+		            timepicker : true,
+		            format     : 'Y-m-d H:i',
+	          });
             $.admin_select_user(id_teacherid,"teacher");
         });
 
