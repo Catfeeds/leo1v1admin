@@ -1158,6 +1158,11 @@ class wx_parent_api extends Controller
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
 
 
+        //alibaba_url_str
+        $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+        $homework_pdf_url = \App\Helper\Utils::img_to_pdf($img_arr);
+
+
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷
                 $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
@@ -1165,7 +1170,6 @@ class wx_parent_api extends Controller
                     "stu_test_paper" => $ret_arr['file_name_origi']
                 ]);
             }elseif($paper_type == 2){ // 存放作业
-
             }
         }else{ // 常规课
             if($paper_type == 1){ // 存放试卷
@@ -1174,7 +1178,7 @@ class wx_parent_api extends Controller
                 ]);
             }elseif($paper_type == 2){ // 存放作业
                 $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                    "stu_cw_url" => $homework_pdf_url // 作业包
                 ]);
             }
         }
