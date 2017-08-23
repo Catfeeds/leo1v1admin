@@ -33,18 +33,13 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone);
         $userid_arr = [];
         foreach($ret_info['list'] as &$item){
-            if($item['type'] == 1){
-                if($item['userid']){
-                    $userid_arr[] = $item['userid'];
-                }
-            }
+            $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
             $item['agent_type'] = $item['type'];
             E\Eagent_type::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"] );
-
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -1186,33 +1181,34 @@ class agent extends Controller
             $id = $item['id'];
             $phone = $item['phone'];
             $create_time = $item['create_time'];
-            $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            $userid = $item['userid'];
+            // $userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $userid_new   = $student_info['userid'];
             $type_new     = $student_info['type'];
             $is_test_user = $student_info['is_test_user'];
-            // $level        = 0;
-            // if($userid != 0 && $type_new == 0 && $is_test_user == 0){//在读非测试
-            //     $level     = 2;
-            // }else{
-            //     $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            //     foreach($agent_list as $item){
-            //         if($phone == $item['phone']){
-            //             $agent_item = $item;
-            //         }
-            //     }
-            //     if($agent_item){
-            //         $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-            //         $count       = count(array_unique(array_column($test_lesson,'id')));
-            //         if(2<=$count){
-            //             $level = 2;
-            //         }else{
-            //             $level = 1;
-            //         }
-            //     }else{
-            //         $level = 0;
-            //     }
-            // }
+            $level        = 0;
+            if($userid && $type_new == 0 && $is_test_user == 0 && $student_info){//在读非测试
+                $level     = 2;
+            }else{
+                $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
+                foreach($agent_list as $item){
+                    if($phone == $item['phone']){
+                        $agent_item = $item;
+                    }
+                }
+                if($agent_item){
+                    $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                    $count       = count(array_unique(array_column($test_lesson,'id')));
+                    if(2<=$count){
+                        $level = 2;
+                    }else{
+                        $level = 1;
+                    }
+                }else{
+                    $level = 0;
+                }
+            }
             $lessonid_new = 0;
             if($userid && $is_test_user == 0){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
@@ -1222,7 +1218,7 @@ class agent extends Controller
                 }
             }
             $this->t_agent->field_update_list($id,[
-                // "agent_level" => $level,
+                "agent_level" => $level,
                 "test_lessonid" => $lessonid_new,
             ]);
         }
