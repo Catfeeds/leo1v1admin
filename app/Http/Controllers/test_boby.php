@@ -205,7 +205,8 @@ class test_boby extends Controller
 
         $s = '<table border=1><tr><td>orderid</td><td>teacherid</td><td>姓名/科目';
         $par =  '';
-        foreach ($ret_info as $item) {
+        foreach ($ret_info as &$item) {
+            E\Esubject::set_item_value_str($item);
             if ($par != $item['orderid']) {
                 $s = $s."</td></tr><tr><td>".$item['orderid']."</td><td>".$item['teacherid']."</td><td>"
                       .$item['nick']."-".$item['subject_str'];
