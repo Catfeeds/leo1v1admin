@@ -112,24 +112,60 @@ trait  TeaPower {
     }
 
     public function set_teacher_label($teacherid,$lessonid,$lesson_list,$tea_label_type,$label_origin){
-        $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
-        if($id>0){
-            $this->t_teacher_label->field_update_list($id,[
-                "add_time" =>time(),
-                "label_origin"=>$label_origin,
-                "tea_label_type"=>$tea_label_type
-            ]);
-        }else{
-            $this->t_teacher_label->row_insert([
-                "teacherid"=>$teacherid,
-                "add_time" =>time(),
-                "label_origin"=>$label_origin,
-                "lessonid"    =>$lessonid,
-                "lesson_list"=>$lesson_list,
-                "tea_label_type"=>$tea_label_type
-            ]);
+        $arr = json_decode($tea_label_type,true);
+        if(!empty($arr)){
+
+            $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+            if($id>0){
+                $this->t_teacher_label->field_update_list($id,[
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "tea_label_type"=>$tea_label_type
+                ]);
+            }else{
+                $this->t_teacher_label->row_insert([
+                    "teacherid"=>$teacherid,
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "lessonid"    =>$lessonid,
+                    "lesson_list"=>$lesson_list,
+                    "tea_label_type"=>$tea_label_type
+                ]);
  
+            }
+
+            $list=[];
+            foreach($arr as $v){
+                $s =  E\Etea_label_type::get_desc($v); 
+                $list[$s] = $s;
+            }
+            //dd($list);
+            $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
+            $teacher_tags = trim($teacher_tags,",");
+            $tags= explode(",",$teacher_tags);
+            $str ="";
+            if(empty($tags) || empty($teacher_tags)){
+                foreach($list as $k){
+                    $str .= $k.",";
+                }
+            }else{
+                $tags_list=[];
+                foreach($tags as $v){
+                    $tags_list[$v]=$v;
+                }
+                foreach($list as $k){
+                    if(!isset($tags_list[$k]) && !empty($k)){
+                        $tags[] = $k;
+                    }
+                }
+                $str = implode(",",$tags);
+                $str .= ",";
+            }
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_tags"  =>$str
+            ]);
         }
+
     }
 
     public function get_teacher_label_new($tea_arr){
@@ -2679,6 +2715,18 @@ trait  TeaPower {
         $teacherid_free_arr = array_values(array_filter(explode(",",$teacherid_free)));
         return $teacherid_free_arr;
        
+    }
+
+
+    public function delete_train_lesson_before($lessonid,$subject,$grade,$teacherid){
+        $list = $this->t_lesson_info_b2->get_train_lesson_before($lessonid,$subject,$grade,$teacherid);
+        if(!empty($list)){
+            foreach($list as $val){
+                $this->t_lesson_info->field_update_list($val["lessonid"],[
+                   "lesson_del_flag"  =>1 
+                ]);
+            }
+        }       
     }
 
 

@@ -1305,26 +1305,13 @@ class user_manage extends Controller
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        if(isset($student_info['userid'])){
-            return 2;
+        $agent = $this->t_agent->get_agent_info_row_by_phone($phone);
+        if($agent['agent_level']){
+            $level = $agent['agent_level'];
         }else{
-            $agent_item = [];
-            $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
-            if(count($agent_item)>0){
-                $test_lesson = [];
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    return 2;
-                }else{
-                    return 1;
-                }
-            }else{
-                return 0;
-            }
+            $level = 0;
         }
+        return $level;
     }
 
     private function add_praise_by_order($orderid,$userid,$contract_type,$lesson_total){

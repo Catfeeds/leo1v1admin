@@ -770,15 +770,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
     }
 
 
-    public function get_require_id($lessonid) {
-        $sql=$this->gen_sql_new("select require_id from %s  where  lessonid='%s' ",
-                                self::DB_TABLE_NAME,
-                                $lessonid
-        );
-
-        return $this->main_get_value($sql);
-    }
-
+    
     public function get_set_lesson_adminid_by_lessonid($lessonid){
         $where_arr = [
             ['lessonid=%d',$lessonid,0],

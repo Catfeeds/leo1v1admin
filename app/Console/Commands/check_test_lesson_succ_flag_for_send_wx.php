@@ -74,7 +74,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
         }
 
 
-        //试听课结束的第三天下午2点，如果没有设置“试听结果”，发送试听结果设置的消息
+        //试听课结束的第二天下午2点，如果没有设置“试听结果”，发送试听结果设置的消息
         $test_lesson_list_two_day_ago_list = $this->task->t_lesson_info_b2->get_test_lesson_success_list_two_days_ago();
 
         foreach( $test_lesson_list_two_day_ago_list  as &$item_two){
@@ -85,7 +85,7 @@ class check_test_lesson_succ_flag_for_send_wx extends Command
             }
         }
 
-        // 试听课结束的第四天下午2点，如果没有设置“课程确认”或者“试听结果”，继续发送
+        // 试听课结束的第三天下午2点，如果没有设置“课程确认”或者“试听结果”，继续发送
         $test_lesson_list_three_day_ago_list  = $this->task->t_lesson_info_b2->get_test_lesson_success_list_three_days_ago();
 
         foreach( $test_lesson_list_three_day_ago_list as &$item_three){

@@ -14,23 +14,13 @@ class agent extends Controller
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $p_phone       = $this->get_in_str_val('p_phone');
-        $grade         = $this->get_in_grade(-1);
-        $parentid      = $this->get_in_parentid(-1);
-        $wx_openid     = $this->get_in_wx_openid();
-        $bankcard      = $this->get_in_str_val('bankcard');
-        $idcard        = $this->get_in_str_val('idcard');
-        $bank_address  = $this->get_in_str_val('bank_address');
-        $bank_account  = $this->get_in_str_val('bank_account');
-        $bank_phone    = $this->get_in_str_val('bank_phone');
-        $bank_province = $this->get_in_str_val('bank_province');
-        $bank_city     = $this->get_in_str_val('bank_city');
-        $bank_type     = $this->get_in_str_val('bank_type');
-        $zfb_name      = $this->get_in_str_val('zfb_name');
-        $zfb_account   = $this->get_in_str_val('zfb_account');
         $type          = $this->get_in_int_val('agent_type');
-        $page_num      = $this->get_in_page_num();
         $page_info     = $this->get_in_page_info();
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone);
+        $test_lesson_flag= $this->get_in_e_boolean(-1, "test_lesson_flag" );
+        $agent_type= $this->get_in_el_agent_type();
+        $agent_level = $this->get_in_el_agent_level();
+
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
         foreach($ret_info['list'] as $p_item){
             $userid_arr =  $p_item["userid"];
@@ -46,7 +36,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
-            $item["price"]= @$order_map["price"]/100;
+            $item["price"]= @$order_map[$item["userid"] ]["price"]/100;
         }
 
         return $this->pageView(__METHOD__,$ret_info);
@@ -194,6 +184,7 @@ class agent extends Controller
         $p_price   = $this->get_in_int_val('p_price');
         $ppid      = $this->get_in_int_val('ppid');
         $pp_price  = $this->get_in_int_val('pp_price');
+        $userid  = $this->get_in_int_val('userid');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
@@ -227,6 +218,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '12';
+        $agent_level = $this->t_agent->get_agent_info_row_by_phone($phone);
+        if($agent_level['agent_level']){
+            $level = $agent_level['agent_level'];
+        }else{
+            $level = 0;
+        }
+        dd($level);
         $image = imageCreatetruecolor(190,190);     //新建微信头像图
         $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
         imagefill($image,0,0,$zhibg);
@@ -455,10 +454,11 @@ class agent extends Controller
     public function get_cash($ret_list){
         $cash = 0;
         foreach($ret_list as $key=>$item){
-            $userid  = $item['userid'];
-            $pay     = $item['price'];
-            $ret_row = $this->t_lesson_info_b2->get_lesson_count_by_userid($userid);
-            $count   = $ret_row['count'];
+            $userid     = $item['userid'];
+            $pay        = $item['price'];
+            $order_time = $item['order_time'];
+            $ret_row    = $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$order_time);
+            $count      = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
             $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
@@ -532,7 +532,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -593,6 +594,7 @@ class agent extends Controller
             }
         }
         $cash_new = (int)(($cash-$have_cash/100)*100)/100;
+        $cash_new = $cash_new>0?$cash_new:0;
         $data = [
             'level'      => $level,
             'nick'       => $nick,
@@ -606,6 +608,87 @@ class agent extends Controller
             'nickname'   => $agent_info['nickname'],
         ];
         dd($data);
+    }
+    public function agent_user_link () {
+
+        $phone=$this->get_in_phone();
+        $id=$this->get_in_id();
+        if ($phone) {
+            $agent_info= $this->t_agent->get_agent_info_by_phone($phone);
+            $id=$agent_info["id"];
+        }
+        if ($id) {
+            $phone=$this->t_agent->get_phone($id);
+        }
+        $this->set_filed_for_js("phone",$phone);
+        $this->set_filed_for_js("id",$id);
+
+        $list=$this->t_agent->get_link_list_py_ppid($id );
+
+        $userid_list=[];
+        foreach ($list as $item) {
+            $userid_list[] = $item["p_userid"];
+            $userid_list[] = $item["userid"];
+        }
+        $order_map= $this->t_order_info->get_agent_order_money_list($userid_list);
+
+        $map=[];
+        foreach ($list as $item) {
+            $pid=$item["pid"];
+            $p_nick=$item["p_nick"];
+            $p_userid=$item["p_userid"];
+            $p_phone=$item["p_phone"];
+            $p_agent_level=$item["p_agent_level"];
+            $p_test_lessonid=$item["p_test_lessonid"];
+            $id=$item["id"];
+            $userid=$item["userid"];
+            $nick=$item["nick"];
+            $phone=$item["phone"];
+            $agent_level=$item["agent_level"];
+            $test_lessonid=$item["test_lessonid"];
+            $item["p_price"] = @$order_map[$p_userid] ["price"]/100 ;
+            $item["price"] = @$order_map[$userid] ["price"]/100 ;
+            E\Eagent_level::set_item_value_str($item);
+            E\Eagent_level::set_item_value_str($item,"p_agent_level");
+            E\Eagent_type::set_item_value_str($item);
+            E\Eagent_type::set_item_value_str($item,"p_agent_type");
+
+            $item["test_lesson_flag"]= $item["test_lessonid"]>0?1:0;
+            $item["p_test_lesson_flag"]= $item["p_test_lessonid"]>0?1:0;
+            E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
+            E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
+
+            if ( !isset($map[$pid]) ){
+                $item["list"]=[];
+                $map[$pid]=$item ;
+            }
+            if( $id ) {
+                $map[$pid]["list"][]= $item ;
+            }
+        }
+
+        $ret_list=[];
+        foreach ( $map as $p1 ) {
+            $ret_list[ ]= [
+                "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
+               "p1_id"=> $p1["pid"],
+                "p1_test_lesson_flag_str"=> $p1["p_test_lesson_flag_str"],
+                "p1_price"=> $p1["p_price"],
+            ] ;
+            foreach ( $p1["list"] as $p2 ) {
+                $ret_list[ ]= [
+                    "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
+                    "p2_id"=> $p2["id"],
+                    "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
+                    "p2_price"=> $p2["price"],
+                ] ;
+            }
+        }
+
+        $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);
+        //dd($list);
+        return $this->pageView(__METHOD__, $ret_info);
+
     }
 
 
@@ -633,7 +716,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -794,6 +878,7 @@ class agent extends Controller
             }else{
                 $ret_list[$key]['parent_name'] = '';
             }
+            $ret_list[$key]['order_time'] = $item['order_time'];
         }
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){
@@ -837,6 +922,7 @@ class agent extends Controller
             }else{
                 $ret_list[$key]['parent_name'] = '';
             }
+            $ret_list[$key]['order_time'] = $item['order_time'];
         }
         $ret = $this->get_cash($ret_list);
         foreach($ret['list'] as $key=>$item){

@@ -5,6 +5,7 @@
 	pp_price	:any;
 	create_time	:any;
 	aid	:any;
+	userid	:any;
 	phone	:any;
 	nickname	:any;
 	p_phone	:any;

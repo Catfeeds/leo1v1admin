@@ -170,6 +170,15 @@ class testbb extends Controller
 
 
 
+    public function sd(){
+
+        $ret_info = $this->t_lesson_info_b2->get_comment_list_by_page(1, 0, 188171771, '0,1,2', 1);
+        dd($ret_info);
+
+    }
+
+
+
 
 
 

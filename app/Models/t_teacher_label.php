@@ -88,6 +88,15 @@ class t_teacher_label extends \App\Models\Zgen\z_t_teacher_label
 
     }
 
+    public function get_teacher_all_label_info(){
+        $sql = $this->gen_sql_new("select teacherid,tea_label_type"
+                                  ." from %s"
+                                  ." where tea_label_type <> '' order by teacherid",
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+    }
+
 }
 
 

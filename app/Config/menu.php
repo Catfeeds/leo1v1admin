@@ -20,6 +20,7 @@ class menu{
                 ["power_id"=>9, "name"=>"优学优享", "list"=> [
                     ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
                     ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
+                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
@@ -742,7 +743,7 @@ class menu{
                 ["power_id"=>1, "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info"],
                 ["power_id"=>21, "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                 ["power_id"=>14, "name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua"],
-                ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
+                //  ["power_id"=>13, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new"],
                 ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_research"],

@@ -2608,6 +2608,50 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $ret = $this->t_teacher_label->get_teacher_all_label_info();
+        foreach($ret as $val){
+            $arr = json_decode($val["tea_label_type"],true);
+ 
+            // dd($arr);
+            if(!empty($arr)){
+                $list=[];
+                foreach($arr as $v){
+                    $s =  E\Etea_label_type::get_desc($v); 
+                    $list[$s] = $s;
+                }
+                //dd($list);
+                $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
+                \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
+                $teacher_tags = trim($teacher_tags,",");
+                $tags= explode(",",$teacher_tags);
+                $str ="";
+                if(empty($tags) || empty($teacher_tags)){
+                    foreach($list as $k){
+                        $str .= $k.",";
+                    }
+                }else{
+                    $tags_list=[];
+                    foreach($tags as $v){
+                        $tags_list[$v]=$v;
+                    }
+                    foreach($list as $k){
+                        if(!isset($tags_list[$k]) && !empty($k)){
+                            $tags[] = $k;
+                        }
+                    }
+                    $str = implode(",",$tags);
+                    $str .= ",";
+                }
+                $this->t_teacher_info->field_update_list($val["teacherid"],[
+                    "teacher_tags"  =>$str
+                ]);
+            }
+            
+        }
+        dd($ret);
+        $rr = $this->delete_train_lesson_before(1,4,200,289273);
+        dd($rr);
         $ret = $this->get_not_free_time_list(1,200);
         dd($ret);
         // $this->switch_tongji_database();
@@ -4952,5 +4996,12 @@ class user_deal extends Controller
         }
         return $this->output_succ(["data"=>$arr]);
         //dd($arr);
+    }
+
+    public function get_train_lesson_comment(){
+        $lessonid = $this->get_in_int_val("lessonid",281011);
+        $stu_comment = $this->t_lesson_info->get_stu_comment($lessonid);
+        $arr= json_decode($stu_comment,true);
+        return $this->output_succ(["data"=>$arr]);
     }
 }

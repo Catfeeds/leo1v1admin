@@ -2899,17 +2899,32 @@ class user_manage_new extends Controller
     }
 
     public function update_teacher_money_list_info(){
-        $id         = $this->get_in_int_val("id");
-        $type       = $this->get_in_int_val("type");
+        $id = $this->get_in_int_val("id");
+        $type = $this->get_in_int_val("type");
         $money_info = $this->get_in_str_val("money_info");
-        $money      = $this->get_in_str_val("money");
+        $money = $this->get_in_str_val("money");
+        $add_time = $this->get_in_str_val("add_time");
+        $add_time_old = strtotime($this->get_in_str_val("add_time_old"));
+        $teacherid = $this->get_in_int_val("teacherid");
+        $account = $this->get_account();
 
-        $this->t_teacher_money_list->field_update_list($id,[
+        $update_arr = [
             "type"       => $type,
             "money_info" => $money_info,
             "money"      => $money,
-            "acc"        => $this->get_account(),
-        ]);
+            "acc"        => $account,
+            "teacherid"  => $teacherid,
+        ];
+
+        if($add_time!=""){
+            $add_time = strtotime($add_time);
+            if($add_time!=$add_time_old && !in_array($account,['adrian','sunny'])){
+                return $this->output_err("你没有权限更改时间！");
+            }
+            $update_arr["add_time"] = $add_time;
+        }
+
+        $ret = $this->t_teacher_money_list->field_update_list($id,$update_arr);
 
         return $this->output_succ();
     }

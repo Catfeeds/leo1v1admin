@@ -4,6 +4,7 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	teacher_id:	number;
 	teacher_money_type:	number;
 	level:	number;
 }
@@ -46,6 +47,7 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			teacher_id:	$('#id_teacher_id').val(),
 			teacher_money_type:	$('#id_teacher_money_type').val(),
 			level:	$('#id_level').val()
         });
@@ -62,6 +64,7 @@ $(function(){
             load_data();
         }
     });
+	$('#id_teacher_id').val(g_args.teacher_id);
 	$('#id_teacher_money_type').val(g_args.teacher_money_type);
 	$('#id_level').val(g_args.level);
 
@@ -73,6 +76,13 @@ $(function(){
 
 */
 /* HTML ...
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">teacher_id</span>
+                <input class="opt-change form-control" id="id_teacher_id" />
+            </div>
+        </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
