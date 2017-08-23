@@ -158,6 +158,10 @@
                             @if($acc=="jack")
                                 <a class="opt-test" >测试</a>
                             @endif
+                            @if($var['resume_url']!='')
+                                <a class="opt-resume_url" title="查看简历">简历</a>
+                            @endif
+
 
                         </div>
                     </td>
