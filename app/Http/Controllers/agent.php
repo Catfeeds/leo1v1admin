@@ -728,14 +728,18 @@ class agent extends Controller
         $ret_list=[];
         foreach ( $map as $p1 ) {
             $ret_list[ ]= [
-               "p1_name"=> $p1["p_nick"]."/".$p1["p_nick"],
-               "p1_id"=> $p1["p_nick"]."/".$p1["p_nick"],
+               "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"],
+               "p1_id"=> $p1["p_id"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
+                $ret_list[ ]= [
+                    "p2_name"=> $p2["nick"]."/".$p2["phone"],
+                    "p2_id"=> $p2["id"],
+                ] ;
             }
         }
 
-        $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);
         //dd($list);
         return $this->pageView(__METHOD__, $ret_info);
 

@@ -3344,11 +3344,11 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
     public function get_test_lesson_info_halfhour(){  // 试听课开课前半个小时 通知
-        $half_hour = time()-30*60;
+        $lesson_begin = time()+30*60;
 
         $where_arr = [
             "l.lesson_type=2", //试听课
-            "l.lesson_start>"
+            ["l.lesson_start=%d",$half_hour]
         ];
 
         $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end, l.teacherid, l.userid from %s l "
