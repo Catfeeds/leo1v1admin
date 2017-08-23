@@ -1713,7 +1713,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]="(tmk_student_status =3 )";
             break;
         case "tq_no_call_count" :
-            $where_arr[]="( global_tq_called_flag=0 ) and not exists (select 1 from db_weiyi_admin.t_tq_call_info tc where tc.phone=n.phone)";
+            $where_arr[]="( global_tq_called_flag=0 )";
             break;
         }
 

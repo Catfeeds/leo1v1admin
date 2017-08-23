@@ -2621,22 +2621,31 @@ class user_deal extends Controller
                 }
                 //dd($list);
                 $teacher_tags = $this->t_teacher_info->get_teacher_tags($val["teacherid"]);
+                \App\Helper\Utils::logger("teacherid:".$val["teacherid"]);
+                \App\Helper\Utils::logger("teacher_tags:".$teacher_tags);
+                $teacher_tags = trim($teacher_tags,",");
                 $tags= explode(",",$teacher_tags);
                 $str ="";
-                if(empty($tags)){
+                if(empty($tags) || empty($teacher_tags)){
                     foreach($list as $k){
                         $str .= $k.",";
                     }
                 }else{
-                    foreach($tags as $tt){
-                        if(!isset($list[$tt])){
-                            $tags[] = $tt;
+                    $tags_list=[];
+                    foreach($tags as $v){
+                        $tags_list[$v]=$v;
+                    }
+                    foreach($list as $k){
+                        if(!isset($tags_list[$k]) && !empty($k)){
+                            $tags[] = $k;
                         }
                     }
                     $str = implode(",",$tags);
+                    $str .= ",";
                 }
-                dd($str);
-                
+                $this->t_teacher_info->field_update_list($val["teacherid"],[
+                    "teacher_tags"  =>$str
+                ]);
             }
             
         }

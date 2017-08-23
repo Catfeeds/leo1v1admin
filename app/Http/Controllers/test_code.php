@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Libs;
 use \App\Helper\Config;
+use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
@@ -1842,11 +1843,17 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?teacherid=50728&type=admin";
-        $ret =\App\Helper\Utils::send_curl_post($url);
-        $ret = json_decode($ret,true);
-        $money = $ret["data"][0]["lesson_price"];
-        return $this->output_succ(["money"=>$money]);
+        $level_simulate_count_key = "level_simulate_count";
+        $all_money_count_key      = "all_money_count";
+        $has_month_key            = "has_month";
+        $already_lesson_count_key = "already_lesson_count";
+
+
+        $month_key = "2017-7";
+        $teacherid = 107000;
+        $key="already_lesson_count_".$month_key."_".$teacherid;
+        $a = Redis::get($key);
+        dd($a);
     }
 
 
