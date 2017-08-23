@@ -1559,7 +1559,7 @@ class Utils  {
                 //gd库操作  旋转90度
                 $rotate = imagerotate($source, 0, 0);
                 //gd库操作  生成旋转后的文件放入别的目录中
-                $tmp_name = time().'_'.rand().'png';
+                $tmp_name = time().'_'.rand();
 
                 if(strstr($name,'jpg')){
                     imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
@@ -1580,12 +1580,10 @@ class Utils  {
         $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
         $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
 
-        // $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
         $pdf_url = $this->qiniu_upload($pdf_name_tmp);
 
+        unlink($pdf_name_tmp);
         return $pdf_url;
-
-
     }
 
 

@@ -275,6 +275,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_list_by_phone($phone){
         $where_arr = [
+            //TODO
             'a2.phone = '.$phone.' or a1.phone ='.$phone,
         ];
         $sql=$this->gen_sql_new("select a1.phone phone,a2.phone p_phone,a1.id"
