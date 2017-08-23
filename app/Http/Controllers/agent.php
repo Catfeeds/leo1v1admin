@@ -448,6 +448,7 @@ class agent extends Controller
             $pay        = $item['price'];
             $order_time = $item['order_time'];
             $ret_row    = $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$order_time);
+            dd($ret_row);
             $count      = $ret_row['count'];
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
