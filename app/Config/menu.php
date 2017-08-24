@@ -191,6 +191,7 @@ class menu{
                     ["power_id"=>7, "name"=>"工资总体-new","url"=>"/user_manage_new/tea_wages_list"],
                     ["power_id"=>5, "name"=>"工资明细-new","url"=>"/user_manage_new/tea_wages_info"],
                     ["power_id"=>8, "name"=>"工资配置-new","url"=>"/user_manage_new/teacher_money_type_list"],
+                    ["power_id"=>18, "name"=>"奖励规则","url"=>"/user_manage_new/teacher_reward_rule_list"],
                     ["power_id"=>9, "name"=>"工资统计","url"=>"/user_manage_new/tea_wages_count_list"],
                     ["power_id"=>11, "name"=>"全勤奖配置","url"=>"/human_resource/get_lesson_full_list"],
                     ["power_id"=>12, "name"=>"全勤奖配置-old","url"=>"/human_resource/get_lesson_full_wage_old"],

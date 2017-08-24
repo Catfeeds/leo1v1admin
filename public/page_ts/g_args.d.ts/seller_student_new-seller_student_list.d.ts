@@ -33,6 +33,7 @@ interface GargsStatic {
 	tmk_student_status:	number;//\App\Enums\Etmk_student_status
 	phone_name:	string;
 	jack_flag:	number;
+	account:	number;
 	admin_seller_level:	number;
 }
 declare module "g_args" {
@@ -207,6 +208,7 @@ $(function(){
 			tmk_student_status:	$('#id_tmk_student_status').val(),
 			phone_name:	$('#id_phone_name').val(),
 			jack_flag:	$('#id_jack_flag').val(),
+			account:	$('#id_account').val(),
 			admin_seller_level:	$('#id_admin_seller_level').val()
         });
     }
@@ -259,6 +261,7 @@ $(function(){
 	$('#id_tmk_student_status').val(g_args.tmk_student_status);
 	$('#id_phone_name').val(g_args.phone_name);
 	$('#id_jack_flag').val(g_args.jack_flag);
+	$('#id_account').val(g_args.account);
 	$('#id_admin_seller_level').val(g_args.admin_seller_level);
 
 
@@ -464,6 +467,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">jack_flag</span>
                 <input class="opt-change form-control" id="id_jack_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">account</span>
+                <input class="opt-change form-control" id="id_account" />
             </div>
         </div>
 

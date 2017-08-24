@@ -1263,7 +1263,7 @@ class agent extends Controller
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $orderid = 0;
             if($userid){
-                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
+                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
                 if($order_info['orderid']){
                     $orderid = $order_info['orderid'];
                 }
@@ -1272,18 +1272,21 @@ class agent extends Controller
             $type_new     = $student_info['type'];
             $is_test_user = $student_info['is_test_user'];
             $level        = 0;
-            if($userid && $type_new == 0 && $is_test_user == 0 && $student_info && $orderid){//在读非测试
-                $level     = 2;
-            }elseif($wx_openid){//绑定
+            if($userid
+               && $type_new ==  E\Estudent_type::V_0
+               && $is_test_user == 0
+               && $orderid){//在读非测试
+                $level     =  E\Eagent_level::V_2 ;
+            }elseif($wx_openid){//有wx绑定
                 $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    $level = 2;
+                $count       = count($test_lesson);
+                if($count>=2){
+                    $level     =  E\Eagent_level::V_2 ;
                 }else{
-                    $level = 1;
+                    $level     =  E\Eagent_level::V_1 ;
                 }
             }else{//非绑定
-                $level = 0;
+                $level =  E\Eagent_level::V_0;
             }
             $this->t_agent->field_update_list($id,[
                 "agent_level" => $level
@@ -1302,9 +1305,11 @@ class agent extends Controller
             $lessonid_new = 0;
             if($userid && $is_test_user == 0 && $student_info){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
-                $lessonid = $ret['lessonid'];
-                if($lessonid){
-                    $lessonid_new = $lessonid;
+                if ($ret) {
+                    $lessonid = $ret['lessonid'];
+                    if($lessonid){
+                        $lessonid_new = $lessonid;
+                    }
                 }
             }
             $this->t_agent->field_update_list($id,[
