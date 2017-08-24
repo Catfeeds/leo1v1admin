@@ -76,13 +76,10 @@
                     <td>是否成功试听</td>
                     <td>试听时间</td>
                     <td>合同金额</td>
-<<<<<<< HEAD
                     <td>绑定类型</td>
-=======
                     <td>上级分成</td>
                     <td>上上级分成</td>
                     <td>类型</td>
->>>>>>> 34ec763afa7adbcc576b22e38951ae39cfdcc4db
                     <td>渠道</td>
                     <td>创建时间</td>
                     <td>操作</td>
