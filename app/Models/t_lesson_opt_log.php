@@ -216,5 +216,17 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_list($sql);
     }
 
+    public function get_test_lesson_for_login($lessonid){ // 课程开始五分钟
+
+        $sql = $this->gen_sql_new(" select opt_time from %s lo "
+                                  ." where lo.lessonid=%d and lo.opt_type"
+                                  ,self::DB_TABLE_NAME
+                                  ,$lessonid
+        );
+
+        return $this->main_get_val($sql);
+    }
+
+
 
 }

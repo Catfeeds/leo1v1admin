@@ -183,5 +183,16 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_get_row($sql);
     }
+    public function get_count_by_userid($userid ) {
+        $sql = $this->gen_sql_new(
+            "select count(*) from %s ao"
+            ."left join  a %s on  ao.aid = a.id "
+            . " where a.userid=%u ",
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_value($sql);
+    }
 
 }

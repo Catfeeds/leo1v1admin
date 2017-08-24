@@ -52,7 +52,8 @@ class get_teacher_test_transfor_per extends Command
         }
 
         //更新一月常规学生数
-        $ret= $task->t_teacher_info->get_teacher_list(1,$start_time,$end_time);
+        $start_time = time()-30*86400;
+        $ret= $task->t_teacher_info->tongji_teacher_stu_num_new($start_time,$end_time);
         foreach($ret as $v){
             $task->t_teacher_info->field_update_list($v["teacherid"],[
                 "month_stu_num"   =>$v["stu_num"] 

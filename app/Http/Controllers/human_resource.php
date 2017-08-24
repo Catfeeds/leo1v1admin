@@ -718,6 +718,7 @@ class human_resource extends Controller
 
     public function index()
     {
+        $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
@@ -781,7 +782,6 @@ class human_resource extends Controller
         $lstart       = $date_week["sdate"];
         $lend         = $date_week["edate"];
 
-        $this->t_teacher_info->switch_tongji_database();
         $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
             $page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type,
             $is_good_flag,$is_new_teacher,$gender,$grade_part_ex,$subject,
@@ -2368,7 +2368,7 @@ class human_resource extends Controller
             "acc"                              => $this->get_account(),
             "record_monitor_class"             => $record_monitor_class,
             "record_lesson_list"               => $record_lesson_list,
-            "lessonid"                         => $lessonid,
+            "train_lessonid"                   => $lessonid,
             "trial_train_status"               => $trial_train_status
         ]);
 
