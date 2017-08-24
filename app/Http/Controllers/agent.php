@@ -261,6 +261,7 @@ class agent extends Controller
 
     public function update_lesson_call_end_time_new(){
         $adminid = 886;
+        $phone = '18902605685';
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
@@ -268,9 +269,8 @@ class agent extends Controller
             }
         }
         $tquin = $this->t_manager_info->get_tquin($adminid);
-        dd($tquin);
-        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin=2044,$phone='18902605685',$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
-        dd($lesson_call_end,$lesson_call_list,$adminid,$tquin);
+        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
+        dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
     }
 
     /**
