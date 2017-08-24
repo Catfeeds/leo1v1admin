@@ -222,10 +222,10 @@ class test_boby extends Controller
 
     //刷新userid对应的电话拨打信息
     public function reset_flag(){
-        $arr=[ 55 => "288066", 56 => "288090", 57 => "288158", 58 => "288170", 59 => "288256", 60 => "281026", 61 => "281045", 62 => "281049", 63 => "281105", 64 => "287742", 65 => "287745", 66 => "287746"];
-        foreach ($arr as $v) {
-            $this->t_seller_student_new->reset_sys_invaild_flag($v);
-        }
+        // $arr=[];
+        // foreach ($arr as $v) {
+        //     $this->t_seller_student_new->reset_sys_invaild_flag($v);
+        // }
         return 1;
     }
 
