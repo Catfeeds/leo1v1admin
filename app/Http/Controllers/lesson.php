@@ -405,22 +405,17 @@ class lesson extends TeaWxController
 
         $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
-        $stu_study_status     = $this->get_in_str_val("stu_study_status");
-        $stu_advantages       = $this->get_in_str_val("stu_advantages");
-        $stu_disadvantages    = $this->get_in_str_val("stu_disadvantages");
-        $stu_lesson_plan      = $this->get_in_str_val("stu_lesson_plan");
-        $stu_teaching_direction = $this->get_in_str_val("stu_teaching_direction");
+        $stu_total_judgement  = $this->get_in_int_val("stu_total_judgement");
         $stu_advice           = $this->get_in_str_val("stu_advice");
 
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
 
 
         if($requireid>0){
-           $ret_info = $this->t_test_lesson_subject_require->set_info( $stu_lesson_content, $stu_lesson_status,
-                                                            $stu_study_status,$stu_advantages,
-                                                            $stu_disadvantages,$stu_lesson_plan,
-                                                            $stu_teaching_direction,$stu_advice,$requireid
-            );
+            $ret_info = $this->t_test_lesson_subject_require->field_update_list($requireid,[
+                "stu_lesson_content" => $stu_lesson_content,
+                "stu_lesson_status"  => $stu_lesson_status,
+            ]);
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
 
