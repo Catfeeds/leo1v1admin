@@ -1617,6 +1617,12 @@ class Utils  {
         return $ret;
     }
 
+    /**
+     * @param type redis操作类型
+     * @param key   redis存储的键
+     * @param value  redis存储的值
+     * @param json_decode 进行get操作时是否进行json处理
+     */
     static public function redis($type,$key,$value=[],$json_decode=false){
         if($type==E\Eredis_type::V_GET){
             $value = Redis::get($key);

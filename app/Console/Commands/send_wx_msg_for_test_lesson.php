@@ -105,7 +105,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword3" => date('Y-m-d H:i:s'),
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师"
                 ];
-            }elseif($type == 4){ // 课程结束通知
+            }elseif($type == 5){ // 课程结束通知
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."的课程已结束,同学未能按时进入课堂",
                     "keyword1" => "旷课提醒",
@@ -140,7 +140,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
-            }elseif($type == 4){
+            }elseif($type == 5){
                 $data = [
                     "first"    => "{ ".$item['teacher_nick']."}老师您好，".$item['stu_nick']." 同学的课程已结束 ",
                     "keyword1" => '旷课提醒',
@@ -157,14 +157,27 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请及时跟进"
                 ];
-            }elseif($type == 2){
+            }elseif($type == 2){ // 超时5分钟
+
+                /**
+                   {{first.DATA}}
+                   待办主题：{{keyword1.DATA}}
+                   待办内容：{{keyword2.DATA}}
+                   日期：{{keyword3.DATA}}
+                   {{remark.DATA}}
+
+                 **/
                 $data = [
-                    "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
-                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
-                    "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "请及时跟进"
+                    "first"    => "您好，$subject_str 课程已开始5分钟，老师/同学还未进入课堂。 ",
+                    "keyword1" => '课程提醒',
+                    "keyword2" => "$subject_str 课程已开始5分钟，您还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
-            }elseif($type == 3){
+
+            }elseif($type == 3){ // 超时15分钟
+            }elseif($type == 4){ //
+
             }
         }
 
