@@ -7900,7 +7900,11 @@ class tongji_ss extends Controller
 
     public function get_reference_teacher_money_info(){
         $this->switch_tongji_database();
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-07-01");
+        // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
+        $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
+        dd($ret_info);
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
         // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
