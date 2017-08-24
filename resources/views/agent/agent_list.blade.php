@@ -20,6 +20,14 @@
             </div>
         </div>
 
+
+        <div class="col-xs-6 col-md-2" data-always_show="1">
+            <div class="input-group ">
+                <span class="input-group-addon">合同</span>
+                <select class="opt-change form-control" id="id_order_flag" >
+                </select>
+            </div>
+        </div>
         <div class="col-xs-6 col-md-2" data-always_show="1">
             <div class="input-group ">
                 <span class="input-group-addon">是否试听</span>
@@ -60,14 +68,17 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
+                    <td>手机号</td>
                     <td>微信昵称</td>
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
-                    <td>手机号</td>
                     <td>会员等级</td>
-                    <td>试听时间</td>
                     <td>是否成功试听</td>
+                    <td>试听时间</td>
                     <td>合同金额</td>
+                    <td>绑定类型</td>
+                    <td>上级分成</td>
+                    <td>上上级分成</td>
                     <td>类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
@@ -79,6 +90,7 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["nickname"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>
@@ -89,11 +101,12 @@
                             {{@$var["pp_nickname"]}} <br/>
                             {{@$var["pp_phone"]}}
                         </td>
-                        <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["agent_level_str"]}} </td>
-                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
+                        <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["price"]}} </td>
+                        <td>{{@$var["p_off_info"]}} </td>
+                        <td>{{@$var["pp_off_info"]}} </td>
 
                         <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
@@ -104,6 +117,7 @@
                             >
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
+                                <a class="fa fa-refresh opt-reset-info"  title="刷新信息"> </a>
 
                             </div>
                         </td>

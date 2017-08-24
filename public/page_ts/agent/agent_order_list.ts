@@ -48,26 +48,29 @@ $(function(){
     $(".opt-edit").on("click",function(){
         var opt_data = $(this).get_opt_data();
 
-        var $orderid  = $("<input/>");
+        var $orderid  = $("<input disabled='disabled' />");
         var $aid  = $("<input/>");
         var $pid      = $("<input/>");
         var $p_price  = $("<input/>");
+        var $p_level      = $("<select><option value='0'>无</option><option value='1'>黄金</option><option value='2'>水晶</option><select/>");
         var $ppid     = $("<input/>");
         var $pp_price = $("<input/>");
+        var $pp_level      = $("<select><option value='0'>无</option><option value='1'>黄金</option><option value='2'>水晶</option><select/>");
 
         $orderid.val(opt_data.orderid);
         $aid.val(opt_data.aid);
         $pid.val(opt_data.pid);
         $p_price.val(opt_data.p_price);
+        $p_level.val(opt_data.p_level);
         $ppid.val(opt_data.ppid);
         $pp_price.val(opt_data.pp_price);
+        $pp_level.val(opt_data.pp_level);
         var arr=[
             ["orderid",  $orderid],
-            // ["aid",  $aid],
-            // ["pid",  $pid],
             ["上级转介绍费",  $p_price],
-            // ["ppid",  $ppid],
+            ["订单确认时上级当前等级",  $p_level],
             ["上上级转介绍费",  $pp_price],
+            ["订单确认时上上级当前等级",  $pp_level],
         ];
 
         $.show_key_value_table("修改信息", arr ,{
@@ -76,12 +79,10 @@ $(function(){
             action: function(dialog) {
                 $.do_ajax("/ajax_deal/agent_order_edit",{
                     "orderid":opt_data.orderid,
-                    // "aid":$aid.val(),
-                    // "orderid_new":$orderid.val(),
-                    // "pid" : $pid.val() ,
                     "p_price" : $p_price.val() ,
-                    // "ppid" : $ppid.val(),
-                    "pp_price" : $pp_price.val()
+                    "p_level" : $p_level.val() ,
+                    "pp_price" : $pp_price.val(),
+                    "pp_level" : $pp_level.val() ,
                 })
             }
         })

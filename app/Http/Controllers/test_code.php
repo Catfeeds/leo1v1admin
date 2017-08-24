@@ -1914,16 +1914,20 @@ class test_code extends Controller
     }
 
     public function rule_list(){
-        $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+        // $rule = \App\Config\teacher_rule::get_teacher_rule();
+        // \App\Helper\Utils::debug_to_html( $rule );
 
-        $teacher_rule=[];
-        foreach($rule_list as $r_val){
-            $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
-        }
 
-        $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
-        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$key,$teacher_rule);
-        $rule = \App\Config\teacher_rule::get_rule_type(E\Ereward_count_type::V_1);
+        // $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+
+        // $teacher_rule=[];
+        // foreach($rule_list as $r_val){
+        //     $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
+        // }
+
+        // $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        // \App\Helper\Utils::redis(E\Eredis_type::V_SET,$key,$teacher_rule);
+        $rule = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
         \App\Helper\Utils::debug_to_html( $rule );
     }
 

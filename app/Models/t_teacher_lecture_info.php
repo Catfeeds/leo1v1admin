@@ -1753,4 +1753,15 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         return $this->main_get_value($sql);
     }
 
+    public function get_passed_interview_by_phone($phone,$subject,$grade){
+        $sql = $this->gen_sql_new("select reason from %s  where phone= '%s' and subject = %u and grade=%u and status=1",
+                                  self::DB_TABLE_NAME,
+                                  $phone,
+                                  $subject,
+                                  $grade
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 }

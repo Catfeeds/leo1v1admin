@@ -24,6 +24,8 @@ interface RowData {
 	pp_price	:any;
 	create_time	:any;
 	aid	:any;
+	p_level	:any;
+	pp_level	:any;
 	userid	:any;
 	phone	:any;
 	nickname	:any;
@@ -32,6 +34,8 @@ interface RowData {
 	pp_phone	:any;
 	pp_nickname	:any;
 	price	:any;
+	p_level_str	:any;
+	pp_level_str	:any;
 }
 
 /*

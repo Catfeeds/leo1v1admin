@@ -1,6 +1,7 @@
 <?php
 namespace App\Config;
 use Illuminate\Support\Facades\Redis ;
+use \App\Enums as E;
 
 class teacher_rule{
     /**
@@ -71,22 +72,26 @@ class teacher_rule{
         ]
     ];
 
-    static public $rule_type_key = "rule_type_key";
-
-    static public function get_rule_type($reward_count_type){
-        if(\App\Helper\Utils::check_env_is_local()){
-            $rule_type = Redis::get(self::$rule_type_key);
+    static public function reward_count_type_list($type=E\Ereward_count_type::V_1){
+        $rule_type_key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        $rule_type = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$rule_type_key,true);
+        if($rule_type===null){
+            if($type==E\Ereward_count_type::V_2){
+                $ret_type = self::$reference_rule;
+            }else{
+                $ret_type = self::$rule_type;
+            }
         }else{
-            $rule_type = 0;
+            $ret_type = $rule_type[$type];
         }
-        return $rule_type;
+        return $ret_type;
     }
 
     /**
      * @param type 老师工资对应的类型
      * @return array
      */
-    static public function get_teacher_rule($type){
+    static public function get_teacher_rule($type="all"){
         $teacher_rule = self::$rule_type;
         if(isset($teacher_rule[$type])){
             return $teacher_rule[$type];

@@ -9,6 +9,7 @@ $(function(){
             start_time    :    $('#id_start_time').val(),
             end_time      :    $('#id_end_time').val(),
 
+            order_flag:	$('#id_order_flag').val(),
             test_lesson_flag:	$('#id_test_lesson_flag').val(),
             agent_level:	$('#id_agent_level').val(),
             userid:	$('#id_userid').val(),
@@ -19,6 +20,7 @@ $(function(){
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
   Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+  Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -35,6 +37,7 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_p_phone').val(g_args.p_phone);
     $('#id_phone').val(g_args.phone);
+  $('#id_order_flag').val(g_args.order_flag);
 
   $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
     $('#id_agent_level').val(g_args.agent_level);
@@ -195,6 +198,14 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         $.wopen("/agent/agent_user_link?id="+ opt_data.id  );
 
+    });
+
+
+    $(".opt-reset-info").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax("/ajax_deal2/agent_reset_info", {
+            id: opt_data.id
+        }  );
     });
 
 });

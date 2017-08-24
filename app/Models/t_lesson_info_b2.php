@@ -2907,7 +2907,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
-            ' l.lesson_end > 1503331200 ',
+            ' l.lesson_end > 1503244800 ',
             ' l.lesson_end <  '.$time,
             ' lss.call_end_time = 0 ',
             ' lss.success_flag in (0,1) ',
@@ -3309,19 +3309,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_succ_test_lesson($userid,$create_time) {
+    public function get_succ_test_lesson($userid,$check_time = -1) {
         $where_arr=[
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
             'l.confirm_flag in (0,1) ',
-            "l.lesson_start > $create_time",
+            "l.lesson_start > $check_time",
             "l.userid = $userid ",
         ];
 
         $sql= $this->gen_sql_new(
             " select l.lessonid "
             . " from %s l "
-            . " where %s order by  l.lesson_user_online_status  desc limit 1 ",
+            . " where %s order by  l.lesson_user_online_status  desc l.lesson_start asc limit 1 ",
             t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );
