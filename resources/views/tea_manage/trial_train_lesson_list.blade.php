@@ -132,6 +132,7 @@
                                 @if($var["paper_url"])
                                     <a class="opt-show-stu-test-paper">查看试卷</a>
                                 @endif
+                                <a class="opt-get-interview-assess">查看面试评价</a>
 
                             </div>
                         </td>
