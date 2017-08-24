@@ -807,6 +807,8 @@ class human_resource extends Controller
             $subject = $item['subject_str'];
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
+        $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
+
 
         // $label_list = $this->get_teacher_label($tea_list);
 
@@ -868,6 +870,7 @@ class human_resource extends Controller
                 $item["freeze_adminid_str"]="";
             }
 
+            $item["week_lesson_num"]=@$test_lesson_num_list[$item["teacherid"]]["num"];
             if($item["limit_plan_lesson_type"]>0){
                 $item["week_left_num"]=$item["limit_plan_lesson_type"]-$item["week_lesson_num"];
             }else{

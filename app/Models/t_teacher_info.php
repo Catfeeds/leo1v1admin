@@ -521,13 +521,13 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] = "(t.nick not like '%%测试%%' and  t.nick not like '%%test%%')";
         }
         $hh = "";
-        if($test_lesson_full_flag ==1){
+        /*  if($test_lesson_full_flag ==1){
             $hh = "having (sum(tss.lessonid>0)>=8)";
         }else if($test_lesson_full_flag ==2){
             $hh = "having (sum(tss.lessonid>0)<8 or sum(tss.lessonid >0) is null)";
         }else{
             $hh = "";
-        }
+            }*/
         if($test_transfor_per ==1){
             $where_arr[] = "t.test_transfor_per <10";
         }else if($test_transfor_per==2){
@@ -594,29 +594,29 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
-                                  ." sum(tss.lessonid >0) week_lesson_num,t.is_quit,t.part_remarks,"
-                                  ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
-                                  ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
+                                  //." sum(tss.lessonid >0) week_lesson_num,"
+                                  // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
+                                  // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
-                                  ." t.bank_province,t.bank_city,t.teacher_tags"
+                                  ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
-                                  ." left join %s l on (t.teacherid = l.teacherid"
-                                  ." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
-                                  ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
+                                  // ." left join %s l on (t.teacherid = l.teacherid"
+                                  //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
+                                  // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
                                   ." where %s "
-                                  ." group by t.teacherid %s"
+                                  // ." group by t.teacherid %s"
                                   ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$lstart
-                                  ,$lend
-                                  ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+                                  // ,t_lesson_info::DB_TABLE_NAME
+                                  // ,$lstart
+                                  //  ,$lend
+                                  // ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
                                   ,$where_arr
-                                  ,$hh
+                                  // ,$hh
         );
-        return $this->main_get_list_by_page($sql,$page_num,10,true);
+        return $this->main_get_list_by_page($sql,$page_num,10);
     }
 
     public function get_all_usefull_teacher_list($page_num,$teacherid_arr,$subject,$grade,$lstart,$lend){

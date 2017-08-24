@@ -2608,7 +2608,7 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-                $this->switch_tongji_database();
+        $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);

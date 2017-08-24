@@ -126,7 +126,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         ];
 
         if($opt_type==1){
-            
+
             $sql=$this->gen_sql_new("select min(opt_time) "
                                     ." from %s"
                                     ." where %s "
@@ -143,7 +143,7 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
             );
 
         }
-        
+
         return $this->main_get_value($sql);
     }
 
@@ -216,24 +216,21 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_list($sql);
     }
 
-    public function get_test_lesson_for_login($lessonid,$userid,$server_type=-1,$teacherid,$stu_id,$lesson_start,$lesson_end){ // 课程开始五分钟
+    public function get_test_lesson_for_login($lessonid,$userid, $lesson_start, $lesson_end){ // 课程开始五分钟
         $where_arr=[
-            "lessonid=$lessonid or (lessonid=0 and opt_time+1800>=$lesson_start and opt_time-1800<=$lesson_end and userid in ($teacherid,$stu_id))"
+            "lo.opt_type=1", // 登录记录
+            " userid = $userid"
         ];
 
-        $where_arr=[
-            ['server_type=%d',$server_type,-1]
-        ];
+        $where_arr[] = "lessonid=$lessonid  or (lessonid=0 and opt_time+1800>=$lesson_start and opt_time-1800<=$lesson_end )";
 
-
-
-        $sql = $this->gen_sql_new(" select opt_time from %s lo "
-                                  ." where lo.lessonid=%d and lo.opt_type"
+        $sql = $this->gen_sql_new(" select min(opt_time) from %s lo "
+                                  ." where %s "
                                   ,self::DB_TABLE_NAME
-                                  ,$lessonid
+                                  ,$where_arr
         );
 
-        return $this->main_get_val($sql);
+        return $this->main_get_value($sql);
     }
 
 
