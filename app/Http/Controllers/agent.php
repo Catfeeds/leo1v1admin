@@ -1259,9 +1259,7 @@ class agent extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])
-           && $this->t_agent_order->get_count_by_userid( $userid )==0
-        ){
+        if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
