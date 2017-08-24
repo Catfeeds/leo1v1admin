@@ -542,7 +542,6 @@ class agent extends Controller
             $userid_list[] = $item["p_userid"];
             $userid_list[] = $item["userid"];
         }
-        $order_map= $this->t_order_info->get_agent_order_money_list($userid_list);
 
         $map=[];
         foreach ($list as $item) {
@@ -558,8 +557,6 @@ class agent extends Controller
             $phone=$item["phone"];
             $agent_level=$item["agent_level"];
             $test_lessonid=$item["test_lessonid"];
-            $item["p_price"] = @$order_map[$p_userid] ["price"]/100 ;
-            $item["price"] = @$order_map[$userid] ["price"]/100 ;
             E\Eagent_level::set_item_value_str($item);
             E\Eagent_level::set_item_value_str($item,"p_agent_level");
             E\Eagent_type::set_item_value_str($item);
@@ -581,18 +578,24 @@ class agent extends Controller
 
         $ret_list=[];
         foreach ( $map as $p1 ) {
-            $ret_list[ ]= [
-                "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
-               "p1_id"=> $p1["pid"],
-                "p1_test_lesson_flag_str"=> $p1["p_test_lesson_flag_str"],
-                "p1_price"=> $p1["p_price"],
+            $ret_list[ ] = [
+                "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
+                "p1_id"                    => $p1["pid"],
+                "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
+                "p1_price"                => $p1["o_p_from_price"],
+                "p1_p_agent_level"        => $p1["o_p_agent_level"],
+                "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
+                "p1_p_price"              => $p1["o_p_price"],
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
-                    "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
+                    "p2_name"=> $p2["nick"]."/".$p2["phone"],
                     "p2_id"=> $p2["id"],
                     "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
-                    "p2_price"=> $p2["price"],
+                    "p2_price"=> $p2["o_from_price"],
+                    "p2_p_agent_level"        => $p2["o_agent_level"],
+                    "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
+                    "p2_p_price"              => $p2["o_price"],
                 ] ;
             }
         }
@@ -1261,7 +1264,7 @@ class agent extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
+        // if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -1289,6 +1292,7 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
+                dd($orderid,$ret_info['id'],$pid,$p_price,$level1,$ppid,$pp_price,$level2);
                 $this->t_agent_order->row_insert([
                     'orderid'     => $orderid,
                     'aid'         => $ret_info['id'],
@@ -1301,7 +1305,7 @@ class agent extends Controller
                     'create_time' => time(null),
                 ]);
             }
-        }
+        // }
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0

@@ -14,6 +14,9 @@ interface RowData {
 	p1_id	:any;
 	p1_test_lesson_flag_str	:any;
 	p1_price	:any;
+	p1_p_agent_level	:any;
+	p1_p_agent_level_str	:any;
+	p1_p_price	:any;
 }
 
 /*

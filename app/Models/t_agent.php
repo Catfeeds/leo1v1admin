@@ -726,15 +726,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.userid as userid, a.id as id,  a.nickname nick, a.phone phone, "
             . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
             . " a.type agent_type, "
-            . " a.test_lessonid  test_lessonid "
+            . " a.test_lessonid  test_lessonid ,"
+
+
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price,  "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price "
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
             " left join %s a on a1.id=a.parentid".
+
+            " left join %s ao1 on a1.id=ao1.aid ".
+            " left join %s o1 on ao1.orderid=o1.orderid ".
+
+            " left join %s ao on a.id=ao.aid ".
+            " left join %s o on ao.orderid=o.orderid ".
             " where %s ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
