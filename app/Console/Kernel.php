@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\reset_lesson_online_user_status_by_stroke_time::class,
         Commands\update_lesson_call_time::class,
         Commands\todo_reset::class,
+        Commands\agent_reset::class,
         Commands\BindUserid2Phone::class,
         Commands\gen_todo::class,
         Commands\sync_tianrun::class,
