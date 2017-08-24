@@ -207,7 +207,15 @@ class send_wx_msg_for_test_lesson extends Command
 
     public function send_wx_msg_tea($item, $type, $data_tea){
         // 给老师发送
-        $template_id_teacher = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk"; // 待办
+        if($type == 1){
+            $template_id_parent = ''; // 上课提醒
+        }else{
+            $template_id_parent = ''; // 待办主题
+        }
+
+
+
+
         \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
     }
 
@@ -216,9 +224,10 @@ class send_wx_msg_for_test_lesson extends Command
     public function send_wx_msg_admin($item, $type, $data_ass, $data_par){ // 向家长和助教发送
         $wx  = new \App\Helper\Wx();
         if($type == 1){
-            
+            $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
+        }else{
+            $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
-        $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
 
         // 给家长发送
         $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
