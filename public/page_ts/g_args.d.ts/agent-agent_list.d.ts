@@ -48,6 +48,7 @@ interface RowData {
 	pp_nickname	:any;
 	pp_phone	:any;
 	origin	:any;
+	student_stu_type	:any;
 	lesson_start	:any;
 	lesson_user_online_status	:any;
 	price	:any;
@@ -58,6 +59,7 @@ interface RowData {
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
+	student_stu_type_str	:any;
 	lesson_user_online_status_str	:any;
 	pp_off_info	:any;
 	p_off_info	:any;
