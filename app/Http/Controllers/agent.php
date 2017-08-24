@@ -34,6 +34,8 @@ class agent extends Controller
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
             $item["price"]/= 100;
 
+            $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
+            $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;
         }
 
         return $this->pageView(__METHOD__,$ret_info);

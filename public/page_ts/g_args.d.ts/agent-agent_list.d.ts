@@ -59,6 +59,8 @@ interface RowData {
 	agent_type_str	:any;
 	agent_level_str	:any;
 	lesson_user_online_status_str	:any;
+	pp_off_info	:any;
+	p_off_info	:any;
 }
 
 /*

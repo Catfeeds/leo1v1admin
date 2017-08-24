@@ -76,7 +76,8 @@
                     <td>试听时间</td>
                     <td>是否成功试听</td>
                     <td>合同金额</td>
-                    <td>分成</td>
+                    <td>上级分成</td>
+                    <td>上上级分成</td>
                     <td>类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
@@ -103,6 +104,8 @@
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
                         <td>{{@$var["price"]}} </td>
+                        <td>{{@$var["p_off_info"]}} </td>
+                        <td>{{@$var["pp_off_info"]}} </td>
 
                         <td>{{@$var["agent_type_str"]}} </td>
                         <td>{{@$var["origin"]}} </td>
@@ -113,6 +116,7 @@
                             >
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
+                                <a class="fa fa-refresh opt-reset-info"  title="刷新信息"> </a>
 
                             </div>
                         </td>

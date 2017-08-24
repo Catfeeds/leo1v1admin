@@ -739,11 +739,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
-    public function reset_user_info_test_lesson($id,$userid, $is_test_user, $create_time ) {
+    public function reset_user_info_test_lesson($id,$userid, $is_test_user, $check_time) {
         //重置试听信息
         $lessonid = 0;
         if($userid && $is_test_user == 0 ) {
-            $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+            $ret = $this->task->t_lesson_info_b2->get_succ_test_lesson($userid,$check_time);
             if ($ret) {
                 $lessonid = $ret['lessonid'];
             }
@@ -753,12 +753,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ]);
     }
 
-    public function get_agent_level_by_check_time( $id , $check_time ){
-        $id           = $item['id'];
-        $phone        = $item['phone'];
-        $create_time  = $item['create_time'];
-        $userid       = $item['userid'];
-        $wx_openid    = $item['wx_openid'];
+    public function get_agent_level_by_check_time(  $id,$agent_info , $check_time ){
+        $phone        = $agent_info['phone'];
+        $create_time  = $agent_info['create_time'];
+        $userid       = $agent_info['userid'];
+        $wx_openid    = $agent_info['wx_openid'];
         $student_info = $this->task->t_student_info->field_get_list($userid,"*");
         $orderid = 0;
         if($userid){
@@ -797,14 +796,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $orderid = 0;
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
-            $order_info = $this->task-> t_order_info->get_agent_order_info($userid );
+            $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
             if ($order_info) {
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
                 $check_time= $order_info["pay_time"];
                 $pid = $agent_info['pid'];
                 $ppid = $agent_info['ppid'];
-                $p_level=$this->get_agent_level_by_check_time($pid, $check_time );
-                $pp_level=$this->get_agent_level_by_check_time($ppid, $check_time );
+                $p_level=$this->get_agent_level_by_check_time($pid, $agent_info, $check_time );
+                $pp_level=$this->get_agent_level_by_check_time($ppid, $agent_info, $check_time );
 
                 $order_price= $order_info["price"];
                 $price           = $order_price/100;
@@ -820,7 +819,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $p_price = $level2_p_price*100;
                 }
 
-                //TODO
                 if($pp_level== 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
@@ -844,14 +842,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
+        if ($userid) {
+            $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
+            $is_test_user = $student_info['is_test_user'];
+            $create_time = $agent_info['create_time'];
+            $now=time(NULL);
+            $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
+            $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+        }
 
-        $student_info = $this->t_student_info->field_get_list($userid,"is_test_user,create_time ");
-        $is_test_user = $student_info['is_test_user'];
-        $create_time = $item['create_time'];
-        $this->reset_user_info_test_lesson($id,$userid,$is_test_user,$create_time);
-        $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
         //重置当前等级
-        $agent_level=$this->get_agent_level_by_check_time($id,time(NULL));
+        $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
         $this->field_update_list($id,[
             "agent_level" => $agent_level
         ]);
