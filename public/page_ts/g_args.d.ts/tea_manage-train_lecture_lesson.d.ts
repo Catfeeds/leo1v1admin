@@ -41,6 +41,7 @@ interface RowData {
 	nick	:any;
 	user_agent	:any;
 	l_teacherid	:any;
+	courseid	:any;
 	record_type	:any;
 	reference	:any;
 	teacher_type	:any;
@@ -61,6 +62,11 @@ interface RowData {
 	access_id	:any;
 	train_type	:any;
 	zs_account	:any;
+	tt_train_type	:any;
+	tt_train_lessonid	:any;
+	tt_id	:any;
+	tt_add_time	:any;
+	resume_url	:any;
 	lesson_time	:any;
 	lesson_status_str	:any;
 	grade_str	:any;

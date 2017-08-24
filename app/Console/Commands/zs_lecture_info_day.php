@@ -42,9 +42,9 @@ class zs_lecture_info_day extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task=new \App\Console\Tasks\TaskController();
         $start_time = strtotime(date("Y-m-d",time()-100));
-        $end_time=time();                                  
+        $end_time=time();
         $all_total =0;
-        $ret_info  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time); 
+        $ret_info  = $task->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
 
         $video_account = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time);
         $video_account_real = $task->t_teacher_lecture_info->get_lecture_info_by_zs($start_time,$end_time,-2);
@@ -73,14 +73,14 @@ class zs_lecture_info_day extends Command
             //@$str[$accept_adminid] =$account.":邀约-面".$item["one_account"]."/录".$item["video_account"]."/总".$item["all"]."、实到-面".$item["one_account_real"]."/录".$item["video_account_real"]."/总".$item["all_real"]."、通过-面".$item["one_account_pass"]."/录".$item["video_account_pass"]."/总".$item["all_pass"];
 
 
-            
+
         }
         $s ="";
         foreach($str as $vv){
             $s .=$vv."\n";
         }
         $data =[];
-                    
+
         $video_all =  $task->t_teacher_lecture_info->get_lecture_info_by_all_new(
             -1,$start_time,$end_time,-1,-1,-1,"");
         $video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
@@ -97,18 +97,18 @@ class zs_lecture_info_day extends Command
 
         $all_count =  $data["video_count"]+$data["one_count"];
         $all_real =  $data["video_real"]+$data["one_real"];
-      
+
         $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time);
         @$data["video_succ"] = count($teacher_list_ex);
         $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         @$data["one_succ"] = count($teacher_arr_ex);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k; 
+                $teacher_list_ex[$k]=$k;
             }
-        }  
+        }
 
-        $data["all_succ"] = count($teacher_list_ex);       
+        $data["all_succ"] = count($teacher_list_ex);
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
         $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
 
@@ -160,64 +160,64 @@ class zs_lecture_info_day extends Command
         //整体完成率
         /* $start_time = strtotime("2017-08-11");
         $end_time = time();
-		
-		$teacher_info = $task->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
-		foreach($teacher_info as $kk=>$vv){
-		    if(in_array($kk,[992,891,486,871])){
-                unset($teacher_info[$kk]);
-		    }
-		}
-	
 
-		$all_count=0;
-    
-		foreach($teacher_info as &$item){
-		   
-		    $item["all_target_num"] = 250;
-		    if(in_array($item["uid"],[486,754])){
+        $teacher_info = $task->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
+        foreach($teacher_info as $kk=>$vv){
+            if(in_array($kk,[992,891,486,871])){
+                unset($teacher_info[$kk]);
+            }
+        }
+
+
+        $all_count=0;
+
+        foreach($teacher_info as &$item){
+
+            $item["all_target_num"] = 250;
+            if(in_array($item["uid"],[486,754])){
                 $item["all_target_num"]=150;
-		    }elseif(in_array($item["uid"],[913,923,892])){
+            }elseif(in_array($item["uid"],[913,923,892])){
                 $item["all_target_num"]=400;
-		    }elseif(in_array($item["uid"],[478])){
+            }elseif(in_array($item["uid"],[478])){
                 $item["all_target_num"]=50;
             }elseif(in_array($item["uid"],[895])){
                 $item["all_target_num"]=100;
             }
 
-		    $all_count +=$item["all_target_num"];
-		}       
+            $all_count +=$item["all_target_num"];
+        }
 
-		//面试总计
+        //面试总计
 
-		$teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
-		$teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
-		foreach($teacher_arr_ex as $k=>$val){
-		    if(!isset($teacher_list_ex[$k])){
+        $teacher_list_ex = $task->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+        $teacher_arr_ex = $task->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+        foreach($teacher_arr_ex as $k=>$val){
+            if(!isset($teacher_list_ex[$k])){
                 $teacher_list_ex[$k]=$k;
-		    }
-		}
-		$video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
-		    $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+            }
+        }
+        $video_real =  $task->t_teacher_lecture_info->get_lecture_info_by_all(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
 
-		$one_real = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
-		    $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
-		@$video_real["all_count"] += $one_real["all_count"];
+        $one_real = $task->t_teacher_record_list->get_train_teacher_interview_info_all(
+            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+        @$video_real["all_count"] += $one_real["all_count"];
 
-		$all_tea_ex = count($teacher_list_ex);
+        $all_tea_ex = count($teacher_list_ex);
 
-		//模拟试听总计
-		$train_first_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
-		$train_second_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
+        //模拟试听总计
+        $train_first_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
+        $train_second_all = $task->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
 
-		//第一次试听/第一次常规总计
-		$test_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
-		$regular_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
+        //第一次试听/第一次常规总计
+        $test_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
+        $regular_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
-		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
+        $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
         $num = count($teacher_info);
-		// $all_count = ($num-2)*250+300;
+        // $all_count = ($num-2)*250+300;
         if($all_count){
-            $all_per = round($all_num/$all_count*100,2);  
+            $all_per = round($all_num/$all_count*100,2);
         }else{
             $all_per = 0;
             }*/

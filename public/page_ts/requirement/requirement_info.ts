@@ -91,7 +91,7 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true,);
+        Enum_map.append_option_list("require_class",name, true);
         Enum_map.append_option_list("require_priority", priority, true);
         Enum_map.append_option_list("require_significance",significance,true);
 
@@ -156,7 +156,7 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true,);
+        Enum_map.append_option_list("require_class",name, true);
         Enum_map.append_option_list("require_priority", priority, true);
         Enum_map.append_option_list("require_significance",significance,true);
         name.val(opt_data.name);
@@ -227,7 +227,7 @@ $(function(){
             "onChangeDateTime" : function() {
             }
         });
-        Enum_map.append_option_list("require_class",name, true,);
+        Enum_map.append_option_list("require_class",name, true);
         Enum_map.append_option_list("require_priority", priority, true);
         Enum_map.append_option_list("require_significance",significance,true);
         name.val(opt_data.name);

@@ -158,6 +158,15 @@ class wx_yxyx_common extends Controller
         $p_phone = $this->get_in_str_val('p_phone');
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        $student_info = $this->t_student_info->field_get_list($userid,'*');
+        $orderid = 0;
+        if($userid){
+            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
+            if($order_info['orderid']){
+                $orderid = $order_info['orderid'];
+            }
+        }
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
@@ -166,6 +175,14 @@ class wx_yxyx_common extends Controller
         }
         if(!$type){
             return $this->output_err("请选择报名类型!");
+        }
+        if($userid
+           && $student_info['type'] ==  E\Estudent_type::V_0
+           && $student_info['is_test_user'] == 0
+           && $orderid
+           && $type == E\Eagent_type::V_1
+        ){//在读非测试
+            return $this->output_err("您已是在读学员!");
         }
         if($p_phone){
             $phone_str = implode(',',[$phone,$p_phone]);

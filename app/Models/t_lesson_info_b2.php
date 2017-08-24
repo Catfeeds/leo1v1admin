@@ -3345,6 +3345,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         $where_arr = [
             "l.lesson_type=2", //试听课
+            "l.del_flag=0",
             ["l.lesson_start>%d",$lesson_begin],
             ["l.lesson_start<=%d",$lesson_end]
         ];
