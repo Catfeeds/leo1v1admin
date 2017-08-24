@@ -676,7 +676,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_p_pp_id_by_phone($phone, $id=-1){
         $where_arr = [
-            ['a.phone = "%s"',$phone],
+            ['a.phone = "%s"',$phone,""],
             ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
@@ -793,11 +793,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
-        $orderid = 0;
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
             if ($order_info) {
+                $orderid =  $order_info["orderid"] ;
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
                 $check_time= $order_info["pay_time"];
                 $pid = $agent_info['pid'];
@@ -825,7 +825,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $agent_info['id'],
+                    'aid'         => $id,
                     'pid'         => $pid,
                     'p_price'     => $p_price,
                     'ppid'        => $ppid,
