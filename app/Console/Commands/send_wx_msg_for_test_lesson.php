@@ -52,6 +52,7 @@ class send_wx_msg_for_test_lesson extends Command
         $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         foreach($test_lesson_list_halfhour as $item){
+            $data_tea = $this->get_data();
             $this->send_wx_msg_tea($item,1,$data_tea);
             $this->send_wx_msg_admin($item,1,$data_ass, $data_par);
         }
