@@ -2403,6 +2403,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_agent_order_info($userid,$create_time ) {
+
+        $where_arr = [
+            ["order_time > %u ", $create_time,0 ],
+            'order_status in (1,2)',
+            'contract_type =0 ',
+            ['userid=%u',  $userid ],
+        ];
+        $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s limit 1 ",
+                                 self::DB_TABLE_NAME, $where_arr);
+        return $this->main_get_row($sql);
+
+    }
     public function get_agent_order($orderid_array_str,$userid_array_str){
         $where_arr = [
             "o.orderid not in (".$orderid_array_str.")",
@@ -2713,12 +2726,13 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
-    public function get_nomal_order_by_userid($userid){
+    public function get_nomal_order_by_userid($userid,$check_time=-1){
         $where_arr = [
             "o.userid = $userid",
             "o.contract_type = 0",
             "o.contract_status = 1",
             "o.order_status in (1,2) ",
+            ["o.pay_time <%u" ,$check_time, -1 ]
         ];
         //E\Econtract_status
         $sql = $this->gen_sql_new("select o.orderid "
