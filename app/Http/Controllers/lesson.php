@@ -415,6 +415,8 @@ class lesson extends TeaWxController
             $ret_info = $this->t_test_lesson_subject_require->field_update_list($requireid,[
                 "stu_lesson_content" => $stu_lesson_content,
                 "stu_lesson_status"  => $stu_lesson_status,
+                "stu_advice"         => $stu_advice,
+                "stu_total_judgement" => $stu_total_judgement
             ]);
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
