@@ -932,6 +932,9 @@ class human_resource extends Controller
             }
             $item["textbook"] = trim($item["textbook"],",");
 
+            if(empty($item["teacher_tags"])){
+                $item["teacher_tags"]="";
+            }
              
 
         }

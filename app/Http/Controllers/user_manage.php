@@ -1947,7 +1947,7 @@ class user_manage extends Controller
 
     public function complaint_department_deal_product(){
         $this->set_in_value('account_type',2);
-        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
+        $this->set_in_value('complaint_type',5); // 显示软件反馈类型
         return $this->complaint_department_deal();
     }
 
@@ -1957,6 +1957,7 @@ class user_manage extends Controller
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
+        $complaint_type = $this->get_in_int_val('complaint_type',-1);
         $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
@@ -1987,7 +1988,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
 
 
         foreach($ret_info['list'] as $index=>&$item){

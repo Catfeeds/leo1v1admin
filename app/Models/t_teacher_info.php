@@ -542,9 +542,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
         if($month_stu_num ==1){
             $where_arr[] = "month_stu_num =0";
-        }else if($test_lesson_full_flag ==2){
+        }else if($month_stu_num ==2){
             $where_arr[] = "month_stu_num >=1 and month_stu_num<=3";
-        }elseif($test_lesson_full_flag ==3){
+        }elseif($month_stu_num ==3){
             $where_arr[] = "month_stu_num >=4";
         }
 
@@ -631,7 +631,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
                                   // ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
-                                  ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks "
+                                  ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks,tr.record_score "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"

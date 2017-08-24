@@ -24,6 +24,13 @@
                     <td>第二周试听课数</td>
                     <td>第二周签单数</td>
                     <td>第二周签单率</td>
+                    <td>第三周试听课数</td>
+                    <td>第三周签单数</td>
+                    <td>第三周签单率</td>
+                    <td>第四周试听课数</td>
+                    <td>第四周签单数</td>
+                    <td>第四周签单率</td>
+
 
                     <td> 操作</td>
                 </tr>
@@ -41,6 +48,13 @@
                         <td class="second_lesson_num"></td>
                         <td class="second_order_num"></td>
                         <td class="second_per"></td>
+                        <td class="third_lesson_num"></td>
+                        <td class="third_order_num"></td>
+                        <td class="third_per"></td>
+                        <td class="fourth_lesson_num"></td>
+                        <td class="fourth_order_num"></td>
+                        <td class="fourth_per"></td>
+
 
                        
                         <td>

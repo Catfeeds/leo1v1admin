@@ -544,70 +544,8 @@ class agent extends Controller
 
         $list=$this->t_agent->get_link_list_py_ppid($id );
 
-        $userid_list=[];
-        foreach ($list as $item) {
-            $userid_list[] = $item["p_userid"];
-            $userid_list[] = $item["userid"];
-        }
 
-        $map=[];
-        foreach ($list as $item) {
-            $pid=$item["pid"];
-            $p_nick=$item["p_nick"];
-            $p_userid=$item["p_userid"];
-            $p_phone=$item["p_phone"];
-            $p_agent_level=$item["p_agent_level"];
-            $p_test_lessonid=$item["p_test_lessonid"];
-            $id=$item["id"];
-            $userid=$item["userid"];
-            $nick=$item["nick"];
-            $phone=$item["phone"];
-            $agent_level=$item["agent_level"];
-            $test_lessonid=$item["test_lessonid"];
-            E\Eagent_level::set_item_value_str($item);
-            E\Eagent_level::set_item_value_str($item,"p_agent_level");
-            E\Eagent_type::set_item_value_str($item);
-            E\Eagent_type::set_item_value_str($item,"p_agent_type");
-
-            $item["test_lesson_flag"]= $item["test_lessonid"]>0?1:0;
-            $item["p_test_lesson_flag"]= $item["p_test_lessonid"]>0?1:0;
-            E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
-            E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
-
-            if ( !isset($map[$pid]) ){
-                $item["list"]=[];
-                $map[$pid]=$item ;
-            }
-            if( $id ) {
-                $map[$pid]["list"][]= $item ;
-            }
-        }
-
-        $ret_list=[];
-        foreach ( $map as $p1 ) {
-            $ret_list[ ] = [
-                "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
-                "p1_id"                    => $p1["pid"],
-                "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
-                "p1_price"                => $p1["o_p_from_price"]/100,
-                "p1_p_agent_level"        => $p1["o_p_agent_level"],
-                "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
-                "p1_p_price"              => $p1["o_p_price"]/100,
-            ] ;
-            foreach ( $p1["list"] as $p2 ) {
-                $ret_list[ ]= [
-                    "p2_name"=> $p2["nick"]."/".$p2["phone"],
-                    "p2_id"=> $p2["id"],
-                    "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
-                    "p2_price"=> $p2["o_from_price"]/100,
-                    "p2_p_agent_level"        => $p2["o_agent_level"],
-                    "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
-                    "p2_p_price"              => $p2["o_price"]/100,
-                ] ;
-            }
-        }
-
-        $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
         //dd($list);
         return $this->pageView(__METHOD__, $ret_info);
 

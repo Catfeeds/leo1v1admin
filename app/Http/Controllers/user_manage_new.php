@@ -3818,7 +3818,7 @@ class user_manage_new extends Controller
         $reward_count_type = $this->get_in_int_val("reward_count_type");
         $rule_type         = $this->get_in_int_val("rule_type");
         $num               = $this->get_in_int_val("num")*100;
-        $old_num           = $this->get_in_int_val("num")*100;
+        $old_num           = $this->get_in_int_val("old_num")*100;
         $money             = $this->get_in_int_val("money")*100;
         $type              = $this->get_in_str_val("type","add");
 

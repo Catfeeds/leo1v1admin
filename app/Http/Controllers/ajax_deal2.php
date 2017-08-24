@@ -382,6 +382,7 @@ class ajax_deal2 extends Controller
         $ret=[];
         $ret_student = $this->t_student_info->get_userid_by_phone($phone);
         $ret_parent  = $this->t_parent_info->get_parentid_by_phone_b1($phone);
+        $ret_teacher = $this->t_teacher_info->check_teacher_phone($phone);
         if($ret_student != 0 && $ret_parent != 0){
             $ret['success'] =  "此手机号已经注册学生账号和家长账号";
         }else if($ret_student == 0 && $ret_parent != 0){
@@ -404,6 +405,8 @@ class ajax_deal2 extends Controller
                 $this->t_parent_child->set_student_parent($ret_parent,$ret_student);
             }
         }
+
+
         return $this->output_succ($ret);
     }
     /**
@@ -778,10 +781,14 @@ class ajax_deal2 extends Controller
         $first_start = strtotime(date("Y-m-d",$train_through_new_time))+86400;
         $first_end = $first_start+7*86400;
         $second_end = $first_start+14*86400;
+        $third_end = $first_start+21*86400;
+        $fourth_end = $first_start+28*86400;
         $qz_tea_arr = [];
         $qz_tea_arr[] = $teacherid;
         $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
         $second_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_end,$second_end);
+        $third_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$second_end,$third_end);
+        $fourth_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$third_end,$fourth_end);
         $data=[];
         $data["first_lesson_num"] = isset($first_info[$teacherid]["all_lesson"])?$first_info[$teacherid]["all_lesson"]:0;
         $data["first_order_num"] = isset($first_info[$teacherid]["order_num"])?$first_info[$teacherid]["order_num"]:0;
@@ -789,6 +796,15 @@ class ajax_deal2 extends Controller
         $data["second_order_num"] = isset($second_info[$teacherid]["order_num"])?$second_info[$teacherid]["order_num"]:0;
         $data["first_per"] = !empty($data["first_lesson_num"])?round($data["first_order_num"]/$data["first_lesson_num"]*100,2):0;
         $data["second_per"] = !empty($data["second_lesson_num"])?round($data["second_order_num"]/$data["second_lesson_num"]*100,2):0;
+        $data["third_lesson_num"] = isset($third_info[$teacherid]["all_lesson"])?$third_info[$teacherid]["all_lesson"]:0;
+        $data["third_order_num"] = isset($third_info[$teacherid]["order_num"])?$third_info[$teacherid]["order_num"]:0;
+        $data["third_per"] = !empty($data["third_lesson_num"])?round($data["third_order_num"]/$data["third_lesson_num"]*100,2):0;
+
+        $data["fourth_lesson_num"] = isset($fourth_info[$teacherid]["all_lesson"])?$fourth_info[$teacherid]["all_lesson"]:0;
+        $data["fourth_order_num"] = isset($fourth_info[$teacherid]["order_num"])?$fourth_info[$teacherid]["order_num"]:0;
+        $data["fourth_per"] = !empty($data["fourth_lesson_num"])?round($data["fourth_order_num"]/$data["fourth_lesson_num"]*100,2):0;
+
+
         return $this->output_succ(["data"=>$data]); 
     }
 
