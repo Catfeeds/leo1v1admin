@@ -142,25 +142,29 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
             }elseif($type == 4){
                 $data = [
-                    "first"    => "{ ".$item['teacher_nick']."}老师您好，$subject_str 课程已开始15分钟，请尽快进入课堂。 ",
-                    "keyword1" => '课程提醒',
-                    "keyword2" => "$subject_str 课程已开始15分钟，您还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "first"    => "{ ".$item['teacher_nick']."}老师您好，".$item['stu_nick']." 同学的课程已结束 ",
+                    "keyword1" => '旷课提醒',
+                    "keyword2" => "未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
             }
         }else{ // 助教
-            if($type == 1){
+            if($type == 1){ // 课前30分钟
                 $data = [
-                    "first"    => "您好，您的学员".$item['stu_nicl']."同学于30分钟后有一节 $subject_str 课。",
-                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
+                    "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
+                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "$remark_ass"
+                    "remark"   => "请及时跟进"
                 ];
             }elseif($type == 2){
-
+                $data = [
+                    "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
+                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
+                    "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请及时跟进"
+                ];
             }elseif($type == 3){
-
             }
         }
 

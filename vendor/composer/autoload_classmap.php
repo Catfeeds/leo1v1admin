@@ -794,6 +794,7 @@ return array(
     'TTestLessonSubjectSubListAddOrderConfirmFlag' => $baseDir . '/database/migrations/2017_07_25_145858_t_test_lesson_subject_sub_list_add_order_confirm_flag.php',
     'TTestLessonSubjectSubListAddTestLessonOrderFailFlag' => $baseDir . '/database/migrations/2017_07_25_115725_t_test_lesson_subject_sub_list_add_test_lesson_order_fail_flag.php',
     'TTodo' => $baseDir . '/database/migrations/2017_06_28_175835_t_todo.php',
+    'TTqCallInfoAddAdminRole' => $baseDir . '/database/migrations/2017_08_24_135640_t_tq_call_info_add_admin_role.php',
     'TTqCallInfoAddAdminid' => $baseDir . '/database/migrations/2017_08_24_134744_t_tq_call_info_add_adminid.php',
     'TTrainLessonUserAddTrainType' => $baseDir . '/database/migrations/2017_07_20_104720_t_train_lesson_user_add_train_type.php',
     'TUserLoginLogAddDymanicFlag' => $baseDir . '/database/migrations/2017_06_14_142259_t_user_login_log_add_dymanic_flag.php',
