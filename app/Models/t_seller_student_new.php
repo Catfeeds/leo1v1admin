@@ -1599,28 +1599,28 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
     public function reset_sys_invaild_flag($userid){
         $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag");
-        $invalid_flag=false;
-        $add_time=$item_arr["add_time"];
+        $invalid_flag = false;
+        $add_time = $item_arr["add_time"];
         //连续3个人处理过了
         //$deal_count=$item_arr["call_admin_count"];
-        $phone=$item_arr["phone"];
+        $phone = $item_arr["phone"];
 
-        $invalid_count=$this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
-        $invalid_str="";
+        $invalid_count = $this->t_test_subject_free_list->get_set_invalid_count( $userid,$add_time);
+        $invalid_str   = "";
         if ( $item_arr["seller_resource_type"]==E\Eseller_resource_type::V_0 )  {
-            $deal_count=  $this->task->t_tq_call_info->get_user_call_admin_count($phone,$add_time);
-            if ($deal_count >=5   ) {
-                $invalid_flag=true;
-                $invalid_str=" $deal_count 人拨打,未接通";
+            $deal_count = $this->task->t_tq_call_info->get_user_call_admin_count($phone,$add_time);
+            if ( $deal_count >= 5 ) {
+                $invalid_flag = true;
+                $invalid_str  = " $deal_count 人拨打,未接通";
             }
         }
 
-        if ($invalid_count >=3 ) {
-            $invalid_flag=true;
-            $invalid_str=" 被cc 设置无效资源: $invalid_count 次 ";
+        if ( $invalid_count >= 3 ) {
+            $invalid_flag = true;
+            $invalid_str  = " 被cc 设置无效资源: $invalid_count 次 ";
         }
 
-        $db_sys_invaild_flag= ($item_arr["sys_invaild_flag"]==1);
+        $db_sys_invaild_flag = ($item_arr["sys_invaild_flag"]==1);
 
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
 
@@ -1635,7 +1635,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
         }
 
-        if ($item_arr['global_tq_called_flag'] == 0 ) {
+        if ( $item_arr['global_tq_called_flag'] == 0 ) {
             $is_called_and_calltime = $this->task->t_tq_call_info->get_call_info_by_phone($phone);
             $called_flag = 0;
             if ($is_called_and_calltime) {

@@ -47,7 +47,7 @@ class reset_lesson_count_when_lesson_start extends Command
         if ($all_flag)  {
             //系统判定无效
             $now=time(NULL);
-            $user_list=$task->t_seller_student_new->get_user_list_by_add_time( $now-86400*100 ,$now );
+            $user_list=$task->t_seller_student_new->get_user_list_by_add_time( $now-86400*101 ,$now );
             foreach ($user_list as $item ) {
                 $userid=$item["userid"];
                 echo "$userid\n";
