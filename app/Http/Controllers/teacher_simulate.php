@@ -89,7 +89,7 @@ class teacher_simulate extends Controller
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
 
             if($val['teacher_money_type']==5){
-                $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start']);
+                $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start'],$val['teacher_ref_type']);
                 if($teacher_ref_rate>0){
                     $teacher_ref_money = $money*$teacher_ref_rate;
                     $money+=$teacher_ref_money;

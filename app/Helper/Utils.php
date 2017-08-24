@@ -1469,7 +1469,6 @@ class Utils  {
         $alibaba_url_origi = [];
 
         $ret = [];
-        $savePathFile = public_path('wximg').'/'.$pdf_url;
 
 
         foreach($serverIdLists as $serverId){
