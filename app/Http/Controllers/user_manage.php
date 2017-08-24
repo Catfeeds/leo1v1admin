@@ -1252,7 +1252,8 @@ class user_manage extends Controller
         dispatch($job);
 
         if($ret_type == 0){
-            $this->update_agent_order($orderid,$userid,$order_info['price']);
+            $aid=$this->t_agent->get_id_by_userid($userid);
+            $this->t_agent->reset_user_info($aid);
         }
 
         return $this->output_succ();

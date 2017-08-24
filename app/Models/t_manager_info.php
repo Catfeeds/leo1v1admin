@@ -452,6 +452,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     }
 
+    public function get_user_info_for_tq ($tquin) {
+        $sql=$this->gen_sql_new("select  uid,account_role from %s where tquin = %u",
+                                self::DB_TABLE_NAME, $tquin);
+        return $this->main_get_row($sql);
+
+    }
+
+
     public function set_cardid_null( $uid) {
         $sql=$this->gen_sql_new("update %s set cardid=NULL where uid=%u",
                                 self::DB_TABLE_NAME, $uid);

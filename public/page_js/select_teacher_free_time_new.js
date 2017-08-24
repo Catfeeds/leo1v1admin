@@ -35,7 +35,7 @@
 		                weekends: true,
 		                height: 600,
 		                firstDay: 1,
-		                defaultView: 'month',
+		                defaultView: 'agendaWeek',
 		                events: [{}],
 		                firstHour:8,
 		                timeFormat:{agenda: 'H:mm'},

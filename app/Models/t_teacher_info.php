@@ -445,7 +445,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $second_interview_score=-1, $teacherid_arr=[],$seller_flag=0,$qz_flag=0,
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
-                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1
+                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -528,6 +528,26 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }else{
             $hh = "";
             }*/
+        if($test_lesson_full_flag ==1){
+            $where_arr[] = "two_week_test_lesson_num =0";
+        }else if($test_lesson_full_flag ==2){
+            $where_arr[] = "two_week_test_lesson_num >=1 and two_week_test_lesson_num<=4";
+        }elseif($test_lesson_full_flag ==3){
+            $where_arr[] = "two_week_test_lesson_num >=5 and two_week_test_lesson_num<=8";
+        }elseif($test_lesson_full_flag ==4){
+            $where_arr[] = "two_week_test_lesson_num >8";
+        }
+        if($month_stu_num ==1){
+            $where_arr[] = "month_stu_num =0";
+        }else if($test_lesson_full_flag ==2){
+            $where_arr[] = "month_stu_num >=1 and month_stu_num<=3";
+        }elseif($test_lesson_full_flag ==3){
+            $where_arr[] = "month_stu_num >=4";
+        }
+
+
+
+        
         if($test_transfor_per ==1){
             $where_arr[] = "t.test_transfor_per <10";
         }else if($test_transfor_per==2){

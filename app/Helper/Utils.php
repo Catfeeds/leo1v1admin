@@ -6,6 +6,20 @@ use Illuminate\Support\Facades\Redis ;
 use App\Enums as  E;
 use \App\Libs;
 
+
+// 引入鉴权类
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+require_once(app_path("/Libs/OSS/autoload.php"));
+use OSS\OssClient;
+
+use OSS\Core\OssException;
+
+
 require_once app_path('/Libs/TCPDF/tcpdf.php');
 require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
@@ -1116,7 +1130,7 @@ class Utils  {
             }
             $last_rate = $rate_val;
         }
-        return $rate;
+        return $last_rate;
     }
 
     static function send_error_email($to,$title,$content){
@@ -1472,9 +1486,9 @@ class Utils  {
 
 
         foreach($serverIdLists as $serverId){
-            $imgStateInfo = $this->savePicToServer_for_img($serverId);
+            $imgStateInfo = self::savePicToServer_for_img($serverId);
             $savePathFile = $imgStateInfo['savePathFile'];
-            $file_name = $this->put_img_to_alibaba($savePathFile);
+            $file_name = self::put_img_to_alibaba($savePathFile);
             $alibaba_url_origi[] = $savePathFile;
             $alibaba_url[] = $file_name ;
             unlink($savePathFile);
@@ -1488,7 +1502,7 @@ class Utils  {
             $tar_name  = "/tmp/".md5(date('YmdHis').rand()).".tar.gz";
             $cmd       = "tar -cvzf $tar_name $alibaba_url_str_compress ";
             $ret_tar   = \App\Helper\Utils::exec_cmd($cmd);
-            $ret['file_name_origi'] = $this->put_img_to_alibaba($tar_name);
+            $ret['file_name_origi'] = self::put_img_to_alibaba($tar_name);
             @unlink($tar_name);
             foreach($alibaba_url_origi as $item_orgi){
                 @unlink($item_orgi);
@@ -1499,8 +1513,8 @@ class Utils  {
     }
 
 
-    public function savePicToServer_for_img($serverId ,$appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ) {
-        $accessToken = $this->get_wx_token_jssdk( $appid_tec, $appscript_tec);
+    static public function savePicToServer_for_img($serverId ,$appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ) {
+        $accessToken = self::get_wx_token_jssdk( $appid_tec, $appscript_tec);
         // 要存在你服务器哪个位置？
         $route = md5(date('YmdHis').rand());
         $savePathFile = '/tmp/'.$route.'.jpg';
@@ -1519,7 +1533,7 @@ class Utils  {
         return $msg;
     }
 
-    public function put_img_to_alibaba($target){
+    static public function put_img_to_alibaba($target){
         try {
             $config=\App\Helper\Config::get_config("ali_oss");
             $file_name=basename($target);
@@ -1539,7 +1553,7 @@ class Utils  {
         }
     }
 
-    public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
+   static public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
         $wx        = new \App\Helper\Wx();
         return $wx->get_wx_token($appid_tec,$appscript_tec);
     }

@@ -87,14 +87,28 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span>周试听课数</span>
+                        <span>近两周试听课数</span>
                         <select id="id_test_lesson_full_flag" class ="opt-change" >
                             <option value="-1"> 全部</option>
-                            <option value="1"> 满8节</option>
-                            <option value="2"> 其他</option>
+                            <option value="1"> 0</option>
+                            <option value="2">1-4</option>
+                            <option value="3">5-8</option>
+                            <option value="4">8节以上</option>
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>近一个月常规学生数</span>
+                        <select id="id_month_stu_num" class ="opt-change" >
+                            <option value="-1"> 全部</option>
+                            <option value="1"> 0</option>
+                            <option value="2">1-3</option>
+                            <option value="3">4个以上</option>
+                        </select>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">

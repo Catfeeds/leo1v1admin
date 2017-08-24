@@ -14,7 +14,6 @@ class teacher_simulate extends Controller
     var $level_simulate_count_key = "level_simulate_count";
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
-    var $already_lesson_count_key = "already_lesson_count";
     var $teacher_ref_rate_key     = "teacher_ref_rate";
 
     public function new_teacher_money_list(){
@@ -103,13 +102,13 @@ class teacher_simulate extends Controller
                 $lesson_price_simulate = 0;
             }
 
-            \App\Helper\Utils::check_isset_data($tea_arr['money'],round($money,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],round($money_simulate,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['reward'],round($reward,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],round($reward_simulate,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],round($lesson_price,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],round($lesson_count,2));
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],round($lesson_price_simulate,2));
+            \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
+            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
+            \App\Helper\Utils::check_isset_data($tea_arr['reward'],$reward);
+            \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],$reward_simulate);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$lesson_price);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
+            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
 
             $all_money                 += $money;
             $all_lesson_price          += $lesson_price;
@@ -125,6 +124,8 @@ class teacher_simulate extends Controller
         }
 
         $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
+
+
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
@@ -272,6 +273,7 @@ class teacher_simulate extends Controller
     public function del_redis_simulate_money(){
         Redis::del($this->has_month_key);
         Redis::del($this->all_money_count_key);
+        Redis::del($this->teacher_ref_rate_key);
         return $this->output_succ();
     }
 

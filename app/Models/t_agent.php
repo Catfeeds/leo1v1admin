@@ -602,6 +602,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
+    public function get_id_by_userid($sql) {
+        $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
+                                self::DB_TABLE_NAME, $userid );
+        return $this->main_get_value($sql);
+
+    }
 
     public function get_id_by_phone($phone_str){
         $where_arr = [

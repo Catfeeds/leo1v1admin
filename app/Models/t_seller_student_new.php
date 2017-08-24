@@ -852,6 +852,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "lesson_count_all=0",
             "tmk_adminid=0",
             "origin_level <> 99",
+            "origin_userid=0 ",
             "sys_invaild_flag=0",
             "s.grade<300", //非高中
             "competition_call_time<$check_time",

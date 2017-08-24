@@ -12,6 +12,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         parent::__construct();
     }
     public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url) {
+        $adminid=$this->task->t_manager_info->get_uid_by_tquin($uid);
         $sql=$this->gen_sql_new("insert ignore into %s (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url) values( %u,%u,'%s',%u,%u,%u,%u,'%s' )",
                             self::DB_TABLE_NAME,
                             $id,
