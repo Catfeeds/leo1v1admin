@@ -1620,7 +1620,7 @@ class Utils  {
     static public function redis($type,$key,$value=[],$json_decode=false){
         if($type==E\Eredis_type::V_GET){
             $value = Redis::get($key);
-            if(!$json_decode){
+            if($json_decode){
                 $value = json_decode($value,true);
             }
         }elseif($type==E\Eredis_type::V_SET){
