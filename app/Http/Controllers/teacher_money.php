@@ -254,12 +254,15 @@ class teacher_money extends Controller
             $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
             // 后台拉取平台代理的老师工资
             $teacher_ref_type = $teacher_info['teacher_ref_type'];
-            if($teacher_ref_type==1){
-                $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
-            }elseif($teacher_ref_type!=0){
-                $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
-                $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
+            if($teacher_info['teacher_money_type']==5){
+                if($teacher_ref_type==1){
+                    $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
+                }elseif($teacher_ref_type!=0){
+                    $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
+                    $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
+                }
             }
+
             /**
              * 公司全职老师除以下三位，其他按隔月发放。
              * 叶，时，刁

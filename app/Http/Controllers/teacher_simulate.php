@@ -265,5 +265,14 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
-
+    public function set_teacher_ref_rate(){
+        $start_time = strtotime("2017-1-1");
+        $end_date   = strtotime("2017-8-1");
+        if($teacher_ref_type==1){
+            $teacher_ref_rate = \App\Helper\Config::get_config_2("teacher_ref_rate",$teacher_ref_type);
+        }elseif($teacher_ref_type!=0){
+            $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
+            $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
+        }
+    }
 }

@@ -71,12 +71,15 @@ class send_wx_msg_for_test_lesson extends Command
             if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
                 $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
                 $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
-                $this->send_wx_msg_admin($item,2,$data_par);
+                $this->send_wx_msg_par($item,2,$data_par);
+                $this->send_wx_msg_ass($item,2,$data_ass);
             }
 
             if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
                 $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
+                $data_ass = $this->get_data($item,3,2,$item['teacher_nick'],'');
                 $this->send_wx_msg_tea($item,2,$data_tea);
+                $this->send_wx_msg_tea($item,2,$data_ass);
             }
         }
 
@@ -88,13 +91,20 @@ class send_wx_msg_for_test_lesson extends Command
             $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
             $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-            if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
-                $this->send_wx_msg($item,3);
+            if($opt_time_stu>=$now){ // 判断学生是否超时 [15分钟]
+                $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
+                $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
+                $this->send_wx_msg_par($item,2,$data_par);
+                $this->send_wx_msg_ass($item,2,$data_ass);
             }
 
-            if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
-                $this->send_wx_msg($item,3);
+            if($opt_time_tea>=$now){ // 判断老师是否超时  [15分钟]
+                $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
+                $data_ass = $this->get_data($item,3,2,$item['teacher_nick'],'');
+                $this->send_wx_msg_tea($item,2,$data_tea);
+                $this->send_wx_msg_tea($item,2,$data_ass);
             }
+
         }
 
 
@@ -187,9 +197,14 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请及时跟进"
                 ];
-            }elseif($type == 2){ // 超时5分钟
+            }elseif($type == 2){ // 超时5分钟  $tea_nick_cut_class='', $stu_nick_cut_class=
+                if($tea_nick_cut_class){
+                    $first = "您好，$subject_str 课程已开始5分钟，".$tea_nick_cut_class."老师还未进入课堂。";
+                }else{
+                    $first = "您好，$subject_str 课程已开始5分钟，".$stu_nick_cut_class."同学还未进入课堂。";
+                }
                 $data = [
-                    "first"    => "您好，$subject_str 课程已开始5分钟，老师/同学还未进入课堂。 ",
+                    "first"    => "$first",
                     "keyword1" => '课程提醒',
                     "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
@@ -197,24 +212,42 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
 
             }elseif($type == 3){ // 超时15分钟
+                if($tea_nick_cut_class){
+                    $first = "您好，$subject_str 课程已开始15分钟，".$tea_nick_cut_class."老师还未进入课堂。";
+                }else{
+                    $first = "您好，$subject_str 课程已开始15分钟，".$stu_nick_cut_class."同学还未进入课堂。";
+                }
+
                 $data = [
-                    "first"    => "您好，$subject_str 课程已开始15分钟，老师/同学还未进入课堂。 ",
+                    "first"    => "$first",
                     "keyword1" => '课程提醒',
                     "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请立刻联系同学/老师。"
                 ];
             }elseif($type == 4){ // 学生|老师中途退出5分钟以上
+                if($tea_nick_cut_class){
+                    $first = " $tea_nick_cut_class 老师已退出课堂5分钟以上，请关注老师情况，保证课程顺利进行";
+                }else{
+                    $first = "$stu_nick_cut_class 同学已退出课堂5分钟以上，请关注学生情况，保证课程顺利进行";
+                }
+
                 $data = [
-                    "first"    => "同学/老师已退出课堂5分钟以上，请关注学生/老师情况，保证课程顺利进行",
+                    "first"    => "$first",
                     "keyword1" => '课程提醒',
                     "keyword2" => "同学/老师已退出课堂5分钟以上 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请立刻联系同学/老师。"
                 ];
             }elseif($type==5){ // 结束未进入课堂
+                if($tea_nick_cut_class){
+                    $first = "您好，{".$item['stu_nick']."}同学的课程已结束，$tea_nick_cut_class 老师未能按时进入课堂 ";
+                }else{
+                    $first = "您好，{".$item['stu_nick']."}同学的课程已结束，$stu_nick_cut_class 同学未能按时进入课堂";
+                }
+
                 $data = [
-                    "first"    => "您好，{".$item['stu_nick']."}同学的课程已结束，同学/老师未能按时进入课堂",
+                    "first"    => "$first",
                     "keyword1" => '旷课提醒',
                     "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
