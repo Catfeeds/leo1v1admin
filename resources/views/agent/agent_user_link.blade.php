@@ -37,13 +37,13 @@
                         <td>{{@$var["p1_name"]}}</td>
                         <td> {!! @$var["p1_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p1_price"] !!} </td>
-                        <td> {!! @$var["p1_p_agent_level_str"] !!} </td>
                         <td> {!! @$var["p1_p_price"] !!} </td>
+                        <td> {!! @$var["p1_p_agent_level_str"] !!} </td>
                         <td> {{@$var["p2_name"]}} </td>
                         <td> {!! @$var["p2_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p2_price"] !!} </td>
-                        <td> {!! @$var["p2_p_agent_level_str"] !!} </td>
                         <td> {!! @$var["p2_p_price"] !!} </td>
+                        <td> {!! @$var["p2_p_agent_level_str"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
