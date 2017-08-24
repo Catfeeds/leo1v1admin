@@ -3842,7 +3842,7 @@ class user_manage_new extends Controller
             $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
         }
         $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
-        Redis::set($key,json_encode($teacher_rule));
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$key,$teacher_rule);
 
         return $this->output_succ();
     }

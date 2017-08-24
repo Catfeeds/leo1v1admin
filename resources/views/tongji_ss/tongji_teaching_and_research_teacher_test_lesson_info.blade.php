@@ -6,7 +6,7 @@
          text-align:center;
      }
     </style>
-    
+
     <section class="content " id="id_content">
 
         <div  id="id_query_row">
@@ -17,14 +17,14 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_read_reward_rule"> 查看签单奖规则 </button>
-                </div>                
+                </div>
 
 
             </div>
         </div>
 
         <br>
-        
+
         <div class="row">
 
             <div class="col-xs-12 col-md-4">
@@ -39,7 +39,7 @@
                                     <td>排名</td>
                                     <td>老师</td>
                                     <td>面试试听课数</td>
-                                    <td>面试签单数</td>                                    
+                                    <td>面试签单数</td>
                                     <td>面试签单率</td>
                                     <td>对应奖金</td>
                                 </tr>
@@ -53,8 +53,8 @@
                                             <a  href="javascript:;" >{{@$var["person_num"]}}</a>
                                         </td>
                                         <td > {{@$var["order_num"]}} </td>
-                                        
-                                        <td > {{@$var["order_per"]}}% </td>                                       
+
+                                        <td > {{@$var["order_per"]}}% </td>
                                         <td > {{@$var["order_reward"]}} </td>
                                     </tr>
                                 @endforeach
@@ -227,7 +227,7 @@
 
 
         </div>
-      
+
         <div class="row">
             <div class="col-xs-12 col-md-12">
                 <div class="panel panel-warning"  >
@@ -273,8 +273,8 @@
                                         <td class="five_score">{{ @$var["lesson_per_other_score"] }}</td>
                                         <td class="five_score">{{ @$var["lesson_per_kk_score"] }}</td>
                                         <td class="five_score">{{ @$var["lesson_per_change_score"] }}</td>
-                                        <td>{{ @$var["total_score"] }}</td>                                        
-                                        
+                                        <td>{{ @$var["total_score"] }}</td>
+
                                     </tr>
                                 @endforeach
 
@@ -284,7 +284,7 @@
                 </div>
 
             </div>
-            
+
         </div>
         <div class="row">
             <div class="col-xs-12 col-md-12">
@@ -331,8 +331,8 @@
                                         <td class="five_score">{{ @$var["lesson_per_other_score"] }}</td>
                                         <td class="five_score">{{ @$var["lesson_per_kk_score"] }}</td>
                                         <td class="five_score">{{ @$var["lesson_per_change_score"] }}</td>
-                                        <td>{{ @$var["total_score"] }}</td>                                        
-                                        
+                                        <td>{{ @$var["total_score"] }}</td>
+
                                     </tr>
                                 @endforeach
 
@@ -342,13 +342,13 @@
                 </div>
 
             </div>
-            
+
         </div>
 
 
 
 
-        
+
     </section>
 
 @endsection

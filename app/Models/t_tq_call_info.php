@@ -315,16 +315,14 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     public function get_user_call_admin_count( $phone, $start_time ) {
         $where_arr=[
-            "m.phone" => $phone,
+            "tq.phone" => $phone,
             "start_time> $start_time",
-            "m.account_role <>7 ", // cc E\Eaccount_role
+            "admin_role=2",
         ];
         $sql= $this->gen_sql_new(
             "select count( distinct tq.uid ) from %s tq"
-            ." join %s m on m.tquin=tq.uid "
             . " where %s  ",
             self::DB_TABLE_NAME,
-            t_manager_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_value($sql);

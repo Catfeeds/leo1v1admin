@@ -41,7 +41,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.origin,"
+                                 ."s.origin,s.type student_stu_type,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."o.price,ao.p_level,ao.pp_level , ao.p_price,ao.pp_price "
                                  ." from %s a "

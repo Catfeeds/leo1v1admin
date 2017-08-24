@@ -819,7 +819,8 @@ class Utils  {
         $rule_type = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
         $reward    = 0;
         if(isset($rule_type[$type])){
-            foreach($rule_type[$type] as $key=>$val){
+            foreach($rule_type[$type] as $key=>&$val){
+                $val/=100;
                 if($already_lesson_count>=$key){
                     $reward = $val;
                 }elseif($already_lesson_count<$key){
@@ -1617,10 +1618,16 @@ class Utils  {
         return $ret;
     }
 
-    static public function redis($type,$key,$value=[],$json_decode=false){
+    /**
+     * @param type redis操作类型
+     * @param key   redis存储的键
+     * @param value  redis存储的值
+     * @param json_decode 进行get操作时是否进行json处理
+     */
+    static public function redis($type,$key,$value=[],$json_flag=false){
         if($type==E\Eredis_type::V_GET){
             $value = Redis::get($key);
-            if(!$json_decode){
+            if($json_flag){
                 $value = json_decode($value,true);
             }
         }elseif($type==E\Eredis_type::V_SET){
