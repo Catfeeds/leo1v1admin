@@ -219,6 +219,12 @@ class agent extends Controller
     }
 
     public function check(){
+        // $phone = '13508376529';
+        $phone = '15601830221';
+        // $phone = '';
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        $type = $this->t_student_info->field_get_list($userid,'type,userid');
+        dd($type);
         // foreach([] as $item){
         //     $this->t_agent->row_delete($id);
         // }
@@ -1258,7 +1264,7 @@ class agent extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
+        // if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -1286,6 +1292,7 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
+                dd($orderid,$ret_info['id'],$pid,$p_price,$level1,$ppid,$pp_price,$level2);
                 $this->t_agent_order->row_insert([
                     'orderid'     => $orderid,
                     'aid'         => $ret_info['id'],
@@ -1298,7 +1305,7 @@ class agent extends Controller
                     'create_time' => time(null),
                 ]);
             }
-        }
+        // }
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
