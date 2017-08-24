@@ -582,20 +582,20 @@ class agent extends Controller
                 "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
                 "p1_id"                    => $p1["pid"],
                 "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
-                "p1_price"                => $p1["o_p_from_price"],
+                "p1_price"                => $p1["o_p_from_price"]/100,
                 "p1_p_agent_level"        => $p1["o_p_agent_level"],
                 "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
-                "p1_p_price"              => $p1["o_p_price"],
+                "p1_p_price"              => $p1["o_p_price"]/100,
             ] ;
             foreach ( $p1["list"] as $p2 ) {
                 $ret_list[ ]= [
                     "p2_name"=> $p2["nick"]."/".$p2["phone"],
                     "p2_id"=> $p2["id"],
                     "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
-                    "p2_price"=> $p2["o_from_price"],
+                    "p2_price"=> $p2["o_from_price"]/100,
                     "p2_p_agent_level"        => $p2["o_agent_level"],
                     "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
-                    "p2_p_price"              => $p2["o_price"],
+                    "p2_p_price"              => $p2["o_price"]/100,
                 ] ;
             }
         }
