@@ -765,6 +765,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $type_new     = $student_info['type'];
         $is_test_user = $student_info['is_test_user'];
         $level        = 0;
+
         if($userid
            && $type_new ==  E\Estudent_type::V_0
            && $is_test_user == 0
@@ -794,32 +795,37 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             if ($order_info) {
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
                 $check_time= $order_info["pay_time"];
-
+                $pid = $ret_info['pid'];
+                $ppid = $ret_info['ppid'];
+                $p_level=$this->get_agent_level_by_check_time($pid, $check_time );
+                $pp_level=$this->get_agent_level_by_check_time($ppid, $check_time );
 
                 $order_price= $order_info["price"];
                 $price           = $order_price/100;
                 $level1_price    = $price/20>500?500:$price/20;
                 $level2_p_price  = $price/10>1000?1000:$price/10;
                 $level2_pp_price = $price/20>500?500:$price/20;
-                $pid = $ret_info['pid'];
-                $ppid = $ret_info['ppid'];
                 $p_price = 0;
                 $pp_price = 0;
-                if($level1 == 1){//黄金
+
+                if($p_level== 1){//黄金
                     $p_price = $level1_price*100;
-                }elseif($level1 == 2){//水晶
+                }elseif($p_level == 2){//水晶
                     $p_price = $level2_p_price*100;
                 }
-                if($level2 == 2){//水晶
+
+                if($pp_level== 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
-                $this->t_agent_order->row_insert([
+
+                $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
                     'aid'         => $ret_info['id'],
                     'pid'         => $pid,
                     'p_price'     => $p_price,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
+
                     'create_time' => time(null),
                 ]);
             }
