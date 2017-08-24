@@ -52,6 +52,7 @@ class send_wx_msg_for_test_lesson extends Command
         $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         foreach($test_lesson_list_halfhour as $item){
+            $data_tea = $this->get_data();
             $this->send_wx_msg_tea($item,1,$data_tea);
             $this->send_wx_msg_admin($item,1,$data_ass, $data_par);
         }
@@ -65,20 +66,43 @@ class send_wx_msg_for_test_lesson extends Command
             $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
             if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
-                $this->send_wx_msg($item,2);
+                $this->send_wx_msg_admin($item,2);
             }
 
             if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
-                $this->send_wx_msg($item,2);
+                $this->send_wx_msg_tea($item,2);
+            }
+        }
+
+        // 试听课超时15分钟
+        $lesson_begin_fifteen = $now-15*60;
+        $lesson_end_fifteen   = $now-16*60;
+        $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_fifteen,$lesson_end_fifteen);
+        foreach($test_lesson_list_fifteen as $item){
+            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+
+            if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
+                $this->send_wx_msg($item,3);
             }
 
+            if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
+                $this->send_wx_msg($item,3);
+            }
         }
+
+
+        // 课程中途退出5分钟以上
+
+        // 旷课
+
+        // 试听课正常结束
 
 
     }
 
 
-    public function get_data($item, $account_role,$type){
+    public function get_data($item, $account_role,$type, $tea_nick_cut_class, $stu_nick_cut_class){
         $subject_str = E\Esubject::get_desc($item['subject']);
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
@@ -158,15 +182,6 @@ class send_wx_msg_for_test_lesson extends Command
                     "remark"   => "请及时跟进"
                 ];
             }elseif($type == 2){ // 超时5分钟
-
-                /**
-                   {{first.DATA}}
-                   待办主题：{{keyword1.DATA}}
-                   待办内容：{{keyword2.DATA}}
-                   日期：{{keyword3.DATA}}
-                   {{remark.DATA}}
-
-                 **/
                 $data = [
                     "first"    => "您好，$subject_str 课程已开始5分钟，老师/同学还未进入课堂。 ",
                     "keyword1" => '课程提醒',
@@ -202,33 +217,42 @@ class send_wx_msg_for_test_lesson extends Command
             }elseif($type == 6){ // 课程结束
                 $data = [
                     "first"    => "您好，您的学员".$item['stu_nick']."同学 $subject_str 课程下课时间已到",
-                    "keyword1" => '旷课提醒',
-                    "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword1" => '课程结束通知',
+                    "keyword2" => "及时跟进",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "请立刻联系同学/老师。"
+                    "remark"   => "请您及时跟进"
                 ];
             }
         }
-
         return $data;
     }
 
 
-    public function send_wx_msg_tea($item, $type, $data_tea){
-        // 给老师发送
-        $template_id_teacher = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk"; // 待办
-        \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
-    }
+    public function send_wx_msg_tea($item, $type, $data_tea){ // 给老师发送
+        if($type == 1){
+            $template_id_parent = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; // 上课提醒
+        }else{
+            $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
+        }
 
+       if($type !=4 || $type !=6 ){ 
+           \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
+       }
+
+    }
 
 
     public function send_wx_msg_admin($item, $type, $data_ass, $data_par){ // 向家长和助教发送
         $wx  = new \App\Helper\Wx();
-        $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
-
+        if($type == 1){
+            $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
+        }else{
+            $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+        }
         // 给家长发送
-        $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
-
+        if($type !=4 || $type !=6 ){
+            $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+        }
         // 给助教发送
         $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
     }
