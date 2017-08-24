@@ -1914,6 +1914,9 @@ class test_code extends Controller
 
     }
 
-
+    public function rule_list(){
+        $rule = \App\Config\teacher_rule::get_teacher_rule(1);
+        \App\Helper\Utils::debug_to_html( $rule );
+    }
 
 }

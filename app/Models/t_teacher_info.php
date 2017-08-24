@@ -598,7 +598,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
                                   ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
-                                  ." t.bank_province,t.bank_city"
+                                  ." t.bank_province,t.bank_city,t.teacher_tags"
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s l on (t.teacherid = l.teacherid"
