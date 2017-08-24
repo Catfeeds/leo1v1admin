@@ -16,7 +16,6 @@ class TAgentOrderUnqiueAid extends Migration
         Schema::table('db_weiyi.t_agent_order', function( Blueprint $table){
             $table->unique("aid");
         });
-    }
         //
     }
 
