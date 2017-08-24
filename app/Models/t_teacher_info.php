@@ -445,7 +445,8 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $second_interview_score=-1, $teacherid_arr=[],$seller_flag=0,$qz_flag=0,
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
-                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1
+                                                $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
+                                                $record_score_num=-1
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -599,6 +600,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             $where_arr[] ="t.wx_openid <> ''";
         }
 
+        if( $record_score_num==1){
+            $where_arr[] =true;
+        }
+
         $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
                                   ." t.train_through_new, t.train_through_new_time,t.phone_spare,"
@@ -621,6 +626,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.bank_province,t.bank_city,t.teacher_tags,t.is_quit,t.part_remarks "
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
+                                  ." left join %s tr on tr.teacherid = t.teacherid and tr.type=1 and tr.lesson_style=1"
                                   // ." left join %s l on (t.teacherid = l.teacherid"
                                   //." and l.lesson_type=2 and l.lesson_del_flag =0 and l.lesson_start >= %u and l.lesson_end < %u)"
                                   // ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
@@ -629,6 +635,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
+                                  ,t_teacher_record_list::DB_TABLE_NAME
                                   // ,t_lesson_info::DB_TABLE_NAME
                                   // ,$lstart
                                   //  ,$lend
