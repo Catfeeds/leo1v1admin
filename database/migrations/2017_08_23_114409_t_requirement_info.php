@@ -13,11 +13,13 @@ class TRequirementInfo extends Migration
     public function up()
     {
         //
+        Schema::dropIfExists('db_weiyi.t_requirement_info');
         Schema::create('db_weiyi.t_requirement_info', function (Blueprint $table){
             t_field($table->integer("id",true),"需求id");
             t_field($table->string("title"),"需求名称");
             t_field($table->integer("name"),"产品名称");
             t_field($table->integer("create_adminid"),"提交人");
+            t_field($table->string("create_phone"),"提交人联系方式");
             t_field($table->integer("create_time"),"需求提交时间");
             t_field($table->integer("expect_time"),"期待交付时间");
             t_field($table->integer("priority"),"优先级");
@@ -25,6 +27,7 @@ class TRequirementInfo extends Migration
             t_field($table->string("notes"),"备注");
             t_field($table->string("statement"),"需求说明");
             t_field($table->string("content_pic"),"内容截图");
+
 
             t_field($table->string("product_solution"),"产品方案");
             t_field($table->integer("product_operator"),"产品部门处理人");

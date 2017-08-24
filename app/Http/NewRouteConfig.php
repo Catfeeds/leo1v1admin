@@ -111,6 +111,7 @@ class NewRouteConfig {
         "t_yxyx_custom_type"          => true,
         "t_yxyx_new_list"             => true,
         "campus_manage"               => true,
+        "requirement_info"            => true,
     ];
 
     //config
@@ -548,10 +549,29 @@ class NewRouteConfig {
         "/customer_service/proposal_info"                => true,
 
         "/requirement/add_requirement_info"              => true,
+        "/requirement/requirement_del"                   => true,
+        "/requirement/re_edit_requirement_info"          => true,
+
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
         "/requirement/requirement_info_test"             => true,
+        "/requirement/product_deal"                      => true,
+        "/requirement/product_re_edit"                   => true,
+        "/requirement/product_reject"                    => true,
+        "/requirement/product_delete"                    => true,
+        "/requirement/product_do"                        => true,
+        "/requirement/product_add"                       => true,
+        "/requirement/development_deal"                  => true,
+        "/requirement/development_reject"                => true,
+        "/requirement/development_do"                    => true,
+        "/requirement/development_finish"                => true,
+        "/requirement/test_deal"                         => true,
+        "/requirement/test_reject"                       => true,
+        "/requirement/test_do"                           => true,
+        "/requirement/test_finish"                       => true,
+
+
 
     ];
 

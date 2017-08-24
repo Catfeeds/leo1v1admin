@@ -8,8 +8,6 @@ interface GargsStatic {
 	priority:	number;
 	significance:	number;
 	status:	number;
-	product_status:	number;
-	development_status:	number;
 	test_status:	number;
 	page_num:	number;
 	page_count:	number;
@@ -64,6 +62,8 @@ interface RowData {
 	significance_str	:any;
 	status_str	:any;
 	create_admin_nick	:any;
+	product_operator_nick	:any;
+	development_operator_nick	:any;
 	flag	:any;
 	operator_status	:any;
 	operator_nick	:any;
@@ -72,10 +72,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../requirement; vi  ../requirement/requirement_info.ts
+	 mkdir -p ../requirement; vi  ../requirement/requirement_info_test.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/requirement-requirement_info.d.ts" />
+/// <reference path="../g_args.d.ts/requirement-requirement_info_test.d.ts" />
 
 $(function(){
     function load_data(){
@@ -89,8 +89,6 @@ $(function(){
 			priority:	$('#id_priority').val(),
 			significance:	$('#id_significance').val(),
 			status:	$('#id_status').val(),
-			product_status:	$('#id_product_status').val(),
-			development_status:	$('#id_development_status').val(),
 			test_status:	$('#id_test_status').val()
         });
     }
@@ -110,8 +108,6 @@ $(function(){
 	$('#id_priority').val(g_args.priority);
 	$('#id_significance').val(g_args.significance);
 	$('#id_status').val(g_args.status);
-	$('#id_product_status').val(g_args.product_status);
-	$('#id_development_status').val(g_args.development_status);
 	$('#id_test_status').val(g_args.test_status);
 
 
@@ -148,20 +144,6 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">status</span>
                 <input class="opt-change form-control" id="id_status" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">product_status</span>
-                <input class="opt-change form-control" id="id_product_status" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">development_status</span>
-                <input class="opt-change form-control" id="id_development_status" />
             </div>
         </div>
 

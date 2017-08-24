@@ -52,20 +52,6 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span class="input-group-addon">产品状态</span>
-                        <select class="opt-change form-control " id="id_product_status" >
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">研发状态</span>
-                        <select class="opt-change form-control " id="id_development_status" >
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
                         <span class="input-group-addon">测试状态</span>
                         <select class="opt-change form-control " id="id_test_status" >
                         </select>
@@ -74,12 +60,6 @@
                
               
             </div>
-             <div class="row  " >
-                 <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-warning" id="id_add_requirement_info">添加需求信息</button>
-                </div>
-            </div>
-
         </div>
         <hr/>
         <table     class="common-table"  > 
@@ -96,7 +76,11 @@
                     <td>需求说明</td>
                     <td>内容截图</td>
                     <td>备注</td>
-                    <td>联系方式</td>
+                    <td>方案(产品部)</td>
+                    <td>方案提交时间</td>
+                    <td>研发完成时间</td>
+                    <td>需求人联系方式</td>
+                    <td>产品部联系方式</td>
                     <td>进度(部门)</td>
                     <td>进度(状态)</td>
                     <td>处理人</td>
@@ -121,27 +105,33 @@
                            <td><a href="{{$var['content_pic']}}" target="_blank">下载</td>
                         @endif       
                         <td>{{@$var["notes"]}} </td>
-                        <td>{{@$var['create_phone']}}</td>
-                        <td>{{@$var['status_str']}}</td>
-                        @if ($var['status'] == 2 && $var['product_status'] == 1)
-                            <td class="panel-red">{{@$var["operator_status"]}}<br/>驳回原因:{{@$var['product_reject']}}</td>
-                        @elseif($var['status'] == 5 && $var['test_status'] == 4)
-                            <td class="panel-green">{{@$var["operator_status"]}}</td>
+                        @if ($var['product_solution'] == '')
+                            <td></td>
                         @else
-                            <td>{{@$var['operator_status']}}</td>
+                            <td><a href="{{$var['product_solution']}}" target="_blank">下载</td>
                         @endif
-                        <td>{{@$var["operator_nick"]}} </td>
+                        <td>{{@$var['product_submit_time']}}</td>
+                        <td>{{@$var['development_submit_time']}}</td>
+                        <td>{{@$var['create_phone']}}</td>
+                        <td>{{@$var['product_phone']}}</td>
+                        <td>{{@$var["status_str"]}} </td>
+                        <td>{{@$var["operator_status"]}} </td>
+                        <td>{{@$var["product_operator_nick"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                            @if ($var['flag'])
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del"  title="删除"> </a>
-                            @endif
-                            @if ($var['product_status'] == 1)
-                                <a class="fa  opt-re-edit"  title="重新提交">重新提交</a>
-                            @endif
+                                @if (@$var['test_status'] == 0)
+                                    <a class="fa  opt-deal"  title="处理">处理</a>
+                                    <a class="fa  opt-reject"  title="驳回">驳回</a>
+                                @endif
+                                @if (@$var['test_status'] == 2)
+                                    <a class="fa  opt-do"  title="测试开始">测试开始</a>
+                                @endif
+                                @if (@$var['test_status'] == 3)
+                                    <a class="fa  opt-finish"  title="测试完成">测试完成</a>
+                                @endif
+
                             </div>
                         </td>
                     </tr>

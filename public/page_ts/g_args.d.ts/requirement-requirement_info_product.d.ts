@@ -64,6 +64,7 @@ interface RowData {
 	significance_str	:any;
 	status_str	:any;
 	create_admin_nick	:any;
+	product_operator_nick	:any;
 	flag	:any;
 	operator_status	:any;
 	operator_nick	:any;
@@ -72,10 +73,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../requirement; vi  ../requirement/requirement_info.ts
+	 mkdir -p ../requirement; vi  ../requirement/requirement_info_product.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/requirement-requirement_info.d.ts" />
+/// <reference path="../g_args.d.ts/requirement-requirement_info_product.d.ts" />
 
 $(function(){
     function load_data(){
