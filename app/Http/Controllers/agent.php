@@ -222,7 +222,7 @@ class agent extends Controller
         $phone = '13508376529';
         // $phone = '';
         $userid = $this->t_phone_to_user->get_userid($phone);
-        $type = $this->t_student_info->field_get_list($userid,$__field_name_args__);
+        $type = $this->t_student_info->field_get_list($userid,'type');
         dd($type);
         // foreach([] as $item){
         //     $this->t_agent->row_delete($id);
