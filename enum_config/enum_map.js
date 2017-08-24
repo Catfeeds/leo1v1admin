@@ -9945,6 +9945,45 @@ contract_from_type : {
 
 },
 
+redis_type : {
+	desc_map : {
+		'1' : "get",
+		'2' : "set",
+		'3' : "del"
+	},
+	simple_desc_map: {
+		'1' : "",
+		'2' : "",
+		'3' : ""
+	},
+	s2v_map:{
+		"get" : 1,
+		"set" : 2,
+		"del" : 3
+	},
+	v2s_map:{
+		 '1':  "get",
+		 '2':  "set",
+		 '3':  "del"
+	},
+
+		//get
+		V_GET:1,
+		//set
+		V_SET:2,
+		//del
+		V_DEL:3,
+
+		//get
+		S_GET:"get",
+		//set
+		S_SET:"set",
+		//del
+		S_DEL:"del"
+
+
+},
+
 book_status : {
 	desc_map : {
 		'0' : "未回访",

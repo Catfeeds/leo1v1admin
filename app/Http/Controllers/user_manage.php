@@ -1298,8 +1298,10 @@ class user_manage extends Controller
                     'aid'         => $ret_info['id'],
                     'pid'         => $pid,
                     'p_price'     => $p_price,
+                    'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
+                    'pp_level'    => $level2,
                     'create_time' => time(null),
                 ]);
             }

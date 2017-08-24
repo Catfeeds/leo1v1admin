@@ -71,10 +71,13 @@ class teacher_rule{
         ]
     ];
 
+    static public $rule_type_key = "rule_type_key";
+
     static public function get_rule_type($reward_count_type){
-        $rule_type = Redis::get($this->rule_type);
-        if($rule_type===null){
-            
+        if(\App\Helper\Utils::check_env_is_local()){
+            $rule_type = Redis::get(self::$rule_type_key);
+        }else{
+            $rule_type = 0;
         }
         return $rule_type;
     }
@@ -84,7 +87,6 @@ class teacher_rule{
      * @return array
      */
     static public function get_teacher_rule($type){
-
         $teacher_rule = self::$rule_type;
         if(isset($teacher_rule[$type])){
             return $teacher_rule[$type];

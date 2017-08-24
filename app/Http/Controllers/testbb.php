@@ -172,9 +172,13 @@ class testbb extends Controller
 
     public function sd(){
 
-        $ret_info = $this->t_lesson_info_b2->get_comment_list_by_page(1, 0, 188171771, '0,1,2', 1);
-        dd($ret_info);
-
+        $lessonid = $this->get_in_int_val('l');
+        $teacherid = $this->get_in_int_val('t');
+        $stu_id = $this->get_in_int_val('s');
+        $lesson_start = 0;
+        $lesson_end =0;
+        $ret = $this->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$stu_id,$lesson_start,$lesson_end);
+        dd($ret);
     }
 
 

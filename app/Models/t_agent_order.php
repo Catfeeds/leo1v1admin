@@ -194,5 +194,13 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         );
         return $this->main_get_value($sql);
     }
+    public function row_delete_by_aid($aid) {
+        $sql= $this->gen_sql_new (
+            "delete from %s where aid=%u",
+            self::DB_TABLE_NAME,
+            $aid
+        );
+        return $this->main_update($sql);
+    }
 
 }

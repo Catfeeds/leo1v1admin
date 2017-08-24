@@ -572,6 +572,8 @@ return array(
     'TAgentEditBankcardIdcardType' => $baseDir . '/database/migrations/2017_07_08_164842_t_agent_edit_bankcard_idcard_type.php',
     'TAgentOrder' => $baseDir . '/database/migrations/2017_06_14_163953_t_agent_order.php',
     'TAgentOrderAddAid' => $baseDir . '/database/migrations/2017_07_07_182216_t_agent_order_add_aid.php',
+    'TAgentOrderAddPLevelPpLevel' => $baseDir . '/database/migrations/2017_08_24_104801_t_agent_order_add_p_level_pp_level.php',
+    'TAgentOrderUnqiueAid' => $baseDir . '/database/migrations/2017_08_24_120742_t_agent_order_unqiue_aid.php',
     'TAssWarningRenwFlagModefiyListAddIndex' => $baseDir . '/database/migrations/2017_07_21_113059_t_ass_warning_renw_flag_modefiy_list_add_index.php',
     'TAssWarningRenwFlagModefiyListAddRenwEndDay' => $baseDir . '/database/migrations/2017_07_26_130928_t_ass_warning_renw_flag_modefiy_list_add_renw_end_day.php',
     'TAssWarningRenwFlagModefiyListAddRenwWeek' => $baseDir . '/database/migrations/2017_07_26_104549_t_ass_warning_renw_flag_modefiy_list_add_renw_week.php',

@@ -53,5 +53,13 @@ class t_teacher_reward_rule_list extends \App\Models\Zgen\z_t_teacher_reward_rul
         return $this->main_get_value($sql);
     }
 
+    public function get_reward_rule_list(){
+        $sql = $this->gen_sql_new("select reward_count_type,rule_type,num,money"
+                                  ." from %s "
+                                  ." order by reward_count_type asc,rule_type asc,num asc"
+                                  ,self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
 
+    }
 }
