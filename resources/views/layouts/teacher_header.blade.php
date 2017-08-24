@@ -130,7 +130,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li ><a href="/teacher_info/" ><i class="fa fa-circle-o"></i>基本属性 </a></li>
+                            <li ><a href="/teacher_info/get_teacher_basic_info" ><i class="fa fa-circle-o"></i>基本属性 </a></li>
                             <li ><a href="index2.html"><i class="fa fa-circle-o"></i>我的学生</a></li>
                             <li ><a href="index2.html"><i class="fa fa-circle-o"></i>操作台</a></li>
                             <li ><a href="index2.html"><i class="fa fa-circle-o"></i>薪资相关</a></li>

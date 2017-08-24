@@ -815,6 +815,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
+    public function get_teacher_info_to_teacher($teacherid){
+        $sql = $this->gen_sql("select teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
+                              ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,subject,phone,realname,"
+                              ." gender,birth,address,face,grade_part_ex,bankcard,"
+                              ." train_through_new,trial_lecture_is_pass,wx_use_flag"
+                              ." from %s "
+                              ." where teacherid=%u"
+                              ,self::DB_TABLE_NAME
+                              ,$teacherid
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
+
+
     public function get_every_teacherid(){
         $sql=$this->gen_sql_new("select distinct(teacherid) as userid from %s"
                                 ,self::DB_TABLE_NAME
