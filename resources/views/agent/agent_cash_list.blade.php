@@ -54,7 +54,7 @@
                             >
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
                                 <a class="fa-gavel opt-money-check " title="财务确认" ></a>
-                                <!-- <a class="fa fa-times opt-del" title="删除"> </a> -->
+                                <a class="fa fa-times opt-del" title="删除"> </a>
                             </div>
                         </td>
                     </tr>

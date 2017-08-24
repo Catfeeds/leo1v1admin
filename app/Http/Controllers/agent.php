@@ -32,7 +32,8 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
-            $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
+            // $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
@@ -1264,7 +1265,7 @@ class agent extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        // if(!isset($agent_order['orderid'])){
+        if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -1292,7 +1293,6 @@ class agent extends Controller
                 if($level2 == 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
-                dd($orderid,$ret_info['id'],$pid,$p_price,$level1,$ppid,$pp_price,$level2);
                 $this->t_agent_order->row_insert([
                     'orderid'     => $orderid,
                     'aid'         => $ret_info['id'],
@@ -1305,7 +1305,7 @@ class agent extends Controller
                     'create_time' => time(null),
                 ]);
             }
-        // }
+        }
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
