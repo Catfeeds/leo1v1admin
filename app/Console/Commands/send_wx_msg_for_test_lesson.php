@@ -68,18 +68,16 @@ class send_wx_msg_for_test_lesson extends Command
             $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
             $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
 
-
             if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
                 $data_par = $this->get_data($item,1,2,'',$item['stu_nick']);
-                $this->send_wx_msg_admin($item,2);
+                $data_ass = $this->get_data($item,3,2,'',$item['stu_nick']);
+                $this->send_wx_msg_admin($item,2,$data_par);
             }
 
             if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
                 $data_tea = $this->get_data($item,2,2,$item['teacher_nick'],'');
-                $this->send_wx_msg_tea($item,2);
+                $this->send_wx_msg_tea($item,2,$data_tea);
             }
-
-
         }
 
         // 试听课超时15分钟
@@ -250,7 +248,7 @@ class send_wx_msg_for_test_lesson extends Command
     }
 
 
-    public function send_wx_msg_admin($item, $type, $data_ass, $data_par){ // 向家长和助教发送
+    public function send_wx_msg_par($item, $type, $data_par){ // 向家长和助教发送
         $wx  = new \App\Helper\Wx();
         if($type == 1){
             $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
@@ -258,12 +256,20 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
         // 给家长发送
-        if($type !=4 || $type !=6 ){
-            $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+        $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+    }
+
+    public function send_wx_msg_ass($item, $type, $data_ass){ // 向家长和助教发送
+        $wx  = new \App\Helper\Wx();
+        if($type == 1){
+            $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
+        }else{
+            $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
         // 给助教发送
         $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
     }
+
 
 
 }
