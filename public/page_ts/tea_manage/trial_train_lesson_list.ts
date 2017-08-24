@@ -513,7 +513,7 @@ $(function(){
         },function(resp) {
             var id_assess = $("<textarea />");
             var arr=[
-                ["面试评价",id_assess]
+                ["面试评价",resp.data]
             ];
             id_assess.val(resp.data);
             $.show_key_value_table("面试评价", arr,"");

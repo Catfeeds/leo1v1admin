@@ -41,7 +41,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.origin,"
+                                 ."s.origin,s.type student_stu_type,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."o.price,ao.p_level,ao.pp_level , ao.p_price,ao.pp_price "
                                  ." from %s a "
@@ -676,7 +676,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_p_pp_id_by_phone($phone, $id=-1){
         $where_arr = [
-            ['a.phone = "%s"',$phone],
+            ['a.phone = "%s"',$phone,""],
             ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
@@ -793,17 +793,28 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
-        $orderid = 0;
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
             if ($order_info) {
+                $orderid =  $order_info["orderid"] ;
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
                 $check_time= $order_info["pay_time"];
                 $pid = $agent_info['pid'];
                 $ppid = $agent_info['ppid'];
-                $p_level=$this->get_agent_level_by_check_time($pid, $agent_info, $check_time );
-                $pp_level=$this->get_agent_level_by_check_time($ppid, $agent_info, $check_time );
+                $p_level=0;
+                $pp_level=0;
+                if ($pid) {
+                    \App\Helper\Utils::logger("check  p_level pid=$pid");
+                    $p_agent_info= $this->field_get_list($pid,"*");
+                    $p_level=$this->get_agent_level_by_check_time($pid, $p_agent_info, $check_time );
+                }
+
+                if ($ppid) {
+                    \App\Helper\Utils::logger("check  pp_level ppid=$ppid");
+                    $pp_agent_info= $this->field_get_list($ppid,"*");
+                    $pp_level=$this->get_agent_level_by_check_time($ppid, $pp_agent_info, $check_time );
+                }
 
                 $order_price= $order_info["price"];
                 $price           = $order_price/100;
@@ -823,15 +834,16 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $pp_price = $level2_pp_price*100;
                 }
 
+
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $agent_info['id'],
+                    'aid'         => $id,
                     'pid'         => $pid,
                     'p_price'     => $p_price,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
                     'p_level'     =>$p_level,
-                    'pp_level'     =>$p_level,
+                    'pp_level'     =>$pp_level,
                     'create_time' => time(null),
                 ]);
             }

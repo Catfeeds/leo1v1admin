@@ -73,13 +73,13 @@
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
                     <td>会员等级</td>
+                    <td>在读状态</td>
                     <td>是否成功试听</td>
                     <td>试听时间</td>
                     <td>合同金额</td>
-                    <td>绑定类型</td>
                     <td>上级分成</td>
                     <td>上上级分成</td>
-                    <td>类型</td>
+                    <td>绑定类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>
                     <td>操作</td>
@@ -96,12 +96,12 @@
                             {{@$var["p_nickname"]}} <br/>
                             {{@$var["p_phone"]}}
                         </td>
-
                         <td>
                             {{@$var["pp_nickname"]}} <br/>
                             {{@$var["pp_phone"]}}
                         </td>
                         <td>{{@$var["agent_level_str"]}} </td>
+                        <td>{{@$var["student_stu_type_str"]}} </td>
                         <td>{!! @$var["lesson_user_online_status_str"] !!} </td>
                         <td>{{@$var["lesson_start"]}} </td>
                         <td>{{@$var["price"]}} </td>

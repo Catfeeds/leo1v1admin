@@ -31,13 +31,13 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
+            E\Estudent_stu_type::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
             $item["price"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
             $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;
         }
-
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -255,20 +255,16 @@ class agent extends Controller
     }
 
     public function update_lesson_call_end_time_new(){
-        $adminid = 378;
-        // $adminid = 904;
+        $adminid = 734;
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
                 $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
             }
         }
-        // $lessonid = 288233;
-        // if($lessonid){
-        //     $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
-        // }
-        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin=9753526,$phone=13776695190,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503231300);
-        dd($lesson_call_end,$lesson_call_list);
+        $tquin = $this->t_manager_info->get_tquin($adminid);
+        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone=13776695190,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503231300);
+        dd($lesson_call_end,$lesson_call_listm,$adminid,$tquin);
     }
 
     /**
