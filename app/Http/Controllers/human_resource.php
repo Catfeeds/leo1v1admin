@@ -808,7 +808,7 @@ class human_resource extends Controller
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
 
-        $label_list = $this->get_teacher_label($tea_list);
+        // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){
             $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);
@@ -890,7 +890,7 @@ class human_resource extends Controller
                 }
             }
 
-            $item["label"] = @$label_list[$item["teacherid"]];
+            // $item["label"] = @$label_list[$item["teacherid"]];
             $not_grade_arr = explode(",",$item["not_grade"]);
             $not_grade_str = "";
             if(!empty($not_grade_arr)){

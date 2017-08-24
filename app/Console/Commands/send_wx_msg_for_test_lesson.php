@@ -62,7 +62,7 @@ class send_wx_msg_for_test_lesson extends Command
 
         foreach($test_lesson_list_five as $item){
             // $this->send_wx_msg($item,2);
-
+            $lesson_list = $task->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$userid,$server_type,$teacherid,$stu_id,$lesson_start,$lesson_end );
 
         }
 
