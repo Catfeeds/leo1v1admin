@@ -1586,8 +1586,19 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_update($sql);
     }
 
+    public function set_global_tq_called_flag($userid, $called_flag){
+        $sql=$this->gen_sql_new("update %s set global_tq_called_flag=%u "
+                                ." where userid=%u  ",
+                                self::DB_TABLE_NAME,
+                                $called_flag,
+                                $userid
+        );
+        return $this->main_update($sql);
+    }
+
+
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag");
         $invalid_flag=false;
         $add_time=$item_arr["add_time"];
         //连续3个人处理过了
@@ -1612,6 +1623,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $db_sys_invaild_flag= ($item_arr["sys_invaild_flag"]==1);
 
         if ( $db_sys_invaild_flag!= $invalid_flag ) {
+
             if ($invalid_flag) {
                 $this->set_sys_invaild_flag($userid);
                 $this->task->t_book_revisit->add_book_revisit($phone,"系统:判定无效-". $invalid_str ,"system");
@@ -1620,6 +1632,25 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     "sys_invaild_flag" => 0,
                     "competition_call_time" => $item_arr['competition_call_time']-3600,
                 ]);
+            }
+        }
+
+        if ($item_arr['global_tq_called_flag'] == 0 ) {
+            $is_called_and_calltime = $this->task->t_tq_call_info->get_call_info_by_phone($phone);
+            $called_flag = 0;
+            if ($is_called_and_calltime) {
+                foreach ($is_called_and_calltime as $val) {
+                    if( $val['duration'] >= 60 & $val['is_called_phone'] == 1) {
+                        $called_flag = 2;
+                    } else if ( $val['is_called_phone'] == 1 & $called_flag < 2) {
+                        $called_flag = 1;
+                    } else if ( $val['is_called_phone'] == 0 & $called_flag < 1) {
+                        $called_flag = 1;
+                    }
+                }
+            }
+            if ($called_flag) {
+                $this->set_global_tq_called_flag($userid, $called_flag);
             }
         }
     }

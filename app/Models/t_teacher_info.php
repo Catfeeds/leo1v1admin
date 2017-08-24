@@ -598,7 +598,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
                                   ." t.limit_week_lesson_num-sum(tss.lessonid >0)) left_num,"
                                   ." t.idcard,t.bankcard,t.bank_address,t.bank_account,t.bank_phone,t.bank_type, "
-                                  ." t.bank_province,t.bank_city"
+                                  ." t.bank_province,t.bank_city,t.teacher_tags"
                                   ." from %s t"
                                   ." left join %s m on t.phone = m.phone"
                                   ." left join %s l on (t.teacherid = l.teacherid"
@@ -606,7 +606,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." left join %s tss on (l.lessonid= tss.lessonid and tss.success_flag in(0,1))"
                                   ." where %s "
                                   ." group by t.teacherid %s"
-                                  ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc,left_num desc "
+                                  ." order by t.have_test_lesson_flag asc,t.train_through_new_time desc "
                                   ,self::DB_TABLE_NAME
                                   ,t_manager_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
@@ -3027,5 +3027,30 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             return $item['teacherid'];
         });
     }
+
+    public function tongji_teacher_stu_num_new($start_time,$end_time){
+
+        $where_arr = [
+            " t.train_through_new=1 ",
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "l.confirm_flag in (0,1,4)",
+            "l.lesson_del_flag=0",
+            "l.lesson_type in (0,1,3)",
+            "l.lesson_status=2",
+            "l.lesson_start>=".$start_time,
+            "l.lesson_start<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select t.teacherid,count(distinct l.userid) stu_num "
+                                  ." from %s t left join %s l on t.teacherid =l.teacherid"
+                                  ." where %s group by t.teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
 
 }
