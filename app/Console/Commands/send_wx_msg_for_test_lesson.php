@@ -52,7 +52,10 @@ class send_wx_msg_for_test_lesson extends Command
         $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         foreach($test_lesson_list_halfhour as $item){
-            $data_tea = $this->get_data();
+            $data_tea = $this->get_data($item,1,1);
+            $data_par = $this->get_data($item,2,1);
+            $data_ass = $this->get_data($item,3,1);
+
             $this->send_wx_msg_tea($item,1,$data_tea);
             $this->send_wx_msg_admin($item,1,$data_ass, $data_par);
         }
@@ -72,6 +75,8 @@ class send_wx_msg_for_test_lesson extends Command
             if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
                 $this->send_wx_msg_tea($item,2);
             }
+
+            
         }
 
         // 试听课超时15分钟
@@ -102,7 +107,7 @@ class send_wx_msg_for_test_lesson extends Command
     }
 
 
-    public function get_data($item, $account_role,$type, $tea_nick_cut_class, $stu_nick_cut_class){
+    public function get_data($item, $account_role,$type, $tea_nick_cut_class='', $stu_nick_cut_class=''){
         $subject_str = E\Esubject::get_desc($item['subject']);
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
@@ -235,7 +240,7 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
-       if($type !=4 || $type !=6 ){ 
+       if($type !=4 || $type !=6 ){
            \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
        }
 
