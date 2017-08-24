@@ -170,14 +170,43 @@ class send_wx_msg_for_test_lesson extends Command
                 $data = [
                     "first"    => "您好，$subject_str 课程已开始5分钟，老师/同学还未进入课堂。 ",
                     "keyword1" => '课程提醒',
-                    "keyword2" => "$subject_str 课程已开始5分钟，您还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
+                    "remark"   => "请立刻联系同学/老师。"
                 ];
 
             }elseif($type == 3){ // 超时15分钟
-            }elseif($type == 4){ //
-
+                $data = [
+                    "first"    => "您好，$subject_str 课程已开始15分钟，老师/同学还未进入课堂。 ",
+                    "keyword1" => '课程提醒',
+                    "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请立刻联系同学/老师。"
+                ];
+            }elseif($type == 4){ // 学生|老师中途退出5分钟以上
+                $data = [
+                    "first"    => "同学/老师已退出课堂5分钟以上，请关注学生/老师情况，保证课程顺利进行",
+                    "keyword1" => '课程提醒',
+                    "keyword2" => "同学/老师已退出课堂5分钟以上 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请立刻联系同学/老师。"
+                ];
+            }elseif($type==5){ // 结束未进入课堂
+                $data = [
+                    "first"    => "您好，{".$item['stu_nick']."}同学的课程已结束，同学/老师未能按时进入课堂",
+                    "keyword1" => '旷课提醒',
+                    "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请立刻联系同学/老师。"
+                ];
+            }elseif($type == 6){ // 课程结束
+                $data = [
+                    "first"    => "您好，您的学员".$item['stu_nick']."同学 $subject_str 课程下课时间已到",
+                    "keyword1" => '旷课提醒',
+                    "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "remark"   => "请立刻联系同学/老师。"
+                ];
             }
         }
 
