@@ -823,6 +823,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $pp_price = $level2_pp_price*100;
                 }
 
+
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
                     'aid'         => $id,
