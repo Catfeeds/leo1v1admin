@@ -2812,7 +2812,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_simulate_list(
         $start_time,$end_time,$teacher_money_type,$level,$teacher_id
     ){
-
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
             ["l.lesson_start<%u",$end_time,0],
@@ -2823,6 +2822,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_status=2",
             "teacher_type!=3"
         ];
+
         if($teacher_id>0){
             $where_arr[]=["t.teacherid=%u",$teacher_id,-1];
         }else{

@@ -15,6 +15,7 @@ class teacher_simulate extends Controller
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
     var $already_lesson_count_key = "already_lesson_count";
+    var $teacher_ref_rate_key     = "teacher_ref_rate";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -35,6 +36,10 @@ class teacher_simulate extends Controller
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
         $already_lesson_count_list = [];
+        $teacher_ref_rate_list     = \App\Helper\Utils::redis(E\Eredis::V_GET,$this->teacher_ref_rate_key,[],true);
+        if($teacher_ref_rate_list===null){
+            
+        }
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
