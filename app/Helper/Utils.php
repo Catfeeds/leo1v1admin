@@ -813,6 +813,25 @@ class Utils  {
     }
 
     /**
+     * 供模拟工资使用
+     */
+    static public function get_teacher_lesson_money_simulate($type,$already_lesson_count){
+        $rule_type = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
+        $reward    = 0;
+        if(isset($rule_type[$type])){
+            foreach($rule_type[$type] as $key=>$val){
+                if($already_lesson_count>=$key){
+                    $reward = $val;
+                }elseif($already_lesson_count<$key){
+                    break;
+                }
+            }
+        }
+        return $reward;
+    }
+
+
+    /**
      * @param identity 推荐的老师身份
      * @param num 已推荐的老师数量
      */
@@ -1598,11 +1617,14 @@ class Utils  {
         return $ret;
     }
 
-    static public function redis($type,$key,$value,$is_array=true){
+    static public function redis($type,$key,$value=[],$json_decode=false){
         if($type==E\Eredis_type::V_GET){
             $value = Redis::get($key);
+            if(!$json_decode){
+                $value = json_decode($value,true);
+            }
         }elseif($type==E\Eredis_type::V_SET){
-            if($is_array){
+            if(is_array($value)){
                 $value=json_encode($value);
             }
             Redis::set($key,$value);
@@ -1611,4 +1633,6 @@ class Utils  {
         }
         return $value;
     }
+
+
 };

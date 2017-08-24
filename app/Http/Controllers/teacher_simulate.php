@@ -76,8 +76,8 @@ class teacher_simulate extends Controller
                 $already_lesson_count = $val['already_lesson_count'];
             }
 
-            $reward           = \App\Helper\Utils::get_teacher_lesson_money($val['type'],$already_lesson_count);
-            $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money($val['type_simulate'],$already_lesson_count_simulate);
+            $reward           = \App\Helper\Utils::get_teacher_lesson_money_simulate($val['type'],$already_lesson_count);
+            $reward_simulate  = \App\Helper\Utils::get_teacher_lesson_money_simulate($val['type_simulate'],$already_lesson_count_simulate);
             $lesson_count     = $val['lesson_count']/100;
             $reward          *= $lesson_count;
             $reward_simulate *= $lesson_count;
@@ -213,11 +213,11 @@ class teacher_simulate extends Controller
             }
         }
 
+        Redis::set($this->level_simulate_count_key,json_encode($level_count));
         if($type==1){
             \App\Helper\Utils::debug_to_html( $level_count );
         }
 
-        Redis::set($this->level_simulate_count_key,json_encode($level_count));
         return $this->output_succ();
     }
 

@@ -1054,6 +1054,20 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
         return $this->main_get_value($sql);
     }
 
+    public function get_passed_interview_by_phone($teacherid,$subject,$grade){
+        $sql = $this->gen_sql_new("select tr.record_info "
+                                  ."from %s tr join %s l on tr.train_lessonid = l.lessonid"
+                                  ." where tr.type=10 and l.subject=%u and l.grade = %u",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $teacherid,
+                                  $subject,
+                                  $grade
+        );
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_no_second_train_lesson(){
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,count(distinct l.lessonid) num,tr.trial_train_status"
                                   ." from %s l left join %s tr on l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=5 and tr.trial_train_status=2"
