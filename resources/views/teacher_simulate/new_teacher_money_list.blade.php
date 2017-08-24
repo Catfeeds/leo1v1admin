@@ -72,13 +72,13 @@
                 </tr>
                 <tr>
                     <td>本月全部老师</td>
-                    <td>{{round($all_money/$all_lesson_price,2)*100}}%</td>
-                    <td>{{round($all_money_simulate/$all_lesson_price_simulate,2)*100}}%</td>
+                    <td>{{round($all_money/($all_lesson_price==0?1:$all_lesson_price),4)*100}}%</td>
+                    <td>{{round($all_money_simulate/($all_lesson_price_simulate==0?1:$all_lesson_price_simulate),4)*100}}%</td>
                 </tr>
                 <tr>
                     <td>1-7月全部老师</td>
-                    <td>{{round($final_money['all_money']/$final_money['all_lesson_price'],2)*100}}%</td>
-                    <td>{{round($final_money['all_money_simulate']/$final_money['all_lesson_price_simulate'],2)*100}}%</td>
+                    <td>{{round($final_money['all_money']/($final_money['all_lesson_price']==0?1:$final_money["all_lesson_price"]),4)*100}}%</td>
+                    <td>{{round($final_money['all_money_simulate']/($final_money['all_lesson_price_simulate']==0?1:$final_money['all_lesson_price_simulate']),4)*100}}%</td>
                 </tr>
             </table>
             <table class="common-table">

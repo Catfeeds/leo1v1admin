@@ -300,16 +300,8 @@ $(function(){
                     var id_rjcz =  $("<div><span >类型:</span><select id=\"teacher_rjcz\"><option value=\"0\">请选择</option><option value=\"1\">讲义无截图，纯拍照上传</option><option value=\"2\">讲义截图不清晰且放置位置不合理</option><option value=\"3\">讲义截图清晰但放置位置不合理</option><option value=\"4\">截图清晰且位置放置合理</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_rjcz_score\" class=\"class_score\" /></div></div>");
                     var id_kcyc =  $("<div><span >类型:</span><select id=\"teacher_kcyc\"><option value=\"0\">请选择</option><option value=\"1\">课中遇到网络卡断，音频问题，异常闪退或课程延迟时，慌乱抱怨</option><option value=\"2\">面对课程异常情况，虽有着手处理但处理过于缓慢，耽误上课时间</option><option value=\"3\">面对异常情况，及时冷静处理，顺利解决</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_kcyc_score\" class=\"class_score\" /></div></div>");
                     var id_hj =  $("<div><span >类型:</span><select id=\"teacher_hj\"><option value=\"0\">请选择</option><option value=\"1\">教学环境嘈杂；网络音频状况不佳，影响课程体验</option><option value=\"2\">教学环境安静，教学设备状况调试良好</option></select><div style=\"float:right\"><span >评分:</span><select id=\"teacher_hj_score\" class=\"class_score\" /></div></div>");
-                    
-                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />鼓励发言 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />善于引导 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"3\" />提问形式多样 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />关注度高 </label>");
-                    var id_sshd2=$("<label><input name=\"dog\" type=\"checkbox\" value=\"5\" />空话套话过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"6\" />Yes/No问题过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"7\" />提问形式单一 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"8\" />关注度低 </label> ");
+                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
 
-                    var id_ktfw=$("<label><input name=\"ktfw\" type=\"checkbox\" value=\"1\" />语速均匀 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"2\" />轻松愉快 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"3\" />节奏紧凑 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"4\" />生动有趣 </label><label><input name=\"ktfw\" type=\"checkbox\" value=\"5\" />思路清晰</label> ");
-                    var id_ktfw2=$("<label><input name=\"kt\" type=\"checkbox\" value=\"6\" />语速过慢/过快 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"7\" />语调沉闷 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"8\" />节奏拖沓 </label><label><input name=\"kt\" type=\"checkbox\" value=\"9\" />枯燥乏味 </label><label><input name=\"kt\" type=\"checkbox\" value=\"10\" />思路混乱 </label>  ");
-                    var id_skgf=$("<label><input name=\"skgf\" type=\"checkbox\" value=\"1\" />考纲熟悉 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"2\" />软件使用熟练 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"3\" />讲义精美</label><label><input name=\"skgf\" type=\"checkbox\" value=\"4\" />截图合理 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"5\" />板书规范 </label><label><input name=\"skgf\" type=\"checkbox\" value=\"6\" />普通话标准 </label> ");
-                    var id_skgf2=$("<label><input name=\"sk\" type=\"checkbox\" value=\"7\" />考纲不熟悉 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"8\" />软件使用生疏 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"9\" />讲义凌乱 </label><label><input name=\"sk\" type=\"checkbox\" value=\"10\" />截图不合理 </label><label><input name=\"sk\" type=\"checkbox\" value=\"11\" />板书不规范 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"12\" />有口音 </label> ");
-                    var id_jsfg=$("<label><input name=\"jsfg\" type=\"checkbox\" value=\"1\" />平易近人 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"2\" />生动活泼</label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"3\" />幽默风趣 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"4\" />严谨认真 </label> ");
-                    var id_jsfg2=$("<label><input name=\"js\" type=\"checkbox\" value=\"5\" />咄咄逼人</label> <label><input name=\"js\" type=\"checkbox\" value=\"6\" />沉闷乏味 </label> <label><input name=\"js\" type=\"checkbox\" value=\"7\" />缺乏课堂主导性 </label><label><input name=\"js\" type=\"checkbox\" value=\"8\" />散漫随性 </label>  ");
 
 
                     Enum_map.append_option_list("teacher_lecture_score",id_have_kj.find("#teacher_have_kj_score"),false,[0,1,2,3,4,5]);
@@ -360,14 +352,7 @@ $(function(){
                         ["等级",id_rank],
                         ["监课情况",id_jkqk],
                         ["意见或建议",id_record],
-                        ["标签-师生互动(好)",id_sshd],
-                        ["标签-师生互动(不好)",id_sshd2],
-                        ["标签-课堂氛围(好)",id_ktfw],
-                        ["标签-课堂氛围(不好)",id_ktfw2],
-                        ["标签-授课规范(好)",id_skgf],
-                        ["标签-授课规范(不好)",id_skgf2],
-                        ["标签-教师风格(好)",id_jsfg],
-                        ["标签-教师风格(不好)",id_jsfg2]
+                        ["标签",id_sshd]
                     ];
                     
                     id_bk_pp.find("#teacher_bk_pp").on("change",function(){
@@ -607,49 +592,7 @@ $(function(){
                             id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                                 sshd_good.push($(this).val());
                             });
-                            var sshd_bad=[];
-                            id_sshd2.find("input:checkbox[name='dog']:checked").each(function(i) {
-                                sshd_bad.push($(this).val());
-                            });
-                            if(sshd_bad.length==0 && sshd_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-                            var ktfw_good=[];
-                            id_ktfw.find("input:checkbox[name='ktfw']:checked").each(function(i) {
-                                ktfw_good.push($(this).val());
-                            });
-                            var ktfw_bad=[];
-                            id_ktfw2.find("input:checkbox[name='kt']:checked").each(function(i) {
-                                ktfw_bad.push($(this).val());
-                            });
-                            if(ktfw_bad.length==0 && ktfw_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-
-                            var skgf_good=[];
-                            id_skgf.find("input:checkbox[name='skgf']:checked").each(function(i) {
-                                skgf_good.push($(this).val());
-                            });
-                            var skgf_bad=[];
-                            id_skgf2.find("input:checkbox[name='sk']:checked").each(function(i) {
-                                skgf_bad.push($(this).val());
-                            });
-                            if(skgf_bad.length==0 && skgf_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-
-                            var jsfg_good=[];
-                            id_jsfg.find("input:checkbox[name='jsfg']:checked").each(function(i) {
-                                jsfg_good.push($(this).val());
-                            });
-                            var jsfg_bad=[];
-                            id_jsfg2.find("input:checkbox[name='js']:checked").each(function(i) {
-                                jsfg_bad.push($(this).val());
-                            });
-                            if(jsfg_bad.length==0 && jsfg_good.length==0){
+                            if(sshd_good.length==0){
                                 BootstrapDialog.alert("请选择老师标签");
                                 return false;
                             }
@@ -700,14 +643,7 @@ $(function(){
                                 "record_monitor_class"           :id_jkqk.val(),
                                 "record_rank"                    :id_rank.val(),
                                 "record_lessonid_list"           :JSON.stringify(select_list),
-                                "sshd_good"                          :JSON.stringify(sshd_good),
-                                "sshd_bad"                           :JSON.stringify(sshd_bad),
-                                "ktfw_good"                          :JSON.stringify(ktfw_good),
-                                "ktfw_bad"                           :JSON.stringify(ktfw_bad),
-                                "skgf_good"                          :JSON.stringify(skgf_good),
-                                "skgf_bad"                           :JSON.stringify(skgf_bad),
-                                "jsfg_good"                          :JSON.stringify(jsfg_good),
-                                "jsfg_bad"                           :JSON.stringify(jsfg_bad),
+                                "sshd_good"                          :JSON.stringify(sshd_good),                               
                             });
                         }
                     },function(){
@@ -816,16 +752,9 @@ $(function(){
                     var id_rjcz =  $("<select class=\"class_score\" />");
                     var id_skhj =  $("<select class=\"class_score\" />");
                     var id_khfk =  $("<select class=\"class_score\" />");
-                    var id_lcgf =  $("<select class=\"class_score\" />");                  
-                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />鼓励发言 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />善于引导 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"3\" />提问形式多样 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />关注度高 </label>");
-                    var id_sshd2=$("<label><input name=\"dog\" type=\"checkbox\" value=\"5\" />空话套话过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"6\" />Yes/No问题过多 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"7\" />提问形式单一 </label> <label><input name=\"dog\" type=\"checkbox\" value=\"8\" />关注度低 </label> ");
+                    var id_lcgf =  $("<select class=\"class_score\" />"); 
+                    var id_sshd=$("<label><input name=\"Fruit\" type=\"checkbox\" value=\"1\" />自然型 </label> <label><input name=\"Fruit\" type=\"checkbox\" value=\"2\" />逻辑型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"4\" />技巧型 </label><label><input name=\"Fruit\" type=\"checkbox\" value=\"5\" />情感型 </label>");
 
-                    var id_ktfw=$("<label><input name=\"ktfw\" type=\"checkbox\" value=\"1\" />语速均匀 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"2\" />轻松愉快 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"3\" />节奏紧凑 </label> <label><input name=\"ktfw\" type=\"checkbox\" value=\"4\" />生动有趣 </label><label><input name=\"ktfw\" type=\"checkbox\" value=\"5\" />思路清晰</label> ");
-                    var id_ktfw2=$("<label><input name=\"kt\" type=\"checkbox\" value=\"6\" />语速过慢/过快 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"7\" />语调沉闷 </label> <label><input name=\"kt\" type=\"checkbox\" value=\"8\" />节奏拖沓 </label><label><input name=\"kt\" type=\"checkbox\" value=\"9\" />枯燥乏味 </label><label><input name=\"kt\" type=\"checkbox\" value=\"10\" />思路混乱 </label>  ");
-                    var id_skgf=$("<label><input name=\"skgf\" type=\"checkbox\" value=\"1\" />考纲熟悉 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"2\" />软件使用熟练 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"3\" />讲义精美</label><label><input name=\"skgf\" type=\"checkbox\" value=\"4\" />截图合理 </label> <label><input name=\"skgf\" type=\"checkbox\" value=\"5\" />板书规范 </label><label><input name=\"skgf\" type=\"checkbox\" value=\"6\" />普通话标准 </label> ");
-                    var id_skgf2=$("<label><input name=\"sk\" type=\"checkbox\" value=\"7\" />考纲不熟悉 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"8\" />软件使用生疏 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"9\" />讲义凌乱 </label><label><input name=\"sk\" type=\"checkbox\" value=\"10\" />截图不合理 </label><label><input name=\"sk\" type=\"checkbox\" value=\"11\" />板书不规范 </label> <label><input name=\"sk\" type=\"checkbox\" value=\"12\" />有口音 </label> ");
-                    var id_jsfg=$("<label><input name=\"jsfg\" type=\"checkbox\" value=\"1\" />平易近人 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"2\" />生动活泼</label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"3\" />幽默风趣 </label> <label><input name=\"jsfg\" type=\"checkbox\" value=\"4\" />严谨认真 </label> ");
-                    var id_jsfg2=$("<label><input name=\"js\" type=\"checkbox\" value=\"5\" />咄咄逼人</label> <label><input name=\"js\" type=\"checkbox\" value=\"6\" />沉闷乏味 </label> <label><input name=\"js\" type=\"checkbox\" value=\"7\" />缺乏课堂主导性 </label><label><input name=\"js\" type=\"checkbox\" value=\"8\" />散漫随性 </label>  ");
 
 
                     Enum_map.append_option_list("teacher_lecture_score",id_jysj,true,[0,1,2,3,4,5,6,7,8,9,10]);
@@ -858,14 +787,7 @@ $(function(){
                         ["非教学相关得分",id_no_tea_score],
                         ["监课情况",id_jkqk],
                         ["意见或建议",id_record],
-                        ["标签-师生互动(好)",id_sshd],
-                        ["标签-师生互动(不好)",id_sshd2],
-                        ["标签-课堂氛围(好)",id_ktfw],
-                        ["标签-课堂氛围(不好)",id_ktfw2],
-                        ["标签-授课规范(好)",id_skgf],
-                        ["标签-授课规范(不好)",id_skgf2],
-                        ["标签-教师风格(好)",id_jsfg],
-                        ["标签-教师风格(不好)",id_jsfg2]
+                        ["老师标签",id_sshd]
                     ];
                     
                     $.show_key_value_table("试听评价", arr,{
@@ -887,53 +809,11 @@ $(function(){
                             id_sshd.find("input:checkbox[name='Fruit']:checked").each(function(i) {
                                 sshd_good.push($(this).val());
                             });
-                            var sshd_bad=[];
-                            id_sshd2.find("input:checkbox[name='dog']:checked").each(function(i) {
-                                sshd_bad.push($(this).val());
-                            });
-                            if(sshd_bad.length==0 && sshd_good.length==0){
+                            if(sshd_good.length==0){
                                 BootstrapDialog.alert("请选择老师标签");
                                 return false;
                             }
-                            var ktfw_good=[];
-                            id_ktfw.find("input:checkbox[name='ktfw']:checked").each(function(i) {
-                                ktfw_good.push($(this).val());
-                            });
-                            var ktfw_bad=[];
-                            id_ktfw2.find("input:checkbox[name='kt']:checked").each(function(i) {
-                                ktfw_bad.push($(this).val());
-                            });
-                            if(ktfw_bad.length==0 && ktfw_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-
-                            var skgf_good=[];
-                            id_skgf.find("input:checkbox[name='skgf']:checked").each(function(i) {
-                                skgf_good.push($(this).val());
-                            });
-                            var skgf_bad=[];
-                            id_skgf2.find("input:checkbox[name='sk']:checked").each(function(i) {
-                                skgf_bad.push($(this).val());
-                            });
-                            if(skgf_bad.length==0 && skgf_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-
-                            var jsfg_good=[];
-                            id_jsfg.find("input:checkbox[name='jsfg']:checked").each(function(i) {
-                                jsfg_good.push($(this).val());
-                            });
-                            var jsfg_bad=[];
-                            id_jsfg2.find("input:checkbox[name='js']:checked").each(function(i) {
-                                jsfg_bad.push($(this).val());
-                            });
-                            if(jsfg_bad.length==0 && jsfg_good.length==0){
-                                BootstrapDialog.alert("请选择老师标签");
-                                return false;
-                            }
-
+                           
                             $.do_ajax("/human_resource/set_teacher_record_info_new",{
                                 "teacherid"                        : teacherid,
                                 "type"                             : 1,
@@ -952,14 +832,7 @@ $(function(){
                                 "record_info"                      : id_record.val(),
                                 "record_monitor_class"             : id_jkqk.val(),
                                 "record_lessonid_list"             : JSON.stringify(select_list),
-                                "sshd_good"                        : JSON.stringify(sshd_good),
-                                "sshd_bad"                         : JSON.stringify(sshd_bad),
-                                "ktfw_good"                        : JSON.stringify(ktfw_good),
-                                "ktfw_bad"                         : JSON.stringify(ktfw_bad),
-                                "skgf_good"                        : JSON.stringify(skgf_good),
-                                "skgf_bad"                         : JSON.stringify(skgf_bad),
-                                "jsfg_good"                        : JSON.stringify(jsfg_good),
-                                "jsfg_bad"                         : JSON.stringify(jsfg_bad),
+                                "sshd_good"                        : JSON.stringify(sshd_good)
                             });
                         }
                     },function(){

@@ -28,6 +28,8 @@ interface RowData {
 	headimgurl	:any;
 	nickname	:any;
 	type	:any;
+	agent_level	:any;
+	test_lessonid	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;

@@ -5587,6 +5587,28 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
+    public function get_teacher_lesson_num_list($teacher_arr,$start_time,$end_time){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "((l.lesson_status =2 and (tss.success_flag=1 or l.lesson_user_online_status=1)) or (l.lesson_status < 2 and tss.success_flag in (0,1)))"
+        ];
+        $this->where_arr_teacherid($where_arr,"l.teacherid", $teacher_arr);
+        $sql = $this->gen_sql_new("select count(1) num,l.teacherid from %s l ".
+                                  "join %s tss on l.lessonid = tss.lessonid ".
+                                  " where %s group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["teacherid"];
+        });
+    }
+
+
     public function get_limit_type_teacher_lesson_num_grade($teacherid,$start_time,$end_time,$grade_arr){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],
@@ -9063,6 +9085,23 @@ lesson_type in (0,1) "
         return $this->main_get_value($sql);
     }
 
+    public function check_train_lesson_new($teacherid){
+        $where_arr = [
+            ["teacherid=%u",$teacherid,0],
+            "train_type=4",
+            "lesson_del_flag=0"
+            // "lesson_start=0"
+        ];
+        $sql = $this->gen_sql_new("select count(1) "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_value($sql);
+    }
+
+
 
 
 
@@ -9127,6 +9166,26 @@ lesson_type in (0,1) "
         return $this->main_get_list($sql);
     }
 
+
+    public function get_teacherid_for_free_time_by_lessonid($lesson_start,$lesson_end,$teacherid_str){
+        $where_arr = [
+            ["lesson_start<%u",$lesson_end,0],
+            ["lesson_end>%u",$lesson_start,0],
+            ["teacherid in (%s)",$teacherid_str,""],
+            "lesson_type!=4001",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select teacherid"
+                                  ." from %s "
+                                  ." where %s"
+                                  ." group by teacherid"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
 
 
 }

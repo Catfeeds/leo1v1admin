@@ -108,7 +108,7 @@ class t_student_score_info extends \App\Models\Zgen\z_t_student_score_info
             ['stu_score_type=%d',$stu_score_type,-1]
         ];
 
-        $sql = $this->gen_sql_new("  select stu_score_type, score, total_score, subject from %s tc"
+        $sql = $this->gen_sql_new("  select id as scoreid, stu_score_type, score, total_score, subject from %s tc"
                                   ." left join %s p on p.userid = tc.userid where %s",
                                   self::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,

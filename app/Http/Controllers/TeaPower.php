@@ -112,24 +112,60 @@ trait  TeaPower {
     }
 
     public function set_teacher_label($teacherid,$lessonid,$lesson_list,$tea_label_type,$label_origin){
-        $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
-        if($id>0){
-            $this->t_teacher_label->field_update_list($id,[
-                "add_time" =>time(),
-                "label_origin"=>$label_origin,
-                "tea_label_type"=>$tea_label_type
-            ]);
-        }else{
-            $this->t_teacher_label->row_insert([
-                "teacherid"=>$teacherid,
-                "add_time" =>time(),
-                "label_origin"=>$label_origin,
-                "lessonid"    =>$lessonid,
-                "lesson_list"=>$lesson_list,
-                "tea_label_type"=>$tea_label_type
-            ]);
+        $arr = json_decode($tea_label_type,true);
+        if(!empty($arr)){
+
+            $id = $this->t_teacher_label->check_label_exist($lessonid,$label_origin);
+            if($id>0){
+                $this->t_teacher_label->field_update_list($id,[
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "tea_label_type"=>$tea_label_type
+                ]);
+            }else{
+                $this->t_teacher_label->row_insert([
+                    "teacherid"=>$teacherid,
+                    "add_time" =>time(),
+                    "label_origin"=>$label_origin,
+                    "lessonid"    =>$lessonid,
+                    "lesson_list"=>$lesson_list,
+                    "tea_label_type"=>$tea_label_type
+                ]);
  
+            }
+
+            $list=[];
+            foreach($arr as $v){
+                $s =  E\Etea_label_type::get_desc($v); 
+                $list[$s] = $s;
+            }
+            //dd($list);
+            $teacher_tags = $this->t_teacher_info->get_teacher_tags($teacherid);
+            $teacher_tags = trim($teacher_tags,",");
+            $tags= explode(",",$teacher_tags);
+            $str ="";
+            if(empty($tags) || empty($teacher_tags)){
+                foreach($list as $k){
+                    $str .= $k.",";
+                }
+            }else{
+                $tags_list=[];
+                foreach($tags as $v){
+                    $tags_list[$v]=$v;
+                }
+                foreach($list as $k){
+                    if(!isset($tags_list[$k]) && !empty($k)){
+                        $tags[] = $k;
+                    }
+                }
+                $str = implode(",",$tags);
+                $str .= ",";
+            }
+            $this->t_teacher_info->field_update_list($teacherid,[
+                "teacher_tags"  =>$str
+            ]);
         }
+
     }
 
     public function get_teacher_label_new($tea_arr){
@@ -369,7 +405,7 @@ trait  TeaPower {
 
     public function get_tea_subject_and_right_by_adminid($adminid){
         if($adminid==349){
-            $adminid=480;
+            $adminid=349;
         }
         $arr_group    = ["小学科"=>"(4,5,6,7,8,9,10)","数学组"=>"(2)","文综组"=>"(1,3)","物理组"=>"(5)"];
         $account_role = $this->t_manager_info->get_account_role($adminid);
@@ -415,6 +451,8 @@ trait  TeaPower {
         $acc = $this->t_manager_info->get_account($adminid);
         if($acc=="jim"){
             $tea_right=1;
+            $tea_subject="";
+            $qz_flag=0;
         }
         $list = ["tea_subject"=>$tea_subject,"tea_right"=>$tea_right,"qz_flag"=>$qz_flag];
         return $list;
@@ -2597,12 +2635,12 @@ trait  TeaPower {
     /**
      * 教研未来一周只有周二能排课
      * 质监只有周二到周六能排课
-     * 中午12:00~13:00都不能排课
+     * 中午12:30~13:00都不能排课
      * @param account_role 4 教研 9 质监
      */
     public function get_tea_rearch_time_block(&$lesson_data,$account_role){
         $start_date = date("Y-m-d 9:00",time());
-        $half_start = date("Y-m-d 12:00",time());
+        $half_start = date("Y-m-d 12:30",time());
         $half_end   = date("Y-m-d 13:00",time());
         $night_start= date("Y-m-d 18:00",time());
         $end_date   = date("Y-m-d 20:00",time());
@@ -2659,6 +2697,37 @@ trait  TeaPower {
     }
 
 
+    public function get_train_lesson_teacherid($subject,$grade,$lesson_start){
+        $lesson_end = $lesson_start+1800;
+        $week_day = date("w",$lesson_start);
+        if($week_day != 2){
+            $role_str = "9";
+        }else{
+            $role_str = "4,9";
+        }
+        $teacherid_list = $this->t_teacher_info->get_teacherid_by_role($role_str,$subject,$grade);
+        $teacherid_str  = \App\Helper\Utils::array_keys_to_string($teacherid_list);
+
+        $teacherid_has  = $this->t_lesson_info->get_teacherid_for_free_time_by_lessonid($lesson_start,$lesson_end,$teacherid_str);
+        $teacherid_has_str = \App\Helper\Utils::array_keys_to_string($teacherid_has);
+
+        $teacherid_free = str_replace($teacherid_has_str,"",$teacherid_str);
+        $teacherid_free_arr = array_values(array_filter(explode(",",$teacherid_free)));
+        return $teacherid_free_arr;
+       
+    }
+
+
+    public function delete_train_lesson_before($lessonid,$subject,$grade,$teacherid){
+        $list = $this->t_lesson_info_b2->get_train_lesson_before($lessonid,$subject,$grade,$teacherid);
+        if(!empty($list)){
+            foreach($list as $val){
+                $this->t_lesson_info->field_update_list($val["lessonid"],[
+                   "lesson_del_flag"  =>1 
+                ]);
+            }
+        }       
+    }
 
 
 

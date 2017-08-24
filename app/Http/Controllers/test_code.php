@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use \App\Libs;
 use \App\Helper\Config;
+use Illuminate\Support\Facades\Redis ;
 
 class test_code extends Controller
 {
@@ -1842,16 +1843,92 @@ class test_code extends Controller
     }
 
     public function check_test(){
-        $phone="13917746147";
-        $template_code = 85645014;
-        $sms_data = [
-            "name" => "name",
-            "time" => date("Y-m-d",strtotime("+3 day",time())),
-        ];
-        \App\Helper\Utils::sms_common($phone,$template_code,$sms_data);
+        $level_simulate_count_key = "level_simulate_count";
+        $all_money_count_key      = "all_money_count";
+        $has_month_key            = "has_month";
+        $already_lesson_count_key = "already_lesson_count";
+
+
+        $month_key = "2017-7";
+        $teacherid = 107000;
+        $key="already_lesson_count_".$month_key."_".$teacherid;
+        $a = Redis::get($key);
+        dd($a);
     }
 
+    public function add_rule_type(){
+
+        $rule_type = [
+            1=>[
+                0     => 0,
+                1500  => 3,
+                4500  => 6,
+                7500  => 13,
+                13500 => 16,
+                18000 => 19
+            ],2=>[
+                0     => 0,
+                15000 => 3,
+                22500 => 7
+            ],3=>[
+                0     => 0,
+                15000 => 4,
+                22500 => 6
+            ],4=>[
+                0     => 0,
+                1500  => 3,
+                4500  => 6,
+                10500 => 9,
+                16500 => 12,
+                22500 => 15,
+                28500 => 18,
+            ],5=>[
+                0     => 0,
+                1000  => 5,
+                6000  => 10,
+                12000 => 20,
+            ],6=>[
+                0     => 0,
+                1000  => 4,
+                4000  => 7,
+                10000 => 10,
+                16000 => 15,
+                24000 => 20,
+                33000 => 30,
+            ]
+        ];
+        $reward_count_type = 1;
+        foreach($rule_type as $key => $val){
+            foreach($val as $k => $v){
+                $check_flag = $this->t_teacher_reward_rule_list->check_reward_rule_is_exists($reward_count_type,$key,$k);
+                if(!$check_flag){
+                    $this->t_teacher_reward_rule_list->row_insert([
+                        "reward_count_type" => $reward_count_type,
+                        "rule_type"         => $key,
+                        "num"               => $k,
+                        "money"             => $v*100,
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function rule_list(){
+        // $rule = \App\Config\teacher_rule::get_teacher_rule();
+        // \App\Helper\Utils::debug_to_html( $rule );
 
 
+        // $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+
+        // $teacher_rule=[];
+        // foreach($rule_list as $r_val){
+        //     $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
+        // }
+
+        // $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        // \App\Helper\Utils::redis(E\Eredis_type::V_SET,$key,$teacher_rule);
+        $rule = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
+        \App\Helper\Utils::debug_to_html( $rule );
+    }
 
 }

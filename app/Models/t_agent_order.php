@@ -11,7 +11,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
     public function get_agent_order_info($page_info)
     {
         $sql=$this->gen_sql_new ("select ao.*,"
-                                 ." a.phone phone,a.nickname nickname, "
+                                 ." a.userid,a.phone phone,a.nickname nickname, "
                                  ." aa.phone p_phone,aa.nickname p_nickname, "
                                  ." aaa.phone pp_phone,aaa.nickname pp_nickname, "
                                  ." o.price "
@@ -34,8 +34,10 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
             'a1.phone = '.$phone.' or a2.phone = '.$phone,
         ];
 
-        $sql = $this->gen_sql_new(" select ao.orderid,a1.phone p_phone,ao.p_price,a2.phone pp_phone,ao.pp_price, "
-                                  ." o.price pay_price,o.userid,o.pay_time,s.parent_name "
+        $sql = $this->gen_sql_new(" select ao.orderid,ao.p_price,ao.create_time order_time,ao.pp_price,"
+                                  ."a1.phone p_phone,a2.phone pp_phone, "
+                                  ." o.price pay_price,o.userid,o.pay_time,"
+                                  ."s.parent_name "
                                   ." from %s ao "
                                   ." left join %s a1 on a1.id = ao.pid "
                                   ." left join %s a2 on a2.id = ao.ppid "
@@ -56,7 +58,7 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
         $where_arr = [
             ['a.phone = %s ',$phone],
         ];
-        $sql = $this->gen_sql_new("select ao.orderid,a.phone p_phone,ao.p_price, "
+        $sql = $this->gen_sql_new("select ao.orderid,a.phone p_phone,ao.p_price,ao.create_time order_time, "
                                   ." o.price pay_price,o.userid,o.pay_time,s.parent_name "
                                   ." from %s ao "
                                   ." left join %s a on a.id = ao.pid "
@@ -180,6 +182,25 @@ class t_agent_order extends \App\Models\Zgen\z_t_agent_order
             $where_arr
         );
         return $this->main_get_row($sql);
+    }
+    public function get_count_by_userid($userid ) {
+        $sql = $this->gen_sql_new(
+            "select count(*) from %s ao"
+            ."left join  a %s on  ao.aid = a.id "
+            . " where a.userid=%u ",
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $userid
+        );
+        return $this->main_get_value($sql);
+    }
+    public function row_delete_by_aid($aid) {
+        $sql= $this->gen_sql_new (
+            "delete from %s where aid=%u",
+            self::DB_TABLE_NAME,
+            $aid
+        );
+        return $this->main_update($sql);
     }
 
 }

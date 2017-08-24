@@ -278,23 +278,13 @@ class wx_yxyx_common extends Controller
         $poster_arr = [];
         $num_arr    = [];
         $loop_num   = 0;
-        if ($count_num <= 10) {
-            while ( $loop_num < $count_num) {
-                $key = mt_rand(0, $count_num);
-                if( !in_array($key, $num_arr)) {
-                    $num_arr[]    = $key;
-                    $poster_arr[] = $all_id[$key];
-                    $loop_num++;
-                }
-            }
-        } else {
-            while ( $loop_num < 10) {
-                $key = mt_rand(0, $count_num);
-                if( !in_array($key, $num_arr)) {
-                    $num_arr[]    = $key;
-                    $poster_arr[] = $all_id[$key];
-                    $loop_num++;
-                }
+        $max_loop  = $count_num >10?10:$count_num;
+        while ( $loop_num < $max_loop) {
+            $key = mt_rand(0, $count_num);
+            if( !in_array($key, $num_arr)) {
+                $num_arr[]    = $key;
+                $poster_arr[] = $all_id[$key];
+                $loop_num++;
             }
         }
         $ret_info['poster'] = $poster_arr;
@@ -329,7 +319,8 @@ class wx_yxyx_common extends Controller
             $id_arr    = [];
             $num_arr   = [];
             $loop_num  = 0;
-            while ( $loop_num < 3) {
+            $max_loop  = $count_num >3?3:$count_num;
+            while ( $loop_num < $max_loop) {
                 $key = mt_rand(0, $count_num);
                 if( !in_array($key, $num_arr)) {
                     $num_arr[] = $key;
@@ -355,7 +346,8 @@ class wx_yxyx_common extends Controller
     public function get_yxyx_all_new(){
         $ret_info = $this->t_yxyx_new_list->get_all_for_wx();
         foreach ($ret_info as &$item) {
-            $item['new_content'] = mb_substr( str_replace(PHP_EOL, '', strip_tags($item['new_content'])),0,30);
+            $content = str_replace(PHP_EOL, '', strip_tags($item['new_content']));
+            $item['new_content'] = mb_substr( trim($content),0,30);
         }
         if ($ret_info) {
             return $this->output_succ(["data"=>$ret_info]);

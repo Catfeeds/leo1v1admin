@@ -13,7 +13,7 @@
             <div class="row  " >
 
                 <div class="col-xs-12 col-md-6"  >
-                    <div > {{$cur_dir}}   </div>
+                    <div style="font-size:18px" > {{$cur_dir}} <a href="#" class=" fa fa-share " id="id_share_cur"  >分享 </a>   </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6"  id="id_add_dir_parent" >
@@ -44,7 +44,7 @@
                             >
                                 <a class="fa fa-download opt-download"  title="下载"> </a>
                                 <a class="fa fa-edit opt-edit"  title="修改名字"> </a>
-                                <a class="fa fa-share opt-share"  title="分享"> </a>
+                                <a class="fa fa-share pt-share"  title="分享"> </a>
 
                             </div>
                         </td>

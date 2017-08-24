@@ -19,6 +19,8 @@ class menu{
                 ],
                 ["power_id"=>9, "name"=>"优学优享", "list"=> [
                     ["power_id"=>10, "name"=>"用户列表",   "url"=>"/agent/agent_list"],
+                    ["power_id"=>14, "name"=>"微信信息",   "url"=>"/agent/agent_user_wechat"],
+                    ["power_id"=>7, "name"=>"用户下线",   "url"=>"/agent/agent_user_link"],
                     ["power_id"=>8, "name"=>"用户订单",   "url"=>"/agent/agent_order_list"],
                     ["power_id"=>11, "name"=>"用户提现列表",   "url"=>"/agent/agent_cash_list"],
                     ["power_id"=>12, "name"=>"优学帮列表",   "url"=>"/agent/agent_list_new"],
@@ -189,6 +191,7 @@ class menu{
                     ["power_id"=>7, "name"=>"工资总体-new","url"=>"/user_manage_new/tea_wages_list"],
                     ["power_id"=>5, "name"=>"工资明细-new","url"=>"/user_manage_new/tea_wages_info"],
                     ["power_id"=>8, "name"=>"工资配置-new","url"=>"/user_manage_new/teacher_money_type_list"],
+                    ["power_id"=>18, "name"=>"奖励规则","url"=>"/user_manage_new/teacher_reward_rule_list"],
                     ["power_id"=>9, "name"=>"工资统计","url"=>"/user_manage_new/tea_wages_count_list"],
                     ["power_id"=>11, "name"=>"全勤奖配置","url"=>"/human_resource/get_lesson_full_list"],
                     ["power_id"=>12, "name"=>"全勤奖配置-old","url"=>"/human_resource/get_lesson_full_wage_old"],

@@ -1192,18 +1192,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         $this->where_arr_adminid_in_list($where_arr,"m.uid",$adminid_list);
 
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
-        $sql = $this->gen_sql_new(
-            "select $field_name as check_value, o.pay_time, o.price , o.orderid, s.nick, s.phone "
-            ." from   %s  o  "
-            ." left join %s m  on o.sys_operator=m.account "
-            ." left join %s s  on o.userid=s.userid "
-            ." left join %s n  on o.userid=n.userid "
-            ." where %s ",
-            self::DB_TABLE_NAME ,
-            t_manager_info::DB_TABLE_NAME ,
-            t_student_info::DB_TABLE_NAME,
-            t_seller_student_new::DB_TABLE_NAME,
-            $where_arr );
+        $sql = $this->gen_sql_new("select $field_name as check_value,o.price,o.orderid,s.nick,s.phone,o.grade,"
+                                  ."o.pay_time,o.subject,o.lesson_total, o.lesson_left, o.default_lesson_count"
+                                  ." from   %s  o  "
+                                  ." left join %s m  on o.sys_operator=m.account "
+                                  ." left join %s s  on o.userid=s.userid "
+                                  ." left join %s n  on o.userid=n.userid "
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME ,
+                                  t_manager_info::DB_TABLE_NAME ,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_seller_student_new::DB_TABLE_NAME,
+                                  $where_arr
+        );
         // dd($sql);
         return $this->main_get_list_by_page($sql, $page_info);
     }
@@ -2402,6 +2403,19 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return $this->main_get_list($sql);
     }
 
+    public function get_agent_order_info($userid,$create_time ) {
+
+        $where_arr = [
+            ["order_time > %u ", $create_time,0 ],
+            'order_status in (1,2)',
+            'contract_type =0 ',
+            ['userid=%u',  $userid ],
+        ];
+        $sql= $this->gen_sql_new("select pay_time, orderid, price from %s where %s limit 1 ",
+                                 self::DB_TABLE_NAME, $where_arr);
+        return $this->main_get_row($sql);
+
+    }
     public function get_agent_order($orderid_array_str,$userid_array_str){
         $where_arr = [
             "o.orderid not in (".$orderid_array_str.")",
@@ -2692,10 +2706,68 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         return intval($this->main_get_value($sql));
     }
 
+    public function get_teacherid_subject_by_orderid($orderid_str){
+        $where_arr = [
+            "o.orderid in $orderid_str",
+            "o.contract_type not in (1,2)",
+        ];
+        $sql = $this->gen_sql_new("select distinct o.orderid, t.teacherid, t.nick, l.subject"
+                                  ." from %s o"
+                                  ." left join %s ol on o.orderid=ol.orderid"
+                                  ." left join %s l on l.lessonid=ol.lessonid"
+                                  ." left join %s t on t.teacherid=l.teacherid"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_order_lesson_list::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_nomal_order_by_userid($userid,$check_time=-1){
+        $where_arr = [
+            "o.userid = $userid",
+            "o.contract_type = 0",
+            "o.contract_status = 1",
+            "o.order_status in (1,2) ",
+            ["o.pay_time <%u" ,$check_time, -1 ]
+        ];
+        //E\Econtract_status
+        $sql = $this->gen_sql_new("select o.orderid "
+                                  ." from %s o"
+                                  ." where %s limit 1 "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 
+    public function get_agent_order_money_list($userid_list ) {
+        if (count($userid_list)==0) {
+            return [];
+        }
+        $where_arr=[
+            "o.order_time > a.create_time ",
+            "o.contract_status in (1,2)",
+        ];
+        $this->where_arr_add_int_or_idlist($where_arr,"o.userid",$userid_list);
 
+        $sql=$this->gen_sql_new(
+            "select a.userid ,sum(price) as price from %s o  "
+            ."join %s a on a.userid=o.userid  "
+            . " where %s  group by a.userid ",
+            self::DB_TABLE_NAME,
+            t_agent::DB_TABLE_NAME,
+            $where_arr
+        );
 
+        return $this->main_get_list($sql,function($item){
+            return $item["userid"];
+        });
 
+    }
 
 }

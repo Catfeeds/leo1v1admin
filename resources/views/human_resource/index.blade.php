@@ -400,7 +400,7 @@
                         <td>{{@$var["research_note"]}} </td>
                         <td>{{@$var["is_good_flag_str"]}} </td>
                         <td>{{$var["user_agent"]}} </td>
-                        <td>{!! @$var["label"] !!} </td>
+                        <td>{!! @$var["teacher_tags"] !!} </td>
                         <td>{{@$var["textbook"]}} </td>
                         <td>{{@$var["textbook_type_str"]}} </td>
                         <td>{{@$var["rate_score"]}} </td>

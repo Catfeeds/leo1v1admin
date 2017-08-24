@@ -98,8 +98,9 @@ class testbb extends Controller
         // $img = $this->get_in_str_val('img');
 
         $img = [
-            0=>'l_t_pdf_193451_14.png',
-            1=>'l_t_pdf_193451_19.png'
+            // 0=>'123.jpg'
+            0=>'l_t_pdf_193451_5.png',
+            1=>'l_t_pdf_220858_15.png'
         ];
         $ret = $this->img_to_pdf($img);
     }
@@ -158,26 +159,26 @@ class testbb extends Controller
         }
 
         $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
 
+        $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
 
+        return $pdf_url;
 
-        $pdf_info = $pdf->Output("$pdf_name_tmp", 'I');
-
-        // dd($pdf_info);
 
     }
 
-    public function cc(){
-        $hostdir = public_path('wximg');
-
-        $pdf_name = $hostdir.'/'.time().'_'.rand().'.pdf';
-        $pdf_info = 11;
-
-        $pdf_file = fopen($pdf_name,'w');
-        fwrite($pdf_file,$pdf_info);
-        fclose($pdf_file);
 
 
+    public function sd(){
+
+        $lessonid = $this->get_in_int_val('l');
+        $teacherid = $this->get_in_int_val('t');
+        $stu_id = $this->get_in_int_val('s');
+        $lesson_start = 0;
+        $lesson_end =0;
+        $ret = $this->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$stu_id,$lesson_start,$lesson_end);
+        dd($ret);
     }
 
 

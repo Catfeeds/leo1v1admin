@@ -2,8 +2,12 @@
 namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redis ;
 use App\Enums as  E;
 use \App\Libs;
+
+require_once app_path('/Libs/TCPDF/tcpdf.php');
+require_once app_path('/Libs/TCPDF/config/tcpdf_config.php');
 
 class Utils  {
 
@@ -809,6 +813,25 @@ class Utils  {
     }
 
     /**
+     * 供模拟工资使用
+     */
+    static public function get_teacher_lesson_money_simulate($type,$already_lesson_count){
+        $rule_type = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
+        $reward    = 0;
+        if(isset($rule_type[$type])){
+            foreach($rule_type[$type] as $key=>$val){
+                if($already_lesson_count>=$key){
+                    $reward = $val;
+                }elseif($already_lesson_count<$key){
+                    break;
+                }
+            }
+        }
+        return $reward;
+    }
+
+
+    /**
      * @param identity 推荐的老师身份
      * @param num 已推荐的老师数量
      */
@@ -1517,6 +1540,104 @@ class Utils  {
     public function get_wx_token_jssdk($appid_tec= 'wxa99d0de03f407627', $appscript_tec= '61bbf741a09300f7f2fd0a861803f920' ){
         $wx        = new \App\Helper\Wx();
         return $wx->get_wx_token($appid_tec,$appscript_tec);
+    }
+
+
+
+    static public function img_to_pdf($filesnames){
+        ini_set("memory_limit",'-1');
+
+        header("Content-type:text/html;charset=utf-8");
+
+        $hostdir = public_path('wximg');
+
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+
+        foreach ($filesnames as $name) {
+            if(strstr($name,'jpg') || (strstr($name,'png') )){//如果是图片则添加到pdf中
+                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+                $pdf->AddPage();//添加一个页面
+                $filename = $hostdir.'/'.$name;//拼接文件路径
+
+                //gd库操作  读取图片
+                if(strstr($name,'jpg')){
+                    $source = imagecreatefromjpeg($filename);
+                }elseif(strstr($name,'png')){
+                    $source = imagecreatefrompng($filename);
+                }
+                //gd库操作  旋转90度
+                $rotate = imagerotate($source, 0, 0);
+                //gd库操作  生成旋转后的文件放入别的目录中
+                $tmp_name = time().'_'.rand();
+
+                if(strstr($name,'jpg')){
+                    imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
+                }elseif(strstr($name,'png')){
+                    imagepng($rotate,$hostdir."/$tmp_name.png");
+                }
+
+                //tcpdf操作  添加图片到pdf中
+                if(strstr($name,'jpg')){
+                    $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 210, 297, 'JPG', '', 'center', true, 1000);
+                }elseif(strstr($name,'png')){
+                    $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 210, 297, 'PNG', '', 'center', true, 1000);
+                }
+
+            }
+        }
+
+        $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
+        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
+
+        $pdf_url = $this->qiniu_upload($pdf_name_tmp);
+
+        unlink($pdf_name_tmp);
+        return $pdf_url;
+    }
+
+    static public function send_curl_post($url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_exec($ch);
+        $ret = curl_multi_getcontent($ch);
+        curl_close($ch);
+        return $ret;
+    }
+
+    /**
+     * @param type redis操作类型
+     * @param key   redis存储的键
+     * @param value  redis存储的值
+     * @param json_decode 进行get操作时是否进行json处理
+     */
+    static public function redis($type,$key,$value=[],$json_decode=false){
+        if($type==E\Eredis_type::V_GET){
+            $value = Redis::get($key);
+            if($json_decode){
+                $value = json_decode($value,true);
+            }
+        }elseif($type==E\Eredis_type::V_SET){
+            if(is_array($value)){
+                $value=json_encode($value);
+            }
+            Redis::set($key,$value);
+        }elseif($type==E\Eredis_type::V_DEL){
+            Redis::del($key);
+        }
+        return $value;
     }
 
 

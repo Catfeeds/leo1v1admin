@@ -1263,7 +1263,9 @@ class user_manage extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])){
+        if(!isset($agent_order['orderid'])
+           && $this->t_agent_order->get_count_by_userid( $userid )==0
+        ){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -1296,8 +1298,10 @@ class user_manage extends Controller
                     'aid'         => $ret_info['id'],
                     'pid'         => $pid,
                     'p_price'     => $p_price,
+                    'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
+                    'pp_level'    => $level2,
                     'create_time' => time(null),
                 ]);
             }
@@ -1305,26 +1309,13 @@ class user_manage extends Controller
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        if(isset($student_info['userid'])){
-            return 2;
+        $agent = $this->t_agent->get_agent_info_row_by_phone($phone);
+        if($agent['agent_level']){
+            $level = $agent['agent_level'];
         }else{
-            $agent_item = [];
-            $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
-            if(count($agent_item)>0){
-                $test_lesson = [];
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    return 2;
-                }else{
-                    return 1;
-                }
-            }else{
-                return 0;
-            }
+            $level = 0;
         }
+        return $level;
     }
 
     private function add_praise_by_order($orderid,$userid,$contract_type,$lesson_total){

@@ -148,6 +148,7 @@ trait  ViewDeal {
             $row_old_data=@file_get_contents( $row_file_name);
             if( $row_old_data != $row_str ) {
                 file_put_contents( $row_file_name, $row_str);
+                chmod(  $row_file_name,0777);
             }
 
         }else{
@@ -201,8 +202,10 @@ trait  ViewDeal {
         $file_name =app_path("../public/page_ts/g_args.d.ts/{$this->view_ctrl}-{$this->view_action}.d.ts");
 
         $old_data=@file_get_contents($file_name);
-        if( $old_data !=$data ) {
+        if( $old_data !=$data || true ) {
+        unlink( $file_name );
             file_put_contents($file_name,$data);
+            chmod(  $file_name,0777);
         }
     }
 
@@ -465,6 +468,9 @@ trait  ViewDeal {
             $data["_stu_menu_html"] = session("stu_menu_html") ;
         }else if (  $ctrl == "teacher_info_admin"  ) {
             $data["_tea_menu_html"] = session("tea_menu_html") ;
+        }else if (  $ctrl == "teacher_info"  ) { //老师后台
+            $data["_nick"] =  session("nick") ;
+            $data["_face"] =  session("face") ;
         }else{
             $data["_menu_html"] = session("menu_html") ;
         }

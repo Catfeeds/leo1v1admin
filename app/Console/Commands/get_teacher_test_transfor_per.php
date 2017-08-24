@@ -51,6 +51,29 @@ class get_teacher_test_transfor_per extends Command
             
         }
 
+        //更新一月常规学生数
+        $start_time = time()-30*86400;
+        $ret= $task->t_teacher_info->tongji_teacher_stu_num_new($start_time,$end_time);
+        foreach($ret as $v){
+            $task->t_teacher_info->field_update_list($v["teacherid"],[
+                "month_stu_num"   =>$v["stu_num"] 
+            ]);
+
+        }
+
+
+        //更新两周试听课数
+        $start_time = time()-14*86400;
+        $list = $task->t_lesson_info_b2->get_test_lesson_num($start_time,$end_time);
+        foreach($list as $val){
+            $task->t_teacher_info->field_update_list($val["teacherid"],[
+               "two_week_test_lesson_num"   =>$val["num"] 
+            ]);
+        }
+
+
+        
+
         //dd($teacher_test_per_list);
 
         

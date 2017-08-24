@@ -9,25 +9,18 @@ $(function(){
             start_time    :    $('#id_start_time').val(),
             end_time      :    $('#id_end_time').val(),
 
-            parentid:	$('#id_parentid').val(),
+            order_flag:	$('#id_order_flag').val(),
+            test_lesson_flag:	$('#id_test_lesson_flag').val(),
+            agent_level:	$('#id_agent_level').val(),
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
             p_phone:	$('#id_p_phone').val(),
-            wx_openid:	$('#id_wx_openid').val(),
-            bankcard:	$('#id_bankcard').val(),
-            idcard:	$('#id_idcard').val(),
-            bank_address:	$('#id_bank_address').val(),
-            bank_account:	$('#id_bank_account').val(),
-            bank_phone:	$('#id_bank_phone').val(),
-            bank_province:	$('#id_bank_province').val(),
-            bank_city:	$('#id_bank_city').val(),
-            bank_type:	$('#id_bank_type').val(),
-            zfb_name:	$('#id_zfb_name').val(),
-            zfb_account:	$('#id_zfb_account').val(),
             agent_type:$('#id_agent_type').val()
         })
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
+  Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+  Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type'     : g_args.date_type,
@@ -42,20 +35,13 @@ $(function(){
 
     $("#id_agent_type").val(g_args.agent_type);
     $('#id_userid').val(g_args.userid);
-    $('#id_parentid').val(g_args.parentid);
-    $('#id_phone').val(g_args.phone);
     $('#id_p_phone').val(g_args.p_phone);
-    $('#id_wx_openid').val(g_args.wx_openid);
-    $('#id_bankcard').val(g_args.bankcard);
-    $('#id_idcard').val(g_args.idcard);
-    $('#id_bank_address').val(g_args.bank_address);
-    $('#id_bank_account').val(g_args.bank_account);
-    $('#id_bank_phone').val(g_args.bank_phone);
-    $('#id_bank_province').val(g_args.bank_province);
-    $('#id_bank_city').val(g_args.bank_city);
-    $('#id_bank_type').val(g_args.bank_type);
-    $('#id_zfb_name').val(g_args.bank_type);
-    $('#id_zfb_account').val(g_args.bank_type);
+    $('#id_phone').val(g_args.phone);
+  $('#id_order_flag').val(g_args.order_flag);
+
+  $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+    $('#id_agent_level').val(g_args.agent_level);
+    $.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 
     $("#id_p_phone").on("change",function(){
         load_data();
@@ -201,4 +187,25 @@ $(function(){
     });
 
     $('.opt-change').set_input_change_event(load_data);
+
+    $(".opt-wechat-desc").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_user_wechat?id="+ opt_data.id  );
+    });
+
+
+    $(".opt-user-link").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.wopen("/agent/agent_user_link?id="+ opt_data.id  );
+
+    });
+
+
+    $(".opt-reset-info").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax("/ajax_deal2/agent_reset_info", {
+            id: opt_data.id
+        }  );
+    });
+
 });

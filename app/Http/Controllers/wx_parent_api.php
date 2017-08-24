@@ -1113,6 +1113,7 @@ class wx_parent_api extends Controller
             'reason'      => $reason,
             'create_time' => time(),
             'userid'      => $userid,
+            'admin_type'  => 1, // 代表家长
             'create_adminid' => $parentid
         ]);
 
@@ -1139,7 +1140,7 @@ class wx_parent_api extends Controller
     }
 
     public function get_score_info(){ // 获取成绩详情
-        $id         = $this->get_in_int_val('id');
+        $id         = $this->get_in_int_val('scoreid');
         $score_info = $this->t_student_score_info->get_score_info($id);
         return $this->output_succ(['data'=>$score_info]);
     }
@@ -1148,38 +1149,36 @@ class wx_parent_api extends Controller
     public function deal_paper_upload(){ // 处理家长上传[试卷 | 作业]
         $serverId_list = $this->get_in_str_val('serverids');
 
+        $lessonid = $this->get_in_int_val('lessonid');
+
         $type = $this->get_in_int_val('type'); // 课程类型
 
         $paper_type = $this->get_in_int_val('paper_type'); // 试卷类型 //1 : 代表试卷 2: 代表作业
         // 家长微信号
         $appid     = 'wx636f1058abca1bc1';
         $appscript = '756ca8483d61fa9582d9cdedf202e73e';
+        $sever_name = $_SERVER["SERVER_NAME"];
 
-        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
+        $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_list,$sever_name, $appid, $appscript);
 
-        /**
-           [和产品待确认]
-           1: 试听课目前可以上传试卷
-           2: 常规课目前可以上传作业
-         **/
+        $img_arr = explode(',',$ret_arr['alibaba_url_str']);
+        $homework_pdf_url = \App\Helper\Utils::img_to_pdf($img_arr);
 
         if($type == 2){ // 试听课
             if($paper_type == 1){ // 存放试卷
-                $ret = $this->t_test_lesson_subject->field_update_list($lessonid,[
-                    "stu_lesson_pic" => $ret_arr['alibaba_url_str'],
-                    "stu_test_paper" => $ret_arr['file_name_origi']
-                ]);
+                $ret = $this->t_test_lesson_subject->update_paper($lessonid,$ret_arr['alibaba_url_str'],$ret_arr['file_name_origi']);
             }elseif($paper_type == 2){ // 存放作业
-
+                $ret = $this->t_test_lesson_subject->update_homework($lessonid,$homework_pdf_url);
             }
         }else{ // 常规课
             if($paper_type == 1){ // 存放试卷
                 $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                    "stu_test_paper" => $ret_arr['alibaba_url_str'],
+                    "stu_test_paper_compress" => $ret_arr['file_name_origi']
                 ]);
             }elseif($paper_type == 2){ // 存放作业
                 $ret = $this->t_lesson_info_b2->field_update_list($lessonid,[
-                    // "stu_cw_url" => $ret_arr['file_name_origi'] // 作业包
+                    "stu_cw_url" => $homework_pdf_url // 作业包
                 ]);
             }
         }
@@ -1192,59 +1191,41 @@ class wx_parent_api extends Controller
     }
 
 
-    public function test(){
-        
-    }
+    public function get_paper_url(){ // 获取预览图片
+        $lesson_id   = $this->get_in_int_val('lessonid');
+        $lesson_type = $this->get_in_int_val('lesson_type');
+        $paper_type  = $this->get_in_int_val('paper_type');
 
-    public function img_to_pdf($filesnames){
-        ini_set("memory_limit",'-1');
+        $qiniu_url = 'http://7u2f5q.com2.z0.glb.qiniucdn.com';
 
-        header("Content-type:text/html;charset=utf-8");
+        if($lesson_type == 2){ // 试听课
+            if($paper_type == 1){ // 试卷
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
-        $hostdir = public_path('/wximg');
+                return $this->output_succ(['data'=>$paper_url['stu_lesson_pic']]);
+            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_test_lesson_subject->get_stu_lesson_pic_and_homework($lessonid);
 
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+                if($paper_url['homework_pdf']){
+                    $paper_url['homework_pdf'] = $qiniu_url.$paper_url['homework_pdf'];
+                }
+                return $this->output_succ(['data'=>$paper_url['homework_pdf']]);
+            }
+        }else{ // 常规课
+            if($paper_type == 1){ // 试卷
+                $paper_url = $this->t_lesson_info_b2->get_stu_test_paper($lessonid);
+                return $this->output_succ(['data'=>$paper_url]);
+            }elseif($paper_type == 2){ // 作业
+                $paper_url = $this->t_lesson_info_b2->get_stu_cw_url($lessonid);
 
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-
-        foreach ($filesnames as $name) {
-            if(strstr($name,'jpg')){//如果是图片则添加到pdf中
-                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
-                $pdf->AddPage();//添加一个页面
-                $filename = $hostdir.'\\'.$name;//拼接文件路径
-
-                //gd库操作  读取图片
-                $source = imagecreatefromjpeg($filename);
-                //gd库操作  旋转90度
-                $rotate = imagerotate($source, 90, 0);
-                //gd库操作  生成旋转后的文件放入别的目录中
-                imagejpeg($rotate,$hostdir.'\\123\\'.$name.'_1.jpg');
-                //tcpdf操作  添加图片到pdf中
-                $pdf->Image($hostdir.'\\123\\'.$name.'_1.jpg', 15, 26, 210, 297, 'JPG', '', 'center', true, 300);
-
+                if($paper_url){
+                    $paper_url = $qiniu_url.$paper_url;
+                }
+                return $this->output_succ(['data'=>$paper_url]);
             }
         }
-        $pdf->Output('1.pdf', 'I'); //输出pdf文件
 
     }
-
-
-
-
-
-
-
-
-
 
 
 }

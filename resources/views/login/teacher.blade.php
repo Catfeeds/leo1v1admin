@@ -2,7 +2,7 @@
 <html class="bg-blue">
     <head>
         <meta charset="UTF-8">
-        <title>理优管理系统 | 登录</title>
+        <title>理优老师管理系统 | 登录</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -27,7 +27,7 @@
     </head>
     <body class="bg-blue">
         <div class="form-box" id="login-box">
-            <div class="header">后台登录</div>
+            <div class="header">老师管理系统</div>
             <form >
                 <div class="body bg-gray">
                     <div class="form-group">
@@ -63,7 +63,7 @@
         <script type="text/javascript" src="/js/jquery.query.js"></script>
 
         <script type="text/javascript" src="/js/jquery.websocket.js"></script>
-      <script type="text/javascript" src="/page_js/login/index.js?{{$_publish_version}}"></script>
+      <script type="text/javascript" src="/page_ts/login/teacher.ts?{{$_publish_version}}"></script>
         <!-- Bootstrap -->
         <script src="/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="/js/bootstrap-dialog.js" type="text/javascript"></script>

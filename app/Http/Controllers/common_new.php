@@ -18,7 +18,7 @@ require_once  app_path("/Libs/Qiniu/functions.php");
 
 class common_new extends Controller
 {
-    var $check_login_flag =false;
+    var $check_login_flag = false;
     use TeaPower;
 
     function get_env() {
@@ -233,7 +233,9 @@ class common_new extends Controller
         $full_time                    = $this->get_in_int_val("full_time");
         $is_test_user                 = $this->get_in_int_val("is_test_user");
 
-        $phone      = substr($phone,0,11);
+        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
+            return $this->output_err("请填写正确的手机号！");
+        }
         $check_flag = $this->t_teacher_lecture_appointment_info->check_is_exist(0,$phone);
         if($check_flag){
             return $this->output_err("该手机号已提交过了,不能重新提交!");
@@ -241,9 +243,6 @@ class common_new extends Controller
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
         if(!empty($teacher_info)){
             return $this->output_err("该手机号已注册,不能重新提交!");
-        }
-        if(!preg_match("/^1[34578]{1}\d{9}$/",$phone) && !in_array($reference,["13661763881","18790256265"])){
-            return $this->output_err("请填写正确的手机号！");
         }
         if($qq!="" && !ctype_digit(trim($qq,""))){
             return $this->output_err("请填写正确的qq号码!");
@@ -360,9 +359,10 @@ class common_new extends Controller
                 }
             }
 
-            //全职老师推送蔡老师
+            //全职老师推送蔡老师,范老师
             if($full_time==1 && $accept_adminid>0){
                 $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"全职老师注册成功","全职老师注册成功",$name."老师已经成功注册报名,请尽快安排1对1面试课程","");
+                $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师注册成功","全职老师注册成功",$name."老师已经成功注册报名,请尽快安排1对1面试课程","");
             }
 
 
@@ -1189,17 +1189,16 @@ class common_new extends Controller
 
     public function get_teacher_lesson(){//p 2
         $teacherid = $this->get_in_int_val("teacherid");
-        if ($teacherid) {
-            $start_time = strtotime('2017-08-01');
-            $end_time   = strtotime('2017-09-01');
-            $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
-            $ret_info['normal_count'] = $ret_info['normal_count']/100;
-            $ret_info['test_count']   = $ret_info['test_count']/100;
-            $ret_info['other_count']  = $ret_info['other_count']/100;
-            return $this->output_succ(["lesson_info"=>$ret_info]);
-        } else {
+        if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
+        $end_time   = strtotime(date("Y-m-d",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
+        $ret_info['normal_count'] = $ret_info['normal_count']/100;
+        $ret_info['test_count']   = $ret_info['test_count']/100;
+        $ret_info['other_count']  = $ret_info['other_count']/100;
+        return $this->output_succ(["lesson_info"=>$ret_info]);
     }
 
     public function get_teacher_level(){//p3
@@ -1218,62 +1217,73 @@ class common_new extends Controller
             5 => "五星教师,???",
         ];
         $teacherid = $this->get_in_int_val("teacherid");
-        if ($teacherid) {
-            $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
-            if($ret_info['teacher_money_type'] == 0) {
-                $level = $ret_info['level'] + 2;
-            } else {
-                $level = $ret_info['level'] + 1;
-            }
-            $list['level'] = $level;
-            $list['tea_title'] = $tea_title[$level];
-            $list['tea_des'] = $tea_des[$level];
-            return $this->output_succ(["tea_info"=>$list]);
-        } else {
+        if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
+        $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
+        if($ret_info['teacher_money_type'] == 0) {
+            $level = $ret_info['level'] + 2;
+        } else {
+            $level = $ret_info['level'] + 1;
+        }
+        $list['level'] = $level;
+        $list['tea_title'] = $tea_title[$level];
+        $list['tea_des'] = $tea_des[$level];
+        return $this->output_succ(["tea_info"=>$list]);
     }
+
     public function get_teacher_student(){//p4
         $teacherid = $this->get_in_int_val("teacherid");
-        if ($teacherid) {
-            $start_time = strtotime('2017-08-01');
-            $end_time   = strtotime('2017-09-01');
-            $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
-            $face       = [];
-            foreach ($ret_info as $item) {
-                $face[] = @$item['face'];
-            }
-            $stu_info['stu_num'] = count($ret_info);
-            $stu_info['face']    = $face;
-            return $this->output_succ(["stu_info"=>$stu_info]);
-        } else {
+        if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
+        $end_time   = strtotime(date("Y-m-d",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+        $face       = [];
+        foreach ($ret_info as $item) {
+            $face[] = @$item['face'];
+        }
+        $stu_info['stu_num'] = count($ret_info);
+        $stu_info['face']    = $face;
+        return $this->output_succ(["stu_info"=>$stu_info]);
     }
 
     public function get_tea_lesson_some_info(){//p5
         $teacherid = $this->get_in_int_val("teacherid");
-        if ($teacherid) {
-            $start_time = strtotime('2017-08-01');
-            $end_time = strtotime('2017-09-01');
-            $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-            foreach ($ret_info as &$item) {
-                $item = intval($item);
-            }
-            return $this->output_succ(["list"=>$ret_info]);
-        } else {
+        if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
+        $end_time   = strtotime(date("Y-m-d",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            $item = intval($item);
+        }
+        return $this->output_succ(["list"=>$ret_info]);
     }
 
-    public function get_no_contract_stu(){
-
+    public function send_to_no_contract_stu(){
         $start_time = strtotime('2017-06-01');
         $end_time   = strtotime('2017-09-01');
         // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
 
         // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
-         // dispatch($job);
+        // dispatch($job);
+    }
+
+    public function get_teacher_money(){
+        $teacherid  = $this->get_in_int_val("teacherid");
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        return $this->output_succ(["money"=>$money]);
     }
 
 }

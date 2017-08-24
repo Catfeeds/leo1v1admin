@@ -7,22 +7,12 @@ interface GargsStatic {
 	userid:	number;
 	phone:	string;
 	p_phone:	string;
-	grade:	number;//App\Enums\Egrade
-	parentid:	number;
-	wx_openid:	string;
-	bankcard:	string;
-	idcard:	string;
-	bank_address:	string;
-	bank_account:	string;
-	bank_phone:	string;
-	bank_province:	string;
-	bank_city:	string;
-	bank_type:	string;
-	zfb_name:	string;
-	zfb_account:	string;
-	agent_type:	number;
-	page_num:	number;
+	agent_type:	string;//枚举列表: \App\Enums\Eagent_type
+ 	page_num:	number;
 	page_count:	number;
+	test_lesson_flag:	number;//\App\Enums\Eboolean
+	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
+ 	order_flag:	number;//\App\Enums\Eboolean
 }
 declare module "g_args" {
     export = g_args;
@@ -51,12 +41,28 @@ interface RowData {
 	headimgurl	:any;
 	nickname	:any;
 	type	:any;
+	agent_level	:any;
+	test_lessonid	:any;
 	p_nickname	:any;
 	p_phone	:any;
-	origin	:any;
 	pp_nickname	:any;
 	pp_phone	:any;
+	origin	:any;
+	student_stu_type	:any;
+	lesson_start	:any;
+	lesson_user_online_status	:any;
+	price	:any;
+	p_level	:any;
+	pp_level	:any;
+	p_price	:any;
+	pp_price	:any;
 	agent_type	:any;
+	agent_type_str	:any;
+	agent_level_str	:any;
+	student_stu_type_str	:any;
+	lesson_user_online_status_str	:any;
+	pp_off_info	:any;
+	p_off_info	:any;
 }
 
 /*
@@ -78,24 +84,15 @@ $(function(){
 			userid:	$('#id_userid').val(),
 			phone:	$('#id_phone').val(),
 			p_phone:	$('#id_p_phone').val(),
-			grade:	$('#id_grade').val(),
-			parentid:	$('#id_parentid').val(),
-			wx_openid:	$('#id_wx_openid').val(),
-			bankcard:	$('#id_bankcard').val(),
-			idcard:	$('#id_idcard').val(),
-			bank_address:	$('#id_bank_address').val(),
-			bank_account:	$('#id_bank_account').val(),
-			bank_phone:	$('#id_bank_phone').val(),
-			bank_province:	$('#id_bank_province').val(),
-			bank_city:	$('#id_bank_city').val(),
-			bank_type:	$('#id_bank_type').val(),
-			zfb_name:	$('#id_zfb_name').val(),
-			zfb_account:	$('#id_zfb_account').val(),
-			agent_type:	$('#id_agent_type').val()
+			agent_type:	$('#id_agent_type').val(),
+			test_lesson_flag:	$('#id_test_lesson_flag').val(),
+			agent_level:	$('#id_agent_level').val(),
+			order_flag:	$('#id_order_flag').val()
         });
     }
 
-	Enum_map.append_option_list("grade",$("#id_grade"));
+	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+	Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -110,20 +107,12 @@ $(function(){
 	$('#id_userid').val(g_args.userid);
 	$('#id_phone').val(g_args.phone);
 	$('#id_p_phone').val(g_args.p_phone);
-	$('#id_grade').val(g_args.grade);
-	$('#id_parentid').val(g_args.parentid);
-	$('#id_wx_openid').val(g_args.wx_openid);
-	$('#id_bankcard').val(g_args.bankcard);
-	$('#id_idcard').val(g_args.idcard);
-	$('#id_bank_address').val(g_args.bank_address);
-	$('#id_bank_account').val(g_args.bank_account);
-	$('#id_bank_phone').val(g_args.bank_phone);
-	$('#id_bank_province').val(g_args.bank_province);
-	$('#id_bank_city').val(g_args.bank_city);
-	$('#id_bank_type').val(g_args.bank_type);
-	$('#id_zfb_name').val(g_args.zfb_name);
-	$('#id_zfb_account').val(g_args.zfb_account);
 	$('#id_agent_type').val(g_args.agent_type);
+	$.enum_multi_select( $('#id_agent_type'), 'agent_type', function(){load_data();} )
+	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
+	$('#id_agent_level').val(g_args.agent_level);
+	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
+	$('#id_order_flag').val(g_args.order_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -157,100 +146,31 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">年级</span>
-                <select class="opt-change form-control" id="id_grade" >
+                <span class="input-group-addon">agent_type</span>
+                <input class="opt-change form-control" id="id_agent_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_test_lesson_flag" >
                 </select>
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">parentid</span>
-                <input class="opt-change form-control" id="id_parentid" />
+                <span class="input-group-addon">agent_level</span>
+                <input class="opt-change form-control" id="id_agent_level" />
             </div>
         </div>
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">wx_openid</span>
-                <input class="opt-change form-control" id="id_wx_openid" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bankcard</span>
-                <input class="opt-change form-control" id="id_bankcard" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">idcard</span>
-                <input class="opt-change form-control" id="id_idcard" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_address</span>
-                <input class="opt-change form-control" id="id_bank_address" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_account</span>
-                <input class="opt-change form-control" id="id_bank_account" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_phone</span>
-                <input class="opt-change form-control" id="id_bank_phone" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_province</span>
-                <input class="opt-change form-control" id="id_bank_province" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_city</span>
-                <input class="opt-change form-control" id="id_bank_city" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">bank_type</span>
-                <input class="opt-change form-control" id="id_bank_type" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">zfb_name</span>
-                <input class="opt-change form-control" id="id_zfb_name" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">zfb_account</span>
-                <input class="opt-change form-control" id="id_zfb_account" />
-            </div>
-        </div>
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">agent_type</span>
-                <input class="opt-change form-control" id="id_agent_type" />
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_order_flag" >
+                </select>
             </div>
         </div>
 */

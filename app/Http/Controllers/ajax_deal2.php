@@ -278,7 +278,7 @@ class ajax_deal2 extends Controller
         }else{
 
         }
-        
+
         //dd($ret);
 
         return $this->output_succ();
@@ -733,7 +733,7 @@ class ajax_deal2 extends Controller
     }
 
     public function set_teacher_train_through_info(){
-        $phone           = $this->get_in_str_val('phone'); 
+        $phone           = $this->get_in_str_val('phone');
         $adminid = $this->get_in_int_val("adminid");
         $create_time = $this->t_manager_info->get_create_time($adminid);
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
@@ -741,6 +741,32 @@ class ajax_deal2 extends Controller
             "train_through_new"   =>1,
             "train_through_new_time"=>$create_time
         ]);
+        return $this->output_succ();
+    }
+
+
+
+    //获取试听课学生试卷
+    public function get_stu_test_paper(){
+        $lessonid = $this->get_in_int_val("lessonid");
+        $require_id = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+        $test_lesson_subject_id =$this->t_test_lesson_subject_require->get_test_lesson_subject_id($require_id);
+        $stu_test_paper  = $this->t_test_lesson_subject->get_stu_test_paper($test_lesson_subject_id);
+        if(empty($stu_test_paper)){
+             return $this->output_err("没有试卷");
+        }
+
+        \App\Helper\Utils::logger("url:$stu_test_paper");
+
+        // $stu_test_paper = "f59b6c7e660afbd216fd6ca5613ffdf81489146606255.jpg";
+        $url = \App\Helper\Utils::gen_download_url($stu_test_paper);
+        \App\Helper\Utils::logger("url2:$url");
+        // dd($url);
+        return $this->output_succ(["data"=>$url]);
+    }
+    public function  agent_reset_info () {
+        $id=$this->get_in_id();
+        $this->t_agent->reset_user_info($id);
         return $this->output_succ();
     }
 

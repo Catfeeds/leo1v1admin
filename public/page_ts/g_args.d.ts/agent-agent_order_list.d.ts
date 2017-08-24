@@ -5,6 +5,7 @@ interface GargsStatic {
 	p_price:	number;
 	ppid:	number;
 	pp_price:	number;
+	userid:	number;
 	page_num:	number;
 	page_count:	number;
 }
@@ -23,6 +24,9 @@ interface RowData {
 	pp_price	:any;
 	create_time	:any;
 	aid	:any;
+	p_level	:any;
+	pp_level	:any;
+	userid	:any;
 	phone	:any;
 	nickname	:any;
 	p_phone	:any;
@@ -30,6 +34,8 @@ interface RowData {
 	pp_phone	:any;
 	pp_nickname	:any;
 	price	:any;
+	p_level_str	:any;
+	pp_level_str	:any;
 }
 
 /*
@@ -48,7 +54,8 @@ $(function(){
 			pid:	$('#id_pid').val(),
 			p_price:	$('#id_p_price').val(),
 			ppid:	$('#id_ppid').val(),
-			pp_price:	$('#id_pp_price').val()
+			pp_price:	$('#id_pp_price').val(),
+			userid:	$('#id_userid').val()
         });
     }
 
@@ -59,6 +66,7 @@ $(function(){
 	$('#id_p_price').val(g_args.p_price);
 	$('#id_ppid').val(g_args.ppid);
 	$('#id_pp_price').val(g_args.pp_price);
+	$('#id_userid').val(g_args.userid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -108,6 +116,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">pp_price</span>
                 <input class="opt-change form-control" id="id_pp_price" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">userid</span>
+                <input class="opt-change form-control" id="id_userid" />
             </div>
         </div>
 */

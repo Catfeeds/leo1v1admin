@@ -7,6 +7,24 @@
     <script type="text/javascript" src="/js/qiniu/ui.js"></script>
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/page_js/select_user.js"></script>
+    <style>
+     #cal_week th  {
+         text-align:center;  
+     }
+
+     #cal_week td  {
+         text-align:center;  
+     }
+
+     #cal_week .select_free_time {
+         background-color : red;
+     }
+     #cal_week .have_lesson {
+         background-color : red;
+     }
+
+    </style>
+
     <section class="content ">
         <div>
             <div class="row ">
@@ -177,6 +195,7 @@
                     <td>邮箱</td>
                     <td>绑定微信</td>
                     <td>科目</td>
+                    <td>年级</td>
                     <td>扩科</td>
                     <td>毕业院校</td>
                     <td>师资</td>
@@ -218,6 +237,7 @@
                         </td>
                         <td>{{@$var["have_wx_flag"]}}</td>
                         <td>{{@$var["subject_ex_str"]}} </td>
+                        <td>{{@$var["grade_ex_str"]}} </td>
                         <td>{{@$var["trans_subject_ex_str"]}} </td>
                         <td>{{@$var["school"]}} </td>
                         <td>{{@$var["teacher_type_str"]}} </td>
@@ -263,9 +283,7 @@
                                 @if(@$var["hand_flag"]==1)
                                     <a class="opt-edit-hand" title="修改" >修改</a>
                                 @endif
-                                @if($account_id==349 || $account_id==99)
-                                    <a class="opt-1v1-lesson-set-new">1v1-new</a>                                    
-                                @endif
+                                <a class="opt-1v1-lesson-set-new">1v1-new</a>                                    
                             </div>
                         </td>
                     </tr>

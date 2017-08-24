@@ -718,6 +718,7 @@ class human_resource extends Controller
 
     public function index()
     {
+        $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
@@ -781,7 +782,6 @@ class human_resource extends Controller
         $lstart       = $date_week["sdate"];
         $lend         = $date_week["edate"];
 
-        $this->t_teacher_info->switch_tongji_database();
         $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
             $page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type,
             $is_good_flag,$is_new_teacher,$gender,$grade_part_ex,$subject,
@@ -807,8 +807,10 @@ class human_resource extends Controller
             $subject = $item['subject_str'];
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
+        $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
 
-        $label_list = $this->get_teacher_label($tea_list);
+
+        // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){
             $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);
@@ -868,6 +870,7 @@ class human_resource extends Controller
                 $item["freeze_adminid_str"]="";
             }
 
+            $item["week_lesson_num"]=@$test_lesson_num_list[$item["teacherid"]]["num"];
             if($item["limit_plan_lesson_type"]>0){
                 $item["week_left_num"]=$item["limit_plan_lesson_type"]-$item["week_lesson_num"];
             }else{
@@ -890,7 +893,7 @@ class human_resource extends Controller
                 }
             }
 
-            $item["label"] = @$label_list[$item["teacherid"]];
+            // $item["label"] = @$label_list[$item["teacherid"]];
             $not_grade_arr = explode(",",$item["not_grade"]);
             $not_grade_str = "";
             if(!empty($not_grade_arr)){
@@ -1435,6 +1438,7 @@ class human_resource extends Controller
     }
 
     public function teacher_lecture_list(){
+        $this->switch_tongji_database();
         list($start_time,$end_time,$opt_date_type) = $this->get_in_date_range(date("Y-m-01",time(NULL)),0,1,[
             1 => array("add_time","添加时间"),
             2 => array("confirm_time", "审核时间"),
@@ -1961,6 +1965,17 @@ class human_resource extends Controller
                 $item["lecture_revisit_type_new_str"] = E\Electure_revisit_type::get_desc($item['lecture_revisit_type']);
             }
             \App\Helper\Utils::unixtime2date_for_item($item, "train_through_new_time","_str");
+
+            if(empty($item["grade_ex"])){
+                $item["grade_ex_str"]="未设置";
+            }else{
+                $not_grade_arr=explode(",",$item["grade_ex"]);
+                $item["grade_ex_str"]="";
+                foreach($not_grade_arr as $ty){
+                    $item["grade_ex_str"] .=E\Egrade::get_desc($ty).",";
+                }
+                $item["grade_ex_str"] = trim($item["grade_ex_str"],",");
+            }
         }
 
         $account_id = $this->get_account_id();
@@ -1968,6 +1983,9 @@ class human_resource extends Controller
         $tea_adminid = $this->get_in_int_val("tea_adminid");
         $this->set_in_value("fulltime_flag",$show_full_time);
         $fulltime_flag= $this->get_in_int_val("fulltime_flag");
+        $next_day = strtotime(date("Y-m-d",time()+86400));
+        $this->set_in_value("next_day",$next_day);
+        $next_day = $this->get_in_int_val("next_day");
 
         return $this->pageView(__METHOD__,$ret_info,[
             "account_id"     => $account_id,
@@ -2321,6 +2339,7 @@ class human_resource extends Controller
         $jsfg_good                        = $this->get_in_str_val("jsfg_good");
         $jsfg_bad                         = $this->get_in_str_val("jsfg_bad");
         $trial_train_status               = $this->get_in_int_val("trial_train_status");
+        $lessonid                         = $this->get_in_int_val("lessonid");
 
         $add_time = time();
         if($teacherid==0 || $type==0 || $record_info=="" || $record_score>100){
@@ -2352,6 +2371,7 @@ class human_resource extends Controller
             "acc"                              => $this->get_account(),
             "record_monitor_class"             => $record_monitor_class,
             "record_lesson_list"               => $record_lesson_list,
+            "train_lessonid"                   => $lessonid,
             "trial_train_status"               => $trial_train_status
         ]);
 
@@ -2371,7 +2391,9 @@ class human_resource extends Controller
 
         if($ret){
             $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
-            $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list);
+            // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list);
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+
 
             $openid = $this->t_teacher_info->get_wx_openid($teacherid);
             if($openid!=''){

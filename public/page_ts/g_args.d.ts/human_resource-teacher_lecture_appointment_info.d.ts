@@ -24,6 +24,7 @@ interface GargsStatic {
 	accept_adminid:	number;
 	tea_adminid:	number;
 	fulltime_flag:	number;
+	next_day:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -126,7 +127,8 @@ $(function(){
 			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
 			accept_adminid:	$('#id_accept_adminid').val(),
 			tea_adminid:	$('#id_tea_adminid').val(),
-			fulltime_flag:	$('#id_fulltime_flag').val()
+			fulltime_flag:	$('#id_fulltime_flag').val(),
+			next_day:	$('#id_next_day').val()
         });
     }
 
@@ -160,6 +162,7 @@ $(function(){
 	$('#id_accept_adminid').val(g_args.accept_adminid);
 	$('#id_tea_adminid').val(g_args.tea_adminid);
 	$('#id_fulltime_flag').val(g_args.fulltime_flag);
+	$('#id_next_day').val(g_args.next_day);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -293,6 +296,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">fulltime_flag</span>
                 <input class="opt-change form-control" id="id_fulltime_flag" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">next_day</span>
+                <input class="opt-change form-control" id="id_next_day" />
             </div>
         </div>
 */
