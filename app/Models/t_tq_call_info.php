@@ -11,17 +11,29 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     {
         parent::__construct();
     }
-    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url) {
-        $sql=$this->gen_sql_new("insert ignore into %s (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url) values( %u,%u,'%s',%u,%u,%u,%u,'%s' )",
-                            self::DB_TABLE_NAME,
-                            $id,
-                            $uid,
-                            $phone,
-                            $start_time,
-                            $end_time,
-                            $duration,
-                            $is_called_phone,
-                            $record_url) ;
+
+    public function add($id, $uid, $phone, $start_time, $end_time, $duration, $is_called_phone, $record_url ,$adminid=0, $admin_role=0) {
+        if ($adminid==0) {
+            $admin_info=$this->task->t_manager_info->get_user_info_for_tq($uid);
+            if ($admin_info){
+                $adminid= $admin_info["uid"];
+                $admin_role= $admin_info["account_role"];
+            }
+        }
+        $sql=$this->gen_sql_new(
+            "insert ignore into %s (id, uid, phone, start_time, end_time, duration, is_called_phone, record_url,adminid, admin_role) values( %u,%u,'%s',%u,%u,%u,%u,'%s',%u,%u )",
+            self::DB_TABLE_NAME,
+            $id,
+            $uid,
+            $phone,
+            $start_time,
+            $end_time,
+            $duration,
+            $is_called_phone,
+            $record_url,
+            $adminid,
+            $admin_role
+        ) ;
         return $this->main_insert($sql);
     }
 

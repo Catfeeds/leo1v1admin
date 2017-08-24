@@ -173,12 +173,12 @@ class wx_teacher_api extends Controller
         $appscript = '61bbf741a09300f7f2fd0a861803f920';
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
-        $complaint_img_url = $ret_arr['complaint_img_url'];
+        $complaint_img_url = $ret_arr['alibaba_url_str'];
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-            return $this->output_err("投诉已受理,请勿重复提交..");
-        }
+        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
+        //     return $this->output_err("投诉已受理,请勿重复提交..");
+        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
@@ -200,7 +200,7 @@ class wx_teacher_api extends Controller
         if ($ret_info_qc) {
             // 通知QC处理
             $log_time_date = date('Y-m-d H:i:s',time(NULL));
-            $opt_nick= $this->cache_get_teacher_nick($report_uid);
+            $opt_nick= $this->cache_get_teacher_nick($teacherid);
 
             /**
                {{first.DATA}}
@@ -214,7 +214,7 @@ class wx_teacher_api extends Controller
             $data_msg = [
                 "first"     => "$opt_nick 老师发布了一条投诉",
                 "keyword1"  => "常规投诉",
-                "keyword2"  => "老师投诉内容:$report_msg",
+                "keyword2"  => "老师投诉内容:$complaint_info",
                 "keyword3"  => "投诉时间 $log_time_date ",
             ];
             $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
@@ -243,11 +243,11 @@ class wx_teacher_api extends Controller
              {{remark.DATA}}
             **/
             $url = '';
-            $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($report_uid);
+            $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($teacherid);
 
             $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
             $data['first']      = "您好,您的反馈我们已经收到! ";
-            $data['keyword1']   = $complained_info;
+            $data['keyword1']   = $complaint_info;
             $data['keyword2']   = "已提交";
             $data['remark']     = "我们会在3个工作日内处理,感谢您的反馈!";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher, $data,$url);
@@ -265,7 +265,7 @@ class wx_teacher_api extends Controller
         $sever_name = $_SERVER["SERVER_NAME"];
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
-        $complaint_img_url = $ret_arr['complaint_img_url'];
+        $complaint_img_url = $ret_arr['alibaba_url_str'];
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
         if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
@@ -289,7 +289,7 @@ class wx_teacher_api extends Controller
         if ($ret_info_qc) {
             // 通知QC处理
             $log_time_date = date('Y-m-d H:i:s',time(NULL));
-            $opt_nick= $this->cache_get_teacher_nick($report_uid);
+            $opt_nick= $this->cache_get_teacher_nick($teacherid);
 
             /**
                {{first.DATA}}
@@ -303,7 +303,7 @@ class wx_teacher_api extends Controller
             $data_msg = [
                 "first"     => "$opt_nick 老师发布了一条软件使用反馈",
                 "keyword1"  => "软件使用反馈",
-                "keyword2"  => "老师反馈内容:$report_msg",
+                "keyword2"  => "老师反馈内容:$complaint_info",
                 "keyword3"  => "反馈时间 $log_time_date ",
             ];
             $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
@@ -331,11 +331,11 @@ class wx_teacher_api extends Controller
              {{remark.DATA}}
             **/
             $url = '';
-            $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($report_uid);
+            $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($teacherid);
 
             $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
             $data['first']      = "您好,您的反馈我们已经收到! ";
-            $data['keyword1']   = $complained_info;
+            $data['keyword1']   = $complaint_info;
             $data['keyword2']   = "已提交";
             $data['remark']     = "我们会在3个工作日内处理,感谢您的反馈!";
             \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id_teacher, $data,$url);

@@ -48,7 +48,7 @@ $(function(){
     $("#id_del_flag").val(g_args.del_flag);
     $('#id_cardid').val(g_args.cardid);
     $('#id_tquin').val(g_args.tquin);
-  $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+    $('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
 
     $('#id_seller_level').val(g_args.seller_level);
     $.enum_multi_select( $('#id_seller_level'), 'seller_level', function(){load_data();} )
@@ -101,21 +101,44 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         var uid = opt_data.uid;
         var del_flag =$("<select/>");
+        var time = $("<input>");
+        var mydate = new Date();
+        var str = "" + mydate.getFullYear() + "/";
+        str += (mydate.getMonth()+1) + "/";
+        str += mydate.getDate() + " ";
+        str += mydate.getHours() + ":";
+        str += mydate.getMinutes();
+        time.datetimepicker();
         Enum_map.append_option_list( "boolean", del_flag,true);
         del_flag.val(opt_data.del_flag);
+        if(del_flag.val() == 1){
+            time.val(opt_data.leave_member_time);
+        }else{
+            time.val(opt_data.become_member_time);
+        }
         var arr=[
             ["uid",opt_data.uid] ,
             ["account",opt_data.account] ,
-            [" 是否离职",del_flag]
+            [" 是否离职",del_flag],
+            [" 时间",time]
         ];
-
         $.show_key_value_table("更改员工状态", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
-            action: function(dialog) {
+            action: function(dialog){
+                if(opt_data.del_flag == del_flag.val()){
+                    if(del_flag.val() == 1){
+                        var time_new = opt_data.leave_member_time; 
+                    }else{
+                        var time_new = opt_data.become_member_time; 
+                    }
+                }else{
+                    var time_new = time.val();
+                }
                 $.do_ajax('/authority/del_manager', {
                     'uid': opt_data.uid,
-                    'del_flag': del_flag.val()
+                    'del_flag': del_flag.val(),
+                    'time': time_new,
                 });
             }
         });
@@ -330,6 +353,7 @@ $(function(){
                     'account_role': $account_role.val(),
                     'tquin': $tquin.val(),
                     'email': $email.val(),
+                    'old_seller_level': opt_data.seller_level,
                     'seller_level': $seller_level.val(),
                     'up_adminid': $up_adminid.val(),
                     'become_full_member_flag': $become_full_member_flag.val(),
@@ -351,6 +375,7 @@ $(function(){
 
     $(".opt-power").on("click",function(){
         var opt_data=$(this).get_opt_data();
+        // alert(opt_data.old_permission);
         var uid= opt_data.uid;
         var show_list=[];
         if ($.get_action_str()=="manager_list_for_seller" ) {
@@ -383,7 +408,8 @@ $(function(){
                 onChange        : function( select_list,dlg) {
                     $.do_ajax("/authority/set_permission",{
                         "uid": uid,
-                        "groupid_list":JSON.stringify(select_list)
+                        "groupid_list":JSON.stringify(select_list),
+                        "old_permission": opt_data.old_permission,
                     });
                 }
             });
@@ -668,36 +694,73 @@ $(function(){
     });
 
     //用户手机号绑定
-   $(".opt-set-user-phone").on("click", function(){
-       var opt_data = $(this).get_opt_data();
-       var account  = $(this).get_opt_data("account");
-       var phone    = $(this).get_opt_data("phone");
-       var arr =[
-           ["account", account ] ,
-           ["电话",phone],
-           ['说明','绑定相应的学生，家长信息']
+    $(".opt-set-user-phone").on("click", function(){
+        var opt_data = $(this).get_opt_data();
+        console.log(opt_data);
+        var account  = $(this).get_opt_data("account");
+        var phone    = $(this).get_opt_data("phone");
+        var arr = [
+            ["account", account ] ,
+            ["电话",phone],
+            ['说明','生成相应的学生，家长信息']
         ];
-       //var me=this;
-        $.show_key_value_table("用户手机绑定", arr ,{
+
+        $.show_key_value_table("生成对应的相应的学生，家长信息", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
-                
-                $.do_ajax('/ajax_deal2/phone_bdregister', {
+                $.do_ajax('/ajax_deal2/register_student_parent_account', {
                     'account' : account,
-                    'phone'   : phone, 
-                }
-                         ,function(resp){
-                              alert(resp);
-                              alert(JSON.stringify(resp));
-                   }
-                   
-               );
-                
+                    'phone'   : phone,
+                },function(resp){
+                    alert(resp['success']);
+                });
             }
         });
     });
 
 
+    $(".opt-gen-ass").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要生成助教账号:"+opt_data.account+"?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/gen_ass_from_account', {
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+    });
+
+
+    $(".opt-log").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        window.open('/authority/seller_edit_log_list?adminid='+ opt_data.uid) ;
+    });
+
+    $(".opt-refresh_call_end").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax('/agent/update_lesson_call_end_time', {
+            'adminid' : opt_data.uid
+        },function(resp){
+            if(resp){
+                alert('刷新成功!');
+            }else{
+                alert('刷新失败!');
+            }
+        });
+    });
+
+    $(".opt-set-train-through-time").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm( "要同步老师档案入职时间吗?", function(val){
+            if (val) {
+                $.do_ajax('/ajax_deal2/set_teacher_train_through_info', {
+                    'phone' : opt_data.phone,
+                    'adminid' : opt_data.uid
+                });
+            }
+        } );
+
+    });
 
 });

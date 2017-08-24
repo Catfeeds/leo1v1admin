@@ -2409,35 +2409,46 @@ class ss_deal extends Controller
                 $lecture_revisit_type = $item[11];
                 if (isset($grade_map[$grade])) {
                     $grade_ex = $grade_map[$grade] ;
+                }else{
+                    $grade_ex=0;
                 }
                 if (isset($subject_map[$subject])) {
                     $subject_ex = $subject_map[$subject] ;
+                }else{
+                    $subject_ex=0;
                 }
                 if (isset($identity_map[$teacher_type])) {
                     $teacher_type = $identity_map[$teacher_type] ;
+                }else{
+                    $teacher_type=0;
                 }
                 if (isset($type_arr[$lecture_revisit_type])) {
                     $lecture_revisit_type = $type_arr[$lecture_revisit_type] ;
+                }else{
+                    $lecture_revisit_type=0;
                 }
 
 
-                $this->t_teacher_lecture_appointment_info->row_insert([
-                    "answer_begin_time"  =>$answer_begin_time, 
-                    "answer_end_time"    =>$answer_end_time,
-                    "name"               =>$name,
-                    "phone"              =>$phone,
-                    "email"              =>$email,
-                    "qq"                 =>$qq,
-                    "subject_ex"         =>$subject_ex,
-                    "grade_ex"           =>$grade_ex,
-                    "school"             =>$school,
-                    "teacher_type"       =>$teacher_type,
-                    "reference"          =>$reference,
-                    "lecture_revisit_type" =>$lecture_revisit_type,
-                    "accept_adminid"      =>$this->get_account_id(),
-                    "accept_time"         =>time(),
-                    "hand_flag"          =>1
-                ]);
+                $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
+                if(empty($id)){
+                    $this->t_teacher_lecture_appointment_info->row_insert([
+                        "answer_begin_time"  =>$answer_begin_time, 
+                        "answer_end_time"    =>$answer_end_time,
+                        "name"               =>$name,
+                        "phone"              =>$phone,
+                        "email"              =>$email,
+                        "qq"                 =>$qq,
+                        "subject_ex"         =>$subject_ex,
+                        "grade_ex"           =>$grade_ex,
+                        "school"             =>$school,
+                        "teacher_type"       =>$teacher_type,
+                        "reference"          =>$reference,
+                        "lecture_revisit_type" =>$lecture_revisit_type,
+                        "accept_adminid"      =>$this->get_account_id(),
+                        "accept_time"         =>time(),
+                        "hand_flag"          =>1
+                    ]);
+                }
             }
             return outputjson_success();
         } else {

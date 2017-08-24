@@ -39,6 +39,10 @@ interface GargsStatic {
 	grade_plan:	number;
 	subject_plan:	number;
 	fulltime_teacher_type:	number;
+	month_stu_num:	number;
+	record_score_num:	number;
+	identity:	number;
+	tea_label_type:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -220,7 +224,11 @@ $(function(){
 			have_wx:	$('#id_have_wx').val(),
 			grade_plan:	$('#id_grade_plan').val(),
 			subject_plan:	$('#id_subject_plan').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+			month_stu_num:	$('#id_month_stu_num').val(),
+			record_score_num:	$('#id_record_score_num').val(),
+			identity:	$('#id_identity').val(),
+			tea_label_type:	$('#id_tea_label_type').val()
         });
     }
 
@@ -263,6 +271,10 @@ $(function(){
 	$('#id_grade_plan').val(g_args.grade_plan);
 	$('#id_subject_plan').val(g_args.subject_plan);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+	$('#id_month_stu_num').val(g_args.month_stu_num);
+	$('#id_record_score_num').val(g_args.record_score_num);
+	$('#id_identity').val(g_args.identity);
+	$('#id_tea_label_type').val(g_args.tea_label_type);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -536,6 +548,34 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">fulltime_teacher_type</span>
                 <input class="opt-change form-control" id="id_fulltime_teacher_type" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">month_stu_num</span>
+                <input class="opt-change form-control" id="id_month_stu_num" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">record_score_num</span>
+                <input class="opt-change form-control" id="id_record_score_num" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">identity</span>
+                <input class="opt-change form-control" id="id_identity" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">tea_label_type</span>
+                <input class="opt-change form-control" id="id_tea_label_type" />
             </div>
         </div>
 */

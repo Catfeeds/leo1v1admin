@@ -12,4 +12,5 @@ return array (
     array(9,"","质监"),
     array(10,"","产品"),
     array(11,"","培训"),
+    array(12,"","研发"),
 );
