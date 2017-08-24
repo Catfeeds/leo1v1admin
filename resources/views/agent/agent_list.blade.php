@@ -20,6 +20,14 @@
             </div>
         </div>
 
+
+        <div class="col-xs-6 col-md-2" data-always_show="1">
+            <div class="input-group ">
+                <span class="input-group-addon">合同</span>
+                <select class="opt-change form-control" id="id_order_flag" >
+                </select>
+            </div>
+        </div>
         <div class="col-xs-6 col-md-2" data-always_show="1">
             <div class="input-group ">
                 <span class="input-group-addon">是否试听</span>
@@ -68,6 +76,7 @@
                     <td>试听时间</td>
                     <td>是否成功试听</td>
                     <td>合同金额</td>
+                    <td>分成</td>
                     <td>类型</td>
                     <td>渠道</td>
                     <td>创建时间</td>

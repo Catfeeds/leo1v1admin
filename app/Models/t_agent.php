@@ -23,7 +23,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level )
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag )
     {
         $where_arr = [];
         if($p_phone){
@@ -35,24 +35,30 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
             $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
             $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
+            $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
         }
 
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
                                  ."s.origin,"
-                                 ."l.lesson_start,l.lesson_user_online_status "
+                                 ."l.lesson_start,l.lesson_user_online_status, "
+                                 ."o.price,ao.p_level,ao.pp_level , ao.p_price,ao.pp_price "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
                                  ." left join %s l on l.lessonid = a.test_lessonid"
+                                 ." left join %s ao on ao.aid = a.id "
+                                 ." left join %s o on o.orderid = ao.orderid "
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
+                                 ,t_agent_order::DB_TABLE_NAME
+                                 ,t_order_info::DB_TABLE_NAME
                                  ,$where_arr
         );
         return $this->main_get_list_by_page( $sql,$page_info);
@@ -505,7 +511,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " from %s a "
             . " left join %s aa on aa.id = a.parentid  "
             . " left join %s l on a.test_lessonid = l.lessonid "
-            . " where %s ",
+            . " where %s order by l.lessonid asc ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
@@ -773,8 +779,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $level     =  E\Eagent_level::V_2 ;
         }elseif($wx_openid){//有wx绑定
             $son_test_lesson = $this->get_son_test_lesson_count_by_id($id,$check_time);
-            $count       = count($son_test_lesson);
-            if($count>=2){
+            $count           = count($son_test_lesson);
+            if($count>=2){ //>=两次试听
                 $level     =  E\Eagent_level::V_2 ;
             }else{
                 $level     =  E\Eagent_level::V_1 ;
@@ -795,8 +801,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             if ($order_info) {
                 $agent_info = $this->get_p_pp_id_by_phone("", $id);
                 $check_time= $order_info["pay_time"];
-                $pid = $ret_info['pid'];
-                $ppid = $ret_info['ppid'];
+                $pid = $agent_info['pid'];
+                $ppid = $agent_info['ppid'];
                 $p_level=$this->get_agent_level_by_check_time($pid, $check_time );
                 $pp_level=$this->get_agent_level_by_check_time($ppid, $check_time );
 
@@ -814,18 +820,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     $p_price = $level2_p_price*100;
                 }
 
+                //TODO
                 if($pp_level== 2){//水晶
                     $pp_price = $level2_pp_price*100;
                 }
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $ret_info['id'],
+                    'aid'         => $agent_info['id'],
                     'pid'         => $pid,
                     'p_price'     => $p_price,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
-
+                    'p_level'     =>$p_level,
+                    'pp_level'     =>$p_level,
                     'create_time' => time(null),
                 ]);
             }
@@ -833,16 +841,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
     }
 
-    public function reset_user_info($aid ) {
-        $agent_info = $this->field_get_list($aid,"*");
+    public function reset_user_info($id ) {
+        $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
 
         $student_info = $this->t_student_info->field_get_list($userid,"is_test_user,create_time ");
         $is_test_user = $student_info['is_test_user'];
         $create_time = $item['create_time'];
-        $this->reset_user_info_test_lesson($aid,$userid,$create_time,$is_test_user);
-        $this->reset_user_info_order_info($aid,$userid,$create_time,$is_test_user);
-
+        $this->reset_user_info_test_lesson($id,$userid,$is_test_user,$create_time);
+        $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+        //重置当前等级
+        $agent_level=$this->get_agent_level_by_check_time($id,time(NULL));
+        $this->field_update_list($id,[
+            "agent_level" => $agent_level
+        ]);
     }
 
 }

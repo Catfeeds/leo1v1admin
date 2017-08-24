@@ -12,7 +12,8 @@ interface GargsStatic {
 	page_count:	number;
 	test_lesson_flag:	number;//\App\Enums\Eboolean
 	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
- }
+ 	order_flag:	number;//\App\Enums\Eboolean
+}
 declare module "g_args" {
     export = g_args;
 }
@@ -49,11 +50,15 @@ interface RowData {
 	origin	:any;
 	lesson_start	:any;
 	lesson_user_online_status	:any;
+	price	:any;
+	p_level	:any;
+	pp_level	:any;
+	p_price	:any;
+	pp_price	:any;
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
 	lesson_user_online_status_str	:any;
-	price	:any;
 }
 
 /*
@@ -77,11 +82,13 @@ $(function(){
 			p_phone:	$('#id_p_phone').val(),
 			agent_type:	$('#id_agent_type').val(),
 			test_lesson_flag:	$('#id_test_lesson_flag').val(),
-			agent_level:	$('#id_agent_level').val()
+			agent_level:	$('#id_agent_level').val(),
+			order_flag:	$('#id_order_flag').val()
         });
     }
 
 	Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
+	Enum_map.append_option_list("boolean",$("#id_order_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -101,6 +108,7 @@ $(function(){
 	$('#id_test_lesson_flag').val(g_args.test_lesson_flag);
 	$('#id_agent_level').val(g_args.agent_level);
 	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
+	$('#id_order_flag').val(g_args.order_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -151,6 +159,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">agent_level</span>
                 <input class="opt-change form-control" id="id_agent_level" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_order_flag" >
+                </select>
             </div>
         </div>
 */

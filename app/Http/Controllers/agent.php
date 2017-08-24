@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail ;
 class agent extends Controller
 {
     public function agent_list() {
-        list($start_time,$end_time)=$this->get_in_date_range_week(0);
+        list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $userid        = $this->get_in_userid(-1);
         $phone         = $this->get_in_phone();
         $p_phone       = $this->get_in_str_val('p_phone');
@@ -19,14 +19,10 @@ class agent extends Controller
         $test_lesson_flag= $this->get_in_e_boolean(-1, "test_lesson_flag" );
         $agent_type= $this->get_in_el_agent_type();
         $agent_level = $this->get_in_el_agent_level();
+        $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
 
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag);
         $userid_arr = [];
-        foreach($ret_info['list'] as $p_item){
-            $userid_arr []=  $p_item["userid"];
-        }
-
-        $order_map=$this->t_order_info->get_agent_order_money_list($userid_arr);
 
         foreach($ret_info['list'] as &$item){
             $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
@@ -36,7 +32,8 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
-            $item["price"]= @$order_map[$item["userid"] ]["price"]/100;
+            $item["price"]/= 100;
+
         }
 
         return $this->pageView(__METHOD__,$ret_info);
