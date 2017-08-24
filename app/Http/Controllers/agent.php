@@ -23,8 +23,9 @@ class agent extends Controller
         $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level);
         $userid_arr = [];
         foreach($ret_info['list'] as $p_item){
-            $userid_arr[] =  $p_item["userid"];
+            $userid_arr =  $p_item["userid"];
         }
+
         $order_map=$this->t_order_info->get_agent_order_money_list($userid_arr);
 
         foreach($ret_info['list'] as &$item){
@@ -183,6 +184,7 @@ class agent extends Controller
         $p_price   = $this->get_in_int_val('p_price');
         $ppid      = $this->get_in_int_val('ppid');
         $pp_price  = $this->get_in_int_val('pp_price');
+        $userid  = $this->get_in_int_val('userid');
         $page_num  = $this->get_in_page_num();
         $page_info = $this->get_in_page_info();
         $ret_info  = $this->t_agent_order->get_agent_order_info($page_info);
@@ -216,6 +218,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '12';
+        $agent_level = $this->t_agent->get_agent_info_row_by_phone($phone);
+        if($agent_level['agent_level']){
+            $level = $agent_level['agent_level'];
+        }else{
+            $level = 0;
+        }
+        dd($level);
         $image = imageCreatetruecolor(190,190);     //新建微信头像图
         $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
         imagefill($image,0,0,$zhibg);
@@ -522,7 +532,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -705,7 +716,8 @@ class agent extends Controller
         // $agent_id = 1571;//三千笔墨绘你一世倾
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
-        $agent_id = 443;//九月
+        // $agent_id = 443;//九月
+        $agent_id = 435;//助教2组-戈叶伟-Amy 
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -1251,7 +1263,7 @@ class agent extends Controller
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $orderid = 0;
             if($userid){
-                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
+                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
                 if($order_info['orderid']){
                     $orderid = $order_info['orderid'];
                 }
@@ -1260,18 +1272,21 @@ class agent extends Controller
             $type_new     = $student_info['type'];
             $is_test_user = $student_info['is_test_user'];
             $level        = 0;
-            if($userid && $type_new == 0 && $is_test_user == 0 && $student_info && $orderid){//在读非测试
-                $level     = 2;
-            }elseif($wx_openid){//绑定
+            if($userid
+               && $type_new ==  E\Estudent_type::V_0
+               && $is_test_user == 0
+               && $orderid){//在读非测试
+                $level     =  E\Eagent_level::V_2 ;
+            }elseif($wx_openid){//有wx绑定
                 $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    $level = 2;
+                $count       = count($test_lesson);
+                if($count>=2){
+                    $level     =  E\Eagent_level::V_2 ;
                 }else{
-                    $level = 1;
+                    $level     =  E\Eagent_level::V_1 ;
                 }
             }else{//非绑定
-                $level = 0;
+                $level =  E\Eagent_level::V_0;
             }
             $this->t_agent->field_update_list($id,[
                 "agent_level" => $level
@@ -1290,9 +1305,11 @@ class agent extends Controller
             $lessonid_new = 0;
             if($userid && $is_test_user == 0 && $student_info){
                 $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
-                $lessonid = $ret['lessonid'];
-                if($lessonid){
-                    $lessonid_new = $lessonid;
+                if ($ret) {
+                    $lessonid = $ret['lessonid'];
+                    if($lessonid){
+                        $lessonid_new = $lessonid;
+                    }
                 }
             }
             $this->t_agent->field_update_list($id,[

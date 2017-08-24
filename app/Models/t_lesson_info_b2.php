@@ -3313,17 +3313,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
-            ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
-            'l.lesson_user_online_status = 1',
             "l.lesson_start > $create_time",
-            "l.userid = $userid",
+            "l.userid = $userid ",
         ];
 
         $sql= $this->gen_sql_new(
             " select l.lessonid "
             . " from %s l "
-            . " where %s ",
+            . " where %s order by  l.lesson_user_online_status  desc limit 1 ",
             t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );
@@ -3343,9 +3341,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
-    public function get_test_lesson_info_halfhour(){  // 试听课开课前半个小时 通知
-        $lesson_begin = time()+30*60;
-        $lesson_end   = time()+31*60;
+    public function get_test_lesson_info_for_time($lesson_begin, $lesson_end){  // 试听课开课前半个小时 通知
 
         $where_arr = [
             "l.lesson_type=2", //试听课
@@ -3372,5 +3368,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
     }
 
+    public function get_test_lesson_num($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type = 2",
+            "l.lesson_del_flag = 0",
+            // "tss.success_flag in (0,1)",
+            "l.lesson_user_online_status =1",
+            //"t.is_test_user=0"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select teacherid,count(l.lessonid) num from %s where %s group by teacherid",
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
 
 }

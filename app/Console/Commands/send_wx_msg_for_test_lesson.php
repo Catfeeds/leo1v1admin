@@ -44,13 +44,27 @@ class send_wx_msg_for_test_lesson extends Command
         //
         $task = new \App\Console\Tasks\TaskController();
 
+        $lesson_begin_halfhour = time()+30*60;
+        $lesson_end_halfhour   = time()+31*60;
+
         // 获取试听课 课前30分钟
-        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_halfhour();
+        $test_lesson_list_halfhour = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_halfhour, $lesson_end_halfhour);
 
         foreach($test_lesson_list_halfhour as $item){
             $this->send_wx_msg($item,1);
         }
 
+        // 获取试听课 课前5分钟
+        $lesson_begin_five = time()+5*60;
+        $lesson_end_five   = time()+6*60;
+
+        $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
+
+        foreach($test_lesson_list_five as $item){
+            $this->send_wx_msg($item,2);
+        }
+
+        //
 
     }
 
@@ -97,6 +111,15 @@ class send_wx_msg_for_test_lesson extends Command
          **/
 
 
+        if($type == 1){
+            $remark_tea = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+            $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
+            $remark_ass = "请及时跟进";
+        }elseif($type == 2){
+            $remark_tea = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
+            $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
+            $remark_ass = "请及时跟进";
+        }
 
         // 给老师发送
         $template_id_teacher = "gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk";
@@ -105,7 +128,7 @@ class send_wx_msg_for_test_lesson extends Command
             "keyword1" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
             "keyword2" => '试听课',
             "keyword3" => "'".$item['teacher_nick']."'",
-            "remark"   => "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作"
+            "remark"   => "$remark_tea"
         ];
         $url_tea = '';
         \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
@@ -120,7 +143,7 @@ class send_wx_msg_for_test_lesson extends Command
             "first"    => "家长您好，".$item['stu_nicl']."同学于30分钟后有一节 $subject_str 课。",
             "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
             "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-            "remark"   => "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。"
+            "remark"   => "$remark_par"
         ];
         $url_parent = '';
         $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,$url_parent);
@@ -130,7 +153,7 @@ class send_wx_msg_for_test_lesson extends Command
             "first"    => "您好，您的学员".$item['stu_nicl']."同学于30分钟后有一节 $subject_str 课。",
             "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
             "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-            "remark"   => "请及时跟进。"
+            "remark"   => "$remark_ass"
         ];
         $url_ass = '';
         $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,$ass_url);

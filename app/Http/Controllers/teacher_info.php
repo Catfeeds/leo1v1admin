@@ -9,12 +9,10 @@ use \App\Enums as E;
 class teacher_info extends Controller
 {
     use CacheNick;
-    var $change_num = 0;
-    var $late_num   = 0;
 
-    function __construct( $check_login_flag=true)  {
+    function __construct( )  {
         parent::__construct();
-        $this->teacher_money = \App\Helper\Config::get_config("teacher_money");
+
     }
 
     public function index() {

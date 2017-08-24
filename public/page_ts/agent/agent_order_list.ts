@@ -101,5 +101,13 @@ $(function(){
             })
     });
 
+    //点击进入个人主页
+    $('.opt-user').on('click',function(){
+        var opt_data=$(this).get_opt_data();
+        window.open(
+            '/stu_manage/lesson_record?sid='+ opt_data.userid +"&return_url="+ encodeURIComponent(window.location.href)
+        );
+    });
+
     $('.opt-change').set_input_change_event(load_data);
 });

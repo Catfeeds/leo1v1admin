@@ -283,6 +283,9 @@ class login extends Controller
         if($main_department == 2 || $uid == 684 || $uid == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
+        if (\App\Helper\Utils::check_env_is_local() ) {
+            $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
+        }
         \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
 
         $menu      = \App\Helper\Config::get_menu();
@@ -390,17 +393,9 @@ class login extends Controller
         $seccode  = $this->get_in_str_val('seccode') ;
         $ip       = $this->get_in_client_ip();
 
-        if (\App\Helper\Utils::check_env_is_release()) {
-            $need_verify_flag = $this->t_admin_users->check_need_verify($account,$ip);
-        }else{
-            $need_verify_flag = false;
-        }
 
-        if ($need_verify_flag){
-            if (  empty($seccode) || $seccode !== session('verify')) {
-                return outputJson_error( E\Eerror::V_WRONG_VERIFY_CODE ,
-                                         array( 'code' =>  session('verify')));
-            }
+        if (  empty($seccode) || $seccode !== session('verify')) {
+            return $this->output_err( E\Eerror::V_WRONG_VERIFY_CODE );
         }
 
         $userid = $this->t_user_info->check_login_userid($account, $password);
@@ -415,16 +410,16 @@ class login extends Controller
             $teacherid= $this->t_phone_to_user->get_teacherid($account);
         }
         //dd("success");
-        $_SESSION['phone'] = $account;
-        $_SESSION['acc']   = $account;
-        $_SESSION['tid']   = $teacherid;
-        $_SESSION['role']  = E\Erole::V_TEACHER;
+       $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
 
-        session($_SESSION) ;
+        $sess['tid'] = $teacherid;
+        $sess['nick']   = $tea_item["nick"] ;
+        $sess['face']   = $tea_item["face"] ;
+        $sess['role']  = E\Erole::V_TEACHER;
 
-        return $this->output_succ([
-            //"permission" => $permission,
-        ]);
+        session($sess) ;
+        return $this->output_succ();
+
     }
 
     public function login_other() {
@@ -530,4 +525,5 @@ class login extends Controller
 
         return $this->pageView(__METHOD__);
     }
+
 }

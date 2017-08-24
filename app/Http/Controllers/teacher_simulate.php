@@ -14,6 +14,7 @@ class teacher_simulate extends Controller
     var $level_simulate_count_key = "level_simulate_count";
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
+    var $already_lesson_count_key = "already_lesson_count";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -27,7 +28,6 @@ class teacher_simulate extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
             $start_time,$end_time,$teacher_money_type,$level,$teacher_id
         );
-
         $list                      = [];
         $teacher_money_type_list   = [];
         $all_money                 = 0;
@@ -52,23 +52,21 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($tea_arr['level_str'],$val['level_str'],0);
             \App\Helper\Utils::check_isset_data($tea_arr['level_simulate_str'],$val['level_simulate_str'],0);
 
-
-            $month_key  = date("Y-m",$val['lesson_start']);
+            $month_key = date("Y-m",$val['lesson_start']);
             $key = "already_lesson_count_".$month_key."_".$teacherid;
             if(!isset($already_lesson_count_list[$key])){
                 $already_lesson_count_simulate = Redis::get($key);
-                $already_lesson_count_list[$key]=$already_lesson_count_simulate;
+                if($already_lesson_count_simulate === null){
+                    $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
+                    $last_start_time = strtotime("-1 month",$last_end_time);
+                    $already_lesson_count_simulate = $this->get_already_lesson_count(
+                        $start_time,$end_time,$teacherid,$val['teacher_money_type']
+                    );
+                    Redis::set($key,$already_lesson_count_simulate);
+                }
+                $already_lesson_count_list[$key] = $already_lesson_count_simulate;
             }else{
                 $already_lesson_count_simulate = $already_lesson_count_list[$key];
-            }
-
-            if($already_lesson_count_simulate === null){
-                $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
-                $last_start_time = strtotime("-1 month",$last_end_time);
-                $already_lesson_count_simulate = $this->get_already_lesson_count(
-                    $start_time,$end_time,$teacherid,$val['teacher_money_type']
-                );
-                Redis::set($key,$already_lesson_count_simulate);
             }
 
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
@@ -160,8 +158,11 @@ class teacher_simulate extends Controller
             default:
                 $info['grade']=$info['grade'];break;
             }
+            $args=[
+                "from_test_lesson_id"=>0
+            ];
             $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
-                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0,0
+                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0,$args
             );
             $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
             $lesson_price_simulate=$info['lesson_count']*$per_price_simulate/100;

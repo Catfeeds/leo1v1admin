@@ -317,7 +317,7 @@ $(function(){
     $(".opt-del").on("click",function(){
         var opt_data = $(this).get_opt_data();
         var id = opt_data.id;
-        BootstrapDialog.confirm("确定要删除？", function(val){
+        BootstrapDialog.confirm("确定要删除"+id+"？", function(val){
             if (val) {
                 $.do_ajax( '/ss_deal/delete_lecture_appointment', {
                     'id' : id
@@ -564,6 +564,7 @@ $(function(){
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
         id_subject.val(opt_data.subject_ex);
+        id_grade.val(opt_data.grade_ex);
 
         var arr = [
             ["审核老师",  id_record_teacher ]  ,
@@ -796,6 +797,7 @@ $(function(){
         Enum_map.append_option_list("subject",id_subject,true);
         Enum_map.append_option_list("grade", id_grade,true,[100,200,300]);
         id_subject.val(opt_data.subject_ex);
+        id_grade.val(opt_data.grade_ex);
 
         var arr = [
             ["科目",  id_subject ]  ,

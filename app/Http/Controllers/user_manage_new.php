@@ -1898,6 +1898,16 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$page_info,["total_type" => $total_type]);
     }
 
+    public function teacher_reward_rule_list(){
+        $reward_type = $this->get_in_int_val("reward_type");
+        $rule_type   = $this->get_in_int_val("rule_type");
+
+        $list = $this->t_teacher_reward_rule_list->get_teacher_reward_rule_list($reward_type,$rule_type);
+
+        $list = \App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$list);
+    }
+
     public function get_group_list_by_powerid()
     {
         $powerid = $this->get_in_int_val("powerid");

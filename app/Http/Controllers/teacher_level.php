@@ -899,6 +899,7 @@ class teacher_level extends Controller
 
         }
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+        $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
 
         return $this->output_succ();
  
