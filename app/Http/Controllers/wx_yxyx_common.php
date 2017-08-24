@@ -159,7 +159,7 @@ class wx_yxyx_common extends Controller
         $phone   = $this->get_in_str_val('phone');
         $type   = $this->get_in_int_val('type');
         $userid = $this->t_phone_to_user->get_userid($phone);
-        $type = $this->t_student_info->field_get_value($userid,'type');
+        $type = $this->t_student_info->field_get_list($userid,$__field_name_args__);
         if(!preg_match("/^1\d{10}$/",$phone)){
             return $this->output_err("请输入规范的手机号!");
         }
