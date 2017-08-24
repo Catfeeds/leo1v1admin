@@ -441,7 +441,6 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -456,6 +455,8 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lessson_end');
             E\Efrom_type::set_item_value_str($item);
             $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
             $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );

@@ -3,30 +3,90 @@ namespace App\Config;
 class seller_menu{
     static  public  function get_config()  {
         return [
-            [ "name"=>"仪表盘", "icon"=>"fa-dashboard",  "url"=>"/main_page/seller" ],
-            [ "name"=>"例子",  "list"=> [
-                ["name"=>"分配例子",   "url"=>"/seller_student_new/assign_sub_adminid_list"],
-                [ "name"=>"分配例子-主管",   "url"=>"/seller_student_new/assign_member_list"],
-                [ "name"=>"新增例子",  "list"=> [
+            ["power_id"=>45, "name"=>"TSR事业部门户", "list"=>[
+                ["power_id"=>11, "name"=>"排行榜",   "url"=>""],
+                ["power_id"=>12, "name"=>"学员中心", "list"=>[
+                    ["power_id"=>1, "name"=>"分配例子",   "url"=>"/seller_student_new/assign_sub_adminid_list"],
+                    ["power_id"=>2, "name"=>"分配例子-主管",   "url"=>"/seller_student_new/assign_member_list"],
+                    ["power_id"=>3, "name"=>"转介绍待分配例子-总监",   "url"=>"/seller_student_new/assign_member_list_master"],
+                    ["power_id"=>4, "name"=>"转介绍例子-全部","url"=>"/seller_student_new/ass_master_seller_student_list"],
+                    ["power_id"=>5, "name"=>"转介绍例子-主管","url"=>"/seller_student_new/ass_master_seller_master_student_list"],
+                    ["power_id"=>6, "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
+                    ["power_id"=>7, "name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user" ],
+                    ["power_id"=>8, "name"=>"抢新学生-当前用户","url"=>""],
+                    ["power_id"=>9, "name"=>"公海-抢学生","url"=>"/seller_student_new/get_free_seller_list"],
+                    ["power_id"=>10, "name"=>"试听未签-抢学生","url"=>"/seller_student_new/test_lesson_no_order_list"],
+                    ["power_id"=>11, "name"=>"new-转介绍例子", "url"=>"/seller_student_new/seller_seller_student_list"],
+                    ["power_id"=>12, "name"=>"例子回流公海","url"=>"/seller_student_new/get_hold_list"],
+                    ["power_id"=>13, "name"=>"试听签单与否反馈",   "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
+                    ["power_id"=>14, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user" ],
                 ]],
-
-                [ "name"=>"数据报表",  "list"=> [
-                    ["name"=>"例子统计总表", "url"=>"/tongji_ss/user_count"],
-                    ["name"=>"销售个人统计", "url"=>"/tongji_ss/seller_count"],
-                    ["name"=>"tmk例子统计", "url"=>"/tongji_ss/origin_count_seller"],
+                ["power_id"=>13, "name"=>"试听排课", "list"=>[
+                    ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
+                    ["power_id"=>2, "name"=>"老师推荐",   "url"=>"/human_resource/index_seller"],
+                    ["power_id"=>3, "name"=>"暂停试听课老师",   "url"=>"/human_resource/index_new_seller_hold"],
+                    ["power_id"=>4, "name"=>"申请推荐试听老师推荐",   "url"=>"/tea_manage_new/get_seller_require_commend_teacher_info_seller"],
+                    ["power_id"=>5, "name"=>"课程状态-销售",   "url"=>"/supervisor/monitor_seller"],
+                    ["power_id"=>6, "name"=>"课程列表-销售",   "url"=>"/tea_manage/lesson_list_seller"],
+                    ["power_id"=>7, "name"=>"未绑定的试听课",   "url"=>""],
+                    ["power_id"=>8, "name"=>"教务排课明细",   "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
                 ]],
-
+                ["power_id"=>14, "name"=>"合同", "list"=>[
+                    ["power_id"=>1, "name"=>"合同-待付费",   "url"=>""],
+                    ["power_id"=>2, "name"=>"合同-已付费",   "url"=>""],
+                    ["power_id"=>3, "name"=>"合同统计",   "url"=>""],
+                    ["power_id"=>4, "name"=>"合同每日统计",   "url"=>""],
+                    ["power_id"=>5, "name"=>"折扣情况",   "url"=>""],
+                    ["power_id"=>6, "name"=>"销售-退款",   "url"=>""],
+                ]],
+                ["power_id"=>15, "name"=>"资源统计", "list"=>[
+                    ["power_id"=>1, "name"=>"例子统计","url"=>""],
+                    ["power_id"=>2, "name"=>"例子统计-个人","url"=>""],
+                    ["power_id"=>3, "name"=>"例子销售分布","url"=>""],
+                    ["power_id"=>4, "name"=>"例子销售拨打数","url"=>""],
+                    ["power_id"=>5, "name"=>"新增例子分时统计","url"=>""],
+                    ["power_id"=>6, "name"=>"销售主管未分配统计","url"=>""],
+                    ["power_id"=>7, "name"=>"销售个人统计",   "url"=>""],
+                    ["power_id"=>8, "name"=>"销售个人统计-主管",   "url"=>""],
+                    ["power_id"=>9, "name"=>"当前用户可抢数",   "url"=>"" ],
+                    ["power_id"=>10, "name"=>"当前用户抢新统计",   "url"=>"" ],
+                    ["power_id"=>11, "name"=>"当前用户可抢数明细",   "url"=>"" ],
+                    ["power_id"=>12, "name"=>"当前未拨打未拨通",   "url"=>"" ],
+                    ["power_id"=>13, "name"=>"转介绍统计",   "url"=>"" ],
+                    ["power_id"=>14, "name"=>"无效资源分类",   "url"=>"" ],
+                    ["power_id"=>15, "name"=>"首次回访例子数-间隔",   "url"=>"" ],
+                    ["power_id"=>16, "name"=>"首次回访例子数-小时",   "url"=>"" ],
+                ]],
+                ["power_id"=>16, "name"=>"试听课排课", "list"=>[
+                    ["power_id"=>1, "name"=>"教务排课明细",   "url"=>""],
+                    ["power_id"=>2, "name"=>"排课明细",   "url"=>""],
+                    ["power_id"=>3, "name"=>"排课统计",   "url"=>""],
+                    ["power_id"=>4, "name"=>"实时申请未排统计",   "url"=>""],
+                    ["power_id"=>5, "name"=>"销售申请统计",   "url"=>""],
+                    ["power_id"=>6, "name"=>"在线预计课数",   "url"=>""],
+                    ["power_id"=>7, "name"=>"在线课数",   "url"=>""],
+                    ["power_id"=>8, "name"=>"销售试听转化率统计",   "url"=>""],
+                    ["power_id"=>9, "name"=>"周排课量统计",   "url"=>""],
+                    ["power_id"=>10, "name"=>"周排课量统计-主管",   "url"=>""],
+                    ["power_id"=>11, "name"=>"周排课量回访统计",   "url"=>""],
+                    ["power_id"=>12, "name"=>"周排课量回访统计-主管",   "url"=>""],
+                    ["power_id"=>13, "name"=>"周排课量回访列表",   "url"=>""],
+                    ["power_id"=>14, "name"=>"试听首次回访时间统计",   "url"=>""],
+                    ["power_id"=>15, "name"=>"试听首次回访时间统计-主管",   "url"=>""],
+                    ["power_id"=>16, "name"=>"试听转化率统计",   "url"=>""],
+                    ["power_id"=>17, "name"=>"试听转化率统计-主管",   "url"=>""],
+                    ["power_id"=>18, "name"=>"转化率",   "url"=>""],
+                    ["power_id"=>19, "name"=>"转化率-明细",   "url"=>""],
+                ]],
+                ["power_id"=>17, "name"=>"综合统计", "list"=>[
+                    ["power_id"=>1, "name"=>"日报",   "url"=>""],
+                    ["power_id"=>2, "name"=>"销售月度统计报表",   "url"=>""],
+                    ["power_id"=>3, "name"=>"销售红黑榜",   "url"=>""],
+                    ["power_id"=>4, "name"=>"设备统计",   "url"=>""],
+                    ["power_id"=>5, "name"=>"销售月度绩效",   "url"=>""],
+                ]],
             ]],
-            [ "name"=>"私海",  "list"=> [
-                [ "name"=>"所有用户",   "url"=>"/seller_student_new/seller_student_list_all"],
-                [ "name"=>"抢学生",  "list"=> [
-                    ["name"=>"抢新学生",   "url"=>"/seller_student_new/deal_new_user"],
-                    ["name"=>"公海-抢学生",   "url"=>"/seller_student_new/get_free_seller_list"],
-                ]],
-
-            ]],
-        ];
-
+        ];  
     }
 
 }
