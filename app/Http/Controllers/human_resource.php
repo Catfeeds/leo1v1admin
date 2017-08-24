@@ -760,6 +760,13 @@ class human_resource extends Controller
         $fulltime_teacher_type    = $this->get_in_int_val("fulltime_teacher_type", -1);
         $month_stu_num            = $this->get_in_int_val("month_stu_num", -1);
         $record_score_num         = $this->get_in_int_val("record_score_num", -1);
+        $identity                 = $this->get_in_int_val("identity", -1);
+        $tea_label_type           = $this->get_in_int_val("tea_label_type", -1);
+        if($tea_label_type==-1){
+            $tea_label_type_str="";
+        }else{
+            $tea_label_type_str =  E\Etea_label_type::get_desc($tea_label_type).",";
+        }
 
         if(!empty($free_time)){
             $teacherid_arr = $this->get_free_teacherid_arr_new($free_time);
@@ -793,7 +800,7 @@ class human_resource extends Controller
             $week_liveness,$interview_score,$second_interview_score,$teacherid_arr,$seller_flag,
             $qz_flag,$teacher_type,$lesson_hold_flag_adminid,$is_quit,$set_leave_flag,$fulltime_flag,$seller_hold_flag,
             $teacher_ref_type,$have_wx,$grade_plan,$subject_plan,$fulltime_teacher_type,$month_stu_num,
-            $record_score_num
+            $record_score_num,$identity,$tea_label_type_str
         );
 
         $tea_list = [];

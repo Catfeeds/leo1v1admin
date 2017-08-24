@@ -446,7 +446,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                                 $teacher_type,$lesson_hold_flag_adminid  =-1,$is_quit=-1 ,$set_leave_flag=-1,
                                                 $fulltime_flag=-1,$seller_hold_flag=-1,$teacher_ref_type=-1,$have_wx=-1,
                                                 $grade_plan=-1,$subject_plan=-1,$fulltime_teacher_type=-1,$month_stu_num=-1,
-                                                $record_score_num=-1
+                                                $record_score_num=-1,$identity=-1,$tea_label_type_str=""
     ){
         $where_arr = array(
             array( "t.teacherid=%u", $teacherid, -1 ),
@@ -466,8 +466,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             array( "t.teacher_type=%u ", $teacher_type, -1 ),
             array( "t.is_record_flag=%u ", $is_record_flag, -1 ),
             array( "t.is_quit=%u ", $is_quit, -1 ),
+            array( "t.identity=%u ", $identity, -1 ),
             array( "t.lesson_hold_flag_adminid=%u ", $lesson_hold_flag_adminid, -1 ),
             array( "m.fulltime_teacher_type=%u ", $fulltime_teacher_type, -1 ),
+            array( "t.teacher_tags like '%%%s%%' ", $tea_label_type_str, "" ),
         );
 
         if($teacher_ref_type==-2){
@@ -601,8 +603,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }
 
         if( $record_score_num==1){
-            $where_arr[] =true;
+            $where_arr[] ="tr.record_score>=60 and tr.record_score<80";
+        }else if( $record_score_num==2){
+            $where_arr[] ="tr.record_score>=80 and tr.record_score<90";
+        }elseif( $record_score_num==3){
+            $where_arr[] ="tr.record_score>=90 ";
         }
+
+
 
         $sql = $this->gen_sql_new("select t.wx_openid,t.need_test_lesson_flag,t.nick,t.realname, t.teacher_type,"
                                   ." t.gender,t.teacher_money_type,t.identity,t.is_test_user,t.add_acc,"
