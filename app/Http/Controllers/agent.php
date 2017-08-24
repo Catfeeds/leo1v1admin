@@ -219,20 +219,16 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '12';
-        $agent_level = $this->t_agent->get_agent_info_row_by_phone($phone);
-        if($agent_level['agent_level']){
-            $level = $agent_level['agent_level'];
-        }else{
-            $level = 0;
-        }
-        dd($level);
-        $image = imageCreatetruecolor(190,190);     //新建微信头像图
-        $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
-        imagefill($image,0,0,$zhibg);
-        imagecolortransparent($image,$zhibg);
-        $datapath_new ="/tmp/"."hhh_headimg_new.png";
-        imagepng($image,$datapath_new);
+        // foreach([] as $item){
+        //     $this->t_agent->row_delete($id);
+        // }
+
+        // $image = imageCreatetruecolor(190,190);     //新建微信头像图
+        // $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
+        // imagefill($image,0,0,$zhibg);
+        // imagecolortransparent($image,$zhibg);
+        // $datapath_new ="/tmp/"."hhh_headimg_new.png";
+        // imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
