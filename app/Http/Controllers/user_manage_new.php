@@ -3835,6 +3835,8 @@ class user_manage_new extends Controller
         if(!$ret){
             return $this->output_err("更新失败！");
         }
+        $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+        
         return $this->output_succ();
     }
 
