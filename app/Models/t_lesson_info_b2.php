@@ -2907,7 +2907,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
             ' l.lesson_user_online_status = 1 ',
-            ' l.lesson_end > 1503331200 ',
+            ' l.lesson_end > 1503244800 ',
             ' l.lesson_end <  '.$time,
             ' lss.call_end_time = 0 ',
             ' lss.success_flag in (0,1) ',
