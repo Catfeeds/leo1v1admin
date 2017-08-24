@@ -13,11 +13,11 @@ class TTeacherInfoAddTwoWeekLessonNum extends Migration
     public function up()
     {
         //
-        Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
-        {
-            t_field($table->integer("two_week_test_lesson_num"),"过去两周试听数");
-            t_field($table->integer("month_stu_num"),"近一个月常规学生数");
-        });
+        // Schema::table('db_weiyi.t_teacher_info', function( Blueprint $table)
+        // {
+        //     t_field($table->integer("two_week_test_lesson_num"),"过去两周试听数");
+        //     t_field($table->integer("month_stu_num"),"近一个月常规学生数");
+        // });
 
     }
 

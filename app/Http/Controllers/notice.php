@@ -12,7 +12,7 @@ class notice extends Controller
 
     public function sms_common($phone , $user_ip , $type, $data  )
     {
-        if ( in_array( $phone, [
+        if( in_array( $phone, [
             "13545096512",
             "13264833258",
             "13617133016",
