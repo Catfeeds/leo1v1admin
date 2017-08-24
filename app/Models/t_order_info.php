@@ -2718,11 +2718,12 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             "o.userid = $userid",
             "o.contract_type = 0",
             "o.contract_status = 1",
-            "o.order_status = 1",
+            "o.order_status in (1,2) ",
         ];
-        $sql = $this->gen_sql_new("select o.orderid"
+        //E\Econtract_status
+        $sql = $this->gen_sql_new("select o.orderid "
                                   ." from %s o"
-                                  ." where %s"
+                                  ." where %s limit 1 "
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );

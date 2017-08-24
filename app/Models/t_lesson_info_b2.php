@@ -3313,17 +3313,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr=[
             ['l.lesson_type = %d ',2],
             ['l.lesson_del_flag = %d ',0],
-            ['l.lesson_status = %d ',2],
             'l.confirm_flag in (0,1) ',
-            'l.lesson_user_online_status = 1',
             "l.lesson_start > $create_time",
-            "l.userid = $userid",
+            "l.userid = $userid ",
         ];
 
         $sql= $this->gen_sql_new(
             " select l.lessonid "
             . " from %s l "
-            . " where %s ",
+            . " where %s order by  l.lesson_user_online_status  desc limit 1 ",
             t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );

@@ -492,19 +492,22 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-    public function get_son_test_lesson_count_by_id($id){
+    public function get_son_test_lesson_count_by_id($id ){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
             "a.test_lessonid <> 0",
+            "l.lesson_user_online_status =1",
         ];
 
         $sql= $this->gen_sql_new(
             " select a.id,a.phone,a.test_lessonid "
             . " from %s a "
-            . " left join %s aa on aa.id = a.parentid "
+            . " left join %s aa on aa.id = a.parentid  "
+            . " left join %s l on a.test_lessonid = l.lessonid "
             . " where %s ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );
         return $this->main_get_list($sql);
