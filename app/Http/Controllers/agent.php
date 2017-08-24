@@ -219,20 +219,16 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '12';
-        $agent_level = $this->t_agent->get_agent_info_row_by_phone($phone);
-        if($agent_level['agent_level']){
-            $level = $agent_level['agent_level'];
-        }else{
-            $level = 0;
-        }
-        dd($level);
-        $image = imageCreatetruecolor(190,190);     //新建微信头像图
-        $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
-        imagefill($image,0,0,$zhibg);
-        imagecolortransparent($image,$zhibg);
-        $datapath_new ="/tmp/"."hhh_headimg_new.png";
-        imagepng($image,$datapath_new);
+        // foreach([] as $item){
+        //     $this->t_agent->row_delete($id);
+        // }
+
+        // $image = imageCreatetruecolor(190,190);     //新建微信头像图
+        // $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
+        // imagefill($image,0,0,$zhibg);
+        // imagecolortransparent($image,$zhibg);
+        // $datapath_new ="/tmp/"."hhh_headimg_new.png";
+        // imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -313,93 +309,6 @@ class agent extends Controller
         return $img;
     }
 
-    public function update_agent_userid(){
-        $ret_info = $this->t_agent->get_agent_list();
-        $ret = [];
-        foreach($ret_info as $item){
-            $id = $item['id'];
-            $phone = $item['phone'];
-            $userid = $item['userid'];
-            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-            if(!$userid){
-                if($userid_new){
-                    $ret[] = $this->t_agent->field_update_list($id,[
-                        "userid" => $userid_new,
-                    ]);
-                }
-            }
-        }
-        dd($ret);
-    }
-
-    public function update_agent_order($orderid,$userid,$order_price){
-        // $agent_order = [];
-        // $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        // if(!isset($agent_order['orderid'])){
-            $phone    = $this->t_student_info->get_phone($userid);
-            $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
-            if(isset($ret_info['id'])){
-                $level1 = 0;
-                $level2 = 0;
-                if($ret_info['p_phone']){
-                    $level1 = $this->check_agent_level($ret_info['p_phone']);
-                }
-                if($ret_info['pp_phone']){
-                    $level2 = $this->check_agent_level($ret_info['pp_phone']);
-                }
-                $price           = $order_price/100;
-                $level1_price    = $price/20>500?500:$price/20;
-                $level2_p_price  = $price/10>1000?1000:$price/10;
-                $level2_pp_price = $price/20>500?500:$price/20;
-                $pid = $ret_info['pid'];
-                $ppid = $ret_info['ppid'];
-                $p_price = 0;
-                $pp_price = 0;
-                if($level1 == 1){//黄金
-                    $p_price = $level1_price*100;
-                }elseif($level1 == 2){//水晶
-                    $p_price = $level2_p_price*100;
-                }
-                if($level2 == 2){//水晶
-                    $pp_price = $level2_pp_price*100;
-                }
-                dd($level1,$price,$level1_price,$p_price);
-                // $this->t_agent_order->row_insert([
-                //     'orderid'     => $orderid,
-                //     'aid'         => $ret_info['id'],
-                //     'pid'         => $pid,
-                //     'p_price'     => $p_price,
-                //     'ppid'        => $ppid,
-                //     'pp_price'    => $pp_price,
-                //     'create_time' => time(null),
-                // ]);
-            }
-        //}
-        // }
-    }
-
-    public function check_agent_level($phone){//黄金1,水晶2,无资格0
-        $student_info = [];
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        if(isset($student_info['userid'])){
-            return 2;
-        }else{
-            $agent_item = [];
-            $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
-            if(count($agent_item)>0){
-                $test_lesson = [];
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    return 2;
-                }else{
-                    return 1;
-                }
-            }else{
-                return 0;
-            }
-        }
-    }
 
 
     public function get_my_pay($phone){
@@ -1249,6 +1158,26 @@ class agent extends Controller
     }
 
 
+
+    public function update_agent_userid(){
+        $ret_info = $this->t_agent->get_agent_list();
+        $ret = [];
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $phone = $item['phone'];
+            $userid = $item['userid'];
+            $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+            if(!$userid){
+                if($userid_new){
+                    $ret[] = $this->t_agent->field_update_list($id,[
+                        "userid" => $userid_new,
+                    ]);
+                }
+            }
+        }
+        dd($ret);
+    }
+
     public function update_agent_level(){
         $ret_info = $this->t_agent->get_agent_list();
         foreach($ret_info as $item){
@@ -1313,6 +1242,70 @@ class agent extends Controller
                 "test_lessonid" => $lessonid_new
             ]);
         }
+    }
+
+    public function update_agent_order_new(){
+        $orderid = 20801;
+        $userid = 142906;
+        $price = 490000;
+        $this->update_agent_order($orderid,$userid,$price);
+    }
+
+    public function update_agent_order($orderid,$userid,$order_price){
+        $agent_order = [];
+        $ret_info = [];
+        $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
+        if(!isset($agent_order['orderid'])){
+            $phone    = $this->t_student_info->get_phone($userid);
+            $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
+            if(isset($ret_info['id'])){
+                $level1 = 0;
+                $level2 = 0;
+                if($ret_info['p_phone']){
+                    $level1 = $this->check_agent_level($ret_info['p_phone']);
+                }
+                if($ret_info['pp_phone']){
+                    $level2 = $this->check_agent_level($ret_info['pp_phone']);
+                }
+                $price           = $order_price/100;
+                $level1_price    = $price/20>500?500:$price/20;
+                $level2_p_price  = $price/10>1000?1000:$price/10;
+                $level2_pp_price = $price/20>500?500:$price/20;
+                $pid = $ret_info['pid'];
+                $ppid = $ret_info['ppid'];
+                $p_price = 0;
+                $pp_price = 0;
+                if($level1 == 1){//黄金
+                    $p_price = $level1_price*100;
+                }elseif($level1 == 2){//水晶
+                    $p_price = $level2_p_price*100;
+                }
+                if($level2 == 2){//水晶
+                    $pp_price = $level2_pp_price*100;
+                }
+                $this->t_agent_order->row_insert([
+                    'orderid'     => $orderid,
+                    'aid'         => $ret_info['id'],
+                    'pid'         => $pid,
+                    'p_price'     => $p_price,
+                    'p_level'     => $level1,
+                    'ppid'        => $ppid,
+                    'pp_price'    => $pp_price,
+                    'pp_level'    => $level2,
+                    'create_time' => time(null),
+                ]);
+            }
+        }
+    }
+
+    public function check_agent_level($phone){//黄金1,水晶2,无资格0
+        $agent = $this->t_agent->get_agent_info_row_by_phone($phone);
+        if($agent['agent_level']){
+            $level = $agent['agent_level'];
+        }else{
+            $level = 0;
+        }
+        return $level;
     }
 
 
