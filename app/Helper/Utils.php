@@ -2,6 +2,7 @@
 namespace App\Helper;
 use Illuminate\Support\Facades\Log ;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redis ;
 use App\Enums as  E;
 use \App\Libs;
 
@@ -1597,4 +1598,17 @@ class Utils  {
         return $ret;
     }
 
+    static public function redis($type,$key,$value,$is_array=true){
+        if($type==E\Eredis_type::V_GET){
+            $value = Redis::get($key);
+        }elseif($type==E\Eredis_type::V_SET){
+            if($is_array){
+                $value=json_encode($value);
+            }
+            Redis::set($key,$value);
+        }elseif($type==E\Eredis_type::V_DEL){
+            Redis::del($key);
+        }
+        return $value;
+    }
 };

@@ -1,5 +1,7 @@
 <?php
 namespace App\Config;
+use Illuminate\Support\Facades\Redis ;
+
 class teacher_rule{
     /**
      * 工资体系奖励规则 rule_type
@@ -68,6 +70,17 @@ class teacher_rule{
             50 => 80,
         ]
     ];
+
+    static public $rule_type_key = "rule_type_key";
+
+    static public function get_rule_type($reward_count_type){
+        if(\App\Helper\Utils::check_env_is_local()){
+            $rule_type = Redis::get(self::$rule_type_key);
+        }else{
+            $rule_type = 0;
+        }
+        return $rule_type;
+    }
 
     /**
      * @param type 老师工资对应的类型

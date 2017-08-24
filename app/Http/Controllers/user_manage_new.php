@@ -1898,15 +1898,6 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$page_info,["total_type" => $total_type]);
     }
 
-    public function teacher_reward_rule_list(){
-        $reward_type = $this->get_in_int_val("reward_type");
-        $rule_type   = $this->get_in_int_val("rule_type");
-
-        $list = $this->t_teacher_reward_rule_list->get_teacher_reward_rule_list($reward_type,$rule_type);
-
-        $list = \App\Helper\Utils::list_to_page_info($list);
-        return $this->pageView(__METHOD__,$list);
-    }
 
     public function get_group_list_by_powerid()
     {
@@ -3801,11 +3792,60 @@ class user_manage_new extends Controller
             $teacher_money_type,$level,$money_101,$money_106,$money_203,$money_301,$money_303
         );
 
-
     }
 
+    public function teacher_reward_rule_list(){
+        $reward_count_type = $this->get_in_int_val("reward_count_type",1);
+        $rule_type   = $this->get_in_int_val("rule_type",6);
+
+        $list = $this->t_teacher_reward_rule_list->get_teacher_reward_rule_list($reward_count_type,$rule_type);
+        foreach($list as &$val){
+            E\Ereward_count_type::set_item_value_str($val);
+            if($val['reward_count_type']==1){
+                E\Erule_type_1::set_item_value_str($val,"rule_type");
+            }elseif($val['reward_count_type']==2){
+                E\Erule_type_2::set_item_value_str($val,"rule_type");
+            }
+            $val['money']/=100;
+            $val['num']/=100;
+        }
 
 
+        $list = \App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$list);
+    }
+
+    public function add_reward_rule_type(){
+        $reward_count_type = $this->get_in_int_val("reward_count_type");
+        $rule_type         = $this->get_in_int_val("rule_type");
+        $num               = $this->get_in_int_val("num")*100;
+        $money             = $this->get_in_int_val("money")*100;
+        $type              = $this->get_in_str_val("type","add");
+
+        if($type=="add"){
+            $ret = $this->t_teacher_reward_rule_list->row_insert([
+                "reward_count_type" => $reward_count_type,
+                "rule_type"         => $rule_type,
+                "num"               => $num,
+                "money"             => $money,
+            ]);
+        }elseif($type=="update"){
+            $ret = $this->t_teacher_reward_rule_list->update_reward_rule($reward_count_type,$rule_type,$num,$money);
+        }
+        if(!$ret){
+            return $this->output_err("更新失败！");
+        }
+
+        $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+        $teacher_rule = [];
+        foreach($rule_list as $r_val){
+            $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
+        }
+        $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        Redis::set($key,json_encode($teacher_rule));
+
+        return $this->output_succ();
+    }
 
 
 }

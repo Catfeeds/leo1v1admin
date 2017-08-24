@@ -718,6 +718,7 @@ class human_resource extends Controller
 
     public function index()
     {
+        $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
         $teacher_money_type       = $this->get_in_int_val("teacher_money_type",-1);
@@ -781,7 +782,6 @@ class human_resource extends Controller
         $lstart       = $date_week["sdate"];
         $lend         = $date_week["edate"];
 
-        $this->t_teacher_info->switch_tongji_database();
         $ret_info = $this->t_teacher_info->get_teacher_detail_info_new(
             $page_num,$teacherid,$teacher_money_type,$need_test_lesson_flag,$textbook_type,
             $is_good_flag,$is_new_teacher,$gender,$grade_part_ex,$subject,
@@ -807,8 +807,10 @@ class human_resource extends Controller
             $subject = $item['subject_str'];
             @$arr_tea_list[$teacherid] .= $start."-".$end." ".$subject;
         }
+        $test_lesson_num_list = $this->t_lesson_info->get_teacher_lesson_num_list($tea_list,$lstart,$lend);
 
-        $label_list = $this->get_teacher_label($tea_list);
+
+        // $label_list = $this->get_teacher_label($tea_list);
 
         foreach($ret_info['list'] as  &$item){
             $revisit_info = $this->t_teacher_record_list->get_jw_revisit_info($item["teacherid"]);
@@ -868,6 +870,7 @@ class human_resource extends Controller
                 $item["freeze_adminid_str"]="";
             }
 
+            $item["week_lesson_num"]=@$test_lesson_num_list[$item["teacherid"]]["num"];
             if($item["limit_plan_lesson_type"]>0){
                 $item["week_left_num"]=$item["limit_plan_lesson_type"]-$item["week_lesson_num"];
             }else{
@@ -890,7 +893,7 @@ class human_resource extends Controller
                 }
             }
 
-            $item["label"] = @$label_list[$item["teacherid"]];
+            // $item["label"] = @$label_list[$item["teacherid"]];
             $not_grade_arr = explode(",",$item["not_grade"]);
             $not_grade_str = "";
             if(!empty($not_grade_arr)){
@@ -2368,7 +2371,7 @@ class human_resource extends Controller
             "acc"                              => $this->get_account(),
             "record_monitor_class"             => $record_monitor_class,
             "record_lesson_list"               => $record_lesson_list,
-            "lessonid"                         => $lessonid,
+            "train_lessonid"                   => $lessonid,
             "trial_train_status"               => $trial_train_status
         ]);
 

@@ -209,7 +209,7 @@ class teacher_simulate extends Controller
                 \App\Helper\Utils::check_isset_data($level_count["all"]['level_num'],$val['level_num']);
             }
             foreach($level_count as &$c_val){
-                $c_val['level_per'] = round($c_val['level_num']/$level_all,2);
+                $c_val['level_per'] = round($c_val['level_num']/$level_all,4);
             }
         }
 

@@ -115,10 +115,6 @@ interface RowData {
 	not_grade_limit	:any;
 	week_lesson_count	:any;
 	trial_lecture_is_pass	:any;
-	week_lesson_num	:any;
-	is_quit	:any;
-	part_remarks	:any;
-	left_num	:any;
 	idcard	:any;
 	bankcard	:any;
 	bank_address	:any;
@@ -127,6 +123,8 @@ interface RowData {
 	bank_type	:any;
 	bank_province	:any;
 	bank_city	:any;
+	is_quit	:any;
+	part_remarks	:any;
 	class_will_type	:any;
 	class_will_sub_type	:any;
 	revisit_add_time	:any;
@@ -167,8 +165,8 @@ interface RowData {
 	train_through_new_str	:any;
 	phone_ex	:any;
 	freeze_adminid_str	:any;
+	week_lesson_num	:any;
 	week_left_num	:any;
-	label	:any;
 	not_grade_str	:any;
 	interview_acc	:any;
 	textbook	:any;

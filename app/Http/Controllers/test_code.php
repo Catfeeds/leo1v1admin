@@ -1856,5 +1856,75 @@ class test_code extends Controller
         dd($a);
     }
 
+    public function add_rule_type(){
+
+        $rule_type = [
+            1=>[
+                0     => 0,
+                1500  => 3,
+                4500  => 6,
+                7500  => 13,
+                13500 => 16,
+                18000 => 19
+            ],2=>[
+                0     => 0,
+                15000 => 3,
+                22500 => 7
+            ],3=>[
+                0     => 0,
+                15000 => 4,
+                22500 => 6
+            ],4=>[
+                0     => 0,
+                1500  => 3,
+                4500  => 6,
+                10500 => 9,
+                16500 => 12,
+                22500 => 15,
+                28500 => 18,
+            ],5=>[
+                0     => 0,
+                1000  => 5,
+                6000  => 10,
+                12000 => 20,
+            ],6=>[
+                0     => 0,
+                1000  => 4,
+                4000  => 7,
+                10000 => 10,
+                16000 => 15,
+                24000 => 20,
+                33000 => 30,
+            ]
+        ];
+        $reward_count_type = 1;
+        foreach($rule_type as $key => $val){
+            foreach($val as $k => $v){
+                $check_flag = $this->t_teacher_reward_rule_list->check_reward_rule_is_exists($reward_count_type,$key,$k);
+                if(!$check_flag){
+                    $this->t_teacher_reward_rule_list->row_insert([
+                        "reward_count_type" => $reward_count_type,
+                        "rule_type"         => $key,
+                        "num"               => $k,
+                        "money"             => $v*100,
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function rule_list(){
+        $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
+
+        $teacher_rule=[];
+        foreach($rule_list as $r_val){
+            $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
+        }
+
+        $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$key,$teacher_rule);
+        $rule = \App\Config\teacher_rule::get_rule_type(E\Ereward_count_type::V_1);
+        \App\Helper\Utils::debug_to_html( $rule );
+    }
 
 }

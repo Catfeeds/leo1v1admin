@@ -15,11 +15,11 @@ class TTeacherRewardRuleList extends Migration
         //
         Schema::create('db_weiyi.t_teacher_reward_rule_list', function( Blueprint $table)
         {
+            $table->integer("id",true);
             t_field($table->integer("reward_count_type"),"累积奖金类型 1 课时奖励 2 推荐有奖 ");
             t_field($table->tinyInteger("rule_type"),"规则类型");
             t_field($table->integer("num"),"累计数量");
             t_field($table->integer("money"),"奖励金额");
-            $table->primary(["reward_count_type","rule_type"],"type_key");
         });
     }
 

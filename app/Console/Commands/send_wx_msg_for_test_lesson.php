@@ -54,20 +54,26 @@ class send_wx_msg_for_test_lesson extends Command
             $this->send_wx_msg($item,1);
         }
 
-        // 获取试听课 课前5分钟
-        $lesson_begin_five = time()+5*60;
-        $lesson_end_five   = time()+6*60;
+        // 试听课开始5分钟
+        $lesson_begin_five = time()-5*60;
+        $lesson_end_five   = time()-6*60;
 
         $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
         foreach($test_lesson_list_five as $item){
-            $this->send_wx_msg($item,2);
+            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+
+            if($opt_time_stu){
+
+            }
+
         }
 
-        //
 
-    }
 
+
+        }
 
 
     public function send_wx_msg($item, $type){
@@ -115,10 +121,15 @@ class send_wx_msg_for_test_lesson extends Command
             $remark_tea = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
             $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
             $remark_ass = "请及时跟进";
+
+            $first_tea = "老师您好，您于30分钟后有一节xx课。";
+            $first_par = "老师您好，您于30分钟后有一节xx课。";
+            $first_ass = "您好，您的学员xx同学于30分钟后有一节xx课。";
+
         }elseif($type == 2){
-            $remark_tea = "开课前十五分钟可提前进入课堂，请及时登录老师端，做好课前准备工作";
-            $remark_par = "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。";
-            $remark_ass = "请及时跟进";
+            $remark_tea = "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。";
+            $remark_par = "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。";
+            $remark_ass = "请立刻联系同学/老师。";
         }
 
         // 给老师发送
@@ -135,9 +146,7 @@ class send_wx_msg_for_test_lesson extends Command
 
         // 给家长发送
         $wx  = new \App\Helper\Wx();
-
         $subject_str = E\Esubject::get_desc($item['subject']);
-
         $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU';
         $data_par = [
             "first"    => "家长您好，".$item['stu_nicl']."同学于30分钟后有一节 $subject_str 课。",
