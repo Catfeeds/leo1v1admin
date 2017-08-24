@@ -279,7 +279,6 @@ class teacher_simulate extends Controller
         $start_date = date("Y-m-01",$time);
         $start_time = strtotime($start_date);
 
-
         $teacher_ref_rate_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_ref_rate_key,[],true);
         if($teacher_ref_rate_list===null || !isset($teacher_ref_rate_list[$teacher_ref_type][$start_date])){
             $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
@@ -287,7 +286,7 @@ class teacher_simulate extends Controller
             $teacher_ref_rate_list[$teacher_ref_type][$start_date] = $teacher_ref_rate;
             \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_ref_rate_key,$teacher_ref_rate_list);
         }else{
-            $teacher_ref_rate = $teacher_ref_rate_list[$start_date];
+            $teacher_ref_rate = $teacher_ref_rate_list[$teacher_ref_type][$start_date];
         }
 
         return $teacher_ref_rate;

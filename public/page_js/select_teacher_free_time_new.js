@@ -95,7 +95,7 @@
                                         teach_data.start = item.lesson_start * 1000;
                                         teach_data.end   = item.lesson_end * 1000;
                                         if(check_month()==1){
-                                            teach_data.title = item.title+;
+                                            teach_data.title = item.title;
                                         }else{
                                             teach_data.title = item.title+" "+"助教-"+item.nick;
                                         }
