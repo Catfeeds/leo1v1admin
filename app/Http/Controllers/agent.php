@@ -1251,7 +1251,7 @@ class agent extends Controller
     public function update_agent_order_new(){
         $orderid = 20801;
         $userid = 142906;
-        $price = 4900;
+        $price = 490000;
         $this->update_agent_order($orderid,$userid,$price);
     }
 
