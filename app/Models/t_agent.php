@@ -825,7 +825,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
                 $this->task->t_agent_order->row_insert([
                     'orderid'     => $orderid,
-                    'aid'         => $agent_info['id'],
+                    'aid'         => $id,
                     'pid'         => $pid,
                     'p_price'     => $p_price,
                     'ppid'        => $ppid,
