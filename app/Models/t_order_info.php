@@ -2201,7 +2201,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new(
             "select  promotion_spec_is_not_spec_flag, promotion_spec_diff_money , origin_assistantid,from_parent_order_type,t2.lesson_count_all,t1.userid,get_packge_time,order_stamp_flag,"
-            ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,tmk_adminid,t2.user_agent,"
+            ." f.flowid,f.flow_status,f.post_msg as flow_post_msg,l.teacherid,l.lesson_start,l.lesson_end,tmk_adminid,t2.user_agent,"
             ." t1.orderid,order_time,t1.stu_from_type, is_new_stu,contractid,"
             ." t1.from_key,t1.from_url,"
             ." contract_type,contract_status,invoice,is_invoice, "
