@@ -269,15 +269,16 @@ class ajax_deal extends Controller
         $orderid_new=$this->get_in_int_val('orderid_new');
         $pid=$this->get_in_int_val('pid');
         $p_price=$this->get_in_int_val('p_price');
+        $p_level=$this->get_in_int_val('p_level');
         $ppid = $this->get_in_int_val('ppid');
         $pp_price = $this->get_in_int_val('pp_price');
+        $pp_level=$this->get_in_int_val('pp_level');
         $this->t_agent_order->field_update_list($orderid,[
             "orderid" => $orderid,
-            // "aid" => $aid,
-            // "pid" => $pid,
-            // "ppid" => $ppid,
             "p_price" => $p_price*100,
+            "p_level" => $p_level,
             "pp_price" => $pp_price*100,
+            "pp_level" => $pp_level,
         ]);
 
         return $this->output_succ();

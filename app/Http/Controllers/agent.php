@@ -192,6 +192,8 @@ class agent extends Controller
             $item['p_price'] = $item['p_price']/100;
             $item['pp_price'] = $item['pp_price']/100;
             $item['price'] = $item['price']/100;
+            E\Ep_level::set_item_value_str($item);
+            E\Epp_level::set_item_value_str($item);
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
