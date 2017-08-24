@@ -200,25 +200,18 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
             }
         }
-
         return $data;
     }
 
 
-    public function send_wx_msg_tea($item, $type, $data_tea){
-        // 给老师发送
+    public function send_wx_msg_tea($item, $type, $data_tea){ // 给老师发送
         if($type == 1){
-            $template_id_parent = ''; // 上课提醒
+            $template_id_parent = 'gC7xoHWWX9lmbrJrgkUNcdoUfGER05XguI6dVRlwhUk'; // 上课提醒
         }else{
-            $template_id_parent = ''; // 待办主题
+            $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
-
-
-
-
         \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
     }
-
 
 
     public function send_wx_msg_admin($item, $type, $data_ass, $data_par){ // 向家长和助教发送
@@ -228,10 +221,8 @@ class send_wx_msg_for_test_lesson extends Command
         }else{
             $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
-
         // 给家长发送
         $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
-
         // 给助教发送
         $wx->send_template_msg($item['ass_openid'],$template_id_parent,$data_ass ,'');
     }
