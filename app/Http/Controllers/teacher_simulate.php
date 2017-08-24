@@ -36,12 +36,9 @@ class teacher_simulate extends Controller
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
         $already_lesson_count_list = [];
-        $teacher_ref_rate_list     = \App\Helper\Utils::redis(E\Eredis::V_GET,$this->teacher_ref_rate_key,[],true);
-        if($teacher_ref_rate_list===null){
-            $teacher_ref_rate_list =$this->set_teacher_ref_rate();
-        }
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
+            $teacher_ref_type_rate = 0;
             \App\Helper\Utils::check_isset_data($list[$teacherid],[],0);
             $tea_arr                   = $list[$teacherid];
             $tea_arr["teacherid"]      = $teacherid;
@@ -74,9 +71,6 @@ class teacher_simulate extends Controller
                 $already_lesson_count_simulate = $already_lesson_count_list[$key];
             }
 
-            if($val['teacher_money_type']==5){
-                $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start']);
-            }
 
             $check_type = \App\Helper\Utils::check_teacher_money_type($val['teacher_money_type'],$val['teacher_type']);
             if($check_type==2){
@@ -94,8 +88,15 @@ class teacher_simulate extends Controller
             $money            = $val['money']*$lesson_count+$reward;
             $money_simulate   = $val['money_simulate']*$lesson_count+$reward_simulate;
 
-            $lesson_price     = $val['lesson_price']/100;
+            if($val['teacher_money_type']==5){
+                $teacher_ref_rate = $this->get_teacher_ref_rate($val['lesson_start']);
+                if($teacher_ref_rate>0){
+                    $teacher_ref_money = $money*$teacher_ref_rate;
+                    $money+=$teacher_ref_money;
+                }
+            }
 
+            $lesson_price     = $val['lesson_price']/100;
             if(in_array($val['contract_type'],[0,3])){
                 $lesson_price_simulate = $this->get_lesson_price_simulate($val);
             }else{
@@ -274,16 +275,17 @@ class teacher_simulate extends Controller
         return $this->output_succ();
     }
 
-    public function get_teacher_ref_rate($time){
+    public function get_teacher_ref_rate($time,$teacher_ref_type){
         $start_date = date("Y-m-01",$time);
         $start_time = strtotime($start_date);
 
 
         $teacher_ref_rate_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_ref_rate_key,[],true);
-        if($teacher_ref_rate_list===null || !isset($teacher_ref_rate_list[$start_date])){
+        if($teacher_ref_rate_list===null || !isset($teacher_ref_rate_list[$teacher_ref_type][$start_date])){
             $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
             $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
-            $teacher_ref_rate_list[$start_date] = $teacher_ref_rate;
+            $teacher_ref_rate_list[$teacher_ref_type][$start_date] = $teacher_ref_rate;
+            \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_ref_rate_key,$teacher_ref_rate_list);
         }else{
             $teacher_ref_rate = $teacher_ref_rate_list[$start_date];
         }

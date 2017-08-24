@@ -2421,23 +2421,26 @@ class ss_deal extends Controller
                 }
 
 
-                $this->t_teacher_lecture_appointment_info->row_insert([
-                    "answer_begin_time"  =>$answer_begin_time, 
-                    "answer_end_time"    =>$answer_end_time,
-                    "name"               =>$name,
-                    "phone"              =>$phone,
-                    "email"              =>$email,
-                    "qq"                 =>$qq,
-                    "subject_ex"         =>$subject_ex,
-                    "grade_ex"           =>$grade_ex,
-                    "school"             =>$school,
-                    "teacher_type"       =>$teacher_type,
-                    "reference"          =>$reference,
-                    "lecture_revisit_type" =>$lecture_revisit_type,
-                    "accept_adminid"      =>$this->get_account_id(),
-                    "accept_time"         =>time(),
-                    "hand_flag"          =>1
-                ]);
+                $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
+                if(empty($id)){
+                    $this->t_teacher_lecture_appointment_info->row_insert([
+                        "answer_begin_time"  =>$answer_begin_time, 
+                        "answer_end_time"    =>$answer_end_time,
+                        "name"               =>$name,
+                        "phone"              =>$phone,
+                        "email"              =>$email,
+                        "qq"                 =>$qq,
+                        "subject_ex"         =>$subject_ex,
+                        "grade_ex"           =>$grade_ex,
+                        "school"             =>$school,
+                        "teacher_type"       =>$teacher_type,
+                        "reference"          =>$reference,
+                        "lecture_revisit_type" =>$lecture_revisit_type,
+                        "accept_adminid"      =>$this->get_account_id(),
+                        "accept_time"         =>time(),
+                        "hand_flag"          =>1
+                    ]);
+                }
             }
             return outputjson_success();
         } else {
