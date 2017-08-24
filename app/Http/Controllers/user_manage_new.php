@@ -3818,6 +3818,7 @@ class user_manage_new extends Controller
         $reward_count_type = $this->get_in_int_val("reward_count_type");
         $rule_type         = $this->get_in_int_val("rule_type");
         $num               = $this->get_in_int_val("num")*100;
+        $old_num           = $this->get_in_int_val("num")*100;
         $money             = $this->get_in_int_val("money")*100;
         $type              = $this->get_in_str_val("type","add");
 
@@ -3829,7 +3830,7 @@ class user_manage_new extends Controller
                 "money"             => $money,
             ]);
         }elseif($type=="update"){
-            $ret = $this->t_teacher_reward_rule_list->update_reward_rule($reward_count_type,$rule_type,$num,$money);
+            $ret = $this->t_teacher_reward_rule_list->update_reward_rule($reward_count_type,$rule_type,$num,$old_num,$money);
         }
         if(!$ret){
             return $this->output_err("更新失败！");

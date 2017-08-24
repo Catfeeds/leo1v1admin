@@ -105,8 +105,7 @@
                 <table     class="common-table"  >
                     <thead>
                         <tr>
-                            <td> </td>
-                            <td> 值</td>
+                            <td>提现信息 </td>
                         </tr>
                     </thead>
                     <tbody id="id_cash_list">

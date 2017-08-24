@@ -44,7 +44,14 @@ $(function(){
                         "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".interview_info").text(resp.data); 
+                        $tr.find(".first_lesson_num").text(resp.data.first_lesson_num); 
+                        $tr.find(".first_order_num").text(resp.data.first_order_num); 
+                        $tr.find(".first_per").text(resp.data.first_per);
+                        $tr.find(".second_lesson_num").text(resp.data.second_lesson_num); 
+                        $tr.find(".second_order_num").text(resp.data.second_order_num); 
+                        $tr.find(".second_per").text(resp.data.second_per); 
+
+                       
                         
                         do_index++;
                         do_one();

@@ -778,8 +778,8 @@ class ajax_deal2 extends Controller
         $first_start = strtotime(date("Y-m-d",$train_through_new_time))+86400;
         $first_end = $first_start+7*86400;
         $second_end = $first_start+14*86400;
-        $qz_tea_list = [];
-        $qz_tea_list[] = $teacherid;
+        $qz_tea_arr = [];
+        $qz_tea_arr[] = $teacherid;
         $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
         $second_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_end,$second_end);
         $data=[];
