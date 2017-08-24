@@ -94,6 +94,13 @@
                             <td id="id_f_count"> </td>
                         </tr>
 
+
+                        <tr>
+                            <td>
+                                星星个数
+                            </td>
+                            <td id="id_f_count"> </td>
+                        </tr>
                     </tbody>
 
                 </table>
