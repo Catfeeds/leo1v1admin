@@ -219,7 +219,8 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '13508376529';
+        // $phone = '13508376529';
+        $phone = '18621663326';
         $userid = $this->t_phone_to_user->get_userid($phone);
         $type = $this->t_student_info->field_get_value($userid,'type');
         dd($type);
