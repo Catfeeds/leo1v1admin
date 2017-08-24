@@ -492,11 +492,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_row($sql);
     }
 
-    public function get_son_test_lesson_count_by_id($id ){
+    public function get_son_test_lesson_count_by_id($id, $check_time=-1 ){
         $where_arr=[
             "a.parentid = $id or aa.parentid = $id",
             "a.test_lessonid <> 0",
             "l.lesson_user_online_status =1",
+            ["l.lesson_start < %u", $check_time , -1],
         ];
 
         $sql= $this->gen_sql_new(
@@ -667,9 +668,10 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_p_pp_id_by_phone($phone){
+    public function get_p_pp_id_by_phone($phone, $id=-1){
         $where_arr = [
-            ['a.phone = %s',$phone],
+            ['a.phone = "%s"',$phone],
+            ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
             " select a.id,a.phone,a.parentid pid,a1.phone p_phone,a1.parentid ppid,a2.phone pp_phone".
@@ -730,6 +732,111 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $where_arr
         );
         return $this->main_get_list($sql);
+    }
+    public function reset_user_info_test_lesson($id,$userid, $is_test_user, $create_time ) {
+        //重置试听信息
+        $lessonid = 0;
+        if($userid && $is_test_user == 0 ) {
+            $ret = $this->t_lesson_info_b2->get_succ_test_lesson($userid,$create_time);
+            if ($ret) {
+                $lessonid = $ret['lessonid'];
+            }
+        }
+        $this->field_update_list($id,[
+            "test_lessonid" => $lessonid
+        ]);
+    }
+
+    public function get_agent_level_by_check_time( $id , $check_time ){
+        $id           = $item['id'];
+        $phone        = $item['phone'];
+        $create_time  = $item['create_time'];
+        $userid       = $item['userid'];
+        $wx_openid    = $item['wx_openid'];
+        $student_info = $this->task->t_student_info->field_get_list($userid,"*");
+        $orderid = 0;
+        if($userid){
+            $order_info = $this->task->t_order_info->get_nomal_order_by_userid($userid,$check_time   );
+            if($order_info['orderid']){
+                $orderid = $order_info['orderid'];
+            }
+        }
+        $userid_new   = $student_info['userid'];
+        $type_new     = $student_info['type'];
+        $is_test_user = $student_info['is_test_user'];
+        $level        = 0;
+        if($userid
+           && $type_new ==  E\Estudent_type::V_0
+           && $is_test_user == 0
+           && $orderid){//在读非测试
+            $level     =  E\Eagent_level::V_2 ;
+        }elseif($wx_openid){//有wx绑定
+            $son_test_lesson = $this->get_son_test_lesson_count_by_id($id,$check_time);
+            $count       = count($son_test_lesson);
+            if($count>=2){
+                $level     =  E\Eagent_level::V_2 ;
+            }else{
+                $level     =  E\Eagent_level::V_1 ;
+            }
+        }else{//非绑定
+            $level =  E\Eagent_level::V_0;
+        }
+        return $level;
+    }
+
+
+    public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
+        //重置订单信息
+        $orderid = 0;
+        $this->task->t_agent_order->row_delete_by_aid($id);
+        if($userid && $is_test_user == 0 ){
+            $order_info = $this->task-> t_order_info->get_agent_order_info($userid );
+            if ($order_info) {
+                $agent_info = $this->get_p_pp_id_by_phone("", $id);
+                $check_time= $order_info["pay_time"];
+
+
+                $order_price= $order_info["price"];
+                $price           = $order_price/100;
+                $level1_price    = $price/20>500?500:$price/20;
+                $level2_p_price  = $price/10>1000?1000:$price/10;
+                $level2_pp_price = $price/20>500?500:$price/20;
+                $pid = $ret_info['pid'];
+                $ppid = $ret_info['ppid'];
+                $p_price = 0;
+                $pp_price = 0;
+                if($level1 == 1){//黄金
+                    $p_price = $level1_price*100;
+                }elseif($level1 == 2){//水晶
+                    $p_price = $level2_p_price*100;
+                }
+                if($level2 == 2){//水晶
+                    $pp_price = $level2_pp_price*100;
+                }
+                $this->t_agent_order->row_insert([
+                    'orderid'     => $orderid,
+                    'aid'         => $ret_info['id'],
+                    'pid'         => $pid,
+                    'p_price'     => $p_price,
+                    'ppid'        => $ppid,
+                    'pp_price'    => $pp_price,
+                    'create_time' => time(null),
+                ]);
+            }
+
+        }
+    }
+
+    public function reset_user_info($aid ) {
+        $agent_info = $this->field_get_list($aid,"*");
+        $userid  = $agent_info["userid"];
+
+        $student_info = $this->t_student_info->field_get_list($userid,"is_test_user,create_time ");
+        $is_test_user = $student_info['is_test_user'];
+        $create_time = $item['create_time'];
+        $this->reset_user_info_test_lesson($aid,$userid,$create_time,$is_test_user);
+        $this->reset_user_info_order_info($aid,$userid,$create_time,$is_test_user);
+
     }
 
 }
