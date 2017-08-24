@@ -2409,15 +2409,23 @@ class ss_deal extends Controller
                 $lecture_revisit_type = $item[11];
                 if (isset($grade_map[$grade])) {
                     $grade_ex = $grade_map[$grade] ;
+                }else{
+                    $grade_ex=0;
                 }
                 if (isset($subject_map[$subject])) {
                     $subject_ex = $subject_map[$subject] ;
+                }else{
+                    $subject_ex=0;
                 }
                 if (isset($identity_map[$teacher_type])) {
                     $teacher_type = $identity_map[$teacher_type] ;
+                }else{
+                    $teacher_type=0;
                 }
                 if (isset($type_arr[$lecture_revisit_type])) {
                     $lecture_revisit_type = $type_arr[$lecture_revisit_type] ;
+                }else{
+                    $lecture_revisit_type=0;
                 }
 
 

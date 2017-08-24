@@ -3810,7 +3810,6 @@ class user_manage_new extends Controller
             $val['num']/=100;
         }
 
-
         $list = \App\Helper\Utils::list_to_page_info($list);
         return $this->pageView(__METHOD__,$list);
     }

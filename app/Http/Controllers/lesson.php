@@ -64,7 +64,6 @@ class lesson extends TeaWxController
             $stu_performance_str = json_encode($stu_performance);
         }
 
-        \App\Helper\Utils::logger("stu_performance_str1:".$stu_performance_str);
 
         $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
 
@@ -322,7 +321,6 @@ class lesson extends TeaWxController
 
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
 
-        \App\Helper\Utils::logger("requireid1:$requireid,lessonid:$lessonid");
 
         if($requireid>0){
            $ret_info = $this->t_test_lesson_subject_require->set_info( $stu_lesson_content, $stu_lesson_status,
@@ -332,8 +330,6 @@ class lesson extends TeaWxController
             );
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
-
-            \App\Helper\Utils::logger("update1:$requireid,ret_state:$ret_state,ret_info:$ret_info");
 
             return $this->output_succ(['time'=>$ret_state]);
         }else{
@@ -395,6 +391,46 @@ class lesson extends TeaWxController
     public function lesson_require_obtain(){ //1023
 
     }
+
+
+
+    public function update_comment_pre_listen_new(){ 
+        $teacherid    = $this->get_teacherid();
+        $comment_date = time(NUll);
+        $lessonid     = $this->get_in_int_val('lessonid',0);
+
+        if ($lessonid == 0) {
+            return $this->output_err("lessonid not exist");
+        }
+
+        $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
+        $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
+        $stu_study_status     = $this->get_in_str_val("stu_study_status");
+        $stu_advantages       = $this->get_in_str_val("stu_advantages");
+        $stu_disadvantages    = $this->get_in_str_val("stu_disadvantages");
+        $stu_lesson_plan      = $this->get_in_str_val("stu_lesson_plan");
+        $stu_teaching_direction = $this->get_in_str_val("stu_teaching_direction");
+        $stu_advice           = $this->get_in_str_val("stu_advice");
+
+        $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+
+
+        if($requireid>0){
+           $ret_info = $this->t_test_lesson_subject_require->set_info( $stu_lesson_content, $stu_lesson_status,
+                                                            $stu_study_status,$stu_advantages,
+                                                            $stu_disadvantages,$stu_lesson_plan,
+                                                            $stu_teaching_direction,$stu_advice,$requireid
+            );
+
+            $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
+
+            return $this->output_succ(['time'=>$ret_state]);
+        }else{
+            return $this->output_err('requireid不存在');
+        }
+
+    }
+
 
 
 

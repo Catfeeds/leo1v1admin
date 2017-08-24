@@ -16,8 +16,9 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".course_plan").get_opt_data();
-                var phone = opt_data.phone;
-                if(phone>0){
+                var teacherid = opt_data.teacherid;
+                var train_through_new_time = opt_data.train_through_new_time;
+                if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -38,9 +39,9 @@ $(function(){
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/user_deal/get_teacher_interview_info",{
-                        "phone"           : phone,
-                        "teacherid"       : opt_data.teacherid
+                    $.do_ajax("/ajax_deal2/get_teacher_week_test_lesson_info",{
+                        "train_through_new_time"           : train_through_new_time,
+                        "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
                         $tr.find(".interview_info").text(resp.data); 

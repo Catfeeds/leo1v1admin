@@ -14,6 +14,7 @@
         </div>
         <hr/>
 
+        <div id=""> </div>
             <div class="col-xs-12 col-md-4">
                 <table     class="common-table"  >
                     <thead>
@@ -95,12 +96,20 @@
                         </tr>
 
 
+                    </tbody>
+
+                </table>
+
+               <hr/>
+               <div > 提现列表： 可提现  <span style="font-color:red;"  id="id_f_cash_2"> </span> </div>
+                <table     class="common-table"  >
+                    <thead>
                         <tr>
-                            <td>
-                                星星个数
-                            </td>
-                            <td id="id_f_count"> </td>
+                            <td> </td>
+                            <td> 值</td>
                         </tr>
+                    </thead>
+                    <tbody id="id_cash_list">
                     </tbody>
 
                 </table>

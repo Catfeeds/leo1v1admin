@@ -770,4 +770,26 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
+    //获取老师入职后第一周第二周试听课信息
+    public function get_teacher_week_test_lesson_info(){
+        $teacherid = $this->get_in_int_val("teacherid"); 
+        $train_through_new_time = $this->get_in_int_val("train_through_new_time"); 
+        $first_start = strtotime(date("Y-m-d",$train_through_new_time))+86400;
+        $first_end = $first_start+7*86400;
+        $second_end = $first_start+14*86400;
+        $qz_tea_list = [];
+        $qz_tea_list[] = $teacherid;
+        $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
+        $second_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_end,$second_end);
+        $data=[];
+        $data["first_lesson_num"] = isset($first_info[$teacherid]["all_lesson"])?$first_info[$teacherid]["all_lesson"]:0;
+        $data["first_order_num"] = isset($first_info[$teacherid]["order_num"])?$first_info[$teacherid]["order_num"]:0;
+        $data["second_lesson_num"] = isset($second_info[$teacherid]["all_lesson"])?$second_info[$teacherid]["all_lesson"]:0;
+        $data["second_order_num"] = isset($second_info[$teacherid]["order_num"])?$second_info[$teacherid]["order_num"]:0;
+        $data["first_per"] = !empty($data["first_lesson_num"])?round($data["first_order_num"]/$data["first_lesson_num"]*100,2):0;
+        $data["second_per"] = !empty($data["second_lesson_num"])?round($data["second_order_num"]/$data["second_lesson_num"]*100,2):0;
+        return $this->output_succ(["data"=>$data]); 
+    }
+
 }
