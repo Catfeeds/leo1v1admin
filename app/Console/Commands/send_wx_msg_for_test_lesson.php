@@ -78,7 +78,7 @@ class send_wx_msg_for_test_lesson extends Command
     }
 
 
-    public function get_data($item, $account_role,$type){
+    public function get_data($item, $account_role,$type, $tea_nick_cut_class, $stu_nick_cut_class){
         $subject_str = E\Esubject::get_desc($item['subject']);
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
@@ -158,15 +158,6 @@ class send_wx_msg_for_test_lesson extends Command
                     "remark"   => "请及时跟进"
                 ];
             }elseif($type == 2){ // 超时5分钟
-
-                /**
-                   {{first.DATA}}
-                   待办主题：{{keyword1.DATA}}
-                   待办内容：{{keyword2.DATA}}
-                   日期：{{keyword3.DATA}}
-                   {{remark.DATA}}
-
-                 **/
                 $data = [
                     "first"    => "您好，$subject_str 课程已开始5分钟，老师/同学还未进入课堂。 ",
                     "keyword1" => '课程提醒',
@@ -202,10 +193,10 @@ class send_wx_msg_for_test_lesson extends Command
             }elseif($type == 6){ // 课程结束
                 $data = [
                     "first"    => "您好，您的学员".$item['stu_nick']."同学 $subject_str 课程下课时间已到",
-                    "keyword1" => '旷课提醒',
-                    "keyword2" => "xx同学/xx老师未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                    "keyword1" => '课程结束通知',
+                    "keyword2" => "及时跟进",
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "请立刻联系同学/老师。"
+                    "remark"   => "请您及时跟进"
                 ];
             }
         }
@@ -224,6 +215,9 @@ class send_wx_msg_for_test_lesson extends Command
 
     public function send_wx_msg_admin($item, $type, $data_ass, $data_par){ // 向家长和助教发送
         $wx  = new \App\Helper\Wx();
+        if($type == 1){
+            
+        }
         $template_id_parent = 'cef14RT4mQIDTQ4L5_rQCIynDL36FEeAuX0-nAj8XWU'; // 上课提醒
 
         // 给家长发送
