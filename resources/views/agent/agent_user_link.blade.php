@@ -20,9 +20,13 @@
                     <td> 一级</td>
                     <td> 一级 试听 </td>
                     <td>  一级签单 </td>
+                    <td>  一级提成 </td>
+                    <td>  一级等级 </td>
                     <td> 二级 </td>
                     <td> 二级 试听 </td>
                     <td> 二级 签单</td>
+                    <td>  二级提成 </td>
+                    <td>  二级等级 </td>
 
                     <td> 操作  </td>
                 </tr>
@@ -33,9 +37,13 @@
                         <td>{{@$var["p1_name"]}}</td>
                         <td> {!! @$var["p1_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p1_price"] !!} </td>
+                        <td> {!! @$var["p1_p_agent_level_str"] !!} </td>
+                        <td> {!! @$var["p1_p_price"] !!} </td>
                         <td> {{@$var["p2_name"]}} </td>
                         <td> {!! @$var["p2_test_lesson_flag_str"] !!} </td>
                         <td> {!! @$var["p2_price"] !!} </td>
+                        <td> {!! @$var["p2_p_agent_level_str"] !!} </td>
+                        <td> {!! @$var["p2_p_price"] !!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
