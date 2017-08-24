@@ -71,7 +71,23 @@ class send_wx_msg_for_test_lesson extends Command
             if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
                 $this->send_wx_msg($item,2);
             }
+        }
 
+        // 试听课超时15分钟
+        $lesson_begin_fifteen = $now-15*60;
+        $lesson_end_fifteen   = $now-16*60;
+        $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_fifteen,$lesson_end_fifteen);
+        foreach($test_lesson_list_fifteen as $item){
+            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+
+            if($opt_time_stu>=$now){ // 判断学生是否超时 [5分钟]
+                $this->send_wx_msg($item,2);
+            }
+
+            if($opt_time_tea>=$now){ // 判断老师是否超时  [5分钟]
+                $this->send_wx_msg($item,2);
+            }
         }
 
 
@@ -210,7 +226,11 @@ class send_wx_msg_for_test_lesson extends Command
         }else{
             $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
-        \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
+
+       if($type !=4 || $type !=6 ){ 
+           \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
+       }
+
     }
 
 
