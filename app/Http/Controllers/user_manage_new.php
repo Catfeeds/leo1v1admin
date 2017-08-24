@@ -3835,8 +3835,15 @@ class user_manage_new extends Controller
         if(!$ret){
             return $this->output_err("更新失败！");
         }
+
         $rule_list = $this->t_teacher_reward_rule_list->get_reward_rule_list();
-        
+        $teacher_rule = [];
+        foreach($rule_list as $r_val){
+            $teacher_rule[$r_val['reward_count_type']][$r_val['rule_type']][$r_val['num']]=$r_val['money'];
+        }
+        $key = \App\Helper\Config::get_config("rule_type_key","redis_keys");
+        Redis::set($key,json_encode($teacher_rule));
+
         return $this->output_succ();
     }
 

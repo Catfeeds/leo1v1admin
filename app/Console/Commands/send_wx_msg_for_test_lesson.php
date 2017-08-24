@@ -61,15 +61,19 @@ class send_wx_msg_for_test_lesson extends Command
         $test_lesson_list_five  = $task->t_lesson_info_b2->get_test_lesson_info_for_time($lesson_begin_five,$lesson_end_five);
 
         foreach($test_lesson_list_five as $item){
-            // $this->send_wx_msg($item,2);
-            $lesson_list = $task->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$userid,$server_type,$teacherid,$stu_id,$lesson_start,$lesson_end );
+            $opt_time_tea = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['teacherid'],$item['lesson_start'],$item['lesson_end']);
+            $opt_time_stu = $task->t_lesson_opt_log->get_test_lesson_for_login($item['lessonid'],$item['userid'],$item['lesson_start'],$item['lesson_end']);
+
+            if($opt_time_stu){
+
+            }
 
         }
 
-        //
 
-    }
 
+
+        }
 
 
     public function send_wx_msg($item, $type){
