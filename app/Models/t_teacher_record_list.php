@@ -1057,7 +1057,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
     public function get_passed_interview_by_phone($teacherid,$subject,$grade){
         $sql = $this->gen_sql_new("select tr.record_info "
                                   ."from %s tr join %s l on tr.train_lessonid = l.lessonid"
-                                  ." where tr.type=10 and l.subject=%u and l.grade = %u",
+                                  ." where tr.type=10 and l.subject=%u and l.grade = %u and tr.trial_train_status=1",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $teacherid,
