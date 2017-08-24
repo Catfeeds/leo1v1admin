@@ -802,13 +802,18 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 $check_time= $order_info["pay_time"];
                 $pid = $agent_info['pid'];
                 $ppid = $agent_info['ppid'];
+                $p_level=0;
+                $pp_level=0;
                 if ($pid) {
+                    \App\Helper\Utils::logger("check  p_level pid=$pid");
                     $p_agent_info= $this->field_get_list($pid,"*");
                     $p_level=$this->get_agent_level_by_check_time($pid, $p_agent_info, $check_time );
                 }
+
                 if ($ppid) {
+                    \App\Helper\Utils::logger("check  pp_level ppid=$ppid");
                     $pp_agent_info= $this->field_get_list($ppid,"*");
-                $pp_level=$this->get_agent_level_by_check_time($ppid, $pp_agent_info, $check_time );
+                    $pp_level=$this->get_agent_level_by_check_time($ppid, $pp_agent_info, $check_time );
                 }
 
                 $order_price= $order_info["price"];
@@ -838,7 +843,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
                     'p_level'     =>$p_level,
-                    'pp_level'     =>$p_level,
+                    'pp_level'     =>$pp_level,
                     'create_time' => time(null),
                 ]);
             }
