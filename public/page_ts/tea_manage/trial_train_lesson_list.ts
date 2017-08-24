@@ -504,5 +504,25 @@ $(function(){
         window.open(url, '_blank');   
     });
 
+    $(".opt-get-interview-assess").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        $.do_ajax('/user_deal/get_interview_assess_by_subject_grade',{
+            "subject":opt_data.subject,
+            "grade":opt_data.grade,
+            "teacherid":opt_data.teacherid,
+        },function(resp) {
+            var id_assess = $("<textarea />");
+            var arr=[
+                ["面试评价",id_assess]
+            ];
+            id_assess.val(resp.data);
+            $.show_key_value_table("面试评价", arr,"");
+
+        });
+        
+    });
+
+    
+
 	$('.opt-change').set_input_change_event(load_data);
 });

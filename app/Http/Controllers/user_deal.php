@@ -5221,4 +5221,24 @@ class user_deal extends Controller
         $arr= json_decode($stu_comment,true);
         return $this->output_succ(["data"=>$arr]);
     }
+
+    public function get_interview_assess_by_subject_grade(){
+        $subject = $this->get_in_int_val("subject",1);
+        $grade = $this->get_in_int_val("grade",200);
+        $teacherid = $this->get_in_int_val("teacherid");
+        $phone = $this->t_teacher_info->get_phone($teacherid);
+        $info = $this->t_teacher_lecture_info->get_passed_interview_by_phone($phone,$subject,$grade);
+        $str = $this->t_teacher_record_list->get_passed_interview_by_phone($teacherid,$subject,$grade);
+        
+        if(empty($info)){
+            $data = $str;
+        }elseif(empty($str)){
+            $data = $info;
+        }else{
+            $data = $info.";".$str; 
+        }
+        return $this->output_succ(["data"=>$data]);
+
+    }
+
 }
