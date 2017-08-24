@@ -27,6 +27,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   self::DB_TABLE_NAME, $uid);
         return $this->main_get_value($sql);
     }
+    public function get_phone_by_uid($uid) {
+        $sql = $this->gen_sql_new("select phone from %s where uid='%s'",
+                                  self::DB_TABLE_NAME, $uid);
+        return $this->main_get_value($sql);
+    }
+    
     public function get_info_by_tquin($tquin, $field_str="*") {
         $sql=$this->gen_sql_new("select  $field_str from %s where tquin=%u ", self::DB_TABLE_NAME,$tquin );
         return $this->main_get_row($sql);
