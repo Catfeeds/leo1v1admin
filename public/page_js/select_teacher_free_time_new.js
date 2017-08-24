@@ -94,7 +94,7 @@
                                         var teach_data   = new Object();
                                         teach_data.start = item.lesson_start * 1000;
                                         teach_data.end   = item.lesson_end * 1000;
-                                        teach_data.title = item.title;
+                                        teach_data.title = item.title+" "+"助教"+item.nick;
                                         teach_data.color = '#FC4848';
 
                                         teach_data.use_flag = true;
