@@ -219,10 +219,11 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '13508376529';
+        // $phone = '13508376529';
+        $phone = '15601830221';
         // $phone = '';
         $userid = $this->t_phone_to_user->get_userid($phone);
-        $type = $this->t_student_info->field_get_list($userid,'type');
+        $type = $this->t_student_info->field_get_list($userid,'type,userid');
         dd($type);
         // foreach([] as $item){
         //     $this->t_agent->row_delete($id);
