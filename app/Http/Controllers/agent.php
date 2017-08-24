@@ -221,6 +221,12 @@ class agent extends Controller
 
     public function check(){
         $ret_info = $this->t_agent->get_agent_info_two();
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $userid =$item['userid'];
+            $this->t_seller_student_new->del_user($userid);
+            $this->t_agent->row_delete($id);
+        }
         dd($ret_info);
         // foreach([] as $item){
         //     $this->t_agent->row_delete($id);
