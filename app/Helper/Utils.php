@@ -819,7 +819,8 @@ class Utils  {
         $rule_type = \App\Config\teacher_rule::reward_count_type_list(E\Ereward_count_type::V_1);
         $reward    = 0;
         if(isset($rule_type[$type])){
-            foreach($rule_type[$type] as $key=>$val){
+            foreach($rule_type[$type] as $key=>&$val){
+                $val/=100;
                 if($already_lesson_count>=$key){
                     $reward = $val;
                 }elseif($already_lesson_count<$key){
