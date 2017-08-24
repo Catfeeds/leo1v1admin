@@ -676,7 +676,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_p_pp_id_by_phone($phone, $id=-1){
         $where_arr = [
-            ['a.phone = "%s"',$phone],
+            ['a.phone = "%s"',$phone,""],
             ['a.id= %d',$id,-1],
         ];
         $sql = $this->gen_sql_new(
