@@ -61,7 +61,7 @@
   
 
 
-    <section class="content " id="id_content" style="max-width:1200px;">
+    <section class="content " id="id_content" style="max-width:1400px;">
         <div>
             <div class="row">
                 <div class="col-xs-12 col-md-5">

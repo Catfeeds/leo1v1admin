@@ -1244,7 +1244,8 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
                 "/user_manage_new/ass_contract_list?studentid=$userid");
         }
 
-        $seller_adminid = $this->task->t_seller_student_new->get_admin_revisiterid($userid);
+        // $seller_adminid = $this->task->t_seller_student_new->get_admin_revisiterid($userid);
+        $seller_adminid = $this->task->t_manager_info->get_id_by_account($account);
         $origin_assistantid = $this->get_assistantid($user_info["origin_userid"]);
         $adminid = $this->t_assistant_info->get_adminid_by_assistand($origin_assistantid);
 

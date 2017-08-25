@@ -2915,7 +2915,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -3130,5 +3129,70 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_list_as_page($sql);
 
     }
+
+    public function get_test_lesson_info_for_teacher_day($teacherid){
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 2",
+            "l.del_flag = 0"
+        ];
+
+        $sql = $this->gen_sql_new(" select t.train_through_new_time, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+
+    public function get_common_lesson_info_for_teacher_day($teacherid){
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 0",
+            "l.del_flag = 0",
+            "l.lesson_start>0"
+        ];
+
+        $sql = $this->gen_sql_new(" select min(l.lesson_start) as common_lesson_time, min(l.lessonid) as common_lessonid  from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s "
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+
+    public function get_common_lesson_num_for_teacher_day($teacherid){ // 获取常规课的数量
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 0",
+            "l.del_flag = 0",
+        ];
+
+        $sql = $this->gen_sql_new(" select count(*)  from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s "
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
+
 
 }

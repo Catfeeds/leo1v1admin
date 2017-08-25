@@ -209,7 +209,7 @@
                         <td>邀约状态</td>
                         <td>二面状态</td>
                     @endif
-                    <td style="width:220px">客户端版本</td>
+                    <td style="width:220px;display:none" >客户端版本</td>
                     <td >操作</td>
                 </tr>
             </thead>
