@@ -68,7 +68,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr = [];
         $this->where_arr_add_int_or_idlist($where_arr,"a.type",1);
         $this->where_arr_add_time_range($where_arr,"a.create_time",1503504000,1503565200);
-        $this->where_arr_add_int_or_idlist($where_arr,"s.type",1);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.type",0);
 
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
@@ -628,7 +628,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
-    public function get_id_by_userid($userid) {
+    public function get_id_by_userid($sql) {
         $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
         return $this->main_get_value($sql);
@@ -742,7 +742,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list($sql);
     }
-    public  function get_link_list_by_ppid($ppid) {
+    public  function get_link_list_py_ppid($ppid) {
+
         $where_arr = [
             ['a2.id= %d',$ppid ],
         ];
@@ -760,7 +761,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.test_lessonid  test_lessonid ,"
 
 
-            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid "
             . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
 
             ." from %s a2 ".
@@ -784,11 +785,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
 
         $list=$this->main_get_list($sql);
-        return $list;
-
-    }
-    public  function get_link_map_list_by_ppid($ppid) {
-        $list=$this-> get_link_list_by_ppid( $ppid);
         $map=[];
         foreach ($list as $item) {
             $pid=$item["pid"];

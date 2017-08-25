@@ -201,9 +201,9 @@ class menu{
                 ]],
                 ["power_id"=>11, "name"=>"模拟工资", "list"=>[
                     ["power_id"=>1, "name"=>"模拟工资-总体","url"=>"/teacher_simulate/teacher_simulate_money_total_list"],
-                    ["power_id"=>1, "name"=>"模拟工资-明细","url"=>"/teacher_simulate/new_teacher_money_list"],
-                    ["power_id"=>2, "name"=>"奖励规则","url"=>"/user_manage_new/teacher_reward_rule_list"],
-                    ["power_id"=>3, "name"=>"工资配置","url"=>"/user_manage_new/teacher_money_type_list"],
+                    ["power_id"=>2, "name"=>"模拟工资-明细","url"=>"/teacher_simulate/new_teacher_money_list"],
+                    ["power_id"=>3, "name"=>"奖励规则","url"=>"/user_manage_new/teacher_reward_rule_list"],
+                    ["power_id"=>4, "name"=>"工资配置","url"=>"/user_manage_new/teacher_money_type_list_simulate"],
                 ]],
                 ["power_id"=>4, "name"=>"助教档案",   "url"=>"/human_resource/assistant_info2"],
                 ["power_id"=>5, "name"=>"助教档案-new",   "url"=>"/human_resource/assistant_info_new"],
@@ -371,6 +371,7 @@ class menu{
                 ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
                 ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
                 ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
+                ["power_id"=>43, "name"=>"Bug管理",   "url"=>"/bug_info/bug_list"],
 
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[

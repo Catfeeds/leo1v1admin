@@ -16,7 +16,6 @@ class TRequirementInfo extends Migration
         Schema::dropIfExists('db_weiyi.t_requirement_info');
         Schema::create('db_weiyi.t_requirement_info', function (Blueprint $table){
             t_field($table->integer("id",true),"需求id");
-            t_field($table->string("title"),"需求名称");
             t_field($table->integer("name"),"产品名称");
             t_field($table->integer("create_adminid"),"提交人");
             t_field($table->string("create_phone"),"提交人联系方式");
@@ -24,8 +23,8 @@ class TRequirementInfo extends Migration
             t_field($table->integer("expect_time"),"期待交付时间");
             t_field($table->integer("priority"),"优先级");
             t_field($table->integer("significance"),"目前影响");
-            t_field($table->string("notes"),"备注");
-            t_field($table->string("statement"),"需求说明");
+            t_field($table->string("notes",5000),"备注");
+            t_field($table->string("statement",5000),"需求说明");
             t_field($table->string("content_pic"),"内容截图");
 
 
@@ -34,21 +33,21 @@ class TRequirementInfo extends Migration
             t_field($table->string("product_phone"),"产品部门处理人联系方式");
             t_field($table->integer("product_add_time"),"产品处理开始时间");
             t_field($table->integer("product_submit_time"),"产品提交方案时间");
-            t_field($table->string("product_reject"),"产品驳回原因");
+            t_field($table->string("product_reject",5000),"产品驳回原因");
             t_field($table->integer("product_reject_time"),"产品驳回时间");
 
             t_field($table->integer("development_operator"),"研发部门处理人");
             t_field($table->string("development_phone"),"研发部门处理人联系方式");
             t_field($table->integer("development_add_time"),"研发处理开始时间");
             t_field($table->integer("development_submit_time"),"研发处理完成时间");
-            t_field($table->string("development_reject"),"研发驳回原因");
+            t_field($table->string("development_reject",5000),"研发驳回原因");
             t_field($table->integer("development_reject_time"),"研发驳回时间");
 
             t_field($table->integer("test_operator"),"测试部门处理人");
             t_field($table->string("test_phone"),"测试部门处理人联系方式");
             t_field($table->integer("test_add_time"),"测试处理开始时间");
             t_field($table->integer("test_submit_time"),"测试处理完成时间");
-            t_field($table->string("test_reject"),"测试驳回原因");
+            t_field($table->string("test_reject",5000),"测试驳回原因");
             t_field($table->integer("test_reject_time"),"测试驳回时间");
             
             t_field($table->integer("product_status"),"处理状态");

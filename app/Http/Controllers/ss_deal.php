@@ -3006,7 +3006,7 @@ class ss_deal extends Controller
             $test_info = $this->t_lesson_info->field_get_list($lessonid,"lesson_start,subject,userid,teacherid");
             $old_teacher_arr = $this->t_lesson_info_b2->get_old_teacher_nick($test_info['lesson_start'],$test_info['subject'],$test_info['userid']);
             if($test_info["teacherid"] != $old_teacher_arr["teacherid"]){
-                $this->delete_teacher_regular_lesson($userid,0,1,$old_teacher_arr["teacherid"]);
+                $this->delete_teacher_regular_lesson($test_info['userid'],0,1,$old_teacher_arr["teacherid"]);
             }
 
         }
