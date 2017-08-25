@@ -457,9 +457,9 @@ class fulltime_teacher extends Controller
         foreach($ret_info["list"] as &$item){
             $item["lesson_start_str"]=date("Y-m-d H:i",$item["lesson_start"]); 
         }
+       dd($ret_info);
         return $this->pageView(__METHOD__ ,$ret_info);
 
-        // dd($ret_info);
 
         
 

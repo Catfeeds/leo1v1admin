@@ -628,7 +628,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
-    public function get_id_by_userid($sql) {
+    public function get_id_by_userid($userid) {
         $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
         return $this->main_get_value($sql);
@@ -859,7 +859,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         ]);
     }
 
-    public function get_agent_level_by_check_time(  $id,$agent_info , $check_time ){
+    public function get_agent_level_by_check_time($id,$agent_info,$check_time ){
         $phone        = $agent_info['phone'];
         $create_time  = $agent_info['create_time'];
         $userid       = $agent_info['userid'];
@@ -867,7 +867,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $student_info = $this->task->t_student_info->field_get_list($userid,"*");
         $orderid = 0;
         if($userid){
-            $order_info = $this->task->t_order_info->get_nomal_order_by_userid($userid,$check_time   );
+            $order_info = $this->task->t_order_info->get_nomal_order_by_userid($userid,$check_time);
             if($order_info['orderid']){
                 $orderid = $order_info['orderid'];
             }
