@@ -671,7 +671,7 @@ return array(
     'TPicManageInfoAddJumpType' => $baseDir . '/database/migrations/2017_08_03_154857_t_pic_manage_info_add_jump_type.php',
     'TRefundAnalysisAddAddTime' => $baseDir . '/database/migrations/2017_07_11_160950_t_refund_analysis_add_add_time.php',
     'TRefundAnalysisAddAnalysis' => $baseDir . '/database/migrations/2017_04_01_113337_t_refund_analysis_add_analysis.php',
-    'TRequirementInfo' => $baseDir . '/database/migrations/2017_08_25_105401_t_requirement_info.php',
+    'TRequirementInfo' => $baseDir . '/database/migrations/2017_08_25_122510_t_requirement_info.php',
     'TResearchTeacherRerwardListAddFirstReward' => $baseDir . '/database/migrations/2017_05_03_103156_t_research_teacher_rerward_list_add_first_reward.php',
     'TRevisitInfoAddInformationConfirm' => $baseDir . '/database/migrations/2017_08_01_160018_t_revisit_info_add_information_confirm.php',
     'TRevisitInfoAddOperationSatisfyFlag' => $baseDir . '/database/migrations/2017_04_12_155105_t_revisit_info_add_operation_satisfy_flag.php',

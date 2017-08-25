@@ -163,6 +163,7 @@ class teaching_menu{
                     [ "name"=>"全职老师上班考勤",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info_full"],
                     [ "name"=>"全职老师上课考勤","url"=>"/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy"],
                     [ "name"=>"全职老师培训","url"=>"/tea_manage/train_lesson_list_fulltime"],
+                    ["name"=>"培训课程视频","url"=>"/fulltime_teacher/get_fulltime_teacher_train_lesson_list"],
 
 
                     [ "name"=>"全职老师课程管理",   "url"=>"/tea_manage/lesson_list_fulltime"],

@@ -366,6 +366,7 @@ class tea_manage_new extends Controller
     public function get_seller_require_commend_teacher_info(){
         $id= $this->get_in_int_val("id",-1);
         $account_id = $this->get_account_id(); 
+        // $account_id=793;
         $accept_adminid_list = $this->get_accept_adminid_list($account_id);
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num    = $this->get_in_page_num();

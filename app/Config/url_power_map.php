@@ -540,6 +540,7 @@ class url_power_map {
 			'/user_manage_new/get_fulltime_teacher_attendance_info_full'	=>1340100,
 			'/tongji_ss/tongji_change_lesson_by_full_time_teacher_jy'	=>1341200,
 			'/tea_manage/train_lesson_list_fulltime'	=>1341300,
+			'/fulltime_teacher/get_fulltime_teacher_train_lesson_list'	=>1341700,
 			'/tea_manage/lesson_list_fulltime'	=>1340600,
 			'/fulltime_teacher/full_assessment_list'	=>1340700,
 			'/fulltime_teacher/fulltime_teacher_assessment_positive_info'	=>1340800,

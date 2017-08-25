@@ -628,10 +628,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 9ac935e7bd0d6f33f4cde4896d33f74b49355a23
     public function get_id_by_userid($userid) {
         $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
@@ -1014,7 +1011,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
-            "status" => $agent_student_status,
+            "agent_student_status" => $agent_student_status,
         ]);
 
         if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,

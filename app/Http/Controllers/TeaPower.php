@@ -548,14 +548,12 @@ trait  TeaPower {
             $account_id=349;
         }
         $adminid_list =$this->t_admin_main_group_name->get_adminid_list_by_master_adminid(-1,4);
-        if(in_array($account_id,["72","349","448","99","486"])){
+        if(in_array($account_id,["72","448","99","486","349"])){
             $accept_adminid_list=[];
         }else if(in_array($account_id,$master_adminid)){
            $accept_adminid_list = $this->t_admin_main_group_name->get_adminid_list_by_master_adminid($account_id,4);
-        }else if(in_array($account_id,$adminid_list)){
-            $accept_adminid_list=[$account_id];
         }else{
-            $accept_adminid_list=[1];
+            $accept_adminid_list=[$account_id];
         }
         return $accept_adminid_list;
     }
@@ -2561,7 +2559,7 @@ trait  TeaPower {
         if($grade<200){
             $grade = 101;
         }
-        
+
         $price_config = \App\OrderPrice\order_price_20170701::$grade_price_config;
 
         $last_per_price = 0;
