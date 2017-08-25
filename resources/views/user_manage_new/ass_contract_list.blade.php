@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_new2')
 @section('content')
     <section class="content">
         <div class="row  row-query-list" >

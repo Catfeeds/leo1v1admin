@@ -43,8 +43,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ."s.origin,s.type student_stu_type,s.is_test_user,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
-                                 ."o.price, "
-                                 ."oo.orderid n_orderid,oo.contract_type,oo.contract_status,oo.order_status,oo.pay_time "
+                                 ."o.price "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
@@ -52,15 +51,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
-                                 ." left join %s oo on oo.userid = a.userid "
-                                 ." where %s group by a.id "
+                                 ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,t_agent_order::DB_TABLE_NAME
-                                 ,t_order_info::DB_TABLE_NAME
                                  ,t_order_info::DB_TABLE_NAME
                                  ,$where_arr
         );
@@ -1010,11 +1007,15 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         }
 
+        $level_count_info= $this-> get_level_count_info($id);
+
         //重置当前等级
         $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
             "agent_student_status" => $agent_student_status,
+            "l1_child_count" => $level_count_info["l1_child_count"],
+            "l2_child_count" => $level_count_info["l2_child_count"],
         ]);
 
         if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -1023,6 +1024,24 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             ]);
         }
     }
+
+
+    public function get_level_count_info($id ) {
+        $sql = $this->gen_sql_new(
+            "select count(*) as l1_child_count , sum(child_count) l2_child_count "
+            . " from (select  a1.id  agent_id, sum(a2.id>0 )  child_count "
+            . " from %s a1"
+            . " left join  %s a2 on( a1.id=a2.parentid and a2.type in (1,3)  )  "
+            ." where  a1.parentid=%u  group  by a1.id ) t ",
+            self::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            $id
+        );
+        return $this->main_get_row($sql);
+    }
+
+
+
 
     public function get_level_list($id ) {
         $sql = $this->gen_sql_new(
@@ -1036,5 +1055,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         );
         return $this->main_get_list($sql);
     }
+
+
 
 }

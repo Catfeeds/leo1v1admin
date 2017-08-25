@@ -90,6 +90,10 @@ interface RowData {
 	master_nick	:any;
 	master_assign_time	:any;
 	pdf_url	:any;
+	pre_from_orderno	:any;
+	from_orderno	:any;
+	pre_pay_time	:any;
+	pre_price	:any;
 	order_time_1_day_flag	:any;
 	check_money_time_1_day_flag	:any;
 	order_time_1_day_flag_str	:any;
@@ -106,6 +110,7 @@ interface RowData {
 	check_money_admin_nick	:any;
 	order_promotion_type_str	:any;
 	flow_status_str	:any;
+	pre_status	:any;
 }
 
 /*

@@ -28,6 +28,9 @@ interface RowData {
 	bank_type	:any;
 	zfb_name	:any;
 	zfb_account	:any;
+	agent_check_money_flag	:any;
+	check_money_admin_nick	:any;
+	agent_check_money_flag_str	:any;
 }
 
 /*

@@ -307,15 +307,28 @@ class teacher_simulate extends Controller
         $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
 
         $all_money = [];
-        foreach($money_month as $m_val){
-            \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money'],0);
-            \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate'],0);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price'],0);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate'],0);
-            \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total'],0);
+        if(!empty($money_month)){
+            foreach($money_month as $m_val){
+                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money']);
+                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total']);
+            }
         }
 
-        return $this->view(__METHOD__,[],[
+        if(!empty($teacher_money_type_month)){
+            foreach($teacher_money_type_month as $month_key=>&$month_val){
+                foreach($month_val as $t_key => &$t_val){
+                    foreach($t_val as $l_key=>&$l_val){
+                        $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
+                        $l_val['level_str']              = E\Elevel::get_desc($l_key);
+                    }
+                }
+            }
+        }
+
+        return $this->view(__METHOD__,[
             "account"                  => $account,
             "level_list"               => $level_list,
             "money_month"              => $money_month,
@@ -330,6 +343,8 @@ class teacher_simulate extends Controller
 
         $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
         dispatch($job);
+
+        $this->get_level_simulate_list();
     }
 
 

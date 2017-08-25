@@ -95,84 +95,65 @@ class testbb extends Controller
 
 
     public function test_img(){
-        // $img = $this->get_in_str_val('img');
-
-        $img = [
-            // 0=>'123.jpg'
-            0=>'l_t_pdf_193451_5.png',
-            1=>'l_t_pdf_220858_15.png'
+        $a = [
+            "a"=>1,
+            "b"=>2
         ];
-        $ret = $this->img_to_pdf($img);
+
+        $b = [
+            "c"=>3,
+            "d"=>4
+        ];
+
+        $ret = array_merge($a,$b);
+
+        dd($ret);
     }
 
-    public function img_to_pdf($filesnames){
-        ini_set("memory_limit",'-1');
-
-        header("Content-type:text/html;charset=utf-8");
-
-        $hostdir = public_path('wximg');
-
-        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-
-        foreach ($filesnames as $name) {
-            if(strstr($name,'jpg') || (strstr($name,'png') )){//如果是图片则添加到pdf中
-                // Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
-                $pdf->AddPage();//添加一个页面
-                $filename = $hostdir.'/'.$name;//拼接文件路径
-
-                //gd库操作  读取图片
-                if(strstr($name,'jpg')){
-                    $source = imagecreatefromjpeg($filename);
-                }elseif(strstr($name,'png')){
-                    $source = imagecreatefrompng($filename);
-                }
-                //gd库操作  旋转90度
-                $rotate = imagerotate($source, 0, 0);
-                //gd库操作  生成旋转后的文件放入别的目录中
-                $tmp_name = time().'_'.rand().'png';
-
-               if(strstr($name,'jpg')){
-                   imagejpeg($rotate,$hostdir."/$tmp_name.jpg");
-               }elseif(strstr($name,'png')){
-                   imagepng($rotate,$hostdir."/$tmp_name.png");
-               }
-
-                //tcpdf操作  添加图片到pdf中
-               if(strstr($name,'jpg')){
-                   $pdf->Image($hostdir."/$tmp_name.jpg", 15, 26, 210, 297, 'JPG', '', 'center', true, 1000);
-               }elseif(strstr($name,'png')){
-                   $pdf->Image($hostdir."/$tmp_name.png", 15, 26, 210, 297, 'PNG', '', 'center', true, 1000);
-               }
-
-            }
-        }
-
-        $pdf_name_tmp =$hostdir.'/'.time().'_'.rand().'.pdf';
-        $pdf_info = $pdf->Output("$pdf_name_tmp", 'FD');
-
-        $pdf_url = \App\Helper\Utils::qiniu_upload($pdf_name_tmp);
-
-        return $pdf_url;
-
-
-    }
 
 
 
     public function sd(){
 
+
+
+        $this->switch_tongji_database();
+
+        $ret_info = [];
+        // $teacherid = $this->get_teacherid();
         $teacherid = $this->get_in_int_val('t');
+
+        $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
+
+        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
+        $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
+
+        $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
+        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
+
+        $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
+
+        $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
+
+
+        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
+
+
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        $ret_info['money'] = $money;
+
+        dd($ret_info);
+
+
+
         // $ret = $this->t_teacher_info->get_teacher_info_for_teacher_day($teacherid);
         $ret1 = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
         dd($ret1);

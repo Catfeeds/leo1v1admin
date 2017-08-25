@@ -21,8 +21,10 @@
                     <td>银行卡类型 </td>
                     <td>支付宝姓名 </td>
                     <td>支付宝账户 </td>
-                    <td>财务审核 </td>
-                    <td>提现状态 </td>
+                    <td>财务审核状态 </td>
+                    <td>财务审核人 </td>
+                    <td>财务通过时间 </td>
+                    <td>财务审批说明 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -45,16 +47,10 @@
                         <td>{{@$var["bank_type"]}} </td>
                         <td>{{@$var["zfb_name"]}} </td>
                         <td>{{@$var["zfb_account"]}} </td>
-                        @if($var['check_money_flag'] == 1)
-                            <td>通过</td>
-                        @else
-                            <td>未通过</td>
-                        @endif
-                        @if($var['is_suc_flag'] == 1)
-                            <td>成功</td>
-                        @else
-                            <td>失败</td>
-                        @endif
+                        <td>{{@$var["agent_check_money_flag_str"]}} </td>
+                        <td>{{@$var["check_money_admin_nick"]}} </td>
+                        <td>{{@$var["check_money_time"]}} </td>
+                        <td>{{@$var["check_money_desc"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div

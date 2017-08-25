@@ -15,7 +15,7 @@ $(function(){
 		            label    : "确认",
 		            cssClass : "btn-warning",
 		            action   : function(dialog) {
-                    $.do_ajax("/teacher_simulate/teacher_simulate_money_total_list",{
+                    $.do_ajax("/teacher_simulate/get_month_money_list",{
                     },function(result){
                         if(result.ret==0){
                             window.location.reload();
