@@ -818,8 +818,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_info_to_teacher($teacherid){
         $sql = $this->gen_sql("select teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
                               ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,"
-                              ."subject,phone,realname,work_year,textbook_type,dialect_notes,"
-                              ." gender,birth,address,face,grade_part_ex,bankcard,"
+                              ." subject,phone,realname,work_year,textbook_type,dialect_notes,"
+                              ." gender,birth,address,face,grade_part_ex,bankcard,bank_province,bank_city,"
+                              ." bank_type,bank_phone,bank_account,bank_address,idcard,"
                               ." train_through_new,trial_lecture_is_pass,wx_use_flag"
                               ." from %s "
                               ." where teacherid=%u"

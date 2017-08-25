@@ -32,6 +32,13 @@ interface RowData {
 	face	:any;
 	grade_part_ex	:any;
 	bankcard	:any;
+	bank_province	:any;
+	bank_city	:any;
+	bank_type	:any;
+	bank_phone	:any;
+	bank_account	:any;
+	bank_address	:any;
+	idcard	:any;
 	train_through_new	:any;
 	trial_lecture_is_pass	:any;
 	wx_use_flag	:any;
