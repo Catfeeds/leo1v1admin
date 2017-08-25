@@ -454,7 +454,12 @@ class fulltime_teacher extends Controller
         $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         $teacherid = @$teacher_info["teacherid"];
         $ret_info = $this->t_lesson_info_b2->get_fulltime_teacher_train_lesson_list($page_info,$start_time,$end_time,$teacherid);
-        dd($ret_info);
+        foreach($ret_info["list"] as &$item){
+            $item["lesson_start_str"]=date("Y-m-d H:i",$item["lesson_start"]); 
+        }
+        return $this->pageView(__METHOD__ ,$ret_info);
+
+        // dd($ret_info);
 
         
 
