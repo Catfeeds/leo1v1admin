@@ -301,19 +301,28 @@ class teacher_simulate extends Controller
     }
 
     public function teacher_simulate_money_total_list(){
-        $level_list  = krsort(
-            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true));
-        $money_month = krsort(
-            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true));
-        $already_lesson_count = krsort(
-            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true));
-        $teacher_money_type_month = krsort(
-            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true));
+        $account = $this->get_account();
+        $level_list  = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
+        $money_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        $already_lesson_count = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
 
-        
+        $all_money = [];
+        foreach($money_month as $m_val){
+            \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money'],0);
+            \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total'],0);
+        }
 
         return $this->view(__METHOD__,[],[
-
+            "account"                  => $account,
+            "level_list"               => $level_list,
+            "money_month"              => $money_month,
+            "already_lesson_count"     => $already_lesson_count,
+            "teacher_money_type_month" => $teacher_money_type_month,
+            "all_money"                => $all_money,
         ]);
     }
 

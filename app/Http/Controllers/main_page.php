@@ -892,10 +892,7 @@ class main_page extends Controller
 
 
     public function assistant_new() {
-		$this->t_lesson_info->switch_tongji_database();
-		$this->t_month_ass_student_info->switch_tongji_database();
-		$this->t_test_lesson_subject->switch_tongji_database();
-
+        $this->switch_tongji_database();
 		list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 		$opt_date_type = $this->get_in_int_val("opt_date_type",3);
 		//dd($opt_date_type);
@@ -1007,10 +1004,7 @@ class main_page extends Controller
     }
 
     public function assistant_leader_new() {
-		$this->t_lesson_info->switch_tongji_database();
-		$this->t_month_ass_student_info->switch_tongji_database();
-		$this->t_test_lesson_subject->switch_tongji_database();
-
+        $this->switch_tongji_database();
 		list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
 		$opt_date_type = $this->get_in_int_val("opt_date_type",3);
@@ -1174,10 +1168,8 @@ class main_page extends Controller
     }
 
     public function assistant_main_leader_new() {
-		$this->t_lesson_info->switch_tongji_database();
-		$this->t_month_ass_student_info->switch_tongji_database();
-		$this->t_test_lesson_subject->switch_tongji_database();
-
+	
+        $this->switch_tongji_database();
 		list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
 		$opt_date_type = $this->get_in_int_val("opt_date_type",3);
