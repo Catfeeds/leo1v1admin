@@ -3202,7 +3202,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_student_num_for_teacher_day($teacherid){ // 获取学生数量
 
         $where_arr = [
-            // ["t.teacherid=%d",$teacherid,-1],
             "l.lesson_type = 0",
             "l.del_flag = 0",
             "l.confirm_flag<>2",
