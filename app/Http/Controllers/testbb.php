@@ -115,6 +115,7 @@ class testbb extends Controller
 
     public function sd(){
 
+        $this->switch_tongji_database();
         $teacherid = $this->get_in_int_val('t');
 
 
