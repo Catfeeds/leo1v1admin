@@ -587,7 +587,7 @@
         <tr>
             <td rowspan="4">成果(55分)</td>
             <td>试用期转化率绩效:{{$account_info["order_per"]}}分</td>
-            <td>20</td>
+            <td>25</td>
             <td id="order_per_score">{{$account_info["order_per_score"]}}</td>
             <td rowspan="4" id="result_score">
                 @if(!empty($ret_info))
@@ -642,7 +642,7 @@
         </tr>
         <tr>
             <td>试用期内月平均课时消耗:{{$account_info["lesson_count_avg"]}}课时</td>
-            <td>25</td>
+            <td>20</td>
             <td id="lesson_count_avg_score">{{$account_info["lesson_count_avg_score"]}}</td>
 
         </tr>

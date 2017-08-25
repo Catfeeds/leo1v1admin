@@ -1985,12 +1985,10 @@ class test_code extends Controller
     //simulate test start
     public function simulate_test()
     {
-        // $this->redis_del_simulate_data();
         $start_time = strtotime("2017-1-1");
         $end_time   = strtotime("2017-8-1");
 
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list($start_time,$end_time);
-        \App\Helper\Utils::debug_to_html( $tea_list );
 
         /**
          * 每个老师上个月的累积课时
@@ -2145,6 +2143,15 @@ class test_code extends Controller
             $lesson_price_simulate=0;
         }
         return round($lesson_price_simulate,2);
+    }
+
+    public function check_redis_data(){
+        $already_lesson_count = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        $money_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
+
+        dd($money_month);
+
     }
     //simulate test end
 

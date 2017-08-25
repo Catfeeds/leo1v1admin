@@ -2325,6 +2325,11 @@ class tea_manage extends Controller
         if($identity<=0 && $flag <2){
             return $this->output_err("请选择老师身份！");
         }
+
+        //更新试讲预约老师类型
+        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);        
+        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
+
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
         $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
         if($flag==1){
@@ -2668,10 +2673,14 @@ class tea_manage extends Controller
         $teacher_language_performance_score = $this->get_in_int_val("teacher_language_performance_score");
         $sshd_good                          = $this->get_in_str_val("sshd_good");
 
-        if($identity<=0){
+        if($identity<=0 && $flag <2){
             return $this->output_err("请选择老师身份！");
         }
 
+        //更新试讲预约老师类型
+        $appointment_id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);        
+        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
+        
         $teacher_detail_score = array(
                 'lecture_content_design_score'   =>   $lecture_content_design_score,
                 'lecture_combined_score'         =>   $lecture_combined_score,

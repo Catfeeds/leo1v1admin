@@ -118,7 +118,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         }elseif($interview_type==1){
             $where_arr[] = "l.status is not null ";
         }elseif($interview_type==2){
-            $where_arr[] = "(ta.lesson_start is null or ta.lesson_start=0)";
+            $where_arr[] = "ta.lesson_start>0";
         }
 
         if($status==0){
