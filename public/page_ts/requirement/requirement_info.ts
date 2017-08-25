@@ -98,7 +98,7 @@ $(function(){
             ["目前影响", significance],
             ["期望时间", expect_time],
             ["需求说明", statement],
-            ["内容截图", $upload_div],
+            ["需求附件", $upload_div],
             ["备注",    notes],
         ];
         $.show_key_value_table("添加开发需求", arr, {
@@ -169,7 +169,7 @@ $(function(){
             ["目前影响", significance],
             ["期望时间", expect_time],
             ["需求说明", statement],
-            ["内容截图", $upload_div],
+            ["需求附件", $upload_div],
             ["备注",    notes],
         ];
         $.show_key_value_table("重新提交开发需求", arr, {
@@ -240,7 +240,7 @@ $(function(){
             ["目前影响", significance],
             ["期望时间", expect_time],
             ["需求说明", statement],
-            ["内容截图", $upload_div],
+            ["需求附件", $upload_div],
             ["备注",    notes],
         ];
         $.show_key_value_table("重新提交开发需求", arr, {
