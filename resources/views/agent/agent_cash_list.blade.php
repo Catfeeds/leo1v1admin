@@ -17,6 +17,10 @@
                     <td>手机 </td>
                     <td>提现金额 </td>
                     <td>提现类型 </td>
+                    <td>银行卡号 </td>
+                    <td>银行卡类型 </td>
+                    <td>支付宝姓名 </td>
+                    <td>支付宝账户 </td>
                     <td>财务审核 </td>
                     <td>提现状态 </td>
                     <td>创建时间 </td>
@@ -37,6 +41,10 @@
                         @else
                             <td></td>
                         @endif
+                        <td>{{@$var["bankcard"]}} </td>
+                        <td>{{@$var["bank_type"]}} </td>
+                        <td>{{@$var["zfb_name"]}} </td>
+                        <td>{{@$var["zfb_account"]}} </td>
                         @if($var['check_money_flag'] == 1)
                             <td>通过</td>
                         @else
