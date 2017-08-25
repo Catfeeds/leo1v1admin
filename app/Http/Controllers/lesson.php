@@ -13,7 +13,6 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common() { // 协议编号 1003
-
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid');
         $now                = time(NULL);
@@ -67,6 +66,7 @@ class lesson extends TeaWxController
 
         $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
 
+        $comment_date = time();
         $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$comment_date);
 
         if($com_state){

@@ -2401,8 +2401,6 @@ class tea_manage extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
-                    $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
 
                 }else{
                     $data['first']="老师您好，很抱歉您没有通过面试审核。";
@@ -2413,6 +2411,11 @@ class tea_manage extends Controller
                 }
             }
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+        }
+
+        if($full_time==1 && $flag==1){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
         }
 
         $record_id = $this->t_teacher_record_list->check_have_record($teacherid,10,$lessonid);
@@ -2763,6 +2766,7 @@ class tea_manage extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+                    
                 }else{
                     $data['first']="老师您好，很抱歉您没有通过面试审核。";
                     $data['keyword1']="初试结果";
@@ -2774,6 +2778,10 @@ class tea_manage extends Controller
             \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
         }
 
+        if($full_time==1 && $flag==1){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+        }
         $record_id = $this->t_teacher_record_list->check_have_record($teacherid,10,$lessonid);
         if($record_id){
             $ret = $this->t_teacher_record_list->field_update_list($record_id,[

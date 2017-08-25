@@ -129,10 +129,9 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
                 $month_list[$month_key][$teacher_money_type][$level]['lesson_total'],$lesson_total);
         }
 
-        
         if(is_array($month_list) && empty($month_list)){
             foreach($month_list as $m_val){
-
+                
             }
         }
 
