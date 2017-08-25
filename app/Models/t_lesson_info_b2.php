@@ -3416,7 +3416,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.lessonid,l.lesson_start,t.realname,l.lesson_name from %s l "
+        $sql = $this->gen_sql_new("select distinct l.lessonid,l.lesson_start,t.realname,l.lesson_name from %s l "
                                   ." left join %s ta on l.lessonid = ta.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
                                   ." where %s and (l.teacherid = %u or ta.userid = %u) order by lesson_start desc",

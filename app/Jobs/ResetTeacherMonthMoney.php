@@ -158,4 +158,35 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
 
         return $teacher_ref_rate;
     }
+
+    public function get_lesson_price_simulate($info){
+        $lesson_total  = $info['lesson_total']*$info['default_lesson_count']/100;
+        if($lesson_total>0){
+            $has_promotion = 1;
+            if($info['price'] < $info['discount_price']){
+                $has_promotion = 2;
+            }
+            switch($info['grade']){
+            case 100:
+                $info['grade']=101;break;
+            case 200:
+                $info['grade']=201;break;
+            case 300:
+                $info['grade']=301;break;
+            default:
+                $info['grade']=$info['grade'];break;
+            }
+            $args=[
+                "from_test_lesson_id"=>0
+            ];
+            $price_arr_simulate = \App\OrderPrice\order_price_base::get_price_ex_cur(
+                $info['competition_flag'],$has_promotion,$info['contract_type'],$info['grade'],$lesson_total,0,$args
+            );
+            $per_price_simulate = $price_arr_simulate['discount_price']/$lesson_total;
+            $lesson_price_simulate=$info['lesson_count']*$per_price_simulate/100;
+        }else{
+            $lesson_price_simulate=0;
+        }
+        return round($lesson_price_simulate,2);
+    }
 }

@@ -15,7 +15,7 @@ class TTestLessonSubjectRequireAddStuTotalJudgement extends Migration
         //
         Schema::table('db_weiyi.t_test_lesson_subject_require', function( Blueprint $table)
         {
-            // t_field($table->integer("homework_pdf"),"试听课上传作业");
+            t_field($table->integer("stu_total_judgement"),"老师对学生的星级评价");
         });
 
 
