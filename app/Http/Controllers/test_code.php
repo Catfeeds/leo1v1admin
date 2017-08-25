@@ -1931,4 +1931,43 @@ class test_code extends Controller
         \App\Helper\Utils::debug_to_html( $rule );
     }
 
+    public function set_teacher_type_list(){
+        $arr=[
+            "王芳",
+            "潘艳亭",
+            "黄莹",
+            "展慧东",
+            "梁立玉",
+            "黄灼文",
+            "彭标",
+            "夏劲松",
+            "李红涛",
+            "唐灵莉",
+            "张敏",
+            "许琼文",
+            "赖国芬",
+            "徐格格",
+            "许千千",
+            "王海",
+            "张科",
+            "苏珮云",
+            "马欣",
+            "孙军",
+            "朱敏敏",
+        ];
+
+        foreach($arr as $val){
+            $teacher_info = $this->t_teacher_info->get_teacher_info_by_realname($nick);
+            if(!empty($teacher_info) && $teacher_info['teacherid']>0 && $teacher_info['teacher_type']!=3){
+                $this->t_teacher_info->field_update_list($teacher_info['teacherid'],[
+                    "teacher_type" => 4,
+                ]);
+                echo $teacher_info['teacherid']."|".$teacher_info['realname'];
+                echo "<br>";
+            }
+        }
+
+    }
+
+
 }

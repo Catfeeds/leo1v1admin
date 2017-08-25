@@ -546,7 +546,7 @@ class agent extends Controller
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
 
-        $list=$this->t_agent->get_link_list_py_ppid($id );
+        $list=$this->t_agent->get_link_map_list_by_ppid($id );
 
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
