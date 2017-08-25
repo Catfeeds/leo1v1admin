@@ -59,7 +59,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." real_begin_time,real_end_time,teacher_re_submit_num,"
                                   ." b.account,b.status,b.reason,b.add_time,b.identity,b.identity_image,b.resume_url,"
                                   ." if(audio_build='',audio,audio_build) as audio,b.is_test_flag,"
-                                  ." t.nick as reference_name,t.teacherid,la.answer_begin_time,"
+                                  ." t.nick as reference_name,t.teacherid,la.answer_begin_time,la.grade_ex,"
                                   ." tt.subject t_subject,tt.teacherid as t_teacherid,tt.create_time as t_create_time,"
                                   ." la.textbook,b.confirm_time,la.grade_start,la.grade_end,la.not_grade,la.trans_grade,"
                                   ." la.trans_grade_start,la.trans_grade_end,ttt.wx_openid,tt.user_agent,"

@@ -81,10 +81,12 @@ class user_manage_new extends Controller
         $page_num=$this->get_in_page_num();
 
         $ret_list=$this->t_lesson_info->get_confirm_lesson_list_user($page_num,$start_time,$end_time,$assistantid);
+        $lesson_money_list = $this->t_lesson_info_b2->get_stu_lesson_money_info($start_time,$end_time);
         foreach($ret_list['list'] as &$item ){
             $this->cache_set_item_student_nick($item);
             $this->cache_set_item_assistant_nick($item);
             $item["grade"]          = E\Ebook_grade::get_desc($item["grade"]);
+            $item["lesson_price"] = @$lesson_money_list[$item["userid"]]["price"];
         }
         return $this->Pageview(__METHOD__,$ret_list );
     }
