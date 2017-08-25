@@ -3208,13 +3208,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new("  select count(*) as student_num from %s s"
-                                  ." join %s l on s.userid = l.userid"
-                                  ." join %s t on l.teacherid=t.teacherid "
+        $sql = $this->gen_sql_new("  select count(distinct(l.userid)) as student_num from %s l"
                                   ." where %s "
-                                  ,t_student_info::DB_TABLE_NAME
                                   ,t_lesson_info::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
 
