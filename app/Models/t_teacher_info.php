@@ -3151,7 +3151,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-    public function get_common_lesson_info_for_teacher_day($teacherid){
+    public function get_common_lesson_info_for_teacher_day($teacherid){ // 获取常规课数量 | 首次上课时间 | 学生姓名 |
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
@@ -3192,7 +3192,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 

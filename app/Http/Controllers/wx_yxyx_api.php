@@ -160,6 +160,7 @@ class wx_yxyx_api extends Controller
     }
 
 
+    //不用了
     public function get_my_num(){
         $agent_id   = $this->get_agent_id();
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
@@ -219,55 +220,6 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["list" =>$ret_list]);
     }
 
-    public function get_user_cash_bak(){
-        $agent_id = $this->get_agent_id();
-        $type = $this->get_in_int_val('type');
-        $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
-        if(isset($agent_info['phone'])){
-            $phone = $agent_info['phone'];
-        }else{
-            return $this->output_err("请先绑定优学优享账号!");
-        }
-        if(!preg_match("/^1\d{10}$/",$phone)){
-            return $this->output_err("请输入规范的手机号!");
-        }
-
-
-        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $cash         = 0;
-        if($student_info){
-            $ret = $this->get_pp_pay_cash($phone);
-            $cash = $ret['cash'];
-        }else{
-            $agent_lsit = [];
-            $agent_item = [];
-            $agent_list = $this->t_agent->get_agent_list_by_phone($phone);
-            foreach($agent_list as $item){
-                if($phone == $item['phone']){
-                    $agent_item = $item;
-                }
-            }
-            if($agent_item){
-                $test_lesson = [];
-                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
-                $count       = count(array_unique(array_column($test_lesson,'id')));
-                if(2<=$count){
-                    $ret = $this->get_pp_pay_cash($phone);
-                    $cash      = $ret['cash'];
-                }else{
-                    $ret = $this->get_p_pay_cash($phone);
-                    $cash      = $ret['cash'];
-                }
-            }else{
-                return $this->output_err("您暂无资格!");
-            }
-        }
-        $ret_list      = $ret['list'];
-        if($type==1){
-            return $this->output_succ(["list" =>$ret_list]);
-        }
-        return $this->output_succ(["cash"=>$cash,"list" =>$ret_list]);
-    }
     public function get_user_cash(){
         $agent_id = $this->get_agent_id();
         $type = $this->get_in_int_val('type');
