@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 	check_value	:any;
 	all_count	:any;
 	tq_called_count	:any;
@@ -15,12 +14,13 @@
 	tq_call_fail_invalid_count	:any;
 	tq_call_succ_invalid_count	:any;
 	tq_call_succ_valid_count	:any;
-	title	:any;
 	test_lesson_count	:any;
 	succ_test_lesson_count	:any;
 	require_count	:any;
-=======
->>>>>>> 63fc947d936466cf2da72ca1e6c8d70a415b470f
+	order_count	:any;
+	user_count	:any;
+	order_all_money	:any;
+	title	:any;
 	key1	:any;
 	key2	:any;
 	key3	:any;
