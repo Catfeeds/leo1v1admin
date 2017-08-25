@@ -116,26 +116,15 @@
                         <td>{{@$var["create_admin_nick"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["expect_time"]}} </td>
-                        @if($var["statement"])
-                            <td class="content_show" data-content="{{@$var['statement']}}">
-                                {{@$var["statement"]}}
-                            </td>
-                        @else
-                            <td></td>
-                        @endif
+                        <td>{{@$var["statement"]}}</td>
                         @if ($var['content_pic'] == '')
                             <td></td>
                         @else
                            <td><a href="{{$var['content_pic']}}" target="_blank">下载</td>
                         @endif       
 
-                        @if($var["notes"])
-                            <td class="content_show" data-content="{{@$var['notes']}}">
-                                {{@$var["notes"]}}
-                            </td>
-                        @else
-                            <td></td>
-                        @endif
+                       
+                        <td> {{@$var["notes"]}} </td>
                         <td>{{@$var['create_phone']}}</td>
                         <td>{{@$var['status_str']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)
