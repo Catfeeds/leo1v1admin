@@ -120,8 +120,8 @@
                                                     <td>{{$l_val['money_simulate']}}</td>
                                                     <td>{{$l_val['lesson_price_simulate']}}</td>
                                                 @endif
-                                                <td>{{round($l_val['money']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)}}</td>
-                                                <td>{{round($l_val['money_simulate']/($l_val['lesson_price_simulate']==0?1:$l_val['lesson_price_simulate']),4)}}</td>
+                                                <td>{{round($l_val['money']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)*100}}%</td>
+                                                <td>{{round($l_val['money_simulate']/($l_val['lesson_price_simulate']==0?1:$l_val['lesson_price_simulate']),4)*100}}%</td>
                                             </tr>
                                         @endforeach
                                     @endforeach

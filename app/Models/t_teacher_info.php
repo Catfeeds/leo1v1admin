@@ -3203,10 +3203,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 0",
+            "l.del_flag = 0",
+            "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new(" select count(*) as student_num from %s s"
-                                  ." left join %s t on s.teacherid=t.teacherid "
+        $sql = $this->gen_sql_new("  select count(*) as student_num from %s s"
+                                  ." join %s l on s.userid = l.userid"
+                                  ." join %s t on l.teacherid=t.teacherid "
                                   ." where %s "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
