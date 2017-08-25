@@ -230,7 +230,7 @@ class wx_yxyx_api extends Controller
         $type = $this->get_in_int_val('type');
         $agent_info = $this->t_agent->field_get_list($agent_id,"*");
 
-        $list=$this->t_agent->get_link_list_py_ppid($agent_id);
+        $list=$this->t_agent-> get_link_list_by_ppid($agent_id);
 
         $ret_list=[];
         /*
@@ -258,25 +258,26 @@ class wx_yxyx_api extends Controller
             $pay_time=$item["o_from_pay_time"];
 
             $p_userid=$item["p_userid"];
-            $p_price=$item["o_p_price"];
+            $p_price=$item["o_p_price"]/100;
             $p_pay_price=$item["o_p_from_price"]/100; //订单定额
             $p_orderid=$item["o_p_from_orderid"];
             $p_pay_time=$item["o_p_from_pay_time"];
             $item=[];
 
             if ($p_price) { //第一级有金额
-                $item["userid"]=$userid;
-                $item["price"]=$price;
-                $item["pay_price"]=$pay_price;
-                $item["orderid"]=$orderid;
-                $item["pay_time"]=$pay_time;
-                $ret_list[]= $item;
-            }else if ($price)  { //第一级有金额
                 $item["userid"]=$p_userid;
                 $item["price"]=$p_price;
                 $item["pay_price"]=$p_pay_price;
                 $item["orderid"]=$p_orderid;
                 $item["pay_time"]=$p_pay_time;
+
+                $ret_list[]= $item;
+            }else if ($price)  { //第一级有金额
+                $item["userid"]=$userid;
+                $item["price"]=$price;
+                $item["pay_price"]=$pay_price;
+                $item["orderid"]=$orderid;
+                $item["pay_time"]=$pay_time;
                 $ret_list[]= $item;
             }
         }
@@ -285,9 +286,10 @@ class wx_yxyx_api extends Controller
         foreach ( $ret_list as &$item ) {
             $item["level1_cash"] = $item["price"]*0.2;
             $item["level2_cash"] = $item["price"]*0.8;
-            $lesson_list= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
-            $item["count"] = count($lesson_list);
+            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
+            $item["count"] = $lesson_info["count"] ;
             $item["parent_name"] = $this->t_student_info->get_parent_name($item["userid"]);
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
         }
 
         return $this->output_succ([

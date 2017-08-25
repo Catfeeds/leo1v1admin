@@ -15,6 +15,7 @@ class teacher_simulate extends Controller
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
     var $teacher_ref_rate_key     = "teacher_ref_rate";
+    var $month_money_key          = "month_money";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -35,6 +36,7 @@ class teacher_simulate extends Controller
         $all_money_simulate        = 0;
         $all_lesson_price_simulate = 0;
         $already_lesson_count_list = [];
+        $lesson_total = 0;
         foreach($tea_list as $val){
             $teacherid = $val['teacherid'];
             $teacher_ref_type_rate = 0;
@@ -114,8 +116,9 @@ class teacher_simulate extends Controller
             $all_lesson_price          += $lesson_price;
             $all_money_simulate        += $money_simulate;
             $all_lesson_price_simulate += $lesson_price_simulate;
-
             $list[$teacherid] = $tea_arr;
+
+            $lesson_total += $lesson_count;
         }
 
         foreach($list as &$l_val){
@@ -137,6 +140,7 @@ class teacher_simulate extends Controller
             "all_lesson_price_simulate"  => round($all_lesson_price_simulate,2),
             "all_money_different"        => round($all_money_different,2),
             "all_lesson_price_different" => round($all_lesson_price_different,2),
+            "lesson_total"               => $lesson_total,
             "level_list"                 => $level_list,
             "acc"                        => $acc,
             "start_time"                 => $start_time,
@@ -292,6 +296,14 @@ class teacher_simulate extends Controller
         }
 
         return $teacher_ref_rate;
+    }
+
+    public function teacher_simulate_money_total_list(){
+        $level_list      = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
+        $all_money       = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->all_money_count_key,[],true);
+        $month_money_key = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->month_money_key,[],true);
+
+        return $this->view(__METHOD__,[]);
     }
 
 }

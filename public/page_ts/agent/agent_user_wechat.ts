@@ -66,7 +66,7 @@ $(function(){
 
    $.ajax({
         type : "get",
-        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash?_agent_id="+g_args.id ,
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash_2?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
             //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}

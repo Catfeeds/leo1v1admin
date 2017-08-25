@@ -1863,7 +1863,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ["realname='%s'",$nick,""]
         ];
         $sql = $this->gen_sql_new("select teacherid,realname,level,wx_openid,teacher_money_type,wx_openid,phone,"
-                                  ." bankcard,level_simulate"
+                                  ." bankcard,level_simulate,teacher_type"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
