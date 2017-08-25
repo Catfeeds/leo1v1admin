@@ -43,8 +43,9 @@ $(function(){
 
     $(".opt-money-check").on("click",function(){
         var opt_data = $(this).get_opt_data();
-        var $check_money_flag = $("<select><option value='0'>请选择</option><option value='1'>通过</option><option value='0'>未通过</option></select>");
+        var $check_money_flag = $("<select/>");
         var $check_money_desc = $("<textarea rows='' cols=''>");
+        Enum_map.append_option_list("agent_check_money_flag",$check_money_flag ,true );
         $check_money_flag.val(opt_data.check_money_flag);
         $check_money_desc.val(opt_data.check_money_desc);
         var arr=[
