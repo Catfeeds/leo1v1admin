@@ -3,6 +3,7 @@ namespace App\Config;
 class url_power_map {
 	static  public  function get_config()  {
 		return [
+			'/supervisor/monitor_m'	=>1402200,
 			'/supervisor/monitor'	=>1012200,
 			'/user_manage/all_users'	=>1010100,
 			'/user_manage/index'	=>1010200,

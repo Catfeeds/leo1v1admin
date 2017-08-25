@@ -3,6 +3,14 @@ namespace App\Config;
 class menu{
    static  public  function get_config()  {
         return [
+
+            ["power_id"=>40, "name"=>"核心数据",  "list"=> [
+                ["power_id"=>1, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
+            ]],
+
+
+
+
             ["power_id"=>1, "name"=>"服务管理",  "list"=> [
                 ["power_id"=>22, "name"=>"课堂状态", "icon"=>"fa-dashboard", "url"=>"/supervisor/monitor"],
                 ["power_id"=>1, "name"=>"所有用户",   "url"=>"/user_manage/all_users" ],
@@ -669,7 +677,7 @@ class menu{
             ["power_id"=>25, "name"=>"角色-招师",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
-                ["power_id"=>12, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
+                // ["power_id"=>12, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                 ["power_id"=>13, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
 
                 ["power_id"=>4, "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],
