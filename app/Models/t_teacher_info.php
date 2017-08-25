@@ -3160,7 +3160,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>0"
         ];
 
-        $sql = $this->gen_sql_new(" select l.lessonid, l.lesson_start, s.nick   from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as stu_nick  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s s on s.userid=l.userid"
                                   ." where %s order by l.lessonid asc"
@@ -3184,7 +3184,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.del_flag = 0",
         ];
 
-        $sql = $this->gen_sql_new(" select count(*)  from %s l"
+        $sql = $this->gen_sql_new(" select count(*) as common_lesson_num from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." where %s "
                                   ,t_lesson_info::DB_TABLE_NAME

@@ -349,9 +349,10 @@ class wx_teacher_api extends Controller
 
         $this->switch_tongji_database();
 
+        $ret_info = [];
         $teacherid = $this->get_teacherid();
 
-        $teacher_info = $this->t_teacher_info->get_teacher_info_for_teacher_day($teacherid);
+        $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
 
 
