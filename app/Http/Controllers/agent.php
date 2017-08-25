@@ -1132,44 +1132,14 @@ class agent extends Controller
     }
 
     public function update_agent_level(){
-        $id=1634;
-        $agent_info = $this->t_agent->field_get_list($id,'*');
-        $level1 = $this->t_agent->get_agent_level_by_check_time($id,$agent_info,time());
-
-        $id          = $agent_info['id'];
-        $phone       = $agent_info['phone'];
-        $userid      = $agent_info['userid'];
-        $wx_openid   = $agent_info['wx_openid'];
-        $create_time = $agent_info['create_time'];
-        $student_info = $this->t_student_info->field_get_list($userid,"*");
-        $orderid = 0;
-        if($userid){
-            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
-            if($order_info['orderid']){
-                $orderid = $order_info['orderid'];
-            }
-        }
-        $userid_new   = $student_info['userid'];
-        $type_new     = $student_info['type'];
-        $is_test_user = $student_info['is_test_user'];
-        $level        = 0;
-        if($userid
-           && $type_new ==  E\Estudent_type::V_0
-           && $is_test_user == 0
-           && $orderid){//在读非测试
-            $level     =  E\Eagent_level::V_2 ;
-        }elseif($wx_openid){//有wx绑定
-            $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
-            $count       = count($test_lesson);
-            if($count>=2){
-                $level     =  E\Eagent_level::V_2 ;
-            }else{
-                $level     =  E\Eagent_level::V_1 ;
-            }
-        }else{//非绑定
-            $level =  E\Eagent_level::V_0;
-        }
-        dd($level1,$level);
+        $id = 1634;
+        $agent_info = $this->field_get_list($id,"*");
+        $agent_level=$this->t_agent->get_agent_level_by_check_time($id,$agent_info,time(NULL));
+        $this->field_update_list($id,[
+            "agent_level" => $agent_level,
+            "agent_student_status" => $agent_student_status,
+        ]);
+        dd('a');
 
         $ret_info = $this->t_agent->get_agent_list();
         foreach($ret_info as $item){
