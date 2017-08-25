@@ -1985,10 +1985,11 @@ class test_code extends Controller
     public function simulate_test()
     {
         // $this->redis_del_simulate_data();
+        $start_time = strtotime("2017-1-1");
+        $end_time   = strtotime("2017-8-1");
 
-        $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-            $this->start_time,$this->end_time
-        );
+        $tea_list = $this->t_teacher_info->get_teacher_simulate_list($start_time,$end_time);
+        \App\Helper\Utils::debug_to_html( $tea_list );
 
         /**
          * 每个老师上个月的累积课时
@@ -2020,10 +2021,10 @@ class test_code extends Controller
             $month_key          = date("Y-m",$val['lesson_start']);
 
             if(!isset($already_lesson_count_list[$month][$teacherid])){
-                $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
-                $last_start_time = strtotime("-1 month",$last_end_time);
+                $now_month_start = strtotime(date("Y-m-01",$val['lesson_start']));
+                $now_month_end   = strtotime("+1 month",strtotime(date("Y-m-01",$val['lesson_start'])));
                 $already_lesson_count_simulate = $this->get_already_lesson_count(
-                    $start_time,$end_time,$teacherid,$teacher_money_type
+                    $now_month_start,$now_month_end,$teacherid,$teacher_money_type
                 );
                 $already_lesson_count_list[$key] = $already_lesson_count_simulate;
             }else{
