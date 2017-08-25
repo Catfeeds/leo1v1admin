@@ -852,8 +852,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "lesson_count_all=0",
             "tmk_adminid=0",
             "origin_level <> 99",
+            "origin_userid=0 ",
             "sys_invaild_flag=0",
-            "s.grade<300", //非高中
             "competition_call_time<$check_time",
         ];
 
@@ -1955,6 +1955,33 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
 
         return $this->main_update($sql);
+    }
+    public function get_agent_info( $userid ) {
+        $info= $this->field_get_list($userid,"seller_resource_type,global_tq_called_flag,global_seller_student_status,sys_invaild_flag");
+        $seller_resource_type=$info["seller_resource_type"];
+        $global_seller_student_status=$info["global_seller_student_status"];
+        $global_tq_called_flag=$info["global_tq_called_flag"];
+        $sys_invaild_flag=$info["sys_invaild_flag"];
+        $desc="";
+        if ($info){
+            if ($sys_invaild_flag) {
+                $desc="沟通后,无意向";
+            }else{
+                if ( $seller_resource_type==0 ) {
+
+                    if ($global_tq_called_flag ==0) {
+                        $desc="未联系上";
+                    }else if( $global_tq_called_flag==1 ) {
+                        $desc="未拨通";
+                    }else if( $global_tq_called_flag==2 ) {
+                        $desc="沟通中";
+                    }
+                }else{
+                    $desc="沟通后,无意向";
+                }
+            }
+        }
+        return $desc;
     }
 
 }

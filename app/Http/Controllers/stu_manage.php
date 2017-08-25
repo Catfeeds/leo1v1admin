@@ -179,6 +179,10 @@ class stu_manage extends Controller
             return $this->output_err("没有权限");
         }
 
+        if($assistantid==-1){
+            return $this->output_err("助教不能不选");
+        }
+        
         $noti_account=$this->t_assistant_info->get_account_by_id($assistantid);
         $nick = $this->cache_get_student_nick( $this->sid );
         if ($assistantid >0 &&  \App\Helper\Utils::check_env_is_release() ) {

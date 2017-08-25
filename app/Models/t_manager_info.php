@@ -32,7 +32,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   self::DB_TABLE_NAME, $uid);
         return $this->main_get_value($sql);
     }
-    
+
     public function get_info_by_tquin($tquin, $field_str="*") {
         $sql=$this->gen_sql_new("select  $field_str from %s where tquin=%u ", self::DB_TABLE_NAME,$tquin );
         return $this->main_get_row($sql);
@@ -452,6 +452,14 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     }
 
+    public function get_user_info_for_tq ($tquin) {
+        $sql=$this->gen_sql_new("select  uid,account_role from %s where tquin = %u",
+                                self::DB_TABLE_NAME, $tquin);
+        return $this->main_get_row($sql);
+
+    }
+
+
     public function set_cardid_null( $uid) {
         $sql=$this->gen_sql_new("update %s set cardid=NULL where uid=%u",
                                 self::DB_TABLE_NAME, $uid);
@@ -577,6 +585,15 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         });
 
     }
+
+    public function get_tquin_uid_map() {
+        $sql=$this->gen_sql_new("select uid,tquin,account_role from %s "
+                                , self::DB_TABLE_NAME  );
+        return $this->main_get_list($sql,function($item){
+            return $item["tquin"];
+        });
+    }
+
 
     public function get_uid_account_map() {
         $sql=$this->gen_sql_new("select uid,account from %s "
@@ -1043,7 +1060,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
 
     public function get_research_teacher_list_new($account_role,$fulltime_teacher_type=-1){
         $where_arr=[
-            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]  
+            ["m.fulltime_teacher_type=%u",$fulltime_teacher_type,-1]
         ];
         $sql = $this->gen_sql_new("select teacherid,t.realname from %s m".
                                   " join %s t on m.phone=t.phone where %s and account_role=%u and del_flag =0",
@@ -1059,7 +1076,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_adminid_list_by_account_role($account_role){
         $where_arr=[];
         if($account_role==-2){
-            $where_arr[]="account_role in (4,9)"; 
+            $where_arr[]="account_role in (4,9)";
         }else{
             $where_arr[]=["account_role=%u",$account_role,-1];
         }
@@ -1408,12 +1425,12 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         if ($nick_phone!=""){
             $where_arr[]=sprintf( "account like '%%%s%%'  ", $this->ensql($nick_phone));
         }
-        //print_r($where_arr); 
+        //print_r($where_arr);
         $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role);
         $where_arr[]=" create_time > 1010111";
         $where_arr[]=" create_time < 101011122222";
         //print_r( $this->where_arr_add_int_or_idlist($where_arr,"account_role",$account_role) );
-    
+
         $sql =  $this->gen_sql_new( "select uid ,  account ,   account_role, name ,  phone, create_time "
                                     . " from %s "
                                     . "  where %s  ",
@@ -1472,7 +1489,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     }
     //全职老师统计
     public function get_fulltime_teacher_count($account_role){
-        
+
         $where_arr=[
             "m.account_role =5 ",
             "m.del_flag =0 "
@@ -1487,7 +1504,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
                                   t_teacher_info::DB_TABLE_NAME,
                                   $where_arr
         );
-        //dd($sql); 
+        //dd($sql);
         return $this->main_get_list($sql);
     }
     //全职老师学生数统计（此处获取全职老师id列表)

@@ -36,7 +36,11 @@ $(function(){
 			have_wx:	$('#id_have_wx').val(),
             grade_plan:	$('#id_grade_plan').val(),
 			subject_plan:	$('#id_subject_plan').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+            month_stu_num:	$('#id_month_stu_num').val(),
+			record_score_num:	$('#id_record_score_num').val(),
+			identity:	$('#id_identity').val(),
+			tea_label_type:	$('#id_tea_label_type').val()
         });
     }
 
@@ -61,6 +65,8 @@ $(function(){
     Enum_map.append_option_list("grade", $("#id_grade_plan"),false,[101,102,103,104,105,106,201,202,203,301,302,303] );
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
+    Enum_map.append_option_list("identity", $("#id_identity") );
+    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
 
 
     $('#id_teacher_type').val(g_args.teacher_type);
@@ -92,6 +98,11 @@ $(function(){
 	$('#id_grade_plan').val(g_args.grade_plan);
 	$('#id_subject_plan').val(g_args.subject_plan);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+	$('#id_month_stu_num').val(g_args.month_stu_num);
+	$('#id_record_score_num').val(g_args.record_score_num);
+	$('#id_identity').val(g_args.identity);
+	$('#id_tea_label_type').val(g_args.tea_label_type);
+
 
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
@@ -735,11 +746,43 @@ $(function(){
         $(".jw_revisit_info").show();
         $("#id_lesson_hold_flag_adminid").parent().parent().hide();
         $(".test_transfor_per").show();
+        $("#id_teacher_money_type").parent().parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_teacher_ref_type").parent().parent().hide();
+        $("#id_have_wx").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $("#id_lesson_hold_flag").parent().parent().hide();
+        $("#id_test_transfor_per").parent().parent().hide();
+        $("#id_week_liveness").parent().parent().hide();
+        $("#id_interview_score").parent().parent().hide();
+        $("#id_second_interview_score").parent().parent().hide();
+        $("#id_id_teacher_type").parent().parent().hide();
+        $("#id_reference_teacherid").parent().parent().hide();
+        $("#id_fulltime_teacher_type").parent().parent().hide();
+        $(".fulltime_flag_new").hide();     
+        $(".interview_score").hide();     
+        $(".second_interview_score").hide();     
     }else if (window.location.pathname=="/human_resource/index_new_jw_hold" || window.location.pathname=="/human_resource/index_new_jw_hold/") {
         $(".jw_revisit_info").show();
         $(".lesson_hold_flag").show();
         $("#id_free_time").parent().parent().show();
         $(".test_transfor_per").show();
+        $("#id_teacher_money_type").parent().parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_teacher_ref_type").parent().parent().hide();
+        $("#id_have_wx").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $("#id_lesson_hold_flag").parent().parent().hide();
+        $("#id_test_transfor_per").parent().parent().hide();
+        $("#id_week_liveness").parent().parent().hide();
+        $("#id_interview_score").parent().parent().hide();
+        $("#id_second_interview_score").parent().parent().hide();
+        $("#id_id_teacher_type").parent().parent().hide();
+        $("#id_reference_teacherid").parent().parent().hide();
+        $("#id_fulltime_teacher_type").parent().parent().hide();
+        $(".fulltime_flag_new").hide();     
+        $(".interview_score").hide();     
+        $(".second_interview_score").hide();     
     }else{
         $("#id_grade_plan").parent().parent().hide();
         $("#id_subject_plan").parent().parent().hide();

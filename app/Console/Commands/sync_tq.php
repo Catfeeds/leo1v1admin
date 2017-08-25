@@ -36,6 +36,8 @@ class sync_tq extends cmd_base
         $adminuin      = 9747409;
         $adminpassword = strtoupper( md5("Aaron1988") );
 
+        $tquin_map=$this->task->t_manager_info-> get_tquin_uid_map();
+
         //"string getPhoneRecordByClient(string $uin, string $adminuin, string $username, string $adminpassword, string $client_id, string $caller_id, string $called_id, string $startTime, string $endTime, string $is_third)"
         $caller_id=$phone;
         $ret=$client->getPhoneRecordByClient("" ,$adminuin, "" ,$adminpassword, "", $caller_id, "",$start_time, $end_time, "");
@@ -99,6 +101,14 @@ class sync_tq extends cmd_base
                     if ( $duration >60 && $item["Is_called_phone"] ) {
                         $tq_called_flag=2;
                     }
+                    $admin_info = @$tquin_map[$tquin];
+                    $adminid=0;
+                    $admin_role=0;
+                    if ($admin_info) {
+                        $adminid    = $admin_info ["uid"];
+                        $admin_role = $admin_info ["account_role"];
+                    }
+
                     $this->task->t_seller_student_new->sync_tq($phone ,$tq_called_flag , $call_time,$tquin);
 
                 }

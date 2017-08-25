@@ -443,4 +443,18 @@ class fulltime_teacher extends Controller
             "ret_info" => @$ret,
         ]);
     }
+
+
+    public function get_fulltime_teacher_train_lesson_list(){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $adminid = $this->get_account_id();
+        $teacher_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
+        $teacherid = @$teacher_info["teacherid"];
+        $ret_info = $this->t_lesson_info_b2->get_fulltime_teacher_train_lesson_list($start_time,$end_time,$teacherid);
+        dd($teacherid);
+
+        
+
+    }
 }

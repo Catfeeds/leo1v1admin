@@ -2011,4 +2011,14 @@ class teacher_info extends Controller
         $authUrl = $auth->privateDownloadUrl("http://file-store.leo1v1.com/". $file_path );
         return $this->output_succ(["url" => $authUrl]);
     }
+
+    public function get_teacher_basic_info(){
+        $teacherid = $this->get_login_teacher();
+        $ret_info = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
+        // dd($ret_info);
+        // return $this->pageView(__METHOD__, $ret_info);
+        return $this->pageView(__METHOD__,$ret_info,[
+            "my_info" => $ret_info['list'][0],
+        ]);
+    }
 }

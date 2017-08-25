@@ -91,7 +91,7 @@
                     <tr>
                         <td>{{$l_key}}</td>
                         <td>{{$l_val['level_num']}}</td>
-                        <td>{{round($l_val['level_per'],2)*100}}%</td>
+                        <td>{{round($l_val['level_per'],4)*100}}%</td>
                     </tr>
                 @endforeach
             </table>

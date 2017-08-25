@@ -64,7 +64,33 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list_by_page( $sql,$page_info);
     }
 
-    // public function get_agent_info_new($page_info,$type)
+    public function get_agent_info_two(){
+        $where_arr = [];
+        $this->where_arr_add_int_or_idlist($where_arr,"a.type",1);
+        $this->where_arr_add_time_range($where_arr,"a.create_time",1503504000,1503565200);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.type",0);
+
+        $sql=$this->gen_sql_new (" select a.*,"
+                                 ."aa.nickname p_nickname,aa.phone p_phone,"
+                                 ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
+                                 ."s.origin,s.type student_stu_type,"
+                                 ."l.lesson_start,l.lesson_user_online_status "
+                                 ." from %s a "
+                                 ." left join %s aa on aa.id = a.parentid"
+                                 ." left join %s aaa on aaa.id = aa.parentid"
+                                 ." left join %s s on s.userid = a.userid"
+                                 ." left join %s l on l.lessonid = a.test_lessonid"
+                                 ." where %s "
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,self::DB_TABLE_NAME
+                                 ,t_student_info::DB_TABLE_NAME
+                                 ,t_lesson_info::DB_TABLE_NAME
+                                 ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
     public function get_agent_info_new($type)
     {
         /*
@@ -602,6 +628,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
+    public function get_id_by_userid($sql) {
+        $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
+                                self::DB_TABLE_NAME, $userid );
+        return $this->main_get_value($sql);
+
+    }
 
     public function get_id_by_phone($phone_str){
         $where_arr = [
@@ -726,18 +758,90 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.userid as userid, a.id as id,  a.nickname nick, a.phone phone, "
             . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
             . " a.type agent_type, "
-            . " a.test_lessonid  test_lessonid "
+            . " a.test_lessonid  test_lessonid ,"
+
+
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
 
             ." from %s a2 ".
             " left join %s a1 on a2.id=a1.parentid".
             " left join %s a on a1.id=a.parentid".
+
+            " left join %s ao1 on a1.id=ao1.aid ".
+            " left join %s o1 on ao1.orderid=o1.orderid ".
+
+            " left join %s ao on a.id=ao.aid ".
+            " left join %s o on ao.orderid=o.orderid ".
             " where %s ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_order_info::DB_TABLE_NAME,
             $where_arr
         );
-        return $this->main_get_list($sql);
+
+        $list=$this->main_get_list($sql);
+        $map=[];
+        foreach ($list as $item) {
+            $pid=$item["pid"];
+            $p_nick=$item["p_nick"];
+            $p_userid=$item["p_userid"];
+            $p_phone=$item["p_phone"];
+            $p_agent_level=$item["p_agent_level"];
+            $p_test_lessonid=$item["p_test_lessonid"];
+            $id=$item["id"];
+            $userid=$item["userid"];
+            $nick=$item["nick"];
+            $phone=$item["phone"];
+            $agent_level=$item["agent_level"];
+            $test_lessonid=$item["test_lessonid"];
+            E\Eagent_level::set_item_value_str($item);
+            E\Eagent_level::set_item_value_str($item,"p_agent_level");
+            E\Eagent_type::set_item_value_str($item);
+            E\Eagent_type::set_item_value_str($item,"p_agent_type");
+
+            $item["test_lesson_flag"]= $item["test_lessonid"]>0?1:0;
+            $item["p_test_lesson_flag"]= $item["p_test_lessonid"]>0?1:0;
+            E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
+            E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
+
+            if ( !isset($map[$pid]) ){
+                $item["list"]=[];
+                $map[$pid]=$item ;
+            }
+            if( $id ) {
+                $map[$pid]["list"][]= $item ;
+            }
+        }
+
+        $ret_list=[];
+        foreach ( $map as $p1 ) {
+            $ret_list[ ] = [
+                "p1_name"                 => $p1["p_nick"]."/".$p1["p_phone"],
+                "p1_id"                    => $p1["pid"],
+                "p1_test_lesson_flag_str" => $p1["p_test_lesson_flag_str"],
+                "p1_price"                => $p1["o_p_from_price"]/100,
+                "p1_p_agent_level"        => $p1["o_p_agent_level"],
+                "p1_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_p_agent_level"]),
+                "p1_p_price"              => $p1["o_p_price"]/100,
+            ] ;
+            foreach ( $p1["list"] as $p2 ) {
+                $ret_list[ ]= [
+                    "p2_name"=> $p2["nick"]."/".$p2["phone"],
+                    "p2_id"=> $p2["id"],
+                    "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
+                    "p2_price"=> $p2["o_from_price"]/100,
+                    "p2_p_agent_level"        => $p2["o_agent_level"],
+                    "p2_p_agent_level_str"        => E\Eagent_level::get_desc( $p1["o_agent_level"]),
+                    "p2_p_price"              => $p2["o_price"]/100,
+                ] ;
+            }
+        }
+        return $ret_list;
     }
     public function reset_user_info_test_lesson($id,$userid, $is_test_user, $check_time) {
         //重置试听信息
@@ -844,7 +948,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'pp_price'    => $pp_price,
                     'p_level'     =>$p_level,
                     'pp_level'     =>$pp_level,
-                    'create_time' => time(null),
+                    'create_time' =>  $check_time,
                 ]);
             }
 

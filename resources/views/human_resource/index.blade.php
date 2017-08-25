@@ -87,14 +87,52 @@
                 </div>
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
-                        <span>周试听课数</span>
+                        <span>近两周试听课数</span>
                         <select id="id_test_lesson_full_flag" class ="opt-change" >
                             <option value="-1"> 全部</option>
-                            <option value="1"> 满8节</option>
-                            <option value="2"> 其他</option>
+                            <option value="1"> 0</option>
+                            <option value="2">1-4</option>
+                            <option value="3">5-8</option>
+                            <option value="4">8节以上</option>
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>近一个月常规学生</span>
+                        <select id="id_month_stu_num" class ="opt-change" >
+                            <option value="-1"> 全部</option>
+                            <option value="1"> 0</option>
+                            <option value="2">1-3</option>
+                            <option value="3">4个以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span>第一次试听得分</span>
+                        <select id="id_record_score_num" class ="opt-change" >
+                            <option value="-1"> 全部</option>
+                            <option value="1"> 60-80</option>
+                            <option value="2">80-90</option>
+                            <option value="3">90-100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >老师类型</span>
+                        <select id="id_identity" class ="opt-change" ></select>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >授课风格</span>
+                        <select id="id_tea_label_type" class ="opt-change" ></select>
+                    </div>
+                </div>
+
 
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
@@ -310,7 +348,7 @@
                     <td style="display:none;" >入库时间</td>
                     <td >入职时长</td>
                     <td style="display:none;">等级</td>
-                    <td >全职</td>
+                    <td class="fulltime_flag_new">全职</td>
                     <td id="phone_num" style="display:none;">手机号</td>
                     <td style="display:none;">邮箱</td>
                     <td>性别</td>
@@ -340,8 +378,9 @@
                     <td style="display:none;">新入职培训</td>
                     <td style="width:220px;display:none" class="test_transfor_per">近两月转化率</td>
                     <td style="width:220px;" class="tea_weekness">活跃度</td>
-                    <td style="width:220px;">第一科目面试得分</td>
-                    <td style="width:220px;">第二科目面试得分</td>
+                    <td style="width:220px;">第一次试听课得分</td>
+                    <td style="width:220px;" class="interview_score">第一科目面试得分</td>
+                    <td style="width:220px;" class="second_interview_score">第二科目面试得分</td>
                     <td style="display:none;" class="lesson_hold_flag">暂停接试听课情况</td>
                     <td style="display:none;" class="jw_revisit_info">教务回访信息</td>
                     <td style="display:none;">添加人</td>
@@ -429,6 +468,7 @@
                             <td >{{@$var["test_transfor_per"]}}%</td>
                             <td>一周{{@$var["week_liveness"]}}课时</td>
                         @endif
+                        <td>{{@$var["record_score"]}} </td>
                         <td>{{@$var["interview_score"]}}</td>
                         <td>{{@$var["second_interview_score"]}}</td>
                         <td>

@@ -92,6 +92,7 @@ $(function(){
                     "reward_count_type" : data.reward_count_type,
                     "rule_type"         : data.rule_type,
                     "num"               : id_num.val(),
+                    "old_num"           : data.num,
                     "money"             : id_money.val(),
                 },function(result){
                     if(result.ret==0){

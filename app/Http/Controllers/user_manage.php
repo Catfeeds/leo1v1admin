@@ -441,7 +441,6 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag
         );
-
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -456,6 +455,8 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
+            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_end');
             E\Efrom_type::set_item_value_str($item);
             $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
             $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );
@@ -1252,7 +1253,8 @@ class user_manage extends Controller
         dispatch($job);
 
         if($ret_type == 0){
-            $this->update_agent_order($orderid,$userid,$order_info['price']);
+            $aid=$this->t_agent->get_id_by_userid($userid);
+            $this->t_agent->reset_user_info($aid);
         }
 
         return $this->output_succ();
@@ -1946,7 +1948,7 @@ class user_manage extends Controller
 
     public function complaint_department_deal_product(){
         $this->set_in_value('account_type',2);
-        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
+        $this->set_in_value('complaint_type',5); // 显示软件反馈类型
         return $this->complaint_department_deal();
     }
 
@@ -1956,6 +1958,7 @@ class user_manage extends Controller
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
+        $complaint_type = $this->get_in_int_val('complaint_type',-1);
         $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
@@ -1986,7 +1989,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type );
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
 
 
         foreach($ret_info['list'] as $index=>&$item){

@@ -32,7 +32,8 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
-            $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
+            // $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
@@ -219,6 +220,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $ret_info = $this->t_agent->get_agent_info_two();
+        foreach($ret_info as $item){
+            $id = $item['id'];
+            $userid =$item['userid'];
+            $this->t_seller_student_new->del_user($userid);
+            $this->t_agent->row_delete($id);
+        }
+        dd($ret_info);
         // foreach([] as $item){
         //     $this->t_agent->row_delete($id);
         // }
@@ -251,7 +260,10 @@ class agent extends Controller
     }
 
     public function update_lesson_call_end_time_new(){
-        $adminid = 734;
+        // $adminid = 1016;
+        // $phone = '13468046766';
+        $adminid = 886;
+        $phone = '18902605685';
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
@@ -259,8 +271,9 @@ class agent extends Controller
             }
         }
         $tquin = $this->t_manager_info->get_tquin($adminid);
-        $lesson_call_list = $this->t_tq_call_info->get_list_ex_new($tquin,$phone=13776695190,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503231300);
-        dd($lesson_call_end,$lesson_call_listm,$adminid,$tquin);
+        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
+        $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
+        dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
     }
 
     /**
@@ -531,67 +544,8 @@ class agent extends Controller
 
         $list=$this->t_agent->get_link_list_py_ppid($id );
 
-        $userid_list=[];
-        foreach ($list as $item) {
-            $userid_list[] = $item["p_userid"];
-            $userid_list[] = $item["userid"];
-        }
-        $order_map= $this->t_order_info->get_agent_order_money_list($userid_list);
 
-        $map=[];
-        foreach ($list as $item) {
-            $pid=$item["pid"];
-            $p_nick=$item["p_nick"];
-            $p_userid=$item["p_userid"];
-            $p_phone=$item["p_phone"];
-            $p_agent_level=$item["p_agent_level"];
-            $p_test_lessonid=$item["p_test_lessonid"];
-            $id=$item["id"];
-            $userid=$item["userid"];
-            $nick=$item["nick"];
-            $phone=$item["phone"];
-            $agent_level=$item["agent_level"];
-            $test_lessonid=$item["test_lessonid"];
-            $item["p_price"] = @$order_map[$p_userid] ["price"]/100 ;
-            $item["price"] = @$order_map[$userid] ["price"]/100 ;
-            E\Eagent_level::set_item_value_str($item);
-            E\Eagent_level::set_item_value_str($item,"p_agent_level");
-            E\Eagent_type::set_item_value_str($item);
-            E\Eagent_type::set_item_value_str($item,"p_agent_type");
-
-            $item["test_lesson_flag"]= $item["test_lessonid"]>0?1:0;
-            $item["p_test_lesson_flag"]= $item["p_test_lessonid"]>0?1:0;
-            E\Eboolean::set_item_value_color_str($item,"p_test_lesson_flag" );
-            E\Eboolean::set_item_value_color_str($item,"test_lesson_flag" );
-
-            if ( !isset($map[$pid]) ){
-                $item["list"]=[];
-                $map[$pid]=$item ;
-            }
-            if( $id ) {
-                $map[$pid]["list"][]= $item ;
-            }
-        }
-
-        $ret_list=[];
-        foreach ( $map as $p1 ) {
-            $ret_list[ ]= [
-                "p1_name"=> $p1["p_nick"]."/".$p1["p_phone"]."-" . $p1["p_agent_level_str"] ,
-               "p1_id"=> $p1["pid"],
-                "p1_test_lesson_flag_str"=> $p1["p_test_lesson_flag_str"],
-                "p1_price"=> $p1["p_price"],
-            ] ;
-            foreach ( $p1["list"] as $p2 ) {
-                $ret_list[ ]= [
-                    "p2_name"=> $p2["nick"]."/".$p2["phone"]."-". $p1["p_agent_level_str"],
-                    "p2_id"=> $p2["id"],
-                    "p2_test_lesson_flag_str"=> $p2["test_lesson_flag_str"],
-                    "p2_price"=> $p2["price"],
-                ] ;
-            }
-        }
-
-        $ret_info=\App\Helper\Utils::list_to_page_info($ret_list);
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
         //dd($list);
         return $this->pageView(__METHOD__, $ret_info);
 

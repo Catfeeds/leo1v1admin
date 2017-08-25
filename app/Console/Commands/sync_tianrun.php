@@ -43,6 +43,7 @@ class sync_tianrun extends Command
 
         $url="http://api.clink.cn/interfaceAction/cdrObInterface!listCdrOb.action";
 
+        $this->task->t_manager_info-> get_tquin_uid_map();
 
         $post_arr=[
             "enterpriseId" => 3005131  ,
@@ -128,7 +129,7 @@ class sync_tianrun extends Command
                 $duration,
                 $called_flag
                 ,
-                "");
+                "" );
             $this->task->t_seller_student_new->sync_tq($cdr_customer_number ,$called_flag, $cdr_answer_time, $cdr_bridged_cno );
 
         }

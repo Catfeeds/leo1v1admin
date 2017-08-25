@@ -189,9 +189,8 @@ class wx_yxyx_api extends Controller
             return $this->output_err("请输入规范的手机号!");
         }
 
-        $student_info = [];
+
         $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
-        $pay          = 0;
         $cash         = 0;
         if($student_info){
             $ret = $this->get_pp_pay_cash($phone);
@@ -225,6 +224,77 @@ class wx_yxyx_api extends Controller
             return $this->output_succ(["list" =>$ret_list]);
         }
         return $this->output_succ(["cash"=>$cash,"list" =>$ret_list]);
+    }
+    public function get_user_cash_2(){
+        $agent_id = $this->get_agent_id();
+        $type = $this->get_in_int_val('type');
+        $agent_info = $this->t_agent->field_get_list($agent_id,"*");
+
+        $list=$this->t_agent-> get_link_list_by_ppid($agent_id);
+
+        $ret_list=[];
+        /*
+        " a1.userid as p_userid,a1.id as pid,  a1.nickname p_nick, a1.phone p_phone,  "
+            . " a1.agent_level p_agent_level , a1.test_lessonid p_test_lessonid,    "
+            . " a1.type p_agent_type, "
+            . " a1.test_lessonid  p_test_lessonid, "
+
+            . " a.userid as userid, a.id as id,  a.nickname nick, a.phone phone, "
+            . " a.agent_level agent_level , a.test_lessonid test_lessonid , "
+            . " a.type agent_type, "
+            . " a.test_lessonid  test_lessonid ,"
+
+
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid "
+            . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
+        */
+        //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
+
+        foreach ( $list as $item ) {
+            $userid=$item["userid"];
+            $price=$item["o_price"]/100; //提成
+            $pay_price=$item["o_from_price"]/100; //订单定额
+            $orderid=$item["o_from_orderid"];
+            $pay_time=$item["o_from_pay_time"];
+
+            $p_userid=$item["p_userid"];
+            $p_price=$item["o_p_price"]/100;
+            $p_pay_price=$item["o_p_from_price"]/100; //订单定额
+            $p_orderid=$item["o_p_from_orderid"];
+            $p_pay_time=$item["o_p_from_pay_time"];
+            $item=[];
+
+            if ($p_price) { //第一级有金额
+                $item["userid"]=$p_userid;
+                $item["price"]=$p_price;
+                $item["pay_price"]=$p_pay_price;
+                $item["orderid"]=$p_orderid;
+                $item["pay_time"]=$p_pay_time;
+
+                $ret_list[]= $item;
+            }else if ($price)  { //第一级有金额
+                $item["userid"]=$userid;
+                $item["price"]=$price;
+                $item["pay_price"]=$pay_price;
+                $item["orderid"]=$orderid;
+                $item["pay_time"]=$pay_time;
+                $ret_list[]= $item;
+            }
+        }
+
+        //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
+        foreach ( $ret_list as &$item ) {
+            $item["level1_cash"] = $item["price"]*0.2;
+            $item["level2_cash"] = $item["price"]*0.8;
+            $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
+            $item["count"] = $lesson_info["count"] ;
+            $item["parent_name"] = $this->t_student_info->get_parent_name($item["userid"]);
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
+        }
+
+        return $this->output_succ([
+            "list" => $ret_list
+        ]);
     }
 
     public function get_have_cash(){
