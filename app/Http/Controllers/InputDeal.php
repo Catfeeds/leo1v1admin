@@ -362,7 +362,6 @@ trait  InputDeal {
     public function output_succ($arr=null) {
         return outputjson_success($arr );
     }
-
     public function output_ajax_table($ret_list, $arr=[] ) {
         $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
         return $this->output_succ( array_merge(["data" => $ret_list], $arr) );
