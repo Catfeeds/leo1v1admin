@@ -68,8 +68,7 @@
                 <tr>
                     <td>id </td>
                     <td>上级id</td>
-                    <td>手机号</td>
-                    <td>微信昵称</td>
+                    <td>昵称</td>
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
                     <td>会员等级</td>
@@ -91,8 +90,7 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["nickname"]}} </td>
+                        <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>
                             {{@$var["p_phone"]}}
