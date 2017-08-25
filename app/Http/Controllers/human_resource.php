@@ -718,6 +718,11 @@ class human_resource extends Controller
 
     public function index()
     {
+        /**
+           $this->set_in_value("is_test_user",0);
+           $this->set_in_value("fulltime_flag",0);
+
+         */
         $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);

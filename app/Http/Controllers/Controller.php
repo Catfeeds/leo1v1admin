@@ -33,7 +33,6 @@ class Controller extends ControllerEx
         $this->setUpTraits();
     }
     protected function switch_tongji_database( $flag = true) {
-
         $this->switch_tongji_database_flag=$flag;
     }
 
