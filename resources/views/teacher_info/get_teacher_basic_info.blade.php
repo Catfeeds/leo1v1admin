@@ -38,6 +38,9 @@
      .color-6{
          color:#666
      }
+     .color-red{
+         color:red
+     }
      .div-bank{
          width:60%;
          margin:50px auto;
@@ -92,7 +95,7 @@
 
                         <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
                             <div class="btn-group" data-toggle="btn-toggle">
-                                <button type="button" class="btn"><i class="fa fa-plus"></i>
+                                <button type="button" class="btn opt-display"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
@@ -111,7 +114,7 @@
                         </div>
                         <div class="col-sm-12">
                             <p>
-                                温馨提示：当前您还有<a href="javascript:;">个人信息</a><a href="javascript:;">简历</a><a href="javascript:;">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
+                                温馨提示：当前您还有<a href="javascript:;" class="color-red">个人信息、</a><a href="javascript:;" class="color-red">简历、</a><a href="javascript:;" class="color-red">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
                             </p>
                             <br />
                             <p class="text-cen color-6">信息完整度100%后，此模块可关闭</p>
@@ -125,7 +128,7 @@
                         <h3 class="box-title">当前状态</h3>
 
                         <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                            <h3 class="box-title">饱和</h3>
+                            <h3 class="box-title color-red">饱和</h3>
                             <div class="btn-group" data-toggle="btn-toggle">
                                 <button type="button" class="btn"><i class="fa fa-plus"></i>
                                 </button>
