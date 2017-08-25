@@ -544,18 +544,16 @@ trait  TeaPower {
 
     public function get_accept_adminid_list($account_id){
         $master_adminid = $this->t_admin_main_group_name->get_master_adminid_list(4);
-        if($account_id==349){
+        /*if($account_id==349){
             $account_id=349;
-        }
+            }*/
         $adminid_list =$this->t_admin_main_group_name->get_adminid_list_by_master_adminid(-1,4);
-        if(in_array($account_id,["72","349","448","99","486"])){
+        if(in_array($account_id,["72","448","99","486"])){
             $accept_adminid_list=[];
         }else if(in_array($account_id,$master_adminid)){
            $accept_adminid_list = $this->t_admin_main_group_name->get_adminid_list_by_master_adminid($account_id,4);
-        }else if(in_array($account_id,$adminid_list)){
-            $accept_adminid_list=[$account_id];
         }else{
-            $accept_adminid_list=[1];
+            $accept_adminid_list=[$account_id];
         }
         return $accept_adminid_list;
     }

@@ -1003,7 +1003,7 @@ class tea_manage extends Controller
         $this->set_in_value("subject",11);
         $this->set_in_value("lesson_type",2);
         return $this->course_plan();
- 
+
     }
     public function course_plan(){
         list($start_time,$end_time)=$this->get_in_date_range(0,3);
@@ -2136,7 +2136,7 @@ class tea_manage extends Controller
             }else{
                 $val["paper_url"] = "";
             }
- 
+
         }
 
         return $this->pageView(__METHOD__,$ret_info,[
@@ -2146,7 +2146,7 @@ class tea_manage extends Controller
 
     public function trial_train_no_pass_list(){
         $this->switch_tongji_database();
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2); 
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],2);
         $subject = $this->get_in_int_val("subject",-1);
         $page_info = $this->get_in_page_info();
         $absenteeism_flag = $this->get_in_int_val("absenteeism_flag",0);
@@ -2266,10 +2266,10 @@ class tea_manage extends Controller
             $val['trial_train_status_str']=$status_str;
             $val['tea_nick'] = $this->cache_get_teacher_nick($val['l_teacherid']);
             if($val["lecture_status_ex"]==-2){
-                $val['lecture_status_str']="无试讲";  
+                $val['lecture_status_str']="无试讲";
             }else{
                 $val['lecture_status_str']  = E\Echeck_status::get_desc($val['lecture_status_ex']);
- 
+
             }
             if(empty($val["acc"])){
                 $val["acc"] = $val["account"];
@@ -2323,7 +2323,7 @@ class tea_manage extends Controller
         $acc         = $this->get_account();
 
         if($identity<=0 && $flag <2){
-            return $this->output_err("请选择老师身份！"); 
+            return $this->output_err("请选择老师身份！");
         }
         $teacher_info = $this->t_teacher_info->get_teacher_info_by_phone($phone);
         $this->t_teacher_lecture_appointment_info->reset_teacher_identity_by_phone($phone,$identity);
@@ -2669,7 +2669,7 @@ class tea_manage extends Controller
         $sshd_good                          = $this->get_in_str_val("sshd_good");
 
         if($identity<=0){
-            return $this->output_err("请选择老师身份！"); 
+            return $this->output_err("请选择老师身份！");
         }
 
         $teacher_detail_score = array(
@@ -2766,7 +2766,7 @@ class tea_manage extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
-                    
+
                 }else{
                     $data['first']="老师您好，很抱歉您没有通过面试审核。";
                     $data['keyword1']="初试结果";

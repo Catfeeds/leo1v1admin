@@ -18,10 +18,13 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
     var $teacher_ref_rate_key     = "teacher_ref_rate";
     var $month_money_key          = "month_money";
     var $lesson_total_key         = "lesson_total";
+
+    var $already_lesson_count_key     = "already_lesson_count_month";
+    var $money_month_key              = "money_month";
+    var $teacher_money_type_month_key = "teacher_money_type_month";
+
     var $start_time = 0;
     var $end_time   = 0;
-    var $already_lesson_count_key = "already_lesson_count_month";
-    var $money_month_key          = "money_month";
 
     /**
      * Create a new job instance.
@@ -44,15 +47,16 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->redis_del_simulate_data();
+
         $tea_list = $this->task->t_teacher_info->get_teacher_simulate_list(
             $this->start_time,$this->end_time
         );
 
-
         /**
          * 每个老师上个月的累积课时
          */
-        $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type,$this->already_lesson_count_key,[],true);
+        $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
         /**
          * 每个月的各种详细数据
          * key   month_key
@@ -62,7 +66,14 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          * child_value money,lesson_price,
          *             money_simulate,lesson_price_simulate,lesson_total
          */
-        $month_list = \App\Helper\Utils::redis(E\Eredis_type,$this->money_month_key,[],true);
+        $month_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        /**
+         * 每个月的各种详细数据
+         * key   month && teacher_money_type && level
+         * value money,lesson_price,
+         *       money_simulate,lesson_price_simulate,lesson_total
+         */
+        $teacher_money_month_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
         foreach($tea_list as $val){
             $teacher_ref_type_rate = 0;
             $teacherid          = $val['teacherid'];
@@ -118,30 +129,26 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
             \App\Helper\Utils::check_isset_data($month_list[$month_key]["lesson_total"],$lesson_total);
 
             \App\Helper\Utils::check_isset_data(
-                $month_list[$month_key][$teacher_money_type][$level]['money'],$money);
+                $teacher_money_month_list[$month_key][$teacher_money_type][$level]['money'],$money);
             \App\Helper\Utils::check_isset_data(
-                $month_list[$month_key][$teacher_money_type][$level]['money_simulate'],$money_simulate);
+                $teacher_money_month_list[$month_key][$teacher_money_type][$level]['money_simulate'],$money_simulate);
             \App\Helper\Utils::check_isset_data(
-                $month_list[$month_key][$teacher_money_type][$level]['lesson_price'],$lesson_price);
+                $teacher_money_month_list[$month_key][$teacher_money_type][$level]['lesson_price'],$lesson_price);
             \App\Helper\Utils::check_isset_data(
-                $month_list[$month_key][$teacher_money_type][$level]['lesson_price_simulate'],$lesson_price_simulate);
+                $teacher_money_month_list[$month_key][$teacher_money_type][$level]['lesson_price_simulate'],$lesson_price_simulate);
             \App\Helper\Utils::check_isset_data(
-                $month_list[$month_key][$teacher_money_type][$level]['lesson_total'],$lesson_total);
+                $teacher_money_month_list[$month_key][$teacher_money_type][$level]['lesson_total'],$lesson_total);
         }
 
-        $all_money = [];
-        if(is_array($month_list) && empty($month_list)){
-            foreach($month_list as $m_val){
-                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money']);
-                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate']);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price']);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate']);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_price_simulate']);
-            }
-        }
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->money_month_key,$month_list);
+        \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_money_type_month_key,$teacher_money_month_list);
+    }
 
-
-
+    public function redis_del_simulate_data(){
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_key);
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->money_month_key);
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->teacher_money_type_month_key);
     }
 
     public function get_already_lesson_count($start_time,$end_time,$teacherid,$teacher_money_type){

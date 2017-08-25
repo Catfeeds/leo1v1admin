@@ -2608,6 +2608,10 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $account_id=793;
+        $accept_adminid_list = $this->get_accept_adminid_list($account_id);
+        dd($accept_adminid_list);
+
         $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
