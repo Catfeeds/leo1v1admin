@@ -57,11 +57,6 @@ interface RowData {
 	p_price	:any;
 	pp_price	:any;
 	price	:any;
-	n_orderid	:any;
-	contract_type	:any;
-	contract_status	:any;
-	order_status	:any;
-	pay_time	:any;
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
