@@ -228,7 +228,6 @@ class wx_yxyx_api extends Controller
     public function get_user_cash_2(){
         $agent_id = $this->get_agent_id();
         $type = $this->get_in_int_val('type');
-        $agent_info = $this->t_agent->field_get_list($agent_id,"*");
 
         $list=$this->t_agent-> get_link_list_by_ppid($agent_id);
 
@@ -283,17 +282,26 @@ class wx_yxyx_api extends Controller
         }
 
         //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
+        $cash=0;
         foreach ( $ret_list as &$item ) {
             $item["level1_cash"] = $item["price"]*0.2;
             $item["level2_cash"] = $item["price"]*0.8;
             $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
-            $item["count"] = $lesson_info["count"] ;
+            $lesson_count=$lesson_info["count"] ;;
+            $item["count"] = $lesson_count ;
             $item["parent_name"] = $this->t_student_info->get_parent_name($item["userid"]);
             \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
+            if ($lesson_count >=2) {
+                $cash+=  $item["level1_cash"]; 
+            }
+            if ($lesson_count >=8) {
+                $cash+=  $item["level2_cash"]; 
+            }
         }
 
         return $this->output_succ([
-            "list" => $ret_list
+            "list" => $ret_list,
+            "cash" => $cash,
         ]);
     }
 

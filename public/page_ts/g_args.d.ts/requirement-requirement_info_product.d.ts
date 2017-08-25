@@ -23,7 +23,6 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	id	:any;
-	title	:any;
 	name	:any;
 	create_adminid	:any;
 	create_phone	:any;

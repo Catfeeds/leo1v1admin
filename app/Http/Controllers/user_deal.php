@@ -3696,8 +3696,10 @@ class user_deal extends Controller
             if($check_lesson_on ==1){
                  return outputJson(array('ret' => 1, 'info' =>  "<div>申请成功,目前对应教研老师正在上课,请稍作等待!本月可申请15次,当前已申请".$num."次.<a href='/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=$id/' target='_blank'>点击查看申请信息<a/><div>"));
             }else{
+                $account_role = $this->t_manager_info->get_account_role($adminid);
+                $account_role_str = E\Eaccount_role::get_desc ($account_role);
                 $this->t_change_teacher_list->field_update_list($id,["wx_send_time"=>time()]);
-                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","销售推荐老师申请","销售".$account."老师申请推荐老师,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($accept_adminid,"推荐老师","推荐老师申请",$account_role_str."-".$account."老师申请推荐老师,请尽快处理","http://admin.yb1v1.com/tea_manage_new/get_seller_require_commend_teacher_info?id=".$id);
                 return outputJson(array('ret' => 1, 'info' =>  "<div>申请成功,本月可申请15次,当前已申请".$num."次<a href='/tea_manage_new/get_seller_require_commend_teacher_info_seller?id=$id/' target='_blank'>点击查看申请信息<a/><div>"));
 
             }

@@ -439,7 +439,12 @@ class lesson extends TeaWxController
         $lesson_interact    = $this->get_in_str_val("lesson_interact");
 
         $teacher_message_str = $this->get_in_str_val("teacher_message");
+
+        $stu_performance = $this->get_in_int_val('stu_performance'); // 学生表现
+        $stu_improve = $this->get_in_int_val('stu_improve'); // 需要改进
+
         $stu_comment        = $this->get_in_str_val("stu_comment");
+
 
         $point_note_list_arr = [];
         $teacher_message_arr = json_decode($teacher_message_str,true);
