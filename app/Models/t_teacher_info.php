@@ -3213,6 +3213,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." join %s t on l.teacherid=t.teacherid "
                                   ." where %s "
                                   ,t_student_info::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
         );
