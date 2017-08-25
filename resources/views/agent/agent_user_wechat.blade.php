@@ -121,13 +121,29 @@
                             <td>一级列表</td>
                         </tr>
                     </thead>
-                    <tbody id="id_my_list">
+                    <tbody id="id_level1_list">
 
 
                     </tbody>
 
                 </table>
             </div>
+
+            <div class="col-xs-12 col-md-4">
+                <table     class="common-table"  >
+                    <thead>
+                        <tr>
+                            <td>二级列表</td>
+                        </tr>
+                    </thead>
+                    <tbody id="id_level2_list">
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
         </div>
     </section>
 @endsection

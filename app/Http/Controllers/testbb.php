@@ -172,9 +172,9 @@ class testbb extends Controller
 
     public function sd(){
 
-        $lessonid = $this->get_in_int_val('l');
         $teacherid = $this->get_in_int_val('t');
-        $stu_id = $this->get_in_int_val('s');
+        $ret = $this->t_teacher_info->get_teacher_info_for_teacher_day($teacherid);
+        dd($ret);
         $lesson_start = 0;
         $lesson_end =0;
         $ret = $this->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$stu_id,$lesson_start,$lesson_end);

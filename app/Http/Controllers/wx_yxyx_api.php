@@ -127,6 +127,7 @@ class wx_yxyx_api extends Controller
             E\Eagent_type::set_item_value_str($item);
             E\Eagent_student_status::set_item_value_str($item);
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+            $item["child_count"]*=1;
         }
         return $this->output_succ(["list"=>$list]);
     }
@@ -155,7 +156,7 @@ class wx_yxyx_api extends Controller
             }
         }
 
-        return $this->output_succ(["list"=>$list]);
+        return $this->output_succ(["list"=>$ret_list]);
     }
 
 
@@ -297,12 +298,17 @@ class wx_yxyx_api extends Controller
             $pay_price=$item["o_from_price"]/100; //订单定额
             $orderid=$item["o_from_orderid"];
             $pay_time=$item["o_from_pay_time"];
+            $nick=$item["nick"];
+            $phone=$item["phone"];
+
 
             $p_userid=$item["p_userid"];
             $p_price=$item["o_p_price"]/100;
             $p_pay_price=$item["o_p_from_price"]/100; //订单定额
             $p_orderid=$item["o_p_from_orderid"];
             $p_pay_time=$item["o_p_from_pay_time"];
+            $p_nick=$item["p_nick"];
+            $p_phone=$item["p_phone"];
             $item=[];
 
             if ($p_price) { //第一级有金额
@@ -312,6 +318,9 @@ class wx_yxyx_api extends Controller
                 $item["orderid"]=$p_orderid;
                 $item["pay_time"]=$p_pay_time;
 
+                $item["nick"]=$p_nick;
+                $item["phone"]=$p_phone;
+
                 $ret_list[]= $item;
             }else if ($price)  { //第二级有金额
                 $item["userid"]=$userid;
@@ -319,6 +328,9 @@ class wx_yxyx_api extends Controller
                 $item["pay_price"]=$pay_price;
                 $item["orderid"]=$orderid;
                 $item["pay_time"]=$pay_time;
+
+                $item["nick"]=$nick;
+                $item["phone"]=$phone;
                 $ret_list[]= $item;
             }
         }
@@ -333,7 +345,7 @@ class wx_yxyx_api extends Controller
             $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
             $lesson_count=$lesson_info["count"] ;;
             $item["count"] = $lesson_count ;
-            $item["parent_name"] = $this->t_student_info->get_parent_name($userid);
+            $item["parent_name"] = $item["nick"]."/".$item["phone"];
             \App\Helper\Utils::unixtime2date_for_item($item,"pay_time","" ,"Y-m-d");
             $order_cash=0;
             if ($lesson_count >=2) {

@@ -230,6 +230,9 @@ class wx_parent_api extends Controller
 
         $jsapi_ticket = $ret_arr["ticket"];
 
+        if(isset($_SERVER["HTTP_REFERER"])){
+            
+        }
         $ref= $ref?$ref:$_SERVER['HTTP_REFERER'];
         $signature = "jsapi_ticket=$jsapi_ticket&noncestr=leo123&timestamp=1494474414"
                    . "&url=$ref" ;

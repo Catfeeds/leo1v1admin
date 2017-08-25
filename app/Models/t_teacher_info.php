@@ -3130,7 +3130,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info_for_teacher_day($teacherid){
-        $sql = $this->gen_sql_new("select ");
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 2",
+            "l.del_flag = 0"
+        ];
+
+        $sql = $this->gen_sql_new(" select t.train_through_new_time, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
 
         return $this->main_get_row($sql);
     }

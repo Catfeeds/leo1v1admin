@@ -2147,7 +2147,10 @@ class test_code extends Controller
 
     public function check_redis_data(){
         $already_lesson_count = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
-        
+        $money_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
+
+        dd($money_month);
 
     }
     //simulate test end

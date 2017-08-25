@@ -1023,7 +1023,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_level_list($id ) {
         $sql = $this->gen_sql_new(
-            "select  a1.nickname, a1.phone, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
+            "select  a1.id  agent_id, a1.nickname, a1.phone, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
             . " from %s a1"
             . " left join  %s a2 on a1.id=a2.parentid "
             ." where  a1.parentid=%u group  by a1.id  ",
