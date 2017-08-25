@@ -11,7 +11,7 @@ $(function(){
 $('.opt-display').on('click', function(){
     
 })
-
+    $('.direct-chat-contacts').css('backgroundColor','#fff');
 
 
 

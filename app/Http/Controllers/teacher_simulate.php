@@ -239,7 +239,7 @@ class teacher_simulate extends Controller
      * 更新redis中已结算工资月份
      */
     public function check_month_redis_key($data){
-        $month_key = date("Y-m",$data['start_time']);
+        $month_key     = date("Y-m",$data['start_time']);
         $now_month_key = date("Y-m",time());
         $check_time    = strtotime("2017-1-1");
         if($month_key==$now_month_key || $data['start_time']<$check_time){

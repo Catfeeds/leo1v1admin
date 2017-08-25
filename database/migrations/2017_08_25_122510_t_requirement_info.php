@@ -13,7 +13,6 @@ class TRequirementInfo extends Migration
     public function up()
     {
         //
-        Schema::dropIfExists('db_weiyi.t_requirement_info');
         Schema::create('db_weiyi.t_requirement_info', function (Blueprint $table){
             t_field($table->integer("id",true),"需求id");
             t_field($table->integer("name"),"产品名称");

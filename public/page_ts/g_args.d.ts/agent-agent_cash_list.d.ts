@@ -24,6 +24,10 @@ interface RowData {
 	check_money_desc	:any;
 	nickname	:any;
 	phone	:any;
+	bankcard	:any;
+	bank_type	:any;
+	zfb_name	:any;
+	zfb_account	:any;
 }
 
 /*
