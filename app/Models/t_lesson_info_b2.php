@@ -2903,6 +2903,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $time = time();
         $where_arr = [
+            ' l.tea_attend <> 0 ',
+            ' l.stu_attend <> 0 ',
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
@@ -2930,6 +2932,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid_new($adminid){
         $time = time();
         $where_arr = [
+            ' l.tea_attend <> 0 ',
+            ' l.stu_attend <> 0 ',
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
