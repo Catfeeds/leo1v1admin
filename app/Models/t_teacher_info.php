@@ -2914,7 +2914,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
@@ -3116,6 +3115,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
+
+    public function get_train_through_teacher_info_new(){
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time"
+                                  ." from %s where train_through_new_time>0 and is_test_user=0 and is_quit=0",
+                                  self::DB_TABLE_NAME
         );
         return $this->main_get_list_as_page($sql);
 

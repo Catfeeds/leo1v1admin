@@ -31,6 +31,7 @@
                     <td  >grade</td>
                     <td  >助教</td>
                     <td >课时数</td> 
+                    <td >课时收入</td> 
                     <td >总次数</td> 
                     <td  >操作</td>
                 </tr>
@@ -43,6 +44,7 @@
                         <td >{{$var["grade"]}}</td>
                         <td >{{$var["assistant_nick"]}}</td>
                         <td >{{$var["lesson_count"]/100}}</td>
+                        <td >{{@$var["lesson_price"]/100}}</td>
                         <td >{{$var["count"]}}</td>
                         <td >
                             <div 

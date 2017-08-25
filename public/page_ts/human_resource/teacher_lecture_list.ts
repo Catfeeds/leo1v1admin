@@ -714,8 +714,8 @@ $(function(){
                 BootstrapDialog.alert("该老师没有审核机会了!!");
                 return;
             }else{
-                var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label> ");
-                var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label>");
+                var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"100\" />其他</label> ");
+                var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"re_submit\" type=\"checkbox\" value=\"100\" />其他</label>");
                 var id_reason_all = $("<textarea/>");
 
                 var arr = [

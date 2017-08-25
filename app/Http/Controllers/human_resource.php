@@ -1509,6 +1509,9 @@ class human_resource extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"confirm_time","_str");
                 E\Eidentity::set_item_value_str($val);
                 E\Esubject::set_item_value_str($val);
+                if(empty($val["grade"])){
+                    $val["grade"] = intval($val["grade_ex"]);
+                }
                 E\Egrade::set_item_value_str($val);
                 E\Eis_test::set_item_value_str($val,"is_test_flag");
                 E\Echeck_status::set_item_value_str($val,"status");

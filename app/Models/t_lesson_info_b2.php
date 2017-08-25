@@ -3389,4 +3389,45 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_stu_lesson_money_info( $start_time,$end_time) {
+        $sql=$this->gen_sql_new("select l.userid ,sum(o.price) price from  %s  l left join %s s on l.userid = s.userid"
+                                ." left join %s o on l.lessonid = o.lessonid"
+                                . " where s.is_test_user=0 and lesson_start >=%s and "
+                                ."lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3)  "
+                                . " and lesson_del_flag=0 "
+                                ." group by l.userid ",
+                                self::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME,
+                                t_order_lesson_list::DB_TABLE_NAME,
+                                $start_time,
+                                $end_time
+        );
+
+        return $this->main_get_list($sql,function($item){
+            return $item["userid"];
+        });
+    }
+
+    public function get_fulltime_teacher_train_lesson_list($page_info,$start_time,$end_time,$teacherid){
+        $where_arr=[
+            "l.lesson_type = 1100",
+            "l.lesson_del_flag = 0",
+            "l.train_type=7"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select distinct l.lessonid,l.lesson_start,t.realname,l.lesson_name from %s l "
+                                  ." left join %s ta on l.lessonid = ta.lessonid"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s and (l.teacherid = %u or ta.userid = %u) order by lesson_start desc",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  $teacherid,
+                                  $teacherid
+        );
+        return $this->main_get_list_as_page($sql);
+    }
+
 }

@@ -1,16 +1,6 @@
 @extends('layouts.teacher_header')
 @section('content')
     <style>
-     .tea_face{
-         width:25%;
-         margin:0 auto;
-         border-radius:50%;
-         overflow:hidden;
-     }
-     .tea_name{
-         margin:0 auto;
-         text-align:center
-     }
      .ft14{
          font-size:14px
      }
@@ -25,9 +15,6 @@
      }
      .bor-hr{
          border-top:1px solid #ccc
-     }
-     .bor-radius{
-         border-radius:20px
      }
      .div-pad{
          padding: 20px 10px
@@ -51,7 +38,7 @@
      }
      .flag-baes th{
          width:20%;
-         background:lightgreen;
+         background:#39cccc;
          text-align:center
      }
      .flag-baes td{
@@ -64,24 +51,23 @@
             <!-- Left col -->
             <section class="col-lg-5 connectedSortable">
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
                     </div>
                     <div class="box-body">
-                        <div class="tea_face">
-                            <img src="{{$my_info['face']}}" alt="user image" height="100%" width="100%">
-                        </div>
-                        <div class="tea_name">
-                            <h2>{{$my_info['nick']}}</h2>
-                            <h3 style="color:#666">{{$my_info['level']}}星教师</h3>
-                        </div>
+                        <!-- Profile Image -->
+                            <div class="box-body box-profile">
+                                <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
+                                <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
+                                <p class="text-muted text-center">{{$my_info['level']}}星教师</p>
+                            </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
-                                <h3>123<span class="ft14">天</span></h3>
+                                <h3><span  class="text-blue">123</span><span class="ft14">天</span></h3>
                                 <p>入职天数</p>
                             </div>
                             <div class="col-sm-6">
-                                <h3>123<span class="ft14">课时</span></h3>
+                                <h3><span  class="text-blue">123</span><span class="ft14">课时</span></h3>
                                 <p>总课耗</p>
                             </div>
                         </div>
@@ -89,27 +75,26 @@
                 </div>
 
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-warning">
                     <div class="box-header">
-                        <h3 class="box-title">资料完整度</h3>
+                        <h3 class="box-title text-yellow">资料完整度</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                                 <div class="col-sm-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                            <!-- <span class="sr-only">60% Complete (warning)</span> -->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <p class="ft24">60%</p>
+                                    <p class="ft24 text-yellow">60%</p>
                                 </div>
                                 <div class="col-sm-12">
                                     <p>
@@ -132,9 +117,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-success collapsed-box">
+                <div class="box box-info collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title">当前状态</h3>
+                        <h3 class="box-title text-blue">当前状态</h3>
                         <div class="box-tools pull-right">
                             <h3 class="box-title color-red">饱和</h3>
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -142,7 +127,7 @@
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                             </div>
@@ -161,14 +146,14 @@
                 <!-- Chat box -->
                 <div class="box box-success collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title">简历</h3>
+                        <h3 class="box-title text-success">简历</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                             </div>
@@ -186,14 +171,14 @@
                 <!-- Chat box -->
                 <div class="box box-success collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title">资格证</h3>
+                        <h3 class="box-title text-success">资格证</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                             </div>
@@ -211,14 +196,14 @@
                 <!-- Chat box -->
                 <div class="box box-success collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title">公校证明</h3>
+                        <h3 class="box-title text-success">公校证明</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                             </div>
@@ -234,16 +219,16 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">教师介绍</h3>
+                        <h3 class="box-title text-blue">教师介绍</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                                 <div class="col-sm-12">
@@ -266,24 +251,24 @@
                 </div>
                 <!-- /.box (chat box) -->
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-warning">
                     <div class="box-header">
-                        <h3 class="box-title">教学特长</h3>
+                        <h3 class="box-title text-yellow">教学特长</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;">
+                        <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                                 <div class="col-sm-12">
-                                    <span class="label label-primary bor-radius div-mar">特长1</span>
-                                    <span class="label label-success bor-radius div-mar">特长2</span>
-                                    <span class="label label-info bor-radius div-mar">特长3</span>
-                                    <span class="label label-warning bor-radius div-mar">特长4</span>
-                                    <span class="label label-danger bor-radius div-mar">特长5</span>
+                                    <span class="badge bg-green">特长1</span>
+                                    <span class="badge bg-info">特长2</span>
+                                    <span class="badge bg-red">特长3</span>
+                                    <span class="badge bg-blue">特长4</span>
+                                    <span class="badge bg-yellow">特长5</span>
                                 </div>
                             </div>
                         </div>
@@ -301,11 +286,11 @@
             <!-- right col -->
             <section class="col-lg-7 connectedSortable">
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">基本信息</h3>
+                        <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn"><i class="fa fa-edit"></i>编辑
                             </button>
                         </div>
                     </div>
@@ -396,9 +381,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">银行卡信息</h3>
+                        <h3 class="box-title text-blue">银行卡信息</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -422,9 +407,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">转化率</h3>
+                        <h3 class="box-title text-blue">转化率</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -449,7 +434,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><span class="label label-info bor-radius">20%</span></td>
+                                            <td><span class="badge bg-blue">20%</span></td>
                                         </tr>
                                         <tr>
                                             <td>扩展</td>
@@ -459,7 +444,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><span class="label label-success bor-radius">40%</span></td>
+                                            <td><span class="badge bg-green">40%</span></td>
                                         </tr>
                                         <tr>
                                             <td>转介绍</td>
@@ -469,7 +454,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><span class="label label-warning bor-radius">60%</span></td>
+                                            <td><span class="badge bg-yellow">60%</span></td>
                                         </tr>
 
                                     </table>
@@ -487,7 +472,7 @@
                 <!-- Chat box -->
                 <div class="box box-success">
                     <div class="box-header">
-                        <h3 class="box-title">上课情况</h3>
+                        <h3 class="box-title text-success">上课情况</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -530,9 +515,9 @@
                 <!-- /.box (chat box) -->
 
                 <!-- Chat box -->
-                <div class="box box-success">
+                <div class="box box-info">
                     <div class="box-header">
-                        <h3 class="box-title">课堂评分</h3>
+                        <h3 class="box-title text-blue">课堂评分</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
