@@ -15,6 +15,7 @@ class teacher_simulate extends Controller
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
     var $teacher_ref_rate_key     = "teacher_ref_rate";
+    var $month_money_key          = "month_money";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -295,6 +296,14 @@ class teacher_simulate extends Controller
         }
 
         return $teacher_ref_rate;
+    }
+
+    public function teacher_simulate_money_total_list(){
+        $level_list      = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
+        $all_money       = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->all_money_count_key,[],true);
+        $month_money_key = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->month_money_key,[],true);
+
+        return $this->view(__METHOD__,[]);
     }
 
 }
