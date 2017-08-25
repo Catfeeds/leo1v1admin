@@ -559,6 +559,10 @@ function table_init() {
 
 
     var $table_list=$(".common-table") ;
+    $table_list.css({
+        "border-top":  "3px solid #d2d6de",
+        "border-radius" : "3px",
+    });
 
 
     $.each($table_list, function(table_i){
