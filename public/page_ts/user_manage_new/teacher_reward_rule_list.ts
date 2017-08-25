@@ -108,8 +108,7 @@ $(function(){
     });
 
     $(".opt-del").on("click",function(){
-	      //
-	      
+
     });
 
 

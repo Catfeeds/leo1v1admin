@@ -3162,7 +3162,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as stu_nick  from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as common_stu_nick  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s s on s.userid=l.userid"
                                   ." where %s order by l.lessonid asc"
@@ -3204,8 +3204,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             "l.lesson_type = 0",
             "l.del_flag = 0",
-            "l.confirm_flag<>2",
-            "l.teacherid = $teacherid"
+            ["l.teacherid = %d",$teacherid,-1]
         ];
 
         $sql = $this->gen_sql_new("  select count(distinct(l.userid)) as student_num from %s l"

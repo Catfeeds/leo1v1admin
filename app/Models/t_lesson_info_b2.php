@@ -1169,47 +1169,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    // public function get_comment_list_by_page_tmp ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
-    //     $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time from (select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
-    //                               "from %s l left join %s s on l.userid = s.userid ".
-    //                               "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
-    //                               "order by l.lesson_start desc)",
-    //                               self::DB_TABLE_NAME,
-    //                               t_student_info::DB_TABLE_NAME,
-    //                               $teacherid, $start_time,
-    //                               $end_time, $lesson_type_list_str,time(NULL));
-
-    //     return $this->main_get_list_by_page($sql,$page_num,10);
-
-    // }
-
-
-
-
-
-
-    /**
-       public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
-       $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
-       "from %s l left join %s s on l.userid = s.userid ".
-       "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
-       "order by l.lesson_start desc",
-       self::DB_TABLE_NAME,
-       t_student_info::DB_TABLE_NAME,
-       $teacherid, $start_time,
-       $end_time, $lesson_type_list_str,time(NULL));
-
-       return $this->main_get_list_by_page($sql,$page_num,10);
-
-       }
-     **/
-
-
-
-
-
-
-
     public function get_teacher_lessons($teacherid, $start_time, $end_time) {
         $sql = $this->gen_sql_new(" select lesson_start, lesson_end,free_time_new"
                                    ." from %s tl"
