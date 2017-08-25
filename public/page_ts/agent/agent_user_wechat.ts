@@ -39,23 +39,31 @@ $(function(){
 
    $.ajax({
         type : "get",
-        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_my_num?_agent_id="+g_args.id ,
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_1_user_list?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
-            //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}
-            //,0未试听,1试听成功,2已购课
-            var status_conf={
-                0 :  "未试听",
-                1 :  "试听成功",
-                2 :  "已购课",
-            };
-
             var str="" ;
             $.each( data.list, function(){
-                str+="<tr><td>"+this.phone +" <td> "+this.name+" <td> "+ status_conf[this.status]  +" <td> "+this.count+" <td> "+this.time+" </tr>";
+                var sub_str="";
+                var agent_type= this.agent_type;
+                if( agent_type ==1 || agent_type==3 )  {
+                    sub_str +="状态:" + this.agent_student_status_str + "<br>";
+                }
+                var css="";
+                if( agent_type ==2 || agent_type==3 )  {
+                    sub_str += "邀请:" + this.child_count + "<br>";
+
+                    css="color:red;";
+                }
+
+                str+="<tr  data-agent_type="+this.agent_type +" data-agent_id="+this.agent_id +" ><td style=\""+css+"\">"
+                    +"加入时间:" + this.create_time  + "<br>"
+                    +"姓名:" + this.name+ "<br>"
+                    +"类别:" + this.agent_type_str + "<br>"
+                    +sub_str
+                    +" </td> </tr>";
             } );
-            $("#id_my_list").html(str);
-            //id_my_list
+            $("#id_level1_list").html(str);
 
         },
         error:function(){
@@ -97,4 +105,43 @@ $(function(){
             alert('fail');
         }
     });
+    $("#id_level1_list").on("click", "tr", function() {
+        var agent_id=$(this).data("agent_id");
+        var agent_type=$(this).data("agent_type");
+
+
+        $.ajax({
+            type : "get",
+            url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_2_user_list?_agent_id="+g_args.id + "&sub_agent_id="+ agent_id  ,
+            dataType : "jsonp",//数据类型为jsonp
+            success : function(data){
+                var str="" ;
+                $.each( data.list, function(){
+                    var sub_str="";
+                    var agent_type= this.agent_type;
+                    if( agent_type ==1 || agent_type==3 )  {
+                        sub_str +="状态:" + this.agent_student_status_str + "<br>";
+                    }
+                    if( agent_type ==2 || agent_type==3 )  {
+                        sub_str += "邀请:" + this.child_count + "<br>";
+                    }
+
+                    str+="<tr style=\"\" data-agent_type="+this.agent_type +" data-agent_id="+this.agent_id +" ><td>"
+                        +"加入时间:" + this.create_time  + "<br>"
+                        +"姓名:" + this.name+ "<br>"
+                        +"类别:" + this.agent_type_str + "<br>"
+                        +sub_str
+                        +" </td> </tr>";
+                } );
+                $("#id_level2_list").html(str);
+
+            },
+            error:function(){
+                alert('fail');
+            }
+        });
+
+
+    });
+
 });

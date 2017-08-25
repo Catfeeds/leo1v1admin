@@ -108,6 +108,7 @@
                     <td>负责人</td>
                     <td>客户端版本</td>
                     <td style="display:none">测试数据</td>
+                    <td>招师</td>
                     <td class ="caozuo">操作</td>
                 </tr>
             </thead>
@@ -139,6 +140,7 @@
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["user_agent"]}}</td>
                         <td>{{$var["is_test_flag_str"]}}</td>
+                        <td>{{$var["accept_account"]}}</td>
                         <td class ="caozuo">
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}

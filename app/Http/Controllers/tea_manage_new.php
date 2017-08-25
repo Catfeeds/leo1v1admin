@@ -307,8 +307,8 @@ class tea_manage_new extends Controller
 
     public function get_teacher_complaints_info(){
         $id= $this->get_in_int_val("id",-1);
-        $account_id = $this->get_account_id(); 
-        
+        $account_id = $this->get_account_id();
+
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num    = $this->get_in_page_num();
         $adminid   = $this->get_in_int_val("adminid",-1);
@@ -365,7 +365,7 @@ class tea_manage_new extends Controller
 
     public function get_seller_require_commend_teacher_info(){
         $id= $this->get_in_int_val("id",-1);
-        $account_id = $this->get_account_id(); 
+        $account_id = $this->get_account_id();
         // $account_id=793;
         $accept_adminid_list = $this->get_accept_adminid_list($account_id);
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
@@ -378,7 +378,7 @@ class tea_manage_new extends Controller
         }
         $require_adminid      = $this->get_in_int_val("require_adminid",-1);
         $ret_info = $this->t_change_teacher_list->get_seller_require_commend_teacher_info($start_time,$end_time,$adminid,$page_num,$id,$accept_adminid,$accept_adminid_list,$require_adminid,2);
-        $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;       
+        $start_index = \App\Helper\Utils::get_start_index_from_ret_info($ret_info) ;
 
         foreach($ret_info["list"] as $k=>&$val){
             $val["id_index"] = $start_index+$k;
@@ -386,7 +386,7 @@ class tea_manage_new extends Controller
             \App\Helper\Utils::unixtime2date_for_item($val,"accept_time","_str");
             \App\Helper\Utils::unixtime2date_for_item($val,"stu_request_test_lesson_time","_str");
             E\Esubject::set_item_value_str($val);
-            E\Egrade::set_item_value_str($val);           
+            E\Egrade::set_item_value_str($val);
             if($val["accept_time"]>0){
                 $val["deal_time"] = round(($val["accept_time"] - $val["wx_send_time"])/3600,2);
             }
@@ -407,7 +407,7 @@ class tea_manage_new extends Controller
 
         $acc = $this->get_account();
         return $this->Pageview(__METHOD__,$ret_info,["adminid"=>$adminid,"acc"=>$acc]);
- 
+
     }
     public function get_seller_require_commend_teacher_info_seller(){
         $adminid = $this->get_account_id();
@@ -423,10 +423,10 @@ class tea_manage_new extends Controller
     }
 
 
-    
-    public function get_seller_ass_record_info(){       
+
+    public function get_seller_ass_record_info(){
         $id= $this->get_in_int_val("id",-1);
-        $account_id = $this->get_account_id(); 
+        $account_id = $this->get_account_id();
         $accept_adminid_list = $this->get_accept_adminid_list($account_id);
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
         $page_num    = $this->get_in_page_num();
@@ -480,7 +480,7 @@ class tea_manage_new extends Controller
         return $this->Pageview(__METHOD__,$ret_info,["adminid"=>$adminid,"acc"=>$acc]);
         // dd($ret_info);
     }
-    
+
     public function get_seller_ass_record_info_ass(){
         $adminid = $this->get_account_id();
         $this->set_in_value("adminid",$adminid);
@@ -495,7 +495,7 @@ class tea_manage_new extends Controller
         return $this->get_seller_ass_record_info();
     }
 
-   
+
     public function get_teacher_info_by_teacherid(){
         $teacherid = $this->get_in_int_val("teacherid");
         if($teacherid == 0){
@@ -529,7 +529,7 @@ class tea_manage_new extends Controller
             }else if($grade==4 || $grade==6 ){
                 $arr=[1,2,3,4];
             }else if($grade==5 || $grade==7){
-                $arr=[3,4,5,6]; 
+                $arr=[3,4,5,6];
             }
         }
         $not_grade_arr=explode(",",$teacher_info["not_grade"]);
@@ -570,12 +570,12 @@ class tea_manage_new extends Controller
             }else if($grade==4 || $grade==6 ){
                 $arr=[1,2,3,4];
             }else if($grade==5 || $grade==7){
-                $arr=[3,4,5,6]; 
+                $arr=[3,4,5,6];
             }
         }
         $data=[];
-        $not_grade_limit_arr = json_decode($teacher_info["not_grade_limit"],true); 
-       
+        $not_grade_limit_arr = json_decode($teacher_info["not_grade_limit"],true);
+
         foreach($arr as $val){
             $data[$val]["grade_range"] = $val;
             if(isset($not_grade_limit_arr[$val])){
@@ -682,9 +682,9 @@ class tea_manage_new extends Controller
         $grade            = $this->get_in_int_val("grade");
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
-       
+
         if(empty($subject) || empty($lesson_start)){
-            return $this->output_err("请填写完整"); 
+            return $this->output_err("请填写完整");
         }
 
         $lesson_start = strtotime($lesson_start);
@@ -696,9 +696,9 @@ class tea_manage_new extends Controller
         }
 
         \App\Helper\Utils::logger("hhahaha".$record_teacherid);
-       
+
         if($lesson_start <= time()){
-            return $this->output_err("请填写正确的上课时间"); 
+            return $this->output_err("请填写正确的上课时间");
         }
 
         $lesson_end = $lesson_start+1800;
@@ -727,8 +727,8 @@ class tea_manage_new extends Controller
                 "nick"  =>$tea_nick,
             ]);
             $this->t_user_info->field_update_list($teacherid,[
-                "passwd" => md5(123456) 
-            ]); 
+                "passwd" => md5(123456)
+            ]);
         }
 
         //检查面试老师时间是否冲突
@@ -740,7 +740,7 @@ class tea_manage_new extends Controller
             );
         }
 
-      
+
         $grade_str   = E\Egrade::get_desc($grade);
         $subject_str = E\Esubject::get_desc($subject);
 
@@ -784,7 +784,7 @@ class tea_manage_new extends Controller
         $lesson_time = date("Y-m-d",$lesson_start);
         $start_str = date("H:i",$lesson_start);
         $end_str = date("H:i",$lesson_start+1800);
-        $lesson_time_str = $lesson_time." ".$start_str."-".$end_str; 
+        $lesson_time_str = $lesson_time." ".$start_str."-".$end_str;
 
 
         //删除之前排课(相同科目年级,未上课程)
@@ -885,7 +885,7 @@ class tea_manage_new extends Controller
 
         if($id>0){
             $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-                "lecture_revisit_type"  =>4 
+                "lecture_revisit_type"  =>4
             ]);
         }
 
@@ -903,12 +903,12 @@ class tea_manage_new extends Controller
         $id               = $this->get_in_int_val("id");
         $acc              = $this->get_account();
         if(empty($subject) || empty($lesson_start) || empty($record_teacherid)){
-            return $this->output_err("请填写完整"); 
+            return $this->output_err("请填写完整");
         }
 
         $lesson_start = strtotime($lesson_start);
         if($lesson_start <= time()){
-            return $this->output_err("请填写正确的上课时间"); 
+            return $this->output_err("请填写正确的上课时间");
         }
 
         $lesson_end = $lesson_start+1800;
@@ -937,8 +937,8 @@ class tea_manage_new extends Controller
                 "nick"  =>$tea_nick,
             ]);
             $this->t_user_info->field_update_list($teacherid,[
-                "passwd" => md5(123456) 
-            ]); 
+                "passwd" => md5(123456)
+            ]);
         }
 
         //检查面试老师时间是否冲突
@@ -950,7 +950,7 @@ class tea_manage_new extends Controller
             );
         }
 
-      
+
         $grade_str   = E\Egrade::get_desc($grade);
         $subject_str = E\Esubject::get_desc($subject);
 
@@ -994,7 +994,7 @@ class tea_manage_new extends Controller
         $lesson_time = date("Y-m-d",$lesson_start);
         $start_str = date("H:i",$lesson_start);
         $end_str = date("H:i",$lesson_start+1800);
-        $lesson_time_str = $lesson_time." ".$start_str."-".$end_str; 
+        $lesson_time_str = $lesson_time." ".$start_str."-".$end_str;
 
 
         //删除之前排课(相同科目年级)
@@ -1097,7 +1097,7 @@ class tea_manage_new extends Controller
 
         if($id>0){
             $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-                "lecture_revisit_type"  =>4 
+                "lecture_revisit_type"  =>4
             ]);
         }
 
@@ -1158,15 +1158,15 @@ class tea_manage_new extends Controller
 理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）"
             ));
 
-         
+
             $this->t_lesson_info->field_update_list($lessonid,[
-                "train_email_flag"  =>1 
+                "train_email_flag"  =>1
             ]);
 
- 
+
         }
 
-       
+
         return $this->output_succ();
 
     }
@@ -1175,7 +1175,7 @@ class tea_manage_new extends Controller
         $phone   = $this->get_in_phone();
         $subject = $this->get_in_subject();
         $grade   = $this->get_in_grade();
-        $num = $this->t_teacher_lecture_info->get_re_submit_num($phone,$subject,$grade);      
+        $num = $this->t_teacher_lecture_info->get_re_submit_num($phone,$subject,$grade);
         return $this->output_succ(["num"=>$num]);
     }
 
@@ -1189,7 +1189,7 @@ class tea_manage_new extends Controller
         $retrial_arr = array_merge($re_submit_arr,$lecture_out_arr);
         $retrial_info = json_encode($retrial_arr);
         if(!empty($lecture_out_arr)){
-            $status=2;          
+            $status=2;
         }else{
             $status=3;
         }
@@ -1198,7 +1198,7 @@ class tea_manage_new extends Controller
             $reason .=  E\Eretrial::get_desc($val).",";
         }
         $reason = trim($reason,",");*/
-        
+
         $this->t_teacher_lecture_info->field_update_list($id,[
             "status"   =>$status,
             "retrial_info" =>$retrial_info,
@@ -1213,7 +1213,7 @@ class tea_manage_new extends Controller
 
         $this->send_lecture_sms_new($teacher_info,$status);
 
-        return $this->output_succ();       
+        return $this->output_succ();
     }
 
     public function cancel_train_lesson(){
@@ -1379,5 +1379,5 @@ class tea_manage_new extends Controller
 
 
 
-    
+
 }

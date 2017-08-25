@@ -3,85 +3,75 @@
     <section class="content ">
         <div>
             <div class="row ">
-                <div class="col-xs-12 col-md-4" data-title="时间段">
-                    <div id="id_date_range"> </div>
-                </div>
-                <div class="col-xs-12 col-md-2">
-                    <div class="input-group ">
-                        <span >老师:</span>
-                        <input type="text" id="id_teacherid" class="opt-change"/>
-                    </div>
-                </div>
                 <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span >工资分类</span>
-                        <select id="id_teacher_money_type" class ="opt-change" ></select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span >等级分类</span>
-                        <select id="id_level" class ="opt-change" ></select>
-                    </div>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_reset_money_count">清空统计信息</button>
-                </div>
-                <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_reset_level_count">重置等级信息</button>
+                    <button class="btn btn-primary" id="id_reset_money_count">重置统计信息</button>
                 </div>
             </div>
-
+            <!-- 老师等级 -->
             <div class="col-xs-12 col-md-4">
-                <div class="panel panel-warning"  >
+                <div class="panel panel-warning">
                     <div class="panel-heading">
-                        本月-我的数据
+                        老师等级
                     </div>
                     <div class="panel-body">
-                        <table   class="table table-bordered "   >
-                            <thead>
+                        <table class="table table-bordered "   >
+                            <tr>
+                                <td>等级</td>
+                                <td>人数</td>
+                                <td>比率</td>
+                            </tr>
+                            @foreach($level_list as $l_key=>$l_val)
                                 <tr>
-                                    <td>项目</td>
-                                    <td>数值</td>
-                                    <td>公司排名</td>
+                                    <td>{{$l_key}}</td>
+                                    <td>{{$l_val['level_num']}}</td>
+                                    <td>{{$l_val['level_per']}}</td>
                                 </tr>
-                            </thead>
-                            <tbody id="id_self_body">
-                                <tr>
-                                    <td>邀约数</td>
-                                </tr>
-
-                                <tr>
-                                    <td>成功试听数</td>
-                                </tr>
-                                <tr>
-                                    <td>签单数</td>
-                                </tr>
-
-                                <tr>
-                                    <td>转化率</td>
-                                </tr>
-                                <tr>
-                                    <td>试听取消率</td>
-                                </tr>
-                            </tbody>
+                            @endforeach
                         </table>
                     </div>
                 </div>
             </div>
-            <!-- <table class="common-table">
-                 <tr>
-                 <td></td>
-                 <td>工资成本</td>
-                 <td>模拟工资成本</td>
-                 </tr>
-                 <tr>
-                 <td>本月全部老师</td>
-                 </tr>
-                 <tr>
-                 <td>1-7月全部老师</td>
-                 </tr>
-                 </table> -->
+            <!-- 每月数据 -->
+            <div class="col-xs-12 col-md-4">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        每月统计
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered ">
+                            <tr>
+                                <td>月份</td>
+                                <td>总课时</td>
+                                @if(in_array($account,["adrian","ted"]))
+                                    <td>总工资</td>
+                                    <td>总收入</td>
+                                    <td>模拟工资</td>
+                                    <td>模拟收入</td>
+                                @endif
+                                <td>工资成本</td>
+                                <td>模拟工资成本</td>
+                            </tr>
+                            @foreach($money_month as $m_key=>$m_val)
+                                <tr>
+                                    <td>{{$m_key}}</td>
+                                    <td>{{$m_val['lesson_total']}}</td>
+                                    @if(in_array($account,["adrian","ted"]))
+                                        <td>{{$m_val['money']}}</td>
+                                        <td>{{$m_val['lesson_price']}}</td>
+                                        <td>{{$m_val['money_simulate']}}</td>
+                                        <td>{{$m_val['lesson_price_simulate']}}</td>
+                                    @endif
+                                    <td>{{round($m_val['money']/($m_val['lesson_price']==0?1:$m_val['lesson_price']),4)}}</td>
+                                    <td>{{round($m_val['money_simulate']/($m_val['lesson_price_simulate']==0?1:$m_val['lesson_price_simulate']),4)}}</td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         <hr />
         </div>
         <hr/>

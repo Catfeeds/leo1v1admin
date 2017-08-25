@@ -9,6 +9,7 @@ use \App\Enums as E;
 class teacher_info extends Controller
 {
     use CacheNick;
+    var $check_login_flag=false;
 
     function __construct( )  {
         parent::__construct();

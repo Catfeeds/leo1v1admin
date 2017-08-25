@@ -79,7 +79,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-yellow">资料完整度</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -121,8 +121,9 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">当前状态</h3>
                         <div class="box-tools pull-right">
-                            <h3 class="box-title color-red">饱和</h3>
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <h3 class="box-title color-red" data-status="full">饱和</h3>
+                            <h3 class="box-title color-red hide" data-status="nofull">不饱和</h3>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -131,9 +132,10 @@
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                                 <div class="col-sm-12"">
-                                <p> 您当前处于饱和状态，不会收到派克邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
+                                    <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
+                                    <p data-status="nofull" class="hide"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
                                 <br>
-                                <button type="button" class="btn btn-block btn-info btn-sm">设置不饱和</button>
+                                <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -153,7 +155,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-success">简历</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -182,7 +184,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-success">资格证</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -211,7 +213,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-success">公校证明</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -236,7 +238,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">教师介绍</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -268,7 +270,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-yellow">教学特长</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -303,7 +305,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn"><i class="fa fa-edit"></i>编辑
+                            <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i>编辑
                             </button>
                         </div>
                     </div>
@@ -311,60 +313,100 @@
                         <div class="chart" id="line-chart" >
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
-                                <div class="col-sm-12 flag-baes">
+                                <from class="col-sm-12 flag-baes">
                                     <p class="color-6">个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>ID</th>
                                             <td>56123</td>
                                             <th>姓名</th>
-                                            <td>姓名</td>
+                                            <td>
+                                                <span>{{$my_info['nick']}}</span>
+                                                <input type="text" name="name" class="hide" value="{{$my_info['nick']}}">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>性别</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span>{{$my_info['gender']}}</span>
+                                                <select name="sex" class="hide">
+                                                    <option value="0">保密</option>
+                                                    <option value="1">男</option>
+                                                    <option value="2">女</option>
+                                                </select>
+
+                                            </td>
                                             <th>出生日期</th>
-                                            <td>姓名</td>
+                                            <td>
+                                                <span>{{$my_info['birth']}}</span>
+                                                <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>邮箱</th>
-                                            <td>56123</td>
+                                            <td>
+                                                <span>{{$my_info['email']}}</span>
+                                                <input type="text" name="email" class="hide" value="{{$my_info['email']}}">
+                                            </td>
                                             <th>推荐人</th>
-                                            <td>姓名</td>
+                                            <td>
+                                                <span>{{$my_info['birth']}}</span>
+                                                <input type="text" name="birth" class="hide" value="{{$my_info['nick']}}">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>手机号</th>
-                                            <td>56123
-                                                <span class="color-red btn-box-tool">未绑定</span>
+                                            <td>
+                                                <span>{{$my_info['phone']}}</span>
+                                                <input type="text" name="phone" class="hide" value="{{$my_info['phone']}}">
                                             </td>
                                             <th>信息创建时间</th>
-                                            <td>姓名</td>
+                                            <td>
+                                                <span>{{$my_info['create_time']}}</span>
+                                            </td>
                                         </tr>
                                     </table>
                                     <p class="color-6">教学信息</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>教龄</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span>{{$my_info['work_year']}}</span>
+                                                <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
+
+                                            </td>
                                             <th>教材版本</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span>{{$my_info['textbook_type']}}</span>
+                                                <input type="text" name="textbook_type" class="hide" value="{{$my_info['textbook_type']}}">
+
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>科目</th>
-                                            <td>56123</td>
+                                            <td>
+                                                <span>{{$my_info['subject']}}</span>
+                                            </td>
                                             <th>年级段</th>
                                             <td>姓名</td>
                                         </tr>
                                         <tr>
                                             <th>方言备注</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span>{{$my_info['dialect_notes']}}</span>
+                                                <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}">
+
+                                            </td>
                                         </tr>
                                     </table>
                                     <p class="color-6">教学背景</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>身份</th>
-                                            <td>56123</td>
+                                            <td>
+                                                <span>{{$my_info['identity']}}</span>
+                                                <input type="text" name="identity" class="hide" value="{{$my_info['identity']}}">
+                                            </td>
                                             <th>毕业院校</th>
                                             <td><span class="color-6">未填写</span></td>
                                         </tr>
@@ -381,7 +423,7 @@
                                             <td><span class="color-6">未填写</span></td>
                                         </tr>
                                     </table>
-                                </div>
+                                </from>
                             </div>
                         </div>
                     </div>
@@ -400,7 +442,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">银行卡信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -426,7 +468,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">转化率</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -489,7 +531,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-success">上课情况</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>

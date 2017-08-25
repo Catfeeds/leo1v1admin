@@ -15,7 +15,11 @@ class teacher_simulate extends Controller
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
     var $teacher_ref_rate_key     = "teacher_ref_rate";
-    var $month_money_key          = "month_money";
+
+    var $lesson_total_key             = "lesson_total";
+    var $already_lesson_count_key     = "already_lesson_count_month";
+    var $money_month_key              = "money_month";
+    var $teacher_money_type_month_key = "teacher_money_type_month";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -297,25 +301,37 @@ class teacher_simulate extends Controller
     }
 
     public function teacher_simulate_money_total_list(){
-        $level_list      = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
-        $all_money       = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->all_money_count_key,[],true);
-        $month_money_key = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->month_money_key,[],true);
+        $account = $this->get_account();
+        $level_list  = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
+        $money_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        $already_lesson_count = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        $teacher_money_type_month = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true);
 
-        return $this->view(__METHOD__,[]);
+        $all_money = [];
+        foreach($money_month as $m_val){
+            \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money'],0);
+            \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate'],0);
+            \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total'],0);
+        }
+
+        return $this->view(__METHOD__,[],[
+            "account"                  => $account,
+            "level_list"               => $level_list,
+            "money_month"              => $money_month,
+            "already_lesson_count"     => $already_lesson_count,
+            "teacher_money_type_month" => $teacher_money_type_month,
+            "all_money"                => $all_money,
+        ]);
     }
 
     public function get_month_money_list(){
         $start_time = strtotime("2017-1-1");
         $end_time   = strtotime("2017-8-1");
-        // $start_time = $this->get_in_int_val("start_time");
-        // $end_time   = $this->get_in_int_val("end_time");
 
-        $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-            $start_time,$end_time
-        );
-
-
-
+        $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
+        dispatch($job);
     }
 
 
