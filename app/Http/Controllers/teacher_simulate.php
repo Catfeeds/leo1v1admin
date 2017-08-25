@@ -309,11 +309,11 @@ class teacher_simulate extends Controller
         $all_money = [];
         if(!empty($money_month)){
             foreach($money_month as $m_val){
-                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money'],0);
-                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate'],0);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price'],0);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate'],0);
-                \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total'],0);
+                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money']);
+                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total']);
             }
         }
 
@@ -322,7 +322,7 @@ class teacher_simulate extends Controller
                 foreach($month_val as $t_key => &$t_val){
                     foreach($t_val as $l_key=>&$l_val){
                         $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
-                        $l_val['level_str']              = E\Eteacher_money_type::get_desc($l_key);
+                        $l_val['level_str']              = E\Elevel::get_desc($l_key);
                     }
                 }
             }

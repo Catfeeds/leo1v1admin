@@ -8,7 +8,7 @@
                 </div>
             </div>
             <!-- 老师等级 -->
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-8">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         老师等级

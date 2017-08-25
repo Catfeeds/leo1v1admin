@@ -125,7 +125,9 @@ class testbb extends Controller
 
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
-        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num);
+        $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
+
+        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
 
         dd($ret_info);
 
