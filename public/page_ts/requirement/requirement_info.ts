@@ -66,10 +66,7 @@ $(function(){
 
     });
 
-    
 
-
-    
     $("#id_add_requirement_info").on("click", function(){
         var opt_data = $(this).get_opt_data();
         var name              = $("<select />");  //产品名称
@@ -286,6 +283,26 @@ $(function(){
                 });
             }
         });
+    });
+    $(".content_show").each(function(){
+        var content = $(this).data("content");
+        var len = content.length;
+        if(len >=10){
+            var con = content.substr(0,9)+"...";
+        }else{
+             con = content;
+        }
+        $(this).html(con);
+
+        $(this).mouseover(function(){
+
+          $(this).html(content);
+
+        });
+        $(this).mouseout(function(){
+            $(this).html(con);
+        });
+
     });
 	$('.opt-change').set_input_change_event(load_data);
 });

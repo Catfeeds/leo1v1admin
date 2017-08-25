@@ -32,6 +32,8 @@ class requirement extends Controller
         }
         $page_info=$this->get_in_page_info();
         $ret_info=$this->t_requirement_info->get_list_requirement($page_info,$userid,$name,$priority,$significance,$status,$product_status,$development_status, $test_status,$now_status,$start_time,$end_time);
+        
+        //        dd($ret_info);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
