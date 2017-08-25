@@ -58,7 +58,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          * key   month_key
          * value money,lesson_price,
          *       money_simulate,lesson_price_simulate,lesson_total
-         * child_key   teacher_money_type
+         * child_key   teacher_money_type && level
          * child_value money,lesson_price,
          *             money_simulate,lesson_price_simulate,lesson_total
          */
@@ -130,6 +130,11 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
         }
 
         
+        if(is_array($month_list) && empty($month_list)){
+            foreach($month_list as $m_val){
+
+            }
+        }
 
 
 
