@@ -663,6 +663,9 @@ class teacher_level extends Controller
             }else{
                 $item["record_flag_str"]="未反馈";
             }
+            if(empty($item["test_stu_request_test_lesson_demand"])){
+                $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
+            }
   
         }
         
@@ -700,6 +703,9 @@ class teacher_level extends Controller
                 $item["record_flag_str"]="已反馈";
             }else{
                 $item["record_flag_str"]="未反馈";
+            }
+            if(empty($item["test_stu_request_test_lesson_demand"])){
+                $item["test_stu_request_test_lesson_demand"] = $item["stu_request_test_lesson_demand"];
             }
   
         }

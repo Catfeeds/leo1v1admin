@@ -129,6 +129,19 @@ class testbb extends Controller
 
         $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
 
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        $ret_info['money'] = $money;
+
+
+
         dd($ret_info);
 
 
