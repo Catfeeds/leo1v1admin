@@ -20,7 +20,7 @@
                                 <td>人数</td>
                                 <td>比率</td>
                             </tr>
-                            @foreach($level_list as $l_key=>$l_val)
+                            @foreach(@$level_list as $l_key=>$l_val)
                                 <tr>
                                     <td>{{$l_key}}</td>
                                     <td>{{$l_val['level_num']}}</td>
@@ -51,7 +51,8 @@
                                 <td>工资成本</td>
                                 <td>模拟工资成本</td>
                             </tr>
-                            @foreach($money_month as $m_key=>$m_val)
+                            @if(!empty($money_month))
+                            @foreach(@$money_month as $m_key=>$m_val)
                                 <tr>
                                     <td>{{$m_key}}</td>
                                     <td>{{$m_val['lesson_total']}}</td>
@@ -65,6 +66,8 @@
                                     <td>{{round($m_val['money_simulate']/($m_val['lesson_price_simulate']==0?1:$m_val['lesson_price_simulate']),4)}}</td>
                                 </tr>
                             @endforeach
+                            @endif
+                            @if(isset($all_money) && !empty($all_money))
                             <tr>
                                 <td>{{$all_money['lesson_total']}}</td>
                                 @if(in_array($account,["adrian","ted"]))
@@ -76,15 +79,17 @@
                                 <td>{{round($all_money['money']/($all_money['lesson_price']==0?1:$all_money['lesson_price']),4)}}</td>
                                 <td>{{round($all_money['money_simulate']/($all_money['lesson_price_simulate']==0?1:$all_money['lesson_price_simulate']),4)}}</td>
                             </tr>
+                            @endif
                         </table>
                     </div>
                 </div>
                 <!-- 老师工资类型及等级分布 -->
-                @foreach($teacher_money_type_month as $month_key=>$month_val)
+                @if(!empty($teacher_money_type_month))
+                @foreach(@$teacher_money_type_month as $month_key=>$month_val)
                     <div class="col-xs-12 col-md-4">
                         <div class="panel panel-warning">
                             <div class="panel-heading">
-                                {{$t_key}} 老师类型统计
+                                {{$month_key}} 老师类型统计
                             </div>
                             <div class="panel-body">
                                 <table class="table table-bordered "   >
@@ -123,6 +128,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </div>
         <hr />
         </div>
