@@ -1133,7 +1133,7 @@ class agent extends Controller
 
     public function update_agent_level(){
         $id = 1634;
-        $this->task->t_agent->reset_user_info($id);
+        $this->t_agent->reset_user_info($id);
         dd('a');
         $ret_info = $this->t_agent->get_agent_list();
         foreach($ret_info as $item){
