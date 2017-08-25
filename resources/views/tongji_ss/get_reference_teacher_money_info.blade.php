@@ -15,6 +15,7 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
+                    <td>teacherid</td>
                     <td>姓名</td>
                     <td>电话</td>
                     <td>入职时间</td>
@@ -26,6 +27,7 @@
             <tbody id="id_tbody">
                 @foreach ( $table_data_list as $var )
                     <tr>
+                        <td>{{@$var["teacherid"]}} </td>
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>

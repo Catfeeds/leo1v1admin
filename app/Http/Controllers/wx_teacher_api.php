@@ -345,5 +345,16 @@ class wx_teacher_api extends Controller
 
 
 
+    public function get_teacher_info_for_teacher_day(){ // 教师节活动 获取老师信息
+        $teacherid = $this->get_teacherid();
+
+        $teacher_info = $this->t_teacher_info->get_teacher_info_for_teacher_day($teacherid);
+
+
+
+    }
+
+
+
 
 }

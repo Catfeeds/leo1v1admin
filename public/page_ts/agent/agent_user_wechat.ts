@@ -39,23 +39,17 @@ $(function(){
 
    $.ajax({
         type : "get",
-        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_my_num?_agent_id="+g_args.id ,
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_level_1_user_list?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
-            //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}
-            //,0未试听,1试听成功,2已购课
-            var status_conf={
-                0 :  "未试听",
-                1 :  "试听成功",
-                2 :  "已购课",
-            };
 
             var str="" ;
+            alert(JSON.stringify(data));
             $.each( data.list, function(){
                 str+="<tr><td>"+this.phone +" <td> "+this.name+" <td> "+ status_conf[this.status]  +" <td> "+this.count+" <td> "+this.time+" </tr>";
             } );
+            alert(str);
             $("#id_my_list").html(str);
-            //id_my_list
 
         },
         error:function(){

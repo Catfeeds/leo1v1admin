@@ -3129,4 +3129,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_teacher_info_for_teacher_day($teacherid){
+        $sql = $this->gen_sql_new("select ");
+
+        return $this->main_get_row($sql);
+    }
+
+
 }

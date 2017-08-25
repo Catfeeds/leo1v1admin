@@ -121,7 +121,41 @@ class wx_yxyx_api extends Controller
         if (!$agent_id){
             return $this->output_err("没有信息");
         }
+        $list= $this->t_agent->get_level_list( $agent_id );
+        foreach ($list as &$item) {
+            $item["name"]= $item["nickname"]. "/". $item["phone"];
+            E\Eagent_type::set_item_value_str($item);
+            E\Eagent_student_status::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+        }
+        return $this->output_succ(["list"=>$list]);
+    }
 
+    public function get_level_2_user_list(){
+        $agent_id   = $this->get_agent_id();
+        if (!$agent_id){
+            return $this->output_err("没有信息");
+        }
+        $sub_agent_id = $this->get_in_int_val("sub_agent_id");
+        if ($this->t_agent->get_parentid($sub_agent_id)!= $agent_id   ) {
+            return $this->output_err("出错,不是你的下级");
+        }
+
+        $list= $this->t_agent->get_level_list( $sub_agent_id );
+        $ret_list=[];
+        foreach ($list as $item) {
+            if (in_array( $item["agent_type"] ,[1,3] ))  {//会员
+                $item["name"]= $item["nickname"]. "/". $item["phone"];
+                $item["agent_type"]=1; //设置为学员
+                unset($item["child_count"]); //设置为学员
+                E\Eagent_type::set_item_value_str($item);
+                E\Eagent_student_status::set_item_value_str($item);
+                \App\Helper\Utils::unixtime2date_for_item($item,"create_time",'',"Y-m-d");
+                $ret_list[]=$item;
+            }
+        }
+
+        return $this->output_succ(["list"=>$list]);
     }
 
 
@@ -300,7 +334,7 @@ class wx_yxyx_api extends Controller
             $lesson_count=$lesson_info["count"] ;;
             $item["count"] = $lesson_count ;
             $item["parent_name"] = $this->t_student_info->get_parent_name($userid);
-            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time" ,"Y-m-d");
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time","" ,"Y-m-d");
             $order_cash=0;
             if ($lesson_count >=2) {
                 $order_cash+=  $item["level1_cash"];

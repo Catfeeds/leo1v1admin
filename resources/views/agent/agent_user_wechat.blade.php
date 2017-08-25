@@ -114,15 +114,11 @@
                 </table>
             </div>
 
-            <div class="col-xs-12 col-md-8">
+            <div class="col-xs-12 col-md-4">
                 <table     class="common-table"  >
                     <thead>
                         <tr>
-                            <td>电话</td>
-                            <td>姓名</td>
-                            <td>状态</td>
-                            <td>邀请个数</td>
-                            <td>加入时间</td>
+                            <td>一级列表</td>
                         </tr>
                     </thead>
                     <tbody id="id_my_list">

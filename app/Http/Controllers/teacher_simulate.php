@@ -307,13 +307,9 @@ class teacher_simulate extends Controller
     public function get_month_money_list(){
         $start_time = strtotime("2017-1-1");
         $end_time   = strtotime("2017-8-1");
-        // $start_time = $this->get_in_int_val("start_time");
-        // $end_time   = $this->get_in_int_val("end_time");
 
-        $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
-            $start_time,$end_time
-        );
-
+        $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
+        dispatch($job);
 
 
     }

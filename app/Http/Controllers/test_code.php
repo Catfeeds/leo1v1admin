@@ -2144,6 +2144,12 @@ class test_code extends Controller
         }
         return round($lesson_price_simulate,2);
     }
+
+    public function check_redis_data(){
+        $already_lesson_count = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        
+
+    }
     //simulate test end
 
 
