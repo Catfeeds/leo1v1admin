@@ -37,13 +37,14 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
             $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
         }
-
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
-                                 ."s.origin,s.type student_stu_type,"
+                                 ."s.origin,s.type student_stu_type,s.is_test_user,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
-                                 ."o.price,ao.p_level,ao.pp_level , ao.p_price,ao.pp_price "
+                                 ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
+                                 ."o.price, "
+                                 ."oo.orderid n_orderid,oo.contract_type,oo.contract_status,oo.order_status,oo.pay_time "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
@@ -51,6 +52,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
+                                 ." left join %s oo on oo.userid = a.userid "
                                  ." where %s "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -58,6 +60,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_student_info::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,t_agent_order::DB_TABLE_NAME
+                                 ,t_order_info::DB_TABLE_NAME
                                  ,t_order_info::DB_TABLE_NAME
                                  ,$where_arr
         );
