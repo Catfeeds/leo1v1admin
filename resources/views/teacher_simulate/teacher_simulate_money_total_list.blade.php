@@ -81,36 +81,36 @@
                 </div>
                 <!-- 老师工资类型及等级分布 -->
                 @foreach($teacher_money_type_month as $t_key=>$t_val)
-                <div class="col-xs-12 col-md-4">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            老师工资类型及等级分布
-                        </div>
-                        <div class="panel-body">
-                            <table class="table table-bordered "   >
-                                <tr>
-                                    <td>月份</td>
-                                    <td>总课时</td>
-                                    @if(in_array($account,["adrian","ted"]))
-                                        <td>总工资</td>
-                                        <td>总收入</td>
-                                        <td>模拟工资</td>
-                                        <td>模拟收入</td>
-                                    @endif
-                                    <td>工资成本</td>
-                                    <td>模拟工资成本</td>
-                                </tr>
-                                @foreach($level_list as $l_key=>$l_val)
+                    <div class="col-xs-12 col-md-4">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                {{$t_key}} 老师类型统计
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-bordered "   >
                                     <tr>
-                                        <td>{{$l_key}}</td>
-                                        <td>{{$l_val['level_num']}}</td>
-                                        <td>{{$l_val['level_per']}}</td>
+                                        <td>总课时</td>
+                                        @if(in_array($account,["adrian","ted"]))
+                                            <td>总工资</td>
+                                            <td>总收入</td>
+                                            <td>模拟工资</td>
+                                            <td>模拟收入</td>
+                                        @endif
+                                        <td>工资成本</td>
+                                        <td>模拟工资成本</td>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach($t_val as $l_key=>$l_val)
+                                        <tr>
+                                            <td>{{$l_val['lesson_total']}}</td>
+                                            @if(in_array($account,["adrian","ted"]))
+                                                <td>{{$l_val['money']}}</td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         <hr />

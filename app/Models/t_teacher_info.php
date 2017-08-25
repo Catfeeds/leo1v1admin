@@ -3160,14 +3160,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>0"
         ];
 
-        $sql = $this->gen_sql_new(" select l.lessonid  from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid, l.lesson_start, s.nick   from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." where l.lessonid = (select min(l.lessonid) from %s ll where %s)"
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." where %s order by l.lessonid asc"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+
 
         return $this->main_get_row($sql);
     }

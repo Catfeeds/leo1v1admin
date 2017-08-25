@@ -315,10 +315,12 @@ class teacher_simulate extends Controller
             \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_total'],0);
         }
 
-        foreach($teacher_money_type_month as $t_key=>$t_val){
-            foreach($t_val as $l_key=>&$l_val){
-                $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
-                $l_val['level_str']              = E\Eteacher_money_type::get_desc($l_key);
+        foreach($teacher_money_type_month as $month_key=>$month_val){
+            foreach($month_val as $t_key => $t_val){
+                foreach($t_val as $l_key=>&$l_val){
+                    $l_val['teacher_money_type_str'] = E\Eteacher_money_type::get_desc($t_key);
+                    $l_val['level_str']              = E\Eteacher_money_type::get_desc($l_key);
+                }
             }
         }
 
