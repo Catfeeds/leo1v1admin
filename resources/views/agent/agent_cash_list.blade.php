@@ -24,6 +24,7 @@
                     <td>财务审核状态 </td>
                     <td>财务审核人 </td>
                     <td>财务通过时间 </td>
+                    <td>财务审批说明 </td>
                     <td>创建时间 </td>
                     <td> 操作  </td>
                 </tr>
@@ -49,6 +50,7 @@
                         <td>{{@$var["agent_check_money_flag_str"]}} </td>
                         <td>{{@$var["check_money_admin_nick"]}} </td>
                         <td>{{@$var["check_money_time"]}} </td>
+                        <td>{{@$var["check_money_desc"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>
                             <div
