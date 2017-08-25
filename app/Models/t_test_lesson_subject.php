@@ -628,7 +628,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "t.ass_test_lesson_type =1",
             " l.teacherid >0",
             " l.userid >0",
-           "tr.origin not like '%%转介绍%%' ",
+            //"tr.origin not like '%%转介绍%%' ",
             ["tr.cur_require_adminid=%u",$adminid,-1]
         ];
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);

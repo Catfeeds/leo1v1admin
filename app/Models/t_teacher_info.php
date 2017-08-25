@@ -3130,7 +3130,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_test_lesson_info_for_teacher_day($teacherid){
+    public function get_test_lesson_info_for_teacher_day($teacherid){ // 获取老师 入职时间 | 试听课数量 | 第一次试听课开始时间
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
@@ -3151,7 +3151,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
 
 
-    public function get_common_lesson_info_for_teacher_day($teacherid){
+    public function get_common_lesson_info_for_teacher_day($teacherid){ // 获取常规课数量 | 首次上课时间 | 学生姓名 |
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
@@ -3160,13 +3160,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>0"
         ];
 
-        $sql = $this->gen_sql_new(" select min(l.lesson_start) as common_lesson_time, min(l.lessonid) as common_lessonid  from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as stu_nick  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." where %s "
+                                  ." left join %s s on s.userid=l.userid"
+                                  ." where %s order by l.lessonid asc"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr
         );
+
 
         return $this->main_get_row($sql);
     }
@@ -3181,7 +3184,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.del_flag = 0",
         ];
 
-        $sql = $this->gen_sql_new(" select count(*)  from %s l"
+        $sql = $this->gen_sql_new(" select count(*) as common_lesson_num from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." where %s "
                                   ,t_lesson_info::DB_TABLE_NAME
@@ -3189,7 +3192,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$where_arr
         );
 
-        return $this->main_get_value($sql);
+        return $this->main_get_row($sql);
     }
 
 

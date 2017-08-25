@@ -3435,4 +3435,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
+    public function get_open_lesson_info($start_time, $end_time)
+    {
+        $where_arr = [
+            ['l.lesson_start>=%s', $start_time, 0],
+            ['l.lesson_end<%s', $end_time, 0],
+            'l.lesson_type=1001',
+        ];
+        $sql = $this->gen_sql_new("select count(ol.userid) as num,l.subject,l.grade ,l.lessonid"
+                                  ." from %s l"
+                                  ." left join %s ol on ol.lessonid=l.lessonid"
+                                  ." where %s"
+                                  ." group by l.lessonid order by l.lesson_start"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_open_lesson_user::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 }
