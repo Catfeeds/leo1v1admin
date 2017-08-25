@@ -66,7 +66,15 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td></td>
+                                <td>{{$all_money['lesson_total']}}</td>
+                                @if(in_array($account,["adrian","ted"]))
+                                    <td>{{$all_money['money']}}</td>
+                                    <td>{{$all_money['lesson_price']}}</td>
+                                    <td>{{$all_money['money_simulate']}}</td>
+                                    <td>{{$all_money['lesson_price_simulate']}}</td>
+                                @endif
+                                <td>{{round($all_money['money']/($all_money['lesson_price']==0?1:$all_money['lesson_price']),4)}}</td>
+                                <td>{{round($all_money['money_simulate']/($all_money['lesson_price_simulate']==0?1:$all_money['lesson_price_simulate']),4)}}</td>
                             </tr>
                         </table>
                     </div>
