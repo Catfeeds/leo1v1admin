@@ -110,19 +110,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
                 $lesson_price_simulate = 0;
             }
 
-            \App\Helper\Utils::check_isset_data($tea_arr['money'],$money);
-            \App\Helper\Utils::check_isset_data($tea_arr['money_simulate'],$money_simulate);
-            \App\Helper\Utils::check_isset_data($tea_arr['reward'],$reward);
-            \App\Helper\Utils::check_isset_data($tea_arr['reward_simulate'],$reward_simulate);
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price'],$lesson_price);
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_count'],$lesson_count);
-            \App\Helper\Utils::check_isset_data($tea_arr['lesson_price_simulate'],$lesson_price_simulate);
-
-            $all_money                 += $money;
-            $all_lesson_price          += $lesson_price;
-            $all_money_simulate        += $money_simulate;
-            $all_lesson_price_simulate += $lesson_price_simulate;
-            $list[$teacherid] = $tea_arr;
+            \App\Helper\Utils::check_isset_data($month_list[$month_key]["money"]);
 
         }
 
