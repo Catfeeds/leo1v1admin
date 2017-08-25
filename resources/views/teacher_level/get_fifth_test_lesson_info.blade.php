@@ -58,6 +58,7 @@
                     <td>老师</td>
                     <td>科目</td>
                     <td>年级</td>
+                    <td>试听需求</td>
                     <td>审核人</td>
                     <td>是否反馈</td>
                     
@@ -70,6 +71,7 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
+                        <td>{{@$var["test_stu_request_test_lesson_demand"]}} </td>
                         <td>{{@$var["acc"]}} </td>
                         <td>{{@$var["record_flag_str"]}} </td>
 

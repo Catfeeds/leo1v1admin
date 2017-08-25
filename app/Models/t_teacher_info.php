@@ -3139,7 +3139,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new(" select t.train_through_new_time, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
+        $sql = $this->gen_sql_new(" select t.train_through_new_time as work_day, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." where %s"
                                   ,t_lesson_info::DB_TABLE_NAME
@@ -3162,7 +3162,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as stu_nick  from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid as common_lessonid, l.lesson_start as common_lesson_start, s.nick as common_stu_nick  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." left join %s s on s.userid=l.userid"
                                   ." where %s order by l.lessonid asc"
@@ -3199,17 +3199,17 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
-    public function get_student_num_for_teacher_day($teacherid){ // 获取常规课的数量
+    public function get_student_num_for_teacher_day($teacherid){ // 获取学生数量
 
         $where_arr = [
-            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 0",
+            "l.del_flag = 0",
+            ["l.teacherid = %d",$teacherid,-1]
         ];
 
-        $sql = $this->gen_sql_new(" select count(*) as student_num from %s s"
-                                  ." left join %s t on s.teacherid=t.teacherid "
+        $sql = $this->gen_sql_new("  select count(distinct(l.userid)) as student_num from %s l"
                                   ." where %s "
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
