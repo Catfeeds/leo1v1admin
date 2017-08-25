@@ -12,7 +12,7 @@ class menu{
                 ["power_id"=>5, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
                 ["power_id"=>6, "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
                 ["power_id"=>7, "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
-                ["power_id"=>8, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
+                // ["power_id"=>8, "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week_zj"],
                 ["power_id"=>9, "name"=>"老师试听薪资排行",   "url"=>"/tongji_ss/teacher_trial_count"],
                 ["power_id"=>10, "name"=>"兼职老师流失模型",   "url"=>"/tongji_ss/get_teacher_appoinment_lecture_info"],
                 ["power_id"=>11,"name"=>"咨询师试听转化率", "url"=>"/tongji_ss/seller_test_lesson_info_tongji"],
@@ -21,15 +21,6 @@ class menu{
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
 
             ]],
-
-
-
-            ["power_id"=>41, "name"=>"运营组",  "list"=> [
-
-            ]],
-
-
-
 
 
             ["power_id"=>1, "name"=>"服务管理",  "list"=> [
@@ -762,7 +753,10 @@ class menu{
                 ["power_id"=>2, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
-
+                ["power_id"=>5, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],
+                ["power_id"=>6, "name"=>"兼职老师投诉处理",   "url"=>"/tea_manage_new/get_seller_ass_record_info"],
+                ["power_id"=>7, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
+                ["power_id"=>8, "name"=>"兼职老师退费处理",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
             ]],
 
 
@@ -803,8 +797,8 @@ class menu{
                 ]],
                 ["power_id"=>33, "name"=>"其他",  "list"=>[
                     // ["power_id"=>12, "name"=>"教研以及全职老师常规学生详情",   "url"=>"/human_resource/research_qz_teacher_stu_info"],
-                    ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
-                    ["power_id"=>23, "name"=>"兼职老师退费处理",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
+                    // ["power_id"=>22, "name"=>"助教换老师统计",   "url"=>"/tongji_ss/get_change_teacher_info"],
+                    // ["power_id"=>23, "name"=>"兼职老师退费处理",   "url"=>"/tongji_ss/get_refund_teacher_and_ass_info"],
                     // ["power_id"=>6, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                     // ["power_id"=>8,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                     ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
