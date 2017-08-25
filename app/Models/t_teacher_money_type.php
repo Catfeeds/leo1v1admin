@@ -76,6 +76,7 @@ class t_teacher_money_type extends \App\Models\Zgen\z_t_teacher_money_type
                                   ." WHEN grade in (203) THEN %s"
                                   ." WHEN grade in (301,302) THEN %s"
                                   ." WHEN grade in (303) THEN %s"
+                                  ." END"
                                   ." where %s"
                                   ,self::DB_TABLE_NAME
                                   ,$money_101
