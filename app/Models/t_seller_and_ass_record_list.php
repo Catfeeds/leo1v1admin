@@ -3,10 +3,10 @@ namespace App\Models;
 use \App\Enums as E;
 class t_seller_and_ass_record_list extends \App\Models\Zgen\z_t_seller_and_ass_record_list
 {
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function check_is_exist($lessonid){
         $sql = $this->gen_sql_new("select id from %s where lessonid = %u and is_done_flag <>2",self::DB_TABLE_NAME,$lessonid);
@@ -33,16 +33,16 @@ class t_seller_and_ass_record_list extends \App\Models\Zgen\z_t_seller_and_ass_r
                                   t_student_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
-                                  $where_arr                                 
+                                  $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
- 
+
     }
 
     public function get_seller_and_ass_record_by_account($start_time,$end_time){
         $where_arr=[
             "accept_time>0"
-        ]; 
+        ];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select sum(accept_time -add_time) deal_time,count(*) num,accept_adminid "
                                   ." from %s where %s group by accept_adminid",
@@ -57,7 +57,7 @@ class t_seller_and_ass_record_list extends \App\Models\Zgen\z_t_seller_and_ass_r
     public function get_seller_and_ass_record_by_subject($start_time,$end_time){
         $where_arr=[
             "accept_time>0"
-        ]; 
+        ];
         $this->where_arr_add_time_range($where_arr,"add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select sum(accept_time -add_time) deal_time,count(*) num,subject "
                                   ." from %s where %s group by subject",
@@ -70,14 +70,3 @@ class t_seller_and_ass_record_list extends \App\Models\Zgen\z_t_seller_and_ass_r
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

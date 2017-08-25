@@ -1625,6 +1625,7 @@ class human_resource extends Controller
             return $this->output_err("请选择老师身份！"); 
         }
 
+        $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
 
         if($teacher_lecture_score<55){
             $status=2;

@@ -2914,7 +2914,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,t_order_info::DB_TABLE_NAME
                                   ,$where_arr
         );
-        echo $sql;exit;
         return $this->main_get_list($sql);
     }
 
