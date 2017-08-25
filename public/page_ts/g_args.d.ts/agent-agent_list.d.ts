@@ -49,13 +49,15 @@ interface RowData {
 	pp_phone	:any;
 	origin	:any;
 	student_stu_type	:any;
+	is_test_user	:any;
 	lesson_start	:any;
 	lesson_user_online_status	:any;
-	price	:any;
-	p_level	:any;
 	pp_level	:any;
 	p_price	:any;
 	pp_price	:any;
+	p_level	:any;
+	price	:any;
+	n_orderid	:any;
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
