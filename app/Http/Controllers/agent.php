@@ -1141,10 +1141,10 @@ class agent extends Controller
         $userid      = $agent_info['userid'];
         $wx_openid   = $agent_info['wx_openid'];
         $create_time = $agent_info['create_time'];
-        $student_info = $this->task->t_student_info->field_get_list($userid,"*");
+        $student_info = $this->t_student_info->field_get_list($userid,"*");
         $orderid = 0;
         if($userid){
-            $order_info = $this->task->t_order_info->get_nomal_order_by_userid($userid);
+            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid);
             if($order_info['orderid']){
                 $orderid = $order_info['orderid'];
             }
@@ -1159,7 +1159,7 @@ class agent extends Controller
            && $orderid){//在读非测试
             $level     =  E\Eagent_level::V_2 ;
         }elseif($wx_openid){//有wx绑定
-            $test_lesson = $this->task->t_agent->get_son_test_lesson_count_by_id($id);
+            $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
             $count       = count($test_lesson);
             if($count>=2){
                 $level     =  E\Eagent_level::V_2 ;
