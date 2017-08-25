@@ -3199,6 +3199,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_student_num_for_teacher_day($teacherid){ // 获取常规课的数量
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+        ];
+
+        $sql = $this->gen_sql_new(" select count(*) as student_num from %s s"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s "
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
+
+
 
 
 }

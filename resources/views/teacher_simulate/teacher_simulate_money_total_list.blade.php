@@ -69,9 +69,10 @@
                             @endif
                             @if(isset($all_money) && !empty($all_money))
                             <tr>
+                                <td>总计</td>
                                 <td>{{$all_money['lesson_total']}}</td>
                                 @if(in_array($account,["adrian","ted"]))
-                                    <td>{{$all_money['money']}}</td>
+                                    <td>{{round($all_money['money'],2)}}</td>
                                     <td>{{$all_money['lesson_price']}}</td>
                                     <td>{{$all_money['money_simulate']}}</td>
                                     <td>{{$all_money['lesson_price_simulate']}}</td>
@@ -83,8 +84,9 @@
                         </table>
                     </div>
                 </div>
-                <!-- 老师工资类型及等级分布 -->
-                @if(!empty($teacher_money_type_month))
+            </div>
+            <!-- 老师工资类型及等级分布 -->
+            @if(!empty($teacher_money_type_month))
                 @foreach(@$teacher_money_type_month as $month_key=>$month_val)
                     <div class="col-xs-12 col-md-4">
                         <div class="panel panel-warning">
@@ -128,8 +130,7 @@
                         </div>
                     </div>
                 @endforeach
-                @endif
-            </div>
+            @endif
         <hr />
         </div>
         <hr/>
