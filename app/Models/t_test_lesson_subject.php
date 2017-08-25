@@ -635,7 +635,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,s.nick,tt.realname "
                                   ." from %s tss  join %s tr on tss.require_id =tr.require_id"
-                                  ." join %s t on tr.test_lesson_subject_id = tr.test_lesson_subject_id"
+                                  ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ."  join %s l on tss.lessonid = l.lessonid"
                                   ." join %s ll on (ll.teacherid = l.teacherid "
                                   ." and ll.userid = l.userid "
