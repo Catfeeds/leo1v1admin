@@ -1905,7 +1905,6 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__,$page_info,["total_type" => $total_type]);
     }
 
-
     public function get_group_list_by_powerid()
     {
         $powerid = $this->get_in_int_val("powerid");

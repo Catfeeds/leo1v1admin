@@ -1023,18 +1023,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }
     }
 
+
     public function get_level_count_info($id ) {
         $sql = $this->gen_sql_new(
-            "select  a1.id  agent_id, sum(a2.id>0 )  child_count "
+            "select count(*) as l1_child_count , sum(child_count) l2_child_count "
+            . " from (select  a1.id  agent_id, sum(a2.id>0 )  child_count "
             . " from %s a1"
             . " left join  %s a2 on( a1.id=a2.parentid and a2.type in (1,3)  ) "
-            ." where  a1.parentid=%u  group  by a1.id  ",
+            ." where  a1.parentid=%u  group  by a1.id ) ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $id
         );
-        return $this->main_get_list($sql);
+        return $this->main_get_row($sql);
     }
+
 
 
 
