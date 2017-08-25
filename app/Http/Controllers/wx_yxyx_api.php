@@ -116,14 +116,14 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
-    public function get_my_num_2(){
+    public function get_level_1_user_list(){
         $agent_id   = $this->get_agent_id();
         if (!$agent_id){
             return $this->output_err("没有信息");
         }
 
-
     }
+
 
     public function get_my_num(){
         $agent_id   = $this->get_agent_id();
