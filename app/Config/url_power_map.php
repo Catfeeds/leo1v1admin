@@ -262,6 +262,7 @@ class url_power_map {
 			'/requirement/requirement_info_product'	=>1094000,
 			'/requirement/requirement_info_development'	=>1094100,
 			'/requirement/requirement_info_test'	=>1094200,
+			'/bug_info/bug_list'	=>1094300,
 			'/tongji_ex/top_list'	=>1101000,
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,
