@@ -5,7 +5,7 @@ class seller_menu{
         return [
             ["power_id"=>45, "name"=>"TSR事业部门户", "list"=>[
                 ["power_id"=>11, "name"=>"排行榜",   "url"=>"/main_page/seller"],
-                ["power_id"=>25, "name"=>"销售月度绩效",   "url"=>"/tongji2/seller_month_money_list"],
+                ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>12, "name"=>"学员中心", "list"=>[
                     ["power_id"=>1, "name"=>"分配例子",   "url"=>"/seller_student_new/assign_sub_adminid_list"],
                     ["power_id"=>2, "name"=>"分配例子-主管",   "url"=>"/seller_student_new/assign_member_list"],
@@ -23,6 +23,7 @@ class seller_menu{
                     ["power_id"=>14, "name"=>"查找用户所在",   "url"=>"/seller_student_new/find_user" ],
                 ]],
                 ["power_id"=>13, "name"=>"试听排课", "list"=>[
+                    ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
                     ["power_id"=>1, "name"=>"试听排课",   "url"=>"/seller_student_new2/test_lesson_plan_list_seller"],
                     ["power_id"=>2, "name"=>"老师推荐",   "url"=>"/human_resource/index_seller"],
                     ["power_id"=>3, "name"=>"暂停试听课老师",   "url"=>"/human_resource/index_new_seller_hold"],
@@ -31,6 +32,8 @@ class seller_menu{
                     ["power_id"=>6, "name"=>"课程列表-销售",   "url"=>"/tea_manage/lesson_list_seller"],
                     ["power_id"=>7, "name"=>"未绑定的试听课",   "url"=>"/seller_student_new2/test_lesson_no_binding_list"],
                     ["power_id"=>8, "name"=>"教务排课明细",   "url"=>"/tongji_ss/test_lesson_plan_detail_list"],
+                    ["power_id"=>67, "name"=>"教师排课信息",   "url"=>"/human_resource/teacher_info_for_seller" ],
+                    ["power_id"=>70, "name"=>"教学质量反馈列表",   "url"=>"/tea_manage_new/get_seller_ass_record_info_seller"],
                 ]],
                 ["power_id"=>14, "name"=>"合同", "list"=>[
                     ["power_id"=>1, "name"=>"合同-待付费",   "url"=>"/user_manage/contract_list_seller_add"],
@@ -81,6 +84,7 @@ class seller_menu{
                 ]],
                 ["power_id"=>17, "name"=>"综合统计", "list"=>[
                     ["power_id"=>1, "name"=>"日报",   "url"=>"/tongji_ss/day_report"],
+                    ["power_id"=>25, "name"=>"销售月度绩效",   "url"=>"/tongji2/seller_month_money_list"],
                     ["power_id"=>2, "name"=>"销售月度统计报表",   "url"=>"/user_manage_new/seller_tongji_report_info"],
                     ["power_id"=>3, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
                     ["power_id"=>4, "name"=>"设备统计",   "url"=>"/tongji_ss/lesson_device_info"],
