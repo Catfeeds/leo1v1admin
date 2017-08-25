@@ -11,6 +11,7 @@ storage
 core
 f
 q
+enum_config/enum_map.js
 table_config/.*.temp
 *#*
 .*

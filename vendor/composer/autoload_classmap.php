@@ -570,6 +570,7 @@ return array(
     'TAgentCash' => $baseDir . '/database/migrations/2017_07_05_193135_t_agent_cash.php',
     'TAgentCashAddCheckMoney' => $baseDir . '/database/migrations/2017_08_22_161736_t_agent_cash_add_check_money.php',
     'TAgentEditBankcardIdcardType' => $baseDir . '/database/migrations/2017_07_08_164842_t_agent_edit_bankcard_idcard_type.php',
+    'TAgentInfoAgentStudentStatus' => $baseDir . '/database/migrations/2017_08_25_132749_t_agent_info_agent_student_status.php',
     'TAgentOrder' => $baseDir . '/database/migrations/2017_06_14_163953_t_agent_order.php',
     'TAgentOrderAddAid' => $baseDir . '/database/migrations/2017_07_07_182216_t_agent_order_add_aid.php',
     'TAssWarningRenwFlagModefiyListAddIndex' => $baseDir . '/database/migrations/2017_07_21_113059_t_ass_warning_renw_flag_modefiy_list_add_index.php',

@@ -283,9 +283,10 @@ class login extends Controller
         if($main_department == 2 || $uid == 684 || $uid == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
-        if (\App\Helper\Utils::check_env_is_local() ) {
-            $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
-        }
+        // if (\App\Helper\Utils::check_env_is_local() ) {
+        // if($main_department == 1 || $uid == 684 || $uid == 99){ // 销售部
+        $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
+        // }
         \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
 
         $menu      = \App\Helper\Config::get_menu();
