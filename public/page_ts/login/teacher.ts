@@ -30,7 +30,7 @@ $(function(){
             success: function(data) {
                 if (data['ret'] == 0) {
                     var to_url=$.query.get("to_url");
-                    if (to_url  ){
+                    if (to_url ){
                         window.location.href= to_url;
                     }else{
                         window.location.href=  "/teacher_info";

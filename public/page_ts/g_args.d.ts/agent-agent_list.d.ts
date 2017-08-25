@@ -43,6 +43,7 @@ interface RowData {
 	type	:any;
 	agent_level	:any;
 	test_lessonid	:any;
+	agent_student_status	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;
@@ -60,6 +61,7 @@ interface RowData {
 	agent_type_str	:any;
 	agent_level_str	:any;
 	student_stu_type_str	:any;
+	agent_student_status_str	:any;
 	lesson_user_online_status_str	:any;
 	pp_off_info	:any;
 	p_off_info	:any;
