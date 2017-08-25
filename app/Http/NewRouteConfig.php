@@ -112,6 +112,8 @@ class NewRouteConfig {
         "t_yxyx_new_list"             => true,
         "campus_manage"               => true,
         "requirement_info"            => true,
+        "bug_info"                    => true,
+
     ];
 
     //config
@@ -570,7 +572,7 @@ class NewRouteConfig {
         "/requirement/test_reject"                       => true,
         "/requirement/test_do"                           => true,
         "/requirement/test_finish"                       => true,
-
+        "/bug_info/bug_list"                             => true,
 
 
     ];
