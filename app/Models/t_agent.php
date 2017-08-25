@@ -68,7 +68,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $where_arr = [];
         $this->where_arr_add_int_or_idlist($where_arr,"a.type",1);
         $this->where_arr_add_time_range($where_arr,"a.create_time",1503504000,1503565200);
-        $this->where_arr_add_int_or_idlist($where_arr,"s.type",0);
+        $this->where_arr_add_int_or_idlist($where_arr,"s.type",1);
 
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
