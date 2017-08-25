@@ -141,21 +141,21 @@
 
                                     <div class="pull-right" style="margin-bottom: 3px;">
 
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_self_menu_add">添加本页到收藏</a>
-                                        <a href="/self_manage/self_menu_list" class="btn btn-primary btn-flat" >收藏列表</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_self_menu_add">添加本页到收藏</a>
+                                        <a href="/self_manage/self_menu_list" class="btn btn-default btn-flat" >收藏列表</a>
                                     </div>
 
                                     <div class="pull-right" style="margin-bottom: 3px;">
 
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_ssh_open">SSH 开启(开发)</a>
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_new_seller_system">新版客服系统</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_ssh_open">SSH 开启(开发)</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_new_seller_system">新版客服系统</a>
                                     </div>
 
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_user_change_passwd">修改密码</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_user_change_passwd">修改密码</a>
 
-                                        <a href="#" class="btn btn-primary btn-flat" id="id_public_user_reset_power">重置权限</a>
-                                        <a href="#" class="btn btn-warning btn-flat" id="id_system_logout">退出</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_public_user_reset_power">重置权限</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_system_logout">退出</a>
                                     </div>
                                 </li>
                             </ul>

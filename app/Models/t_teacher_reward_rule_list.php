@@ -62,4 +62,21 @@ class t_teacher_reward_rule_list extends \App\Models\Zgen\z_t_teacher_reward_rul
         return $this->main_get_list($sql);
 
     }
+
+    public function delete_reward_rule($reward_count_type,$rule_type,$num){
+        $where_arr = [
+            ["reward_count_type=%u",$reward_count_type,-1],
+            ["rule_type=%u",$rule_type,-1],
+            ["num=%u",$num,-1],
+        ];
+        $sql = $this->gen_sql_new("delete "
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
+
 }

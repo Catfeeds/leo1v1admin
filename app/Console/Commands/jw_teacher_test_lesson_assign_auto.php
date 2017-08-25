@@ -49,9 +49,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
             $history_adminid = $item["history_accept_adminid"];
             $work_status = $task->t_manager_info->get_admin_work_status($history_adminid);
             if($work_status==0){
-                if(count($list_left) <=2){
-                    $list_left[] =$item; 
-                }
+                $list_left[] =$item; 
             }else if($work_status==1){
                 $require_adminid = $item["require_adminid"];
 
@@ -168,8 +166,8 @@ class jw_teacher_test_lesson_assign_auto extends Command
                 }           
             }
   
-        }
-        $num_all = count($jw_teacher_list_all);*/
+            }*/
+        $num_all = count($jw_teacher_list_all);
 
         $green_channel_list = $task->t_test_lesson_subject_require->get_green_channel_require_id($start_time,$end_time,$num_all);
         if(!empty($green_channel_list)){
@@ -261,6 +259,7 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $test_lesson_require_list = $task->t_test_lesson_subject_require->get_test_lesson_require_list_for_jw(
             $start_time,$end_time,$num*4
         );
+        dd($test_lesson_require_list);
 
         if(!empty($test_lesson_require_list)){
             foreach($test_lesson_require_list as $v){

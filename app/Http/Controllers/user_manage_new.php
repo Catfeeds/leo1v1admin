@@ -1851,7 +1851,6 @@ class user_manage_new extends Controller
     }
 
     public function teacher_money_type_list_simulate(){
-        // $this->set_in_value("teacher_money_type",6);
         return $this->teacher_money_type_list();
     }
 
@@ -3837,6 +3836,8 @@ class user_manage_new extends Controller
             ]);
         }elseif($type=="update"){
             $ret = $this->t_teacher_reward_rule_list->update_reward_rule($reward_count_type,$rule_type,$num,$old_num,$money);
+        }elseif($type=="delete"){
+            $ret = $this->t_teacher_reward_rule_list->delete_reward_rule($reward_count_type,$rule_type,$num);
         }
         if(!$ret){
             return $this->output_err("更新失败！");
