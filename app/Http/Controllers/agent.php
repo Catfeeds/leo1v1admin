@@ -260,8 +260,10 @@ class agent extends Controller
     }
 
     public function update_lesson_call_end_time_new(){
-        $adminid = 429;
-        $phone = '15285924101';
+        $adminid_new = $this->get_in_int_val('adminid');
+        $phone_new = $this->get_in_str_val('phone');
+        $adminid = $adminid_new?$adminid_new:997;
+        $phone = $phone_new?$phone_new:'18070542658';
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
