@@ -22,11 +22,11 @@ class t_teacher_reward_rule_list extends \App\Models\Zgen\z_t_teacher_reward_rul
         return $this->main_get_list($sql);
     }
 
-    public function update_reward_rule($reward_count_type,$rule_type,$num,$money){
+    public function update_reward_rule($reward_count_type,$rule_type,$num,$old_num,$money){
         $where_arr = [
             ["reward_count_type=%u",$reward_count_type,-1],
             ["rule_type=%u",$rule_type,-1],
-            ["num=%u",$num,-1],
+            ["num=%u",$old_num,-1],
         ];
         $sql = $this->gen_sql_new("update %s set num=%u,money=%u"
                                   ." where %s"

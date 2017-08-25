@@ -125,6 +125,7 @@ class wx_login extends Controller
             //更新tquin
             $tquin = session("login_tquin");
             \App\Helper\Utils::logger(" WX TQ login_tquin: $tquin");
+            /*
             if ($tquin) {
                 $old_info=$this->t_manager_info->get_info_by_tquin($tquin);
                 if ($old_info) {
@@ -140,6 +141,7 @@ class wx_login extends Controller
                     ]);
                 }
             }
+            */
 
             $this->t_login_log->add($account,$ip,1);
             $_SESSION['acc']        = $account;

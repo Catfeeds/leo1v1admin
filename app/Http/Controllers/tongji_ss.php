@@ -7900,19 +7900,23 @@ class tongji_ss extends Controller
 
     public function get_reference_teacher_money_info(){
         $this->switch_tongji_database();
-        $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-08-01");
+        // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
+        $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
+        // dd($ret_info);
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");
         // $ret_info = $this->t_teacher_lecture_appointment_info->gen_have_video_teacher_info();
         foreach($ret_info["list"] as &$item){
-            if($item["train_through_new"]==1){
+            /* if($item["train_through_new"]==1){
                 $item["train_through_new_str"]="已入职";
             }else{
                 $item["train_through_new_str"]="未入职";
             }
-            if($item["train_through_new_time"]>0){
-                $item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
-            }else{
+            if($item["train_through_new_time"]>0){*/
+            $item["train_through_new_time_str"]=date("Y-m-d H:i",$item["train_through_new_time"]);
+            /* }else{
                 $item["train_through_new_time_str"]="无";
             }
             E\Eidentity::set_item_value_str($item,"teacher_type");
@@ -7922,7 +7926,7 @@ class tongji_ss extends Controller
                 $item['subject_ex']   = E\Esubject::get_desc($item['subject_ex']);
             }elseif(is_numeric($item['grade_ex'])){
                 $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_ex']);
-            }
+                }*/
 
         }
         return $this->pageView(__METHOD__,$ret_info);

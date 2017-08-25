@@ -16,8 +16,9 @@ $(function(){
             if (do_index < row_list.length ) {
                 var $tr=$(row_list[do_index]);
                 var opt_data=$tr.find(".course_plan").get_opt_data();
-                var phone = opt_data.phone;
-                if(phone>0){
+                var teacherid = opt_data.teacherid;
+                var train_through_new_time = opt_data.train_through_new_time;
+                if(teacherid>0){
                    /* $.do_ajax("/teacher_money/user_deal/get_teacher_interview_info",{
                         "teacherid"           : opt_data.teacherid,
                         "type" : "admin",
@@ -38,12 +39,26 @@ $(function(){
                         do_index++;
                         do_one();
                         });*/
-                    $.do_ajax("/user_deal/get_teacher_interview_info",{
-                        "phone"           : phone,
-                        "teacherid"       : opt_data.teacherid
+                    $.do_ajax("/ajax_deal2/get_teacher_week_test_lesson_info",{
+                        "train_through_new_time"           : train_through_new_time,
+                        "teacherid"       : teacherid
                     },function(resp){
                         console.log(resp.data);
-                        $tr.find(".interview_info").text(resp.data); 
+                        $tr.find(".first_lesson_num").text(resp.data.first_lesson_num); 
+                        $tr.find(".first_order_num").text(resp.data.first_order_num); 
+                        $tr.find(".first_per").text(resp.data.first_per);
+                        $tr.find(".second_lesson_num").text(resp.data.second_lesson_num); 
+                        $tr.find(".second_order_num").text(resp.data.second_order_num); 
+                        $tr.find(".second_per").text(resp.data.second_per); 
+                        $tr.find(".third_lesson_num").text(resp.data.third_lesson_num); 
+                        $tr.find(".third_order_num").text(resp.data.third_order_num); 
+                        $tr.find(".third_per").text(resp.data.third_per); 
+                        $tr.find(".fourth_lesson_num").text(resp.data.fourth_lesson_num); 
+                        $tr.find(".fourth_order_num").text(resp.data.fourth_order_num); 
+                        $tr.find(".fourth_per").text(resp.data.fourth_per); 
+
+
+                       
                         
                         do_index++;
                         do_one();

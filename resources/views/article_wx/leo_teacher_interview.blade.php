@@ -222,7 +222,7 @@
 
                                 <p  style="line-height: 25.6px; white-space: normal;text-align: center; margin: 0px; padding: 0px; box-sizing: border-box;">
 
-                                    <iframe frameborder="0" src="https://v.qq.com/iframe/player.html?vid=w0538xx08c7&tiny=0&auto=0" allowfullscreen></iframe>
+                                    <iframe frameborder="0" src="http://v.qq.com/iframe/player.html?vid=w0538xx08c7&tiny=0&auto=0" allowfullscreen></iframe>
                                     <br>
                                 </p>
 

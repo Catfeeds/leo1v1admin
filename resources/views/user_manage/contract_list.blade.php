@@ -169,6 +169,7 @@
                     <td style="display:none;" >地区</td>
                     <td style="display:none;" >1v1详细分类</td>
                     <td style="display:none;">是否新增 </td>
+                    <td >试听课时间</td>
                     <td >年级</td>
                     <td >科目</td>
                     <td style="display:none;" >联系电话</td>
@@ -211,6 +212,7 @@
                         <td >{{substr($var["phone_location"],0,-6)}}</td>
                         <td >{{$var["stu_from_type_str"]}}</td>
                         <td >{{$var["is_new_stu_str"]}}</td>
+                        <td >{{$var["lesson_start"]}}-{{$var["lesson_end"]}}</td>
                         <td >{{$var["grade_str"]}}</td>
                         <td >{{$var["subject_str"]}}</td>
                         <td >{{$var["phone"]}}</td>
