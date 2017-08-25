@@ -1132,7 +1132,7 @@ class agent extends Controller
     }
 
     public function update_agent_level(){
-        $order_info = $this->t_order_info->get_nomal_order_by_userid($userid=115506,$check_time=time());
+        $order_info = $this->t_order_info->get_nomal_order_by_userid($userid=115506);
         dd($order_info);
         $this->t_agent->reset_user_info($id = 1634);
         dd('a');
