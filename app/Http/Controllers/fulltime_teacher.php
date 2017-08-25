@@ -42,10 +42,14 @@ class fulltime_teacher extends Controller
         }
         //获取试用期内月平均课时消耗数和设置评分
         $start_time = $account_info['create_time'];
+        $per_start = time()-90*86400;
+        if($start_time >=$per_start){
+            $per_start = $start_time;
+        }
         $end_time   = time();
         $n = ($end_time - $start_time)/86400/31;
         $qz_tea_arr = array("$teacherid");
-        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($start_time,$end_time,$qz_tea_arr);
+        $lesson_count = $this->t_lesson_info_b2->get_teacher_lesson_count_list($per_start,$end_time,$qz_tea_arr);
         $val = $teacher_info;
         $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
@@ -68,7 +72,7 @@ class fulltime_teacher extends Controller
         $account_info['main_department_str']      = E\Emain_department::get_desc($account_info['main_department']);
         // $lesson_info  = $this->t_lesson_info_b2->get_teacher_test_lesson_order_info($teacherid,$account_info["create_time"],time());
         // $account_info["order_per"] =!empty($lesson_info["person_num"])?round($lesson_info["have_order"]/$lesson_info["person_num"]*100,2):0;
-        $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid,$account_info["create_time"],time());
+        $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid, $per_start,time());
 
         //$account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_new2')
 @section('content')
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
     <section class="content ">

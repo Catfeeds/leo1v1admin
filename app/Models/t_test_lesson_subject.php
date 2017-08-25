@@ -628,14 +628,14 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "t.ass_test_lesson_type =1",
             " l.teacherid >0",
             " l.userid >0",
-           "tr.origin not like '%%转介绍%%' ",
+            //"tr.origin not like '%%转介绍%%' ",
             ["tr.cur_require_adminid=%u",$adminid,-1]
         ];
         // $this->where_arr_add_time_range($where_arr,"tr.require_time",$start_time,$end_time);
 
         $sql = $this->gen_sql_new("select distinct l.userid,l.teacherid,l.subject,ll.lesson_start,s.nick,tt.realname "
                                   ." from %s tss  join %s tr on tss.require_id =tr.require_id"
-                                  ." join %s t on tr.test_lesson_subject_id = tr.test_lesson_subject_id"
+                                  ." join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
                                   ."  join %s l on tss.lessonid = l.lessonid"
                                   ." join %s ll on (ll.teacherid = l.teacherid "
                                   ." and ll.userid = l.userid "

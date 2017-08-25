@@ -31,11 +31,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
-            if($item['n_orderid'] && $item['is_test_user'] == 0){
-                E\Estudent_stu_type::set_item_value_str($item);
-            }else{
-                $item['student_stu_type_str'] = '';
-            }
+            E\Estudent_stu_type::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
 
