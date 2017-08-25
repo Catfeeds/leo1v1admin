@@ -15,7 +15,11 @@ class teacher_simulate extends Controller
     var $all_money_count_key      = "all_money_count";
     var $has_month_key            = "has_month";
     var $teacher_ref_rate_key     = "teacher_ref_rate";
-    var $month_money_key          = "month_money";
+
+    var $lesson_total_key             = "lesson_total";
+    var $already_lesson_count_key     = "already_lesson_count_month";
+    var $money_month_key              = "money_month";
+    var $teacher_money_type_month_key = "teacher_money_type_month";
 
     public function new_teacher_money_list(){
         $this->switch_tongji_database();
@@ -297,11 +301,20 @@ class teacher_simulate extends Controller
     }
 
     public function teacher_simulate_money_total_list(){
-        $level_list      = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true);
-        $all_money       = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->all_money_count_key,[],true);
-        $month_money_key = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->month_money_key,[],true);
+        $level_list  = krsort(
+            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->level_simulate_count_key,[],true));
+        $money_month = krsort(
+            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true));
+        $already_lesson_count = krsort(
+            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true));
+        $teacher_money_type_month = krsort(
+            \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_money_type_month_key,[],true));
 
-        return $this->view(__METHOD__,[]);
+        
+
+        return $this->view(__METHOD__,[],[
+
+        ]);
     }
 
     public function get_month_money_list(){
@@ -310,8 +323,6 @@ class teacher_simulate extends Controller
 
         $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
         dispatch($job);
-
-
     }
 
 

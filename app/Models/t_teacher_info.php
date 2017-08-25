@@ -3129,7 +3129,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_teacher_info_for_teacher_day($teacherid){
+    public function get_test_lesson_info_for_teacher_day($teacherid){
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
@@ -3147,6 +3147,28 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         return $this->main_get_row($sql);
     }
+
+
+
+    public function get_common_lesson_info_for_teacher_day($teacherid){
+
+        $where_arr = [
+            ["t.teacherid=%d",$teacherid,-1],
+            "l.lesson_type = 0",
+            "l.del_flag = 0"
+        ];
+
+        $sql = $this->gen_sql_new(" select  min(l.lesson_start) as common_lesson_time, lesson_start, l.lesson_end, count(*) as common_lesson_num from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." where %s"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_row($sql);
+    }
+
 
 
 }
