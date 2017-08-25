@@ -14,6 +14,8 @@
       <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
       <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
       <script type="text/javascript" src="/js/jquery.md5.js"></script>
+      <script type="text/javascript" src="/page_js/lib/flow.js"></script>
+
     <section class="content ">
         
         <div>
@@ -93,9 +95,9 @@
                     <td>提交人</td>
                     <td>提交时间</td>
                     <td>期待交付时间</td>
-                    <td>需求说明</td>
+                    <td style="width:320px">需求说明</td>
                     <td>内容截图</td>
-                    <td>备注</td>
+                    <td style="width:320px">备注</td>
                     <td>联系方式</td>
                     <td>进度(部门)</td>
                     <td>进度(状态)</td>
@@ -114,13 +116,15 @@
                         <td>{{@$var["create_admin_nick"]}} </td>
                         <td>{{@$var["create_time"]}} </td>
                         <td>{{@$var["expect_time"]}} </td>
-                        <td>{{@$var["statement"]}} </td>
+                        <td>{{@$var["statement"]}}</td>
                         @if ($var['content_pic'] == '')
                             <td></td>
                         @else
                            <td><a href="{{$var['content_pic']}}" target="_blank">下载</td>
                         @endif       
-                        <td>{{@$var["notes"]}} </td>
+
+                       
+                        <td> {{@$var["notes"]}} </td>
                         <td>{{@$var['create_phone']}}</td>
                         <td>{{@$var['status_str']}}</td>
                         @if ($var['status'] == 2 && $var['product_status'] == 1)

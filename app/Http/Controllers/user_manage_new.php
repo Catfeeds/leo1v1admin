@@ -1848,8 +1848,13 @@ class user_manage_new extends Controller
         return $this->pageView(__METHOD__, $page_info);
     }
 
+    public function teacher_money_type_list_simulate(){
+        // $this->set_in_value("teacher_money_type",6);
+        return $this->teacher_money_type_list();
+    }
+
     public function teacher_money_type_list(){
-        $teacher_money_type = $this->get_in_int_val("teacher_money_type");
+        $teacher_money_type = $this->get_in_int_val("teacher_money_type",6);
 
         /**
          * teacher_money_type 2 外聘 3 固定工资 这两类不分等级
@@ -1860,7 +1865,7 @@ class user_manage_new extends Controller
             $level = $this->get_in_int_val("level");
         }
 
-        $rule_type = \App\Config\teacher_rule::$rule_type;
+        $rule_type = \App\Config\teacher_rule::reward_count_type_list();
         $type      = $this->t_teacher_money_type->get_teacher_type($teacher_money_type,$level);
 
         $i = 0;
@@ -1886,7 +1891,7 @@ class user_manage_new extends Controller
             if(!empty($money_type) && is_array($money_type)){
                 $num = 0;
                 foreach($money_type as $k=>$v){
-                    $val['money_'.$num]=$val['money']+$v;
+                    $val['money_'.$num]=$val['money']+$v/100;
                     $num++;
                 }
             }else{

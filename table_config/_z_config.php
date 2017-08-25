@@ -154,6 +154,7 @@ return array(
     ["db_weiyi","t_teacher_leave_info","id"] ,
     ["db_weiyi","t_fulltime_teacher_assessment_list","id"] ,
     ["db_weiyi","t_fulltime_teacher_positive_require_list","id"] ,
+    ["db_weiyi","t_bug_info","id"] ,
 
 
     ["db_weiyi_admin","t_upload_info","postid"] ,
