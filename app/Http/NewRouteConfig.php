@@ -572,7 +572,6 @@ class NewRouteConfig {
         "/requirement/test_reject"                       => true,
         "/requirement/test_do"                           => true,
         "/requirement/test_finish"                       => true,
-        "/bug_info/bug_list"                             => true,
 
 
     ];
