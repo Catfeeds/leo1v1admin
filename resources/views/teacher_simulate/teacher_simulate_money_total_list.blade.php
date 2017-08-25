@@ -73,12 +73,12 @@
                                 <td>{{$all_money['lesson_total']}}</td>
                                 @if(in_array($account,["adrian","ted"]))
                                     <td>{{round($all_money['money'],2)}}</td>
-                                    <td>{{$all_money['lesson_price']}}</td>
-                                    <td>{{$all_money['money_simulate']}}</td>
-                                    <td>{{$all_money['lesson_price_simulate']}}</td>
+                                    <td>{{round($all_money['lesson_price'],2)}}</td>
+                                    <td>{{round($all_money['money_simulate'],2)}}</td>
+                                    <td>{{round($all_money['lesson_price_simulate'],2)}}</td>
                                 @endif
-                                <td>{{round($all_money['money']/($all_money['lesson_price']==0?1:$all_money['lesson_price']),4)}}</td>
-                                <td>{{round($all_money['money_simulate']/($all_money['lesson_price_simulate']==0?1:$all_money['lesson_price_simulate']),4)}}</td>
+                                <td>{{round($all_money['money']/($all_money['lesson_price']==0?1:$all_money['lesson_price']),4)*100}}%</td>
+                                <td>{{round($all_money['money_simulate']/($all_money['lesson_price_simulate']==0?1:$all_money['lesson_price_simulate']),4)*100}}%</td>
                             </tr>
                             @endif
                         </table>

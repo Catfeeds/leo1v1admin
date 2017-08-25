@@ -3206,7 +3206,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         ];
 
         $sql = $this->gen_sql_new(" select count(*) as student_num from %s s"
-                                  ." left join %s t on l.teacherid=t.teacherid "
+                                  ." left join %s t on s.teacherid=t.teacherid "
                                   ." where %s "
                                   ,t_student_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
