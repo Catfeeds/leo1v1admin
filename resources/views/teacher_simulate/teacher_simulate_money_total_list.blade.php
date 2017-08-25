@@ -109,7 +109,12 @@
                                                 <td>{{$l_val['lesson_total']}}</td>
                                                 @if(in_array($account,["adrian","ted"]))
                                                     <td>{{$l_val['money']}}</td>
+                                                    <td>{{$l_val['lesson_price']}}</td>
+                                                    <td>{{$l_val['money_simulate']}}</td>
+                                                    <td>{{$l_val['lesson_price_simulate']}}</td>
                                                 @endif
+                                                <td>{{round($l_val['money']/($l_val['lesson_price']==0?1:$l_val['lesson_price']),4)}}</td>
+                                                <td>{{round($l_val['money_simulate']/($l_val['lesson_price_simulate']==0?1:$l_val['lesson_price_simulate']),4)}}</td>
                                             </tr>
                                         @endforeach
                                     @endforeach
@@ -124,4 +129,3 @@
         <hr/>
     </section>
 @endsection
-
