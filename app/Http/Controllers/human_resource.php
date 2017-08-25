@@ -718,6 +718,11 @@ class human_resource extends Controller
 
     public function index()
     {
+        /**
+           $this->set_in_value("is_test_user",0);
+           $this->set_in_value("fulltime_flag",0);
+
+         */
         $this->switch_tongji_database();
         $teacherid                = $this->get_in_int_val('teacherid',-1);
         $is_freeze                = $this->get_in_int_val('is_freeze',-1);
@@ -1655,6 +1660,7 @@ class human_resource extends Controller
                     $data['keyword2']="通过";
                     $data['keyword3']=date("Y年m月d日 H:i:s");
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+
                 }elseif($status==2){
                     $data['first']="老师您好，很抱歉您没有通过试讲审核。";
                     $data['keyword1']="初试结果";
@@ -1673,6 +1679,11 @@ class human_resource extends Controller
                 $url="";
                 \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
             }
+        }
+
+        if($full_time==1 && $status==1){
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
         }
 
         $this->t_teacher_lecture_info->field_update_list($id,[

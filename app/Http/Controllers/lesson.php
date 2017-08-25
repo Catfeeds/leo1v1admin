@@ -13,7 +13,6 @@ class lesson extends TeaWxController
     }
 
     public function update_comment_common() { // 协议编号 1003
-
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid');
         $now                = time(NULL);
@@ -67,6 +66,7 @@ class lesson extends TeaWxController
 
         $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
 
+        $comment_date = time();
         $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$comment_date);
 
         if($com_state){
@@ -396,7 +396,7 @@ class lesson extends TeaWxController
 
     public function update_comment_pre_listen_new(){ // 新版试听课评价 标号3002
         $teacherid    = $this->get_teacherid();
-        $comment_date = time(NUll);
+        $now          = time(NUll);
         $lessonid     = $this->get_in_int_val('lessonid',-1);
 
         if ($lessonid == -1) {
@@ -428,7 +428,7 @@ class lesson extends TeaWxController
             ]
             );
 
-            $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
+            $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $now);
 
             return $this->output_succ(['time'=>$ret_state]);
         }else{
@@ -444,7 +444,7 @@ class lesson extends TeaWxController
 
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid',-1);
-        $comment_date       = time(NULL);
+        $now                = time(NULL);
         $total_judgement    = $this->get_in_int_val("total_judgement",-1);
         $homework_situation = $this->get_in_str_val("homework_situation",'');
         $content_grasp      = $this->get_in_str_val("content_grasp",'');
@@ -504,12 +504,4 @@ class lesson extends TeaWxController
             }
         }
     }
-
-
-
-
-
-
-
-
 }

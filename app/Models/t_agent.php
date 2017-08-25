@@ -628,6 +628,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_row($sql);
     }
+
     public function get_id_by_userid($userid) {
         $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
@@ -960,6 +961,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     public function reset_user_info($id ) {
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
+        $agent_type= $agent_info["type"];
+        $agent_student_status=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
             $is_test_user = $student_info['is_test_user'];
@@ -967,13 +970,55 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $now=time(NULL);
             $this->reset_user_info_test_lesson($id,$userid,$is_test_user, $create_time );
             $this->reset_user_info_order_info($id,$userid,$is_test_user,$create_time);
+
+            //是学员
+            if (in_array( $agent_type, [E\Eagent_type::V_1 , E\Eagent_type::V_3]) ) {
+                //检查合同
+                if ($this->task->t_agent_order->check_aid($id) ) {
+                    $agent_student_status=E\Eagent_student_status::V_50;
+                }else{
+                    $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type") ;
+                    if ($stu_info) {
+                        $global_seller_student_status = $stu_info["global_seller_student_status"];
+                        $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
+                        $seller_resource_type         = $stu_info["seller_resource_type"];
+                        if ($seller_resource_type == E\Eseller_resource_type::V_0) { //新例子
+                            if($global_tq_called_flag == 0 ) {
+                                $agent_student_status=E\Eagent_student_status::V_0;
+                            }else if ($global_tq_called_flag==1) {
+                                $agent_student_status=E\Eagent_student_status::V_10;
+                            }else if ( $global_seller_student_status<200) {
+                                //E\Eseller_student_status
+                                $agent_student_status=E\Eagent_student_status::V_20;
+                            }else if ( $global_seller_student_status>=220) {
+                                $agent_student_status=E\Eagent_student_status::V_30;
+                            }else{
+                                $agent_student_status=E\Eagent_student_status::V_40;
+                            }
+                        }else{
+                            $agent_student_status=E\Eagent_student_status::V_100;
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
         //重置当前等级
         $agent_level=$this->get_agent_level_by_check_time($id,$agent_info,time(NULL));
         $this->field_update_list($id,[
-            "agent_level" => $agent_level
+            "agent_level" => $agent_level,
+            "agent_student_status" => $agent_student_status,
         ]);
+
+        if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
+            $this->field_update_list($id,[
+                "type" =>  E\Eagent_type::V_3
+            ]);
+        }
     }
 
 }

@@ -2903,6 +2903,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid($adminid){
         $time = time();
         $where_arr = [
+            ' l.tea_attend <> 0 ',
+            ' l.stu_attend <> 0 ',
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
@@ -2930,6 +2932,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_call_end_time_by_adminid_new($adminid){
         $time = time();
         $where_arr = [
+            ' l.tea_attend <> 0 ',
+            ' l.stu_attend <> 0 ',
             ' l.lesson_type = 2 ',
             ' l.lesson_del_flag = 0 ',
             ' l.confirm_flag <2 ',
@@ -3419,7 +3423,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql = $this->gen_sql_new("select distinct l.lessonid,l.lesson_start,t.realname,l.lesson_name from %s l "
                                   ." left join %s ta on l.lessonid = ta.lessonid"
                                   ." left join %s t on l.teacherid = t.teacherid"
-                                  ." where %s and (l.teacherid = %u or ta.userid = %u) order by lesson_start desc",
+                                  ." where %s and (l.teacherid = %u or ta.userid = %u)"
+                                  ." group by lesson_start order by lesson_start desc",
                                   self::DB_TABLE_NAME,
                                   t_train_lesson_user::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
@@ -3427,7 +3432,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   $teacherid,
                                   $teacherid
         );
-        return $this->main_get_list_as_page($sql);
+        return $this->main_get_list_by_page($sql,$page_info,10,true);
     }
 
 }

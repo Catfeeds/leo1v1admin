@@ -61,8 +61,6 @@ class teacher_simulate extends Controller
             if(!isset($already_lesson_count_list[$key])){
                 $already_lesson_count_simulate = Redis::get($key);
                 if($already_lesson_count_simulate === null){
-                    $last_end_time   = strtotime(date("Y-m-01",$val['lesson_start']));
-                    $last_start_time = strtotime("-1 month",$last_end_time);
                     $already_lesson_count_simulate = $this->get_already_lesson_count(
                         $start_time,$end_time,$teacherid,$val['teacher_money_type']
                     );
@@ -239,7 +237,7 @@ class teacher_simulate extends Controller
      * 更新redis中已结算工资月份
      */
     public function check_month_redis_key($data){
-        $month_key = date("Y-m",$data['start_time']);
+        $month_key     = date("Y-m",$data['start_time']);
         $now_month_key = date("Y-m",time());
         $check_time    = strtotime("2017-1-1");
         if($month_key==$now_month_key || $data['start_time']<$check_time){
