@@ -50,9 +50,10 @@ class fulltime_teacher extends Controller
         $val["lesson_count"]     = isset($lesson_count[$val["teacherid"]])?$lesson_count[$val["teacherid"]]["lesson_all"]/100:0;
         $val["lesson_count_avg"] = round($val["lesson_count"]/$n,2);
         $account_info['lesson_count_avg'] = $val['lesson_count_avg'];
-        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
-        if($account_info["lesson_count_avg_score"]>=25){
-            $account_info["lesson_count_avg_score"]=25;
+        //        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.3125);
+        $account_info["lesson_count_avg_score"] = round($account_info['lesson_count_avg']*0.15);
+        if($account_info["lesson_count_avg_score"]>=20){//25->20
+            $account_info["lesson_count_avg_score"]=20;
         }
                
         if((time() - $account_info["create_time"])>60*86400){
@@ -69,9 +70,11 @@ class fulltime_teacher extends Controller
         // $account_info["order_per"] =!empty($lesson_info["person_num"])?round($lesson_info["have_order"]/$lesson_info["person_num"]*100,2):0;
         $account_info["order_per"]= $this->get_fulltime_teacher_test_lesson_score($teacherid,$account_info["create_time"],time());
 
-        $account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
-        if($account_info["order_per_score"]>=20){
-            $account_info["order_per_score"]=20;
+        //$account_info["order_per_score"] = round(0.25*$account_info["order_per"]*2);
+
+        $account_info["order_per_score"] = round(0.25*$account_info["order_per"]);
+        if($account_info["order_per_score"]>=25){//20->25
+            $account_info["order_per_score"]=25;
         }
 
         $date_week                         = \App\Helper\Utils::get_week_range(time(),1);
@@ -113,7 +116,7 @@ class fulltime_teacher extends Controller
         }
                
         if($adminid==349 || $adminid==99){
-            $account_info["order_per_score"]=20;
+            $account_info["order_per_score"]=25;
             $account_info["stu_num_score"]=15;
             $account_info["stu_lesson_total_score"]=5; 
         }
