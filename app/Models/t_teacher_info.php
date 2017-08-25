@@ -3162,9 +3162,10 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
         $sql = $this->gen_sql_new(" select min(l.lesson_start) as common_lesson_time, min(l.lessonid) as common_lessonid  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
-                                  ." where %s "
+                                  ." where l.lessonid = (select min(l.lessonid) from %s ll where %s)"
                                   ,t_lesson_info::DB_TABLE_NAME
                                   ,self::DB_TABLE_NAME
+                                  ,t_lesson_info::DB_TABLE_NAME
                                   ,$where_arr
         );
 
