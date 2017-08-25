@@ -3130,7 +3130,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
-    public function get_test_lesson_info_for_teacher_day($teacherid){
+    public function get_test_lesson_info_for_teacher_day($teacherid){ // 获取老师 入职时间 | 试听课数量 | 第一次试听课开始时间
 
         $where_arr = [
             ["t.teacherid=%d",$teacherid,-1],
@@ -3160,7 +3160,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.lesson_start>0"
         ];
 
-        $sql = $this->gen_sql_new(" select min(l.lesson_start) as common_lesson_time, min(l.lessonid) as common_lessonid  from %s l"
+        $sql = $this->gen_sql_new(" select l.lessonid  from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." where l.lessonid = (select min(l.lessonid) from %s ll where %s)"
                                   ,t_lesson_info::DB_TABLE_NAME
