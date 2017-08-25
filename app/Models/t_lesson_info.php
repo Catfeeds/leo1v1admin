@@ -1297,11 +1297,11 @@ lesson_type in (0,1) "
             ["s.assistantid= %u",$assistantid, -1  ],
         ];
         $sql=$this->gen_sql_new("select s.assistantid, s.userid ,s.grade,sum(lesson_count) as lesson_count,count(*) as count from  %s  l, %s s ".
-                            " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
+                                " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%s and lesson_start<%s  and confirm_flag not in (2,3)  and lesson_type in (0,1,3) and %s "
                                 . " and lesson_del_flag=0 "
                                 ." group by l.userid ",
-                            self::DB_TABLE_NAME,
-                            t_student_info::DB_TABLE_NAME, //
+                                self::DB_TABLE_NAME,
+                                t_student_info::DB_TABLE_NAME, //
                                 $start_time,$end_time,  $where_arr);
 
         return $this->main_get_list_by_page($sql,$page_num,30,true);

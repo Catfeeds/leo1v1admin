@@ -742,8 +742,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
         return $this->main_get_list($sql);
     }
-    public  function get_link_list_py_ppid($ppid) {
-
+    public  function get_link_list_by_ppid($ppid) {
         $where_arr = [
             ['a2.id= %d',$ppid ],
         ];
@@ -761,7 +760,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             . " a.test_lessonid  test_lessonid ,"
 
 
-            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid "
+            . " ao1.p_level o_p_agent_level, ao1.p_price o_p_price,  o1.price o_p_from_price, o1.pay_time o_p_from_pay_time,  o1.orderid  o_p_from_orderid, "
             . " ao.pp_level o_agent_level , ao.pp_price o_price ,  o1.price o_from_price , o.pay_time o_from_pay_time  ,  o.orderid  o_from_orderid "
 
             ." from %s a2 ".
@@ -783,8 +782,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             t_order_info::DB_TABLE_NAME,
             $where_arr
         );
+        return  $this->main_get_list($sql);
+    }
 
-        $list=$this->main_get_list($sql);
+    public  function get_link_map_list_by_ppid($ppid) {
+        $list= $this->get_link_list_by_ppid($ppid);
         $map=[];
         foreach ($list as $item) {
             $pid=$item["pid"];

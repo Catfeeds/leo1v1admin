@@ -7903,7 +7903,8 @@ class tongji_ss extends Controller
         $start_time = strtotime("2017-01-01");
         $end_time = strtotime("2017-08-01");
         // $ret_info = $this->t_teacher_lecture_appointment_info->get_reference_teacher_info(11113332332);
-        $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
+        // $ret_info = $this->t_teacher_info->get_train_through_teacher_by_time($start_time,$end_time);
+        $ret_info = $this->t_teacher_info->get_train_through_teacher_info_new();
         // dd($ret_info);
         // $this->set_in_value("end_time","2017-08-01");
         // $end_time = $this->get_in_int_val("end_time");

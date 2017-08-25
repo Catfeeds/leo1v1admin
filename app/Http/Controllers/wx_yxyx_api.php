@@ -116,6 +116,14 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["user_info_list" =>$data]);
     }
 
+    public function get_my_num_2(){
+        $agent_id   = $this->get_agent_id();
+        if (!$agent_id){
+            return $this->output_err("没有信息");
+        }
+
+
+    }
 
     public function get_my_num(){
         $agent_id   = $this->get_agent_id();
@@ -176,7 +184,7 @@ class wx_yxyx_api extends Controller
         return $this->output_succ(["list" =>$ret_list]);
     }
 
-    public function get_user_cash(){
+    public function get_user_cash_bak(){
         $agent_id = $this->get_agent_id();
         $type = $this->get_in_int_val('type');
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
@@ -225,11 +233,11 @@ class wx_yxyx_api extends Controller
         }
         return $this->output_succ(["cash"=>$cash,"list" =>$ret_list]);
     }
-    public function get_user_cash_2(){
+    public function get_user_cash(){
         $agent_id = $this->get_agent_id();
         $type = $this->get_in_int_val('type');
 
-        $list=$this->t_agent-> get_link_list_by_ppid($agent_id);
+        $list=$this->t_agent->get_link_list_by_ppid($agent_id);
 
         $ret_list=[];
         /*
@@ -271,7 +279,7 @@ class wx_yxyx_api extends Controller
                 $item["pay_time"]=$p_pay_time;
 
                 $ret_list[]= $item;
-            }else if ($price)  { //第一级有金额
+            }else if ($price)  { //第二级有金额
                 $item["userid"]=$userid;
                 $item["price"]=$price;
                 $item["pay_price"]=$pay_price;
@@ -284,20 +292,27 @@ class wx_yxyx_api extends Controller
         //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
         $cash=0;
         foreach ( $ret_list as &$item ) {
+
+            $userid=$item["userid"];
             $item["level1_cash"] = $item["price"]*0.2;
             $item["level2_cash"] = $item["price"]*0.8;
             $lesson_info= $this->t_lesson_info_b2->get_lesson_count_by_userid($userid,$item["pay_time"]);
             $lesson_count=$lesson_info["count"] ;;
             $item["count"] = $lesson_count ;
-            $item["parent_name"] = $this->t_student_info->get_parent_name($item["userid"]);
-            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time");
+            $item["parent_name"] = $this->t_student_info->get_parent_name($userid);
+            \App\Helper\Utils::unixtime2date_for_item($item,"pay_time" ,"Y-m-d");
+            $order_cash=0;
             if ($lesson_count >=2) {
-                $cash+=  $item["level1_cash"]; 
+                $order_cash+=  $item["level1_cash"];
             }
             if ($lesson_count >=8) {
-                $cash+=  $item["level2_cash"]; 
+                $order_cash+=  $item["level2_cash"];
             }
+            $item["order_cash"] = $order_cash;
+            $cash+= $order_cash;
+
         }
+        //type=0: array(array( "pay_time" => 购课时间 "parent_name" => 家长姓名 "count" => 上课次数 "order_cash" => 单笔提现金额 "level1_cash" => 上满2次课可提现金额 "level2_cash" => 上满8次课可提现金额 )) type=1: array(array( "price" => 单笔收入 "pay_price" => 购买课程金额 "pay_time" => 购课时间 "parent_name" => 家长姓名 "count" => 学生上课次数 "level1_cash" => 上2~8次课提现金额 "level2_cash" => 上8次课提现金额 ))
 
         return $this->output_succ([
             "list" => $ret_list,

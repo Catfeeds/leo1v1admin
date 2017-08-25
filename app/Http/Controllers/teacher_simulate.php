@@ -29,6 +29,7 @@ class teacher_simulate extends Controller
         $tea_list = $this->t_teacher_info->get_teacher_simulate_list(
             $start_time,$end_time,$teacher_money_type,$level,$teacher_id
         );
+
         $list                      = [];
         $teacher_money_type_list   = [];
         $all_money                 = 0;
@@ -127,8 +128,6 @@ class teacher_simulate extends Controller
         }
 
         $level_list = json_decode(Redis::get($this->level_simulate_count_key),true);
-
-
 
         $all_money_different        = $all_money_simulate-$all_money;
         $all_lesson_price_different = $all_lesson_price_simulate-$all_lesson_price;
@@ -258,12 +257,13 @@ class teacher_simulate extends Controller
 
             if(!array_key_exists($month_key,$has_month_flip)){
                 $has_month[] = $month_key;
-                $all_money['all_money']                 += $data['all_money'];
-                $all_money['all_money_simulate']        += $data['all_money_simulate'];
-                $all_money['all_lesson_price']          += $data['all_lesson_price'];
-                $all_money['all_lesson_price_simulate'] += $data['all_lesson_price_simulate'];
-                $all_money['all_money_different']        = $all_money['all_money_simulate']-$all_money['all_money'];
-                $all_money['all_lesson_price_different'] = $all_money['all_lesson_price_simulate']-$all_money['all_lesson_price'];
+                $all_money['all_money']                  += $data['all_money'];
+                $all_money['all_money_simulate']         += $data['all_money_simulate'];
+                $all_money['all_lesson_price']           += $data['all_lesson_price'];
+                $all_money['all_lesson_price_simulate']  += $data['all_lesson_price_simulate'];
+                $all_money['lesson_total']               += $data['lesson_total'];
+                $all_money['all_money_different']         = $all_money['all_money_simulate']-$all_money['all_money'];
+                $all_money['all_lesson_price_different']  = $all_money['all_lesson_price_simulate']-$all_money['all_lesson_price'];
                 unset($all_money['start_time']);
                 unset($all_money['acc']);
                 unset($all_money['level_list']);

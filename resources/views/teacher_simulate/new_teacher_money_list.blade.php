@@ -32,69 +32,72 @@
                 </div>
             </div>
             @if(in_array($acc,["adrian","ted"]))
-                <!-- <table class="common-table">
-                     <tr>
-                     <td></td>
-                     <td>总工资</td>
-                     <td>课程收入</td>
-                     <td>模拟工资</td>
-                     <td>模拟收入</td>
-                     <td>总工资差别</td>
-                     <td>总收入差别</td>
-                     </tr>
-                     <tr>
-                     <td>本月统计</td>
-                     <td>{{@$all_money}}</td>
-                     <td>{{@$all_lesson_price}}</td>
-                     <td>{{@$all_money_simulate}}</td>
-                     <td>{{@$all_lesson_price_simulate}}</td>
-                     <td>{{@$all_money_different}}</td>
-                     <td>{{@$all_lesson_price_different}}</td>
-                     </tr>
-                     @if(!empty($final_money) && is_array($final_money))
-                     <tr>
-                     <td>1-7月统计</td>
-                     <td>{{@$final_money['all_money']}}</td>
-                     <td>{{@$final_money['all_lesson_price']}}</td>
-                     <td>{{@$final_money['all_money_simulate']}}</td>
-                     <td>{{@$final_money['all_lesson_price_simulate']}}</td>
-                     <td>{{@$final_money['all_money_different']}}</td>
-                     <td>{{@$final_money['all_lesson_price_different']}}</td>
-                     </tr>
-                     @endif
-                     </table> -->
+                <table class="common-table">
+                    <tr>
+                        <td></td>
+                        <td>总工资</td>
+                        <td>课程收入</td>
+                        <td>模拟工资</td>
+                        <td>模拟收入</td>
+                        <td>总工资差别</td>
+                        <td>总收入差别</td>
+                    </tr>
+                    <tr>
+                        <td>本月统计</td>
+                        <td>{{@$all_money}}</td>
+                        <td>{{@$all_lesson_price}}</td>
+                        <td>{{@$all_money_simulate}}</td>
+                        <td>{{@$all_lesson_price_simulate}}</td>
+                        <td>{{@$all_money_different}}</td>
+                        <td>{{@$all_lesson_price_different}}</td>
+                    </tr>
+                    @if(!empty($final_money) && is_array($final_money))
+                        <tr>
+                            <td>1-7月统计</td>
+                            <td>{{@$final_money['all_money']}}</td>
+                            <td>{{@$final_money['all_lesson_price']}}</td>
+                            <td>{{@$final_money['all_money_simulate']}}</td>
+                            <td>{{@$final_money['all_lesson_price_simulate']}}</td>
+                            <td>{{@$final_money['all_money_different']}}</td>
+                            <td>{{@$final_money['all_lesson_price_different']}}</td>
+                        </tr>
+                    @endif
+                </table>
             @endif
-            <!-- <table class="common-table">
-                 <tr>
-                 <td></td>
-                 <td>工资成本</td>
-                 <td>模拟工资成本</td>
-                 </tr>
-                 <tr>
-                 <td>本月全部老师</td>
-                 <td>{{round($all_money/($all_lesson_price==0?1:$all_lesson_price),4)*100}}%</td>
-                 <td>{{round($all_money_simulate/($all_lesson_price_simulate==0?1:$all_lesson_price_simulate),4)*100}}%</td>
-                 </tr>
-                 <tr>
-                 <td>1-7月全部老师</td>
-                 <td>{{round($final_money['all_money']/($final_money['all_lesson_price']==0?1:$final_money["all_lesson_price"]),4)*100}}%</td>
-                 <td>{{round($final_money['all_money_simulate']/($final_money['all_lesson_price_simulate']==0?1:$final_money['all_lesson_price_simulate']),4)*100}}%</td>
-                 </tr>
-                 </table> -->
-            <!-- <table class="common-table">
-                 <tr>
-                 <td>等级</td>
-                 <td>人数</td>
-                 <td>占比</td>
-                 </tr>
-                 @foreach($level_list as $l_key => $l_val)
-                 <tr>
-                 <td>{{$l_key}}</td>
-                 <td>{{$l_val['level_num']}}</td>
-                 <td>{{round($l_val['level_per'],4)*100}}%</td>
-                 </tr>
-                 @endforeach
-                 </table> -->
+            <table class="common-table">
+                <tr>
+                    <td></td>
+                    <td>工资成本</td>
+                    <td>模拟工资成本</td>
+                    <td>累积课时</td>
+                </tr>
+                <tr>
+                    <td>本月全部老师</td>
+                    <td>{{round($all_money/($all_lesson_price==0?1:$all_lesson_price),4)*100}}%</td>
+                    <td>{{round($all_money_simulate/($all_lesson_price_simulate==0?1:$all_lesson_price_simulate),4)*100}}%</td>
+                    <td>{{$lesson_total}}</td>
+                </tr>
+                <tr>
+                    <td>1-7月全部老师</td>
+                    <td>{{round($final_money['all_money']/($final_money['all_lesson_price']==0?1:$final_money["all_lesson_price"]),4)*100}}%</td>
+                    <td>{{round($final_money['all_money_simulate']/($final_money['all_lesson_price_simulate']==0?1:$final_money['all_lesson_price_simulate']),4)*100}}%</td>
+                    <td></td>
+                </tr>
+            </table>
+            <table class="common-table">
+                <tr>
+                    <td>等级</td>
+                    <td>人数</td>
+                    <td>占比</td>
+                </tr>
+                @foreach($level_list as $l_key => $l_val)
+                    <tr>
+                        <td>{{$l_key}}</td>
+                        <td>{{$l_val['level_num']}}</td>
+                        <td>{{round($l_val['level_per'],4)*100}}%</td>
+                    </tr>
+                @endforeach
+            </table>
         <hr />
         </div>
         <hr/>
