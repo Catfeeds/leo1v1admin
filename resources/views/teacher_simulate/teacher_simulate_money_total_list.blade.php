@@ -65,6 +65,9 @@
                                     <td>{{round($m_val['money_simulate']/($m_val['lesson_price_simulate']==0?1:$m_val['lesson_price_simulate']),4)}}</td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td></td>
+                            </tr>
                         </table>
                     </div>
                 </div>
