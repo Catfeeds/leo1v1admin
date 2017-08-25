@@ -2861,7 +2861,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_simulate_list(
-        $start_time,$end_time,$teacher_money_type,$level,$teacher_id
+        $start_time,$end_time,$teacher_money_type=-1,$level=-1,$teacher_id=-1
     ){
         $where_arr = [
             ["l.lesson_start>%u",$start_time,0],
@@ -2871,7 +2871,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "confirm_flag!=2",
             "lesson_type in (0,1,3)",
             "lesson_status=2",
-            "teacher_type!=3"
+            "teacher_type not in (3,4)"
         ];
 
         if($teacher_id>0){
@@ -3115,6 +3115,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
+
+    public function get_train_through_teacher_info_new(){
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time"
+                                  ." from %s where train_through_new_time>0 and is_test_user=0 and is_quit=0",
+                                  self::DB_TABLE_NAME
         );
         return $this->main_get_list_as_page($sql);
 

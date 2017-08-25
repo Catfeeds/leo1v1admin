@@ -1509,6 +1509,9 @@ class human_resource extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($val,"confirm_time","_str");
                 E\Eidentity::set_item_value_str($val);
                 E\Esubject::set_item_value_str($val);
+                if(empty($val["grade"])){
+                    $val["grade"] = intval($val["grade_ex"]);
+                }
                 E\Egrade::set_item_value_str($val);
                 E\Eis_test::set_item_value_str($val,"is_test_flag");
                 E\Echeck_status::set_item_value_str($val,"status");
@@ -1635,30 +1638,41 @@ class human_resource extends Controller
         }elseif($full_time==1){
             $teacherid_ex = $this->t_teacher_info->get_teacherid_by_phone($lecture_info["phone"]);
             $wx_openid = $this->t_teacher_info->get_wx_openid($teacherid_ex);
-            /**
-               9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
-               {{first.DATA}}
-               评估内容：{{keyword1.DATA}}
-               评估结果：{{keyword2.DATA}}
-               时间：{{keyword3.DATA}}
-               {{remark.DATA}}
-            */
-            $template_id = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
-            if($flag==1){
-                $data['first']="老师您好，恭喜您已经成功通过初试。";
-                $data['keyword1']="初试结果";
-                $data['keyword2']="通过";
-                $data['keyword3']=date("Y年m月d日 H:i:s");
-                $data['remark']="后续将有HR和您联系，请保持电话畅通。";
-            }else{
-                $data['first']="老师您好，很抱歉您没有通过面试审核。";
-                $data['keyword1']="初试结果";
-                $data['keyword2']="未通过";
-                $data['keyword3']=date("Y年m月d日 H:i:s");
-                $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
-            }
+            if($wx_openid){
+                /**
+                   9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+                   {{first.DATA}}
+                   评估内容：{{keyword1.DATA}}
+                   评估结果：{{keyword2.DATA}}
+                   时间：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                */
+                $template_id = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+                $data=[];
+                if($status==1){
+                    $data['first']="老师您好，恭喜您已经成功通过初试。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="后续将有HR和您联系，请保持电话畅通。";
+                }elseif($status==2){
+                    $data['first']="老师您好，很抱歉您没有通过试讲审核。";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="未通过";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
+                }elseif($status==3){
+                    $data['first']="老师您好，您的试讲审核结果未可重审";
+                    $data['keyword1']="初试结果";
+                    $data['keyword2']="可重审,您可以再次提交试讲视频";
+                    $data['keyword3']=date("Y年m月d日 H:i:s");
+                    $data['remark']="感谢您的投递，您的简历已进入我公司的简历库，如有需要我们会与您取得联系。";
+                }
 
-            \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+
+                $url="";
+                \App\Helper\Utils::send_teacher_msg_for_wx($wx_openid,$template_id,$data,$url);
+            }
         }
 
         $this->t_teacher_lecture_info->field_update_list($id,[

@@ -16,7 +16,7 @@ class lesson extends TeaWxController
 
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid');
-        $comment_date       = time(NULL);
+        $now                = time(NULL);
         $total_judgement    = $this->get_in_int_val("total_judgement");
         $homework_situation = $this->get_in_str_val("homework_situation");
         $content_grasp      = $this->get_in_str_val("content_grasp");
@@ -394,29 +394,39 @@ class lesson extends TeaWxController
 
 
 
-    public function update_comment_pre_listen_new(){ // 新版试听课评价
+    public function update_comment_pre_listen_new(){ // 新版试听课评价 标号3002
         $teacherid    = $this->get_teacherid();
         $comment_date = time(NUll);
-        $lessonid     = $this->get_in_int_val('lessonid',0);
+        $lessonid     = $this->get_in_int_val('lessonid',-1);
 
-        if ($lessonid == 0) {
+        if ($lessonid == -1) {
             return $this->output_err("lessonid not exist");
         }
 
         $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
-        $stu_total_judgement  = $this->get_in_int_val("stu_total_judgement");
+        $stu_study_status     = $this->get_in_str_val("stu_study_status");
+        $stu_advantages       = $this->get_in_str_val("stu_advantages");
+        $stu_disadvantages    = $this->get_in_str_val("stu_disadvantages");
+        $stu_lesson_plan      = $this->get_in_str_val("stu_lesson_plan");
         $stu_advice           = $this->get_in_str_val("stu_advice");
+        $stu_total_judgement    = $this->get_in_int_val("stu_total_judgement",-1); // 新增字段 学生星级
 
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
+
 
         if($requireid>0){
             $ret_info = $this->t_test_lesson_subject_require->field_update_list($requireid,[
                 "stu_lesson_content" => $stu_lesson_content,
                 "stu_lesson_status"  => $stu_lesson_status,
-                "stu_advice"         => $stu_advice,
-                "stu_total_judgement" => $stu_total_judgement
-            ]);
+                "stu_study_status"   => $stu_study_status,
+                "stu_advantages"     => $stu_advantages,
+                "stu_disadvantages"  => $stu_disadvantages,
+                "stu_lesson_plan"    => $stu_lesson_plan,
+                "stu_total_judgement" => $stu_total_judgement,
+                "stu_advice"          => $stu_advice
+            ]
+            );
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $comment_date);
 
@@ -425,21 +435,27 @@ class lesson extends TeaWxController
             return $this->output_err('requireid不存在');
         }
 
+
+
     }
 
 
-    public function update_comment_common_new() { // 协议编号
+    public function update_comment_common_new() { // 协议编号 3001
 
         $teacherid          = $this->get_teacherid();
-        $lessonid           = $this->get_in_int_val('lessonid');
+        $lessonid           = $this->get_in_int_val('lessonid',-1);
         $comment_date       = time(NULL);
-        $total_judgement    = $this->get_in_int_val("total_judgement");
-        $homework_situation = $this->get_in_str_val("homework_situation");
-        $content_grasp      = $this->get_in_str_val("content_grasp");
-        $lesson_interact    = $this->get_in_str_val("lesson_interact");
-        $teacher_message_str = $this->get_in_str_val("teacher_message");
-        $stu_comment        = $this->get_in_str_val("stu_comment");
+        $total_judgement    = $this->get_in_int_val("total_judgement",-1);
+        $homework_situation = $this->get_in_str_val("homework_situation",'');
+        $content_grasp      = $this->get_in_str_val("content_grasp",'');
+        $lesson_interact    = $this->get_in_str_val("lesson_interact",'');
 
+
+        $stu_performance = $this->get_in_str_val('stu_performance',''); // 学生表现
+        $stu_improve = $this->get_in_str_val('stu_improve',''); // 需要改进
+        $stu_comment = $stu_performance.'<br>'.$stu_improve; // 合并整体评价
+
+        $teacher_message_str = $this->get_in_str_val("teacher_message",'');
         $point_note_list_arr = [];
         $teacher_message_arr = json_decode($teacher_message_str,true);
         foreach($teacher_message_arr as $index=> $item){
@@ -476,17 +492,16 @@ class lesson extends TeaWxController
             ];
         }
 
-        if($stu_performance) {
+        if(!empty($stu_performance)) {
             $stu_performance_str = json_encode($stu_performance);
-        }
 
+            $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
 
-        $this->t_lesson_info_b2->set_stu_performance($lessonid, $teacherid, $stu_performance_str,3);
+            $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$now);
 
-        $com_state = $this->t_lesson_info_b2->set_comment_status($lessonid,$comment_date);
-
-        if($com_state){
-            return $this->output_succ(['time'=>$com_state]);
+            if($com_state){
+                return $this->output_succ(['time'=>$com_state]);
+            }
         }
     }
 

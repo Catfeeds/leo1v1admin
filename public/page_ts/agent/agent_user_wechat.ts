@@ -66,7 +66,7 @@ $(function(){
 
    $.ajax({
         type : "get",
-        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash_2?_agent_id="+g_args.id ,
+        url : "http://wx-yxyx.leo1v1.com/wx_yxyx_api/get_user_cash?_agent_id="+g_args.id ,
         dataType : "jsonp",//数据类型为jsonp
         success : function(data){
             //{"phone":"13456568880","name":"跳妈","status":0,"count":0,"time":"2017.08.04"}
@@ -76,7 +76,7 @@ $(function(){
 
             //{"price":490,"userid":"214727","orderid":"20854","pay_price":4900,"pay_time":"2017-08-13 16:30:43","parent_name":"15296031880","order_time":"1503558534","count":"0","order_cash":0,"level1_cash":98,"level2_cash":392}
 
-            //array( "pay_time" => 购课时间 "parent_name" => 家长姓名 "count" => 上课次数 "order_cash" => 单笔提现金额 "level1_cash" => 上满2次课可提现金额 "level2_cash" => 上满8次课可提现金额 )) type=1: array(array( "price" => 单笔收入 "pay_price" => 购买课程金额 "pay_time" => 购课时间 
+            //array( "pay_time" => 购课时间 "parent_name" => 家长姓名 "count" => 上课次数 "order_cash" => 单笔提现金额 "level1_cash" => 上满2次课可提现金额 "level2_cash" => 上满8次课可提现金额 )) type=1: array(array( "price" => 单笔收入 "pay_price" => 购买课程金额 "pay_time" => 购课时间
             var str="" ;
             $.each( data.list, function(){
                 str+="<tr><td> "
@@ -84,6 +84,7 @@ $(function(){
                     +" 购买金额："+this.pay_price + "<br/>"
                     +" 家长姓名："+this.parent_name+ "<br/>"
                     +" 上课次数："+this.count+ "<br/>"
+                    +" 单笔提成："+this.price + "<br/>"
                     +" 单笔提现金额："+this.order_cash+ "<br/>"
                     +" 上满2次课可提现金额："+this.level1_cash + "<br/>"
                     +" 上满8次课可提现金额："+this.level2_cash + "<br/>"
