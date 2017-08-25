@@ -504,12 +504,4 @@ class lesson extends TeaWxController
             }
         }
     }
-
-
-
-
-
-
-
-
 }

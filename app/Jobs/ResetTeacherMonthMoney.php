@@ -132,7 +132,11 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
         $all_money = [];
         if(is_array($month_list) && empty($month_list)){
             foreach($month_list as $m_val){
-
+                \App\Helper\Utils::check_isset_data($all_money['money'],$m_val['money']);
+                \App\Helper\Utils::check_isset_data($all_money['money_simulate'],$m_val['money_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price'],$m_val['lesson_price']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_price_simulate'],$m_val['lesson_price_simulate']);
+                \App\Helper\Utils::check_isset_data($all_money['lesson_total'],$m_val['lesson_price_simulate']);
             }
         }
 
