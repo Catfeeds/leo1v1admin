@@ -229,5 +229,21 @@ class test_boby extends Controller
         return 1;
     }
 
+    //公开课6.7.8月，报名数，年级，科目
+    public function get_open_lesson_info(){
+        $start_time = strtotime('2017-06-01');
+        $end_time = strtotime('2017-09-01');
+        $ret_info = $this->t_lesson_info_b2->get_open_lesson_info($start_time, $end_time);
+
+        $s = '<table border=1><tr><td>科目</td><td>人数</td><td>年级</td><td>公开课id</td></tr>';
+        foreach ($ret_info as &$item) {
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            $s = $s."<tr><td>".$item['subject_str']."</td><td>".$item['num']."</td><td>"
+                .$item['grade_str']."</td><td>".$item['lessonid']."</td></tr>";
+        }
+        $s = $s.'</table>';
+        return $s;
+    }
 
 }
