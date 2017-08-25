@@ -53,7 +53,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
                                  ." left join %s oo on oo.userid = a.userid "
-                                 ." where %s "
+                                 ." where %s group by a.id "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
