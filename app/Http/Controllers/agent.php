@@ -1135,11 +1135,7 @@ class agent extends Controller
         $id = 1634;
         $agent_info = $this->t_agent->field_get_list($id,"*");
         $agent_level=$this->t_agent->get_agent_level_by_check_time($id,$agent_info,time(NULL));
-        $this->field_update_list($id,[
-            "agent_level" => $agent_level,
-            "agent_student_status" => $agent_student_status,
-        ]);
-        dd('a');
+        dd($agent_level);
 
         $ret_info = $this->t_agent->get_agent_list();
         foreach($ret_info as $item){
