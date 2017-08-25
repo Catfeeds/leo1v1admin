@@ -569,7 +569,7 @@ class t_lesson_info extends \App\Models\Zgen\z_t_lesson_info
 
     public function set_user_assistantid( $userid,$assistantid) {
         $where_arr=[
-            ["userid=%u",$userid,0],
+            ["userid=%u",$userid,-1],
         ];
         $now=time();
         $where_arr=$this->lesson_common_where_arr($where_arr);

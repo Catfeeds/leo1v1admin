@@ -428,7 +428,7 @@ class lesson extends TeaWxController
     }
 
 
-    public function update_comment_common_new() { // 协议编号 1003
+    public function update_comment_common_new() { // 协议编号
 
         $teacherid          = $this->get_teacherid();
         $lessonid           = $this->get_in_int_val('lessonid');
@@ -437,6 +437,7 @@ class lesson extends TeaWxController
         $homework_situation = $this->get_in_str_val("homework_situation");
         $content_grasp      = $this->get_in_str_val("content_grasp");
         $lesson_interact    = $this->get_in_str_val("lesson_interact");
+
         $teacher_message_str = $this->get_in_str_val("teacher_message");
         $stu_comment        = $this->get_in_str_val("stu_comment");
 
