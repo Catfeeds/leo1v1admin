@@ -127,9 +127,14 @@
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 100px;">
+                        <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
+                                <div class="col-sm-12"">
+                                <p> 您当前处于饱和状态，不会收到派克邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
+                                <br>
+                                <button type="button" class="btn btn-block btn-info btn-sm">设置不饱和</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,15 +158,19 @@
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 100px;">
+                        <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
+                                <div class="col-sm-12"">
+                                    <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        <div class="row">
+                        <div class="row text-cen">
+                            <a href="javascript:;" class="color-6">重新上传简历</a>
                         </div>
                         <!-- /.row -->
                     </div>
@@ -181,6 +190,10 @@
                         <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
+                                <div class="col-sm-12"">
+                                    <button type="button" class="btn btn-block btn-info btn-sm">上传资格证</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -321,7 +334,9 @@
                                         </tr>
                                         <tr>
                                             <th>手机号</th>
-                                            <td>56123</td>
+                                            <td>56123
+                                                <span class="color-red btn-box-tool">未绑定</span>
+                                            </td>
                                             <th>信息创建时间</th>
                                             <td>姓名</td>
                                         </tr>
@@ -514,17 +529,22 @@
                 </div>
                 <!-- /.box (chat box) -->
 
-                <!-- Chat box -->
-                <div class="box box-info">
-                    <div class="box-header">
+                <div class="box box-info direct-chat direct-chat-warning">
+                    <div class="box-header with-border">
                         <h3 class="box-title text-blue">课堂评分</h3>
+
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts"
+                                    data-widget="chat-pane-toggle">
+                                <i class="fa fa-question"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
+
                         </div>
                     </div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="chart col-sm-12" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
                                 <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
@@ -535,13 +555,22 @@
                                 <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
                             </div>
                         </div>
+                        <div class="direct-chat-contacts">
+                            <div class="bor-hr"></div>
+                            <div class="col-sm-12 div-pad text-black">
+                                <p>各种描述</p>
+                                <p>各种描述</p>
+                                <p>各种描述</p>
+                            </div>
+                        </div>
+                        <!-- /.direct-chat-pane -->
                     </div>
                     <!-- /.box-body -->
-                    <div class="box-footer no-border">
+                    <div class="box-footer">
                     </div>
-                    <!-- /.box-footer -->
+                    <!-- /.box-footer-->
                 </div>
-                <!-- /.box (chat box) -->
+                <!-- /.col -->
 
             </section>
             <!-- /.right -->
@@ -549,6 +578,6 @@
         </div>
 
     </section>
-    
 @endsection
+
 
