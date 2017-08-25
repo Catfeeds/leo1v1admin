@@ -92,55 +92,71 @@
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">资料完整度</h3>
-
-                        <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                            <div class="btn-group" data-toggle="btn-toggle">
-                                <button type="button" class="btn opt-display"><i class="fa fa-minus"></i>
-                                </button>
-                            </div>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="bor-hr"></div>
-                    <div class="row div-pad">
-                        <div class="col-sm-10">
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                    <!-- <span class="sr-only">60% Complete (warning)</span> -->
+                    <div class="box-body border-radius-none">
+                        <div class="chart" id="line-chart" style="height: 250px;">
+                            <div class="bor-hr"></div>
+                            <div class="row div-pad">
+                                <div class="col-sm-10">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <!-- <span class="sr-only">60% Complete (warning)</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <p class="ft24">60%</p>
+                                </div>
+                                <div class="col-sm-12">
+                                    <p>
+                                        温馨提示：当前您还有<a href="javascript:;" class="color-red">个人信息、</a><a href="javascript:;" class="color-red">简历、</a><a href="javascript:;" class="color-red">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
+                                    </p>
+                                    <br />
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                            <p class="ft24">60%</p>
-                        </div>
-                        <div class="col-sm-12">
-                            <p>
-                                温馨提示：当前您还有<a href="javascript:;" class="color-red">个人信息、</a><a href="javascript:;" class="color-red">简历、</a><a href="javascript:;" class="color-red">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
-                            </p>
-                            <br />
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer no-border">
+                        <div class="row">
                             <p class="text-cen color-6">信息完整度100%后，此模块可关闭</p>
                         </div>
+                        <!-- /.row -->
                     </div>
+                    <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
+
                 <!-- Chat box -->
                 <div class="box box-success">
                     <div class="box-header">
                         <h3 class="box-title">当前状态</h3>
-
-                        <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
+                        <div class="box-tools pull-right">
                             <h3 class="box-title color-red">饱和</h3>
-                            <div class="btn-group" data-toggle="btn-toggle">
-                                <button type="button" class="btn"><i class="fa fa-plus"></i>
-                                </button>
+                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body border-radius-none">
+                        <div class="chart" id="line-chart" style="height: 250px;">
+                            <div class="bor-hr"></div>
+                            <div class="row div-pad">
                             </div>
                         </div>
                     </div>
-                    <div class="bor-hr"></div>
-                    <div class="row div-pad">
+                    <!-- /.box-body -->
+                    <div class="box-footer no-border">
+                        <div class="row">
+                        </div>
+                        <!-- /.row -->
                     </div>
+                    <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-
                 <!-- Chat box -->
                 <div class="box box-success">
                     <div class="box-header">
@@ -479,6 +495,31 @@
                     </div>
                 </div>
                 <!-- /.box (chat box) -->
+
+                <!-- solid sales graph -->
+                <div class="box box-solid">
+                    <div class="box-header">
+                        <h3 class="box-title">Sales Graph</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body border-radius-none">
+                        <div class="chart" id="line-chart" style="height: 250px;"></div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer no-border">
+                        <div class="row">
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+
+
 
 
             </section>
