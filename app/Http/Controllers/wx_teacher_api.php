@@ -354,8 +354,7 @@ class wx_teacher_api extends Controller
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
-        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["train_through_new_time"])/86400)."天";
-
+        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
 

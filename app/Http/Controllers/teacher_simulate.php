@@ -343,6 +343,8 @@ class teacher_simulate extends Controller
 
         $job = new \App\Jobs\ResetTeacherMonthMoney($start_time,$end_time);
         dispatch($job);
+
+        $this->get_level_simulate_list();
     }
 
 

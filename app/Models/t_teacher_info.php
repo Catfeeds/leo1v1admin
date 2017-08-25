@@ -3139,7 +3139,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag<>2"
         ];
 
-        $sql = $this->gen_sql_new(" select t.train_through_new_time, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
+        $sql = $this->gen_sql_new(" select t.train_through_new_time as work_day, min(l.lesson_start) as test_lesson_time, count(*) as test_lesson_num from %s l"
                                   ." left join %s t on l.teacherid=t.teacherid "
                                   ." where %s"
                                   ,t_lesson_info::DB_TABLE_NAME
