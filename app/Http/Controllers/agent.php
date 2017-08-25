@@ -1133,7 +1133,7 @@ class agent extends Controller
 
     public function update_agent_level(){
         $id = 1634;
-        $agent_info = $this->field_get_list($id,"*");
+        $agent_info = $this->t_agent->field_get_list($id,"*");
         $agent_level=$this->t_agent->get_agent_level_by_check_time($id,$agent_info,time(NULL));
         $this->field_update_list($id,[
             "agent_level" => $agent_level,
