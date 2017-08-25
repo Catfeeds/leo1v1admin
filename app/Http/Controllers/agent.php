@@ -32,12 +32,10 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
-            // $item["lesson_user_online_status_str"] = $item['test_lessonid']?\App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]):\App\Helper\Common::get_boolean_color_str(0);
-            if($item['test_lessonid']){
-                $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
-            }else{
-                $item["lesson_user_online_status_str"] = '';
+            if(!$item['test_lessonid']){
+                $item["student_stu_type_str"] = '';
             }
+            $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
@@ -456,7 +454,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -546,7 +544,7 @@ class agent extends Controller
         $this->set_filed_for_js("phone",$phone);
         $this->set_filed_for_js("id",$id);
 
-        $list=$this->t_agent->get_link_map_list_by_ppid($id );
+        $list=$this->t_agent->get_link_list_py_ppid($id );
 
 
         $ret_info=\App\Helper\Utils::list_to_page_info($list);
@@ -581,7 +579,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
