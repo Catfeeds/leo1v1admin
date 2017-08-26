@@ -490,7 +490,7 @@ class seller_student_new extends Controller
         return $this->pageView(__METHOD__,$ret_info, [
             "page_hide_list"   => $page_hide_list,
             "cur_page"         => $cur_page,
-            "is_seller_master" => $is_seller_master
+            "is_seller_master" => $is_seller_master,
         ]);
     }
 
