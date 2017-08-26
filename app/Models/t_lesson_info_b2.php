@@ -3306,6 +3306,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_succ_test_lesson_count($userid,$check_time = -1) {
+        $where_arr=[
+            ['l.lesson_type = %d ',2],
+            ['l.lesson_del_flag = %d ',0],
+            'l.confirm_flag in (0,1) ',
+            "l.userid = $userid ",
+            'l.lesson_user_online_status = 1 ',
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select count(l.lessonid) count "
+            . " from %s l "
+            . " where %s  limit 1 ",
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_train_lesson_before($lessonid,$subject,$grade,$teacherid){
         $sql = $this->gen_sql_new("select lessonid from %s"
                                   ." where lessonid <>%u and userid =%u and subject=%u and grade=%u "
