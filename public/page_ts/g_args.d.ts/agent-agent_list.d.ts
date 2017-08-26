@@ -13,6 +13,7 @@ interface GargsStatic {
 	test_lesson_flag:	number;//\App\Enums\Eboolean
 	agent_level:	string;//枚举列表: \App\Enums\Eagent_level
  	order_flag:	number;//\App\Enums\Eboolean
+	l1_child_count:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -91,7 +92,8 @@ $(function(){
 			agent_type:	$('#id_agent_type').val(),
 			test_lesson_flag:	$('#id_test_lesson_flag').val(),
 			agent_level:	$('#id_agent_level').val(),
-			order_flag:	$('#id_order_flag').val()
+			order_flag:	$('#id_order_flag').val(),
+			l1_child_count:	$('#id_l1_child_count').val()
         });
     }
 
@@ -117,6 +119,7 @@ $(function(){
 	$('#id_agent_level').val(g_args.agent_level);
 	$.enum_multi_select( $('#id_agent_level'), 'agent_level', function(){load_data();} )
 	$('#id_order_flag').val(g_args.order_flag);
+	$('#id_l1_child_count').val(g_args.l1_child_count);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -175,6 +178,13 @@ $(function(){
                 <span class="input-group-addon">boolean</span>
                 <select class="opt-change form-control" id="id_order_flag" >
                 </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">l1_child_count</span>
+                <input class="opt-change form-control" id="id_l1_child_count" />
             </div>
         </div>
 */

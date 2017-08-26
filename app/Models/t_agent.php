@@ -23,7 +23,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag )
+    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
     {
         $where_arr = [];
         if($p_phone){
@@ -33,6 +33,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         }else {
             $this->where_arr_add_int_or_idlist($where_arr,"a.type",$type);
             $this->where_arr_add_int_or_idlist($where_arr,"a.agent_level",$agent_level);
+            $this->where_arr_add_int_or_idlist($where_arr,"a.l1_child_count",$l1_child_count);
             $this->where_arr_add_time_range($where_arr,"a.create_time",$start_time,$end_time);
             $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
             $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );

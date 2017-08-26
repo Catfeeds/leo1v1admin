@@ -28,6 +28,15 @@
                 </select>
             </div>
         </div>
+
+        <div class="col-xs-6 col-md-3" data-always_show="1">
+            <div class="input-group ">
+                <span class="input-group-addon">1级个数</span>
+                <input class="opt-change form-control" id="id_l1_child_count"  placeholder="[数字-数字]"
+                />
+            </div>
+        </div>
+
         <div class="col-xs-6 col-md-2" data-always_show="1">
             <div class="input-group ">
                 <span class="input-group-addon">是否试听</span>

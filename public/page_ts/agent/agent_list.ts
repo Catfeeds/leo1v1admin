@@ -15,7 +15,8 @@ $(function(){
             userid:	$('#id_userid').val(),
             phone:	$('#id_phone').val(),
             p_phone:	$('#id_p_phone').val(),
-            agent_type:$('#id_agent_type').val()
+            agent_type:$('#id_agent_type').val(),
+			l1_child_count:	$('#id_l1_child_count').val()
         })
     };
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
@@ -37,7 +38,9 @@ $(function(){
     $('#id_userid').val(g_args.userid);
     $('#id_p_phone').val(g_args.p_phone);
     $('#id_phone').val(g_args.phone);
-  $('#id_order_flag').val(g_args.order_flag);
+    $('#id_order_flag').val(g_args.order_flag);
+
+	  $('#id_l1_child_count').val(g_args.l1_child_count);
 
   $('#id_test_lesson_flag').val(g_args.test_lesson_flag);
     $('#id_agent_level').val(g_args.agent_level);

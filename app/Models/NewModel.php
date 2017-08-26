@@ -780,26 +780,36 @@ abstract class NewModel
     }
     public function where_get_in_str_query( $field_name, $id_list  ) {
         if (is_array($id_list)) {
-            $new_id_list=[];
-            $all_flag=false;
-            foreach ( $id_list as $id ) {
-                $id=intval($id);
-                if ($id==-1) {
-                    $all_flag=true;
+            if (isset( $id_list["start"] ))  {
+                if ($id_list["start"]===null ) {
+                    return "true";
+                }else{
+                    $start = $id_list["start"];
+                    $end   = $id_list["end"];
+                    return "($field_name  between $start and $end )";
                 }
-                $new_id_list[]= $id;
-            }
-            if ($all_flag) {
-                return "true";
-            }
-
-            if ( count($new_id_list)>0) {
-                return "$field_name in  (" .join("," ,$new_id_list).  ")";
             }else{
-                return "true";
+                $new_id_list=[];
+                $all_flag=false;
+                foreach ( $id_list as $id ) {
+                    $id=intval($id);
+                    if ($id==-1) {
+                        $all_flag=true;
+                    }
+                    $new_id_list[]= $id;
+                }
+                if ($all_flag) {
+                    return "true";
+                }
+
+                if ( count($new_id_list)>0) {
+                    return "$field_name in  (" .join("," ,$new_id_list).  ")";
+                }else{
+                    return "true";
+                }
             }
         }else{
-
+            return "false";
         }
 
     }

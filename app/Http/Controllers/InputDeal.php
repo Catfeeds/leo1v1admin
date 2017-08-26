@@ -414,6 +414,22 @@ trait  InputDeal {
         }
     }
 
+    public function get_in_intval_range($field_name ,$def_value ="" )
+    {
+        $str=trim($this->get_in_str_val($field_name,$def_value));
+        if ($str==="") {
+            return ["start" => null, "end" => null ];
+        }
+        $arr   = preg_split("/-/",$str );
+        $start = intval ($arr[0]);
+        if (isset($arr[1] )) {
+            $end= intval ($arr[1]);
+        }else{
+            $end=$start;
+        }
+        return ["start"=>$start,"end" => $end ];
+    }
+
     public function get_in_date_range_day($init_start_date, $date_type=0 , $date_type_config=[] )
     {
         return $this->get_in_date_range($init_start_date,0, $date_type, $date_type_config, 1 );

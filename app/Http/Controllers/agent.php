@@ -21,8 +21,9 @@ class agent extends Controller
         $agent_type= $this->get_in_el_agent_type();
         $agent_level = $this->get_in_el_agent_level();
         $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
+        $l1_child_count= $this->get_in_intval_range("l1_child_count");
 
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag);
+        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         $userid_arr = [];
 
         foreach($ret_info['list'] as &$item){
