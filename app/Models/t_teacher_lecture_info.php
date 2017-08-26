@@ -1766,4 +1766,23 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
     }
 
 
+    public function get_video_add_num_by_reference($start_time,$end_time){
+        $where_arr=[
+            "tl.is_test_flag =0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"tl.add_time",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct tl.phone) num,ta.reference,t.teacher_ref_type"
+                                  ." from %s tl "
+                                  ." left join %s ta on tl.phone = ta.phone"
+                                  ." left join %s t on ta.reference = t.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr);
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+ 
+    }
 }

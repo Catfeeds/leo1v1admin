@@ -108,7 +108,7 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
-                        <td>{{@$var["l1_child_count"]}} </td>
+                        <td>{{@$var["all_money"]}} </td>
                         <td>{{@$var["l1_child_count"]}} </td>
                         <td>{{@$var["l2_child_count"]}} </td>
                         <td>

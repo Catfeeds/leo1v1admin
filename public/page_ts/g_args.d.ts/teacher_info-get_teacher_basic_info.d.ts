@@ -42,6 +42,11 @@ interface RowData {
 	train_through_new	:any;
 	trial_lecture_is_pass	:any;
 	wx_use_flag	:any;
+	subject_str	:any;
+	textbook_type_str	:any;
+	identity_str	:any;
+	teacher_ref_type_str	:any;
+	gender_str	:any;
 }
 
 /*

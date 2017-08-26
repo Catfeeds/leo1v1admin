@@ -42,6 +42,7 @@ class agent extends Controller
             E\Estudent_stu_type::set_item_value_str($item);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
+            $item["all_money"]/= 100;
 
             $item["pp_off_info"] =  ($item["pp_price"]/100 ) ."/". E\Eagent_level::get_desc($item["pp_level"] )  ;
             $item["p_off_info"] =  ($item["p_price"]/100 ) ."/". E\Eagent_level::get_desc($item["p_level"] )  ;
@@ -264,23 +265,6 @@ class agent extends Controller
         }
 
         return $ret;
-    }
-
-    public function update_lesson_call_end_time_new(){
-        $adminid_new = $this->get_in_int_val('adminid');
-        $phone_new = $this->get_in_str_val('phone');
-        $adminid = $adminid_new?$adminid_new:997;
-        $phone = $phone_new?$phone_new:'18070542658';
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        if(count($lesson_call_end)>0){
-            foreach($lesson_call_end as $item){
-                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-            }
-        }
-        $tquin = $this->t_manager_info->get_tquin($adminid);
-        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
-        $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
-        dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
     }
 
     /**
