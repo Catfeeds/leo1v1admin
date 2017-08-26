@@ -3436,15 +3436,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,ta.reference,tt.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) lesson_add_num,ta.reference,tt.teacher_ref_type,c.channel_id,c.channel_name"
                                   ." from %s l left join %s t on l.userid = t.teacherid"
                                   ." left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){

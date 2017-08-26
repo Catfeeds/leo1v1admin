@@ -19,9 +19,10 @@
 
                 </div>
             </div>
-            <div class="col-xs-6 col-md-1">
+            <div class="col-xs-6 col-md-2">
                 <div class="input-group ">
                     <button id="id_query" class="btn btn-primary"  > 查询 </button>
+                    <button id="id_nice" class="btn btn-primary"  > 美化</button>
                 </div>
             </div>
 
@@ -95,7 +96,7 @@
 
         <hr/>
         <pre>
-            <code class="sql">{{$format_sql}}</code>
+            <code class="sql" id="id_nice_sql" ></code>
         </pre>
 
 @endsection

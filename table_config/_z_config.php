@@ -189,7 +189,8 @@ return array(
     ["db_weiyi_admin","t_group_user_month","groupid","adminid","month"] ,
     ["db_weiyi_admin","t_main_group_name_month","groupid","month"] ,
     ["db_weiyi_admin","t_admin_channel_list","channel_id"] ,
-    ["db_weiyi_admin","t_admin_channel_user","teacher_ref_type_id"] ,
+    ["db_weiyi_admin","t_admin_channel_group","ref_type"] ,
+    // ["db_weiyi_admin","t_admin_channel_user","teacher_ref_type_id"] ,
 
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,

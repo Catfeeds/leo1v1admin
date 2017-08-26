@@ -28,4 +28,21 @@ $(function(){
 
 
     $('.opt-change').set_input_change_event(load_data);
+
+
+    $("#id_nice").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax("/table_manage/get_nick_sql",{
+            "sql": $("#id_sql").val()
+        },function(resp){
+            $("#id_nice_sql").text(resp.format_sql );
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+
+        });
+
+    });
+
+
 });

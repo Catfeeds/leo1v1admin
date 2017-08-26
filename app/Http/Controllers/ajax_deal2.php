@@ -807,5 +807,24 @@ class ajax_deal2 extends Controller
 
         return $this->output_succ(["data"=>$data]); 
     }
+    public function set_admin_menu_config () {
+        $menu_config= $this->get_in_str_val("menu_config");
+        $adminid=$this->get_account_id();
+
+        $this->t_manager_info->field_update_list($adminid,[
+            "menu_config" =>  $menu_config
+        ]);
+        sleep(2);
+        (new  login() )->reset_power($this->get_account());
+        return $this->output_succ();
+    }
+    public function get_admin_member_config() {
+        $adminid=$this->get_account_id();
+        $row= $this->t_manager_info->field_get_list($adminid,"menu_config");
+        return $this->output_succ([
+            "menu_config"=> $row["menu_config"]
+        ]);
+
+    }
 
 }
