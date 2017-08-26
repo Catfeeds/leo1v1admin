@@ -33,6 +33,35 @@ $(function(){
         $('#'+id+' select').removeClass('hide');
     });
 
+    $('.btn-bank').on('click', function() {
+        if ($(this).text() != '提交') {
+            $(this).text('提交');
+            $('#bank-info').removeClass('hide');
+            $('#bank-info input').removeClass('hide');
+            $('#bank-info select').removeClass('hide');
+            $('#bank-info span').addClass('hide');
+        } else {
+            $.ajax({
+			          type     : "post",
+			          url      : "/teacher_info/edit_teacher_bank_info",
+			          dataType : "json",
+			          data     : $('#bank-info').serialize(),
+			          success : function(result){
+                    if(result.ret==0){
+                        history.go(0);
+                    }else{
+                        alert(result.info);
+                    }
+			          }
+            });
+
+        }
+    });
+    $('.opt-bank').on('click', function (){
+        $(this).parent().remove();
+        $('.div-bank').removeClass('hide');
+        $('.btn-bank').click();
+    });
     $('.direct-chat-contacts').css('backgroundColor','#fff');
     $('button[data-refresh]').on('click', function(){
        history.go(0);
@@ -56,7 +85,6 @@ $(function(){
                 }
 			      }
         });
-
     });
 });
 
