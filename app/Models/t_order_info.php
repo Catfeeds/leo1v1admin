@@ -819,9 +819,9 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         $sql = $this->gen_sql_new("select sys_operator, uid adminid , sum(price)/100 as all_price,count(*)as all_count  "
                                   ." from %s o "
-                                  ." join %s s on o.userid = s.userid "
-                                  ." join %s n on n.userid = s.userid "
-                                  ." join %s m on o.sys_operator = m.account "
+                                  ."left join %s s on o.userid = s.userid "
+                                  ."left join %s n on n.userid = s.userid "
+                                  ."left join %s m on o.sys_operator = m.account "
                                   ." where %s      group by sys_operator order by all_price desc $limit_info ",
                                   self::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,

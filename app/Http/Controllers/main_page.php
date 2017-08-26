@@ -387,7 +387,7 @@ class main_page extends Controller
 
     public function quality_control_kpi(){
         $this->set_in_value("account_role",9);
-        // $this->set_in_value("kpi_flag",1);
+        $this->set_in_value("kpi_flag",1);
         return $this->quality_control();
     }
     public function  quality_control(){
@@ -436,7 +436,7 @@ class main_page extends Controller
         $total_test_first_num = 0;
         $total_regular_first_per = 0;
         $total_regular_first_num = 0;
-        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first = $regular_first=0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first_all = $regular_first_all=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
@@ -503,8 +503,8 @@ class main_page extends Controller
                 $train_first_all += $item["train_first_all"];
                 $train_first_pass += $item["train_first_pass"];
                 $train_second_all += $item["train_second_all"];
-                $test_first += $item["test_first"];
-                $regular_first += $item["regular_first"];
+                $test_first_all += $item["test_first"];
+                $regular_first_all += $item["regular_first"];
             }
         }
         $total_test_first_per_str ="";
@@ -536,54 +536,60 @@ class main_page extends Controller
 
 
         \App\Helper\Utils::order_list( $teacher_info,"per", 0 );
+        if($kpi_flag==0){
 
-        //面试总计
+            //面试总计
 
-        $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
-        $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
-        foreach($teacher_arr_ex as $k=>$val){
-            if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k;
+            $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
+            foreach($teacher_arr_ex as $k=>$val){
+                if(!isset($teacher_list_ex[$k])){
+                    $teacher_list_ex[$k]=$k;
+                }
             }
-        }
-        $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
-            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+            $video_real =  $this->t_teacher_lecture_info->get_lecture_info_by_all(
+                $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
 
-        $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
-            $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
-        @$video_real["all_count"] += $one_real["all_count"];
+            $one_real = $this->t_teacher_record_list->get_train_teacher_interview_info_all(
+                $subject,$start_time,$end_time,-1,-1,-1,$tea_subject,-2);
+            @$video_real["all_count"] += $one_real["all_count"];
 
-        $all_tea_ex = count($teacher_list_ex);
+            $all_tea_ex = count($teacher_list_ex);
 
-        //模拟试听总计
-        $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
-        $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
+            //模拟试听总计
+            $train_first_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,1,$subject);
+            $train_second_all = $this->t_teacher_record_list->get_trial_train_lesson_all($start_time,$end_time,2,$subject);
 
-        //第一次试听/第一次常规总计
-        $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
-        $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
+            //第一次试听/第一次常规总计
+            $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
+            $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
-        $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
-        $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num,"test_first_per_str" => $total_test_first_per_str, "regular_first_per_str" => $total_regular_first_per_str];
-        $num = count($teacher_info);
-        // $all_count = ($num-2)*250+300;
-        if($all_count){
-            $arr["per"] = round($all_num/$all_count*100,2);  
-        }else{
-            $arr["per"] = 0;
-        }
+            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
+            $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num,"test_first_per_str" => $total_test_first_per_str, "regular_first_per_str" => $total_regular_first_per_str];
+        }elseif($kpi_flag==1){
+            $arr=[];
+            $arr=["name"=>"总计","test_first_per_str" => $total_test_first_per_str, "regular_first_per_str" => $total_regular_first_per_str];
 
-        $arr["all_target_num"] = $all_count;
-        if($kpi_flag==1){
             $arr["real_num"] = $real_num;
             $arr["suc_count"] = $suc_count;
             $arr["train_first_all"] = $train_first_all;
             $arr["train_first_pass"] = $train_first_pass;
             $arr["train_second_all"] = $train_second_all;
-            $arr["test_first"] = $test_first;
-            $arr["regular_first"] = $regular_first;
-            $arr["all_num"] = $real_num+$train_first_all+$test_first+$regular_first;
+            $arr["test_first"] = $test_first_all;
+            $arr["regular_first"] = $regular_first_all;
+            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all;
         }
+        
+        $num = count($teacher_info);
+        // $all_count = ($num-2)*250+300;
+        if($all_count){
+            $arr["per"] = round($arr["all_num"]/$all_count*100,2);  
+        }else{
+            $arr["per"] = 0;
+        }
+
+        $arr["all_target_num"] = $all_count;
+
 
 
         array_unshift($teacher_info,$arr);
