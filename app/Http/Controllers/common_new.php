@@ -496,78 +496,55 @@ class common_new extends Controller
     </head>
     <body>
         <div align='center'>
-            <div style='width:800px;' align='left'>
+            <div style='width:1000px;' align='left'>
                 <div align='left'>尊敬的".$name."老师：</div>
                 <div class='t20'>
                     感谢您对理优1对1的关注，您的报名申请已收到！
                     <br/>
-                    为了更好的评估您的教学能力，需要您尽快按照如下要求提交试讲视频
+                    请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
                     <br/>
-                    【面试需知】
+                    【轻松三步搞定面试】
                     <br/>
-                    请下载好<span class='red'>理优老师客户端</span>并准备好<span class='red'>耳机和话筒</span>，用<span class='red'>指定内容</span>在理优老师客户端进行试讲
-                </div>
-                <div>
-                    <ol>
-                        <li>
-                            下载“理优老师客户端”<a class='leo_blue' href='http://www.leo1v1.com/common/download'>点击下载</a>
-                            （面试请务必使用电脑，暂不支持使用iPad和手机）<br>
-                            下载指定简历填写并上传在“理优老师客户端”<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>下载简历</a>
-                        </li>
-                        <li>
-                            登陆客户端，选择试讲方式（有两种方式可以选择<span class='red'>↓↓↓</span>）<br>
-                            1)录制试讲（高校老师推荐）<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>讲义下载</a>
-                            <span class='red'>（无需摄像头）</span><br>
-                            录制讲课视频，录制完成并提交审核，三个工作日内收到审核结果，通过后进行新师培训，完成自测即可入职。<br>
-                            登陆客户端，下载面试学科的PPT并备课，在PPT中点击另存为保存为PDF格式，录制一段不少于五分钟的试讲视频并上传<span class='red'>（录制只会录下您的PPT和声音）</span><br>
-
-                            2)面试试讲（公校老师推荐）<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>讲义下载</a>
-                            <span class='red'>（无需摄像头）</span><br>
-                            进入理优老师客户端预约时间，评审老师和面试老师同时进培训课堂进行面试，
-                            面试通过后，进行新师培训，完成自测即可入职<span class='red'>（录制只会录下您的PPT和声音）</span>
-                            <span class='red'>注意：若面试老师因个人原因需要调整1对1面试时间，请提前1天登陆理优老师端进行修改，
-                                以便招师老师安排其他面试，如未提前通知，将视为永久放弃面试机会。</span>
-                            <br>
-                            <span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</span>
-                        </li>
-                        <li>
-                            面试内容<br>
-                            1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
-                            2)所授课程的PPT讲解<br>
-                            <span class='red'>
-                                面试账号：本人报名手机号<br>
-                                密码：leo+报名手机号后四位<br>
-                                时间：请在1周内完成试讲（有特殊原因请及时联系招师老师）
-                            </span>
-                        </li>
-                    </ol>
-                </div>
-                <div >
-                    <div class='t20'>
-                        【结果通知】
-                    </div>
-                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/><br>
+                    第一步：理优老师客户端&nbsp;<a class='leo_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
+                    <div class='red'>登录账号：注册报名的手机号</div>
+                    <div class='red'>登录密码：leo+手机号后四位</div>
+                    下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
+                    ​第二步：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
+                    1)录制试讲<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
+                    <div class='red'>特点：可反复回看并重新录制（提交后不可再重新录制），直到自己满意后再提交 </div>
+                    2)面试试讲<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>  试讲试题及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容跟面试官进行一对一在线面试。<br>
+                    <div class='red'>特点：有面试官当您的学生进行一些场景互动。</div>
+                    <div class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</div>
+                    第三步：面试内容<br>
+                    1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
+                    2)试讲内容里的题目讲解<br>
                 </div>
                 <div>
                     <div class='t20'>
                         【通关攻略】
                     </div>
                     <ol>
-                        <li>确保相对安静的录制环境和稳定的网络环境</li>
-                        <li>请上传讲义和板书，试讲要充分结合板书</li>
-                        <li>注意跟学生的互动（模拟形成一种和学生1对1讲解互动的形式）</li>
-                        <li>简历和PPT完善后需转成PDF格式才能上传</li>
-                        <li>录制前请先充分准备，面试机会只有一次，请认真对待</li>
+                        <li>确保安静的环境和稳定的网络</li>
+                        <li>试讲过程中必须要结合题目进行板书</li>
+                        <li>网络课堂互动很重要，与学生进行模拟互动（假设电脑另一端坐着你的学生）</li>
+                        <li>试讲内容PPT完善后需转成PDF格式才能上传</li>
+                        <li>录制和面试试讲前请先充分准备，认真对待</li>
                     </ol>
+                    <div class='red'>（温馨提示：讲题前先在页面画一笔，再开始讲解，有助于保持声音和画面同步）</div>
                 </div>
-                <div class='red'>
-                    （温馨提示：为方便审核，请在每次翻页后在白板中画一笔）
+                <div>
+                    <div class='t20'>
+                        【入职流程】
+                    </div>
+                    1、备课→2、试讲→3、培训→4、入职
                 </div>
                 <div >
                     <div class='t20'>
-                        【面试步骤】
+                        【面试结果通知】
                     </div>
-                    1、备课→2、试讲→3、培训→4、入职
+                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/><br>
                 </div>
                 <div >
                     <div class='t20'>
