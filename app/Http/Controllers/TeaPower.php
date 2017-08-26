@@ -454,6 +454,11 @@ trait  TeaPower {
             $tea_subject="";
             $qz_flag=0;
         }
+        if($adminid==480){
+            $tea_right=1;
+            $tea_subject="";
+            $qz_flag=0;
+        }
         $list = ["tea_subject"=>$tea_subject,"tea_right"=>$tea_right,"qz_flag"=>$qz_flag];
         return $list;
     }

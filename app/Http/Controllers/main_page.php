@@ -812,10 +812,11 @@ class main_page extends Controller
 
         $all_total = $system_total=$self_total=$no_call_total=0;
         $ret_info = $this->t_manager_info->get_admin_work_status_info(8);
-        foreach($ret_info as ){
-            
+        foreach($ret_info as $i=>$val){ // 傅文莉要求在首页不显示ta
+            if($val['uid'] == 967){
+                unset($ret_info[$i]);
+            }
         }
-
 
         $list  = $this->t_teacher_lecture_appointment_info->tongji_teacher_lecture_appoiment_info_by_accept_adminid($start_time,$end_time);
         $list1  = $this->t_teacher_lecture_appointment_info->tongji_no_call_count_by_accept_adminid();
