@@ -816,16 +816,27 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info_to_teacher($teacherid){
-        $sql = $this->gen_sql("select teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
-                              ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,"
-                              ." subject,phone,realname,work_year,textbook_type,dialect_notes,"
-                              ." gender,birth,address,face,grade_part_ex,bankcard,bank_province,bank_city,"
-                              ." bank_type,bank_phone,bank_account,bank_address,idcard,"
-                              ." train_through_new,trial_lecture_is_pass,wx_use_flag"
-                              ." from %s "
-                              ." where teacherid=%u"
+        $where_arr = [
+            "t.teacherid=$teacherid",
+            'l.lesson_start>0',
+        ];
+       
+        $sql = $this->gen_sql("select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,"
+                              ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,"
+                              ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
+                              ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
+                              ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,"
+                              ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,"
+                              ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
+                              ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
+                              ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
+                              ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count"
+                              ." from %s t"
+                              ." left join %s l on l.teacherid=t.teacherid"
+                              ." where %s"
                               ,self::DB_TABLE_NAME
-                              ,$teacherid
+                              ,t_lesson_info::DB_TABLE_NAME
+                              ,$where_arr
         );
         return $this->main_get_list_as_page($sql);
     }
@@ -3230,6 +3241,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $res;
     }
 
+    public function update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city){
+
+        $res = $this->field_update_list( ["teacherid" => $teacherid],[
+            "bank_account"  => $bank_account,
+            "idcard"        => $idcard,
+            "bankcard"      => $bankcard,
+            "bank_phone"    => $bank_phone,
+            "bank_type"     => $bank_type,
+            "bank_address"  => $bank_address,
+            "bank_province" => $bank_province,
+            "bank_city"     => $bank_city,
+        ]);
+        return $res;
+
+    }
 
 
 

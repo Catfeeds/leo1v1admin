@@ -12,6 +12,9 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	bankcard	:any;
+	idcard	:any;
+	bank_phone	:any;
 }
 
 /*

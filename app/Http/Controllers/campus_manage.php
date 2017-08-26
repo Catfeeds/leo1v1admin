@@ -45,7 +45,7 @@ class campus_manage extends Controller
                 }
 
             }
-            dd($list);
+            //dd($list);
             $num++;
         }
         foreach($list as &$pig){
