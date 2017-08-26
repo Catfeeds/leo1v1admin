@@ -883,7 +883,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type, "
-                                  ." am.account zs_account,am.zs_name,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
+                                  ." am.account zs_account,am.name zs_name,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
                                   ." tr.id tt_id,tl.add_time tt_add_time,tli.resume_url  "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
@@ -1796,14 +1796,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_time_by_lessonid($lessonid){
+    public function get_teacher_time_by_lessonid($lessonid,$start,$end){
 
-        $begin_time = time(NULL);
-        $sql = $this->gen_sql_new("select lesson_start,lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and lesson_start>%d and del_flag = 0 ",
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid,
-                                  $begin_time
+                                  $start,
+                                  $end
         );
 
         return $this->main_get_list($sql);
@@ -2119,10 +2119,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
 
     }
-    public function get_student_lesson_time_by_lessonid($lessonid){
-        $time = time(NULL);
-        $sql = $this->gen_sql_new(" select lesson_start, lesson_end from %s l ".
-                                  " where userid in (select userid from %s l2 where lessonid = %d) and lesson_start>$time and del_flag = 0 ",
+    public function get_student_lesson_time_by_lessonid($lessonid ,$start=0, $end=0 ){
+        $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end from %s l ".
+                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid

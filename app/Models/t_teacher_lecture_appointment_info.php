@@ -979,5 +979,9 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_update($sql);
     }
 
+    public function get_no_right_reference_list(){
+        $sql = $this->gen_sql_new("select reference,id from %s where LENGTH(reference) >11",self::DB_TABLE_NAME);
+        return $this->main_get_list($sql);
+    }
 
 }

@@ -632,7 +632,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_id_by_userid($userid) {
-        $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
+        $sql=$this->gen_sql_new("select id,type  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
         return $this->main_get_value($sql);
 
@@ -643,7 +643,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'phone in ('.$phone_str.')',
         ];
         $sql= $this->gen_sql_new(
-            "select id,phone "
+            "select id,phone,type "
             . " from %s "
             . " where %s ",
             self::DB_TABLE_NAME,
@@ -1021,10 +1021,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
         ]);
 
-        if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
+        if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
             $this->field_update_list($id,[
                 "type" =>  E\Eagent_type::V_3
             ]);
+        }
+        if ( $level_count_info["l1_child_count"]) {
+            if ($agent_type ==1 ) {
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_3
+                ]);
+            }else if( $agent_type ==0 ){
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_2
+                ]);
+            }
         }
     }
 
@@ -1054,7 +1065,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.nickname, a1.phone, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
             . " from %s a1"
-            . " left join  %s a2 on a1.id=a2.parentid "
+            . " left join  %s a2 on ( a1.id=a2.parentid and a2.type in (1,3)  )  "
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,

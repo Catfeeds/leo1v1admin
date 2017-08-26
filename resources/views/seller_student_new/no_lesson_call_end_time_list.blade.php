@@ -40,7 +40,8 @@
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a title="手机拨打&录入回访信息" class=" fa-phone  opt-telphone   "></a>
+                                <a title="手机拨打" class=" fa-phone  opt-telphone   "></a>
+                                <a title="刷新回访"  class="fa fa-undo opt-undo-test-lesson "></a>
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a>
                                      <a class="fa fa-times opt-del" title="删除"> </a>
                                    -->

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TAdminChannelUser extends Migration
+class TAdminChannelGroup extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class TAdminChannelUser extends Migration
      */
     public function up()
     {
-        Schema::create('db_weiyi_admin.t_admin_channel_user', function( Blueprint $table)
+        //
+        Schema::create('db_weiyi_admin.t_admin_channel_group', function( Blueprint $table)
         {
-            t_field($table->integer("teacher_ref_type_id",true),"分渠道id");
-            t_field($table->integer("channel_id"),"主渠道ID");
+            t_field($table->integer("group_id",true),"分渠道id");
+            t_field($table->integer("channel_id"),"主渠道id");
         });
- 
     }
 
     /**
