@@ -33,9 +33,6 @@ $(function(){
         $('#'+id+' select').removeClass('hide');
     });
 
-    $('.band-wx').on('click', function() {
-        
-    });
     $('.btn-bank').on('click', function() {
         if ($(this).text() != '提交') {
             $(this).text('提交');
@@ -51,7 +48,7 @@ $(function(){
 			          data     : $('#bank-info').serialize(),
 			          success : function(result){
                     if(result.ret==0){
-                        history.go(0);
+                        window.location.reload();
                     }else{
                         alert(result.info);
                     }
@@ -67,7 +64,7 @@ $(function(){
     });
     $('.direct-chat-contacts').css('backgroundColor','#fff');
     $('button[data-refresh]').on('click', function(){
-       history.go(0);
+        window.location.reload();
     });
 
     $('.opt-submit').on('click', function () {
@@ -80,7 +77,7 @@ $(function(){
 			      data     : $('#'+form_id).serialize(),
 			      success : function(result){
                 if(result.ret==0){
-                    history.go(0);
+                    window.location.reload();
                 }else{
                     alert(result.info);
                 }

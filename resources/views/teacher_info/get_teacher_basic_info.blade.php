@@ -407,8 +407,8 @@
                                             </td>
                                             <th>毕业院校</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <span>{{$my_info['school']}}</span>
+                                                <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
