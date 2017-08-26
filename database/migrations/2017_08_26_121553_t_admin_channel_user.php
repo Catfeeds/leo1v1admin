@@ -13,7 +13,7 @@ class TAdminChannelUser extends Migration
     public function up()
     {
         //
-        Schema::drop('db_weiyi_admin.t_admin_channel_user');
+        Schema::dropIfExists('db_weiyi_admin.t_admin_channel_user');
     }
 
     /**

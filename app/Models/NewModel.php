@@ -781,9 +781,9 @@ abstract class NewModel
     public function where_get_in_str_query( $field_name, $id_list  ) {
         if (is_array($id_list)) {
 
-            \App\Helper\Utils::logger($field_name.":" .json_encode($id_list));
+            //\App\Helper\Utils::logger($field_name.":" .json_encode($id_list));
 
-            if (isset( $id_list["start"] ))  {
+            if ( array_key_exists( "start", $id_list))  {
                 if ($id_list["start"]===null ) {
                     return "true";
                 }else{
