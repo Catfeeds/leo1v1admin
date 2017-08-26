@@ -1169,47 +1169,6 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
 
-    // public function get_comment_list_by_page_tmp ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
-    //     $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time from (select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
-    //                               "from %s l left join %s s on l.userid = s.userid ".
-    //                               "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
-    //                               "order by l.lesson_start desc)",
-    //                               self::DB_TABLE_NAME,
-    //                               t_student_info::DB_TABLE_NAME,
-    //                               $teacherid, $start_time,
-    //                               $end_time, $lesson_type_list_str,time(NULL));
-
-    //     return $this->main_get_list_by_page($sql,$page_num,10);
-
-    // }
-
-
-
-
-
-
-    /**
-       public function get_comment_list_by_page ( $teacherid, $start_time,$end_time,$lesson_type_list_str, $page_num) {
-       $sql = $this->gen_sql_new("select l.lessonid,l.confirm_flag,l.stu_attend, l.lesson_type, subject,lesson_name, l.grade, lesson_start,lesson_end, nick, tea_rate_time ".
-       "from %s l left join %s s on l.userid = s.userid ".
-       "where l.teacherid = %d and l.lesson_start>= %d and l.lesson_end < %d and l.lesson_type in (%s) and confirm_flag<2 and l.lesson_del_flag =0 ".
-       "order by l.lesson_start desc",
-       self::DB_TABLE_NAME,
-       t_student_info::DB_TABLE_NAME,
-       $teacherid, $start_time,
-       $end_time, $lesson_type_list_str,time(NULL));
-
-       return $this->main_get_list_by_page($sql,$page_num,10);
-
-       }
-     **/
-
-
-
-
-
-
-
     public function get_teacher_lessons($teacherid, $start_time, $end_time) {
         $sql = $this->gen_sql_new(" select lesson_start, lesson_end,free_time_new"
                                    ." from %s tl"
@@ -2762,13 +2721,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag  "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand   "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s tt on tq.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2885,13 +2850,19 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         }
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade ,tr.lesson_invalid_flag"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade ,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand"
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=2)"
+                                  ." left join %s tss on l.lessonid = tss.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s tt on tq.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );

@@ -45,6 +45,17 @@
          width:30%;
          text-align:center
      }
+     input{
+         border:0 solid #fff;
+         width:100%;
+         height:100%;
+     }
+     from select{
+         border:0 solid #fff;
+     }
+     from select option{
+         border:0 solid #fff;
+     }
     </style>
     <section class="content">
         <div class="row">
@@ -56,11 +67,11 @@
                     </div>
                     <div class="box-body">
                         <!-- Profile Image -->
-                            <div class="box-body box-profile">
-                                <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
-                                <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
-                                <p class="text-muted text-center">{{$my_info['level']}}星教师</p>
-                            </div>
+                        <div class="box-body box-profile">
+                            <img src="{{$my_info['face']}}" class="profile-user-img img-responsive img-circle" alt="">
+                            <h3 class="profile-username text-center">{{$my_info['nick']}}</h3>
+                            <p class="text-muted text-center">{{$my_info['level']}}星教师</p>
+                        </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
                                 <h3><span  class="text-blue">123</span><span class="ft14">天</span></h3>
@@ -134,8 +145,8 @@
                                 <div class="col-sm-12"">
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
                                     <p data-status="nofull" class="hide"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
-                                <br>
-                                <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
+                                    <br>
+                                    <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -305,15 +316,17 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool"><i class="fa fa-edit"></i>编辑
+                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>编辑
                             </button>
+                            <button type="button" class="btn btn-box-tool hide color-6" data-toggle="modal" data-target="#modal-default">取消 </button>
+                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info">保存</button>
                         </div>
                     </div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" >
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
-                                <from class="col-sm-12 flag-baes">
+                                <from class="col-sm-12 flag-baes" id="user-info">
                                     <p class="color-6">个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
@@ -362,7 +375,7 @@
                                             </td>
                                             <th>信息创建时间</th>
                                             <td>
-                                                <span>{{$my_info['create_time']}}</span>
+                                                {{$my_info['create_time']}}
                                             </td>
                                         </tr>
                                     </table>
@@ -386,15 +399,20 @@
                                             <th>科目</th>
                                             <td>
                                                 <span>{{$my_info['subject']}}</span>
+                                                <input type="text" name="subject" class="hide" value="{{$my_info['subject']}}" placeholder="未填写">
+
                                             </td>
                                             <th>年级段</th>
-                                            <td>姓名</td>
+                                            <td>
+                                                <span>{{$my_info['grade_part_ex']}}</span>
+                                                <input type="text" name="grade_part_ex" class="hide" value="{{$my_info['grade_part_ex']}}" placeholder="未填写">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>方言备注</th>
                                             <td>
                                                 <span>{{$my_info['dialect_notes']}}</span>
-                                                <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}">
+                                                <input type="text" name="dialect_notes" class="hide" value="{{$my_info['dialect_notes']}}" placeholder="未填写">
 
                                             </td>
                                         </tr>
@@ -405,22 +423,38 @@
                                             <th>身份</th>
                                             <td>
                                                 <span>{{$my_info['identity']}}</span>
-                                                <input type="text" name="identity" class="hide" value="{{$my_info['identity']}}">
+                                                <input type="text" name="identity" class="hide" value="{{$my_info['identity']}}" placeholder="未填写">
                                             </td>
                                             <th>毕业院校</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span class="color-6">未填写</span>
+                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>最高学历</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span class="color-6">未填写</span>
+                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                            </td>
+
                                             <th>专业</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span class="color-6">未填写</span>
+                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>兴趣爱好</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span class="color-6">未填写</span>
+                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                            </td>
                                             <th>个人特长</th>
-                                            <td><span class="color-6">未填写</span></td>
+                                            <td>
+                                                <span class="color-6">未填写</span>
+                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                            </td>
                                         </tr>
                                     </table>
                                 </from>
@@ -442,7 +476,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">银行卡信息</h3>
                         <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -450,14 +484,81 @@
                         <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
-                                <div class="div-bank text-cen">
-                                    <button type="button" class="btn btn-info btn-bank">绑定银行卡</button>
-                                </div>
+                                @if (!$my_info['bankcard'])
+                                    <from class="col-sm-12 flag-baes" id="bank-info">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>持卡人</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_account']}}</span>
+                                                    <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}">
+                                                </td>
+                                                <th>身份证号</th>
+                                                <td>
+                                                    <span>{{$my_info['idcard']}}</span>
+                                                    <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>银行卡类型</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_type']}}</span>
+                                                    <select name="bank_type" class="hide">
+                                                        <option value="0">保密</option>
+                                                        <option value="1">男</option>
+                                                        <option value="2">女</option>
+                                                    </select>
+
+                                                </td>
+                                                <th>支行名称</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_address']}}</span>
+                                                    <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>开户省</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_province']}}</span>
+                                                    <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}">
+
+                                                </td>
+                                                <th>开户市</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_city']}}</span>
+                                                    <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>卡号</th>
+                                                <td>
+                                                    <span>{{$my_info['bankcard']}}</span>
+                                                    <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}">
+                                                </td>
+                                                <th>预留手机号</th>
+                                                <td>
+                                                    <span>{{$my_info['bank_phone']}}</span>
+                                                    <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}">
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </from>
+                                @else
+                                    <div class="div-bank text-cen">
+                                        <button type="button" class="btn btn-info btn-bank">绑定银行卡</button>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
+                        @if (!$my_info['bankcard'])
+                            <div class="row text-cen">
+                                <p>如需<a class="text-blue opt-edit" data-name="bank-info" href="javascript:;">更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
+                            </div>
+                            @endif
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -468,7 +569,7 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">转化率</h3>
                         <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
                     </div>
@@ -622,4 +723,25 @@
     </section>
 @endsection
 
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">少个红色感叹号！！！</h4>
+            </div>
+            <div class="modal-body text-cen">
+                <p class="color-red">您还未保存信息，确定要退出吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-refresh="">确认</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 

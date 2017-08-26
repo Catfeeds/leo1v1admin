@@ -67,9 +67,10 @@
             <thead>
                 <tr>
                     <td>id </td>
-                    <td>上级id</td>
-                    <td>手机号</td>
-                    <td>微信昵称</td>
+                    <td style="display:none;">上级id</td>
+                    <td>昵称</td>
+                    <td>1级人数</td>
+                    <td>2级人数</td>
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
                     <td>会员等级</td>
@@ -91,8 +92,9 @@
                     <tr>
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
-                        <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["nickname"]}} </td>
+                        <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
+                        <td>{{@$var["l1_child_count"]}} </td>
+                        <td>{{@$var["l2_child_count"]}} </td>
                         <td>
                             {{@$var["p_nickname"]}} <br/>
                             {{@$var["p_phone"]}}

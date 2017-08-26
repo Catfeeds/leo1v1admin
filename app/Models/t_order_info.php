@@ -1712,7 +1712,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     public function  get_type1_lesson_count ($orderid) {
         $sql=$this->gen_sql_new(
             "select  lesson_total * default_lesson_count as lesson_count  from %s  "
-            . " where parent_order_id=%u and contract_type=1 "
+            . " where parent_order_id=%u and contract_type=1 and from_parent_order_type=0 "
             ,self::DB_TABLE_NAME
             ,$orderid
         );

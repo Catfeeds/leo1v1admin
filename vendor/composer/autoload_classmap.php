@@ -564,6 +564,7 @@ return array(
     'TAdminSelfMenuList' => $baseDir . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
     'TAgent' => $baseDir . '/database/migrations/2017_06_02_190744_t_agent.php',
     'TAgentAddBankInfo' => $baseDir . '/database/migrations/2017_07_08_144611_t_agent_add_bank_info.php',
+    'TAgentAddChildCount' => $baseDir . '/database/migrations/2017_08_25_173014_t_agent_add_child_count.php',
     'TAgentAddLevel' => $baseDir . '/database/migrations/2017_08_22_191824_t_agent_add_level.php',
     'TAgentAddNickname' => $baseDir . '/database/migrations/2017_07_22_150952_t_agent_add_nickname.php',
     'TAgentAddType' => $baseDir . '/database/migrations/2017_08_03_105059_t_agent_add_type.php',

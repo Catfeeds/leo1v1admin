@@ -1815,6 +1815,26 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_value($sql);
 
     }
+    public function get_no_assign_total_info_detail($start_time,$end_time){
+        $where_arr = [
+            ["require_time >= %u",$start_time,-1],
+            ["require_time < %u",$end_time,-1],
+            "accept_adminid = 0",
+            " test_lesson_student_status = 200",
+            "s.is_test_user=0"
+        ];
+        $sql =  $this->gen_sql_new("select tr.require_id,tr.require_time from %s tr"
+                                   ." left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id"
+                                   ." left join %s s on s.userid = t.userid"
+                                   ." where %s",
+                                   self::DB_TABLE_NAME,
+                                   t_test_lesson_subject::DB_TABLE_NAME,
+                                   t_student_info::DB_TABLE_NAME,
+                                   $where_arr);
+        return $this->main_get_list($sql);
+
+    }
+
 
 
     public function get_none_total_info_list($start_time,$end_time){

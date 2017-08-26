@@ -289,7 +289,9 @@ class ajax_deal extends Controller
         $check_money_adminid = $this->get_account_id();
         $check_money_flag    = $this->get_in_int_val('check_money_flag');
         $check_money_desc    = $this->get_in_str_val('check_money_desc');
-
+        if($id != 301){
+            return $this->output_err('无权限!');
+        }
         $this->t_agent_cash->field_update_list($id,[
             "check_money_adminid" => $check_money_adminid,
             "check_money_flag"    => $check_money_flag,

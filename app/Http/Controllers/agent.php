@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail ;
 
 class agent extends Controller
 {
+    use CacheNick;
     public function agent_list() {
         list($start_time,$end_time)=$this->get_in_date_range_month(0);
         $userid        = $this->get_in_userid(-1);
@@ -205,15 +206,13 @@ class agent extends Controller
         $page_info = $this->get_in_page_info();
         $ret_info = $this->t_agent_cash->get_agent_cash_list($page_info);
         foreach($ret_info['list'] as &$item){
-            if($item['create_time']){
-                $item['create_time'] = date('Y-m-d H:i:s',$item['create_time']);
-            }else{
-                $item['create_time'] = '';
-            }
-            if($item['cash']){
-                $item['cash'] = $item['cash']/100;
-            }
+            $item['agent_check_money_flag'] = $item['check_money_flag'];
+            $item['cash'] = $item['cash']?$item['cash']/100:0;
+            $item["check_money_admin_nick"]= $this->cache_get_account_nick( $item["check_money_adminid"] );
             $item['check_money_desc'] = $item['check_money_desc']?$item['check_money_desc']:'';
+            E\Eagent_check_money_flag::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"check_money_time");
         }
         return $this->pageView(__METHOD__,$ret_info);
     }
@@ -1142,7 +1141,7 @@ class agent extends Controller
             $student_info = $this->t_student_info->field_get_list($userid,"*");
             $orderid = 0;
             if($userid){
-                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
+                $order_info = $this->t_order_info->get_nomal_order_by_userid($userid,time());
                 if($order_info['orderid']){
                     $orderid = $order_info['orderid'];
                 }
@@ -1157,7 +1156,7 @@ class agent extends Controller
                && $orderid){//在读非测试
                 $level     =  E\Eagent_level::V_2 ;
             }elseif($wx_openid){//有wx绑定
-                $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id);
+                $test_lesson = $this->t_agent->get_son_test_lesson_count_by_id($id,time());
                 $count       = count($test_lesson);
                 if($count>=2){
                     $level     =  E\Eagent_level::V_2 ;

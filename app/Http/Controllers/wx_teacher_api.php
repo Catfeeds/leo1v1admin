@@ -354,14 +354,31 @@ class wx_teacher_api extends Controller
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
+        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
+        $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
+
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
+        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$test_lesson_info['common_lesson_start']);
 
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
-        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num);
+        $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
 
-        dd($ret_info);
 
+        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
+
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
+
+        $ret_info['money'] = $money;
+
+        return $this->output_succ(["data"=>$ret_info]);
     }
 
 

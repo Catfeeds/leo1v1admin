@@ -46,6 +46,7 @@
                             >
                                 @if($var['reward_count_type']==1 && $var['rule_type']==6)
                                     <a class="opt-update">编辑</a>
+                                    <a class="opt-del">删除</a>
                                 @endif
                             </div>
                         </td>

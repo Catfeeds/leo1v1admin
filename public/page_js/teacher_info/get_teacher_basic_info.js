@@ -20,9 +20,23 @@ $(function(){
         $('h3[data-status]').toggleClass('hide');
         $('p[data-status]').toggleClass('hide');
 
-    })
-    $('.direct-chat-contacts').css('backgroundColor','#fff');
+    });
 
+    $('.opt-edit').on('click', function () {
+        $(this).nextAll().removeClass('hide');
+        var id = $(this).attr('data-name');
+        if(id == 'user-info'){
+            $(this).hide();
+        }
+        $('#'+id+' span').addClass('hide');
+        $('#'+id+' input').removeClass('hide');
+        $('#'+id+' select').removeClass('hide');
+    });
+
+    $('.direct-chat-contacts').css('backgroundColor','#fff');
+    $('button[data-refresh]').on('click', function(){
+       history.go(0);
+    });
 
 
 	  $('.opt-change').set_input_change_event(load_data);

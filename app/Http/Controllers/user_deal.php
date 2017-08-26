@@ -2608,6 +2608,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $start_time = strtotime("2017-08-01");
+        $end_time = strtotime("2017-09-01");
+        $no_assign_total = $this->t_test_lesson_subject_require->get_no_assign_total_info_detail($start_time,$end_time);
+        dd($no_assign_total);
+
         $account_id=793;
         $accept_adminid_list = $this->get_accept_adminid_list($account_id);
         dd($accept_adminid_list);

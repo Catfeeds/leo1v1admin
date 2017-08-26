@@ -101,12 +101,43 @@ $(function(){
                         BootstrapDialog.alert(result.info);
                     }
                 });
-
             }
         });
 
     });
 
+    $(".opt-del").on("click",function(){
+        var data = $(this).get_opt_data();
+        BootstrapDialog.show({
+	          title   : "删除规则",
+	          message : "确定删除本规则？",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/user_manage_new/add_reward_rule_type",{
+                        "type"              : "delete",
+                        "reward_count_type" : data.reward_count_type,
+                        "rule_type"         : data.rule_type,
+                        "num"               : data.num,
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+
+		            }
+	          }]
+        });
+
+    });
 
 
 });
