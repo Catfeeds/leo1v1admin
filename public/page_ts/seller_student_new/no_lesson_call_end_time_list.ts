@@ -11,7 +11,6 @@ $(function(){
 
     $('#id_adminid').val(g_args.adminid);
     $('#id_phone').val(g_args.phone);
-
     $(".opt-telphone").on("click",function(){
         var me=this;
         var opt_data= $(this).get_opt_data();
@@ -27,6 +26,17 @@ $(function(){
             "phone": opt_data.phone
         } );
     });
+
+    $(".opt-undo-test-lesson").on("click",function(){
+        var me=this;
+        var opt_data= $(this).get_opt_data();
+        $.do_ajax("/seller_student_new/refresh_call_end",{
+            "lessonid" : opt_data.lessonid,
+            },function(ret){
+                window.location.reload();
+            });
+    });
+
 
     $('.opt-change').set_input_change_event(load_data);
 });
