@@ -263,6 +263,20 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_row_by_phone($phone){
+        $where_arr = [];
+        $this->where_arr_add_str_field($where_arr,'phone',$phone);
+        $sql = $this->gen_sql_new("select * ".
+                                  "from %s ".
+                                  "where %s order by start_time limit 1 "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function add_tianrun_record($item) {
 
         /*
