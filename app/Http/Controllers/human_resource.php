@@ -4315,6 +4315,11 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
+    public function zs_origin_list_new(){
+        $this->switch_tongji_database(); 
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3); 
+        $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
+    }
     public function zs_origin_list(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
