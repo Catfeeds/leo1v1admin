@@ -21,6 +21,8 @@
 
   <link rel="stylesheet" href="/css/skin-blue-light.css">
 
+
+
   <!-- Morris chart -->
   <link rel="stylesheet" href="/AdminLTE-2.4.0-rc/bower_components/morris.js/morris.css">
   <!-- jvectormap -->
@@ -187,6 +189,10 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button);
 </script>
+
+<script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="/AdminLTE-2.4.0-rc/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/AdminLTE-2.4.0-rc/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 

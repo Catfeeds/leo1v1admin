@@ -1470,7 +1470,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
     public function get_admin_work_status_info($account_role){
         $where_arr=[
             ["account_role = %u",$account_role,-1],
-            "del_flag=0"
+            "del_flag=0",
         ];
         $sql = $this->gen_sql_new("select uid,admin_work_status,account,name from %s where %s",self::DB_TABLE_NAME,$where_arr);
         return $this->main_get_list($sql);
