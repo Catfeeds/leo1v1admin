@@ -23,7 +23,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-    public function get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
+    public function get_agent_info($page_info, $order_by_str, $phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag, $agent_level,$order_flag,$l1_child_count )
     {
         $where_arr = [];
         if($p_phone){
@@ -38,6 +38,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             $this->where_arr_add_boolean_for_value($where_arr,"a.test_lessonid" ,$test_lesson_flag);
             $this->where_arr_add_boolean_for_value($where_arr,"ao.orderid" ,$order_flag,true );
         }
+
         $sql=$this->gen_sql_new (" select a.*,"
                                  ."aa.nickname p_nickname,aa.phone p_phone,"
                                  ."aaa.nickname pp_nickname,aaa.phone pp_phone,"
@@ -52,7 +53,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
-                                 ." where %s "
+                                 ." where %s  $order_by_str "
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
@@ -1017,6 +1018,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "agent_student_status" => $agent_student_status,
             "l1_child_count" => $level_count_info["l1_child_count"],
             "l2_child_count" => $level_count_info["l2_child_count"],
+            "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
         ]);
 
         if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
@@ -1029,13 +1031,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_level_count_info($id ) {
         $sql = $this->gen_sql_new(
-            "select count(*) as l1_child_count , sum(child_count) l2_child_count "
-            . " from (select  a1.id  agent_id, sum(a2.id>0 )  child_count "
+            "select count(*) as l1_child_count , sum(child_count) l2_child_count, sum(p_price) l1_child_price, sum( pp_price ) l2_child_price  "
+            . " from (select  a1.id  agent_id,  ao1.p_price  , sum(a2.id>0 )  child_count, sum(ao2.pp_price) as  pp_price   "
             . " from %s a1"
             . " left join  %s a2 on( a1.id=a2.parentid and a2.type in (1,3)  )  "
+            . " left join  %s ao1 on( a1.id=ao1.aid   )  "
+            . " left join  %s ao2 on( a2.id=ao2.aid   )  "
             ." where  a1.parentid=%u  group  by a1.id ) t ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
+            t_agent_order::DB_TABLE_NAME,
             $id
         );
         return $this->main_get_row($sql);

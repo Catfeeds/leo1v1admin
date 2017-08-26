@@ -1,24 +1,27 @@
 /// <reference path="../common.d.ts" />
 /// <reference path="../g_args.d.ts/agent-agent_list.d.ts" />
 
-$(function(){
-    function load_data(){
-        $.reload_self_page ( {
-            date_type     :    $('#id_date_type').val(),
-            opt_date_type :    $('#id_opt_date_type').val(),
-            start_time    :    $('#id_start_time').val(),
-            end_time      :    $('#id_end_time').val(),
+function load_data(){
+    $.reload_self_page ( {
+        order_by_str                   : g_args.order_by_str,
+        date_type     :    $('#id_date_type').val(),
+        opt_date_type :    $('#id_opt_date_type').val(),
+        start_time    :    $('#id_start_time').val(),
+        end_time      :    $('#id_end_time').val(),
 
-            order_flag:	$('#id_order_flag').val(),
-            test_lesson_flag:	$('#id_test_lesson_flag').val(),
-            agent_level:	$('#id_agent_level').val(),
-            userid:	$('#id_userid').val(),
-            phone:	$('#id_phone').val(),
-            p_phone:	$('#id_p_phone').val(),
-            agent_type:$('#id_agent_type').val(),
-			l1_child_count:	$('#id_l1_child_count').val()
-        })
-    };
+        order_flag:	$('#id_order_flag').val(),
+        test_lesson_flag:	$('#id_test_lesson_flag').val(),
+        agent_level:	$('#id_agent_level').val(),
+        userid:	$('#id_userid').val(),
+        phone:	$('#id_phone').val(),
+        p_phone:	$('#id_p_phone').val(),
+        agent_type:$('#id_agent_type').val(),
+			  l1_child_count:	$('#id_l1_child_count').val()
+    })
+};
+
+
+$(function(){
     Enum_map.append_option_list("agent_type", $("#id_agent_type"));
   Enum_map.append_option_list("boolean",$("#id_test_lesson_flag"));
   Enum_map.append_option_list("boolean",$("#id_order_flag"));
