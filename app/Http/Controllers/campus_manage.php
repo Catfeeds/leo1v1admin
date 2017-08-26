@@ -37,17 +37,17 @@ class campus_manage extends Controller
                     $list[] = ["campus_id"=>$campus_id,"campus_name"=>$campus_name,"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"campus_id-".$n,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-3","master_adminid"=>$val["master_adminid"],"main_type"=>$item["main_type"]];
 
                     $admin_list = $this->t_admin_group_user->get_user_list_new($val["groupid"]);
-
                     $c = $num;
                     foreach($admin_list as $v){
                         $list[] = ["campus_id"=>$campus_id,"campus_name"=>$campus_name,"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>$v["account"],"main_type_class"=>"campus_id-".$n,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".$c,"account_class"=>"account-".++$num,"adminid"=>$v["adminid"],"groupid"=>$val["groupid"],"level"=>"l-4","main_type"=>$item["main_type"]];
 
                     }
                 }
+
             }
+            dd($list);
             $num++;
         }
- 
         foreach($list as &$pig){
             if($pig["level"] != "l-1"){
                 $pig["campus_name"]  =  $pig["campus_name"]."-".E\Emain_type::get_desc($pig["main_type"]);
@@ -55,7 +55,7 @@ class campus_manage extends Controller
         }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
-        dd($list);
+      
     }
 
     public function add_admin_campus(){
