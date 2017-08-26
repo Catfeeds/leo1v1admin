@@ -2051,6 +2051,7 @@ class teacher_info extends Controller
             } else {
                 $item['level'] = $item['level'] + 1;
             }
+            $item['normal_count'] = $item['normal_count']/100;
         }
 
         // dd($ret_info);

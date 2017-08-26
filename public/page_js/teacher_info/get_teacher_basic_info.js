@@ -33,6 +33,9 @@ $(function(){
         $('#'+id+' select').removeClass('hide');
     });
 
+    $('.band-wx').on('click', function() {
+        
+    });
     $('.btn-bank').on('click', function() {
         if ($(this).text() != '提交') {
             $(this).text('提交');
@@ -67,8 +70,6 @@ $(function(){
        history.go(0);
     });
 
-
-	  $('.opt-change').set_input_change_event(load_data);
     $('.opt-submit').on('click', function () {
         var form_id = $(this).attr('data-name');
         var sub_url = $('#'+form_id).attr('data-sub');
@@ -86,6 +87,7 @@ $(function(){
 			      }
         });
     });
+	  $('.opt-change').set_input_change_event(load_data);
 });
 
 
