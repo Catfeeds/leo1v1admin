@@ -558,6 +558,8 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'SellerStudentNewAddOriginVaildFlag' => $baseDir . '/database/migrations/2017_06_06_183652_seller_student_new_add_origin_vaild_flag.php',
     'TAdminCampusListAddCampusName' => $baseDir . '/database/migrations/2017_08_15_120139_t_admin_campus_list_add_campus_name.php',
+    'TAdminChannelList' => $baseDir . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
+    'TAdminChannelUser' => $baseDir . '/database/migrations/2017_08_26_095533_t_admin_channel_user.php',
     'TAdminGroupNameAddSubject' => $baseDir . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
     'TAdminSelfMenuList' => $baseDir . '/database/migrations/2017_08_12_115736_t_admin_self_menu_list.php',
     'TAgent' => $baseDir . '/database/migrations/2017_06_02_190744_t_agent.php',
