@@ -1866,6 +1866,7 @@ class test_code extends Controller
     public function wenjuanxing(){
         $data = file_get_contents("php://input");
         \App\Helper\Utils::logger("wenjuanxing:".json_encode($data));
+        echo "succ";
     }
 
 }

@@ -413,10 +413,11 @@ class login extends Controller
         //dd("success");
        $tea_item= $this->t_teacher_info->field_get_list($teacherid,"nick,face");
 
-        $sess['tid'] = $teacherid;
-        $sess['nick']   = $tea_item["nick"] ;
-        $sess['face']   = $tea_item["face"] ;
-        $sess['role']  = E\Erole::V_TEACHER;
+        $sess['tid']  = $teacherid;
+        $sess["acc"]  = $teacherid;
+        $sess['nick'] = $tea_item["nick"] ;
+        $sess['face'] = $tea_item["face"] ;
+        $sess['role'] = E\Erole::V_TEACHER;
 
         session($sess) ;
         return $this->output_succ();

@@ -15,6 +15,7 @@ class teacher_info extends Controller
         parent::__construct();
 
     }
+
     function check_login() {
         if (!session("tid")){
             if (!\App\Helper\Utils::check_env_is_test()) {
