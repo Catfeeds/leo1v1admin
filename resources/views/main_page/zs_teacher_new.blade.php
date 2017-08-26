@@ -130,7 +130,7 @@
                                     @foreach ( $ret_info as $key=> $var )
                                         <tr>
                                             <td> <span> {{$key+1}} </span> </td>
-                                            <td>{{@$var["account"]}} </td> 
+                                            <td>{{@$var["name"]}} </td> 
                                             <td>{{@$var["system_count"]}} </td> 
                                             <td>{{@$var["self_count"]}} </td> 
                                             <td>{{@$var["no_call_count"]}} </td> 

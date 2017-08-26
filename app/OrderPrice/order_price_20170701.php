@@ -77,8 +77,9 @@ class order_price_20170701 extends order_price_base
             $task= self::get_task_controler();
             \App\Helper\Utils::logger("hd free_money= $free_money");
             //当配活动
-            $lesson_end= $task->t_lesson_info_b2->get_lesson_end($from_test_lesson_id);
-            if ( $lesson_count>=30*3 && $lesson_end &&  time(NULL)- $lesson_end <86400) {
+            $lesson_start= $task->t_lesson_info_b2->get_lesson_start($from_test_lesson_id);
+            $check_time= strtotime( date("Y-m-d", $lesson_start) )+86400*2;
+            if ( $lesson_count>=30*3 && $lesson_start &&  time(NULL)<$check_time  ) {
                 $free_money+=300;
                 \App\Helper\Utils::logger("hd 2 free_money= $free_money");
             }
