@@ -326,26 +326,26 @@
                         <div class="chart" id="line-chart" >
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
-                                <from class="col-sm-12 flag-baes" id="user-info">
+                                <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info_by_himself" id="user-info">
                                     <p class="color-6">个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
                                             <th>ID</th>
-                                            <td>56123</td>
+                                            <td id="teacherid">56123</td>
                                             <th>姓名</th>
                                             <td>
                                                 <span>{{$my_info['nick']}}</span>
-                                                <input type="text" name="name" class="hide" value="{{$my_info['nick']}}">
+                                                <input type="text" name="nick" class="hide" value="{{$my_info['nick']}}">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>性别</th>
                                             <td>
-                                                <span>{{$my_info['gender']}}</span>
-                                                <select name="sex" class="hide">
-                                                    <option value="0">保密</option>
-                                                    <option value="1">男</option>
-                                                    <option value="2">女</option>
+                                                <span>{{$my_info['gender_str']}}</span>
+                                                <select name="gender" class="hide">
+                                                    <option value="0" @if($my_info['gender'] == 0) selected @endif >保密</option>
+                                                    <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
+                                                    <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
                                                 </select>
 
                                             </td>
@@ -359,24 +359,19 @@
                                             <th>邮箱</th>
                                             <td>
                                                 <span>{{$my_info['email']}}</span>
-                                                <input type="text" name="email" class="hide" value="{{$my_info['email']}}">
+                                                <input type="email" name="email" class="hide" value="{{$my_info['email']}}">
                                             </td>
                                             <th>推荐人</th>
-                                            <td>
-                                                <span>{{$my_info['birth']}}</span>
-                                                <input type="text" name="birth" class="hide" value="{{$my_info['nick']}}">
-                                            </td>
+                                            <td> {{$my_info['teacher_ref_type_str']}} </td>
                                         </tr>
                                         <tr>
                                             <th>手机号</th>
                                             <td>
                                                 <span>{{$my_info['phone']}}</span>
-                                                <input type="text" name="phone" class="hide" value="{{$my_info['phone']}}">
+                                                <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
                                             </td>
                                             <th>信息创建时间</th>
-                                            <td>
-                                                {{$my_info['create_time']}}
-                                            </td>
+                                            <td> {{$my_info['create_time']}} </td>
                                         </tr>
                                     </table>
                                     <p class="color-6">教学信息</p>
@@ -386,27 +381,15 @@
                                             <td>
                                                 <span>{{$my_info['work_year']}}</span>
                                                 <input type="text" name="work_year" class="hide" value="{{$my_info['work_year']}}">
-
                                             </td>
                                             <th>教材版本</th>
-                                            <td>
-                                                <span>{{$my_info['textbook_type']}}</span>
-                                                <input type="text" name="textbook_type" class="hide" value="{{$my_info['textbook_type']}}">
-
-                                            </td>
+                                            <td>{{$my_info['textbook_type_str']}}</td>
                                         </tr>
                                         <tr>
                                             <th>科目</th>
-                                            <td>
-                                                <span>{{$my_info['subject']}}</span>
-                                                <input type="text" name="subject" class="hide" value="{{$my_info['subject']}}" placeholder="未填写">
-
-                                            </td>
+                                            <td> {{$my_info['subject_str']}} </td>
                                             <th>年级段</th>
-                                            <td>
-                                                <span>{{$my_info['grade_part_ex']}}</span>
-                                                <input type="text" name="grade_part_ex" class="hide" value="{{$my_info['grade_part_ex']}}" placeholder="未填写">
-                                            </td>
+                                            <td> {{$my_info['grade_part_ex']}} </td>
                                         </tr>
                                         <tr>
                                             <th>方言备注</th>
@@ -422,8 +405,8 @@
                                         <tr>
                                             <th>身份</th>
                                             <td>
-                                                <span>{{$my_info['identity']}}</span>
-                                                <input type="text" name="identity" class="hide" value="{{$my_info['identity']}}" placeholder="未填写">
+                                                <span>{{$my_info['identity_str']}}</span>
+                                                <input type="text" name="identity_str" value="{{$my_info['identity_str']}}" class="hide" placeholder="未填写">
                                             </td>
                                             <th>毕业院校</th>
                                             <td>
@@ -457,7 +440,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                </from>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -484,7 +467,7 @@
                         <div class="chart" id="line-chart">
                             <div class="bor-hr"></div>
                             <div class="row div-pad">
-                                @if (!$my_info['bankcard'])
+                                @if ($my_info['bankcard'])
                                     <from class="col-sm-12 flag-baes" id="bank-info">
                                         <table class="table table-bordered">
                                             <tr>
@@ -554,7 +537,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
-                        @if (!$my_info['bankcard'])
+                        @if ($my_info['bankcard'])
                             <div class="row text-cen">
                                 <p>如需<a class="text-blue opt-edit" data-name="bank-info" href="javascript:;">更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
@@ -725,18 +708,20 @@
 
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="width:50%;margin:0 auto">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">少个红色感叹号！！！</h4>
             </div>
             <div class="modal-body text-cen">
-                <p class="color-red">您还未保存信息，确定要退出吗？</p>
+                <div>
+                    <img src="/img/warning.png" />
+                </div>
+                <h5 class="color-red">您还未保存信息，确定要退出吗？</h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-refresh="">确认</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-default col-sm-5 pull-left" data-refresh="">确认</button>
+                <button type="button" class="btn btn-info col-sm-5 pull-right" data-dismiss="modal">取消</button>
             </div>
         </div>
         <!-- /.modal-content -->

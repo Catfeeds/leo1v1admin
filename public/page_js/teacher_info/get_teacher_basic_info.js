@@ -40,6 +40,24 @@ $(function(){
 
 
 	  $('.opt-change').set_input_change_event(load_data);
+    $('.opt-submit').on('click', function () {
+        var form_id = $(this).attr('data-name');
+        var sub_url = $('#'+form_id).attr('data-sub');
+        $.ajax({
+			      type     : "post",
+			      url      : "/teacher_info/"+sub_url,
+			      dataType : "json",
+			      data     : $('#'+form_id).serialize(),
+			      success : function(result){
+                if(result.ret==0){
+                    history.go(0);
+                }else{
+                    alert(result.info);
+                }
+			      }
+        });
+
+    });
 });
 
 

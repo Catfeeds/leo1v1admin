@@ -2016,10 +2016,56 @@ class teacher_info extends Controller
     public function get_teacher_basic_info(){
         $teacherid = $this->get_login_teacher();
         $ret_info = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
+        foreach ($ret_info['list'] as &$item) {
+            E\Esubject::set_item_value_str($item);
+            // E\Egarde_part_ex::set_item_value_str($item);
+            E\Etextbook_type::set_item_value_str($item);
+            E\Eidentity::set_item_value_str($item);
+            E\Eteacher_ref_type::set_item_value_str($item);
+            E\Egender::set_item_value_str($item);
+            \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
+
+        }
         // dd($ret_info);
-        // return $this->pageView(__METHOD__, $ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
         ]);
+    }
+
+    public function edit_teacher_info_by_himself(){
+        $teacherid = $this->get_login_teacher();
+        $nick      = $this->get_in_str_val('nick','');
+        $gender    = $this->get_in_str_val('gender','');
+        $birth     = $this->get_in_int_val('birth','');
+        $email     = $this->get_in_str_val('email','');
+        $work_year = $this->get_in_int_val('work_year','');
+        $phone     = $this->get_in_int_val('phone','');
+        if(!$teacherid) {
+            return $this->output_err('信息有误，请重新登录！');
+        }
+        if ($nick == '') {
+            return $this->output_err('姓名不能为空！');
+        }
+        if ($birth == '') {
+            return $this->output_err('出生日期不能为空！');
+        }
+        if ($email == '') {
+            return $this->output_err('邮箱不能为空！');
+        }
+
+        $is_email = preg_match("/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/", $email);
+        if (!$is_email) {
+            return $this->output_err('请填写正确的邮箱地址！');
+        }
+
+        if ($phone == '') {
+            return $this->output_err('手机号不能为空！');
+        }
+        $is_phone = preg_match("/^1[34578]\d{9}$/", $phone);
+        if (!$is_phone) {
+            return $this->output_err('请填写正确的手机号码！');
+        }
+        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone);
+        return outputjson_success();
     }
 }
