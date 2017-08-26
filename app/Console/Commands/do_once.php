@@ -4,6 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use Qiniu\Auth;
+
+// 引入上传类
+use Qiniu\Storage\UploadManager;
+use Qiniu\Storage\BucketManager;
+
+require_once  app_path("/Libs/Qiniu/functions.php");
+
 class do_once extends Command
 {
     /**
@@ -47,8 +55,44 @@ class do_once extends Command
      */
     public function handle()
     {
-        $ss=new \App\Http\Controllers\common_new();
-        $ss->upload_from_xls_data("/tmp/a.xlsx");
+
+        $config=\App\Helper\Config::get_config("qiniu");;
+        $auth = new Auth($config["access_key"], $config["secret_key"]);
+        $bucketMgr= new BucketManager($auth);
+        $prefix = "";
+        $marker = '';
+        //$bucket="ybprodpub";
+        $bucket="ybprod";
+        $fileType=1;
+
+        do {
+            list($ret, $error) = $bucketMgr->listFiles($bucket, $prefix, $marker, 500);
+
+
+            $marker = array_key_exists('marker', $ret) ? $ret['marker'] : null;
+
+            $items=$ret['items'];
+            foreach ($items as $item ) {
+                /*
+                array:6 [
+                    "key" => "/131f1a128c966cd3fe6291a2035473c31474942063232_50074_50074.pdf"
+                    "hash" => "FhtpTwZIYkJ15sDGqPyT9ef__Hvw"
+                    "fsize" => 3205683
+                    "mimeType" => "application/pdf"
+                    "putTime" => 14759797028979836
+                    "type" => 0
+                ]
+                */
+                $key= $item["key"];
+                $type= $item["type"];
+                echo $key."\n";
+                if ($type==0) {
+                    $bucketMgr->changeType($bucket,$key,$fileType);
+                }
+            }
+        }while($marker );
+
+
     }
             /*
 
