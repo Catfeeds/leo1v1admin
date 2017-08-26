@@ -573,6 +573,7 @@ class NewRouteConfig {
         "/requirement/test_finish"                       => true,
 
         "/channel_manage/admin_channel_manage"           => true,
+        "/channel_manage/add_channel"                    => true,
 
     ];
 
