@@ -21,6 +21,7 @@
                     <button class="btn btn-primary" id="id_add_file"> 上传文件</button>
                 </div>
             </div>
+
         </div>
         <hr/>
         <table     class="common-table"  >

@@ -186,7 +186,7 @@ $(function(){
       this.fileProgressWrapper = $('#' + this.fileProgressID);
 
       if (!this.fileProgressWrapper.length) {
-        $('#process_info').find('.process_in .pro_cover').css('width', 0 + '%');
+         this.fileProgressWrapper.find('.process_in .pro_cover').css('width', 0 + '%');
 
       }
 
@@ -214,7 +214,7 @@ $(function(){
             percentage = 99;
         }
 
-        $('#'+upload_btn).parents('.row').siblings().find('.upload_process_info').css('width', percentage + '%');
+        //$('#'+upload_btn).parents('.row').siblings().find('.upload_process_info').css('width', percentage + '%');
 
     };
 
