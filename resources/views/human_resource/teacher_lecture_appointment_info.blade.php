@@ -250,7 +250,7 @@
                         @if($show_full_time==0)
                             <td>{{@$var["reference_name"]}} </td>
                             <td>{{@$var["lecture_revisit_type_str"]}} </td>
-                            <td>{{@$var["account"]}} </td>
+                            <td>{{@$var["zs_name"]}} </td>
                         @else
                             <td>{{@$var["lecture_revisit_type_new_str"]}}</td>
                             <td>

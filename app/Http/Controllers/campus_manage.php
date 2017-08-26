@@ -15,22 +15,27 @@ class campus_manage extends Controller
    
     public function admin_campus_manage(){
         $ret_info = $this->t_admin_campus_list->get_admin_campus_info(); 
+        //dd($ret_info);
         $list=[];
         $num=1;
         foreach($ret_info as $s)   {
             $n = $num;
             $campus_id = $s["campus_id"];
             $campus_name = $s["campus_name"];
+
             $list[] = ["campus_id"=>$campus_id,"campus_name"=>$campus_name,"up_group_name"=>"","group_name"=>"","account"=>"","main_type_class"=>"campus_id-".$n,"up_group_name_class"=>"","group_name_class"=>"","account_class"=>"","level"=>"l-1"];
+
             $up_group_list = $this->t_admin_main_group_name->get_group_list_by_campus_id($campus_id);
 
             foreach($up_group_list as $item){
                 $list[] = ["campus_id"=>$campus_id,"campus_name"=>$campus_name,"up_group_name"=>$item["group_name"],"group_name"=>"","account"=>"","main_type_class"=>"campus_id-".$n,"up_group_name_class"=>"up_group_name-".++$num,"group_name_class"=>"","account_class"=>"","level"=>"l-2","up_master_adminid"=>$item["master_adminid"],"up_groupid"=>$item["groupid"],"main_type"=>$item["main_type"]];
+
                 $group_list = $this->t_admin_group_name->get_group_name_list($item["main_type"],$item["groupid"]);
 
                 $m = $num;
                 foreach($group_list as $val){
                     $list[] = ["campus_id"=>$campus_id,"campus_name"=>$campus_name,"up_group_name"=>$item["group_name"],"group_name"=>$val["group_name"],"account"=>"","main_type_class"=>"campus_id-".$n,"up_group_name_class"=>"up_group_name-".$m,"group_name_class"=>"group_name-".++$num,"account_class"=>"","groupid"=>$val["groupid"],"level"=>"l-3","master_adminid"=>$val["master_adminid"],"main_type"=>$item["main_type"]];
+
                     $admin_list = $this->t_admin_group_user->get_user_list_new($val["groupid"]);
 
                     $c = $num;
