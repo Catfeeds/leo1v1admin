@@ -28,13 +28,13 @@ class channel_manage extends Controller
                 //"up_group_name"=>"",
                 "group_name"=>"",
                 "account"=>"",
-                "main_type_class"=>"campus_id-".$n,
+                "main_type_class"=>"channel_id-".$n,
                 //"up_group_name_class"=>"",
                 "group_name_class"=>"",
                 "account_class"=>"",
                 "level"=>"l-1"
             ];
-
+            dd($list); 
             $up_group_list = $this->t_admin_main_group_name->get_group_list_by_campus_id($campus_id);
 
             foreach($up_group_list as $item){
@@ -72,10 +72,14 @@ class channel_manage extends Controller
         dd($list);
     }
 
-    public function add_admin_campus(){
-        $campus_name =trim($this->get_in_str_val("campus_name"));
-        $this->t_admin_campus_list->row_insert([
-            "campus_name" =>$campus_name
+    /*
+     *@author   sam
+     *@function 新增渠道
+     */
+    public function add_channel(){
+        $channel_name =trim($this->get_in_str_val("channel_name"));
+        $this->t_admin_channel_list->row_insert([
+            "channel_name" =>$channel_name
         ]);
         return $this->output_succ();
     }
