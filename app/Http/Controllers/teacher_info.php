@@ -2068,6 +2068,7 @@ class teacher_info extends Controller
         $email     = $this->get_in_str_val('email','');
         $work_year = $this->get_in_int_val('work_year','');
         $phone     = $this->get_in_int_val('phone','');
+        $school    = $this->get_in_str_val('school','');
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2093,7 +2094,11 @@ class teacher_info extends Controller
         if (!$is_phone) {
             return $this->output_err('请填写正确的手机号码！');
         }
-        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone);
+        if ($school == '') {
+            return $this->output_err('毕业院校不能为空！');
+        }
+
+        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school);
         return outputjson_success();
     }
 

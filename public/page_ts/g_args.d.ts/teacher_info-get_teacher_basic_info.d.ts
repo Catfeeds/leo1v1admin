@@ -42,6 +42,7 @@ interface RowData {
 	create_time	:any;
 	wx_openid	:any;
 	test_transfor_per	:any;
+	school	:any;
 	change_count	:any;
 	noevaluate_count	:any;
 	late_count	:any;
