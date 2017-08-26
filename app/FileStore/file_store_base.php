@@ -40,7 +40,12 @@ class file_store_base {
         $prefix = $dir;
         $marker = '';
         $limit = 3;
-        list($items, $marker, $err, $dirs ) = $bucketMgr->listFiles($bucket, $prefix, $marker, 100, "/" );
+        list($ret, $error) = $bucketMgr->listFiles($bucket, $prefix, $marker, 100, "/" );
+
+        $marker = array_key_exists('marker', $ret) ? $ret['marker'] : null;
+        $dirs= array_key_exists('commonPrefixes', $ret) ? $ret['commonPrefixes'] : [];
+        $items=$ret['items'];
+
         $ret_list=[];
         $dir_len=strlen($dir);
         foreach ($dirs  as $sub_dir ) {
