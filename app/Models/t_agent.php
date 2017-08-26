@@ -1021,10 +1021,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
         ]);
 
-        if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
+        if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
             $this->field_update_list($id,[
                 "type" =>  E\Eagent_type::V_3
             ]);
+        }
+        if ( $level_count_info["l1_child_count"]) {
+            if ($agent_type ==1 ) {
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_3
+                ]);
+            }else if( $agent_type ==0 ){
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_2
+                ]);
+            }
         }
     }
 
