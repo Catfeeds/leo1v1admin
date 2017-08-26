@@ -48,7 +48,7 @@ $(function(){
 			          data     : $('#bank-info').serialize(),
 			          success : function(result){
                     if(result.ret==0){
-                        history.go(0);
+                        window.location.reload();
                     }else{
                         alert(result.info);
                     }
@@ -64,11 +64,9 @@ $(function(){
     });
     $('.direct-chat-contacts').css('backgroundColor','#fff');
     $('button[data-refresh]').on('click', function(){
-       history.go(0);
+        window.location.reload();
     });
 
-
-	  $('.opt-change').set_input_change_event(load_data);
     $('.opt-submit').on('click', function () {
         var form_id = $(this).attr('data-name');
         var sub_url = $('#'+form_id).attr('data-sub');
@@ -79,13 +77,14 @@ $(function(){
 			      data     : $('#'+form_id).serialize(),
 			      success : function(result){
                 if(result.ret==0){
-                    history.go(0);
+                    window.location.reload();
                 }else{
                     alert(result.info);
                 }
 			      }
         });
     });
+	  $('.opt-change').set_input_change_event(load_data);
 });
 
 

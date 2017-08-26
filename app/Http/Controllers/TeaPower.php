@@ -2757,12 +2757,15 @@ trait  TeaPower {
                     <br/>
                     请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
                     <br/>
+                    <br/>
                     【轻松三步搞定面试】
+                    <br/>
                     <br/>
                     第一步：理优老师客户端&nbsp;<a class='download_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录账号：注册报名的手机号</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录密码：leo+手机号后四位</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='download_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
+                    <br/>
                     ​第二步：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
@@ -2771,6 +2774,7 @@ trait  TeaPower {
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容跟面试官进行一对一在线面试。<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：有面试官当您的学生进行一些场景互动。</span><br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</span><br>
+                    <br/>
                     第三步：面试内容<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)试讲内容里的题目讲解<br>

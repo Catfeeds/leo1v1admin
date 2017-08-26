@@ -72,7 +72,7 @@
                                 <p>入职天数</p>
                             </div>
                             <div class="col-sm-6">
-                                <h3><span  class="text-blue">123</span><span class="ft14">课时</span></h3>
+                                <h3><span  class="text-blue">{{$my_info['normal_count']}}</span><span class="ft14">课时</span></h3>
                                 <p>总课耗</p>
                             </div>
                         </div>
@@ -338,8 +338,8 @@
                                                 <span>{{$my_info['gender_str']}}</span>
                                                 <select name="gender" class="form-control hide">
                                                     <option value="0" @if($my_info['gender'] == 0) selected @endif >保密</option>
-                                                    <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
-                                                    <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
+                                                        <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
+                                                            <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
                                                 </select>
 
                                             </td>
@@ -363,6 +363,9 @@
                                             <td>
                                                 <span>{{$my_info['phone']}}</span>
                                                 <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
+                                                @if ($my_info['wx_openid'])
+                                                    <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
+                                                    @endif
                                             </td>
                                             <th>信息创建时间</th>
                                             <td> {{$my_info['create_time']}} </td>
@@ -404,8 +407,8 @@
                                             </td>
                                             <th>毕业院校</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <span>{{$my_info['school']}}</span>
+                                                <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
@@ -567,34 +570,14 @@
                                             <th style="width:20%">百分比</th>
                                         </tr>
                                         <tr>
-                                            <td>新增</td>
+                                            <td>新签</td>
                                             <td>
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{$my_info['test_transfor_per']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$my_info['test_transfor_per']}}%">
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><span class="badge bg-blue">20%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩展</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-green">40%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>转介绍</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-yellow">60%</span></td>
+                                            <td><span class="badge bg-yellow">{{$my_info['test_transfor_per']}}%</span></td>
                                         </tr>
 
                                     </table>
@@ -729,4 +712,27 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<div class="modal fade" id="modal-band-wx">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:50%;margin:0 auto">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body text-cen">
+                <div>
+                    <img src="/img/band-wx.jpg" height="150"/>
+                </div>
+                <p class="text-blue text-cen">扫描并绑定
+                    <br/>
+                    理优1对1老师帮
+                </p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 

@@ -36,13 +36,18 @@ interface RowData {
 	bank_account	:any;
 	bank_address	:any;
 	idcard	:any;
+	jianli	:any;
 	train_through_new	:any;
 	trial_lecture_is_pass	:any;
 	create_time	:any;
+	wx_openid	:any;
+	test_transfor_per	:any;
+	school	:any;
 	change_count	:any;
 	noevaluate_count	:any;
 	late_count	:any;
 	leave_count	:any;
+	normal_count	:any;
 	subject_str	:any;
 	textbook_type_str	:any;
 	identity_str	:any;

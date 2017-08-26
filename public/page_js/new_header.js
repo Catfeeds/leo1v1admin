@@ -978,8 +978,7 @@ $(function(){
                   'dataType': 'jsonp',
                   success: function(data) {
                     if (data['ret'] == 0) {
-                        //window.location.href = "http://www.baidu.com" ;
-                        window.location.href = "http://teacher.leo1v1.com/login/teacher" ;
+                        window.location.href = "/login/teacher" ;
                     } else {
                        window.location.href = "/teacher_info/index" ;
                     }

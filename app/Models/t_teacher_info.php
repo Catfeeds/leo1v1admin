@@ -819,18 +819,21 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         $where_arr = [
             "t.teacherid=$teacherid",
             'l.lesson_start>0',
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
         ];
-       
         $sql = $this->gen_sql("select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,"
                               ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,"
                               ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
                               ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
-                              ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,"
-                              ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,"
+                              ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
+                              ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
+                              ." t.test_transfor_per,t.school,"
                               ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
                               ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
                               ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
-                              ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count"
+                              ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
+                              ."sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
                               ." from %s t"
                               ." left join %s l on l.teacherid=t.teacherid"
                               ." where %s"
@@ -3228,7 +3231,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone){
+    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
             "nick"      => $nick,
@@ -3237,6 +3240,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "email"     => $email,
             "work_year" => $work_year,
             "phone"     => $phone,
+            "school"    => $school,
         ]);
         return $res;
     }
@@ -3256,6 +3260,81 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $res;
 
     }
+
+    public function get_train_through_all_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",           
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(*) all_num,sum(t.identity=5) jg_num,sum(t.identity=6) gx_num, "
+                                  ." sum(t.identity=7) zz_num,sum(t.identity=8) gxs_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_video_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tl.status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tl on t.phone = tl.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_lesson_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tr.trial_train_status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+
 
 
 

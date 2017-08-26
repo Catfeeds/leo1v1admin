@@ -45,6 +45,7 @@
                             >
                                 <a class="fa fa-download opt-download"  title="下载"> </a>
                                 <a class="fa fa-edit opt-edit"  title="修改名字"> </a>
+                                <a class="fa fa-times opt-del" title="删除"> </a>
                                 <a class="fa fa-share pt-share"  title="分享"> </a>
 
                             </div>

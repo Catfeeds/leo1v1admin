@@ -9,12 +9,24 @@ use \App\Enums as E;
 class teacher_info extends Controller
 {
     use CacheNick;
-    var $check_login_flag=false;
+    var $check_login_flag=true;
 
     function __construct( )  {
         parent::__construct();
 
     }
+
+    function check_login() {
+        if (!session("tid")){
+            if (!\App\Helper\Utils::check_env_is_test()) {
+                \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
+                header('Location: /login/teacher?to_url='.$_SERVER["REQUEST_URI"]);
+                exit;
+            }else{
+            }
+        }
+    }
+
 
     public function index() {
         return self::get_lesson_list_new();
@@ -1808,7 +1820,6 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__,[]);
     }
 
-
     public function  file_store()   {
 
         $teacherid      = $this->get_login_teacher();
@@ -1900,6 +1911,14 @@ class teacher_info extends Controller
 
     public function base_info() {
 
+    }
+
+    public function file_store_del_file() {
+        $teacherid      = $this->get_login_teacher();
+        $path= $this->get_in_str_val("path");
+        $store=new \App\FileStore\file_store_tea();
+        $store->del_file($teacherid,$path);
+        return $this->output_succ();
     }
 
     public function file_store_rename() {
@@ -2032,6 +2051,7 @@ class teacher_info extends Controller
             } else {
                 $item['level'] = $item['level'] + 1;
             }
+            $item['normal_count'] = $item['normal_count']/100;
         }
 
         // dd($ret_info);
@@ -2048,6 +2068,7 @@ class teacher_info extends Controller
         $email     = $this->get_in_str_val('email','');
         $work_year = $this->get_in_int_val('work_year','');
         $phone     = $this->get_in_int_val('phone','');
+        $school    = $this->get_in_str_val('school','');
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2073,7 +2094,11 @@ class teacher_info extends Controller
         if (!$is_phone) {
             return $this->output_err('请填写正确的手机号码！');
         }
-        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone);
+        if ($school == '') {
+            return $this->output_err('毕业院校不能为空！');
+        }
+
+        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school);
         return outputjson_success();
     }
 
