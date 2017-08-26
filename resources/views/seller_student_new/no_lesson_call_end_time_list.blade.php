@@ -22,21 +22,27 @@
         <table     class="common-table"  > 
             <thead>
                 <tr>
-                    <td>字段1 </td>
+                    <td>lessonid </td>
+                    <td>学生 </td>
+                    <td>学生电话 </td>
+                    <td>销售 </td>
                     <td> 操作  </td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
                     <tr>
-                        <td>{{@$var[""]}} </td>
+                        <td>{{@$var["lessonid"]}} </td>
+                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["adminid"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="编辑"> </a>
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a>
+                                     <a class="fa fa-times opt-del" title="删除"> </a>
+                                   -->
                             </div>
                         </td>
                     </tr>
