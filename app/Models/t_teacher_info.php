@@ -3261,6 +3261,81 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
 
     }
 
+    public function get_train_through_all_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",           
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(*) all_num,sum(t.identity=5) jg_num,sum(t.identity=6) gx_num, "
+                                  ." sum(t.identity=7) zz_num,sum(t.identity=8) gxs_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_video_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tl.status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tl on t.phone = tl.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_lesson_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tr.trial_train_status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+
+
 
 
 }

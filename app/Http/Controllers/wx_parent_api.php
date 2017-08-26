@@ -485,7 +485,7 @@ class wx_parent_api extends Controller
         return $this->output_succ(['data'=>$arr]);
     }
 
-    public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间
+    public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间 ／／１０２４
         $lessonid = $this->get_in_int_val('lessonid');
 
         $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);

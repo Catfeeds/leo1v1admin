@@ -4321,7 +4321,11 @@ class human_resource extends Controller
         $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
-        dd($lesson_add);
+        $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
+        $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
+        $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
+        
+        dd($train_through_lesson);
     }
     public function zs_origin_list(){
         $this->switch_tongji_database();
