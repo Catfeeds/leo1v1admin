@@ -1368,6 +1368,7 @@ class seller_student_new extends Controller
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
+                $item["admin_nick"]= $this->cache_get_account_nick($adminid);
                 $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
             }
         }

@@ -2916,12 +2916,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
-            " select l.userid,l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            " select l.userid,l.lessonid,"
+            ." s.phone,s.parent_name,s.nick stu_nick,"
+            ."lsr.cur_require_adminid adminid,lss.call_end_time "
             ." from %s l "
+            ." left join %s s on s.userid = l.userid "
             ." left join %s lss on lss.lessonid = l.lessonid "
             ." left join %s lsr on lsr.require_id = lss.require_id "
             ." where %s "
             ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr
