@@ -85,7 +85,7 @@ class file_store_base {
 
     public function del_file_ex($file) {
         $bucketMgr = $this->get_bucketMgr() ;
-        $BucketMgr->delete($this->bucket,$file);
+        $bucketMgr->delete($this->bucket,$file);
         return true;
     }
 

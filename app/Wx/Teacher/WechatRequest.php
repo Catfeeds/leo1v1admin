@@ -252,8 +252,8 @@ class WechatRequest  {
 self::unicode2utf8('\ue032')."欢迎加入理优1对1老师帮 ".self::unicode2utf8('\ue032')."
 
 【绑定地址】
-立刻绑定您上课时使用的账号，即可使用所有功能".self::unicode2utf8('\ue233')."".self::unicode2utf8('\ue233')."".self::unicode2utf8('\ue233')."
-绑定链接：<a href='http://t.cn/RcQGnPX'>http://t.cn/RcQGnPX</a>
+立刻绑定您上课时使用的账号，<strong >即可使用所有功能</strong>".self::unicode2utf8('\ue23A')."".self::unicode2utf8('\ue23A')."
+<a href='http://t.cn/RcQGnPX' >立即绑定</a>".self::unicode2utf8('\ue23b')."".self::unicode2utf8('\ue23B')."
 
 【菜单栏功能介绍】
 ① [讲师报名]可查看理优1对1简介，报名讲师，面试流程
