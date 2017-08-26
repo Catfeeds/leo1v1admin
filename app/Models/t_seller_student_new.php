@@ -975,7 +975,6 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
             $where_arr[]= "f.adminid is null ";
         }
-
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
             ." from %s t "
@@ -1598,7 +1597,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
 
 
     public function reset_sys_invaild_flag($userid){
-        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag");
+        $item_arr = $this->field_get_list($userid,"called_time,first_contact_time,add_time,competition_call_time, sys_invaild_flag,call_admin_count,phone,seller_resource_type,global_tq_called_flag,test_lesson_count");
         $invalid_flag = false;
         $add_time = $item_arr["add_time"];
         //连续3个人处理过了
@@ -1633,6 +1632,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
                     "competition_call_time" => $item_arr['competition_call_time']-3600,
                 ]);
             }
+        }
+
+        $succ_test_info = $this->task->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+        $succ_count = $succ_test_info['count'];
+        if($item_arr['test_lesson_count'] != $succ_count){
+            $this->field_update_list($userid,['test_lesson_count'=>$succ_count]);
         }
 
         if ( $item_arr['global_tq_called_flag'] == 0 ) {
