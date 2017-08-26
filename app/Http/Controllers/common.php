@@ -13,6 +13,7 @@ use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
 
+//引入分词类
 use Analysis\PhpAnalysis;
 
 require_once  app_path("Libs/Pingpp/init.php");
