@@ -39,6 +39,7 @@ class url_power_map {
 			'/t_yxyx_test_pic_info/get_all_info'	=>1010967,
 			'/t_yxyx_custom_type/get_all'	=>1010968,
 			'/t_yxyx_new_list/get_all'	=>1010969,
+			'/seller_student_new/no_lesson_call_end_time_list'	=>1010989,
 			'/seller_student_new/assign_sub_adminid_list'	=>1150100,
 			'/seller_student_new/assign_member_list'	=>1150200,
 			'/seller_student_new/assign_member_list_master'	=>1150500,
