@@ -218,6 +218,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $admin_nick = $this->cache_get_account_nick($adminid=99);
+        dd($admin_nick);
         $ret_info = $this->t_agent->get_agent_info_two();
         foreach($ret_info as $item){
             $id = $item['id'];

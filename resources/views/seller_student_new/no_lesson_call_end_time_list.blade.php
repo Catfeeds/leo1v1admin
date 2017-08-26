@@ -33,7 +33,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["lessonid"]}} </td>
-                        <td>{{@$var["stu_nick"]}}/{{@$var["parent_name"]}} </td>
+                        <td>{{@$var["stu_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["admin_nick"]}} </td>
                         <td>
