@@ -643,7 +643,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'phone in ('.$phone_str.')',
         ];
         $sql= $this->gen_sql_new(
-            "select id,phone "
+            "select id,phone,type "
             . " from %s "
             . " where %s ",
             self::DB_TABLE_NAME,
