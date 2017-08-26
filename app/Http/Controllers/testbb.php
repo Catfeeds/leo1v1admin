@@ -166,6 +166,27 @@ class testbb extends Controller
 
 
     public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间
+
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $filter_lesson_time_start = time(NULL)+86400;
+        $filter_lesson_time_end   = $lesson_end+3*86400;
+
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+        $all_tea_stu_lesson_time['start'] = $filter_lesson_time_start;
+        
+        $all_tea_stu_lesson_time['end']   = $filter_lesson_time_end;
+
+
+        return $this->output_succ(['data'=>$all_tea_stu_lesson_time]);
+
+
+
+
         $lessonid = $this->get_in_int_val('lessonid');
 
         $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);

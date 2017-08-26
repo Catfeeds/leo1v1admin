@@ -468,15 +468,21 @@ class wx_parent_api extends Controller
         $lessonid = $this->get_in_int_val('lessonid');
 
         $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
         $start = time(NULL)+86400;
         $end   = $lesson_end+3*86400;
 
+        if($start>$lesson_start){
+            return $this->output_err('只能调整24小时后的课程．．');
+        }
 
 
         $arr = [
             "start" => $start,
             "end"   => $end
         ];
+
+        return $this->output_succ(['data'=>$arr]);
     }
 
     public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间
@@ -488,9 +494,9 @@ class wx_parent_api extends Controller
 
         $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
         $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $time = ['start'=>$filter_lesson_time_start,'end'=>$filter_lesson_time_end];
 
-        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
-
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time,$time);
 
         return $this->output_succ(['data'=>$all_tea_stu_lesson_time]);
     }

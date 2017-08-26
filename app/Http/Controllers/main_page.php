@@ -387,7 +387,8 @@ class main_page extends Controller
 
     public function quality_control_kpi(){
         $this->set_in_value("account_role",9);
-        $this->quality_control();
+        // $this->set_in_value("kpi_flag",);
+        return $this->quality_control();
     }
     public function  quality_control(){
         $this->switch_tongji_database();
@@ -395,6 +396,7 @@ class main_page extends Controller
         $subject = $this->get_in_int_val("subject",-1);
 
         $account_role = $this->get_in_int_val("account_role",-2);
+        $kpi_flag = $this->get_in_int_val("kpi_flag",0);
         $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
         foreach($teacher_info as $kk=>$vv){
             if(in_array($kk,[992,891,486,871])){
@@ -434,6 +436,7 @@ class main_page extends Controller
         $total_test_first_num = 0;
         $total_regular_first_per = 0;
         $total_regular_first_num = 0;
+        $real_num = $suc_count = $train_first_all= $train_first_pass = $train_second_all = $test_first = $regular_first=0;
         foreach($teacher_info as &$item){
             $item["real_num"] = isset($real_info["list"][$item["account"]])?$real_info["list"][$item["account"]]["all_count"]:0;
             $account = $item["account"];
@@ -493,7 +496,16 @@ class main_page extends Controller
             }
 
             $all_count +=$item["all_target_num"];
-            $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
+            $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);           
+            if($kpi_flag==1){
+                $real_num += $item["real_num"];
+                $suc_count += $item["suc_count"];
+                $train_first_all += $item["train_first_all"];
+                $train_first_pass += $item["train_first_pass"];
+                $train_second_all += $item["train_second_all"];
+                $test_first += $item["test_first"];
+                $regular_first += $item["regular_first"];
+            }
         }
         $total_test_first_per_str ="";
         if($total_test_first_num>0){
