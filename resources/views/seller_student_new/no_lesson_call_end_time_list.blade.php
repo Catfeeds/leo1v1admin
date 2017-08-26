@@ -35,7 +35,7 @@
                         <td>{{@$var["lessonid"]}} </td>
                         <td>{{@$var["stu_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["admin_nick"]}} </td>
+                        <td>{{@$admin_nick}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
