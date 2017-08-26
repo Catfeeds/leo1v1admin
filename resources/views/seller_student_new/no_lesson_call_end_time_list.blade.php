@@ -33,9 +33,9 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{@$var["lessonid"]}} </td>
-                        <td>{{@$var["userid"]}} </td>
+                        <td>{{@$var["stu_nick"]}}/{{@$var["parent_name"]}} </td>
                         <td>{{@$var["phone"]}} </td>
-                        <td>{{@$var["adminid"]}} </td>
+                        <td>{{@$var["admin_nick"]}} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
