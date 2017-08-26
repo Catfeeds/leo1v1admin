@@ -226,6 +226,86 @@ class agent extends Controller
     }
 
     public function check(){
+        $p_phone = $this->get_in_str_val('p_phone');
+        $phone   = $this->get_in_str_val('phone');
+        $type   = $this->get_in_int_val('type');
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        $student_info = $this->t_student_info->field_get_list($userid,'*');
+        $orderid = 0;
+        if($userid){
+            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
+            if($order_info['orderid']){
+                $orderid = $order_info['orderid'];
+            }
+        }
+        // if(!preg_match("/^1\d{10}$/",$phone)){
+        //     return $this->output_err("请输入规范的手机号!");
+        // }
+        // if($p_phone == $phone){
+        //     return $this->output_err("不能邀请自己!");
+        // }
+        // if(!$type){
+        //     return $this->output_err("请选择报名类型!");
+        // }
+        // if($userid
+        //    && $student_info['type'] ==  E\Estudent_type::V_0
+        //    && $student_info['is_test_user'] == 0
+        //    && $orderid
+        //    && $type == E\Eagent_type::V_1
+        // ){//在读非测试
+        //     return $this->output_err("您已是在读学员!");
+        // }
+        // if(!$p_phone){
+        //     return $this->output_err("无推荐人!");
+        // }
+        $phone = '15251318624';
+        $p_phone = '15251318621';
+        $type = 2;
+        $phone_str = implode(',',[$phone,$p_phone]);
+        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+        foreach($ret_list as $item){
+            if($phone == $item['phone']){
+                $ret_info = $item;
+            }else{
+                $ret_info_p = $item;
+            }
+        }
+        // dd($ret_list);
+        $parentid = $ret_info_p['id'];
+        if(isset($ret_info['id'])){//已存在,则更新父级和类型
+            // dd($type,$ret_info['type']);
+            if($type == $ret_info['type'] or $ret_info['type']==3){
+                // dd($type,$ret_info['type']);
+                return $this->output_err("您已被邀请过!");
+            }
+            $this->t_agent->field_update_list($ret_info['id'],[
+                "parentid" => $parentid,
+                "type"     => 3,
+            ]);
+            return $this->output_succ("邀请成功!");
+        }
+        if($type == 1){//进例子
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }
+        $userid = null;
+        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($userid_new){
+            $userid = $userid_new;
+        }
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+        if($ret){
+            return $this->output_succ("邀请成功!");
+        }else{
+            return $this->output_err("数据请求异常!");
+        }
+
+
+
+
+
+
+
+
         $admin_nick = $this->cache_get_account_nick($adminid=99);
         dd($admin_nick);
         $ret_info = $this->t_agent->get_agent_info_two();
