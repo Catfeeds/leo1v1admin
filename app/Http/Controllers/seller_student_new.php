@@ -1364,7 +1364,7 @@ class seller_student_new extends Controller
 
     public function no_lesson_call_end_time_list(){
         $adminid = $this->get_in_int_val('adminid');
-        $admin_nick = $this->cache_get_account_nick($adminid);
+        $admin_nick = $this->t_manager_info->get_account($adminid);
         $phone = $this->get_in_str_val('phone');
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
