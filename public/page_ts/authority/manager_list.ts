@@ -746,7 +746,7 @@ $(function(){
                 alert('刷新成功!');
             }else{
                 alert('有试听成功未回访!');
-                $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid'+opt_data.uid);
+                $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.uid);
             }
         });
     });
