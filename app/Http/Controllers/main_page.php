@@ -385,12 +385,17 @@ class main_page extends Controller
         ]);
     }
 
+    public function quality_control_kpi(){
+        $this->set_in_value("account_role",9);
+        $this->quality_control();
+    }
     public function  quality_control(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );
         $subject = $this->get_in_int_val("subject",-1);
 
-        $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role(-2);//return->uid,account,nick,name
+        $account_role = $this->get_in_int_val("account_role",-2);
+        $teacher_info = $this->t_manager_info->get_adminid_list_by_account_role($account_role);//return->uid,account,nick,name
         foreach($teacher_info as $kk=>$vv){
             if(in_array($kk,[992,891,486,871])){
                 unset($teacher_info[$kk]);
