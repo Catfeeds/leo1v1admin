@@ -184,20 +184,28 @@ class wx_yxyx_common extends Controller
         ){//在读非测试
             return $this->output_err("您已是在读学员!");
         }
-        if($p_phone){
-            $phone_str = implode(',',[$phone,$p_phone]);
-            $ret_list = $this->t_agent->get_id_by_phone($phone_str);
-            foreach($ret_list as $item){
-                if($phone == $item['phone']){
-                    return $this->output_err("您已被邀请过!");
-                }
-                if($p_phone = $item['phone']){
-                    $parentid = $item['id'];
-                }
+        if(!$p_phone){
+            return $this->output_err("无推荐人!");
+        }
+        $phone_str = implode(',',[$phone,$p_phone]);
+        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+        foreach($ret_list as $item){
+            if($phone == $item['phone']){
+                $ret_info = $item;
+            }else{
+                $ret_info_p = $item;
             }
         }
-        if(!isset($parentid)){
-            $parentid = 0;
+        $parentid = $ret_info_p['id'];
+        if(isset($ret_info['id'])){//已存在,则更新父级和类型
+            if($type == $ret_info['type']){
+                return $this->output_err("您已被邀请过!");
+            }
+            $this->t_agent->field_update_list($ret_info['id'],[
+                "parentid" => $parentid,
+                "type"     => 3,
+            ]);
+            return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
             $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
