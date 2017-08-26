@@ -112,7 +112,7 @@ class NewRouteConfig {
         "t_yxyx_new_list"             => true,
         "campus_manage"               => true,
         "requirement_info"            => true,
-        "bug_info"                    => true,
+        "channel_manage"              => true,
 
     ];
 
@@ -553,7 +553,6 @@ class NewRouteConfig {
         "/requirement/add_requirement_info"              => true,
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
-
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
@@ -573,6 +572,7 @@ class NewRouteConfig {
         "/requirement/test_do"                           => true,
         "/requirement/test_finish"                       => true,
 
+        "/channel_manage/admin_channel_manage"           => true,
 
     ];
 
