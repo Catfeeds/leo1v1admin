@@ -1775,7 +1775,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
                                   ." from %s tl "
                                   ." left join %s ta on tl.phone = ta.phone"
                                   ." left join %s t on ta.reference = t.phone"
-                                  ." where %s",
+                                  ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
