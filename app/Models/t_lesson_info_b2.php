@@ -3318,7 +3318,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $sql= $this->gen_sql_new(
             " select count(l.lessonid) count "
             . " from %s l "
-            . " where %s  limit 1 ",
+            . " where %s   ",
             t_lesson_info::DB_TABLE_NAME,
             $where_arr
         );
