@@ -883,7 +883,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ." t.phone phone_spare,tli.id as lecture_status,tt.teacherid real_teacherid,m.account,"
                                   ." l.real_begin_time,tr.record_info,t.identity,tl.add_time,t.wx_openid,l.train_email_flag ,"
                                   ." if(tli.status is null,-2,tli.status) as lecture_status_ex,tr.id access_id,tl.train_type, "
-                                  ." am.account zs_account,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
+                                  ." am.account zs_account,am.zs_name,tl.train_type tt_train_type,tr.train_lessonid tt_train_lessonid,"
                                   ." tr.id tt_id,tl.add_time tt_add_time,tli.resume_url  "
                                   ." from %s l"
                                   ." left join %s tl on l.lessonid=tl.lessonid"
@@ -2916,12 +2916,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             [' lsr.cur_require_adminid = %d ',$adminid],
         ];
         $sql = $this->gen_sql_new(
-            " select l.userid,l.lessonid,lsr.cur_require_adminid adminid,lss.call_end_time "
+            " select l.userid,l.lessonid,"
+            ." s.phone,s.parent_name,s.nick stu_nick,"
+            ."lsr.cur_require_adminid adminid,lss.call_end_time "
             ." from %s l "
+            ." left join %s s on s.userid = l.userid "
             ." left join %s lss on lss.lessonid = l.lessonid "
             ." left join %s lsr on lsr.require_id = lss.require_id "
             ." where %s "
             ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
             ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
             ,t_test_lesson_subject_require::DB_TABLE_NAME
             ,$where_arr

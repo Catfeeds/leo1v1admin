@@ -140,7 +140,7 @@
                     <td >{{$var['real_teacherid']}}</td>
                     <td >{{$var['teacher_type_str']}}</td>
                     <td >{{$var['reference_name']}}</td>
-                    <td >{{$var['zs_account']}}</td>
+                    <td >{{$var['zs_name']}}</td>
 
                     <td >
                         <div

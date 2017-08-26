@@ -112,7 +112,7 @@ class NewRouteConfig {
         "t_yxyx_new_list"             => true,
         "campus_manage"               => true,
         "requirement_info"            => true,
-        "bug_info"                    => true,
+        "channel_manage"              => true,
 
     ];
 
@@ -158,7 +158,8 @@ class NewRouteConfig {
         "/common/send_charge_info"           => true,
         "/common/get_webhooks_notice_test"   => true,
         "/common/get_webhooks_notice"        => true,
-        "/common/dev_teacher_qr"        => true,
+        "/common/dev_teacher_qr"             => true,
+        "/common/get_ppl_data"               => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
@@ -553,7 +554,6 @@ class NewRouteConfig {
         "/requirement/add_requirement_info"              => true,
         "/requirement/requirement_del"                   => true,
         "/requirement/re_edit_requirement_info"          => true,
-
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
@@ -573,6 +573,8 @@ class NewRouteConfig {
         "/requirement/test_do"                           => true,
         "/requirement/test_finish"                       => true,
 
+        "/channel_manage/admin_channel_manage"           => true,
+        "/channel_manage/add_channel"                    => true,
 
     ];
 

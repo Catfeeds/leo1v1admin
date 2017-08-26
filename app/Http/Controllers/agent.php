@@ -21,8 +21,15 @@ class agent extends Controller
         $agent_type= $this->get_in_el_agent_type();
         $agent_level = $this->get_in_el_agent_level();
         $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
+        $l1_child_count= $this->get_in_intval_range("l1_child_count");
 
-        $ret_info = $this->t_agent->get_agent_info($page_info,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag);
+        list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
+            =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
+                                               "l2_child_count" => "a.l2_child_count",
+                                               "all_money" => "a.all_money",
+            ]  );
+
+        $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         $userid_arr = [];
 
         foreach($ret_info['list'] as &$item){
@@ -218,6 +225,8 @@ class agent extends Controller
     }
 
     public function check(){
+        $admin_nick = $this->cache_get_account_nick($adminid=99);
+        dd($admin_nick);
         $ret_info = $this->t_agent->get_agent_info_two();
         foreach($ret_info as $item){
             $id = $item['id'];
@@ -255,23 +264,6 @@ class agent extends Controller
         }
 
         return $ret;
-    }
-
-    public function update_lesson_call_end_time_new(){
-        $adminid_new = $this->get_in_int_val('adminid');
-        $phone_new = $this->get_in_str_val('phone');
-        $adminid = $adminid_new?$adminid_new:997;
-        $phone = $phone_new?$phone_new:'18070542658';
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        if(count($lesson_call_end)>0){
-            foreach($lesson_call_end as $item){
-                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-            }
-        }
-        $tquin = $this->t_manager_info->get_tquin($adminid);
-        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
-        $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
-        dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
     }
 
     /**

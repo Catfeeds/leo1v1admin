@@ -267,9 +267,9 @@ class wx_teacher_api extends Controller
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
         $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-            return $this->output_err("投诉已受理,请勿重复提交..");
-        }
+        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
+        //     return $this->output_err("投诉已受理,请勿重复提交..");
+        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]

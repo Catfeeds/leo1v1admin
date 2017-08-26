@@ -203,7 +203,7 @@ trait  ViewDeal {
 
         $old_data=@file_get_contents($file_name);
         if( $old_data !=$data || true ) {
-        unlink( $file_name );
+            @unlink( $file_name );
             file_put_contents($file_name,$data);
             chmod(  $file_name,0777);
         }

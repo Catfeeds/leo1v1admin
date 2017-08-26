@@ -259,7 +259,6 @@ class jw_teacher_test_lesson_assign_auto extends Command
         $test_lesson_require_list = $task->t_test_lesson_subject_require->get_test_lesson_require_list_for_jw(
             $start_time,$end_time,$num*4
         );
-        dd($test_lesson_require_list);
 
         if(!empty($test_lesson_require_list)){
             foreach($test_lesson_require_list as $v){

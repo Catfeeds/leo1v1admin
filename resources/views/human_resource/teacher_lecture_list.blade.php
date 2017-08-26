@@ -140,7 +140,7 @@
                         <td>{{$var["account"]}}</td>
                         <td>{{$var["user_agent"]}}</td>
                         <td>{{$var["is_test_flag_str"]}}</td>
-                        <td>{{$var["accept_account"]}}</td>
+                        <td>{{$var["zs_name"]}}</td>
                         <td class ="caozuo">
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}

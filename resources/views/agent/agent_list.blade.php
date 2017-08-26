@@ -28,6 +28,15 @@
                 </select>
             </div>
         </div>
+
+        <div class="col-xs-6 col-md-3" data-always_show="1">
+            <div class="input-group ">
+                <span class="input-group-addon">1级个数</span>
+                <input class="opt-change form-control" id="id_l1_child_count"  placeholder="[数字-数字]"
+                />
+            </div>
+        </div>
+
         <div class="col-xs-6 col-md-2" data-always_show="1">
             <div class="input-group ">
                 <span class="input-group-addon">是否试听</span>
@@ -69,8 +78,14 @@
                     <td>id </td>
                     <td style="display:none;">上级id</td>
                     <td>昵称</td>
-                    <td>1级人数</td>
-                    <td>2级人数</td>
+
+                    {!!\App\Helper\Utils::th_order_gen([
+
+                        ["提成金额" , "all_money"],
+                        ["1级人数" , "l1_child_count"],
+                        ["2级人数" , "l2_child_count"],
+                       ]) !!}
+
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
                     <td>会员等级</td>
@@ -93,6 +108,7 @@
                         <td>{{@$var["id"]}} </td>
                         <td>{{@$var["parentid"]}} </td>
                         <td>{{@$var["nickname"]}}/{{@$var["phone"]}} </td>
+                        <td>{{@$var["l1_child_count"]}} </td>
                         <td>{{@$var["l1_child_count"]}} </td>
                         <td>{{@$var["l2_child_count"]}} </td>
                         <td>

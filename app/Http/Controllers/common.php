@@ -13,6 +13,9 @@ use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
 
+//引入分词类
+use Analysis\PhpAnalysis;
+
 require_once  app_path("Libs/Pingpp/init.php");
 
 class common extends Controller
@@ -1446,5 +1449,19 @@ class common extends Controller
         return $this->output_err("上传失败");
     }
 
+    public function get_ppl_data(){
+        $pa=new \Analysis\PhpAnalysis();
+        $demand = $this->get_in_str_val("demand","哈哈哈");
+        
+        $pa->SetSource($demand);
+        $pa->resultType=2;
+        $pa->differMax=true;
+        $pa->StartAnalysis();
+        $arr=$pa->GetFinallyIndex();
+        dd($arr);
+        echo "<pre>";
+        print_r($arr);
+        echo "</pre>"; 
+    }
 
 }
