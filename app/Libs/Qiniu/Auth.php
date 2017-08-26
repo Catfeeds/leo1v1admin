@@ -1,7 +1,7 @@
 <?php
 namespace Qiniu;
 
-use Qiniu;
+use Qiniu\Zone;
 
 final class Auth
 {
@@ -14,6 +14,11 @@ final class Auth
         $this->secretKey = $secretKey;
     }
 
+    public function getAccessKey()
+    {
+        return $this->accessKey;
+    }
+
     public function sign($data)
     {
         $hmac = hash_hmac('sha1', $data, $this->secretKey, true);
@@ -22,8 +27,8 @@ final class Auth
 
     public function signWithData($data)
     {
-        $data = \Qiniu\base64_urlSafeEncode($data);
-        return $this->sign($data) . ':' . $data;
+        $encodedData = \Qiniu\base64_urlSafeEncode($data);
+        return $this->sign($encodedData) . ':' . $encodedData;
     }
 
     public function signRequest($urlString, $body, $contentType = null)
@@ -78,10 +83,11 @@ final class Auth
         if ($key !== null) {
             $scope .= ':' . $key;
         }
-        $args = array();
+
         $args = self::copyPolicy($args, $policy, $strictPolicy);
         $args['scope'] = $scope;
         $args['deadline'] = $deadline;
+
         $b = json_encode($args);
         return $this->signWithData($b);
     }
@@ -112,10 +118,10 @@ final class Auth
         'persistentOps',
         'persistentNotifyUrl',
         'persistentPipeline',
-    );
 
-    private static $deprecatedPolicyFields = array(
-        'asyncOps',
+        'deleteAfterDays',
+        'fileType',
+        'isPrefixalScope',
     );
 
     private static function copyPolicy(&$policy, $originPolicy, $strictPolicy)
@@ -124,10 +130,7 @@ final class Auth
             return array();
         }
         foreach ($originPolicy as $key => $value) {
-            if (in_array((string) $key, self::$deprecatedPolicyFields, true)) {
-                throw new \InvalidArgumentException("{$key} has deprecated");
-            }
-            if (!$strictPolicy || in_array((string) $key, self::$policyFields, true)) {
+            if (!$strictPolicy || in_array((string)$key, self::$policyFields, true)) {
                 $policy[$key] = $value;
             }
         }
