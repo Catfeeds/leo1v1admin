@@ -55,6 +55,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          * 每个老师上个月的累积课时
          */
         $already_lesson_count_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->already_lesson_count_key,[],true);
+        // $already_lesson_count_list = [];
 
         /**
          * 每个月的各种详细数据
@@ -66,6 +67,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          *             money_simulate,lesson_price_simulate,lesson_total
          */
         $month_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        // $month_list = [];
         /**
          * 每个月的各种详细数据
          * key   month && teacher_money_type && level
@@ -73,6 +75,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
          *       money_simulate,lesson_price_simulate,lesson_total
          */
         $teacher_money_month_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->money_month_key,[],true);
+        // $teacher_money_month_list = [];
         foreach($tea_list as $val){
             $teacher_ref_type_rate = 0;
             $teacherid          = $val['teacherid'];
@@ -140,10 +143,6 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
         }
 
         \App\Helper\Utils::logger("month money is :".json_encode($teacher_money_month_list));
-
-
-
-
 
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->already_lesson_count_key,$already_lesson_count_list);
         \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->money_month_key,$month_list);

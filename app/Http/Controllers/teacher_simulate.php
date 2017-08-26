@@ -212,23 +212,29 @@ class teacher_simulate extends Controller
      * 更新redis中模拟等级的分布列表
      */
     public function get_level_simulate_list(){
+        $this->switch_tongji_database();
         $type = $this->get_in_int_val("type");
 
         $level_list  = $this->t_teacher_info->get_level_simulate_list();
         $level_count = [];
         $level_all   = 0;
+        $level_order = [];
         if(!empty($level_list)){
             foreach($level_list as $val){
                 $level_all += $val['level_num'];
                 E\Enew_level::set_item_value_str($val,"level_simulate");
+                // \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']]['level_num']['level'],$val['level_simulate'],0);
                 \App\Helper\Utils::check_isset_data($level_count[$val['level_simulate_str']]['level_num'],$val['level_num'],0);
                 \App\Helper\Utils::check_isset_data($level_count["all"]['level_num'],$val['level_num']);
+                // \App\Helper\Utils::check_isset_data($level_count["all"]['level_num']['level'],99,0);
+                $level_order[]=$val['level_simulate'];
             }
             foreach($level_count as &$c_val){
                 $c_val['level_per'] = round($c_val['level_num']/$level_all,4);
             }
         }
 
+        // array_multisort($level_count,$level_order);
         Redis::set($this->level_simulate_count_key,json_encode($level_count));
         if($type==1){
             \App\Helper\Utils::debug_to_html( $level_count );
@@ -338,6 +344,10 @@ class teacher_simulate extends Controller
     }
 
     public function get_month_money_list(){
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->already_lesson_count_key);
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->money_month_key);
+        \App\Helper\Utils::redis(E\Eredis_type::V_DEL,$this->teacher_money_type_month_key);
+
         $start_time = strtotime("2017-1-1");
         $end_time   = strtotime("2017-8-1");
 

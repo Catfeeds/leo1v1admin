@@ -158,7 +158,8 @@ class NewRouteConfig {
         "/common/send_charge_info"           => true,
         "/common/get_webhooks_notice_test"   => true,
         "/common/get_webhooks_notice"        => true,
-        "/common/dev_teacher_qr"        => true,
+        "/common/dev_teacher_qr"             => true,
+        "/common/get_ppl_data"               => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
