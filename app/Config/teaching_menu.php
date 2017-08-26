@@ -24,6 +24,7 @@ class teaching_menu{
 
                 [ "name"=>"招师部",  "list"=>[
                     [ "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
+                    ["name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info"],
                     [ "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
 
                     [ "name"=>"教师试讲预约",   "url"=>"/human_resource/teacher_lecture_appointment_info_zs"],

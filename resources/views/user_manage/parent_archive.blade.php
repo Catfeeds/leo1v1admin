@@ -16,10 +16,10 @@
             </div>
         </div>
     </div>
-    
-    <hr/> 
 
-    <table   class=" common-table "   >
+    <hr/>
+
+    <table   class=" common-table " style=" border-top: 3px solid #d2d6de; " >
         <thead>
             <tr>
                 <td class="remove-for-xs"  >id</td>
@@ -76,11 +76,11 @@
     </div>
     <div style="display:none;" class="cl_dlg_change_type">
         <div class="mesg_alertCont">
-    	        <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
-                    <tr>
-                        <td width="30%">设置测试学员：</td>
-                        <td width="70%" class="align_l"><select id="id_set_channel"><option value="-1">请选择</option></select></td>
-                        
+            <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
+                <tr>
+                    <td width="30%">设置测试学员：</td>
+                    <td width="70%" class="align_l"><select id="id_set_channel"><option value="-1">请选择</option></select></td>
+
                     </tr>
                 </table>
         </div>
@@ -99,7 +99,7 @@
 
     <div style="display:none;" class="cl_dlg_stu_origin">
         <div class="mesg_alertCont">
-    	        <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
+              <table border="0" cellspacing="0" width="100%" style="border-collapse:collapse;" class="stu_tab02">
                     <tr>
                         <td width="30%">设置渠道：</td>
                         <td width="70%" class="align_l">
@@ -118,5 +118,3 @@
     </div>
 
 @endsection
-
-
