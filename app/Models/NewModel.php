@@ -731,6 +731,8 @@ abstract class NewModel
                 $tmp_args[]= $this->ensql( $v);
             }
             $args= $tmp_args;
+        }else{
+            $args[1]= $this->ensql($args[1]);
         }
         return $this->check_and_add_where_limit( call_user_func_array( "sprintf",$args  ));
     }
