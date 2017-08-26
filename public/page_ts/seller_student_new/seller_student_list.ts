@@ -88,7 +88,8 @@ $(function(){
                         window.location.href = "http://admin.yb1v1.com/seller_student_new/deal_new_user";
                     }
                 }else{
-                    alert('刷新回访失败,请重新拨打回访!');
+                    alert('还有试听课未回访!');
+                    $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.admin_revisiterid);
                 }
             });
         }else{
