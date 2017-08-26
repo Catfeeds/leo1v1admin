@@ -869,7 +869,7 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                   if(info.response){
                       complete_func(up, info.response, file, ctminfo);
                   }else{
-                      complete_func(up, info, file, ctminfo); 
+                      complete_func(up, info, file, ctminfo);
                   }
 
               },
@@ -1226,7 +1226,7 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
 
 
         }
-        
+
         var field_list=[];
         if (type=="research_teacher" || type=="teacher") {
             field_list= [
