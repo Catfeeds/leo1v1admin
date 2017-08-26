@@ -20,8 +20,6 @@
 	agent_level	:any;
 	test_lessonid	:any;
 	agent_student_status	:any;
-	l1_child_count	:any;
-	l2_child_count	:any;
 	p_nickname	:any;
 	p_phone	:any;
 	pp_nickname	:any;
