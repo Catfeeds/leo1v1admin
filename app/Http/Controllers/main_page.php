@@ -387,7 +387,7 @@ class main_page extends Controller
 
     public function quality_control_kpi(){
         $this->set_in_value("account_role",9);
-        // $this->set_in_value("kpi_flag",);
+        // $this->set_in_value("kpi_flag",1);
         return $this->quality_control();
     }
     public function  quality_control(){
@@ -574,6 +574,16 @@ class main_page extends Controller
         }
 
         $arr["all_target_num"] = $all_count;
+        if($kpi_flag==1){
+            $arr["real_num"] = $real_num;
+            $arr["suc_count"] = $suc_count;
+            $arr["train_first_all"] = $train_first_all;
+            $arr["train_first_pass"] = $train_first_pass;
+            $arr["train_second_all"] = $train_second_all;
+            $arr["test_first"] = $test_first;
+            $arr["regular_first"] = $regular_first;
+            $arr["all_num"] = $real_num+$train_first_all+$test_first+$regular_first;
+        }
 
 
         array_unshift($teacher_info,$arr);
