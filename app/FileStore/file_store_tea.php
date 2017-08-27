@@ -31,7 +31,7 @@ class file_store_tea extends file_store_base {
     public function del_file($teacher_id, $file_path ){
         $obj_dir = $this->get_dir($teacher_id);
         $obj_dir.=trim($file_path, "/");
-        return $this->del_file_ex($file);
+        return $this->del_file_ex($obj_dir);
 
     }
 

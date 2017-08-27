@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redis;
 
 class page_common extends Controller
 {
+
     public function opt_table_field_list(){
         $opt_type=$this->get_in_str_val("opt_type");
         $table_key=$this->get_in_str_val("table_key");
@@ -16,16 +17,16 @@ class page_common extends Controller
         $account=$this->get_account();
         $key="T_".$table_key."_".$account;
         switch ( $opt_type ) {
-        case "set" : 
+        case "set" :
             Redis::set($key, $data);
             return $this->output_succ();
             break;
-        case "get" : 
+        case "get" :
             $field_list=null;
             try {
                 $field_list= \App\Helper\Utils::json_decode_as_array(Redis::get($key));
             }catch( \Exception $e  ) {
-                
+
             }
             $table_config=\App\Config\page_table::get_config($table_key);
             $row_opt_list=null;
@@ -65,7 +66,7 @@ class page_common extends Controller
 
     public function upload_xls_data() {
         $xls_data = $this->get_in_str_val("xls_data");
-        
+
         session([
             "xls_data"=>json_decode($xls_data,true),
         ]);

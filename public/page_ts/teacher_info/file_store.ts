@@ -16,6 +16,7 @@ $(function(){
             $file_name.html("<a href=\"/teacher_info/file_store?dir="+ opt_data.abs_path +"\" > "+ opt_data.file_name+" </a> ");
             $(this).hide();
             $(this).parent().find(".opt-edit").hide();
+            $(this).parent().find(".opt-del").hide();
             if (opt_data.no_share_flag ) {
                 $(this).parent().find(".opt-share").hide();
             }
@@ -68,7 +69,6 @@ $(function(){
 
     $(".opt-download").on("click",function(){
         var opt_data=$(this).get_opt_data();
-        alert(opt_data.abs_path);
         $.do_ajax("/teacher_info/get_download_url",{
             "file_path" : opt_data.abs_path
         },function(resp){
@@ -125,6 +125,14 @@ $(function(){
                 auto_start: true,
                 init: {
                     'FilesAdded': function(up, files) {
+
+                        BootstrapDialog.show({
+                            title: '上传进度',
+                            message: $('<div class="progress progress-sm active">' +
+                                       '<div id="id_upload_process_info" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">'+
+                                       '<span class="sr-only">0% Complete</span>  </div> </div>'),
+                        });
+
                         plupload.each(files, function(file) {
                             var progress = new FileProgress(file, 'process_info');
                             console.log('waiting...');
@@ -186,7 +194,7 @@ $(function(){
       this.fileProgressWrapper = $('#' + this.fileProgressID);
 
       if (!this.fileProgressWrapper.length) {
-        $('#process_info').find('.process_in .pro_cover').css('width', 0 + '%');
+         this.fileProgressWrapper.find('.process_in .pro_cover').css('width', 0 + '%');
 
       }
 
@@ -214,13 +222,28 @@ $(function(){
             percentage = 99;
         }
 
-        $('#'+upload_btn).parents('.row').siblings().find('.upload_process_info').css('width', percentage + '%');
+        $('#id_upload_process_info').css('width', percentage + '%');
 
     };
+
 
     custom_upload('id_add_file', 'id_add_dir_parent',"" ,function(){
         alert("上传成功");
         load_data();
     });
+
+
+    $(".opt-del").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        BootstrapDialog.confirm("要删除"+opt_data.file_name , function(val){
+            if (val) {
+                $.do_ajax("/teacher_info/file_store_del_file",{
+                    "path" :  opt_data.abs_path ,
+                } );
+            }
+        });
+    });
+
+
 
 });

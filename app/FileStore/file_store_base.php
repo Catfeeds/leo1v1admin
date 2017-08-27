@@ -38,34 +38,43 @@ class file_store_base {
         $bucket = $this->bucket ;
         // 要列取文件的公共前缀
         $prefix = $dir;
+
         $marker = '';
-        $limit = 3;
-        list($items, $marker, $err, $dirs ) = $bucketMgr->listFiles($bucket, $prefix, $marker, 100, "/" );
         $ret_list=[];
         $dir_len=strlen($dir);
-        foreach ($dirs  as $sub_dir ) {
-            $ret_list[] = ["is_dir"=>1 , "file_name"  => substr($sub_dir, $dir_len ) ];
-        }
-        /* 0 => array:6 [▼
-           "key" => "tea/10001/order_19658_1499767249.pdf"
-           "hash" => "Fg_e3PIK9NUCfeD0LG_uHQSH2Xg3"
-           "fsize" => 400829
-           "mimeType" => "application/pdf"
-           "putTime" => 15021727097972488
-           "type" => 1
-           ]
-        */
-        foreach ($items as $item ) {
-            $file_name=substr($item["key"], $dir_len );
-            if ( $file_name)  {
-                $ret_list[] = [
-                    "is_dir"=>0 ,
-                    "file_name"  => substr($item["key"], $dir_len ),
-                    "create_time" => intval($item["putTime"]/10000000),
-                    "file_size" => $item["fsize"],
-                ];
+
+        do {
+            list($ret, $error) = $bucketMgr->listFiles($bucket, $prefix, $marker, 100, "/" );
+
+            $marker = array_key_exists('marker', $ret) ? $ret['marker'] : null;
+            $dirs= array_key_exists('commonPrefixes', $ret) ? $ret['commonPrefixes'] : [];
+            $items=$ret['items'];
+            foreach ($dirs  as $sub_dir ) {
+                $ret_list[] = ["is_dir"=>1 , "file_name"  => substr($sub_dir, $dir_len ) ];
             }
-        }
+
+            /* 0 => array:6 [▼
+               "key" => "tea/10001/order_19658_1499767249.pdf"
+               "hash" => "Fg_e3PIK9NUCfeD0LG_uHQSH2Xg3"
+               "fsize" => 400829
+               "mimeType" => "application/pdf"
+               "putTime" => 15021727097972488
+               "type" => 1
+               ]
+            */
+            foreach ($items as $item ) {
+                $file_name=substr($item["key"], $dir_len );
+                if ( $file_name)  {
+                    $ret_list[] = [
+                        "is_dir"=>0 ,
+                        "file_name"  => substr($item["key"], $dir_len ),
+                        "create_time" => intval($item["putTime"]/10000000),
+                        "file_size" => $item["fsize"],
+                    ];
+                }
+            }
+        }while($marker );
+
         return $ret_list;
     }
 
@@ -76,7 +85,7 @@ class file_store_base {
 
     public function del_file_ex($file) {
         $bucketMgr = $this->get_bucketMgr() ;
-        $BucketMgr->delete($this->bucket,$file);
+        $bucketMgr->delete($this->bucket,$file);
         return true;
     }
 

@@ -2608,6 +2608,15 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+
+        $list = $this->t_teacher_lecture_appointment_info->get_no_right_reference_list();
+        foreach($list as &$item){
+            $item["num"] = substr($item["reference"],0,11);
+            $this->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
+               "reference"  => $item["num"]
+            ]);
+        }
+        dd($list);
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
         $no_assign_total = $this->t_test_lesson_subject_require->get_no_assign_total_info_detail($start_time,$end_time);

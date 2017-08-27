@@ -728,9 +728,11 @@ abstract class NewModel
             $tmp_args   = array() ;
             $tmp_args[] = $args[0];
             foreach ($args[1] as $v ) {
-                $tmp_args[]=$v;
+                $tmp_args[]= $this->ensql( $v);
             }
-            $args=$tmp_args;
+            $args= $tmp_args;
+        }else{
+            $args[1]= $this->ensql($args[1]);
         }
         return $this->check_and_add_where_limit( call_user_func_array( "sprintf",$args  ));
     }
@@ -781,9 +783,9 @@ abstract class NewModel
     public function where_get_in_str_query( $field_name, $id_list  ) {
         if (is_array($id_list)) {
 
-            \App\Helper\Utils::logger($field_name.":" .json_encode($id_list));
+            //\App\Helper\Utils::logger($field_name.":" .json_encode($id_list));
 
-            if (isset( $id_list["start"] ))  {
+            if ( array_key_exists( "start", $id_list))  {
                 if ($id_list["start"]===null ) {
                     return "true";
                 }else{

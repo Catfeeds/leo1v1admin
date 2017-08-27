@@ -1796,14 +1796,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_time_by_lessonid($lessonid){
+    public function get_teacher_time_by_lessonid($lessonid,$start,$end){
 
-        $begin_time = time(NULL);
-        $sql = $this->gen_sql_new("select lesson_start,lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and lesson_start>%d and del_flag = 0 ",
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid,
-                                  $begin_time
+                                  $start,
+                                  $end
         );
 
         return $this->main_get_list($sql);
@@ -2119,10 +2119,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
 
     }
-    public function get_student_lesson_time_by_lessonid($lessonid){
-        $time = time(NULL);
-        $sql = $this->gen_sql_new(" select lesson_start, lesson_end from %s l ".
-                                  " where userid in (select userid from %s l2 where lessonid = %d) and lesson_start>$time and del_flag = 0 ",
+    public function get_student_lesson_time_by_lessonid($lessonid ,$start=0, $end=0 ){
+        $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end from %s l ".
+                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid
@@ -3307,6 +3306,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_succ_test_lesson_count($userid,$check_time = -1) {
+        $where_arr=[
+            ['l.lesson_type = %d ',2],
+            ['l.lesson_del_flag = %d ',0],
+            'l.confirm_flag in (0,1) ',
+            "l.userid = $userid ",
+            'l.lesson_user_online_status = 1 ',
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select count(l.lessonid) count "
+            . " from %s l "
+            . " where %s   ",
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_train_lesson_before($lessonid,$subject,$grade,$teacherid){
         $sql = $this->gen_sql_new("select lessonid from %s"
                                   ." where lessonid <>%u and userid =%u and subject=%u and grade=%u "
@@ -3427,5 +3446,29 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
+    }
+
+    public function get_lesson_add_num_by_reference($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type = 1100",
+            "l.lesson_del_flag = 0",
+            "l.train_type=5"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,ta.reference,tt.teacher_ref_type"
+                                  ." from %s l left join %s t on l.userid = t.teacherid"
+                                  ." left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
     }
 }

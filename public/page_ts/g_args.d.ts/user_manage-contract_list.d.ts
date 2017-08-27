@@ -48,6 +48,8 @@ interface RowData {
 	flow_status	:any;
 	flow_post_msg	:any;
 	teacherid	:any;
+	lesson_start	:any;
+	lesson_end	:any;
 	tmk_adminid	:any;
 	user_agent	:any;
 	orderid	:any;
@@ -101,7 +103,6 @@ interface RowData {
 	promotion_present_lesson	:any;
 	promotion_spec_discount	:any;
 	promotion_spec_present_lesson	:any;
-	lesson_start	:any;
 	ass_master_adminid	:any;
 	master_nick	:any;
 	pdf_url	:any;

@@ -95,80 +95,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_agent_info_new($type)
     {
-        /*
-          $where_arr = [
-          'n.admin_revisiterid >0',//assigned_count type=2 已分配销售
-          'tmk_student_status=3',//tmk_assigned_count type=3 TMK有效
-          'global_tq_called_flag=0',//tq_no_call_count type=5 未拨打
-          'global_tq_called_flag <>0',//tq_called_count type=6 已拨打
-          'global_tq_called_flag =1',//tq_call_fail_count type=7 未接通
-          'global_tq_called_flag =2 and  n.sys_invaild_flag=0',//tq_call_succ_valid_count type=8 已拨通-有效
-          'global_tq_called_flag =2 and  n.sys_invaild_flag =1',//tq_call_succ_invalid_count  type=9 已拨通-无效
-          'global_tq_called_flag =1 and  n.sys_invaild_flag =1',//tq_call_fail_invalid_count  type=10 未接通-无效
-          't.seller_student_status =100 and  global_tq_called_flag =2',//have_intention_a_count  type=11 有效意向(A)
-          't.seller_student_status =101 and  global_tq_called_flag =2',//have_intention_b_count  type=12 有效意向(B)
-          't.seller_student_status =102 and  global_tq_called_flag =2',//have_intention_c_count  type=13 有效意向(C)
-          '',//require_count  type=14
-          '',//test_lesson_count  type=15
-          '',//succ_test_lesson_count   type=16
-          type = 14
-          select s.origin as check_value  , count(*) as require_count
-          from  db_weiyi.t_test_lesson_subject_require  tr
-          join  db_weiyi.t_test_lesson_subject  t on tr.test_lesson_subject_id = t.test_lesson_subject_id
-          join  db_weiyi.t_student_info  s on t.userid= s.userid
-          join  db_weiyi.t_seller_student_new  n on t.userid= n.userid
-          where accept_flag =1 and is_test_user=0
-          and require_admin_type =2
-          and require_time>=1501516800
-          and require_time<1504195200
-          and s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')  group by  check_value
-          type = 15,16
-          select s.origin  as check_value , count(*) as test_lesson_count,
-          sum(  success_flag in (0,1 ) ) as succ_test_lesson_count
-          from db_weiyi.t_test_lesson_subject_require tr
-          join db_weiyi.t_test_lesson_subject t  on tr.test_lesson_subject_id=t.test_lesson_subject_id
-          join db_weiyi.t_seller_student_new n  on t.userid=n.userid
-          join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid=tss.lessonid
-          join db_weiyi.t_lesson_info l on tr.current_lessonid=l.lessonid
-          join db_weiyi.t_student_info s on s.userid = l.userid
-          where s.origin in ('H5转介绍','优学优享','优学帮-0101','刘先生','张鑫龙')
-          and accept_flag=1
-          and is_test_user=0
-          and require_admin_type = 2
-         */
-
         $where_arr = array();
-        // $this->where_arr_add_str_field($where_arr,"s.origin",'优学优享');
         $this->where_arr_add_int_field($where_arr,"a.type",1);
-        // if($type==2){ //已分配销售
-        //     $where_arr[] = 'n.admin_revisiterid >0';
-        // }elseif($type == 3){ //TMK有效
-        //     $where_arr[] = 'n.tmk_student_status=3';
-        // }elseif($type == 5){ //未拨打
-        //     $where_arr[] = 'n.global_tq_called_flag=0';
-        // }elseif($type == 6){ //已拨打
-        //     $where_arr[] = 'n.global_tq_called_flag <>0';
-        // }elseif($type == 7){ //未接通
-        //     $where_arr[] = 'n.global_tq_called_flag =1';
-        // }elseif($type == 8){ //已拨通-有效
-        //     $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag=0';
-        // }elseif($type == 9){ //已拨通-无效
-        //     $where_arr[] = 'n.global_tq_called_flag =2 and  n.sys_invaild_flag =1';
-        // }elseif($type == 10){ //未拨通-无效
-        //     $where_arr[] = 'n.global_tq_called_flag =1 and  n.sys_invaild_flag =1';
-        // }elseif($type == 11){ //有效意向(A)
-        //     $where_arr[] = 't.seller_student_status =100 and  n.global_tq_called_flag =2';
-        // }elseif($type == 12){ //有效意向(B)
-        //     $where_arr[] = 't.seller_student_status =101 and  n.global_tq_called_flag =2';
-        // }elseif($type == 13){ //有效意向(C)
-        //     $where_arr[] = 't.seller_student_status =102 and  n.global_tq_called_flag =2';
-        // }elseif($type == 14){ //预约数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-        // }elseif($type == 15){ //上课数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2';
-        // }elseif($type == 16){ //试听成功数
-        //     $where_arr[] = 'tr.accept_flag = 1 and s.is_test_user=0 and t.require_admin_type =2 and l.lesson_user_online_status=1';
-        // }
         $sql=$this->gen_sql_new (" select a.*,"
                                  ." aa.nickname p_nickname,aa.phone p_phone,"
                                  ." aaa.nickname pp_nickname,aaa.phone pp_phone,"
@@ -204,7 +132,6 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,$where_arr
         );
-        // return $this->main_get_list_by_page($sql,$page_info);
         return $this->main_get_list($sql);
     }
 
@@ -632,7 +559,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
     }
 
     public function get_id_by_userid($userid) {
-        $sql=$this->gen_sql_new("select id  from %s where userid=%u ",
+        $sql=$this->gen_sql_new("select id,type  from %s where userid=%u ",
                                 self::DB_TABLE_NAME, $userid );
         return $this->main_get_value($sql);
 
@@ -643,7 +570,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'phone in ('.$phone_str.')',
         ];
         $sql= $this->gen_sql_new(
-            "select id,phone "
+            "select id,phone,type "
             . " from %s "
             . " where %s ",
             self::DB_TABLE_NAME,
@@ -1021,10 +948,21 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             "all_money" => $level_count_info["l1_child_price"] +$level_count_info["l2_child_price"],
         ]);
 
-        if ($agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
+        if (  $agent_type==E\Eagent_type::V_2  &&  $userid ) {//是会员, 学员,
             $this->field_update_list($id,[
                 "type" =>  E\Eagent_type::V_3
             ]);
+        }
+        if ( $level_count_info["l1_child_count"]) {
+            if ($agent_type ==1 ) {
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_3
+                ]);
+            }else if( $agent_type ==0 ){
+                $this->field_update_list($id,[
+                    "type" =>  E\Eagent_type::V_2
+                ]);
+            }
         }
     }
 
@@ -1054,7 +992,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $sql = $this->gen_sql_new(
             "select  a1.id  agent_id, a1.nickname, a1.phone, a1.agent_student_status, a1.type as agent_type, a1.create_time, a1.id ,sum(a2.id>0 )  child_count "
             . " from %s a1"
-            . " left join  %s a2 on a1.id=a2.parentid "
+            . " left join  %s a2 on ( a1.id=a2.parentid and a2.type in (1,3)  )  "
             ." where  a1.parentid=%u group  by a1.id  ",
             self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,

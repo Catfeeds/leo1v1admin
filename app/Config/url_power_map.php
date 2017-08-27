@@ -468,6 +468,7 @@ class url_power_map {
 			'/human_resource/origin_list'	=>1250800,
 			'/human_resource/zs_origin_list'	=>1250900,
 			'/main_page/quality_control'	=>1370100,
+			'/main_page/quality_control_kpi'	=>1370400,
 			'/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj'	=>1370200,
 			'/tea_manage/lesson_list_zj'	=>1370300,
 			'/human_resource/teacher_record_detail_list_new_zj'	=>1372800,
