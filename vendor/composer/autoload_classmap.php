@@ -561,6 +561,8 @@ return array(
     'SellerStudentNewAddOriginVaildFlag' => $baseDir . '/database/migrations/2017_06_06_183652_seller_student_new_add_origin_vaild_flag.php',
     'TAdminCampusListAddCampusName' => $baseDir . '/database/migrations/2017_08_15_120139_t_admin_campus_list_add_campus_name.php',
     'TAdminChannelGroup' => $baseDir . '/database/migrations/2017_08_26_173409_t_admin_channel_group.php',
+    'TAdminChannelGroupAddPrimaryKeyRefType' => $baseDir . '/database/migrations/2017_08_26_175728_t_admin_channel_group_add_primary_key_ref_type.php',
+    'TAdminChannelGroupDropPrimaryGroupid' => $baseDir . '/database/migrations/2017_08_26_173556_t_admin_channel_group_drop_primary_groupid.php',
     'TAdminChannelList' => $baseDir . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
     'TAdminChannelUser' => $baseDir . '/database/migrations/2017_08_26_174001_t_admin_channel_user.php',
     'TAdminGroupNameAddSubject' => $baseDir . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
