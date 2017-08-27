@@ -1866,10 +1866,18 @@ class test_code extends Controller
     }
 
     public function get_math_teacher(){
+        $start_num = $this->get_in_int_val("start_num",0);
+        $end_num   = $this->get_in_int_val("end_num",1);
         $start = strtotime("2017-1-1");
-        $end   = strtotime("2017-8-1");
+        $start_time = strtotime("+$start_num month",$start);
+        $end_time   = strtotime("+$end_num month",$start);
 
-        $lesson_list = $this->t_teacher_info->get_math_teacher($start,$end);
+        echo $start_time;
+        echo "<br>";
+        echo $end_time;
+        echo "<br>";
+
+        $lesson_list = $this->t_teacher_info->get_math_teacher($start_time,$end_time);
         echo "姓名|手机|年级|入职时间|课程数|签单数|整体转化率|";
         echo "<br>";
         foreach($lesson_list as $val){
