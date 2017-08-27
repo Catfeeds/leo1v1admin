@@ -333,20 +333,20 @@ class channel_manage extends Controller
             $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
         }
         //dd($ret_info);
-        //dd($list);
+        dd($list);
         foreach ($list as $key => $value) {
-            $value['app_num']         = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['app_num']:0;
-            $value['video_add_num']   = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['video_add_num']:0;
+            $value['app_num']         = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['app_num']:0;
+            $value['video_add_num']   = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['video_add_num']:0;
             $value['lesson_add_num']  = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['lesson_add_num']:0;
 
-            $value['through_all']     = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_all']:0;
-            $value['through_jg']      = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_jg']:0;
+            $value['through_all']     = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_all']:0;
+            $value['through_jg']      = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_jg']:0;
 
-            $value['through_gx']      = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_gx']:0;
-            $value['through_zz']      = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_zz']:0;
-            $value['through_gxs']     = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_gxs']:0;
-            $value['through_video']   = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_video']:0;
-            $value['through_lesson']  = isset($ret_info[$value['phone']])?$ret_info['admin_phone']['through_lesson']:0;
+            $value['through_gx']      = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_gx']:0;
+            $value['through_zz']      = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_zz']:0;
+            $value['through_gxs']     = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_gxs']:0;
+            $value['through_video']   = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_video']:0;
+            $value['through_lesson']  = isset($ret_info[$value['admin_phone']])?$ret_info['admin_phone']['through_lesson']:0;
 
             if($value['through_all'] > 0){
                 $value['through_all_per'] = round((100*$value['app_num']/$value['through_all']),2);
