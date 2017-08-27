@@ -3350,6 +3350,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_month_subejct_teacher_num($start_time,$end_time){
+        $where_arr = [
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) num,FROM_UNIXTIME(t.train_through_new_time, '%%m' ) month"
+                                  ." from %s t  join %s ta on ta.userid = t.teacherid "
+                                  ." join %s l on ta.lessonid = l.lessonid and l.lesson_type=1100 and l.train_type=1 and l.lesson_del_flag=0"
+                                  ." where (t.subject=2 or t.second_subject=2) and t.is_test_user=0 and %s group by month ",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+        
+    }
 
 
 

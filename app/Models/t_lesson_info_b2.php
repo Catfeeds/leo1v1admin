@@ -3475,4 +3475,17 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             return $item["reference"];
         });
     }
+
+    public function get_no_time_train_lesson_teacher_list(){
+        $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname,t.phone,t.wx_openid "
+                                  ." from %s l left join %s ll on (l.teacherid=ll.teacherid and ll.lesson_del_flag=0 and ll.lesson_start>0 and ll.lesson_type=1100 and ll.train_type=4)"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where l.lesson_start=0 and l.lesson_del_flag=0 and l.lesson_type=1100 and l.train_type=4 and ll.lessonid is null and t.is_test_user=0",
+                                  self::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
 }

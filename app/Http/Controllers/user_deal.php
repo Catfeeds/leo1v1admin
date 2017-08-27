@@ -2608,6 +2608,9 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $nick=111;
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349 ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
+        dd(111);
 
         $list = $this->t_teacher_lecture_appointment_info->get_no_right_reference_list();
         foreach($list as &$item){

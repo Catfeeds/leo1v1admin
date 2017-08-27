@@ -4318,11 +4318,21 @@ class human_resource extends Controller
     public function zs_origin_list_new(){
         $this->switch_tongji_database(); 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3); 
+
+        //报名数
         $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
+        //录制试讲提交数
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
+        ///面试预约数
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
+
+        //入职总人数以及各老师类型入职人数
         $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
+
+        //录制试讲入职人数
         $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
+
+        //面试试讲入职人数
         $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
         foreach($ret_info as $k=>&$val){
             $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;

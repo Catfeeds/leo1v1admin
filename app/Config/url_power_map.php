@@ -475,6 +475,7 @@ class url_power_map {
 			'/human_resource/teacher_record_detail_list_new_zj'	=>1372800,
 			'/human_resource/teacher_record_detail_list_zj'	=>1371600,
 			'/tea_manage/trial_train_lesson_list_zj'	=>1372900,
+			'/tongji_ss/get_no_time_train_lesson_teacher_list'	=>1374200,
 			'/human_resource/teacher_lecture_list_zj'	=>1370900,
 			'/tea_manage/train_lecture_lesson_zj'	=>1373600,
 			'/teacher_level/get_first_test_lesson_info'	=>1373800,

@@ -906,7 +906,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 if ($this->task->t_agent_order->check_aid($id) ) {
                     $agent_student_status=E\Eagent_student_status::V_50;
                 }else{
-                    $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type") ;
+                    $stu_info=$this->task->t_seller_student_new->field_get_list($userid,"global_tq_called_flag, global_seller_student_status,seller_resource_type,test_lesson_count") ;
                     if ($stu_info) {
                         $global_seller_student_status = $stu_info["global_seller_student_status"];
                         $global_tq_called_flag        = $stu_info["global_tq_called_flag"];
@@ -919,10 +919,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                             }else if ( $global_seller_student_status<200) {
                                 //E\Eseller_student_status
                                 $agent_student_status=E\Eagent_student_status::V_20;
-                            }else if ( $global_seller_student_status>=220) {
+                            }else if ( $global_seller_student_status<=220) {
                                 $agent_student_status=E\Eagent_student_status::V_30;
                             }else{
-                                $agent_student_status=E\Eagent_student_status::V_40;
+                                 $test_lessonid=$agent_info["test_lessonid"];
+                                if ( $test_lessonid ) {
+                                    $lesson_info= $this->task->t_lesson_info_b2->field_get_list ($test_lessonid  ,"lesson_end, lesson_user_online_status") ;
+                                    if ( $lesson_info["lesson_end"]  < time(NULL)) {
+                                        $agent_student_status=E\Eagent_student_status::V_40;
+                                    }else{
+                                        $agent_student_status=E\Eagent_student_status::V_30;
+                                    }
+                                }else{
+                                    $agent_student_status=E\Eagent_student_status::V_30;
+                                }
                             }
                         }else{
                             $agent_student_status=E\Eagent_student_status::V_100;

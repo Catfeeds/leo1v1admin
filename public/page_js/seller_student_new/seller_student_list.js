@@ -88,7 +88,8 @@ $(function(){
                         window.location.href = "http://admin.yb1v1.com/seller_student_new/deal_new_user";
                     }
                 }else{
-                    alert('刷新回访失败,请重新拨打回访!');
+                    alert('还有试听课未回访!');
+                    $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.admin_revisiterid);
                 }
             });
         }else{
@@ -240,7 +241,7 @@ $(function(){
 
         var opt_data=$(this).get_opt_data();
         if (!opt_data.parent_wx_openid &&
-            g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75)
+            g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186)
         {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();

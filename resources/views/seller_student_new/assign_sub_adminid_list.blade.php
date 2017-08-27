@@ -242,7 +242,7 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">拨打数</span>
-                        <input class="opt-change form-control" id="id_call_phone_count" />
+                        <input class="opt-change form-control" id="id_call_phone_count" placeholder="数字-数字" />
                     </div>
                 </div>
 

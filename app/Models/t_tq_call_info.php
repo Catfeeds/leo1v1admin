@@ -357,7 +357,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     public function get_call_info_by_phone($phone){
         $sql = $this->gen_sql_new(
             "select is_called_phone,duration from %s "
-            ."where phone=%u"
+            ."where phone='%s'"
             ,self::DB_TABLE_NAME
             ,$phone
         );

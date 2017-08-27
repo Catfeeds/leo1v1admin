@@ -47,11 +47,13 @@ class teaching_menu{
 
                 [ "name"=>"质监组",  "list"=>[
                     [ "name"=>"首页", "url"=>"/main_page/quality_control"],
+                    [ "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
                     [ "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
                     [ "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                     [ "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                     [ "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
                     [ "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
+                    ["name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                     [ "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                     [ "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                     [ "name"=>"第一次试听课反馈",   "url"=>"/teacher_level/get_first_test_lesson_info"],

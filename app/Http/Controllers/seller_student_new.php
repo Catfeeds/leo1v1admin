@@ -114,7 +114,7 @@ class seller_student_new extends Controller
         //dd($wx_invaild_flag);
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
-        $call_phone_count= $this->get_in_int_val("call_phone_count", -1);
+        $call_phone_count= $this->get_in_intval_range("call_phone_count");
         $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
         $self_adminid = $this->get_account_id();
         if($self_adminid==349){
