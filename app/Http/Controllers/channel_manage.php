@@ -44,7 +44,7 @@ class channel_manage extends Controller
                     "channel_id"=>$channel_id, //
                     "channel_name"=>$channel_name,//
                     "up_group_name"=>'',
-                    "group_name"=>$item['group_name'], //
+                    "group_name"=>E\Eteacher_ref_type::get_desc($item["ref_type"]), //
                     "account"=>"",
 
                     "main_type_class"=>"campus_id-".$n,
@@ -54,19 +54,19 @@ class channel_manage extends Controller
 
                     "level"=>"l-2",
                     "up_master_adminid"=>'',
-                    "group_id"=>$item["group_id"], //
+                    "group_id"=>$item["ref_type"], //
                     "main_type"=>''
                     ];
 
-                $admin_list = $this->t_admin_channel_user->get_user_list_new($item["group_id"]);
+                $admin_list = $this->t_admin_channel_user->get_user_list_new($item["ref_type"]);
 
                 $m = $num;
                 foreach($admin_list as $val){
                     $list[] = [
                         "channel_id"=>$channel_id, //
                         "channel_name"=>$channel_name,//
-                        "group_name"=>$item['group_name'], // admin_id
-                        "group_id"=>$item["group_id"],
+                        "group_name"=>E\Eteacher_ref_type::get_desc($item["ref_type"]), // admin_id
+                        "group_id"=>$item["ref_type"],
                         "account"=>"",
 
                         "main_type_class"=>"campus_id-".$n,
@@ -133,14 +133,13 @@ class channel_manage extends Controller
     public function set_channel_id(){
         $channel_id= $this->get_in_int_val("channel_id");
         $group_id = $this->get_in_int_val("group_id");
-        //dd($channel_id);
         $ret = $this->t_admin_channel_group->get_group($group_id);
         if($ret[0]['channel_id'] == 0){
-            $ret = $this->t_admin_channel_group->field_update_list($ret[0]['id'],[
+            $ret = $this->t_admin_channel_group->field_update_list($ret[0]['ref_type'],[
                 "channel_id"  =>$channel_id 
             ]);
         }else{
-            $ret = $this->t_admin_channel_group->field_update_list($ret[0]['id'],[
+            $ret = $this->t_admin_channel_group->field_update_list($ret[0]['ref_type'],[
                 "channel_id"  =>$channel_id 
             ]);
         }
@@ -152,24 +151,27 @@ class channel_manage extends Controller
         $page_num     = $this->get_in_page_num();
         $ret_info   = $this->t_admin_channel_group->get_all_group_id($page_num);
         if($ret_info['list'] != []){
+            foreach( $ret_info["list"] as $key => &$item ) {
+                $item['group_name']        = E\Eteacher_ref_type::get_desc($item["ref_type"]);
+                $item["group_id"]  = $item['ref_type'];
+            }
             $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
             return outputjson_success(array('data' => $ret_info));
         }else{
             $arr = E\Eteacher_ref_type::$desc_map;  
             foreach ($arr as $key => $value) {
                 $ret = $this->t_admin_channel_group->row_insert([
-                    'group_id'  => $key,
-                    'group_name' => $value,
+                    'ref_type'  => $key,
                 ]);
+            }
+            $ret_info   = $this->t_admin_channel_group->get_all_group_id($page_num);
+            foreach( $ret_info["list"] as $key => &$item ) {
+                $item['group_name']        = E\Eteacher_ref_type::get_desc($item["ref_type"]);
+                $item["group_id"]  = $item['ref_type'];
             }
             $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
             return outputjson_success(array('data' => $ret_info));
         }
-        
-        //dd(2);
-        
-        
-        
     }
 
     public function get_teacher_admin(){

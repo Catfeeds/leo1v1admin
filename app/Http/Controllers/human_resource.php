@@ -4334,6 +4334,7 @@ class human_resource extends Controller
 
         //面试试讲入职人数
         $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
+        dd($ret_info); 
         foreach($ret_info as $k=>&$val){
             $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;
             $val["lesson_add_num"] = isset($lesson_add[$k]["lesson_add_num"])?$lesson_add[$k]["lesson_add_num"]:0;
@@ -4360,6 +4361,7 @@ class human_resource extends Controller
                 $ret_info[$k]=$v;
             }
         }
+
 
         $all=$list=$team=$data=[];
         foreach($ret_info as $item){

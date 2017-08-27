@@ -13,9 +13,9 @@ class t_admin_channel_group extends \App\Models\Zgen\z_t_admin_channel_group
      */
     public function get_group($group_id) {
         $where_arr=[
-            ["group_id= %u",$group_id,-1]
+            ["ref_type= %u",$group_id,-1]
         ];
-        $sql=$this->gen_sql_new("select id,channel_id from %s where %s",
+        $sql=$this->gen_sql_new("select ref_type,channel_id from %s where %s",
                                 self::DB_TABLE_NAME,
                                 $where_arr);
         return $this->main_get_list($sql);
@@ -30,7 +30,7 @@ class t_admin_channel_group extends \App\Models\Zgen\z_t_admin_channel_group
         $where_arr=[
             ["channel_id= %u",$channel_id,-1]
         ];
-        $sql=$this->gen_sql_new("select group_id,group_name from %s where %s",
+        $sql=$this->gen_sql_new("select ref_type  from %s where %s",
                                 self::DB_TABLE_NAME,
                                 $where_arr);
         return $this->main_get_list($sql);
@@ -56,7 +56,7 @@ class t_admin_channel_group extends \App\Models\Zgen\z_t_admin_channel_group
      */
 
     public function get_all_group_id($page_num) {
-        $sql = $this->gen_sql_new("select group_id,group_name from %s ",
+        $sql = $this->gen_sql_new("select ref_type from %s ",
                                   self::DB_TABLE_NAME);
         return $this->main_get_list_by_page($sql,$page_num);
     }
