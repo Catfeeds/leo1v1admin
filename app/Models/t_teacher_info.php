@@ -3371,7 +3371,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_math_teacher($start,$end){
         $where_arr = [
             ["lesson_start>%u",$start,0],
-            ["lesson_end>%u",$end,0],
+            ["lesson_end<%u",$end,0],
             "lesson_type=2",
             "lesson_del_flag=0",
             "l.subject=2",
