@@ -13,6 +13,7 @@ class TAdminChannelGroup extends Migration
     public function up()
     {
         //
+	Schema::dropIfExists('db_weiyi_admin.t_admin_channel_group');
         Schema::create('db_weiyi_admin.t_admin_channel_group', function( Blueprint $table)
         {
             t_field($table->integer("id",true),"id");
