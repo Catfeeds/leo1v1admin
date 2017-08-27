@@ -142,6 +142,18 @@ $(function(){
  
     });
 
+    $(" .opt-assign-admin").each(function(){
+        var opt_data = $(this).get_opt_data();
+        if(opt_data.level != "l-2"){
+            $(this).hide();
+        }
+    });
+    $(".opt-assign-channel, .opt-edit").each(function(){
+        var opt_data = $(this).get_opt_data();
+        if(opt_data.level != "l-1"){
+            $(this).hide();
+        }
+    });
 
     $('.opt-change').set_input_change_event(load_data);
 });
