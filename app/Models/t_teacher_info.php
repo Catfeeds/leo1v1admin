@@ -3366,10 +3366,33 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   $where_arr
         );
         return $this->main_get_list($sql);
-
-        
     }
 
-
+    public function get_math_teacher($start,$end){
+        $where_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_end>%u",$end,0],
+            "lesson_type=2",
+            "lesson_del_flag=0",
+            "l.subject=2",
+        ];
+        $sql = $this->gen_sql_new("select count(1) as lesson_num,l.teacherid,t.subject,t.second_subject,"
+                                  ." grade_start,grade_end,second_grade_start,second_grade_end,t.realname,"
+                                  ." t.phone,t.test_transfor_per,t.train_through_new_time,count(c.userid) as has_order,"
+                                  ." t.grade_part_ex,t.second_grade"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s c on l.teacherid=c.teacherid and l.userid=c.userid and c.course_type in (0,1,3)"
+                                  ." where %s "
+                                  ." group by l.teacherid"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
 
 }
