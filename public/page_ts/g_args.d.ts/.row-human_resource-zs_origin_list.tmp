@@ -1,3 +1,4 @@
+	app_num	:any;
 	interview_num	:any;
 	interview_pass_num	:any;
 	interview_trial_num	:any;

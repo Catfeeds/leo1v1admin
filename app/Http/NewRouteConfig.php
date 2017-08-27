@@ -576,7 +576,10 @@ class NewRouteConfig {
 
         "/channel_manage/admin_channel_manage"           => true,
         "/channel_manage/add_channel"                    => true,
-
+        "/channel_manage/set_channel_id"                 => true,
+        "/channel_manage/get_teacher_type_ref"           => true,
+        "/channel_manage/update_channel_name"            => true,
+        "/channel_manage/set_teacher_ref_type"           => true,
     ];
 
     static $dev_url_map = [
