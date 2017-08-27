@@ -333,7 +333,7 @@ class channel_manage extends Controller
             $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
         }
         //dd($ret_info);
-        
+
         foreach ($list as $key => $value) {
 
             if(isset($value['admin_phone'])){

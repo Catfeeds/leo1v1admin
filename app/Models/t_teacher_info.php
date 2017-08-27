@@ -3375,6 +3375,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "lesson_type=2",
             "lesson_del_flag=0",
             "l.subject=2",
+            "t.is_test_user=0"
         ];
         $sql = $this->gen_sql_new("select count(1) as lesson_num,l.teacherid,t.subject,t.second_subject,"
                                   ." grade_start,grade_end,second_grade_start,second_grade_end,t.realname,"
