@@ -129,6 +129,70 @@ class send_wx_msg_for_test_lesson extends Command
         }
 
 
+        //        public function train_lesson_leave_set($type){
+        // $start_time = strtotime(date("Y-m-d",time()));
+        // $end_time   = time();
+
+        // $lesson_list = $this->t_lesson_info->get_lesson_list_for_wx($start_time,$end_time,$type);
+        // if(is_array($lesson_list)){
+        //     foreach($lesson_list as &$val){
+        //         $leave_flag=0;
+        //         $out_time = $this->t_lesson_opt_log->get_last_logout_time($val["lessonid"],$val["teacherid"],time());
+        //         if($out_time>0 && (time()-$out_time)>=600 && (time()-$out_time)<660){
+        //             $in_time = $this->t_lesson_opt_log->get_min_login_time($val["lessonid"],$val["teacherid"],$out_time);
+        //             if(empty($in_time) || (($in_time-$out_time) > 600)){
+        //                 $leave_flag=1;
+        //             }
+        //         }
+        //         if($leave_flag==1){
+        //             $openid = $this->t_teacher_info->get_wx_openid($val['teacherid']);
+        //             if($openid){
+        //                 $subject_str   = E\Esubject::get_desc($val["subject"]);
+        //                 $lesson_time = date("H:i",$val['lesson_start']);
+        //                 $lesson_day = date("Y-m-d H:i",$val['lesson_start']);
+
+        //                 /**
+        //                  * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+        //                  * 标题课程 : 待办事项提醒
+        //                  * {{first.DATA}}
+        //                  * 待办主题：{{keyword1.DATA}}
+        //                  * 待办内容：{{keyword2.DATA}}
+        //                  * 日期：{{keyword3.DATA}}
+        //                  * {{remark.DATA}}
+        //                  */
+
+        //                 $data=[];
+        //                 $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
+        //                 $data['first']    = $val["tea_nick"]."老师您好，".$lesson_time."的模拟试听课程已结束，您未能按时进入课堂。 ";
+        //                 $data['keyword1'] = "旷课提醒";
+        //                 $data['keyword2'] = "开课30分钟未进入课堂";
+        //                 $data['keyword3'] = date("Y-m-d H:i",time());
+        //                 $data['remark']   = "";
+        //                 $url = "";
+        //                 // $wx_openid = "oJ_4fxLZ3twmoTAadSSXDGsKFNk8";
+
+        //                 \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+
+
+        //                 $wx_absenteeism_flag = 1;
+        //             }else{
+        //                 $wx_absenteeism_flag = 2;
+        //                 \App\Helper\Utils::logger("teacher no bind wx".$val['teacherid']);
+        //             }
+
+
+        //             $this->t_lesson_info->field_update_list($val['lessonid'],[
+        //                 "wx_absenteeism_flag"   => $wx_absenteeism_flag,
+        //                 "absenteeism_flag"      => $absenteeism_flag
+        //             ]);
+        //         }
+
+        //     }
+        // }
+
+
+
+
         // 旷课
 
         // 试听课正常结束

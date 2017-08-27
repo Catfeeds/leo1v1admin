@@ -556,6 +556,14 @@ class ss_deal extends Controller
             }
 
         }else{
+            $stu_type = $this->t_student_info->get_type($userid);
+            if($stu_type==0){
+                $assistantid = $this->t_student_info->get_assistantid($userid);
+                $nick = $this->t_student_info->get_nick($userid);
+                $ass_adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
+
+            }
             return $this->output_succ();
         }
     }

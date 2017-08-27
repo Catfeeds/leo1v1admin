@@ -35,7 +35,7 @@ interface GargsStatic {
 	wx_invaild_flag:	number;//\App\Enums\Eboolean
 	filter_flag:	number;//\App\Enums\Eboolean
 	first_seller_adminid:	number;
-	call_phone_count:	number;
+	call_phone_count:	string;
 	main_master_flag:	number;
 }
 declare module "g_args" {

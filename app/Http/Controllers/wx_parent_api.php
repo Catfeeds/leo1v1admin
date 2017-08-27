@@ -494,7 +494,7 @@ class wx_parent_api extends Controller
         $filter_lesson_time_start = time(NULL)+86400;
         $filter_lesson_time_end   = $lesson_end+3*86400;
 
-        if($lesson_start<$filter_lesson_time_start){
+        if($lesson_start>$filter_lesson_time_start){
             return $this->output_err('课时调整必须超过一天');
         }
 
@@ -504,7 +504,7 @@ class wx_parent_api extends Controller
 
         $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
 
-        return $this->output_succ(['data'=>$all_tea_stu_lesson_time,'start'=>$filter_lesson_time_start,'end'=>$filter_lesson_time_end]);
+        return $this->output_succ(['data'=>$all_tea_stu_lesson_time,'start'=>$filter_lesson_time_start,'end'=>$filter_lesson_time_end,'lesson_start'=>$lesson_start,'lesson_end'=>$lesson_end]);
     }
 
 

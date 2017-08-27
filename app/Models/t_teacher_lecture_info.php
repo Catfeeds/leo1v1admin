@@ -1771,14 +1771,18 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
             "tl.is_test_flag =0"
         ];
         $this->where_arr_add_time_range($where_arr,"tl.add_time",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct tl.phone) num,ta.reference,t.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(distinct tl.phone) video_add_num,ta.reference,t.teacher_ref_type,c.channel_id,c.channel_name"
                                   ." from %s tl "
                                   ." left join %s ta on tl.phone = ta.phone"
                                   ." left join %s t on ta.reference = t.phone"
+                                  ." left join %s cg on t.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr);
         return $this->main_get_list($sql,function($item){
             return $item["reference"];

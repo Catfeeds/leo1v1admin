@@ -738,6 +738,10 @@ $(function(){
         $("#phone_num").show();
     }
 
+
+
+
+
     if (window.location.pathname=="/human_resource/index_new" || window.location.pathname=="/human_resource/index_new/") {
         $("#id_add_teacher").parent().hide();
     }
@@ -795,7 +799,8 @@ $(function(){
 
 
 
-    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    // if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
@@ -824,6 +829,46 @@ $(function(){
         $(".opt-set-research_note").hide();
         $(".opt-limit-plan-lesson").hide();
     }
+
+
+
+
+
+
+    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" ) {
+        $("#id_add_teacher").parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_textbook_type").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $(".opt-tea-note").hide();
+        $(".opt-show-lessons").hide();
+        $(".opt-set-tmp-passwd").hide();
+        $(".opt-old").hide();
+        $(".opt-test-user").hide();
+        $(".tea_address").hide();
+        $(".tea_school").hide();
+        $(".tea_textbook").hide();
+        $(".tea_is_need_test").hide();
+        $(".opt-get-teacher-lesson-hold").hide();
+        $(".opt-user-info").show(); //　erick　修改
+        $(".lesson_hold_flag").show();
+        $(".test_transfor_per").show();
+    }else{
+        $(".opt-meeting").hide();
+        $(".opt-interview-assess").hide();
+        $(".opt-edit").hide();
+        $(".opt-set-grade-range").hide();
+        $(".opt-teacher-freeze").hide();
+        $(".opt-set-teacher-record-new").hide();
+        $(".opt-get-teacher-record").hide();
+        $(".opt-set-research_note").hide();
+        $(".opt-limit-plan-lesson").hide();
+    }
+
+
+
+
+
 
     if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
     }else{

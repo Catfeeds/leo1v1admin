@@ -192,7 +192,6 @@ return array(
     ["db_weiyi_admin","t_admin_channel_user","id"] ,
     ["db_weiyi_admin","t_admin_channel_group","id"] ,
 
-
     ["db_account","t_phone_to_user","phone"] ,
     ["db_account","t_user_info","userid"] ,
 

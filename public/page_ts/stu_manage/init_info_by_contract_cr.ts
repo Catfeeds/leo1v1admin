@@ -54,7 +54,6 @@ $(function(){
 
         });
 
-        console.log('id'+$('#id_id').val());
 
     }
 

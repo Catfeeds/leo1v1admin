@@ -20,6 +20,7 @@ class menu{
                 ["power_id"=>13, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
+                ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
 
             ]],
 
@@ -726,6 +727,7 @@ class menu{
                 ["power_id"=>28, "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                 ["power_id"=>16, "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
                 ["power_id"=>29, "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
+                ["power_id"=>42, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                 ["power_id"=>9, "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                 ["power_id"=>36, "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                 // ["power_id"=>37, "name"=>"面试加班信息",   "url"=>"/tongji_ss/tongji_teacher_1v1_lesson_time"],
@@ -757,7 +759,7 @@ class menu{
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
                 ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
-                ["power_id"=>2, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
+                // ["power_id"=>2, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 ["power_id"=>5, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],

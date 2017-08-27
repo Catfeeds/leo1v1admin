@@ -3269,14 +3269,19 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.train_through_new_time<".$end_time
         ];
 
-        $sql = $this->gen_sql_new("select count(*) all_num,sum(t.identity=5) jg_num,sum(t.identity=6) gx_num, "
-                                  ." sum(t.identity=7) zz_num,sum(t.identity=8) gxs_num,ta.reference,tt.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
+                                  ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -3293,15 +3298,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.train_through_new_time<".$end_time
         ];
 
-        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_video,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tl on t.phone = tl.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -3318,15 +3328,20 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "t.train_through_new_time<".$end_time
         ];
 
-        $sql = $this->gen_sql_new("select count(distinct t.teacherid) all_num,ta.reference,tt.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
                                   ." from %s t left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
                                   ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   self::DB_TABLE_NAME,
                                   t_teacher_record_list::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
@@ -3335,6 +3350,25 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
+    public function get_month_subejct_teacher_num($start_time,$end_time){
+        $where_arr = [
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) num,FROM_UNIXTIME(t.train_through_new_time, '%%m' ) month"
+                                  ." from %s t  join %s ta on ta.userid = t.teacherid "
+                                  ." join %s l on ta.lessonid = l.lessonid and l.lesson_type=1100 and l.train_type=1 and l.lesson_del_flag=0"
+                                  ." where (t.subject=2 or t.second_subject=2) and t.is_test_user=0 and %s group by month ",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+        
+    }
 
 
 

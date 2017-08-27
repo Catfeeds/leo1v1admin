@@ -154,7 +154,7 @@
                                     </div>
 
                                     <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat" id="id_user_change_passwd">修改密码</a>
+                                        <a href="#" class="btn btn-default btn-flat" id="id_menu_config">菜单选项</a>
 
                                         <a href="#" class="btn btn-default btn-flat" id="id_public_user_reset_power">重置权限</a>
                                         <a href="#" class="btn btn-default btn-flat" id="id_system_logout">退出</a>

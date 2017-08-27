@@ -7934,4 +7934,24 @@ class tongji_ss extends Controller
 
     }
 
+    public function get_no_time_train_lesson_teacher_list(){
+        $list = $this->t_lesson_info_b2->get_no_time_train_lesson_teacher_list();
+        foreach($list["list"] as &$val){
+            if($val["wx_openid"]){
+                $val["wx_flag"]="是";
+            }else{
+                $val["wx_flag"]="否";
+            }
+        }
+        return $this->pageView(__METHOD__,$list);
+        dd($list);
+    }
+
+    public function get_month_subejct_teacher_num(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-09-01");
+        $ret = $this->t_teacher_info->get_month_subejct_teacher_num($start_time,$end_time);
+        dd($ret);
+    }
+
 }
