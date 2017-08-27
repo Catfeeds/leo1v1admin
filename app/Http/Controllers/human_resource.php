@@ -4321,7 +4321,8 @@ class human_resource extends Controller
 
         //报名数
         $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
-        //录制试讲提交数
+        dd($ret_info);
+	//录制试讲提交数
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
         ///面试预约数
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);

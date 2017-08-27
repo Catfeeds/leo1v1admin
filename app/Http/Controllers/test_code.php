@@ -1872,4 +1872,9 @@ class test_code extends Controller
         echo "succ";
     }
 
+    public function get_math_teacher(){
+
+    }
+
+
 }
