@@ -580,6 +580,7 @@ class NewRouteConfig {
         "/channel_manage/get_teacher_type_ref"           => true,
         "/channel_manage/update_channel_name"            => true,
         "/channel_manage/set_teacher_ref_type"           => true,
+        "/channel_manage/zs_origin_list_new"             => true,
     ];
 
     static $dev_url_map = [
