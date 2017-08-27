@@ -339,44 +339,44 @@ class channel_manage extends Controller
             if(isset($value['admin_phone'])){
                 //print_r($value['admin_phone']);
                 $phone = intval($value['admin_phone']);
-                $phone = 12515215151;
-                $list[$key]['app_num']         = $ret_info[$phone]['app_num'];
-                $list[$key]['video_add_num']   = $ret_info[$phone]['video_add_num'];
-                $list[$key]['lesson_add_num']  = $ret_info[$phone]['lesson_add_num'];
+                if(isset($ret_info[$phone])){
+                    $list[$key]['app_num']         = $ret_info[$phone]['app_num'];
+                    $list[$key]['video_add_num']   = $ret_info[$phone]['video_add_num'];
+                    $list[$key]['lesson_add_num']  = $ret_info[$phone]['lesson_add_num'];
 
-                $list[$key]['through_all']     = $ret_info[$phone]['through_all'];
-                $list[$key]['through_jg']      = $ret_info[$phone]['through_jg'];
+                    $list[$key]['through_all']     = $ret_info[$phone]['through_all'];
+                    $list[$key]['through_jg']      = $ret_info[$phone]['through_jg'];
 
-                $list[$key]['through_gx']      = $ret_info[$phone]['through_gx'];
-                $list[$key]['through_zz']      = $ret_info[$phone]['through_zz'];
-                $list[$key]['through_gxs']     = $ret_info[$phone]['through_gxs'];
-                $list[$key]['through_video']   = $ret_info[$phone]['through_video'];
-                $list[$key]['through_lesson']  = $ret_info[$phone]['through_lesson'];
+                    $list[$key]['through_gx']      = $ret_info[$phone]['through_gx'];
+                    $list[$key]['through_zz']      = $ret_info[$phone]['through_zz'];
+                    $list[$key]['through_gxs']     = $ret_info[$phone]['through_gxs'];
+                    $list[$key]['through_video']   = $ret_info[$phone]['through_video'];
+                    $list[$key]['through_lesson']  = $ret_info[$phone]['through_lesson'];
 
-                if($list[$key]['through_all']  > 0){
-                    $list[$key]['through_all_per'] = round((100*$list[$key]['through_all']/$list[$key]['app_num'] ),2);
-                    $list[$key]['through_all_per'] .= '%';
-                }else{
-                    $list[$key]['through_all_per'] = '0%';
+                    if($list[$key]['through_all']  > 0){
+                        $list[$key]['through_all_per'] = round((100*$list[$key]['through_all']/$list[$key]['app_num'] ),2);
+                        $list[$key]['through_all_per'] .= '%';
+                    }else{
+                        $list[$key]['through_all_per'] = '0%';
+                    }
+                    if($list[$key]['through_lesson']  > 0){
+                        $list[$key]['through_lesson_per'] = round((100*$list[$key]['through_lesson']/$list[$key]['lesson_add_num']),2);
+                        $list[$key]['through_lesson_per'] .= '%';
+                    }else{
+                        $list[$key]['through_lesson_per'] = '0%';
+                    }
+
+                    if($list[$key]['through_video']  > 0){
+                        $list[$key]['through_video_per'] = round((100*$list[$key]['through_video']/$list[$key]['video_add_num']),2);
+                        $list[$key]['through_video_per'] .= '%';
+                    }else{
+                        $list[$key]['through_video_per'] = '0%';
+                    }
                 }
-                if($list[$key]['through_lesson']  > 0){
-                    $list[$key]['through_lesson_per'] = round((100*$list[$key]['through_lesson']/$list[$key]['lesson_add_num']),2);
-                    $list[$key]['through_lesson_per'] .= '%';
-                }else{
-                    $list[$key]['through_lesson_per'] = '0%';
-                }
-
-                if($list[$key]['through_video']  > 0){
-                    $list[$key]['through_video_per'] = round((100*$list[$key]['through_video']/$list[$key]['video_add_num']),2);
-                    $list[$key]['through_video_per'] .= '%';
-                }else{
-                    $list[$key]['through_video_per'] = '0%';
-                }
+               
             }
         }
 
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
-
-      
     }
 }
