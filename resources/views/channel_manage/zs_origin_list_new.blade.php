@@ -69,15 +69,15 @@
 
                         <td>{{@$var['app_num']}}</td>
                         <td>{{@$var['through_all']}}</td>
-                        <td></td>
+                        <td>{{@$var['through_all_per']}}</td>
 
                         <td>{{@$var['video_add_num']}}</td>
                         <td>{{@$var['through_video']}}</td>
-                        <td>{{@$var['']}}</td>
+                        <td>{{@$var['through_video_per']}}</td>
 
                         <td>{{@$var['lesson_add_num']}}</td>
                         <td>{{@$var['through_lesson']}}</td>
-                        <td>{{@$var['app_num']}}</td>
+                        <td>{{@$var['through_lesson_per']}}</td>
 
                         <td>{{@$var['through_gx']}}</td>
                         <td>{{@$var['through_jg']}}</td>
