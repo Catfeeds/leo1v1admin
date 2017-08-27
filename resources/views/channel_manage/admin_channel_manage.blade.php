@@ -37,16 +37,23 @@
             </thead>
             <tbody>
                 @foreach ( $table_data_list as $var )
-                    <tr class="{{$var['level']}}">
-                        <td>{{@$var[""]}} </td>
-                        <td>{{@$var[""]}}</td>
-                        <td>{{@$var[""]}}</td>
+                    <tr class="{{$var["level"]}}">
+                        <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
+                            {{$var["channel_name"]}}
+                        </td>
+                        <td  data-class_name="{{$var["up_group_name_class"]}}" class=" up_group_name  {{$var["main_type_class"]}}  {{$var["up_group_name_class"]}} " >
+                            {{$var["group_name"]}}
+                        </td>
+                        <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
+                            {{@$var["admin_name"]}}  {{@$var['admin_id']}}
+                        </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa fa-edit opt-edit"  title="修改"> </a>
-                                <a class="fa fa-edit opt-assign-channel"  title=""> 分配渠道</a>"
+                                <a class="fa opt-edit"  title="修改"> 修改</a>
+                                <a class="fa opt-assign-channel"  title=""> 分配渠道</a>
+                                 <a class="fa opt-assign-admin"  title=""> 分配成员</a>
                                 <a class="fa fa-times opt-del" title="删除"> </a>
 
                             </div>

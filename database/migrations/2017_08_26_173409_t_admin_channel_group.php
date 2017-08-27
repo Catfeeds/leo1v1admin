@@ -15,7 +15,9 @@ class TAdminChannelGroup extends Migration
         //
         Schema::create('db_weiyi_admin.t_admin_channel_group', function( Blueprint $table)
         {
-            t_field($table->integer("group_id",true),"分渠道id");
+            t_field($table->integer("id",true),"id");
+            t_field($table->integer("group_id"),"分渠道id");
+            t_field($table->string("group_name"),"分渠道name");
             t_field($table->integer("channel_id"),"主渠道id");
         });
     }
