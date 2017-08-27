@@ -827,6 +827,8 @@ class ComposerStaticInitdca5fc4cffe0a071759e94b36bbc60d8
         'SellerStudentNewAddOriginVaildFlag' => __DIR__ . '/../..' . '/database/migrations/2017_06_06_183652_seller_student_new_add_origin_vaild_flag.php',
         'TAdminCampusListAddCampusName' => __DIR__ . '/../..' . '/database/migrations/2017_08_15_120139_t_admin_campus_list_add_campus_name.php',
         'TAdminChannelGroup' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_173409_t_admin_channel_group.php',
+        'TAdminChannelGroupAddPrimaryKeyRefType' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_175728_t_admin_channel_group_add_primary_key_ref_type.php',
+        'TAdminChannelGroupDropPrimaryGroupid' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_173556_t_admin_channel_group_drop_primary_groupid.php',
         'TAdminChannelList' => __DIR__ . '/../..' . '/database/migrations/2017_08_25_184011_t_admin_channel_list.php',
         'TAdminChannelUser' => __DIR__ . '/../..' . '/database/migrations/2017_08_26_174001_t_admin_channel_user.php',
         'TAdminGroupNameAddSubject' => __DIR__ . '/../..' . '/database/migrations/2017_05_24_162238_t_admin_group_name_add_subject.php',
