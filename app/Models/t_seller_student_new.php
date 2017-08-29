@@ -511,7 +511,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $phone_location, $origin_ex,  $has_pad, $sub_assign_adminid_2,$seller_resource_type,
             $origin_assistantid,$tq_called_flag,$global_tq_called_flag,
             $tmk_adminid,$tmk_student_status,$origin_level ,$seller_student_sub_status
-            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1, $call_phone_count=-1,$main_master_flag=0,$self_adminid=-1
+            , $order_by_str,$publish_flag,$admin_del_flag, $account_role, $sys_invaild_flag,$seller_level,$wx_invaild_flag,$do_filter=-1, $first_seller_adminid=-1,$suc_test_count, $call_phone_count=-1,$main_master_flag=0,$self_adminid=-1
     ) {
 
 
@@ -547,6 +547,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_int_field($where_arr,"sys_invaild_flag",$sys_invaild_flag);
             $this->where_arr_add_int_or_idlist ($where_arr,"seller_level",$seller_level);
             $this->where_arr_add_int_or_idlist ($where_arr,"call_phone_count",$call_phone_count);
+            $this->where_arr_add_int_or_idlist ($where_arr,"test_lesson_count",$suc_test_count);
             //wx
             $this->where_arr_add_int_field($where_arr,"wx_invaild_flag",$wx_invaild_flag);
             if ($has_pad==-2) {
@@ -955,7 +956,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     }
 
 
-    public function get_free_seller_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone
+    public function get_free_seller_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -974,6 +975,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $now=time(NULL);
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
             $where_arr[]= "f.adminid is null ";
+        }
+        if($suc_test_flag){
+            $where_arr[] = 'n.test_lesson_count=0';
         }
         $sql = $this->gen_sql_new(
             "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
