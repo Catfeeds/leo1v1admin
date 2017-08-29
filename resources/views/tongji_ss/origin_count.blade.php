@@ -187,6 +187,8 @@
                      <td >预约数</td>
                      <td >上课数</td>
                      <td >上课成功数</td>
+                     <td >上课数(去重)</td>
+                     <td >上课成功数(去重)</td>
                      <td >合同个数</td>
                      <td >合同人数</td>
                      <td >合同金额</td>
@@ -249,12 +251,14 @@
                                  </a>
                              </td>
                              <td>{{@$var["succ_test_lesson_count"]}}</td>
+                             <td>{{@$var["distinct_test_count"]}}</td>
+                             <td>{{@$var["distinct_succ_count"]}}</td>
+
                              <td>
                                  <a href="javascript:;"  class="opt-go-info" data-opt="order" data-val="{{@$var["key4"]}}">
                                      {{@$var["order_count"]}}
                                  </a>
                              </td>
-
                              <td>{{@$var["user_count"]}}</td>
                              <td>{{@$var["order_all_money"]}}</td>
                          @endif
