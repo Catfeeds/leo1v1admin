@@ -341,6 +341,7 @@ class url_power_map {
 			'/seller_student_new/get_new_list_tmk'	=>1115600,
 			'/seller_student_new/deal_new_user_tmk'	=>1115700,
 			'/seller_student_new/test_lesson_no_order_list'	=>1115100,
+			'/seller_student_new/test_lesson_fail_list'	=>1115800,
 			'/user_manage/refund_list_seller'	=>1113200,
 			'/tongji2/self_seller_month_money_list'	=>1113100,
 			'/human_resource/regular_course_seller'	=>1113500,

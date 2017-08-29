@@ -3440,7 +3440,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             'l.jw_confirm_flag!=2',
         ];
         $sql = $this->gen_sql_new("select count(distinct ol.userid) as num,l.subject,l.grade ,l.lessonid,"
-                                  ." count( distinct lo.userid) as cur_num"
+                                  ." count( distinct lo.userid) as cur_num,l.lesson_start"
                                   ." from %s l"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
                                   ." left join %s lo on lo.lessonid=l.lessonid"

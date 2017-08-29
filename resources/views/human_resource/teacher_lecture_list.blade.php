@@ -160,7 +160,9 @@
                                         @endif
                                     @endif
                                     @if($var["account"]!="" || in_array($acc,["adrian"]))
+                                        @if()
                                         <a class="opt-update_lecture_status" title="更改状态">更改状态</a>
+                                        @endif
                                         @if($var['status']!=2 || in_array($acc,["adrian"]) )
                                             <a class="opt-edit-new" title="更改状态">审核 </a>
                                         @endif

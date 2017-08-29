@@ -1539,7 +1539,8 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__, $ret_info ,[
             "acc"         => session("acc"),
             "tea_subject" => $tea_subject,
-            "adminid"     => $adminid
+            "adminid"     => $adminid,
+            "account_role" => session("account_role")
         ]);
     }
 
