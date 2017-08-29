@@ -53,7 +53,8 @@ class send_error_mail extends Job implements ShouldQueue
 
             $admin_list=["jim","jack","adrian", "tom","james"];
 
-            foreach($email_list as $account) {
+            foreach($admin_list as $account) {
+
                 $this->task->t_manager_info->send_wx_todo_msg($account,"system",$title,$content);
             }
 

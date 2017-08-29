@@ -24,7 +24,7 @@ class lesson_info extends Controller
     }
 
     public function reset_lesson_money(){
-        $lessonid = $this->$this->get_in_int_val("lessonid");
+        $lessonid = $this->get_in_int_val("lessonid");
         if($lessonid==0){
             return $this->output_err("课程id出错！");
         }
@@ -38,7 +38,7 @@ class lesson_info extends Controller
         ]);
 
         if(!$ret){
-            return $this->output_err("重置失败!");
+            return $this->output_err("重置失败或者此课程无需重置！");
         }
         return $this->output_succ();
     }
