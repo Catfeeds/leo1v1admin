@@ -1047,4 +1047,18 @@ class tongji extends Controller
 
     }
 
+    public function seller_time_income_list(){
+        // list($start_time,$end_time)=$this->get_in_date_range_month(0);
+        // $ass_test_lesson_type= $this->get_in_int_val("ass_test_lesson_type",-1,E\Eass_test_lesson_type::class);
+        // $list=$this->t_test_lesson_subject_require->tong_ass_test_lesson_info($start_time,$end_time, $ass_test_lesson_type ); // ,
+        // foreach( $list as &$item) {
+        //     $this->cache_set_item_account_nick($item,"require_adminid","title");
+        // }
+        // $all_item=["title" => "全部"];
+        // \App\Helper\Utils::list_add_sum_item( $list, $all_item,["count", "course_count"]);
+        $list = [];
+        $ret_info=\App\Helper\Utils::list_to_page_info($list);
+        return $this->pageView(__METHOD__,$ret_info);
+    }
+
 }
