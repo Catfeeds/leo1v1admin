@@ -438,13 +438,12 @@ trait  InputDeal {
     {
         return $this->get_in_date_range($init_start_date,0, $date_type, $date_type_config, 2 );
     }
-    public function get_in_date_range_month($init_start_date, $date_type=0 , $date_type_config=[] )
+    public function get_in_date_range_month($init_start_date, $date_type=0 , $date_type_config=[]  )
     {
         return $this->get_in_date_range($init_start_date,0, $date_type, $date_type_config, 3 );
     }
 
-    public function get_in_date_range($init_start_date,$init_end_date,$date_type=0,$date_type_config=[], $opt_date_type=0,$date_field_index=0
-    ){
+    public function get_in_date_range($init_start_date,$init_end_date,$date_type=0,$date_type_config=[], $opt_date_type=0,$date_field_index=0,$timepacker_flag=false ){
         $now=time(NULL);
         if (is_int($init_start_date)) {
             $init_start_date=date("Y-m-d", $now+$init_start_date*86400);
@@ -487,9 +486,9 @@ trait  InputDeal {
 
         $start_time  = $this->get_in_start_time_from_str($init_start_date, $start_time_str);
         $end_time    = $this->get_in_end_time_from_str($init_end_date,$end_time_str);
-        //if ($opt_date_type !=0  )  { //按时间段,不处理 $end_time
-        $end_time   += 86400;
-        //}
+        if ( !($timepacker_flag  &&   $opt_date_type ==0) ) { //按时间段,不处理 $end_time
+            $end_time   += 86400;
+        }
         if ( $end_time - $start_time >30*86400  ) {
             $this->switch_tongji_database();
         }
