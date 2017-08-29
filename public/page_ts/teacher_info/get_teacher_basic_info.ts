@@ -8,13 +8,9 @@ $(function(){
         });
     }
 
+
     $('.opt-upload').on('click', function() {
-        $.self_upload_process( "xxxxx" ,"/common/upload_qiniu",[] ,["pdf","zip"],{
-            "file_name_fix": 'test'
-        }, function( ret,ctminfo){
-            set_url_fun(ret.file_name);
-            upload_status_show(id_item,1);
-        });
+
     });
 
     $('.opt-set').on('click', function(){

@@ -199,7 +199,7 @@
                         <div class="chart" id="line-chart" style="height: 100px;">
                             <div class="row">
                                 <div class="col-sm-12"">
-                                    <button type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
+                                    <button id="upload_zigezheng" type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
                                 </div>
 
                             </div>

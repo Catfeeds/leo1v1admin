@@ -158,7 +158,8 @@ class wx_teacher_api extends TeaWxController
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
-        $complaint_type   = $this->get_in_int_val('complaint_type');
+        // $complaint_type   = $this->get_in_int_val('complaint_type');
+        $complaint_type   = 1;
 
         $sever_name = $_SERVER['SERVER_NAME'];
 

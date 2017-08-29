@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Helper\Config;
 //require_once (app_path("Libs/qiniu-7/src/Qiniu/functions.php") );
 
 
@@ -2055,7 +2056,10 @@ class teacher_info extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
-        ]);
+        ],[
+            'qiniu_upload_domain_url' => Config::get_qiniu_public_url()."/"
+        ]
+        );
     }
 
     public function edit_teacher_info(){
@@ -2143,7 +2147,7 @@ class teacher_info extends Controller
 
     public function get_teacher_money_info(){
         $teacherid = $this->get_login_teacher();
-        return 2;
+        return $this->pageView(__METHOD__);
     }
 
 }

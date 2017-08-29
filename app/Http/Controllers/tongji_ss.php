@@ -7961,6 +7961,12 @@ class tongji_ss extends Controller
         $end_time = strtotime("2017-09-01");
         $ret = $this->t_teacher_info->get_month_subejct_teacher_num($start_time,$end_time);
         dd($ret);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
+        $zs_id = $this->t_teacher_info->get_zs_id($teacherid);
+        if($zs_id>0){
+            $accept_adminid = $zs_id;
+        }
+
     }
 
 }
