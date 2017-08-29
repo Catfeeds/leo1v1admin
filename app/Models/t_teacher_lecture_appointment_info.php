@@ -600,7 +600,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
             ["answer_begin_time>%u",$start_time,0],
             ["answer_begin_time<%u",$end_time,0],
         ];
-        $sql = $this->gen_sql_new("select count(ta.phone) app_num,ta.reference,t.teacher_ref_type,t.realname,c.channel_id,c.channel_name"
+        $sql = $this->gen_sql_new("select count(ta.phone) app_num,ta.reference,t.teacher_ref_type,t.realname,t.phone,c.channel_id,c.channel_name"
                                   ." from %s ta left join %s t on ta.reference=t.phone"
                                   ." left join %s cg on t.teacher_ref_type = cg.ref_type"
                                   ." left join %s c on cg.channel_id = c.channel_id"

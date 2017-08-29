@@ -23,9 +23,9 @@
             <thead>
                 <tr  >
                     <td colspan="3">渠道名称</td>
-                    <td colspan="3">面试总数据</td>
-                    <td colspan="3">录制试讲</td>
-                    <td colspan="3">一对一面试</td>
+                    <td colspan="2">面试总数据</td>
+                    <td colspan="2">录制试讲</td>
+                    <td colspan="2">一对一面试</td>
                     <td colspan="4">入职数</td>
                 </tr>
                 <tr>
@@ -35,15 +35,15 @@
 
                     <td>报名数</td>
                     <td>入职数</td>
-                    <td>入职率</td>
+
 
                     <td>提交数</td>
                     <td>入职数</td>
-                    <td>入职率</td>
+
 
                     <td>预约数</td>
                     <td>入职数</td>
-                    <td>入职率</td>
+
 
                     <td>公校教师</td>
                     <td>机构教师</td>
@@ -69,15 +69,12 @@
 
                         <td>{{@$var['app_num']}}</td>
                         <td>{{@$var['through_all']}}</td>
-                        <td>{{@$var['through_all_per']}}</td>
 
                         <td>{{@$var['video_add_num']}}</td>
                         <td>{{@$var['through_video']}}</td>
-                        <td>{{@$var['through_video_per']}}</td>
 
                         <td>{{@$var['lesson_add_num']}}</td>
                         <td>{{@$var['through_lesson']}}</td>
-                        <td>{{@$var['through_lesson_per']}}</td>
 
                         <td>{{@$var['through_gx']}}</td>
                         <td>{{@$var['through_jg']}}</td>
