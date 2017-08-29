@@ -1045,7 +1045,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$teacherid
                                   ,$passwd
         );
-        dd($sql);
         return $this->main_insert($sql);
     }
 
