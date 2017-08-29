@@ -135,7 +135,8 @@ class seller_student_new extends Controller
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
-            $seller_last_call_time = $this->t_tq_call_info->get_row_by_phone($item['phone']);
+            // $seller_last_call_time = $this->t_tq_call_info->get_row_by_phone($item['phone']);
+            $seller_last_call_time = $item['first_revisit_time'];
             if($seller_last_call_time){
                 $item['lass_call_time_space'] = time()-$seller_last_call_time['start_time'];
             }else{
