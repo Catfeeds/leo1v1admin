@@ -206,13 +206,13 @@ class teacher_feedback extends Controller
     }
 
     public function delete_teacher_feedback_info(){
-        $id     = $this->get_in_int_val("id");
-        $status = $this->get_in_int_val("status");
-        $acc    = $this->get_account();
+        $id       = $this->get_in_int_val("id");
+        $status   = $this->get_in_int_val("status");
+        $del_flag = $this->get_in_int_val("del_flag");
+        $acc      = $this->get_account();
 
-
-        if($status == 0){
-            return $this->output_err("状态不是为处理状态，无法删除！");
+        if($status != 0){
+            return $this->output_err("状态不是未处理状态，无法操作！");
         }
 
         if(in_array($acc,["adrian","alan","jim"])){

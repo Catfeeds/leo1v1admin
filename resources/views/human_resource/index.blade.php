@@ -477,7 +477,6 @@
                                 操作人:{{@$var["lesson_hold_flag_acc"]}}<br>
                                 操作时间:{{@$var["lesson_hold_flag_time_str"]}}
                             @endif
-
                         </td>
                         <td>
                             回访时间:{{@$var["revisit_add_time_str"]}}<br>

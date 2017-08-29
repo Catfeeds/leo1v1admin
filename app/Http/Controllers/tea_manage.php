@@ -920,7 +920,7 @@ class tea_manage extends Controller
             return $this->output_err("老师生成成功，但创建每周空闲时间失败！");
         }
 
-        if($add_type==1){
+        if($add_type==1 && \App\Helper\Utils::check_env_is_release()){
             $teacher_money_type_str = E\Eteacher_money_type::get_desc($teacher_money_type);
             $level_str              = E\Elevel::get_desc($level);
             $send_info = $acc."后台添加老师:".$phone
@@ -930,7 +930,7 @@ class tea_manage extends Controller
             $title     = "后台有添加老师记录!";
             \App\Helper\Utils::logger($send_info);
             \App\Helper\Utils::send_error_email("wg392567893@163.com",$title,$send_info);
-            \App\Helper\Utils::send_error_email("erick@leoedu.cn",$title,$send_info);
+            \App\Helper\Utils::send_error_email("erick@leoedu.com",$title,$send_info);
         }
         return $this->output_succ(["teacherid" => $teacherid]);
     }
