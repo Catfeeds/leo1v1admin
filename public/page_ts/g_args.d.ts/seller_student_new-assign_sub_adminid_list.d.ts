@@ -52,6 +52,7 @@ interface RowData {
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;
+	last_revisit_time	:any;
 	tmk_assign_time	:any;
 	competition_call_adminid	:any;
 	competition_call_time	:any;
