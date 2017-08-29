@@ -365,6 +365,8 @@ class channel_manage extends Controller
                     $list[$key]['through_gxs']     = @$ret_info[$phone]['through_gxs'];
                     $list[$key]['through_video']   = @$ret_info[$phone]['through_video'];
                     $list[$key]['through_lesson']  = @$ret_info[$phone]['through_lesson'];
+                }else{
+                    unset($list[$key]); 
                 }
                
             }

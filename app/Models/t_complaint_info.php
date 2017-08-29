@@ -36,7 +36,10 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
     public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type){
+
+
         $where_arr = [
+
             ["ta.assign_flag=%d",0],
             ["tc.account_type=%d",$account_type],
         ];
@@ -51,7 +54,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 
-        $sql = $this->gen_sql_new(" select tc.complaint_id,complaint_type, userid,account_type, complaint_info, add_time, complaint_info, current_adminid, complaint_state,current_admin_assign_time,complained_adminid,complained_adminid_type, complained_adminid_nick, assign_adminid,accept_adminid,suggest_info, deal_info, deal_time, deal_adminid, tc.complained_feedback_type, tc.complaint_img_url ".
+        $sql = $this->gen_sql_new(" select tc.complaint_id,complaint_type, userid,account_type, complaint_info, add_time, complaint_info, current_adminid, complaint_state,current_admin_assign_time,complained_adminid,complained_adminid_type, complained_adminid_nick, assign_adminid,accept_adminid,suggest_info, deal_info, deal_time, deal_adminid, tc.complaint_img_url ".
                                   " from %s tc left join %s ta on tc.complaint_id = ta.complaint_id ".
                                   " left join %s td on td.complaint_id = tc.complaint_id".
                                   " left join %s m on m.uid = tc.current_adminid ".
