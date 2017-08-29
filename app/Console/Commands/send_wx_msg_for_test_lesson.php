@@ -195,7 +195,7 @@ class send_wx_msg_for_test_lesson extends Command
 
         // 旷课
 
-        // $absenteeism_lesson_list = $task->get_absenteeism_list();
+        $absenteeism_lesson_list = $task->t_lesson_info_b2->get_absenteeism_list();
         //absenteeism_flag
 
 
