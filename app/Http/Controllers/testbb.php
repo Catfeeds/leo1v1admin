@@ -108,28 +108,27 @@ class testbb extends Controller
 
     public function sd(){
         $this->switch_tongji_database();
-        // $ret = $this->t_teacher_info->get_teacher_openid_list();
+        $ret = $this->t_teacher_info->get_teacher_openid_list();
         // dd($ret);
-        $ret[] = ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
-                  "user_agent" => '{"device_model":"Macdows NT 10.0","system_version":"","version":"4.1.0"}'
-        ];
+        // $ret[] = ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
+        //           // "user_agent" => '{"device_model":"Macdows NT 10.0","system_version":"","version":"4.1.0"}'
+        // ];
 
         $ww = [];
         foreach($ret as $item){
             $agent_arr = json_decode($item['user_agent'],true);
-            // dd($version_arr);
-
             $version_arr = explode('.',$agent_arr['version']);
-
             $v = substr($agent_arr['device_model'],0,3);
-            if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<2) || ($version_arr[0]<3 ) ) ){
-                // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item) );
-                dd(1);
+            if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<=2) || ($version_arr[0]<3 ) ) ){
+                // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['']) );
+                dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
+                // $ww[] = $item;
             }
 
 
         }
 
+        // dd($ww);
     }
 
 
