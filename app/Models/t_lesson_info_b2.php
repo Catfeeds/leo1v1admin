@@ -3497,8 +3497,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             "l.lesson_type=2", //试听课
             "l.del_flag=0",
-            ["l.lesson_start>%d",$lesson_begin],
-            ["l.lesson_start<=%d",$lesson_end]
+            ["l.lesson_start>%d",$now],
+            ["l.lesson_start<=%d",$next]
         ];
 
         $sql = $this->gen_sql_new(" select l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
