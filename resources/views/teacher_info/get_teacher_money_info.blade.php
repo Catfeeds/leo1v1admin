@@ -128,7 +128,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <button data-key="key2" type="button" class="btn btn-box-tool"><i class="fa fa-plus"></i>
+                                    <button data-key="key2" type="button" class="btn btn-box-tool"><i class="fa fa-minus"></i>
                                     </button>
 
                                 </td>
