@@ -138,7 +138,7 @@ class seller_student_new extends Controller
             // $seller_last_call_time = $this->t_tq_call_info->get_row_by_phone($item['phone']);
             $seller_last_call_time = $item['first_revisit_time'];
             if($seller_last_call_time){
-                $item['lass_call_time_space'] = time()-$seller_last_call_time['start_time'];
+                $item['lass_call_time_space'] = time()-$seller_last_call_time;
             }else{
                 $item['lass_call_time_space'] = time()-$item['add_time'];
             }
