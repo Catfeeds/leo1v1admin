@@ -60,7 +60,7 @@
 
 </head>
 <body class="hold-transition skin-blue-light isidebar-mini">
-    <div class="wrapper">
+    <div class="">
 
         <header class="main-header">
             <!-- Logo -->

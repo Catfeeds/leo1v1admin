@@ -140,19 +140,20 @@ $(function(){
     $(".opt-delete").on("click",function(){
         var data = $(this).get_opt_data();
         BootstrapDialog.show({
-	        title: "确认删除？",
-	        message : "是否删除此反馈？",
-	        buttons: [{
-		        label  : "返回",
-		        action : function(dialog) {
-			        dialog.close();
-		        }
-	        },{
-		        label    : "确认",
-		        cssClass : "btn-warning",
-		        action   : function(dialog) {
+	          title: "确认删除？",
+	          message : "是否删除此反馈？",
+	          buttons: [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          },{
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
                     $.do_ajax("/teacher_feedback/delete_teacher_feedback_info",{
-                        "id" : data.id
+                        "id"     : data.id,
+                        "status" : data.status,
                     },function(result){
                         if(result.ret<0){
                             BootstrapDialog.alert(result.info);
@@ -160,8 +161,8 @@ $(function(){
                             window.location.reload();
                         }
                     });
-		        }
-	        }]
+		            }
+	          }]
         });
     });
     
@@ -371,6 +372,21 @@ $(function(){
         },function(){
             id_grade.val(data.grade);
         });
+    });
+
+    $(".opt-check_trial_lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+	    $.do_ajax("/teacher_feedback/check_teacher_trial_lesson",{
+            "teacherid" : opt_data.teacherid,
+            "lessonid"  : opt_data.lessonid,
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+
     });
 
 

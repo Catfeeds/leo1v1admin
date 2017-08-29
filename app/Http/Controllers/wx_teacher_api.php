@@ -355,7 +355,7 @@ class wx_teacher_api extends Controller
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
         $test_lesson_info['pass_time'] = date("Y.m.d",$test_lesson_info["work_day"]);
-        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
+        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400);
         $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
@@ -377,7 +377,7 @@ class wx_teacher_api extends Controller
             $money = 0;
         }
 
-        $ret_info['money'] = $money;
+        $ret_info['money'] = $money.'元';
 
         return $this->output_succ(["data"=>$ret_info]);
     }

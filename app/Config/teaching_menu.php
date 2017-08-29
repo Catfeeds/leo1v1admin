@@ -41,6 +41,8 @@ class teaching_menu{
                     ]],
                     [ "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                     [ "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+                    [ "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                    [ "name"=>"渠道统计-new-list",   "url"=>"/channel_manage/zs_origin_list_new"],
 
                 ]],
 
@@ -82,6 +84,7 @@ class teaching_menu{
                         [ "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                         [ "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                         [ "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
+                        ["name"=>"测试一下",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
 
                     ]],
 

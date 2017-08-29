@@ -250,8 +250,7 @@ class menu{
 
                 ["power_id"=>31, "name"=>"部门管理",   "url"=>"/user_manage_new/admin_group_manage"],
                 ["power_id"=>40, "name"=>"校区管理",   "url"=>"/campus_manage/admin_campus_manage"],
-                ["power_id"=>41, "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
-
+              
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
                     ["power_id"=>1, "name"=>"教学事业管理部花名册","url"=>"/user_manage_new/department_memeber_list_production"],
                     ["power_id"=>2, "name"=>"TSR事业部花名册","url"=>"/user_manage_new/department_memeber_list_seller"],
@@ -395,10 +394,6 @@ class menu{
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                 ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
-                // ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                // ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                // ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
-
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
@@ -498,7 +493,6 @@ class menu{
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
-
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
@@ -714,6 +708,9 @@ class menu{
                 ]],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+                ["power_id"=>20, "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                ["power_id"=>21, "name"=>"渠道统计-new-list", "url"=>"/channel_manage/zs_origin_list_new"],
+
                 // ["power_id"=>14, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
 
             ]],
@@ -753,6 +750,8 @@ class menu{
                 ["power_id"=>5, "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                 ["power_id"=>2, "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
                 ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
+                ["power_id"=>6, "name"=>"测试一下",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
+                
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[

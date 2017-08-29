@@ -8,16 +8,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	channel_id	:any;
-	channel_name	:any;
-	up_group_name	:any;
-	group_name	:any;
-	account	:any;
-	main_type_class	:any;
-	up_group_name_class	:any;
-	group_name_class	:any;
-	account_class	:any;
-	level	:any;
 }
 
 /*

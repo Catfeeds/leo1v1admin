@@ -160,6 +160,7 @@ class NewRouteConfig {
         "/common/get_webhooks_notice"        => true,
         "/common/dev_teacher_qr"             => true,
         "/common/get_ppl_data"               => true,
+        "/common/send_baidu_money_charge"    => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
@@ -558,6 +559,7 @@ class NewRouteConfig {
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
+        "/requirement/re_edit_requirement_info_product"  => true,
         "/requirement/requirement_info_test"             => true,
         "/requirement/product_deal"                      => true,
         "/requirement/product_re_edit"                   => true,

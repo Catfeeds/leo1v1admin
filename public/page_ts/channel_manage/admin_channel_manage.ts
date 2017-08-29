@@ -7,7 +7,7 @@ $(function(){
 
         });
     }
-    $(".common-table" ).table_admin_level_4_init();
+    $(".common-table" ).table_admin_level_3_init();
     $("#id_add_channel").on("click",function(){
         var id_channel_name=$("<input/>");
         var  arr=[
@@ -142,7 +142,7 @@ $(function(){
  
     });
 
-    $(" .opt-assign-admin").each(function(){
+    $(" .opt-assign-admin,.opt-add_other_teacher").each(function(){
         var opt_data = $(this).get_opt_data();
         if(opt_data.level != "l-2"){
             $(this).hide();
@@ -154,7 +154,46 @@ $(function(){
             $(this).hide();
         }
     });
+    $(".opt-add_other_teacher").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+        var id_phone              = $("<input/>");
+        var id_tea_nick           = $("<input/>");
+        var id_teacher_type       = $("<select/>");
+        //var id_teacher_ref_type   = $("<select/>");
+        var id_email              = $("<input/>");
 
+        //Enum_map.append_option_list("teacher_ref_type", id_teacher_ref_type);
+        Enum_map.append_option_list("teacher_type", id_teacher_type,true,[0,21,22,31,41]);
+
+        var arr = [
+            ["电话", id_phone],
+            ["姓名", id_tea_nick],
+            ["老师类型", id_teacher_type],
+            //["推荐人类型", id_teacher_ref_type],
+            ["电子邮件", id_email],
+        ];
+
+        $.show_key_value_table("新增老师", arr ,{
+            label    : '确认',
+            cssClass : 'btn-warning',
+            action   : function(dialog) {
+                var teacher_type       = id_teacher_type.val();
+                var teacher_money_type = 4;
+                $.do_ajax( '/tea_manage/add_teacher',{
+                    "phone"              : id_phone.val(),
+                    "tea_nick"           : id_tea_nick.val(),
+                    "teacher_type"       : teacher_type,
+                    "teacher_ref_type"   : opt_data.group_id,
+                    "email"              : id_email.val(),
+                    "teacher_money_type" : teacher_money_type,
+                    "level"              : 0,
+                    "identity"           : 0,
+                    "add_type"           : 1,
+                    "wx_use_flag"        : 0,
+                });
+            }
+        });
+    });
     $('.opt-change').set_input_change_event(load_data);
 });
 

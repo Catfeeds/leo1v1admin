@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @section('content')
+
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
 <script type="text/javascript" src="/page_js/select_user.js"></script>
 <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 <script type="text/javascript" src="//g.alicdn.com/sj/aliphone-sdk/aliphone.min.js" charset="utf-8"></script>
@@ -77,8 +84,11 @@
             </div>
 
 
-            <div class="col-md-3 col-xs-10 ">
+            <div class="col-md-8 col-xs-10 ">
                 <button type="button" class="btn btn-info" id="id_edit_all_origin_level">设置当前渠道等级</button>
+                <button type="button" class="btn btn-warning" id="id_upload_xlsx">批量上传</button>
+                <button type="button" class="btn btn-warning" id="id_download_xlsx">下载value文件</button>
+                <button type="button" class="btn btn-info" id="id_example_xlsx">下载 上传的样例文件</button>
             </div>
 
 

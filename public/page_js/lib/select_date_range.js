@@ -120,7 +120,10 @@
             var end_date="";
             if (opt_date_type==0) {
             }else if ( opt_date_type==1) {//当天
-                id_end_time.val(id_start_time.val());
+
+                start_date=$.DateFormat(start_time,"yyyy-MM-dd");
+                id_start_time.val(start_date);
+                id_end_time.val(start_date);
             }else if ( opt_date_type==2) {//当周
                 var opt_date=new Date(start_time*1000);
                 var week=opt_date.getDay();

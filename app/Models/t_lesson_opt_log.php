@@ -233,8 +233,33 @@ class t_lesson_opt_log extends \App\Models\Zgen\z_t_lesson_opt_log
         return $this->main_get_value($sql);
     }
 
+
+    public function get_test_lesson_for_logout($lessonid,$userid, $lesson_start, $lesson_end){ // 课程开始五分钟
+        $where_arr=[
+            "lo.opt_type=2", // 登出记录
+            " userid = $userid"
+        ];
+
+        $where_arr[] = "lessonid=$lessonid  or (lessonid=0 and opt_time+1800>=$lesson_start and opt_time-1800<=$lesson_end )";
+
+        $sql = $this->gen_sql_new(" select min(opt_time) from %s lo "
+                                  ." where %s "
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+
+        return $this->main_get_value($sql);
+    }
+
+
     public function get_logout_time($lessonid){
-        
+        $sql = $this->gen_sql_new(" select max(opt_time) from %s to where to.lessonid=%d and opt_type=2 and userid=%d "
+                                  ,self::DB_TABLE_NAME,
+                                  $lessonid,
+                                  $userid
+        );
+
+        return $this->main_get_value($sql);
     }
 
 

@@ -185,7 +185,6 @@ class tea_manage extends Controller
             $tea_subject="";
         }
 
-
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         if($account_info["teacherid"]>0){
             $is_tea = 1;
@@ -203,7 +202,7 @@ class tea_manage extends Controller
         $test_seller_id  = $this->get_in_int_val("test_seller_id",-1 );
         $has_performance = $this->get_in_int_val("has_performance",-1 );
         $fulltime_flag   = $this->get_in_int_val("fulltime_flag",-1 );
-        $lesson_user_online_status   = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
+        $lesson_user_online_status = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
 
         $lesson_type_default = Cookie::get("lesson_type")==null?-1: Cookie::get("lesson_type") ;
         $subject_default     = Cookie::get("subject")==null?-1: Cookie::get("subject");
@@ -274,7 +273,7 @@ class tea_manage extends Controller
 
             E\Elesson_cancel_reason_type::set_item_value_str($item);
             \App\Helper\Common::set_item_enum_flow_status($item ,"require_lesson_success_flow_status" );
-
+            $item['assistant_nick']= $this->cache_get_assistant_nick($item['assistantid']);
             $item['lesson_end_str' ]        = date('Y-m-d H:i',$item['lesson_end']);
             $item['real_begin_time_str' ]   = date('Y-m-d H:i',$item['real_begin_time']);
             $item['lesson_status_str']      = $lesson_status_cfg[ $item['lesson_status' ] ];
@@ -884,7 +883,9 @@ class tea_manage extends Controller
             return $this->output_err("生成老师出错");
         }else{
             $this->t_user_info->commit();
-            $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,3,0,$subject);
+            // $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,3,0,$subject);
+            $this->set_teacher_label($teacherid,0,"",$sshd_good,3);
+
         }
 
 
