@@ -55,7 +55,6 @@ class teaching_menu{
                     [ "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
                     [ "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list_zj"],
                     [ "name"=>"模拟试听审核",   "url"=>"/tea_manage/trial_train_lesson_list_zj"],
-                    ["name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
                     [ "name"=>"试讲审核(录制)","url"=>"/human_resource/teacher_lecture_list_zj"],
                     [ "name"=>"试讲审核(面试)",   "url"=>"/tea_manage/train_lecture_lesson_zj"],
                     [ "name"=>"第一次试听课反馈",   "url"=>"/teacher_level/get_first_test_lesson_info"],
@@ -84,6 +83,8 @@ class teaching_menu{
                         [ "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                         [ "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                         [ "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
+                        ["name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
+                        ["name"=>"测试一下",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
 
                     ]],
 

@@ -107,7 +107,7 @@ class channel_manage extends Controller
             }
             $num++;
         }
-        //dd($list);
+        // dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
       

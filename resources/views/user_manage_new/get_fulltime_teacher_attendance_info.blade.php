@@ -3,7 +3,7 @@
     <script type="text/javascript" src="/page_js/lib/select_dlg_ajax.js"></script>
 
     <section class="content ">
-        
+
         <div>
             <div class="row">
                 <div class="col-xs-12 col-md-5">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">类型</span>
@@ -51,7 +51,7 @@
             </div>
         </div>
         <hr/>
-        <table     class="common-table"  > 
+        <table     class="common-table"  >
             <thead>
                 <tr>
                     <td> 老师 </td>
@@ -87,12 +87,12 @@
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
-                                
+
                             >
                                 @if($acc=="jack")
                                     <a class="opt-del">删除</a>
-                                @endif  
-                               
+                                @endif
+
                             </div>
                         </td>
                     </tr>
@@ -101,6 +101,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

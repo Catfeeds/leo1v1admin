@@ -488,7 +488,7 @@ class main_page extends Controller
                 }
             }
 
-            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+ $item["test_first"]+ $item["regular_first"];
+            $item["all_num"] = $item["real_num"]+ $item["train_first_all"]+$item["train_second_all"]+ $item["test_first"]+ $item["regular_first"];
             $item["all_target_num"] = 250;
             if(in_array($item["uid"],[486,754,683,1011])){
                 $item["all_target_num"]=150;
@@ -569,7 +569,7 @@ class main_page extends Controller
             $test_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
             $regular_first_all = $this->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
-            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
+            $all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all;
             $arr=["name"=>"总计","real_num"=>$video_real["all_count"],"suc_count"=>$all_tea_ex,"train_first_all"=>$train_first_all["all_num"],"train_first_pass"=>$train_first_all["pass_num"],"train_second_all"=>$train_second_all["all_num"],"test_first"=>$test_first_all,"regular_first"=>$regular_first_all,"all_num"=>$all_num,"test_first_per_str" => $total_test_first_per_str, "regular_first_per_str" => $total_regular_first_per_str];
         }elseif($kpi_flag==1){
             $arr=[];
@@ -582,7 +582,7 @@ class main_page extends Controller
             $arr["train_second_all"] = $train_second_all;
             $arr["test_first"] = $test_first_all;
             $arr["regular_first"] = $regular_first_all;
-            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all;
+            $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all;
         }
         
         $num = count($teacher_info);

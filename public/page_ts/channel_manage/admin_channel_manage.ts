@@ -7,7 +7,7 @@ $(function(){
 
         });
     }
-    $(".common-table" ).table_admin_level_4_init();
+    $(".common-table" ).table_admin_level_3_init();
     $("#id_add_channel").on("click",function(){
         var id_channel_name=$("<input/>");
         var  arr=[
