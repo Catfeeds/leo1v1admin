@@ -209,6 +209,8 @@ class teacher_feedback extends Controller
         $id     = $this->get_in_int_val("id");
         $status = $this->get_in_int_val("status");
         $acc    = $this->get_account();
+
+
         if($status == 0){
             return $this->output_err("状态不是为处理状态，无法删除！");
         }
