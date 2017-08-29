@@ -114,7 +114,8 @@ class testbb extends Controller
 
 
     public function sd(){
-
+        $ro = $this->get_account_role();
+        dd($ro);
 
 
         $this->switch_tongji_database();

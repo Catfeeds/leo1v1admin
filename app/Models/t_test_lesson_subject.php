@@ -263,7 +263,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         return $this->main_update($sql);
     }
 
-    public function get_test_lesson_lost_user_list($page_num,$start_time,$end_time,$grade, $self_adminid  ,$phone)
+    public function get_test_lesson_lost_user_list($page_num,$start_time,$end_time,$grade, $self_adminid  ,$phone,$fail=-1)
     {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -272,6 +272,43 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "n.sys_invaild_flag=0",
             " lesson_count_all =0 ",
             "  seller_student_status  <>50 ",
+        ];
+        $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
+        if($fail){
+            $where_arr[] = 'n.test_lesson_count = 0';
+        }
+
+        $sql= $this->gen_sql_new(
+            "select  s.userid,s.phone ,s.gender,t.subject, s.grade,last_revisit_admin_time, last_revisit_adminid, max(l.lesson_start) as lesson_start, nick   "
+            ." from %s t  "
+            ." join %s n  on t.userid=n.userid "
+            ." join %s s  on t.userid=s.userid "
+            ." left join %s l  on t.userid=l.userid "
+            ." where "
+            . " %s  "
+            ." and admin_assign_time < %u "
+            ." group by t.userid, t.subject  "
+            ,self::DB_TABLE_NAME
+            ,t_seller_student_new::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
+            ,time(NULL)-60*86400
+        );
+
+        return $this->main_get_page_random($sql,2,true );
+    }
+
+    public function get_test_lesson_fail_list($page_num,$start_time,$end_time,$grade, $self_adminid  ,$phone)
+    {
+        $where_arr=[
+            ["s.grade=%u", $grade, -1 ],
+            ["n.phone='%s'", $phone, "" ],
+            "n.admin_revisiterid =0 ",
+            "n.sys_invaild_flag=0",
+            " lesson_count_all =0 ",
+            "  seller_student_status  <>50 ",
+            "n.test_lesson_count = 0",
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
 
@@ -293,7 +330,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             ,time(NULL)-60*86400
         );
 
-        return $this->main_get_page_random($sql,2,true );
+        return $this->main_get_page_random($sql,5,true );
     }
 
     public function set_other_admin_init($userid,$adminid) {

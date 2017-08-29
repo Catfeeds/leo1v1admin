@@ -940,7 +940,7 @@ class human_resource extends Controller
             if(empty($item["teacher_tags"])){
                 $item["teacher_tags"]="";
             }
-             
+
 
         }
 
@@ -1469,9 +1469,9 @@ class human_resource extends Controller
         if($adminid==486){
             $tea_subject="";
         }elseif($adminid==952){
-            $tea_subject="(6)";   
+            $tea_subject="(6)";
         }elseif($adminid==770){
-            $tea_subject="(4,6)";   
+            $tea_subject="(4,6)";
         }elseif($adminid==895){
             $tea_subject="(7,8,9)";
         }
@@ -1539,7 +1539,8 @@ class human_resource extends Controller
         return $this->pageView(__METHOD__, $ret_info ,[
             "acc"         => session("acc"),
             "tea_subject" => $tea_subject,
-            "adminid"     => $adminid
+            "adminid"     => $adminid,
+            "account_role" => session("account_role")
         ]);
     }
 
@@ -1622,7 +1623,7 @@ class human_resource extends Controller
         $not_grade                          = $this->get_in_str_val("not_grade");
         $acc                                = $this->get_account();
         if($identity<=0){
-            return $this->output_err("请选择老师身份！"); 
+            return $this->output_err("请选择老师身份！");
         }
 
         $this->t_teacher_lecture_appointment_info->field_update_list($appointment_id,["teacher_type"=>$identity]);
@@ -2533,11 +2534,11 @@ class human_resource extends Controller
         $no_tea_related_score             = $this->get_in_int_val("no_tea_related_score",0);
         $record_monitor_class             = $this->get_in_str_val("record_monitor_class","");
         $sshd_good                        = $this->get_in_str_val("sshd_good");
-       
+
         $acc= $this->t_teacher_record_list->get_acc($id);
         $account = $this->get_account();
         if($acc != $account && $acc !=""){
-            return $this->output_err("您没有权限审核,审核人为".$acc);  
+            return $this->output_err("您没有权限审核,审核人为".$acc);
         }
         $info = $this->t_teacher_info->get_teacher_info($teacherid);
         $ret = $this->t_teacher_record_list->field_update_list($id,[
@@ -2559,8 +2560,8 @@ class human_resource extends Controller
             "add_time"                         => time(),
             "acc"                              => $account
         ]);
- 
-               
+
+
         if(!$ret){
             return $this->output_err("更新出错！请重新提交！");
         }
@@ -2569,7 +2570,7 @@ class human_resource extends Controller
             $sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,2,0,0,$record_lesson_list
             );*/
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
-       
+
         $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
         $lesson_info   = $this->t_lesson_info->get_lesson_info($lessonid);
         if($status==1){
@@ -2581,7 +2582,7 @@ class human_resource extends Controller
             ]);
             $keyword2   = "已通过";
             $teacher_info  = $this->t_teacher_info->get_teacher_info($teacherid);
-            
+
 
             //等级升级通知
             /**
@@ -3735,7 +3736,7 @@ class human_resource extends Controller
 
         $kk_test_person_num_total= $this->t_lesson_info->get_kk_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $change_test_person_num_total= $this->t_lesson_info->get_change_teacher_test_person_num_list_total( $start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
-        
+
         $success_test_lesson_list_total = $this->t_lesson_info->get_success_test_lesson_list_new_total($start_time,$end_time,$subject,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag,$fulltime_teacher_type);
         $total_arr=[];
         $total_arr["all_lesson"] = $all_lesson_total;
@@ -4316,18 +4317,18 @@ class human_resource extends Controller
     }
 
     public function zs_origin_list_new(){
-        $this->switch_tongji_database(); 
-        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3); 
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3);
 
         //报名数
         $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
-      
-	   //录制试讲提交数
+
+       //录制试讲提交数
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
 
         ///面试预约数
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
-        
+
         //入职总人数以及各老师类型入职人数
         $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
 
@@ -4340,7 +4341,7 @@ class human_resource extends Controller
         foreach($ret_info as $k=>&$val){
             $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;
             $val["lesson_add_num"] = isset($lesson_add[$k]["lesson_add_num"])?$lesson_add[$k]["lesson_add_num"]:0;
-            
+
             $val["through_all"] = isset($train_through_all[$k])?$train_through_all[$k]["through_all"]:0;
 
             $val["through_jg"] = isset($train_through_all[$k])?$train_through_all[$k]["through_jg"]:0;
@@ -4373,10 +4374,10 @@ class human_resource extends Controller
         foreach($ret_info as $item){
             dd(1111);
         }
-        
 
-        
-        
+
+
+
         dd($ret_info);
     }
     public function zs_origin_list(){

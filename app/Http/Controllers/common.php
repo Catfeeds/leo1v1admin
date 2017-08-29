@@ -1449,6 +1449,7 @@ class common extends Controller
         return $this->output_err("上传失败");
     }
 
+    //中文分词预处理
     public function get_ppl_data(){
         $pa=new \Analysis\PhpAnalysis();
         $demand = $this->get_in_str_val("demand","哈哈哈");
@@ -1462,6 +1463,56 @@ class common extends Controller
         echo "<pre>";
         print_r($arr);
         echo "</pre>"; 
+    }
+
+    //百度有钱花接口
+    public function send_baidu_money_charge(){
+        $orderid = $this->get_in_int_val("orderid");
+        $orderid = 17819;
+        
+ 
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * rsa 加密
+     */
+    function enrsa($data){
+        $public_key = '-----BEGIN PUBLIC KEY-----  
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt  
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl  
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o  
+2n1vP1D+tD3amHsK7QIDAQAB  
+-----END PUBLIC KEY-----';
+        $pu_key = openssl_pkey_get_public($public_key);
+        $str = json_encode($data);
+        $encrypted = "";
+        // 公钥加密  padding使用OPENSSL_PKCS1_PADDING这个
+        if (openssl_public_encrypt($str, $encrypted, $pu_key, OPENSSL_PKCS1_PADDING)){
+            $encrypted = base64_encode($encrypted);
+        }
+        return $encrypted;
+    }
+
+
+    /**
+     * @param $param
+     * @param string $strSecretKey
+     * @return bool|string
+     * 生成签名
+     */
+    function createBaseSign($param, $strSecretKey){
+        if (!is_array($param) || empty($param)){
+            return false;
+        }
+        ksort($param);
+        $concatStr = '';
+        foreach ($param as $k=>$v) {
+            $concatStr .= $k.'='.$v.'&';
+        }
+        $concatStr .= 'key='.$strSecretKey;
+        return strtoupper(md5($concatStr));
     }
 
 }
