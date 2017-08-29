@@ -195,27 +195,44 @@ class send_wx_msg_for_test_lesson extends Command
 
         // 旷课
 
-        $absenteeism_lesson_list = $task->t_lesson_info_b2->get_absenteeism_list();
+        $absenteeism_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
 
         foreach($absenteeism_lesson_list as $index=>$item){
             $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
             $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
             if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,5,$item['teacher_nick']);
-                $this->send_wx_msg_ass();
+                $data_ass = $this->get_data($item,3,5,$item['teacher_nick'],'');
+                $this->send_wx_msg_ass($item,5,$data_ass);
             }
 
             if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,5);
-                $this->send_wx_msg_ass();
+                $data_ass = $this->get_data($item,3,5,'',$item['stu_nick']);
+                $this->send_wx_msg_ass($item,5,$data_ass);
             }
 
         }
-        //absenteeism_flag
-
 
         // 试听课正常结束
+        $normal_lesson_list = $task->t_lesson_info_b2->get_lesson_list_for_minute();
+
+        foreach($normal_lesson_list as $index=>$item){
+            $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+            $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
+
+            if( $logout_time_tea<$item['lesson_start']){
+                $data_ass = $this->get_data($item,3,5,$item['teacher_nick'],'');
+                $this->send_wx_msg_ass($item,5,$data_ass);
+            }
+
+            if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
+                $data_ass = $this->get_data($item,3,5,'',$item['stu_nick']);
+                $this->send_wx_msg_ass($item,5,$data_ass);
+            }
+
+        }
+
+
 
 
     }

@@ -776,8 +776,8 @@ class ajax_deal2 extends Controller
 
     //获取老师入职后第一周第二周试听课信息
     public function get_teacher_week_test_lesson_info(){
-        $teacherid = $this->get_in_int_val("teacherid"); 
-        $train_through_new_time = $this->get_in_int_val("train_through_new_time"); 
+        $teacherid = $this->get_in_int_val("teacherid");
+        $train_through_new_time = $this->get_in_int_val("train_through_new_time");
         $first_start = strtotime("2017-04-01");
         $first_end = strtotime("2017-05-01");
         $second_end = strtotime("2017-06-01");
@@ -805,7 +805,7 @@ class ajax_deal2 extends Controller
         $data["fourth_per"] = !empty($data["fourth_lesson_num"])?round($data["fourth_order_num"]/$data["fourth_lesson_num"]*100,2):0;
 
 
-        return $this->output_succ(["data"=>$data]); 
+        return $this->output_succ(["data"=>$data]);
     }
     public function set_admin_menu_config () {
         $menu_config= $this->get_in_str_val("menu_config");
@@ -825,6 +825,30 @@ class ajax_deal2 extends Controller
             "menu_config"=> $row["menu_config"]
         ]);
 
+    }
+    public function upload_origin_xlsx() {
+
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            (new common_new()) ->upload_from_xls_data( $realPath);
+
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($obj_file);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            foreach ($arr as $index => $item) {
+
+
+            }
+
+
+            return outputjson_success();
+        } else {
+            return outputjson_ret(false);
+        }
     }
 
 }
