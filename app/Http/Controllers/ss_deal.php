@@ -1679,11 +1679,6 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        // set lesson_del_flag
-        // E\Etest_lesson_fail_flago( )
-        //103 => "[不付] 换时间 ",
-        //104 => "[不付] 换老师",
-        //105 => "[不付] 排课出错 ",
         if ($fail_greater_4_hour_flag ==1 ) {
             $lesson_del_flag=1;
         }else{

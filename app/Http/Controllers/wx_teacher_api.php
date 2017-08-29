@@ -260,6 +260,8 @@ class wx_teacher_api extends Controller
         $complaint_info    = $this->get_in_str_val('complaint_info');
         $serverId_str      = $this->get_in_str_val('serverId_str',''); // 图片ids
         $teacherid         = $this->get_teacherid();
+        \App\Helper\Utils::logger("wx_software: ".$teacherid);
+
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
@@ -377,7 +379,7 @@ class wx_teacher_api extends Controller
             $money = 0;
         }
 
-        $ret_info['money'] = $money;
+        $ret_info['money'] = $money.'元';
 
         return $this->output_succ(["data"=>$ret_info]);
     }

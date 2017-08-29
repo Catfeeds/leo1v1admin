@@ -61,14 +61,6 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
-    public function delete_teacher_feedback_info($id){
-        $sql=$this->gen_sql_new("delete from %s where id=%u"
-                                ,self::DB_TABLE_NAME
-                                ,$id
-        );
-        return $this->main_update($sql);
-    }
-
     public function get_admin_list($status=0){
         $where_arr=[
             ["status=%u",$status,-1],

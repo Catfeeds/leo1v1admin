@@ -1476,7 +1476,7 @@ class common extends Controller
         $period = $this->get_in_int_val("period",12);
 
         
-        $orderid = 17819;
+        $orderid = 974;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
         //订单id
@@ -1485,8 +1485,8 @@ class common extends Controller
 
 
         
-        //$url = 'https://umoney.baidu.com/edu/openapi/post';
-        $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
 
         $userid = $this->t_order_info->get_userid($orderid);
         $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
@@ -1500,14 +1500,15 @@ class common extends Controller
 
         $rsaData = $this->enrsa($endata);
         
+        
         $arrParams = array(
             'action' => 'sync_order_info',
             'tpl' => 'tpl',// 分配的tpl
             'corpid' => 'corpid',// 分配的corpid
             'orderid' => $orderNo,// 机构订单号
-            'money' => 100,// 期望贷款额度（分单位）
-            'dealmoney' => 200,// 成交价格（分单位）>= 期望额度+首付额度
-            'period' => 12,// 期数
+            'money' => $money,// 期望贷款额度（分单位）
+            'dealmoney' => $dealmoney,// 成交价格（分单位）>= 期望额度+首付额度
+            'period' => $period,// 期数
             'courseid' => 'ABC123',// 课程id（会分配）
             'coursename' => 'xxx',// 课程名称
             'oauthid' => $userid,// 用户id 机构方提供

@@ -206,11 +206,20 @@ class teacher_feedback extends Controller
     }
 
     public function delete_teacher_feedback_info(){
-        $id  = $this->get_in_int_val("id");
-        $acc = $this->get_account();
+        $id     = $this->get_in_int_val("id");
+        $status = $this->get_in_int_val("status");
+        $acc    = $this->get_account();
+
+
+        if($status == 0){
+            return $this->output_err("状态不是为处理状态，无法删除！");
+        }
 
         if(in_array($acc,["adrian","alan","jim"])){
-            $ret = $this->t_teacher_feedback_list->delete_teacher_feedback_info($id);
+            $ret = $this->t_teacher_feedback_list->field_update_list($id,[
+                "del_flag"    => 1,
+                "check_time " => time(),
+            ]);
         }else{
             return $this->output_err("没有权限!");
         }

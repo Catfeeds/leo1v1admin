@@ -100,7 +100,7 @@ class zs_lecture_info_all extends Command
 		$test_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,1,$subject);
 		$regular_first_all = $task->t_teacher_record_list->get_test_regular_lesson_all($start_time,$end_time,3,$subject);
 
-		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$test_first_all+$regular_first_all;
+		$all_num = $video_real["all_count"]+$train_first_all["all_num"]+$train_second_all["all_num"]+$test_first_all+$regular_first_all;
         $num = count($teacher_info);
 		// $all_count = ($num-2)*250+300;
         if($all_count){

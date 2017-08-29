@@ -107,7 +107,7 @@ class channel_manage extends Controller
             }
             $num++;
         }
-        //dd($list);
+        // dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
 
       
@@ -367,7 +367,7 @@ class channel_manage extends Controller
                     $list[$key]['through_gxs']     = @$ret_info[$phone]['through_gxs'];
                     $list[$key]['through_video']   = @$ret_info[$phone]['through_video'];
                     $list[$key]['through_lesson']  = @$ret_info[$phone]['through_lesson'];
-
+                    /*
                     if($list[$key]['through_all']  > 0){
                         $list[$key]['through_all_per'] = round((100*$list[$key]['through_all']/$list[$key]['app_num'] ),2);
                         $list[$key]['through_all_per'] .= '%';
@@ -387,6 +387,7 @@ class channel_manage extends Controller
                     }else{
                         $list[$key]['through_video_per'] = '0%';
                     }
+                    */
                 }
                
             }
