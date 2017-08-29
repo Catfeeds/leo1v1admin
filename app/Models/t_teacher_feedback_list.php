@@ -26,7 +26,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                 ["$time_str<%u",$end_time,0],
                 ["tf.teacherid=%u",$teacherid,-1],
                 ["status=%u",$status,-1],
-                ["del_flag=%u",$del_flag,-1],
+                ["tf.del_flag=%u",$del_flag,-1],
             ];
             if($feedback_type==-2){
                 $where_arr[] = "feedback_type<200";
