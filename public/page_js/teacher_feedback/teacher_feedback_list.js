@@ -152,8 +152,6 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
-                console.log(id_del_flag.val());
-                return ;
                 $.do_ajax("/teacher_feedback/delete_teacher_feedback_info",{
                     "id"       : data.id,
                     "status"   : data.status,
