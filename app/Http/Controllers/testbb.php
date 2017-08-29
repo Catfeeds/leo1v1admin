@@ -116,6 +116,7 @@ class testbb extends Controller
     public function sd(){
         $ret = $this->t_teacher_info->get_teacher_openid_list();
 
+        dd($ret);
     }
 
 
