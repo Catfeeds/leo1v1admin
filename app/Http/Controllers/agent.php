@@ -31,7 +31,6 @@ class agent extends Controller
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         $userid_arr = [];
-
         foreach($ret_info['list'] as &$item){
             $status = $item["lesson_user_online_status"];
             if($status == 2){

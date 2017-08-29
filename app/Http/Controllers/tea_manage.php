@@ -798,6 +798,7 @@ class tea_manage extends Controller
         $grade_end             = $this->get_in_int_val("grade_end",0);
         $not_grade             = $this->get_in_str_val("not_grade","");
         $teacher_ref_type      = $this->get_in_int_val('teacher_ref_type',-1);
+        $zs_id                 = $this->get_in_int_val('zs_id',-1);
         $wx_use_flag           = $this->get_in_int_val("wx_use_flag",1);
         $bankcard              = $this->get_in_str_val("bankcard");
         $bank_address          = $this->get_in_str_val("bank_address");
@@ -876,7 +877,7 @@ class tea_manage extends Controller
                                                       $grade_part_ex,$identity,$trial_lecture_is_pass,$face,$textbook,
                                                       $resume_url,$textbook_type,$dialect_note,$interview_score,$wx_use_flag,
                                                       $teacher_ref_type,$grade_start,$grade_end,$not_grade,$bankcard,
-                                                      $bank_address,$bank_account,$phone_spare,$train_through_new,$acc
+                                                      $bank_address,$bank_account,$phone_spare,$train_through_new,$acc,$zs_id
         );
         if (!$ret)  {
             $this->t_user_info->rollback();
@@ -919,7 +920,7 @@ class tea_manage extends Controller
             return $this->output_err("老师生成成功，但创建每周空闲时间失败！");
         }
 
-        if($add_type==1){
+        if($add_type==1 && \App\Helper\Utils::check_env_is_release()){
             $teacher_money_type_str = E\Eteacher_money_type::get_desc($teacher_money_type);
             $level_str              = E\Elevel::get_desc($level);
             $send_info = $acc."后台添加老师:".$phone
@@ -929,7 +930,7 @@ class tea_manage extends Controller
             $title     = "后台有添加老师记录!";
             \App\Helper\Utils::logger($send_info);
             \App\Helper\Utils::send_error_email("wg392567893@163.com",$title,$send_info);
-            \App\Helper\Utils::send_error_email("erick@leoedu.cn",$title,$send_info);
+            \App\Helper\Utils::send_error_email("erick@leoedu.com",$title,$send_info);
         }
         return $this->output_succ(["teacherid" => $teacherid]);
     }

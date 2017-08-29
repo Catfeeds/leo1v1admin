@@ -13,7 +13,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $grade_part_ex=0,$identity=0,$trial_lecture_is_pass=0,$face="",$textbook="",
                                     $resume_url="",$textbook_type=0,$dialect_note="",$interview_score=0,$wx_use_flag=1,
                                     $teacher_ref_type=0,$grade_start=0,$grade_end=0,$not_grade="",$bankcard="",
-                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system"
+                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system",$zs_id
     ){
         return $this->row_insert([
             'nick'                   => $tea_nick,
@@ -53,6 +53,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "phone_spare"            => $phone_spare,
             "train_through_new"      => $train_through_new,
             "add_acc"                => $add_acc,
+            "zs_id"                  => $zs_id,
         ]);
     }
 
@@ -1045,7 +1046,6 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ,$teacherid
                                   ,$passwd
         );
-        dd($sql);
         return $this->main_insert($sql);
     }
 

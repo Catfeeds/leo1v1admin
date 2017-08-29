@@ -1959,7 +1959,6 @@ class user_manage extends Controller
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
         $complaint_type = $this->get_in_int_val('complaint_type',-1);
-        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];

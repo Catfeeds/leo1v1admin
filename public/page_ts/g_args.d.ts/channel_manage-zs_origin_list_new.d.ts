@@ -13,6 +13,16 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	app_num	:any;
+	video_add_num	:any;
+	lesson_add_num	:any;
+	through_all	:any;
+	through_jg	:any;
+	through_gx	:any;
+	through_zz	:any;
+	through_gxs	:any;
+	through_video	:any;
+	through_lesson	:any;
 	channel_id	:any;
 	channel_name	:any;
 	up_group_name	:any;

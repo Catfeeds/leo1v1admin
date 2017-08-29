@@ -33,7 +33,7 @@ use OSS\Core\OssException;
 
 
 
-class wx_teacher_api extends Controller
+class wx_teacher_api extends TeaWxController
 {
 
     use CacheNick;
@@ -42,11 +42,6 @@ class wx_teacher_api extends Controller
         parent::__construct();
     }
 
-    public function get_teacherid(){
-        $teacherid= $this->get_in_int_val("teacherid") ? $this->get_in_int_val("teacherid") : session("teacherid");
-        return $teacherid;
-
-    }
 
 
 
@@ -192,7 +187,7 @@ class wx_teacher_api extends Controller
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            'complained_feedback_type' => 1
+            // 'complained_feedback_type' => 1
         ]);
 
 
@@ -283,7 +278,7 @@ class wx_teacher_api extends Controller
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
             'complaint_img_url' => $complaint_img_url,
-            'complained_feedback_type' => 2
+            // 'complained_feedback_type' => 2
         ]);
 
 

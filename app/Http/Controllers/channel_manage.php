@@ -204,8 +204,6 @@ class channel_manage extends Controller
 
     public function zs_origin_list_new(){
         $channel_info = $this->t_admin_channel_list->get_admin_channel_info();
-        //array_unshift($channel_info,['channel_id' => 0, 'channel_name' => '未定义']);
-        //dd($ret_info);
         $list=[];
         $num=1;
         foreach($channel_info as $s)   {
@@ -367,32 +365,14 @@ class channel_manage extends Controller
                     $list[$key]['through_gxs']     = @$ret_info[$phone]['through_gxs'];
                     $list[$key]['through_video']   = @$ret_info[$phone]['through_video'];
                     $list[$key]['through_lesson']  = @$ret_info[$phone]['through_lesson'];
-
-                    if($list[$key]['through_all']  > 0){
-                        $list[$key]['through_all_per'] = round((100*$list[$key]['through_all']/$list[$key]['app_num'] ),2);
-                        $list[$key]['through_all_per'] .= '%';
-                    }else{
-                        $list[$key]['through_all_per'] = '0%';
-                    }
-                    if($list[$key]['through_lesson']  > 0){
-                        $list[$key]['through_lesson_per'] = round((100*$list[$key]['through_lesson']/$list[$key]['lesson_add_num']),2);
-                        $list[$key]['through_lesson_per'] .= '%';
-                    }else{
-                        $list[$key]['through_lesson_per'] = '0%';
-                    }
-
-                    if($list[$key]['through_video']  > 0){
-                        $list[$key]['through_video_per'] = round((100*$list[$key]['through_video']/$list[$key]['video_add_num']),2);
-                        $list[$key]['through_video_per'] .= '%';
-                    }else{
-                        $list[$key]['through_video_per'] = '0%';
-                    }
+                }else{
+                    unset($list[$key]); 
                 }
                
             }
         }
         //undefined 
-	$n = $num;
+	    $n = $num;
         $list_undefined=[];
         $list_undefined[] = [
             "channel_id"=>-1, //
@@ -423,7 +403,7 @@ class channel_manage extends Controller
             "group_id"=>-1, //
             "main_type"=>''
         ];
-	$m = $num;
+	    $m = $num;
         foreach ($ret_info as $key => $value) {
             if($value['channel_id'] == null){
                 $arr = [
@@ -454,6 +434,119 @@ class channel_manage extends Controller
         foreach ($list_undefined as $key => $value) {
             array_unshift($list,$value);
         }
+        $total = [
+                'app_num'         => 0,
+                'video_add_num'   => 0,
+                'lesson_add_num'  => 0,
+
+                'through_all'     => 0,
+                'through_jg'      => 0,
+
+                'through_gx'      => 0,
+                'through_zz'      => 0,
+                'through_gxs'     => 0,
+                'through_video'   => 0,
+                'through_lesson'  => 0,
+                "channel_id"=>-100, //
+                "channel_name"=>"总计", //
+                "up_group_name"=>"",
+                "group_name"=>"",
+                "account"=>"",
+                "main_type_class"=>"campus_id-",
+                "up_group_name_class"=>"",
+                "group_name_class"=>"",
+                "account_class"=>"",
+                "level"=>"l-1" //
+            ];
+
+        foreach ($list as $key => $value) {
+            # code...
+            if($value['level'] == 'l-1'){
+                $list[$key]['app_num']         = 0;
+                $list[$key]['video_add_num']   = 0;
+                $list[$key]['lesson_add_num']  = 0;
+
+                $list[$key]['through_all']     = 0;
+                $list[$key]['through_jg']      = 0;
+
+                $list[$key]['through_gx']      = 0;
+                $list[$key]['through_zz']      = 0;
+                $list[$key]['through_gxs']     = 0;
+                $list[$key]['through_video']   = 0;
+                $list[$key]['through_lesson']  = 0;
+                $now1 = $key;
+            } 
+            if($value['level'] == 'l-2'){
+                $list[$key]['app_num']         = 0;
+                $list[$key]['video_add_num']   = 0;
+                $list[$key]['lesson_add_num']  = 0;
+
+                $list[$key]['through_all']     = 0;
+                $list[$key]['through_jg']      = 0;
+
+                $list[$key]['through_gx']      = 0;
+                $list[$key]['through_zz']      = 0;
+                $list[$key]['through_gxs']     = 0;
+                $list[$key]['through_video']   = 0;
+                $list[$key]['through_lesson']  = 0;
+                $now2 = $key;
+            }
+            if($value['level'] == 'l-3'){
+                if(isset($value['app_num'])){
+                    $total['app_num']       += $value['app_num'];
+                    $list[$now1]['app_num'] += $value['app_num'];
+                    $list[$now2]['app_num'] += $value['app_num'];
+                }
+                if(isset($value['video_add_num'])){
+                    $total['video_add_num'] += $value['video_add_num'];
+                    $list[$now1]['video_add_num'] += $value['video_add_num'];
+                    $list[$now2]['video_add_num'] += $value['video_add_num'];
+                }
+                if(isset($value['lesson_add_num'])){
+                    $total['lesson_add_num'] += $value['lesson_add_num'];
+                    $list[$now1]['lesson_add_num'] += $value['lesson_add_num'];
+                    $list[$now2]['lesson_add_num'] += $value['lesson_add_num'];
+                }
+
+                if(isset($value['through_all'])){
+                    $total['through_all'] += $value['through_all'];
+                    $list[$now1]['through_all'] += $value['through_all'];
+                    $list[$now2]['through_all'] += $value['through_all'];
+                }
+                 if(isset($value['through_jg'])){
+                    $total['through_jg'] += $value['through_jg'];
+                    $list[$now1]['through_jg'] += $value['through_jg'];
+                    $list[$now2]['through_jg'] += $value['through_jg'];
+                }
+                if(isset($value['through_gx'])){
+                    $total['through_gx'] += $value['through_gx'];
+                    $list[$now1]['through_gx'] += $value['through_gx'];
+                    $list[$now2]['through_gx'] += $value['through_gx'];
+                }
+                if(isset($value['through_zz'])){
+                    $total['through_zz'] += $value['through_zz'];
+                    $list[$now1]['through_zz'] += $value['through_zz'];
+                    $list[$now2]['through_zz'] += $value['through_zz'];
+                }
+                if(isset($value['through_gxs'])){
+                    $total['through_gxs'] += $value['through_gxs'];
+                    $list[$now1]['through_gxs'] += $value['through_gxs'];
+                    $list[$now2]['through_gxs'] += $value['through_gxs'];
+                }
+                if(isset($value['through_video'])){
+                    $total['through_video'] += $value['through_video'];
+                    $list[$now1]['through_video'] += $value['through_video'];
+                    $list[$now2]['through_video'] += $value['through_video'];
+                }
+                if(isset($value['through_lesson'])){
+                    $total['through_lesson'] += $value['through_lesson'];
+                    $list[$now1]['through_lesson'] += $value['through_lesson'];
+                    $list[$now2]['through_lesson'] += $value['through_lesson'];
+                }
+
+            }
+        }
+        array_unshift($list,$total);
         //dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
