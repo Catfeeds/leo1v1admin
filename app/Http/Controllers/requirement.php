@@ -296,6 +296,41 @@ class requirement extends Controller
 
     /**
      * @author    sam
+     * @function  需求信息录入
+     */
+    public function re_edit_requirement_info_product(){
+        $id              = $this->get_in_int_val('id');
+        $name            = $this->get_in_int_val('name');
+        $priority        = $this->get_in_int_val('priority');
+        $significance    = $this->get_in_int_val('significance');
+        $expect_time     = strtotime($this->get_in_str_val('expect_time'));
+        $statement       = $this->get_in_str_val('statement');
+        $content_pic     = $this->get_in_str_val('content_pic');
+        $notes           = $this->get_in_str_val('notes');
+        $create_adminid  = $this->get_account_id();
+        $create_phone    = $this->t_manager_info->get_phone_by_uid($create_adminid);
+        $create_time     = time();
+        $data = [
+            'create_time'              => $create_time,
+            'create_adminid'           => $create_adminid,
+            'name'                     => $name,
+            'priority'                 => $priority ,
+            'significance'             => $significance,
+            'expect_time'              => $expect_time,
+            'statement'                => $statement,
+            'content_pic'              => $content_pic,
+            'notes'                    => $notes,
+            'create_phone'             => $create_phone,
+            "status"                   => 2, //提交到达产品
+            "product_status"           => 2, //产品未处理
+         ];
+        $ret = $this->t_requirement_info->field_update_list($id,$data);
+        return $this->output_succ();
+    }
+
+
+    /**
+     * @author    sam
      * @function  产品需求处理
      */
     public function product_deal(){

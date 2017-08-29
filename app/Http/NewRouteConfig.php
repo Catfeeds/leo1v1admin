@@ -559,6 +559,7 @@ class NewRouteConfig {
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
+        "/requirement/re_edit_requirement_info_product"  => true,
         "/requirement/requirement_info_test"             => true,
         "/requirement/product_deal"                      => true,
         "/requirement/product_re_edit"                   => true,
