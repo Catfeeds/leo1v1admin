@@ -2171,6 +2171,11 @@ trait  TeaPower {
             $accept_adminid = 1000;
         }else{
             $accept_adminid = 0;
+            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
+            $zs_id = $this->t_teacher_info->get_zs_id($teacherid);
+            if($zs_id>0){
+                $accept_adminid = $zs_id;
+            }
         }
         return $accept_adminid;
     }

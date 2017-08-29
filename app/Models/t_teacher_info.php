@@ -13,7 +13,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $grade_part_ex=0,$identity=0,$trial_lecture_is_pass=0,$face="",$textbook="",
                                     $resume_url="",$textbook_type=0,$dialect_note="",$interview_score=0,$wx_use_flag=1,
                                     $teacher_ref_type=0,$grade_start=0,$grade_end=0,$not_grade="",$bankcard="",
-                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system",$zs_id
+                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system",
+                                    $zs_id=0
+                                    
     ){
         return $this->row_insert([
             'nick'                   => $tea_nick,
