@@ -348,7 +348,7 @@ class channel_manage extends Controller
                 $ret_info[$k]=$v;
             }
         }
-        
+        dd($ret_info);
         foreach ($list as $key => $value) {
 
             if(isset($value['admin_phone'])){

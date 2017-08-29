@@ -359,7 +359,7 @@ class wx_teacher_api extends Controller
         $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
-        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$test_lesson_info['common_lesson_start']);
+        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
 
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
