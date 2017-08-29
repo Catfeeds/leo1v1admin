@@ -114,7 +114,8 @@
                                         <a class="opt-teacher_money" title="老师上月工资">工</a>
                                         <a class="opt-add_reward_90" title="本节课添加10分钟的课时补偿">90</a>
                                         <a class="opt-check_trial_lesson" title="检测试听签单奖">试</a>
-                                        <a class="opt-update-lesson-info" title="修改课程信息">课</a>
+                                        <a class="opt-update-lesson-info" title="修改课程信息">修改课信息</a>
+                                        <a class="opt-reset_lesson_money" title="重置课程金额">重置课金额</a>
                                     @endif
                                 @endif
                                 @if(in_array($acc,["adrian","jim"]))

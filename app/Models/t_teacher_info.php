@@ -2865,11 +2865,12 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
-    public function get_teacher_openid_list(){
+    public function get_teacher_openid_list(){ //　查询在值老师openid
         $where_arr = [
             "train_through_new =1",
             "is_quit = 0",
-            "is_test_user = 0"
+            "is_test_user = 0",
+            "wx_openid is not null"
         ];
         $sql = $this->gen_sql_new(" select wx_openid from %s where %s",
                                   self::DB_TABLE_NAME,

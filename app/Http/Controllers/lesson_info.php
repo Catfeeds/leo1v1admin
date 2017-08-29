@@ -23,5 +23,24 @@ class lesson_info extends Controller
         return $this->output_succ();
     }
 
+    public function reset_lesson_money(){
+        $lessonid = $this->$this->get_in_int_val("lessonid");
+        if($lessonid==0){
+            return $this->output_err("课程id出错！");
+        }
+
+        $teacherid = $this->t_lesson_info->get_teacherid($lessonid);
+        $teacher_info = $this->t_teacher_info->get_teacher_info($teacherid);
+
+        $ret = $this->t_lesson_info->field_update_list($lessonid,[
+            "teacher_money_type" => $teacher_info['teacher_money_type'],
+            "level"              => $teacher_info['level'],
+        ]);
+
+        if(!$ret){
+            return $this->output_err("重置失败!");
+        }
+        return $this->output_succ();
+    }
 
 }

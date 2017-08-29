@@ -395,5 +395,33 @@ $(function(){
 
     });
 
+    $(".opt-reset_lesson_money").on("click",function(){
+        var data = $(this).get_opt_data();
+
+	      BootstrapDialog.show({
+	          title   : "重置课程金额",
+	          message : "是否重置课程金额",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/lesson_info/reset_lesson_money",{
+                        "lessonid" : data.lessonid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
+    });
 
 });

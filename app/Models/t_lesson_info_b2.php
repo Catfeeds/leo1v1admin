@@ -3530,4 +3530,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
     }
+
+
+    public function get_tea_openid_for_update_software(){
+        $sql = $this->gen_sql_new(" select wx_openid from %s l");
+    }
 }
