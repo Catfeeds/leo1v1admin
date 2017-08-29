@@ -877,7 +877,7 @@ class tea_manage extends Controller
                                                       $grade_part_ex,$identity,$trial_lecture_is_pass,$face,$textbook,
                                                       $resume_url,$textbook_type,$dialect_note,$interview_score,$wx_use_flag,
                                                       $teacher_ref_type,$grade_start,$grade_end,$not_grade,$bankcard,
-                                                      $bank_address,$bank_account,$phone_spare,$train_through_new,$acc
+                                                      $bank_address,$bank_account,$phone_spare,$train_through_new,$acc,$zs_id
         );
         if (!$ret)  {
             $this->t_user_info->rollback();
