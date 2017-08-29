@@ -885,6 +885,8 @@ class tea_manage extends Controller
         }else{
             $this->t_user_info->commit();
             $this->add_teacher_label($sshd_good,$sshd_bad,$ktfw_good,$ktfw_bad,$skgf_good,$skgf_bad,$jsfg_good,$jsfg_bad,$teacherid,3,0,$subject);
+            $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
+
         }
 
 
