@@ -1405,6 +1405,7 @@ $(function(){
         var data = $(this).get_opt_data();
         update_tea_ref_type(data);
     });
+
     var update_tea_ref_type = function(data){
         var id_teacher_ref_type = $("<select/>");
         var id_teacher_type     = $("<select/>");
@@ -1791,6 +1792,7 @@ $(function(){
         var id_update_part_remarks     = $("<button class='btn btn-primary'>机构备注</button>");
         var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
         var id_set_test_user           = $("<button class='btn btn-primary'>设为测试</button>");
+        var id_update_tea_ref_type     = $("<button class='btn btn-primary'>渠道信息</button>");
 
         id_subject_info.on("click",function(){update_subject_info(data);});
         id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
@@ -1801,8 +1803,19 @@ $(function(){
         id_update_part_remarks.on("click",function(){update_part_remarks(data);});
         id_set_test_user.on("click",function(){set_test_user(data);});
         id_update_check_subject.on("click",function(){update_tea_check_info(data);});
+        id_update_tea_ref_type.on("click",function(){update_tea_ref_type(data);});
 
         var arr = [
+            ["",id_subject_info],
+            ["",id_change_tea_to_new],
+            ["",id_change_phone],
+            ["",id_update_tea_level],
+            ["",id_update_tea_bank],
+            ["",id_update_tea_pass_info],
+            ["",id_update_part_remarks],
+            ["",id_set_test_user],
+            ["",id_update_check_subject],
+            ["",id_update_tea_ref_type],
         ];
 
         $.show_key_value_table("账号信息修改",arr);
@@ -1832,6 +1845,12 @@ $(function(){
             ["开始年级",id_second_grade_start],
             ["结束年级",id_second_grade_end],
         ];
+        id_subject.val(data.subject);
+        id_second_subject.val(data.second_subject);
+        id_grade_start.val(data.grade_start);
+        id_grade_end.val(data.grade_end);
+        id_second_grade_start.val(data.second_grade_start);
+        id_second_grade_end.val(data.second_grade_end);
 
         $.show_key_value_table("更新老师的科目和年级信息",arr,{
             label    : "确认",
