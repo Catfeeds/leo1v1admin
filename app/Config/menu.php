@@ -493,11 +493,6 @@ class menu{
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
-                ["power_id"=>13, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                ["power_id"=>14, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                ["power_id"=>15, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
-
-
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[

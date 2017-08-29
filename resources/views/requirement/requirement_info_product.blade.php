@@ -152,7 +152,7 @@
                                  <a class="fa  opt-reject"  title="驳回">驳回</a>
                                  <a class="fa  opt-do"  title="处理">处理</a>
                                  <a class="fa  opt-delete"  title="删除">删除</a>
-
+                                 <a class="fa  opt-re-require-edit"  title="需求编辑">需求编辑</a>
                             @endif
                             @if ($var['product_status'] == 3)
                                 <a class="fa  opt-add"  title="上传解决方案">上传解决方案</a>
