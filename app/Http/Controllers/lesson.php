@@ -24,12 +24,18 @@ class lesson extends TeaWxController
         $stu_comment        = $this->get_in_str_val("stu_comment");
 
         $point_note_list_arr = [];
-        $teacher_message_arr = json_decode($teacher_message_str,true);
-        foreach($teacher_message_arr as $index=> $item){
-            $point_note_list_arr[] = [
-                'point_name'     => $index,
-                'point_stu_desc' => $item,
-            ];
+        if(is_array($teacher_message_str)){
+            $teacher_message_arr = $teacher_message_str;
+        }else{
+            $teacher_message_arr = json_decode($teacher_message_str,true);
+        }
+        if(!empty($teacher_message_arr)){
+            foreach($teacher_message_arr as $index=> $item){
+                $point_note_list_arr[] = [
+                    'point_name'     => $index,
+                    'point_stu_desc' => $item,
+                ];
+            }
         }
 
         if($teacher_message_str && $stu_comment ){

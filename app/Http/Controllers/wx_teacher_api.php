@@ -33,7 +33,7 @@ use OSS\Core\OssException;
 
 
 
-class wx_teacher_api extends Controller
+class wx_teacher_api extends TeaWxController
 {
 
     use CacheNick;
@@ -42,11 +42,6 @@ class wx_teacher_api extends Controller
         parent::__construct();
     }
 
-    public function get_teacherid(){
-        $teacherid= $this->get_in_int_val("teacherid") ? $this->get_in_int_val("teacherid") : session("teacherid");
-        return $teacherid;
-
-    }
 
 
 

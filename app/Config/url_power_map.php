@@ -493,7 +493,7 @@ class url_power_map {
 			'/tea_manage/train_lesson_list_research'	=>1350400,
 			'/tea_manage/train_not_through_list_px'	=>1350500,
 			'/tea_manage/trial_train_no_pass_list'	=>1350200,
-			'/tongji_ss/get_no_time_train_lesson_teacher_list'	=>1350600,
+			'/tongji_ss/get_no_time_train_lesson_teacher_list'	=>1350300,
 			'/teacher_level/get_teacher_level_quarter_info'	=>1360100,
 			'/tongji/test_lesson_ass_jy'	=>1360300,
 			'/tongji_ss/tongji_change_lesson_by_teacher_jy'	=>1360400,

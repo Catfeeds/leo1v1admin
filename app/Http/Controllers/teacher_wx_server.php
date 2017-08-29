@@ -59,7 +59,7 @@ class  teacher_wx_server extends Controller
 
             array('id'=>'11', 'pid'=>'3', 'name'=>'使用手册', 'type'=>'click', 'code'=>'manual'),
             array('id'=>'12', 'pid'=>'3', 'name'=>'优秀视频', 'type'=>'click', 'code'=>'video'),
-            array('id'=>'13', 'pid'=>'3', 'name'=>'建议反馈', 'type'=>'view', 'code'=>'http://wx-parent-web.leo1v1.com/feedback.html'),
+            array('id'=>'13', 'pid'=>'3', 'name'=>'建议反馈', 'type'=>'view', 'code'=>'http://wx-teacher-web.leo1v1.com/feedback.html'),
             array('id'=>'16', 'pid'=>'2', 'name'=>'邀请有奖', 'type'=>'click', 'code'=>'invitation' ),
 
             array('id'=>'15', 'pid'=>'3', 'name'=>'常见问题', 'type'=>'view', 'code'=>'http://www.jiuqitian.com/help3'),
