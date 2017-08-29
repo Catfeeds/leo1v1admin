@@ -941,7 +941,6 @@ class ajax_deal2 extends Controller
         $power_map=$arr;
 
         $url_power_map=\App\Config\url_power_map::get_config();
-        dd($url_power_map);
 
         $menu_html ="";
 
@@ -951,7 +950,8 @@ class ajax_deal2 extends Controller
 
         $tmp_arr=$arr;
         $tmp_url_power_map= $url_power_map ;
-        $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
+        $menu_html.= (new  login() )->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
+        dd($menu_html);
 
         $main_department = $this->t_manager_info->get_main_department($uid);
 
