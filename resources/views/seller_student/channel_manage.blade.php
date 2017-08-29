@@ -87,7 +87,8 @@
             <div class="col-md-8 col-xs-10 ">
                 <button type="button" class="btn btn-info" id="id_edit_all_origin_level">设置当前渠道等级</button>
                 <button type="button" class="btn btn-warning" id="id_upload_xlsx">批量上传</button>
-                <button type="button" class="btn btn-warning" id="id_download_xlsx">下载样例文件</button>
+                <button type="button" class="btn btn-warning" id="id_download_xlsx">下载value文件</button>
+                <button type="button" class="btn btn-info" id="id_example_xlsx">下载 上传的样例文件</button>
             </div>
 
 

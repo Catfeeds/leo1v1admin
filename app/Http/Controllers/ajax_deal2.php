@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Input;
 
 
 class ajax_deal2 extends Controller
@@ -827,6 +828,7 @@ class ajax_deal2 extends Controller
 
     }
     public function upload_origin_xlsx() {
+        $adminid= $this->get_account_id();
 
         $file = Input::file('file');
         if ($file->isValid()) {
@@ -836,19 +838,56 @@ class ajax_deal2 extends Controller
 
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
 
-            $objPHPExcel = $objReader->load($obj_file);
+            $objPHPExcel = $objReader->load($realPath);
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
-            foreach ($arr as $index => $item) {
-
-
+            $now=time(NULL);
+            $title_info=array_shift($arr);
+            if ($title_info[0] != "key1" ) {
+                return $this->output_err("文件格式不对!");
             }
+            $origin_arr=[];
+            foreach ($arr as $index => $item) {
+                $value=trim($item[5]).trim($item[4]);
+                $origin_arr[]=$value;
+                $this->t_origin_key->row_insert([
+                    "create_time" => $now,
+                    "key1" => trim($item[0]),
+                    "key2" => trim($item[1]),
+                    "key3" => trim($item[2]),
+                    "key4" => trim($item[3]),
+                    "value" => $value ,
+                ],true);
+
+                /*
+                0 => array:7 [
+                    0 => "key1"
+                    1 => "key2"
+                    2 => "key3"
+                    3 => "key4"
+                    4 => "value"
+                    5 => "fix"
+                    6 => null
+                ]
+                */
+            }
+            \App\Helper\Common::redis_set_json("ORIGIN_UPLOAD_$adminid",$origin_arr);
 
 
-            return outputjson_success();
+            return $this->output_succ() ;
         } else {
-            return outputjson_ret(false);
+            return $this->output_err("没有文件") ;
         }
+    }
+    public function download_cur_origin_info() {
+        $adminid= $this->get_account_id();
+        $origin_arr=\App\Helper\Common::redis_get_json("ORIGIN_UPLOAD_$adminid");
+        $list= [];
+        foreach ($origin_arr as $value ) {
+            $list[]=["value"=>$value, "urlencode" => urlencode($value)  ];
+        }
+        $this->out_xls( \App\Helper\Utils::list_to_page_info($list));
+
     }
 
 }

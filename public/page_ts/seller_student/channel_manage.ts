@@ -381,7 +381,6 @@ $(function(){
         silverlight_xap_url : '/js/qiniu/plupload/Moxie.xap', //silverlight文件，当需要使用silverlight方式进行上传时需要配置该参数
         filters: {
             mime_types : [ //只允许上传图片和zip文件
-                { title : "xls files", extensions : "xls" },
                 { title : "xlsx files", extensions : "xlsx" }
             ],
             max_file_size : '40m', //最大只能上传400kb的文件
@@ -394,5 +393,13 @@ $(function(){
         uploader.start();
     });
 
+
+    $("#id_download_xlsx").on("click",function(){
+        $.wopen("/ajax_deal2/download_cur_origin_info");
+    });
+
+    $("#id_example_xlsx").on("click",function(){
+        $.wopen("/example/origin.xlsx");
+    });
 
 });

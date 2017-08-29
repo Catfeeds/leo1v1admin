@@ -185,7 +185,6 @@ class tea_manage extends Controller
             $tea_subject="";
         }
 
-
         $account_info = $this->t_manager_info->get_teacher_info_by_adminid($adminid);
         if($account_info["teacherid"]>0){
             $is_tea = 1;
@@ -203,7 +202,7 @@ class tea_manage extends Controller
         $test_seller_id  = $this->get_in_int_val("test_seller_id",-1 );
         $has_performance = $this->get_in_int_val("has_performance",-1 );
         $fulltime_flag   = $this->get_in_int_val("fulltime_flag",-1 );
-        $lesson_user_online_status   = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
+        $lesson_user_online_status = $this->get_in_e_set_boolean(-1,"lesson_user_online_status");
 
         $lesson_type_default = Cookie::get("lesson_type")==null?-1: Cookie::get("lesson_type") ;
         $subject_default     = Cookie::get("subject")==null?-1: Cookie::get("subject");
