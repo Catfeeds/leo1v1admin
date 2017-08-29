@@ -12,7 +12,8 @@ $(function(){
 			      teacherid        : $('#id_teacherid').val(),
 			      lessonid         : $('#id_lessonid').val(),
 			      status           : $('#id_status').val(),
-			      feedback_type    : $('#id_feedback_type').val()
+			      feedback_type    : $('#id_feedback_type').val(),
+			      del_flag         : $('#id_del_flag').val()
         });
     }
 

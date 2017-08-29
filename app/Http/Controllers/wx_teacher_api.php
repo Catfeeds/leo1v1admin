@@ -187,7 +187,7 @@ class wx_teacher_api extends TeaWxController
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            'complained_feedback_type' => 1
+            // 'complained_feedback_type' => 1
         ]);
 
 
@@ -278,7 +278,7 @@ class wx_teacher_api extends TeaWxController
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
             'complaint_img_url' => $complaint_img_url,
-            'complained_feedback_type' => 2
+            // 'complained_feedback_type' => 2
         ]);
 
 
