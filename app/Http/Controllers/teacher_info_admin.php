@@ -650,4 +650,28 @@ class teacher_info_admin extends Controller
         $store->rename_file($teacherid,$old_path,$new_name);
         return $this->output_succ();
     }
+
+    public function update_teacher_subject_info(){
+        $teacherid          = $this->get_in_int_val("teacherid");
+        $subject            = $this->get_in_int_val("subject");
+        $grade_start        = $this->get_in_int_val("grade_start");
+        $grade_end          = $this->get_in_int_val("grade_end");
+        $second_subject     = $this->get_in_int_val("subject_subject");
+        $second_grade_start = $this->get_in_int_val("second_grade_start");
+        $second_grade_end   = $this->get_in_int_val("second_grade_end");
+
+        $ret = $this->t_teacher_info->field_update_list($teacherid,[
+            "subject"            => $subject,
+            "grade_start"        => $grade_start,
+            "grade_end"          => $grade_end,
+            "second_subject"     => $second_subject,
+            "second_grade_start" => $second_grade_start,
+            "second_grade_end"   => $second_grade_end,
+        ]);
+        if(!$ret){
+            return $this->output_err("更新失败或无需更新！");
+        }
+        return $this->output_succ();
+    }
+
 }

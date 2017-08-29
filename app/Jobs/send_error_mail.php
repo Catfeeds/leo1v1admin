@@ -19,6 +19,7 @@ class send_error_mail extends Job implements ShouldQueue
      */
     public function __construct($to,$title,$content)
     {
+        parent::__construct();
         $this->mail_info = [
             "to"      => $to,
             "title"   => $title,
@@ -58,7 +59,11 @@ class send_error_mail extends Job implements ShouldQueue
             foreach($admin_list as $account) {
 
                 \App\Helper\Utils::logger(" send error to wx: $account");
-                //$this->task->t_manager_info->send_wx_todo_msg($account,"system",$title,  $content );
+                try {
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"",$title,  $content );
+                } catch (\Exception $e ) {
+                    \App\Helper\Utils::logger("err: " . $e->getMessage() );
+                }
             }
 
 

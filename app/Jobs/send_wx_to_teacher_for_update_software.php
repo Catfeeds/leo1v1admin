@@ -17,6 +17,7 @@ class send_wx_to_teacher_for_update_software extends Job implements ShouldQueue
      * @return void
      */
     public $wx_openid;
+    public $ret;
     public function __construct($wx_openid)
     {
         $this->wx_openid = $wx_openid;
@@ -35,7 +36,7 @@ class send_wx_to_teacher_for_update_software extends Job implements ShouldQueue
 
         $date_time = date("Y-m-d");
 
-        $url_teacher = "";
+        $url_teacher = "http://admin.yb1v1.com/article_wx/leo_teacher_software";
 
         $template_id_teacher  = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
         $data_teacher['first']      = "PC老师端软件更新";
@@ -49,9 +50,6 @@ class send_wx_to_teacher_for_update_software extends Job implements ShouldQueue
 
         $data_teacher['remark']     = "
 更新方法：输入下载地址→点击【下载】→【PC电脑】→【立即下载】
-
-跳转链接：http://admin.yb1v1.com/article_wx/leo_teacher_software
-针对用户：3.2.0及之前版本的平台老师
 ";
 
         $wx_openid = $this->wx_openid;

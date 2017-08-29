@@ -698,8 +698,12 @@ $(function(){
     }
 
     $(".opt-trial-pass").on("click",function(){
-        var opt_data                 = $(this).get_opt_data();
-        var id_trial_lecture_is_pass = $("<select/>");
+        var opt_data = $(this).get_opt_data();
+        update_tea_pass_info(opt_data);
+    });
+
+    var update_tea_pass_info = function(opt_data){
+         var id_trial_lecture_is_pass = $("<select/>");
         var id_train_through_new     = $("<select/>");
         var id_wx_use_flag           = $("<select/>");
         Enum_map.append_option_list("boolean", id_trial_lecture_is_pass, true );
@@ -726,7 +730,7 @@ $(function(){
                 });
             }
         });
-    });
+    }
 
     if (window.location.pathname=="/human_resource/index_seller" || window.location.pathname=="/human_resource/index_seller/" || window.location.pathname=="/human_resource/index_new_seller_hold" || window.location.pathname=="/human_resource/index_new_seller_hold/") {
         $("#id_test_transfor_per").parent().parent().hide();
@@ -1398,7 +1402,10 @@ $(function(){
     }
 
     $(".opt-change-teacher_ref_type").on("click",function(){
-      var data                = $(this).get_opt_data();
+        var data = $(this).get_opt_data();
+        update_tea_ref_type(data);
+    });
+    var update_tea_ref_type = function(data){
         var id_teacher_ref_type = $("<select/>");
         var id_teacher_type     = $("<select/>");
 
@@ -1439,7 +1446,8 @@ $(function(){
                 }
             });
         })
-    });
+
+    }
 
     var init_noit_btn=function( id_name, title) {
         var btn=$('#'+id_name);
@@ -1739,8 +1747,12 @@ $(function(){
     }
 
     $(".opt-set-remark").on("click",function(){
-	    var data = $(this).get_opt_data();
-        var id_part_remarks = $("<textarea/>");
+	      var data = $(this).get_opt_data();
+        update_part_remarks(data);
+    });
+
+    var update_part_remarks = function(data){
+         var id_part_remarks = $("<textarea/>");
 
         var arr = [
             ["其他机构信息",id_part_remarks]
@@ -1762,31 +1774,89 @@ $(function(){
                 })
             }
         });
-
-
-    });
+    }
 
     if(acc=="alan"){
         $(".opt-edit").show();
     }
 
     $(".opt-account-number").on("click",function(){
-	    var data = $(this).get_opt_data();
-        var id_subject_info        = ("<button class='btn btn-primary'>年级/科目修改</button>");
-        var id_change_tea_to_new   = ("<button class='btn btn-danger'>账号转移</button>");
-        var id_change_phone        = ("<button class='btn btn-danger'>账号转移</button>");
-        var id_update_tea_level    = ("<button class='btn btn-primary'>老师等级相关修改</button>");
-        var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
+	      var data = $(this).get_opt_data();
+        var id_subject_info            = $("<button class='btn btn-danger'>年级/科目修改</button>");
+        var id_change_tea_to_new       = $("<button class='btn btn-danger'>账号转移</button>");
+        var id_change_phone            = $("<button class='btn btn-danger'>更换手机</button>");
+        var id_update_tea_level        = $("<button class='btn btn-danger'>老师工资类型</button>");
+        var id_update_tea_bank         = $("<button class='btn btn-primary'>银行卡</button>");
+        var id_update_tea_pass_info    = $("<button class='btn btn-primary'>通过信息</button>");
+        var id_update_part_remarks     = $("<button class='btn btn-primary'>机构备注</button>");
+        var id_update_check_subject    = $("<button class='btn btn-primary'>审核信息</button>");
+        var id_set_test_user           = $("<button class='btn btn-primary'>设为测试</button>");
+
+        id_subject_info.on("click",function(){update_subject_info(data);});
+        id_change_tea_to_new.on("click",function(){opt_change_tea_to_new(data);});
+        id_change_phone.on("click",function(){change_phone(data);});
+        id_update_tea_level.on("click",function(){set_teacher_level(data);});
+        id_update_tea_bank.on("click",function(){update_tea_bank_info(data);});
+        id_update_tea_pass_info.on("click",function(){update_tea_pass_info(data);});
+        id_update_part_remarks.on("click",function(){update_part_remarks(data);});
+        id_set_test_user.on("click",function(){set_test_user(data);});
+        id_update_check_subject.on("click",function(){update_tea_check_info(data);});
 
         var arr = [
-            ["",id_subject_info],
-            ["",id_change_tea_to_new],
-            ["",id_update_tea_level],
-            ["",id_update_tea_week_num],
         ];
 
         $.show_key_value_table("账号信息修改",arr);
     });
+
+    //更新老师的科目和年级信息
+    var update_subject_info = function(data){
+        var id_subject            = $("<select>");
+        var id_grade_start        = $("<select>");
+        var id_grade_end          = $("<select>");
+        var id_second_subject     = $("<select>");
+        var id_second_grade_start = $("<select>");
+        var id_second_grade_end   = $("<select>");
+
+        Enum_map.append_option_list("subject",id_subject,true);
+        Enum_map.append_option_list("subject",id_second_subject,true);
+        Enum_map.append_option_list("grade_range",id_grade_start,true);
+        Enum_map.append_option_list("grade_range",id_grade_end,true);
+        Enum_map.append_option_list("grade_range",id_second_grade_start,true);
+        Enum_map.append_option_list("grade_range",id_second_grade_end,true);
+
+        var arr = [
+            ["第一科目",id_subject],
+            ["开始年级",id_grade_start],
+            ["结束年级",id_grade_end],
+            ["第二科目",id_second_subject],
+            ["开始年级",id_second_grade_start],
+            ["结束年级",id_second_grade_end],
+        ];
+
+        $.show_key_value_table("更新老师的科目和年级信息",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_info_admin/update_teacher_subject_info",{
+                    "teacherid"          : data.teacherid,
+                    "subject"            : id_subject.val(),
+                    "second_subject"     : id_second_subject.val(),
+                    "grade_start"        : id_grade_start.val(),
+                    "grade_end"          : id_grade_end.val(),
+                    "second_grade_start" : id_second_grade_start.val(),
+                    "second_grade_end"   : id_second_grade_end.val(),
+                },function(result){
+                    if(result.ret==0){
+                        BootstrapDialog.alert("更新成功！");
+                        dialog.close();
+                    }else{
+                        BootstrapDialog.alert(result.info);
+                    }
+                })
+            }
+        });
+
+    }
 
     $(".opt-regular-lesson-detele-list").on("click",function(){
         var opt_data  = $(this).get_opt_data();
@@ -1879,6 +1949,10 @@ $(function(){
 
     $(".opt-set_bank_info").on("click",function(){
 	      var data = $(this).get_opt_data();
+        update_tea_bank_info(data);
+    });
+
+    var update_tea_bank_info = function(data){
         var id_idcard        = $("<input/>");
         var id_bankcard      = $("<input/>");
         var id_bank_address  = $("<input/>");
@@ -1932,10 +2006,14 @@ $(function(){
                 })
             }
         });
-    });
+    }
 
     $(".opt-set_check_info").on("click",function(){
-	      var data       = $(this).get_opt_data();
+	      var data = $(this).get_opt_data();
+        update_tea_check_info(data);
+    });
+
+    var update_tea_check_info = function(data){
         var id_subject = $("<select />");
         var id_grade   = $("<div>");
 
@@ -1973,7 +2051,8 @@ $(function(){
                 })
             }
         });
-    });
+
+    }
 
 
 });
