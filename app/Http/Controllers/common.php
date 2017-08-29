@@ -1498,6 +1498,7 @@ class common extends Controller
             'email' => $user_info["email"],
         );
         $rsaData = $this->enrsa($endata);
+        dd($rsaData);
         
         $arrParams = array(
             'action' => 'sync_order_info',
@@ -1514,7 +1515,7 @@ class common extends Controller
         );
 
         $strSecretKey = 'key';// 分配的key
-        $arrParams['sign'] = createBaseSign($arrParams, $strSecretKey);
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
 
 
         // 发送请求post(form)
@@ -1528,6 +1529,7 @@ class common extends Controller
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         $result = json_decode($ret, true);
+        dd($result);
 
         print_r($result);
 

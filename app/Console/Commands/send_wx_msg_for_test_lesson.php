@@ -201,7 +201,8 @@ class send_wx_msg_for_test_lesson extends Command
             $logout_time = $task->t_lesson_opt_log->get_logout_time($item['lessonid']);
 
             if(!$logout_time || $logout<$item['lesson_start']){
-
+                $data_ass = $this->get_data($item,3,5);
+                $this->send_wx_msg_ass();
             }
         }
         //absenteeism_flag
