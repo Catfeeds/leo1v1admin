@@ -44,6 +44,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
+            $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
             $item["all_money"]/= 100;
