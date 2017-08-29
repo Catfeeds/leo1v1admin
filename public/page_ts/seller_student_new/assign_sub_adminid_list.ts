@@ -124,7 +124,7 @@ $(function(){
     $('#id_wx_invaild_flag').val(g_args.wx_invaild_flag);
     $('#id_filter_flag').val(g_args.filter_flag);
 	  $('#id_call_phone_count').val(g_args.call_phone_count);
-	  $('#id_suc_test_count').val(g_args.call_phone_count);
+	  $('#id_suc_test_count').val(g_args.suc_test_count);
 
     $.enum_multi_select( $('#id_origin_level'), 'origin_level', function(){load_data();},null, {
         "非S类": [0, 2 , 3,4,5 ]
