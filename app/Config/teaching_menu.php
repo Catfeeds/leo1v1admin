@@ -41,6 +41,8 @@ class teaching_menu{
                     ]],
                     [ "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                     [ "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+                    [ "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                    [ "name"=>"渠道统计-new-list",   "url"=>"/channel_manage/zs_origin_list_new"],
 
                 ]],
 
