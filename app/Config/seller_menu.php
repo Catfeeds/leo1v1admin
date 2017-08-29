@@ -17,6 +17,7 @@ class seller_menu{
                     ["power_id"=>8, "name"=>"抢新学生-当前用户","url"=>"/seller_student_new/deal_new_user_tmk"],
                     ["power_id"=>9, "name"=>"公海-抢学生","url"=>"/seller_student_new/get_free_seller_list"],
                     ["power_id"=>10, "name"=>"试听未签-抢学生","url"=>"/seller_student_new/test_lesson_no_order_list"],
+                    ["power_id"=>15, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
                     ["power_id"=>11, "name"=>"new-转介绍例子", "url"=>"/seller_student_new/seller_seller_student_list"],
                     ["power_id"=>12, "name"=>"例子回流公海","url"=>"/seller_student_new/get_hold_list"],
                     ["power_id"=>13, "name"=>"试听签单与否反馈",   "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
