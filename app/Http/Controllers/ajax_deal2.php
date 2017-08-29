@@ -939,9 +939,9 @@ class ajax_deal2 extends Controller
             $arr[$item] = true;
         }
         $power_map=$arr;
-        dd($power_map);
 
         $url_power_map=\App\Config\url_power_map::get_config();
+        dd($url_power_map);
 
         $menu_html ="";
 
