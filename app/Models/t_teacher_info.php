@@ -2872,7 +2872,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "is_test_user = 0",
             "wx_openid is not null"
         ];
-        $sql = $this->gen_sql_new(" select wx_openid from %s where %s",
+        $sql = $this->gen_sql_new(" select distinct(wx_openid) from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

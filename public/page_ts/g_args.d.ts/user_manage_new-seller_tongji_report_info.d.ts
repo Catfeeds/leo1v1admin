@@ -23,6 +23,7 @@ interface RowData {
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
+	become_member_long_time	:any;
 	lesson_per	:any;
 	order_per	:any;
 	finish_per	:any;

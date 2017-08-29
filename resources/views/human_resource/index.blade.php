@@ -492,8 +492,7 @@
                         <td>{{@$var["interview_acc"]}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
-                                   target="_blank" title="老师信息"> </a>
+                                <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息"> </a>
                                 <a class="fa-edit opt-edit div_show"  title="编辑"> </a>
                                 <a class="fa-hand-o-up opt-tea-note div_show"  title="修改教务备注"> </a>
                                 <a class="fa-list opt-interview-assess div_show"  title="修改面试评价"> </a>

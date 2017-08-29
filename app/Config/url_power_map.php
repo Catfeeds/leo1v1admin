@@ -272,6 +272,7 @@ class url_power_map {
 			'/tongji/contract'	=>1100101,
 			'/tongji/user_count'	=>1100102,
 			'/tongji/seller_user_count'	=>1100121,
+			'/tongji/seller_time_income_list'	=>1100133,
 			'/tongji/seller_time'	=>1100103,
 			'/tongji/seller_call_rate'	=>1100136,
 			'/tongji/test_lesson_tongi'	=>1100104,
