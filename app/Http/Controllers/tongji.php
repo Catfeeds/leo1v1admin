@@ -1075,7 +1075,6 @@ class tongji extends Controller
         foreach( $admin_list as &$item ) {
             E\Emain_type::set_item_value_str($item);
         }
-        dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
