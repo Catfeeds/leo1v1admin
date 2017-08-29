@@ -1770,12 +1770,12 @@ $(function(){
         $(".opt-edit").show();
     }
 
-   
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
-        var id_subject_info      = ("<button class='btn btn-primary'>年级/科目修改</button>");
-        var id_change_tea_to_new = ("<button class='btn btn-danger'>账号转移</button>");
-        var id_update_tea_level  = ("<button class='btn btn-primary'>老师等级相关修改</button>");
+        var id_subject_info        = ("<button class='btn btn-primary'>年级/科目修改</button>");
+        var id_change_tea_to_new   = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_change_phone        = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_update_tea_level    = ("<button class='btn btn-primary'>老师等级相关修改</button>");
         var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
 
         var arr = [
@@ -1785,13 +1785,7 @@ $(function(){
             ["",id_update_tea_week_num],
         ];
 
-        $.show_key_value_table("账号信息修改",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-            }
-        });
-
+        $.show_key_value_table("账号信息修改",arr);
     });
 
     $(".opt-regular-lesson-detele-list").on("click",function(){

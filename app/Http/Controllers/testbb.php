@@ -115,9 +115,14 @@ class testbb extends Controller
 
     public function sd(){
         $this->switch_tongji_database();
-        $ret = $this->t_teacher_info->get_teacher_openid_list();
+        // $ret = $this->t_teacher_info->get_teacher_openid_list();
+        $ret = ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc'];
+        
+        foreach($ret as $item){
+            // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
+           
+        }
 
-        dd($ret);
     }
 
 

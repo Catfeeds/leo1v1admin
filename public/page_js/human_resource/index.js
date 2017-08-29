@@ -36,7 +36,11 @@ $(function(){
 			have_wx:	$('#id_have_wx').val(),
             grade_plan:	$('#id_grade_plan').val(),
 			subject_plan:	$('#id_subject_plan').val(),
-			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val()
+			fulltime_teacher_type:	$('#id_fulltime_teacher_type').val(),
+            month_stu_num:	$('#id_month_stu_num').val(),
+			record_score_num:	$('#id_record_score_num').val(),
+			identity:	$('#id_identity').val(),
+			tea_label_type:	$('#id_tea_label_type').val()
         });
     }
 
@@ -61,6 +65,8 @@ $(function(){
     Enum_map.append_option_list("grade", $("#id_grade_plan"),false,[101,102,103,104,105,106,201,202,203,301,302,303] );
     Enum_map.append_option_list("subject", $("#id_subject_plan") );
     Enum_map.append_option_list("fulltime_teacher_type", $("#id_fulltime_teacher_type"),false,[1,2] );
+    Enum_map.append_option_list("identity", $("#id_identity") );
+    Enum_map.append_option_list("tea_label_type", $("#id_tea_label_type"),false,[1,2,3,4,5]  );
 
 
     $('#id_teacher_type').val(g_args.teacher_type);
@@ -92,6 +98,11 @@ $(function(){
 	$('#id_grade_plan').val(g_args.grade_plan);
 	$('#id_subject_plan').val(g_args.subject_plan);
 	$('#id_fulltime_teacher_type').val(g_args.fulltime_teacher_type);
+	$('#id_month_stu_num').val(g_args.month_stu_num);
+	$('#id_record_score_num').val(g_args.record_score_num);
+	$('#id_identity').val(g_args.identity);
+	$('#id_tea_label_type').val(g_args.tea_label_type);
+
 
 
     $.admin_select_user($("#id_teacherid"), "teacher", load_data);
@@ -727,6 +738,10 @@ $(function(){
         $("#phone_num").show();
     }
 
+
+
+
+
     if (window.location.pathname=="/human_resource/index_new" || window.location.pathname=="/human_resource/index_new/") {
         $("#id_add_teacher").parent().hide();
     }
@@ -735,11 +750,43 @@ $(function(){
         $(".jw_revisit_info").show();
         $("#id_lesson_hold_flag_adminid").parent().parent().hide();
         $(".test_transfor_per").show();
+        $("#id_teacher_money_type").parent().parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_teacher_ref_type").parent().parent().hide();
+        $("#id_have_wx").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $("#id_lesson_hold_flag").parent().parent().hide();
+        $("#id_test_transfor_per").parent().parent().hide();
+        $("#id_week_liveness").parent().parent().hide();
+        $("#id_interview_score").parent().parent().hide();
+        $("#id_second_interview_score").parent().parent().hide();
+        $("#id_id_teacher_type").parent().parent().hide();
+        $("#id_reference_teacherid").parent().parent().hide();
+        $("#id_fulltime_teacher_type").parent().parent().hide();
+        $(".fulltime_flag_new").hide();     
+        $(".interview_score").hide();     
+        $(".second_interview_score").hide();     
     }else if (window.location.pathname=="/human_resource/index_new_jw_hold" || window.location.pathname=="/human_resource/index_new_jw_hold/") {
         $(".jw_revisit_info").show();
         $(".lesson_hold_flag").show();
         $("#id_free_time").parent().parent().show();
         $(".test_transfor_per").show();
+        $("#id_teacher_money_type").parent().parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_teacher_ref_type").parent().parent().hide();
+        $("#id_have_wx").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $("#id_lesson_hold_flag").parent().parent().hide();
+        $("#id_test_transfor_per").parent().parent().hide();
+        $("#id_week_liveness").parent().parent().hide();
+        $("#id_interview_score").parent().parent().hide();
+        $("#id_second_interview_score").parent().parent().hide();
+        $("#id_id_teacher_type").parent().parent().hide();
+        $("#id_reference_teacherid").parent().parent().hide();
+        $("#id_fulltime_teacher_type").parent().parent().hide();
+        $(".fulltime_flag_new").hide();     
+        $(".interview_score").hide();     
+        $(".second_interview_score").hide();     
     }else{
         $("#id_grade_plan").parent().parent().hide();
         $("#id_subject_plan").parent().parent().hide();
@@ -752,7 +799,8 @@ $(function(){
 
 
 
-    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    // if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" || window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
+    if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
@@ -781,6 +829,46 @@ $(function(){
         $(".opt-set-research_note").hide();
         $(".opt-limit-plan-lesson").hide();
     }
+
+
+
+
+
+
+    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" ) {
+        $("#id_add_teacher").parent().hide();
+        $("#id_need_test_lesson_flag").parent().parent().hide();
+        $("#id_textbook_type").parent().parent().hide();
+        $("#id_test_user").parent().parent().hide();
+        $(".opt-tea-note").hide();
+        $(".opt-show-lessons").hide();
+        $(".opt-set-tmp-passwd").hide();
+        $(".opt-old").hide();
+        $(".opt-test-user").hide();
+        $(".tea_address").hide();
+        $(".tea_school").hide();
+        $(".tea_textbook").hide();
+        $(".tea_is_need_test").hide();
+        $(".opt-get-teacher-lesson-hold").hide();
+        $(".opt-user-info").show(); //　erick　修改
+        $(".lesson_hold_flag").show();
+        $(".test_transfor_per").show();
+    }else{
+        $(".opt-meeting").hide();
+        $(".opt-interview-assess").hide();
+        $(".opt-edit").hide();
+        $(".opt-set-grade-range").hide();
+        $(".opt-teacher-freeze").hide();
+        $(".opt-set-teacher-record-new").hide();
+        $(".opt-get-teacher-record").hide();
+        $(".opt-set-research_note").hide();
+        $(".opt-limit-plan-lesson").hide();
+    }
+
+
+
+
+
 
     if ( window.location.pathname=="/human_resource/index_fulltime" || window.location.pathname=="/human_resource/index_fulltime/") {
     }else{
@@ -1682,12 +1770,12 @@ $(function(){
         $(".opt-edit").show();
     }
 
-   
     $(".opt-account-number").on("click",function(){
 	    var data = $(this).get_opt_data();
-        var id_subject_info      = ("<button class='btn btn-primary'>年级/科目修改</button>");
-        var id_change_tea_to_new = ("<button class='btn btn-danger'>账号转移</button>");
-        var id_update_tea_level  = ("<button class='btn btn-primary'>老师等级相关修改</button>");
+        var id_subject_info        = ("<button class='btn btn-primary'>年级/科目修改</button>");
+        var id_change_tea_to_new   = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_change_phone        = ("<button class='btn btn-danger'>账号转移</button>");
+        var id_update_tea_level    = ("<button class='btn btn-primary'>老师等级相关修改</button>");
         var id_update_tea_week_num = ("<button class='btn btn-primary'>老师排课数相关修改</button>");
 
         var arr = [
@@ -1697,13 +1785,7 @@ $(function(){
             ["",id_update_tea_week_num],
         ];
 
-        $.show_key_value_table("账号信息修改",arr,{
-            label    : "确认",
-            cssClass : "btn-warning",
-            action   : function(dialog) {
-            }
-        });
-
+        $.show_key_value_table("账号信息修改",arr);
     });
 
     $(".opt-regular-lesson-detele-list").on("click",function(){
