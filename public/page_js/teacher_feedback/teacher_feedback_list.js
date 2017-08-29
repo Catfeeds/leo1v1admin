@@ -4,15 +4,16 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			teacherid        : $('#id_teacherid').val(),
-			lessonid         : $('#id_lessonid').val(),
-			status           : $('#id_status').val(),
-			feedback_type    : $('#id_feedback_type').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      teacherid        : $('#id_teacherid').val(),
+			      lessonid         : $('#id_lessonid').val(),
+			      status           : $('#id_status').val(),
+			      feedback_type    : $('#id_feedback_type').val(),
+			      del_flag         : $('#id_del_flag').val()
         });
     }
 
@@ -28,15 +29,15 @@ $(function(){
     });
 
     Enum_map.append_option_list("feedback_type",$("#id_feedback_type"));
+    Enum_map.append_option_list("boolean",$("#id_del_flag"));
 
+    $('#id_del_flag').val(g_args.del_flag);
     $('#id_teacherid').val(g_args.teacherid);
-	$('#id_lessonid').val(g_args.lessonid);
-	$('#id_status').val(g_args.status);
-	$('#id_feedback_type').val(g_args.feedback_type);
-
+	  $('#id_lessonid').val(g_args.lessonid);
+	  $('#id_status').val(g_args.status);
+	  $('#id_feedback_type').val(g_args.feedback_type);
     $.admin_select_user($("#id_teacherid"),"teacher",load_data);
-
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 
     $("#id_lesson").on("keypress",function(e){
         if (e.keyCode == 13){

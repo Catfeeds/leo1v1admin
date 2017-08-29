@@ -35,6 +35,7 @@ class teacher_feedback extends Controller
         $lessonid       = $this->get_in_int_val("lessonid");
         $status         = $this->get_in_int_val("status",0);
         $feedback_type  = $this->get_in_int_val("feedback_type",-1);
+        $del_flag       = $this->get_in_int_val("del_flag",0);
         $page_num       = $this->get_in_page_num();
         $acc            = $this->get_account();
 
@@ -42,7 +43,7 @@ class teacher_feedback extends Controller
         $lesson_deduct_info = E\Elesson_deduct::$desc_map;
 
         $list = $this->t_teacher_feedback_list->get_teacher_feedback_list(
-            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,$opt_date_type
+            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,$opt_date_type,$del_flag
         );
         foreach($list['list'] as &$tea_val){
             E\Efeedback_type::set_item_value_str($tea_val);
@@ -217,7 +218,7 @@ class teacher_feedback extends Controller
 
         if(in_array($acc,["adrian","alan","jim"])){
             $ret = $this->t_teacher_feedback_list->field_update_list($id,[
-                "del_flag"    => 1,
+                "del_flag"    => $del_flag,
                 "check_time " => time(),
             ]);
         }else{

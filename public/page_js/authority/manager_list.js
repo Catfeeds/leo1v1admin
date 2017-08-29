@@ -702,10 +702,10 @@ $(function(){
         var arr = [
             ["account", account ] ,
             ["电话",phone],
-            ['说明','生成相应的学生，家长信息']
+            ['说明','生成相应的学生,家长,老师信息']
         ];
 
-        $.show_key_value_table("生成对应的相应的学生，家长信息", arr ,{
+        $.show_key_value_table("生成对应的相应的学生，家长，老师信息", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {
@@ -745,7 +745,8 @@ $(function(){
             if(resp){
                 alert('刷新成功!');
             }else{
-                alert('刷新失败!');
+                alert('有试听成功未回访!');
+                $(location).attr('href','http://admin.yb1v1.com/seller_student_new/no_lesson_call_end_time_list?adminid='+opt_data.uid);
             }
         });
     });
