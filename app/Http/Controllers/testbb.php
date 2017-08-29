@@ -114,6 +114,7 @@ class testbb extends Controller
 
 
     public function sd(){
+        $this->switch_tongji_database();
         $ret = $this->t_teacher_info->get_teacher_openid_list();
 
         dd($ret);
