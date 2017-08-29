@@ -161,6 +161,7 @@ class NewRouteConfig {
         "/common/dev_teacher_qr"             => true,
         "/common/get_ppl_data"               => true,
         "/common/send_baidu_money_charge"    => true,
+        "/common/get_baidu_money_charge"    => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,

@@ -1548,6 +1548,56 @@ class common extends Controller
  
     }
 
+    //查询百度有钱花订单信息
+    public function get_baidu_money_charge(){
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        $orderid = $this->get_in_int_val("orderid");
+        $orderNo = $this->t_order_info->get_from_orderno($orderid);
+        if(empty($orderNo)){
+            $orderNo=123456789;
+        }
+
+        // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
+
+        $userid = $this->t_order_info->get_userid($orderid);
+        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+        // RSA加密数据
+        $endata = array(
+            'username' => $user_info["nick"],
+            'mobile' => $user_info["phone"],
+            'email' => $user_info["email"],
+        );
+
+        $rsaData = $this->enrsa($endata);
+        
+        
+        $arrParams = array(
+            'action' => 'get_order_status',
+            'tpl' => 'tpl',// 分配的tpl
+            'corpid' => 'corpid',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+        );
+
+        $strSecretKey = 'key';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        dd($result);
+
+    }
+
     /**
      * @param $data
      * @return string

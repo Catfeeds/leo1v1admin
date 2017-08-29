@@ -36,6 +36,15 @@
                         </select>
                     </div>
                 </div>
+                @if(in_array($acc,["adrian"])
+                    <div class="col-xs-6 col-md-2">
+                        <div class="input-group ">
+                            <span class="input-group-addon">删除标识</span>
+                            <select class="opt-change form-control" id="id_del_flag" >
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class=" col-xs-6  col-md-2">
                     <div class="input-group col-sm-12">
                        <input type="text" class="form-control for_input" id="id_lesson" placeholder="请输入课程ID 回车查找" />

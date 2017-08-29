@@ -9,7 +9,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
     }
 
     public function get_teacher_feedback_list($start_time,$end_time,$teacherid,$assistantid,$accept_adminid,
-                                              $lessonid,$status,$feedback_type,$page_num,$opt_date_type
+                                              $lessonid,$status,$feedback_type,$page_num,$opt_date_type,$del_flag
     ){
         if($lessonid>0){
             $where_arr = [
@@ -26,6 +26,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                 ["$time_str<%u",$end_time,0],
                 ["tf.teacherid=%u",$teacherid,-1],
                 ["status=%u",$status,-1],
+                ["del_flag=%u",$del_flag,-1],
             ];
             if($feedback_type==-2){
                 $where_arr[] = "feedback_type<200";
