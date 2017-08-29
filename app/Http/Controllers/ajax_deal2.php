@@ -407,6 +407,16 @@ class ajax_deal2 extends Controller
             }
         }
 
+        if(!$ret_teacher){
+            $teacher_info['phone']         = $phone;
+            $teacher_info['tea_nick']      = $account;
+            $teacher_info['send_sms_flag'] = 0;
+            $teacher_info['wx_use_flag']   = 0;
+            $teacher_info['use_easy_pass'] = 2;
+            $teacher_info['is_test_user']  = 1;
+            $this->add_teacher_common($teacher_info);
+        }
+
 
         return $this->output_succ($ret);
     }
