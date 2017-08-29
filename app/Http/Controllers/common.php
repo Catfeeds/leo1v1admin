@@ -1497,7 +1497,49 @@ class common extends Controller
             'mobile' => $user_info["phone"],
             'email' => $user_info["email"],
         );
-        $rsaData = enrsa($endata);
+
+        $rsaData = $this->enrsa($endata);
+        
+        $arrParams = array(
+            'action' => 'sync_order_info',
+            'tpl' => 'tpl',// 分配的tpl
+            'corpid' => 'corpid',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+            'money' => 100,// 期望贷款额度（分单位）
+            'dealmoney' => 200,// 成交价格（分单位）>= 期望额度+首付额度
+            'period' => 12,// 期数
+            'courseid' => 'ABC123',// 课程id（会分配）
+            'coursename' => 'xxx',// 课程名称
+            'oauthid' => $userid,// 用户id 机构方提供
+            'data' => $rsaData,
+        );
+
+        $strSecretKey = 'key';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        dd($result);
+
+        print_r($result);
+
+
+        //返回信息成功后处理
+        $this->t_orderid_orderno_list->row_insert([
+            "order_no"  =>$orderNo,
+            "orderid"   =>$orderid
+        ]);
+
 
         
         
@@ -1510,7 +1552,7 @@ class common extends Controller
      * @return string
      * rsa 加密(百度有钱花)
      */
-    function enrsa($data){
+    public function enrsa($data){
         $public_key = '-----BEGIN PUBLIC KEY-----  
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt  
 3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl  
@@ -1534,7 +1576,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @return bool|string
      * 生成签名(百度有钱花)
      */
-    function createBaseSign($param, $strSecretKey){
+    public function createBaseSign($param, $strSecretKey){
         if (!is_array($param) || empty($param)){
             return false;
         }

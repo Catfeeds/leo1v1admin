@@ -20,6 +20,7 @@
         
         <div>
             <div class="row" >
+
                 <div class="col-xs-6 col-md-2">
                     <button class="btn btn-primary" id="id_add_channel">新增主渠道</button>
                 </div> 
@@ -54,6 +55,8 @@
                                 <a class="fa opt-edit"  title="修改"> 修改</a>
                                 <a class="fa opt-assign-channel"  title=""> 分配渠道</a>
                                 <a class="fa opt-assign-admin"  title=""> 分配成员</a>
+                                <a class="fa opt-add_other_teacher"  title=""> 新增招师代理</a>
+
 
                             </div>
                         </td>

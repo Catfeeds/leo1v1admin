@@ -70,7 +70,7 @@ class seller_student_new extends Controller
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -30*6, 0, 0, [
+            -30*6, 1, 0, [
             0 => array( "add_time", "资源进来时间"),
             4 => array("sub_assign_time_2","分配给主管时间"),
             5 => array("admin_assign_time","分配给组员时间"),
