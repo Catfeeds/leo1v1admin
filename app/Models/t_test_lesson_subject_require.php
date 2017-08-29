@@ -96,6 +96,26 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         return $this->main_get_list_by_page($sql,$page_num);
     }
 
+    public function get_list_by_test_lesson_subject_id_new( $page_num,$test_lesson_subject_id,$userid )
+    {
+        $where_arr=[
+            ["test_lesson_subject_id=%d",$test_lesson_subject_id,  -1 ]   ,
+            ["l.userid=%d",$userid,  -1 ]   ,
+        ];
+        $sql=$this->gen_sql_new(
+            "select l.lessonid, r.origin, r.require_id,require_time, accept_flag,success_flag,no_accept_reason , test_lesson_fail_flag, fail_reason, teacherid,lesson_end, lesson_start, l.subject, sl.confirm_adminid, accept_adminid  "
+            ." from  %s r  "
+            ."left join %s sl on r.current_lessonid = sl.lessonid  "
+            ."left join %s l on sl.lessonid = l.lessonid  where  %s order by l.lesson_start desc ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_list_by_page($sql,$page_num);
+    }
+
+
     public function get_lesson_list_by_require_id( $page_num,$require_id)
     {
         $where_arr=[

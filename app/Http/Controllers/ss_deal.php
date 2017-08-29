@@ -692,6 +692,35 @@ class ss_deal extends Controller
         $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
         return $this->output_succ(["data"=> $ret_list]);
     }
+
+    public function get_require_list_js_new()  {
+        $page_num=$this->get_in_page_num();
+        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
+        $userid = $this->get_in_userid(-1);
+        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
+            return $this->output_succ( );
+        }
+        $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id_new($page_num,$test_lesson_subject_id,$userid);
+        if(count($ret_list['list'])>0){
+            $ret_new = $ret_list['list'][0];
+            $ret_list['list'] = [];
+            $ret_list['list'][0] = $ret_new;
+        }
+        foreach($ret_list["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            $this->cache_set_item_teacher_nick($item);
+            $this->cache_set_item_account_nick($item,"confirm_adminid", "confirm_admin_nick");
+            $this->cache_set_item_account_nick($item,"accept_adminid", "accept_admin_nick");
+            E\Esubject::set_item_value_str($item);
+            $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["accept_flag"] );
+            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["success_flag"] );
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+        }
+        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
+        return $this->output_succ(["data"=> $ret_list]);
+    }
+
     public function set_no_accpect() {
         $require_id = $this->get_in_require_id();
 
