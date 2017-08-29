@@ -42,7 +42,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
         $sql = $this->gen_sql_new("select tf.id,tf.teacherid,tf.lessonid,tf.lesson_count,status,feedback_type,"
                                   ." t.nick,l.lesson_start,l.lesson_end,l.userid,tf.add_time,tf.sys_operator,tf.check_time,"
                                   ." l.deduct_come_late,l.deduct_check_homework,l.deduct_change_class,l.deduct_rate_student,"
-                                  ." l.deduct_upload_cw,l.grade,t.teacher_money_type,t.level,"
+                                  ." l.deduct_upload_cw,l.grade,t.teacher_money_type,t.level,tf.del_flag,"
                                   ." tea_reason,back_reason"
                                   ." from %s tf"
                                   ." left join %s t on tf.teacherid=t.teacherid"
