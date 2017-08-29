@@ -2053,8 +2053,6 @@ class teacher_info extends Controller
             }
             $item['normal_count'] = $item['normal_count']/100;
         }
-
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
         ]);
@@ -2141,6 +2139,11 @@ class teacher_info extends Controller
 
         $ret_info = $this->t_teacher_info->update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city);
         return outputjson_success();
+    }
+
+    public function get_teacher_money_info(){
+        $teacherid = $this->get_login_teacher();
+        return 2;
     }
 
 }

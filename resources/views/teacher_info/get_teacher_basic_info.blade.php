@@ -1,5 +1,11 @@
 @extends('layouts.teacher_header')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <style>
      .ft14{
          font-size:14px;
@@ -15,9 +21,6 @@
      }
      .bor-hr{
          border-top:1px solid #ccc
-     }
-     .div-pad{
-         padding: 20px 10px;
      }
      .div-mar{
          margin:10px;
@@ -88,10 +91,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
@@ -102,9 +105,7 @@
                                     <p class="ft24 text-yellow">60%</p>
                                 </div>
                                 <div class="col-sm-12">
-                                    <p>
-                                        温馨提示：当前您还有<a href="javascript:;" class="color-red">个人信息、</a><a href="javascript:;" class="color-red">简历、</a><a href="javascript:;" class="color-red">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
-                                    </p>
+                                    <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
                                     <br />
                                 </div>
                             </div>
@@ -132,10 +133,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12"">
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
                                     <p data-status="nofull" class="hide"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
@@ -164,10 +165,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12"">
                                     <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
                                 </div>
@@ -193,12 +194,12 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12"">
-                                    <button type="button" class="btn btn-block btn-info btn-sm">上传资格证</button>
+                                    <button type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
                                 </div>
 
                             </div>
@@ -222,10 +223,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                             </div>
                         </div>
                     </div>
@@ -247,10 +248,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     托管制学习体系
                                     媲美学校教学体系，覆盖学习的课前、课中和课后
@@ -279,10 +280,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <span class="badge bg-green">特长1</span>
                                     <span class="badge bg-info">特长2</span>
@@ -316,10 +317,10 @@
                             <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info">保存</button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" >
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info" id="user-info">
                                     <p class="color-6">个人信息</p>
                                     <table class="table table-bordered">
@@ -460,10 +461,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                     <form class="col-sm-12 flag-baes
                                                  @if (!$my_info['bankcard'])
                                                  hide
@@ -558,10 +559,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <table class="table table-bordered">
                                         <tr>
@@ -601,10 +602,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-3 label label-warning div-mar">
                                         <h3>{{$my_info['leave_count']}}次</h3>
@@ -647,10 +648,10 @@
                         </div>
                     </div>
                     <!-- /.box-header -->
+                    <div class="bor-hr"></div>
                     <div class="box-body">
                         <div class="chart col-sm-12" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
                                 <div class="col-sm-6">第一次试听课平均分:<span class="ft24">96分</span></div>
                                 <div class="col-sm-6">第五次试听课平均分:<span class="ft24">96分</span></div>
@@ -660,7 +661,6 @@
                             </div>
                         </div>
                         <div class="direct-chat-contacts">
-                            <div class="bor-hr"></div>
                             <div class="col-sm-12 div-pad text-black">
                                 <h5>平均分=所有学生第N次分数和/所有学生</h5>
                                 <p>例如：李老师带了三个学生A、B、C。</p>
@@ -734,5 +734,4 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
 
