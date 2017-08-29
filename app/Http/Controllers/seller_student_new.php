@@ -75,7 +75,7 @@ class seller_student_new extends Controller
             4 => array("sub_assign_time_2","分配给主管时间"),
             5 => array("admin_assign_time","分配给组员时间"),
             6 => array("tmk_assign_time","微信分配时间"),
-            ], 0
+            ], 0,0, true
         );
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
@@ -141,7 +141,9 @@ class seller_student_new extends Controller
             }else{
                 $item['lass_call_time_space'] = time()-$item['add_time'];
             }
+
             $item['lass_call_time_space'] = (int)($item['lass_call_time_space']/86400);
+
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
@@ -1481,6 +1483,7 @@ class seller_student_new extends Controller
         $adminid = $this->get_in_int_val('adminid');
         $admin_nick = $this->cache_get_account_nick($adminid);
         $phone = $this->get_in_str_val('phone');
+        $this->switch_tongji_database();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
         if(count($lesson_call_end)>0){
             foreach($lesson_call_end as $item){
