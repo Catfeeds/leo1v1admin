@@ -1497,8 +1497,9 @@ class common extends Controller
             'mobile' => $user_info["phone"],
             'email' => $user_info["email"],
         );
+        dd($endata);
+
         $rsaData = $this->enrsa($endata);
-        dd($rsaData);
         
         $arrParams = array(
             'action' => 'sync_order_info',

@@ -198,7 +198,8 @@ class send_wx_msg_for_test_lesson extends Command
         $absenteeism_lesson_list = $task->t_lesson_info_b2->get_absenteeism_list();
 
         foreach($absenteeism_lesson_list as $index=>$item){
-            $logout_time = $task->t_lesson_opt_log->get_logout_time($item['lessonid']);
+            $logout_time_tea = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['teacherid']);
+            $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
             if(!$logout_time || $logout<$item['lesson_start']){
                 $data_ass = $this->get_data($item,3,5);
