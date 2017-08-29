@@ -17,7 +17,15 @@
 
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
-        
+         <div>
+            <div class="row" >
+
+                <div class="col-xs-12 col-md-4" data-title="时间段">
+                    <div id="id_date_range"> </div>
+                </div>
+            </div>
+        </div>
+        <hr />
         <table     class="common-table"  > 
 
             <thead>
