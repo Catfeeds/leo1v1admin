@@ -76,7 +76,7 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span >新入职培训</span>
@@ -116,7 +116,7 @@
             </div>
         </div>
         <hr/>
-        <table class="common-table"> 
+        <table class="common-table">
             <thead>
                 <tr>
                     <td >id</td>
@@ -187,13 +187,13 @@
                                 操作人:{{$var["limit_plan_lesson_account"]}}<br>
                                 操作时间:{{$var["limit_plan_lesson_time_str"]}}<br>
                             @endif
-                        </td>                      
-                     
+                        </td>
+
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!} >
                                 <a class="fa-user opt-user-info" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="老师信息"> </a>
-                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>                               
+                                <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
                                 <a class="div_show" href="/teacher_info/free_time?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="设置空闲时间">设置空闲时间</a>
                                 <a class="opt-get-teacher-lesson-hold div_show">设置暂停接试听课</a>
@@ -215,6 +215,5 @@
         </table>
         @include("layouts.page")
     </section>
-    
-@endsection
 
+@endsection

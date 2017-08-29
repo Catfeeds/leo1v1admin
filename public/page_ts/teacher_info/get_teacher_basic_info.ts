@@ -8,6 +8,15 @@ $(function(){
         });
     }
 
+    $('.opt-upload').on('click', function() {
+        $.self_upload_process( "xxxxx" ,"/common/upload_qiniu",[] ,["pdf","zip"],{
+            "file_name_fix": 'test'
+        }, function( ret,ctminfo){
+            set_url_fun(ret.file_name);
+            upload_status_show(id_item,1);
+        });
+    });
+
     $('.opt-set').on('click', function(){
         var old_status = $(this).attr('data-status');
         if(old_status == 'full') {
@@ -29,6 +38,7 @@ $(function(){
             $(this).hide();
         }
         $('#'+id+' span').addClass('hide');
+        $('#'+id+' a').addClass('hide');
         $('#'+id+' input').removeClass('hide');
         $('#'+id+' select').removeClass('hide');
     });
@@ -66,7 +76,6 @@ $(function(){
     $('button[data-refresh]').on('click', function(){
         window.location.reload();
     });
-
     $('.opt-submit').on('click', function () {
         var form_id = $(this).attr('data-name');
         var sub_url = $('#'+form_id).attr('data-sub');
@@ -85,6 +94,8 @@ $(function(){
         });
     });
 	  $('.opt-change').set_input_change_event(load_data);
+
+
 });
 
 

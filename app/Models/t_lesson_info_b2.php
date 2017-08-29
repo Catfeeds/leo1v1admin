@@ -3436,13 +3436,16 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['l.lesson_end<%s', $end_time, 0],
             'l.lesson_type=1001',
         ];
-        $sql = $this->gen_sql_new("select count(ol.userid) as num,l.subject,l.grade ,l.lessonid"
+        $sql = $this->gen_sql_new("select count(distinct ol.userid) as num,l.subject,l.grade ,l.lessonid,"
+                                  ." count( distinct lo.userid) as cur_num"
                                   ." from %s l"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
+                                  ." left join %s lo on lo.lessonid=l.lessonid"
                                   ." where %s"
                                   ." group by l.lessonid order by l.lesson_start"
                                   ,self::DB_TABLE_NAME
                                   ,t_open_lesson_user::DB_TABLE_NAME
+                                  ,t_lesson_opt_log::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
@@ -3486,6 +3489,39 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   t_teacher_info::DB_TABLE_NAME
         );
         return $this->main_get_list_as_page($sql);
+
+    }
+
+
+    public function get_absenteeism_list(){
+        $now = time();
+        $next = time()+60;
+
+        $where_arr = [
+            "l.lesson_type=2", //试听课
+            "l.del_flag=0",
+            ["l.lesson_start>%d",$now],
+            ["l.lesson_start<=%d",$next]
+        ];
+
+        $sql = $this->gen_sql_new(" select l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
 
     }
 }
