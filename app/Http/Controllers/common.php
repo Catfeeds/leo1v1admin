@@ -1476,7 +1476,7 @@ class common extends Controller
         $period = $this->get_in_int_val("period",12);
 
         
-        $orderid = 17819;
+        $orderid = 974;
         //成交价格
         $dealmoney = $this->t_order_info->get_price($orderid);
         //订单id
@@ -1499,6 +1499,8 @@ class common extends Controller
         );
 
         $rsaData = $this->enrsa($endata);
+        dd($rsaData);
+        
         
         $arrParams = array(
             'action' => 'sync_order_info',

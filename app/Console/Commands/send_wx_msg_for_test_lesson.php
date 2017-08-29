@@ -202,18 +202,16 @@ class send_wx_msg_for_test_lesson extends Command
             $logout_time_stu = $task->t_lesson_opt_log->get_logout_time($item['lessonid'],$item['userid']);
 
             if(!$logout_time_tea || $logout_time_tea<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,5,$item['teacher_nick']);
-                $this->send_wx_msg_ass();
+                $data_ass = $this->get_data($item,3,5,$item['teacher_nick'],'');
+                $this->send_wx_msg_ass($item,5,$data_ass);
             }
 
             if(!$logout_time_stu || $logout_time_stu<$item['lesson_start']){
-                $data_ass = $this->get_data($item,3,5);
-                $this->send_wx_msg_ass();
+                $data_ass = $this->get_data($item,3,5,'',$item['stu_nick']);
+                $this->send_wx_msg_ass($item,5,$data_ass);
             }
 
         }
-        //absenteeism_flag
-
 
         // 试听课正常结束
 
