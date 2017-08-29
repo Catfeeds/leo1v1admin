@@ -92,6 +92,7 @@ $(function(){
         'start_time'    : g_args.start_time,
         'end_time'      : g_args.end_time,
         date_type_config : JSON.parse( g_args.date_type_config),
+        timepicker : true,
         onQuery :function() {
             load_data();
         }

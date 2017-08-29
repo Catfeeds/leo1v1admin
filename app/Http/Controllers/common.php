@@ -1449,6 +1449,7 @@ class common extends Controller
         return $this->output_err("上传失败");
     }
 
+    //中文分词预处理
     public function get_ppl_data(){
         $pa=new \Analysis\PhpAnalysis();
         $demand = $this->get_in_str_val("demand","哈哈哈");
@@ -1462,6 +1463,14 @@ class common extends Controller
         echo "<pre>";
         print_r($arr);
         echo "</pre>"; 
+    }
+
+    //百度有钱花接口
+    public function send_baidu_money_charge(){
+        $orderid = $this->get_in_int_val("orderid");
+        $orderid = 17819;
+        
+ 
     }
 
 }
