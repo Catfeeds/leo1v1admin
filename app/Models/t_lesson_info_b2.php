@@ -3456,19 +3456,36 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct l.teacherid) num,ta.reference,tt.teacher_ref_type"
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) lesson_add_num,ta.reference,tt.teacher_ref_type,c.channel_id,c.channel_name"
                                   ." from %s l left join %s t on l.userid = t.teacherid"
                                   ." left join %s ta on t.phone = ta.phone"
                                   ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
                                   ." where %s group by ta.reference",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_teacher_lecture_appointment_info::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list($sql,function($item){
             return $item["reference"];
         });
+    }
+
+    public function get_no_time_train_lesson_teacher_list(){
+        $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname,t.phone,t.wx_openid "
+                                  ." from %s l left join %s ll on (l.teacherid=ll.teacherid and ll.lesson_del_flag=0 and ll.lesson_start>0 and ll.lesson_type=1100 and ll.train_type=4)"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where l.lesson_start=0 and l.lesson_del_flag=0 and l.lesson_type=1100 and l.train_type=4 and ll.lessonid is null and t.is_test_user=0",
+                                  self::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
+
     }
 }

@@ -4318,14 +4318,66 @@ class human_resource extends Controller
     public function zs_origin_list_new(){
         $this->switch_tongji_database(); 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3); 
+
+        //报名数
         $ret_info = $this->t_teacher_lecture_appointment_info->get_app_lecture_sum_by_reference($start_time,$end_time);
+      
+	   //录制试讲提交数
         $video_add = $this->t_teacher_lecture_info->get_video_add_num_by_reference($start_time,$end_time);
+
+        ///面试预约数
         $lesson_add = $this->t_lesson_info_b2->get_lesson_add_num_by_reference($start_time,$end_time);
-        $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
-        $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
-        $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
         
-        dd($train_through_lesson);
+        //入职总人数以及各老师类型入职人数
+        $train_through_all = $this->t_teacher_info->get_train_through_all_list($start_time,$end_time);
+
+        //录制试讲入职人数
+        $train_through_video = $this->t_teacher_info->get_train_through_video_list($start_time,$end_time);
+
+        //面试试讲入职人数
+        $train_through_lesson = $this->t_teacher_info->get_train_through_lesson_list($start_time,$end_time);
+
+        foreach($ret_info as $k=>&$val){
+            $val["video_add_num"] = isset($video_add[$k]["video_add_num"])?$video_add[$k]["video_add_num"]:0;
+            $val["lesson_add_num"] = isset($lesson_add[$k]["lesson_add_num"])?$lesson_add[$k]["lesson_add_num"]:0;
+            
+            $val["through_all"] = isset($train_through_all[$k])?$train_through_all[$k]["through_all"]:0;
+
+            $val["through_jg"] = isset($train_through_all[$k])?$train_through_all[$k]["through_jg"]:0;
+            $val["through_gx"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gx"]:0;
+            $val["through_zz"] = isset($train_through_all[$k])?$train_through_all[$k]["through_zz"]:0;
+            $val["through_gxs"] = isset($train_through_all[$k])?$train_through_all[$k]["through_gxs"]:0;
+
+            $val["through_video"] = isset($train_through_video[$k])?$train_through_video[$k]["through_video"]:0;
+            $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
+        }
+        dd($ret_info);
+        foreach($video_add as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+        foreach($lesson_add as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+        foreach($train_through_all as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+
+
+        $all=$list=$team=$data=[];
+        foreach($ret_info as $item){
+            dd(1111);
+        }
+        
+
+        
+        
+        dd($ret_info);
     }
     public function zs_origin_list(){
         $this->switch_tongji_database();

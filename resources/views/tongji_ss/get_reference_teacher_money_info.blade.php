@@ -19,6 +19,20 @@
                     <td>姓名</td>
                     <td>电话</td>
                     <td>入职时间</td>
+                    <td>4月（试听课）</td>
+                    <td>4月（签单）</td>
+                    <td>4月（签单率）</td>
+
+                    <td>5月（试听课）</td>
+                    <td>5月（签单）</td>
+                    <td>5月（签单率）</td>
+                    <td>6月（试听课）</td>
+                    <td>6月（签单）</td>
+                    <td>6月（签单率）</td>
+                    <td>7月（试听课）</td>
+                    <td>7月（签单）</td>
+                    <td>7月（签单率）</td>
+                  
                    
 
                     <td> 操作</td>
@@ -31,6 +45,19 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
+                        <td class="first_lesson_num"></td>
+                        <td class="first_order_num"></td>
+                        <td class="first_per"></td>
+                        <td class="second_lesson_num"></td>
+                        <td class="second_order_num"></td>
+                        <td class="second_per"></td>
+                        <td class="third_lesson_num"></td>
+                        <td class="third_order_num"></td>
+                        <td class="third_per"></td>
+                        <td class="fourth_lesson_num"></td>
+                        <td class="fourth_order_num"></td>
+                        <td class="fourth_per"></td>
+
                        
                        
 

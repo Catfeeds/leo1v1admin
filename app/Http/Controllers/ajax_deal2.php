@@ -778,11 +778,11 @@ class ajax_deal2 extends Controller
     public function get_teacher_week_test_lesson_info(){
         $teacherid = $this->get_in_int_val("teacherid"); 
         $train_through_new_time = $this->get_in_int_val("train_through_new_time"); 
-        $first_start = strtotime(date("Y-m-d",$train_through_new_time))+86400;
-        $first_end = $first_start+7*86400;
-        $second_end = $first_start+14*86400;
-        $third_end = $first_start+21*86400;
-        $fourth_end = $first_start+28*86400;
+        $first_start = strtotime("2017-04-01");
+        $first_end = strtotime("2017-05-01");
+        $second_end = strtotime("2017-06-01");
+        $third_end = strtotime("2017-07-01");
+        $fourth_end = strtotime("2017-08-01");
         $qz_tea_arr = [];
         $qz_tea_arr[] = $teacherid;
         $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
@@ -806,6 +806,25 @@ class ajax_deal2 extends Controller
 
 
         return $this->output_succ(["data"=>$data]); 
+    }
+    public function set_admin_menu_config () {
+        $menu_config= $this->get_in_str_val("menu_config");
+        $adminid=$this->get_account_id();
+
+        $this->t_manager_info->field_update_list($adminid,[
+            "menu_config" =>  $menu_config
+        ]);
+        sleep(2);
+        (new  login() )->reset_power($this->get_account());
+        return $this->output_succ();
+    }
+    public function get_admin_member_config() {
+        $adminid=$this->get_account_id();
+        $row= $this->t_manager_info->field_get_list($adminid,"menu_config");
+        return $this->output_succ([
+            "menu_config"=> $row["menu_config"]
+        ]);
+
     }
 
 }

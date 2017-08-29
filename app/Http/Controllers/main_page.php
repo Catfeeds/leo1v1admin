@@ -390,6 +390,11 @@ class main_page extends Controller
         $this->set_in_value("kpi_flag",1);
         return $this->quality_control();
     }
+
+    public function quality_control_jy(){
+        return $this->quality_control();
+    }
+
     public function  quality_control(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],1 );

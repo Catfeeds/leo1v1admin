@@ -18,24 +18,43 @@
     <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
     <section class="content ">
         
-        <div>
-            <div class="row" >
-                <div class="col-xs-6 col-md-2">
-                    <button class="btn btn-primary" id="id_add_channel">新增主渠道</button>
-                </div> 
-            </div>
-        </div>
-        <hr/>
         <table     class="common-table"  > 
+
             <thead>
+                <tr  >
+                    <td colspan="3">渠道名称</td>
+                    <td colspan="3">面试总数据</td>
+                    <td colspan="3">录制试讲</td>
+                    <td colspan="3">一对一面试</td>
+                    <td colspan="4">入职数</td>
+                </tr>
                 <tr>
                     <td>主渠道</td>
                     <td>次渠道</td>
                     <td>成员</td>
+
+                    <td>报名数</td>
+                    <td>入职数</td>
+                    <td>入职率</td>
+
+                    <td>提交数</td>
+                    <td>入职数</td>
+                    <td>入职率</td>
+
+                    <td>预约数</td>
+                    <td>入职数</td>
+                    <td>入职率</td>
+
+                    <td>公校教师</td>
+                    <td>机构教师</td>
+                    <td>在校学生</td>
+                    <td>在职人士</td>
+
                     <td>操作</td>
                 </tr>
             </thead>
             <tbody>
+
                 @foreach ( $table_data_list as $var )
                     <tr class="{{$var["level"]}}">
                         <td data-class_name="{{$var["main_type_class"]}}" class="main_type" >
@@ -47,13 +66,27 @@
                         <td data-class_name="{{$var["group_name_class"]}}" class="group_name  {{$var["up_group_name_class"]}} {{$var["group_name_class"]}}  "  >
                             {{@$var["admin_name"]}} {{@$var['admin_phone']}}
                         </td>
+
+                        <td>{{@$var['app_num']}}</td>
+                        <td>{{@$var['through_all']}}</td>
+                        <td>{{@$var['through_all_per']}}</td>
+
+                        <td>{{@$var['video_add_num']}}</td>
+                        <td>{{@$var['through_video']}}</td>
+                        <td>{{@$var['through_video_per']}}</td>
+
+                        <td>{{@$var['lesson_add_num']}}</td>
+                        <td>{{@$var['through_lesson']}}</td>
+                        <td>{{@$var['through_lesson_per']}}</td>
+
+                        <td>{{@$var['through_gx']}}</td>
+                        <td>{{@$var['through_jg']}}</td>
+                        <td>{{@$var['through_gxs']}}</td>
+                        <td>{{@$var['through_zz']}}</td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="fa opt-edit"  title="修改"> 修改</a>
-                                <a class="fa opt-assign-channel"  title=""> 分配渠道</a>
-                                <a class="fa opt-assign-admin"  title=""> 分配成员</a>
 
                             </div>
                         </td>

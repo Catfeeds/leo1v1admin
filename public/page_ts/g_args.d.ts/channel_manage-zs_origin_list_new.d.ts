@@ -13,29 +13,25 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	app_num	:any;
-	interview_num	:any;
-	interview_pass_num	:any;
-	interview_trial_num	:any;
-	interview_trial_pass_num	:any;
-	teacher_ref_type	:any;
-	reference	:any;
+	channel_id	:any;
+	channel_name	:any;
+	up_group_name	:any;
+	group_name	:any;
+	account	:any;
+	main_type_class	:any;
+	up_group_name_class	:any;
+	group_name_class	:any;
+	account_class	:any;
 	level	:any;
-	teacher_ref_type_class	:any;
-	realname	:any;
-	teacher_ref_type_str	:any;
-	interview_per	:any;
-	interview_pass_per	:any;
-	interview_trial_pass_per	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../human_resource; vi  ../human_resource/zs_origin_list.ts
+	 mkdir -p ../channel_manage; vi  ../channel_manage/zs_origin_list_new.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/human_resource-zs_origin_list.d.ts" />
+/// <reference path="../g_args.d.ts/channel_manage-zs_origin_list_new.d.ts" />
 
 $(function(){
     function load_data(){

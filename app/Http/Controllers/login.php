@@ -256,6 +256,7 @@ class login extends Controller
 
         $_SESSION['permission'] = @$permission[$account];
 
+        $menu_config=preg_split("/,/", $ret_row["menu_config"] );
 
 
         //power_list
@@ -280,11 +281,11 @@ class login extends Controller
 
         $main_department = $this->t_manager_info->get_main_department($uid);
 
-        if($main_department == 2 ||  $uid == 684 || $uid == 99){ // 教学管理事业部
+        if( in_array( E\Emain_department::V_2, $menu_config ) || $main_department == 2 ||  $uid == 684 || $uid == 99){ // 教学管理事业部
             $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
         }
         // if (\App\Helper\Utils::check_env_is_local() ) {
-        if($ret_row["account_role"] == 2){ // 销售部
+        if( in_array( E\Emain_department::V_1, $menu_config )  ||  $ret_row["account_role"] == 2){ // 销售部
             $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
         }
         \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
