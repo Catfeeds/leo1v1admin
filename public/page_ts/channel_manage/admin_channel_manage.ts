@@ -192,6 +192,7 @@ $(function(){
                     "identity"           : 0,
                     "add_type"           : 1,
                     "wx_use_flag"        : 0,
+                    "zs_id"              : zs_id.val(),
                 });
             }
         },function(){
