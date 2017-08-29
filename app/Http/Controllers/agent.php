@@ -33,6 +33,10 @@ class agent extends Controller
         $userid_arr = [];
 
         foreach($ret_info['list'] as &$item){
+            $status = $item["lesson_user_online_status"];
+            if($status == 2){
+                $item["lesson_user_online_status"] = 0;
+            }
             $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
             $item['agent_type'] = $item['type'];
             E\Eagent_type::set_item_value_str($item);
