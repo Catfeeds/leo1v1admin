@@ -847,16 +847,29 @@ class ajax_deal2 extends Controller
                 return $this->output_err("文件格式不对!");
             }
             $origin_arr=[];
+            $key1="";
+            $key2="";
+            $key3="";
+            $key4="";
+            $value="";
+            $fix="";
             foreach ($arr as $index => $item) {
-                $value=trim($item[5]).trim($item[4]);
-                $origin_arr[]=$value;
+                $key1= trim($item[0])? trim($item[0]): $key1 ;
+                $key2= trim($item[1])? trim($item[1]): $key2 ;
+                $key3= trim($item[2])? trim($item[2]): $key3 ;
+                $key4= trim($item[3])? trim($item[3]): $key4 ;
+                $value= trim($item[4]);
+                $fix= trim($item[5])? trim($item[5]): $fix;
+
+                $fix_value=$fix.$value;
+                $origin_arr[]=$fix_value;
                 $this->t_origin_key->row_insert([
                     "create_time" => $now,
-                    "key1" => trim($item[0]),
-                    "key2" => trim($item[1]),
-                    "key3" => trim($item[2]),
-                    "key4" => trim($item[3]),
-                    "value" => $value ,
+                    "key1" => $key1,
+                    "key2" => $key2,
+                    "key3" => $key3,
+                    "key4" => $key4,
+                    "value" => $fix_value ,
                 ],true);
 
                 /*
@@ -889,5 +902,86 @@ class ajax_deal2 extends Controller
         $this->out_xls( \App\Helper\Utils::list_to_page_info($list));
 
     }
+
+    public function test_jack() {
+        $account = $this->get_account();
+        $ret_permission = $this->t_manager_info->get_user_permission(array($account));
+        
+
+        \App\Helper\Utils::logger("loginx4");
+
+
+        $permission = array();
+        foreach($ret_permission as $key => $value) {
+            $permission[$value['account']] = $value['permission'];
+        }
+
+        $ret_row = $this->t_manager_info->get_info_by_account($account);
+
+        $_SESSION['login_userid']    = $ret_row["uid"];
+        $_SESSION['login_user_role'] = 1;
+        $_SESSION['acc']             = $account;
+        $_SESSION['adminid']         = $ret_row["uid"];
+        $_SESSION['account_role']    = $ret_row["account_role"];
+        $_SESSION['seller_level']    = $ret_row["seller_level"];
+        $_SESSION['power_set_time']  = time(NULL);
+
+
+        $_SESSION['permission'] = @$permission[$account];
+
+        $menu_config=preg_split("/,/", $ret_row["menu_config"] );
+
+
+        //power_list
+        $power_list = $this->t_manager_info->get_permission_list($account);
+        $arr        = array();
+        foreach( $power_list as $item ){
+            $arr[$item] = true;
+        }
+        $power_map=$arr;
+        dd($power_map);
+
+        $url_power_map=\App\Config\url_power_map::get_config();
+
+        $menu_html ="";
+
+        $uid = $ret_row["uid"];
+        //收藏列表
+        $self_menu_config=$this->t_admin_self_menu->get_menu_config($uid);
+
+        $tmp_arr=$arr;
+        $tmp_url_power_map= $url_power_map ;
+        $menu_html.=$this->gen_account_role_menu( $self_menu_config , $tmp_arr,  $tmp_url_power_map ,false );
+
+        $main_department = $this->t_manager_info->get_main_department($uid);
+
+        if( in_array( E\Emain_department::V_2, $menu_config ) || $main_department == 2 ){ // 教学管理事业部
+            $menu_html.=$this->gen_account_role_menu( \App\Config\teaching_menu::get_config(), $arr,  $url_power_map ,  false);
+        }
+        // if (\App\Helper\Utils::check_env_is_local() ) {
+        if( in_array( E\Emain_department::V_1, $menu_config )  ||  $ret_row["account_role"] == 2){ // 销售部
+            $menu_html.=$this->gen_account_role_menu( \App\Config\seller_menu::get_config(), $arr,  $url_power_map ,  false);
+        }
+        \App\Helper\Utils::logger("2 menu_html strlen ".strlen( "$menu_html") );
+
+        $menu      = \App\Helper\Config::get_menu();
+        $menu_html .= $this->gen_menu( $arr,$menu,1,1);
+
+        $stu_menu = \App\Helper\Config::get_stu_menu();
+        $tea_menu = \App\Helper\Config::get_tea_menu();
+
+        $stu_menu_html = $this->gen_menu( $arr,$stu_menu,201,2);
+        $tea_menu_html = $this->gen_menu( $arr,$tea_menu,202,2);
+
+        $_SESSION['menu_html']     = $menu_html;
+        $_SESSION['stu_menu_html'] = $stu_menu_html;
+        $_SESSION['tea_menu_html'] = $tea_menu_html;
+        $_SESSION['power_list']    = json_encode($power_map);
+
+        session($_SESSION) ;
+
+        return @$permission[$account];
+    }
+
 
 }
