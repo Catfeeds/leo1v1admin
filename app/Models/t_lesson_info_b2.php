@@ -3499,7 +3499,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     }
 
 
-    public function get_absenteeism_list(){
+    public function get_lesson_list_for_minute(){
         $now = time();
         $next = time()+60;
 
