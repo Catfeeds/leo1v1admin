@@ -5,8 +5,11 @@
             <div class="col-sm-12">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Line Chart</h3>
-
+                        <div style="text-align:center;" class="text-blue">
+                            <button type="button" class="btn btn-box-tool text-blue"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
+                            <h3 class="box-title">2017-08</h3>&nbsp;&nbsp;
+                            <button type="button" class="btn btn-box-tool text-blue"><i class="fa fa-angle-right"></i></button>
+                        </div>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
@@ -71,6 +74,7 @@
                                 </div>
                             </div>
                             <!-- ./col -->
+                            <!-- 兼职老师显示 -->
                             <div class="col-lg-3 col-xs-6">
                                 <!-- small box -->
                                 <div class="small-box bg-red">
@@ -258,10 +262,6 @@
                 </div>
                 <!-- /.box -->
             </div>
-
-
-
-
         </div>
     </section>
 
