@@ -55,7 +55,8 @@ class send_error_mail extends Job implements ShouldQueue
 
             foreach($admin_list as $account) {
 
-                $this->task->t_manager_info->send_wx_todo_msg($account,"system",$title,$content);
+                \App\Helper\Utils::logger(" send error to wx: $account");
+                $this->task->t_manager_info->send_wx_todo_msg($account,"system",$title, substr( $content,0,50));
             }
 
 
