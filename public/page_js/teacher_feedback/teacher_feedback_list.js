@@ -144,6 +144,7 @@ $(function(){
         var arr = [
             ["是否删除",id_del_flag]
         ];
+
         Enum_map.append_option_list("boolean",id_del_flag,true);
         id_del_flag.val(data.del_flag);
 
@@ -151,6 +152,8 @@ $(function(){
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
+                console.log(id_del_flag.val());
+                return ;
                 $.do_ajax("/teacher_feedback/delete_teacher_feedback_info",{
                     "id"       : data.id,
                     "status"   : data.status,
