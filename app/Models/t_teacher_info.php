@@ -832,7 +832,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                               ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
                               ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
                               ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
-                              ." t.test_transfor_per,t.school,"
+                              ." t.test_transfor_per,t.school,t.need_test_lesson_flag,"
                               ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
                               ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
                               ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
@@ -3265,6 +3265,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $res;
 
     }
+
+    public function update_teacher_status($teacherid, $need_test_lesson_flag){
+
+        $res = $this->field_update_list( ["teacherid" => $teacherid],[
+            "need_test_lesson_flag"    => $need_test_lesson_flag,
+        ]);
+        return $res;
+    }
+
 
     public function get_train_through_all_list($start_time,$end_time){
         $where_arr = [
