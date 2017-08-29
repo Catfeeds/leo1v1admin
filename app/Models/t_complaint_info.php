@@ -10,7 +10,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
 
 
-    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type  ){
+    public function get_complaint_info_for_qc($time_type,$page_num,$opt_date_str,$start_time,$end_time, $is_complaint_state, $account_type,$complaint_type  ){
 
         $where_arr = [
             ["complaint_state = %d",$is_complaint_state,-1],
@@ -37,11 +37,10 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
 
     public function get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type){
 
-
         $where_arr = [
-
             ["ta.assign_flag=%d",0],
             ["tc.account_type=%d",$account_type],
+            "complaint_type<>5"
         ];
 
         if($root_flag){
@@ -50,7 +49,7 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
             $where_arr[] =  ["ta.accept_adminid in ('%s')",$account_id_str];
         }
 
-        $where_arr[] = ["tc.complaint_type = %d",$complaint_type,-1];
+        // $where_arr[] = ["tc.complaint_type = %d",$complaint_type,-1];
 
         $this->where_arr_add_time_range($where_arr,$opt_date_str,$start_time,$end_time);
 

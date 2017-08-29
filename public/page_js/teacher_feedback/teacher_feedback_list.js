@@ -348,21 +348,25 @@ $(function(){
     });
 
     $(".opt-update-lesson-info").on("click",function(){
-	    var data     = $(this).get_opt_data();
-        var id_grade = $("<select/>");
+	      var data            = $(this).get_opt_data();
+        var id_grade        = $("<select/>");
+        var id_lesson_count = $("<input/>");
 
         Enum_map.append_option_list("grade",id_grade,true,[101,102,103,104,105,106,201,202,203,301,302,303]);
         var arr = [
-            ["年级",id_grade]
+            ["年级",id_grade],
+            ["课时(不填则不更改)",id_lesson_count],
         ];
+        id_grade.val(data.grade);
 
         $.show_key_value_table("更改课程信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
                 $.do_ajax("/lesson_info/update_lesson_info",{
-                    "lessonid" : data.lessonid,
-                    "grade"    : id_grade.val(),
+                    "lessonid"     : data.lessonid,
+                    "grade"        : id_grade.val(),
+                    "lesson_count" : id_lesson_count.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
@@ -391,5 +395,33 @@ $(function(){
 
     });
 
+    $(".opt-reset_lesson_money").on("click",function(){
+        var data = $(this).get_opt_data();
+
+	      BootstrapDialog.show({
+	          title   : "重置课程金额",
+	          message : "是否重置课程金额",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/lesson_info/reset_lesson_money",{
+                        "lessonid" : data.lessonid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
+    });
 
 });

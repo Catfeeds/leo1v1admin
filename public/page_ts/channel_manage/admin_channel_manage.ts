@@ -172,7 +172,7 @@ $(function(){
             ["老师类型", id_teacher_type],
             //["推荐人类型", id_teacher_ref_type],
             ["电子邮件", id_email],
-            ["招师代理",zs_id]
+            ["指定招师",zs_id]
         ];
 
         $.show_key_value_table("新增老师", arr ,{

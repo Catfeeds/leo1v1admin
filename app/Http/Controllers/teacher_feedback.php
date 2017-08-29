@@ -217,7 +217,7 @@ class teacher_feedback extends Controller
         }
 
         if(in_array($acc,["adrian","alan","jim"])){
-            $ret = $this->t_teacher_feedback_list->field_update_list($id,[
+            $ret = $this->t_teacher_feedback_list->field_update_list(["id"=>$id],[
                 "del_flag"    => $del_flag,
                 "check_time " => time(),
             ]);
