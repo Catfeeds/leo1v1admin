@@ -1468,7 +1468,39 @@ class common extends Controller
     //百度有钱花接口
     public function send_baidu_money_charge(){
         $orderid = $this->get_in_int_val("orderid");
+
+        //期待贷款额度(分单位)
+        $money = $this->get_in_int_val("money",100);
+
+        //分期期数
+        $period = $this->get_in_int_val("period",12);
+
+        
         $orderid = 17819;
+        //成交价格
+        $dealmoney = $this->t_order_info->get_price($orderid);
+        //订单id
+        $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+
+
+
+        
+        //$url = 'https://umoney.baidu.com/edu/openapi/post';
+        $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
+
+        $userid = $this->t_order_info->get_userid($orderid);
+        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+        // RSA加密数据
+        $endata = array(
+            'username' => $user_info["nick"],
+            'mobile' => $user_info["phone"],
+            'email' => $user_info["email"],
+        );
+        $rsaData = enrsa($endata);
+
+        
+        
         
  
     }
@@ -1476,7 +1508,7 @@ class common extends Controller
     /**
      * @param $data
      * @return string
-     * rsa 加密
+     * rsa 加密(百度有钱花)
      */
     function enrsa($data){
         $public_key = '-----BEGIN PUBLIC KEY-----  
@@ -1500,7 +1532,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param $param
      * @param string $strSecretKey
      * @return bool|string
-     * 生成签名
+     * 生成签名(百度有钱花)
      */
     function createBaseSign($param, $strSecretKey){
         if (!is_array($param) || empty($param)){

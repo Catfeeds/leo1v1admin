@@ -274,7 +274,7 @@ class tea_manage extends Controller
 
             E\Elesson_cancel_reason_type::set_item_value_str($item);
             \App\Helper\Common::set_item_enum_flow_status($item ,"require_lesson_success_flow_status" );
-
+            $item['assistant_nick']= $this->cache_get_assistant_nick($item['assistantid']);
             $item['lesson_end_str' ]        = date('Y-m-d H:i',$item['lesson_end']);
             $item['real_begin_time_str' ]   = date('Y-m-d H:i',$item['real_begin_time']);
             $item['lesson_status_str']      = $lesson_status_cfg[ $item['lesson_status' ] ];

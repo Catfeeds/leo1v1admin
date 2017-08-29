@@ -3438,17 +3438,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             'l.lesson_del_flag=0',
             'l.confirm_flag!=2',
             'l.jw_confirm_flag!=2',
+            'co.packageid>0',
         ];
         $sql = $this->gen_sql_new("select count(distinct ol.userid) as num,l.subject,l.grade ,l.lessonid,"
-                                  ." count( distinct lo.userid) as cur_num"
+                                  ." count( distinct lo.userid) as cur_num,l.lesson_start"
                                   ." from %s l"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
                                   ." left join %s lo on lo.lessonid=l.lessonid"
+                                  ." left join %s co on co.courseid=l.courseid"
                                   ." where %s"
                                   ." group by l.lessonid order by l.lesson_start"
                                   ,self::DB_TABLE_NAME
                                   ,t_open_lesson_user::DB_TABLE_NAME
                                   ,t_lesson_opt_log::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
