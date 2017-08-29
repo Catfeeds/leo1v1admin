@@ -161,6 +161,7 @@ $(function(){
         var id_teacher_type       = $("<select/>");
         //var id_teacher_ref_type   = $("<select/>");
         var id_email              = $("<input/>");
+        var zs_id                 = $("<input/>");
 
         //Enum_map.append_option_list("teacher_ref_type", id_teacher_ref_type);
         Enum_map.append_option_list("teacher_type", id_teacher_type,true,[0,21,22,31,41]);
@@ -171,6 +172,7 @@ $(function(){
             ["老师类型", id_teacher_type],
             //["推荐人类型", id_teacher_ref_type],
             ["电子邮件", id_email],
+            ["招师代理",zs_id]
         ];
 
         $.show_key_value_table("新增老师", arr ,{
@@ -192,6 +194,14 @@ $(function(){
                     "wx_use_flag"        : 0,
                 });
             }
+        },function(){
+            $.admin_select_user(
+                zs_id ,
+                "admin", null,true, {
+                    "main_type": 8 //分配用户
+                }
+            );
+
         });
     });
     $('.opt-change').set_input_change_event(load_data);

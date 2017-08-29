@@ -798,6 +798,7 @@ class tea_manage extends Controller
         $grade_end             = $this->get_in_int_val("grade_end",0);
         $not_grade             = $this->get_in_str_val("not_grade","");
         $teacher_ref_type      = $this->get_in_int_val('teacher_ref_type',-1);
+        $id_zs                 = $this->get_in_int_val('id_zs',-1);
         $wx_use_flag           = $this->get_in_int_val("wx_use_flag",1);
         $bankcard              = $this->get_in_str_val("bankcard");
         $bank_address          = $this->get_in_str_val("bank_address");

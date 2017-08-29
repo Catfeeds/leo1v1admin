@@ -748,6 +748,7 @@ return array(
     'TTeacherInfoAddTwoWeekLessonNum' => $baseDir . '/database/migrations/2017_08_23_185252_t_teacher_info_add_two_week_lesson_num.php',
     'TTeacherInfoAddUserAgentUpdateWx' => $baseDir . '/database/migrations/2017_07_05_180340_t_teacher_info_add_user_agent_update_wx.php',
     'TTeacherInfoAddWeekLessonCount' => $baseDir . '/database/migrations/2017_05_11_140836_t_teacher_info_add_week_lesson_count.php',
+    'TTeacherInfoAddZsId' => $baseDir . '/database/migrations/2017_08_29_170004_t_teacher_info_add_zs_id.php',
     'TTeacherInfoUpdateNotGradeLimit' => $baseDir . '/database/migrations/2017_05_03_095931_t_teacher_info_update_not_grade_limit.php',
     'TTeacherInfoUpdateWeekLessonCount' => $baseDir . '/database/migrations/2017_05_11_142148_t_teacher_info_update_week_lesson_count.php',
     'TTeacherLabelAddTeaLabelType' => $baseDir . '/database/migrations/2017_08_04_181953_t_teacher_label_add_tea_label_type.php',
