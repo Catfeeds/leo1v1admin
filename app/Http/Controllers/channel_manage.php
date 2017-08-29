@@ -204,6 +204,7 @@ class channel_manage extends Controller
 
     public function zs_origin_list_new(){
         $channel_info = $this->t_admin_channel_list->get_admin_channel_info();
+        //array_unshift($channel_info,['channel_id' => 0, 'channel_name' => '未定义']);
         //dd($ret_info);
         $list=[];
         $num=1;
@@ -295,7 +296,7 @@ class channel_manage extends Controller
             }
             $num++;
         }
-
+        //dd($list);
         //---------------------------calculate---------------------------------------
         $this->switch_tongji_database(); 
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,null,3); 
@@ -332,8 +333,22 @@ class channel_manage extends Controller
             $val["through_video"] = isset($train_through_video[$k])?$train_through_video[$k]["through_video"]:0;
             $val["through_lesson"] = isset($train_through_lesson[$k])?$train_through_lesson[$k]["through_lesson"]:0;
         }
-//dd($ret_info);
-//$ret_info[12515215151]['']
+        foreach($video_add as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+        foreach($lesson_add as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+        foreach($train_through_all as $k=>$v){
+            if(!isset($ret_info[$k])){
+                $ret_info[$k]=$v;
+            }
+        }
+        
         foreach ($list as $key => $value) {
 
             if(isset($value['admin_phone'])){
@@ -377,6 +392,69 @@ class channel_manage extends Controller
             }
         }
 
+        //undefined 
+        $list_undefined=[];
+        $list_undefined[] = [
+            "channel_id"=>-1, //
+            "channel_name"=>'未定义', //
+            "up_group_name"=>"",
+            "group_name"=>"",
+            "account"=>"",
+            "main_type_class"=>"campus_id-".$n,
+            "up_group_name_class"=>"",
+            "group_name_class"=>"",
+            "account_class"=>"",
+            "level"=>"l-1" //
+        ];
+        $list_undefined[] = [
+            "channel_id"=>-1, //
+            "channel_name"=>'未定义',//
+            "up_group_name"=>'',
+            "group_name"=>'未定义', //
+            "account"=>"",
+
+            "main_type_class"=>"campus_id-".$n,
+            "up_group_name_class"=>"up_group_name-".++$num,
+            "group_name_class"=>"",
+            "account_class"=>"",
+
+            "level"=>"l-2",
+            "up_master_adminid"=>'',
+            "group_id"=>-1, //
+            "main_type"=>''
+        ];
+
+        foreach ($ret_info as $key => $value) {
+            if($value['channel_id'] == null){
+                $arr = [
+                    "channel_id"=>-1, //
+                    "channel_name"=>'未定义',//
+                    "group_name"=>'未定义', // admin_id
+                    "group_id"=>-1,
+                    "account"=>"",
+
+                    "main_type_class"=>"campus_id-".$n,
+                    "up_group_name_class"=>"up_group_name-".$m,
+                    "group_name_class"=>"group_name-".++$num,
+                    "account_class"=>"",
+
+                    "admin_id"=>'',
+                    "admin_name"=>'',
+                    "level"=>"l-3",
+                    "master_adminid"=>'',
+                    "main_type"=>'',
+                    "admin_phone" => @$value['phone'],
+                ];
+                $arr = array_merge($value,$arr);
+                $list_undefined[] = $arr;
+
+            }
+        }
+        $list_undefined = array_reverse($list_undefined);
+        foreach ($list_undefined as $key => $value) {
+            array_unshift($list,$value);
+        }
+        dd($list);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
     }
 }
