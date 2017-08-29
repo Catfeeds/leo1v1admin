@@ -1476,7 +1476,7 @@ class common extends Controller
     /**
      * @param $data
      * @return string
-     * rsa 加密
+     * rsa 加密(百度有钱花)
      */
     function enrsa($data){
         $public_key = '-----BEGIN PUBLIC KEY-----  
@@ -1500,7 +1500,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
      * @param $param
      * @param string $strSecretKey
      * @return bool|string
-     * 生成签名
+     * 生成签名(百度有钱花)
      */
     function createBaseSign($param, $strSecretKey){
         if (!is_array($param) || empty($param)){
