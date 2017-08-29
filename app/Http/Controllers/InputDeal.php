@@ -489,6 +489,7 @@ trait  InputDeal {
         if ( !($timepacker_flag  &&   $opt_date_type ==0) ) { //按时间段,不处理 $end_time
             $end_time   += 86400;
         }
+
         if ( $end_time - $start_time >30*86400  ) {
             $this->switch_tongji_database();
         }

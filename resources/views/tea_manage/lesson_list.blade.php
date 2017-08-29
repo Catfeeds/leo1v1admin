@@ -221,7 +221,7 @@
                     <td style="display:none;" >声音记录服务器1</td>
                     <td style="display:none;max-width:100px;" >本次课用户版本</td>
                     <td style="display:none" >课堂扣款</td>
-                    <td style="display:none" >全勤课次</td>
+                    <td style="display:none" >助教</td>
                     <td  style="min-width:200px" >操作</td>
                 </tr>
             </thead>
@@ -322,7 +322,7 @@
                         </td>
                         <td > {{$var["system_version"]}} </td>
                         <td > {{$var["lesson_deduct"]}} </td>
-                        <td > {{$var["lesson_full_num"]}} </td>
+                        <td > {{$var["assistant_nick"]}} </td>
                         <td class="remove-for-xs">
                             <div class="opt"
                                  {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
