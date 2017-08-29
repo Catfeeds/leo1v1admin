@@ -155,7 +155,7 @@ $(function(){
         var key_list = me.val();
 
         var data = $(this).get_opt_data();
-        $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"教研\" >教研</option><option value=\"薪资运营\">薪资运营</option><option value=\产品\">产品</option>")
+        $main_type_name.html("<option value=\"\" >[全部]</option><option value=\"助教\" >助教</option><option value=\"销售\"  >销售</option><option value=\"教务\" >教务</option><option value=\"教研\" >教研</option><option value=\"薪资运营\">薪资运营</option>")
         var clean_select = function ($select) {
             $select.html("<option value=\"\">[全部]</option>");
         };

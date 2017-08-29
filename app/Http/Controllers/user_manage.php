@@ -1886,6 +1886,8 @@ class user_manage extends Controller
     }
 
     public function qc_complaint(){
+
+        $complaint_type = $this->get_in_int_val('complaint_type',-1);
         $page_num = $this->get_in_page_num();
         $account_type = $this->get_in_int_val('account_type',-1);
         $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
@@ -1898,7 +1900,7 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type );
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type, $complaint_type );
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
@@ -1927,7 +1929,6 @@ class user_manage extends Controller
             }
         }
 
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1949,7 +1950,8 @@ class user_manage extends Controller
     public function complaint_department_deal_product(){
         $this->set_in_value('account_type',2);
         $this->set_in_value('complaint_type',5); // 显示软件反馈类型
-        return $this->complaint_department_deal();
+        return $this->qc_complaint();
+        // qc_complaint
     }
 
 

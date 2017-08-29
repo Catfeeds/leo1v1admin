@@ -147,7 +147,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <hr/>
                 <table   class="table table-bordered "   >
                     <tr>  <th> 时间 <th>角色 <th>用户id <th>服务 <th> 进出 <th> ip </tr>
