@@ -936,7 +936,8 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.subject=%u",$subject,-1],
             "tr.trial_train_status>0",
             "tr.trial_train_status<3",
-            "t.is_test_user=0"
+            "t.is_test_user=0",
+            "tr.acc <> 'system' "
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select acc,count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
@@ -960,7 +961,9 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             ["l.trial_train_num=%u",$trial_train_num,-1],
             ["l.subject=%u",$subject,-1],
             "tr.trial_train_status>0",
-            "t.is_test_user=0"
+            "tr.trial_train_status<3",
+            "t.is_test_user=0",
+            "tr.acc <> 'system' "
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(*) all_num,sum(if(trial_train_status=1,1,0)) pass_num"
