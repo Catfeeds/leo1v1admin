@@ -641,4 +641,17 @@ class wx_yxyx_api extends Controller
         ];
         return $data;
     }
+
+    public function sendWxMsg($openid){
+        $template_id = "";
+        $data_msg = [
+            "first"     => "$opt_nick 老师发布了一条投诉",
+            "keyword1"  => "常规投诉",
+            "keyword2"  => "老师投诉内容:$report_msg",
+            "keyword3"  => "投诉时间 $log_time_date ",
+        ];
+        $url = 'http://admin.yb1v1.com/user_manage/qc_complaint/';
+        $wx=new \App\Helper\Wx();
+        $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+    }
 }
