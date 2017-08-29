@@ -200,6 +200,9 @@ class send_wx_msg_for_test_lesson extends Command
         foreach($absenteeism_lesson_list as $index=>$item){
             $logout_time = $task->t_lesson_opt_log->get_logout_time($item['lessonid']);
 
+            if($logout_time){
+
+            }
         }
         //absenteeism_flag
 
