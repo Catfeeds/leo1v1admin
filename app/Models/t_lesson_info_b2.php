@@ -3436,7 +3436,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['l.lesson_end<%s', $end_time, 0],
             'l.lesson_type=1001',
         ];
-        $sql = $this->gen_sql_new("select count(ol.userid) as num,l.subject,l.grade ,l.lessonid"
+        $sql = $this->gen_sql_new("select count(ol.userid) as num,l.subject,l.grade ,l.lessonid,"
                                   ." count( distinct lo.userid) as cur_num"
                                   ." from %s l"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
