@@ -115,6 +115,7 @@ class seller_student_new extends Controller
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
         $call_phone_count= $this->get_in_int_val("call_phone_count", -1);
+        $suc_test_count= $this->get_in_int_val("suc_test_count", -1);
         $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
         $self_adminid = $this->get_account_id();
         if($self_adminid==349){
@@ -130,7 +131,7 @@ class seller_student_new extends Controller
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
-            $first_seller_adminid ,$call_phone_count,$main_master_flag,$self_adminid );
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$main_master_flag,$self_adminid );
 
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
@@ -991,6 +992,7 @@ class seller_student_new extends Controller
             "hold_cur_count"  => $this->t_seller_student_new->get_hold_count($admin_revisiterid) ,
         ]);
     }
+
     public function get_free_seller_list_data() {
         list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         $page_num   = $this->get_in_page_num();
@@ -1023,10 +1025,48 @@ class seller_student_new extends Controller
         return $ret_info;
     }
 
+    public function get_free_seller_list_data_new() {
+        list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
+        $page_num   = $this->get_in_page_num();
+        $phone_name = trim($this->get_in_str_val("phone_name"));
+        $nick  = "";
+        $phone = "";
+        if($phone_name){
+            if (!($phone_name>0)) {
+                $nick=$phone_name;
+            }else{
+                $phone=$phone_name;
+            }
+        }
+
+
+        $grade=$this->get_in_grade(-1);
+        $has_pad=$this->get_in_has_pad(-1);
+        $subject=$this->get_in_subject(-1);
+        $origin=trim($this->get_in_str_val("origin",""));
+        $this->t_seller_student_new->switch_tongji_database();
+        $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,$start_time,$end_time,$this->get_account_id(),$grade, $has_pad,$subject,$origin,$nick,$phone,$suc_test_flag=1);
+        foreach ($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+            E\Epad_type::set_item_value_str($item, "has_pad");
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            \App\Helper\Utils::hide_item_phone($item);
+        }
+
+        return $ret_info;
+    }
+
     public function get_free_seller_list () {
         $ret_info=$this->get_free_seller_list_data();
         return $this->pageView(__METHOD__, $ret_info);
     }
+
+    public function get_free_seller_test_fail_list () {
+        $ret_info=$this->get_free_seller_list_data();
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
 
     public function wiki()  {
         $accountid=$this->get_account_id();
