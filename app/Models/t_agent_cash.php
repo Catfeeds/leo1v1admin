@@ -22,7 +22,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
             " select ac.aid,ac.cash,ac.is_suc_flag,ac.create_time,a.phone "
             ." from %s ac "
             ." left join %s a on a.id = ac.aid "
-            ." where a.phone=%s ",
+            ." where a.phone=%d ",
             self::DB_TABLE_NAME,
             t_agent::DB_TABLE_NAME,
             $phone

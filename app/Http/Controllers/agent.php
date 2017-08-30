@@ -229,20 +229,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $openid = 'oJ_4fxH0imLIImSpAEOPqZjxWtDA';
-        $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
-        $data = [
-            'first'    => 'sam',
-            'keyword1' => '课程提醒',
-            'keyword2' => '课程时间:学生姓名:',
-            'keyword3' => '2221',
-            'remark'   => '理优期待与你一起共同进步，提供高品质教学服务',
-        ];
-        $url = 'www.leo1v1.com';
-        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id_teacher,$data,$url);
-        dd('a');
-
-
         $cur_require_adminid = $this->get_account_id();
         $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
         dd($ret_info);
