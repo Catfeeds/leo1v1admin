@@ -361,4 +361,13 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         );
         return $this->main_get_list($sql);
     }
+    public function get_acc_role($phone){
+        $sql = $this->gen_sql_new(
+            "select start_time,adminid,admin_role from %s "
+            ." where phone='%s'"
+            ,self::DB_TABLE_NAME
+            ,$phone
+        );
+        return $this->main_get_list($sql);
+    }
 }

@@ -2779,22 +2779,21 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $sql = $this->gen_sql_new(
             "select o.orderid,o.sys_operator,o.origin,o.price,o.lesson_total,o.default_lesson_count,"
-            ." s.phone,s.phone_location,"
-            // ."m.name,m.account_role,"
-            ." tq.start_time,tq.is_called_phone,tq.uid"
+            ." s.phone,s.phone_location,o.order_time"
+            // .",m.name,m.account_role,"
+            // ." tq.start_time,tq.is_called_phone,tq.uid"
             ." from %s o"
-            ." left join %s s on s.userid=o.userid"
-            ." left join %s tq on tq.phone=s.phone"
+            ." left join %s s on o.userid=s.userid"
+            // ." left join %s tq on s.phone=tq.phone"
             // ." left join %s m on tq.uid=m.uid"
             ." where %s"
             ." order by o.order_time"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
-            ,t_tq_call_info::DB_TABLE_NAME
+            // ,t_tq_call_info::DB_TABLE_NAME
             // ,t_manager_info::DB_TABLE_NAME
             ,$where_arr
         );
-                echo $sql;exit;
         return $this->main_get_list($sql);
 
     }
