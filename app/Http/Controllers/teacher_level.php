@@ -645,8 +645,11 @@ class teacher_level extends Controller
     //第一次试听课列表
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
+        if (\App\Helper\Utils::check_env_is_release() ) {
+            dd("暂停" );
+        }
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],1);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
