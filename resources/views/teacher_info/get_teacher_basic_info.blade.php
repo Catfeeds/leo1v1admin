@@ -16,6 +16,9 @@
      .text-cen{
          text-align:center;
      }
+     .text-top{
+         vertical-align:top;
+     }
      .r-border{
          border-right:1px solid #ccc;
      }
@@ -32,6 +35,9 @@
      .color-red{
          color:red;
      }
+     .color-blue{
+         color:#00A6FF;
+     }
      .div-bank{
          width:60%;
          margin:50px auto;
@@ -42,7 +48,7 @@
      }
      .flag-baes th{
          width:20%;
-         background:#39cccc;
+         background:#f0f0f0;
          text-align:center;
      }
      .flag-baes td{
@@ -72,12 +78,12 @@
                         </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
-                                <h3><span  class="text-blue">{{$my_info['days']}}</span><span class="ft14">天</span></h3>
-                                <p>入职天数</p>
+                                <h3><span  class="color-blue">{{$my_info['days']}}</span><span class="ft14">天</span></h3>
+                                <p class="color-6">入职天数</p>
                             </div>
                             <div class="col-sm-6">
-                                <h3><span  class="text-blue">{{$my_info['normal_count']}}</span><span class="ft14">课时</span></h3>
-                                <p>总课耗</p>
+                                <h3><span  class="color-blue">{{$my_info['normal_count']}}</span><span class="ft14">课时</span></h3>
+                                <p class="color-6">总课耗</p>
                             </div>
                         </div>
                     </div>
@@ -103,7 +109,11 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <p class="ft24 text-yellow">60%</p>
+                                    <div class="progress">
+                                        <div class="progress-bar">
+                                            <b class="ft24 text-yellow text-top">60%</b>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
@@ -128,8 +138,8 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
                         <div class="box-tools pull-right">
-                            <h3 class="box-title color-red" data-status="full">饱和</h3>
-                            <h3 class="box-title color-red" data-status="nofull">不饱和</h3>
+                            <b class="color-red" data-status="full">饱和</b>
+                            <b class="color-red" data-status="nofull">不饱和</b>
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>

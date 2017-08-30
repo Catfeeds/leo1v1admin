@@ -2422,6 +2422,7 @@ class tea_manage extends Controller
 
         if($full_time==1 && $flag==1){
             $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
             $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
         }
 
@@ -2610,6 +2611,8 @@ class tea_manage extends Controller
                     $data['remark']="后续将有HR和您联系，请保持电话畅通。";
                     $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
                     $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+                    $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+
 
 
                 }else{
@@ -2791,6 +2794,7 @@ class tea_manage extends Controller
 
         if($full_time==1 && $flag==1){
             $this->t_manager_info->send_wx_todo_msg_by_adminid (986,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
+            $this->t_manager_info->send_wx_todo_msg_by_adminid (1043,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
             $this->t_manager_info->send_wx_todo_msg_by_adminid (349,"全职老师一面通过","全职老师一面通过",$nick."老师一面通过","");
         }
         $record_id = $this->t_teacher_record_list->check_have_record($teacherid,10,$lessonid);

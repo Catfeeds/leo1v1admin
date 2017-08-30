@@ -17,9 +17,9 @@ class Wx{
 
     public function get_wx_login_url($redirect_url) {
         \App\Helper\Utils::logger(" goto_wx_login redirect_url: $redirect_url");
-        $appid=$this->appid;
-        $no=rand(1,10000);
-        $url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
+        $appid = $this->appid;
+        $no    = rand(1,10000);
+        $url   = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_url&response_type=code&no=$no&scope=snsapi_userinfo&state=STATE_$no&connect_redirect=1#wechat_redirect";
         return $url;
     }
 
@@ -31,8 +31,8 @@ class Wx{
     }
 
     public function get_token_from_code($code) {
-        $appid=$this->appid;
-        $appsecret=$this->appsecret;
+        $appid     = $this->appid;
+        $appsecret = $this->appsecret;
         //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
         $json_data=file_get_contents( "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&code=$code&appid=$appid&secret=$appsecret"  );
         $ret_arr=\App\Helper\Utils::json_decode_as_array($json_data);

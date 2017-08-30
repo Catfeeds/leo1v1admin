@@ -462,6 +462,8 @@ class menu{
                     ["power_id"=>9, "name"=>"调课统计-老师",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher"],
                     ["power_id"=>10, "name"=>"调课统计-家长",   "url"=>"/tongji_ss/tongji_change_lesson_by_parent"],
                     ["power_id"=>11, "name"=>"科目统计-学生",   "url"=>"/user_manage/tongji_student_subject"],
+                    ["power_id"=>12, "name"=>"课耗年级统计-学生",   "url"=>"/user_manage/tongji_grade_lesson_count"],
+
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
                     ["power_id"=>1, "name"=>"短信日期统计",   "url"=>"/tongji/sms"],
