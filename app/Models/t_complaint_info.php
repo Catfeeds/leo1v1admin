@@ -40,8 +40,13 @@ class t_complaint_info extends \App\Models\Zgen\z_t_complaint_info
         $where_arr = [
             ["ta.assign_flag=%d",0],
             ["tc.account_type=%d",$account_type],
-            "complaint_type<>5"
         ];
+
+        if($complaint_type !=5){
+            $where_arr[]="complaint_type in (1,2,3,4)";
+        }else{
+            $where_arr[]="complaint_type = 5";
+        }
 
         if($root_flag){
             $where_arr[] =  ["ta.accept_adminid > %d",0];
