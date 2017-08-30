@@ -934,7 +934,7 @@ class ajax_deal2 extends Controller
 
         $test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         $test_lesson_count = count( $test_lesson_list) ;
-        if ( $test_lesson_list >5 ) {
+        if ( $test_lesson_count >5 ) {
             return $this->output_err("已经 $test_lesson_count 次试听了，超过5次，不可试听");
         }
 
