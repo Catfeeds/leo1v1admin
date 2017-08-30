@@ -7166,7 +7166,7 @@ class tongji_ss extends Controller
             @$arr[$item["userid"]]["grade"] = $item["grade"];
             @$arr[$item["userid"]]["nick"] = $item["nick"];
             @$arr[$item["userid"]]["account"] = $item["name"];
-            @$arr[$item["userid"]]["order_money"] +=$item["order_money"];
+            @$arr[$item["userid"]]["order_money"] +=$item["price"];
         }
         foreach($arr as &$val){
             if($val["order_money"]<=0){

@@ -930,9 +930,9 @@ class ajax_deal2 extends Controller
         $userid = $this->get_in_userid();
         $adminid=$this->get_account_id();
 
-        $test_lesson_count=$this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0);
+        $test_lesson_count=$this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         if ($test_lesson_count >5 ) {
-            $this->output_err("已经 $test_lesson_count 试听了，不可");
+            return $this->output_err("已经 $test_lesson_count 次试听了，超过5次，不可试听");
         }
 
         $cur_require_count=$this->t_test_lesson_subject->get_current_require_count($adminid);
