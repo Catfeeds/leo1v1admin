@@ -1955,8 +1955,8 @@ class user_manage extends Controller
         $page_info    = $this->get_in_page_info();
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
-        $account_type = 2;
-        $complaint_type = 5;
+        $account_type = 2; //　投诉人类型　老师
+        $complaint_type = 5; // 显示软件反馈类型
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
