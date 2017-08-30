@@ -9174,6 +9174,10 @@ lesson_type in (0,1) "
         $where_arr = [
             ["lesson_start>%u",$lesson_start,0],
             ["lesson_start<%u",$lesson_end,0],
+<<<<<<< HEAD
+            ["lesson_start>%u",$lesson_start,0],
+=======
+>>>>>>> e3211f908ab0b120d9b052fa2e7fa5707fd91033
             ["teacherid in (%s)",$teacherid_str,""],
             "lesson_type!=4001",
             "lesson_del_flag=0",
@@ -9189,5 +9193,4 @@ lesson_type in (0,1) "
             return $item['teacherid'];
         });
     }
-
 }
