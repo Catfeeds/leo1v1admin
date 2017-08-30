@@ -6,6 +6,7 @@
         <table     class="common-table"  >
             <thead>
                 <tr>
+                    <td>id </td>
                     <td>userid </td>
                     <td>昵称</td>
                     <td> 电话</td>
@@ -14,8 +15,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $table_data_list as $var )
+                @foreach ( $table_data_list as $index=> $var )
                     <tr>
+                        <td>{{@$index+1 }} </td>
                         <td>{{@$var["userid"]}} </td>
                         <td>{{@$var["student_nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
