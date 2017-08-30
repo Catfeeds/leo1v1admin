@@ -288,7 +288,7 @@ class test_boby extends Controller
                    .'<td>'.$val["admin_nick"].'</td>'
                    .'<td>'.$val["admin_role_str"].'</td>'
                    .'<td>'.$val["start_time"].'</td>'
-                   .'<td>'.$val["is_called_flag"].'</td>'
+                   .'<td>'.$val["is_called_phone"].'</td>'
                    .'</tr>';
             }
 
