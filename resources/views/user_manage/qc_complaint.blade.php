@@ -69,7 +69,7 @@
                         <td>{{@$var["user_nick"]}}/{{@$var["phone"]}} </td>
                         <td >{{mb_substr($var["complaint_info"],0,50 )}}...</td>
 
-                        <td>{{@$var["complained_adminid_nick"]}}/{{@$var["complained_adminid_type_str"]}} </td>
+                        <td>{{@$var["complained_adminid_nick"]}}/{{@$var["complained_department_str"]}} </td>
                         <td>{{@$var["complaint_date"]}} </td>
                         <td>{!!@$var["follow_state_str"]!!} </td>
                         <td>{{@$var["current_account"]}} </td>

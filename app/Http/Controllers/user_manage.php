@@ -1904,7 +1904,7 @@ class user_manage extends Controller
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
-            E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
+            E\Ecomplained_department::set_item_value_str($item,'complained_department');
             $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
             E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
             $item['deal_date']              = \App\Helper\Utils::unixtime2date($item['deal_time']);

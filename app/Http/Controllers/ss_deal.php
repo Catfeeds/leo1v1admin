@@ -5264,6 +5264,7 @@ class ss_deal extends Controller
             "account_role_str" => "市场",
         ];
 
+
         $ret[] = [
             "account_role" => "0",
             "up_groupid" => "0",
@@ -5272,6 +5273,18 @@ class ss_deal extends Controller
             "account" => "李珉劼",
             "account_role_str" => "市场-QC",
         ];
+
+
+        $ret[] = [
+            "account_role" => "0",
+            "up_groupid" => "0",
+            "master_adminid" => "1024",
+            "group_name" => "QC",
+            "account" => "王浩鸣",
+            "account_role_str" => "市场-QC",
+        ];
+
+
 
         $ret[] = [
             "account_role" => "0",
