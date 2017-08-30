@@ -1491,4 +1491,9 @@ class seller_student_new extends Controller
         return $ret;
     }
 
+    public function seller_get_test_lesson_list(){
+        $adminid=$this->get_in_adminid();
+        $list=$this->t_seller_student_new->get_test_lesson_list($adminid);
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+    }
 }

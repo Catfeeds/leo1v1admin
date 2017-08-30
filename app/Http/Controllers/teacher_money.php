@@ -525,9 +525,9 @@ class teacher_money extends Controller
         }
 
         if($type != E\Ereward_type::V_1){
-            $check_flag = $this->t_teacher_money_list->check_is_exists($money_info);
+            $check_flag = $this->t_teacher_money_list->check_is_exists($money_info,$type);
             if($check_flag){
-                return $this->output_err("此课程奖励已存在!");
+                return $this->output_err("此类型奖励已存在!");
             }
 
             if($type==E\Ereward_type::V_2){
