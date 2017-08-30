@@ -1059,7 +1059,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) require_num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money, s.origin_assistantid "
+        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money, s.origin_assistantid "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
@@ -1093,7 +1093,7 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
 
-        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) require_num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money,m.uid "
+        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money,m.uid "
                                   ." from %s tss left join %s l on tss.lessonid = l.lessonid"
                                   ." left join %s s on l.userid = s.userid"
                                   ." left join %s tr on tss.require_id = tr.require_id"
