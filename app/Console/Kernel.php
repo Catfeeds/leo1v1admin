@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         Commands\jhp::class,
         Commands\lesson_check::class,
         Commands\fulltime_teacher_interview_info::class,
+        Commands\teacher_first_test_lesson_deal::class,
         Commands\seller_new_count_day_gen::class,
         Commands\zs_lecture_info_day::class,        
         Commands\zs_lecture_info_all::class,        

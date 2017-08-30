@@ -2227,7 +2227,7 @@ class user_manage extends Controller
         }
         return $this->pageView(__METHOD__, $ret_info);
     }
- /**
+    /**
      * @author    sam
      * @function  助教统计月课时消耗-年级
      */
@@ -2235,8 +2235,8 @@ class user_manage extends Controller
     {
         list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
 
-        $this->t_student_info->switch_tongji_database();
-        $ret_info = $this->t_lesson_info->grade_lesson_count($start_time,$end_time); //获取信息
+        $this->switch_tongji_database();
+        $ret_info = $this->t_lesson_info_b2->grade_lesson_count($start_time,$end_time); //获取信息
         
         $ret_info = [[
                 'grade' => 101,
