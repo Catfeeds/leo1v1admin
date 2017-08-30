@@ -1169,7 +1169,7 @@ class tongji extends Controller
         }
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
-        $ret_info_new = [['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0]];
+        $ret_info_new = [['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0]];
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
 
@@ -1224,6 +1224,9 @@ class tongji extends Controller
                     $ret_info_new[6]['count']++;
                     $ret_info_new[6]['money'] += $item['los_personal_money'];
                 }
+                $ret_info_new[7]['long_time'] = '总计';
+                $ret_info_new[7]['count']++;
+                $ret_info_new[7]['money'] += $item['los_personal_money'];
             }
         }
 
