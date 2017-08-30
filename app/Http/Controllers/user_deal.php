@@ -2608,6 +2608,17 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $this->switch_tongji_database();
+        $start_time = time()-14*86400;
+        $end_time = time();
+        $list = $this->t_lesson_info_b2->get_test_lesson_num($start_time,$end_time);
+        dd($list);
+        foreach($list as $val){
+            $task->t_teacher_info->field_update_list($val["teacherid"],[
+                "two_week_test_lesson_num"   =>$val["num"] 
+            ]);
+        }
+
         $nick=111;
         $this->t_manager_info->send_wx_todo_msg_by_adminid (349 ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
         dd(111);

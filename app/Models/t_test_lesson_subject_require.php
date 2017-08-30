@@ -1997,16 +1997,18 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
    {
        $time = time();
        $where_arr=[
-           "require_time>1502899200",
+           "require_time>1503849600",
            "require_time<".$time,
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",
-           'contract_status = 0',
+           'contract_status in (0,null)',
        ];
        $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
 
        $sql= $this->gen_sql_new(
-           "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
+           "select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,"
+           ."  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time,"
+           ." test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status    " .
            " from %s tr".
            " left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id".
            " left join %s tss on tr.current_lessonid = tss.lessonid ".

@@ -629,6 +629,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.lesson_hold_flag_time,t.interview_score,t.second_interview_score, "
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
+                                  ." t.second_grade_start,t.second_grade_end,"
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   //." sum(tss.lessonid >0) week_lesson_num,"
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
@@ -2872,7 +2873,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "is_test_user = 0",
             "wx_openid is not null"
         ];
-        $sql = $this->gen_sql_new(" select distinct(wx_openid) from %s where %s",
+        $sql = $this->gen_sql_new(" select distinct(wx_openid), user_agent from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );

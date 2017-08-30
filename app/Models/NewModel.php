@@ -226,8 +226,7 @@ abstract class NewModel
                         "<br/>";
                 }
 
-
-                dispatch( new \App\Jobs\send_error_mail("","SLOW SQL", $bt_str  ));
+                dispatch( new \App\Jobs\send_error_mail("","SLOW:$bt_str", ""  ));
             }
         }
         return $this->do_error($ret ,$sql);
