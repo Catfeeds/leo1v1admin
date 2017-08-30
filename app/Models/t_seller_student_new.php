@@ -1757,7 +1757,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]="(tmk_student_status =3 )";
             break;
         case "tq_no_call_count" :
-            $where_arr[]="( global_tq_called_flag=0 )";
+            $where_arr[]="( global_tq_called_flag=0 and seller_student_status in (0))";
             break;
         }
 
