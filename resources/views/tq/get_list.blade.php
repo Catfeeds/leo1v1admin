@@ -62,7 +62,8 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td>{{$var["start_time"]}} </td>
-                        <td>{{$var["account"]}} </td>
+                        <td>{{$var["admin_nick"]}} </td>
+                        <td>{{$var["admin_role_str"]}} </td>
                         <td>{{$var["uid"]}} </td>
                         <td>{{$var["phone"]}} </td>
                         <td>{{$var["seller_student_status_str"]}} </td>
