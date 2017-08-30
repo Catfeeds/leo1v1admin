@@ -9173,7 +9173,7 @@ lesson_type in (0,1) "
     public function get_teacherid_for_free_time_by_lessonid($lesson_start,$lesson_end,$teacherid_str){
         $where_arr = [
             ["lesson_start<%u",$lesson_end,0],
-            ["lesson_end>%u",$lesson_start,0],
+            ["lesson_start>%u",$lesson_start,0],
             ["teacherid in (%s)",$teacherid_str,""],
             "lesson_type!=4001",
             "lesson_del_flag=0",
@@ -9193,7 +9193,7 @@ lesson_type in (0,1) "
     {
         $where_arr = [
             ["lesson_start<%u",$lesson_end,0],
-            ["lesson_end>%u",$lesson_start,0],
+            ["lesson_start>%u",$lesson_start,0],
             "lesson_type in (0,1,3) ",
             "lesson_del_flag=0",
         ];
@@ -9203,6 +9203,7 @@ lesson_type in (0,1) "
                                   ." group by grade order by grade asc"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr);
+        
         return $this->main_get_list($sql);
 
     }
