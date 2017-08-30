@@ -116,6 +116,7 @@ class wx_teacher_api extends TeaWxController
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -244,6 +245,7 @@ class wx_teacher_api extends TeaWxController
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
