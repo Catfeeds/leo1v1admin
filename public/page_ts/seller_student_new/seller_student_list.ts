@@ -240,16 +240,6 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-<<<<<<< HEAD
-        if (!opt_data.parent_wx_openid &&
-            g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186)
-        {
-            alert("家长未关注微信,不能提交试听课");
-            $(this).parent().find(".opt-seller-qr-code").click();
-            return;
-        }
-=======
->>>>>>> 6d7212971a09a6831a33ee8da58dcd3443a0c8c6
 
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
