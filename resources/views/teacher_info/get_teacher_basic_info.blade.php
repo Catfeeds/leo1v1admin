@@ -20,7 +20,8 @@
          border-right:1px solid #ccc;
      }
      .bor-hr{
-         border-top:1px solid #ccc
+         border-top:1px solid #ccc;
+         margin-bottom:10px;
      }
      .div-mar{
          margin:10px;
@@ -489,13 +490,13 @@
                                                 <td>
                                                     <span>{{$my_info['bank_type']}}</span>
                                                     <select name="bank_type" class="hide">
-                                                        <option value="中国建设银行">中国建设银行</option>
-                                                        <option value="中国工商银行">中国工商银行</option>
-                                                        <option value="中国农业银行">中国农业银行</option>
-                                                        <option value="交通银行">交通银行</option>
-                                                        <option value="招商银行">招商银行</option>
-                                                        <option value="中国银行">中国银行</option>
-                                                        <option value="中国邮政">中国邮政</option>
+                                                        <option>中国建设银行</option>
+                                                        <option>中国工商银行</option>
+                                                        <option>中国农业银行</option>
+                                                        <option>交通银行</option>
+                                                        <option>招商银行</option>
+                                                        <option>中国银行</option>
+                                                        <option>中国邮政</option>
                                                     </select>
 
                                                 </td>
