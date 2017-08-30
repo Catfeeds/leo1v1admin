@@ -1168,8 +1168,8 @@ class tongji extends Controller
             $res_item["adminid"] = $ret_k ;
         }
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
-
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
+        $ret_info_new = [];
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
 
@@ -1190,10 +1190,11 @@ class tongji extends Controller
                 $item['los_money'] = "";
                 $time = $item['leave_member_time']?$item['leave_member_time']:time();
                 $item['become_member_long_time'] = (int)(($time-$item['become_member_time'])/86400);
+                $ret_info_new[] = $item;
             }
 
         }
-        dd($ret_info);
+        dd($ret_info_new);
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
