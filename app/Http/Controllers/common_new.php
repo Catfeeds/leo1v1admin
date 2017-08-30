@@ -985,8 +985,10 @@ class common_new extends Controller
         $month = intval( date('n', strtotime ("-1 month") ));
         return $this->output_succ(['month'=> $month]);
     }
+
     public function get_teacher_lesson(){//p 2
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1000,6 +1002,12 @@ class common_new extends Controller
     }
 
     public function get_teacher_level(){//p3
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+
         $tea_title = [
             1 => "一星教师",
             2 => "二星教师",
@@ -1014,10 +1022,6 @@ class common_new extends Controller
             4 => "使出洪荒之力，五星教师就是你",
             5 => "荣耀五星教师，你值得拥有",
         ];
-        $teacherid = $this->get_in_int_val("teacherid");
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
         $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
         if($ret_info['teacher_money_type'] == 0) {
             $level = $ret_info['level'] + 2;
@@ -1031,7 +1035,8 @@ class common_new extends Controller
     }
 
     public function get_teacher_student(){//p4
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1048,7 +1053,8 @@ class common_new extends Controller
     }
 
     public function get_tea_lesson_some_info(){//p5
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1059,15 +1065,6 @@ class common_new extends Controller
             $item = intval($item);
         }
         return $this->output_succ(["list"=>$ret_info]);
-    }
-
-    public function send_to_no_contract_stu(){
-        $start_time = strtotime('2017-06-01');
-        $end_time   = strtotime('2017-09-01');
-        // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
-
-        // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
-        // dispatch($job);
     }
 
     public function get_teacher_money(){
@@ -1084,5 +1081,15 @@ class common_new extends Controller
 
         return $this->output_succ(["money"=>$money]);
     }
+
+    public function send_to_no_contract_stu(){
+        $start_time = strtotime('2017-06-01');
+        $end_time   = strtotime('2017-09-01');
+        // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
+
+        // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
+        // dispatch($job);
+    }
+
 
 }
