@@ -759,6 +759,18 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+    public function get_teacherid_by_phone(){
+        $phone           = $this->get_in_str_val('phone');
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
+        
+        if(empty($teacherid)){
+           return $this->output_err("没有老师帐号"); 
+        }else{
+            $data = $this->t_teacher_info->field_get_list($teacherid,"teacherid,level,teacher_money_type");
+           return $this->output_succ(["data"=>$data]); 
+        }
+    }
+
 
 
     //获取试听课学生试卷
