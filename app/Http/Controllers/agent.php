@@ -229,6 +229,11 @@ class agent extends Controller
     }
 
     public function check(){
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
+        dd($ret_info);
+
+
         $userid = 50314;
         $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
         $item_arr['test_lesson_count'] = 3;
