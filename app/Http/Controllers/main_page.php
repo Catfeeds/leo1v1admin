@@ -137,6 +137,12 @@ class main_page extends Controller
         ]);
     }
     public  function assistant() {
+        if (\App\Helper\Utils::check_env_is_release() ) {
+            dd("暂停" );
+        }
+
+        $this->switch_tongji_database();
+        
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
         $start_time   = $end_time-100*86400;

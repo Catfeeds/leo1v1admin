@@ -3395,16 +3395,14 @@ class tongji_ss extends Controller
     }
 
     public function tongji_teaching_and_research_teacher_test_lesson_info(){
-         $this->t_lesson_info->switch_tongji_database();
-         $this->t_research_teacher_rerward_list->switch_tongji_database();
-         $this->t_teacher_lecture_info->switch_tongji_database();
-         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
-         $tea_arr  = $this->t_manager_info->get_research_teacher_list(4);
-         $tea_arr[]=57701;//邓惠元老师
-         $list = $this->t_research_teacher_rerward_list->tongji_week_teacher_order_turn_info($start_time,$end_time);
-         $first_reward_list = $this->t_research_teacher_rerward_list->tongji_research_teacher_first_reward($start_time,$end_time);
-         $order_num_list = $this->t_teacher_lecture_info->get_research_teacher_test_lesson_info($start_time,$end_time,$tea_arr);
-         foreach($order_num_list as &$ww){
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
+        $tea_arr  = $this->t_manager_info->get_research_teacher_list(4);
+        $tea_arr[]=57701;//邓惠元老师
+        $list = $this->t_research_teacher_rerward_list->tongji_week_teacher_order_turn_info($start_time,$end_time);
+        $first_reward_list = $this->t_research_teacher_rerward_list->tongji_research_teacher_first_reward($start_time,$end_time);
+        $order_num_list = $this->t_teacher_lecture_info->get_research_teacher_test_lesson_info($start_time,$end_time,$tea_arr);
+        foreach($order_num_list as &$ww){
              $ww["order_per"] = !empty($ww["person_num"])?round($ww["order_num"]/$ww["person_num"],4)*100:0;
              $ww["reward"] = @$list[$ww["uid"]]["reward_count"];
              $ww["first_reward"] = @$first_reward_list[$ww["uid"]]["first_reward_count"];

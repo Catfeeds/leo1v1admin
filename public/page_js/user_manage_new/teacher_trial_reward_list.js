@@ -100,19 +100,19 @@ $(function(){
 			        dialog.close();
 		        }
 	        }, {
-		        label    : "确认",
-		        cssClass : "btn-warning",
-		        action   : function(dialog) {
-                    $.do_ajax("/user_manage_new/delete_teacher_reward",{
-                        "id" : data.id
-                    },function(result){
-                        if(result.ret==0){
-                            window.location.reload();
-                        }else{
-                            BootstrapDialog.alert(result.info);
-                        }
-                    })
-		        }
+		          label    : "确认",
+		          cssClass : "btn-warning",
+		          action   : function(dialog) {
+                  $.do_ajax("/user_manage_new/delete_teacher_reward",{
+                      "id" : data.id
+                  },function(result){
+                      if(result.ret==0){
+                          window.location.reload();
+                      }else{
+                          BootstrapDialog.alert(result.info);
+                      }
+                  })
+		          }
 	        }]
         });
     });

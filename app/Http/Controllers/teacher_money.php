@@ -518,24 +518,24 @@ class teacher_money extends Controller
         $add_date   = $this->get_in_str_val("add_time",date("Y-m-d",time()));
         $add_time   = strtotime($add_date);
         $acc        = $this->get_account();
-        if(in_array($type,[1,4])){
-            if(!in_array($acc,["adrian","jim"])){
+        if(in_array($type,[E\Ereward_type::V_1,E\Ereward_type::V_4])){
+            if(!in_array($acc,["adrian","jim","sunny"])){
                 return $this->output_err("此用户没有添加奖励权限！");
             }
         }
 
-        if($type!=1){
+        if($type != E\Ereward_type::V_1){
             $check_flag = $this->t_teacher_money_list->check_is_exists($money_info);
             if($check_flag){
                 return $this->output_err("此课程奖励已存在!");
             }
 
-            if($type==2){
+            if($type==E\Ereward_type::V_2){
                 $teacher_money_type = $this->t_teacher_info->get_teacher_money_type($teacherid);
                 if(!in_array($teacher_money_type,[0,4,5,6])){
                     return $this->output_err("老师工资分类错误！");
                 }
-            }elseif($type==3){
+            }elseif($type==E\Ereward_type::V_3){
                 $lesson_info = $this->t_lesson_info->get_lesson_info($money_info);
                 $add_time    = $lesson_info['lesson_start'];
                 $diff_time   = $lesson_info['lesson_end']-$add_time;
@@ -546,7 +546,7 @@ class teacher_money extends Controller
 
                 $base_money = $this->t_lesson_info->get_lesson_money($money_info);
                 $money      = $base_money*25;
-            }elseif($type==4 && $money_info==""){
+            }elseif($type==E\Ereward_type::V_4 && $money_info==""){
                 return $this->output_err("请填写补偿原因！");
             }
         }
