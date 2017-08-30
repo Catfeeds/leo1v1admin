@@ -88,7 +88,7 @@ class user_deal extends Controller
 
     public function cancel_lesson()
     {
-        $lessonid      = $this->get_in_int_val('lessonid',-1);
+        $lessonid = $this->get_in_int_val('lessonid',-1);
 
         $lesson_type=$this->t_lesson_info-> get_lesson_type($lessonid);
         if( $lesson_type==2) { //test_leson

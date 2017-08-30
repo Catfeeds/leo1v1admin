@@ -4275,6 +4275,12 @@ class tongji_ss extends Controller
         $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
+
+        foreach($ret_info['list'] as $i=>$item){
+            if($item['account'] == 'alan'){
+                unset($ret_info['list'][$i]);
+            }
+        }
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){

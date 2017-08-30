@@ -989,6 +989,11 @@ class common_new extends Controller
     public function get_teacher_lesson(){//p 2
         // $teacherid = $this->get_in_int_val("teacherid");
         $teacherid = $this->get_wx_teacherid();
+
+        \App\Helper\Utils::logger("yuebao".$teacherid);
+
+
+
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }

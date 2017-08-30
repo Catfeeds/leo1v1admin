@@ -1281,7 +1281,7 @@ class common extends Controller
                         "wx_openid" => null,
                     ]);
                 }
-                $re = $this->t_teacher_info->field_update_list($teacher_info['teacherid'], [
+                $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'], [
                     "wx_openid" => $wx_openid
                 ]);
             }else{
@@ -1293,7 +1293,7 @@ class common extends Controller
             session(["teacher_wx_use_flag"=>$teacher_info['wx_use_flag']]);
             return $this->output_succ(["wx_use_flag"=>$teacher_info['wx_use_flag']]);
         }else{
-            return $this->output_err ("验证码不对");
+            return $this->output_err("验证码不对");
         }
     }
 
