@@ -141,7 +141,7 @@ class main_page extends Controller
         return $this->error_view([
             "关闭首页统计,请看其它."
         ]);
-        
+
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
         $start_time   = $end_time-100*86400;
@@ -437,7 +437,7 @@ class main_page extends Controller
         //第一次试听/第一次常规
         $test_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,1,$subject);
         $test_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,1,$subject);
-        //dd($test_first_per); 
+        //dd($test_first_per);
         $regular_first = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,3,$subject);
         $regular_first_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,3,$subject);
 
@@ -469,7 +469,7 @@ class main_page extends Controller
                 $total_test_first_per += $test_first_per[$account]["all_time"];
                 $total_test_first_num += $test_first_per[$account]["all_num"];
             }
-             
+
             $item["test_first_per_str"] = "";
             if($item["test_first_per"]){
                 if($item["test_first_per"]/60>0){
@@ -506,7 +506,7 @@ class main_page extends Controller
             }
 
             $all_count +=$item["all_target_num"];
-            $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);           
+            $item["per"] = round($item["all_num"]/$item["all_target_num"]*100,2);
             if($kpi_flag==1){
                 $real_num += $item["real_num"];
                 $suc_count += $item["suc_count"];
@@ -589,11 +589,11 @@ class main_page extends Controller
             $arr["regular_first"] = $regular_first_all;
             $arr["all_num"] = $real_num+$train_first_all+$test_first_all+$regular_first_all+$train_second_all;
         }
-        
+
         $num = count($teacher_info);
         // $all_count = ($num-2)*250+300;
         if($all_count){
-            $arr["per"] = round($arr["all_num"]/$all_count*100,2);  
+            $arr["per"] = round($arr["all_num"]/$all_count*100,2);
         }else{
             $arr["per"] = 0;
         }
@@ -616,8 +616,8 @@ class main_page extends Controller
         $res_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time);
         $video_succ_subject = $this->t_teacher_lecture_info->get_lecture_info_by_subject_new($start_time,$end_time,1);
         $one_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,-1);
-        $one_succ_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,1);        
-        $all_subject=["subject_str"=>"总计"];$all_grade=["grade_ex_str"=>"总计"];     
+        $one_succ_subject = $this->t_teacher_record_list->get_all_interview_count_by_subject($start_time,$end_time,1);
+        $all_subject=["subject_str"=>"总计"];$all_grade=["grade_ex_str"=>"总计"];
         foreach($one_subject as $k=>$val){
             if(isset($res_subject[$k])){
                 $res_subject[$k]["all_count"] +=$val["all_count"];
@@ -637,7 +637,7 @@ class main_page extends Controller
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$t["subject"]);
             foreach($teacher_arr as $k=>$l){
                 if(!isset($teacher_list[$k])){
-                    $teacher_list[$k]=$k; 
+                    $teacher_list[$k]=$k;
                 }
             }
             $t["train_num"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,-1,false);
@@ -665,7 +665,7 @@ class main_page extends Controller
         $res_grade = $this->t_teacher_lecture_info->get_lecture_info_by_grade($start_time,$end_time);
         $video_succ_grade = $this->t_teacher_lecture_info->get_lecture_info_by_grade($start_time,$end_time,1);
         $one_grade = $this->t_teacher_record_list->get_all_interview_count_by_grade($start_time,$end_time,-1);
-        $one_succ_grade = $this->t_teacher_record_list->get_all_interview_count_by_grade($start_time,$end_time,1);        
+        $one_succ_grade = $this->t_teacher_record_list->get_all_interview_count_by_grade($start_time,$end_time,1);
         foreach($one_grade as $k=>$val){
             if(isset($res_grade[$k])){
                 $res_grade[$k]["all_count"] +=$val["all_count"];
@@ -683,7 +683,7 @@ class main_page extends Controller
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,-1,"",$i["grade_ex"]);
             foreach($teacher_arr as $k=>$l){
                 if(!isset($teacher_list[$k])){
-                    $teacher_list[$k]=$k; 
+                    $teacher_list[$k]=$k;
                 }
             }
             $i["train_num"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,-1);
@@ -720,8 +720,8 @@ class main_page extends Controller
 
         foreach($arr["list"] as $k=>$val){
             if(isset($list["list"][$k])){
-                $list["list"][$k]["all_count"] += $val["all_count"]; 
-                $list["list"][$k]["all_num"] += $val["all_num"]; 
+                $list["list"][$k]["all_count"] += $val["all_count"];
+                $list["list"][$k]["all_num"] += $val["all_num"];
             }else{
                 $list["list"][$k]= $val;
             }
@@ -733,7 +733,7 @@ class main_page extends Controller
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed($account,$start_time,$end_time);
             foreach($teacher_arr as $k=>$val){
                 if(!isset($teacher_list[$k])){
-                    $teacher_list[$k]=$k; 
+                    $teacher_list[$k]=$k;
                 }
             }
 
@@ -765,9 +765,9 @@ class main_page extends Controller
         $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k; 
+                $teacher_list_ex[$k]=$k;
             }
-        }  
+        }
 
         $all_tea_ex = count($teacher_list_ex);
         $train_all = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list_ex,-1);
@@ -798,7 +798,7 @@ class main_page extends Controller
         $lecture_identity = $this->t_teacher_lecture_info->get_lecture_info_by_identity($start_time,$end_time);
         $lecture_identity_succ = $this->t_teacher_lecture_info->get_lecture_info_by_identity($start_time,$end_time,1);
         $train_identity = $this->t_teacher_record_list->get_all_interview_count_by_identity($start_time,$end_time,-1);
-        $train_identity_succ = $this->t_teacher_record_list->get_all_interview_count_by_identity($start_time,$end_time,1);        
+        $train_identity_succ = $this->t_teacher_record_list->get_all_interview_count_by_identity($start_time,$end_time,1);
         foreach($train_identity as $k=>$val){
             if(isset($lecture_identity[$k])){
                 $lecture_identity[$k]["all_count"] +=$val["all_count"];
@@ -816,7 +816,7 @@ class main_page extends Controller
             $teacher_arr = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,-1,-1,-1,$n["identity_ex"]);
             foreach($teacher_arr as $k=>$l){
                 if(!isset($teacher_list[$k])){
-                    $teacher_list[$k]=$k; 
+                    $teacher_list[$k]=$k;
                 }
             }
             $n["train_num"] = $this->t_lesson_info_b2->get_all_train_num_new($start_time,$end_time,$teacher_list,-1);
@@ -919,11 +919,11 @@ class main_page extends Controller
         @$data["one_succ"] = count($teacher_arr_ex);
         foreach($teacher_arr_ex as $k=>$val){
             if(!isset($teacher_list_ex[$k])){
-                $teacher_list_ex[$k]=$k; 
+                $teacher_list_ex[$k]=$k;
             }
-        }  
+        }
 
-        $data["all_succ"] = count($teacher_list_ex);       
+        $data["all_succ"] = count($teacher_list_ex);
         \App\Helper\Utils::order_list( $ret_info,"all_per", 0 );
         $data["video_per"] = !empty($data["video_real"])?round($data["video_succ"]/$data["video_real"]*100,2):0;
         $data["one_per"] = !empty($data["one_real"])?round($data["one_succ"]/$data["one_real"]*100,2):0;
@@ -1004,7 +1004,7 @@ class main_page extends Controller
             $item["kk_require"]            =@$kk_require[$k]["all_count"];
             $item["except_num"]            =@$stu_info_all[$k]["except_num"];
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
-            $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));          
+            $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
 
         }
 
@@ -1116,7 +1116,7 @@ class main_page extends Controller
             $item["except_count"]            =@$stu_info_all[$k]["except_count"];
             $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
 
-            $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));   
+            $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
             $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
             $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
             $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
@@ -1217,7 +1217,7 @@ class main_page extends Controller
     }
 
     public function assistant_main_leader_new() {
-	
+
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range(0,0,0,[],3);
 
@@ -1268,148 +1268,148 @@ class main_page extends Controller
             $item["renw_student"]  = isset($assistant_renew_list[$k]["all_student"])?$assistant_renew_list[$k]["all_student"]:0;
 
             $item["read_student_last"]  = isset($ass_month[$k]["read_student_last"])?@$ass_month[$k]["read_student_last"]:0;
-		    $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
-		    $item["lesson_target"]         = $lesson_target;
-		    $item["lesson_per"]            = !empty($item["lesson_target"])?round($item["lesson_ratio"]/$item["lesson_target"],4)*100:0;
-		    $item["renw_target"]           = @$ass_last_month[$k]["warning_student"]*0.8*8000;
-		    $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
-		    $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
-		    $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-		    $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
-		    $item["kk_require"]            =@$kk_require[$k]["all_count"];
-		    $item["except_num"]            =@$stu_info_all[$k]["except_num"];
-		    $item["except_count"]            =@$stu_info_all[$k]["except_count"];
-		    $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
-		    //$item["lesson_total_old"]  = intval($item["read_student_last"]*$item["lesson_ratio"]);
-		    $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));   
-		    $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
-		    $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
-		    $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
-		    $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
-		    $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
-		    $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
-		    $item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;
+            $item["all_price"]     = $item["renw_price"]+$item["tran_price"];
+            $item["lesson_target"]         = $lesson_target;
+            $item["lesson_per"]            = !empty($item["lesson_target"])?round($item["lesson_ratio"]/$item["lesson_target"],4)*100:0;
+            $item["renw_target"]           = @$ass_last_month[$k]["warning_student"]*0.8*8000;
+            $item["renw_per"]              = !empty($item["renw_target"])?round($item["all_price"]/$item["renw_target"],4)*100:0;
+            $item["renw_stu_target"]       = ceil(@$ass_last_month[$k]["warning_student"]*0.8);
+            $item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
+            $item["kk_suc"]                = isset($ass_month[$k]["kk_num"])?$ass_month[$k]["kk_num"]:0;
+            $item["kk_require"]            =@$kk_require[$k]["all_count"];
+            $item["except_num"]            =@$stu_info_all[$k]["except_num"];
+            $item["except_count"]            =@$stu_info_all[$k]["except_count"];
+            $item["lesson_money"]          = @$lesson_money_list[$k]["lesson_price"]/100;
+            //$item["lesson_total_old"]  = intval($item["read_student_last"]*$item["lesson_ratio"]);
+            $item["lesson_total_old"]  = !empty(@$ass_last_month[$k]["lesson_total_old"])?@$ass_last_month[$k]["lesson_total_old"]/100:(round($item["read_student_last"]*$item["lesson_ratio"],1));
+            $item["refund_student"]  = isset($ass_month[$k]["refund_student"])?$ass_month[$k]["refund_student"]:0;
+            $item["new_refund_money"]  = isset($ass_month[$k]["new_refund_money"])?$ass_month[$k]["new_refund_money"]/100:0;
+            $item["renw_refund_money"]  = isset($ass_month[$k]["renw_refund_money"])?$ass_month[$k]["renw_refund_money"]/100:0;
+            $item["new_student"]  = isset($new_info[$k]["num"])?$new_info[$k]["num"]:0;
+            $item["new_lesson_count"]  = isset($new_info[$k]["lesson_count"])?$new_info[$k]["lesson_count"]/100:0;
+            $item["end_stu_num"]  = isset($end_stu_info_new[$k]["num"])?$end_stu_info_new[$k]["num"]:0;
+            $item["lesson_student"]  = isset($lesson_info[$k]["user_count"])?$lesson_info[$k]["user_count"]:0;
 
-		
 
-		}
-		if(in_array(date("d",$start_time),[28,29,30,31])){
-		    foreach($ass_last_month as $ks=>$vss){
+
+        }
+        if(in_array(date("d",$start_time),[28,29,30,31])){
+            foreach($ass_last_month as $ks=>$vss){
                 $userid_list = json_decode($vss["userid_list_last"],true);
                 if(empty($userid_list)){
                     $userid_list=[];
                 }
-		       
-                $lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
-		    }
 
-		    foreach($ass_list as $k=>&$dal){
+                $lesson_count_list_old[$ks]=$this->t_manager_info->get_assistant_lesson_count_old($start_time,$end_time,$ks,$userid_list);
+            }
+
+            foreach($ass_list as $k=>&$dal){
                 $dal["lesson_ratio"]  = !empty(@$ass_last_month[$k]["read_student"])?round(@$lesson_count_list_old[$k]/@$ass_last_month[$k]["read_student"]/100,1):0;
                 $dal["lesson_total_old"]      = @$lesson_count_list_old[$k]/100;
-		    }
-		}
-
-	     
-		// dd($ass_list);
-		$ass_list1 = $ass_list2 = $ass_list3 =   $ass_list;
-		$ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
-		$ass_group=[];
-		foreach($ass_list1 as $key=>$val){
-		    // echo $key;
-		    $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
-		    @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
-		    @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
-		    @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
-		    @$ass_group[$master_adminid_ass]["all_student"]      += $val["all_student"];
-		    @$ass_group[$master_adminid_ass]["month_stop_student"]  += $val["month_stop_student"];
-		    @$ass_group[$master_adminid_ass]["lesson_total"]     += $val["lesson_total"];
-		    @$ass_group[$master_adminid_ass]["lesson_money"]     += $val["lesson_money"];
-		    @$ass_group[$master_adminid_ass]["lesson_total_old"]     += $val["lesson_total_old"];
-		    @$ass_group[$master_adminid_ass]["tran_price"]       += $val["tran_price"];
-		    @$ass_group[$master_adminid_ass]["renw_price"]       += $val["renw_price"];
-		    @$ass_group[$master_adminid_ass]["all_price"]        += $val["all_price"];
-		    @$ass_group[$master_adminid_ass]["renw_student"]     += $val["renw_student"];
-		    @$ass_group[$master_adminid_ass]["read_student_last"]  += $val["read_student_last"];
-		    @$ass_group[$master_adminid_ass]["renw_target"]           += $val["renw_target"];
-		    @$ass_group[$master_adminid_ass]["renw_stu_target"]       += $val["renw_stu_target"];
-		    @$ass_group[$master_adminid_ass]["kk_suc"]       += $val["kk_suc"];
-		    @$ass_group[$master_adminid_ass]["kk_require"]       += $val["kk_require"];
-		    @$ass_group[$master_adminid_ass]["except_num"]       += $val["except_num"];
-		    @$ass_group[$master_adminid_ass]["except_count"]       += $val["except_count"];
-		    @$ass_group[$master_adminid_ass]["refund_student"]       += $val["refund_student"];
-		    @$ass_group[$master_adminid_ass]["new_refund_money"]       += $val["new_refund_money"];
-		    @$ass_group[$master_adminid_ass]["renw_refund_money"]       += $val["renw_refund_money"];
-		    @$ass_group[$master_adminid_ass]["new_student"]       += $val["new_student"];
-		    @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
-		    @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
-		    @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
+            }
+        }
 
 
-		}
-
-		foreach($ass_group as $key=>&$v){
-		    $v["account"] = $this->t_manager_info->get_account($key);
-		    $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
-		    $v["lesson_target"]         =$lesson_target;
-		    $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
-		    $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
-		    $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
-
-		}
-		unset($ass_group[0]);
-
-		$stu_info=[];
-		foreach($ass_list2 as $item1){
-		    @$stu_info["warning_student"]  += @$item1["warning_student"];
-		    @$stu_info["read_student"]     += @$item1["read_student"];
-		    @$stu_info["stop_student"]     += @$item1["stop_student"];
-		    @$stu_info["all_student"]      += @$item1["all_student"];
-		    @$stu_info["month_stop_student"]  += @$item1["month_stop_student"];
-		    @$stu_info["lesson_total"]     += @$item1["lesson_total"];
-		    @$stu_info["lesson_money"]     += @$item1["lesson_money"];
-		    @$stu_info["lesson_total_old"]     += @$item1["lesson_total_old"];
-		    @$stu_info["tran_price"]       += @$item1["tran_price"];
-		    @$stu_info["renw_price"]       += @$item1["renw_price"];
-		    @$stu_info["all_price"]        += @$item1["all_price"];
-		    @$stu_info["renw_student"]     += @$item1["renw_student"];
-		    @$stu_info["read_student_last"]  += @$item1["read_student_last"];
-		    @$stu_info["kk_suc"]          += @$item1["kk_suc"];
-		    @$stu_info["kk_require"]          += @$item1["kk_require"];
-		    @$stu_info["except_count"]          += @$item1["except_count"];
-		    @$stu_info["except_num"]          += @$item1["except_num"];
-		    @$stu_info["refund_student"]          += @$item1["refund_student"];
-		    @$stu_info["new_refund_money"]          += @$item1["new_refund_money"];
-		    @$stu_info["renw_refund_money"]          += @$item1["renw_refund_money"];
-		    @$stu_info["new_student"]          += @$item1["new_student"];
-		    @$stu_info["new_lesson_count"]          += @$item1["new_lesson_count"];
-		    @$stu_info["end_stu_num"]          += @$item1["end_stu_num"];
-		    @$stu_info["lesson_student"]          += @$item1["lesson_student"];
-		    //$item["lesson_per"]            = !empty($item["lesson_target"])?round($item["lesson_ratio"]/$item["lesson_target"],4)*100:0;
-		    @$stu_info["renw_target"]           += @$item1["renw_target"];
-		    //$item["renw_per"]              = !empty($item["renw_target"])?round($item["renw_price"]/$item["renw_target"],4)*100:0;
-		    @$stu_info["renw_stu_target"]       += @$item1["renw_stu_target"];
-		    //$item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
-		}
-		$stu_info["lesson_ratio"]          = !empty($stu_info["read_student_last"])?round($stu_info["lesson_total_old"]/$stu_info["read_student_last"],1):0;
-		$stu_info["lesson_target"]         =$lesson_target;
-		$stu_info["lesson_per"]            =!empty($stu_info["lesson_target"])?round($stu_info["lesson_ratio"]/$lesson_target,4)*100:0;
-		$stu_info["renw_per"]             =!empty($stu_info["renw_target"])?round($stu_info["all_price"]/$stu_info["renw_target"],4)*100:0;
-		$stu_info["renw_stu_per"]            =!empty($stu_info["renw_stu_target"])?round($stu_info["renw_student"]/$stu_info["renw_stu_target"],4)*100:0;
-	       
-
-		\App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
-		\App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
+        // dd($ass_list);
+        $ass_list1 = $ass_list2 = $ass_list3 =   $ass_list;
+        $ass_leader_arr = $this->t_admin_group_name->get_leader_list(1);
+        $ass_group=[];
+        foreach($ass_list1 as $key=>$val){
+            // echo $key;
+            $master_adminid_ass = $this->t_admin_group_user->get_master_adminid_by_adminid($key);
+            @$ass_group[$master_adminid_ass]["warning_student"]  += $val["warning_student"];
+            @$ass_group[$master_adminid_ass]["read_student"]     += $val["read_student"];
+            @$ass_group[$master_adminid_ass]["stop_student"]     += $val["stop_student"];
+            @$ass_group[$master_adminid_ass]["all_student"]      += $val["all_student"];
+            @$ass_group[$master_adminid_ass]["month_stop_student"]  += $val["month_stop_student"];
+            @$ass_group[$master_adminid_ass]["lesson_total"]     += $val["lesson_total"];
+            @$ass_group[$master_adminid_ass]["lesson_money"]     += $val["lesson_money"];
+            @$ass_group[$master_adminid_ass]["lesson_total_old"]     += $val["lesson_total_old"];
+            @$ass_group[$master_adminid_ass]["tran_price"]       += $val["tran_price"];
+            @$ass_group[$master_adminid_ass]["renw_price"]       += $val["renw_price"];
+            @$ass_group[$master_adminid_ass]["all_price"]        += $val["all_price"];
+            @$ass_group[$master_adminid_ass]["renw_student"]     += $val["renw_student"];
+            @$ass_group[$master_adminid_ass]["read_student_last"]  += $val["read_student_last"];
+            @$ass_group[$master_adminid_ass]["renw_target"]           += $val["renw_target"];
+            @$ass_group[$master_adminid_ass]["renw_stu_target"]       += $val["renw_stu_target"];
+            @$ass_group[$master_adminid_ass]["kk_suc"]       += $val["kk_suc"];
+            @$ass_group[$master_adminid_ass]["kk_require"]       += $val["kk_require"];
+            @$ass_group[$master_adminid_ass]["except_num"]       += $val["except_num"];
+            @$ass_group[$master_adminid_ass]["except_count"]       += $val["except_count"];
+            @$ass_group[$master_adminid_ass]["refund_student"]       += $val["refund_student"];
+            @$ass_group[$master_adminid_ass]["new_refund_money"]       += $val["new_refund_money"];
+            @$ass_group[$master_adminid_ass]["renw_refund_money"]       += $val["renw_refund_money"];
+            @$ass_group[$master_adminid_ass]["new_student"]       += $val["new_student"];
+            @$ass_group[$master_adminid_ass]["new_lesson_count"]       += $val["new_lesson_count"];
+            @$ass_group[$master_adminid_ass]["end_stu_num"]       += $val["end_stu_num"];
+            @$ass_group[$master_adminid_ass]["lesson_student"]       += $val["lesson_student"];
 
 
-		return $this->pageView(__METHOD__ ,null, [
-		    "stu_info" => @$stu_info,
-		    "ass_list"  =>@$ass_list,
-		    "ass_group"   =>@$ass_group,
-		    "ass_list_group" =>@$ass_list_group
-		]);
+        }
+
+        foreach($ass_group as $key=>&$v){
+            $v["account"] = $this->t_manager_info->get_account($key);
+            $v["lesson_ratio"]          = !empty($v["read_student_last"])?round($v["lesson_total_old"]/$v["read_student_last"],1):0;
+            $v["lesson_target"]         =$lesson_target;
+            $v["lesson_per"]            =!empty($v["lesson_target"])?round($v["lesson_ratio"]/$v["lesson_target"],4)*100:0;
+            $v["renw_per"]             =!empty($v["renw_target"])?round($v["all_price"]/$v["renw_target"],4)*100:0;
+            $v["renw_stu_per"]            =!empty($v["renw_stu_target"])?round($v["renw_student"]/$v["renw_stu_target"],4)*100:0;
+
+        }
+        unset($ass_group[0]);
+
+        $stu_info=[];
+        foreach($ass_list2 as $item1){
+            @$stu_info["warning_student"]  += @$item1["warning_student"];
+            @$stu_info["read_student"]     += @$item1["read_student"];
+            @$stu_info["stop_student"]     += @$item1["stop_student"];
+            @$stu_info["all_student"]      += @$item1["all_student"];
+            @$stu_info["month_stop_student"]  += @$item1["month_stop_student"];
+            @$stu_info["lesson_total"]     += @$item1["lesson_total"];
+            @$stu_info["lesson_money"]     += @$item1["lesson_money"];
+            @$stu_info["lesson_total_old"]     += @$item1["lesson_total_old"];
+            @$stu_info["tran_price"]       += @$item1["tran_price"];
+            @$stu_info["renw_price"]       += @$item1["renw_price"];
+            @$stu_info["all_price"]        += @$item1["all_price"];
+            @$stu_info["renw_student"]     += @$item1["renw_student"];
+            @$stu_info["read_student_last"]  += @$item1["read_student_last"];
+            @$stu_info["kk_suc"]          += @$item1["kk_suc"];
+            @$stu_info["kk_require"]          += @$item1["kk_require"];
+            @$stu_info["except_count"]          += @$item1["except_count"];
+            @$stu_info["except_num"]          += @$item1["except_num"];
+            @$stu_info["refund_student"]          += @$item1["refund_student"];
+            @$stu_info["new_refund_money"]          += @$item1["new_refund_money"];
+            @$stu_info["renw_refund_money"]          += @$item1["renw_refund_money"];
+            @$stu_info["new_student"]          += @$item1["new_student"];
+            @$stu_info["new_lesson_count"]          += @$item1["new_lesson_count"];
+            @$stu_info["end_stu_num"]          += @$item1["end_stu_num"];
+            @$stu_info["lesson_student"]          += @$item1["lesson_student"];
+            //$item["lesson_per"]            = !empty($item["lesson_target"])?round($item["lesson_ratio"]/$item["lesson_target"],4)*100:0;
+            @$stu_info["renw_target"]           += @$item1["renw_target"];
+            //$item["renw_per"]              = !empty($item["renw_target"])?round($item["renw_price"]/$item["renw_target"],4)*100:0;
+            @$stu_info["renw_stu_target"]       += @$item1["renw_stu_target"];
+            //$item["renw_stu_per"]          = !empty($item["renw_stu_target"])?round($item["renw_student"]/$item["renw_stu_target"],4)*100:0;
+        }
+        $stu_info["lesson_ratio"]          = !empty($stu_info["read_student_last"])?round($stu_info["lesson_total_old"]/$stu_info["read_student_last"],1):0;
+        $stu_info["lesson_target"]         =$lesson_target;
+        $stu_info["lesson_per"]            =!empty($stu_info["lesson_target"])?round($stu_info["lesson_ratio"]/$lesson_target,4)*100:0;
+        $stu_info["renw_per"]             =!empty($stu_info["renw_target"])?round($stu_info["all_price"]/$stu_info["renw_target"],4)*100:0;
+        $stu_info["renw_stu_per"]            =!empty($stu_info["renw_stu_target"])?round($stu_info["renw_student"]/$stu_info["renw_stu_target"],4)*100:0;
 
 
-	       
+        \App\Helper\Utils::order_list( $ass_list,"lesson_ratio", 0 );
+        \App\Helper\Utils::order_list( $ass_group,"lesson_ratio", 0 );
+
+
+        return $this->pageView(__METHOD__ ,null, [
+            "stu_info" => @$stu_info,
+            "ass_list"  =>@$ass_list,
+            "ass_group"   =>@$ass_group,
+            "ass_list_group" =>@$ass_list_group
+        ]);
+
+
+
     }
 
 

@@ -125,20 +125,20 @@ $(function(){
         });
     });
 
-    // $('.opt-del').on("click",function(){
-    //     var data = $(this).get_opt_data();
-    //     if(confirm("确定要删除此条投诉吗？")){
-    //         $.do_ajax("/ss_deal/del_complaint", {
-    //             'complaint_id':data.complaint_id,
-    //         }, function (result) {
-    //             if(result.ret==0){
-    //                 load_data();
-    //             }else{
-    //                 BootstrapDialog.alert(result.info);
-    //             }
-    //         });
-    //     }
-    // });
+    $('.opt-del').on("click",function(){
+        var data = $(this).get_opt_data();
+        if(confirm("确定要删除此条投诉吗？")){
+            $.do_ajax("/ss_deal/del_complaint", {
+                'complaint_id':data.complaint_id,
+            }, function (result) {
+                if(result.ret==0){
+                    load_data();
+                }else{
+                    BootstrapDialog.alert(result.info);
+                }
+            });
+        }
+    });
 
 
 
