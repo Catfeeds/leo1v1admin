@@ -2150,4 +2150,20 @@ class teacher_info extends Controller
         return $this->pageView(__METHOD__);
     }
 
+    public function edit_teacher_status(){
+        $teacherid = $this->get_login_teacher();
+        $status = $this->get_in_str_val('status');
+        if ( $status == 'full' ) {
+            $need_test_lesson_flag = 1;
+        } else {
+            $need_test_lesson_flag = 0;
+        }
+
+        $res_info = $this->t_teacher_info->update_teacher_status($teacherid, $need_test_lesson_flag);
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
+    }
 }

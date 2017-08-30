@@ -629,6 +629,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.lesson_hold_flag_time,t.interview_score,t.second_interview_score, "
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
+                                  ." t.second_grade_start,t.second_grade_end,"
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   //." sum(tss.lessonid >0) week_lesson_num,"
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
@@ -831,7 +832,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                               ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
                               ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
                               ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
-                              ." t.test_transfor_per,t.school,"
+                              ." t.test_transfor_per,t.school,t.need_test_lesson_flag,"
                               ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
                               ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
                               ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
@@ -2872,7 +2873,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "is_test_user = 0",
             "wx_openid is not null"
         ];
-        $sql = $this->gen_sql_new(" select distinct(wx_openid) from %s where %s",
+        $sql = $this->gen_sql_new(" select distinct(wx_openid), user_agent from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -3264,6 +3265,15 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $res;
 
     }
+
+    public function update_teacher_status($teacherid, $need_test_lesson_flag){
+
+        $res = $this->field_update_list( ["teacherid" => $teacherid],[
+            "need_test_lesson_flag"    => $need_test_lesson_flag,
+        ]);
+        return $res;
+    }
+
 
     public function get_train_through_all_list($start_time,$end_time){
         $where_arr = [

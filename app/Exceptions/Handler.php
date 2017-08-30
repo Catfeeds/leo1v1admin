@@ -52,8 +52,8 @@ class Handler extends ExceptionHandler
             if ( substr($ip,0,9 )!= "121.42.0."  ) { //阿里云盾
 
                 dispatch( new \App\Jobs\send_error_mail(
-                    "", date("H:i:s")."ADMIN ERR 111:" .$e->getMessage(),
-                    $e->getMessage() ."<br>$bt_str".
+                    "", date("H:i:s")."ERR1:" .$e->getMessage(),
+                    "$bt_str".
                     "<br>client_ip:$ip"
                 ));
                 \App\Helper\Utils::logger("LOG_HANDER: " .$bt_str.",ip:$ip");

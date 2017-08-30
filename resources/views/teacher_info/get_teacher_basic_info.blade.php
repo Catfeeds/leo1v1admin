@@ -125,23 +125,24 @@
                 <!-- Chat box -->
                 <div class="box box-info collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">当前状态</h3>
+                        <h3 class="box-title text-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
                         <div class="box-tools pull-right">
                             <h3 class="box-title color-red" data-status="full">饱和</h3>
-                            <h3 class="box-title color-red hide" data-status="nofull">不饱和</h3>
+                            <h3 class="box-title color-red" data-status="nofull">不饱和</h3>
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
-                                <div class="col-sm-12"">
+                                <div class="col-sm-12">
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
-                                    <p data-status="nofull" class="hide"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
+                                    <p data-status="nofull"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
                                     <br>
                                     <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info btn-sm opt-set">设置饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -486,11 +487,15 @@
                                             <tr>
                                                 <th>银行卡类型</th>
                                                 <td>
-                                                    <span>{{$my_info['bank_type']}}</span>有待完整
+                                                    <span>{{$my_info['bank_type']}}</span>
                                                     <select name="bank_type" class="hide">
-                                                        <option value="0">中国建设银行</option>
-                                                        <option value="1">中国工商银行</option>
-                                                        <option value="2">中国农业银行</option>
+                                                        <option value="中国建设银行">中国建设银行</option>
+                                                        <option value="中国工商银行">中国工商银行</option>
+                                                        <option value="中国农业银行">中国农业银行</option>
+                                                        <option value="交通银行">交通银行</option>
+                                                        <option value="招商银行">招商银行</option>
+                                                        <option value="中国银行">中国银行</option>
+                                                        <option value="中国邮政">中国邮政</option>
                                                     </select>
 
                                                 </td>

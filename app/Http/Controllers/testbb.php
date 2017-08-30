@@ -15,15 +15,8 @@ class testbb extends Controller
 
     var $check_login_flag = false;
     public function get_msg_num() {
-        $bt_str=" ";
-        $e=new \Exception();
-        foreach( $e->getTrace() as &$bt_item ) {
-            //$args=json_encode($bt_item["args"]);
-            $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
-                @$bt_item["file"].":".@$bt_item["line"].
-                "<br/>";
-        }
-        echo $bt_str;
+        $a= new \App\Jobs\send_error_mail(1,33,33);
+        $a->task->t_agent->get_agent_count_by_id(1);
 
     }
 
@@ -116,8 +109,26 @@ class testbb extends Controller
     public function sd(){
         $this->switch_tongji_database();
         $ret = $this->t_teacher_info->get_teacher_openid_list();
+        // dd($ret);
+        // $ret[] = ["wx_openid"=>'oJ_4fxPmwXgLmkCTdoJGhSY1FTlc',
+        //           // "user_agent" => '{"device_model":"Macdows NT 10.0","system_version":"","version":"4.1.0"}'
+        // ];
 
-        dd($ret);
+        $ww = [];
+        foreach($ret as $item){
+            $agent_arr = json_decode($item['user_agent'],true);
+            $version_arr = explode('.',$agent_arr['version']);
+            $v = substr($agent_arr['device_model'],0,3);
+            if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<=2) || ($version_arr[0]<3 ) ) ){
+                // dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['']) );
+                dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
+                // $ww[] = $item;
+            }
+
+
+        }
+
+        // dd($ww);
     }
 
 

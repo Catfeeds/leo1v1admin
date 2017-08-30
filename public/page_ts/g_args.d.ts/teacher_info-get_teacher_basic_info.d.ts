@@ -43,6 +43,7 @@ interface RowData {
 	wx_openid	:any;
 	test_transfor_per	:any;
 	school	:any;
+	need_test_lesson_flag	:any;
 	change_count	:any;
 	noevaluate_count	:any;
 	late_count	:any;

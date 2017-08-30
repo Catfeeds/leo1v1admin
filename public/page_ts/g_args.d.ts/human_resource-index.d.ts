@@ -115,6 +115,8 @@ interface RowData {
 	saturday_lesson_num	:any;
 	grade_start	:any;
 	grade_end	:any;
+	second_grade_start	:any;
+	second_grade_end	:any;
 	not_grade	:any;
 	not_grade_limit	:any;
 	week_lesson_count	:any;
