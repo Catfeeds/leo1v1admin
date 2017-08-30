@@ -1188,13 +1188,18 @@ class tongji extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
-                // $time = $item['leave_member_time']?$item['leave_member_time']:time();
-                // $item['become_member_long_time'] = (int)(($time-$item['become_member_time'])/86400);
-                // $ret_info_new[] = $item;
+                if(!isset($item['leave_member_time']) or !isset($item['create_time'])){
+                    $manager_item = $this->t_manager_info->field_get_list($item['adminid'],'create_time,leave_member_time');
+                    $item['become_member_time'] = $manager_item['create_time'];
+                    $item['leave_member_time'] = $manager_item['leave_member_time'];
+                }
+                $time = $item['leave_member_time']?$item['leave_member_time']:time();
+                $item['become_member_long_time'] = (int)(($time-$item['become_member_time'])/86400);
+                $ret_info_new[] = $item;
             }
 
         }
-        dd($ret_info);
+        dd($ret_info,$ret_info_new);
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
     }
