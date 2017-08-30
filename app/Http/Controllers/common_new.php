@@ -991,9 +991,6 @@ class common_new extends Controller
         $teacherid = $this->get_wx_teacherid();
 
         \App\Helper\Utils::logger("yuebao".$teacherid);
-
-
-
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
