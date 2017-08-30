@@ -751,6 +751,24 @@ class Utils  {
         ]);
     }
 
+    static public function send_agent_msg_for_wx($openid,$template_id,$data,$url=""){
+        $wx_config  = \App\Helper\Config::get_config("yxyx_wx");
+        $wx         = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+        $is_success = $wx->send_template_msg($openid,$template_id,$data,$url);
+        $task = new  \App\Console\Tasks\TaskController();
+        $task->t_weixin_msg->row_insert([
+            "userid"      => 0,
+            "openid"      => $openid,
+            "send_time"   => time(),
+            "templateid"  => $template_id,
+            "title"       => "",
+            "notify_data" => json_encode($data),
+            "notify_url"  => $url,
+            "is_success"  => $is_success?1:0,
+        ]);
+    }
+
+
     static public function sms_common($phone,$type,$data,$user_ip=0,$sign_name="理优教育")
     {
         $phone = (string)$phone;
