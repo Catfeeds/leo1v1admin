@@ -1213,7 +1213,7 @@ class tongji extends Controller
                 }elseif(2592000*5<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*6){
                     $ret_info_new[5]['count']++;
                     $ret_info_new[5]['money'] += $item['los_personal_money'];
-                }elseif(2592000*6<$item['become_member_long_time']){
+                }else{
                     $ret_info_new[6]['count']++;
                     $ret_info_new[6]['money'] += $item['los_personal_money'];
                 }
