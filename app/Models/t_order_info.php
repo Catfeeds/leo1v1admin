@@ -1158,7 +1158,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
         switch ( $field_name ) {
         case "origin" :
-            $field_name="o.origin";
+            $field_name="s.origin";
             break;
 
         case "grade" :
