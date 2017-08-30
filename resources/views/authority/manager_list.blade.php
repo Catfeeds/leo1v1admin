@@ -152,6 +152,7 @@
                                     <a href="javascript:;" title="刷新回访" class="opt-refresh_call_end">刷新回访</a>
                                     @if($var["account_role"]==5)
                                         <a href="javascript:;" title="同步老师入职时间" class="opt-set-train-through-time">同</a>
+                                        <a href="javascript:;" title="修改老师等级" class="opt-set-teacher-level">等</a>
                                     @endif
                                 </div>
                             </td>

@@ -74,16 +74,13 @@ $(function(){
 
     $('.opt-deal').on("click",function(){
         var data               = $(this).get_opt_data();
-        var id_deal_state      = $("<select>");
         var id_suggest_remark  = $("<textarea>");
         var id_deal_info       = $("<textarea>");
         var arr             = [
             ["处理方案",id_deal_info],
             ["投诉人建议",id_suggest_remark],
-            ["处理状态",id_deal_state],
         ];
         var enable_video = 0;
-        Enum_map.append_option_list("complaint_state",id_deal_state,true);
         $.show_key_value_table("投诉处理",arr,{
             label    : "确认",
             cssClass : "btn-warning",
@@ -97,7 +94,7 @@ $(function(){
                 $.do_ajax("/ss_deal/deal_complaint",{
                     "deal_info"        : id_deal_info.val(),
                     "suggest_info"     : id_suggest_remark.val(),
-                    "complaint_state"  : id_deal_state.val(),
+                    "complaint_state"  : 1,
                     "complaint_id"     : data.complaint_id,
                     "account_type"     : data.account_type,
                 },function(result){

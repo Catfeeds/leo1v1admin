@@ -886,7 +886,7 @@ class t_teacher_lecture_info extends \App\Models\Zgen\z_t_teacher_lecture_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,tt.realname from %s tl "
+        $sql = $this->gen_sql_new("select count(distinct c.userid,c.teacherid,c.subject) order_num,count(distinct l.userid) person_num,tt.realname,tt.teacherid from %s tl "
                                   ." left join %s m on tl.account =m.account"
                                   ." left join %s tt on tl.phone = tt.phone"
                                   ." left join %s l on tt.teacherid = l.teacherid"

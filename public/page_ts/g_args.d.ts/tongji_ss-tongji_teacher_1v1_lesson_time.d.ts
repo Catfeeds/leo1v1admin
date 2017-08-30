@@ -8,15 +8,31 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
+	realname	:any;
+	seven	:any;
+	one	:any;
+	all	:any;
+	late	:any;
+	total	:any;
+	seven_hour	:any;
+	seven_day	:any;
+	one_hour	:any;
+	one_day	:any;
+	all_hour	:any;
+	all_day	:any;
+	late_hour	:any;
+	late_day	:any;
+	total_hour	:any;
+	total_day	:any;
 }
 
 /*
 
 tofile: 
-	 mkdir -p ../teacher_info; vi  ../teacher_info/get_teacher_money_info.ts
+	 mkdir -p ../tongji_ss; vi  ../tongji_ss/tongji_teacher_1v1_lesson_time.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/teacher_info-get_teacher_money_info.d.ts" />
+/// <reference path="../g_args.d.ts/tongji_ss-tongji_teacher_1v1_lesson_time.d.ts" />
 
 $(function(){
     function load_data(){

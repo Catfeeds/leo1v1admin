@@ -764,4 +764,55 @@ $(function(){
 
     });
 
+    $(".opt-set-teacher-level").on("click",function(){
+        var opt_data=$(this).get_opt_data();
+        $.do_ajax('/ajax_deal2/get_teacherid_by_phone', {
+            'phone' : opt_data.phone,
+        },function(resp){
+            if(resp.ret !=0){
+                alert(resp.info);
+                return;
+            }else{
+                var data = resp.data;
+               // alert(data.teacherid);
+                var id_teacher_money_type = $("<select/>");
+                var id_level              = $("<select/>");
+                var id_start_time         = $("<input/>");
+
+                Enum_map.append_option_list("level", id_level, true );
+                Enum_map.append_option_list("teacher_money_type", id_teacher_money_type, true );
+
+                id_teacher_money_type.val(data.teacher_money_type);
+                id_level.val(data.level);
+                id_start_time.datetimepicker({
+                    datepicker:true,
+                    timepicker:false,
+                    format:'Y-m-d'
+                });
+
+                var arr = [
+                    ["工资类别", id_teacher_money_type],
+                    ["等级", id_level],
+                    ["时间不填则不会重置课程时间",""],
+                    ["重置课程开始时间", id_start_time],
+                ];
+
+                $.show_key_value_table("修改等级", arr ,{
+                    label    : '确认',
+                    cssClass : 'btn-warning',
+                    action   : function(dialog) {
+                        $.do_ajax('/tea_manage_new/update_teacher_level',{
+                            "teacherid"          : data.teacherid,
+                            "start_time"         : id_start_time.val(),
+                            "level"              : id_level.val(),
+                            "teacher_money_type" : id_teacher_money_type.val()
+                        });
+                    }
+                });
+
+            }
+        });
+ 
+    });
+
 });
