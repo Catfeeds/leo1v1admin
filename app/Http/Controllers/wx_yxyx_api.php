@@ -443,10 +443,10 @@ class wx_yxyx_api extends Controller
             $ret_list[$key]['count'] = $count;
             $ret_list[$key]['level1_cash'] = $pay/5;
             $ret_list[$key]['level2_cash'] = $pay-$ret_list[$key]['level1_cash'];
-            if(8<=$count){
+            if(4<=$count){
                 $cash += $pay;
                 $ret_list[$key]['order_cash'] = $pay;
-            }elseif(2<=$count && $count<8){
+            }elseif(2<=$count && $count<4){
                 $cash += $pay/5;
                 $ret_list[$key]['order_cash'] = $pay/5;
             }else{
