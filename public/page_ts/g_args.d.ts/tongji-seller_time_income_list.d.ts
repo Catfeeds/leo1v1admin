@@ -1,5 +1,4 @@
 interface GargsStatic {
-	adminid:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
@@ -24,6 +23,15 @@ interface RowData {
 	account_class	:any;
 	level	:any;
 	main_type_str	:any;
+	become_member_long_time	:any;
+	lesson_per	:any;
+	order_per	:any;
+	finish_per	:any;
+	finish_personal_per	:any;
+	duration_count_for_day	:any;
+	ave_price_for_month	:any;
+	los_money	:any;
+	los_personal_money	:any;
 }
 
 /*
@@ -37,7 +45,6 @@ tofile:
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			adminid:	$('#id_adminid').val(),
 			date_type_config:	$('#id_date_type_config').val(),
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
@@ -57,7 +64,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_adminid').val(g_args.adminid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -67,11 +73,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
-            </div>
-        </div>
 */
