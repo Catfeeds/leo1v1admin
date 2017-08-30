@@ -1194,11 +1194,32 @@ class tongji extends Controller
                     $item['leave_member_time'] = $manager_item['leave_member_time'];
                 }
                 $time = $item['leave_member_time']?$item['leave_member_time']:time();
-                $item['become_member_long_time'] = (int)(($time-$item['become_member_time'])/86400);
-                $ret_info_new[] = $item;
+                $item['become_member_long_time'] = $time-$item['become_member_time'];
+                if($item['become_member_long_time']<=2592000){
+                    $ret_info_new[0]['count']++;
+                    $ret_info_new[0]['money'] += $item['los_personal_money'];
+                }elseif(2592000<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*2){
+                    $ret_info_new[1]['count']++;
+                    $ret_info_new[1]['money'] += $item['los_personal_money'];
+                }elseif(2592000*2<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*3){
+                    $ret_info_new[2]['count']++;
+                    $ret_info_new[2]['money'] += $item['los_personal_money'];
+                }elseif(2592000*3<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*4){
+                    $ret_info_new[3]['count']++;
+                    $ret_info_new[3]['money'] += $item['los_personal_money'];
+                }elseif(2592000*4<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*5){
+                    $ret_info_new[4]['count']++;
+                    $ret_info_new[4]['money'] += $item['los_personal_money'];
+                }elseif(2592000*5<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*6){
+                    $ret_info_new[5]['count']++;
+                    $ret_info_new[5]['money'] += $item['los_personal_money'];
+                }elseif(2592000*6<$item['become_member_long_time']){
+                    $ret_info_new[6]['count']++;
+                    $ret_info_new[6]['money'] += $item['los_personal_money'];
+                }
             }
-
         }
+
         dd($ret_info,$ret_info_new);
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
