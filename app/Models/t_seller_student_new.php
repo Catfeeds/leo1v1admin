@@ -2001,7 +2001,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
     public function get_test_lesson_list( $admin_revisiterid ) {
         $now=time(NULL);
         $sql= $this->gen_sql_new(
-            "select l.userid , max(l.lesson_start) lesson_start"
+            "select l.userid ,n.phone, max(l.lesson_start) lesson_start  "
             . " from %s n "
             . " left join %s l on n.userid = l.userid "
             . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) and  l.lesson_start< $now and l.lesson_start >0 "

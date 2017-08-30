@@ -1494,6 +1494,10 @@ class seller_student_new extends Controller
     public function seller_get_test_lesson_list(){
         $adminid=$this->get_in_adminid();
         $list=$this->t_seller_student_new->get_test_lesson_list($adminid);
+        foreach( $list as &$item ) {
+            $this->cache_set_item_student_nick($item);
+        }
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($list));
+
     }
 }
