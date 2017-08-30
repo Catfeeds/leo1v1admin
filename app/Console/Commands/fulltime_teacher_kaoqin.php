@@ -138,7 +138,7 @@ class fulltime_teacher_kaoqin extends Command
         if($num>0){
             $task->t_manager_info->send_wx_todo_msg_by_adminid (349,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");
             $task->t_manager_info->send_wx_todo_msg_by_adminid (480,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");                               
-            $task->t_manager_info->send_wx_todo_msg_by_adminid (986,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");  
+            $task->t_manager_info->send_wx_todo_msg_by_adminid (986,"在家办公通知","明天在家办公老师名单","明天有如下".$num."位老师满8课时,可在家办公,具体名单如下:".$name_list,"");
 
         }
         if($num_research>0){

@@ -6868,11 +6868,14 @@ class tongji_ss extends Controller
         $ass_last_month = $this->t_month_ass_student_info->get_ass_month_info($last_month);
         $lesson_target     = $this->t_ass_group_target->get_rate_target($start_time);
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-        $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
+        //$tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
         $kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
         $end_info = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
 
+
+        $tran_require_info = $this->t_test_lesson_subject_sub_list->tongji_from_ass_test_tran_lesson($start_time,$end_time);
+        $agent = $this->t_test_lesson_subject_sub_list->tongji_agent_tran_lesson($start_time,$end_time);
 
 
         $account_id = $this->get_in_int_val("adminid",-1);
@@ -6895,9 +6898,10 @@ class tongji_ss extends Controller
             $item["stu_lesson_per"] = isset($week_info[$k])?$week_info[$k]["lesson_per"]:0;
 
             $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
-            $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
-            $item["tran_order"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_num"]:0;
-            $item["tran_money"] = isset($assistant_renew_list[$k])?$assistant_renew_list[$k]["tran_price"]/100:0;
+
+            $item["tran_lesson"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0) + (isset($agent[$k])?$agent[$k]["num"]:0);
+            $item["tran_order"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0) + (isset($agent[$k])?$agent[$k]["order_num"]:0);
+            $item["tran_money"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0) + (isset($agent[$k])?$agent[$k]["order_money"]/100:0);
             $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
             $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
             $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;
@@ -7151,14 +7155,18 @@ class tongji_ss extends Controller
     public function get_tran_lesson_detail_list(){
         $start_time = strtotime($this->get_in_str_val("start_time"));
         $end_time = strtotime($this->get_in_str_val("end_time")." 23:59:59");
-        $ret = $this->t_test_lesson_subject_sub_list->get_tran_require_detail_info($start_time,$end_time);
+
+        //$ret = $this->t_test_lesson_subject_sub_list->get_tran_require_detail_info($start_time,$end_time);
+        $data = $this->t_test_lesson_subject_sub_list->get_from_ass_test_tran_lesson_detail($start_time,$end_time);
+        $list = $this->t_test_lesson_subject_sub_list->get_agent_tran_lesson_detail($start_time,$end_time);
+        $ret= array_merge($data,$list);
         $arr=[];
         foreach($ret as $item){
             @$arr[$item["userid"]]["userid"] = $item["userid"];
             @$arr[$item["userid"]]["grade"] = $item["grade"];
             @$arr[$item["userid"]]["nick"] = $item["nick"];
-            @$arr[$item["userid"]]["account"] = $item["account"];
-            @$arr[$item["userid"]]["order_money"] +=$item["order_money"];
+            @$arr[$item["userid"]]["account"] = $item["name"];
+            @$arr[$item["userid"]]["order_money"] +=$item["price"];
         }
         foreach($arr as &$val){
             if($val["order_money"]<=0){

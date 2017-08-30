@@ -229,6 +229,14 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone = '15251318621';
+        $p_phone = '13818837473';
+        $this->send_agent_p_pp_msg_for_wx($phone,$p_phone);
+        dd('a');
+
+        $ret = $this->t_agent->get_p_pp_wx_openid_by_phone($phone= '14');
+        dd($ret);
+        dd(E\Eagent_level::V_1);
         $openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         $template_id = 'e1iaEh98uALTjWrBAqw7Q-dXTK1_z5x-qRhVdWdcVkM';
         $data = [
@@ -241,6 +249,28 @@ class agent extends Controller
         \App\Helper\Utils::send_agent_msg_for_wx($openid,$template_id,$data,$url);
         dd('a');
     }
+
+    public function send_agent_p_pp_msg_for_wx($phone,$p_phone){
+        $p_ret = $this->t_agent->get_p_pp_wx_openid_by_phone($p_phone);
+        $p_wx_openid = $p_ret['wx_openid'];
+        $pp_wx_openid = $p_ret['p_wx_openid'];
+        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
+        $data = [
+            'first'    => '您好,您邀请的用户报名了',
+            'keyword1' => $phone,
+            'keyword2' => $phone,
+            'keyword3' => date('Y-m-d H:i:s',time()),
+            'remark'   => '',
+        ];
+        $url = '';
+        if($p_wx_openid){
+            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+        }
+        if($pp_wx_openid){
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+        }
+    }
+
 
     public function get_agent_test_lesson($agent_id){
         $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);

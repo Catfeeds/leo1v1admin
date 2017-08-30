@@ -35,7 +35,7 @@ class TeaWxController extends Controller
         }
     }
 
-    public function get_teacherid() {
+    public function get_teacherid(){
         $role      = $this->get_in_int_val("_role",0);
         $teacherid = $this->get_in_int_val("_userid",0);
 
@@ -46,7 +46,6 @@ class TeaWxController extends Controller
         if (!$teacherid) {
             $teacherid = session("login_userid" );
         }
-
 
         if ($role==2 &&  $teacherid ) {
             return $teacherid;

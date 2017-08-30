@@ -931,5 +931,18 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
 
         return $this->main_get_row($sql);
     }
+    public function get_test_lesson_count ($require_adminid) {
+        $sql= $this->gen_sql_new(
+            "select count(*) from %s t "
+            ." left join %s tr on t.current_require_id = tr.require_id "
+            ." left join %s l on tr.current_lessonid = l.lessonid "
+            . " where require_adminid=%u and    ",
+            self::DB_TABLE_NAME,
+            t_test_lesson_subject_require::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $require_adminid
+        );
+        return $this->main_get_value($sql);
+    }
 
 }
