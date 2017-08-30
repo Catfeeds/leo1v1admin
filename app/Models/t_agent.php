@@ -282,6 +282,24 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $ret;
     }
 
+    public function add_agent_bind_new($phone,$headimgurl,$nickname,$wx_openid,$userid,$agent_level){
+        $ret = $this->row_insert([
+            "parentid"    => 0,
+            "phone"       => $phone,
+            "wx_openid"   => $wx_openid,
+            "userid"      => $userid,
+            "headimgurl"  => $headimgurl,
+            "nickname"    => $nickname,
+            "agent_level" => $agent_level,
+            "create_time" => time(null),
+        ],false,false,true);
+        if($ret){
+            $ret = $this->get_last_insertid();
+        }
+        return $ret;
+    }
+
+
     public function get_agent_count_by_id($id){
         $where_arr = [
             ['a.parentid = %d',$id],
@@ -1011,6 +1029,20 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
-
+    public function get_p_pp_wx_openid_by_phone($phone){
+        $where_arr = [
+            ['a.phone = %d',$phone,-1]
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.id,a.wx_openid,aa.id pid,aa.wx_openid p_wx_openid "
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid "
+            ." where %s limit 1 "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
 
 }

@@ -19,7 +19,6 @@ function load_data(){
         start_time:	$('#id_start_time').val(),
         group_seller_student_status:	$('#id_group_seller_student_status').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
-			  current_require_id_flag:	$('#id_current_require_id_flag').val(),
         end_time:	$('#id_end_time').val(),
         userid:	$('#id_userid').val(),
         success_flag:	$('#id_success_flag').val(),
@@ -62,7 +61,6 @@ $(function(){
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
     Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
-	  Enum_map.append_option_list("boolean",$("#id_current_require_id_flag"));
 
     $('#id_origin_assistant_role').val(g_args.origin_assistant_role);
 
@@ -194,7 +192,6 @@ $(function(){
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_seller_resource_type').val(g_args.seller_resource_type);
     $('#id_origin_assistantid').val(g_args.origin_assistantid);
-	  $('#id_current_require_id_flag').val(g_args.current_require_id_flag);
     $('#id_origin_userid').val(g_args.origin_userid);
     $('#id_phone_name').val(g_args.phone_name);
     $('#id_success_flag').val(g_args.success_flag);
@@ -243,19 +240,22 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
+<<<<<<< HEAD
         if (!opt_data.parent_wx_openid &&
-            g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186 && g_args.jack_flag!=944)
+            g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186)
         {
             alert("家长未关注微信,不能提交试听课");
             $(this).parent().find(".opt-seller-qr-code").click();
             return;
         }
+=======
+>>>>>>> 6d7212971a09a6831a33ee8da58dcd3443a0c8c6
 
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
             if(ret.require_id){
                 alert('您有签单失败原因未填写,请先填写完哦!');
-                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller';
+                window.location.href = 'http://admin.yb1v1.com/seller_student_new/test_lesson_order_fail_list_seller?order_flag=0';
             }
         });
         /*
@@ -400,7 +400,20 @@ $(function(){
         };
         $.do_ajax("/ajax_deal2/check_add_test_lesson",{
             "userid" : opt_data.userid
-        }, function(){
+        }, function(resp){
+            if (resp.ret==-1) {
+                alert (resp.info);
+                return;
+            }
+
+            if (!opt_data.parent_wx_openid &&
+                g_args.jack_flag !=349 && g_args.jack_flag !=99 && g_args.jack_flag !=68 && g_args.jack_flag!=213 && g_args.jack_flag!=75 && g_args.jack_flag!=186 && g_args.jack_flag!=944)
+            {
+                alert("家长未关注微信,不能提交试听课");
+                $(this).parent().find(".opt-seller-qr-code").click();
+                return;
+            }
+
             do_add_test_lesson();
         } );
     });

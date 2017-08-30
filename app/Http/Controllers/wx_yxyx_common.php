@@ -123,7 +123,7 @@ class wx_yxyx_common extends Controller
                 if($userid_new){
                     $userid = $userid_new;
                 }
-                $id = $this->t_agent->add_agent_row_new($phone,$headimgurl,$nickname,$wx_openid,$userid);
+                $id = $this->t_agent->add_agent_bind_new($phone,$headimgurl,$nickname,$wx_openid,$userid,E\Eagent_level::V_1);
             }
             if(!$id){
                 return $this->output_err("生成失败！请退出重试！");
@@ -206,6 +206,7 @@ class wx_yxyx_common extends Controller
                 "parentid" => $parentid,
                 "type"     => $type_new,
             ]);
+            // $this->send_agent_p_pp_msg_for_wx($phone,$p_phone);
             return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
@@ -218,9 +219,31 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
+            // $this->send_agent_p_pp_msg_for_wx($phone,$p_phone);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");
+        }
+    }
+
+    public function send_agent_p_pp_msg_for_wx($phone,$p_phone){
+        $p_ret = $this->t_agent->get_p_pp_wx_openid_by_phone($p_phone);
+        $p_wx_openid = $p_ret['wx_openid'];
+        $pp_wx_openid = $p_ret['p_wx_openid'];
+        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
+        $data = [
+            'first'    => '您好,您邀请的用户报名了',
+            'keyword1' => $phone,
+            'keyword2' => $phone,
+            'keyword3' => date('Y-m-d H:i:s',time()),
+            'remark'   => '',
+        ];
+        $url = '';
+        if($p_wx_openid){
+            \App\Helper\Utils::send_agent_msg_for_wx($p_openid,$template_id,$data,$url);
+        }
+        if($pp_wx_openid){
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_openid,$template_id,$data,$url);
         }
     }
 
