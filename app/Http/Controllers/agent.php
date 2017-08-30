@@ -264,10 +264,10 @@ class agent extends Controller
         ];
         $url = '';
         if($p_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($p_openid,$template_id,$data,$url);
+            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
         }
         if($pp_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_openid,$template_id,$data,$url);
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
         }
     }
 
