@@ -645,9 +645,6 @@ class teacher_level extends Controller
     //第一次试听课列表
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
-        if (\App\Helper\Utils::check_env_is_release() ) {
-            dd("暂停" );
-        }
         $page_info = $this->get_in_page_info();
         list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
         $subject         = $this->get_in_int_val("subject",-1);
@@ -730,9 +727,6 @@ class teacher_level extends Controller
 
     //第一次常规课课列表
     public function get_first_regular_lesson_info(){
-        if (\App\Helper\Utils::check_env_is_release() ) {
-            dd("暂停" );
-        }
         $this->switch_tongji_database();
         $page_info = $this->get_in_page_info();
         list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
