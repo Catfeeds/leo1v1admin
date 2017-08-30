@@ -1453,7 +1453,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             //["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349"
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid from %s tr"
                                   ." left join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "
@@ -1472,7 +1472,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             ["t.stu_request_test_lesson_time <= %u",$end_time,-1],
             "test_lesson_student_status = 200",
             "is_green_flag =0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349",
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944",
             "s.grade not in (100,200,300)"
         ];
         $sql = $this->gen_sql_new("select require_id,t.stu_request_test_lesson_time,t.subject,s.grade from %s tr"
@@ -1905,7 +1905,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             "test_lesson_student_status = 200",
             "accept_adminid <= 0",
             "history_accept_adminid >0",
-            "cur_require_adminid <> 68 and cur_require_adminid <> 349"
+            "cur_require_adminid <> 68 and cur_require_adminid <> 349 and cur_require_adminid <> 944"
         ];
         $sql = $this->gen_sql_new("select require_id,t.history_accept_adminid,require_adminid,nick,stu_request_test_lesson_time   from %s tr"
                                   ." join %s t on t.test_lesson_subject_id = tr.test_lesson_subject_id "

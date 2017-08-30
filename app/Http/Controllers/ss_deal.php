@@ -5019,6 +5019,7 @@ class ss_deal extends Controller
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                    "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                     "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
@@ -5264,6 +5265,7 @@ class ss_deal extends Controller
             "account_role_str" => "市场",
         ];
 
+
         $ret[] = [
             "account_role" => "0",
             "up_groupid" => "0",
@@ -5272,6 +5274,18 @@ class ss_deal extends Controller
             "account" => "李珉劼",
             "account_role_str" => "市场-QC",
         ];
+
+
+        $ret[] = [
+            "account_role" => "0",
+            "up_groupid" => "0",
+            "master_adminid" => "1024",
+            "group_name" => "QC",
+            "account" => "王浩鸣",
+            "account_role_str" => "市场-QC",
+        ];
+
+
 
         $ret[] = [
             "account_role" => "0",

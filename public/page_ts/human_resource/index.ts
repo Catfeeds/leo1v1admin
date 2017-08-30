@@ -822,24 +822,7 @@ $(function(){
         $(".opt-user-info").hide();
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
-    }else{
-        $(".opt-meeting").hide();
-        $(".opt-interview-assess").hide();
-        $(".opt-edit").hide();
-        $(".opt-set-grade-range").hide();
-        $(".opt-teacher-freeze").hide();
-        $(".opt-set-teacher-record-new").hide();
-        $(".opt-get-teacher-record").hide();
-        $(".opt-set-research_note").hide();
-        $(".opt-limit-plan-lesson").hide();
-    }
-
-
-
-
-
-
-    if (window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/" ) {
+    }else if(window.location.pathname=="/human_resource/index_tea_qua" || window.location.pathname=="/human_resource/index_tea_qua/"){
         $("#id_add_teacher").parent().hide();
         $("#id_need_test_lesson_flag").parent().parent().hide();
         $("#id_textbook_type").parent().parent().hide();
@@ -857,6 +840,8 @@ $(function(){
         $(".opt-user-info").show(); //　erick　修改
         $(".lesson_hold_flag").show();
         $(".test_transfor_per").show();
+
+        
     }else{
         $(".opt-meeting").hide();
         $(".opt-interview-assess").hide();
@@ -868,6 +853,7 @@ $(function(){
         $(".opt-set-research_note").hide();
         $(".opt-limit-plan-lesson").hide();
     }
+
 
 
 

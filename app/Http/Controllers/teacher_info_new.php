@@ -1745,6 +1745,7 @@ class teacher_info_new extends Controller
             $qc_openid_arr = [
                 "wenbin",
                 "李珉劼 ",
+                "王浩鸣", // 
                 "夏宏东",
                 "ted"
             ];

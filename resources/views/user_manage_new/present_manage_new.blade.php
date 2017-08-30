@@ -6,12 +6,9 @@
     <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
     <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
-	<script type="text/javascript" src="/source/jquery.fancybox.js"></script>
- 	<link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />
-
-
+	  <script type="text/javascript" src="/source/jquery.fancybox.js"></script>
+ 	  <link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />
     <section class="content ">
-        
         <div>
             <div class="row">
                 <div class="col-xs-6 col-md-2">

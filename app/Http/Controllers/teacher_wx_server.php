@@ -28,7 +28,6 @@ class  teacher_wx_server extends Controller
         $wechat = new \App\Wx\Teacher\wechat (WECHAT_TOKEN_TEC, TRUE);
         // $r = $wechat->checkSignature();
 
-
         $ret=$wechat->run();
         if (is_bool($ret)) {
             return "";

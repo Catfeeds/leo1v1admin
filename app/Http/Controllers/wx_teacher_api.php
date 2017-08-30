@@ -33,7 +33,7 @@ use OSS\Core\OssException;
 
 
 
-class wx_teacher_api extends Controller
+class wx_teacher_api extends TeaWxController
 {
 
     use CacheNick;
@@ -42,25 +42,27 @@ class wx_teacher_api extends Controller
         parent::__construct();
     }
 
-    public function get_teacherid() {
-        $role      = $this->get_in_int_val("_role",0);
-        $teacherid = $this->get_in_int_val("_userid",0);
+    // public function get_teacherid() {
+    //     $role      = $this->get_in_int_val("_role",0);
+    //     $teacherid = $this->get_in_int_val("_userid",0);
 
-        if (!$role) {
-            $role = session("login_user_role" );
-        }
+    //     if (!$role) {
+    //         $role = session("login_user_role" );
+    //     }
 
-        if (!$teacherid) {
-            $teacherid = session("login_userid" );
-        }
+    //     if (!$teacherid) {
+    //         $teacherid = session("login_userid" );
+    //     }
 
-        if ($role==2 &&  $teacherid ) {
-            return $teacherid;
-        }else{ // 待处理
-            // echo $this->output_err("未登录");
-            // exit;
-        }
-    }
+    //     return $teacherid;
+
+    //     if ($role==2 &&  $teacherid ) {
+    //         return $teacherid;
+    //     }else{ // 待处理
+    //         // echo $this->output_err("未登录");
+    //         // exit;
+    //     }
+    // }
 
 
 
@@ -114,6 +116,7 @@ class wx_teacher_api extends Controller
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -121,7 +124,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
             }
 
             // 给投诉老师反馈
@@ -182,17 +185,16 @@ class wx_teacher_api extends Controller
 
         $sever_name = $_SERVER['SERVER_NAME'];
 
+
+        \App\Helper\Utils::logger("wx_tousu: ".$teacherid);
+
+
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
         $appscript = '61bbf741a09300f7f2fd0a861803f920';
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
-
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
@@ -207,7 +209,6 @@ class wx_teacher_api extends Controller
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            // 'complained_feedback_type' => 1
         ]);
 
 
@@ -238,6 +239,7 @@ class wx_teacher_api extends Controller
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -245,7 +247,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释 
             }
 
             // 给投诉老师反馈
@@ -283,10 +285,6 @@ class wx_teacher_api extends Controller
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
