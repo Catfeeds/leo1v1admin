@@ -947,14 +947,21 @@ class ajax_deal2 extends Controller
         \App\Helper\Utils::logger("cur_require_count:$test_lesson_count,   cur_require_count_max: $cur_test_lesson_count_max" );
 
 
+        /*
 
         if ($test_lesson_count > $cur_test_lesson_count_max) {
             return $this->output_err(
                 "目前当前已试听数 $test_lesson_count,　超过 $cur_test_lesson_count_max ,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ",
                 ["flag" => "goto_test_lesson_list"]);
         }
+        */
 
         return $this->output_succ();
+    }
+    public function seller_test_lesson_list( ) {
+        $this->get_account_id();
+
+        //$this->t_seller_student_new->get_
     }
 
 
