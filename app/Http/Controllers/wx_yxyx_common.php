@@ -233,6 +233,7 @@ class wx_yxyx_common extends Controller
         $pp_wx_openid = $p_ret['p_wx_openid'];
         $pp_agent_level = $p_ret['p_agent_level'];
         $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
+        $url = '';
         if($p_wx_openid){
             if($type == 1){//邀请学员
                 $type_str = '邀请学员成功!';
@@ -252,8 +253,7 @@ class wx_yxyx_common extends Controller
                 'keyword3' => date('Y-m-d H:i:s',time()),
                 'remark'   => $remark,
             ];
-            $url = '';
-            \App\Helper\Utils::send_agent_msg_for_wx($p_openid,$template_id,$data,$url);
+            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
         }
         if($pp_wx_openid){
             if($type == 1){//邀请学员
@@ -267,23 +267,14 @@ class wx_yxyx_common extends Controller
                 $type_str = '邀请会员成功!';
                 $remark = '恭喜您成功邀请会员'.$phone.'成为您的雇佣兵。';
             }
-            $data = [
+            $data_p = [
                 'first'    => $type_str,
                 'keyword1' => $phone,
                 'keyword2' => $phone,
                 'keyword3' => date('Y-m-d H:i:s',time()),
                 'remark'   => $remark,
             ];
-            $url = '';
-            $data = [
-                'first'    => $type_str,
-                'keyword1' => $phone,
-                'keyword2' => $phone,
-                'keyword3' => date('Y-m-d H:i:s',time()),
-                'remark'   => $remark,
-            ];
-            $url = '';
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_openid,$template_id,$data,$url);
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data_p,$url);
         }
     }
 
