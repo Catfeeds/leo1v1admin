@@ -2184,7 +2184,6 @@ class user_manage extends Controller
             ++$ret_student_subject["合计"];
         }
         $ret_student_subject['平均科目数'] = round($sum / $ret_student_subject["合计"],2);
-        dd($ret_student_subject);
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_student_subject,
         ]);
