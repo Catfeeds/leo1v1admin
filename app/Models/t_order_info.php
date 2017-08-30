@@ -2756,7 +2756,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         ];
         $this->where_arr_add_int_or_idlist($where_arr,"o.userid",$userid_list);
 
-        $sql=$this->gen_sql_new(
+        $sql = $this->gen_sql_new(
             "select a.userid ,sum(price) as price from %s o  "
             ."join %s a on a.userid=o.userid  "
             . " where %s  group by a.userid ",
@@ -2770,5 +2770,34 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
         });
 
     }
+
+    public function get_order_stu_acc_info($start_time, $end_time) {
+        $where_arr=[
+            ["o.order_time>=%s", $start_time, 0],
+            ["o.order_time<%s", $end_time, 0],
+            "o.contract_type=0",
+        ];
+        $sql = $this->gen_sql_new(
+            "select o.orderid,o.sys_operator,o.origin,o.price,o.lesson_total,o.default_lesson_count,"
+            ." s.phone,s.phone_location,"
+            // ."m.name,m.account_role,"
+            ." tq.start_time,tq.is_called_phone,tq.uid"
+            ." from %s o"
+            ." left join %s s on s.userid=o.userid"
+            ." left join %s tq on tq.phone=s.phone"
+            // ." left join %s m on tq.uid=m.uid"
+            ." where %s"
+            ." order by o.order_time"
+            ,self::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,t_tq_call_info::DB_TABLE_NAME
+            // ,t_manager_info::DB_TABLE_NAME
+            ,$where_arr
+        );
+                echo $sql;exit;
+        return $this->main_get_list($sql);
+
+    }
+
 
 }
