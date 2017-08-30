@@ -51,7 +51,6 @@ class wx_teacher_web extends Controller
             }
 
             header("Location: $url");
-
         }else{
 
             $wx_config=\App\Helper\Config::get_config("teacher_wx");
@@ -60,18 +59,16 @@ class wx_teacher_web extends Controller
 
             $redirect_url=urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
-
         }
     }
 
     public function wage_summary() {}
     public function tea(){}
-    public function  comment_list() {}
-    public function  course_arrange() {}
-    public function  complaint() {}
-    public function  honor_rank() {}
+    public function comment_list() {}
+    public function course_arrange() {}
+    public function complaint() {}
+    public function honor_rank() {}
     public function index (){}
-    public function  month_report(){}
-
+    public function month_report(){}
 
 }

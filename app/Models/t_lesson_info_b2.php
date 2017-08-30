@@ -1576,13 +1576,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_value($sql);
     }
 
-    public function get_test_lesson_count_by_userid($userid,$create_time){
+    public function get_test_lesson_count_by_userid($userid,$create_time, $lesson_user_online_status=1){
         $where_arr = [
             ['userid = %d',$userid],
             ['lesson_type=%d',2],
             ['lesson_del_flag=%d',0],
             'confirm_flag in (0,1)',
-            'lesson_user_online_status = 1',
+            "lesson_user_online_status =  $lesson_user_online_status",
             "lesson_start>$create_time",
         ];
         $sql = $this->gen_sql_new(
