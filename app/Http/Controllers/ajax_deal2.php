@@ -938,6 +938,7 @@ class ajax_deal2 extends Controller
             return $this->output_err("已经 $test_lesson_count 次试听了，超过5次，不可试听");
         }
 
+        /*
         $cur_require_count=$this->t_test_lesson_subject->get_current_require_count($adminid);
         $seller_hold_test_lesson_user_count_config= \App\Helper\Config::get_config("seller_hold_test_lesson_user_count");
         $cur_require_count_max= @$seller_hold_test_lesson_user_count_config[$seller_level];
@@ -950,6 +951,7 @@ class ajax_deal2 extends Controller
         if ($cur_require_count> $cur_require_count_max ) {
             return $this->output_err("目前当前　申请数 $cur_require_count,　超过 $cur_require_count_max,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ");
         }
+        */
 
         return $this->output_succ();
     }

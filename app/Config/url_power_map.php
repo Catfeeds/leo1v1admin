@@ -304,6 +304,7 @@ class url_power_map {
 			'/tongji_ss/tongji_change_lesson_by_teacher'	=>1100609,
 			'/tongji_ss/tongji_change_lesson_by_parent'	=>1100610,
 			'/user_manage/tongji_student_subject'	=>1100611,
+			'/user_manage/tongji_grade_lesson_count'	=>1100612,
 			'/tongji/sms'	=>1100201,
 			'/tongji/sms_type'	=>1100202,
 			'/user_manage/count_zan'	=>1100401,

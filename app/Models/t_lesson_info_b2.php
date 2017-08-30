@@ -2740,7 +2740,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_teacher_first_test_lesson_deatil($start_time,$end_time){
+    public function get_teacher_first_test_lesson_detail($start_time,$end_time){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
@@ -2750,25 +2750,43 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand   "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start  "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
-                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
-                                  ." left join %s tss on l.lessonid = tss.lessonid"
-                                  ." left join %s tq on tq.require_id = tss.require_id"
-                                  ." left join %s tt on tq.test_lesson_subject_id = tt.test_lesson_subject_id"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
-                                  t_teacher_record_list::DB_TABLE_NAME,
-                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-                                  t_test_lesson_subject_require::DB_TABLE_NAME,
-                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
 
     }
+
+    public function get_teacher_first_regular_lesson_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in (0,3)",
+            "l.lesson_status>0",
+            "t.is_test_user=0"
+        ];
+
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid "
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
+
 
 
     public function get_teacher_first_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
@@ -2813,6 +2831,30 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+    public function get_teacher_fifth_regular_lesson_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type in (0,3)",
+            "l.lesson_status>0",
+            "t.is_test_user=0"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s s on l.userid=s.userid"
+                                  ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1) group by l.teacherid,l.userid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
     public function get_teacher_fifth_regular_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$userid,$tea_subject=-1){
         $where_arr=[
             "l.lesson_del_flag=0",
@@ -2854,6 +2896,28 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
+
+    public function get_teacher_fifth_test_lesson_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_user_online_status <2",
+            "l.lesson_type =2",
+            "l.lesson_status>0",
+            "t.is_test_user=0",
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start"
+                                  ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  $where_arr,
+                                  self::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
 
 
     public function get_teacher_fifth_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject=-1){
