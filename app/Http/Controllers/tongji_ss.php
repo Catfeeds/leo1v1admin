@@ -6985,11 +6985,16 @@ class tongji_ss extends Controller
         $month_start = strtotime(date("Y-m-01",$start_time));
         $lesson_target     = $this->t_ass_group_target->get_rate_target($month_start)/4;
         $assistant_renew_list = $this->t_manager_info->get_all_assistant_renew_list_new($start_time,$end_time);
-        $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
+        // $tran_require_info = $this->t_test_lesson_subject_sub_list->get_tran_require_info($start_time,$end_time);
         $kk_require_info = $this->t_test_lesson_subject_sub_list->get_kk_require_info($start_time,$end_time);
         $ass_list = $this->t_manager_info->get_adminid_list_by_account_role(1);
         $new_info = $this->t_student_info->get_refund_info($start_time,$end_time,0);
         $end_info = $this->t_student_info->get_end_class_stu_info($start_time,$end_time);
+
+        //转介绍 转介绍人是助教的,外加优学优享上级介绍人是助教的
+        $tran_require_info = $this->t_test_lesson_subject_sub_list->tongji_from_ass_test_tran_lesson($start_time,$end_time);
+        $agent = $this->t_test_lesson_subject_sub_list->tongji_agent_tran_lesson($start_time,$end_time);
+
 
 
         $account_id = $this->get_in_int_val("adminid",-1);
@@ -7025,9 +7030,10 @@ class tongji_ss extends Controller
             $item["stu_lesson_per"] = isset($week_info[$k])?$week_info[$k]["lesson_per"]:0;
 
             $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
-            $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0;
-            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0;
-            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0;
+            $item["tran_lesson"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0) + (isset($agent[$k])?$agent[$k]["num"]:0);
+            $item["tran_order"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0) + (isset($agent[$k])?$agent[$k]["order_num"]:0);
+            $item["tran_money"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0) + (isset($agent[$k])?$agent[$k]["order_money"]/100:0);
+
             $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
             $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
             $item["kk_succ"] = isset($kk_require_info[$k])?$kk_require_info[$k]["succ_num"]:0;

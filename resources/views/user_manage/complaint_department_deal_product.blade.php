@@ -49,6 +49,7 @@
                                 <a class="fa-list-alt opt-complaint-all btn fa" title="投诉处理详情"></a>
                                 <!-- <a title="手机拨打" class=" fa-phone  opt-telphone"></a> -->
                                 <a title="投诉图片" class="opt-complaint-img">图片</a>
+                                <a class="fa fa-times opt-del btn" title="删除"> </a>
                                 <!-- <a class="fa fa-edit opt-edit"  title="编辑"></a> -->
                                 <!-- <a class="fa fa-times opt-del" title="删除"> </a>
                                    -->

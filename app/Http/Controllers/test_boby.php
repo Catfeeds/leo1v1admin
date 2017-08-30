@@ -250,15 +250,52 @@ class test_boby extends Controller
 
     //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
     public function get_acc_tmk_by_order(){
-        $start_time = strtotime('2017-07-01');
-        $end_time = strtotime('2017-07-15');
+        $day = $this->get_in_str_val('day','today');
+        $start_time = strtotime($day);
+        $end_time = time();
         $ret_info = $this->t_order_info->get_order_stu_acc_info($start_time, $end_time);
-        foreach ($ret_info as &$item) {
-            \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
-            E\Eaccount_role::set_item_value_str($item);
-        }
-        dd($ret_info);
 
+        // dd($ret_info);
+        $s = '<table border=1><tr>'
+           .'<td>orderid</td>'
+           .'<td>签单人</td>'
+           .'<td>渠道</td>'
+           .'<td>金额</td>'
+           .'<td>电话</td>'
+           .'<td>城市</td>'
+           .'<td>下单时间</td>'
+           .'<td>拨打者</td>'
+           .'<td>角色</td>'
+           .'<td>拨打时间</td>'
+           .'<td>是否打通(0:否；1：是)</td>'
+           .'</tr>';
+
+        foreach ($ret_info as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"order_time");
+            $ret = $this->t_tq_call_info->get_acc_role($item['phone']);
+            foreach( $ret as &$val ) {
+                \App\Helper\Utils::unixtime2date_for_item($val,"start_time");
+                $this->cache_set_item_account_nick($val);
+                E\Eaccount_role::set_item_value_str($val,"admin_role");
+                // dd($item['orderid']);
+                $s = $s.'<tr><td>'.$item["orderid"].'</td>'
+                   .'<td>'.$item["sys_operator"].'</td>'
+                   .'<td>'.$item["origin"].'</td>'
+                   .'<td>'.$item["price"].'</td>'
+                   .'<td>'.$item["phone"].'</td>'
+                   .'<td>'.$item["phone_location"].'</td>'
+                   .'<td>'.$item["order_time"].'</td>'
+                   .'<td>'.$val["admin_nick"].'</td>'
+                   .'<td>'.$val["admin_role_str"].'</td>'
+                   .'<td>'.$val["start_time"].'</td>'
+                   .'<td>'.$val["is_called_phone"].'</td>'
+                   .'</tr>';
+            }
+
+        }
+
+        $s = $s.'</table>';
+        return $s;
 
     }
 

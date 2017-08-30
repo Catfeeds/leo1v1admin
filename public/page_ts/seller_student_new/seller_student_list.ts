@@ -19,6 +19,7 @@ function load_data(){
         start_time:	$('#id_start_time').val(),
         group_seller_student_status:	$('#id_group_seller_student_status').val(),
         seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+			  current_require_id_flag:	$('#id_current_require_id_flag').val(),
         end_time:	$('#id_end_time').val(),
         userid:	$('#id_userid').val(),
         success_flag:	$('#id_success_flag').val(),
@@ -61,6 +62,7 @@ $(function(){
     Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
     Enum_map.append_option_list("account_role",$("#id_origin_assistant_role"));
     Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
+	  Enum_map.append_option_list("boolean",$("#id_current_require_id_flag"));
 
     $('#id_origin_assistant_role').val(g_args.origin_assistant_role);
 
@@ -192,6 +194,7 @@ $(function(){
     $('#id_has_pad').val(g_args.has_pad);
     $('#id_seller_resource_type').val(g_args.seller_resource_type);
     $('#id_origin_assistantid').val(g_args.origin_assistantid);
+	  $('#id_current_require_id_flag').val(g_args.current_require_id_flag);
     $('#id_origin_userid').val(g_args.origin_userid);
     $('#id_phone_name').val(g_args.phone_name);
     $('#id_success_flag').val(g_args.success_flag);
