@@ -74,8 +74,7 @@ class wx_teacher_api extends TeaWxController
         }
 
         // * 插入到投诉数据库中
-        $account_type   = '2'; // 老师类型
-
+        $account_type = '2'; // 老师类型
         $ret_info_qc = $this->t_complaint_info->row_insert([
             'complaint_type' => $complaint_type,
             'userid'         => $report_uid,
@@ -84,9 +83,7 @@ class wx_teacher_api extends TeaWxController
             'complaint_info' => $report_msg,
         ]);
 
-
         if ($ret_info_qc) {
-
             // 通知QC处理
             $log_time_date = date('Y-m-d H:i:s',time(NULL));
             $opt_nick= $this->cache_get_teacher_nick($report_uid);
@@ -353,12 +350,8 @@ class wx_teacher_api extends TeaWxController
         }
     }
 
-
-
     public function get_teacher_info_for_teacher_day(){ // 教师节活动 获取老师信息
-
         $this->switch_tongji_database();
-
         $ret_info = [];
         $teacherid = $this->get_teacherid();
 
@@ -370,11 +363,9 @@ class wx_teacher_api extends TeaWxController
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
         $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
-
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
         $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
-
 
         $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
 
@@ -392,11 +383,36 @@ class wx_teacher_api extends TeaWxController
         return $this->output_succ(["data"=>$ret_info]);
     }
 
+    public function get_teacher_money(){
+        $teacherid = $this->get_teacherid();
 
+        \App\Helper\Utils::logger("month report teacherid".$teacherid);
 
+        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
+        $ret =\App\Helper\Utils::send_curl_post($url);
+        $ret = json_decode($ret,true);
+        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
+            $money = $ret["data"][0]["lesson_price"];
+        }else{
+            $money = 0;
+        }
 
+        return $this->output_succ(["money"=>$money]);
+    }
 
+    public function get_tea_lesson_some_info(){//p5
+        $teacherid = $this->get_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
 
-
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            $item = intval($item);
+        }
+        return $this->output_succ(["list"=>$ret_info]);
+    }
 
 }

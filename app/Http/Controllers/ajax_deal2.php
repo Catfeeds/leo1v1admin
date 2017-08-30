@@ -932,18 +932,25 @@ class ajax_deal2 extends Controller
         $seller_level=$this->t_manager_info->get_seller_level($adminid);
 
 
-        $test_lesson_count=$this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
-        if ($test_lesson_count >5 ) {
+        $test_lesson_list= $this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
+        $test_lesson_count = count( $test_lesson_list) ;
+        if ( $test_lesson_list >5 ) {
             return $this->output_err("已经 $test_lesson_count 次试听了，超过5次，不可试听");
         }
 
         $cur_require_count=$this->t_test_lesson_subject->get_current_require_count($adminid);
-        $cur_require_count_max=40;
+        $seller_hold_test_lesson_user_count_config= \App\Helper\Config::get_config("seller_hold_test_lesson_user_count");
+        $cur_require_count_max= @$seller_hold_test_lesson_user_count_config[$seller_level];
+
+        \App\Helper\Utils::logger("cur_require_count:$cur_require_count,   cur_require_count_max: $cur_require_count_max" );
+
+
 
 
         if ($cur_require_count> $cur_require_count_max ) {
-            return $this->output_err("目前申请数 $cur_require_count,　超过 $cur_require_count_max,不可申请");
+            return $this->output_err("目前当前　申请数 $cur_require_count,　超过 $cur_require_count_max,不可申请, 请将无效的试听用户回流公海，才能提交 新试听申请 ");
         }
+
         return $this->output_succ();
     }
 

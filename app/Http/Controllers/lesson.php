@@ -351,7 +351,6 @@ class lesson extends TeaWxController
             return $this->output_err('lessonid not exist!');
         }
 
-
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
         \App\Helper\Utils::logger("shiting2:$requireid,lessonid:$lessonid");
 

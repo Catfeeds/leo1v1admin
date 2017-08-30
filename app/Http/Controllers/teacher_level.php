@@ -927,6 +927,19 @@ class teacher_level extends Controller
 
         $openid = $this->t_teacher_info->get_wx_openid($teacherid);
         if($openid!=''){
+            $str="";
+            if($lesson_style==1){
+                $str = "第一次试听课教学反馈";
+            }elseif($lesson_style==2){
+                $str = "第五次试听课教学反馈";
+            }elseif($lesson_style==3){
+                $nick = $this->t_student_info->get_nick($userid);
+                $str = "学生:".$nick."的第一次常规课教学反馈";
+            }elseif($lesson_style==4){
+                $nick = $this->t_student_info->get_nick($userid);
+                $str = "学生:".$nick."的第五次常规课教学反馈";
+            }
+
             /**
              * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
              * 标题   : 评估结果通知
@@ -938,7 +951,7 @@ class teacher_level extends Controller
              */
             $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
             $data['first']    = "老师你好，近期我们对您的课程进行了听课抽查，课程的质量反馈报告如下：";
-            $data['keyword1'] = "教学质量反馈";
+            $data['keyword1'] = $str;
             $data['keyword2'] = $record_score."分";
             $data['keyword3'] = date("Y-m-d H:i:s",time())."(教研评价时间)";
             $data['remark'] = "监课情况:".$record_monitor_class
@@ -946,7 +959,7 @@ class teacher_level extends Controller
                             ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
 
             $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
-                 ."&type=".$type."&add_time=".$add_time;
+                 ."&type=".$record_type."&add_time=".$add_time;
             \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
         }else{
             /**
@@ -957,6 +970,7 @@ class teacher_level extends Controller
              教学质量评分为：${score}分。如有疑问请联系学科教研老师，理优期待与你共同进步，提高教学服务质量。
             */
             $phone    = $this->t_teacher_info->get_phone($teacherid);
+            $tea_nick = $this->t_teacher_info->get_realname($teacherid);
             $sms_id   = 46750146;
             $sms_data = [
                 "name"   => $tea_nick,
