@@ -2237,18 +2237,6 @@ class user_manage extends Controller
 
         $this->switch_tongji_database();
         $ret_info = $this->t_lesson_info_b2->grade_lesson_count($start_time,$end_time); //获取信息
-        
-        $ret_info = [[
-                'grade' => 101,
-                "sum" => 24325,
-                ],[
-                'grade' => 102,
-                "sum" => 75950,
-                ],[
-                'grade' => 303,
-                "sum" => 266700,
-                ]
-        ];
         $desc_map= array(
             100 => "小学",
             101 => "小一",
