@@ -4275,13 +4275,15 @@ class tongji_ss extends Controller
         $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
+
+        foreach($ret_info['list'] as $i=>$item){
+            if($item['account'] == 'alan'){
+                unset($ret_info['list'][$i]);
+            }
+        }
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){
-            /* $item["order_count"] = @$order_info[$item["cur_require_adminid"]]["order_count"];
-            if(empty($item["order_count"])){
-                $item['order_count']=0;
-                }*/
             $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
             if($item["create_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["create_time"])/86400);
@@ -4320,8 +4322,6 @@ class tongji_ss extends Controller
         }
 
         return $ret_info;
-        // return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 

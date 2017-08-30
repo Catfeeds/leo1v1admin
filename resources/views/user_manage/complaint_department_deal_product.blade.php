@@ -1,17 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
-    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
-    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
-    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
-    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
-    <script type="text/javascript" src="/js/jquery.md5.js"></script>
-    <script type="text/javascript" src="/page_js/dlg_return_back.js"></script>
-
-    <script type="text/javascript" src="/page_js/seller_student_new/common.js?{{@$_publish_version}}"></script>
-
-
-
 
     <section class="content ">
 
@@ -21,24 +9,6 @@
                     <div  id="id_date_range" >
                     </div>
                 </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">处理状态</span>
-                        <select id="id_is_complaint_state" class="opt-change" >
-                        </select>
-
-                    </div>
-                </div>
-
-                <div class="col-xs-6 col-md-2">
-                    <div class="input-group ">
-                        <span class="input-group-addon">投诉人类型</span>
-                        <select class="opt-change form-control" id="id_account_type" />
-                        </select>
-                    </div>
-                </div>
-
 
             </div>
         </div>
@@ -56,6 +26,7 @@
                     <td>跟进状态</td>
                     <td>当前处理人</td>
                     <td>最新分配时间</td>
+                    <td>消耗时间</td>
                     <td>处理状态</td>
                     <td> 操作  </td>
                 </tr>
@@ -67,24 +38,28 @@
                         <td>{{@$var["complaint_type_str"]}} </td>
                         <td>{{@$var["account_type_str"]}} </td>
                         <td>{{@$var["user_nick"]}}/{{@$var["phone"]}} </td>
-                        <td >{{mb_substr($var["complaint_info"],0,50 )}}...</td>
-
-                        <td>{{@$var["complained_adminid_nick"]}}/{{@$var["complained_department_str"]}} </td>
+                        <td>{{@$var["complaint_info"]}} </td>
+                        <td>{{@$var["complained_adminid_nick"]}}/{{@$var["complained_adminid_type_str"]}} </td>
                         <td>{{@$var["complaint_date"]}} </td>
                         <td>{!!@$var["follow_state_str"]!!} </td>
                         <td>{{@$var["current_account"]}} </td>
                         <td>{{@$var["current_admin_assign_time_date"]}} </td>
+                        <td>{{@$var["time_consuming"]}} </td>
                         <td>{!! @$var["complaint_state_str"]!!} </td>
                         <td>
                             <div
                                 {!!  \App\Helper\Utils::gen_jquery_data($var )  !!}
                             >
-                                <a class="opt-assign btn fa" title="分配处理人">分</a>
-                                <a class="opt-assign_remark btn fa" title="分配记录">备</a>
-                                <a class="fa fa-list-alt opt-complaint-all btn" title="投诉信息汇总"></a>
-                                <!-- <a class="fa fa-edit opt-edit"  title="编辑"> </a> -->
-                                <a class="fa fa-times opt-del" title="删除"> </a>
-
+                                <a class="opt-assign btn fa" title="分配处理人">分配</a>
+                                <a class="opt-assign_remark btn fa" title="分配备注">备注</a>
+                                <a class="opt-reject btn fa" title="驳回分配">驳回</a>
+                                <a class="btn fa fa-gavel opt-deal" title="处理投诉"></a>
+                                <a class="fa-list-alt opt-complaint-all btn fa" title="投诉处理详情"></a>
+                                <a title="手机拨打" class=" fa-phone  opt-telphone"></a>
+                                <a title="投诉图片" class="opt-complaint-img">图片</a>
+                                <!-- <a class="fa fa-edit opt-edit"  title="编辑"></a> -->
+                                <!-- <a class="fa fa-times opt-del" title="删除"> </a>
+                                   -->
                             </div>
                         </td>
                     </tr>
@@ -103,8 +78,6 @@
                 </table>
             </div>
         </div>
-
-
     </section>
 
 @endsection

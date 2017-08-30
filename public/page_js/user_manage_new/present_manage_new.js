@@ -187,22 +187,21 @@ $(function(){
     });
 
     $(".opt-gift-desc").on("click", function(){
-
-        var html_node=$("<div></div>").html($.dlg_get_html_by_class('dlg_modify_gift_desc'));
+        var html_node = $("<div></div>").html($.dlg_get_html_by_class('dlg_modify_gift_desc'));
         var gift_desc_str = $(this).get_opt_data().gift_desc_str;
-        for (var i=0;i<gift_desc_str.length;i++)
-        {
-           html_node.find(".show_pic").append('<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
-                                               '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
-                                              gift_desc_str[i] +' style="width:100%;"></p></a></div>');
+        for (var i=0;i<gift_desc_str.length;i++){
+            html_node.find(".show_pic").append(
+                '<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
+                    '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
+                    gift_desc_str[i] +' style="width:100%;"></p></a></div>');
         }
         html_node.find(".add_pic").attr('id', 'opt-add-pic');
         html_node.find(".add_pic").parent().attr('id', 'opt-add-pic-parent');
         var giftid = $(this).parent().data('giftid');
 
         BootstrapDialog.show({
-	        title: "修改描述图片",
-	        message : function(dialog){
+	          title: "修改描述图片",
+	          message : function(dialog){
                 html_node.find('.show_pic').on('click', '.change_image', function(){
                     if ($(this).children().children().css('opacity') == 0.5) {
                         $(this).children().children().css('opacity', '1');
@@ -218,26 +217,21 @@ $(function(){
                 });
 
                 return html_node;
-            },
-	        buttons: [{
-		        label: '返回',
-		        action: function(dialog) {
-			        dialog.close();
-		        }
-	        }, {
-		        label: '确认',
-		        cssClass: 'btn-warning',
-		        action: function(dialog) {
+            }, buttons: [{
+		            label: '返回',
+		            action: function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label: '确认',
+		            cssClass: 'btn-warning',
+		            action: function(dialog) {
                     var gift_desc_new = '';
                     html_node.find(".show_pic").children().each(function(){
                         gift_desc_new += $(this).children('a').children('p').children('img').attr('src') + ',';
                     });
 
-
                     gift_desc_new = remove_last_comma(gift_desc_new);
-                     //alert(gift_desc_new );
-                    //alert(giftid);
-                    // return ;
                     $.ajax({
                         url: '/authority/modify_gift_desc',
                         type: 'POST',
@@ -248,9 +242,9 @@ $(function(){
                             window.location.reload();
                         }
                     });
-			        dialog.close();
-		        }
-	        }]
+			              dialog.close();
+		            }
+	          }]
         });
 
         var ta = setTimeout(function(){
@@ -260,11 +254,12 @@ $(function(){
                 var domain_name=ret.domain; 
                 custom_upload_file('opt-add-pic', 1,function (up, info, file) {
                     var res = $.parseJSON(info);
-                    $(".bootstrap-dialog-body .show_pic").append('<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
-                                                                 '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
-                                                                 'http://'+domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
-            }, null,[ "png", "jpg"]); 
-            clearTimeout(ta); 
+                    $(".bootstrap-dialog-body .show_pic").append(
+                        '<div style="float:left;"><a title="点击选中图片" class="change_image" href="javascript:;">'+
+                            '<p style="width:100px;height:100px;overflow:hidden;"><img src='+
+                            'http://'+domain_name +'/'+ res.key +' style="width:100%;"></p></a></div>');
+                }, null,[ "png", "jpg"]); 
+                clearTimeout(ta); 
             });      
         }, 1000);
     });
