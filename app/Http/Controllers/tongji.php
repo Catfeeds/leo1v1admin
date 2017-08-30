@@ -1169,7 +1169,7 @@ class tongji extends Controller
         }
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
-        $ret_info_new = [['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0]];
+        $ret_info_new = [['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0],['long_time'=>'','count'=>0,'money'=>0]];
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
 
@@ -1196,33 +1196,40 @@ class tongji extends Controller
                 $time = $item['leave_member_time']?$item['leave_member_time']:time();
                 $item['become_member_long_time'] = $time-$item['become_member_time'];
                 if($item['become_member_long_time']<=2592000){
+                    $ret_info_new[0]['long_time'] = '1个月';
                     $ret_info_new[0]['count']++;
                     $ret_info_new[0]['money'] += $item['los_personal_money'];
                 }elseif(2592000<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*2){
+                    $ret_info_new[1]['long_time'] = '1个月~2个月';
                     $ret_info_new[1]['count']++;
                     $ret_info_new[1]['money'] += $item['los_personal_money'];
                 }elseif(2592000*2<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*3){
+                    $ret_info_new[2]['long_time'] = '2个月~3个月';
                     $ret_info_new[2]['count']++;
                     $ret_info_new[2]['money'] += $item['los_personal_money'];
                 }elseif(2592000*3<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*4){
+                    $ret_info_new[3]['long_time'] = '3个月~4个月';
                     $ret_info_new[3]['count']++;
                     $ret_info_new[3]['money'] += $item['los_personal_money'];
                 }elseif(2592000*4<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*5){
+                    $ret_info_new[4]['long_time'] = '4个月~5个月';
                     $ret_info_new[4]['count']++;
                     $ret_info_new[4]['money'] += $item['los_personal_money'];
                 }elseif(2592000*5<$item['become_member_long_time'] && $item['become_member_long_time']<=2592000*6){
+                    $ret_info_new[5]['long_time'] = '5个月~6个月';
                     $ret_info_new[5]['count']++;
                     $ret_info_new[5]['money'] += $item['los_personal_money'];
                 }else{
+                    $ret_info_new[6]['long_time'] = '6个月以上';
                     $ret_info_new[6]['count']++;
                     $ret_info_new[6]['money'] += $item['los_personal_money'];
                 }
             }
         }
 
-        dd($ret_info,$ret_info_new);
+        // dd($ret_info,$ret_info_new);
         \App\Helper\Utils::logger("OUTPUT");
-        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info));
+        return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info_new));
     }
 
 }
