@@ -7030,9 +7030,9 @@ class tongji_ss extends Controller
             $item["stu_lesson_per"] = isset($week_info[$k])?$week_info[$k]["lesson_per"]:0;
 
             $item["lesson_money"] = isset($week_info[$k])?$week_info[$k]["lesson_money"]/100:0;
-            $item["tran_lesson"] = isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0 + isset($agent[$k])?$agent[$k]["num"]:0;
-            $item["tran_order"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0 + isset($agent[$k])?$agent[$k]["order_num"]:0;
-            $item["tran_money"] = isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0 + isset($agent[$k])?$agent[$k]["order_money"]/100:0;
+            $item["tran_lesson"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["num"]:0) + (isset($agent[$k])?$agent[$k]["num"]:0);
+            $item["tran_order"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_num"]:0) + (isset($agent[$k])?$agent[$k]["order_num"]:0);
+            $item["tran_money"] = (isset($tran_require_info[$k])?$tran_require_info[$k]["order_money"]/100:0) + (isset($agent[$k])?$agent[$k]["order_money"]/100:0);
 
             $item["tran_money_one"] = !empty($item["tran_order"])?round($item["tran_money"]/$item["tran_order"],2):0;
             $item["kk_lesson"] = isset($kk_require_info[$k])?$kk_require_info[$k]["num"]:0;
