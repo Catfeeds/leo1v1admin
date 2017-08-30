@@ -1108,19 +1108,6 @@ class tongji extends Controller
         }
         $this->t_tq_call_info->switch_tongji_database();
 
-
-        /*
-        $list=$this->t_tq_call_info->tongji_tq_info_new($start_time,$end_time);
-        foreach ($list as $k=>&$item )  {
-            $res[$k]['is_called_phone_count_for_month'] = $item['all_count'];
-            if(isset($res[$k]['month_work_day_now_real']) && $res[$k]['month_work_day_now_real'] != 0){
-                $res[$k]['is_called_phone_count_for_day'] = round($item['all_count']/$res[$k]['month_work_day_now_real']);
-                $res[$k]['duration_count_for_day'] = round($item['duration_count']/$res[$k]['month_work_day_now_real']);
-            }
-        }
-        */
-
-
         $this->t_test_lesson_subject_require->switch_tongji_database();
 
         $tr_info=$this->t_test_lesson_subject_require->tongji_require_test_lesson_group_by_admin_revisiterid($start_time,$end_time);
