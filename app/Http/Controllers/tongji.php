@@ -1188,7 +1188,7 @@ class tongji extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
-                if(!isset($item['leave_member_time']) or !isset($item['create_time'])){
+                if(!isset($item['leave_member_time']) && !isset($item['create_time'])){
                     $manager_item = $this->t_manager_info->field_get_list($item['adminid'],'create_time,leave_member_time');
                     $item['become_member_time'] = $manager_item['create_time'];
                     $item['leave_member_time'] = $manager_item['leave_member_time'];
