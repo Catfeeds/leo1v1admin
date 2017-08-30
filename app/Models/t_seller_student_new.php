@@ -1764,9 +1764,11 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new("select  n.add_time, s.origin, n.phone ,n.userid  ".
                                   " from %s n ".
                                   " left join %s s on s.userid = n.userid".
+                                  " left join %s t on t.userid = s.userid ".
                                   " where %s ",
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
