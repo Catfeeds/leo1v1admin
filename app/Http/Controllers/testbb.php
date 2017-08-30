@@ -88,6 +88,12 @@ class testbb extends Controller
 
 
     public function test_img(){
+        $date = date('Y_m-d');
+        $title= substr($date,2);
+
+        dd($title);
+
+
         $a = [
             "a"=>1,
             "b"=>2
