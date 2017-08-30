@@ -2237,7 +2237,7 @@ class user_manage extends Controller
 
         $this->t_student_info->switch_tongji_database();
         $ret_info = $this->t_lesson_info->grade_lesson_count($start_time,$end_time); //获取信息
-        $sum = 0;
+        
         $desc_map= array(
             100 => "小学",
             101 => "小一",
@@ -2255,16 +2255,19 @@ class user_manage extends Controller
             302 => "高二",
             303 => "高三",
         );
+        $sum = 0;
         foreach ($ret_info as $key => &$value) {
-            $value['grade_str'] = $desc_map[$value['grade']];
-            $sum += $value['sum'];
+            if(isset($desc_map[$value['grade']])){
+                $value['grade_str'] = @$desc_map[$value['grade']];
+                $value['sum'] = round($value['sum']/100,0);
+                $sum += $value['sum'];
+            }
         }
         $ret_info[] = ["grade" => 999,"sum" => $sum ,"grade_str" =>"总计"];
         $ret_grade = [];
         foreach ($ret_info as $key => $value) {
             $ret_grade[$value['grade_str']] = $value['sum'];
         }
-        //dd($ret_info);
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_grade,
         ]);
