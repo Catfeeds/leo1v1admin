@@ -47,7 +47,6 @@ class seller_menu{
                 ["power_id"=>15, "name"=>"例子统计", "list"=>[
                     ["power_id"=>1, "name"=>"例子统计","url"=>"/tongji_ss/user_count"],
                     ["power_id"=>2, "name"=>"例子统计-个人","url"=>"/tongji/seller_user_count"],
-                    ["power_id"=>21, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"例子销售分布","url"=>"/tongji2/seller_student_admin_list"],
                     ["power_id"=>4, "name"=>"例子销售拨打数","url"=>"/tongji_ex/call_count"],
                     ["power_id"=>5, "name"=>"新增例子分时统计","url"=>"/tongji_ss/new_user_count"],
@@ -86,6 +85,7 @@ class seller_menu{
                 ]],
                 ["power_id"=>17, "name"=>"综合统计", "list"=>[
                     ["power_id"=>1, "name"=>"日报",   "url"=>"/tongji_ss/day_report"],
+                    ["power_id"=>21, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>25, "name"=>"销售月度绩效",   "url"=>"/tongji2/seller_month_money_list"],
                     ["power_id"=>2, "name"=>"销售月度统计报表",   "url"=>"/user_manage_new/seller_tongji_report_info"],
                     ["power_id"=>3, "name"=>"销售红黑榜",   "url"=>"/user_manage_new/seller_require_tq_time_list"],
