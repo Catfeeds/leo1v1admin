@@ -944,7 +944,7 @@ class ajax_deal2 extends Controller
         $seller_hold_test_lesson_user_count_config= \App\Helper\Config::get_config("seller_hold_test_lesson_user_count");
         $cur_test_lesson_count_max= @$seller_hold_test_lesson_user_count_config[$seller_level];
 
-        \App\Helper\Utils::logger("cur_require_count:$$test_lesson_count,   cur_require_count_max: $cur_test_lesson_count_max" );
+        \App\Helper\Utils::logger("cur_require_count:$test_lesson_count,   cur_require_count_max: $cur_test_lesson_count_max" );
 
 
 
