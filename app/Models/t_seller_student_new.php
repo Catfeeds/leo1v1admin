@@ -1997,11 +1997,12 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $desc;
     }
     public function get_test_lesson_list( $admin_revisiterid ) {
+        $now=time(NULL);
         $sql= $this->gen_sql_new(
             "select l.userid , max(l.lesson_start) lesson_start"
             . " from %s n "
-            . " left_join %s l on n.userid = l.userid "
-            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) "
+            . " left join %s l on n.userid = l.userid "
+            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) and  l.lesson_start< $now and l.lesson_start >0 "
             ." group by l.userid  ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,
