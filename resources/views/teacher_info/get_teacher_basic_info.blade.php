@@ -48,7 +48,7 @@
      }
      .flag-baes th{
          width:20%;
-         background:#f0f0f0;
+         background:#E6FAFF;
          text-align:center;
      }
      .flag-baes td{
@@ -323,10 +323,10 @@
                     <div class="box-header">
                         <h3 class="box-title text-blue">基本信息</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>编辑
+                            <button type="button" class="btn btn-box-tool opt-edit" data-name="user-info"><i class="fa fa-edit"></i>&nbsp;<span class="color-6 ft14">编辑</span>
                             </button>
-                            <button type="button" class="btn btn-box-tool hide color-6" data-toggle="modal" data-target="#modal-default">取消 </button>
-                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info">保存</button>
+                            <button type="button" class="btn btn-box-tool hide color-6" data-toggle="modal" data-target="#modal-default"><span class="color-6 ft14">取消</span></button>
+                            <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info"><span class="color-6 ft14">保存</span></button>
                         </div>
                     </div>
                     <div class="bor-hr"></div>

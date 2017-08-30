@@ -3644,4 +3644,20 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
+    public function grade_lesson_count($lesson_start,$lesson_end){
+        $where_arr = [
+            ["lesson_start>%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+            "lesson_type in (0,1,3) ",
+            "lesson_del_flag=0",
+        ];
+        $sql = $this->gen_sql_new("select grade, sum(lesson_count) as sum "
+                                  ." from %s "
+                                  ." where %s "
+                                  ." group by grade order by grade asc"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+    }
+
 }

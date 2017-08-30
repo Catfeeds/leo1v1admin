@@ -1757,16 +1757,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]="(tmk_student_status =3 )";
             break;
         case "tq_no_call_count" :
-            $where_arr[]="( global_tq_called_flag=0 )";
+            $where_arr[]="( global_tq_called_flag=0 and seller_student_status in (0))";
             break;
         }
 
         $sql = $this->gen_sql_new("select  n.add_time, s.origin, n.phone ,n.userid  ".
                                   " from %s n ".
                                   " left join %s s on s.userid = n.userid".
+                                  " left join %s t on t.userid = s.userid ".
                                   " where %s ",
                                   t_seller_student_new::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   $where_arr
         );
         return $this->main_get_list_by_page($sql,$page_info);
@@ -1995,6 +1997,20 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             }
         }
         return $desc;
+    }
+    public function get_test_lesson_list( $admin_revisiterid ) {
+        $now=time(NULL);
+        $sql= $this->gen_sql_new(
+            "select l.userid , max(l.lesson_start) lesson_start"
+            . " from %s n "
+            . " left join %s l on n.userid = l.userid "
+            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) and  l.lesson_start< $now and l.lesson_start >0 "
+            ." group by l.userid  ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $admin_revisiterid
+        );
+        return $this->main_get_list($sql);
     }
 
 }
