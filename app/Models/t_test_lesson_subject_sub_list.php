@@ -1046,4 +1046,151 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_list_by_page($sql,$page_info);
 
     }
+
+    public function tongji_from_ass_test_tran_lesson($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type = 2",
+            "tt.require_adminid>0",
+            "m.account_role=1",
+            "m.del_flag=0",
+            "tt.ass_test_lesson_type=0",
+            "tss.success_flag <2"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money, s.origin_assistantid "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on s.origin_assistantid = m.uid"
+                                  ." left join %s o on tss.lessonid = o.from_test_lesson_id and o.contract_status>0 and o.contract_type in (0,3)"
+                                  ." where %s group by s.origin_assistantid",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["origin_assistantid"];
+        });
+
+    }
+    public function tongji_agent_tran_lesson($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type = 2",
+            "tt.require_adminid>0",
+            "m.account_role=1",
+            "m.del_flag=0",
+            "tt.ass_test_lesson_type=0",
+            "tss.success_flag <2"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select count(distinct tss.lessonid) num,sum(if(o.orderid >0,1,0)) order_num,sum(if(o.orderid>0,o.price,0)) order_money,m.uid "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s a on s.userid= a.userid"
+                                  ." left join %s aa on a.parentid = aa.id"
+                                  ." left join %s m on aa.phone = m.phone"
+                                  ." left join %s o on tss.lessonid = o.from_test_lesson_id and o.contract_status>0 and o.contract_type in (0,3)"
+                                  ." where %s group by m.uid",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_agent::DB_TABLE_NAME,
+                                  t_agent::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["uid"];
+        });
+
+    }
+
+    public function get_from_ass_test_tran_lesson_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type = 2",
+            "tt.require_adminid>0",
+            "m.account_role=1",
+            "m.del_flag=0",
+            "tt.ass_test_lesson_type=0",
+            "tss.success_flag <2"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.grade,m.name,o.price "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s m on s.origin_assistantid = m.uid"
+                                  ." left join %s o on tss.lessonid = o.from_test_lesson_id and o.contract_status>0 and o.contract_type in (0,3)"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+    public function get_agent_tran_lesson_detail($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_del_flag=0",
+            "l.lesson_type = 2",
+            "tt.require_adminid>0",
+            "m.account_role=1",
+            "m.del_flag=0",
+            "tt.ass_test_lesson_type=0",
+            "tss.success_flag <2"
+        ];
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+
+        $sql = $this->gen_sql_new("select s.nick,s.userid,l.grade,m.name,o.price "
+                                  ." from %s tss left join %s l on tss.lessonid = l.lessonid"
+                                  ." left join %s s on l.userid = s.userid"
+                                  ." left join %s tr on tss.require_id = tr.require_id"
+                                  ." left join %s tt on tr.test_lesson_subject_id = tt.test_lesson_subject_id"
+                                  ." left join %s a on s.userid= a.userid"
+                                  ." left join %s aa on a.parentid = aa.id"
+                                  ." left join %s m on aa.phone = m.phone"
+                                  ." left join %s o on tss.lessonid = o.from_test_lesson_id and o.contract_status>0 and o.contract_type in (0,3)"
+                                  ." where %s ",
+                                  self::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_agent::DB_TABLE_NAME,
+                                  t_agent::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_order_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+
+    }
+
+
+
+
 }

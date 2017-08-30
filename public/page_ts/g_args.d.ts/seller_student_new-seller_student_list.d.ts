@@ -32,6 +32,7 @@ interface GargsStatic {
 	group_seller_student_status:	number;//App\Enums\Egroup_seller_student_status
 	tmk_student_status:	number;//\App\Enums\Etmk_student_status
 	phone_name:	string;
+	current_require_id_flag:	number;//\App\Enums\Eboolean
 	jack_flag:	number;
 	account:	number;
 	admin_seller_level:	number;
@@ -207,6 +208,7 @@ $(function(){
 			group_seller_student_status:	$('#id_group_seller_student_status').val(),
 			tmk_student_status:	$('#id_tmk_student_status').val(),
 			phone_name:	$('#id_phone_name').val(),
+			current_require_id_flag:	$('#id_current_require_id_flag').val(),
 			jack_flag:	$('#id_jack_flag').val(),
 			account:	$('#id_account').val(),
 			admin_seller_level:	$('#id_admin_seller_level').val()
@@ -221,6 +223,7 @@ $(function(){
 	Enum_map.append_option_list("set_boolean",$("#id_success_flag"));
 	Enum_map.append_option_list("group_seller_student_status",$("#id_group_seller_student_status"));
 	Enum_map.append_option_list("tmk_student_status",$("#id_tmk_student_status"));
+	Enum_map.append_option_list("boolean",$("#id_current_require_id_flag"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -260,6 +263,7 @@ $(function(){
 	$('#id_group_seller_student_status').val(g_args.group_seller_student_status);
 	$('#id_tmk_student_status').val(g_args.tmk_student_status);
 	$('#id_phone_name').val(g_args.phone_name);
+	$('#id_current_require_id_flag').val(g_args.current_require_id_flag);
 	$('#id_jack_flag').val(g_args.jack_flag);
 	$('#id_account').val(g_args.account);
 	$('#id_admin_seller_level').val(g_args.admin_seller_level);
@@ -460,6 +464,14 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">phone_name</span>
                 <input class="opt-change form-control" id="id_phone_name" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">boolean</span>
+                <select class="opt-change form-control" id="id_current_require_id_flag" >
+                </select>
             </div>
         </div>
 

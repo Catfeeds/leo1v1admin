@@ -762,12 +762,12 @@ class ajax_deal2 extends Controller
     public function get_teacherid_by_phone(){
         $phone           = $this->get_in_str_val('phone');
         $teacherid = $this->t_teacher_info->get_teacherid_by_phone($phone);
-        
+
         if(empty($teacherid)){
-           return $this->output_err("没有老师帐号"); 
+           return $this->output_err("没有老师帐号");
         }else{
             $data = $this->t_teacher_info->field_get_list($teacherid,"teacherid,level,teacher_money_type");
-           return $this->output_succ(["data"=>$data]); 
+           return $this->output_succ(["data"=>$data]);
         }
     }
 
@@ -926,6 +926,26 @@ class ajax_deal2 extends Controller
 
     }
 
-   
+    public function check_add_test_lesson() {
+        $userid = $this->get_in_userid();
+        $adminid=$this->get_account_id();
+        $seller_level=$this->t_manager_info->get_seller_level($adminid);
+
+
+        $test_lesson_count=$this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
+        if ($test_lesson_count >5 ) {
+            return $this->output_err("已经 $test_lesson_count 次试听了，超过5次，不可试听");
+        }
+
+        $cur_require_count=$this->t_test_lesson_subject->get_current_require_count($adminid);
+        $cur_require_count_max=40;
+
+
+        if ($cur_require_count> $cur_require_count_max ) {
+            return $this->output_err("目前申请数 $cur_require_count,　超过 $cur_require_count_max,不可申请");
+        }
+        return $this->output_succ();
+    }
+
 
 }

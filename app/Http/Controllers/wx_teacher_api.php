@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
 use Illuminate\Support\Facades\Session ;
 
-
-
-
 // 引入鉴权类
 use Qiniu\Auth;
 
@@ -93,7 +90,6 @@ class wx_teacher_api extends TeaWxController
             // 通知QC处理
             $log_time_date = date('Y-m-d H:i:s',time(NULL));
             $opt_nick= $this->cache_get_teacher_nick($report_uid);
-
             /**
                {{first.DATA}}
                待办主题：{{keyword1.DATA}}
@@ -101,7 +97,6 @@ class wx_teacher_api extends TeaWxController
                日期：{{keyword3.DATA}}
                {{remark.DATA}}
              **/
-
             $template_id = "9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU";//待处理通知
             $data_msg = [
                 "first"     => "$opt_nick 老师发布了一条投诉",
