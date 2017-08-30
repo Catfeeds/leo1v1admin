@@ -1161,7 +1161,8 @@ class tongji extends Controller
                 $res[$k]['finish_personal_per'] =  round($v['all_price']/100/$res[$k]['target_personal_money'],2);
                 $res[$k]['los_personal_money'] = $res[$k]['target_personal_money']-$v['all_price']/100;
             }
-            $res[$k]['become_member_time'] = $v['become_member_time'];
+            $res[$k]['become_member_time'] = $v['create_time'];
+            $res[$k]['leave_member_time'] = $v['leave_member_time'];
         }
         foreach ($res as $ret_k=> &$res_item) {
             $res_item["adminid"] = $ret_k ;
@@ -1171,7 +1172,7 @@ class tongji extends Controller
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
-            $item['become_member_long_time'] = isset($item['become_member_time'])?(int)(@(time()-$item['become_member_time'])/86400):'';
+
             $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
             $item['finish_per'] =@$item['target_money']!=0?(round(@$item['all_price_for_month']/$item['target_money'],2)*100)."%":0;
@@ -1187,6 +1188,8 @@ class tongji extends Controller
                 $item['target_money']="";
                 $item['finish_per'] = "";
                 $item['los_money'] = "";
+                $time = $item['leave_member_time']?$item['leave_member_time']:time();
+                $item['become_member_long_time'] = (int)(($time-$item['become_member_time'])/86400);
             }
 
         }
