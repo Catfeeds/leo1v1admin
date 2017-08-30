@@ -27,7 +27,7 @@ $(function(){
 			      data     : {'status': old_status},
 			      success : function(result){
                 if(result.ret==0){
-                    $('h3[data-status]').toggleClass('hide');
+                    $('b[data-status]').toggleClass('hide');
                     $('p[data-status]').toggleClass('hide');
                     $('button[data-status]').toggleClass('hide');
                 }else{
