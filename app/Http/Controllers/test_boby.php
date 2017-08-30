@@ -275,8 +275,8 @@ class test_boby extends Controller
             $ret = $this->t_tq_call_info->get_acc_role($item['phone']);
             foreach( $ret as &$val ) {
                 \App\Helper\Utils::unixtime2date_for_item($val,"start_time");
-                E\Eaccount_role::set_item_value_str($val);
                 $this->cache_set_item_account_nick($val);
+                E\Eaccount_role::set_item_value_str($val,"admin_role");
                 // dd($item['orderid']);
                 $s = $s.'<tr><td>'.$item["orderid"].'</td>'
                    .'<td>'.$item["sys_operator"].'</td>'
