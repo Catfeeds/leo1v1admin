@@ -383,6 +383,94 @@ class wx_teacher_api extends TeaWxController
         return $this->output_succ(["data"=>$ret_info]);
     }
 
+    public function get_month(){
+        $month = intval( date('n', strtotime ("-1 month") ));
+        return $this->output_succ(['month'=> $month]);
+    }
+
+    public function get_teacher_lesson(){//p 2
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+
+        \App\Helper\Utils::logger("yuebao".$teacherid);
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
+        $ret_info['normal_count'] = $ret_info['normal_count']/100;
+        $ret_info['test_count']   = $ret_info['test_count']/100;
+        $ret_info['other_count']  = $ret_info['other_count']/100;
+        return $this->output_succ(["lesson_info"=>$ret_info]);
+    }
+
+    public function get_teacher_level(){//p3
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+
+        $tea_title = [
+            1 => "一星教师",
+            2 => "二星教师",
+            3 => "三星教师",
+            4 => "四星教师",
+            5 => "五星教师",
+        ];
+        $tea_des = [
+            1 => "老师加油，马上就会升级啦",
+            2 => "努力一点点，三星教师就在眼前",
+            3 => "只要功夫深，四星教师不是梦",
+            4 => "使出洪荒之力，五星教师就是你",
+            5 => "荣耀五星教师，你值得拥有",
+        ];
+        $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
+        if($ret_info['teacher_money_type'] == 0) {
+            $level = $ret_info['level'] + 2;
+        } else {
+            $level = $ret_info['level'] + 1;
+        }
+        $list['level'] = $level;
+        $list['tea_title'] = $tea_title[$level];
+        $list['tea_des'] = $tea_des[$level];
+        return $this->output_succ(["tea_info"=>$list]);
+    }
+
+    public function get_teacher_student(){//p4
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_student_by_teacherid($teacherid,$start_time, $end_time);
+        $face       = [];
+        foreach ($ret_info as $item) {
+            $face[] = @$item['face'];
+        }
+        $stu_info['stu_num'] = count($ret_info);
+        $stu_info['face']    = $face;
+        return $this->output_succ(["stu_info"=>$stu_info]);
+    }
+
+    public function get_tea_lesson_some_info(){//p5
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            $item = intval($item);
+        }
+        return $this->output_succ(["list"=>$ret_info]);
+    }
+
     public function get_teacher_money(){
         $teacherid = $this->get_teacherid();
 
@@ -400,19 +488,5 @@ class wx_teacher_api extends TeaWxController
         return $this->output_succ(["money"=>$money]);
     }
 
-    public function get_tea_lesson_some_info(){//p5
-        $teacherid = $this->get_teacherid();
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
-
-        $end_time   = strtotime(date("Y-m-01",time()));
-        $start_time = strtotime("-1 month",$end_time);
-        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
-        foreach ($ret_info as &$item) {
-            $item = intval($item);
-        }
-        return $this->output_succ(["list"=>$ret_info]);
-    }
 
 }
