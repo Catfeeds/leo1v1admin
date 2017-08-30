@@ -1950,6 +1950,12 @@ class user_manage extends Controller
     public function complaint_department_deal_product(){
         $this->set_in_value('account_type',2);
         $this->set_in_value('complaint_type',5); // 显示软件反馈类型
+
+
+
+
+
+
         return $this->qc_complaint();
         // qc_complaint
     }
