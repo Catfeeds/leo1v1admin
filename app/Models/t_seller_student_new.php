@@ -1998,5 +1998,18 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         }
         return $desc;
     }
+    public function get_test_lesson_list( $admin_revisiterid ) {
+        $sql= $this->gen_sql_new(
+            "select l.userid , max(l.lesson_start) lesson_start"
+            . " from %s n "
+            . " left_join %s l on n.userid = l.userid "
+            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) "
+            ." group by l.userid  ",
+            self::DB_TABLE_NAME,
+            t_lesson_info::DB_TABLE_NAME,
+            $admin_revisiterid
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
