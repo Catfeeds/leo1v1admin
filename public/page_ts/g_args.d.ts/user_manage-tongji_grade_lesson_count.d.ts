@@ -4,7 +4,6 @@ interface GargsStatic {
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
-	adminid:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -19,10 +18,10 @@ interface RowData {
 /*
 
 tofile: 
-	 mkdir -p ../tongji_ss; vi  ../tongji_ss/ass_month_info.ts
+	 mkdir -p ../user_manage; vi  ../user_manage/tongji_grade_lesson_count.ts
 
 /// <reference path="../common.d.ts" />
-/// <reference path="../g_args.d.ts/tongji_ss-ass_month_info.d.ts" />
+/// <reference path="../g_args.d.ts/user_manage-tongji_grade_lesson_count.d.ts" />
 
 $(function(){
     function load_data(){
@@ -31,8 +30,7 @@ $(function(){
 			date_type:	$('#id_date_type').val(),
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
-			end_time:	$('#id_end_time').val(),
-			adminid:	$('#id_adminid').val()
+			end_time:	$('#id_end_time').val()
         });
     }
 
@@ -47,7 +45,6 @@ $(function(){
             load_data();
         }
     });
-	$('#id_adminid').val(g_args.adminid);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -57,11 +54,4 @@ $(function(){
 
 */
 /* HTML ...
-
-        <div class="col-xs-6 col-md-2">
-            <div class="input-group ">
-                <span class="input-group-addon">adminid</span>
-                <input class="opt-change form-control" id="id_adminid" />
-            </div>
-        </div>
 */
