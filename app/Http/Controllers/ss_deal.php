@@ -556,6 +556,14 @@ class ss_deal extends Controller
             }
 
         }else{
+            $stu_type = $this->t_student_info->get_type($userid);
+            if($stu_type==0){
+                $assistantid = $this->t_student_info->get_assistantid($userid);
+                $nick = $this->t_student_info->get_nick($userid);
+                $ass_adminid = $this->t_assistant_info->get_adminid_by_assistand($assistantid);
+                $this->t_manager_info->send_wx_todo_msg_by_adminid ($ass_adminid ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
+
+            }
             return $this->output_succ();
         }
     }
@@ -684,6 +692,35 @@ class ss_deal extends Controller
         $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
         return $this->output_succ(["data"=> $ret_list]);
     }
+
+    public function get_require_list_js_new()  {
+        $page_num=$this->get_in_page_num();
+        $test_lesson_subject_id = $this->get_in_test_lesson_subject_id( -1);
+        $userid = $this->get_in_userid(-1);
+        if ($userid==-1 && $test_lesson_subject_id==-1 ) {
+            return $this->output_succ( );
+        }
+        $ret_list=$this->t_test_lesson_subject_require->get_list_by_test_lesson_subject_id_new($page_num,$test_lesson_subject_id,$userid);
+        if(count($ret_list['list'])>0){
+            $ret_new = $ret_list['list'][0];
+            $ret_list['list'] = [];
+            $ret_list['list'][0] = $ret_new;
+        }
+        foreach($ret_list["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"require_time");
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            $this->cache_set_item_teacher_nick($item);
+            $this->cache_set_item_account_nick($item,"confirm_adminid", "confirm_admin_nick");
+            $this->cache_set_item_account_nick($item,"accept_adminid", "accept_admin_nick");
+            E\Esubject::set_item_value_str($item);
+            $item["accept_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["accept_flag"] );
+            $item["success_flag_str"]=\App\Helper\Common::get_set_boolean_color_str($item["success_flag"] );
+            E\Etest_lesson_fail_flag::set_item_value_str($item);
+        }
+        $ret_list["page_info"] = $this->get_page_info_for_js($ret_list["page_info"]);
+        return $this->output_succ(["data"=> $ret_list]);
+    }
+
     public function set_no_accpect() {
         $require_id = $this->get_in_require_id();
 
@@ -1642,11 +1679,6 @@ class ss_deal extends Controller
             "fail_greater_4_hour_flag" => $fail_greater_4_hour_flag,
         ]);
 
-        // set lesson_del_flag
-        // E\Etest_lesson_fail_flago( )
-        //103 => "[不付] 换时间 ",
-        //104 => "[不付] 换老师",
-        //105 => "[不付] 排课出错 ",
         if ($fail_greater_4_hour_flag ==1 ) {
             $lesson_del_flag=1;
         }else{
@@ -4987,6 +5019,7 @@ class ss_deal extends Controller
                 $qc_openid_arr = [
                     "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                     "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                    "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                     "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                     "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
                     "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
@@ -5232,6 +5265,7 @@ class ss_deal extends Controller
             "account_role_str" => "市场",
         ];
 
+
         $ret[] = [
             "account_role" => "0",
             "up_groupid" => "0",
@@ -5240,6 +5274,18 @@ class ss_deal extends Controller
             "account" => "李珉劼",
             "account_role_str" => "市场-QC",
         ];
+
+
+        $ret[] = [
+            "account_role" => "0",
+            "up_groupid" => "0",
+            "master_adminid" => "1024",
+            "group_name" => "QC",
+            "account" => "王浩鸣",
+            "account_role_str" => "市场-QC",
+        ];
+
+
 
         $ret[] = [
             "account_role" => "0",

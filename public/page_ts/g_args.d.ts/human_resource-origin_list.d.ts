@@ -14,8 +14,14 @@ declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
 	num	:any;
-	has_teacher	:any;
-	has_through	:any;
+	teacher_ref_type	:any;
+	lecture_total	:any;
+	pass_total	:any;
+	through_num	:any;
+	train_num	:any;
+	lecture_rate	:any;
+	pass_rate	:any;
+	through_rate	:any;
 }
 
 /*

@@ -15,15 +15,8 @@ class testbb extends Controller
 
     var $check_login_flag = false;
     public function get_msg_num() {
-        $bt_str=" ";
-        $e=new \Exception();
-        foreach( $e->getTrace() as &$bt_item ) {
-            //$args=json_encode($bt_item["args"]);
-            $bt_str.= @$bt_item["class"]. @$bt_item["type"]. @$bt_item["function"]."---".
-                @$bt_item["file"].":".@$bt_item["line"].
-                "<br/>";
-        }
-        echo $bt_str;
+        $a= new \App\Jobs\send_error_mail(1,33,33);
+        $a->task->t_agent->get_agent_count_by_id(1);
 
     }
 
@@ -113,61 +106,20 @@ class testbb extends Controller
 
 
 
-    public function sd(){
+    // public function sd(){
+    //     $this->switch_tongji_database();
+    //     $ret = $this->t_teacher_info->get_teacher_openid_list();
 
-
-
-        $this->switch_tongji_database();
-
-        $ret_info = [];
-        // $teacherid = $this->get_teacherid();
-        $teacherid = $this->get_in_int_val('t');
-
-        $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
-
-        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
-        $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
-
-        $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
-        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
-
-        $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
-
-        $stu_num = $this->t_teacher_info->get_student_num_for_teacher_day($teacherid);
-
-
-        $ret_info = array_merge($test_lesson_info, $common_lesson_info, $common_lesson_num, $stu_num);
-
-
-        $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
-        $ret =\App\Helper\Utils::send_curl_post($url);
-        $ret = json_decode($ret,true);
-        if(isset($ret) && is_array($ret) && isset($ret["data"][0]["lesson_price"])){
-            $money = $ret["data"][0]["lesson_price"];
-        }else{
-            $money = 0;
-        }
-
-        $ret_info['money'] = $money;
-
-        dd($ret_info);
-
-
-
-        // $ret = $this->t_teacher_info->get_teacher_info_for_teacher_day($teacherid);
-        $ret1 = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
-        dd($ret1);
-        $lesson_start = 0;
-        $lesson_end =0;
-        $ret = $this->t_lesson_opt_log->get_test_lesson_for_login($lessonid,$stu_id,$lesson_start,$lesson_end);
-        dd($ret);
-    }
-
-
-
-
-
-
+    //     $ww = [];
+    //     foreach($ret as $item){
+    //         $agent_arr = json_decode($item['user_agent'],true);
+    //         $version_arr = explode('.',$agent_arr['version']);
+    //         $v = substr($agent_arr['device_model'],0,3);
+    //         if(($v == 'Win' || $v=='Mac') && !empty($version_arr) && (($version_arr[0]==3 && $version_arr[1]<=2) || ($version_arr[0]<3 ) ) ){
+    //             dispatch( new \App\Jobs\send_wx_to_teacher_for_update_software($item['wx_openid']) );
+    //         }
+    //     }
+    // }
 
 
 

@@ -413,6 +413,7 @@ class wx_parent_api extends Controller
             $qc_openid_arr = [
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
             ];
@@ -463,46 +464,48 @@ class wx_parent_api extends Controller
 
     //此处处理家长调整时间功能
 
-    public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间
+
+    public function get_vaild_change_time(){ // 获取可调时间段
         $lessonid = $this->get_in_int_val('lessonid');
 
         $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+        $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $start = time(NULL)+86400;
+        $end   = $lesson_end+3*86400;
+
+        if($start>$lesson_start){
+            return $this->output_err('只能调整24小时后的课程．．');
+        }
+
+
+        $arr = [
+            "start" => $start,
+            "end"   => $end
+        ];
+
+        return $this->output_succ(['data'=>$arr]);
+    }
+
+    public function get_teacher_free_time_by_lessonid(){ // 获取老师和学生的上课时间 ／／１０２４
+        $lessonid = $this->get_in_int_val('lessonid');
+
+        $lesson_start = $this->t_lesson_info_b2->get_lesson_start($lessonid);
+        $lesson_end = $this->t_lesson_info_b2->get_lesson_end($lessonid);
+
         $filter_lesson_time_start = time(NULL)+86400;
         $filter_lesson_time_end   = $lesson_end+3*86400;
 
-        $lesson_time = $this->t_lesson_info_b2->get_lesson_time($lessonid);
-        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
-        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
-
-        $lesson_time_arr = [];
-        $t = [];
-        $t2 = [];
-        $t3 = [];
-        $t4 = [];
-        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
-        foreach($all_tea_stu_lesson_time  as $item){
-            $t['time'][0] = date('Y-m-d',$item['lesson_start']);
-            $t['time'][1] = date('H',$item['lesson_start']).':59:00';
-            $t['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
-            array_push($lesson_time_arr,$t);
-            $t2['time'][0] = date('Y-m-d',$item['lesson_end']);
-            $t2['time'][1] = date('H',$item['lesson_end']).':59:00';
-            $t2['can_edit'] = 1;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
-            array_push($lesson_time_arr,$t2);
+        if($lesson_start<$filter_lesson_time_start){
+            return $this->output_err('课程开始时间需在申请时间的24小时后....');
         }
 
-       foreach($lesson_time as $item){
-           $t4['time'][0] = date('Y-m-d',$item['lesson_start']);
-           $t4['time'][1] = date('H',$item['lesson_start']).':59:00';
-           $t4['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间
-           array_push($lesson_time_arr,$t4);
-           $t3['time'][0] = date('Y-m-d',$item['lesson_end']);
-           $t3['time'][1] = date('H',$item['lesson_end']).':59:00';
-           $t3['can_edit'] = 2;// 0:可以编辑 1:不可以编辑 2:课时本来的时间且不可编辑
-           array_push($lesson_time_arr,$t3);
-       }
+        $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $student_lesson_time = $this->t_lesson_info_b2->get_student_lesson_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
+        $time = ['start'=>$filter_lesson_time_start,'end'=>$filter_lesson_time_end];
 
-       return $this->output_succ(['data'=>$lesson_time_arr]);
+        $all_tea_stu_lesson_time = array_merge($teacher_lesson_time, $student_lesson_time);
+
+        return $this->output_succ(['data'=>$all_tea_stu_lesson_time,'start'=>$filter_lesson_time_start,'end'=>$filter_lesson_time_end,'lesson_start'=>$lesson_start,'lesson_end'=>$lesson_end]);
     }
 
 

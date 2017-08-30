@@ -11,14 +11,11 @@ interface RowData {
 	teacherid	:any;
 	subject	:any;
 	teacher_money_type	:any;
-	level	:any;
-	wx_openid	:any;
 	nick	:any;
 	phone	:any;
 	email	:any;
 	teacher_type	:any;
 	teacher_ref_type	:any;
-	create_time	:any;
 	identity	:any;
 	grade_start	:any;
 	grade_end	:any;
@@ -26,10 +23,10 @@ interface RowData {
 	work_year	:any;
 	textbook_type	:any;
 	dialect_notes	:any;
+	level	:any;
+	face	:any;
 	gender	:any;
 	birth	:any;
-	address	:any;
-	face	:any;
 	grade_part_ex	:any;
 	bankcard	:any;
 	bank_province	:any;
@@ -39,14 +36,25 @@ interface RowData {
 	bank_account	:any;
 	bank_address	:any;
 	idcard	:any;
+	jianli	:any;
 	train_through_new	:any;
 	trial_lecture_is_pass	:any;
-	wx_use_flag	:any;
+	create_time	:any;
+	wx_openid	:any;
+	test_transfor_per	:any;
+	school	:any;
+	need_test_lesson_flag	:any;
+	change_count	:any;
+	noevaluate_count	:any;
+	late_count	:any;
+	leave_count	:any;
+	normal_count	:any;
 	subject_str	:any;
 	textbook_type_str	:any;
 	identity_str	:any;
 	teacher_ref_type_str	:any;
 	gender_str	:any;
+	days	:any;
 }
 
 /*

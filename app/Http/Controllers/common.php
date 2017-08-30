@@ -1281,7 +1281,7 @@ class common extends Controller
                         "wx_openid" => null,
                     ]);
                 }
-                $re = $this->t_teacher_info->field_update_list($teacher_info['teacherid'], [
+                $ret = $this->t_teacher_info->field_update_list($teacher_info['teacherid'], [
                     "wx_openid" => $wx_openid
                 ]);
             }else{
@@ -1293,7 +1293,7 @@ class common extends Controller
             session(["teacher_wx_use_flag"=>$teacher_info['wx_use_flag']]);
             return $this->output_succ(["wx_use_flag"=>$teacher_info['wx_use_flag']]);
         }else{
-            return $this->output_err ("验证码不对");
+            return $this->output_err("验证码不对");
         }
     }
 
@@ -1449,6 +1449,7 @@ class common extends Controller
         return $this->output_err("上传失败");
     }
 
+    //中文分词预处理
     public function get_ppl_data(){
         $pa=new \Analysis\PhpAnalysis();
         $demand = $this->get_in_str_val("demand","哈哈哈");
@@ -1462,6 +1463,181 @@ class common extends Controller
         echo "<pre>";
         print_r($arr);
         echo "</pre>"; 
+    }
+
+    //百度有钱花接口
+    public function send_baidu_money_charge(){
+        $orderid = $this->get_in_int_val("orderid");
+
+        //期待贷款额度(分单位)
+        $money = $this->get_in_int_val("money",100);
+
+        //分期期数
+        $period = $this->get_in_int_val("period",12);
+
+        
+        $orderid = 974;
+        //成交价格
+        $dealmoney = $this->t_order_info->get_price($orderid);
+        //订单id
+        $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+
+
+
+        
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
+
+        $userid = $this->t_order_info->get_userid($orderid);
+        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+        // RSA加密数据
+        $endata = array(
+            'username' => $user_info["nick"],
+            'mobile' => $user_info["phone"],
+            'email' => $user_info["email"],
+        );
+
+        $rsaData = $this->enrsa($endata);
+        
+        
+        $arrParams = array(
+            'action' => 'sync_order_info',
+            'tpl' => 'tpl',// 分配的tpl
+            'corpid' => 'corpid',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+            'money' => $money,// 期望贷款额度（分单位）
+            'dealmoney' => $dealmoney,// 成交价格（分单位）>= 期望额度+首付额度
+            'period' => $period,// 期数
+            'courseid' => 'ABC123',// 课程id（会分配）
+            'coursename' => 'xxx',// 课程名称
+            'oauthid' => $userid,// 用户id 机构方提供
+            'data' => $rsaData,
+        );
+
+        $strSecretKey = 'key';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        dd($result);
+
+        print_r($result);
+
+
+        //返回信息成功后处理
+        $this->t_orderid_orderno_list->row_insert([
+            "order_no"  =>$orderNo,
+            "orderid"   =>$orderid
+        ]);
+
+
+        
+        
+        
+ 
+    }
+
+    //查询百度有钱花订单信息
+    public function get_baidu_money_charge(){
+        $url = 'https://umoney.baidu.com/edu/openapi/post';
+        $orderid = $this->get_in_int_val("orderid");
+        $orderNo = $this->t_order_info->get_from_orderno($orderid);
+        if(empty($orderNo)){
+            $orderNo=123456789;
+        }
+
+        // $url = 'http://vipabc.umoney.baidu.com/edu/openapi/post';
+
+        $userid = $this->t_order_info->get_userid($orderid);
+        $user_info = $this->t_student_info->field_get_list($userid,"nick,phone,email");
+
+        // RSA加密数据
+        $endata = array(
+            'username' => $user_info["nick"],
+            'mobile' => $user_info["phone"],
+            'email' => $user_info["email"],
+        );
+
+        $rsaData = $this->enrsa($endata);
+        
+        
+        $arrParams = array(
+            'action' => 'get_order_status',
+            'tpl' => 'tpl',// 分配的tpl
+            'corpid' => 'corpid',// 分配的corpid
+            'orderid' => $orderNo,// 机构订单号
+        );
+
+        $strSecretKey = 'key';// 分配的key
+        $arrParams['sign'] = $this->createBaseSign($arrParams, $strSecretKey);
+
+
+        // 发送请求post(form)
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $arrParams);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
+
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        $result = json_decode($ret, true);
+        dd($result);
+
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * rsa 加密(百度有钱花)
+     */
+    public function enrsa($data){
+        $public_key = '-----BEGIN PUBLIC KEY-----  
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3//sR2tXw0wrC2DySx8vNGlqt  
+3Y7ldU9+LBLI6e1KS5lfc5jlTGF7KBTSkCHBM3ouEHWqp1ZJ85iJe59aF5gIB2kl  
+Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o  
+2n1vP1D+tD3amHsK7QIDAQAB  
+-----END PUBLIC KEY-----';
+        $pu_key = openssl_pkey_get_public($public_key);
+        $str = json_encode($data);
+        $encrypted = "";
+        // 公钥加密  padding使用OPENSSL_PKCS1_PADDING这个
+        if (openssl_public_encrypt($str, $encrypted, $pu_key, OPENSSL_PKCS1_PADDING)){
+            $encrypted = base64_encode($encrypted);
+        }
+        return $encrypted;
+    }
+
+
+    /**
+     * @param $param
+     * @param string $strSecretKey
+     * @return bool|string
+     * 生成签名(百度有钱花)
+     */
+    public function createBaseSign($param, $strSecretKey){
+        if (!is_array($param) || empty($param)){
+            return false;
+        }
+        ksort($param);
+        $concatStr = '';
+        foreach ($param as $k=>$v) {
+            $concatStr .= $k.'='.$v.'&';
+        }
+        $concatStr .= 'key='.$strSecretKey;
+        return strtoupper(md5($concatStr));
     }
 
 }

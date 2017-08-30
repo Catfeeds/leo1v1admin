@@ -9,7 +9,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
     }
 
     public function get_teacher_feedback_list($start_time,$end_time,$teacherid,$assistantid,$accept_adminid,
-                                              $lessonid,$status,$feedback_type,$page_num,$opt_date_type
+                                              $lessonid,$status,$feedback_type,$page_num,$opt_date_type,$del_flag
     ){
         if($lessonid>0){
             $where_arr = [
@@ -26,6 +26,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                 ["$time_str<%u",$end_time,0],
                 ["tf.teacherid=%u",$teacherid,-1],
                 ["status=%u",$status,-1],
+                ["tf.del_flag=%u",$del_flag,-1],
             ];
             if($feedback_type==-2){
                 $where_arr[] = "feedback_type<200";
@@ -39,10 +40,10 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
             $where_arr[] = " feedback_type in (201,202,203,204,205) ";
         }
 
-        $sql = $this->gen_sql_new("select tf.id,tf.teacherid,tf.lessonid,tf.lesson_count,status,feedback_type,"
+        $sql = $this->gen_sql_new("select tf.id,tf.teacherid,tf.lessonid,l.lesson_count,status,feedback_type,"
                                   ." t.nick,l.lesson_start,l.lesson_end,l.userid,tf.add_time,tf.sys_operator,tf.check_time,"
                                   ." l.deduct_come_late,l.deduct_check_homework,l.deduct_change_class,l.deduct_rate_student,"
-                                  ." l.deduct_upload_cw,l.grade,t.teacher_money_type,t.level,"
+                                  ." l.deduct_upload_cw,l.grade,t.teacher_money_type,t.level,tf.del_flag,"
                                   ." tea_reason,back_reason"
                                   ." from %s tf"
                                   ." left join %s t on tf.teacherid=t.teacherid"
@@ -59,14 +60,6 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
                                   ,$where_arr
         );
         return $this->main_get_list_by_page($sql,$page_num);
-    }
-
-    public function delete_teacher_feedback_info($id){
-        $sql=$this->gen_sql_new("delete from %s where id=%u"
-                                ,self::DB_TABLE_NAME
-                                ,$id
-        );
-        return $this->main_update($sql);
     }
 
     public function get_admin_list($status=0){

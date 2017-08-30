@@ -198,12 +198,13 @@ class wx_yxyx_common extends Controller
         }
         $parentid = $ret_info_p['id'];
         if(isset($ret_info['id'])){//已存在,则更新父级和类型
-            if($type == $ret_info['type']){
+            if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("您已被邀请过!");
             }
+            $type_new = $ret_info['type']=0?$type:3;
             $this->t_agent->field_update_list($ret_info['id'],[
                 "parentid" => $parentid,
-                "type"     => 3,
+                "type"     => $type_new,
             ]);
             return $this->output_succ("邀请成功!");
         }

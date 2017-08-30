@@ -445,7 +445,7 @@ class authority extends Controller
         $this->set_in_value("account_role", E\Eaccount_role::V_2);
         $this->set_in_value("assign_account_role",E\Eaccount_role::V_2);
         //$this->set_in_value("creater_adminid",$this->get_account_id() );
-        return $this->manager_list( );
+        return $this->manager_list();
 
 
 

@@ -20,6 +20,7 @@ class menu{
                 ["power_id"=>13, "name"=>"新老师试听课统计",   "url"=>"/tongji_ss/new_teacher_test_lesson_info"],
                 ["power_id"=>14,"name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                 ["power_id"=>15, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
+                ["power_id"=>16, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
 
             ]],
 
@@ -249,8 +250,7 @@ class menu{
 
                 ["power_id"=>31, "name"=>"部门管理",   "url"=>"/user_manage_new/admin_group_manage"],
                 ["power_id"=>40, "name"=>"校区管理",   "url"=>"/campus_manage/admin_campus_manage"],
-                ["power_id"=>41, "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
-
+              
                 ["power_id"=>35, "name"=>"各部门花名册", "list"=>[
                     ["power_id"=>1, "name"=>"教学事业管理部花名册","url"=>"/user_manage_new/department_memeber_list_production"],
                     ["power_id"=>2, "name"=>"TSR事业部花名册","url"=>"/user_manage_new/department_memeber_list_seller"],
@@ -394,10 +394,6 @@ class menu{
                 ["power_id"=>36, "name"=>"投诉处理-家长",   "url"=>"/user_manage/complaint_department_deal_parent"],
                 ["power_id"=>37, "name"=>"退费投诉处理-QC",   "url"=>"/user_manage/complaint_department_deal_qc"],
                 // ["power_id"=>38, "name"=>"软件使用反馈-产品",   "url"=>"/user_manage/complaint_department_deal_product"],
-                // ["power_id"=>40, "name"=>"产品-需求处理",   "url"=>"/requirement/requirement_info_product"],
-                // ["power_id"=>41, "name"=>"研发-需求处理",   "url"=>"/requirement/requirement_info_development"],
-                // ["power_id"=>42, "name"=>"测试-需求处理",   "url"=>"/requirement/requirement_info_test"],
-
             ]],
             ["power_id"=>10, "name"=>"统计", "list"=>[
 
@@ -406,6 +402,7 @@ class menu{
                     ["power_id"=>1, "name"=>"合同每日统计",   "url"=>"/tongji/contract"],
                     ["power_id"=>2, "name"=>"例子统计",   "url"=>"/tongji/user_count"],
                     ["power_id"=>21, "name"=>"例子统计-个人",   "url"=>"/tongji/seller_user_count"],
+                    ["power_id"=>33, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"销售时效统计",   "url"=>"/tongji/seller_time"],
                     ["power_id"=>36, "name"=>"销售-时报", "url"=>"/tongji/seller_call_rate"],
 
@@ -497,7 +494,6 @@ class menu{
                 ["power_id"=>10, "name"=>"审批",   "url"=>"/self_manage/flow_list" ],
                 ["power_id"=>11, "name"=>"菜单收藏",   "url"=>"/self_manage/self_menu_list" ],
                 ["power_id"=>12, "name"=>"开发需求提交",   "url"=>"/requirement/requirement_info"],
-
             ]],
 
             ["power_id"=>11, "name"=>"角色-销售",  "list"=>[
@@ -535,6 +531,7 @@ class menu{
                 ["power_id"=>57, "name"=>"抢新学生-当前用户-tmk", "url"=>"/seller_student_new/deal_new_user_tmk"],
 
                 ["power_id"=>51, "name"=>"试听未签-抢学生",   "url"=>"/seller_student_new/test_lesson_no_order_list"],
+                ["power_id"=>58, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
                 ["power_id"=>32, "name"=>"销售-退款",   "url"=>"/user_manage/refund_list_seller"],
                 ["power_id"=>31, "name"=>"月度绩效提成",   "url"=>"/tongji2/self_seller_month_money_list"],
                 ["power_id"=>35, "name"=>"销售-试听课表",   "url"=>"/human_resource/regular_course_seller"],
@@ -712,12 +709,16 @@ class menu{
                 ]],
                 ["power_id"=>8, "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                 ["power_id"=>9, "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+                ["power_id"=>20, "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                ["power_id"=>21, "name"=>"渠道统计-new-list", "url"=>"/channel_manage/zs_origin_list_new"],
+
                 // ["power_id"=>14, "name"=>"老师身份统计",   "url"=>"/tongji2/tongji_lesson_teacher_identity"],
 
             ]],
 
             ["power_id"=>37, "name"=>"角色-质监",  "list"=>[
                 ["power_id"=>1, "name"=>"首页", "url"=>"/main_page/quality_control"],
+                ["power_id"=>4, "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
                 ["power_id"=>2, "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
                 ["power_id"=>3, "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                 // ["power_id"=>8, "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
@@ -741,10 +742,7 @@ class menu{
                 ["power_id"=>32, "name"=>"教学质量反馈模型",  "list"=>[
                     ["power_id"=>15, "name"=>"教学质量反馈标准（旧）",   "url"=>"/human_resource/teacher_record_detail_info"],
                     ["power_id"=>29, "name"=>"教学质量反馈标准（新)",   "url"=>"/human_resource/teacher_record_detail_info_new"],
-
                 ]],
-
-
             ]],
 
             ["power_id"=>35, "name"=>"角色-培训",  "list"=>[
@@ -752,11 +750,12 @@ class menu{
                 ["power_id"=>4, "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                 ["power_id"=>5, "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                 ["power_id"=>2, "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
+                ["power_id"=>3, "name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
+                
             ]],
 
             ["power_id"=>36, "name"=>"角色-运营",  "list"=>[
                 ["power_id"=>1, "name"=>"兼职老师晋升申请","url"=>"/teacher_level/get_teacher_level_quarter_info"],
-                ["power_id"=>2, "name"=>"老师晋升审核","url"=>"/teacher_level/get_teacher_advance_info"],
                 ["power_id"=>3, "name"=>"助教课时折损统计",   "url"=>"/tongji/test_lesson_ass_jy"],
                 ["power_id"=>4, "name"=>"兼职老师上课考勤",   "url"=>"/tongji_ss/tongji_change_lesson_by_teacher_jy"],
                 ["power_id"=>5, "name"=>"兼职老师更换申请",   "url"=>"/user_manage_new/get_ass_change_teacher_info"],

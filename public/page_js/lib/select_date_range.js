@@ -11,7 +11,8 @@
             date_type :null,
             start_time :null,
             end_time:null,
-            field_index:0
+            field_index:0,
+            timepicker :false,
         }, this.defaults, opt);
 
         var field_index=  this.options.field_index;
@@ -27,6 +28,13 @@
             opt_date_type_str="id_opt_date_type_"+ field_index;
             start_time_str="id_start_time_"+ field_index;
             end_time_str="id_end_time_"+ field_index;
+        }
+        var input_width= 100;
+
+        var date_format= 'Y-m-d';
+        if (this.options.timepicker ) {
+            input_width= 140;
+            date_format= 'Y-m-d H:i';
         }
 
         var me =this;
@@ -50,12 +58,12 @@
 '                            <button  id="id_date_pre" type="submit" class="btn  btn-primary "><i class="fa    fa-chevron-left" ></i></button>'+
 '                        </div>'+
 
-            '                        <input type="text" id="'+start_time_str+'" style="width:100px;" />'+
+            '                        <input type="text" id="'+start_time_str+'" style="width:'+input_width +'px;" />'+
 '                        <div class=" input-group-btn ">'+
 '                            <button  type="submit" class="btn  btn-primary " id="id_date_next"><i class="fa    fa-chevron-right "></i></button>'+
 '                        </div>'+
 '                        <span id="id_date_span2" >-</span>'+
-            '                        <input type="text" id="'+end_time_str+'" style="width:100px" class=""/>'+
+            '                        <input type="text" id="'+end_time_str+'" style="width:'+input_width +'px;" class=""/>'+
 '                        <span  style="width:100% ;opacity:0;"></span>'+
                 '                    </div>';
 
@@ -82,24 +90,24 @@
         }
 
 
-      id_start_time.datetimepicker({
-        lang:'zh-cn',
-        timepicker:false,
-        format:'Y-m-d',
+
+        id_start_time.datetimepicker({
+            lang:'zh-cn',
+            timepicker:this.options.timepicker  ,
+            format: date_format,
             "onChangeDateTime" : function() {
                 var opt_date_type=id_opt_date_type.val();
                 set_date(opt_date_type,true);
             }
-      });
+        });
 
       id_end_time.datetimepicker({
-        timepicker:false,
-        format:'Y-m-d',
+          timepicker:this.options.timepicker  ,
+          format: date_format,
             "onChangeDateTime" : function() {
                 var opt_date_type=id_opt_date_type.val();
                 set_date(opt_date_type,true);
             }
-
       });
 
         id_start_time.val(this.options.start_time);
@@ -112,7 +120,10 @@
             var end_date="";
             if (opt_date_type==0) {
             }else if ( opt_date_type==1) {//当天
-                id_end_time.val(id_start_time.val());
+
+                start_date=$.DateFormat(start_time,"yyyy-MM-dd");
+                id_start_time.val(start_date);
+                id_end_time.val(start_date);
             }else if ( opt_date_type==2) {//当周
                 var opt_date=new Date(start_time*1000);
                 var week=opt_date.getDay();

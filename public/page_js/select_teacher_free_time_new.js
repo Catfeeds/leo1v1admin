@@ -97,7 +97,7 @@
                                         if(check_month()==1){
                                             teach_data.title = item.title;
                                         }else{
-                                            teach_data.title = item.title+" "+"助教-"+item.nick;
+                                            teach_data.title = item.title+" "+"\n助教-"+item.nick;
                                         }
                                         teach_data.color = '#FC4848';
 

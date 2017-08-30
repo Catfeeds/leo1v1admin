@@ -20,9 +20,7 @@ class TeaController extends Controller
         if (!$this->get_login_teacher ()) {
             header("Location: /login/teacher");
             exit;
-
         }
-
     }
 
 

@@ -13,7 +13,9 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                     $grade_part_ex=0,$identity=0,$trial_lecture_is_pass=0,$face="",$textbook="",
                                     $resume_url="",$textbook_type=0,$dialect_note="",$interview_score=0,$wx_use_flag=1,
                                     $teacher_ref_type=0,$grade_start=0,$grade_end=0,$not_grade="",$bankcard="",
-                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system"
+                                    $bank_address="",$bank_account="",$phone_spare="",$train_through_new=0,$add_acc="system",
+                                    $zs_id=0
+                                    
     ){
         return $this->row_insert([
             'nick'                   => $tea_nick,
@@ -53,6 +55,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "phone_spare"            => $phone_spare,
             "train_through_new"      => $train_through_new,
             "add_acc"                => $add_acc,
+            "zs_id"                  => $zs_id,
         ]);
     }
 
@@ -626,6 +629,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." t.lesson_hold_flag_time,t.interview_score,t.second_interview_score, "
                                   ." t.test_transfor_per,t.week_liveness,t.limit_day_lesson_num,t.limit_week_lesson_num,"
                                   ." t.limit_month_lesson_num,t.teacher_ref_type,t.saturday_lesson_num,t.grade_start,t.grade_end, "
+                                  ." t.second_grade_start,t.second_grade_end,"
                                   ." t.not_grade,t.not_grade_limit,t.week_lesson_count,t.trial_lecture_is_pass,"
                                   //." sum(tss.lessonid >0) week_lesson_num,"
                                   // ." if(t.limit_plan_lesson_type>0,t.limit_plan_lesson_type-sum(tss.lessonid >0),"
@@ -816,16 +820,30 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_teacher_info_to_teacher($teacherid){
-        $sql = $this->gen_sql("select teacherid,subject,teacher_money_type,level,wx_openid,nick,phone,email,"
-                              ." teacher_type,teacher_ref_type,create_time,identity,grade_start,grade_end,"
-                              ." subject,phone,realname,work_year,textbook_type,dialect_notes,"
-                              ." gender,birth,address,face,grade_part_ex,bankcard,bank_province,bank_city,"
-                              ." bank_type,bank_phone,bank_account,bank_address,idcard,"
-                              ." train_through_new,trial_lecture_is_pass,wx_use_flag"
-                              ." from %s "
-                              ." where teacherid=%u"
+        $where_arr = [
+            "t.teacherid=$teacherid",
+            'l.lesson_start>0',
+            "l.lesson_del_flag=0",
+            "l.confirm_flag!=2",
+        ];
+        $sql = $this->gen_sql("select t.teacherid,t.subject,t.teacher_money_type,t.nick,t.phone,t.email,"
+                              ." t.teacher_type,t.teacher_ref_type,t.identity,t.grade_start,t.grade_end,"
+                              ." t.realname,t.work_year,t.textbook_type,t.dialect_notes,t.level,t.face,"
+                              ." t.gender,t.birth,t.grade_part_ex,t.bankcard,t.bank_province,t.bank_city,"
+                              ." t.bank_type,t.bank_phone,t.bank_account,t.bank_address,t.idcard,t.jianli,"
+                              ." t.train_through_new,t.trial_lecture_is_pass,t.create_time,t.wx_openid,"
+                              ." t.test_transfor_per,t.school,t.need_test_lesson_flag,"
+                              ." sum(if (l.deduct_change_class=1,1,0)) as change_count,"
+                              ." sum(if(l.tea_rate_time=0,1,0)) as noevaluate_count,"
+                              ." sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count,"
+                              ." sum(if(l.lesson_cancel_reason_type=12,1,0)) as leave_count,"
+                              ."sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count"
+                              ." from %s t"
+                              ." left join %s l on l.teacherid=t.teacherid"
+                              ." where %s"
                               ,self::DB_TABLE_NAME
-                              ,$teacherid
+                              ,t_lesson_info::DB_TABLE_NAME
+                              ,$where_arr
         );
         return $this->main_get_list_as_page($sql);
     }
@@ -2848,13 +2866,14 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
 
-    public function get_teacher_openid_list(){
+    public function get_teacher_openid_list(){ //　查询在值老师openid
         $where_arr = [
             "train_through_new =1",
             "is_quit = 0",
-            "is_test_user = 0"
+            "is_test_user = 0",
+            "wx_openid is not null"
         ];
-        $sql = $this->gen_sql_new(" select wx_openid from %s where %s",
+        $sql = $this->gen_sql_new(" select distinct(wx_openid), user_agent from %s where %s",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -3217,7 +3236,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         return $this->main_get_row($sql);
     }
 
-    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone){
+    public function update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school){
 
         $res = $this->field_update_list( ["teacherid" => $teacherid],[
             "nick"      => $nick,
@@ -3226,11 +3245,169 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "email"     => $email,
             "work_year" => $work_year,
             "phone"     => $phone,
+            "school"    => $school,
+        ]);
+        return $res;
+    }
+
+    public function update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city){
+
+        $res = $this->field_update_list( ["teacherid" => $teacherid],[
+            "bank_account"  => $bank_account,
+            "idcard"        => $idcard,
+            "bankcard"      => $bankcard,
+            "bank_phone"    => $bank_phone,
+            "bank_type"     => $bank_type,
+            "bank_address"  => $bank_address,
+            "bank_province" => $bank_province,
+            "bank_city"     => $bank_city,
+        ]);
+        return $res;
+
+    }
+
+    public function update_teacher_status($teacherid, $need_test_lesson_flag){
+
+        $res = $this->field_update_list( ["teacherid" => $teacherid],[
+            "need_test_lesson_flag"    => $need_test_lesson_flag,
         ]);
         return $res;
     }
 
 
+    public function get_train_through_all_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",           
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
 
+        $sql = $this->gen_sql_new("select count(*) through_all,sum(t.identity=5) through_jg,sum(t.identity=6) through_gx, "
+                                  ." sum(t.identity=7) through_zz,sum(t.identity=8) through_gxs,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_video_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tl.status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_video,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tl on t.phone = tl.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_train_through_lesson_list($start_time,$end_time){
+        $where_arr = [
+            " t.is_quit=0 ",
+            " t.is_test_user =0",
+            "tr.trial_train_status=1",
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) through_lesson,ta.reference,tt.teacher_ref_type"
+                                  ." ,c.channel_id,c.channel_name "
+                                  ." from %s t left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s tr on t.teacherid = tr.teacherid and tr.type=10"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+
+    public function get_month_subejct_teacher_num($start_time,$end_time){
+        $where_arr = [
+            "t.train_through_new_time>=".$start_time,
+            "t.train_through_new_time<".$end_time
+        ];
+
+        $sql = $this->gen_sql_new("select count(distinct t.teacherid) num,FROM_UNIXTIME(t.train_through_new_time, '%%m' ) month"
+                                  ." from %s t  join %s ta on ta.userid = t.teacherid "
+                                  ." join %s l on ta.lessonid = l.lessonid and l.lesson_type=1100 and l.train_type=1 and l.lesson_del_flag=0"
+                                  ." where (t.subject=2 or t.second_subject=2) and t.is_test_user=0 and %s group by month ",
+                                  self::DB_TABLE_NAME,
+                                  t_train_lesson_user::DB_TABLE_NAME,
+                                  t_lesson_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql);
+    }
+
+    public function get_math_teacher($start,$end){
+        $where_arr = [
+            ["lesson_start>%u",$start,0],
+            ["lesson_end<%u",$end,0],
+            "lesson_type=2",
+            "lesson_del_flag=0",
+            "l.subject=2",
+            "t.is_test_user=0"
+        ];
+        $sql = $this->gen_sql_new("select count(1) as lesson_num,l.teacherid,t.subject,t.second_subject,"
+                                  ." grade_start,grade_end,second_grade_start,second_grade_end,t.realname,"
+                                  ." t.phone,t.test_transfor_per,t.train_through_new_time,count(c.userid) as has_order,"
+                                  ." t.grade_part_ex,t.second_grade"
+                                  ." from %s l"
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s c on l.teacherid=c.teacherid and l.userid=c.userid and c.course_type in (0,1,3)"
+                                  ." where %s "
+                                  ." group by l.teacherid"
+                                  ,t_lesson_info::DB_TABLE_NAME
+                                  ,self::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item['teacherid'];
+        });
+    }
 
 }

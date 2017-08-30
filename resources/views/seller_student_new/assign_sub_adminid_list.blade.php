@@ -242,7 +242,15 @@
                 <div class="col-xs-6 col-md-2">
                     <div class="input-group ">
                         <span class="input-group-addon">拨打数</span>
-                        <input class="opt-change form-control" id="id_call_phone_count" />
+                        <input class="opt-change form-control" id="id_call_phone_count" placeholder="数字-数字" />
+                    </div>
+                </div>
+
+
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">试听成功次数</span>
+                        <input class="opt-change form-control" id="id_suc_test_count" />
                     </div>
                 </div>
 
@@ -321,6 +329,7 @@
                     <td >基本信息</td>
                     <td >地区</td>
                     <td >来源</td>
+                    <td >回访间隔</td>
                     @if ($show_list_flag==0)
                     <td style="display:none;">例子第一次拨打时间</td>
                     <td style="width:70px">回访状态</td>
@@ -361,6 +370,7 @@
                             {{$var["seller_resource_type_str"]}}
                         </td>
                         <td>{{$var["phone_location"]}} </td>
+
                         <td>
                             @if  ($var["origin_assistantid"]==0)
                                 {{$var["origin"]}} ({{$var["origin_level_str"]}})/{{$var["nickname"]}} <br/>
@@ -368,13 +378,11 @@
                                 转介绍: {{$var["origin_assistant_nick"]}} <br/>
                             @endif
                         </td>
-
+                        <td>{{$var["lass_call_time_space"]}}天 </td>
                     @if ($show_list_flag==0)
-                        
                         <td>
                             {{$var['first_call_time']}}
                         </td>
-
                         <td>
                             {{$var["seller_student_status_str"]}} <br/>
                         </td>

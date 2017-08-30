@@ -31,8 +31,11 @@ class agent extends Controller
 
         $ret_info = $this->t_agent->get_agent_info($page_info,$order_by_str ,$phone,$type,$start_time,$end_time,$p_phone, $test_lesson_flag , $agent_level ,$order_flag,$l1_child_count);
         $userid_arr = [];
-
         foreach($ret_info['list'] as &$item){
+            $status = $item["lesson_user_online_status"];
+            if($status == 2){
+                $item["lesson_user_online_status"] = 0;
+            }
             $item['lesson_start'] = $item['test_lessonid']?$item['lesson_start']:0;
             $item['agent_type'] = $item['type'];
             E\Eagent_type::set_item_value_str($item);
@@ -40,6 +43,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
+            $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
             $item["all_money"]/= 100;
@@ -55,13 +59,12 @@ class agent extends Controller
              $tq_call_succ_valid_count,$tq_call_succ_invalid_count,$tq_call_fail_invalid_count,$have_intention_a_count,
              $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
              $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-        $userid_arr = [];
-        $ret_new = [];
+        $userid_arr   = [];
+        $ret_new      = [];
         $ret_info_new = [];
-
-        $type      = $this->get_in_int_val('type');
-        $ret  = $this->t_agent->get_agent_info_new(null);
-        $id_arr = array_unique(array_column($ret,'id'));
+        $type         = $this->get_in_int_val('type');
+        $ret          = $this->t_agent->get_agent_info_new(null);
+        $id_arr       = array_unique(array_column($ret,'id'));
         foreach($ret as &$item){
             if($item['type'] == 1){
                 $userid_arr[] = $item['userid'];
@@ -226,6 +229,22 @@ class agent extends Controller
     }
 
     public function check(){
+        $cur_require_adminid = $this->get_account_id();
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
+        dd($ret_info);
+
+
+        $userid = 50314;
+        $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+        $item_arr['test_lesson_count'] = 3;
+        $succ_count = $succ_test_info['count'];
+        if($item_arr['test_lesson_count'] != $succ_count){
+            $ret = $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>3]);
+            dd($ret);
+        }else{
+            dd($succ_count,'b');
+        }
+
         $admin_nick = $this->cache_get_account_nick($adminid=99);
         dd($admin_nick);
         $ret_info = $this->t_agent->get_agent_info_two();

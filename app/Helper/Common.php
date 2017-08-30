@@ -1643,7 +1643,7 @@ class Common {
         if ( $size> 1024*1024*1024)  {
             return  sprintf("%.2fGB", $size/(1024*1024*1024));
         } else if ( $size> 1024*1024)  {
-            return  sprintf("%.2fGB", $size/(1024*1024));
+            return  sprintf("%.2fMB", $size/(1024*1024));
         } else if ( $size> 1024)  {
             return  sprintf("%.2fKB", $size/(1024));
         }else{

@@ -1,32 +1,36 @@
 @extends('layouts.teacher_header')
 @section('content')
+    <script type="text/javascript" src="/js/qiniu/plupload/plupload.full.min.js"></script>
+    <script type="text/javascript" src="/js/qiniu/plupload/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="/js/qiniu/ui.js"></script>
+    <script type="text/javascript" src="/js/qiniu/qiniu.js"></script>
+    <script type="text/javascript" src="/js/qiniu/highlight/highlight.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <style>
      .ft14{
-         font-size:14px
+         font-size:14px;
      }
      .ft24{
-         font-size:24px
+         font-size:24px;
      }
      .text-cen{
-         text-align:center
+         text-align:center;
      }
      .r-border{
          border-right:1px solid #ccc;
      }
      .bor-hr{
-         border-top:1px solid #ccc
-     }
-     .div-pad{
-         padding: 20px 10px
+         border-top:1px solid #ccc;
+         margin-bottom:10px;
      }
      .div-mar{
-         margin:10px
+         margin:10px;
      }
      .color-6{
-         color:#666
+         color:#666;
      }
      .color-red{
-         color:red
+         color:red;
      }
      .div-bank{
          width:60%;
@@ -34,27 +38,21 @@
      }
      .btn-bank{
          display:block;
-         width:100%
+         width:100%;
      }
      .flag-baes th{
          width:20%;
          background:#39cccc;
-         text-align:center
+         text-align:center;
      }
      .flag-baes td{
          width:30%;
-         text-align:center
+         text-align:center;
      }
      input{
          border:0 solid #fff;
          width:100%;
          height:100%;
-     }
-     from select{
-         border:0 solid #fff;
-     }
-     from select option{
-         border:0 solid #fff;
      }
     </style>
     <section class="content">
@@ -74,11 +72,11 @@
                         </div>
                         <div class="row text-cen">
                             <div class="col-sm-6 r-border">
-                                <h3><span  class="text-blue">123</span><span class="ft14">天</span></h3>
+                                <h3><span  class="text-blue">{{$my_info['days']}}</span><span class="ft14">天</span></h3>
                                 <p>入职天数</p>
                             </div>
                             <div class="col-sm-6">
-                                <h3><span  class="text-blue">123</span><span class="ft14">课时</span></h3>
+                                <h3><span  class="text-blue">{{$my_info['normal_count']}}</span><span class="ft14">课时</span></h3>
                                 <p>总课耗</p>
                             </div>
                         </div>
@@ -94,10 +92,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
@@ -108,9 +106,7 @@
                                     <p class="ft24 text-yellow">60%</p>
                                 </div>
                                 <div class="col-sm-12">
-                                    <p>
-                                        温馨提示：当前您还有<a href="javascript:;" class="color-red">个人信息、</a><a href="javascript:;" class="color-red">简历、</a><a href="javascript:;" class="color-red">资格证</a>还没有补全，您的信息完整度将与您的晋升挂钩，所以请老师认真填写哦。
-                                    </p>
+                                    <p> 温馨提示：当前您还有<a href="javascript:;" class="color-red">基本信息</a>、<a href="javascript:;" class="color-red">简历</a>、<a href="javascript:;" class="color-red">资格证</a>、<a href="javascript:;" class="color-red">公校证明</a>没有补全。您的信息完整度将与您的晋升挂钩，（信息完整度只与简历和基本信息）所以请老师认真填写哦。 </p>
                                     <br />
                                 </div>
                             </div>
@@ -130,23 +126,24 @@
                 <!-- Chat box -->
                 <div class="box box-info collapsed-box">
                     <div class="box-header">
-                        <h3 class="box-title text-blue">当前状态</h3>
+                        <h3 class="box-title text-blue" id="my_status" cur-status="{{$my_info['need_test_lesson_flag']}}">当前状态</h3>
                         <div class="box-tools pull-right">
                             <h3 class="box-title color-red" data-status="full">饱和</h3>
-                            <h3 class="box-title color-red hide" data-status="nofull">不饱和</h3>
+                            <h3 class="box-title color-red" data-status="nofull">不饱和</h3>
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
-                                <div class="col-sm-12"">
+                        <div class="chart">
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <p data-status="full"> 您当前处于饱和状态，不会收到排课邀请，如需排课，请到控制台设置当前状态为不饱和即可。 </p>
-                                    <p data-status="nofull" class="hide"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
+                                    <p data-status="nofull"> 您当前处于不饱和状态，会收到排课邀请，如需不排课，请到控制台设置当前状态为饱和即可。 </p>
                                     <br>
                                     <button type="button" data-opt="set-status" data-status="full" class="btn btn-block btn-info btn-sm opt-set">设置不饱和</button>
+                                    <button type="button" data-opt="set-status" data-status="nofull" class="btn btn-block btn-info btn-sm opt-set">设置饱和</button>
                                 </div>
                             </div>
                         </div>
@@ -170,10 +167,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12"">
                                     <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
                                 </div>
@@ -199,12 +196,12 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12"">
-                                    <button type="button" class="btn btn-block btn-info btn-sm">上传资格证</button>
+                                    <button id="upload_zigezheng" type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
                                 </div>
 
                             </div>
@@ -228,10 +225,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                             </div>
                         </div>
                     </div>
@@ -253,10 +250,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     托管制学习体系
                                     媲美学校教学体系，覆盖学习的课前、课中和课后
@@ -285,10 +282,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" style="height: 100px;">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <span class="badge bg-green">特长1</span>
                                     <span class="badge bg-info">特长2</span>
@@ -322,11 +319,11 @@
                             <button type="button" class="btn btn-box-tool opt-submit hide text-blue" data-name="user-info">保存</button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart" >
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
-                                <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info_by_himself" id="user-info">
+                            <div class="row">
+                                <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info" id="user-info">
                                     <p class="color-6">个人信息</p>
                                     <table class="table table-bordered">
                                         <tr>
@@ -340,19 +337,19 @@
                                         </tr>
                                         <tr>
                                             <th>性别</th>
-                                            <td>
+                                            <td class="form-group">
                                                 <span>{{$my_info['gender_str']}}</span>
-                                                <select name="gender" class="hide">
+                                                <select name="gender" class="form-control hide">
                                                     <option value="0" @if($my_info['gender'] == 0) selected @endif >保密</option>
-                                                    <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
-                                                    <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
+                                                        <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
+                                                            <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
                                                 </select>
 
                                             </td>
                                             <th>出生日期</th>
                                             <td>
                                                 <span>{{$my_info['birth']}}</span>
-                                                <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}">
+                                                <input type="text" name="birth" class="hide" value="{{$my_info['birth']}}" placeholder="例如：19900101">
                                             </td>
                                         </tr>
                                         <tr>
@@ -369,6 +366,9 @@
                                             <td>
                                                 <span>{{$my_info['phone']}}</span>
                                                 <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
+                                                @if ($my_info['wx_openid'])
+                                                    <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
+                                                    @endif
                                             </td>
                                             <th>信息创建时间</th>
                                             <td> {{$my_info['create_time']}} </td>
@@ -410,8 +410,8 @@
                                             </td>
                                             <th>毕业院校</th>
                                             <td>
-                                                <span class="color-6">未填写</span>
-                                                <input type="text" name="noname" class="hide" placeholder="未填写">
+                                                <span>{{$my_info['school']}}</span>
+                                                <input type="text" name="school" class="hide" value="{{$my_info['school']}}" placeholder="未填写">
                                             </td>
                                         </tr>
                                         <tr>
@@ -463,23 +463,26 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
-                                @if ($my_info['bankcard'])
-                                    <from class="col-sm-12 flag-baes" id="bank-info">
+                            <div class="row">
+                                    <form class="col-sm-12 flag-baes
+                                                 @if (!$my_info['bankcard'])
+                                                 hide
+                                                 @endif
+                                                 " id="bank-info">
                                         <table class="table table-bordered">
                                             <tr>
                                                 <th>持卡人</th>
                                                 <td>
                                                     <span>{{$my_info['bank_account']}}</span>
-                                                    <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}">
+                                                    <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未绑定">
                                                 </td>
                                                 <th>身份证号</th>
                                                 <td>
                                                     <span>{{$my_info['idcard']}}</span>
-                                                    <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}">
+                                                    <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未绑定">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -487,51 +490,57 @@
                                                 <td>
                                                     <span>{{$my_info['bank_type']}}</span>
                                                     <select name="bank_type" class="hide">
-                                                        <option value="0">保密</option>
-                                                        <option value="1">男</option>
-                                                        <option value="2">女</option>
+                                                        <option>中国建设银行</option>
+                                                        <option>中国工商银行</option>
+                                                        <option>中国农业银行</option>
+                                                        <option>交通银行</option>
+                                                        <option>招商银行</option>
+                                                        <option>中国银行</option>
+                                                        <option>中国邮政</option>
                                                     </select>
 
                                                 </td>
                                                 <th>支行名称</th>
                                                 <td>
                                                     <span>{{$my_info['bank_address']}}</span>
-                                                    <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}">
+                                                    <input type="text" name="bank_address" class="hide" value="{{$my_info['bank_address']}}"  placeholder="未绑定">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>开户省</th>
                                                 <td>
                                                     <span>{{$my_info['bank_province']}}</span>
-                                                    <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}">
+                                                    <input type="text" name="bank_province" class="hide" value="{{$my_info['bank_province']}}"  placeholder="未绑定">
 
                                                 </td>
                                                 <th>开户市</th>
                                                 <td>
                                                     <span>{{$my_info['bank_city']}}</span>
-                                                    <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}">
+                                                    <input type="text" name="bank_city" class="hide" value="{{$my_info['bank_city']}}" placeholder="未绑定">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th>卡号</th>
                                                 <td>
                                                     <span>{{$my_info['bankcard']}}</span>
-                                                    <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}">
+                                                    <input type="text" name="bankcard" class="hide" value="{{$my_info['bankcard']}}" placeholder="未绑定">
                                                 </td>
                                                 <th>预留手机号</th>
                                                 <td>
                                                     <span>{{$my_info['bank_phone']}}</span>
-                                                    <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}">
+                                                    <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未绑定">
                                                 </td>
                                             </tr>
 
                                         </table>
-                                    </from>
-                                @else
-                                    <div class="div-bank text-cen">
+                                    </form>
+                                        <div class="div-bank text-cen
+                                                    @if ($my_info['bankcard'])
+                                                    hide
+                                                    @endif
+                                                    ">
                                         <button type="button" class="btn btn-info btn-bank">绑定银行卡</button>
                                     </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -539,7 +548,7 @@
                     <div class="box-footer no-border">
                         @if ($my_info['bankcard'])
                             <div class="row text-cen">
-                                <p>如需<a class="text-blue opt-edit" data-name="bank-info" href="javascript:;">更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
+                                <p>如需<a class="text-blue opt-bank" data-name="bank-info" href="javascript:;">更改银行卡</a>，请务必在每月5日之前更改，否则将会发到旧的银行卡</p>
                             </div>
                             @endif
                     </div>
@@ -556,10 +565,10 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <table class="table table-bordered">
                                         <tr>
@@ -568,34 +577,14 @@
                                             <th style="width:20%">百分比</th>
                                         </tr>
                                         <tr>
-                                            <td>新增</td>
+                                            <td>新签</td>
                                             <td>
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{$my_info['test_transfor_per']}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$my_info['test_transfor_per']}}%">
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><span class="badge bg-blue">20%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>扩展</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-green">40%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>转介绍</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-yellow">60%</span></td>
+                                            <td><span class="badge bg-yellow">{{$my_info['test_transfor_per']}}%</span></td>
                                         </tr>
 
                                     </table>
@@ -619,30 +608,26 @@
                             </button>
                         </div>
                     </div>
+                    <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-3 label label-warning div-mar">
-                                        <h3>8次</h3>
+                                        <h3>{{$my_info['leave_count']}}次</h3>
                                         <p>请假次数</p>
                                     </div>
                                     <div class="col-sm-3 label label-info div-mar">
-                                        <h3>3次</h3>
+                                        <h3>{{$my_info['late_count']}}次</h3>
                                         <p>迟到次数</p>
                                     </div>
                                     <div class="col-sm-3 label label-success div-mar">
-                                        <h3>6次</h3>
+                                        <h3>{{$my_info['noevaluate_count']}}次</h3>
                                         <p>未评价次数</p>
                                     </div>
                                     <div class="col-sm-3 label label-primary div-mar">
-                                        <h3>7次</h3>
+                                        <h3>{{$my_info['change_count']}}次</h3>
                                         <p>被换</p>
-                                    </div>
-                                    <div class="col-sm-3 label label-danger div-mar">
-                                        <h3>0次</h3>
-                                        <p>退费</p>
                                     </div>
                                 </div>
                             </div>
@@ -669,24 +654,28 @@
                         </div>
                     </div>
                     <!-- /.box-header -->
+                    <div class="bor-hr"></div>
                     <div class="box-body">
                         <div class="chart col-sm-12" id="line-chart">
-                            <div class="bor-hr"></div>
-                            <div class="row div-pad">
+                            <div class="row">
                                 <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
-                                <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
+                                <div class="col-sm-6">第一次试听课平均分:<span class="ft24">96分</span></div>
+                                <div class="col-sm-6">第五次试听课平均分:<span class="ft24">96分</span></div>
+                                <div class="col-sm-6">第八次试听课平均分:<span class="ft24">96分</span></div>
+                                <div class="col-sm-6">第一次常规课平均分:<span class="ft24">96分</span></div>
+                                <div class="col-sm-6">第五次常规课评价分:<span class="ft24">96分</span></div>
                             </div>
                         </div>
                         <div class="direct-chat-contacts">
-                            <div class="bor-hr"></div>
                             <div class="col-sm-12 div-pad text-black">
-                                <p>各种描述</p>
-                                <p>各种描述</p>
-                                <p>各种描述</p>
+                                <h5>平均分=所有学生第N次分数和/所有学生</h5>
+                                <p>例如：李老师带了三个学生A、B、C。</p>
+                                <div class="col-sm-offset-1">
+                                    <p>A第五次试听课分数为90<br/>
+                                    B第五次试听课分数为92<br/>
+                                    C第五次试听课分数为88<br/>
+                                    那么，李老师的第五次试听课平均分为(90+92+88)/3=90分</p>
+                                </div>
                             </div>
                         </div>
                         <!-- /.direct-chat-pane -->
@@ -722,6 +711,28 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default col-sm-5 pull-left" data-refresh="">确认</button>
                 <button type="button" class="btn btn-info col-sm-5 pull-right" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="modal fade" id="modal-band-wx">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:50%;margin:0 auto">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body text-cen">
+                <div>
+                    <img src="/img/band-wx.jpg" height="150"/>
+                </div>
+                <p class="text-blue text-cen">扫描并绑定
+                    <br/>
+                    理优1对1老师帮
+                </p>
             </div>
         </div>
         <!-- /.modal-content -->

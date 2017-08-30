@@ -225,7 +225,7 @@ class common_new extends Controller
         $school                       = $this->get_in_str_val("school");
         $teacher_type                 = $this->get_in_str_val("teacher_type");
         $self_introduction_experience = $this->get_in_str_val("self_introduction_experience");
-        $reference                    = trim($this->get_in_str_val("reference"),"=");
+        $reference                    = substr(trim($this->get_in_str_val("reference"),"="),0,11);
         $custom                       = $this->get_in_str_val("custom");
         $lecture_appointment_status   = $this->get_in_int_val("lecture_appointment_status",0);
         $lecture_appointment_origin   = $this->get_in_int_val("lecture_appointment_origin",0);
@@ -390,189 +390,6 @@ class common_new extends Controller
         return $this->output_succ();
     }
 
-    public function get_email_html($subject=0,$grade_start=0,$grade_end=0,$grade=0,$name=""){
-        $html     = "
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <style>
-         .red{color:#ff3451;}
-         .leo_blue{color:#0bceff;}
-         body{font-size:24px;line-height:48px;color:#666;}
-         .t20{margin-top:20px;}
-         .underline{text-decoration:underline;}
-         .download-pc-url{cursor:pointer;}
-        </style>
-    </head>
-    <body>
-        <div align='center'>
-            <div style='width:800px;' align='left'>
-                <div align='left'>尊敬的".$name."老师：</div>
-                <div class='t20'>
-                    感谢您对理优1对1的关注，您的报名申请已收到！
-                    <br/>
-                    为了更好的评估您的教学能力，需要您尽快按照如下要求提交试讲视频
-                    <br/>
-                    【试讲要求】
-                    <br/>
-                    请准备好<span class='red'>耳机和话筒</span>，用<span class='red'>指定内容</span>
-                    在理优老师客户端录制一段试讲视频，并提交
-                </div>
-                <div>
-                    <div class='red t20'>
-                        【相关资料】↓↓↓
-                    </div>
-                    <ul>
-                        <li>1、理优老师端<a class='leo_blue' href='http://www.leo1v1.com/common/download'>点击下载</a></li>
-                        <li>2、试讲内容<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>点击下载</a></li>
-                        <li>3、简历模板<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>点击下载</a></li>
-                        <li>4、录制教程<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/TeacherLecturePPT/MianShiLiuCheng.mp4' target='_blank'>点击播放</a></li>
-                        <li>5、统一试讲账号 :<span class='red'>99900010001&nbsp;&nbsp;&nbsp;&nbsp;密码：173175</span></li>
-                    </ul>
-                </div>
-                <div>
-                    请<span class='red'>尽快提交</span>试讲视频，教研老师会按照提交先后顺序审核，并在第一时间通知到您
-                </div>
-                <div>
-                    <div class='t20'>
-                        【通关攻略】
-                    </div>
-                    <ul>
-                        <li>1、保证相对安静的录制环境和稳定的网络环境</li>
-                        <li>2、要上传讲义和板书，试讲要结合板书</li>
-                        <li>3、请务必把你所选PPT里的题目讲完，不能挑某一题讲解</li>
-                        <li>4、要注意跟学生的互动（假设电脑的另一端坐着学生）</li>
-                        <li>5、简历、PPT完善后需转成PDF格式才能上传</li>
-                        <li>6、准备充分再录制，面试机会只有一次，要认真对待</li>
-                    </ul>
-                </div>
-                <div class='red'>
-                    （温馨提示：为方便审核，请在每次翻页后在白板中画一笔）
-                </div>
-                <div >
-                    <div class='t20'>
-                        【联系我们】
-                    </div>
-                    如有疑问请加【LEO】试讲-答疑QQ群 : 608794924 <br/>
-                    <img width='240' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/9b4c10cff422a9d0ca9ca60025604e6c1498550175839.png'/><br>
-                    （关注理优1对1老师帮公众号：观看优秀试听课视频）<br/>
-                    <img width='240' src='http://7u2f5q.com2.z0.glb.qiniucdn.com/ce78e7582c7b841b38a1c95e639f37f01496399082593.png'/><br>
-                </div>
-                <div>
-                    <div class='t20'>
-                        【岗位介绍】
-                    </div>
-                    名称：理优在线1对1授课教师（通过理优教师端进行网络语音或视频授课）
-                    <br/>
-                    时薪：50-100RMB
-                </div>
-                <div>
-                    <div class='t20'>
-                        【关于理优】
-                    </div>
-                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
-                </div>
-            </div>
-    </body>
-</html>
-";
-        return $html;
-    }
-
-    public function get_email_html_new($name=""){
-        $html = "
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <style>
-         .red{color:#ff3451;}
-         .leo_blue{color:#0bceff;}
-         body{font-size:24px;line-height:48px;color:#666;}
-         .t20{margin-top:20px;}
-         .underline{text-decoration:underline;}
-         .download-pc-url{cursor:pointer;}
-
-        </style>
-    </head>
-    <body>
-        <div align='center'>
-            <div style='width:1000px;' align='left'>
-                <div align='left'>尊敬的".$name."老师：</div>
-                <div class='t20'>
-                    感谢您对理优1对1的关注，您的报名申请已收到！
-                    <br/>
-                    请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
-                    <br/>
-                    【轻松三步搞定面试】
-                    <br/>
-                    第一步：理优老师客户端&nbsp;<a class='leo_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
-                    <div class='red'>登录账号：注册报名的手机号</div>
-                    <div class='red'>登录密码：leo+手机号后四位</div>
-                    下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='leo_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
-                    ​第二步：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
-                    1)录制试讲<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
-                    用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
-                    <div class='red'>特点：可反复回看并重新录制（提交后不可再重新录制），直到自己满意后再提交 </div>
-                    2)面试试讲<a class='leo_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>  试讲试题及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
-                    进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容跟面试官进行一对一在线面试。<br>
-                    <div class='red'>特点：有面试官当您的学生进行一些场景互动。</div>
-                    <div class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</div>
-                    第三步：面试内容<br>
-                    1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
-                    2)试讲内容里的题目讲解<br>
-                </div>
-                <div>
-                    <div class='t20'>
-                        【通关攻略】
-                    </div>
-                    <ol>
-                        <li>确保安静的环境和稳定的网络</li>
-                        <li>试讲过程中必须要结合题目进行板书</li>
-                        <li>网络课堂互动很重要，与学生进行模拟互动（假设电脑另一端坐着你的学生）</li>
-                        <li>试讲内容PPT完善后需转成PDF格式才能上传</li>
-                        <li>录制和面试试讲前请先充分准备，认真对待</li>
-                    </ol>
-                    <div class='red'>（温馨提示：讲题前先在页面画一笔，再开始讲解，有助于保持声音和画面同步）</div>
-                </div>
-                <div>
-                    <div class='t20'>
-                        【入职流程】
-                    </div>
-                    1、备课→2、试讲→3、培训→4、入职
-                </div>
-                <div >
-                    <div class='t20'>
-                        【面试结果通知】
-                    </div>
-                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/><br>
-                </div>
-                <div >
-                    <div class='t20'>
-                        【联系我们】
-                    </div>
-                    <img  src='http://7u2f5q.com2.z0.glb.qiniucdn.com/0345859d986c76d7c33f0d6b5531e38c1501322935055.png'/><br>
-                    如有其它疑问，请联系教务老师 <span class='red'>QQ:1689916647</span>
-                </div>
-                <div>
-                    <div class='t20'>
-                        【岗位介绍】
-                    </div>
-                    名称：理优在线1对1授课教师（通过理优教师端进行网络语音或视频授课）
-                    <br/>
-                    时薪：50-100RMB
-                </div>
-                <div>
-                    <div class='t20'>
-                        【关于理优】
-                    </div>
-                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
-                </div>
-            </div>
-    </body>
-</html>
-";
-        return $html;
-    }
 
     public function upload_from_xls_data($obj_file) {
         $grade_map = [
@@ -1168,8 +985,12 @@ class common_new extends Controller
         $month = intval( date('n', strtotime ("-1 month") ));
         return $this->output_succ(['month'=> $month]);
     }
+
     public function get_teacher_lesson(){//p 2
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+
+        \App\Helper\Utils::logger("yuebao".$teacherid);
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1183,6 +1004,12 @@ class common_new extends Controller
     }
 
     public function get_teacher_level(){//p3
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+
         $tea_title = [
             1 => "一星教师",
             2 => "二星教师",
@@ -1197,10 +1024,6 @@ class common_new extends Controller
             4 => "使出洪荒之力，五星教师就是你",
             5 => "荣耀五星教师，你值得拥有",
         ];
-        $teacherid = $this->get_in_int_val("teacherid");
-        if (!$teacherid) {
-            return $this->output_err("信息有误，未查询到老师信息！");
-        }
         $ret_info = $this->t_teacher_info->get_teacher_true_level($teacherid);
         if($ret_info['teacher_money_type'] == 0) {
             $level = $ret_info['level'] + 2;
@@ -1214,7 +1037,8 @@ class common_new extends Controller
     }
 
     public function get_teacher_student(){//p4
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1231,7 +1055,8 @@ class common_new extends Controller
     }
 
     public function get_tea_lesson_some_info(){//p5
-        $teacherid = $this->get_in_int_val("teacherid");
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -1244,17 +1069,9 @@ class common_new extends Controller
         return $this->output_succ(["list"=>$ret_info]);
     }
 
-    public function send_to_no_contract_stu(){
-        $start_time = strtotime('2017-06-01');
-        $end_time   = strtotime('2017-09-01');
-        // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
-
-        // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
-        // dispatch($job);
-    }
-
     public function get_teacher_money(){
-        $teacherid  = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        // $teacherid  = $this->get_in_int_val("teacherid");
         $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
         $ret =\App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);
@@ -1266,5 +1083,15 @@ class common_new extends Controller
 
         return $this->output_succ(["money"=>$money]);
     }
+
+    public function send_to_no_contract_stu(){
+        $start_time = strtotime('2017-06-01');
+        $end_time   = strtotime('2017-09-01');
+        // $ret_info   = $this->t_student_info->get_stu_id_phone($start_time, $end_time);
+
+        // $job = new \App\Jobs\SendStuMessage($ret_info,"86720105",[]);
+        // dispatch($job);
+    }
+
 
 }

@@ -702,10 +702,10 @@ $(function(){
         var arr = [
             ["account", account ] ,
             ["电话",phone],
-            ['说明','生成相应的学生，家长信息']
+            ['说明','生成相应的学生,家长,老师信息']
         ];
 
-        $.show_key_value_table("生成对应的相应的学生，家长信息", arr ,{
+        $.show_key_value_table("生成对应的相应的学生，家长，老师信息", arr ,{
             label: '确认',
             cssClass: 'btn-warning',
             action: function(dialog) {

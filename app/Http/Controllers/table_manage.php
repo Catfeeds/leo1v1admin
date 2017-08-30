@@ -380,9 +380,38 @@ class table_manage extends Controller
         //curl 'http://tool.lu/sql/ajax.html' -H 'Host: tool.lu' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' -H 'X-Requested-With: XMLHttpRequest' -H 'Referer: http://tool.lu/sql/' -H 'Cookie: uuid=3394583a-afcb-4061-926a-a9e6a20370de; Hm_lvt_0fba23df1ee7ec49af558fb29456f532=1502269817,1502354206,1502504099,1502777709; Hm_lpvt_0fba23df1ee7ec49af558fb29456f532=1502849476; slim_session=%7B%22slim.flash%22%3A%5B%5D%7D' -H 'Connection: keep-alive' --data 'code=DELETE+FROM+table1%0D%0AWHERE+NOT+EXISTS+(%0D%0A%09%09SELECT+*%0D%0A%09%09FROM+table2%0D%0A%09%09WHERE+table1.field1+%3D+table2.field1%0D%0A%09%09)%3B&operate=beauty'
 
 
-        $arr= @json_decode(file_get_contents( "http://tool.lu/sql/ajax.html?code=". urlencode($format_sql)  ),true);
+        /*
+        // http://www.atool.org/include/SqlFormatter.php/include/SqlFormatter.php
+        $url= "http://www.atool.org/include/SqlFormatter.php";//?o=1&c=". base64_encode($format_sql);
+        $arr=\App\Helper\Net::rpc($url,["o"=>1, "c"=>base64_encode($format_sql)  ] );
+        $new_format_sql= @$arr["c"];
+        //$arr= @json_decode(file_get_contents( "http://tool.lu/sql/ajax.html?code=". urlencode($format_sql)  ),true);
+        //$new_format_sql= @$arr["text"];
+        */
 
-        return $this->pageView(__METHOD__, $ret_info, ["col_name_list"=>$col_name_list, "format_sql"=> @$arr["text"] ] );
+        return $this->pageView(__METHOD__, $ret_info, [
+            "col_name_list"=>$col_name_list,
+            "format_sql"=>"" 
+        ]);
+    }
+    public function get_nick_sql(){
+        $sql=$this->get_in_str_val("sql");
+
+        $format_sql= $sql;
+        $col_name_list=[];
+        if ($sql) {
+            if (preg_match("/^[ \t]*select/i",$sql) )   {
+            }else{
+                if (preg_match("/^[ \t]*(desc|explain)[ \t]+(.*)/i", $sql,  $matches ) ) {
+                    $format_sql= $matches[2];
+                }
+            }
+        }
+
+        $url= "http://www.atool.org/include/SqlFormatter.php";//?o=1&c=". base64_encode($format_sql);
+        $arr=\App\Helper\Net::rpc($url,["o"=>1, "c"=>base64_encode($format_sql)  ] );
+        $new_format_sql= @$arr["c"];
+        return $this->output_succ(["format_sql"=>$new_format_sql ]);
     }
 
     public function check_query() {

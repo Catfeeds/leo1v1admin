@@ -183,7 +183,6 @@
                 </div>
                 <div class="col-xs-3 col-md-2">
                     <div class="input-group ">
-                        <!-- <button class="btn btn-danger" id="id_opt_grab_trial_user_info">生成抢单链接</button> -->
                         <button class="btn btn-danger" id="id_grab_lesson">抢单功能</button>
                     </div>
                 </div>

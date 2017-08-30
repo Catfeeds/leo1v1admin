@@ -33,7 +33,7 @@ use OSS\Core\OssException;
 
 
 
-class wx_teacher_api extends Controller
+class wx_teacher_api extends TeaWxController
 {
 
     use CacheNick;
@@ -42,11 +42,27 @@ class wx_teacher_api extends Controller
         parent::__construct();
     }
 
-    public function get_teacherid(){
-        $teacherid= $this->get_in_int_val("teacherid") ? $this->get_in_int_val("teacherid") : session("teacherid");
-        return $teacherid;
+    // public function get_teacherid() {
+    //     $role      = $this->get_in_int_val("_role",0);
+    //     $teacherid = $this->get_in_int_val("_userid",0);
 
-    }
+    //     if (!$role) {
+    //         $role = session("login_user_role" );
+    //     }
+
+    //     if (!$teacherid) {
+    //         $teacherid = session("login_userid" );
+    //     }
+
+    //     return $teacherid;
+
+    //     if ($role==2 &&  $teacherid ) {
+    //         return $teacherid;
+    //     }else{ // 待处理
+    //         // echo $this->output_err("未登录");
+    //         // exit;
+    //     }
+    // }
 
 
 
@@ -100,6 +116,7 @@ class wx_teacher_api extends Controller
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -107,7 +124,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
             }
 
             // 给投诉老师反馈
@@ -163,9 +180,14 @@ class wx_teacher_api extends Controller
         $teacherid         = $this->get_teacherid();
         $complained_adminid_nick = $this->get_in_str_val('complained_adminid_nick');
         $complained_department   = $this->get_in_int_val('complained_department',0);// 被投诉人部门 [需新增字段]
-        $complaint_type   = $this->get_in_int_val('complaint_type');
+        // $complaint_type   = $this->get_in_int_val('complaint_type');
+        $complaint_type   = 1;
 
         $sever_name = $_SERVER['SERVER_NAME'];
+
+
+        \App\Helper\Utils::logger("wx_tousu: ".$teacherid);
+
 
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
@@ -173,11 +195,6 @@ class wx_teacher_api extends Controller
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
-
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
@@ -192,7 +209,6 @@ class wx_teacher_api extends Controller
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            'complained_feedback_type' => 1
         ]);
 
 
@@ -223,6 +239,7 @@ class wx_teacher_api extends Controller
                 // "orwGAs_IqKFcTuZcU1xwuEtV3Kek" ,//james
                 "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
                 "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
                 "orwGAs0ayobuEtO1YZZhW3Yed2To",  // rolon
                 "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
                 "orwGAs1H3MQBeo0rFln3IGk4eGO8",  // sunny
@@ -230,7 +247,7 @@ class wx_teacher_api extends Controller
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释 
             }
 
             // 给投诉老师反馈
@@ -260,16 +277,14 @@ class wx_teacher_api extends Controller
         $complaint_info    = $this->get_in_str_val('complaint_info');
         $serverId_str      = $this->get_in_str_val('serverId_str',''); // 图片ids
         $teacherid         = $this->get_teacherid();
+        \App\Helper\Utils::logger("wx_software: ".$teacherid);
+
 
         $sever_name = $_SERVER["SERVER_NAME"];
 
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
@@ -281,7 +296,7 @@ class wx_teacher_api extends Controller
             'add_time'       => time(NULL),
             'complaint_info' => $complaint_info,
             'complaint_img_url' => $complaint_img_url,
-            'complained_feedback_type' => 2
+            // 'complained_feedback_type' => 2
         ]);
 
 
@@ -354,11 +369,12 @@ class wx_teacher_api extends Controller
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
-        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400)."天";
+        $test_lesson_info['pass_time'] = date("Y.m.d",$test_lesson_info["work_day"]);
+        $test_lesson_info["work_day"] = ceil((time()-$test_lesson_info["work_day"])/86400);
         $test_lesson_info["test_lesson_time"] = date("Y.m.d",$test_lesson_info['test_lesson_time']);
 
         $common_lesson_info = $this->t_teacher_info->get_common_lesson_info_for_teacher_day($teacherid);
-        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$test_lesson_info['common_lesson_start']);
+        $common_lesson_info["common_lesson_start"] = date("Y.m.d",$common_lesson_info['common_lesson_start']);
 
         $common_lesson_num = $this->t_teacher_info->get_common_lesson_num_for_teacher_day($teacherid);
 
@@ -376,10 +392,14 @@ class wx_teacher_api extends Controller
             $money = 0;
         }
 
-        $ret_info['money'] = $money;
+        $ret_info['money'] = $money.'元';
 
         return $this->output_succ(["data"=>$ret_info]);
     }
+
+
+
+
 
 
 

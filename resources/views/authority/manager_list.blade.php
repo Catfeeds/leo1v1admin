@@ -12,7 +12,6 @@
                         <input class="opt-change form-control" id="id_adminid" />
                     </div>
             </div>
-
             <div class="col-md-3 col-xs-0" data-always_show="1">
                 <div class="input-group col-sm-12"  >
                     <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入用户名/电话，回车查找" />
@@ -80,18 +79,13 @@
                     <input class="opt-change form-control" id="id_tquin" />
                 </div>
             </div>
-
-
             <div class="col-md-2 col-xs-6">
                 <button class="btn btn-warning  add_player " >添加</button>
                 <button id="id_email_list" class="btn btn-primary " >邮箱</button>
             </div>
-
         </div>
-
         <hr/>
         <table class="common-table" >
-
             <thead>
                 <tr>
                     <td>id</td>

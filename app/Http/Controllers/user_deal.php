@@ -88,7 +88,7 @@ class user_deal extends Controller
 
     public function cancel_lesson()
     {
-        $lessonid      = $this->get_in_int_val('lessonid',-1);
+        $lessonid = $this->get_in_int_val('lessonid',-1);
 
         $lesson_type=$this->t_lesson_info-> get_lesson_type($lessonid);
         if( $lesson_type==2) { //test_leson
@@ -97,10 +97,15 @@ class user_deal extends Controller
             }
         }
 
-        //$this->t_lesson_info->del_if_no_start($lessonid);
-        $this->t_lesson_info->field_update_list($lessonid,[
-           "lesson_del_flag" =>1
-        ]);
+        // $this->t_lesson_info->del_if_no_start($lessonid);
+        // $this->t_lesson_info->field_update_list($lessonid,[
+        //    "lesson_del_flag" =>1
+        // ]);
+        $lesson_status = $this->t_lesson_info->get_lesson_status($lessonid);
+        if($lesson_status!=0){
+            return $this->output_err("课程已结束，无法删除！");
+        }
+        $this->t_lesson_info_b2->cancel_lesson_no_start($lessonid);
 
         return outputjson_success();
     }
@@ -2608,6 +2613,29 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        $this->switch_tongji_database();
+        $start_time = time()-14*86400;
+        $end_time = time();
+        $list = $this->t_lesson_info_b2->get_test_lesson_num($start_time,$end_time);
+        dd($list);
+        foreach($list as $val){
+            $task->t_teacher_info->field_update_list($val["teacherid"],[
+                "two_week_test_lesson_num"   =>$val["num"] 
+            ]);
+        }
+
+        $nick=111;
+        $this->t_manager_info->send_wx_todo_msg_by_adminid (349 ,"在读学生试听申请通知","在读学生试听申请通知",$nick."有一节试听申请，请关注","");
+        dd(111);
+
+        $list = $this->t_teacher_lecture_appointment_info->get_no_right_reference_list();
+        foreach($list as &$item){
+            $item["num"] = substr($item["reference"],0,11);
+            $this->t_teacher_lecture_appointment_info->field_update_list($item["id"],[
+               "reference"  => $item["num"]
+            ]);
+        }
+        dd($list);
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-09-01");
         $no_assign_total = $this->t_test_lesson_subject_require->get_no_assign_total_info_detail($start_time,$end_time);
@@ -2948,6 +2976,7 @@ class user_deal extends Controller
             $item["main_type_str"] = E\Emain_type::get_desc($item["main_type"]);
         }
         $ret_info["page_info"] = $this->get_page_info_for_js( $ret_info["page_info"]   );
+        dd(outputjson_success(array('data' => $ret_info)));
         return outputjson_success(array('data' => $ret_info));
 
     }

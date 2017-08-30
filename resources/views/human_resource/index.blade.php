@@ -477,7 +477,6 @@
                                 操作人:{{@$var["lesson_hold_flag_acc"]}}<br>
                                 操作时间:{{@$var["lesson_hold_flag_time_str"]}}
                             @endif
-
                         </td>
                         <td>
                             回访时间:{{@$var["revisit_add_time_str"]}}<br>
@@ -493,8 +492,7 @@
                         <td>{{@$var["interview_acc"]}}</td>
                         <td>
                             <div {!!  \App\Helper\Utils::gen_jquery_data($var)  !!}  >
-                                <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
-                                   target="_blank" title="老师信息"> </a>
+                                <a class="fa-user opt-user-info div_show" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}" target="_blank" title="老师信息"> </a>
                                 <a class="fa-edit opt-edit div_show"  title="编辑"> </a>
                                 <a class="fa-hand-o-up opt-tea-note div_show"  title="修改教务备注"> </a>
                                 <a class="fa-list opt-interview-assess div_show"  title="修改面试评价"> </a>
@@ -516,18 +514,12 @@
                                 <a class="fa-comment opt-return-back-new div_show" title="回访信息录入-new" ></a>
                                 <a class="fa-comments opt-return-back-list-new div_show" title="回访列表" ></a>
                                 @if(in_array($acc,["adrian","jim","ted","jack","alan","夏宏东","haku","low-key"]))
+
                                     <a class="opt-account-number" title="老师账号信息修改功能">账号相关</a>
-                                    <a class="fa-gratipay opt-test-user" title="设置为测试用户"></a>
+
                                     <a class="opt-change_tea_to_new" title="当前老师转移学生至新账号">转移</a>
-                                    <a class="opt-level fa-lock" title="编辑工资分类,等级"></a>
-                                    <a class="opt-change-phone" title="更换老师手机">手机</a>
-                                    <a class="opt-change-level" title="更改老师等级">等级</a>
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
-                                    <a class="opt-change-teacher_ref_type">渠道</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
-                                    <a class="opt-change-grade-range" title="更改年级范围">范</a>
-                                    <a class="opt-set_bank_info ">银行卡</a>
-                                    <a class="opt-set_check_info">审核信息</a>
                                 @endif
                                 @if(in_array($acc,["ted"]))
                                     <a class="opt-change-lesson-num">修改排课数</a>
@@ -544,7 +536,7 @@
                                 @if(in_array($acc,["amyshen","low-key","jack","adrian","jim","ted","alan"]))
                                     <a class="opt-trial-pass div_show"  title="设置试讲/培训通过">通过信息</a>
                                 @endif
-                                @if(in_array($acc,["jack","adrian","jim","ted","alan","CoCo老师"]))
+                                @if(in_array($acc,["ted","alan","CoCo老师"]))
                                     <a class="opt-set-remark"  title="是否在其他机构代课">机构备注</a>
                                 @endif
                                 <a class=" opt-set-grade-range div_show">设置新版年级段</a>

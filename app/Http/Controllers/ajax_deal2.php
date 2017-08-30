@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Input;
 
 
 class ajax_deal2 extends Controller
@@ -407,6 +408,16 @@ class ajax_deal2 extends Controller
             }
         }
 
+        if(!$ret_teacher){
+            $teacher_info['phone']         = $phone;
+            $teacher_info['tea_nick']      = $account;
+            $teacher_info['send_sms_flag'] = 0;
+            $teacher_info['wx_use_flag']   = 0;
+            $teacher_info['use_easy_pass'] = 2;
+            $teacher_info['is_test_user']  = 1;
+            $this->add_teacher_common($teacher_info);
+        }
+
 
         return $this->output_succ($ret);
     }
@@ -777,13 +788,13 @@ class ajax_deal2 extends Controller
 
     //获取老师入职后第一周第二周试听课信息
     public function get_teacher_week_test_lesson_info(){
-        $teacherid = $this->get_in_int_val("teacherid"); 
-        $train_through_new_time = $this->get_in_int_val("train_through_new_time"); 
-        $first_start = strtotime(date("Y-m-d",$train_through_new_time))+86400;
-        $first_end = $first_start+7*86400;
-        $second_end = $first_start+14*86400;
-        $third_end = $first_start+21*86400;
-        $fourth_end = $first_start+28*86400;
+        $teacherid = $this->get_in_int_val("teacherid");
+        $train_through_new_time = $this->get_in_int_val("train_through_new_time");
+        $first_start = strtotime("2017-04-01");
+        $first_end = strtotime("2017-05-01");
+        $second_end = strtotime("2017-06-01");
+        $third_end = strtotime("2017-07-01");
+        $fourth_end = strtotime("2017-08-01");
         $qz_tea_arr = [];
         $qz_tea_arr[] = $teacherid;
         $first_info  = $this->t_lesson_info->get_qz_test_lesson_info_list($qz_tea_arr,$first_start,$first_end);
@@ -806,7 +817,103 @@ class ajax_deal2 extends Controller
         $data["fourth_per"] = !empty($data["fourth_lesson_num"])?round($data["fourth_order_num"]/$data["fourth_lesson_num"]*100,2):0;
 
 
-        return $this->output_succ(["data"=>$data]); 
+        return $this->output_succ(["data"=>$data]);
     }
+    public function set_admin_menu_config () {
+        $menu_config= $this->get_in_str_val("menu_config");
+        $adminid=$this->get_account_id();
+
+        $this->t_manager_info->field_update_list($adminid,[
+            "menu_config" =>  $menu_config
+        ]);
+        sleep(2);
+        (new  login() )->reset_power($this->get_account());
+        return $this->output_succ();
+    }
+    public function get_admin_member_config() {
+        $adminid=$this->get_account_id();
+        $row= $this->t_manager_info->field_get_list($adminid,"menu_config");
+        return $this->output_succ([
+            "menu_config"=> $row["menu_config"]
+        ]);
+
+    }
+    public function upload_origin_xlsx() {
+        $adminid= $this->get_account_id();
+
+        $file = Input::file('file');
+        if ($file->isValid()) {
+            //处理列
+            $realPath = $file -> getRealPath();
+            (new common_new()) ->upload_from_xls_data( $realPath);
+
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+
+            $objPHPExcel = $objReader->load($realPath);
+            $objPHPExcel->setActiveSheetIndex(0);
+            $arr=$objPHPExcel->getActiveSheet()->toArray();
+            $now=time(NULL);
+            $title_info=array_shift($arr);
+            if ($title_info[0] != "key1" ) {
+                return $this->output_err("文件格式不对!");
+            }
+            $origin_arr=[];
+            $key1="";
+            $key2="";
+            $key3="";
+            $key4="";
+            $value="";
+            $fix="";
+            foreach ($arr as $index => $item) {
+                $key1= trim($item[0])? trim($item[0]): $key1 ;
+                $key2= trim($item[1])? trim($item[1]): $key2 ;
+                $key3= trim($item[2])? trim($item[2]): $key3 ;
+                $key4= trim($item[3])? trim($item[3]): $key4 ;
+                $value= trim($item[4]);
+                $fix= trim($item[5])? trim($item[5]): $fix;
+
+                $fix_value=$fix.$value;
+                $origin_arr[]=$fix_value;
+                $this->t_origin_key->row_insert([
+                    "create_time" => $now,
+                    "key1" => $key1,
+                    "key2" => $key2,
+                    "key3" => $key3,
+                    "key4" => $key4,
+                    "value" => $fix_value ,
+                ],true);
+
+                /*
+                0 => array:7 [
+                    0 => "key1"
+                    1 => "key2"
+                    2 => "key3"
+                    3 => "key4"
+                    4 => "value"
+                    5 => "fix"
+                    6 => null
+                ]
+                */
+            }
+            \App\Helper\Common::redis_set_json("ORIGIN_UPLOAD_$adminid",$origin_arr);
+
+
+            return $this->output_succ() ;
+        } else {
+            return $this->output_err("没有文件") ;
+        }
+    }
+    public function download_cur_origin_info() {
+        $adminid= $this->get_account_id();
+        $origin_arr=\App\Helper\Common::redis_get_json("ORIGIN_UPLOAD_$adminid");
+        $list= [];
+        foreach ($origin_arr as $value ) {
+            $list[]=["value"=>$value, "urlencode" => urlencode($value)  ];
+        }
+        $this->out_xls( \App\Helper\Utils::list_to_page_info($list));
+
+    }
+
+   
 
 }

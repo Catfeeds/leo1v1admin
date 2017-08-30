@@ -70,12 +70,12 @@ class seller_student_new extends Controller
         $self_groupid = $this->get_in_int_val("self_groupid",-1);
 
         list($start_time,$end_time,$opt_date_str)= $this->get_in_date_range(
-            -30*6, 0, 0, [
+            -30*6, 1, 0, [
             0 => array( "add_time", "资源进来时间"),
             4 => array("sub_assign_time_2","分配给主管时间"),
             5 => array("admin_assign_time","分配给组员时间"),
             6 => array("tmk_assign_time","微信分配时间"),
-            ], 0
+            ], 0,0, true
         );
 
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)=$this->get_in_order_by_str( );
@@ -114,7 +114,8 @@ class seller_student_new extends Controller
         //dd($wx_invaild_flag);
         $do_filter = $this->get_in_e_boolean(-1,'filter_flag');
         $first_seller_adminid= $this->get_in_int_val('first_seller_adminid', -1);
-        $call_phone_count= $this->get_in_int_val("call_phone_count", -1);
+        $call_phone_count= $this->get_in_intval_range("call_phone_count");
+        $suc_test_count= $this->get_in_intval_range("suc_test_count", -1);
         $main_master_flag= $this->get_in_int_val("main_master_flag", 0);
         $self_adminid = $this->get_account_id();
         if($self_adminid==349){
@@ -130,9 +131,14 @@ class seller_student_new extends Controller
             $seller_resource_type,$origin_assistantid,$tq_called_flag,$global_tq_called_flag,$tmk_adminid,
             $tmk_student_status,$origin_level,$seller_student_sub_status, $order_by_str,$publish_flag
             ,$admin_del_flag ,$account_role , $sys_invaild_flag ,$seller_level, $wx_invaild_flag,$do_filter,
-            $first_seller_adminid ,$call_phone_count,$main_master_flag,$self_adminid );
+            $first_seller_adminid ,$suc_test_count,$call_phone_count,$main_master_flag,$self_adminid );
+
         $start_index=\App\Helper\Utils::get_start_index_from_ret_info($ret_info);
         foreach( $ret_info["list"] as $index=> &$item ) {
+            $last_call_time = $item['last_revisit_time'];
+            $item['lass_call_time_space'] = $last_call_time?time()-$last_call_time:time()-$item['add_time'];
+            $item['lass_call_time_space'] = (int)($item['lass_call_time_space']/86400);
+
             \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"tmk_assign_time");
             \App\Helper\Utils::unixtime2date_for_item($item,"sub_assign_time_2");
@@ -188,6 +194,7 @@ class seller_student_new extends Controller
         }else{
             $unallot_info=$this->t_test_lesson_subject->get_unallot_info( );
         }
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "unallot_info" => $unallot_info,
             "show_list_flag" => $show_list_flag,
@@ -869,6 +876,57 @@ class seller_student_new extends Controller
 
     }
 
+    public function test_lesson_fail_list_data() {
+        $this->switch_tongji_database();
+
+        $page_num = $this->get_in_page_num();
+        list($start_time,$end_time) = $this->get_in_date_range(-80,0 );
+        $grade                      = $this->get_in_grade(-1);
+        $phone                      = trim($this->get_in_phone());
+        $can_reset_seller_flag      = 1;
+
+        $adminid  = $this->get_account_id();
+        $date_key = date("Ymd");
+
+
+        $json_ret=\App\Helper\Common::redis_get_json("SELLER_TEST_LESSON_USER_$adminid");
+
+        if (!$json_ret || $json_ret["opt_date"] != $date_key ) {
+            $json_ret=[
+                "opt_date" => $date_key ,
+                "opt_count" => 0,
+            ];
+            \App\Helper\Common::redis_set_json("SELLER_TEST_LESSON_USER_$adminid", $json_ret);
+        }
+
+        $seller_level = $this->t_manager_info->get_seller_level( $adminid);
+
+        $seller_level_str    = E\Eseller_level::get_desc($seller_level);
+        $seller_level_config = \App\Helper\Config::get_seller_test_lesson_user_month_limit();
+        $level_limit_count   = @$seller_level_config[$seller_level];
+        $last_count          = $level_limit_count - $json_ret['opt_count'];
+
+       $ret_info = $this->t_test_lesson_subject->get_test_lesson_fail_list(
+           $page_num, $start_time, $end_time,$grade, $adminid,   $phone
+       );
+
+        foreach($ret_info['list'] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
+            E\Egrade::set_item_value_str($item);
+            E\Egender::set_item_value_str($item);
+            E\Esubject::set_item_value_str($item);
+            \App\Helper\Utils::hide_item_phone($item);
+        }
+
+        $ret_arr=[];
+        $ret_arr["ret_info"] = $ret_info;
+        $ret_arr["seller_level_str"] = $seller_level_str;
+        $ret_arr["opt_count"] =$json_ret['opt_count'] ;
+        $ret_arr["last_count"] = $last_count;
+        return $ret_arr;
+
+    }
+
     public function test_lesson_no_order_list() {
         $ret_arr = $this->test_lesson_no_order_list_data();
         $ret_info         = $ret_arr["ret_info"];
@@ -882,6 +940,21 @@ class seller_student_new extends Controller
         ]);
 
     }
+
+    public function test_lesson_fail_list() {
+        $ret_arr = $this->test_lesson_fail_list_data();
+        $ret_info         = $ret_arr["ret_info"];
+        $seller_level_str = $ret_arr["seller_level_str"];
+        $opt_count        = $ret_arr["opt_count"];
+        $last_count       = $ret_arr["last_count"];
+        return $this->pageView(__METHOD__, $ret_info, [
+            "seller_level_str"  => $seller_level_str,
+            "opt_count"  => $opt_count,
+            "last_count"  => $last_count
+        ]);
+
+    }
+
 
     public function ass_seller_student_list() {
         $this->set_in_value("origin_assistantid",$this->get_account_id());
@@ -982,6 +1055,7 @@ class seller_student_new extends Controller
             "hold_cur_count"  => $this->t_seller_student_new->get_hold_count($admin_revisiterid) ,
         ]);
     }
+
     public function get_free_seller_list_data() {
         list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
         $page_num   = $this->get_in_page_num();
@@ -1014,10 +1088,48 @@ class seller_student_new extends Controller
         return $ret_info;
     }
 
+    public function get_free_seller_list_data_new() {
+        list($start_time,$end_time)= $this->get_in_date_range(-80,0 );
+        $page_num   = $this->get_in_page_num();
+        $phone_name = trim($this->get_in_str_val("phone_name"));
+        $nick  = "";
+        $phone = "";
+        if($phone_name){
+            if (!($phone_name>0)) {
+                $nick=$phone_name;
+            }else{
+                $phone=$phone_name;
+            }
+        }
+
+
+        $grade=$this->get_in_grade(-1);
+        $has_pad=$this->get_in_has_pad(-1);
+        $subject=$this->get_in_subject(-1);
+        $origin=trim($this->get_in_str_val("origin",""));
+        $this->t_seller_student_new->switch_tongji_database();
+        $ret_info= $this->t_seller_student_new->get_free_seller_list($page_num,$start_time,$end_time,$this->get_account_id(),$grade, $has_pad,$subject,$origin,$nick,$phone,$suc_test_flag=1);
+        foreach ($ret_info["list"] as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
+            E\Epad_type::set_item_value_str($item, "has_pad");
+            E\Esubject::set_item_value_str($item);
+            E\Egrade::set_item_value_str($item);
+            \App\Helper\Utils::hide_item_phone($item);
+        }
+
+        return $ret_info;
+    }
+
     public function get_free_seller_list () {
         $ret_info=$this->get_free_seller_list_data();
         return $this->pageView(__METHOD__, $ret_info);
     }
+
+    public function get_free_seller_test_fail_list () {
+        $ret_info=$this->get_free_seller_list_data();
+        return $this->pageView(__METHOD__, $ret_info);
+    }
+
 
     public function wiki()  {
         $accountid=$this->get_account_id();
@@ -1080,7 +1192,7 @@ class seller_student_new extends Controller
 
     public function test_lesson_order_fail_list_new(){
         $cur_require_adminid = $this->get_account_id();
-        $ret_info=$this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
+        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
         $ret = 0;
         if(isset($ret_info['require_id'])){
             $ret = $ret_info['require_id'];
@@ -1344,14 +1456,6 @@ class seller_student_new extends Controller
 
     }
 
-    public function refresh_call_end(){
-        $lessonid = $this->get_in_int_val('lessonid');
-        $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
-        $this->refresh_test_call_end();
-
-        return $ret;
-    }
-
     public function refresh_test_call_end(){
         $adminid = $this->get_account_id();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
@@ -1366,33 +1470,19 @@ class seller_student_new extends Controller
         $adminid = $this->get_in_int_val('adminid');
         $admin_nick = $this->cache_get_account_nick($adminid);
         $phone = $this->get_in_str_val('phone');
+        $this->switch_tongji_database();
         $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        if(count($lesson_call_end)>0){
-            foreach($lesson_call_end as $item){
-                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-            }
-        }
         $tquin = $this->t_manager_info->get_tquin($adminid);
-        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
         $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
-        // dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($lesson_call_end),['admin_nick'=>$admin_nick]);
     }
 
-    public function update_lesson_call_end_time(){
-        $adminid = $this->get_in_int_val('adminid');
-        $admin_nick = $this->cache_get_account_nick($adminid);
-        $phone = $this->get_in_str_val('phone');
-        $lesson_call_end = $this->t_lesson_info_b2->get_call_end_time_by_adminid_new($adminid);
-        if(count($lesson_call_end)>0){
-            foreach($lesson_call_end as $item){
-                $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$item['lessonid']);
-            }
-        }
-        $tquin = $this->t_manager_info->get_tquin($adminid);
-        // $lesson_call_list = $this->t_tq_call_info->get_list_ex_new((int)$tquin,$phone,$call_start=-1,$call_end=-1,$type=-1,$lesson_end=1503402000);
-        $lesson_call_list = $this->t_tq_call_info->get_list_by_phone((int)$tquin,$phone);
-        dd($lesson_call_end,$lesson_call_list,$adminid,$phone,$tquin);
+    public function refresh_call_end(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $ret = $this->t_lesson_info_b2->get_test_lesson_list(0,0,-1,$lessonid);
+        $this->refresh_test_call_end();
+
+        return $ret;
     }
 
 }

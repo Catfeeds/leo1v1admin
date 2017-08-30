@@ -2171,6 +2171,11 @@ trait  TeaPower {
             $accept_adminid = 1000;
         }else{
             $accept_adminid = 0;
+            $teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
+            $zs_id = $this->t_teacher_info->get_zs_id($teacherid);
+            if($zs_id>0){
+                $accept_adminid = $zs_id;
+            }
         }
         return $accept_adminid;
     }
@@ -2732,6 +2737,106 @@ trait  TeaPower {
         }       
     }
 
+    public function get_email_html_new($name=""){
+        $html = "
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <style>
+         .red{color:#ff3451;}
+         .leo_blue{color:#0bceff;}
+         .download_blue{color:rgb(0,0,238)}
+         body{font-size:24px;line-height:48px;color:#666;}
+         .t20{margin-top:20px;}
+         .underline{text-decoration:underline;}
+         .download-pc-url{cursor:pointer;}
+
+        </style>
+    </head>
+    <body>
+        <div align='center'>
+            <div style='width:1000px;' align='left'>
+                <div align='left'>尊敬的".$name."老师：</div>
+                <div class='t20'>
+                    感谢您对理优1对1的关注，您的报名申请已收到！
+                    <br/>
+                    请您尽快使用我们准备的试讲内容进行面试，祝您面试成功！
+                    <br/>
+                    <br/>
+                    【轻松三步搞定面试】
+                    <br/>
+                    <br/>
+                    第一步：理优老师客户端&nbsp;<a class='download_blue' href='http://www.leo1v1.com/common/download'>客户端下载</a>（面试必须使用电脑，并准备好耳机和话筒。以后正式上课可用iPad授课）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录账号：注册报名的手机号</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>登录密码：leo+手机号后四位</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;下载简历模板，填写并上传在“理优老师客户端”&nbsp;<a class='download_blue' href='http://leowww.oss-cn-shanghai.aliyuncs.com/JianLi.docx'>简历模板下载</a><br>
+                    <br/>
+                    ​第二步：登陆客户端，选择试讲方式（试讲方式只能二选一，请老师选择适合自己的方式<span class='red'>↓↓↓</span>）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)录制试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/JtvHJngJqowazxy'>试讲题目及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;用指定试讲内容录制一段不少于五分钟的试讲视频，录制完成提交审核，五个工作日内将会收到审核结果<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：可反复回看并重新录制（提交后不可再重新录制），直到自己满意后再提交 </span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)面试试讲<a class='download_blue' href='http://file.leo1v1.com/index.php/s/pUaGAgLkiuaidmW'>  试讲试题及视频教程下载</a>（无需摄像头，录制只会录制软件界面和声音）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;进入理优老师客户端预约时间，评审老师和面试老师同时进入培训课堂进行面试，用指定试讲内容跟面试官进行一对一在线面试。<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='red'>特点：有面试官当您的学生进行一些场景互动。</span><br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class='leo_blue'>目前政治、历史、地理、生物、科学五门学科不支持面试试讲。</span><br>
+                    <br/>
+                    第三步：面试内容<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1)简单的自我介绍（英语科目请使用英语自我介绍）<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;2)试讲内容里的题目讲解<br>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3)时间一般控制在15-20分钟<br>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【通关攻略】
+                    </div>
+                    <ol>
+                        <li>确保安静的环境和稳定的网络</li>
+                        <li>试讲过程中必须要结合题目进行板书</li>
+                        <li>网络课堂互动很重要，与学生进行模拟互动（假设电脑另一端坐着你的学生）</li>
+                        <li>试讲内容PPT完善后需转成PDF格式才能上传</li>
+                        <li>录制和面试试讲前请先充分准备，认真对待</li>
+                    </ol>
+                    <div class='red'>（温馨提示：讲题前先在页面画一笔，再开始讲解，有助于保持声音和画面同步）</div>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【入职流程】
+                    </div>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;1、备课→2、试讲→3、培训→4、入职
+                </div>
+                <div >
+                    <div class='t20'>
+                        【面试结果通知】
+                    </div>
+                    <img src='http://7u2f5q.com2.z0.glb.qiniucdn.com/b6c31d01d41c9e1714958f9c56d01d8f1501149653620.png'/><br>
+                </div>
+                <div >
+                    <div class='t20'>
+                        【联系我们】
+                    </div>
+                    <img  src='http://7u2f5q.com2.z0.glb.qiniucdn.com/0345859d986c76d7c33f0d6b5531e38c1501322935055.png'/><br>
+                    如有其它疑问，请联系教务老师 <span class='red'>QQ:1689916647</span>
+                </div>
+                <div>
+                    <div class='t20'>
+                        【岗位介绍】
+                    </div>
+                    名称：理优在线1对1授课教师（通过理优教师端进行网络语音或视频授课）
+                    <br/>
+                    时薪：50-100RMB
+                </div>
+                <div>
+                    <div class='t20'>
+                        【关于理优】
+                    </div>
+                    理优1对1致力于为初高中学生提供专业、专注、有效的教学，帮助更多家庭打破师资、时间、地域、费用的局限，获得四维一体的专业学习体验。作为在线教育行业内首家专注于移动Pad端研发的公司，理优1对1在1年内成功获得GGV数千万元A轮投资（GGV风投曾投资阿里巴巴集团、优酷土豆、去哪儿、小红书等知名企业）
+                </div>
+            </div>
+    </body>
+</html>
+";
+        return $html;
+    }
 
 
 

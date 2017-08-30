@@ -35,6 +35,7 @@ class teacher_feedback extends Controller
         $lessonid       = $this->get_in_int_val("lessonid");
         $status         = $this->get_in_int_val("status",0);
         $feedback_type  = $this->get_in_int_val("feedback_type",-1);
+        $del_flag       = $this->get_in_int_val("del_flag",0);
         $page_num       = $this->get_in_page_num();
         $acc            = $this->get_account();
 
@@ -42,7 +43,7 @@ class teacher_feedback extends Controller
         $lesson_deduct_info = E\Elesson_deduct::$desc_map;
 
         $list = $this->t_teacher_feedback_list->get_teacher_feedback_list(
-            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,$opt_date_type
+            $start_time,$end_time,$teacherid,$assistantid,$accept_adminid,$lessonid,$status,$feedback_type,$page_num,$opt_date_type,$del_flag
         );
         foreach($list['list'] as &$tea_val){
             E\Efeedback_type::set_item_value_str($tea_val);
@@ -206,11 +207,20 @@ class teacher_feedback extends Controller
     }
 
     public function delete_teacher_feedback_info(){
-        $id  = $this->get_in_int_val("id");
-        $acc = $this->get_account();
+        $id       = $this->get_in_int_val("id");
+        $status   = $this->get_in_int_val("status");
+        $del_flag = $this->get_in_int_val("del_flag");
+        $acc      = $this->get_account();
+
+        if($status != 0){
+            return $this->output_err("状态不是未处理状态，无法操作！");
+        }
 
         if(in_array($acc,["adrian","alan","jim"])){
-            $ret = $this->t_teacher_feedback_list->delete_teacher_feedback_info($id);
+            $ret = $this->t_teacher_feedback_list->field_update_list(["id"=>$id],[
+                "del_flag"    => $del_flag,
+                "check_time " => time(),
+            ]);
         }else{
             return $this->output_err("没有权限!");
         }

@@ -3,18 +3,31 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+use \App\Helper\Config;
 //require_once (app_path("Libs/qiniu-7/src/Qiniu/functions.php") );
 
 
 class teacher_info extends Controller
 {
     use CacheNick;
-    var $check_login_flag=false;
+    var $check_login_flag=true;
 
     function __construct( )  {
         parent::__construct();
 
     }
+
+    function check_login() {
+        if (!session("tid")){
+            if (!\App\Helper\Utils::check_env_is_test()) {
+                \App\Helper\Utils::logger("GOTO: " .$_SERVER["REQUEST_URI"] );
+                header('Location: /login/teacher?to_url='.$_SERVER["REQUEST_URI"]);
+                exit;
+            }else{
+            }
+        }
+    }
+
 
     public function index() {
         return self::get_lesson_list_new();
@@ -1756,6 +1769,7 @@ class teacher_info extends Controller
             $qc_openid_arr = [
                 "wenbin",
                 "李珉劼",
+                "王浩鸣",
                 "夏宏东",
                 "ted"
             ];
@@ -1807,7 +1821,6 @@ class teacher_info extends Controller
     public function test () {
         return $this->pageView(__METHOD__,[]);
     }
-
 
     public function  file_store()   {
 
@@ -1900,6 +1913,14 @@ class teacher_info extends Controller
 
     public function base_info() {
 
+    }
+
+    public function file_store_del_file() {
+        $teacherid      = $this->get_login_teacher();
+        $path= $this->get_in_str_val("path");
+        $store=new \App\FileStore\file_store_tea();
+        $store->del_file($teacherid,$path);
+        return $this->output_succ();
     }
 
     public function file_store_rename() {
@@ -2015,7 +2036,7 @@ class teacher_info extends Controller
 
     public function get_teacher_basic_info(){
         $teacherid = $this->get_login_teacher();
-        $ret_info = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
+        $ret_info  = $this->t_teacher_info->get_teacher_info_to_teacher($teacherid);
         foreach ($ret_info['list'] as &$item) {
             E\Esubject::set_item_value_str($item);
             // E\Egarde_part_ex::set_item_value_str($item);
@@ -2023,16 +2044,26 @@ class teacher_info extends Controller
             E\Eidentity::set_item_value_str($item);
             E\Eteacher_ref_type::set_item_value_str($item);
             E\Egender::set_item_value_str($item);
+            $now_day      = strtotime( 'today' );
+            $first_day    = strtotime( date('Y-m-d', $item['create_time']) );
+            $item['days'] = ($now_day - $first_day)/86400;
             \App\Helper\Utils::unixtime2date_for_item($item,"create_time");
-
+            if($item['teacher_money_type'] == 0) {
+                $item['level'] = $item['level'] + 2;
+            } else {
+                $item['level'] = $item['level'] + 1;
+            }
+            $item['normal_count'] = $item['normal_count']/100;
         }
-        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
-        ]);
+        ],[
+            'qiniu_upload_domain_url' => Config::get_qiniu_public_url()."/"
+        ]
+        );
     }
 
-    public function edit_teacher_info_by_himself(){
+    public function edit_teacher_info(){
         $teacherid = $this->get_login_teacher();
         $nick      = $this->get_in_str_val('nick','');
         $gender    = $this->get_in_str_val('gender','');
@@ -2040,6 +2071,7 @@ class teacher_info extends Controller
         $email     = $this->get_in_str_val('email','');
         $work_year = $this->get_in_int_val('work_year','');
         $phone     = $this->get_in_int_val('phone','');
+        $school    = $this->get_in_str_val('school','');
         if(!$teacherid) {
             return $this->output_err('信息有误，请重新登录！');
         }
@@ -2065,7 +2097,74 @@ class teacher_info extends Controller
         if (!$is_phone) {
             return $this->output_err('请填写正确的手机号码！');
         }
-        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone);
+        if ($school == '') {
+            return $this->output_err('毕业院校不能为空！');
+        }
+
+        $ret_info = $this->t_teacher_info->update_teacher_info($teacherid, $nick, $gender, $birth, $email, $work_year, $phone, $school);
         return outputjson_success();
+    }
+
+    public function edit_teacher_bank_info(){
+        $teacherid = $this->get_login_teacher();
+        $bank_account  = $this->get_in_str_val('bank_account','');
+        $idcard        = trim( $this->get_in_str_val('idcard','') );
+        $bank_type     = trim($this->get_in_str_val('bank_type','') );
+        $bank_address  = $this->get_in_str_val('bank_address','');
+        $bank_province = $this->get_in_str_val('bank_province','');
+        $bank_city     = $this->get_in_str_val('bank_city','');
+        $bankcard      = trim($this->get_in_str_val('bankcard','') );
+        $bank_phone    = trim($this->get_in_int_val('bank_phone','') );
+        if(!$teacherid) {
+            return $this->output_err('信息有误，请重新登录！');
+        }
+        if ($bank_account == '') {
+            return $this->output_err('持卡人不能为空！');
+        }
+        if ($idcard == '') {
+            return $this->output_err('身份证号不能为空！');
+        }
+        if ($bankcard == '') {
+            return $this->output_err('卡号不能为空！');
+        }
+        // if (strlen($bankcard) !== 16 || strlen($bankcard) !== 18) {
+        //     return $this->output_err('身份证号码不正确！');
+        // }
+
+        // if (strlen($idcard) !== 18) {
+        //     return $this->output_err('身份证号码不正确！');
+        // }
+        if ($bank_phone == '') {
+            return $this->output_err('手机号不能为空！');
+        }
+        $is_phone = preg_match("/^1[34578]\d{9}$/", $bank_phone);
+        if (!$is_phone) {
+            return $this->output_err('请填写正确的手机号码！');
+        }
+
+        $ret_info = $this->t_teacher_info->update_teacher_bank_info($teacherid, $bank_account, $idcard, $bankcard, $bank_phone, $bank_type, $bank_address, $bank_province, $bank_city);
+        return outputjson_success();
+    }
+
+    public function get_teacher_money_info(){
+        $teacherid = $this->get_login_teacher();
+        return $this->pageView(__METHOD__);
+    }
+
+    public function edit_teacher_status(){
+        $teacherid = $this->get_login_teacher();
+        $status = $this->get_in_str_val('status');
+        if ( $status == 'full' ) {
+            $need_test_lesson_flag = 1;
+        } else {
+            $need_test_lesson_flag = 0;
+        }
+
+        $res_info = $this->t_teacher_info->update_teacher_status($teacherid, $need_test_lesson_flag);
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
     }
 }

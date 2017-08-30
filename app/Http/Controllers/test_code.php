@@ -1491,9 +1491,9 @@ class test_code extends Controller
      * 今日头条渠道数据
      */
     public function get_jr() {
-        $page_info = $this->get_in_page_info();
+        $page_info  = $this->get_in_page_info();
         $start_time = strtotime("2017-5-1");
-        $end_time = time();
+        $end_time   = time();
         $opt_type_str = $this->get_in_str_val("opt_type_str","all_count");
         $key1 = $this->get_in_str_val("key1","今日头条");
         $key2 = $this->get_in_str_val("key2");
@@ -1545,11 +1545,6 @@ class test_code extends Controller
             ]);
             $this->t_lesson_info_b2->reset_lesson_teacher_money_type($teacherid,$lesson_start);
         }
-    }
-
-    public function get_order_lesson(){
-        $arr = $this->get_b_txt(b.txt);
-        dd($arr);
     }
 
     public function test_email(){
@@ -1863,6 +1858,50 @@ class test_code extends Controller
 
     }
 
+    public function wenjuanxing(){
+        $data = file_get_contents("php://input");
+
+        \App\Helper\Utils::logger("wenjuanxing:".$data);
+        echo "succ";
+    }
+
+    public function get_math_teacher(){
+        $start_num = $this->get_in_int_val("start_num",0);
+        $end_num   = $this->get_in_int_val("end_num",1);
+        $start = strtotime("2017-1-1");
+        $start_time = strtotime("+$start_num month",$start);
+        $end_time   = strtotime("+$end_num month",$start);
+
+        echo $start_time;
+        echo "<br>";
+        echo $end_time;
+        echo "<br>";
+
+        $lesson_list = $this->t_teacher_info->get_math_teacher($start_time,$end_time);
+        echo "姓名|手机|年级|入职时间|课程数|签单数|整体转化率|";
+        echo "<br>";
+        foreach($lesson_list as $val){
+            if($val['subject']==2){
+                $grade_str = E\Egrade_range::get_desc($val['grade_start'])."-".E\Egrade_range::get_desc($val['grade_end']);
+                if($val['grade_start']==0){
+                    $grade_str = E\Egrade_part_ex::get_desc($val['grade_part_ex']);
+                }
+            }elseif($val['second_subject']==2){
+                $grade_str = E\Egrade_range::get_desc($val['second_grade_start'])."-".E\Egrade_range::get_desc($val['second_grade_end']);
+                if($val['second_grade_start']==0){
+                    $grade_str = E\Egrade_part_ex::get_desc($val['second_grade']);
+                }
+            }else{
+                $grade_str = "";
+            }
+            $time = date("Y-m-d H:i",$val['train_through_new_time']);
+
+            echo $val['realname']."|".$val['phone']."|".$grade_str."|".$time."|".$val['lesson_num']
+                                 ."|".$val['has_order']."|".$val['test_transfor_per']
+                                 ;
+            echo "<br>";
+        }
+    }
 
 
 }

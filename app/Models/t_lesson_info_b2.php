@@ -1796,14 +1796,14 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_update($sql);
     }
 
-    public function get_teacher_time_by_lessonid($lessonid){
+    public function get_teacher_time_by_lessonid($lessonid,$start,$end){
 
-        $begin_time = time(NULL);
-        $sql = $this->gen_sql_new("select lesson_start,lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and lesson_start>%d and del_flag = 0 ",
+        $sql = $this->gen_sql_new("select l.lesson_start,l.lesson_end from %s l where teacherid in (select teacherid from %s l2 where lessonid = %d) and l.lesson_start>%d and l.lesson_end<%d and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid,
-                                  $begin_time
+                                  $start,
+                                  $end
         );
 
         return $this->main_get_list($sql);
@@ -2119,10 +2119,9 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_list($sql);
 
     }
-    public function get_student_lesson_time_by_lessonid($lessonid){
-        $time = time(NULL);
-        $sql = $this->gen_sql_new(" select lesson_start, lesson_end from %s l ".
-                                  " where userid in (select userid from %s l2 where lessonid = %d) and lesson_start>$time and del_flag = 0 ",
+    public function get_student_lesson_time_by_lessonid($lessonid ,$start=0, $end=0 ){
+        $sql = $this->gen_sql_new(" select l.lesson_start, l.lesson_end from %s l ".
+                                  " where userid in (select userid from %s l2 where lessonid = %d) and l.lesson_start>$start and l.lesson_end<=$end and del_flag = 0 ",
                                   self::DB_TABLE_NAME,
                                   t_lesson_info::DB_TABLE_NAME,
                                   $lessonid
@@ -3307,6 +3306,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         return $this->main_get_row($sql);
     }
 
+    public function get_succ_test_lesson_count($userid,$check_time = -1) {
+        $where_arr=[
+            ['l.lesson_type = %d ',2],
+            ['l.lesson_del_flag = %d ',0],
+            'l.confirm_flag in (0,1) ',
+            "l.userid = $userid ",
+            'l.lesson_user_online_status = 1 ',
+        ];
+
+        $sql= $this->gen_sql_new(
+            " select count(l.lessonid) count "
+            . " from %s l "
+            . " where %s   ",
+            t_lesson_info::DB_TABLE_NAME,
+            $where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_train_lesson_before($lessonid,$subject,$grade,$teacherid){
         $sql = $this->gen_sql_new("select lessonid from %s"
                                   ." where lessonid <>%u and userid =%u and subject=%u and grade=%u "
@@ -3352,15 +3371,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_test_lesson_num($start_time,$end_time){
         $where_arr=[
-            "l.lesson_type = 2",
-            "l.lesson_del_flag = 0",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
             // "tss.success_flag in (0,1)",
-            "l.lesson_user_online_status =1",
+            "lesson_user_online_status =1",
             //"t.is_test_user=0"
         ];
 
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select teacherid,count(l.lessonid) num from %s where %s group by teacherid",
+        $sql = $this->gen_sql_new("select teacherid,count(lessonid) num from %s where %s group by teacherid",
                                   self::DB_TABLE_NAME,
                                   $where_arr
         );
@@ -3416,16 +3435,118 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ['l.lesson_start>=%s', $start_time, 0],
             ['l.lesson_end<%s', $end_time, 0],
             'l.lesson_type=1001',
+            'l.lesson_del_flag=0',
+            'l.confirm_flag!=2',
+            'l.jw_confirm_flag!=2',
+            'co.packageid>0',
         ];
-        $sql = $this->gen_sql_new("select count(ol.userid) as num,l.subject,l.grade ,l.lessonid"
+        $sql = $this->gen_sql_new("select count(distinct ol.userid) as num,l.subject,l.grade ,l.lessonid,"
+                                  ." count( distinct lo.userid) as cur_num,l.lesson_start"
                                   ." from %s l"
                                   ." left join %s ol on ol.lessonid=l.lessonid"
+                                  ." left join %s lo on lo.lessonid=l.lessonid"
+                                  ." left join %s co on co.courseid=l.courseid"
                                   ." where %s"
                                   ." group by l.lessonid order by l.lesson_start"
                                   ,self::DB_TABLE_NAME
                                   ,t_open_lesson_user::DB_TABLE_NAME
+                                  ,t_lesson_opt_log::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
                                   ,$where_arr
         );
         return $this->main_get_list($sql);
     }
+
+    public function get_lesson_add_num_by_reference($start_time,$end_time){
+        $where_arr=[
+            "l.lesson_type = 1100",
+            "l.lesson_del_flag = 0",
+            "l.train_type=5"
+        ];
+
+        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $sql = $this->gen_sql_new("select count(distinct l.teacherid) lesson_add_num,ta.reference,tt.teacher_ref_type,c.channel_id,c.channel_name"
+                                  ." from %s l left join %s t on l.userid = t.teacherid"
+                                  ." left join %s ta on t.phone = ta.phone"
+                                  ." left join %s tt on ta.reference = tt.phone"
+                                  ." left join %s cg on tt.teacher_ref_type = cg.ref_type"
+                                  ." left join %s c on cg.channel_id = c.channel_id"
+                                  ." where %s group by ta.reference",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_lecture_appointment_info::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_admin_channel_group::DB_TABLE_NAME,
+                                  t_admin_channel_list::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_list($sql,function($item){
+            return $item["reference"];
+        });
+    }
+
+    public function get_no_time_train_lesson_teacher_list(){
+        $sql = $this->gen_sql_new("select distinct l.teacherid,t.realname,t.phone,t.wx_openid "
+                                  ." from %s l left join %s ll on (l.teacherid=ll.teacherid and ll.lesson_del_flag=0 and ll.lesson_start>0 and ll.lesson_type=1100 and ll.train_type=4)"
+                                  ." left join %s t on l.teacherid = t.teacherid"
+                                  ." where l.lesson_start=0 and l.lesson_del_flag=0 and l.lesson_type=1100 and l.train_type=4 and ll.lessonid is null and t.is_test_user=0",
+                                  self::DB_TABLE_NAME,
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list_as_page($sql);
+
+    }
+
+
+    public function get_lesson_list_for_minute(){
+        $now = time();
+        $next = time()+60;
+
+        $where_arr = [
+            "l.lesson_type=2", //试听课
+            "l.del_flag=0",
+            ["l.lesson_start>%d",$now],
+            ["l.lesson_start<=%d",$next]
+        ];
+
+        $sql = $this->gen_sql_new(" select l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+                                  ." left join %s t on t.teacherid = l.teacherid "
+                                  ." left join %s s on s.userid=l.userid "
+                                  ." left join %s p on p.parentid= s.parentid "
+                                  ." left join %s a on a.assistantid = s.assistantid"
+                                  ." left join %s m on m.phone = a.phone"
+                                  ." where %s",
+                                  self::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_student_info::DB_TABLE_NAME,
+                                  t_parent_info::DB_TABLE_NAME,
+                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+
+        return $this->main_get_list($sql);
+
+
+    }
+
+
+    public function get_tea_openid_for_update_software(){
+        $sql = $this->gen_sql_new(" select wx_openid from %s l");
+    }
+
+    public function cancel_lesson_no_start($lessonid){
+        $where_arr = [
+            ["lessonid=%u",$lessonid,-1],
+            "lesson_status=0"
+        ];
+        $sql = $this->gen_sql_new("update %s set lesson_del_flag=1"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
 }

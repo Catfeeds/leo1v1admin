@@ -35,7 +35,8 @@ interface GargsStatic {
 	wx_invaild_flag:	number;//\App\Enums\Eboolean
 	filter_flag:	number;//\App\Enums\Eboolean
 	first_seller_adminid:	number;
-	call_phone_count:	number;
+	call_phone_count:	string;
+	suc_test_count:	string;
 	main_master_flag:	number;
 }
 declare module "g_args" {
@@ -51,6 +52,7 @@ interface RowData {
 	first_call_time	:any;
 	first_contact_time	:any;
 	first_revisit_time	:any;
+	last_revisit_time	:any;
 	tmk_assign_time	:any;
 	competition_call_adminid	:any;
 	competition_call_time	:any;
@@ -90,6 +92,7 @@ interface RowData {
 	first_admin_revisiterid	:any;
 	first_admin_revisiterid_time	:any;
 	first_seller_status	:any;
+	lass_call_time_space	:any;
 	opt_time	:any;
 	index	:any;
 	seller_student_status_str	:any;
@@ -161,6 +164,7 @@ $(function(){
 			filter_flag:	$('#id_filter_flag').val(),
 			first_seller_adminid:	$('#id_first_seller_adminid').val(),
 			call_phone_count:	$('#id_call_phone_count').val(),
+			suc_test_count:	$('#id_suc_test_count').val(),
 			main_master_flag:	$('#id_main_master_flag').val()
         });
     }
@@ -223,6 +227,7 @@ $(function(){
 	$('#id_filter_flag').val(g_args.filter_flag);
 	$('#id_first_seller_adminid').val(g_args.first_seller_adminid);
 	$('#id_call_phone_count').val(g_args.call_phone_count);
+	$('#id_suc_test_count').val(g_args.suc_test_count);
 	$('#id_main_master_flag').val(g_args.main_master_flag);
 
 
@@ -453,6 +458,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">call_phone_count</span>
                 <input class="opt-change form-control" id="id_call_phone_count" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">suc_test_count</span>
+                <input class="opt-change form-control" id="id_suc_test_count" />
             </div>
         </div>
 

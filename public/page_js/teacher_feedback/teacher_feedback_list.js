@@ -4,15 +4,16 @@
 $(function(){
     function load_data(){
         $.reload_self_page ( {
-			date_type_config : $('#id_date_type_config').val(),
-			date_type        : $('#id_date_type').val(),
-			opt_date_type    : $('#id_opt_date_type').val(),
-			start_time       : $('#id_start_time').val(),
-			end_time         : $('#id_end_time').val(),
-			teacherid        : $('#id_teacherid').val(),
-			lessonid         : $('#id_lessonid').val(),
-			status           : $('#id_status').val(),
-			feedback_type    : $('#id_feedback_type').val()
+			      date_type_config : $('#id_date_type_config').val(),
+			      date_type        : $('#id_date_type').val(),
+			      opt_date_type    : $('#id_opt_date_type').val(),
+			      start_time       : $('#id_start_time').val(),
+			      end_time         : $('#id_end_time').val(),
+			      teacherid        : $('#id_teacherid').val(),
+			      lessonid         : $('#id_lessonid').val(),
+			      status           : $('#id_status').val(),
+			      feedback_type    : $('#id_feedback_type').val(),
+			      del_flag         : $('#id_del_flag').val()
         });
     }
 
@@ -28,15 +29,15 @@ $(function(){
     });
 
     Enum_map.append_option_list("feedback_type",$("#id_feedback_type"));
+    Enum_map.append_option_list("boolean",$("#id_del_flag"));
 
+    $('#id_del_flag').val(g_args.del_flag);
     $('#id_teacherid').val(g_args.teacherid);
-	$('#id_lessonid').val(g_args.lessonid);
-	$('#id_status').val(g_args.status);
-	$('#id_feedback_type').val(g_args.feedback_type);
-
+	  $('#id_lessonid').val(g_args.lessonid);
+	  $('#id_status').val(g_args.status);
+	  $('#id_feedback_type').val(g_args.feedback_type);
     $.admin_select_user($("#id_teacherid"),"teacher",load_data);
-
-	$('.opt-change').set_input_change_event(load_data);
+	  $('.opt-change').set_input_change_event(load_data);
 
     $("#id_lesson").on("keypress",function(e){
         if (e.keyCode == 13){
@@ -139,32 +140,34 @@ $(function(){
 
     $(".opt-delete").on("click",function(){
         var data = $(this).get_opt_data();
-        BootstrapDialog.show({
-	        title: "确认删除？",
-	        message : "是否删除此反馈？",
-	        buttons: [{
-		        label  : "返回",
-		        action : function(dialog) {
-			        dialog.close();
-		        }
-	        },{
-		        label    : "确认",
-		        cssClass : "btn-warning",
-		        action   : function(dialog) {
-                    $.do_ajax("/teacher_feedback/delete_teacher_feedback_info",{
-                        "id" : data.id
-                    },function(result){
-                        if(result.ret<0){
-                            BootstrapDialog.alert(result.info);
-                        }else{
-                            window.location.reload();
-                        }
-                    });
-		        }
-	        }]
+        var id_del_flag = $("<select/>");
+        var arr = [
+            ["是否删除",id_del_flag]
+        ];
+
+        Enum_map.append_option_list("boolean",id_del_flag,true);
+        id_del_flag.val(data.del_flag);
+
+        $.show_key_value_table("删除确认",arr,{
+            label    : "确认",
+            cssClass : "btn-warning",
+            action   : function(dialog) {
+                $.do_ajax("/teacher_feedback/delete_teacher_feedback_info",{
+                    "id"       : data.id,
+                    "status"   : data.status,
+                    "del_flag" : id_del_flag.val(),
+                },function(result){
+                    if(result.ret<0){
+                        BootstrapDialog.alert(result.info);
+                    }else{
+                        window.location.reload();
+                    }
+                });
+
+            }
         });
     });
-    
+
     $(".opt-lesson_info").on("click",function(){
         var lessonid = $(this).get_opt_data("lessonid");
         var url="/tea_manage/lesson_list?lessonid="+lessonid;
@@ -345,21 +348,25 @@ $(function(){
     });
 
     $(".opt-update-lesson-info").on("click",function(){
-	    var data     = $(this).get_opt_data();
-        var id_grade = $("<select/>");
+	      var data            = $(this).get_opt_data();
+        var id_grade        = $("<select/>");
+        var id_lesson_count = $("<input/>");
 
         Enum_map.append_option_list("grade",id_grade,true,[101,102,103,104,105,106,201,202,203,301,302,303]);
         var arr = [
-            ["年级",id_grade]
+            ["年级",id_grade],
+            ["课时(不填则不更改)",id_lesson_count],
         ];
+        id_grade.val(data.grade);
 
         $.show_key_value_table("更改课程信息",arr,{
             label    : "确认",
             cssClass : "btn-warning",
             action   : function(dialog) {
                 $.do_ajax("/lesson_info/update_lesson_info",{
-                    "lessonid" : data.lessonid,
-                    "grade"    : id_grade.val(),
+                    "lessonid"     : data.lessonid,
+                    "grade"        : id_grade.val(),
+                    "lesson_count" : id_lesson_count.val(),
                 },function(result){
                     if(result.ret==0){
                         window.location.reload();
@@ -373,5 +380,48 @@ $(function(){
         });
     });
 
+    $(".opt-check_trial_lesson").on("click",function(){
+        var opt_data = $(this).get_opt_data();
+	    $.do_ajax("/teacher_feedback/check_teacher_trial_lesson",{
+            "teacherid" : opt_data.teacherid,
+            "lessonid"  : opt_data.lessonid,
+        },function(result){
+            if(result.ret==0){
+                window.location.reload();
+            }else{
+                BootstrapDialog.alert(result.info);
+            }
+        })
+
+    });
+
+    $(".opt-reset_lesson_money").on("click",function(){
+        var data = $(this).get_opt_data();
+
+	      BootstrapDialog.show({
+	          title   : "重置课程金额",
+	          message : "是否重置课程金额",
+	          buttons : [{
+		            label  : "返回",
+		            action : function(dialog) {
+			              dialog.close();
+		            }
+	          }, {
+		            label    : "确认",
+		            cssClass : "btn-warning",
+		            action   : function(dialog) {
+                    $.do_ajax("/lesson_info/reset_lesson_money",{
+                        "lessonid" : data.lessonid
+                    },function(result){
+                        if(result.ret==0){
+                            window.location.reload();
+                        }else{
+                            BootstrapDialog.alert(result.info);
+                        }
+                    })
+		            }
+	          }]
+        });
+    });
 
 });

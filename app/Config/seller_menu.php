@@ -17,6 +17,7 @@ class seller_menu{
                     ["power_id"=>8, "name"=>"抢新学生-当前用户","url"=>"/seller_student_new/deal_new_user_tmk"],
                     ["power_id"=>9, "name"=>"公海-抢学生","url"=>"/seller_student_new/get_free_seller_list"],
                     ["power_id"=>10, "name"=>"试听未签-抢学生","url"=>"/seller_student_new/test_lesson_no_order_list"],
+                    ["power_id"=>15, "name"=>"地中海-抢学生",   "url"=>"/seller_student_new/test_lesson_fail_list"],
                     ["power_id"=>11, "name"=>"new-转介绍例子", "url"=>"/seller_student_new/seller_seller_student_list"],
                     ["power_id"=>12, "name"=>"例子回流公海","url"=>"/seller_student_new/get_hold_list"],
                     ["power_id"=>13, "name"=>"试听签单与否反馈",   "url"=>"/seller_student_new/test_lesson_order_fail_list_seller"],
@@ -46,6 +47,7 @@ class seller_menu{
                 ["power_id"=>15, "name"=>"例子统计", "list"=>[
                     ["power_id"=>1, "name"=>"例子统计","url"=>"/tongji_ss/user_count"],
                     ["power_id"=>2, "name"=>"例子统计-个人","url"=>"/tongji/seller_user_count"],
+                    ["power_id"=>21, "name"=>"个效统计表",   "url"=>"/tongji/seller_time_income_list"],
                     ["power_id"=>3, "name"=>"例子销售分布","url"=>"/tongji2/seller_student_admin_list"],
                     ["power_id"=>4, "name"=>"例子销售拨打数","url"=>"/tongji_ex/call_count"],
                     ["power_id"=>5, "name"=>"新增例子分时统计","url"=>"/tongji_ss/new_user_count"],

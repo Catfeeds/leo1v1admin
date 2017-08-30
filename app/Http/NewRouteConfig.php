@@ -160,6 +160,8 @@ class NewRouteConfig {
         "/common/get_webhooks_notice"        => true,
         "/common/dev_teacher_qr"             => true,
         "/common/get_ppl_data"               => true,
+        "/common/send_baidu_money_charge"    => true,
+        "/common/get_baidu_money_charge"    => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
@@ -558,6 +560,7 @@ class NewRouteConfig {
         "/requirement/requirement_info"                  => true,
         "/requirement/requirement_info_product"          => true,
         "/requirement/requirement_info_development"      => true,
+        "/requirement/re_edit_requirement_info_product"  => true,
         "/requirement/requirement_info_test"             => true,
         "/requirement/product_deal"                      => true,
         "/requirement/product_re_edit"                   => true,
@@ -576,7 +579,11 @@ class NewRouteConfig {
 
         "/channel_manage/admin_channel_manage"           => true,
         "/channel_manage/add_channel"                    => true,
-
+        "/channel_manage/set_channel_id"                 => true,
+        "/channel_manage/get_teacher_type_ref"           => true,
+        "/channel_manage/update_channel_name"            => true,
+        "/channel_manage/set_teacher_ref_type"           => true,
+        "/channel_manage/zs_origin_list_new"             => true,
     ];
 
     static $dev_url_map = [

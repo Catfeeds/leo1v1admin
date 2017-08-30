@@ -41,12 +41,15 @@ class teaching_menu{
                     ]],
                     [ "name"=>"渠道统计",   "url"=>"/human_resource/origin_list"],
                     [ "name"=>"渠道统计-new",   "url"=>"/human_resource/zs_origin_list"],
+                    [ "name"=>"渠道管理",   "url"=>"/channel_manage/admin_channel_manage"],
+                    [ "name"=>"渠道统计-new-list",   "url"=>"/channel_manage/zs_origin_list_new"],
 
                 ]],
 
 
                 [ "name"=>"质监组",  "list"=>[
                     [ "name"=>"首页", "url"=>"/main_page/quality_control"],
+                    [ "name"=>"质监KPI", "url"=>"/main_page/quality_control_kpi"],
                     [ "name"=>"质监排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info_zj"],
                     [ "name"=>"老师课程管理",   "url"=>"/tea_manage/lesson_list_zj"],
                     [ "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new_zj"],
@@ -80,6 +83,7 @@ class teaching_menu{
                         [ "name"=>"老师培训管理",   "url"=>"/tea_manage/train_lesson_list_research"],
                         [ "name"=>"新师培训未通过名单",  "url"=>"/tea_manage/train_not_through_list_px"],
                         [ "name"=>"模拟试听未通过名单",   "url"=>"/tea_manage/trial_train_no_pass_list"],
+                        ["name"=>"模拟试听未排名单",   "url"=>"/tongji_ss/get_no_time_train_lesson_teacher_list"],
 
                     ]],
 
@@ -101,9 +105,9 @@ class teaching_menu{
 
 
                     [ "name"=>"教研组",  "list"=>[
-                        [ "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                         ["name"=>"教研排行榜", "url"=>"/tongji_ss/tongji_teaching_and_research_teacher_test_lesson_info"],
                         ["name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
+                        [ "name"=>"质监月进度", "url"=>"/main_page/quality_control_jy"],
                         [ "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info"],
                         [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                         [ "name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua"],
@@ -120,6 +124,7 @@ class teaching_menu{
                         [ "name"=>"第五次试听课反馈",   "url"=>"/teacher_level/get_fifth_test_lesson_info_jy"],
                         [ "name"=>"第一次常规课反馈",   "url"=>"/teacher_level/get_first_regular_lesson_info_jy"],
                         [ "name"=>"第五次常规课反馈",   "url"=>"/teacher_level/get_fifth_regular_lesson_info_jy"],
+                        [ "name"=>"考勤信息",   "url"=>"/user_manage_new/get_fulltime_teacher_attendance_info"],
                         ["name"=>"试听课转化详情-教研", "url"=>"/tongji_ss/research_teacher_lesson_detail_info"],
                         [ "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info"],
 

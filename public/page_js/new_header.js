@@ -874,49 +874,45 @@ $(function(){
             alert("请登录: " + resp.ssh_cmd   );
         } );
     });
-    $("#id_user_change_passwd").on("click",function(){
-        var id_old_passwd=$("<input type=\"password\">");
-        var id_passwd=$("<input type=\"password\">");
-        var id_re_passwd=$("<input type=\"password\">");
-        var arr                = [
-            [ "原密码",  id_old_passwd] ,
-            [ "新密码",  id_passwd] ,
-            [ "再输一次",    id_re_passwd ]
-        ];
+    $("#id_menu_config").on("click",function(){
+        var enum_name="main_department";
+        var desc_map=g_enum_map[enum_name]["desc_map"];
 
-        show_key_value_table("修改密码", arr ,{
-            label: '确认',
-            cssClass: 'btn-warning',
-            action: function(dialog) {
-                var passwd=id_passwd.val();
-                if (passwd.length<4){
-                    alert("密码长度要>4!");
-                    return;
-                }
-                if (passwd!=id_re_passwd.val() ){
-                    alert("两次输入不一致!");
-                    return;
-                }
-                $.ajax({
-                    url: '/login/reset_self_passwd',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        'old_passwd' : id_old_passwd.val() ,
-                        'passwd' : passwd
-                    },
-                    success: function(data){
-                        if(!data.ret){
-                            $.reload();
-                        }else{
-                            alert(data.info);
-                        }
-                    }
-                });
+        $.do_ajax("/ajax_deal2/get_admin_member_config",{},function(resp){
 
-            }
-        });
+            var data_list=[
+            ];
+            $.each(desc_map, function(k,v){
+                data_list.push([k, v] );
+            });
 
+            var btn_list =[
+            ];
+
+            var select_list    = resp.menu_config.split(/,/);
+            var select_id_list = [];
+            $.each(select_list,function( ){
+                var id= parseInt(this);
+                select_id_list.push(id);
+            });
+
+            $("<div></div>").admin_select_dlg({
+                'data_list': data_list,
+                "header_list":["id","属性"] ,
+                "onChange": function ( select_list,dlg ){
+                    do_ajax("/ajax_deal2/set_admin_menu_config",{
+                        "menu_config" : select_list.join(","),
+                    });
+                },
+                "select_list": [],
+                "multi_selection":true,
+                btn_list :btn_list ,
+                "select_list": select_id_list,
+
+            });
+
+
+        }) ;
 
 
     });
@@ -978,8 +974,7 @@ $(function(){
                   'dataType': 'jsonp',
                   success: function(data) {
                     if (data['ret'] == 0) {
-                        //window.location.href = "http://www.baidu.com" ;
-                        window.location.href = "http://teacher.leo1v1.com/login/teacher" ;
+                        window.location.href = "/login/teacher" ;
                     } else {
                        window.location.href = "/teacher_info/index" ;
                     }

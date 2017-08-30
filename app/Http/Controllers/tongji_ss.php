@@ -558,8 +558,17 @@ class tongji_ss extends Controller
             $check_value=$test_item["check_value"];
             \App\Helper\Utils:: array_item_init_if_nofind( $data_map, $check_value,["check_value" => $check_value] );
             $data_map[$check_value]["test_lesson_count"] = $test_item["test_lesson_count"];
+            $data_map[$check_value]["distinct_test_count"] = $test_item["distinct_test_count"];
             $data_map[$check_value]["succ_test_lesson_count"] = $test_item["succ_test_lesson_count"];
         }
+        //去掉重复userid
+        $distinct_test_lesson_list=$this->t_test_lesson_subject_require->tongji_test_lesson_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid, $origin_ex , 1);
+
+        foreach ($distinct_test_lesson_list as  $test_item ) {
+            $check_value=$test_item["check_value"];
+            $data_map[$check_value]["distinct_succ_count"] = $test_item["distinct_succ_count"];
+        }
+
 
         $require_list=$this->t_test_lesson_subject_require->tongji_require_count_origin( $field_name,$start_time,$end_time,$adminid_list,$tmk_adminid,$origin_ex);
         foreach ($require_list as  $item ) {
@@ -4266,13 +4275,15 @@ class tongji_ss extends Controller
         $this->t_lesson_info->switch_tongji_database();
         list($start_time,$end_time)=$this->get_in_date_range(0,0,0,[],3);
         $ret_info = $this->t_lesson_info->get_seller_test_lesson_info($start_time,$end_time);
+
+        foreach($ret_info['list'] as $i=>$item){
+            if($item['account'] == 'alan'){
+                unset($ret_info['list'][$i]);
+            }
+        }
         // $order_info = $this->t_lesson_info->get_seller_test_lesson_order_info($start_time,$end_time);
 
         foreach($ret_info["list"] as &$item){
-            /* $item["order_count"] = @$order_info[$item["cur_require_adminid"]]["order_count"];
-            if(empty($item["order_count"])){
-                $item['order_count']=0;
-                }*/
             $item["order_per"] = !empty($item["suc_count"])?round($item["order_count"]/$item["suc_count"],4)*100:0;
             if($item["create_time"] !=0){
                 $item["work_day"] = ceil((time()-$item["create_time"])/86400);
@@ -4311,8 +4322,6 @@ class tongji_ss extends Controller
         }
 
         return $ret_info;
-        // return $this->pageView(__METHOD__,$ret_info);
-
     }
 
 
@@ -7931,6 +7940,32 @@ class tongji_ss extends Controller
 
         }
         return $this->pageView(__METHOD__,$ret_info);
+
+    }
+
+    public function get_no_time_train_lesson_teacher_list(){
+        $list = $this->t_lesson_info_b2->get_no_time_train_lesson_teacher_list();
+        foreach($list["list"] as &$val){
+            if($val["wx_openid"]){
+                $val["wx_flag"]="是";
+            }else{
+                $val["wx_flag"]="否";
+            }
+        }
+        return $this->pageView(__METHOD__,$list);
+        dd($list);
+    }
+
+    public function get_month_subejct_teacher_num(){
+        $start_time = strtotime("2017-01-01");
+        $end_time = strtotime("2017-09-01");
+        $ret = $this->t_teacher_info->get_month_subejct_teacher_num($start_time,$end_time);
+        dd($ret);
+        $teacherid = $this->t_teacher_info->get_teacherid_by_phone($reference);
+        $zs_id = $this->t_teacher_info->get_zs_id($teacherid);
+        if($zs_id>0){
+            $accept_adminid = $zs_id;
+        }
 
     }
 
