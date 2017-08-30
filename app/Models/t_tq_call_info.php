@@ -50,13 +50,11 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             $this->where_arr_add_int_or_idlist ($where_arr ,"seller_student_status", $seller_student_status );
         }
         $sql=$this->gen_sql_new(
-            "select tq.*, account,seller_student_status from %s tq"
-            . " left  join %s m on  tq.uid=m.tquin "
+            "select tq.*, admin_role ,seller_student_status from %s tq"
             . " left  join %s n on  n.phone= tq.phone  "
             . " left  join %s t on  t.userid= n.userid "
             ."  where  %s order by start_time ",
             self::DB_TABLE_NAME,
-            t_manager_info::DB_TABLE_NAME,
             t_seller_student_new::DB_TABLE_NAME,
             t_test_lesson_subject::DB_TABLE_NAME,
             $where_arr);
