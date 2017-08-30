@@ -1230,7 +1230,7 @@ class tongji extends Controller
             }
         }
 
-        // dd($ret_info,$ret_info_new);
+        dd($ret_info,$ret_info_new);
         \App\Helper\Utils::logger("OUTPUT");
         return $this->pageView(__METHOD__,\App\Helper\Utils::list_to_page_info($ret_info_new));
     }
