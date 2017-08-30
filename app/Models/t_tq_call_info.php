@@ -363,7 +363,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
     }
     public function get_acc_role($phone){
         $sql = $this->gen_sql_new(
-            "select start_time,adminid,admin_role from %s "
+            "select start_time,adminid,admin_role,is_called_flag from %s "
             ." where phone='%s'"
             ,self::DB_TABLE_NAME
             ,$phone
