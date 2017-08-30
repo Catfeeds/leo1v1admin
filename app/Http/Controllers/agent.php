@@ -229,56 +229,17 @@ class agent extends Controller
     }
 
     public function check(){
-        $openid = 'oJ_4fxH0imLIImSpAEOPqZjxWtDA';
-        $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+        $openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $template_id = 'e1iaEh98uALTjWrBAqw7Q-dXTK1_z5x-qRhVdWdcVkM';
         $data = [
-            'first'    => 'sam',
-            'keyword1' => '课程提醒',
-            'keyword2' => '课程时间:学生姓名:',
-            'keyword3' => '2221',
-            'remark'   => '理优期待与你一起共同进步，提供高品质教学服务',
+            'first'    => 'tom',
+            'keyword1' => 'tom',
+            'keyword2' => 'tom',
+            'remark'   => 'tom',
         ];
         $url = 'www.leo1v1.com';
-        \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id_teacher,$data,$url);
+        \App\Helper\Utils::send_agent_msg_for_wx($openid,$template_id,$data,$url);
         dd('a');
-
-
-        $cur_require_adminid = $this->get_account_id();
-        $ret_info = $this->t_test_lesson_subject_require->get_test_fail_row($cur_require_adminid);
-        dd($ret_info);
-
-
-        $userid = 50314;
-        $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
-        $item_arr['test_lesson_count'] = 3;
-        $succ_count = $succ_test_info['count'];
-        if($item_arr['test_lesson_count'] != $succ_count){
-            $ret = $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>3]);
-            dd($ret);
-        }else{
-            dd($succ_count,'b');
-        }
-
-        $admin_nick = $this->cache_get_account_nick($adminid=99);
-        dd($admin_nick);
-        $ret_info = $this->t_agent->get_agent_info_two();
-        foreach($ret_info as $item){
-            $id = $item['id'];
-            $userid =$item['userid'];
-            $this->t_seller_student_new->del_user($userid);
-            $this->t_agent->row_delete($id);
-        }
-        dd($ret_info);
-        // foreach([] as $item){
-        //     $this->t_agent->row_delete($id);
-        // }
-
-        // $image = imageCreatetruecolor(190,190);     //新建微信头像图
-        // $zhibg = imagecolorallocatealpha($image, 255, 0, 0,127);
-        // imagefill($image,0,0,$zhibg);
-        // imagecolortransparent($image,$zhibg);
-        // $datapath_new ="/tmp/"."hhh_headimg_new.png";
-        // imagepng($image,$datapath_new);
     }
 
     public function get_agent_test_lesson($agent_id){
