@@ -811,8 +811,19 @@ class teacher_level extends Controller
         $lesson_style                    = $this->get_in_int_val("lesson_style");
         // $acc                        = $this->get_in_str_val("acc");
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
-        $acc= $this->t_teacher_record_list->get_acc($id);
-        if(empty($acc)){
+        if($id>0){
+            $acc= $this->t_teacher_record_list->get_acc($id);
+            if(empty($acc)){
+                $acc= $this->get_account();
+                $ret = $this->t_teacher_record_list->field_update_list($id,[
+                    "acc"            => $acc,
+                    "click_time"     => time(),
+                ]);
+  
+            }
+
+            
+        }else{
             $acc= $this->get_account();
             $ret = $this->t_teacher_record_list->row_insert([
                 "teacherid"      => $teacherid,
@@ -823,7 +834,7 @@ class teacher_level extends Controller
                 "add_time"       => time(),
                 "click_time"     => time(),
             ]);
-  
+
         }
         
 
@@ -862,6 +873,7 @@ class teacher_level extends Controller
 
        
         $id = $this->t_teacher_record_list->check_lesson_record_exist($lessonid,$record_type,$lesson_style);
+        $add_time = time();
         if($id>0){
             $ret = $this->t_teacher_record_list->field_update_list($id,[
                 "tea_process_design_score"         => $tea_process_design_score,
@@ -879,7 +891,7 @@ class teacher_level extends Controller
                 "no_tea_related_score"             => $no_tea_related_score,
                 "record_monitor_class"             => $record_monitor_class,
                 "userid"                           => $userid,
-                "add_time"                         => time(),
+                "add_time"                         => $add_time,
                 "lesson_invalid_flag"              =>$lesson_invalid_flag
             ]);
  
@@ -887,7 +899,7 @@ class teacher_level extends Controller
             $ret = $this->t_teacher_record_list->row_insert([
                 "teacherid"      => $teacherid,
                 "type"           => $record_type,
-                "add_time"       => time(),
+                "add_time"       => $add_time,
                 "train_lessonid" => $lessonid,
                 "lesson_style"   => $lesson_style,
                 "acc"            => $this->get_account(),
@@ -912,6 +924,50 @@ class teacher_level extends Controller
         }
         $this->set_teacher_label($teacherid,$lessonid,$record_lesson_list,$sshd_good,2);
         $this->t_teacher_info->field_update_list($teacherid,["is_record_flag"=>1]);
+
+        $openid = $this->t_teacher_info->get_wx_openid($teacherid);
+        if($openid!=''){
+            /**
+             * 模板ID : 9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ
+             * 标题   : 评估结果通知
+             * {{first.DATA}}
+             * 评估内容：{{keyword1.DATA}}
+             * 评估结果：{{keyword2.DATA}}
+             * 时间：{{keyword3.DATA}}
+             * {{remark.DATA}}
+             */
+            $template_id      = "9glANaJcn7XATXo0fr86ifu0MEjfegz9Vl_zkB2nCjQ";
+            $data['first']    = "老师你好，近期我们对您的课程进行了听课抽查，课程的质量反馈报告如下：";
+            $data['keyword1'] = "教学质量反馈";
+            $data['keyword2'] = $record_score."分";
+            $data['keyword3'] = date("Y-m-d H:i:s",time())."(教研评价时间)";
+            $data['remark'] = "监课情况:".$record_monitor_class
+                            ."\n建       议:".$record_info
+                            ."\n如有疑问请联系各学科教研老师，理优期待与你一起共同进步，提供高品质教学服务。";
+
+            $url = "http://admin.yb1v1.com/common/teacher_record_detail_info?teacherid=".$teacherid
+                 ."&type=".$type."&add_time=".$add_time;
+            \App\Helper\Utils::send_teacher_msg_for_wx($openid,$template_id,$data,$url);
+        }else{
+            /**
+             * 模板类型 : 短信通知
+             * 模板名称 : 老师反馈通知2-14
+             * 模板ID   : SMS_46750146
+             * 模板内容 : 课程反馈通知：${name}老师您好，近期我们进行教学质量的抽查，您的课程反馈情况是：${reason}，
+             教学质量评分为：${score}分。如有疑问请联系学科教研老师，理优期待与你共同进步，提高教学服务质量。
+            */
+            $phone    = $this->t_teacher_info->get_phone($teacherid);
+            $sms_id   = 46750146;
+            $sms_data = [
+                "name"   => $tea_nick,
+                "reason" => $record_info,
+                "score"  => $record_score,
+            ];
+            $sign_name = \App\Helper\Utils::get_sms_sign_name();
+            \App\Helper\Utils::sms_common($phone,$sms_id,$sms_data,0,$sign_name);
+        }
+
+       
 
         return $this->output_succ();
  

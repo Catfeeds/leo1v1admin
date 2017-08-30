@@ -929,6 +929,8 @@ class ajax_deal2 extends Controller
     public function check_add_test_lesson() {
         $userid = $this->get_in_userid();
         $adminid=$this->get_account_id();
+        $seller_level=$this->t_manager_info->get_seller_level($adminid);
+
 
         $test_lesson_count=$this->t_lesson_info_b2->get_test_lesson_count_by_userid($userid,0, -1 );
         if ($test_lesson_count >5 ) {

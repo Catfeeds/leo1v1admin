@@ -280,16 +280,17 @@ $(function(){
           return ;
           }
         */
-        $.do_ajax("/ss_deal/get_user_info",{
-            "userid"                 : opt_data.userid ,
-            "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
-        } ,function(ret){
-            ret=ret.data;
+        var do_add_test_lesson= function() {
+            $.do_ajax("/ss_deal/get_user_info",{
+                "userid"                 : opt_data.userid ,
+                "test_lesson_subject_id" : opt_data.test_lesson_subject_id ,
+            } ,function(ret){
+                ret=ret.data;
 
-            if( ret.editionid == 0) {
-                alert("没有设置教材版本!");
-                $(me).parent().find(".opt-edit").click();
-                return;
+                if( ret.editionid == 0) {
+                    alert("没有设置教材版本!");
+                    $(me).parent().find(".opt-edit").click();
+                    return;
             }
 
 
@@ -396,6 +397,12 @@ $(function(){
                 }
             });
         });
+        };
+        $.do_ajax("/ajax_deal2/check_add_test_lesson",{
+            "userid" : opt_data.userid
+        }, function(){
+            do_add_test_lesson();
+        } );
     });
 
 
