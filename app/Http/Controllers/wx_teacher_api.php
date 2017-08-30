@@ -196,11 +196,6 @@ class wx_teacher_api extends TeaWxController
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name, $appid, $appscript);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
-
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
 
@@ -214,7 +209,6 @@ class wx_teacher_api extends TeaWxController
             'complaint_img_url'       => $complaint_img_url,
             'complained_department'   => $complained_department,
             'complained_adminid_nick' => $complained_adminid_nick,
-            // 'complained_feedback_type' => 1
         ]);
 
 
@@ -253,7 +247,7 @@ class wx_teacher_api extends TeaWxController
             ];
 
             foreach($qc_openid_arr as $qc_item){
-                // $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释 
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url); // 暂时注释 
             }
 
             // 给投诉老师反馈
@@ -291,10 +285,6 @@ class wx_teacher_api extends TeaWxController
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
-        $report_msg_last = $this->t_complaint_info->get_last_msg($teacherid);
-        // if (!empty($report_msg_last) && $report_msg_last['0']['complaint_info'] == $complaint_info) {
-        //     return $this->output_err("投诉已受理,请勿重复提交..");
-        // }
 
         // * 插入到投诉数据库中
         $account_type   = '2'; // 投诉人身份 [老师]
