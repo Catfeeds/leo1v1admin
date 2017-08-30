@@ -1169,7 +1169,7 @@ class tongji extends Controller
         }
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
-        $ret_info_new = [[],[],[],[],[],[],[]];
+        $ret_info_new = [['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0],['count'=>0,'money'=>0]];
         foreach( $ret_info as &$item ) {
             E\Emain_type::set_item_value_str($item);
 
