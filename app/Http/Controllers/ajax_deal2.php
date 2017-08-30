@@ -24,6 +24,7 @@ class ajax_deal2 extends Controller
         return $this->output_succ();
     }
 
+
     //JIM
     public function office_cmd_add () {
         $office_device_type = $this->get_in_e_office_device_type();
