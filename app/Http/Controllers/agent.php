@@ -229,9 +229,6 @@ class agent extends Controller
     }
 
     public function check(){
-        $phone = '15251318621';
-        $p_phone = '13818837473';
-        $this->send_agent_p_pp_msg_for_wx($phone,$p_phone);
         dd('a');
 
         $ret = $this->t_agent->get_p_pp_wx_openid_by_phone($phone= '14');
