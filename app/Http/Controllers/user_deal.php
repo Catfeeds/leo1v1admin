@@ -2617,7 +2617,7 @@ class user_deal extends Controller
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-08-30");
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_test_lesson_deatil($start_time,$end_time);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_fifth_test_lesson_detail($start_time,$end_time);
         dd($ret_info);
 
         $tran_require = $this->t_test_lesson_subject_sub_list->tongji_from_ass_test_tran_lesson($start_time,$end_time);

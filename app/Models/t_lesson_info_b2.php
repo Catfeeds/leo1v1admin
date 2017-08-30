@@ -2740,7 +2740,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     }
 
-    public function get_teacher_first_test_lesson_deatil($start_time,$end_time){
+    public function get_teacher_first_test_lesson_detail($start_time,$end_time){
         $where_arr=[
             "l.lesson_del_flag=0",
             "l.lesson_user_online_status <2",
