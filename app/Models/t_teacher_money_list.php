@@ -8,10 +8,10 @@ class t_teacher_money_list extends \App\Models\Zgen\z_t_teacher_money_list
 		parent::__construct();
 	}
 
-    public function check_is_exists($money_info,$type=0){
+    public function check_is_exists($money_info,$type=-1){
         $where_arr = [
             ["money_info='%s'",$money_info,""],
-            ["type=%u",$type,0],
+            ["type=%u",$type,-1],
         ];
         $sql = $this->gen_sql_new("select 1 from %s where %s"
                                   ,self::DB_TABLE_NAME
