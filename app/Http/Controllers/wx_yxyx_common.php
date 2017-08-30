@@ -238,9 +238,9 @@ class wx_yxyx_common extends Controller
             if($type == 1){//邀请学员
                 $type_str = '邀请学员成功!';
                 if($p_agent_level == 1){//黄金
-                    $remark = '恭喜您成功邀请的学员'.$phone.'参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
                 }else{//水晶
-                    $remark = '恭喜您成功邀请的学员'.$phone.'参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
                 }
             }else{//邀请会员
                 $type_str = '邀请会员成功!';
@@ -259,9 +259,9 @@ class wx_yxyx_common extends Controller
             if($type == 1){//邀请学员
                 $type_str = '邀请学员成功!';
                 if($pp_agent_level == 1){//黄金
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'参加测评课。';
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课。';
                 }else{//水晶
-                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
                 }
             }else{//邀请会员
                 $type_str = '邀请会员成功!';
