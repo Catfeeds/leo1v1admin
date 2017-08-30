@@ -88,6 +88,25 @@ $(function(){
         hideHover: 'auto'
     });
 
+    var month_change = function (month){
+        var year = $('#year').text();
+        var htmlcode = $('#line-chart').html();
+
+    };
+    $('.left').on('click', function() {
+        var month = $('#month').text() - 1;
+        if ( month < 1 ) {
+            month = 1;
+        }
+        month_change(month);
+    });
+    $('.right').on('click', function() {
+        var month = $('#month').text() + 1;
+        if ( month > 12 ) {
+            month = 12;
+        }
+    });
+
 });
 
 

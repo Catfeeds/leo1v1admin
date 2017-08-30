@@ -247,4 +247,19 @@ class test_boby extends Controller
         return $s;
     }
 
+
+    //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
+    public function get_acc_tmk_by_order(){
+        $start_time = strtotime('2017-07-01');
+        $end_time = strtotime('2017-07-15');
+        $ret_info = $this->t_order_info->get_order_stu_acc_info($start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            \App\Helper\Utils::unixtime2date_for_item($item,"start_time");
+            E\Eaccount_role::set_item_value_str($item);
+        }
+        dd($ret_info);
+
+
+    }
+
 }

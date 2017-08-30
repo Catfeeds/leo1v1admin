@@ -368,7 +368,7 @@
                                                 <input type="tel" name="phone" class="hide" value="{{$my_info['phone']}}">
                                                 @if ($my_info['wx_openid'])
                                                     <a href="javascript:;"  data-toggle="modal" data-target="#modal-band-wx" class="color-red band-wx">未绑定</a>
-                                                    @endif
+                                                @endif
                                             </td>
                                             <th>信息创建时间</th>
                                             <td> {{$my_info['create_time']}} </td>
@@ -467,29 +467,29 @@
                     <div class="box-body border-radius-none">
                         <div class="chart" id="line-chart">
                             <div class="row">
-                                    <form class="col-sm-12 flag-baes
-                                                 @if (!$my_info['bankcard'])
-                                                 hide
-                                                 @endif
-                                                 " id="bank-info">
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th>持卡人</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_account']}}</span>
-                                                    <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未绑定">
-                                                </td>
-                                                <th>身份证号</th>
-                                                <td>
-                                                    <span>{{$my_info['idcard']}}</span>
-                                                    <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未绑定">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th>银行卡类型</th>
-                                                <td>
-                                                    <span>{{$my_info['bank_type']}}</span>
-                                                    <select name="bank_type" class="hide">
+                                <form class="col-sm-12 flag-baes
+                                             @if (!$my_info['bankcard'])
+                                             hide
+                                             @endif
+                                             " id="bank-info">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>持卡人</th>
+                                            <td>
+                                                <span>{{$my_info['bank_account']}}</span>
+                                                <input type="text" name="bank_account" class="hide" value="{{$my_info['bank_account']}}" placeholder="未绑定">
+                                            </td>
+                                            <th>身份证号</th>
+                                            <td>
+                                                <span>{{$my_info['idcard']}}</span>
+                                                <input type="text" name="idcard" class="hide" value="{{$my_info['idcard']}}"  placeholder="未绑定">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>银行卡类型</th>
+                                            <td>
+                                                <span>{{$my_info['bank_type']}}</span>
+                                                <select name="bank_type" class="form-control hide">
                                                         <option>中国建设银行</option>
                                                         <option>中国工商银行</option>
                                                         <option>中国农业银行</option>
