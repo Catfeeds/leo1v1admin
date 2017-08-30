@@ -77,6 +77,15 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span class="input-group-addon">试听申请</span>
+                        <select class="opt-change form-control" id="id_current_require_id_flag" >
+                        </select>
+                    </div>
+                </div>
+
+
                 <div class="col-xs-6 col-md-2"  data-always_hide="1">
                     <div class="input-group ">
                         <span class="input-group-addon">学生</span>

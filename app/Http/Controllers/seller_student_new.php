@@ -264,6 +264,7 @@ class seller_student_new extends Controller
         $group_seller_student_status = $this->get_in_enum_val(E\Egroup_seller_student_status::class,-1);
         $tmk_student_status          = $this->get_in_e_tmk_student_status(-1);
         $phone_name                  = trim($this->get_in_str_val("phone_name"));
+        $current_require_id_flag= $this->get_in_e_boolean(-1,"current_require_id_flag");
 
         $grade = -1;
         $nick  = "";
@@ -286,7 +287,7 @@ class seller_student_new extends Controller
             $phone_location,   $has_pad, $seller_resource_type,$origin_assistantid  ,
             $tq_called_flag , $phone, $nick ,$origin_assistant_role ,$success_flag,
             $seller_require_change_flag,$adminid_list, $group_seller_student_status ,$tmk_student_status,$require_adminid_list,
-            $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level  ) ;
+            $page_count,$require_admin_type ,$origin_userid,$end_class_flag ,$seller_level ,$current_require_id_flag  ) ;
         $now=time(null);
         $notify_lesson_check_end_time=strtotime(date("Y-m-d", $now+86400*2));
         $next_day=$notify_lesson_check_end_time-86400;
