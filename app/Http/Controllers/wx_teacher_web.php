@@ -61,6 +61,5 @@ class wx_teacher_web extends Controller
     public function complaint() {}
     public function honor_rank() {}
     public function index (){}
-    public function month_report(){}
 
 }
