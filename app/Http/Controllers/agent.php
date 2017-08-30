@@ -229,6 +229,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $ret = $this->t_agent->get_p_pp_wx_openid_by_phone($phone= '14');
+        dd($ret);
+        dd(E\Eagent_level::V_1);
         $openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         $template_id = 'e1iaEh98uALTjWrBAqw7Q-dXTK1_z5x-qRhVdWdcVkM';
         $data = [
