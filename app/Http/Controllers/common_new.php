@@ -1071,7 +1071,8 @@ class common_new extends Controller
     }
 
     public function get_teacher_money(){
-        $teacherid  = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        // $teacherid  = $this->get_in_int_val("teacherid");
         $url = "http://admin.yb1v1.com/teacher_money/get_teacher_total_money?type=admin&teacherid=".$teacherid;
         $ret =\App\Helper\Utils::send_curl_post($url);
         $ret = json_decode($ret,true);

@@ -494,8 +494,8 @@ class wx_parent_api extends Controller
         $filter_lesson_time_start = time(NULL)+86400;
         $filter_lesson_time_end   = $lesson_end+3*86400;
 
-        if($lesson_start>$filter_lesson_time_start){
-            return $this->output_err('课时调整必须超过一天');
+        if($lesson_start<$filter_lesson_time_start){
+            return $this->output_err('课程开始时间需在申请时间的24小时后....');
         }
 
         $teacher_lesson_time = $this->t_lesson_info_b2->get_teacher_time_by_lessonid($lessonid, $filter_lesson_time_start, $filter_lesson_time_end);
