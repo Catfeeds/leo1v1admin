@@ -202,6 +202,7 @@ class test_code extends Controller
     }
 
     public function get_test_lesson(){
+        return $this->output_succ();
         $begin_date = "2016-12-1";
         $begin_time = strtotime($begin_date);
 
@@ -404,6 +405,7 @@ class test_code extends Controller
     }
 
     public function teacher_type(){
+        return $this->output_succ();
         $type = $this->get_in_int_val("type",3);
         if($type==3){
             $begin_date = "2017-4-1";

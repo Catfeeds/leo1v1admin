@@ -50,6 +50,7 @@
                 <tr>
                     <td>时间</td>
                     <td>拨打者</td>
+                    <td>角色</td>
                     <td>拨打者id</td>
                     <td>电话</td>
                     <td>状态</td>

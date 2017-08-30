@@ -1955,8 +1955,8 @@ class user_manage extends Controller
         $page_info    = $this->get_in_page_info();
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
-        $account_type = 2;
-        $complaint_type = 5;
+        $account_type = 2; //　投诉人类型　老师
+        $complaint_type = 5; // 显示软件反馈类型
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
@@ -1986,7 +1986,9 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
+
+
 
 
         foreach($ret_info['list'] as $index=>&$item){
@@ -2019,7 +2021,7 @@ class user_manage extends Controller
         return $this->pageView(__METHOD__,$ret_info);
     }
 
-    
+
     public function complaint_department_deal(){
         $page_info    = $this->get_in_page_info();
         $account_id   = $this->get_account_id();
@@ -2216,9 +2218,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-    	    if($ret_info['list'][$key]['total_score']){
-	          $ret_info['list'][$key]['score'] = intval(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-	     }
+            if($ret_info['list'][$key]['total_score']){
+              $ret_info['list'][$key]['score'] = intval(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+         }
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {

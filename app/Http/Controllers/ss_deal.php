@@ -4865,184 +4865,183 @@ class ss_deal extends Controller
         $complaint_type_str = $complaint_info['complaint_type_str'];
 
         if ($ret)
-           $re = $this->t_complaint_info->field_update_list($complaint_id,[
+            $re = $this->t_complaint_info->field_update_list($complaint_id,[
                 "suggest_info"       => $suggest_info,
                 "complaint_state"    => $complaint_state
             ]);
-            $deal_wx_openid_list = [];
+        $deal_wx_openid_list = [];
 
-            if ($complaint_state == 1) {
-                if ($account_type == 1) { // 1:家长
-                    // 理优在线教育  // 8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I
-                    /**
-                       {{first.DATA}}
-                       提交详情：{{keyword1.DATA}}
-                       反馈内容：{{keyword2.DATA}}
-                       时间：{{keyword3.DATA}}
-                       {{remark.DATA}}
-                     */
+        if ($complaint_state == 1) {
+            if ($account_type == 1) { // 1:家长
+                // 理优在线教育  // 8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I
+                /**
+                   {{first.DATA}}
+                   提交详情：{{keyword1.DATA}}
+                   反馈内容：{{keyword2.DATA}}
+                   时间：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                */
 
-                    $parent_nick   = $this->cache_get_parent_nick($complaint_info["userid"] );
-                    $parent_openid = $this->t_parent_info->get_wx_openid_by_parentid($complaint_info["userid"]);
+                $parent_nick   = $this->cache_get_parent_nick($complaint_info["userid"] );
+                $parent_openid = $this->t_parent_info->get_wx_openid_by_parentid($complaint_info["userid"]);
 
-                    $first_qc = "家长投诉反馈通知";
-                    $first_nick = "家长 $parent_nick ";
+                $first_qc = "家长投诉反馈通知";
+                $first_nick = "家长 $parent_nick ";
 
-                    $time_date = date('Y-m-d H:i:m',time(NULL));
-                    $template_id = "8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I";//投诉结果通知
-                    $data_msg = [
-                        "first"     => "尊敬的 家长 $parent_nick 您好,您的投诉我们已处理",
-                        "keyword1"  => "$complaint_type_str",
-                        "keyword2"  => "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!",
-                        "keyword3"  => " $time_date ",
-                    ];
-                    $url = '';
-                    $wx=new \App\Helper\Wx();
-                    $ret_parent=$wx->send_template_msg($parent_openid,$template_id,$data_msg ,$url);
+                $time_date = date('Y-m-d H:i:m',time(NULL));
+                $template_id = "8GYohyn1V6dmhuEB6ZQauz5ZtmqnnJFy-ETM8yesU3I";//投诉结果通知
+                $data_msg = [
+                    "first"     => "尊敬的 家长 $parent_nick 您好,您的投诉我们已处理",
+                    "keyword1"  => "$complaint_type_str",
+                    "keyword2"  => "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!",
+                    "keyword3"  => " $time_date ",
+                ];
+                $url = '';
+                $wx=new \App\Helper\Wx();
+                $ret_parent=$wx->send_template_msg($parent_openid,$template_id,$data_msg ,$url);
 
-                } else if ($account_type == 2) {  // 2:老师
-                    /**
-                       模板id:r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE
-                       {{first.DATA}}
-                       投诉内容：{{keyword1.DATA}}
-                       处理结果：{{keyword2.DATA}}
-                       {{remark.DATA}}
-                    */
+            } else if ($account_type == 2) {  // 2:老师
+                /**
+                   模板id:r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE
+                   {{first.DATA}}
+                   投诉内容：{{keyword1.DATA}}
+                   处理结果：{{keyword2.DATA}}
+                   {{remark.DATA}}
+                */
+
+                $deal_wx_openid_list = [
+                    "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
+                    "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+                ];
+
+
+                $url = '';
+                $teacher_nick     = $this->cache_get_teacher_nick($complaint_info["userid"] );
+                $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($complaint_info["userid"]);
+                $first_qc = "老师投诉反馈通知";
+                $first_nick = " 老师 $teacher_nick ";
+
+
+                $template_id        = "r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE";
+                $data['first']      = "尊敬的老师 $teacher_nick 您好,您的投诉我们已经处理 ";
+                $data['keyword1']   = $complaint_type_str;
+                $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
+                $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
+                \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
+
+
+            } elseif($account_type == 3){ // QC
+
+                $first_qc   = "QC退费投诉反馈通知";
+                $userid = $this->t_complaint_info->get_userid($complaint_id);
+                $first_nick = $this->cache_get_account_nick($userid);
+
+                $complained_adminid_type = $this->t_complaint_info->get_complained_adminid_type($complaint_id);
+                $complained_adminid     = $this->t_complaint_info->get_complained_adminid($complaint_id);
+                if($complained_adminid_type == 5){
+
+                    $subject = $this->t_teacher_info->get_subject($complained_adminid);
+
+                    $subject_adminid_wx_openid_list = [];
+
+                    if($subject == 1){ // 语文[千千 melody]
+                        $subject_adminid_wx_openid_list = [
+                            "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
+                            "oJ_4fxJqMn0pH4XQfgXYiFb_1_Iw"  // melody
+                        ];
+                    }else if($subject == 3) { //[英语]
+                        $subject_adminid_wx_openid_list = [
+                            "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
+                        ];
+                    }else if($subject == 5){ //[物理]
+                        $subject_adminid_wx_openid_list = [
+                            "oJ_4fxOo38y6hEisvFoSxN4T1nBs", // 李红涛
+                        ];
+                    }else if($subject == 4){ //[化学]
+                        $subject_adminid_wx_openid_list = [
+                            "oJ_4fxME6lCpNAMwtEhMcpYo5N7c", // 展慧东
+                        ];
+                    }else if($subject == 2){ // 数学
+                        $subject_adminid_wx_openid_list = [
+                            "oJ_4fxFE0-MHPkT-vstzEDzAfRkg", // 彭老师 [wander]
+                        ];
+                    }
+
+                    $subject_adminid_wx_openid_list[] = $this->t_teacher_info->get_wx_openid_by_teacherid($complained_adminid);
+
+                    $deal_wx_openid_list = array_merge($deal_wx_openid_list,$subject_adminid_wx_openid_list);
+
+                    $url_teacher = '';
+
+                    $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
+                    $data_teacher['first']      = "QC投诉反馈通知! ";
+                    $data_teacher['keyword1']   = $complaint_info_str;
+                    $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
+                    $data_teacher['remark']     = "";
+
+                    foreach($deal_wx_openid_list as $item_teacher){
+                        \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
+                    }
 
                     $deal_wx_openid_list = [
                         "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
                         "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
                     ];
 
-
-                    $url = '';
-                    $teacher_nick     = $this->cache_get_teacher_nick($complaint_info["userid"] );
-                    $teacher_openid   = $this->t_teacher_info->get_wx_openid_by_teacherid($complaint_info["userid"]);
-                    $first_qc = "老师投诉反馈通知";
-                    $first_nick = " 老师 $teacher_nick ";
-
-
-                    $template_id        = "r6WBVhVRG8tYS_4RGVwKbPcDPVBrMtOCBqfU87sdvdE";
-                    $data['first']      = "尊敬的老师 $teacher_nick 您好,您的投诉我们已经处理 ";
-                    $data['keyword1']   = $complaint_type_str;
-                    $data['keyword2']   = "我们已经核实了相关问题,并进行了处理,感谢您用宝贵的时间和我们沟通!";
-                    $data['remark']     = "感谢您用宝贵的时间和我们沟通！";
-                    \App\Helper\Utils::send_teacher_msg_for_wx($teacher_openid,$template_id,$data);
-
-
-                } elseif($account_type == 3){ // QC
-
-                    $first_qc   = "QC退费投诉反馈通知";
-                    $userid = $this->t_complaint_info->get_userid($complaint_id);
-                    $first_nick = $this->cache_get_account_nick($userid);
-
-                    $complained_adminid_type = $this->t_complaint_info->get_complained_adminid_type($complaint_id);
-                    $complained_adminid     = $this->t_complaint_info->get_complained_adminid($complaint_id);
-                    if($complained_adminid_type == 5){
-
-                        $subject = $this->t_teacher_info->get_subject($complained_adminid);
-
-                        $subject_adminid_wx_openid_list = [];
-
-                        if($subject == 1){ // 语文[千千 melody]
-                            $subject_adminid_wx_openid_list = [
-                                "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
-                                "oJ_4fxJqMn0pH4XQfgXYiFb_1_Iw"  // melody
-                            ];
-                        }else if($subject == 3) { //[英语]
-                            $subject_adminid_wx_openid_list = [
-                                "oJ_4fxGUveIS0n2PxdmaTN2nT4j8", // 千千
-                            ];
-                        }else if($subject == 5){ //[物理]
-                            $subject_adminid_wx_openid_list = [
-                                "oJ_4fxOo38y6hEisvFoSxN4T1nBs", // 李红涛
-                            ];
-                        }else if($subject == 4){ //[化学]
-                            $subject_adminid_wx_openid_list = [
-                                "oJ_4fxME6lCpNAMwtEhMcpYo5N7c", // 展慧东
-                            ];
-                        }else if($subject == 2){ // 数学
-                            $subject_adminid_wx_openid_list = [
-                                "oJ_4fxFE0-MHPkT-vstzEDzAfRkg", // 彭老师 [wander]
-                            ];
-                        }
-
-                        $subject_adminid_wx_openid_list[] = $this->t_teacher_info->get_wx_openid_by_teacherid($complained_adminid);
-
-                        $deal_wx_openid_list = array_merge($deal_wx_openid_list,$subject_adminid_wx_openid_list);
-
-                        $url_teacher = '';
-
-                        $template_id_teacher  = "kvkJPCc9t5LDc8sl0ll0imEWK7IGD1NrFKAiVSMwGwc";
-                        $data_teacher['first']      = "QC投诉反馈通知! ";
-                        $data_teacher['keyword1']   = $complaint_info_str;
-                        $data_teacher['keyword2']   = "处理人:$deal_account  处理方案:$deal_info";
-                        $data_teacher['remark']     = "";
-
-                        foreach($deal_wx_openid_list as $item_teacher){
-                            \App\Helper\Utils::send_teacher_msg_for_wx($item_teacher,$template_id_teacher, $data_teacher,$url_teacher);
-                        }
-
-                        $deal_wx_openid_list = [
-                            "orwGAswxkjf1agdPpFYmZxSwYJsI", // coco 老师 [张科]
-                            "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
-                        ];
-
-                    }
-                }
-
-                //反馈QC与上级领导
-
-                /**
-                   tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI
-                   反馈投诉结果通知
-                   {{first.DATA}}
-                   反馈者：{{keyword1.DATA}}
-                   反馈类型：{{keyword2.DATA}}
-                   反馈时间：{{keyword3.DATA}}
-                   问题描述：{{keyword4.DATA}}
-                   处理结果：{{keyword5.DATA}}
-                   {{remark.DATA}}
-                **/
-
-                $template_id = "tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI";//投诉反馈通知
-                $data_msg = [
-                    "first"     => "$first_qc",
-                    "keyword1"  => "$first_nick ",
-                    "keyword2"  => "$complaint_type_str",
-                    "keyword3"  => "$deal_time_date",
-                    "keyword4"  => "$complaint_info_str",
-                    "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
-                ];
-                $url = 'http://admin.yb1v1.com/user_manage/complaint_department_deal_teacher/';
-                $wx=new \App\Helper\Wx();
-                $qc_openid_arr = [
-                    "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
-                    "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
-                    "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
-                    "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
-                    "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
-                    "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
-                    "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
-                    // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
-                ];
-
-                $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);
-
-                foreach($qc_openid_arr as $qc_item){
-                    $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
-                }
-
-                $director_wx_list = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id,$deal_adminid);
-                foreach($director_wx_list as $wx_item){
-                    if($wx_item['wx_openid'] !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
-                        $ret_director = $wx->send_template_msg($wx_item['wx_openid'],$template_id,$data_msg ,$url);
-                    }
                 }
             }
-            return $this->output_succ();
+
+            //反馈QC与上级领导
+
+            /**
+               tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI
+               反馈投诉结果通知
+               {{first.DATA}}
+               反馈者：{{keyword1.DATA}}
+               反馈类型：{{keyword2.DATA}}
+               反馈时间：{{keyword3.DATA}}
+               问题描述：{{keyword4.DATA}}
+               处理结果：{{keyword5.DATA}}
+               {{remark.DATA}}
+            **/
+
+            $template_id = "tK_q5C8q1Iqp7qY2KXKuRQ6-jvlj59Kc8ddB4chIstI";//投诉反馈通知
+            $data_msg = [
+                "first"     => "$first_qc",
+                "keyword1"  => "$first_nick ",
+                "keyword2"  => "$complaint_type_str",
+                "keyword3"  => "$deal_time_date",
+                "keyword4"  => "$complaint_info_str",
+                "keyword5"  => "处理人:$deal_account  处理方案:$deal_info",
+            ];
+            $url = 'http://admin.yb1v1.com/user_manage/complaint_department_deal_teacher/';
+            $wx=new \App\Helper\Wx();
+            $qc_openid_arr = [
+                "orwGAswyJC8JUxMxOVo35um7dE8M", // QC wenbin
+                "orwGAsyyvy1YzV0E3mmq7gBB3rms", // QC 李珉劼
+                "orwGAs2Cq6JQKTqZghzcv3tUE5dU", // 王浩鸣
+                "orwGAs4FNcSqkhobLn9hukmhIJDs",  // ted or erick
+                "orwGAs0ayobuEtO1YZZhW3Yed2To", // 夏宏东
+                "orwGAs9GLgIN85K4nViZZ-MH5ZM8", //haku
+                "orwGAs3JTSM8qO0Yn0e9HrI9GCUI", // 付玉文[shaun]
+                // "orwGAs1H3MQBeo0rFln3IGk4eGO8"  // sunny
+            ];
+
+            $qc_openid_arr = array_merge($qc_openid_arr,$deal_wx_openid_list);
+
+            foreach($qc_openid_arr as $qc_item){
+                $wx->send_template_msg($qc_item,$template_id,$data_msg ,$url);
+            }
+
+            $director_wx_list = $this->t_complaint_assign_info->get_director_wx_openid($complaint_id,$deal_adminid);
+            foreach($director_wx_list as $wx_item){
+                if($wx_item['wx_openid'] !='orwGAswyJC8JUxMxOVo35um7dE8M'){ // 避免qc重复推送
+                    $ret_director = $wx->send_template_msg($wx_item['wx_openid'],$template_id,$data_msg ,$url);
+                }
+            }
         }
-    // }
+        return $this->output_succ();
+    }
 
 
     public function reject_complaint(){

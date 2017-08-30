@@ -206,7 +206,7 @@ $(function(){
         },function(resp) {
             var list = resp.data;
             $.each(list,function(i,item){
-                html_node.find("table").append("<tr><td>"+item["realname"]+"</td><td>"+item["person_num"]+"</td><td>"+item["order_num"]+"</td><td>"+item["order_per"]+"%</td></tr>");
+                html_node.find("table").append("<tr><td><a href=\"/human_resource/index_tea_qua?teacherid="+item["teacherid"]+"\" target=\"_blank\">"+item["realname"]+"</a></td><td>"+item["person_num"]+"</td><td>"+item["order_num"]+"</td><td>"+item["order_per"]+"%</td></tr>");
             });
             
         });

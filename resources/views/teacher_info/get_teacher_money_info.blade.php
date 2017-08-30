@@ -14,6 +14,9 @@
          background:#fff;
          color:#000;
      }
+     .small-box{
+        height:100px;
+     }
     </style>
     <section class="content">
         <div class="row">
@@ -21,9 +24,9 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <div style="text-align:center;" class="text-blue">
-                            <button type="button" class="btn btn-box-tool text-blue"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
-                            <h3 class="box-title">2017-08</h3>&nbsp;&nbsp;
-                            <button type="button" class="btn btn-box-tool text-blue"><i class="fa fa-angle-right"></i></button>
+                            <button type="button" class="btn btn-box-tool text-blue left"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;</button>
+                            <h3 class="box-title"><span id="year">2017</span>-<span id="month">08</span></h3>&nbsp;&nbsp;
+                            <button type="button" class="btn btn-box-tool text-blue right"><i class="fa fa-angle-right"></i></button>
                         </div>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>

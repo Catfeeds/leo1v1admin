@@ -5,6 +5,7 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	seller_groupid_ex:	string;
+	order_by_str:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -32,7 +33,8 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			seller_groupid_ex:	$('#id_seller_groupid_ex').val()
+			seller_groupid_ex:	$('#id_seller_groupid_ex').val(),
+			order_by_str:	$('#id_order_by_str').val()
         });
     }
 
@@ -48,6 +50,7 @@ $(function(){
         }
     });
 	$('#id_seller_groupid_ex').val(g_args.seller_groupid_ex);
+	$('#id_order_by_str').val(g_args.order_by_str);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -62,6 +65,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">seller_groupid_ex</span>
                 <input class="opt-change form-control" id="id_seller_groupid_ex" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">order_by_str</span>
+                <input class="opt-change form-control" id="id_order_by_str" />
             </div>
         </div>
 */

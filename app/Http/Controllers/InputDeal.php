@@ -490,7 +490,7 @@ trait  InputDeal {
             $end_time   += 86400;
         }
 
-        if ( $end_time - $start_time >20*86400  ) {
+        if ( $end_time - $start_time >30*86400  ) {
             $this->switch_tongji_database();
         }
 

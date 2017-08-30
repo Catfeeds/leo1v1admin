@@ -653,48 +653,48 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
         $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
         //E\Etest_lesson_fail_flag
         if ($distinct == 0) {
-        $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , count(*) as test_lesson_count, "
-            ." count( distinct t.userid ) as distinct_test_count, "
-            ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count  "
-            ." from %s tr "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-            ." join %s n  on t.userid=n.userid "
-            ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s l on tr.current_lessonid=l.lessonid "
-            ." join %s s on s.userid = l.userid "
-            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
-            ." and is_test_user=0 "
-            ." and require_admin_type = 2 "
-            ." group by check_value " ,
-            self::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            t_seller_student_new::DB_TABLE_NAME,
-            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            $where_arr,$start_time,$end_time );
+            $sql=$this->gen_sql_new(
+                "select $field_name  as check_value , count(*) as test_lesson_count, "
+                ." count( distinct t.userid ) as distinct_test_count, "
+                ." sum(  success_flag in (0,1 ) ) as succ_test_lesson_count  "
+                ." from %s tr "
+                ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+                ." join %s n  on t.userid=n.userid "
+                ." join %s tss on tr.current_lessonid=tss.lessonid "
+                ." join %s l on tr.current_lessonid=l.lessonid "
+                ." join %s s on s.userid = l.userid "
+                ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+                ." and is_test_user=0 "
+                ." and require_admin_type = 2 "
+                ." group by check_value " ,
+                self::DB_TABLE_NAME,
+                t_test_lesson_subject::DB_TABLE_NAME,
+                t_seller_student_new::DB_TABLE_NAME,
+                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                t_lesson_info::DB_TABLE_NAME,
+                t_student_info::DB_TABLE_NAME,
+                $where_arr,$start_time,$end_time );
         } else {
             $sql=$this->gen_sql_new(
-            "select $field_name  as check_value , count( distinct t.userid ) as distinct_succ_count "
-            ." from %s tr "
-            ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
-            ." join %s n  on t.userid=n.userid "
-            ." join %s tss on tr.current_lessonid=tss.lessonid "
-            ." join %s l on tr.current_lessonid=l.lessonid "
-            ." join %s s on s.userid = l.userid "
-            ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
-            ." and is_test_user=0 "
-            ." and require_admin_type = 2 "
-            ." and success_flag in (0,1) "
-            ." group by check_value " ,
-            self::DB_TABLE_NAME,
-            t_test_lesson_subject::DB_TABLE_NAME,
-            t_seller_student_new::DB_TABLE_NAME,
-            t_test_lesson_subject_sub_list::DB_TABLE_NAME,
-            t_lesson_info::DB_TABLE_NAME,
-            t_student_info::DB_TABLE_NAME,
-            $where_arr,$start_time,$end_time );
+                "select $field_name  as check_value , count( distinct t.userid ) as distinct_succ_count "
+                ." from %s tr "
+                ." join %s t  on tr.test_lesson_subject_id=t.test_lesson_subject_id "
+                ." join %s n  on t.userid=n.userid "
+                ." join %s tss on tr.current_lessonid=tss.lessonid "
+                ." join %s l on tr.current_lessonid=l.lessonid "
+                ." join %s s on s.userid = l.userid "
+                ." where %s and lesson_start >=%u and lesson_start<%u and accept_flag=1  "
+                ." and is_test_user=0 "
+                ." and require_admin_type = 2 "
+                ." and success_flag in (0,1) "
+                ." group by check_value " ,
+                self::DB_TABLE_NAME,
+                t_test_lesson_subject::DB_TABLE_NAME,
+                t_seller_student_new::DB_TABLE_NAME,
+                t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                t_lesson_info::DB_TABLE_NAME,
+                t_student_info::DB_TABLE_NAME,
+                $where_arr,$start_time,$end_time );
         }
 
         return $this->main_get_list($sql);
