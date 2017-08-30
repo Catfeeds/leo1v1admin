@@ -1183,6 +1183,7 @@ class tongji extends Controller
             $item['ave_price_for_month'] =@$item['all_new_contract_for_month']!=0?round(@$item['all_price_for_month']/@$item['all_new_contract_for_month']):0;
             $item['los_money'] = @$item['target_money']-@$item['all_price_for_month'];
             $item['los_personal_money'] = @$item['target_personal_money']-@$item['all_price_for_month'];
+            $item['los_personal_money'] = abs($item['los_personal_money']);
 
             if($item['level'] == "l-4" ){
                 $item['target_money']="";
