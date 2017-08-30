@@ -3535,4 +3535,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
     public function get_tea_openid_for_update_software(){
         $sql = $this->gen_sql_new(" select wx_openid from %s l");
     }
+
+    public function cancel_lesson_no_start($lessonid){
+        $where_arr = [
+            ["lessonid=%u",$lessonid,-1],
+            "lesson_status=0"
+        ];
+        $sql = $this->gen_sql_new("update %s set lesson_del_flag=1"
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_update($sql);
+    }
+
 }

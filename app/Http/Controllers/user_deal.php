@@ -97,7 +97,7 @@ class user_deal extends Controller
             }
         }
 
-        //$this->t_lesson_info->del_if_no_start($lessonid);
+        // $this->t_lesson_info->del_if_no_start($lessonid);
         $this->t_lesson_info->field_update_list($lessonid,[
            "lesson_del_flag" =>1
         ]);
