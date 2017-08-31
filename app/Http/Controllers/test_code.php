@@ -1932,12 +1932,13 @@ class test_code extends Controller
             // }
             // $subject_str = mb_substr($val['subject_ex'],0,2,"utf-8");
 
-            if($grade_ex!="" || $subject_ex!=""){
+            echo "|".$grade_ex."|".$subject_ex;
+            if($grade_ex!="" && $subject_ex!=""){
                 // $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
                 //     "grade_ex"=>$grade_ex,
                 //     "subject_ex"=>$subject_ex,
                 // ]);
-                echo "|".$grade_ex."|".$subject_ex."|update";
+                echo "|update";
             }
             echo "<br>";
         }
@@ -1945,10 +1946,13 @@ class test_code extends Controller
 
     public function check_str($map,$str){
         $ret = "";
-        foreach($map as $key=>$val){
-            if(strstr($val,$str)){
-                $ret = $key;
-                break;
+        if($str!=""){
+            foreach($map as $key=>$val){
+                // $check_val = mb_substr($val,0,1,"utf-8");
+                if(strstr($str,$val)){
+                    $ret = $key;
+                    break;
+                }
             }
         }
         return $ret;

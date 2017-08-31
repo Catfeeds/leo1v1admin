@@ -3690,7 +3690,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 	}
 
     public function get_confirm_lesson_list_new($start_time,$end_time) {
-        $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, "
+        $sql=$this->gen_sql_new("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, "
                             ."count(distinct l.userid ) as user_count,a.nick assistant_nick "
                             ."from  %s  l left join %s s on l.userid = s.userid "
                             ."left join %s a on l.assistantid = a.assistantid "
