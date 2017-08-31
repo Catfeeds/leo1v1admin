@@ -1011,7 +1011,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "n.seller_resource_type=1",
             "n.admin_revisiterid=0",
             "t.seller_student_status <>  50",
-            "n.sys_invaild_flag=0",
+            "n.sys_invaild_flag = 0",
+            'n.test_lesson_count > 0',
             ["origin like '%s%%'", $this->ensql( $origin), ""],
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
@@ -1021,11 +1022,9 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
             $where_arr[]= "f.adminid is null ";
         }
-        if($suc_test_flag){
-            $where_arr[] = 'n.test_lesson_count=0';
-        }
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, "
+            ." f.adminid,f.add_time free_time "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
