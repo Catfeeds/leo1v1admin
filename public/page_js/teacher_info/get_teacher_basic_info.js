@@ -28,7 +28,6 @@ $(function(){
                 btn_id, 0,
                 function(up, info, file, lesson_info) {
                     var res = $.parseJSON(info);
-                    console.log(res)
                     if(res.key!=''){
                         set_url_fun(res.key);
                     }
@@ -45,8 +44,8 @@ $(function(){
             var id_student = gen_upload_item(
                 btn_student_upload_id,
                 "tea_"+opt_data+Math.random(),
-                function(){return stu_cw_url; },
-                function(url) {stu_cw_url=url;},
+                function(){return get_pdf_url; },
+                function(url) {get_pdf_url=url;},
                 ret ,
                 function(file_name) {}
             );
@@ -64,7 +63,10 @@ $(function(){
                         return;
                     }
 
-                    $.do_ajax("/teacher_info/update_teacher_student_pdf",{"stu_cw_url": stu_cw_url,});
+                    $.do_ajax("/teacher_info/update_teacher_jianli_pdf",{
+                        "opt_data": opt_data,
+                        "get_pdf_url": get_pdf_url,
+                    });
                 }
             },function(){
                 id_student["onshown_init"]();

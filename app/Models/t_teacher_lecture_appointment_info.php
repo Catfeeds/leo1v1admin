@@ -992,16 +992,18 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             "grade_ex<100",
         ];
-        $sql = $this->gen_sql_new("select id,phone,grade_ex,subject_ex,trans_subject_ex,trans_grade_ex"
+        $sql = $this->gen_sql_new("select id,tl.phone,tl.grade_ex,tl.subject_ex,"
                                   ." from %s tl"
+                                  ." left join t on tl.phone=t.phone"
                                   ." where %s"
-                                  ." and not exists (select 1 from %s where tl.phone=phone)"
                                   ." limit 100"
                                   ,self::DB_TABLE_NAME
-                                  ,$where_arr
                                   ,t_teacher_info::DB_TABLE_NAME
+                                  ,$where_arr
         );
         return $this->main_get_list($sql);
-
     }
+
+
+
 }

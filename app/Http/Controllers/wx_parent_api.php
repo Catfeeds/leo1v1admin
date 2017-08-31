@@ -156,6 +156,37 @@ class wx_parent_api extends Controller
             \App\Models\t_teacher_label::C_device_record      => $device_record,
         ]);
 
+        if($insert_ret){
+            /**
+               向老师发送微信推送
+
+
+               课程评价通知
+               x月x日
+
+               xx:xx的xx课xx同学已经提交了课程评价
+               课程：{时间课程名称}
+               时间：xx-xx xx:xx~xx:xx
+               请登录老师端查看详情，谢谢！
+
+
+               D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A
+
+               {{first.DATA}}
+               课程：{{keyword1.DATA}}
+               时间：{{keyword2.DATA}}
+               {{remark.DATA}}
+             **/
+
+
+            $data_tea = [
+                'first'    => "xx:xx的xx课xx同学已经提交了课程评价",
+                'keyword1' => "",
+                'keyword2' => "",
+                'remark'   => "",
+            ];
+        }
+
         return $this->output_succ();
     }
 

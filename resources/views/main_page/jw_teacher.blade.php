@@ -112,6 +112,8 @@
                                         <td>总排课量</td>
                                         <td>已排课程</td>
                                         <td>已排课程(绿色)</td>
+                                        <td>已排课程(销售绿色)</td>
+                                        <td>已排课程(助教绿色)</td>
                                         <td>待排量</td>
                                         <td>挂起量</td>
                                         <td>退回量</td>
@@ -120,6 +122,8 @@
                                         <td>排课转化量(销售)</td>
                                         <td>排课转化量(助教)</td>
                                         <td>排课转化量(绿色通道)</td>
+                                        <td>排课转化量(销售绿色)</td>
+                                        <td>排课转化量(助教绿色)</td>
                                         <td>排课转化率</td>
                                     </tr>
                                 </thead>
@@ -132,6 +136,8 @@
                                             <td class="all_count">{{@$var["all_count"]}} </td> 
                                             <td>{{@$var["set_count"]}} </td>
                                             <td>{{@$var["green_count"]}} </td>
+                                            <td>{{@$var["seller_green_count"]}} </td>
+                                            <td>{{@$var["ass_green_count"]}} </td>
                                             <td>{{@$var["un_count"]}} </td>
                                             <td>{{@$var["gz_count"]}} </td>
                                             <td>{{@$var["back_count"]}} </td>
@@ -140,6 +146,9 @@
                                             <td class="tra_count_seller" data-adminid={{@$var["accept_adminid"]}}  ><a href="javascript:;" >{{@$var["tra_count_seller"]}}</a> </td>
                                             <td class="tra_count_ass" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["tra_count_ass"]}}</a> </td>
                                             <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["tra_count_green"]}}</a> </td>
+                                            <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["seller_green_tran_count"]}}</a> </td>
+                                            <td class="tra_count_green" data-adminid={{@$var["accept_adminid"]}} ><a href="javascript:;" >{{@$var["ass_green_tran_count"]}}</a> </td>
+
                                             <td class="tra_per_str">{{@$var["tra_per_str"]}} </td>
                                         </tr>
                                     @endforeach

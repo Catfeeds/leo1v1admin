@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Mail ;
 
 class lesson extends TeaWxController
 {
+    use CacheNick;
+
     public function __construct(){
         // session("teacher_wx_use_flag",1);  // 本地测试时使用
     }
@@ -408,6 +410,7 @@ class lesson extends TeaWxController
             return $this->output_err("lessonid not exist");
         }
 
+
         $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
         $stu_study_status     = $this->get_in_str_val("stu_study_status");
@@ -419,6 +422,7 @@ class lesson extends TeaWxController
 
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
 
+        $tea_nick = $this->cache_get_teacher_nick($teacherid);
 
         if($requireid>0){
             $ret_info = $this->t_test_lesson_subject_require->field_update_list($requireid,[
@@ -435,13 +439,49 @@ class lesson extends TeaWxController
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $now);
 
+            /***
+                ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+                {{first.DATA}}
+                课程名称：{{keyword1.DATA}}
+                课程时间：{{keyword2.DATA}}
+                学生姓名：{{keyword3.DATA}}
+                {{remark.DATA}}
+
+
+                课程反馈通知
+                x月x日
+
+                xx:xx的xx课xx老师已经提交了课程评价
+                课程名称：{课程名称}
+                课程时间：xx-xx xx:xx~xx:xx
+                学生姓名：xxx
+                可登录学生端或升学帮查看详情，谢谢！
+
+             **/
+            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
+
+            $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+            $lesson_begin = date('H:i',$lesson_info['lesson_start']);
+            if($ret_info){
+                $data_par =[
+                    'first'     => "$lesson_begin 的 $subject_str 课 $tea_nick 老师已经提交了课程评价",
+                    'keyword1'  => " $subject_str ",
+                    'keyword2'  => date('Y-m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end']),
+                    'keyword3'  => $lesson_info['stu_nick'],
+                    'remark'    => ' 可登录学生端或升学帮查看详情，谢谢！'
+                ];
+
+                $wx  = new \App\Helper\Wx();
+                $template_id_parent = 'ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+                if($lesson_info['wx_openid']){
+                    $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_par ,'');
+                }
+            }
+
             return $this->output_succ(['time'=>$ret_state]);
         }else{
             return $this->output_err('requireid不存在');
         }
-
-
-
     }
 
 

@@ -4026,7 +4026,7 @@ class human_resource extends Controller
         $id = $this->get_in_int_val("id");
 
         $ret = $this->t_teacher_lecture_info->field_update_list($id,[
-            "account" => ""
+            "account" => null
         ]);
 
         if(!$ret){
