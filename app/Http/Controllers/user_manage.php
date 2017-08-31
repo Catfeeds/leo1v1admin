@@ -2144,6 +2144,7 @@ class user_manage extends Controller
 
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
+        dd($ret_info);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             E\Esubject::set_item_value_str($item);
@@ -2272,6 +2273,164 @@ class user_manage extends Controller
         }
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_grade,
+        ]);
+    }
+      /**
+     * @author    sam
+     * @function  助教统计年级-科目数量
+     */
+    public function tongji_student_grade_subject()
+    {
+        $this->t_student_info->switch_tongji_database();
+        $ret_info = $this->t_student_info->get_studentid_grade(); //获取学生id
+        $arr = [
+              "total_num" => "0",
+              "per_page_count" => 10,
+              "page_info" => [
+                "total_num" => "0",
+                "per_page_count" => 10,
+                "page_num" => 1,
+              ],
+              "list" => []
+            ];
+        $ret_student_subject = [
+            1 => [
+                "name" => 1, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            2 => [
+                "name" => 2, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            3 => [
+                "name" => 3, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            4 => [
+                "name" => 4, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            5 => [
+                "name" => 5, 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            6 => [
+                "name" => "5科以上", 
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+            7 => [
+                "name" => "合计",
+                "num" => 0,
+                "101" => 0,
+                "102" => 0,
+                "103" => 0,
+                "104" => 0,
+                "105" => 0,
+                "106" => 0,
+                "201" => 0,
+                "202" => 0,
+                "203" => 0,
+                "301" => 0,
+                "302" => 0,
+                "303" => 0
+            ],
+        ];
+        $sum = 0;
+        foreach ($ret_info as $key => $value) {
+            $num = $value['num'];
+            $sum += $num;
+            if($num < 6){
+                if(isset($ret_student_subject[$num][$value['grade']])){
+                    ++$ret_student_subject[$num][$value['grade']];
+                    ++$ret_student_subject[7][$value['grade']];
+                    ++$ret_student_subject[$num]['num'];
+                    ++$ret_student_subject[7]['num'];
+                }
+            }else{
+                if(isset($ret_student_subject[$num][$value['grade']])){
+                    ++$ret_student_subject[6][$value['grade']];
+                    ++$ret_student_subject[7][$value['grade']];
+                    ++$ret_student_subject[$num]['num'];
+                    ++$ret_student_subject[7]['num'];
+                }
+            }
+        }
+        $arr['list'] = $ret_student_subject;
+        return $this->pageView(__METHOD__, $arr);
+        return $this->pageView(__METHOD__,null,[
+                "ret_info" => @$ret_student_subject,
         ]);
     }
 
