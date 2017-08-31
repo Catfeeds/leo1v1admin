@@ -9,6 +9,10 @@ class test_boby extends Controller
 {
     use CacheNick;
 
+    public function __construct(){
+        $this->switch_tongji_database();
+    }
+
     public function get_b_txt($file_name="b"){
         $info = file_get_contents("/home/boby/".$file_name.".txt");
         $arr  = explode("\n",$info);
@@ -361,7 +365,6 @@ class test_boby extends Controller
         return $s;
 
     }
-
 
 
 
