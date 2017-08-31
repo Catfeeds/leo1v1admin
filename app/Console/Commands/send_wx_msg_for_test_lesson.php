@@ -193,7 +193,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => '学生端',
                     "keyword4" => '"'.$item['phone'].'"',
-                    "remark"   => "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。"
+                    "remark"   => "可登录学生端提前预习讲义，做好课前准备工作，保持网络畅通，开课前五分钟可提前进入课堂，祝学习愉快！"
                 ];
             }elseif($type == 2){ // 超时5分钟
                 $data = [
