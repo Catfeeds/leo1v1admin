@@ -175,10 +175,6 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
             $where_arr=[
                 ["ss.userid=%u",$userid, -1],
             ];
-        }else if($teacherid>0){
-            $where_arr=[
-                ["l.teacherid=%u",$teacherid, -1],
-            ];
         }else{
             $where_arr=[
                 ["t.subject=%u",$subject, -1],
@@ -187,7 +183,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
                 ['test_lesson_student_status=%d', $test_lesson_student_status,-1],
                 ['t.ass_test_lesson_type=%d', $ass_test_lesson_type,-1],
                 ['s.is_test_user=%d', $is_test_user,-1],
-                // ['l.teacherid=%d', $teacherid,-1],
+                ['l.teacherid=%d', $teacherid,-1],
                 ['tr.jw_test_lesson_status=%d', $jw_test_lesson_status,-1],
                 ['tr.seller_require_change_flag=%d', $seller_require_change_flag,-1],
                 ['tr.accept_adminid=%d', $jw_teacher,-1],

@@ -59,11 +59,6 @@ class NoticeTeacherFeedbackToAdmin extends Command
                         $has_push[] = $val['assistantid'];
                     }
                 }
-            }else{
-                if(!in_array("adrian",$has_push)){
-                    $acc        = "adrian";
-                    $has_push[] = $acc;
-                }
             }
 
             if($acc){

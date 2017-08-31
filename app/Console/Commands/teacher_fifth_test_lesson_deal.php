@@ -46,7 +46,7 @@ class teacher_fifth_test_lesson_deal extends Command
         $end_time = time();
         $ret_info = $task->t_lesson_info_b2->get_teacher_fifth_test_lesson_detail($start_time,$end_time);
         foreach($ret_info as $val){
-            $id = $task->t_teacher_record_list->check_lesson_record_exist($val["lessonid"],1,2);
+            $id = $val["id"];
             if($id>0){                
                 $task->t_teacher_record_list->field_update_list($id,[
                     "lesson_time" => $val["lesson_start"]
