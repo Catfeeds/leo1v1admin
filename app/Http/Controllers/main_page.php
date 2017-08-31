@@ -315,8 +315,8 @@ class main_page extends Controller
         // $all        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time);
         // $ass       = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1);
         // $seller        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2);
-        $ass_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
-        $seller_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+        //  $ass_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        //$seller_green        = $this->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
 
         foreach($ret_info as &$item){
             $item["all_count"] = $item["all_count"]-$item["back_other_count"];
@@ -338,8 +338,8 @@ class main_page extends Controller
             $item["tra_count_green"] = @$tra_info[$item["accept_adminid"]]["tran_count_green"];
             $item["tra_per_str"] = @$tra_info[$item["accept_adminid"]]["tran_per"];
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
-            $item["ass_green_tran_count"] = @$ass_green[$item["accept_adminid"]]["num"];
-            $item["seller_green_tran_count"] = @$seller_green[$item["accept_adminid"]]["num"];
+            $item["ass_green_tran_count"] = 0;
+            $item["seller_green_tran_count"] = 0;
 
 
             $all_total += $item["set_count"];
