@@ -388,7 +388,7 @@ $(function(){
             });
         });
         };
-        
+
         $.do_ajax("/ajax_deal2/check_add_test_lesson",{
             "userid" : opt_data.userid
         }, function(resp){

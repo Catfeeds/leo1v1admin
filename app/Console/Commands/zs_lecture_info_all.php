@@ -61,13 +61,13 @@ class zs_lecture_info_all extends Command
 		foreach($teacher_info as &$item){
 		   
 		    $item["all_target_num"] = 250;
-		    if(in_array($item["uid"],[486,754,683,1011])){
+		    if(in_array($item["uid"],[486,754,329,1011])){
                 $item["all_target_num"]=150;
 		    }elseif(in_array($item["uid"],[913,923,892])){
                 $item["all_target_num"]=400;
 		    }elseif(in_array($item["uid"],[478])){
                 $item["all_target_num"]=50;
-            }elseif(in_array($item["uid"],[895])){
+            }elseif(in_array($item["uid"],[895,683])){
                 $item["all_target_num"]=100;
             }
 

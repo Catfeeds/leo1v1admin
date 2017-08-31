@@ -177,7 +177,6 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
         return $this->main_get_row( $sql  );
     }
 
-
     public function get_assistantid($name)
     {
         $uid = $this->task->t_manager_info->get_id_by_account($name);
@@ -189,19 +188,9 @@ class t_assistant_info extends \App\Models\Zgen\z_t_assistant_info
                                   $uid
         );
         return $this->main_get_value($sql);
-
-        /*$where_str=$this->where_str_gen([
-            [ "email like '%%%s@%%'", $name ],
-        ]);
-
-        $sql = $this->gen_sql("select assistantid from %s where %s",
-                       self::DB_TABLE_NAME,
-                       [$where_str]
-        );
-        return $this->main_get_value($sql);*/
-
     }
-    public function get_ass_list_for_select($id,$gender, $nick_phone,  $page_num)
+
+    public function get_ass_list_for_select($id,$gender,$nick_phone,$page_num)
     {
         $where_arr = array(
             array( "gender=%d", $gender, -1 ),

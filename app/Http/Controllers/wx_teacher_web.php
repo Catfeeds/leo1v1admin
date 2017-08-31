@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\Session ;
 
 class wx_teacher_web extends Controller
 {
-    var $check_login_flag=false;
-    public function __construct() {
+    var $check_login_flag = false;
+    public function __construct(){
         parent::__construct();
-
         \App\Helper\Utils::logger("sessionid:".session_id());
         \App\Helper\Utils::logger("web login_userid:".session("login_userid"));
 
@@ -28,12 +27,12 @@ class wx_teacher_web extends Controller
             return ;
         }
 
-        if ( session("login_user_role") ==2 && session("login_userid")   ) {
+        if (session("login_user_role")==2 && session("login_userid")) {
             $web_html_url="http://wx-teacher-web.leo1v1.com";
 
-            $teacherid = session("login_userid");
+            $teacherid   = session("login_userid");
             $wx_use_flag = $this->t_teacher_info->get_wx_use_flag($teacherid);
-            $filter_url = ['course_arrange','comment_list','complaint'];
+            $filter_url  = ['course_arrange','comment_list','complaint'];
             if(in_array($action,$filter_url) && $wx_use_flag == 0){
                 $action = 'guide_apply';
             }
@@ -61,6 +60,8 @@ class wx_teacher_web extends Controller
     public function complaint() {}
     public function honor_rank() {}
     public function index (){}
-    public function teacher_day(){}
+    public function teacher_day(){
+
+    }
 
 }
