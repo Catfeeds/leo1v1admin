@@ -1023,7 +1023,8 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]= "f.adminid is null ";
         }
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, "
+            ." n.free_adminid,n.free_time "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
@@ -2057,7 +2058,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             " select userid,test_lesson_count,free_adminid,free_time "
             ." from %s "
-            ." order by userid "
+            ." order by userid limit 1000 "
             ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
