@@ -1232,6 +1232,7 @@ class wx_parent_api extends Controller
 
         if($ret){
 
+            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
             if($paper_type == 1){ // 存放试卷
 
                 /**
@@ -1255,6 +1256,14 @@ class wx_parent_api extends Controller
             }elseif($paper_type == 2){ //　存放作业
 
             }
+
+            $data_msg = [
+                'first'    => "",
+                'keyword1' => "",
+                'keyword2' => "",
+                'keyword3' => "",
+                'remark'   => "请尽快登录老师后台，进行查看。"
+            ];
 
             return $this->output_succ();
         }else{

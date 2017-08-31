@@ -3,7 +3,7 @@ namespace App\Helper;
 class office_cmd{
     static $key="office_cmd";
     static function add_one(  $office_device_type ,$device_id,$device_opt_type , $office_device_sub_type, $value ) {
-        
+
         $office_device_sub_type=1;//海尔
         if (in_array ($device_id , [1,2,6,7,8,11,13,14] )) {
             $office_device_sub_type=2;//美的
