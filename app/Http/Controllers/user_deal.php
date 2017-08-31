@@ -699,7 +699,9 @@ class user_deal extends Controller
                 $this->t_teacher_info->send_template_msg($teacherid,$template_id,$data_msg,$url);
 
                 $wx=new \App\Helper\Wx();
-                $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                if($parent_wx_openid){
+                    $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                }
 
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
