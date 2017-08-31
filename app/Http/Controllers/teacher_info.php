@@ -478,7 +478,7 @@ class teacher_info extends Controller
             return $this->output_succ( array('ret' => 0, 'info' => '成功', 'file' => $file_url));
         } else {
             $new_url=$this->gen_download_url($file_url);
-            //dd($new_url);
+            // dd($new_url);
             return $this->output_succ(array('ret' => 0, 'info' => '成功',
                              'file' => urlencode($new_url),
                              'file_ex' => $new_url,
@@ -2163,13 +2163,13 @@ class teacher_info extends Controller
 
     public function update_teacher_jianli_pdf(){
         $teacherid = $this->get_login_teacher();
-        $type = $this->get_in_str_val('opt_data', '');
-        $url  = $this->get_in_str_val('get_pdf_url', '');
+        $field     = $this->get_in_str_val('opt_field', '');
+        $url       = $this->get_in_str_val('get_pdf_url', '');
         if ( $type=='' || $url=='' ) {
             $this->output_err("上传信息为空！");
         }
         $res_info = $this->t_teacher_info->field_update_list(["teacherid" => $teacherid],
-            [$type  => $url]
+            [$field  => $url]
         );
 
         if ($res_info) {
