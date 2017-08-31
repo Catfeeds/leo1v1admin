@@ -182,10 +182,7 @@
                                 <div class="lesson_data col-sm-12"
                                      {!!  \App\Helper\Utils::gen_jquery_data($my_info)  !!}
                                 >
-                                    <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
-                                </div>
-
-                                <!-- <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">查看简历</button> -->
+                                    <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">上传简历</button>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +190,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer no-border">
                         <div class="row text-cen">
-                            <a href="javascript:;" class="color-6">重新上传简历</a>
+                            <!-- <a href="javascript:;" class="color-6">重新上传简历</a> -->
                         </div>
                     </div>
                     <!-- /.box-footer -->
@@ -210,7 +207,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" style="height: 100px;">
+                        <div class="chart">
                             <div class="row">
                                 <div class="lesson_data col-sm-12"
                                          {!!  \App\Helper\Utils::gen_jquery_data($my_info)  !!}
@@ -239,8 +236,13 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" style="height: 100px;">
+                        <div class="chart">
                             <div class="row">
+                                <div class="lesson_data col-sm-12"
+                                     {!!  \App\Helper\Utils::gen_jquery_data($my_info)  !!}
+                                >
+                                    <button type="button" value="prove" class="btn btn-block btn-info btn-sm opt-upload">上传公校证明</button>
+                                </div>
                             </div>
                         </div>
                     </div>
