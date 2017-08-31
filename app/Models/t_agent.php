@@ -588,9 +588,12 @@ class t_agent extends \App\Models\Zgen\z_t_agent
             'phone in ('.$phone_str.')',
         ];
         $sql= $this->gen_sql_new(
-            "select id,phone,type "
-            . " from %s "
+            "select a.id,a.phone,a.type,a.wx_openid,a.agent_level,"
+            ."aa.wx_openid pp_wx_openid,aa.pp_agent_level "
+            . " from %s a "
+            . " left join %s aa on aa.id = a.parentid "
             . " where %s ",
+            self::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             $where_arr
         );
