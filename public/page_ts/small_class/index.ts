@@ -214,6 +214,7 @@ $(function(){
             "show_select_flag" : true,
             "type"             : "assistant",
             "onChange"         : function(val){
+                return ;
                 $.ajax({
                     url: '/small_class/set_course_assistant',
                     type: 'POST',

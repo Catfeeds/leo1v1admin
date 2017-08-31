@@ -59,6 +59,19 @@ class order_price_base {
     static $next_present_lesson_config = [
     ];
 
+
+    static function get_value_from_config_ex($config,$check_key,$def_value=0) {
+
+        $last_value=$def_value;
+        foreach ($config as  $k =>$v ) {
+            if ($k > $check_key )  {
+                return $last_value;
+            }
+            $last_value= $v;
+        }
+        return $last_value;
+    }
+
     static function get_value_from_config($config,$check_key,$def_value=0) {
 
         $last_value=$def_value;

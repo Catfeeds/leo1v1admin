@@ -68,6 +68,7 @@ class order_price_20170901 extends order_price_base
         $grade_price = $grade_price_config[$check_grade];
 
         $old_price = $grade_price/3;
+        $desc_list =  [];
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             /*
@@ -84,7 +85,9 @@ class order_price_20170901 extends order_price_base
             $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
             $off_value=static::get_value_from_config($new_discount_config, $check_lesson_count );
             $price=$grade_price*$off_value/100/3;
+            $desc_list[]=["满课时打折: "];
         }
+
         /*
         // 活动
         $free_money=0;
@@ -120,6 +123,7 @@ class order_price_20170901 extends order_price_base
              "contract_type"        => $contract_type,
              "grade"                => $grade,
              "lesson_count"         => $lesson_count,
+             "desc_list"           => $desc_list
         ];
     }
 

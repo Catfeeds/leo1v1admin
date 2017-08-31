@@ -263,6 +263,8 @@ class send_wx_msg_for_test_lesson extends Command
                     "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
                     "keyword1" => "$subject_str",
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "keyword3" => "学生端",
+                    "keyword4" => '"'.$item['par_phone'].'"',
                     "remark"   => "请及时跟进"
                 ];
             }elseif($type == 2){ // 超时5分钟  $tea_nick_cut_class='', $stu_nick_cut_class=
