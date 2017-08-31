@@ -3004,6 +3004,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             ['t.teacherid=%s', $teacherid, 0],
             ['l.lesson_start>=%s', $start_time, 0],
             ['l.lesson_start<%s', $end_time, 0],
+            'l.lesson_type<1000',
         ];
 
         $sql = $this->gen_sql_new(

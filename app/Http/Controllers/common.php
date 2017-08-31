@@ -1653,7 +1653,7 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $merchantid= 105290000009104;
 
         //信用卡分期柜台代码
-        $posid = 002171923;
+        $posid = '002171923';
         $branchid = 310000000;
         $curcode = 01;
         $txcode = 520100;

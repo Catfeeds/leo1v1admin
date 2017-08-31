@@ -179,8 +179,13 @@
                     <div class="box-body border-radius-none">
                         <div class="chart">
                             <div class="row">
-                                <div class="col-sm-12"">
-                                    <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">查看简历</button>
+                                <div class="lesson_data col-sm-12"
+                                     {!!  \App\Helper\Utils::gen_jquery_data($my_info)  !!}
+                                >
+                                    <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
+                                </div>
+
+                                <!-- <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">查看简历</button> -->
                                 </div>
                             </div>
                         </div>
@@ -207,8 +212,9 @@
                     <div class="box-body border-radius-none">
                         <div class="chart" style="height: 100px;">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    <p>ss{{$my_info['jianli']}}</p>
+                                <div class="lesson_data col-sm-12"
+                                         {!!  \App\Helper\Utils::gen_jquery_data($my_info)  !!}
+                                    >
                                     <button type="button" value="seniority" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
                                 </div>
                             </div>

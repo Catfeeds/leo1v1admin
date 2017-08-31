@@ -36,14 +36,15 @@ $(function(){
         return id_item;
     };
 
-    var upload_info = function( opt_data){
-        var btn_student_upload_id = "id_"+opt_data+"_upload";
+    var upload_info = function( opt_data, opt_field){
+        var btn_student_upload_id = "id_"+opt_field+"_upload";
+        var get_pdf_url = opt_data.opt_field;
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
             var id_student = gen_upload_item(
                 btn_student_upload_id,
-                "tea_"+opt_data+Math.random(),
+                "tea_"+opt_field+Math.random(),
                 function(){return get_pdf_url; },
                 function(url) {get_pdf_url=url;},
                 ret ,
@@ -64,7 +65,7 @@ $(function(){
                     }
 
                     $.do_ajax("/teacher_info/update_teacher_jianli_pdf",{
-                        "opt_data": opt_data,
+                        "opt_field": opt_field,
                         "get_pdf_url": get_pdf_url,
                     });
                 }
@@ -75,8 +76,9 @@ $(function(){
     };
 
     $(".opt-upload").on("click", function( ){
-        var opt_data = $(this).val();
-        upload_info(opt_data);
+        var opt_field = $(this).val();
+        var opt_data  = $(this).get_opt_data();
+        upload_info(opt_data, opt_field);
     });
 
     var cur_status = $('#my_status').attr('cur-status');

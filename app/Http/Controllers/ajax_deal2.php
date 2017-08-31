@@ -963,6 +963,9 @@ class ajax_deal2 extends Controller
 
         //$this->t_seller_student_new->get_
     }
-
+    public function test(){
+        sleep(5);
+        return  $this->output_succ();
+    }
 
 }

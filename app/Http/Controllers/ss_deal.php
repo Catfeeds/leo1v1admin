@@ -1023,6 +1023,7 @@ class ss_deal extends Controller
         $teacherid    = $this->get_in_teacherid();
         $lesson_start = $this->get_in_str_val('lesson_start');
         $grade        = $this->get_in_int_val('grade');
+        $top_seller_flag = $this->get_in_int_val('top_seller_flag');
         $lesson_start = strtotime($lesson_start);
         $lesson_end   = $lesson_start+2400;
         $orderid      = 1;
@@ -1084,6 +1085,7 @@ class ss_deal extends Controller
             "require_id"         => $require_id,
             "set_lesson_adminid" => $this->get_account_id(),
             "set_lesson_time"    => time(NULL) ,
+            "top_seller_flag"    => $top_seller_flag
         ]);
         $this->t_test_lesson_subject_require->field_update_list($require_id,[
             'current_lessonid'      => $lessonid,

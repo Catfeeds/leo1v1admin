@@ -1055,8 +1055,10 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
             dataType: 'json',
             success: success_func
 
-            ,error: function() {
-                alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+            ,error: function( XMLHttpRequest, textStatus, errorThrown ) {
+                if( XMLHttpRequest.readyState ==4 ) {
+                    alert("系统错误- 操作失败, 已发邮件 通知开发人员 ");
+                }
             },
         });
     },

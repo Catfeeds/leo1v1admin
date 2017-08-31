@@ -54,6 +54,9 @@ class get_jw_lesson_info_update extends Command
         $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
         $none_total = $task->t_test_lesson_subject_require->get_none_total_info($start_time,$end_time);
         $no_assign_total = $task->t_test_lesson_subject_require->get_no_assign_total_info($start_time,$end_time);
+        $ass_green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        $seller_green     = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+
         $all_total  = 0;
 
         foreach($ret_info as &$val){
@@ -64,8 +67,10 @@ class get_jw_lesson_info_update extends Command
                 $val["tra_count_ass"] = $ass[$val["accept_adminid"]]["num"];
                 $val["tra_count_seller"] = $seller[$val["accept_adminid"]]["num"];
                 $val["tra_count_green"] = $green[$val["accept_adminid"]]["num"];
+                $val["ass_tran_green_count"] = $ass_green[$val["accept_adminid"]]["num"];
+                $val["seller_tran_green_count"] = $seller_green[$val["accept_adminid"]]["num"];
             }else{
-                $val["tra_count"] =$val["tra_count_ass"]=$val["tra_count_seller"] = $val["tra_count_green"]= 0;
+                $val["tra_count"] =$val["tra_count_ass"]=$val["tra_count_seller"] = $val["tra_count_green"]=$val["ass_tran_green_count"]= $val["seller_tran_green_count"]=0;
             }
             if($start_time == strtotime(date("2017-01-01"))){
                 $s = strtotime(date("2017-01-01 00:00:00"));
@@ -95,7 +100,9 @@ class get_jw_lesson_info_update extends Command
                     "tran_count_seller"=>$val["tra_count_seller"],
                     "tran_count_ass"=>$val["tra_count_ass"],
                     "tran_count_green"=>$val["tra_count_green"],
-                    "tran_per"      =>$val["tra_per_str"]
+                    "tran_per"      =>$val["tra_per_str"],
+                    "ass_tran_green_count"  =>$val["ass_tran_green_count"],
+                    "seller_tran_green_count"  =>$val["seller_tran_green_count"],
                 ]);
             }else{
                 $task->t_jw_teacher_month_plan_lesson_info->row_insert([
