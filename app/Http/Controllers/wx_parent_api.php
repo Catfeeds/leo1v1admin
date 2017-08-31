@@ -1236,6 +1236,7 @@ class wx_parent_api extends Controller
             $subject_str = E\Esubject::get_desc($lesson_info['subject']);
             $first = date('m月d日 H:i',$lesson_info['lesson_start'])."的 $subject_str 课程，".$lesson_info['stu_nick']."同学的家长已经上传了";
 
+            $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
             if($paper_type == 1){ // 存放试卷
 
                 /**
@@ -1257,9 +1258,13 @@ class wx_parent_api extends Controller
                  **/
                 $first .='试卷';
                 $keyword1 = '家长已上传试卷';
+                $keyword2 = $lesson_info['stu_nick']."同学的试卷已上传";
+
             }elseif($paper_type == 2){ //　存放作业
                 $first .='作业';
                 $keyword1 = '家长已上传作业';
+                $keyword2 = $lesson_info['stu_nick']."同学的作业已上传";
+
             }
 
             $data_msg = [
