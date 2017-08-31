@@ -67,7 +67,7 @@ class order_price_20170901 extends order_price_base
 
         $grade_price = $grade_price_config[$check_grade];
 
-        $old_price = $grade_price/3;
+        $old_price = $grade_price/3*$lesson_count;
         $desc_list =  [];
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
@@ -82,9 +82,11 @@ class order_price_20170901 extends order_price_base
             */
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             $off_config_id       = $present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
+            \App\Helper\Utils::logger("off_config_id:$off_config_id");
+
             $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
             list($find_count_level ,$off_value)=static::get_value_from_config_ex($new_discount_config, $check_lesson_count , [1,100] );
-            $price=$grade_price*$off_value/100/3;
+            $price=$grade_price*$off_value/100/3 * $lesson_count;
             $desc_list[]="满课时打折: $find_count_level 次课 $off_value 折 ";
         }
 
@@ -139,10 +141,9 @@ class order_price_20170901 extends order_price_base
              "desc_list"           => $desc_list
         ];
     }
-    public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args)
+    static public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args)
     {
         return static::get_price( $order_promotion_type, $contract_type, 99,$lesson_count ,$before_lesson_count ,$args);
     }
-
 
 }

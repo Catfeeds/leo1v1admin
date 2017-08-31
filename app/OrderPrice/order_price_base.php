@@ -7,6 +7,7 @@ class order_price_base {
     static $order_price_type_config=[
         E\Eorder_price_type::V_20170101 => order_price_20170101::class,
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
+        E\Eorder_price_type::V_20170901 => order_price_20170901::class,
     ];
 
     /**
@@ -62,8 +63,8 @@ class order_price_base {
 
     static function get_value_from_config_ex($config,$check_key,$def_value=[0,100]) {
 
-        $last_value=$def_value;
-        $last_k=0;
+        $last_k=$def_value[0];
+        $last_value=$def_value[1];
         foreach ($config as  $k =>$v ) {
             if ($k > $check_key )  {
                 return array($k, $last_value);
