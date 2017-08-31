@@ -307,7 +307,7 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
             "n.admin_revisiterid =0 ",
             "n.sys_invaild_flag=0",
             " lesson_count_all =0 ",
-            "  seller_student_status  <>50 ",
+            " seller_student_status  <>50 ",
             "n.test_lesson_count = 0",
         ];
         $this->where_arr_add_time_range($where_arr,"lesson_start",$start_time,$end_time);
@@ -315,11 +315,10 @@ class t_test_lesson_subject extends \App\Models\Zgen\z_t_test_lesson_subject
         $sql= $this->gen_sql_new(
             "select  s.userid,s.phone ,s.gender,t.subject, s.grade,last_revisit_admin_time, last_revisit_adminid, max(l.lesson_start) as lesson_start, nick   "
             ." from %s t  "
-            ." join %s n  on t.userid=n.userid "
-            ." join %s s  on t.userid=s.userid "
-            ." left join %s l  on t.userid=l.userid "
-            ." where "
-            . " %s  "
+            ." join %s n on t.userid=n.userid "
+            ." join %s s on t.userid=s.userid "
+            ." left join %s l on t.userid=l.userid "
+            ." where %s "
             ." and admin_assign_time < %u "
             ." group by t.userid, t.subject  "
             ,self::DB_TABLE_NAME

@@ -1,13 +1,16 @@
 interface GargsStatic {
-	page_num:	number;
-	page_count:	number;
 	date_type_config:	string;
 	date_type:	number;
 	opt_date_type:	number;
 	start_time:	string;
 	end_time:	string;
+	page_num:	number;
+	page_count:	number;
+	phone_name:	string;
 	grade:	number;//App\Enums\Egrade
-	phone:	string;
+	has_pad:	number;//App\Enums\Epad_type
+	subject:	number;//App\Enums\Esubject
+	origin:	string;
 }
 declare module "g_args" {
     export = g_args;
@@ -35,12 +38,17 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
+			phone_name:	$('#id_phone_name').val(),
 			grade:	$('#id_grade').val(),
-			phone:	$('#id_phone').val()
+			has_pad:	$('#id_has_pad').val(),
+			subject:	$('#id_subject').val(),
+			origin:	$('#id_origin').val()
         });
     }
 
 	Enum_map.append_option_list("grade",$("#id_grade"));
+	Enum_map.append_option_list("pad_type",$("#id_has_pad"));
+	Enum_map.append_option_list("subject",$("#id_subject"));
 
     $('#id_date_range').select_date_range({
         'date_type' : g_args.date_type,
@@ -52,8 +60,11 @@ $(function(){
             load_data();
         }
     });
+	$('#id_phone_name').val(g_args.phone_name);
 	$('#id_grade').val(g_args.grade);
-	$('#id_phone').val(g_args.phone);
+	$('#id_has_pad').val(g_args.has_pad);
+	$('#id_subject').val(g_args.subject);
+	$('#id_origin').val(g_args.origin);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -66,6 +77,13 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
+                <span class="input-group-addon">phone_name</span>
+                <input class="opt-change form-control" id="id_phone_name" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
                 <span class="input-group-addon">年级</span>
                 <select class="opt-change form-control" id="id_grade" >
                 </select>
@@ -74,8 +92,24 @@ $(function(){
 
         <div class="col-xs-6 col-md-2">
             <div class="input-group ">
-                <span class="input-group-addon">phone</span>
-                <input class="opt-change form-control" id="id_phone" />
+                <span class="input-group-addon">Pad</span>
+                <select class="opt-change form-control" id="id_has_pad" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">科目</span>
+                <select class="opt-change form-control" id="id_subject" >
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">origin</span>
+                <input class="opt-change form-control" id="id_origin" />
             </div>
         </div>
 */
