@@ -89,8 +89,9 @@ class order_price_20170901 extends order_price_base
             $price=$grade_price*$off_value/100/3 * $lesson_count;
 
             if ($off_value<100) {
-                $desc_list[]=["off_flag"=>1,
-                              "desc" => "满课时打折: $find_count_level 次课 $off_value 折 "];
+                $desc_list[]=static::gen_desc("满课时打折",1, "$find_count_level 次课 $off_value 折");
+            }else{
+                $desc_list[]=static::gen_desc("满课时打折",false);
             }
         }
 
@@ -112,8 +113,9 @@ class order_price_20170901 extends order_price_base
             $free_money=200;
         }
         if ($free_money) {
-            $desc_list[]=["off_flag"=>1,
-                          "desc" =>  "活动: $find_free_money_lesson_count 次课 立减 $free_money 元 "];
+            $desc_list[]=static::gen_desc("满课时立减",true, "$find_free_money_lesson_count 次课 立减 $free_money 元" );
+        }else{
+            $desc_list[]=static::gen_desc("满课时立减",false  );
         }
         $price-=$free_money;
         /*

@@ -64,5 +64,4 @@ class wx_teacher_web extends Controller
         $url = "http://wx-teacher-web.leo1v1.com/teacher_day/index.html";
         header("Location: $url");
     }
-
 }

@@ -678,6 +678,12 @@
         </div>
 
         <div class="row" >
+            <div class="col-xs-12 col-md-12 ">
+            </div>
+        </div>
+        <div class="row div-spec" >
+
+        <div class="row" >
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group  ">
                     <span class="input-group-addon" style="color:red;">特殊申请：</span>

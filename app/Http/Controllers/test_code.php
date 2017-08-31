@@ -30,7 +30,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key = "teacher_money_type_month";
 
     public function __construct(){
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -1903,6 +1903,11 @@ class test_code extends Controller
                                  ;
             echo "<br>";
         }
+    }
+
+    public function refresh(){
+        $list = $this->t_teacher_lecture_appointment_info->get_refresh_list();
+
     }
 
 
