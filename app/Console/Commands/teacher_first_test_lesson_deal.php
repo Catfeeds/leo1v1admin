@@ -42,7 +42,6 @@ class teacher_first_test_lesson_deal extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task     = new \App\Console\Tasks\TaskController();
 
-        dd(1111);
         $start_time = strtotime("2017-01-01");
         $end_time = time();
         $ret_info = $task->t_lesson_info_b2->get_teacher_first_test_lesson_detail($start_time,$end_time);

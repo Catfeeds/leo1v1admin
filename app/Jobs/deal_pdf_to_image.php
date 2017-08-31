@@ -139,11 +139,13 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
 
+            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
+
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
             \App\Helper\Utils::logger( "init OssClient fail");
-            return "   " ;
+            return "" ;
         }
 
     }

@@ -41,6 +41,7 @@ class teacher_fifth_test_lesson_deal extends Command
         //
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task     = new \App\Console\Tasks\TaskController();
+        dd(1111);
 
         $start_time = strtotime("2017-01-01");
         $end_time = time();
