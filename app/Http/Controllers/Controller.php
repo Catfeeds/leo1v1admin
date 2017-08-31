@@ -240,6 +240,27 @@ class Controller extends ControllerEx
         $this->t_seller_student_new->row_delete($userid);
     }
 
+    public function get_teacherid(){
+        $role      = $this->get_in_int_val("_role",0);
+        $teacherid = $this->get_in_int_val("_userid",0);
+
+        if (!$role) {
+            $role = session("login_user_role" );
+        }
+
+        if (!$teacherid) {
+            $teacherid = session("login_userid" );
+        }
+
+        if ($role==2 &&  $teacherid ) {
+            return $teacherid;
+        }else{
+            echo $this->output_err("未登录");
+            exit;
+        }
+    }
+
+
     
 
 }

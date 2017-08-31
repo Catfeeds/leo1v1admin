@@ -1932,6 +1932,10 @@ class test_code extends Controller
             }
 
             if($grade_ex!="" && $subject_ex!=""){
+                $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
+                    "grade_ex"=>$grade_ex,
+                    "subject_ex"=>$subject_ex,
+                ]);
                 echo "|".$grade_ex."|".$subject_ex;
             }
             echo "<br>";
