@@ -1919,7 +1919,7 @@ class test_code extends Controller
             // $subject_ex = $this->check_str($subject_map,$val['subject_ex']);
 
             $grade_ex = $this->get_grade_ex_by_range($val['grade_start']);
-            echo "|".$grade_ex."|".$subject_ex;
+            echo "|".$grade_ex;
             // if($grade_ex=="" && $subject_ex!=""){
             //     $grade_ex="100";
             // }
@@ -1927,14 +1927,14 @@ class test_code extends Controller
             //     $subject_ex="2";
             // }
 
-            // if($subject_ex!="" && $grade_ex!=""){
+            if($subject_ex!="" && $grade_ex!=""){
                 $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
                     "grade_ex" => $grade_ex,
                     // "subject_ex" => $subject_ex,
                 ]);
 
                 echo "|update";
-            // }
+            }
             echo "<br>";
         }
     }

@@ -435,6 +435,35 @@ class lesson extends TeaWxController
 
             $ret_state = $this->t_lesson_info_b2->set_comment_status($lessonid, $now);
 
+            /***
+                ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI
+                {{first.DATA}}
+                课程名称：{{keyword1.DATA}}
+                课程时间：{{keyword2.DATA}}
+                学生姓名：{{keyword3.DATA}}
+                {{remark.DATA}}
+
+
+                课程反馈通知
+                x月x日
+
+                xx:xx的xx课xx老师已经提交了课程评价
+                课程名称：{课程名称}
+                课程时间：xx-xx xx:xx~xx:xx
+                学生姓名：xxx
+                可登录学生端或升学帮查看详情，谢谢！
+
+             **/
+            if($ret_info){
+                $data_par =[
+                    'first'     => '',
+                    'keyword1'  => '',
+                    'keyword2'  => '',
+                    'keyword3'  => '',
+                    'remark'    => ''
+                ];
+            }
+
             return $this->output_succ(['time'=>$ret_state]);
         }else{
             return $this->output_err('requireid不存在');
