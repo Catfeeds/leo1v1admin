@@ -35,7 +35,7 @@ $(function(){
 
 
     $(".opt-edit ").on("click",function(){
-
+        $.do_ajax( "/ajax_deal2/test",{});
     });
 
 

@@ -1231,50 +1231,49 @@ class wx_parent_api extends Controller
         }
 
         if($ret){
+            if($type == 2){
+                $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
+                $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+                $first = date('m月d日 H:i',$lesson_info['lesson_start'])."的 $subject_str 课程，".$lesson_info['stu_nick']."同学的家长已经上传了";
 
-            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
-            $subject_str = E\Esubject::get_desc($lesson_info['subject']);
-            $first = date('m月d日 H:i',$lesson_info['lesson_start'])."的 $subject_str 课程，".$lesson_info['stu_nick']."同学的家长已经上传了";
+                $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
+                if($paper_type == 1){ // 存放试卷
 
-            $template_id_teacher = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o';
-            if($paper_type == 1){ // 存放试卷
+                    /**
+                       待办事项提醒
+                       x月x日
 
-                /**
-                   待办事项提醒
-                   x月x日
+                       x月x日xx：xx的xx课程，xx同学的家长已经上传了试卷
+                       待办主题：家长已上传试卷
+                       待办内容：xx同学的试卷已上传
+                       日期：2017/06/01
+                       请尽快登录老师后台，进行查看。
 
-                   x月x日xx：xx的xx课程，xx同学的家长已经上传了试卷
-                   待办主题：家长已上传试卷
-                   待办内容：xx同学的试卷已上传
-                   日期：2017/06/01
-                   请尽快登录老师后台，进行查看。
+                       rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                       {{first.DATA}}
+                       待办主题：{{keyword1.DATA}}
+                       待办内容：{{keyword2.DATA}}
+                       日期：{{keyword3.DATA}}
+                       {{remark.DATA}}
+                    **/
+                    $first .='试卷';
+                    $keyword1 = '家长已上传试卷';
+                    $keyword2 = $lesson_info['stu_nick']."同学的试卷已上传";
 
-                   rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
-                   {{first.DATA}}
-                   待办主题：{{keyword1.DATA}}
-                   待办内容：{{keyword2.DATA}}
-                   日期：{{keyword3.DATA}}
-                   {{remark.DATA}}
-                 **/
-                $first .='试卷';
-                $keyword1 = '家长已上传试卷';
-                $keyword2 = $lesson_info['stu_nick']."同学的试卷已上传";
+                }elseif($paper_type == 2){ //　存放作业
+                    $first .='作业';
+                    $keyword1 = '家长已上传作业';
+                    $keyword2 = $lesson_info['stu_nick']."同学的作业已上传";
+                }
 
-            }elseif($paper_type == 2){ //　存放作业
-                $first .='作业';
-                $keyword1 = '家长已上传作业';
-                $keyword2 = $lesson_info['stu_nick']."同学的作业已上传";
-            }
+                $data_msg = [
+                    'first'    => "$first",
+                    'keyword1' => "$keyword1",
+                    'keyword2' => "$keyword2",
+                    'keyword3' => date("Y-m-d"),
+                    'remark'   => "请尽快登录老师后台，进行查看。"
+                ];
 
-            $data_msg = [
-                'first'    => "$first",
-                'keyword1' => "$keyword1",
-                'keyword2' => "$keyword2",
-                'keyword3' => date("Y-m-d"),
-                'remark'   => "请尽快登录老师后台，进行查看。"
-            ];
-
-            if($type == 1){
                 \App\Helper\Utils::send_teacher_msg_for_wx($data_msg,$template_id_teacher, $data_msg,'');
             }
 
