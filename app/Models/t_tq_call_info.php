@@ -189,6 +189,17 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
         return $this->main_get_list($sql);
     }
 
+
+    public function get_list_for_post($start_time, $end_time ) {
+        $where_arr=[];
+        $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
+        $sql=$this->gen_sql_new(
+            "select * from %s where %s ",
+            self::DB_TABLE_NAME, $where_arr );
+        return $this->main_get_list($sql);
+    }
+
+
     public function get_list($start_time, $end_time ) {
         $where_arr=[];
         $this->where_arr_add_time_range($where_arr,"start_time",$start_time,$end_time);
@@ -197,6 +208,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
             self::DB_TABLE_NAME, $where_arr );
         return $this->main_get_list($sql);
     }
+
 
     public function get_list_by_phone_uid($uid,$phone) {
         $where_arr = [];

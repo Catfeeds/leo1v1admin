@@ -996,6 +996,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
                                   ." from %s tl"
                                   ." where %s"
                                   ." and not exists (select 1 from %s where tl.phone=phone)"
+                                  ." limit 100"
                                   ,self::DB_TABLE_NAME
                                   ,$where_arr
                                   ,t_teacher_info::DB_TABLE_NAME

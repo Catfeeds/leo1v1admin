@@ -1906,10 +1906,11 @@ class test_code extends Controller
     }
 
     public function refresh(){
-
         $subject_map = array_flip(E\Esubject::$desc_map);
         $list = $this->t_teacher_lecture_appointment_info->get_refresh_list();
+        $num=0;
         foreach($list as $val){
+            $num++;
             echo $val['phone']."|".$val['grade_ex']."|".$val['subject_ex']."|".$val['trans_grade_ex']."|".$val['trans_subject_ex'];
             if($val['trans_subject_ex']==0){
                 $grade_str = mb_substr($val['grade_ex'],0,1,"utf-8");
@@ -1939,6 +1940,9 @@ class test_code extends Controller
                 echo "|".$grade_ex."|".$subject_ex;
             }
             echo "<br>";
+            if($num==100){
+                break;
+            }
         }
     }
 

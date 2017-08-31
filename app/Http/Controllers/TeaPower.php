@@ -439,7 +439,7 @@ trait  TeaPower {
             }
             $tea_subject = "";
         }else{
-            if(in_array($adminid,["72","349","60","186","68","790"])){
+            if(in_array($adminid,["72","349","60","186","68","790","448"])){
                 $tea_right=1;
             }else{
                 $tea_right=0;
