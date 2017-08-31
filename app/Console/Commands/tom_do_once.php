@@ -60,14 +60,15 @@ class tom_do_once extends Command
         foreach ($list as $item) {
             $userid = $item["userid"];
             // echo "$userid\n";
-
-            $succ_test_info = $this->task->t_lesson_info_b2->get_succ_test_lesson_count($userid);
-            $succ_count = $succ_test_info['count'];
-            if($item['test_lesson_count'] != $succ_count){
-                $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+            if($userid){
+                $succ_test_info = $this->task->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+                $succ_count = $succ_test_info['count'];
+                echo "$userid".':'."$succ_count"."\n";
+                if($item['test_lesson_count'] != $succ_count){
+                    $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+                }
             }
 
-            echo "$userid".':'."$succ_count\n";
             // if($userid){
             //     $ret = $this->task->t_test_subject_free_list->get_all_list_by_userid($userid);
             //     if($ret){
