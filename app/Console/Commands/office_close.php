@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use \App\Enums  as E;
 class office_close extends cmd_base
 {
     /**
@@ -37,11 +37,13 @@ class office_close extends cmd_base
      */
     public function do_handle()
     {
-        $office_device_type=1;
+        $office_device_type=E\Eoffice_device_type::V_1;
         $value=24;
         $device_sub_type =0;
-
-        \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type,$device_sub_type ,$value);
-
+        $device_opt_type=E\Edevice_opt_type::V_0;
+        for($i=3;$i<4;$i++) {
+            $device_id=$i;
+            \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type,$device_sub_type ,$value);
+        }
     }
 }
