@@ -231,30 +231,17 @@ class agent extends Controller
     }
 
     public function check(){
-        $check_money_adminid = $this->get_account_id();
-        if($check_money_adminid != 99){
-            dd('a');
-            // return $this->output_err('无权限!');
-        }else{
-            dd('b');
+        $ret = $this->t_seller_student_new->field_update_list($userid=211180,['add_time'=>1494345600]);
+        dd($ret);
+        $list = $this->t_seller_student_new->get_all_list();
+        foreach($list as &$item){
+            $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+            $succ_count = $succ_test_info['count'];
+            if($item_arr['test_lesson_count'] != $succ_count){
+                $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+            }
         }
-
-
-        $agent_info = $this->t_agent_order->get_row_by_aid($id=74);
-        dd($agent_info);
-        $agent_level_old = 1;
-        $agent_level = 2;
-        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
-            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
-            $data = [
-                'first'    => '等级升级提醒',
-                'keyword1' => '水晶会员',
-                'keyword2' => date('Y-m-d H:i:s',time()),
-                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
-            ];
-            $url = '';
-            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old='oAJiDwBbbqiTwnU__f6ce5tNpWYs',$template_id,$data,$url);
-        }
+        dd($list);
     }
 
     public function get_agent_test_lesson($agent_id){
@@ -452,7 +439,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
@@ -577,7 +564,7 @@ class agent extends Controller
         // $agent_id = 427;//周圣杰 Eros
         // $agent_id = 1509;//王朝刚
         // $agent_id = 443;//九月
-        $agent_id = 435;//助教2组-戈叶伟-Amy 
+        $agent_id = 435;//助教2组-戈叶伟-Amy
         $agent_info = $this->t_agent->get_agent_info_by_id($agent_id);
         if(isset($agent_info['phone'])){
             $phone = $agent_info['phone'];
