@@ -338,8 +338,8 @@ class main_page extends Controller
             $item["tra_count_green"] = @$tra_info[$item["accept_adminid"]]["tran_count_green"];
             $item["tra_per_str"] = @$tra_info[$item["accept_adminid"]]["tran_per"];
             $item["set_per"] = $item["all_count"]==0?"无":(round($item["set_count"]/$item["all_count"],4)*100)."%";
-            $item["ass_green_tran_count"] = 0;
-            $item["seller_green_tran_count"] = 0;
+            $item["ass_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["ass_tran_green_count"];
+            $item["seller_green_tran_count"] = @$tra_info[$item["accept_adminid"]]["seller_tran_green_count"];
 
 
             $all_total += $item["set_count"];

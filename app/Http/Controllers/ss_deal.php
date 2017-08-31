@@ -1603,7 +1603,7 @@ class ss_deal extends Controller
         );
 
 
-        if($order_require_flag) {
+        if($order_require_flag && $promotion_spec_diff_money ) {
             $this->t_flow->add_flow(
                 E\Eflow_type::V_SELLER_ORDER_REQUIRE,
                 $this->get_account_id(),"特殊折扣",$orderid);
@@ -1618,6 +1618,7 @@ class ss_deal extends Controller
                 $userid,$orderid,
                 $promotion_spec_present_lesson,$competition_flag,$grade,$subject);
         }
+
         if ( $promotion_spec_diff_money ) {
             $this->t_order_info->field_update_list($orderid,[
                 "promotion_spec_diff_money" =>  $promotion_spec_diff_money
