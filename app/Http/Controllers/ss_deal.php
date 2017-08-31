@@ -3007,6 +3007,10 @@ class ss_deal extends Controller
                 "test_subject_free_type" => $test_subject_free_type,
             ],false,true);
 
+            $this->t_seller_student_new->field_update_list($item["userid"],[
+                "free_adminid" => $this->get_account_id(),
+                "free_time" => time(),
+            ]);
         }
         $this->t_seller_student_new->set_no_hold_free($admin_revisiterid );
         return $this->output_succ();
