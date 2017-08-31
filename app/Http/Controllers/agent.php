@@ -229,6 +229,9 @@ class agent extends Controller
     }
 
     public function check(){
+        $phone_str = implode(',',[$phone='17621142985',$p_phone='15251318621']);
+        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+        dd($ret_list);
         $phone = '15251318621';
         $p_phone = '13818837473';
         $type = 1;
