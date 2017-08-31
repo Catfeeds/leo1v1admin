@@ -2121,16 +2121,12 @@ class teacher_info extends Controller
         if ($idcard == '') {
             return $this->output_err('身份证号不能为空！');
         }
-        if ($bankcard == '') {
-            return $this->output_err('卡号不能为空！');
+        if (strlen($idcard) !== 18) {
+            return $this->output_err('身份证号码不正确！');
         }
-        // if (strlen($bankcard) !== 16 || strlen($bankcard) !== 18) {
-        //     return $this->output_err('身份证号码不正确！');
-        // }
-
-        // if (strlen($idcard) !== 18) {
-        //     return $this->output_err('身份证号码不正确！');
-        // }
+        if ($bankcard == '') {
+            return $this->output_err('银行卡号不能为空！');
+        }
         if ($bank_phone == '') {
             return $this->output_err('手机号不能为空！');
         }
@@ -2181,7 +2177,6 @@ class teacher_info extends Controller
         } else {
             return outputjson_error('发生错误，设置失败！');
         }
-
 
     }
 }
