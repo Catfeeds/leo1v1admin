@@ -54,6 +54,9 @@ class get_jw_lesson_info_update extends Command
         $ret_info   = $task->t_test_lesson_subject_require->get_jw_teacher_test_lesson_info($start_time,$end_time);
         $none_total = $task->t_test_lesson_subject_require->get_none_total_info($start_time,$end_time);
         $no_assign_total = $task->t_test_lesson_subject_require->get_no_assign_total_info($start_time,$end_time);
+        $ass_green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        $seller_green     = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+
         $all_total  = 0;
 
         foreach($ret_info as &$val){

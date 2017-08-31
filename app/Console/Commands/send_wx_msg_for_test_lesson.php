@@ -192,10 +192,10 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
             }elseif($type == 4){
                 $data = [
-                    "first"    => "{ ".$item['teacher_nick']."}老师您好，".$item['stu_nick']." 同学的课程已结束 ",
+                    "first"    => "{ ".$item['teacher_nick']."}老师您好，".$item['stu_nick']." 同学的 $subject_str 课程已结束,您未能按时进入课堂 ",
                     "keyword1" => '旷课提醒',
                     "keyword2" => "未进入课堂 ",
-                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "keyword3" => '"'.date('Y-m-d H:i:s').'"',
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
             }elseif($type == 5){ // 课程结束
