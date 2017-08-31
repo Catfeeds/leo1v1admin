@@ -891,6 +891,7 @@ $(function(){
         var $order_require_flag   = html_node.find(".field-order_require_flag");
 
         var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+        var $order_desc_list = html_node.find(".field-order_desc_list");
 
         var $nick    = html_node.find(".field-nick");
         var $grade   = html_node.find(".field-grade");
@@ -950,6 +951,7 @@ $(function(){
                 $discount_price.val(data.price );
                 $promotion_spec_present_lesson.val( data.present_lesson_count );
                 $promotion_spec_discount_price.val( data.discount_price );
+                $desc_list_str="";
 
                 if (order_promotion_type==1) {
                     $order_promotion_desc.val("赠送:"+ data.present_lesson_count +"课时" );

@@ -7,6 +7,7 @@ class order_price_base {
     static $order_price_type_config=[
         E\Eorder_price_type::V_20170101 => order_price_20170101::class,
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
+        E\Eorder_price_type::V_20170901 => order_price_20170901::class,
     ];
 
     /**
@@ -58,6 +59,21 @@ class order_price_base {
 
     static $next_present_lesson_config = [
     ];
+
+
+    static function get_value_from_config_ex($config,$check_key,$def_value=[0,100]) {
+
+        $last_k=$def_value[0];
+        $last_value=$def_value[1];
+        foreach ($config as  $k =>$v ) {
+            if ($k >= $check_key )  {
+                return array($k, $last_value);
+            }
+            $last_value= $v;
+            $last_k= $k;
+        }
+        return array($k, $last_value);
+    }
 
     static function get_value_from_config($config,$check_key,$def_value=0) {
 
@@ -125,4 +141,10 @@ class order_price_base {
         return  static::get_price_ex_by_order_price_type(static::$cur_order_price_type , $competition_flag, $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count,$args) ;
     }
 
+    static public function gen_desc($title,$succ_flag, $desc="" ) {
+        if (!$succ_flag) {
+            $desc="";
+        }
+        return [ "title"=> $title , "succ_flag"=> $succ_flag , "desc"=>$desc];
+    }
 }

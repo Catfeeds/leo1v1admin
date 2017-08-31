@@ -1421,9 +1421,16 @@ class ss_deal extends Controller
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
-        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
-            $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
-        );
+        if ( \App\Helper\Utils::check_env_is_release()) {
+            $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+                $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
+            );
+        }else{
+            $ret=\App\OrderPrice\order_price_base:: get_price_ex_by_order_price_type(
+                E\Eorder_price_type::V_20170901,
+                $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
+            );
+        }
         return $this->output_succ(["data"=>$ret]);
     }
 

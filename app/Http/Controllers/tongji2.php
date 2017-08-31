@@ -948,20 +948,21 @@ class tongji2 extends Controller
             }else{
                 $val["people_per"] = 0;
             }
-            $val["kpi"] = 0;
-            $val["kpi"] = $val["revisit_per"]/100*50+$val["renw_per"]/100*10;
+            $val["kpi"] = 0;            
+            $val["kpi"] = ((($val["revisit_per"]/100*50)>=50)?50:($val["revisit_per"]/100*50))+((($val["renw_per"]/100*10)>=10)?10:($val["renw_per"]/100*10));
             if((10-$val["un_first_revisit_num"]*5)>0 && $val["kpi"] > 0){
                 $val["kpi"] += (10-$val["un_first_revisit_num"]*5);
             }
             if((10-$val["refund_score"]*5)>0 && $val["kpi"] > 0){
-                $val["kpi"] += (10-$val["refund_score"]*5);
+                $val["kpi"] += (10-$val["refund_score"]*10);
             }
 	        $val["kpi"] = round($val["kpi"],2);
-            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_by_adminid($k);
+            $ass_master_adminid = $this->t_admin_group_user->get_master_adminid_group_info($k);
+            $val["group_name"] = $ass_master_adminid["group_name"];
             if($account_id==-1){
 
             }else{
-                if($ass_master_adminid != $account_id){
+                if($ass_master_adminid["master_adminid"] != $account_id){
                     unset($ass_list[$k]);
                 }
 
