@@ -231,33 +231,36 @@ class agent extends Controller
     }
 
     public function check(){
-        $list = $this->t_agent->get_agent_list();
-        foreach($list as $item){
-            $type = $item['type'];
-            $phone = $item['phone'];
+        //60天
+        // $list = $this->t_agent->get_agent_list();
+        // foreach($list as $item){
+        //     $type = $item['type'];
+        //     $phone = $item['phone'];
+        //     $userid = $item['userid'];
+        //     if($type == 1){//进例子
+        //         $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        //         if($db_userid){
+        //             $add_time=$this->t_seller_student_new->get_add_time($userid);
+        //             if ($add_time < time(NULL) -60*86400 ) { //60天前例子
+        //                 $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        //             }
+        //         }else{
+        //             $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        //         }
+        //     }
+        // }
+
+
+        $list = $this->t_seller_student_new->get_all_list();
+        foreach($list as &$item){
             $userid = $item['userid'];
-            if($type == 1){//进例子
-                $db_userid = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
-                if($db_userid){
-                    $add_time=$this->t_seller_student_new->get_add_time($userid);
-                    if ($add_time < time(NULL) -60*86400 ) { //60天前例子
-                        $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-                    }
-                }else{
-                    $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
-                }
+            $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+            $succ_count = $succ_test_info['count'];
+            if($item['test_lesson_count'] != $succ_count){
+                $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
             }
         }
         dd('a');
-        // $list = $this->t_seller_student_new->get_all_list();
-        // foreach($list as &$item){
-        //     $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
-        //     $succ_count = $succ_test_info['count'];
-        //     if($item_arr['test_lesson_count'] != $succ_count){
-        //         $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
-        //     }
-        // }
-        // dd($list);
     }
 
     public function get_agent_test_lesson($agent_id){
