@@ -2613,8 +2613,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        dd(md5(112233445652));
         $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+        $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        dd($lesson_count_list);
+
         $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
         $arr=[];
         $i=1;
