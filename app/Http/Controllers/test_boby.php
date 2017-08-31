@@ -299,4 +299,39 @@ class test_boby extends Controller
 
     }
 
+    public function get_teacher_lesson(){//p 2
+        $teacherid = 18011110026;
+
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info   = $this->t_teacher_info->get_tea_lesson_info($teacherid, $start_time, $end_time);
+        $ret_info['normal_count'] = $ret_info['normal_count']/100;
+        $ret_info['test_count']   = $ret_info['test_count']/100;
+        $ret_info['other_count']  = $ret_info['other_count']/100;
+        return $this->output_succ(["lesson_info"=>$ret_info]);
+    }
+
+    public function get_tea_lesson_some_info(){//p5
+        // $teacherid = $this->get_in_int_val("teacherid");
+        $teacherid = $this->get_wx_teacherid();
+        $teacherid = 18011110026;
+        if (!$teacherid) {
+            return $this->output_err("信息有误，未查询到老师信息！");
+        }
+        $end_time   = strtotime(date("Y-m-01",time()));
+        $start_time = strtotime("-1 month",$end_time);
+        $ret_info = $this->t_teacher_info->get_teacher_lesson_detail($teacherid,$start_time, $end_time);
+        foreach ($ret_info as &$item) {
+            $item = intval($item);
+        }
+        return $this->output_succ(["list"=>$ret_info]);
+    }
+
+
+
+
+
 }
