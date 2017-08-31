@@ -1913,8 +1913,7 @@ class test_code extends Controller
         $num  = 0;
         foreach($list as $val){
             $num++;
-            echo $val['id']."|".$val['phone']."|".$val['grade_ex']."|".$val['subject_ex']
-                           ."|".$val['trans_grade_ex']."|".$val['trans_subject_ex'];
+            echo $val['id']."|".$val['phone']."|".$val['grade_ex']."|".$val['subject_ex'];
             $grade_ex   = $this->check_str($grade_map,$val['grade_ex']);
             $subject_ex = $this->check_str($subject_map,$val['subject_ex']);
             // if($val['trans_subject_ex']==0){

@@ -1122,7 +1122,11 @@ class ss_deal extends Controller
                 ,"排课[$phone][$nick] 老师[$teacher_nick] 上课时间[$lesson_time_str]","","");
 
             $parentid = $this->t_student_info->get_parentid($userid);
-            $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+
+            if($parentid>0){
+                $this->t_parent_info->send_wx_todo_msg($parentid,"课程反馈","您的试听课已预约成功!", "上课时间[$lesson_time_str]","http://wx-parent.leo1v1.com/wx_parent/index", "点击查看详情" );
+
+            }
 
             /**
              * 模板ID   : rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
@@ -2211,7 +2215,7 @@ class ss_deal extends Controller
             "system"
         );
 
-      
+
         $account_role = $this->t_manager_info->get_account_role($origin_assistantid);
         if($account_role==1){
             //分配销售总监
@@ -2252,14 +2256,14 @@ class ss_deal extends Controller
                 $sub_assign_adminid_1= 287;
             }
             $this->t_seller_student_new->field_update_list($userid,[
-               "sub_assign_adminid_1"  =>$sub_assign_adminid_1 
+               "sub_assign_adminid_1"  =>$sub_assign_adminid_1
             ]);
 
             $this->t_manager_info->send_wx_todo_msg_by_adminid($sub_assign_adminid_1,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             $this->t_manager_info->send_wx_todo_msg_by_adminid(349,"转介绍","学生[$nick][$phone]","总监:".$sub_assign_adminid_1,"/seller_student_new/seller_student_list_all?userid=$userid");
 
 
- 
+
         }else{
             //分配给原来的销售
             $admin_revisiterid= $this->t_order_info-> get_last_seller_by_userid($origin_userid);
@@ -2270,9 +2274,9 @@ class ss_deal extends Controller
                 $nick=$this->t_student_info->get_nick($userid);
                 $this->t_manager_info->send_wx_todo_msg_by_adminid($admin_revisiterid,"转介绍","学生[$nick][$phone]","","/seller_student_new/seller_student_list_all?userid=$userid");
             }
- 
+
         }
-        
+
 
         return $this->output_succ();
 
@@ -2417,7 +2421,7 @@ class ss_deal extends Controller
             $realPath = $file -> getRealPath();
             $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
             $objPHPExcel = $objReader->load($realPath);
-            
+
             $objPHPExcel->setActiveSheetIndex(0);
             $arr=$objPHPExcel->getActiveSheet()->toArray();
             foreach($arr as $k=>&$val){
@@ -2471,7 +2475,7 @@ class ss_deal extends Controller
                 $id = $this->t_teacher_lecture_appointment_info->get_id_by_phone($phone);
                 if(empty($id)){
                     $this->t_teacher_lecture_appointment_info->row_insert([
-                        "answer_begin_time"  =>$answer_begin_time, 
+                        "answer_begin_time"  =>$answer_begin_time,
                         "answer_end_time"    =>$answer_end_time,
                         "name"               =>$name,
                         "phone"              =>$phone,
@@ -3235,13 +3239,13 @@ class ss_deal extends Controller
              return $this->output_err("答题时间/手机号/名字不能为空");
         }
 
-      
+
         $id = $this->t_teacher_lecture_appointment_info->get_appointment_id_by_phone($phone);
         if($id>0){
              return $this->output_err("该手机号已存在");
         }
         $this->t_teacher_lecture_appointment_info->row_insert([
-            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_begin_time"  =>$answer_begin_time,
             "answer_end_time"    =>$answer_end_time,
             "name"               =>$name,
             "phone"              =>$phone,
@@ -3279,7 +3283,7 @@ class ss_deal extends Controller
             return $this->output_err("答题时间/手机号/名字不能为空");
         }
         $this->t_teacher_lecture_appointment_info->field_update_list($id,[
-            "answer_begin_time"  =>$answer_begin_time, 
+            "answer_begin_time"  =>$answer_begin_time,
             "answer_end_time"    =>$answer_end_time,
             "name"               =>$name,
             "email"              =>$email,
