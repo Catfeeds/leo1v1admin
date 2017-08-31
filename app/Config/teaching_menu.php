@@ -18,6 +18,7 @@ class teaching_menu{
                     [ "name"=>"新老师第1次教学质量反馈",   "url"=>"/tongji_ss/teacher_first_test_lesson_week"],
                     [ "name"=>"兼职老师转化率总体",   "url"=>"/human_resource/teacher_test_lesson_info_total"],
                     [ "name"=>"试听转化率统计-质监", "url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zj"],
+                    [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
 
                 ]],
 
@@ -109,7 +110,6 @@ class teaching_menu{
                         ["name"=>"KPI考核标准", "url"=>"/tongji_ss/research_teacher_kpi_info_new"],
                         [ "name"=>"质监月进度", "url"=>"/main_page/quality_control_jy"],
                         [ "name"=>"兼职老师转化率明细",   "url"=>"/human_resource/teacher_test_lesson_info"],
-                        [ "name"=>"各学科转化率总体",   "url"=>"/tongji_ss/test_lesson_order_per_subject"],
                         [ "name"=>"兼职老师档案",   "url"=>"/human_resource/index_tea_qua"],
                         [ "name"=>"教学质量反馈报告汇总（新）",   "url"=>"/human_resource/teacher_record_detail_list_new"],
                         [ "name"=>"教学质量反馈报告汇总（旧）",   "url"=>"/human_resource/teacher_record_detail_list"],

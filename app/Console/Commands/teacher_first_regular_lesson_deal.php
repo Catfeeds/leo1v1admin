@@ -4,14 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class teacher_first_regualr_lesson_deal extends Command
+class teacher_first_regular_lesson_deal extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:teacher_first_regualr_lesson_deal';
+    protected $signature = 'command:teacher_first_regular_lesson_deal';
 
     /**
      * The console command description.
@@ -42,6 +42,7 @@ class teacher_first_regualr_lesson_deal extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task     = new \App\Console\Tasks\TaskController();
 
+        dd(111);
         $start_time = strtotime("2017-01-01");
         $end_time = time();
         $ret_info = $task->t_lesson_info_b2->get_teacher_first_regular_lesson_detail($start_time,$end_time);

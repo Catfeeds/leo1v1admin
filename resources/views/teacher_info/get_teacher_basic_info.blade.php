@@ -100,7 +100,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-10">
                                     <div class="progress">
@@ -127,7 +127,6 @@
                         <div class="row">
                             <p class="text-cen color-6">信息完整度100%后，此模块可关闭</p>
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -162,7 +161,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -179,7 +177,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12"">
                                     <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
@@ -192,7 +190,6 @@
                         <div class="row text-cen">
                             <a href="javascript:;" class="color-6">重新上传简历</a>
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -208,10 +205,11 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 100px;">
+                        <div class="chart" style="height: 100px;">
                             <div class="row">
-                                <div class="col-sm-12"">
-                                    <button id="upload_zigezheng" type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
+                                    <!-- <input id="upload_zigezheng" value="上传资格证" class="btn btn-primary add_certificate" style="margin-bottom:5px;" type="button"/> -->
                                 </div>
 
                             </div>
@@ -221,7 +219,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -237,7 +234,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 100px;">
+                        <div class="chart" style="height: 100px;">
                             <div class="row">
                             </div>
                         </div>
@@ -246,7 +243,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -262,7 +258,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
                                     托管制学习体系
@@ -270,7 +266,6 @@
                                     帮助学员高效提分，帮助家长规划学员学习，指导学员成长。
                                     将学生交给学校，将学习交给理优。 
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -278,7 +273,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -294,7 +288,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 100px;">
+                        <div class="chart" style="height: 100px;">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <span class="badge bg-green">特长1</span>
@@ -310,7 +304,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -331,7 +324,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" >
+                        <div class="chart">
                             <div class="row">
                                 <form class="col-sm-12 flag-baes" data-sub="edit_teacher_info" id="user-info">
                                     <p class="color-6">个人信息</p>
@@ -354,7 +347,6 @@
                                                         <option value="1" @if($my_info['gender'] == 1) selected @endif >男</option>
                                                             <option value="2" @if($my_info['gender'] == 2) selected @endif >女</option>
                                                 </select>
-
                                             </td>
                                             <th>出生日期</th>
                                             <td>
@@ -458,7 +450,6 @@
                     <div class="box-footer no-border">
                         <div class="row">
                         </div>
-                        <!-- /.row -->
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -475,7 +466,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <form class="col-sm-12 flag-baes
                                              @if (!$my_info['bankcard'])
@@ -541,7 +532,6 @@
                                                     <input type="text" name="bank_phone" class="hide" value="{{$my_info['bank_phone']}}" placeholder="未绑定">
                                                 </td>
                                             </tr>
-
                                         </table>
                                     </form>
                                         <div class="div-bank text-cen
@@ -577,7 +567,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <table class="table table-bordered">
@@ -596,7 +586,6 @@
                                             </td>
                                             <td><span class="badge bg-yellow">{{$my_info['test_transfor_per']}}%</span></td>
                                         </tr>
-
                                     </table>
                                 </div>
                             </div>
@@ -607,7 +596,7 @@
                     </div>
                     <!-- /.box-footer -->
                 </div>
-                <!-- /.box (chat box) -->
+                <!-- /.box  -->
 
                 <!-- Chat box -->
                 <div class="box box-success">
@@ -620,7 +609,7 @@
                     </div>
                     <div class="bor-hr"></div>
                     <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart">
+                        <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="col-sm-3 label label-warning div-mar">
@@ -660,13 +649,12 @@
                                 <i class="fa fa-question"></i></button>
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
-
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <div class="bor-hr"></div>
                     <div class="box-body">
-                        <div class="chart col-sm-12" id="line-chart">
+                        <div class="chart col-sm-12">
                             <div class="row">
                                 <div class="col-sm-6">模拟试听课:<span class="ft24">96分</span></div>
                                 <div class="col-sm-6">第一次试听课平均分:<span class="ft24">96分</span></div>
@@ -688,7 +676,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.direct-chat-pane -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
@@ -696,13 +683,26 @@
                     <!-- /.box-footer-->
                 </div>
                 <!-- /.col -->
-
             </section>
             <!-- /.right -->
-
         </div>
 
     </section>
+    <div class="dlg_add_certificate_info" style="display:none">
+        <table class="table table-bordered table-striped">
+	          <tbody>
+                <tr>
+			              <td style="text-align:right; width:30%;">证书</td>
+			              <td>
+                        <div id="id_container_add">
+                            <input id="id_upload_add" value="上传证书" class="btn btn-primary add_certificate_img" style="margin-bottom:5px;" type="button"/>
+                        </div>
+                    </td>
+		            </tr>
+		        </tbody>
+	      </table>
+    </div>
+
 @endsection
 
 <div class="modal fade" id="modal-default">
@@ -723,11 +723,10 @@
                 <button type="button" class="btn btn-info col-sm-5 pull-right" data-dismiss="modal">取消</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
 <div class="modal fade" id="modal-band-wx">
     <div class="modal-dialog">
         <div class="modal-content" style="width:50%;margin:0 auto">
@@ -745,9 +744,7 @@
                 </p>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
 
