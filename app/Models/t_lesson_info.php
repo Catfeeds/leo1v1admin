@@ -1282,12 +1282,13 @@ lesson_type in (0,1) "
     }
 
     public function get_confirm_lesson_list($start_time,$end_time) {
-        $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count from  %s  l, %s s ".
-                            " where  l.userid=s.userid  and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2,3)  and lesson_type in (0,1,3)"
+        $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, count(distinct l.userid ) as user_count,a.nick assistant_nick from  %s  l, %s s,%s a  ".
+                            " where  l.userid=s.userid  and l.assistantid = a.assistantid and is_test_user=0 and lesson_start >=%u and lesson_start<%u  and lesson_status =2 and confirm_flag not in (2,3)  and lesson_type in (0,1,3)"
                             . " and lesson_del_flag=0 and l.assistantid <> 59329  "
                             ." group by l.assistantid  order by lesson_count desc",
                             self::DB_TABLE_NAME,
-                            t_student_info::DB_TABLE_NAME, //
+                            t_student_info::DB_TABLE_NAME,
+                            t_assistant_info::DB_TABLE_NAME,
                             $start_time,$end_time
         );
 
