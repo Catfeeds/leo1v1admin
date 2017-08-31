@@ -207,9 +207,9 @@
                     <div class="box-body border-radius-none">
                         <div class="chart" style="height: 100px;">
                             <div class="row">
-                                <div class="col-sm-12" id="zigezheng">
-                                    <!-- <button id="upload_zigezheng" type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button> -->
-                                    <input id="upload_zigezheng" value="上传资格证" class="btn btn-primary add_certificate" style="margin-bottom:5px;" type="button"/>
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
+                                    <!-- <input id="upload_zigezheng" value="上传资格证" class="btn btn-primary add_certificate" style="margin-bottom:5px;" type="button"/> -->
                                 </div>
 
                             </div>
@@ -683,7 +683,6 @@
                     <!-- /.box-footer-->
                 </div>
                 <!-- /.col -->
-
             </section>
             <!-- /.right -->
         </div>
@@ -693,34 +692,11 @@
         <table class="table table-bordered table-striped">
 	          <tbody>
                 <tr>
-			              <td style="text-align:right; width:30%;">新闻标题</td>
-			              <td><input value="" class="add_title" type="text" style="width:90%"/></td>
-		            </tr>
-                <tr>
-			              <td style="text-align:right; width:30%;">新闻描述</td>
-			              <td>
-                        <textarea class="add_des" cols="5"></textarea>
-                    </td>
-		            </tr>
-                <tr>
-			              <td style="text-align:right; width:30%;">新闻图片</td>
+			              <td style="text-align:right; width:30%;">证书</td>
 			              <td>
                         <div id="id_container_add">
-                            <input id="id_upload_add" value="上传图片" class="btn btn-primary add_pic_img" style="margin-bottom:5px;" type="button"/>
+                            <input id="id_upload_add" value="上传证书" class="btn btn-primary add_certificate_img" style="margin-bottom:5px;" type="button"/>
                         </div>
-                        <div class="add_header_img"></div>
-                        <div class="add_pic"></div>
-                    </td>
-		            </tr>
-                <tr>
-			              <td style="text-align:right; width:30%;">新闻链接</td>
-			              <td><input value="" class="add_new_link" type="text" style="width:90%"/></td>
-		            </tr>
-                <tr>
-			              <td style="text-align:right; width:30%;">新闻类型</td>
-			              <td>
-                        <select class="add_wxnew_type" style="width:30%">
-                        </select>
                     </td>
 		            </tr>
 		        </tbody>

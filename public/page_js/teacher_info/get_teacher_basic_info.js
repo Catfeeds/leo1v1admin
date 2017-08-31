@@ -14,7 +14,7 @@ $(function(){
         $('[data-status=full]').addClass('hide');
     }
 
-    $(".add_certificate").on("click",function(){
+    $(".opt-upload").on("click",function(){
         do_add_or_update("add");
     });
 
@@ -25,8 +25,6 @@ $(function(){
             replace(/\"id_container_add\"/, "\"id_container_add_tmp\"" )
         ;
         var html_node = $("<div></div>").html(html_txt);
-        var pic_url = "";
-        var pic_img = "";
 
         if (opt_type=="update") {
             pic_url=item.pic;
@@ -41,9 +39,9 @@ $(function(){
 
         var title = "";
         if (opt_type=="update"){
-            title="修改信息";
+            title="修改证书";
         }else{
-            title="添加信息";
+            title="上传证书";
         }
         BootstrapDialog.show({
             title           : title,
@@ -51,7 +49,7 @@ $(function(){
             closable        : true,
             closeByBackdrop : false,
             onshown         : function(dialog){
-                custom_qiniu_upload ("upload_zigezheng","zigezheng",
+                custom_qiniu_upload ("id_container_add_tmp","id_upload_add_tmp",
                                      g_args.qiniu_upload_domain_url , true,
                                      function (up, info, file){
                                          var res = $.parseJSON(info);
@@ -64,11 +62,7 @@ $(function(){
                     label: '确认',
                     cssClass: 'btn-primary',
                     action : function(dialog) {
-                        var title    = html_node.find(".add_title").val();
-                        var des      = html_node.find(".add_des").val();
-                        var pic      = html_node.find(".add_pic").text();
                         var new_link = html_node.find(".add_new_link").val();
-                        var add_wxnew_type = html_node.find(".add_wxnew_type").val();
                         if (opt_type=="update") {
                             $.ajax({
                                 type     : "post",
@@ -76,11 +70,7 @@ $(function(){
                                 dataType : "json",
                                 data : {
                                     "id"        : id
-                                    ,"title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
                                     ,"new_link" : new_link
-                                    ,"type"     : add_wxnew_type
                                 },
                                 success : function(result){
                                     if(result.ret==0){
@@ -98,10 +88,7 @@ $(function(){
                                 dataType : "json",
                                 data : {
                                     "title"     : title
-                                    ,"des"      : des
-                                    ,"pic"      : pic
                                     ,"new_link" : new_link
-                                    ,"type"     : add_wxnew_type
                                 },
                                 success : function(result){
                                     if(result.ret==0){
