@@ -483,7 +483,7 @@ trait  ViewDeal {
         if (preg_match("/([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)/",$method, $matches)  )  {
             $ctr=$matches[1];
             $action=strtolower($matches[2]);
-            return static::view_with_header_info ("$ctr.$action", $data ,[
+            return static::view_with_header_info("$ctr.$action", $data ,[
                 "_ctr"=> $ctr ,
                 "_publish_version"=> \App\Config\publish_version::$version ,
                 "_act"=> $action,

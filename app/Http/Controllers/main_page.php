@@ -138,9 +138,9 @@ class main_page extends Controller
     }
     public  function assistant() {
         $this->switch_tongji_database();
-        return $this->error_view([
+        /* return $this->error_view([
             "关闭首页统计,请看其它."
-        ]);
+            ]);*/
 
         $end_time = strtotime( date("Y-m-d") );
         $end_time_date = date("Y-m-d") ;
@@ -158,7 +158,6 @@ class main_page extends Controller
 
         //
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
-        $this->t_lesson_info->switch_tongji_database();
         $lesson_count_list=$this->t_lesson_info->get_confirm_lesson_list($start_time,$end_time);
         //
 
@@ -171,7 +170,6 @@ class main_page extends Controller
         $xs = !empty($user_all)?round($lesson_all/$user_all/100,1):0;
         $stu_info=$this->t_student_info->tongji_assisent($assistantid);
 
-        $this->t_assistant_info->switch_tongji_database();
         $assistant_renew_list = $this->t_assistant_info->get_all_assistant_renew($start_time,$end_time);
         $all_money_ass = 0;
         foreach($assistant_renew_list as  &$val){

@@ -521,7 +521,7 @@
                                     <a class="opt-change-week-lesson-num-list" >周排课修改记录</a>
                                     <a class="opt-change-good-teacher">优秀老师</a>
                                 @endif
-                                @if(in_array($acc,["ted"]))
+                                @if(in_array($acc,["ted","夏宏东"]))
                                     <a class="opt-change-lesson-num">修改排课数</a>
                                 @endif
 

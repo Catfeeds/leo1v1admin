@@ -84,6 +84,7 @@
                             <table   class="table table-bordered "   >
                                 <thead>
                                     <tr>
+                                        <td>组别</td>
                                         <td>英文名</td>
                                         <td>助教</td>
                                         <td>回访目标</td>
@@ -114,6 +115,7 @@
                                 <tbody id="id_ass_list">
                                     @foreach ( $ass_list as $key=> $var )
                                         <tr>                                           
+                                            <td  > {{@$var["group_name"]}} </td> 
                                             <td  > {{@$var["account"]}} </td> 
                                             <td  > {{@$var["nick"]}} </td> 
                                             <td  > {{@$var["revisit_target"]}} </td> 

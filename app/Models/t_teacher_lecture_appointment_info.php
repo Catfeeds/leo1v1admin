@@ -988,4 +988,19 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         return $this->main_get_list($sql);
     }
 
+    public function get_refresh_list(){
+        $where_arr = [
+            "grade_ex<100",
+        ];
+        $sql = $this->gen_sql_new("select id,phone,grade_ex,subject_ex,trans_subject_ex,trans_grade_ex"
+                                  ." from %s tl"
+                                  ." where %s"
+                                  ." and not exists (select 1 from %s where tl.phone=phone)"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+                                  ,t_teacher_info::DB_TABLE_NAME
+        );
+        return $this->main_get_list($sql);
+
+    }
 }

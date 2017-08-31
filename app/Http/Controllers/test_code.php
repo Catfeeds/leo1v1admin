@@ -30,7 +30,7 @@ class test_code extends Controller
     var $teacher_money_type_month_key = "teacher_money_type_month";
 
     public function __construct(){
-        $this->switch_tongji_database();
+        // $this->switch_tongji_database();
         $this->br="<br>";
         $this->red="<div color=\"red\">";
         $this->blue="<div color=\"blue\">";
@@ -1901,6 +1901,43 @@ class test_code extends Controller
             echo $val['realname']."|".$val['phone']."|".$grade_str."|".$time."|".$val['lesson_num']
                                  ."|".$val['has_order']."|".$val['test_transfor_per']
                                  ;
+            echo "<br>";
+        }
+    }
+
+    public function refresh(){
+
+        $subject_map = array_flip(E\Esubject::$desc_map);
+        $list = $this->t_teacher_lecture_appointment_info->get_refresh_list();
+        foreach($list as $val){
+            echo $val['phone']."|".$val['grade_ex']."|".$val['subject_ex']."|".$val['trans_grade_ex']."|".$val['trans_subject_ex'];
+            if($val['trans_subject_ex']==0){
+                $grade_str = mb_substr($val['grade_ex'],0,1,"utf-8");
+                switch($grade_str){
+                case "小":
+                    $grade_ex="100";break;
+                case "初":
+                    $grade_ex="200";break;
+                case "高":
+                    $grade_ex="300";break;
+                default:
+                    $grade_ex="";break;
+                }
+            }
+            $subject_str = mb_substr($val['subject_ex'],0,2,"utf-8");
+            if(isset($subject_map[$subject_str])){
+                $subject_ex=$subject_map[$subject_str];
+            }else{
+                $subject_ex="";
+            }
+
+            if($grade_ex!="" && $subject_ex!=""){
+                $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
+                    "grade_ex"=>$grade_ex,
+                    "subject_ex"=>$subject_ex,
+                ]);
+                echo "|".$grade_ex."|".$subject_ex;
+            }
             echo "<br>";
         }
     }
