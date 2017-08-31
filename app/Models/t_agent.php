@@ -853,6 +853,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
+        // $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
@@ -906,6 +907,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'pp_level'     =>$pp_level,
                     'create_time' =>  $check_time,
                 ]);
+
+                // if(($order_info_old['orderid'] == $orderid) && )
             }
 
         }
@@ -1000,17 +1003,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
             }
         }
-        // if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
-        //     $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
-        //     $data = [
-        //         'first'    => '等级升级提醒',
-        //         'keyword1' => '水晶会员',
-        //         'keyword2' => date('Y-m-d H:i:s',time()),
-        //         'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
-        //     ];
-        //     $url = '';
-        //     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
-        // }
+        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
+            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+            $data = [
+                'first'    => '等级升级提醒',
+                'keyword1' => '水晶会员',
+                'keyword2' => date('Y-m-d H:i:s',time()),
+                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
+            ];
+            $url = '';
+            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
+        }
     }
 
 

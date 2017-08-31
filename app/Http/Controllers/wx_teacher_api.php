@@ -17,13 +17,14 @@ require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
 use OSS\Core\OssException;
-class wx_teacher_api extends TeaWxController
+class wx_teacher_api extends Controller
 {
     use CacheNick;
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
     }
+
 
     public function teacher_report_msg(){
         $report_uid   = $this->get_teacherid();

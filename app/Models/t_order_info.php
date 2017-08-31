@@ -2405,7 +2405,6 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
     }
 
     public function get_agent_order_info($userid,$create_time ) {
-
         $where_arr = [
             ["order_time > %u ", $create_time,0 ],
             'order_status in (1,2)',

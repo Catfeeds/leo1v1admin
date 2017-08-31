@@ -66,13 +66,13 @@ class order_price_base {
         $last_k=$def_value[0];
         $last_value=$def_value[1];
         foreach ($config as  $k =>$v ) {
-            if ($k >= $check_key )  {
-                return array($k, $last_value);
+            if ($k > $check_key )  {
+                return array($last_k , $last_value);
             }
             $last_value= $v;
             $last_k= $k;
         }
-        return array($k, $last_value);
+        return array($last_k, $last_value);
     }
 
     static function get_value_from_config($config,$check_key,$def_value=0) {

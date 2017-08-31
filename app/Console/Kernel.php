@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         // Commands\Inspire::class,
         Commands\check_test_lesson_succ_flag_for_send_wx::class,
+        Commands\audio_post::class,
         Commands\reset_lesson_online_user_status_by_stroke_time::class,
         Commands\update_lesson_call_time::class,
         Commands\todo_reset::class,
