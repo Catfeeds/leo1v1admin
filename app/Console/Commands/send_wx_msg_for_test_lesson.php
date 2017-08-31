@@ -191,6 +191,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
                     "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "keyword3" => '学生端',
                     "remark"   => "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。"
                 ];
             }elseif($type == 2){ // 超时5分钟

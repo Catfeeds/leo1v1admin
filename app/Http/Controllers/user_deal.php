@@ -2614,6 +2614,9 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
+        $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
+        dd($ass_leader_list);
+
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-08-30");
         $page_info = $this->get_in_page_info();
