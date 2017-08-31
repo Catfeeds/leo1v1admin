@@ -250,9 +250,8 @@ class agent extends Controller
         //     }
         // }
 
-
+        $this->switch_tongji_database();
         $list = $this->t_seller_student_new->get_all_list();
-        dd($list);
         foreach($list as $item){
             $userid = $item['userid'];
             // $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
@@ -267,7 +266,7 @@ class agent extends Controller
                 }
             }
         }
-        dd($list);
+        dd('a');
     }
 
     public function get_agent_test_lesson($agent_id){
