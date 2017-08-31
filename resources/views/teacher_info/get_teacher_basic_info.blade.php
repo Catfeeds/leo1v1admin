@@ -180,7 +180,7 @@
                         <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12"">
-                                    <button type="button" class="btn btn-block btn-info btn-sm">查看简历</button>
+                                    <button type="button" value="jianli" class="btn btn-block btn-info btn-sm opt-upload">查看简历</button>
                                 </div>
                             </div>
                         </div>
@@ -208,6 +208,7 @@
                         <div class="chart" style="height: 100px;">
                             <div class="row">
                                 <div class="col-sm-12">
+                                    <p>ss{{$my_info['jianli']}}</p>
                                     <button type="button" value="seniority" class="btn btn-block btn-info btn-sm opt-upload">上传资格证</button>
                                 </div>
                             </div>

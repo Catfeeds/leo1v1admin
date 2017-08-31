@@ -2164,4 +2164,24 @@ class teacher_info extends Controller
             return outputjson_error('发生错误，设置失败！');
         }
     }
+
+    public function update_teacher_jianli_pdf(){
+        $teacherid = $this->get_login_teacher();
+        $type = $this->get_in_str_val('opt_data', '');
+        $url  = $this->get_in_str_val('get_pdf_url', '');
+        if ( $type=='' || $url=='' ) {
+            $this->output_err("上传信息为空！");
+        }
+        $res_info = $this->t_teacher_info->field_update_list(["teacherid" => $teacherid],
+            [$type  => $url]
+        );
+
+        if ($res_info) {
+            return outputjson_success();
+        } else {
+            return outputjson_error('发生错误，设置失败！');
+        }
+
+
+    }
 }

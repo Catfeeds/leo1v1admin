@@ -742,7 +742,6 @@ $(function(){
 
     $(".opt-download-test-paper").on("click", function () {
         var opt_data = $(this).get_opt_data();
-        console.log(333);
         $.do_ajax("/user_deal/set_stu_test_paper_download", {
             "lessonid"               : opt_data.lessonid,
             "test_lesson_subject_id" : opt_data.test_lesson_subject_id
