@@ -236,7 +236,12 @@ class wx_yxyx_common extends Controller
             if ($db_userid)  {
                 $add_time=$this->t_seller_student_new->get_add_time($userid);
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
-                    $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                    $usreid= $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+                    if ($userid) {
+                        $this->t_student_info->field_update_list($userid, [
+                            "origin_level" => E\Eorigin_level::V_99
+                        ] );
+                    }
                 }
             }else{
                 $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);

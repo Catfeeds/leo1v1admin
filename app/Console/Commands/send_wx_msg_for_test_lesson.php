@@ -275,7 +275,7 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
-       if($type !=4 || $type !=6 ){
+       if($type !=3 || $type !=5 ){
            \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
        }
 
