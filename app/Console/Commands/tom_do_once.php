@@ -65,7 +65,7 @@ class tom_do_once extends Command
                 $succ_count = $succ_test_info['count'];
                 echo "$userid".':'."$succ_count"."\n";
                 if($item['test_lesson_count'] != $succ_count){
-                    $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+                    $this->task->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
                 }
             }
 
