@@ -898,6 +898,7 @@ class seller_student_new extends Controller
 
     public function test_lesson_fail_list() {
         $ret_info=$this->get_free_seller_list_data();
+        dd($ret_info);
         return $this->pageView(__METHOD__, $ret_info);
     }
 
