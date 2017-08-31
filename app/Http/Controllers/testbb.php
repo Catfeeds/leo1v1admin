@@ -82,7 +82,7 @@ class testbb extends Controller
         dd($ret);
     }
     public function rename_file() {
-
+        dd(date('Y年m月'));
     }
 
 

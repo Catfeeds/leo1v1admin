@@ -9,8 +9,6 @@ $(function(){
     }
 
 
-
-
     $(".opt-up").on("click",function(){
         var opt_data=$(this).get_opt_data();
         $.do_ajax("/self_manage/self_menu_switch" ,{
@@ -34,6 +32,12 @@ $(function(){
         var opt_data=$(this).get_opt_data();
         $.do_ajax("/self_manage/self_menu_del",{"id": opt_data.id});
     });
+
+
+    $(".opt-edit ").on("click",function(){
+        $.do_ajax( "/ajax_deal2/test",{});
+    });
+
 
 
   $('.opt-change').set_input_change_event(load_data);

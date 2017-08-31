@@ -149,6 +149,8 @@ $(function(){
         }
         var id_teacherid  = $("<input/>");
         var id_start_time = $("<input/>");
+        var id_top_seller_flag = $("<select />");
+        Enum_map.append_option_list("boolean",id_top_seller_flag,true);
 
         if(opt_data.teacherid > 0){
              id_teacherid.val(opt_data.teacherid);
@@ -173,6 +175,7 @@ $(function(){
             ["开始时间",id_start_time ]  ,
             ["年级",opt_data.grade_str]  ,
             ["科目",opt_data.subject_str]  ,
+            ["销售top20意向",id_top_seller_flag]  ,
         ];
 
         $.show_key_value_table("排课", arr ,[
@@ -202,7 +205,8 @@ $(function(){
                             'require_id'   : opt_data.require_id,
                             "grade"        : opt_data.grade,
                             'teacherid'    : id_teacherid.val(),
-                            'lesson_start' : id_start_time.val()
+                            'lesson_start' : id_start_time.val(),
+                            'top_seller_flag':id_top_seller_flag.val()
                         });
                     };
 
