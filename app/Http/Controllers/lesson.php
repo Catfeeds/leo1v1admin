@@ -460,16 +460,22 @@ class lesson extends TeaWxController
              **/
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
 
-            $subject_str = E\Esubject::get_desc();
+            $subject_str = E\Esubject::get_desc($lesson_info['subject']);
             $lesson_begin = date('H:i',$lesson_info['lesson_start']);
             if($ret_info){
                 $data_par =[
-                    'first'     => "$lesson_begin 的xx课xx老师已经提交了课程评价",
-                    'keyword1'  => '',
-                    'keyword2'  => '',
-                    'keyword3'  => '',
-                    'remark'    => ''
+                    'first'     => "$lesson_begin 的 $subject_str 课 $tea_nick 老师已经提交了课程评价",
+                    'keyword1'  => " $subject_str ",
+                    'keyword2'  => date('Y-m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end']),
+                    'keyword3'  => $lesson_info['stu_nick'],
+                    'remark'    => ' 可登录学生端或升学帮查看详情，谢谢！'
                 ];
+
+                $wx  = new \App\Helper\Wx();
+                $template_id_parent = 'ch1WZWbJvIckNJ8kA9r7v72nZeXlHM2cGFNLevfAQI';
+                if($lesson_info['wx_openid']){
+                    $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_par ,'');
+                }
             }
 
             return $this->output_succ(['time'=>$ret_state]);

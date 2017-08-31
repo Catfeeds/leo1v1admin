@@ -54,7 +54,10 @@ class audio_post extends cmd_base
             $admin_info= @$admin_map[$adminid];
 
 
-            if ( $admin_info && $admin_info["group_name"] && preg_match("/api.clink.cn/", $record_url ) ) {
+            if ( $admin_info && $admin_info["group_name"]
+                 && preg_match("/api.clink.cn/", $record_url ) ) {
+
+
                 $post_data=[];
                 $post_data["unique_id"]=$item["id"];
                 $post_data["url"]=$item["record_url"] .$clink_args;
@@ -78,13 +81,13 @@ class audio_post extends cmd_base
                         "id"=> $admin_info["groupid"]
                     ]
                 ];
-                dd( $post_data );
 
+                $ret=\App\Helper\Net::http_post_data($url, json_encode($post_data));
+                echo "deal :".  $item["phone"]. ":".json_encode($ret)."\n";
             }
 
         }
         /*
-        \App\Helper\Net::http_post_data($url,$data);
         {
             "unique_id": "133333333",
                 "url":"http://voice-2.cticloud.cn/05062017/record/7000001/7000001-20170605192458-15302529829-02145994742--record-sip-1-1496661898.303292.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20170605T113115Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAPJ2BZJEGHHO4ZI5A%2F20170605%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Signature=fa23085879b09d8be859c55299e8cf62259c0069f3dd1b9fa614a6165c13a28a",
