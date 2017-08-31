@@ -64,8 +64,7 @@
                         <td>{{@$var["add_time"]}} </td>
                         <td>{{@$var["phone_hide"]}} </td>
                         <td>{{@$var["phone_location"]}} </td>
-                        <!-- <td>{{@$var["cc_nick"]}} </td> -->
-                        <td>{{@$var["free_adminid"]}} </td>
+                        <td>{{@$var["cc_nick"]}} </td>
                         <td>{{@$var["free_time"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
