@@ -347,7 +347,7 @@ class test_boby extends Controller
             if (!in_array($item['lesson_nums'], $list)){
                 $list[ $item['lesson_nums'] ] = 1;
             } else {
-                $list[ $item['lesson_nums'] ]++ ;
+                $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
             }
         }
         foreach ($list as $k=>$v){
