@@ -118,11 +118,34 @@ class get_jw_lesson_info_update extends Command
                     "tran_count_seller"=>$val["tra_count_seller"],
                     "tran_count_ass"=>$val["tra_count_ass"],
                     "tran_count_green"=>$val["tra_count_green"],
-                    "tran_per"      =>$val["tra_per_str"]
+                    "tran_per"      =>$val["tra_per_str"],
+                    "ass_tran_green_count"  =>$val["ass_tran_green_count"],
+                    "seller_tran_green_count"  =>$val["seller_tran_green_count"],
                 ]);
 
             }
         }
+
+        //更新7月数据
+        $start_time = strtotime("2017-07-01");
+        $end_time = strtotime("2017-08-01");
+        $ass_green        = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,1,1);
+        foreach($ass_green as $k=>$tt){
+            $task->t_jw_teacher_month_plan_lesson_info->field_update_list_2($k,$start_time,[
+                "ass_tran_green_count"  =>$tt["num"]
+            ]);
+ 
+        }
+        $seller_green     = $task->t_test_lesson_subject_require->get_teat_lesson_transfor_info_type($start_time,$end_time,2,1);
+        foreach($seller_green as $k=>$tt){
+            $task->t_jw_teacher_month_plan_lesson_info->field_update_list_2($k,$start_time,[
+                "seller_tran_green_count"  =>$tt["num"]
+            ]);
+ 
+        }
+
+        
+
 
 
     }
