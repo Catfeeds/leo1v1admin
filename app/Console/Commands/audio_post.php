@@ -45,14 +45,14 @@ class audio_post extends cmd_base
         $url='http://rcrai.com:8001/leoedu/call/';
 
         $clink_args="?enterpriseId=3005131&userName=admin&pwd=".md5(md5("Aa123456" )."seed1")  . "&seed=seed1"  ;
-        $admin_map=$this->task->t_manager_info->get_admin_member_list();
+        $admin_info=$this->task->t_manager_info->get_admin_member_list();
+        $admin_map=$admin_info["list"];
 
         foreach ($list as $item) {
             $record_url = $item["record_url"];
             $adminid= $item["adminid"];
             $admin_info= @$admin_map[$adminid];
 
-            dd($adminid, $admin_info);
 
             if ( $admin_info && preg_match("/api.clink.cn/", $record_url ) ) {
                 $post_data=[];
@@ -61,7 +61,7 @@ class audio_post extends cmd_base
                 $post_data["timestamp"]=$item["start_time"];
 
                 $post_data["customer"]=[
-                    "phone" => $phone,
+                    "phone" => $item["phone"],
                     "name" => "",
                 ];
 

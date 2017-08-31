@@ -408,6 +408,8 @@ class lesson extends TeaWxController
             return $this->output_err("lessonid not exist");
         }
 
+        $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid();
+
         $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
         $stu_study_status     = $this->get_in_str_val("stu_study_status");
@@ -456,7 +458,7 @@ class lesson extends TeaWxController
              **/
             if($ret_info){
                 $data_par =[
-                    'first'     => '',
+                    'first'     => "xx:xx的xx课xx老师已经提交了课程评价",
                     'keyword1'  => '',
                     'keyword2'  => '',
                     'keyword3'  => '',
