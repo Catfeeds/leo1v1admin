@@ -1643,12 +1643,21 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
     //建行支付测试接口
     public function send_ccb_order_charge(){
         $orderid = $this->get_in_int_val("orderid");
+        $orderid = 974;
         //成交价格
-        $paument = $this->t_order_info->get_price($orderid);
+        $payment = $this->t_order_info->get_price($orderid);
         //订单id
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         //MAC校验域
-        $mac = md5($orderid);
+        $mac = md5($orderNo);
+
+        $data = [
+            "payment" =>$payment,
+            "orderid" =>$orderid,
+            "mac"     =>$mac
+        ];
+        return $this->output_succ(["data"=>$data]);
+
 
     }
 

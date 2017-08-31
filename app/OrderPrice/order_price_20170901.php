@@ -81,13 +81,17 @@ class order_price_20170901 extends order_price_base
             $price = $old_price ;
             */
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-            $off_config_id       = $present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
+            $off_config_id = static::$grade_price_off_config[$check_grade];
             \App\Helper\Utils::logger("off_config_id:$off_config_id");
 
             $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
             list($find_count_level ,$off_value)=static::get_value_from_config_ex($new_discount_config, $check_lesson_count , [1,100] );
             $price=$grade_price*$off_value/100/3 * $lesson_count;
-            $desc_list[]="满课时打折: $find_count_level 次课 $off_value 折 ";
+
+            if ($off_value<100) {
+                $desc_list[]=["off_flag"=>1,
+                              "desc" => "满课时打折: $find_count_level 次课 $off_value 折 "];
+            }
         }
 
 
@@ -108,9 +112,10 @@ class order_price_20170901 extends order_price_base
             $free_money=200;
         }
         if ($free_money) {
-            $desc_list[]="活动: $find_free_money_lesson_count 次课 立减 $free_money 元 ";
+            $desc_list[]=["off_flag"=>1,
+                          "desc" =>  "活动: $find_free_money_lesson_count 次课 立减 $free_money 元 "];
         }
-
+        $price-=$free_money;
         /*
         if($args["from_test_lesson_id"]!=0){
             $from_test_lesson_id=@$args["from_test_lesson_id"];
