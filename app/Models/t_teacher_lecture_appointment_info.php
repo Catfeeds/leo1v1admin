@@ -992,7 +992,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             "grade_ex<100",
         ];
-        $sql = $this->gen_sql_new("select id,phone,grade_ex,subject_ex,trans_subject_ex,trans_grade_ex"
+        $sql = $this->gen_sql_new("select id,phone,grade_ex,subject_ex,trans_subject_ex,trans_grade_ex,grade_start,grade_end"
                                   ." from %s tl"
                                   ." where %s"
                                   ." and not exists (select 1 from %s where tl.phone=phone)"
