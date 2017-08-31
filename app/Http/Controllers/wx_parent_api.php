@@ -178,11 +178,14 @@ class wx_parent_api extends Controller
                {{remark.DATA}}
              **/
 
+            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid();
+
+            $subject_str = E\Esubject::get_desc($lesson_info['subject']);
 
             $data_tea = [
                 'first'    => "xx:xx的xx课xx同学已经提交了课程评价",
-                'keyword1' => "",
-                'keyword2' => "",
+                'keyword1' => " $subject_str ",
+                'keyword2' => date('m-d H:i',$lesson_info['lesson_start']).' ~ '.date('H:i', $lesson_info['lesson_end']),
                 'remark'   => "",
             ];
         }

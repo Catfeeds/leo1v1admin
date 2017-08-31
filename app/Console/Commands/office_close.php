@@ -37,7 +37,11 @@ class office_close extends cmd_base
      */
     public function do_handle()
     {
-        //new \App\Http\Controllers\CacheNick
-        //$this->task->t_off
+        $office_device_type=1;
+        $value=24;
+        $device_sub_type =0;
+
+        \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type,$device_sub_type ,$value);
+
     }
 }
