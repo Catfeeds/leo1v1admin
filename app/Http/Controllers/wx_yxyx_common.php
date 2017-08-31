@@ -231,32 +231,50 @@ class wx_yxyx_common extends Controller
         $p_wx_openid = $p_ret['wx_openid'];
         $p_agent_level = $p_ret['agent_level'];
         $pp_wx_openid = $p_ret['p_wx_openid'];
-        $pp_agent_level = $p_ret['agent_level'];
+        $pp_agent_level = $p_ret['p_agent_level'];
         $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
-        if($type == 1){//邀请学员
-            $type_str = '邀请学员成功!';
-            if($p_agent_level == 1){//黄金
-                $remark = '恭喜您成功邀请的学员'.$phone.'参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
-            }else{//水晶
-                $remark = '恭喜您成功邀请的学员'.$phone.'参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
-            }
-        }else{//邀请会员
-            $type_str = '邀请会员成功!';
-            $remark = '恭喜您成功邀请的会员'.$phone.'成为您的雇佣兵。';
-        }
-        $data = [
-            'first'    => $type_str,
-            'keyword1' => $phone,
-            'keyword2' => $phone,
-            'keyword3' => date('Y-m-d H:i:s',time()),
-            'remark'   => $remark,
-        ];
         $url = '';
         if($p_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($p_openid,$template_id,$data,$url);
+            if($type == 1){//邀请学员
+                $type_str = '邀请学员成功!';
+                if($p_agent_level == 1){//黄金
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                }else{//水晶
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
+                }
+            }else{//邀请会员
+                $type_str = '邀请会员成功!';
+                $remark = '恭喜您成功邀请会员'.$phone;
+            }
+            $data = [
+                'first'    => $type_str,
+                'keyword1' => $phone,
+                'keyword2' => $phone,
+                'keyword3' => date('Y-m-d H:i:s',time()),
+                'remark'   => $remark,
+            ];
+            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
         }
         if($pp_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_openid,$template_id,$data,$url);
+            if($type == 1){//邀请学员
+                $type_str = '邀请学员成功!';
+                if($pp_agent_level == 1){//黄金
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课。';
+                }else{//水晶
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                }
+            }else{//邀请会员
+                $type_str = '邀请会员成功!';
+                $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone;
+            }
+            $data_p = [
+                'first'    => $type_str,
+                'keyword1' => $phone,
+                'keyword2' => $phone,
+                'keyword3' => date('Y-m-d H:i:s',time()),
+                'remark'   => $remark,
+            ];
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data_p,$url);
         }
     }
 
