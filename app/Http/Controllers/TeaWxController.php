@@ -14,7 +14,6 @@ class TeaWxController extends Controller
 {
     public $check_wx_use_flag=true;
 
-
     function __construct()  {
         if ($this->check_wx_use_flag ) {
              $this->check_wx_use();
@@ -30,7 +29,6 @@ class TeaWxController extends Controller
                 exit;
             }else{
                 return true;
-
             }
         }
     }

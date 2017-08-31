@@ -45,11 +45,11 @@ class wx_teacher_web extends Controller
 
             header("Location: $url");
         }else{
-            $wx_config=\App\Helper\Config::get_config("teacher_wx");
-            $to_url=bin2hex($this->get_in_str_val("_url"));
-            $wx= new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
+            $wx_config = \App\Helper\Config::get_config("teacher_wx");
+            $to_url    = bin2hex($this->get_in_str_val("_url"));
+            $wx        = new \App\Helper\Wx( $wx_config["appid"] , $wx_config["appsecret"] );
 
-            $redirect_url=urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
+            $redirect_url = urlencode("http://wx-teacher.leo1v1.com/wx_teacher_common/wx_jump_page?goto_url=$to_url" );
             $wx->goto_wx_login( $redirect_url );
         }
     }
@@ -61,5 +61,6 @@ class wx_teacher_web extends Controller
     public function complaint() {}
     public function honor_rank() {}
     public function index (){}
+    public function teacher_day(){}
 
 }

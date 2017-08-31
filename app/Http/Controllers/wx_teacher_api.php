@@ -1,9 +1,7 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
-
 use App\Helper\Utils;
 use Illuminate\Support\Facades\Cookie ;
 use Illuminate\Support\Facades\Redis ;
@@ -11,57 +9,21 @@ use Illuminate\Support\Facades\Session ;
 
 // 引入鉴权类
 use Qiniu\Auth;
-
 // 引入上传类
 use Qiniu\Storage\UploadManager;
 use Qiniu\Storage\BucketManager;
 
 require_once  app_path("/Libs/Qiniu/functions.php");
-
-//require(app_path("/Libs/OSS/autoload.php"));
-//use OSS\OssClient;
-//use OSS\Core\OssException;
-
-
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
-
 use OSS\Core\OssException;
-
-
-
 class wx_teacher_api extends TeaWxController
 {
-
     use CacheNick;
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
     }
-
-    // public function get_teacherid() {
-    //     $role      = $this->get_in_int_val("_role",0);
-    //     $teacherid = $this->get_in_int_val("_userid",0);
-
-    //     if (!$role) {
-    //         $role = session("login_user_role" );
-    //     }
-
-    //     if (!$teacherid) {
-    //         $teacherid = session("login_userid" );
-    //     }
-
-    //     return $teacherid;
-
-    //     if ($role==2 &&  $teacherid ) {
-    //         return $teacherid;
-    //     }else{ // 待处理
-    //         // echo $this->output_err("未登录");
-    //         // exit;
-    //     }
-    // }
-
-
 
     public function teacher_report_msg(){
         $report_uid   = $this->get_teacherid();
@@ -141,9 +103,6 @@ class wx_teacher_api extends TeaWxController
         }
     }
 
-
-
-
     // 返回需要反馈的部门
     public function  get_feedback_department(){
         $department_arr = [
@@ -160,10 +119,8 @@ class wx_teacher_api extends TeaWxController
             13=>"教务部",
         ];
 
-
         return $this->output_succ(['data'=>$department_arr]);
     }
-
 
     public function teacher_feed_back_work(){ // 老师微信老师帮 反馈工作处理
         $complaint_info    = $this->get_in_str_val('complaint_info','');
@@ -177,9 +134,7 @@ class wx_teacher_api extends TeaWxController
 
         $sever_name = $_SERVER['SERVER_NAME'];
 
-
         \App\Helper\Utils::logger("wx_tousu: ".$teacherid);
-
 
         // 老师帮微信号
         $appid = 'wxa99d0de03f407627';
@@ -277,10 +232,8 @@ class wx_teacher_api extends TeaWxController
         $ret_arr = \App\Helper\Utils::deal_feedback_img($serverId_str,$sever_name);
         $complaint_img_url = $ret_arr['alibaba_url_str'];
 
-
-        // * 插入到投诉数据库中
-        $account_type   = '2'; // 投诉人身份 [老师]
-
+        //插入到投诉数据库中
+        $account_type = '2'; // 投诉人身份 [老师]
         $ret_info_qc = $this->t_complaint_info->row_insert([
             'complaint_type' => $complaint_type,
             'userid'         => $teacherid,
@@ -290,7 +243,6 @@ class wx_teacher_api extends TeaWxController
             'complaint_img_url' => $complaint_img_url,
             // 'complained_feedback_type' => 2
         ]);
-
 
         if ($ret_info_qc) {
             // 通知QC处理
@@ -385,11 +337,12 @@ class wx_teacher_api extends TeaWxController
 
     public function get_month(){
         $month = intval( date('n', strtotime ("-1 month") ));
+        \App\Helper\Utils::logger("get month");
+
         return $this->output_succ(['month'=> $month]);
     }
 
     public function get_teacher_lesson(){//p 2
-        // $teacherid = $this->get_in_int_val("teacherid");
         $teacherid = $this->get_wx_teacherid();
 
         \App\Helper\Utils::logger("yuebao".$teacherid);
