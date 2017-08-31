@@ -2378,7 +2378,7 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function get_jw_openid($lessonid){
         $where_arr=[
-            ["l.lessonid=%d",$lessonid ]   ,
+            ["l.lessonid=%d",$lessonid ],
         ];
         $sql=$this->gen_sql_new(
             "select m.wx_openid  "

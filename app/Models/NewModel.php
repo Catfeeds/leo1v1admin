@@ -257,9 +257,11 @@ abstract class NewModel
         $count_query = "select count(*) " . $count_query;
 
         if ( !$use_group_by_flag ){
-            $count=$this->main_get_value($count_query,0);
+            //$count=$this->main_get_value($count_query,0);
+            $count=50;
         }else{
-            $count=count($this->main_get_list($count_query ));
+            //$count=count($this->main_get_list($count_query ));
+            $count=50;
         }
         if ($count>50) {
             $count=50;
