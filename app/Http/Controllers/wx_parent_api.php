@@ -1264,16 +1264,19 @@ class wx_parent_api extends Controller
                 $first .='作业';
                 $keyword1 = '家长已上传作业';
                 $keyword2 = $lesson_info['stu_nick']."同学的作业已上传";
-
             }
 
             $data_msg = [
                 'first'    => "$first",
-                'keyword1' => "",
-                'keyword2' => "",
-                'keyword3' => "",
+                'keyword1' => "$keyword1",
+                'keyword2' => "$keyword2",
+                'keyword3' => date("Y-m-d"),
                 'remark'   => "请尽快登录老师后台，进行查看。"
             ];
+
+            if($type == 1){
+                \App\Helper\Utils::send_teacher_msg_for_wx($data_msg,$template_id_teacher, $data_msg,'');
+            }
 
             return $this->output_succ();
         }else{
