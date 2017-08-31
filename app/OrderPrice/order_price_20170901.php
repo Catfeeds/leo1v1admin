@@ -67,7 +67,7 @@ class order_price_20170901 extends order_price_base
 
         $grade_price = $grade_price_config[$check_grade];
 
-        $price = $grade_price/3;
+        $old_price = $grade_price/3;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             /*
@@ -82,8 +82,8 @@ class order_price_20170901 extends order_price_base
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             $off_config_id       = $present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
             $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
-            $price=static::get_value_from_config($new_discount_config, $check_lesson_count );
-            $price=$per_price*$lesson_count;
+            $off_value=static::get_value_from_config($new_discount_config, $check_lesson_count );
+            $price=$grade_price*$off_value/100/3;
         }
         /*
         // 活动
@@ -115,7 +115,7 @@ class order_price_20170901 extends order_price_base
              "price"                => $old_price,
              "present_lesson_count" => $present_lesson_count ,
              "discount_price"       => $price,
-             "discount_count"       => $old_price?floor((($price-$free_money)/($old_price-$free_money ))*10000)/100:100,
+             "discount_count"       => floor(($price/$old_price)*10000)/100,
              "order_promotion_type" => $order_promotion_type,
              "contract_type"        => $contract_type,
              "grade"                => $grade,
