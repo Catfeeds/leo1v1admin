@@ -1253,12 +1253,13 @@ class wx_parent_api extends Controller
                    {{remark.DATA}}
                  **/
 
+                $first = '家长已上传试卷';
             }elseif($paper_type == 2){ //　存放作业
-
+                $first = '家长已上传作业';
             }
 
             $data_msg = [
-                'first'    => "",
+                'first'    => "$first",
                 'keyword1' => "",
                 'keyword2' => "",
                 'keyword3' => "",

@@ -11,7 +11,7 @@ class office_close extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:office_close';
+    protected $signature = 'command:office_close {--id_list=}';
 
     /**
      * The console command description.
@@ -37,7 +37,7 @@ class office_close extends cmd_base
      */
     public function do_handle()
     {
-        $office_device_type=E\Eoffice_device_type::V_1;
+        $id_list=$this->option('id_list');
         $value=24;
         $device_sub_type =0;
         $device_opt_type=E\Edevice_opt_type::V_0;
