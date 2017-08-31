@@ -50,4 +50,17 @@ class t_test_subject_free_list extends \App\Models\Zgen\z_t_test_subject_free_li
         return $this->main_get_list_by_page($sql,$page_info) ;
     }
 
+    public function get_all_list_by_userid($userid) {
+        $sql=$this->gen_sql_new(
+            "select * "
+            ."from %s "
+            ."where userid=%u "
+            ." order by add_time desc limit 1 "
+            ,self::DB_TABLE_NAME
+            ,$userid
+        );
+        return $this->main_get_row($sql);
+    }
+
+
 }

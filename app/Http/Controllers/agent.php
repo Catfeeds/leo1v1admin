@@ -252,15 +252,21 @@ class agent extends Controller
 
 
         $list = $this->t_seller_student_new->get_all_list();
-        foreach($list as &$item){
+        foreach($list as $item){
             $userid = $item['userid'];
-            $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
-            $succ_count = $succ_test_info['count'];
-            if($item['test_lesson_count'] != $succ_count){
-                $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+            // $succ_test_info = $this->t_lesson_info_b2->get_succ_test_lesson_count($userid);
+            // $succ_count = $succ_test_info['count'];
+            // if($item['test_lesson_count'] != $succ_count){
+            //     $this->t_seller_student_new->field_update_list($userid,['test_lesson_count'=>$succ_count]);
+            // }
+            if($userid){
+                $ret = $this->t_test_subject_free_list->get_all_list_by_userid($userid);
+                if($ret){
+                    $this->t_seller_student_new->field_update_list($userid,['free_adminid'=>$ret['adminid'],'free_time'=>$ret['add_time']]);
+                }
             }
         }
-        dd('a');
+        dd($list);
     }
 
     public function get_agent_test_lesson($agent_id){
