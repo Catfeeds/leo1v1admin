@@ -165,15 +165,10 @@ class t_parent_info extends \App\Models\Zgen\z_t_parent_info
         if (substr($url,0,7 )!="http://") {
             $url="http://admin.yb1v1.com/".trim($url,"/ \t");
         }
-        \App\Helper\Utils::logger("WX URLxj $url");
         $openid= $this->get_wx_openid($parentid);
         $wx     = new \App\Helper\Wx();
         if ($openid) {
-            \App\Helper\Utils::logger('openidxj'.$openid);
-
             $ret = $wx->send_template_msg($openid,$template_id,$data ,$url);
-            \App\Helper\Utils::logger('xjmuban1'.$ret);
-
         }else{
             return false;
         }

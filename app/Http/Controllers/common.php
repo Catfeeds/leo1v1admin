@@ -1650,6 +1650,13 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $orderNo = $orderid.substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         //MAC校验域
         $mac = md5($orderNo);
+        $merchantid= 105290000009104;
+
+        //信用卡分期柜台代码
+        $posid = 002171923;
+        $branchid = 310000000;
+        $curcode = 01;
+        $txcode = 
 
         $data = [
             "payment" =>$payment,
