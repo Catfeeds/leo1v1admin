@@ -43,6 +43,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
+            E\Eagent_student_status::set_item_value_str($item);
             $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
@@ -229,45 +230,8 @@ class agent extends Controller
     }
 
     public function check(){
-        dd('a');
 
-        $ret = $this->t_agent->get_p_pp_wx_openid_by_phone($phone= '14');
-        dd($ret);
-        dd(E\Eagent_level::V_1);
-        $openid = 'oAJiDwBbbqiTwnU__f6ce5tNpWYs';
-        $template_id = 'e1iaEh98uALTjWrBAqw7Q-dXTK1_z5x-qRhVdWdcVkM';
-        $data = [
-            'first'    => 'tom',
-            'keyword1' => 'tom',
-            'keyword2' => 'tom',
-            'remark'   => 'tom',
-        ];
-        $url = 'www.leo1v1.com';
-        \App\Helper\Utils::send_agent_msg_for_wx($openid,$template_id,$data,$url);
-        dd('a');
     }
-
-    public function send_agent_p_pp_msg_for_wx($phone,$p_phone){
-        $p_ret = $this->t_agent->get_p_pp_wx_openid_by_phone($p_phone);
-        $p_wx_openid = $p_ret['wx_openid'];
-        $pp_wx_openid = $p_ret['p_wx_openid'];
-        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
-        $data = [
-            'first'    => '您好,您邀请的用户报名了',
-            'keyword1' => $phone,
-            'keyword2' => $phone,
-            'keyword3' => date('Y-m-d H:i:s',time()),
-            'remark'   => '',
-        ];
-        $url = '';
-        if($p_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
-        }
-        if($pp_wx_openid){
-            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
-        }
-    }
-
 
     public function get_agent_test_lesson($agent_id){
         $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_id);
@@ -1019,6 +983,130 @@ class agent extends Controller
             'have_cash' => $have_cash/100,
         ];
         return $data;
+    }
+
+    public function agent_add(){
+        $phone   = $this->get_in_str_val('phone');
+        $p_phone = $this->get_in_str_val('p_phone');
+        $type   = $this->get_in_int_val('type');
+        $type   = E\Eagent_type::V_1;
+        $userid = $this->t_phone_to_user->get_userid($phone);
+        $student_info = $this->t_student_info->field_get_list($userid,'*');
+        $orderid = 0;
+        if($userid){
+            $order_info = $this->t_order_info->get_nomal_order_by_userid($userid   );
+            if($order_info['orderid']){
+                $orderid = $order_info['orderid'];
+            }
+        }
+        if(!preg_match("/^1\d{10}$/",$phone)){
+            return $this->output_err("请输入规范的手机号!");
+        }
+        if($p_phone == $phone){
+            return $this->output_err("不能邀请自己!");
+        }
+        if(!$type){
+            return $this->output_err("请选择报名类型!");
+        }
+        if($userid
+           && $student_info['type'] ==  E\Estudent_type::V_0
+           && $student_info['is_test_user'] == 0
+           && $orderid
+           && $type == E\Eagent_type::V_1
+        ){//在读非测试
+            return $this->output_err("您已是在读学员!");
+        }
+        if(!$p_phone){
+            return $this->output_err("无推荐人!");
+        }
+        $phone_str = implode(',',[$phone,$p_phone]);
+        $ret_list = $this->t_agent->get_id_by_phone($phone_str);
+        foreach($ret_list as $item){
+            if($phone == $item['phone']){
+                $ret_info = $item;
+            }else{
+                $ret_info_p = $item;
+            }
+        }
+        $parentid = $ret_info_p['id'];
+        $p_wx_openid = $ret_info_p['wx_openid'];
+        $p_agent_level = $ret_info_p['agent_level'];
+        $pp_wx_openid = $ret_info_p['pp_wx_openid'];
+        $pp_agent_level = $ret_info_p['pp_agent_level'];
+        if(isset($ret_info['id'])){//已存在,则更新父级和类型
+            if($type == $ret_info['type'] or $ret_info['type']==3){
+                return $this->output_err("您已被邀请过!");
+            }
+            $type_new = $ret_info['type']=0?$type:3;
+            $this->t_agent->field_update_list($ret_info['id'],[
+                "parentid" => $parentid,
+                "type"     => $type_new,
+            ]);
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            return $this->output_succ("邀请成功!");
+        }
+        if($type == 1){//进例子
+            $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
+        }
+        $userid = null;
+        $userid_new = $this->t_phone_to_user->get_userid_by_phone($phone, E\Erole::V_STUDENT );
+        if($userid_new){
+            $userid = $userid_new;
+        }
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+        if($ret){
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            return $this->output_succ("邀请成功!");
+        }else{
+            return $this->output_err("数据请求异常!");
+        }
+    }
+
+    public function send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level){
+        $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
+        $url = '';
+        if($p_wx_openid){
+            if($type == 1){//邀请学员
+                $type_str = '邀请学员成功!';
+                if($p_agent_level == 1){//黄金
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                }else{//水晶
+                    $remark = '恭喜您成功邀请的学员'.$phone.'报名参加测评课，如学员成功购课则可获得最高1000元的奖励哦。';
+                }
+            }else{//邀请会员
+                $type_str = '邀请会员成功!';
+                $remark = '恭喜您成功邀请会员'.$phone;
+            }
+            $data = [
+                'first'    => $type_str,
+                'keyword1' => $phone,
+                'keyword2' => $phone,
+                'keyword3' => date('Y-m-d H:i:s',time()),
+                'remark'   => $remark,
+            ];
+            \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+        }
+        if($pp_wx_openid){
+            if($type == 1){//邀请学员
+                $type_str = '邀请学员成功!';
+                if($pp_agent_level == 1){//黄金
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课。';
+                }else{//水晶
+                    $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone.'报名参加测评课，如学员成功购课则可获得最高500元的奖励哦。';
+                }
+            }else{//邀请会员
+                $type_str = '邀请会员成功!';
+                $remark = '恭喜您邀请的会员'.$p_phone."成功邀请了".$phone;
+            }
+            $data_p = [
+                'first'    => $type_str,
+                'keyword1' => $phone,
+                'keyword2' => $phone,
+                'keyword3' => date('Y-m-d H:i:s',time()),
+                'remark'   => $remark,
+            ];
+            \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data_p,$url);
+        }
     }
 
     public function get_all_test_pic(){

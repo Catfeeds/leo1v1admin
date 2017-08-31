@@ -2057,10 +2057,7 @@ class teacher_info extends Controller
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "my_info" => $ret_info['list'][0],
-        ],[
-            'qiniu_upload_domain_url' => Config::get_qiniu_public_url()."/"
-        ]
-        );
+        ]);
     }
 
     public function edit_teacher_info(){

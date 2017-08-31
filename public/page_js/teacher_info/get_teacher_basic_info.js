@@ -14,10 +14,6 @@ $(function(){
         $('[data-status=full]').addClass('hide');
     }
 
-    $('.opt-upload').on('click', function() {
-
-    });
-
     $('.opt-set').on('click', function(){
         var old_status = $(this).attr('data-status');
         $.ajax({

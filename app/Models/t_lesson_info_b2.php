@@ -2750,11 +2750,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start  "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,tr.id  "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2773,13 +2775,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid "
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=3)"
                                   ." where %s and l.lesson_start = (select min(lesson_start) from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 ) group by l.teacherid,l.userid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2840,13 +2844,15 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             "t.is_test_user=0"
         ];
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.userid,tr.id "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s s on l.userid=s.userid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=4)"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and userid = l.userid and lesson_del_flag=0 and lesson_type in (0,3) and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1) group by l.teacherid,l.userid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -2907,11 +2913,13 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
-        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start"
+        $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,tr.id"
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
+                                  ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=2)"
                                   ." where %s and l.lesson_start = (select lesson_start from %s where teacherid=l.teacherid and lesson_del_flag=0 and lesson_type=2 and lesson_user_online_status<2 and lesson_status>0 order by lesson_start limit 4,1 ) group by l.teacherid",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
+                                  t_teacher_record_list::DB_TABLE_NAME,
                                   $where_arr,
                                   self::DB_TABLE_NAME
         );
@@ -3443,18 +3451,22 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             ["l.lesson_start<=%d",$lesson_end]
         ];
 
-        $sql = $this->gen_sql_new(" select l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
+        $sql = $this->gen_sql_new(" select m.phone as ass_phone, p.phone as par_phone, l.teacherid, l.subject, m.wx_openid as ass_openid, t.wx_openid as tea_openid, p.wx_openid as par.openid, l.lesson_start, l.lesson_end, t.nick as teacher_nick, l.userid, s.nick as stu_nick, p.nick as parent_nick from %s l "
                                   ." left join %s t on t.teacherid = l.teacherid "
                                   ." left join %s s on s.userid=l.userid "
                                   ." left join %s p on p.parentid= s.parentid "
-                                  ." left join %s a on a.assistantid = s.assistantid"
-                                  ." left join %s m on m.phone = a.phone"
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tr on tr.require_id = tss.require_id"
+                                  ." left join %s ts on tr.test_lesson_subject_id = ts.test_lesson_subject_id"
+                                  ." left join %s m on m.uid = ts.require_adminid"
                                   ." where %s",
                                   self::DB_TABLE_NAME,
                                   t_teacher_info::DB_TABLE_NAME,
                                   t_student_info::DB_TABLE_NAME,
                                   t_parent_info::DB_TABLE_NAME,
-                                  t_assistant_info::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
                                   t_manager_info::DB_TABLE_NAME,
                                   $where_arr
         );

@@ -54,12 +54,12 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                 [ "tco.assistantid=%d", $assistantid, -1 ],
                 [ "course_type=%d", $course_type, -1 ],
             ]);
-            if ($assistantid==-1){
-                $lesson_open_str= sprintf( "((lesson_open>=%d and lesson_open<=%d) or  lesson_open =0)",
-                                           $start_time ,
-                                           $end_time
-                );
-            }
+            // if ($assistantid==-1){
+            //     $lesson_open_str= sprintf( "((lesson_open>=%d and lesson_open<=%d) or  lesson_open =0)",
+            //                                $start_time ,
+            //                                $end_time
+            //     );
+            // }
         }else{
             $where_str=$this->where_str_gen([
                 [ "courseid=%d", $courseid, -1 ],

@@ -2614,10 +2614,31 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
+        $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
+        $arr=[];
+        $i=1;
+        foreach($ass_leader_list as $val){
+            if($val["uid"]==513 || $val["uid"]==492){
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+            }else{
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+
+            }
+        }
+        dd($arr);
+
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-08-30");
         $page_info = $this->get_in_page_info();
-        $ret_info = $this->t_lesson_info_b2->get_teacher_first_regular_lesson_detail($start_time,$end_time);
+        $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson_detail($start_time,$end_time);
         dd($ret_info);
 
         $tran_require = $this->t_test_lesson_subject_sub_list->tongji_from_ass_test_tran_lesson($start_time,$end_time);

@@ -276,6 +276,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_row($sql);
     }
+
     public function get_id_by_account($account) {
         $sql=$this->gen_sql("select uid from  %s where account='%s'",
                             self::DB_TABLE_NAME,
@@ -283,6 +284,7 @@ class t_manager_info extends \App\Models\Zgen\z_t_manager_info
         );
         return $this->main_get_value($sql);
     }
+
     public function get_id_by_phone($phone) {
         $sql=$this->gen_sql("select uid from  %s where phone='%s'",
                             self::DB_TABLE_NAME,
