@@ -197,6 +197,10 @@ class wx_yxyx_common extends Controller
             }
         }
         $parentid = $ret_info_p['id'];
+        $p_wx_openid = $ret_info_p['wx_openid'];
+        $p_agent_level = $ret_info_p['agent_level'];
+        $pp_wx_openid = $ret_info_p['pp_wx_openid'];
+        $pp_agent_level = $ret_info_p['pp_agent_level'];
         if(isset($ret_info['id'])){//已存在,则更新父级和类型
             if($type == $ret_info['type'] or $ret_info['type']==3){
                 return $this->output_err("您已被邀请过!");
@@ -206,7 +210,7 @@ class wx_yxyx_common extends Controller
                 "parentid" => $parentid,
                 "type"     => $type_new,
             ]);
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type);
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
@@ -217,7 +221,7 @@ class wx_yxyx_common extends Controller
         if($userid_new){
             $userid = $userid_new;
         }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
         if($ret){
             $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type);
             return $this->output_succ("邀请成功!");
@@ -226,12 +230,7 @@ class wx_yxyx_common extends Controller
         }
     }
 
-    public function send_agent_p_pp_msg_for_wx($phone,$p_phone,$type){
-        $p_ret = $this->t_agent->get_p_pp_wx_openid_by_phone($p_phone);
-        $p_wx_openid = $p_ret['wx_openid'];
-        $p_agent_level = $p_ret['agent_level'];
-        $pp_wx_openid = $p_ret['p_wx_openid'];
-        $pp_agent_level = $p_ret['p_agent_level'];
+    public function send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level){
         $template_id = '70Yxa7g08OLcP8DQi4m-gSYsd3nFBO94CcJE7Oy6Xnk';
         $url = '';
         if($p_wx_openid){
