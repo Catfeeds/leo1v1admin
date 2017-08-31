@@ -43,6 +43,7 @@ class agent extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
+            E\Eagent_student_status::set_item_value_str($item);
             $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
@@ -985,11 +986,9 @@ class agent extends Controller
     }
 
     public function agent_add(){
-        // $phone   = $this->get_in_str_val('phone');
-        // $p_phone = $this->get_in_str_val('p_phone');
-        // $type   = $this->get_in_int_val('type');
-        $phone   = '13176262929';
-        $p_phone = '13636390836';
+        $phone   = $this->get_in_str_val('phone');
+        $p_phone = $this->get_in_str_val('p_phone');
+        $type   = $this->get_in_int_val('type');
         $type   = E\Eagent_type::V_1;
         $userid = $this->t_phone_to_user->get_userid($phone);
         $student_info = $this->t_student_info->field_get_list($userid,'*');
