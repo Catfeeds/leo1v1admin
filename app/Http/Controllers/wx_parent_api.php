@@ -182,6 +182,8 @@ class wx_parent_api extends Controller
 
             $subject_str = E\Esubject::get_desc($lesson_info['subject']);
 
+            $template_id_teacher = 'D5MRwT7Cq-Eri19auVEBuR-_LMJprScEigWab7Eox2A';
+
             $data_tea = [
                 'first'    => date('H:i',$lesson_info['start'])."的 $subject_str 课 ".$lesson_info['stu_nick']."同学已经提交了课程评价",
                 'keyword1' => " $subject_str ",
@@ -189,7 +191,8 @@ class wx_parent_api extends Controller
                 'remark'   => "请登录老师端查看详情，谢谢！",
             ];
 
-           
+            \App\Helper\Utils::send_teacher_msg_for_wx($lesson_info['wx_openid'],$template_id_teacher, $data_tea,'');
+
         }
 
         return $this->output_succ();
@@ -1228,6 +1231,31 @@ class wx_parent_api extends Controller
         }
 
         if($ret){
+
+            if($paper_type == 1){ // 存放试卷
+
+                /**
+                   待办事项提醒
+                   x月x日
+
+                   x月x日xx：xx的xx课程，xx同学的家长已经上传了试卷
+                   待办主题：家长已上传试卷
+                   待办内容：xx同学的试卷已上传
+                   日期：2017/06/01
+                   请尽快登录老师后台，进行查看。
+
+                   rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o
+                   {{first.DATA}}
+                   待办主题：{{keyword1.DATA}}
+                   待办内容：{{keyword2.DATA}}
+                   日期：{{keyword3.DATA}}
+                   {{remark.DATA}}
+                 **/
+
+            }elseif($paper_type == 2){ //　存放作业
+
+            }
+
             return $this->output_succ();
         }else{
             return $this->output_err('图片上传失败,请稍后重试.....');

@@ -105,6 +105,9 @@ class self_manage extends Controller
     {
         $flowid    = $this->get_in_int_val("flowid");
         $flow_type = $this->get_in_int_val("flow_type");
+        if (!$flowid) {
+            return $this->output_err("没有数据");
+        }
         if (!$flow_type) {
             $flow_type= $this->t_flow->get_flow_type($flowid);
         }

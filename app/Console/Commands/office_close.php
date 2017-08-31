@@ -41,7 +41,7 @@ class office_close extends cmd_base
         $value=24;
         $device_sub_type =0;
         $device_opt_type=E\Edevice_opt_type::V_0;
-        for($i=3;$i<4;$i++) {
+        for($i=1;$i<16;$i++) {
             $device_id=$i;
             \App\Helper\office_cmd::add_one($office_device_type,$device_id,$device_opt_type,$device_sub_type ,$value);
         }
