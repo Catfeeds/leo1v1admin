@@ -1656,12 +1656,40 @@ Bd6h4wrbbHA2XE1sq21ykja/Gqx7/IRia3zQfxGv/qEkyGOx+XALVoOlZqDwh76o
         $posid = 002171923;
         $branchid = 310000000;
         $curcode = 01;
-        $txcode = 
+        $txcode = 520100;
+        $remark1="";
+        $remark2 ="";
+        $type=1;
+        $gateway=0;
+        $clientip = "";
+        $reginfo = $this->t_order_info->get_userid($orderid);
+        $proinfo="课程";
+        $referer="";
+        $thirdappinfo="comccbpay105290000009104leoedu";
+        $calljs="";
+        $installnum = "";
+        
 
         $data = [
             "payment" =>$payment,
             "orderid" =>$orderid,
-            "mac"     =>$mac
+            "mac"     =>$mac,
+            "merchantid" =>$merchantid,
+            "posid"      =>$posid,
+            "branchid"   =>$branchid,
+            "curcode"    =>$curcode,
+            "txcode"     =>$txcode,
+            "remark2"    =>$remark2,
+            "remark1"    =>$remark1,
+            "type"       =>$type,
+            "gateway"    =>$gateway,
+            "clientip"   =>$clientip,
+            "reginfo"    =>$reginfo,
+            "proinfo"    =>$proinfo,
+            "referer"    =>$referer,
+            "thirdappinfo"=>$thirdappinfo,
+            "calljs"      =>$calljs,
+            "installnum"  =>$installnum
         ];
         return $this->output_succ(["data"=>$data]);
 

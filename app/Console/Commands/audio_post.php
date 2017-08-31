@@ -11,7 +11,7 @@ class audio_post extends cmd_base
      *
      * @var string
      */
-    protected $signature = 'command:sync_tq {--day=}';
+    protected $signature = 'command:audio_post {--day=}';
 
     /**
      * The console command description.
@@ -35,7 +35,7 @@ class audio_post extends cmd_base
      *
      * @return mixed
      */
-    public function handle()
+    public function do_handle()
     {
         $day=$this->get_arg_day();
         $start_time=$day;
@@ -50,7 +50,7 @@ class audio_post extends cmd_base
         foreach ($list as $item) {
             $record_url = $item["record_url"];
             $adminid= $item["adminid"];
-            $admin_info= @$admin_map[$admin_id];
+            $admin_info= @$admin_map[$adminid];
             if ( $admin_info && preg_match("/api.clink.cn/", $record_url ) ) {
                 $post_data=[];
                 $post_data["unique_id"]=$item["id"];
@@ -74,6 +74,7 @@ class audio_post extends cmd_base
                         "id"=> $admin_info["adminid"]
                     ]
                 ];
+                dd( $post_data );
 
             }
 

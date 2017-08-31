@@ -4410,6 +4410,9 @@ class ss_deal extends Controller
         $end_date   = \App\Helper\Utils::unixtime2date($now,"Y-m-d H:i:s");
         $phone= $this->get_in_phone();
 
+        if (!$phone) {
+            return $this->output_err("当前用户不存在");
+        }
         $cmd= new \App\Console\Commands\sync_tq();
         $count=$cmd->load_data($start_date,$end_date,$phone);
 

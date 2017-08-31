@@ -46,7 +46,7 @@ class seller_new_count_day_gen extends cmd_base
         foreach($admin_list as $item ) {
             $adminid=$item["uid"];
             $seller_level=$item["seller_level"];
-            $count=@$config[$seller_level]*2;
+            $count=@$config[$seller_level];
             if ($count) {
                 $count+= $add_count_ex;
             }
