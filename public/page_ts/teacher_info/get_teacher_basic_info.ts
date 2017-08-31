@@ -38,7 +38,7 @@ $(function(){
 
     var upload_info = function( opt_data, opt_field){
         var btn_student_upload_id = "id_"+opt_field+"_upload";
-        var get_pdf_url = opt_data.opt_field;
+        var get_pdf_url = opt_data[opt_field];
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
