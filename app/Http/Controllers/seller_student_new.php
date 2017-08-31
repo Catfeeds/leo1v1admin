@@ -923,12 +923,12 @@ class seller_student_new extends Controller
         $ret_info= $this->t_seller_student_new->get_free_seller_fail_list($page_num,  $start_time, $end_time , $this->get_account_id(), $grade, $has_pad, $subject,$origin,$nick,$phone);
         foreach ($ret_info["list"] as &$item) {
             \App\Helper\Utils::unixtime2date_for_item($item, "add_time");
-            \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
+            // \App\Helper\Utils::unixtime2date_for_item($item, "free_time");
             E\Epad_type::set_item_value_str($item, "has_pad");
             E\Esubject::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             \App\Helper\Utils::hide_item_phone($item);
-            $item["cc_nick"]= $this->cache_get_account_nick($item["free_adminid"]);
+            // $item["cc_nick"]= $this->cache_get_account_nick($item["free_adminid"]);
         }
 
         return $ret_info;
