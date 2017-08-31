@@ -84,6 +84,7 @@ class testbb extends Controller
     public function rename_file() {
         $lessonid  = $this->get_in_int_val('l');
         $userid    = $this->t_lesson_info->get_userid($lessonid);
+        dd($userid);
 
         $parent_wx_openid = $this->t_student_info->get_parent_wx_openid($userid);
 
