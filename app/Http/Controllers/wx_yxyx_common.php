@@ -238,6 +238,8 @@ class wx_yxyx_common extends Controller
                 if ($add_time < time(NULL) -60*86400 ) { //60天前例子
                     $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
                 }
+            }else{
+                $this->t_seller_student_new->book_free_lesson_new($nick='',$phone,$grade=0,$origin='优学优享',$subject=0,$has_pad=0);
             }
         }
         $userid = null;
