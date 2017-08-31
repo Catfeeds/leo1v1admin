@@ -3671,6 +3671,23 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                   ,$where_arr);
         return $this->main_get_list($sql);
     }
+    public function get_lesson_student_count_info($lesson_start, $lesson_end) {
+        $where_arr = [
+            ["lesson_start>=%u",$lesson_start,0],
+            ["lesson_start<%u",$lesson_end,0],
+            "lesson_type in (0,1,3) ",
+            "lesson_del_flag=0",
+        ];
+
+        $sql = $this->gen_sql_new("select count( l.lessonid ) as lesson_nums"
+                                  ." from %s l"
+                                  ." where %s "
+                                  ." group by l.userid"
+                                  ." order by lesson_nums"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr);
+        return $this->main_get_list($sql);
+	}
 
     public function get_confirm_lesson_list_new($start_time,$end_time) {
         $sql=$this->gen_sql("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, "
@@ -3689,6 +3706,8 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
         return $this->main_get_list_as_page($sql);
     }
+
+
 
 
 }
