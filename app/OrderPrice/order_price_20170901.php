@@ -83,23 +83,33 @@ class order_price_20170901 extends order_price_base
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
             $off_config_id       = $present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
             $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
-            $off_value=static::get_value_from_config($new_discount_config, $check_lesson_count );
+            list($find_count_level ,$off_value)=static::get_value_from_config_ex($new_discount_config, $check_lesson_count , [1,100] );
             $price=$grade_price*$off_value/100/3;
-            $desc_list[]=["满课时打折: "];
+            $desc_list[]="满课时打折: $find_count_level 次课 $off_value 折 ";
+        }
+
+
+        // 活动
+        $free_money=0;
+        $find_free_money_lesson_count= 0;
+        if  ( $lesson_count >=90*3) {
+            $find_free_money_lesson_count=90;
+            $free_money=1000;
+        }else if ( $lesson_count >=60*3 ) {
+            $find_free_money_lesson_count=60;
+            $free_money=650;
+        }else  if ( $lesson_count >=45*3 ) {
+            $find_free_money_lesson_count=45;
+            $free_money=300;
+        }else  if ( $lesson_count >=30*3 ) {
+            $find_free_money_lesson_count=30;
+            $free_money=200;
+        }
+        if ($free_money) {
+            $desc_list[]="活动: $find_free_money_lesson_count 次课 立减 $free_money 元 ";
         }
 
         /*
-        // 活动
-        $free_money=0;
-        if  ( $lesson_count >=90*3) {
-            $free_money=1000;
-        }else if ( $lesson_count >=60*3 ) {
-            $free_money=650;
-        }else  if ( $lesson_count >=45*3 ) {
-            $free_money=300;
-        }else  if ( $lesson_count >=30*3 ) {
-            $free_money=200;
-        }
         if($args["from_test_lesson_id"]!=0){
             $from_test_lesson_id=@$args["from_test_lesson_id"];
             $task= self::get_task_controler();
@@ -111,8 +121,11 @@ class order_price_20170901 extends order_price_base
                 $free_money+=300;
                 \App\Helper\Utils::logger("hd 2 free_money= $free_money");
             }
+        }else{
+
         }
         */
+
 
         return [
              "price"                => $old_price,
@@ -126,5 +139,10 @@ class order_price_20170901 extends order_price_base
              "desc_list"           => $desc_list
         ];
     }
+    public function get_competition_price( $order_promotion_type, $contract_type, $grade,$lesson_count ,$before_lesson_count, $args)
+    {
+        return static::get_price( $order_promotion_type, $contract_type, 99,$lesson_count ,$before_lesson_count ,$args);
+    }
+
 
 }

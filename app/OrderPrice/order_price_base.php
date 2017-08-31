@@ -60,16 +60,18 @@ class order_price_base {
     ];
 
 
-    static function get_value_from_config_ex($config,$check_key,$def_value=0) {
+    static function get_value_from_config_ex($config,$check_key,$def_value=[0,100]) {
 
         $last_value=$def_value;
+        $last_k=0;
         foreach ($config as  $k =>$v ) {
             if ($k > $check_key )  {
-                return $last_value;
+                return array($k, $last_value);
             }
             $last_value= $v;
+            $last_k= $k;
         }
-        return $last_value;
+        return array($k, $last_value);
     }
 
     static function get_value_from_config($config,$check_key,$def_value=0) {

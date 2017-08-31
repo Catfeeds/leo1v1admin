@@ -46,6 +46,22 @@ class t_admin_group_user extends \App\Models\Zgen\z_t_admin_group_user
         return $this->main_get_value($sql);
 
     }
+    public function get_master_adminid_group_info($adminid,$main_type=-1){
+        $where_arr=[
+            ["n.main_type=%u",$main_type,-1]
+        ];
+        $sql=$this->gen_sql_new("select master_adminid,n.group_name from %s u "
+                                ." left join %s n on u.groupid = n.groupid"
+                                ." where adminid=%u and %s",
+                                self::DB_TABLE_NAME,
+                                t_admin_group_name::DB_TABLE_NAME,
+                                $adminid,
+                                $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
     public function get_user_map($groupid) {
         $sql=$this->gen_sql_new("select adminid from %s where groupid=%u",
                                 self::DB_TABLE_NAME,
