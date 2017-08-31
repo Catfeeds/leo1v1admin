@@ -1000,6 +1000,48 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         );
         return $this->main_get_page_random ($sql,2);
     }
+
+    public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1
+    ) {
+        $where_arr=[
+            ["s.grade=%u", $grade, -1 ],
+            ["has_pad=%u", $has_pad, -1 ],
+            ["subject=%u", $subject, -1 ],
+            "s.lesson_count_all=0",
+            "n.seller_resource_type=1",
+            "n.admin_revisiterid=0",
+            "t.seller_student_status <>  50",
+            "n.sys_invaild_flag=0",
+            ["origin like '%s%%'", $this->ensql( $origin), ""],
+            ["s.nick like '%s%%'",$this->ensql($nick), ""],
+            ["n.phone like '%s%%'", $this->ensql( $phone), ""],
+        ];
+        if (!($nick || $phone)) {
+            $now=time(NULL);
+            $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
+            $where_arr[]= "f.adminid is null ";
+        }
+        if($suc_test_flag){
+            $where_arr[] = 'n.test_lesson_count=0';
+        }
+        $sql = $this->gen_sql_new(
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
+            ." from %s t "
+            ." left join %s n on t.userid=n.userid "
+            ." left join %s s on s.userid=n.userid "
+            ." left join %s m on n.admin_revisiterid=m.uid  "
+            ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid )  "
+            ." where    %s  ",
+            t_test_lesson_subject::DB_TABLE_NAME,
+            self::DB_TABLE_NAME,
+            t_student_info::DB_TABLE_NAME,
+            t_manager_info::DB_TABLE_NAME,
+            t_test_subject_free_list::DB_TABLE_NAME,
+             $where_arr
+        );
+        return $this->main_get_page_random ($sql,2);
+    }
+
     public function get_free_seller_list_time($start_time,$end_time,$grade, $has_pad, $subject,$nick,$phone) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
