@@ -1023,8 +1023,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             $where_arr[]= "f.adminid is null ";
         }
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, "
-            ." f.adminid,f.add_time free_time "
+            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
