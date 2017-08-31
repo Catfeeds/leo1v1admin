@@ -138,7 +138,7 @@
                                 <a class="fa fa-wechat opt-wechat-desc"  title="微信数据"> </a>
                                 <a class="fa fa-group  opt-user-link"  title="下线"> </a>
                                 <a class="fa fa-refresh opt-reset-info"  title="刷新信息"> </a>
-                                <!-- <a style="display:block;" class="fa fa-times opt-del" title="删除"> </a> -->
+                                <a style="display:block;" class="fa fa-times opt-del" title="删除"> </a>
                             </div>
                         </td>
                     </tr>
