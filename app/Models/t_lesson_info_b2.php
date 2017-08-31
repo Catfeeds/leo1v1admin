@@ -3681,7 +3681,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         ];
 
         $sql = $this->gen_sql_new("select count( l.lessonid ) as lesson_nums"
-                                  ." from %s l"
+                                  ." from %s l force index(lesson_type_and_start)"
                                   ." left join  %s s on s.userid=l.userid"
                                   ." where %s "
                                   ." group by l.userid"
