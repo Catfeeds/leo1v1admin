@@ -5,6 +5,8 @@ interface GargsStatic {
 	start_time:	string;
 	end_time:	string;
 	subject:	number;
+	account_role:	number;
+	kpi_flag:	number;
 }
 declare module "g_args" {
     export = g_args;
@@ -21,9 +23,11 @@ interface RowData {
 	train_first_pass	:any;
 	train_second_all	:any;
 	test_first	:any;
+	test_five	:any;
 	regular_first	:any;
 	all_num	:any;
 	test_first_per_str	:any;
+	test_five_per_str	:any;
 	regular_first_per_str	:any;
 	per	:any;
 	all_target_num	:any;
@@ -45,7 +49,9 @@ $(function(){
 			opt_date_type:	$('#id_opt_date_type').val(),
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
-			subject:	$('#id_subject').val()
+			subject:	$('#id_subject').val(),
+			account_role:	$('#id_account_role').val(),
+			kpi_flag:	$('#id_kpi_flag').val()
         });
     }
 
@@ -61,6 +67,8 @@ $(function(){
         }
     });
 	$('#id_subject').val(g_args.subject);
+	$('#id_account_role').val(g_args.account_role);
+	$('#id_kpi_flag').val(g_args.kpi_flag);
 
 
 	$('.opt-change').set_input_change_event(load_data);
@@ -75,6 +83,20 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">subject</span>
                 <input class="opt-change form-control" id="id_subject" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">account_role</span>
+                <input class="opt-change form-control" id="id_account_role" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">kpi_flag</span>
+                <input class="opt-change form-control" id="id_kpi_flag" />
             </div>
         </div>
 */
