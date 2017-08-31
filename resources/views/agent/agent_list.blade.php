@@ -89,7 +89,7 @@
                     <td>上级微信昵称</td>
                     <td>上上级微信昵称</td>
                     <td>会员等级</td>
-                    <td>例子状态</td>
+                    <td>例子状态/当前cc</td>
                     <td>在读状态</td>
                     <td>是否试听/是否成功</td>
                     <td>试听时间</td>
@@ -120,7 +120,7 @@
                             {{@$var["pp_phone"]}}
                         </td>
                         <td>{{@$var["agent_level_str"]}} </td>
-                        <td>{{@$var["agent_student_status_str"]}} </td>
+                        <td>{{@$var["agent_student_status_str"]}}/{{@$var["cc_nick"]}} </td>
                         <td>{{@$var["student_stu_type_str"]}}</td>
                         <td>{!! @$var["test_lessonid_str"] !!}/{!! @$var["lesson_user_online_status_str"] !!}</td>
                         <td>{{@$var["lesson_start"]}} </td>

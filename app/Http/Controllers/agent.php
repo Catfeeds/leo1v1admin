@@ -44,6 +44,7 @@ class agent extends Controller
             E\Eagent_level::set_item_value_str($item);
             E\Estudent_stu_type::set_item_value_str($item);
             E\Eagent_student_status::set_item_value_str($item);
+            $item["cc_nick"]= $this->cache_get_account_nick( $item["admin_revisiterid"]);
             $item["test_lessonid_str"] = \App\Helper\Common::get_boolean_color_str( $item["test_lessonid"]);
             $item["lesson_user_online_status_str"] = \App\Helper\Common::get_boolean_color_str( $item["lesson_user_online_status"]);
             $item["price"]/= 100;
