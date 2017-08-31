@@ -231,6 +231,15 @@ class agent extends Controller
     }
 
     public function check(){
+        $check_money_adminid = $this->get_account_id();
+        if($check_money_adminid != 99){
+            dd('a');
+            // return $this->output_err('无权限!');
+        }else{
+            dd('b');
+        }
+
+
         $agent_info = $this->t_agent_order->get_row_by_aid($id=74);
         dd($agent_info);
         $agent_level_old = 1;

@@ -285,8 +285,8 @@ class ajax_deal extends Controller
     }
 
     public function agent_cash_edit() {
-        $id                  = $this->get_in_int_val('id');
         $check_money_adminid = $this->get_account_id();
+        $id                  = $this->get_in_int_val('id');
         $check_money_flag    = $this->get_in_int_val('check_money_flag');
         $check_money_desc    = $this->get_in_str_val('check_money_desc');
         if($check_money_adminid != 301){
