@@ -2058,7 +2058,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         $sql = $this->gen_sql_new(
             " select userid,test_lesson_count,free_adminid,free_time "
             ." from %s "
-            ." order by userid "
+            ." order by userid limit 1000 "
             ,self::DB_TABLE_NAME
         );
         return $this->main_get_list($sql);
