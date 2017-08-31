@@ -45,11 +45,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ."s.origin,s.type student_stu_type,s.is_test_user,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
-                                 ."o.price "
+                                 ."o.price, "
+                                 ."n.admin_revisiterid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
+                                 ." left join %s n on n.userid = a.userid"
                                  ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
@@ -58,6 +60,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,t_agent_order::DB_TABLE_NAME
                                  ,t_order_info::DB_TABLE_NAME
@@ -585,11 +588,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function get_id_by_phone($phone_str){
         $where_arr = [
-            'phone in ('.$phone_str.')',
+            'a.phone in ('.$phone_str.')',
         ];
         $sql= $this->gen_sql_new(
             "select a.id,a.phone,a.type,a.wx_openid,a.agent_level,"
-            ."aa.wx_openid pp_wx_openid,aa.pp_agent_level "
+            ."aa.wx_openid pp_wx_openid,aa.agent_level pp_agent_level "
             . " from %s a "
             . " left join %s aa on aa.id = a.parentid "
             . " where %s ",
@@ -912,6 +915,8 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         $agent_info = $this->field_get_list($id,"*");
         $userid  = $agent_info["userid"];
         $agent_type= $agent_info["type"];
+        $agent_level_old = $agent_info["agent_level"];
+        $wx_openid_old  = $agent_info["wx_openid"];
         $agent_student_status=0;
         if ($userid) {
             $student_info = $this->task->t_student_info->field_get_list($userid,"is_test_user");
@@ -995,6 +1000,17 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                 ]);
             }
         }
+        // if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
+        //     $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+        //     $data = [
+        //         'first'    => '等级升级提醒',
+        //         'keyword1' => '水晶会员',
+        //         'keyword2' => date('Y-m-d H:i:s',time()),
+        //         'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
+        //     ];
+        //     $url = '';
+        //     \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
+        // }
     }
 
 

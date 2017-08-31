@@ -343,7 +343,7 @@ class wx_teacher_api extends TeaWxController
     }
 
     public function get_teacher_lesson(){//p 2
-        $teacherid = $this->get_wx_teacherid();
+        $teacherid = $this->get_teacherid();
 
         \App\Helper\Utils::logger("yuebao".$teacherid);
         if (!$teacherid) {
@@ -360,7 +360,7 @@ class wx_teacher_api extends TeaWxController
 
     public function get_teacher_level(){//p3
         // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = $this->get_wx_teacherid();
+        $teacherid = $this->get_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -393,7 +393,7 @@ class wx_teacher_api extends TeaWxController
 
     public function get_teacher_student(){//p4
         // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = $this->get_wx_teacherid();
+        $teacherid = $this->get_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }
@@ -411,7 +411,7 @@ class wx_teacher_api extends TeaWxController
 
     public function get_tea_lesson_some_info(){//p5
         // $teacherid = $this->get_in_int_val("teacherid");
-        $teacherid = $this->get_wx_teacherid();
+        $teacherid = $this->get_teacherid();
         if (!$teacherid) {
             return $this->output_err("信息有误，未查询到老师信息！");
         }

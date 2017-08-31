@@ -211,14 +211,15 @@ $(function(){
     $('.opt-alloc-assistant').on('click',  function(){
         var courseid =  $(this).parent().data("courseid");
         $(this).admin_select_user({
-            "show_select_flag":true,
-            "type":"assistant",
-            "onChange":function(val){
+            "show_select_flag" : true,
+            "type"             : "assistant",
+            "onChange"         : function(val){
                 $.ajax({
                     url: '/small_class/set_course_assistant',
                     type: 'POST',
                     data: {
-                        'assistantid': val, 'courseid': courseid
+                        'assistantid': val,
+                        'courseid': courseid
                     },
                     dataType: 'json',
                     success: function(result) {
@@ -227,7 +228,6 @@ $(function(){
                 });
             }
         });
-        
     });
 
     $('.opt-list-student').on('click',  function(){

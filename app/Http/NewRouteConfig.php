@@ -161,7 +161,8 @@ class NewRouteConfig {
         "/common/dev_teacher_qr"             => true,
         "/common/get_ppl_data"               => true,
         "/common/send_baidu_money_charge"    => true,
-        "/common/get_baidu_money_charge"    => true,
+        "/common/get_baidu_money_charge"     => true,
+        "/common/send_ccb_order_charge"      => true,
 
         "/user_manage/set_refund_money"        => true,
         "/user_manage/complaint_department_deal"        => true,
@@ -227,6 +228,7 @@ class NewRouteConfig {
         "/user_manage/tongji_login_ip_info"                     => true,
         "/user_manage/no_type_student_score"                    => true,
         "/user_manage/tongji_student_subject"                   => true,
+        "/user_manage/tongji_student_grade_subject"             => true,
         "/user_manage/tongji_grade_lesson_count"                => true,
         "/user_manage/student_school_score_stat"                => true,
 

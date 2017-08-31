@@ -112,10 +112,27 @@ class wx_yxyx_common extends Controller
             $agent_info = [];
             $agent_info = $this->t_agent->get_agent_info_by_phone($phone);
             $user_info  = $this->get_wx_user_info($wx_openid);
+            $userid     = $agent_info['userid'];
             $headimgurl = $user_info['headimgurl'];
             $nickname   = $user_info['nickname'];
             if(isset($agent_info['id'])){
-                $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname],'id',$agent_info['id']);
+                $student_info = $this->t_student_info->field_get_list($userid,"*");
+                $orderid = 0;
+                if($userid){
+                    $order_info = $this->t_order_info->get_nomal_order_by_userid($userid,time());
+                    if($order_info['orderid']){
+                        $orderid = $order_info['orderid'];
+                    }
+                }
+                $userid_new   = $student_info['userid'];
+                $type_new     = $student_info['type'];
+                $is_test_user = $student_info['is_test_user'];
+                if($userid && $type_new ==  E\Estudent_type::V_0 && $is_test_user == 0 && $orderid){//在读非测试
+                    $level = E\Eagent_level::V_2 ;
+                }else{
+                    $level = E\Eagent_level::V_1 ;
+                }
+                $id = $this->t_agent->update_field_list('t_agent',['wx_openid'=>$wx_openid,'headimgurl'=>$headimgurl,'nickname'=>$nickname,'agent_level'=>$level],'id',$agent_info['id']);
                 $id = $agent_info['id'];
             }else{
                 $userid = null;
@@ -210,7 +227,7 @@ class wx_yxyx_common extends Controller
                 "parentid" => $parentid,
                 "type"     => $type_new,
             ]);
-            // $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }
         if($type == 1){//进例子
@@ -223,7 +240,7 @@ class wx_yxyx_common extends Controller
         }
         $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
-            // $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");

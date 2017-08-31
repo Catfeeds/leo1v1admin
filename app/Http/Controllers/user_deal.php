@@ -2613,9 +2613,28 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
+        dd(md5(112233445652));
         $this->switch_tongji_database();
         $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
-        dd($ass_leader_list);
+        $arr=[];
+        $i=1;
+        foreach($ass_leader_list as $val){
+            if($val["uid"]==513 || $val["uid"]==492){
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+            }else{
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+                $arr[$i] = $val["uid"];
+                $i++;
+
+            }
+        }
+        dd($arr);
 
         $start_time = strtotime("2017-08-01");
         $end_time = strtotime("2017-08-30");
