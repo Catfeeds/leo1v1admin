@@ -55,7 +55,7 @@ class order_price_20170901 extends order_price_base
     static public function get_price ( $order_promotion_type, $contract_type, $grade, $lesson_count ,$before_lesson_count,$args){
 
         $present_lesson_count=0;
-        $check_lesson_count= $lesson_count  ;
+        $check_lesson_count= $lesson_count /3 ;
 
         if ($grade<=106) {
             $check_grade=101;
@@ -67,9 +67,10 @@ class order_price_20170901 extends order_price_base
 
         $grade_price = $grade_price_config[$check_grade];
 
-        $price = $old_price;
+        $old_price = $grade_price/3;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
+            /*
             $present_lesson_config= static::$new_present_lesson_config;
             $present_lesson_count=static::get_value_from_config($present_lesson_config, $check_lesson_count );
             if ( $check_lesson_count>=450 && $grade<=201 ) {
@@ -77,10 +78,14 @@ class order_price_20170901 extends order_price_base
             }
 
             $price = $old_price ;
+            */
         }else if ( $order_promotion_type == E\Eorder_promotion_type::V_2) { //折扣
-            $per_price = static::get_value_from_config($discount_config, $check_lesson_count,1000 )/3;
-            $price=$per_price*$lesson_count;
+            $off_config_id       = $present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
+            $new_discount_config = $off_config_id==1? static::$new_discount_config_1: static::$new_discount_config_2;
+            $off_value=static::get_value_from_config($new_discount_config, $check_lesson_count );
+            $price=$grade_price*$off_value/100/3;
         }
+        /*
         // 活动
         $free_money=0;
         if  ( $lesson_count >=90*3) {
@@ -104,12 +109,13 @@ class order_price_20170901 extends order_price_base
                 \App\Helper\Utils::logger("hd 2 free_money= $free_money");
             }
         }
+        */
 
         return [
-             "price"                => $old_price-$free_money ,
+             "price"                => $old_price,
              "present_lesson_count" => $present_lesson_count ,
-             "discount_price"       => $price-$free_money,
-             "discount_count"       => $old_price?floor((($price-$free_money)/($old_price-$free_money ))*10000)/100:100,
+             "discount_price"       => $price,
+             "discount_count"       => floor(($price/$old_price)*10000)/100,
              "order_promotion_type" => $order_promotion_type,
              "contract_type"        => $contract_type,
              "grade"                => $grade,

@@ -175,24 +175,14 @@ class send_wx_msg_for_test_lesson extends Command
         if($account_role == 1){ // 家长
             if($type == 1){ // 课前30分钟
 
-                /*
-                  {{first.DATA}}
-                  课程名称：{{keyword1.DATA}}
-                  上课时间：{{keyword2.DATA}}
-                  上课地点：{{keyword3.DATA}}
-                  联系电话：{{keyword4.DATA}}
-                  {{remark.DATA}}
-
-
-                 */
-
 
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
                     "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['tea_nick'],
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "keyword3" => '学生端',
-                    "remark"   => "开课前五分钟可提前进入课堂，请及时登录学生端进入课堂。"
+                    "keyword4" => '"'.$item['ass_phone'].'"',
+                    "remark"   => "可登录学生端提前预习讲义，做好课前准备工作，保持网络畅通，开课前五分钟可提前进入课堂，祝学习愉快！"
                 ];
             }elseif($type == 2){ // 超时5分钟
                 $data = [
@@ -257,9 +247,21 @@ class send_wx_msg_for_test_lesson extends Command
             }
         }else{ // 助教
             if($type == 1){ // 课前30分钟
+
+
+                /*
+                  {{first.DATA}}
+                  课程名称：{{keyword1.DATA}}
+                  上课时间：{{keyword2.DATA}}
+                  上课地点：{{keyword3.DATA}}
+                  联系电话：{{keyword4.DATA}}
+                  {{remark.DATA}}
+
+                */
+
                 $data = [
                     "first"    => "您好，您的学员".$item['stu_nick']."同学于30分钟后有一节 $subject_str 课。",
-                    "keyword1" => "$subject_str -- 课程类型: 试听课 -- 老师: ".$item['teacher_nick'],
+                    "keyword1" => "$subject_str",
                     "keyword2" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请及时跟进"
                 ];
@@ -401,7 +403,7 @@ class send_wx_msg_for_test_lesson extends Command
  {{remark.DATA}}
 
  QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8
- 
+
  {{first.DATA}}
  课程名称：{{keyword1.DATA}}
  上课时间：{{keyword2.DATA}}

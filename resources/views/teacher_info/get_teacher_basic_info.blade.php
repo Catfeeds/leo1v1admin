@@ -686,23 +686,7 @@
             </section>
             <!-- /.right -->
         </div>
-
     </section>
-    <div class="dlg_add_certificate_info" style="display:none">
-        <table class="table table-bordered table-striped">
-	          <tbody>
-                <tr>
-			              <td style="text-align:right; width:30%;">证书</td>
-			              <td>
-                        <div id="id_container_add">
-                            <input id="id_upload_add" value="上传证书" class="btn btn-primary add_certificate_img" style="margin-bottom:5px;" type="button"/>
-                        </div>
-                    </td>
-		            </tr>
-		        </tbody>
-	      </table>
-    </div>
-
 @endsection
 
 <div class="modal fade" id="modal-default">
