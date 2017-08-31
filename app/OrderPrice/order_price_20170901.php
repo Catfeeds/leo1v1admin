@@ -67,6 +67,8 @@ class order_price_20170901 extends order_price_base
 
         $grade_price = $grade_price_config[$check_grade];
 
+        $off_config_id=$present_lesson_count=static::get_value_from_config(static::$grade_price_off_config  , $check_lesson_count );
+
         $price = $old_price;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
