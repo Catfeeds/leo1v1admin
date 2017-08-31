@@ -966,7 +966,9 @@ class common_new extends Controller
     }
 
     public function send_msg_to_parent(){
-        
+        $lesssonid = $this->get_in_int_val('lessonid');
+
+        $lesson_info = $this->t_lessson_info_b3->get_lesson_info_by_lessonid($lessonid);
     }
 
     public function add_teacher(){
