@@ -254,7 +254,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
                     "remark"   => "请立刻联系同学/老师。"
                 ];
-            }elseif($type == 6){ // 课程结束
+            }elseif($type == 5){ // 课程结束
                 $data = [
                     "first"    => "您好，您的学员".$item['stu_nick']."同学 $subject_str 课程下课时间已到",
                     "keyword1" => '课程结束通知',

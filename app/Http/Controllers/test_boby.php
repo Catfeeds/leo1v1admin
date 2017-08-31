@@ -9,6 +9,10 @@ class test_boby extends Controller
 {
     use CacheNick;
 
+    public function __construct(){
+        $this->switch_tongji_database();
+    }
+
     public function get_b_txt($file_name="b"){
         $info = file_get_contents("/home/boby/".$file_name.".txt");
         $arr  = explode("\n",$info);
@@ -330,6 +334,37 @@ class test_boby extends Controller
         return $this->output_succ(["list"=>$ret_info]);
     }
 
+
+    //获取某个月在读学生，上课堂数——人数
+    public function get_lesson_student_by_month(){
+
+        $start_time = strtotime ( $this->get_in_str_val('start') );
+        $end_time = strtotime ( $this->get_in_str_val('end') );
+        $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time);
+
+        $s = '<table border=1><tr>'
+           .'<td>课次</td>'
+           .'<td>人数</td>'
+           .'</tr>';
+        $list = [];
+        foreach ($ret_info as $item) {
+            if ( !array_key_exists($item['lesson_nums'], $list) ){
+                $list[ $item['lesson_nums'] ] = 1;
+            } else {
+                $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
+            }
+        }
+        foreach ($list as $k=>$v){
+
+                $s = $s.'<tr><td>'.$k.'</td>'
+                   .'<td>'.$v.'</td>'
+                   .'</tr>';
+        }
+
+        $s = $s.'</table>';
+        return $s;
+
+    }
 
 
 

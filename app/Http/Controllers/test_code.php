@@ -1906,45 +1906,55 @@ class test_code extends Controller
     }
 
     public function refresh(){
-        $subject_map = array_flip(E\Esubject::$desc_map);
+        $subject_map = E\Esubject::$desc_map;
+        $grade_map = E\Egrade::$desc_map;
         $list = $this->t_teacher_lecture_appointment_info->get_refresh_list();
-        $num=0;
+
+        $num  = 0;
         foreach($list as $val){
             $num++;
-            echo $val['phone']."|".$val['grade_ex']."|".$val['subject_ex']."|".$val['trans_grade_ex']."|".$val['trans_subject_ex'];
-            if($val['trans_subject_ex']==0){
-                $grade_str = mb_substr($val['grade_ex'],0,1,"utf-8");
-                switch($grade_str){
-                case "小":
-                    $grade_ex="100";break;
-                case "初":
-                    $grade_ex="200";break;
-                case "高":
-                    $grade_ex="300";break;
-                default:
-                    $grade_ex="";break;
-                }
-            }
-            $subject_str = mb_substr($val['subject_ex'],0,2,"utf-8");
-            if(isset($subject_map[$subject_str])){
-                $subject_ex=$subject_map[$subject_str];
-            }else{
-                $subject_ex="";
-            }
+            echo $val['id']."|".$val['phone']."|".$val['grade_ex']."|".$val['subject_ex']
+                           ."|".$val['trans_grade_ex']."|".$val['trans_subject_ex'];
+            $grade_ex   = $this->check_str($grade_map,$val['grade_ex']);
+            $subject_ex = $this->check_str($subject_map,$val['subject_ex']);
+            // if($val['trans_subject_ex']==0){
+            //     $grade_str = mb_substr($val['grade_ex'],0,1,"utf-8");
+            //     switch($grade_str){
+            //     case "小":
+            //         $grade_ex="100";break;
+            //     case "初":
+            //         $grade_ex="200";break;
+            //     case "高":
+            //         $grade_ex="300";break;
+            //     default:
+            //         $grade_ex="";break;
+            //     }
+            // }
+            // $subject_str = mb_substr($val['subject_ex'],0,2,"utf-8");
 
+            echo "|".$grade_ex."|".$subject_ex;
             if($grade_ex!="" && $subject_ex!=""){
                 $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
                     "grade_ex"=>$grade_ex,
                     "subject_ex"=>$subject_ex,
                 ]);
-                echo "|".$grade_ex."|".$subject_ex;
+                echo "|update";
             }
             echo "<br>";
-            if($num==100){
-                break;
-            }
         }
     }
 
-
+    public function check_str($map,$str){
+        $ret = "";
+        if($str!=""){
+            foreach($map as $key=>$val){
+                // $check_val = mb_substr($val,0,1,"utf-8");
+                if(strstr($str,$val)){
+                    $ret = $key;
+                    break;
+                }
+            }
+        }
+        return $ret;
+    }
 }

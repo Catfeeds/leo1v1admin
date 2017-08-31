@@ -82,7 +82,15 @@ class testbb extends Controller
         dd($ret);
     }
     public function rename_file() {
+        $lessonid  = $this->get_in_int_val('l');
+        $userid    = $this->t_lesson_info->get_userid($lessonid);
+        dd($userid);
 
+        $parent_wx_openid = $this->t_student_info->get_parent_wx_openid($userid);
+
+
+        // $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
+        dd($parent_wx_openid);
 
     }
 

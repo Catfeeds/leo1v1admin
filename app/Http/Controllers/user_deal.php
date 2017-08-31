@@ -699,7 +699,9 @@ class user_deal extends Controller
                 $this->t_teacher_info->send_template_msg($teacherid,$template_id,$data_msg,$url);
 
                 $wx=new \App\Helper\Wx();
-                $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                if($parent_wx_openid){
+                    $ret=$wx->send_template_msg($parent_wx_openid,$template_id,$data_msg ,$url);
+                }
 
                 // 获取教务的openid
                 $jw_openid = $this->t_test_lesson_subject_require->get_jw_openid($lessonid);
@@ -2613,8 +2615,11 @@ class user_deal extends Controller
 
     public function cancel_lesson_by_userid()
     {
-        dd(md5(112233445652));
         $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
+        $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
+        dd($lesson_count_list);
+
         $ass_leader_list = $this->t_manager_info->get_zs_work_status_adminid(8);
         $arr=[];
         $i=1;
