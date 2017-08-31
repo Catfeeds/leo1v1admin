@@ -3708,7 +3708,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
                                 ."from  %s  l left join %s s on l.userid = s.userid "
                                 ."left join %s a on l.assistantid = a.assistantid "
                                 ." where %s "
-                                ." group by l.assistantid  order by lesson_count desc",
+                                ." group by a.assistantid  order by lesson_count desc",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,

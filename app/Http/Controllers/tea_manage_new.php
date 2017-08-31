@@ -1314,7 +1314,7 @@ class tea_manage_new extends Controller
             //时间 科目 年级 手机号
             $subject_arr = E\Esubject::$desc_map;
             $grade_arr   = E\Egrade::$desc_map;
-
+            dd($arr);
             foreach($arr as $key=>$val){
                 if($key!=0 && count($val)==7){
                     $lesson_start = strtotime($val[0]);
