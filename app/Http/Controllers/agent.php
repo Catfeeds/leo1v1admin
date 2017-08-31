@@ -231,7 +231,19 @@ class agent extends Controller
     }
 
     public function check(){
-
+        $agent_level_old = 1;
+        $agent_level = 2;
+        if(($agent_level_old == E\Eagent_level::V_1) && ($agent_level == E\Eagent_level::V_2)){
+            $template_id = 'ZPrDo_e3DHuyajnlbOnys7odLZG6ZeqImV3IgOxmu3o';
+            $data = [
+                'first'    => '等级升级提醒',
+                'keyword1' => '水晶会员',
+                'keyword2' => date('Y-m-d H:i:s',time()),
+                'remark'   => '恭喜您升级成为水晶会员,如果您邀请的学员成功购课则可获得最高1000元的奖励哦。',
+            ];
+            $url = '';
+            \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old='oAJiDwBbbqiTwnU__f6ce5tNpWYs',$template_id,$data,$url);
+        }
     }
 
     public function get_agent_test_lesson($agent_id){
