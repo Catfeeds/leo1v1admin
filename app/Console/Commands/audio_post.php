@@ -51,6 +51,7 @@ class audio_post extends cmd_base
             $record_url = $item["record_url"];
             $adminid= $item["adminid"];
             $admin_info= @$admin_map[$adminid];
+
             if ( $admin_info && preg_match("/api.clink.cn/", $record_url ) ) {
                 $post_data=[];
                 $post_data["unique_id"]=$item["id"];

@@ -439,9 +439,6 @@ class lesson extends TeaWxController
         }else{
             return $this->output_err('requireid不存在');
         }
-
-
-
     }
 
 

@@ -1914,26 +1914,27 @@ class test_code extends Controller
         foreach($list as $val){
             $num++;
             echo $val['id']."|".$val['phone']."|".$val['grade_ex']."|".$val['subject_ex'];
-            $grade_ex   = $this->check_str($grade_map,$val['grade_ex']);
-            $subject_ex = $this->check_str($subject_map,$val['subject_ex']);
 
+            // $grade_ex   = $this->check_str($grade_map,$val['grade_ex']);
+            // $subject_ex = $this->check_str($subject_map,$val['subject_ex']);
+
+            $grade_ex = $this->get_grade_ex_by_range($val['grade_start']);
             echo "|".$grade_ex."|".$subject_ex;
-            if($grade_ex=="" && $subject_ex!=""){
-                $grade_ex="100";
-            }
+            // if($grade_ex=="" && $subject_ex!=""){
+            //     $grade_ex="100";
+            // }
+            // if($subject_ex=="" && $grade_ex!=""){
+            //     $subject_ex="2";
+            // }
 
-            if($subject_ex=="" && $grade_ex!=""){
-                $subject_ex="2";
-            }
-
-            if($subject_ex!="" && $grade_ex!=""){
+            // if($subject_ex!="" && $grade_ex!=""){
                 $this->t_teacher_lecture_appointment_info->field_update_list($val['id'],[
-                    "grade_ex"   => $grade_ex,
-                    "subject_ex" => $subject_ex,
+                    "grade_ex" => $grade_ex,
+                    // "subject_ex" => $subject_ex,
                 ]);
 
                 echo "|update";
-            }
+            // }
             echo "<br>";
         }
     }
@@ -1950,5 +1951,23 @@ class test_code extends Controller
             }
         }
         return $ret;
+    }
+
+    public function get_grade_ex_by_range($grade_range){
+        switch($grade_range){
+        case 1:case 2:
+            $grade_ex="100";
+            break;
+        case 3:case 4:
+            $grade_ex="200";
+            break;
+        case 5:case 6:
+            $grade_ex="300";
+            break;
+        default:
+            $grade_ex="";
+            break;
+        }
+        return $grade_ex;
     }
 }
