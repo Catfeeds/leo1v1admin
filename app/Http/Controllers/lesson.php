@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Mail ;
 
 class lesson extends TeaWxController
 {
+    use CacheNick;
+
     public function __construct(){
         // session("teacher_wx_use_flag",1);  // 本地测试时使用
     }
@@ -408,7 +410,6 @@ class lesson extends TeaWxController
             return $this->output_err("lessonid not exist");
         }
 
-        $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid();
 
         $stu_lesson_content   = $this->get_in_str_val("stu_lesson_content");
         $stu_lesson_status    = $this->get_in_str_val("stu_lesson_status");
@@ -421,6 +422,7 @@ class lesson extends TeaWxController
 
         $requireid = $this->t_test_lesson_subject_sub_list->get_require_id($lessonid);
 
+        $tea_nick = $this->cache_get_teacher_nick($teacherid);
 
         if($requireid>0){
             $ret_info = $this->t_test_lesson_subject_require->field_update_list($requireid,[
@@ -456,9 +458,13 @@ class lesson extends TeaWxController
                 可登录学生端或升学帮查看详情，谢谢！
 
              **/
+            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
+
+            $subject_str = E\Esubject::get_deac();
+            $lesson_begin = date('H:i',$lesson_info['lesson_start']);
             if($ret_info){
                 $data_par =[
-                    'first'     => "xx:xx的xx课xx老师已经提交了课程评价",
+                    'first'     => "$lesson_begin 的xx课xx老师已经提交了课程评价",
                     'keyword1'  => '',
                     'keyword2'  => '',
                     'keyword3'  => '',

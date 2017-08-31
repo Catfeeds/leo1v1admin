@@ -54,7 +54,7 @@ class audio_post extends cmd_base
             $admin_info= @$admin_map[$adminid];
 
 
-            if ( $admin_info && preg_match("/api.clink.cn/", $record_url ) ) {
+            if ( $admin_info && $admin_info["group_name"] && preg_match("/api.clink.cn/", $record_url ) ) {
                 $post_data=[];
                 $post_data["unique_id"]=$item["id"];
                 $post_data["url"]=$item["record_url"] .$clink_args;
@@ -66,15 +66,16 @@ class audio_post extends cmd_base
                 ];
 
 
+
                 $post_data["staff"] =[
                     "name"=>  $admin_info["account"] ,
                     "roles"=>[
                         "销售",
                     ],
-                    "job_number"=>"99999999999990",
+                    "job_number"=> $admin_info["adminid"],
                     "dept"=>[
                         "name"=> $admin_info["group_name"] ,
-                        "id"=> $admin_info["adminid"]
+                        "id"=> $admin_info["groupid"]
                     ]
                 ];
                 dd( $post_data );
