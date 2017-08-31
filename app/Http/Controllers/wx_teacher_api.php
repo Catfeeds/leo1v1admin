@@ -17,13 +17,22 @@ require_once  app_path("/Libs/Qiniu/functions.php");
 require_once(app_path("/Libs/OSS/autoload.php"));
 use OSS\OssClient;
 use OSS\Core\OssException;
-class wx_teacher_api extends TeaWxController
+class wx_teacher_api extends Controller
 {
     use CacheNick;
     var $check_login_flag=false;
     public function __construct() {
         parent::__construct();
     }
+
+    public function get_teacherid(){
+        $teacherid = $this->get_in_int_val("_userid",0);
+        if (!$teacherid) {
+            $teacherid = session("login_userid" );
+        }
+        return $teacherid;
+    }
+
 
     public function teacher_report_msg(){
         $report_uid   = $this->get_teacherid();
@@ -305,7 +314,8 @@ class wx_teacher_api extends TeaWxController
     public function get_teacher_info_for_teacher_day(){ // 教师节活动 获取老师信息
         $this->switch_tongji_database();
         $ret_info = [];
-        $teacherid = $this->get_teacherid();
+        $teacherid = $this->get_in_int_val('t');
+        // $teacherid = $this->get_teacherid();
 
         $test_lesson_info = $this->t_teacher_info->get_test_lesson_info_for_teacher_day($teacherid);
 
