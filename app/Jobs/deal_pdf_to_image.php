@@ -71,7 +71,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $file_name_origi_str = implode(',',$file_name_origi);
 
-            $ret = $t_lesson_info->save_tea_pc_url($lessonid, $file_name_origi_str);
+            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);
@@ -139,13 +139,11 @@ class deal_pdf_to_image extends Job implements ShouldQueue
             $bucket=$config["public"]["bucket"];
             $ossClient->uploadFile($bucket, $file_name, $target  );
 
-            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
-
             return $config["public"]["url"]."/".$file_name;
 
         } catch (OssException $e) {
             \App\Helper\Utils::logger( "init OssClient fail");
-            return "" ;
+            return "   " ;
         }
 
     }
