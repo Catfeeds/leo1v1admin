@@ -19,6 +19,7 @@ $(function(){
                 "</div>"+
                 "</div>"
         );
+        // id_item.find('#'+btn_id).click();
         id_item.find(".show").on("click",function(){
             $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
         });
@@ -42,7 +43,7 @@ $(function(){
         $.do_ajax("/common/get_bucket_info",{
             is_public : 0
         },function(ret){
-            var id_student = gen_upload_item(
+            var id_upload_info = gen_upload_item(
                 btn_student_upload_id,
                 "tea_"+opt_field+Math.random(),
                 function(){return get_pdf_url; },
@@ -50,27 +51,20 @@ $(function(){
                 ret ,
                 function(file_name) {}
             );
-
             var arr= [
-                ["上传证书", id_student],
+                ["上传证书", id_upload_info],
             ];
-
             $.show_key_value_table("证件信息", arr ,{
                 label    : '确认',
                 cssClass : 'btn-warning',
                 action   : function(dialog) {
-                    if ($(".false").length>0) {
-                        BootstrapDialog.alert("请完善信息");
-                        return;
-                    }
-
-                    $.do_ajax("/teacher_info/update_teacher_jianli_pdf",{
+                    $.do_ajax("/teacher_info/update_teacher_pdf_info",{
                         "opt_field": opt_field,
                         "get_pdf_url": get_pdf_url,
                     });
                 }
             },function(){
-                id_student["onshown_init"]();
+                id_upload_info["onshown_init"]();
             },false,900);
         });
     };
@@ -95,7 +89,7 @@ $(function(){
 			      url      : "/teacher_info/edit_teacher_status",
 			      dataType : "json",
 			      data     : {'status': old_status},
-			      success : function(result){
+			      success  : function(result){
                 if(result.ret==0){
                     $('b[data-status]').toggleClass('hide');
                     $('p[data-status]').toggleClass('hide');
@@ -118,7 +112,6 @@ $(function(){
         $('#'+id+' input').removeClass('hide');
         $('#'+id+' select').removeClass('hide');
     });
-
     $('.btn-bank').on('click', function() {
         if ($(this).text() != '提交') {
             $(this).text('提交');
@@ -170,7 +163,6 @@ $(function(){
         });
     });
 	  $('.opt-change').set_input_change_event(load_data);
-
 
 });
 

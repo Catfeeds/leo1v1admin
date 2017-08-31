@@ -2161,11 +2161,11 @@ class teacher_info extends Controller
         }
     }
 
-    public function update_teacher_jianli_pdf(){
+    public function update_teacher_pdf_info(){
         $teacherid = $this->get_login_teacher();
         $field     = $this->get_in_str_val('opt_field', '');
         $url       = $this->get_in_str_val('get_pdf_url', '');
-        if ( $type=='' || $url=='' ) {
+        if ( $field=='' || $url=='' ) {
             $this->output_err("上传信息为空！");
         }
         $res_info = $this->t_teacher_info->field_update_list(["teacherid" => $teacherid],
