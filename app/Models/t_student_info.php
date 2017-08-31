@@ -2789,6 +2789,26 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         //dd($sql);
         return $this->main_get_list($sql);
     }
+    public function get_studentid_grade(){
+        $where_arr=[
+            "s.is_test_user=0 ",
+            "s.assistantid>0",
+            "s.type=0",
+            "c.course_type in (0,1,3)"  ,
+            "c.course_status=0 "
+
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.grade,count(distinct c.subject) num "
+                                  ." from %s s left join %s c on s.userid = c.userid "
+                                  ."  where  %s group by s.userid "
+                                  ,self::DB_TABLE_NAME
+                                  ,t_course_order::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        // dd($sql);
+        return $this->main_get_list($sql);
+    }
+
 
     public function get_stu_order_num_info(){
         $where_arr=[

@@ -16,11 +16,6 @@ declare var g_account: string;
 declare var g_account_role: any;
 declare var g_adminid: any;
 interface RowData {
-	teacherid	:any;
-	lesson_count	:any;
-	lesson_cancel_reason_type	:any;
-	lesson_count_total	:any;
-	teacher_nick	:any;
 }
 
 /*
