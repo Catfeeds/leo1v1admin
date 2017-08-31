@@ -221,9 +221,9 @@ class wx_yxyx_common extends Controller
         if($userid_new){
             $userid = $userid_new;
         }
-        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
+        $ret = $this->t_agent->add_agent_row($parentid,$phone,$userid,$type);
         if($ret){
-            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type);
+            $this->send_agent_p_pp_msg_for_wx($phone,$p_phone,$type,$p_wx_openid,$p_agent_level,$pp_wx_openid,$pp_agent_level);
             return $this->output_succ("邀请成功!");
         }else{
             return $this->output_err("数据请求异常!");
