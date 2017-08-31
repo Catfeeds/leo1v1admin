@@ -460,7 +460,7 @@ class lesson extends TeaWxController
              **/
             $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
 
-            $subject_str = E\Esubject::get_deac();
+            $subject_str = E\Esubject::get_desc();
             $lesson_begin = date('H:i',$lesson_info['lesson_start']);
             if($ret_info){
                 $data_par =[
