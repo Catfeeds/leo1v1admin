@@ -1907,7 +1907,9 @@ class test_code extends Controller
 
     public function refresh(){
         $list = $this->t_teacher_lecture_appointment_info->get_refresh_list();
-
+        foreach($list as $val){
+            
+        }
     }
 
 

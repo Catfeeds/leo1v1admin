@@ -992,7 +992,7 @@ class t_teacher_lecture_appointment_info extends \App\Models\Zgen\z_t_teacher_le
         $where_arr = [
             "grade<0",
         ];
-        $sql = $this->gen_sql_new(""
+        $sql = $this->gen_sql_new("select id,phone,grade_ex,subject_ex,trans_subject_ex,trans_grade_ex"
                                   ." from %s "
                                   ." where %s"
                                   ,self::DB_TABLE_NAME

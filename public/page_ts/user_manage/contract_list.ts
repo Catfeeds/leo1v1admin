@@ -891,6 +891,7 @@ $(function(){
         var $order_require_flag   = html_node.find(".field-order_require_flag");
 
         var $has_share_activity_flag    = html_node.find(".field-has_share_activity");
+        var $order_desc_list = html_node.find(".field-order_desc_list");
 
         var $nick    = html_node.find(".field-nick");
         var $grade   = html_node.find(".field-grade");

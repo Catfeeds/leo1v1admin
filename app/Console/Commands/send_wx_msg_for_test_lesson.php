@@ -192,13 +192,14 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
 
             }elseif($type == 3){ // 超时15分钟
-                $data = [
-                    "first"    => "家长您好，".$subject_str."课程已开始15分钟,请尽快进入课堂.",
-                    "keyword1" => "课程提醒",
-                    "keyword2" => "$subject_str 课程已开始15分钟，".$item['stu_nick']." 同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
-                    "keyword3" => date('Y-m-d H:i:s'),
-                    "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师"
-                ];
+                //　Ｈａｋｕ 取消
+                // $data = [
+                //     "first"    => "家长您好，".$subject_str."课程已开始15分钟,请尽快进入课堂.",
+                //     "keyword1" => "课程提醒",
+                //     "keyword2" => "$subject_str 课程已开始15分钟，".$item['stu_nick']." 同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                //     "keyword3" => date('Y-m-d H:i:s'),
+                //     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师"
+                // ];
             }elseif($type == 5){ // 课程结束通知
                 $data = [
                     "first"    => "家长您好，".$item['stu_nick']."的课程已结束,同学未能按时进入课堂",
@@ -227,7 +228,7 @@ class send_wx_msg_for_test_lesson extends Command
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
             }elseif($type == 3){ //超时15分钟
-                // 取消
+                // 取消 Haku
                 // $data = [
                 //     "first"    => "老师您好，$subject_str 课程已开始15分钟，请尽快进入课堂。 ",
                 //     "keyword1" => '课程提醒',
@@ -272,19 +273,20 @@ class send_wx_msg_for_test_lesson extends Command
                 ];
 
             }elseif($type == 3){ // 超时15分钟
-                if($tea_nick_cut_class){
-                    $first = "您好，$subject_str 课程已开始15分钟，".$tea_nick_cut_class."老师还未进入课堂。";
-                }else{
-                    $first = "您好，$subject_str 课程已开始15分钟，".$stu_nick_cut_class."同学还未进入课堂。";
-                }
+                //　Ｈａｋｕ 取消
+                // if($tea_nick_cut_class){
+                //     $first = "您好，$subject_str 课程已开始15分钟，".$tea_nick_cut_class."老师还未进入课堂。";
+                // }else{
+                //     $first = "您好，$subject_str 课程已开始15分钟，".$stu_nick_cut_class."同学还未进入课堂。";
+                // }
 
-                $data = [
-                    "first"    => "$first",
-                    "keyword1" => '课程提醒',
-                    "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
-                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
-                    "remark"   => "请立刻联系同学/老师。"
-                ];
+                // $data = [
+                //     "first"    => "$first",
+                //     "keyword1" => '课程提醒',
+                //     "keyword2" => "$subject_str 课程已开始5分钟，老师/同学还未进入课堂 课程时间：{".date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end'])."} 学生名字：{".$item['stu_nick']."} 老师名字：{".$item['teacher_nick']."}",
+                //     "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                //     "remark"   => "请立刻联系同学/老师。"
+                // ];
             }elseif($type == 4){ // 学生|老师中途退出5分钟以上
                 if($tea_nick_cut_class){
                     $first = " $tea_nick_cut_class 老师已退出课堂5分钟以上，请关注老师情况，保证课程顺利进行";
