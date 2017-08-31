@@ -186,8 +186,8 @@ class send_wx_msg_for_test_lesson extends Command
                 $data = [
                     "first"    => "老师您好,请尽快进入课堂。 ",
                     "keyword1" => '课程提醒',
-                    "keyword2" => date('H:i',$item['lesson_start'])."$subject_str 课程已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系咨询老师",
-                    "keyword3" => date('Y-m-d H:i:s',$item['lesson_start']).' ~ '.date('H:i:s',$item['lesson_end']),
+                    "keyword2" => "'".date('H:i',$item['lesson_start'])."'"."$subject_str 课程已开始5分钟，请尽快进入课堂，如有紧急情况请尽快联系咨询老师",
+                    "keyword3" => "'".date('Y-m-d H:i:s')."'",
                     "remark"   => "请尽快进入课堂，如有紧急情况请尽快联系咨询老师。"
                 ];
             }elseif($type == 4){
@@ -207,7 +207,7 @@ class send_wx_msg_for_test_lesson extends Command
                 //     待办内容：xx：xx的xx课已结束，请尽快登录老师端，进行评价。
                 //     日期：{2017/06/01}
             }
-            
+
         }else{ // 助教
             if($type == 1){ // 课前30分钟
 
@@ -284,14 +284,14 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_parent = 'rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o'; // 待办主题
         }
 
-       if($type !=3 || $type !=5 ){
+       if($type !=3  ){
            \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,$url_tea);
        }
 
     }
 
 
-    public function send_wx_msg_par($item, $type, $data_par){ // 向家长和助教发送
+    public function send_wx_msg_par($item, $type, $data_par){ // 向家长
         $wx  = new \App\Helper\Wx();
         if($type == 1){
             $template_id_parent = 'QdFD9O7SPf1eYO_46ptbVeHPnYwTQjCI4_Vj4-wukC8'; // 上课提醒
@@ -299,7 +299,9 @@ class send_wx_msg_for_test_lesson extends Command
             $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
         }
         // 给家长发送
-        $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+        if($type !=3  ){
+            $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_par ,'');
+        }
     }
 
     public function send_wx_msg_ass($item, $type, $data_ass){ // 向助教发送
