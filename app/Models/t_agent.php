@@ -45,11 +45,13 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ."s.origin,s.type student_stu_type,s.is_test_user,"
                                  ."l.lesson_start,l.lesson_user_online_status, "
                                  ."ao.p_level,ao.pp_level , ao.p_price,ao.pp_price,"
-                                 ."o.price "
+                                 ."o.price, "
+                                 ."n.admin_revisiterid "
                                  ." from %s a "
                                  ." left join %s aa on aa.id = a.parentid"
                                  ." left join %s aaa on aaa.id = aa.parentid"
                                  ." left join %s s on s.userid = a.userid"
+                                 ." left join %s n on n.userid = a.userid"
                                  ." left join %s l on l.lessonid = a.test_lessonid"
                                  ." left join %s ao on ao.aid = a.id "
                                  ." left join %s o on o.orderid = ao.orderid "
@@ -58,6 +60,7 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                                  ,self::DB_TABLE_NAME
                                  ,self::DB_TABLE_NAME
                                  ,t_student_info::DB_TABLE_NAME
+                                 ,t_seller_student_new::DB_TABLE_NAME
                                  ,t_lesson_info::DB_TABLE_NAME
                                  ,t_agent_order::DB_TABLE_NAME
                                  ,t_order_info::DB_TABLE_NAME

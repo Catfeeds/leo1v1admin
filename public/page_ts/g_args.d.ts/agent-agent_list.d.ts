@@ -63,10 +63,13 @@ interface RowData {
 	p_price	:any;
 	pp_price	:any;
 	price	:any;
+	admin_revisiterid	:any;
 	agent_type	:any;
 	agent_type_str	:any;
 	agent_level_str	:any;
 	student_stu_type_str	:any;
+	agent_student_status_str	:any;
+	cc_nick	:any;
 	test_lessonid_str	:any;
 	lesson_user_online_status_str	:any;
 	pp_off_info	:any;
