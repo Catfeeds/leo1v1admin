@@ -50,8 +50,8 @@
                     <td>时间 </td>
                     <td>电话</td>
                     <td>地区</td>
-                    <td>回流人</td>
-                    <td>回流时间</td>
+                    <!-- <td>回流人</td> -->
+                    <!-- <td>回流时间</td> -->
                     <td>年级</td>
                     <td>科目</td>
                     <td>Pad</td>
@@ -65,8 +65,7 @@
                         <td>{{@$var["phone_hide"]}} </td>
                         <td>{{@$var["phone_location"]}} </td>
                         <!-- <td>{{@$var["cc_nick"]}} </td> -->
-                        <td>{{@$var["adminid"]}} </td>
-                        <td>{{@$var["free_time"]}} </td>
+                        <!-- <td>{{@$var["free_time"]}} </td> -->
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["has_pad_str"]}} </td>
