@@ -344,7 +344,7 @@ class test_boby extends Controller
            .'</tr>';
         $list = [];
         foreach ($ret_info as $item) {
-            if (!in_array($item['lesson_nums'], $list)){
+            if ( !array_key_exists($item['lesson_nums'], $list) ){
                 $list[ $item['lesson_nums'] ] = 1;
             } else {
                 $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
