@@ -69,6 +69,7 @@ class order_price_20170901 extends order_price_base
 
         $old_price = $grade_price/3*$lesson_count;
         $desc_list =  [];
+        $price=$old_price;
 
         if ($order_promotion_type == E\Eorder_promotion_type::V_1) { //课时
             /*

@@ -2947,15 +2947,16 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
             "l.confirm_flag!=2",
         ];
 
-        $sql = $this->gen_sql_new("select sum(if(l.lesson_type=0,l.lesson_count,0)) as normal_count "
-                                  ." , sum(if(l.lesson_type=2,l.lesson_count,0)) as test_count "
-                                  ." , sum(if(l.lesson_type not in(0,2),l.lesson_count,0)) as other_count "
-                                  ." from %s t "
-                                  ." left join %s l on t.teacherid=l.teacherid "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select sum( if(l.lesson_type in (0,1,3),l.lesson_count,0) ) as normal_count "
+            ." , sum( if(l.lesson_type=2,l.lesson_count,0) ) as test_count "
+            ." , sum( if(l.lesson_type in (1001,3001),l.lesson_count,0) ) as other_count "
+            ." from %s t "
+            ." left join %s l on t.teacherid=l.teacherid "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_row($sql);
     }
@@ -2976,22 +2977,23 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_student_by_teacherid($teacherid, $start_time, $end_time){
         $where_arr = [
             ['t.teacherid=%s', $teacherid, 0],
-            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start>=%s', $start_time, 0],
             ['l.lesson_start<%s', $end_time, 0],
             "l.lesson_del_flag=0",
             "l.confirm_flag!=2",
             "s.is_test_user=0",
         ];
 
-        $sql = $this->gen_sql_new("select distinct s.face,s.userid"
-                                  ." from %s t "
-                                  ." left join %s l on t.teacherid=l.teacherid "
-                                  ." left join %s s on s.userid=l.userid "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_student_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select distinct s.face,s.userid"
+            ." from %s t "
+            ." left join %s l on t.teacherid=l.teacherid "
+            ." left join %s s on s.userid=l.userid "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_student_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_list($sql);
 
@@ -3000,25 +3002,26 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     public function get_teacher_lesson_detail($teacherid, $start_time, $end_time){
         $where_arr = [
             ['t.teacherid=%s', $teacherid, 0],
-            ['l.lesson_start>%s', $start_time, 0],
+            ['l.lesson_start>=%s', $start_time, 0],
             ['l.lesson_start<%s', $end_time, 0],
         ];
 
-        $sql = $this->gen_sql_new("select sum(if (l.deduct_change_class=1,1,0)) as change_count"
-                                  .",sum(if(l.tea_rate_time>0,1,0)) as evaluate_count"
-                                  .",count(l.stu_praise) as praise_count"
-                                  .",sum(if (l.deduct_come_late=1 and l.deduct_change_class!=1,1,0)) as late_count"
-                                  .",sum(if (l.tea_cw_status=1,1,0)) as tea_cw_count"
-                                  .",sum(if (l.stu_cw_status=1,1,0)) as stu_cw_count"
-                                  .",sum(if (h.work_status>0,1,0)) as homework_count"
-                                  ." from %s t "
-                                  ." left join %s l on t.teacherid=l.teacherid "
-                                  ." left join %s h on l.lessonid=h.lessonid "
-                                  ." where %s"
-                                  ,self::DB_TABLE_NAME
-                                  ,t_lesson_info::DB_TABLE_NAME
-                                  ,t_homework_info::DB_TABLE_NAME
-                                  ,$where_arr
+        $sql = $this->gen_sql_new(
+            "select sum( if(l.deduct_change_class=1,1,0) ) as change_count"
+            .",sum( if(l.tea_rate_time>0,1,0) ) as evaluate_count"
+            .",count(l.stu_praise) as praise_count"
+            .",sum( if(l.deduct_come_late=1 and l.deduct_change_class!=1,1,0) ) as late_count"
+            .",sum( if(l.tea_cw_status=1,1,0) ) as tea_cw_count"
+            .",sum( if(l.stu_cw_status=1,1,0) ) as stu_cw_count"
+            .",sum( if(h.work_status>0,1,0) ) as homework_count"
+            ." from %s t "
+            ." left join %s l on t.teacherid=l.teacherid "
+            ." left join %s h on l.lessonid=h.lessonid "
+            ." where %s"
+            ,self::DB_TABLE_NAME
+            ,t_lesson_info::DB_TABLE_NAME
+            ,t_homework_info::DB_TABLE_NAME
+            ,$where_arr
         );
         return $this->main_get_row($sql);
     }
