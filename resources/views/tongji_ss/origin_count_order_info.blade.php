@@ -9,6 +9,7 @@
                     <td>订单ID</td>
                     <td>用户</td>
                     <td>电话</td>
+                    <td>归属地</td>
                     <td>年级</td>
                     <td>科目</td>
                     <td>课时</td>
@@ -25,6 +26,7 @@
                         <td>{{@$var["orderid"]}} </td>
                         <td>{{@$var["nick"]}} </td>
                         <td>{{@$var["phone"]}} </td>
+                        <td>{{@$var["phone_location"]}} </td>
                         <td>{{@$var["grade_str"]}} </td>
                         <td>{{@$var["subject_str"]}} </td>
                         <td>{{@$var["lesson_all"]}} </td>
