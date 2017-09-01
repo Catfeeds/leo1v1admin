@@ -421,7 +421,9 @@ class test_boby extends Controller
             }
 
         }
-        dd($userid_list);
+
+        echo 'ok';
+        exit;
     }
 
 
