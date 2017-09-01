@@ -915,6 +915,7 @@ $(function(){
         Enum_map.append_option_list( "subject", $subject,true);
         Enum_map.append_option_list( "boolean", $competition_flag,true);
         Enum_map.append_option_list( "order_promotion_type", $order_promotion_type,true);
+        $order_promotion_type.val(2);
 
 
         $nick.val(data.nick);

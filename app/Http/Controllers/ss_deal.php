@@ -1042,7 +1042,7 @@ class ss_deal extends Controller
         //判断是否销售top20
         if($top_seller_flag==1){
             $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
-            $account_role = $this->t_manager_info->get_account_role($account_role);
+            $account_role = $this->t_manager_info->get_account_role($require_adminid);
             $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
             $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
             $rank = @$self_top_info[6]["top_index"];
