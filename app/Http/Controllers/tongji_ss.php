@@ -752,7 +752,6 @@ class tongji_ss extends Controller
                     }
                 }
             }
-            // dd($ret_info['list'],$ret_info_new,$assigned_count);
             // if(isset($ret_info['list'][4]['all_count'])){
                 foreach([0,1,2,3,4] as $item){
                     $ret_info['list'][$item]['all_count'] = count($ret_info_new);
@@ -775,7 +774,6 @@ class tongji_ss extends Controller
                     $ret_info['list'][$item]['order_all_money'] = $order_all_money/100;
                 }
             // }
-            dd($ret_info['list']);
         }
         return $this->pageView(__METHOD__,$ret_info,[
             "subject_map" => $subject_map,
