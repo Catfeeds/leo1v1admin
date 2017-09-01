@@ -2465,19 +2465,19 @@ class user_manage extends Controller
                 "name" => "普通排课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
             2 => [
                 "name" => "Top20排课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
             3 => [
                 "name" => "抢课", 
                 "cc" => 0,
                 "trans" => 0,
-                "per" => '',
+                "per" => '0%',
             ],
         ];
         $ret_student_subject[1]['cc']           = $ret_info["person_num"];

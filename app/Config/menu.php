@@ -464,6 +464,7 @@ class menu{
                     ["power_id"=>11, "name"=>"科目统计-学生",   "url"=>"/user_manage/tongji_student_subject"],
                     ["power_id"=>12, "name"=>"课耗年级统计-学生",   "url"=>"/user_manage/tongji_grade_lesson_count"],
                     ["power_id"=>13, "name"=>"科目年级-学生",   "url"=>"/user_manage/tongji_student_grade_subject"],
+                    ["power_id"=>14, "name"=>"CC转化率统计",   "url"=>"/user_manage/tongji_cc"],
 
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
