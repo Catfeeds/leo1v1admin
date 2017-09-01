@@ -3748,16 +3748,16 @@ class human_resource extends Controller
         $total_arr=[];
         $total_arr["all_lesson"] = $all_lesson_total;
         $total_arr["success_lesson"] =  $success_test_lesson_list_total["success_lesson"];
-        $total_arr["lesson_num"] =  $test_person_num_total["lesson_num"];
+        $total_arr["lesson_num"] =  $test_person_num_total["lesson_num"];//
         $total_arr["lesson_num_old"] =  $test_person_num_total_old["lesson_num"];
         //
         $total_arr["lesson_num_other"] =  $test_person_num_total_other["lesson_num"];
-        $total_arr["test_person_num"] =  $test_person_num_total["person_num"];
+        $total_arr["test_person_num"] =  $test_person_num_total["person_num"];//
         $total_arr["kk_num"] =  $kk_test_person_num_total["kk_num"];
         $total_arr["kk_order"] =  $kk_test_person_num_total["kk_order"];
         $total_arr["change_num"] =  $change_test_person_num_total["change_num"];
         $total_arr["change_order"] =  $change_test_person_num_total["change_order"];
-        $total_arr["have_order"] = $test_person_num_total["have_order"];
+        $total_arr["have_order"] = $test_person_num_total["have_order"];//
         //
         $total_arr["have_order_other"] = $test_person_num_total_other["have_order"];
         $total_arr["order_number"] = $success_test_lesson_list_total["order_number"];

@@ -3929,6 +3929,47 @@ lesson_type in (0,1) "
 
     }
 
+    public function get_tongji_cc( $start_time,$end_time,$top_seller_flag =0,$grab_flag =0){
+        $where_arr = [
+            ["lesson_start >= %u",$start_time,-1],
+            ["lesson_start < %u",$end_time,-1],
+            "(tss.success_flag in (0,1) and l.lesson_user_online_status =1)",
+            "lesson_type = 2",
+            "lesson_del_flag = 0",
+            "mm.account_role=2 ",
+            "mm.del_flag=0",
+            ["tss.top_seller_flag=%u",$top_seller_flag,-1],
+            ["tss.grab_flag=%u",$grab_flag,-1],
+        ];
+        $sql = $this->gen_sql_new("select count(distinct l.userid,l.teacherid) person_num,count(l.lessonid) lesson_num "
+                                  ." ,count(distinct c.userid,c.teacherid,c.subject) have_order"
+                                  ." from %s l "
+                                  ." left join %s tss on tss.lessonid = l.lessonid"
+                                  ." left join %s tq on tq.require_id = tss.require_id"
+                                  ." left join %s ts on ts.test_lesson_subject_id =tq.test_lesson_subject_id "
+                                  ." left join %s c on "
+                                  ." (l.userid = c.userid "
+                                  ." and l.teacherid = c.teacherid "
+                                  ." and l.subject = c.subject "
+                                  ." and c.course_type=0 and c.courseid >0) "
+                                  ." left join %s t on l.teacherid=t.teacherid"
+                                  ." left join %s m on t.phone=m.phone"
+                                  ." left join %s mm on tq.cur_require_adminid = mm.uid"
+                                  ." where %s " ,
+                                  self::DB_TABLE_NAME,
+                                  t_test_lesson_subject_sub_list::DB_TABLE_NAME,
+                                  t_test_lesson_subject_require::DB_TABLE_NAME,
+                                  t_test_lesson_subject::DB_TABLE_NAME,
+                                  t_course_order::DB_TABLE_NAME,
+                                  t_teacher_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  t_manager_info::DB_TABLE_NAME,
+                                  $where_arr
+        );
+        return $this->main_get_row($sql);
+
+    }
+
     public function get_teacher_test_person_num_list_total_other( $start_time,$end_time,$subject=-1,$grade_part_ex,$teacherid,$teacher_subject,$identity,$tea_subject,$qz_flag,$tea_status,$teacher_account,$fulltime_flag=-1,$fulltime_teacher_type=-1){
         $where_arr = [
             ["lesson_start >= %u",$start_time,-1],

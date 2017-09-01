@@ -449,6 +449,7 @@ class main_page extends Controller
 
          //第5次试听
         $test_five = $this->t_teacher_record_list->get_test_regular_lesson_first($start_time,$end_time,2,$subject);
+       
         $test_five_per = $this->t_teacher_record_list->get_test_regular_lesson_first_per($start_time,$end_time,2,$subject);
         //第一次常规
         //dd($test_first_per);
@@ -602,7 +603,6 @@ class main_page extends Controller
         if($kpi_flag==0){
 
             //面试总计
-
             $teacher_list_ex = $this->t_teacher_lecture_info->get_teacher_list_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
             $teacher_arr_ex = $this->t_teacher_record_list->get_teacher_train_passed("",$start_time,$end_time,$subject,-1,-1,-1,$tea_subject);
             foreach($teacher_arr_ex as $k=>$val){
