@@ -2797,5 +2797,8 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_open_order_list(){
+
+    }
 
 }

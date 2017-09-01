@@ -1970,4 +1970,13 @@ class test_code extends Controller
         }
         return $grade_ex;
     }
+
+    public function add_open_user_lesson(){
+        $start = strtotime("2017-9-1");
+        $end   = strtotime("2017-10-1");
+        $list = $this->t_order_info->get_open_order_list($start,$end);
+    }
+
+
+
 }

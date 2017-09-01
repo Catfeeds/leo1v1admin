@@ -28,7 +28,7 @@ class teacher_first_test_lesson_deal extends Command
     public function __construct()
     {
         parent::__construct();
-        
+
     }
 
     /**
@@ -47,22 +47,23 @@ class teacher_first_test_lesson_deal extends Command
         $ret_info = $task->t_lesson_info_b2->get_teacher_first_test_lesson_detail($start_time,$end_time);
         foreach($ret_info as $val){
             $id = $val["id"];
-            if($id>0){                
+            if($id>0){
                 $task->t_teacher_record_list->field_update_list($id,[
                     "lesson_time" => $val["lesson_start"]
                 ]);
-            
+
             }else{
                 $task->t_teacher_record_list->row_insert([
                     "teacherid"      => $val["teacherid"],
-                    "type"           => 1,          
+                    "type"           => 1,
                     "train_lessonid" => $val["lessonid"],
                     "lesson_style"   => 1,
+                    "lesson_time"    => $val["lesson_start"],
                     "add_time"       => time()
                 ]);
 
             }
- 
+
         }
         //dd($ret_info);
 
