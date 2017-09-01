@@ -3150,7 +3150,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_train_through_teacher_info_new(){
-        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time,identity,teacher_money_type,subject,grade_end,grade_start,grade_part_ex "
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time,identity,teacher_money_type,subject,grade_end,grade_start,grade_part_ex,level "
                                   ." from %s where train_through_new_time>0 and is_test_user=0 and is_quit=0",
                                   self::DB_TABLE_NAME
         );
