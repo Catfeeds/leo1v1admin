@@ -338,7 +338,7 @@ class user_manage_new extends Controller
             $already_lesson_count = $this->t_lesson_info->get_teacher_last_month_lesson_count($teacherid,$start,$end);
             $transfer_teacherid = $this->t_teacher_info->get_transfer_teacherid($teacherid);
             $transfer_time      = $this->t_teacher_info->get_transfer_time($teacherid);
-            if($transfer_teacherid>0){
+            if($transfer_teacherid>0 && $transfer_time>$start && $transfer_time<$end){
                 $old_lesson_count= $this->t_lesson_info->get_teacher_last_month_lesson_count($transfer_teacherid,$start,$end);
                 $already_lesson_count += $old_lesson_count;
             }
