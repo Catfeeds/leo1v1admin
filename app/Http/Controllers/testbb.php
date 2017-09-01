@@ -91,6 +91,26 @@ class testbb extends Controller
 
 
     public function test_img(){
+
+        $lesson_info_list[] = [
+            "lesson_start" => "1504359000",
+            "phone" => "13501824183",
+            "tea_nick" => "卓媛容",
+            "lessonid" => "307572",
+            "stu_id" => "310203",
+            "stu_nick" => "李晨琳",
+            "lesson_end" => "1504361400",
+            "subject" => "5",
+            "tea_openid" => "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",
+            "par_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek"
+        ];
+
+        foreach($lesson_info_list as $item){
+            echo '1';
+        }
+
+        exit;
+
         $this->switch_tongji_database();
         $ss = $this->t_lesson_info_b3->get_next_day_lesson_info();
         dd($ss);
@@ -248,13 +268,6 @@ class testbb extends Controller
         }
 
     }
-
-
-
-
-
-
-
 
 
 

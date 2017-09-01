@@ -94,8 +94,8 @@ class AuTest extends TestCase
         //$this->withSession(["acc"=>"jim","power_list"=>"{\"301\":true}"]);
 
 
-        //$e=$this->visit('/main_page/assistant');
-        //$e->see("排名");
+        $e=$this->visit('/main_page/assistant');
+        $e->see("排名");
         $e=$this->visit('/user_manage_new/stu_all_info');
         $e->see("老师");
 

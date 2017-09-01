@@ -12,7 +12,7 @@ class send_lesson_notice_next_day extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:send_lesson_notice_next_day';
 
     /**
      * The console command description.
@@ -55,7 +55,7 @@ class send_lesson_notice_next_day extends Command
             "stu_nick" => "李晨琳",
             "lesson_end" => "1504361400",
             "subject" => "5",
-            "tea_openid" => "oJ_4fxGpvUS6nRAgm8L-gtrSoP60",
+            "tea_openid" => "oJ_4fxPmwXgLmkCTdoJGhSY1FTlc",
             "par_openid" => "orwGAs_IqKFcTuZcU1xwuEtV3Kek"
         ];
 
@@ -66,7 +66,7 @@ class send_lesson_notice_next_day extends Command
 
         foreach($lesson_info_list as $item){
             $data_tea = $this->get_data_tea($item);
-            $data_stu = $this->get_data_stu($item);
+            $data_stu = $this->get_data_par($item);
 
 
             if($item['par_openid']){
@@ -93,6 +93,8 @@ class send_lesson_notice_next_day extends Command
             'keyword3' => "'".$item['tea_nick']."'",
             'remark'   => "请确保讲义已上传，保持网络畅通，提前做好上课准备。"
         ];
+
+        return $data_msg;
     }
 
     public function get_data_par($item){
@@ -105,6 +107,8 @@ class send_lesson_notice_next_day extends Command
             'keyword4' => "'".$item['phone']."'",
             'remark'   => "请保持网络畅通，提前做好上课准备。 祝学习愉快！"
         ];
+
+        return $data_msg;
     }
 
 

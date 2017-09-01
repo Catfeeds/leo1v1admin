@@ -7959,6 +7959,7 @@ class tongji_ss extends Controller
             // E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
             // E\Egender::set_item_value_str($item,"gender");
             E\Esubject::set_item_value_str($item,"subject");
+            E\Elevel::set_item_value_str($item,"level");
             // E\Esubject::set_item_value_str($item,"second_subject");
             // E\Esubject::set_item_value_str($item,"third_subject");
             E\Eidentity::set_item_value_str($item);
