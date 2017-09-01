@@ -110,7 +110,7 @@
                             );
                         };
                         
-                        if ( $.strtotime( id_start_time.val().substr(0,11)) < timestamp-60  ) {
+                        if ( $.strtotime( id_start_time.val() )< timestamp-60  ) {
                             alert("开始时间比现在还小,不行!");
                             return ;
 

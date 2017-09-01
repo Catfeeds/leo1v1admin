@@ -853,7 +853,7 @@ $(function(){
 
     $("#id_call_check_systen").on("click",function(){
         $.ajax({
-            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+g_args.account_id ,
+            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+ g_account_id ,
             'type': 'POST',
             'data': {},
             'dataType': 'jsonp',
