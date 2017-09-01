@@ -19,19 +19,11 @@
                     <td>姓名</td>
                     <td>电话</td>
                     <td>入职时间</td>
-                    <td>4月（试听课）</td>
-                    <td>4月（签单）</td>
-                    <td>4月（签单率）</td>
+                    <td>科目</td>
+                    <td>年级段</td>
+                    <td>工资类别</td>
 
-                    <td>5月（试听课）</td>
-                    <td>5月（签单）</td>
-                    <td>5月（签单率）</td>
-                    <td>6月（试听课）</td>
-                    <td>6月（签单）</td>
-                    <td>6月（签单率）</td>
-                    <td>7月（试听课）</td>
-                    <td>7月（签单）</td>
-                    <td>7月（签单率）</td>
+                    <td>老师类型</td>
                   
                    
 
@@ -45,18 +37,16 @@
                         <td>{{@$var["realname"]}} </td>
                         <td>{{@$var["phone"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
-                        <td class="first_lesson_num"></td>
-                        <td class="first_order_num"></td>
-                        <td class="first_per"></td>
-                        <td class="second_lesson_num"></td>
-                        <td class="second_order_num"></td>
-                        <td class="second_per"></td>
-                        <td class="third_lesson_num"></td>
-                        <td class="third_order_num"></td>
-                        <td class="third_per"></td>
-                        <td class="fourth_lesson_num"></td>
-                        <td class="fourth_order_num"></td>
-                        <td class="fourth_per"></td>
+                        <td>{{@$var["subject_str"]}} </td>
+                        <td>
+                            @if(@$var["grade_start"]>0)
+                                {{@$var["grade_start_str"]}} 至 {{@$var["grade_end_str"]}}
+                            @else
+                                {{@$var["grade_part_ex_str"]}}
+                            @endif
+                        </td>
+                        <td>{{@$var["teacher_money_type_str"]}} </td>
+                        <td>{{@$var["identity_str"]}} </td>
 
                        
                        

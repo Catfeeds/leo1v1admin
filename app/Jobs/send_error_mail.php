@@ -56,7 +56,7 @@ class send_error_mail extends Job implements ShouldQueue
             */
             //$this->task->t_sys
 
-            $admin_list=["jim","jack","adrian", "tom","james"];
+            $admin_list=["jim","jack","adrian", "tom","james", "boby", "sam"];
 
             foreach($admin_list as $account) {
 

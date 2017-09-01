@@ -51,6 +51,7 @@ class reset_student_course_grade extends Job implements ShouldQueue
                     "grade_up" => $up_grade,
                 ]);
             }
+            \App\Helper\Utils::logger("reset student grade");
             $task->t_course_order->reset_course_lesson_gradse_type(0);
         }
     }
@@ -68,4 +69,5 @@ class reset_student_course_grade extends Job implements ShouldQueue
         }
         return (int)$grade;
     }
+
 }
