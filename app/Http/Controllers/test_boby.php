@@ -10,7 +10,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-      // $this->switch_tongji_database();
+      $this->switch_tongji_database();
     }
 
     public function get_b_txt($file_name="b"){
@@ -254,6 +254,7 @@ class test_boby extends Controller
 
     //7-8月份签单学生，电话，地址和与之相关的销售或者tmk信息
     public function get_acc_tmk_by_order(){
+        return 'bey';
         $day = $this->get_in_str_val('day','today');
         $start_time = strtotime($day);
         $end_time = time();
@@ -308,6 +309,7 @@ class test_boby extends Controller
     //获取某个月在读学生，上课-堂数——人数
     public function get_lesson_student_by_month(){
 
+        // return 'bey';
         $start_time = strtotime ( $this->get_in_str_val('start') );
         $end_time = strtotime ( $this->get_in_str_val('end') );
         $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time);
@@ -337,6 +339,7 @@ class test_boby extends Controller
     }
     //添加给老师添加公开课学生
     public function add_stu_to_tea_open_lesson(){
+        return 'bey';
         $start_time = strtotime('2017-08-05');
         $end_time = strtotime('2017-09-01');
         $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
