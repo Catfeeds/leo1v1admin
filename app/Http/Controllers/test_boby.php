@@ -373,7 +373,7 @@ class test_boby extends Controller
                 $g300[ count($g300) ] = $v['lessonid'];
             }
         }
-        foreach ($userid_list as $item) {
+        // foreach ($userid_list as $item) {
             // if ($item['grade'] < 300) {
             //     foreach ($g200 as $v){
             //         $userid = $item['userid'];
@@ -388,7 +388,7 @@ class test_boby extends Controller
                 }
             // }
 
-        }
+        // }
 
         echo 'ok';
         exit;
