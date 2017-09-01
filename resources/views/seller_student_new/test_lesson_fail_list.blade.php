@@ -4,16 +4,10 @@
 
         <div class="row">
 
-            <div class="col-xs-12 col-md-5"  data-title="时间段">
+            <div class="col-xs-12 col-md-5"  data-title="回流时间">
                 <div  id="id_date_range" >
                 </div>
             </div>
-
-            <!-- <div class="col-xs-12 col-md-5"  data-title="时间段">
-                 <div  id="id_free_date_range" >
-                 </div>
-                 </div>
-               -->
 
             <div class="col-xs-6 col-md-3" data-always_show="1"   >
                 <div class="input-group ">
@@ -21,6 +15,11 @@
                 </div>
             </div>
 
+            <div class="col-md-3 col-xs-0" data-always_show="1">
+                <div class="input-group col-sm-12"  >
+                    <input  id="id_user_info" type="text" value="" class="form-control opt-change"  placeholder="输入回流人用户名/电话，回车查找" />
+                </div>
+            </div>
 
             <div class="col-xs-6 col-md-2">
                 <div class="input-group ">

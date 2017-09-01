@@ -1001,7 +1001,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
         return $this->main_get_page_random ($sql,2);
     }
 
-    public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$suc_test_flag=-1
+    public function get_free_seller_fail_list($page_num, $start_time, $end_time ,$adminid ,$grade, $has_pad, $subject,$origin,$nick,$phone,$user_info
     ) {
         $where_arr=[
             ["s.grade=%u", $grade, -1 ],
@@ -1017,20 +1017,37 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             ["s.nick like '%s%%'",$this->ensql($nick), ""],
             ["n.phone like '%s%%'", $this->ensql( $phone), ""],
         ];
+        if ($user_info >0 ) {
+            if  ($user_info < 10000) {
+                $where_arr[]=[  "m.uid=%u", $user_info, "" ] ;
+            }else{
+                $where_arr[]=[  "m.phone like '%%%s%%'", $user_info, "" ] ;
+            }
+        }else{
+            if ($user_info!=""){
+                $where_arr[]=array( "(m.account like '%%%s%%' or  m.name like '%%%s%%')",
+                                    array(
+                                        $this->ensql($user_info),
+                                        $this->ensql($user_info)));
+            }
+        }
+
         if (!($nick || $phone)) {
             $now=time(NULL);
-            $this->where_arr_add_time_range($where_arr,"n.add_time",$start_time ,$end_time);
+            $this->where_arr_add_time_range($where_arr,"n.free_time",$start_time ,$end_time);
             $where_arr[]= "f.adminid is null ";
         }
         $sql = $this->gen_sql_new(
-            "select t.test_lesson_subject_id,n.add_time,n.userid,n.phone,n.phone_location,s.grade,t.subject,n.has_pad,s.origin, "
-            ." n.free_adminid,n.free_time "
+            "select t.test_lesson_subject_id,t.subject,"
+            ."n.add_time,n.userid,n.phone,n.phone_location,n.has_pad,n.free_adminid,n.free_time,"
+            ."s.grade,s.origin "
             ." from %s t "
             ." left join %s n on t.userid=n.userid "
             ." left join %s s on s.userid=n.userid "
-            ." left join %s m on n.admin_revisiterid=m.uid  "
+            // ." left join %s m on n.admin_revisiterid=m.uid  "
+            ." left join %s m on m.uid=n.free_adminid  "
             ." left join %s f on (t.userid=f.userid  and f.adminid = $adminid )  "
-            ." where    %s  ",
+            ." where %s ",
             t_test_lesson_subject::DB_TABLE_NAME,
             self::DB_TABLE_NAME,
             t_student_info::DB_TABLE_NAME,
