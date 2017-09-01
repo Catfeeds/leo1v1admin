@@ -356,7 +356,7 @@ class test_boby extends Controller
     }
 
 
-    //获取某个月在读学生，上课堂数——人数
+    //获取某个月在读学生，上课-堂数——人数
     public function get_lesson_student_by_month(){
 
         $start_time = strtotime ( $this->get_in_str_val('start') );
@@ -386,7 +386,6 @@ class test_boby extends Controller
         return $s;
 
     }
-
 
 
 

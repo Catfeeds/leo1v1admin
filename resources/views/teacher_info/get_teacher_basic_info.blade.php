@@ -29,9 +29,6 @@
          border-top:1px solid #ccc;
          margin-bottom:10px;
      }
-     .div-mar{
-         margin:10px;
-     }
      .color-6{
          color:#666;
      }
@@ -637,21 +634,29 @@
                         <div class="chart">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <div class="col-sm-3 label label-warning div-mar">
-                                        <h3>{{$my_info['leave_count']}}次</h3>
-                                        <p>请假次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-warning">
+                                            <h4>{{$my_info['leave_count']}}次</h4>
+                                            <p>请假次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-info div-mar">
-                                        <h3>{{$my_info['late_count']}}次</h3>
-                                        <p>迟到次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-info">
+                                            <h4>{{$my_info['late_count']}}次</h4>
+                                            <p>迟到次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-success div-mar">
-                                        <h3>{{$my_info['noevaluate_count']}}次</h3>
-                                        <p>未评价次数</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-success">
+                                            <h4>{{$my_info['noevaluate_count']}}次</h4>
+                                            <p>未评价次数</p>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3 label label-primary div-mar">
-                                        <h3>{{$my_info['change_count']}}次</h3>
-                                        <p>被换</p>
+                                    <div class="col-sm-3">
+                                        <div class="col-sm-12 label label-primary">
+                                            <h4>{{$my_info['change_count']}}次</h4>
+                                            <p>被换次数</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -663,7 +668,8 @@
                     <!-- /.box-footer -->
                 </div>
                 <!-- /.box (chat box) -->
-
+                @if (1>2)
+                    <!-- 暂时不显示内容 -->
                 <div class="box box-info direct-chat direct-chat-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title text-blue">课堂评分</h3>
@@ -708,6 +714,7 @@
                     <!-- /.box-footer-->
                 </div>
                 <!-- /.col -->
+                @endif
             </section>
             <!-- /.right -->
         </div>
