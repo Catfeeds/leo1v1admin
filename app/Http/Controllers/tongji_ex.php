@@ -118,7 +118,7 @@ class tongji_ex extends Controller
         \App\Helper\Utils::unixtime2date_for_item($item,"add_time");
         E\Ereport_error_from_type::set_item_value_str($item);
         E\Ereport_error_type::set_item_value_str($item);
-        return $this->pageView(__METHOD__, null, ["report_info"=> $report_info ]);
+        return $this->pageView(__METHOD__, null, ["report_info"=> $item]);
     }
 
 
