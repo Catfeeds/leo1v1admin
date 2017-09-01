@@ -1333,7 +1333,7 @@ class tea_manage_new extends Controller
                             $teacherid = $this->t_teacher_info->get_teacherid_by_name($val[3]);
                         }
                         if(!$teacherid){
-                            \App\Helper\Utils::logger("老师不存在".$val[3]);
+                            \App\Helper\Utils::logger("add open course 老师不存在".$val[3]);
                             continue;
                         }
 

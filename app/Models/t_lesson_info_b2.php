@@ -3693,19 +3693,26 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 	}
 
     public function get_confirm_lesson_list_new($start_time,$end_time) {
+        $where_arr = [       
+            ["lesson_start>=%u",$start_time,0],
+            ["lesson_start<%u",$end_time,0],
+            "lesson_type in (0,1,3) ",
+            "lesson_del_flag=0",
+            "is_test_user=0",
+            "lesson_status =2",
+            "confirm_flag not in (2,3)"
+        ];
+
         $sql=$this->gen_sql_new("select l.assistantid ,sum(lesson_count) as lesson_count,count(*) as count, "
                                 ."count(distinct l.userid ) as user_count,a.nick assistant_nick "
                                 ."from  %s  l left join %s s on l.userid = s.userid "
                                 ."left join %s a on l.assistantid = a.assistantid "
-                                ." where is_test_user=0 and lesson_start >=%u and lesson_start<%u "
-                                ." and lesson_status =2 and confirm_flag not in (2,3)  and lesson_type in (0,1,3)"
-                                . " and lesson_del_flag=0 and l.assistantid <> 59329  "
-                                ." group by l.assistantid  order by lesson_count desc",
+                                ." where %s "
+                                ." group by a.assistantid  order by lesson_count desc",
                                 self::DB_TABLE_NAME,
                                 t_student_info::DB_TABLE_NAME,
                                 t_assistant_info::DB_TABLE_NAME,
-                                $start_time,
-                                $end_time
+                                $where_arr
         );
 
         return $this->main_get_list_as_page($sql);
