@@ -2616,6 +2616,15 @@ class user_deal extends Controller
     public function cancel_lesson_by_userid()
     {
         $this->switch_tongji_database();
+        // $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+        // $account_role = $this->t_manager_info->get_account_role($require_adminid);
+        $lesson_start = strtotime("2017-09-08");
+        $require_adminid = 457;
+        $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
+        $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+        $rank = @$self_top_info[6]["top_index"];
+        dd($rank);
+
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );
         $lesson_count_list=$this->t_lesson_info_b2->get_confirm_lesson_list_new($start_time,$end_time);
         dd($lesson_count_list);

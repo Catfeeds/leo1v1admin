@@ -915,7 +915,6 @@ $(function(){
         Enum_map.append_option_list( "subject", $subject,true);
         Enum_map.append_option_list( "boolean", $competition_flag,true);
         Enum_map.append_option_list( "order_promotion_type", $order_promotion_type,true);
-        $order_promotion_type.val(2);
 
 
         $nick.val(data.nick);
@@ -935,7 +934,7 @@ $(function(){
         };
 
         $order_require_flag.on("change", opt_spec);
-        $order_promotion_type.val(1); //赠送课时
+        $order_promotion_type.val(2); //打折
         opt_spec();
 
         var reload_present_info = function() {

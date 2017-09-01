@@ -2698,18 +2698,18 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
 
     public function get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject=-1){
         $where_arr=[
-            "l.lesson_del_flag=0",
-            "l.lesson_user_online_status <2",
-            "l.lesson_type =2",
-            "l.lesson_status>0",
-            "t.is_test_user=0",
+            // "l.lesson_del_flag=0",
+            //"l.lesson_user_online_status <2",
+            //"l.lesson_type =2",
+            // "l.lesson_status>0",
+            //  "t.is_test_user=0",
             ["l.subject = %u",$subject,-1],
-            ["l.teacherid = %u",$teacherid,-1],
+            ["tr.teacherid = %u",$teacherid,-1],
         ];
         if($record_flag==0){
             $where_arr[] = "(tr.record_info is null or tr.record_info='')";
         }elseif($record_flag==1){
-            $where_arr[] = "tr.add_time>0";
+            $where_arr[] = "tr.record_info <> ''";
         }
         if($tea_subject==12){
             $where_arr[]="l.subject in (4,6)";
@@ -2719,7 +2719,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
             $where_arr[]=["l.subject=%u",$tea_subject,-1];
         }
 
-        $this->where_arr_add_time_range($where_arr,"l.lesson_start",$start_time,$end_time);
+        $this->where_arr_add_time_range($where_arr,"tr.lesson_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select l.teacherid,t.realname,l.lessonid,l.lesson_start,l.subject,t.grade_start,t.grade_end,t.grade_part_ex,tr.id,tr.acc,tr.record_info,tr.add_time,l.grade,tr.lesson_invalid_flag,tq.test_stu_request_test_lesson_demand,tt.stu_request_test_lesson_demand   "
                                   ." from %s l left join %s t on l.teacherid = t.teacherid"
                                   ." left join %s tr on (l.lessonid = tr.train_lessonid and tr.type=1 and tr.lesson_style=1)"

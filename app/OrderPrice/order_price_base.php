@@ -3,7 +3,7 @@ namespace App\OrderPrice;
 
 use \App\Enums as E;
 class order_price_base {
-    static $cur_order_price_type=E\Eorder_price_type::V_20170701;
+    static $cur_order_price_type=E\Eorder_price_type::V_20170901;
     static $order_price_type_config=[
         E\Eorder_price_type::V_20170101 => order_price_20170101::class,
         E\Eorder_price_type::V_20170701 => order_price_20170701::class,
