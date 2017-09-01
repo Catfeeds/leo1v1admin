@@ -382,7 +382,7 @@ class test_boby extends Controller
             //     }
             // } else {
                 foreach ($g300 as $v){
-                    $userid = $item['userid'];
+                    // $userid = $item['userid'];
                     $lessonid = $v;
                     $this->t_open_lesson_user->add_open_class_user($lessonid, 116281);
                 }
