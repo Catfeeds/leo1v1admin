@@ -571,4 +571,10 @@ class lesson extends TeaWxController
             }
         }
     }
+
+    public function get_lesson_intro(){
+        $lessonid = $this->get_in_int_val('lessonid');
+        $lesson_intro = $this->t_lesson_info->get_lesson_intro($lessonid);
+        return $this->output_succ(['data'=>$lesson_intro]);
+    }
 }

@@ -194,6 +194,7 @@
                                 <a class="fa-user opt-user-info" href="/teacher_info_admin/index?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="老师信息"> </a>
                                 <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
+                                <a  href="/teacher_info_admin/lesson_list?teacherid={{$var["teacherid"]}}" target="_blank" title="跳转到老师课表">课 </a>
                                 <a class="div_show" href="/teacher_info/free_time?teacherid={{$var["teacherid"]}}"
                                    target="_blank" title="设置空闲时间">设置空闲时间</a>
                                 <a class="opt-get-teacher-lesson-hold div_show">设置暂停接试听课</a>
