@@ -1979,9 +1979,11 @@ class test_code extends Controller
         $list = $this->t_order_info->get_open_order_list($order_start,$order_end);
 
         \App\Helper\Utils::debug_to_html( $list );
-
     }
 
-
+    public function check_user_list(){
+        $list = $this->t_course_order->get_course_order_grade();
+        
+    }
 
 }
