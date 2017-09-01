@@ -2,6 +2,7 @@
 @section('content')
 <script type="text/javascript" > 
  var acc= "{{$acc}}";
+ var account_role= "{{$account_role}}";
  var g_adminid= "{{$adminid}}";
  var tea_subject= "{{$tea_subject}}";
 </script>
@@ -147,7 +148,7 @@
                             <div
                                 {!! \App\Helper\Utils::gen_jquery_data($var) !!}
                             >
-                                @if(in_array($acc,["adrian","coco","wander","nick","amyshen","王芳","tanya","max","夏宏东"]))
+                                @if(in_array($account_role,["10","11","12"]))
                                     <a class="opt-reset">重置</a>
                                 @endif
                                 @if(in_array($acc,["adrian","jack",$var["account"],"wander","nick","zoe","abby"]) || $var["account"]=="")

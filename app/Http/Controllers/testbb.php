@@ -128,8 +128,40 @@ class testbb extends Controller
 
 
     public function get_pdf_url(){
-        $url = $this->get_in_str_val('f');
-        return $this->get_pdf_download_url($url);
+        $file_url = $this->get_in_str_val('f');
+        $this->set_in_value('file_url',$file_url);
+        return $this->get_pdf_download_url();
+
+        $savePathFile = public_path('wximg').'/'.$pdf_url;
+
+        if($pdf_url){
+
+            \App\Helper\Utils::savePicToServer($pdf_file_path,$savePathFile);
+
+            $path = public_path().'/wximg';
+
+            @chmod($savePathFile, 0777);
+
+            $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
+
+            $file_name_origi = array();
+            foreach($imgs_url_list as $item){
+                $file_name_origi[] = @$this->put_img_to_alibaba($item);
+            }
+
+            $file_name_origi_str = implode(',',$file_name_origi);
+
+            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
+
+            foreach($imgs_url_list as $item_orgi){
+                @unlink($item_orgi);
+            }
+
+            @unlink($savePathFile);
+        }
+
+
+
     }
 
     public function get_pdf_download_url()

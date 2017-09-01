@@ -160,7 +160,7 @@ class ResetTeacherMonthMoney extends Job implements ShouldQueue
 
         $teacher_ref_rate_list = \App\Helper\Utils::redis(E\Eredis_type::V_GET,$this->teacher_ref_rate_key,[],true);
         if($teacher_ref_rate_list===null || !isset($teacher_ref_rate_list[$teacher_ref_type][$start_date])){
-            $teacher_ref_num  = $this->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
+            $teacher_ref_num  = $this->task->t_teacher_info->get_teacher_ref_num($start_time,$teacher_ref_type);
             $teacher_ref_rate = \App\Helper\Utils::get_teacher_ref_rate($teacher_ref_num);
             $teacher_ref_rate_list[$teacher_ref_type][$start_date] = $teacher_ref_rate;
             \App\Helper\Utils::redis(E\Eredis_type::V_SET,$this->teacher_ref_rate_key,$teacher_ref_rate_list);

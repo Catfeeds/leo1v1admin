@@ -394,6 +394,9 @@ $(function(){
         }, function(resp){
             if (resp.ret==-1) {
                 alert (resp.info);
+                if (resp.flag=="goto_test_lesson_list") {
+                    $.wopen("/seller_student_new/seller_get_test_lesson_list");
+                }
                 return;
             }
 

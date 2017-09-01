@@ -702,7 +702,7 @@ $(function(){
                         +"</td>"
                         +"<td>"+rev+"</td>"
                         +"<td>"+item["have_order"]+"</td>"
-                        +"<td>"+item["test_lesson_order_fail_desc"]+"</td>"
+                        +"<td>失败类型:"+item["test_lesson_order_fail_flag_str"]+"\n失败说明"+item["test_lesson_order_fail_desc"]+"</td>"
                         +"</tr>";
                     html_node.find("table").append(html);
                 });

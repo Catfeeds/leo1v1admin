@@ -3680,6 +3680,7 @@ class user_manage_new extends Controller
         $orderid      = $this->get_in_int_val("orderid");
         $orderid_goal = $this->get_in_int_val("orderid_goal");
         $acc          = $this->get_account();
+        $account_role = $this->get_account_role();
 
         $order_info = $this->t_order_info->get_order_info_by_orderid($orderid);
         $order_goal_info = $this->t_order_info->get_order_info_by_orderid($orderid_goal);

@@ -966,7 +966,7 @@ class common_new extends Controller
     }
 
     public function send_msg_to_parent(){
-        $lesssonid = $this->get_in_int_val('lessonid');
+        $lessonid = $this->get_in_int_val('lessonid');
         $type = $this->get_in_int_val('type'); // 1:试卷 2:作业
 
         /***
@@ -990,7 +990,7 @@ class common_new extends Controller
          **/
 
 
-        $lesson_info = $this->t_lessson_info_b2->get_lesson_info_by_lessonid($lessonid);
+        $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
 
         if($type == 1){ // 试卷
             $keyword1 = '讲义已上传';
