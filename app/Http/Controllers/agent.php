@@ -22,7 +22,7 @@ class agent extends Controller
         $agent_level = $this->get_in_el_agent_level();
         $order_flag = $this->get_in_e_boolean(-1, "order_flag" );
         $l1_child_count= $this->get_in_intval_range("l1_child_count");
-
+        // echo $order_flag;
         list( $order_in_db_flag, $order_by_str, $order_field_name,$order_type)
             =$this->get_in_order_by_str([],"",["l1_child_count" => "a.l1_child_count" ,
                                                "l2_child_count" => "a.l2_child_count",
