@@ -2275,7 +2275,7 @@ class user_manage extends Controller
                 "ret_info" => @$ret_grade,
         ]);
     }
-      /**
+    /**
      * @author    sam
      * @function  助教统计年级-科目数量
      */
@@ -2433,5 +2433,70 @@ class user_manage extends Controller
                 "ret_info" => @$ret_student_subject,
         ]);
     }
+   
+
+   /**
+     * @author    sam
+     * @function  助教统计年级-科目数量
+     */
+    public function tongji_cc()
+    {
+
+        $this->switch_tongji_database();
+        list($start_time,$end_time) = $this->get_in_date_range(date("Y-m-01",time()),0,0,[],3);
+        $ret_info = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,0); //普通排课
+        $ret_info_top = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,1,0); //Top
+        $ret_info_take = $this->t_lesson_info->get_tongji_cc($start_time,$end_time,0,1); //抢课
+
+        $arr = [
+              "total_num" => "0",
+              "per_page_count" => 10,
+              "page_info" => [
+                "total_num" => "0",
+                "per_page_count" => 10,
+                "page_num" => 1,
+              ],
+              "list" => []
+            ];
+        $ret_student_subject = [
+            1 => [
+                "name" => "普通排课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '',
+            ],
+            2 => [
+                "name" => "Top20排课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '',
+            ],
+            3 => [
+                "name" => "抢课", 
+                "cc" => 0,
+                "trans" => 0,
+                "per" => '',
+            ],
+        ];
+        $ret_student_subject[1]['cc']           = $ret_info["person_num"];
+        $ret_student_subject[1]['trans']        = $ret_info['have_order'];
+        if($ret_info['person_num']>0){
+            $ret_student_subject[1]['per'] = round($ret_info['have_order']/$ret_info['person_num'],2).'%';
+        }
+
+        $ret_student_subject[2]['cc']           = $ret_info_top["person_num"];
+        $ret_student_subject[2]['trans']        = $ret_info_top['have_order'];
+        if($ret_info['person_num']>0){
+            $ret_student_subject[2]['per'] = round($ret_info_top['have_order']/$ret_info_top['person_num'],2).'%';
+        }
+
+        $ret_student_subject[3]['cc']           = $ret_info_take["person_num"];
+        $ret_student_subject[3]['trans']        = $ret_info_take['have_order'];
+        if($ret_info['person_num']>0){
+            $ret_student_subject[3]['per'] = round($ret_info_take['have_order']/$ret_info_take['person_num'],2).'%';
+        }
+        $arr['list'] = $ret_student_subject;
+        return $this->pageView(__METHOD__, $arr);
+   }
 
 }
