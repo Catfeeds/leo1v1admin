@@ -965,5 +965,9 @@ class ajax_deal2 extends Controller
         sleep(5);
         return  $this->output_succ();
     }
+    public function get_rcaai_login_info() {
+        $adminid= $this->get_account_id();
+        data=file_get_contents("http://api.rcrai.com/leoedu/staff/job_number/$adminid");
+    }
 
 }

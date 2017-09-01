@@ -853,8 +853,8 @@ $(function(){
 
     $("#id_call_check_systen").on("click",function(){
         $.ajax({
-            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+ g_adminid ,
-            'type': 'POST',
+            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+g_adminid,
+            'type': 'get',
             'data': {},
             'dataType': 'jsonp',
             success: function(data) {
