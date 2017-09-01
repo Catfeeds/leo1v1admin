@@ -283,7 +283,7 @@
                                 @if(@$var["hand_flag"]==1)
                                     <a class="opt-edit-hand" title="修改" >修改</a>
                                 @endif
-                                <a class="opt-1v1-lesson-set-new">1v1-new</a>                                    
+                                <a class="opt-1v1-lesson-set-new">1v1-new</a>
                             </div>
                         </td>
                     </tr>
