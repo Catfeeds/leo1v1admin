@@ -218,7 +218,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
-                        <td style="display:none">{{@$var["id"]}}</td>
+                        <td>{{@$var["id"]}}</td>
                         <td>{{@$var["name"]}} </td>
                         <td>{{@$var["begin"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>
