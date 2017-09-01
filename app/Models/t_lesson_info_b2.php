@@ -3713,7 +3713,7 @@ class t_lesson_info_b2 extends \App\Models\Zgen\z_t_lesson_info
         $where_arr = [
             ["lesson_start>=%u",$lesson_start,0],
             ["lesson_start<%u",$lesson_end,0],
-            ["subject=%u",$subject,0],
+            "subject=$subject",
             "lesson_type in (0,1,3) ",
             "lesson_del_flag=0",
             "is_test_user=0",
