@@ -386,7 +386,43 @@ class test_boby extends Controller
         return $s;
 
     }
+    //添加给老师添加公开课学生
+    public function add_stu_to_tea_open_lesson(){
+        $start_time = strtotime('2017-08-05');
+        $end_time = strtotime('2017-09-01');
+        $userid_list = $this->t_order_info->get_userid_by_pay_time($start_time, $end_time);
 
+        $teacherid = "(55161,176999)";
+        $start_time = strtotime('2017-09-01');
+        $end_time = strtotime('2017-10-01');
+        $lessonid_list = $this->t_lesson_info_b2->get_lessonid_by_teacherid($start_time, $end_time, $teacherid);
+        $g200 = [];
+        $g300 = [];
+        foreach($lessonid_list as $v){
+            if ($v['grade'] == 200) {
+                $g200[ count($g200) ] = $v['lessonid'];
+            } else {
+                $g300[ count($g300) ] = $v['lessonid'];
+            }
+        }
+        foreach ($userid_list as $item) {
+            if ($item['grade'] < 300) {
+                foreach ($g200 as $v){
+                    $userid = $item['userid'];
+                    $lessonid = $v;
+                    $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+                }
+            } else {
+                foreach ($g300 as $v){
+                    $userid = $item['userid'];
+                    $lessonid = $v;
+                    $this->t_open_lesson_user->add_open_class_user($lessonid, $userid);
+                }
+            }
+
+        }
+        dd($userid_list);
+    }
 
 
 }
