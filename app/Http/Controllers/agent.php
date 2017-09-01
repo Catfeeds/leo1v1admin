@@ -267,16 +267,16 @@ class agent extends Controller
         if(!$type){
             return $this->output_err("请选择报名类型!");
         }
-        if($userid
-           && $student_info['type'] ==  E\Estudent_type::V_0
-           && $student_info['is_test_user'] == 0
-           && $orderid
-           && $type == E\Eagent_type::V_1
-        ){//在读非测试
-            dd($student_info);
-            return $this->output_err("您已是在读学员!");
-        }
-        dd('b');
+        // if($userid
+        //    && $student_info['type'] ==  E\Estudent_type::V_0
+        //    && $student_info['is_test_user'] == 0
+        //    && $orderid
+        //    && $type == E\Eagent_type::V_1
+        // ){//在读非测试
+        //     dd($student_info);
+        //     return $this->output_err("您已是在读学员!");
+        // }
+        // dd('b');
         if(!$p_phone){
             return $this->output_err("无推荐人!");
         }
