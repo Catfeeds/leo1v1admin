@@ -39,7 +39,7 @@ class t_tq_call_info extends \App\Models\Zgen\z_t_tq_call_info
 
     public function get_call_phone_list($page_num, $start_time,$end_time,$uid, $is_called_phone ,$phone,$seller_student_status ) {
         $where_arr=[
-            ["m.uid=%u", $uid, -1] ,
+            ["tq.uid=%u", $uid, -1] ,
             ["tq.is_called_phone=%u", $is_called_phone, -1] ,
             ["tq.phone='%s'", $phone, ''] ,
         ];
