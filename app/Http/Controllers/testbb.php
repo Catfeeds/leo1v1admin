@@ -91,7 +91,8 @@ class testbb extends Controller
 
 
     public function test_img(){
-
+        $d = strtotime(date('Y-m-d'),+1);
+        dd($d);
     }
 
 
