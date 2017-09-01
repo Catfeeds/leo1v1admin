@@ -686,7 +686,7 @@
         <div class="row" >
             <div class="col-xs-12 col-md-6 ">
                 <div class="input-group  ">
-                    <span class="input-group-addon" style="color:red;">特殊申请：</span>
+                    <span class="input-group-addon" style="color:red;">特殊申请(或未用活动)：</span>
                     <select  class="form-control field-order_require_flag">
                     </select>
                 </div>

@@ -71,7 +71,7 @@ class deal_pdf_to_image extends Job implements ShouldQueue
 
             $file_name_origi_str = implode(',',$file_name_origi);
 
-            $ret = $t_lesson_info->save_tea_pc_url($lessonid, $file_name_origi_str);
+            $ret = $t_lesson_info->save_tea_pic_url($lessonid, $file_name_origi_str);
 
             foreach($imgs_url_list as $item_orgi){
                 @unlink($item_orgi);

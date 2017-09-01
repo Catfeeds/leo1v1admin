@@ -7,6 +7,7 @@ interface GargsStatic {
 	page_num:	number;
 	page_count:	number;
 	phone_name:	string;
+	user_info:	string;
 	grade:	number;//App\Enums\Egrade
 	has_pad:	number;//App\Enums\Epad_type
 	subject:	number;//App\Enums\Esubject
@@ -39,6 +40,7 @@ $(function(){
 			start_time:	$('#id_start_time').val(),
 			end_time:	$('#id_end_time').val(),
 			phone_name:	$('#id_phone_name').val(),
+			user_info:	$('#id_user_info').val(),
 			grade:	$('#id_grade').val(),
 			has_pad:	$('#id_has_pad').val(),
 			subject:	$('#id_subject').val(),
@@ -61,6 +63,7 @@ $(function(){
         }
     });
 	$('#id_phone_name').val(g_args.phone_name);
+	$('#id_user_info').val(g_args.user_info);
 	$('#id_grade').val(g_args.grade);
 	$('#id_has_pad').val(g_args.has_pad);
 	$('#id_subject').val(g_args.subject);
@@ -79,6 +82,13 @@ $(function(){
             <div class="input-group ">
                 <span class="input-group-addon">phone_name</span>
                 <input class="opt-change form-control" id="id_phone_name" />
+            </div>
+        </div>
+
+        <div class="col-xs-6 col-md-2">
+            <div class="input-group ">
+                <span class="input-group-addon">user_info</span>
+                <input class="opt-change form-control" id="id_user_info" />
             </div>
         </div>
 

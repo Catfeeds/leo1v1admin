@@ -965,6 +965,12 @@ class common_new extends Controller
         return $content;
     }
 
+    public function send_msg_to_parent(){
+        $lesssonid = $this->get_in_int_val('lessonid');
+
+        $lesson_info = $this->t_lessson_info_b3->get_lesson_info_by_lessonid($lessonid);
+    }
+
     public function add_teacher(){
         $info = hex2bin($this->get_in_str_val("info"));
         if($info==""){
