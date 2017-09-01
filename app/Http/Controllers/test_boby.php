@@ -312,25 +312,35 @@ class test_boby extends Controller
         // return 'bey';
         $start_time = strtotime ( $this->get_in_str_val('start') );
         $end_time = strtotime ( $this->get_in_str_val('end') );
-        $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time);
 
         $s = '<table border=1><tr>'
+           .'<td>科目</td>'
            .'<td>课次</td>'
            .'<td>人数</td>'
            .'</tr>';
-        $list = [];
-        foreach ($ret_info as $item) {
-            if ( !array_key_exists($item['lesson_nums'], $list) ){
-                $list[ $item['lesson_nums'] ] = 1;
-            } else {
-                $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
-            }
-        }
-        foreach ($list as $k=>$v){
+        for ($sub=0; $sub < 12; $sub++) {
+            $ret_info = $this->t_lesson_info_b2->get_lesson_student_count_info($start_time, $end_time,$sub);
+            $list = [];
+            $subject = '';
+            if ($ret_info) {
+                foreach ($ret_info as &$item) {
+                    if ( !array_key_exists($item['lesson_nums'], $list) ){
+                        $list[ $item['lesson_nums'] ] = 1;
+                    } else {
+                        $list[ $item['lesson_nums'] ] = $list[ $item['lesson_nums'] ]+1 ;
+                    }
+                    $subject = E\Esubject::set_item_value_str($item);
+                    echo $subject;
+                }
 
-                $s = $s.'<tr><td>'.$k.'</td>'
-                   .'<td>'.$v.'</td>'
-                   .'</tr>';
+                foreach ($list as $k=>$v){
+                    $s = $s.'<tr><td>'.$subject.'</td>'
+                                    .'<td>'.$v["lesson_nums"].'</td>'
+                                    .'<td>'.$v["user_nums"].'</td>'
+                                    .'</tr>';
+                }
+            }
+
         }
 
         $s = $s.'</table>';
