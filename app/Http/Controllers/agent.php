@@ -232,7 +232,7 @@ class agent extends Controller
 
     public function check(){
         $this->agent_add();
-        $p_wx_openid = ' oAJiDwBbbqiTwnU__f6ce5tNpWYs';
+        $wx_openid = ' oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
         $data = [
             'first'    => '恭喜您获得邀请奖金',
@@ -241,7 +241,7 @@ class agent extends Controller
             'remark'   => '恭喜您邀请的学员15251318622购课成功，课程金额1000元，您获得100元。',
         ];
         $url = '';
-        \App\Helper\Utils::send_agent_msg_for_wx($wx_openid_old,$template_id,$data,$url);
+        \App\Helper\Utils::send_agent_msg_for_wx($wx_openid,$template_id,$data,$url);
         dd('c');
     }
 
