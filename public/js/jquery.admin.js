@@ -561,7 +561,7 @@ jQuery.fn.extend({
 });
 
 jQuery.extend({
-custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
+    custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, bucket_info  ,noti_origin_file_func   ){
 
         var html_node=$('        <div class="row">'+
                         '            <div class="progress">'+
@@ -588,39 +588,38 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                               }, bucket_info ,noti_origin_file_func  );
 
     },
-
     custom_upload_file :function (btn_id,  is_public_bucket , complete_func, ctminfo , ext_file_list, noti_process , before_upload, bucket_info,noti_origin_file_func ){
-        var init_upload=function( ret ) {
 
+        var init_upload=function( ret ) {
             var domain_name=ret.domain;
             var token=ret.token;
 
             var uploader = Qiniu.uploader({
-            runtimes: 'html5, flash, html4',
-            browse_button: btn_id , //choose files id
-            uptoken: token,
-            domain: "http://"+domain_name,
-            max_file_size: '30mb',
-            dragdrop: true,
-            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-            chunk_size: '4mb',
-            unique_names: false,
-            save_key: false,
-            auto_start: true,
+                runtimes: 'html5, flash, html4',
+                browse_button: btn_id , //choose files id
+                uptoken: token,
+                domain: "http://"+domain_name,
+                max_file_size: '30mb',
+                dragdrop: true,
+                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+                chunk_size: '4mb',
+                unique_names: false,
+                save_key: false,
+                auto_start: true,
                 multi_selection: false,
                 filters: {
                     mime_types: [
                         {title: "", extensions: ext_file_list.join(",") }
                     ]
                 },
-            init: {
-              'FilesAdded': function(up, files) {
-                plupload.each(files, function(file) {
+                init: {
+                    'FilesAdded': function(up, files) {
+                        plupload.each(files, function(file) {
                             console.log('waiting...'+file.name );
                         });
-              },
-              'BeforeUpload': function(up, file) {
-                console.log('before uplaod the file 11111');
+                    },
+                    'BeforeUpload': function(up, file) {
+                        console.log('before uplaod the file 11111');
                         var match = file.name.match(/.*\.(.*)?/);
                         var file_ext=match[1];
                         var check_flag=false;
@@ -633,62 +632,59 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                             BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
                             return false;
                         }
-                console.log('before uplaod the file');
+                        console.log('before uplaod the file');
                         if(before_upload) {
                             before_upload();
                         }
                         return true;
 
-              },
-              'UploadProgress': function(up,file) {
+                    },
+                    'UploadProgress': function(up,file) {
                         if(noti_process) {
                             noti_process (file.percent);
                         }
                         console.log(file.percent);
-                console.log('upload progress');
-              },
-              'UploadComplete': function() {
-                console.log(' UploadComplete .. end ');
-              },
-              'FileUploaded' : function(up, file, info) {
+                        console.log('upload progress');
+                    },
+                    'UploadComplete': function() {
+                        console.log(' UploadComplete .. end ');
+                    },
+                    'FileUploaded' : function(up, file, info) {
                         if(noti_process) {
                             noti_process (101);
                         }
-                console.log('Things below are from FileUploaded');
+                        console.log('Things below are from FileUploaded');
 
                         if (noti_origin_file_func) {
                             noti_origin_file_func(this.origin_file_name);
                         }
 
                         complete_func(up, info, file, ctminfo);
-              },
-              'Error': function(up, err, errTip) {
-                console.log('Things below are from Error');
+                    },
+                    'Error': function(up, err, errTip) {
+                        console.log('Things below are from Error');
                         BootstrapDialog.alert(errTip);
-              },
-              'Key': function(up, file) {
-                var key = "";
+                    },
+                    'Key': function(up, file) {
+                        var key = "";
                         var time = (new Date()).valueOf();
                         var match = file.name.match(/.*\.(.*)?/);
                         /*
-                        if( uploader.on_noti_origin_file_func) {
-                            uploader.on_noti_origin_file_func(file.name);
-                        }
+                          if( uploader.on_noti_origin_file_func) {
+                          uploader.on_noti_origin_file_func(file.name);
+                          }
                         */
                         this.origin_file_name=file.name;
-                var file_name=$.md5(file.name) +time +'.' + match[1];
-                console.log('gen file_name:'+file_name);
+                        var file_name=$.md5(file.name) +time +'.' + match[1];
+                        console.log('gen file_name:'+file_name);
                         return file_name;
 
-              }
-            }
-
-          });
-
+                    }
+                }
+            });
         };
         if (bucket_info) {
             init_upload(bucket_info);
-
         }else{
             do_ajax( "/common/get_bucket_info",{
                 is_public: is_public_bucket ? 1:0
@@ -696,7 +692,6 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                 init_upload(ret);
             });
         }
-
     },
 
 
@@ -712,18 +707,18 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
         var dlg=null;
 
         $.self_upload( id,  url, ctminfo, ext_file_list,ex_args,
-                              function(percentage){
-                                  if (percentage==101) { //succ
-                                      alert("上传完成");
-                                      dlg.close();
-                                  }
-                                  html_node.find(".progress-bar") .css('width', percentage+'%');
-                              },complete_func ,function(){ //before_upload
-                                  dlg=BootstrapDialog.show({
-                                      title: "上传进度",
-                                      message: html_node
-                                  });
-                              });
+                       function(percentage){
+                           if (percentage==101) { //succ
+                               alert("上传完成");
+                               dlg.close();
+                           }
+                           html_node.find(".progress-bar") .css('width', percentage+'%');
+                       },complete_func ,function(){ //before_upload
+                           dlg=BootstrapDialog.show({
+                               title: "上传进度",
+                               message: html_node
+                           });
+                       });
     },
     self_upload :function (id,url,ctminfo,ext_file_list,ex_args,process_func,complete_func, before_upload  ){
         var uploader = new plupload.Uploader({
@@ -875,31 +870,31 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
             var token=ret.token;
 
             var uploader = Qiniu.uploader({
-            runtimes: 'html5, flash, html4',
-            browse_button: btn_id , //choose files id
-            uptoken: token,
-            domain: "http://"+domain_name,
-            max_file_size: '30mb',
-            dragdrop: true,
-            flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
-            chunk_size: '4mb',
-            unique_names: false,
-            save_key: false,
-            auto_start: true,
+                runtimes: 'html5, flash, html4',
+                browse_button: btn_id , //choose files id
+                uptoken: token,
+                domain: "http://"+domain_name,
+                max_file_size: '30mb',
+                dragdrop: true,
+                flash_swf_url: '/js/qiniu/plupload/Moxie.swf',
+                chunk_size: '4mb',
+                unique_names: false,
+                save_key: false,
+                auto_start: true,
                 multi_selection: false,
                 filters: {
                     mime_types: [
                         {title: "", extensions: ext_file_list.join(",") }
                     ]
                 },
-            init: {
-              'FilesAdded': function(up, files) {
-                plupload.each(files, function(file) {
+                init: {
+                    'FilesAdded': function(up, files) {
+                        plupload.each(files, function(file) {
                             console.log('waiting...'+file.name );
                         });
-              },
-              'BeforeUpload': function(up, file) {
-                console.log('before uplaod the file 11111');
+                    },
+                    'BeforeUpload': function(up, file) {
+                        console.log('before uplaod the file 11111');
                         var match = file.name.match(/.*\.(.*)?/);
                         var file_ext=match[1];
                         var check_flag=false;
@@ -912,49 +907,49 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                             BootstrapDialog.alert("文件后缀必须是: "+ ext_file_list.join(",") +"<br> 刷新页面，重新上传"  );
                             return false;
                         }
-                console.log('before uplaod the file');
+                        console.log('before uplaod the file');
                         return true;
 
-              },
-              'UploadProgress': function(up,file) {
+                    },
+                    'UploadProgress': function(up,file) {
                         if(noti_process) {
                             noti_process (file.percent);
                         }
                         console.log(file.percent);
-                console.log('upload progress');
-              },
-              'UploadComplete': function() {
-                console.log(' UploadComplete .. end ');
-              },
-              'FileUploaded' : function(up, file, info) {
+                        console.log('upload progress');
+                    },
+                    'UploadComplete': function() {
+                        console.log(' UploadComplete .. end ');
+                    },
+                    'FileUploaded' : function(up, file, info) {
                         if(noti_process) {
                             noti_process (0);
                         }
-                console.log('Things below are from FileUploaded');
-                  console.log(1111);
-                  if(info.response){
-                      complete_func(up, info.response, file, ctminfo);
-                  }else{
-                      complete_func(up, info, file, ctminfo);
-                  }
+                        console.log('Things below are from FileUploaded');
+                        console.log(1111);
+                        if(info.response){
+                            complete_func(up, info.response, file, ctminfo);
+                        }else{
+                            complete_func(up, info, file, ctminfo);
+                        }
 
-              },
-              'Error': function(up, err, errTip) {
-                console.log('Things below are from Error');
+                    },
+                    'Error': function(up, err, errTip) {
+                        console.log('Things below are from Error');
                         BootstrapDialog.alert(errTip);
-              },
-              'Key': function(up, file) {
-                var key = "";
+                    },
+                    'Key': function(up, file) {
+                        var key = "";
                         var time = (new Date()).valueOf();
                         var match = file.name.match(/.*\.(.*)?/);
-                var file_name=$.md5(file.name) +time +'.' + match[1];
-                console.log('gen file_name:'+file_name);
+                        var file_name=$.md5(file.name) +time +'.' + match[1];
+                        console.log('gen file_name:'+file_name);
                         return file_name;
 
-              }
-            }
+                    }
+                }
 
-          });
+            });
         });
 
     },
@@ -1164,7 +1159,7 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
                 "header_list":["id","属性"] ,
                 "onChange": function ( select_list,dlg ){
                     dlg.close();
-                     var select_all=false;
+                    var select_all=false;
                     $.each (select_list,function(){
                         if (this==-1) {
                             select_all=true;
@@ -1446,32 +1441,32 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
 
 
     do_ajax_get_nick:function( type,  id, func) {
-      $.ajax({
-        type     : "post",
-        url      : "/user_manage/get_nick" ,
-        dataType : "json",
-        data : {
+        $.ajax({
+            type     : "post",
+            url      : "/user_manage/get_nick" ,
+            dataType : "json",
+            data : {
                 "type" : type
                 ,"id"  : id
             },
 
-           error: function() {
-               alert("操作失败, 已通知开发人员 ");
-          },
-        success : function(result){
+            error: function() {
+                alert("操作失败, 已通知开发人员 ");
+            },
+            success : function(result){
                 var nick = result.nick;
                 func(id,nick );
             }});
     },
 
     do_get_env:function( func) {
-      $.ajax({
-        type     : "post",
-        url      : "/common_new/get_env" ,
-        dataType : "json",
-        data : {
+        $.ajax({
+            type     : "post",
+            url      : "/common_new/get_env" ,
+            dataType : "json",
+            data : {
             },
-        success : function(result){
+            success : function(result){
                 var env= result.env;
                 func(env);
             }});
@@ -1525,9 +1520,9 @@ custom_upload_file_process :function (btn_id,  is_public_bucket , complete_func,
         if (has_date_type) {
             str="date_type"+"="+$('#id_date_type').val() +"&";
         }
-      return str+= "opt_date_type"+"="+$('#id_opt_date_type').val()+"&"+
-      "start_time"+"="+	$('#id_start_time').val()+"&"+
-      "end_time"+"="+$('#id_end_time').val();
+        return str+= "opt_date_type"+"="+$('#id_opt_date_type').val()+"&"+
+            "start_time"+"="+	$('#id_start_time').val()+"&"+
+            "end_time"+"="+$('#id_end_time').val();
     },
     plupload_Uploader:function( config ) {
         return  new plupload.Uploader(config);

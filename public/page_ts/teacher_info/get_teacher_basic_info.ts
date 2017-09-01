@@ -8,72 +8,30 @@ $(function(){
         });
     }
 
-    var gen_upload_item = function(btn_id , file_name_fix, get_url_fun, set_url_fun, bucket_info, noti_origin_file_func){
-        var id_item = $(
-            "<div class=\"row\"> "+
-                "<div class=\" col-md-2\">" +
-                "<button class=\"btn btn-primary  upload \" id=\""+btn_id+"\">上传</button>"+
-                "</div>"+
-                "<div class=\" col-md-2\">" +
-                "<button class=\"btn btn-primary show\">查看 </button>"+
-                "</div>"+
-                "</div>"
-        );
-        // id_item.find('#'+btn_id).click();
-        id_item.find(".show").on("click",function(){
-            $.custom_show_pdf(get_url_fun(),"/teacher_info/get_pdf_download_url");
-        });
+    $(".opt-upload").on("click", function( ){
+        var opt_field = $(this).attr('data-val');
+        upload_info(opt_field);
+    });
 
-        id_item["onshown_init"]=function () {
-            $.custom_upload_file_process(
-                btn_id, 0,
-                function(up, info, file, lesson_info) {
-                    var res = $.parseJSON(info);
-                    if(res.key!=''){
-                        set_url_fun(res.key);
-                    }
-                }, [], ["pdf","zip"], bucket_info, noti_origin_file_func);
-        }
-        return id_item;
-    };
-
-    var upload_info = function( opt_data, opt_field){
-        var btn_student_upload_id = "id_"+opt_field+"_upload";
-        var get_pdf_url = opt_data[opt_field];
-        $.do_ajax("/common/get_bucket_info",{
-            is_public : 0
-        },function(ret){
-            var id_upload_info = gen_upload_item(
-                btn_student_upload_id,
-                "tea_"+opt_field+Math.random(),
-                function(){return get_pdf_url; },
-                function(url) {get_pdf_url=url;},
-                ret ,
-                function(file_name) {}
-            );
-            var arr= [
-                ["上传证书", id_upload_info],
-            ];
-            $.show_key_value_table("证件信息", arr ,{
-                label    : '确认',
-                cssClass : 'btn-warning',
-                action   : function(dialog) {
+    var upload_info = function(opt_field) {
+        custom_upload_file(
+            opt_field,0,function(up, file, info) {
+                var res = $.parseJSON(file);
+                if( res.key!='' ){
+                    var get_pdf_url=res.key;
                     $.do_ajax("/teacher_info/update_teacher_pdf_info",{
                         "opt_field": opt_field,
                         "get_pdf_url": get_pdf_url,
                     });
                 }
-            },function(){
-                id_upload_info["onshown_init"]();
-            },false,900);
-        });
-    };
+            }, [], ["pdf","zip"],function(){}
+        );
+    }
 
-    $(".opt-upload").on("click", function( ){
-        var opt_field = $(this).val();
-        var opt_data  = $(this).get_opt_data();
-        upload_info(opt_data, opt_field);
-    });
+    $('.opt-show').on('click', function (){
+        var pdf_url = $(this).attr('data-pdf');
+        $.custom_show_pdf(pdf_url,"/teacher_info/get_pdf_download_url");
+    })
 
     var cur_status = $('#my_status').attr('cur-status');
     if (cur_status == 0) {
