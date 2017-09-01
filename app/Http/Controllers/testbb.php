@@ -131,8 +131,7 @@ class testbb extends Controller
         $pdf_file_path = 'http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=';
         // $this->set_in_value('file_url',$file_url);
         // return $this->get_pdf_download_url();
-        $ss = basename($pdf_url);
-        dd($ss);
+        $pdf_url = 111111111;
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
