@@ -498,6 +498,7 @@
                                 <a class="fa-list opt-interview-assess div_show"  title="修改面试评价"> </a>
                                 <a class="opt-show-lessons div_show"  title="课程列表">课程</a>
                                 <a class="opt-show-lessons-new"  title="课程列表-new">课程-new</a>
+                                <a  href="/teacher_info_admin/get_lesson_list?teacherid={{$var["teacherid"]}}" target="_blank" title="跳转到老师课表">课 </a>
                                 <a class="fa-gavel opt-set-tmp-passwd div_show"  title="临时密码"></a>
                                 <a class="fa-institution opt-meeting done_create_meeting div_show" title="设置是否可以创建会议"></a>
                                 <a class="opt-teacher-freeze div_show">冻结排课</a>

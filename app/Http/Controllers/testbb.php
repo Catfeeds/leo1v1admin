@@ -128,9 +128,9 @@ class testbb extends Controller
 
 
     public function get_pdf_url(){
-        $file_url = $this->get_in_str_val('f');
-        $this->set_in_value('file_url',$file_url);
-        return $this->get_pdf_download_url();
+        $pdf_url = $this->get_in_str_val('f');
+        // $this->set_in_value('file_url',$file_url);
+        // return $this->get_pdf_download_url();
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
