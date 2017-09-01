@@ -858,11 +858,7 @@ $(function(){
             'data': {},
             'dataType': 'jsonp',
             success: function(data) {
-                if (data['ret'] == 0) {
-                    $.reload();
-                } else {
-                    console.log(data);
-                }
+                alert( );
             }
         });
     });
