@@ -27,7 +27,7 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
     public function get_next_day_lesson_info(){
         $next_day_begin = strtotime(date('Y-m-d',strtotime("+1 days")));
-        $next_day_end   = strtotime(date('Y-m-d',strtotime("+2 days")));;
+        $next_day_end   = strtotime(date('Y-m-d',strtotime("+2 days")));
 
         $where_arr = [
             ["l.lesson_start>=%d",$next_day_begin],
