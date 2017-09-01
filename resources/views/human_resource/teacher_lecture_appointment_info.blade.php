@@ -187,6 +187,7 @@
                         <a id="id_select_all" title="全选">全</a>
                         <a id="id_select_other" title="反选">反</a>
                     </td>
+                    <td style="display:none">id</td>
                     <td>教师姓名</td>
                     <td>报名时间</td>
                     <td>入职时间</td>
@@ -217,6 +218,7 @@
                 @foreach ( $table_data_list as $var )
                     <tr>
                         <td><input type="checkbox" class="opt-select-item" data-id="{{$var["id"]}}"/></td>
+                        <td style="display:none">{{@$var["id"]}}</td>
                         <td>{{@$var["name"]}} </td>
                         <td>{{@$var["begin"]}} </td>
                         <td>{{@$var["train_through_new_time_str"]}} </td>

@@ -30,7 +30,8 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
         $next_day_end   = strtotime(date('Y-m-d',strtotime("+2 days")));;
 
         $where_arr = [
-            []
+            ["l.lesson_start>=%d",$next_day_begin],
+            ["l.lesson_end<=%d",$next_day_end],
         ];
 
         $sql = $this->gen_sql_new("  select l.lesson_start, l.lesson_end, l.subject, t.wx_openid as tea_openid, p.wx_openid as par_openid  from %s l "
