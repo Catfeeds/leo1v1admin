@@ -65,7 +65,7 @@ class t_teacher_feedback_list extends \App\Models\Zgen\z_t_teacher_feedback_list
     public function get_admin_list($status=0){
         $where_arr=[
             ["status=%u",$status,-1],
-            "del_flag = 0"
+            "tf.del_flag = 0"
         ];
         $sql=$this->gen_sql_new("select tf.id,tf.lessonid,assistantid,accept_adminid,feedback_type"
                                 ." from %s tf"

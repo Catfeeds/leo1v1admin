@@ -10,7 +10,7 @@ class test_boby extends Controller
     use CacheNick;
 
     public function __construct(){
-        $this->switch_tongji_database();
+      // $this->switch_tongji_database();
     }
 
     public function get_b_txt($file_name="b"){
@@ -421,7 +421,9 @@ class test_boby extends Controller
             }
 
         }
-        dd($userid_list);
+
+        echo 'ok';
+        exit;
     }
 
 

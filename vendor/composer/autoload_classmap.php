@@ -705,6 +705,7 @@ return array(
     'TSellerTSellerStudentNewGlocalSellerStudentStatus' => $baseDir . '/database/migrations/2017_05_09_111026_t_seller-t_seller_student_new_glocal_seller_student_status.php',
     'TStdentTypeChangeListAddWxRemindTime' => $baseDir . '/database/migrations/2017_07_15_094739_t_stdent_type_change_list_add_wx_remind_time.php',
     'TStudentCcToCrAddField' => $baseDir . '/database/migrations/2017_07_07_095325_t_student_cc_to_cr_add_field.php',
+    'TStudentInfoAddGradeUp' => $baseDir . '/database/migrations/2017_09_01_151523_t_student_info_add_grade_up.php',
     'TStudentInfoAddStuEndLessonTime' => $baseDir . '/database/migrations/2017_05_20_142906_t_student_info_add_stu_end_lesson_time.php',
     'TStudentInfoAddTypeIndex' => $baseDir . '/database/migrations/2017_05_17_170120_t_student_info_add_type_index.php',
     'TStudentInitInfoAddWeekLessonNum' => $baseDir . '/database/migrations/2017_04_01_111105_t_student_init_info_add_week_lesson_num.php',

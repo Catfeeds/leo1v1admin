@@ -2911,18 +2911,22 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
                                   ." from %s l "
 
                                   ." left join %s t on l.teacherid=t.teacherid "
+
                                   ." left join %s m1 on l.level=m1.level and l.teacher_money_type=m1.teacher_money_type "
                                   ."      and m1.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
+
                                   ." left join %s m2 on t.level_simulate=m2.level "
                                   ."      and t.teacher_money_type_simulate=m2.teacher_money_type "
                                   ."      and m2.grade=(case when "
                                   ."      l.competition_flag=1 then if(l.grade<200,203,303) "
                                   ."      else l.grade"
                                   ."      end )"
+
                                   ." left join %s ol on l.lessonid=ol.lessonid"
+
                                   ." left join %s o on ol.orderid=o.orderid"
 
                                   ." where %s"
@@ -3146,7 +3150,7 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
     }
 
     public function get_train_through_teacher_info_new(){
-        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time"
+        $sql = $this->gen_sql_new("select teacherid,realname,phone,train_through_new_time,identity,teacher_money_type,subject,grade_end,grade_start,grade_part_ex "
                                   ." from %s where train_through_new_time>0 and is_test_user=0 and is_quit=0",
                                   self::DB_TABLE_NAME
         );

@@ -486,6 +486,8 @@ class url_power_map {
 			'/teacher_level/get_fifth_test_lesson_info'	=>1373900,
 			'/teacher_level/get_first_regular_lesson_info'	=>1374000,
 			'/teacher_level/get_fifth_regular_lesson_info'	=>1374100,
+			'/human_resource/teacher_test_lesson_info_zj'	=>1374200,
+			'/human_resource/index_tea_qua_zj'	=>1374300,
 			'/tongji_ss/teacher_interview_info_tongji'	=>1373004,
 			'/tongji_ss/interview_subject_grade_tongji'	=>1373001,
 			'/tongji_ss/teacher_interview_info_tongji_by_reference'	=>1373005,

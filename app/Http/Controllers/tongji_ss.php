@@ -7955,6 +7955,23 @@ class tongji_ss extends Controller
             }elseif(is_numeric($item['grade_ex'])){
                 $item['grade_ex']     = E\Egrade_part_ex::get_desc($item['grade_ex']);
                 }*/
+            //  E\Eteacher_type::set_item_value_str($item,"teacher_type");
+            // E\Eboolean::set_item_value_str($item,"need_test_lesson_flag");
+            // E\Egender::set_item_value_str($item,"gender");
+            E\Esubject::set_item_value_str($item,"subject");
+            // E\Esubject::set_item_value_str($item,"second_subject");
+            // E\Esubject::set_item_value_str($item,"third_subject");
+            E\Eidentity::set_item_value_str($item);
+            //E\Elevel::set_item_value_str($item,"level");
+            E\Eteacher_money_type::set_item_value_str($item);
+            // E\Eteacher_ref_type::set_item_value_str($item); //是否全职
+           
+            E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
+           
+            E\Egrade_range::set_item_value_str($item,"grade_start");
+            E\Egrade_range::set_item_value_str($item,"grade_end");
+
+
 
         }
         return $this->pageView(__METHOD__,$ret_info);
