@@ -43,6 +43,7 @@ class get_ass_stu_info_update extends Command
         //更新助教信息
         //$end_time = strtotime(date("Y-m-01",time()));
         $start_time = strtotime(date("Y-m-01",time()-86400));
+        dd($start_time);
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
         // $start_time = strtotime(date("2017-07-01"));
         // $end_time = strtotime(date("2017-08-01"));
@@ -219,23 +220,30 @@ class get_ass_stu_info_update extends Command
                 }
 
                 $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
-                foreach($ass_list as $k=>$val){
-                    if(isset($warning_stu_list[$k])){
-                        $warning_student = @$warning_stu_list[$k]["warning_student"];
-                        $userid_list = json_encode($warning_stu_list[$k]["userid_list"]);
+                foreach($ass_list as $ki=>$val){
+                    if(isset($warning_stu_list[$ki])){
+                        $warning_student = @$warning_stu_list[$ki]["warning_student"];
+                        $userid_list = json_encode($warning_stu_list[$ki]["userid_list"]);
                     }else{
                         $warning_student =0;
                         $userid_list=[];
                         $userid_list = json_encode($userid_list);
                     }
-                    $task->t_ass_weekly_info->row_insert([
-                        "adminid"   =>$k,
-                        "week"      =>$end_time,
-                        "warning_student" =>$warning_student,
-                        "warning_student_list" =>$userid_list,
-                        "time_type"    =>2
-                    ]);
+                    $id =$task->t_ass_weekly_info->get_id_by_unique_record($ki,$end_time,2);
+                    if($id >0){
+                        
+                    }else{
+                        $task->t_ass_weekly_info->row_insert([
+                            "adminid"   =>$ki,
+                            "week"      =>$end_time,
+                            "warning_student" =>$warning_student,
+                            "warning_student_list" =>$userid_list,
+                            "time_type"    =>2
+                        ]);
+                    }
+                    
                 }
+                
                 
             }             
         }
