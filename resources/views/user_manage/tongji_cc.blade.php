@@ -88,15 +88,15 @@
                                 <tbody >
                                         <tr>
                                             <td class="">类别</td>
-                                            <td class="panel_red">普通排课</td>
-                                            <td class="panel-blue">Top20精排</td> 
-                                            <td class="panel-yellow">抢课</td> 
+                                            <td class="panel-red">试听成功人数</td>
+                                            <td class="panel-blue">签约单数</td> 
+                                            <td class="panel-yellow">转化率</td> 
                                         </tr>
                                         @foreach ( $table_data_list as $var )
                                         <tr>
                                             <td >{{@$var['name']}}</td> 
-                                            <td >{{@$var['person_num']}}</td> 
-                                            <td >{{@$var['have_order']}}</td>
+                                            <td >{{@$var['cc']}}</td> 
+                                            <td >{{@$var['trans']}}</td>
                                             <td >{{@$var['per']}}</td>
                                         </tr>
                                         @endforeach
