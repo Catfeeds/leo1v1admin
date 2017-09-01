@@ -795,12 +795,12 @@ class user_manage_new extends Controller
             $money_all+=$item["price"];
             $order_count++;
             if($item["pre_price"]==0){
-                $item["pre_status"]="无定金"; 
+                $item["pre_status"]="无定金";
             }else{
                 if($item["pre_pay_time"]>0){
                     $item["pre_status"]="定金已支付";
                 }else{
-                    $item["pre_status"]="定金未支付"; 
+                    $item["pre_status"]="定金未支付";
                 }
             }
         }
@@ -1408,7 +1408,9 @@ class user_manage_new extends Controller
                 $item['los_money'] = "";
                 \App\Helper\Utils::unixtime2date_for_item($item,"become_member_time");
                 \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
-                $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                if(isset($item["del_flag"])){
+                    $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                }
             }
 
         }
@@ -3674,7 +3676,7 @@ class user_manage_new extends Controller
             $subject,150,$teacher_info["teacher_money_type"],$teacher_info["level"]
         );
         $this->t_lesson_info->field_update_list($lessonid,[
-           "lesson_name"   =>$lesson_name 
+           "lesson_name"   =>$lesson_name
         ]);
         $this->t_homework_info->add(
             $courseid,0,$userid,$lessonid,$grade,$subject,$teacherid
@@ -3864,4 +3866,3 @@ class user_manage_new extends Controller
 
 
 }
-
