@@ -2832,7 +2832,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             ." from %s o"
             ." left join %s s on o.userid=s.userid"
             ." where %s"
-            // ." group by s.userid"
+            ." group by s.userid"
             ,self::DB_TABLE_NAME
             ,t_student_info::DB_TABLE_NAME
             ,$where_arr
