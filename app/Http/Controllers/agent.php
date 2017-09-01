@@ -273,8 +273,10 @@ class agent extends Controller
            && $orderid
            && $type == E\Eagent_type::V_1
         ){//在读非测试
+            dd($student_info);
             return $this->output_err("您已是在读学员!");
         }
+        dd('b');
         if(!$p_phone){
             return $this->output_err("无推荐人!");
         }
