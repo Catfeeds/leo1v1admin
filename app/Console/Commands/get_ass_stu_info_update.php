@@ -43,7 +43,6 @@ class get_ass_stu_info_update extends Command
         //更新助教信息
         //$end_time = strtotime(date("Y-m-01",time()));
         $start_time = strtotime(date("Y-m-01",time()-86400));
-        dd($start_time);
         $end_time = strtotime(date("Y-m-01",$start_time+40*86400));
         // $start_time = strtotime(date("2017-07-01"));
         // $end_time = strtotime(date("2017-08-01"));

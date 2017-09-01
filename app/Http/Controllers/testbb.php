@@ -128,9 +128,11 @@ class testbb extends Controller
 
 
     public function get_pdf_url(){
-        $pdf_url = $this->get_in_str_val('f');
+        $pdf_file_path = 'http:\/\/7tszue.com2.z0.glb.qiniucdn.com\/2d5e65b05f28090c07f9b1e994b1e7151504012597909.pdf?e=1504239357&token=yPmhHAZNeHlKndKBLvhwV3fw4pzNBVvGNU5ne6Px:SXTiWrNfY_mRJajzzUjXn6Sxcd4=';
         // $this->set_in_value('file_url',$file_url);
         // return $this->get_pdf_download_url();
+        $ss = basename($pdf_url);
+        dd($ss);
 
         $savePathFile = public_path('wximg').'/'.$pdf_url;
 
@@ -197,6 +199,38 @@ class testbb extends Controller
         $base_url=$auth->privateDownloadUrl($file_url );
         return $base_url;
     }
+
+    //
+    public function pdf2png($pdf,$path, $lessonid){
+
+        if(!extension_loaded('imagick')){
+            return false;
+        }
+        if(!$pdf){
+            return false;
+        }
+        $IM =new \imagick();
+        $IM->setResolution(100,100);
+        $IM->setCompressionQuality(100);
+
+        $is_exit = file_exists($pdf);
+
+        if($is_exit){
+            @$IM->readImage($pdf);
+            foreach($IM as $key => $Var){
+                @$Var->setImageFormat('png');
+                $Filename = $path."/l_t_pdf_".$lessonid."_".$key.".png" ;
+                if($Var->writeImage($Filename)==true){
+                    $Return[]= $Filename;
+                }
+            }
+            return $Return;
+        }else{
+            return [];
+        }
+
+    }
+
 
 
 
