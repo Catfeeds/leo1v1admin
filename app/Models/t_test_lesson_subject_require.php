@@ -2018,6 +2018,40 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
        return $this->main_get_row($sql);
    }
 
+    public function  get_test_fail_row_new($cur_require_adminid)
+   {
+       $where_arr=[
+           "lesson_del_flag=0",
+           "test_lesson_order_fail_flag in (0,null)",
+           'contract_status in (0,null)',
+       ];
+       $this->where_arr_add_time_range($where_arr,"require_time",1503849600,time(null));
+       $this->where_arr_add__2_setid_field($where_arr,"cur_require_adminid",$cur_require_adminid);
+
+       $sql = $this->gen_sql_new(
+           "select tr.require_id,l.lesson_start,l.userid,l.teacherid ,s.grade,l.subject,cur_require_adminid , "
+           ." test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, "
+           ."test_lesson_order_fail_desc,o.contract_status "
+           ."from %s tr "
+           ."left join %s t on tr.test_lesson_subject_id = t.test_lesson_subject_id "
+           ."left join %s tss on tr.current_lessonid = tss.lessonid  "
+           ."left join %s l on tr.current_lessonid = l.lessonid "
+           ." left join %s s on l.userid = s.userid "
+           ." left join %s o on tss.lessonid = o.from_test_lesson_id "
+           ."where %s "
+           ." order by lesson_start desc limit 0,10"
+           ,self::DB_TABLE_NAME
+           ,t_test_lesson_subject::DB_TABLE_NAME
+           ,t_test_lesson_subject_sub_list::DB_TABLE_NAME
+           ,t_lesson_info::DB_TABLE_NAME
+           ,t_student_info::DB_TABLE_NAME
+           ,t_order_info::DB_TABLE_NAME
+           ,$where_arr
+       );
+
+       return $this->main_get_row($sql);
+   }
+
 
     public function  tongji_get_order_fail($start_time, $end_time, $cur_require_adminid,$origin_userid_flag,$require_admin_type)
    {
