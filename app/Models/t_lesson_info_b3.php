@@ -26,6 +26,11 @@ class t_lesson_info_b3 extends \App\Models\Zgen\z_t_lesson_info{
 
 
     public function get_next_day_lesson_info(){
+        $now = time();
+        $where_arr = [
+            []
+        ];
+
         $sql = $this->gen_sql_new("  select l.lesson_start, l.lesson_end, l.subject, t.wx_openid as tea_openid, p.wx_openid as par_openid  from %s l "
                                   ." left join %s s on s.userid=l.userid"
                                   ." left join %s t on t.teacherid=l.teacherid"

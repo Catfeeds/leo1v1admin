@@ -915,6 +915,9 @@ class main_page extends Controller
         ]);
     }
 
+    public function zs_teacher_old(){
+        return $this->zs_teacher();
+    }
     public function zs_teacher_new(){
         $this->switch_tongji_database();
         list($start_time,$end_time) = $this->get_in_date_range( date("Y-m-01",time(NULL)) ,0 );

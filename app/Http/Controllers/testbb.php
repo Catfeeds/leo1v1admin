@@ -91,25 +91,8 @@ class testbb extends Controller
 
 
     public function test_img(){
-        $date = date('Y_m-d');
-        $title= substr($date,2);
-
-        dd($title);
-
-
-        $a = [
-            "a"=>1,
-            "b"=>2
-        ];
-
-        $b = [
-            "c"=>3,
-            "d"=>4
-        ];
-
-        $ret = array_merge($a,$b);
-
-        dd($ret);
+        $d = strtotime(date('Y-m-d'),+1);
+        dd($d);
     }
 
 
