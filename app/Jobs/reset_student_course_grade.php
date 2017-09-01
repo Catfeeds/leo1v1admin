@@ -48,7 +48,7 @@ class reset_student_course_grade extends Job implements ShouldQueue
                 $userid   = $s_val['userid'];
                 $up_grade = $this->get_up_grade($s_val['grade']);
                 $task->t_student_info->field_update_list($userid,[
-                    "grade" => $up_grade,
+                    "grade_up" => $up_grade,
                 ]);
             }
             $task->t_course_order->reset_course_lesson_gradse_type(0);

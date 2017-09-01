@@ -38,8 +38,14 @@ class audio_post extends cmd_base
     public function do_handle()
     {
         $day=$this->get_arg_day();
-        $start_time=$day;
-        $end_time=$start_time+86400;
+        if ($day==0) {
+            $start_time=time()-900;
+            $end_time=time();
+        }else{
+            $start_time=$day;
+            $end_time=$start_time+86400;
+
+        }
 
         $list=$this->task->t_tq_call_info->get_list_for_post($start_time,$end_time);
         $url='http://rcrai.com:8001/leoedu/call/';

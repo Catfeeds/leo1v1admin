@@ -698,6 +698,9 @@ class human_resource extends Controller
     }
 
 
+    public function index_tea_qua_zj(){
+        return $this->index_tea_qua();
+    }
 
     public function index_tea_qua(){
         $this->set_in_value("is_test_user",0);
@@ -3527,6 +3530,10 @@ class human_resource extends Controller
 
     public function teacher_test_lesson_info_fulltime(){
         $this->set_in_value("fulltime_flag",1);
+        return $this->teacher_test_lesson_info();
+    }
+
+    public function teacher_test_lesson_info_zj(){
         return $this->teacher_test_lesson_info();
     }
 
