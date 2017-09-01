@@ -356,9 +356,9 @@ $(function(){
                     return false;
                 }
 
-                if(acc==account  || acc=="ted" || acc=="zoe"  || acc=="abby" || acc=="adrian"){
+                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8"){
                     if($.check_in_phone()){
-                        var w = $.check_in_phone()?329 : 558;
+                        var w = $.check_in_phone()?329:558;
                         var h = w/4*3;
                         var html_node = $("<div style=\"text-align:center;\"> "
                                           +"<div id=\"drawing_list\" style=\"width:100%\">"
@@ -373,12 +373,11 @@ $(function(){
                         });
                         Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
                         Cwhiteboard.loadData(w,h,start,draw_url,audio_url,html_node);
-
                     }else{
                         window.open("http://admin.yb1v1.com/player/playback.html?draw="+draw_url
                                     +"&audio="+audio_url
                                     +"&start="+start,"_blank");
-                        window.location.reload(); 
+                        window.location.reload();
                     }
                 }else if(account != "" && (acc=="wander" || acc=="nick" || acc=="jack")){
                     if($.check_in_phone()){

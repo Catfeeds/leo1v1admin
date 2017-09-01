@@ -4925,7 +4925,7 @@ lesson_type in (0,1) "
             "tss.success_flag in (0,1)",
             "l.lesson_user_online_status =1"
         ];
-        $sql = $this->gen_sql_new("select o.orderid,l.lessonid,lesson_start,l.subject,l.grade,s.nick,l.draw,l.audio,l.real_begin_time,n.stu_character_info,n.stu_score_info,t.stu_request_lesson_time_info,t.stu_request_test_lesson_time,t.stu_request_test_lesson_time_info,t.stu_test_lesson_level,s.editionid,t.stu_request_test_lesson_demand,t.stu_test_paper,t.tea_download_paper_time,t.require_adminid,s.phone,l.userid,l.teacherid,tr.test_lesson_order_fail_desc   ".
+        $sql = $this->gen_sql_new("select o.orderid,l.lessonid,lesson_start,l.subject,l.grade,s.nick,l.draw,l.audio,l.real_begin_time,n.stu_character_info,n.stu_score_info,t.stu_request_lesson_time_info,t.stu_request_test_lesson_time,t.stu_request_test_lesson_time_info,t.stu_test_lesson_level,s.editionid,t.stu_request_test_lesson_demand,t.stu_test_paper,t.tea_download_paper_time,t.require_adminid,s.phone,l.userid,l.teacherid,tr.test_lesson_order_fail_desc,tr.test_lesson_order_fail_flag   ".
                                   " from %s l left join %s tss on l.lessonid = tss.lessonid".
                                   " left join %s o on  (l.lessonid = o.from_test_lesson_id and order_status >0)".
                                   " left join %s s on l.userid = s.userid ".

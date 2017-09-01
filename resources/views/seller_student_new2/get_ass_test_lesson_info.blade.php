@@ -18,6 +18,11 @@
     <section class="content ">
         <div>
             <div class="row " >
+                <div class="col-xs-12 col-md-4"  data-title="时间段">
+                    <div id="id_date_range" >
+                    </div>
+                </div>
+
                 <div class="col-xs-6 col-md-2" >
                     <div class="input-group ">
                         <span >助教</span>
@@ -55,7 +60,9 @@
                         <td >老师 </td>
                         <td >试听时间 </td>
                         <td >课时确认 </td>
+                        <td >失败类型 </td>
                         <td >结果设置</td>
+                        <td >失败类型 </td>
 
                         <td >操作</td>
                     </tr>
@@ -96,6 +103,7 @@
                                     {!!$var["success_flag_str"]!!}&nbsp&nbsp&nbsp&nbsp<a href="javascript:;"  class="fa fa-info opt-success-info-list" title="点击查看详情" data-lessonid="{{$var["lessonid"]}}"></a>
                                 @endif
                             </td>
+                            <td>{{$var["test_lesson_fail_flag_str"]}}</td>
                             <td>
                                 @if($var["order_confirm_flag"]<2)
                                     {!!$var["order_confirm_flag_str"]!!}
@@ -104,7 +112,7 @@
                                 @endif
 
                             </td>
-
+                            <td>{{$var["ass_test_lesson_order_fail_flag_str"]}}</td>
 
                             <td>
                                 <div class="opt-div"

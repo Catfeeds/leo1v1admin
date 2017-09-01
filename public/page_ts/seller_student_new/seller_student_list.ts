@@ -240,7 +240,6 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
             if(ret.require_id){
@@ -394,6 +393,9 @@ $(function(){
         }, function(resp){
             if (resp.ret==-1) {
                 alert (resp.info);
+                if (resp.flag=="goto_test_lesson_list") {
+                    $.wopen("/seller_student_new/seller_get_test_lesson_list");
+                }
                 return;
             }
 

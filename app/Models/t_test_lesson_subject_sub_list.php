@@ -798,10 +798,11 @@ class t_test_lesson_subject_sub_list extends \App\Models\Zgen\z_t_test_lesson_su
         return $this->main_get_value($sql);
     }
 
-    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid,$lessonid){
+    public function get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid,$lessonid,$end_time){
         $where_arr=[
             "l.lesson_del_flag=0",
             ["l.lesson_start>=%u",$start_time,0],
+            ["l.lesson_start<%u",$end_time,0],
             ["a.assistantid=%u",$assistantid,-1],
             ["tss.success_flag=%u",$success_flag,-1],
             ["tss.order_confirm_flag=%u",$order_confirm_flag,-1],

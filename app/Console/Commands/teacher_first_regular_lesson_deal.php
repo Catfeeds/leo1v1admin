@@ -28,7 +28,7 @@ class teacher_first_regular_lesson_deal extends Command
     public function __construct()
     {
         parent::__construct();
-        
+
     }
 
     /**
@@ -48,24 +48,25 @@ class teacher_first_regular_lesson_deal extends Command
         $i=0;
         foreach($ret_info as $val){
             $id = $val["id"];
-            if($id>0){                
+            if($id>0){
                 $task->t_teacher_record_list->field_update_list($id,[
                     "lesson_time" => $val["lesson_start"]
                 ]);
-            
+
             }else{
                 $task->t_teacher_record_list->row_insert([
                     "teacherid"      => $val["teacherid"],
-                    "type"           => 1,          
+                    "type"           => 1,
                     "train_lessonid" => $val["lessonid"],
                     "lesson_style"   => 3,
+                    "lesson_time"    => $val["lesson_start"],
                     "add_time"       => time()+$i,
                     "userid"         => $val["userid"]
                 ]);
 
             }
             $i=$i+10;
- 
+
         }
         //dd($ret_info);
 

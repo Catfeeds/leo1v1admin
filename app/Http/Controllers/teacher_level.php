@@ -645,16 +645,14 @@ class teacher_level extends Controller
     //第一次试听课列表
     public function get_first_test_lesson_info(){
         $this->switch_tongji_database();
-        if (\App\Helper\Utils::check_env_is_release() ) {
-            dd("暂停" );
-        }
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
         $tea_subject = $this->get_admin_subject($this->get_account_id(),2);
         $ret_info = $this->t_lesson_info_b2->get_teacher_first_test_lesson($page_info,$start_time,$end_time,$subject,$teacherid,$record_flag,$tea_subject);
+        // dd($ret_info);
         foreach($ret_info["list"] as &$item){
             E\Esubject::set_item_value_str($item,"subject");
             E\Egrade_part_ex::set_item_value_str($item,"grade_part_ex");
@@ -689,11 +687,8 @@ class teacher_level extends Controller
     //第五次试听课列表
     public function get_fifth_test_lesson_info(){
         $this->switch_tongji_database();
-        if (\App\Helper\Utils::check_env_is_release() ) {
-            dd("暂停" );
-        }
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $record_flag       = $this->get_in_int_val("record_flag",0);
@@ -731,12 +726,9 @@ class teacher_level extends Controller
     //第一次常规课课列表
     public function get_first_regular_lesson_info(){
         $this->switch_tongji_database();
-        return $this->error_view([
-            "关闭,请看其它."
-        ]);
-
+        
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
@@ -773,11 +765,8 @@ class teacher_level extends Controller
     //第五次常规课课列表
     public function get_fifth_regular_lesson_info(){
         $this->switch_tongji_database();
-        if (\App\Helper\Utils::check_env_is_release() ) {
-            dd("暂停" );
-        }
         $page_info = $this->get_in_page_info();
-        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],2);
+        list($start_time, $end_time)=$this->get_in_date_range(0,0,0,[],3);
         $subject         = $this->get_in_int_val("subject",-1);
         $teacherid       = $this->get_in_int_val("teacherid",-1);
         $userid       = $this->get_in_int_val("userid",-1);
@@ -996,7 +985,10 @@ class teacher_level extends Controller
 
     public function reset_record_acc(){
         $id                              = $this->get_in_int_val("id");
-        $this->t_teacher_record_list->row_delete($id);
+        $this->t_teacher_record_list->field_update_list($id,[
+            "acc"  =>"",
+            "click_time"=>0
+        ]);
         return $this->output_succ();
     }
 
