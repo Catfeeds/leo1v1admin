@@ -361,7 +361,7 @@ class user_deal extends Controller
                 if($ret_row) {
                     $error_lessonid=$ret_row["lessonid"];
                     return $this->output_err(
-                        "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
+                        "<div>有现存的老师课程与该课程时间冲突！<a href='/teacher_info_admin/get_lesson_list?teacherid=$teacherid&lessonid=$error_lessonid' target='_blank'>查看[lessonid=$error_lessonid]<a/><div> "
                     );
                 }
 
@@ -2619,6 +2619,9 @@ class user_deal extends Controller
     {
         $this->switch_tongji_database();
         $start_time = strtotime("2017-08-01");
+        $ass_month= $this->t_month_ass_student_info->get_ass_month_info($start_time);
+        dd($ass_month);
+
         $end_time = strtotime("2017-09-01");
         $lesson_count_list = $this->t_manager_info->get_assistant_lesson_count_info($start_time,$end_time);
         dd($lesson_count_list);

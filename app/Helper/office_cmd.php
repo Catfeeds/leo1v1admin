@@ -2,6 +2,7 @@
 namespace App\Helper;
 class office_cmd{
     static $key="office_cmd";
+    static $last_require_time_key="office_cmd_last_require_time_key";
     static function add_one(  $office_device_type ,$device_id,$device_opt_type , $office_device_sub_type, $value ) {
 
         $office_device_sub_type=1;//海尔
@@ -37,6 +38,7 @@ class office_cmd{
         if ($item) {
             static::set_list($list);
         }
+        \App\Helper\Common::redis_set (static::$last_require_time_key,time(NULL) );
         return $item;
     }
 
@@ -45,5 +47,7 @@ class office_cmd{
         $list[]=$item;
         static::set_list($list);
     }
-
+    static function get_last_require_time() {
+        return \App\Helper\Common::redis_get(static::$last_require_time_key );
+    }
 }
