@@ -36,6 +36,18 @@ $(function(){
         }
     });
 
+    // $('#id_free_date_range').select_date_range({
+    //     'date_type' : g_args.date_type,
+    //     'opt_date_type' : g_args.opt_date_type,
+    //     'start_time'    : g_args.start_time,
+    //     'end_time'      : g_args.end_time,
+    //     date_type_config : JSON.parse( g_args.date_type_config),
+    //     onQuery :function() {
+    //         load_data();
+    //     }
+    // });
+
+
     Enum_map.append_option_list("grade",$("#id_grade"));
     Enum_map.append_option_list("pad_type",$("#id_has_pad"));
     Enum_map.append_option_list("subject",$("#id_subject"));

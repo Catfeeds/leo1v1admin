@@ -647,6 +647,7 @@ class tongji_ss extends Controller
                  $have_intention_b_count,$have_intention_c_count,$require_count,$test_lesson_count,$succ_test_lesson_count,
                  $order_count,$user_count,$order_all_money) = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],0];
             $ret  = $this->t_agent->get_agent_info_new(null);
+            dd($ret);
             $userid_arr = [];
 
             $ret_new = [];
