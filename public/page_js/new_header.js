@@ -853,12 +853,12 @@ $(function(){
 
     $("#id_call_check_systen").on("click",function(){
         $.ajax({
-            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+ g_account_id ,
+            'url': 'http://api.rcrai.com/leoedu/staff/job_number/'+ g_adminid ,
             'type': 'POST',
             'data': {},
             'dataType': 'jsonp',
             success: function(data) {
-                alert( );
+                alert(JSON.stringify(data) );
             }
         });
     });
