@@ -147,7 +147,7 @@ class testbb extends Controller
             @chmod($savePathFile, 0777);
             $imgs_url_list = @$this->pdf2png($savePathFile,$path,$lessonid);
 
-            dd($imgs_url_list);
+            // dd($imgs_url_list);
             $file_name_origi = array();
             foreach($imgs_url_list as $item){
                 $file_name_origi[] = @$this->put_img_to_alibaba($item);
