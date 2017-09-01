@@ -13,7 +13,8 @@ $(function(){
 			identity:	$('#id_identity').val(),
 			class_will_type:	$('#id_class_will_type').val(),
 			have_lesson:	$('#id_have_lesson').val(),
-			revisit_flag:	$('#id_revisit_flag').val()
+			revisit_flag:	$('#id_revisit_flag').val(),
+			textbook_flag:	$('#id_textbook_flag').val()
         });
     }
 
@@ -34,6 +35,7 @@ $(function(){
     $('#id_class_will_type').val(g_args.class_will_type);
 	$('#id_have_lesson').val(g_args.have_lesson);
 	$('#id_revisit_flag').val(g_args.revisit_flag);
+	$('#id_textbook_flag').val(g_args.textbook_flag);
 
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 
