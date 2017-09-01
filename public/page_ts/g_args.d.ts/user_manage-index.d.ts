@@ -46,6 +46,7 @@ interface RowData {
 	reg_time	:any;
 	phone_location	:any;
 	origin_assistantid	:any;
+	grade_up	:any;
 	is_test_user_str	:any;
 	user_agent_simple	:any;
 	seller_admin_nick	:any;
