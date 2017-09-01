@@ -3,6 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use \App\Enums as E;
+require_once(app_path("/Libs/OSS/autoload.php"));
+use OSS\OssClient;
+
+use OSS\Core\OssException;
 
 use Illuminate\Support\Facades\Mail ;
 
@@ -231,6 +235,33 @@ class testbb extends Controller
         }
 
     }
+
+
+    public function put_img_to_alibaba($target){
+        try {
+            $config=\App\Helper\Config::get_config("ali_oss");
+            $file_name=basename($target);
+
+            $ossClient = new OssClient(
+                $config["oss_access_id"],
+                $config["oss_access_key"],
+                $config["oss_endpoint"], false);
+
+
+            $bucket=$config["public"]["bucket"];
+            $ossClient->uploadFile($bucket, $file_name, $target  );
+
+            \App\Helper\Utils::logger('shangchun55'. $config["public"]["url"]."/".$file_name);
+
+            return $config["public"]["url"]."/".$file_name;
+
+        } catch (OssException $e) {
+            \App\Helper\Utils::logger( "init OssClient fail");
+            return "" ;
+        }
+
+    }
+
 
 
 

@@ -1082,7 +1082,6 @@ class t_course_order extends \App\Models\Zgen\z_t_course_order
                                   ." from %s c"
                                   ." left join %s s on c.userid=s.userid"
                                   ." where %s"
-                                  ." limit 200"
                                   ,self::DB_TABLE_NAME
                                   ,t_student_info::DB_TABLE_NAME
                                   ,$where_arr

@@ -2851,5 +2851,14 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
+    public function get_all_student(){
+        $sql = $this->gen_sql_new("select userid,grade"
+                                  ." from %s "
+                                  ." where %s"
+                                  ,self::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }
