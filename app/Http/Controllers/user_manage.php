@@ -413,14 +413,14 @@ class user_manage extends Controller
         $grade             = $this->get_in_int_val("grade",-1);
         $subject           = $this->get_in_int_val("subject",-1);
         $this->get_in_int_val("self_adminid", $this->get_account_id());
-        $tmk_adminid      = $this->get_in_int_val("tmk_adminid", -1);
-        $teacherid        = $this->get_in_teacherid(-1);
-        $origin_userid    = $this->get_in_int_val("origin_userid", -1);
-        $referral_adminid = $this->get_in_int_val("referral_adminid",-1, "");
-        $assistantid      = $this->get_in_assistantid(-1);
-        $from_key         = $this->get_in_str_val('from_key');
-        $from_url         = $this->get_in_str_val('from_url');
-        $spec_flag        = $this->get_in_e_boolean(-1,"spec_flag");
+        $tmk_adminid       = $this->get_in_int_val("tmk_adminid", -1);
+        $teacherid         = $this->get_in_teacherid(-1);
+        $origin_userid     = $this->get_in_int_val("origin_userid", -1);
+        $referral_adminid  = $this->get_in_int_val("referral_adminid",-1, "");
+        $assistantid       = $this->get_in_assistantid(-1);
+        $from_key          = $this->get_in_str_val('from_key');
+        $from_url          = $this->get_in_str_val('from_url');
+        $spec_flag= $this->get_in_e_boolean(-1,"spec_flag");
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -441,6 +441,7 @@ class user_manage extends Controller
             , " t2.assistantid asc , order_time desc"
             , $spec_flag
         );
+
         $all_lesson_count = 0;
         $all_promotion_spec_diff_money=0;
         foreach($ret_list['list'] as &$item ){
@@ -455,8 +456,6 @@ class user_manage extends Controller
             \App\Helper\Utils::unixtime2date_for_item($item, 'contract_endtime');
             \App\Helper\Utils::unixtime2date_for_item($item, 'order_time');
             \App\Helper\Utils::unixtime2date_for_item($item, 'get_packge_time');
-            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_start');
-            \App\Helper\Utils::unixtime2date_for_item($item, 'lesson_end');
             E\Efrom_type::set_item_value_str($item);
             $item["user_agent"]= \App\Helper\Utils::get_user_agent_info($item["user_agent"]);
             $this->cache_set_item_account_nick($item,"tmk_adminid", "tmk_admin_nick" );
@@ -509,11 +508,9 @@ class user_manage extends Controller
             }
         }
 
-        return $this->Pageview(__METHOD__,$ret_list,[
-            "all_lesson_count"              => $all_lesson_count,
-            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
-            "account_role"                  => $this->get_account_role()
-        ]);
+        return $this->Pageview(__METHOD__,$ret_list,
+                               ["all_lesson_count" => $all_lesson_count,
+                                "all_promotion_spec_diff_money"=> $all_promotion_spec_diff_money ] );
     }
 
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -1255,8 +1252,7 @@ class user_manage extends Controller
         dispatch($job);
 
         if($ret_type == 0){
-            $aid=$this->t_agent->get_id_by_userid($userid);
-            $this->t_agent->reset_user_info($aid);
+            $this->update_agent_order($orderid,$userid,$order_info['price']);
         }
 
         return $this->output_succ();
@@ -1267,9 +1263,7 @@ class user_manage extends Controller
         $agent_order = [];
         $ret_info = [];
         $agent_order = $this->t_agent_order->get_row_by_orderid($orderid);
-        if(!isset($agent_order['orderid'])
-           && $this->t_agent_order->get_count_by_userid( $userid )==0
-        ){
+        if(!isset($agent_order['orderid'])){
             $phone    = $this->t_student_info->get_phone($userid);
             $ret_info = $this->t_agent->get_p_pp_id_by_phone($phone);
             if(isset($ret_info['id'])){
@@ -1302,10 +1296,8 @@ class user_manage extends Controller
                     'aid'         => $ret_info['id'],
                     'pid'         => $pid,
                     'p_price'     => $p_price,
-                    'p_level'     => $level1,
                     'ppid'        => $ppid,
                     'pp_price'    => $pp_price,
-                    'pp_level'    => $level2,
                     'create_time' => time(null),
                 ]);
             }
@@ -1313,13 +1305,26 @@ class user_manage extends Controller
     }
 
     public function check_agent_level($phone){//黄金1,水晶2,无资格0
-        $agent = $this->t_agent->get_agent_info_row_by_phone($phone);
-        if($agent['agent_level']){
-            $level = $agent['agent_level'];
+        $student_info = [];
+        $student_info = $this->t_student_info->get_stu_row_by_phone($phone);
+        if(isset($student_info['userid'])){
+            return 2;
         }else{
-            $level = 0;
+            $agent_item = [];
+            $agent_item = $this->t_agent->get_agent_info_row_by_phone($phone);
+            if(count($agent_item)>0){
+                $test_lesson = [];
+                $test_lesson = $this->t_agent->get_agent_test_lesson_count_by_id($agent_item['id']);
+                $count       = count(array_unique(array_column($test_lesson,'id')));
+                if(2<=$count){
+                    return 2;
+                }else{
+                    return 1;
+                }
+            }else{
+                return 0;
+            }
         }
-        return $level;
     }
 
     private function add_praise_by_order($orderid,$userid,$contract_type,$lesson_total){
@@ -1888,8 +1893,6 @@ class user_manage extends Controller
     }
 
     public function qc_complaint(){
-
-        $complaint_type = $this->get_in_int_val('complaint_type',-1);
         $page_num = $this->get_in_page_num();
         $account_type = $this->get_in_int_val('account_type',-1);
         $is_complaint_state = $this->get_in_int_val('is_complaint_state', -1);
@@ -1902,11 +1905,11 @@ class user_manage extends Controller
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
 
-        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type, $complaint_type );
+        $ret_info = $this->t_complaint_info->get_complaint_info_for_qc($time_type=-1,$page_num,$opt_date_str,$start_time,$end_time,$is_complaint_state, $account_type );
         foreach($ret_info['list'] as $index=>&$item){
 
             E\Ecomplaint_type::set_item_value_str($item);
-            E\Ecomplained_department::set_item_value_str($item,'complained_department');
+            E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
             $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
             E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
             $item['deal_date']              = \App\Helper\Utils::unixtime2date($item['deal_time']);
@@ -1931,6 +1934,7 @@ class user_manage extends Controller
             }
         }
 
+        // dd($ret_info);
         return $this->pageView(__METHOD__,$ret_info);
     }
 
@@ -1950,77 +1954,9 @@ class user_manage extends Controller
     }
 
     public function complaint_department_deal_product(){
-        // $this->set_in_value('account_type',2);
-        // $this->set_in_value('complaint_type',5); // 显示软件反馈类型
-
-
-        $page_info    = $this->get_in_page_info();
-        $account_id   = $this->get_account_id();
-        $account_role = $this->get_account_role();
-        $account_type = 2; //　投诉人类型　老师
-        $complaint_type = 5; // 显示软件反馈类型
-
-        // 权限分配
-        $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
-        $root_flag = in_array($account_id,$root_id_arr);
-
-        $up_groupid = $this->t_admin_group_name->get_up_groupid_by_master_adminid($account_id);
-
-        if($up_groupid > 0){
-            $account_id_arr = $this->t_admin_group_name->get_adminid_list_by_up_groupid($up_groupid);
-            $account_id_arr_tmp = [];
-            if($account_id_arr){
-                foreach($account_id_arr as $item){
-                    $account_id_arr_tmp[] = $item['adminid'];
-                }
-                $account_id_str = implode(',',$account_id_arr_tmp);
-            }else{
-                $account_id_str = $account_id;
-            }
-
-        }else{
-            $account_id_str = $account_id;
-        }
-
-
-
-        list($start_time,$end_time,$opt_date_str) = $this->get_in_date_range_month(0,0, [
-            0 => array( "add_time", "投诉时间"),
-            1 => array( "current_admin_assign_time", "分配时间"),
-        ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_product($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
-
-
-
-
-        foreach($ret_info['list'] as $index=>&$item){
-
-            E\Ecomplaint_type::set_item_value_str($item);
-            E\Eaccount_role::set_item_value_str($item,'complained_adminid_type');
-            $item['complaint_state_str'] = \App\Helper\Common::get_set_state_color_str($item['complaint_state']);
-            E\Ecomplaint_user_type::set_item_value_str($item,'account_type');
-            $item['complaint_date']         = \App\Helper\Utils::unixtime2date($item['add_time']);
-            $item['deal_date']              = \App\Helper\Utils::unixtime2date($item['deal_time']);
-            $item['current_admin_assign_time_date'] = \App\Helper\Utils::unixtime2date($item['current_admin_assign_time']);
-            $item['deal_admin_nick'] = $this->t_manager_info->get_ass_master_nick($item['deal_adminid']);
-
-            $this->get_nick_phone_by_account_type($item['account_type'],$item);
-
-            $current_account_arr = $this->t_complaint_assign_info->get_last_accept_adminid($item['complaint_id']);
-            $current_account_last = reset($current_account_arr);
-
-            $item['current_account'] = $current_account_last['account'];
-
-            if ($item['current_account']) {
-                $item['follow_state_str'] = '<font color="green">已分配</font>';
-            } else {
-                $item['follow_state_str'] = '<font color="blue">未分配</font>';
-            }
-
-            $item['time_consuming'] = \App\Helper\Common::secsToStr($item['deal_time']-$item['current_admin_assign_time']);
-
-        }
-        return $this->pageView(__METHOD__,$ret_info);
+        $this->set_in_value('account_type',2);
+        $this->set_in_value('complained_feedback_type',2); // 显示软件反馈类型
+        return $this->complaint_department_deal();
     }
 
 
@@ -2029,7 +1965,7 @@ class user_manage extends Controller
         $account_id   = $this->get_account_id();
         $account_role = $this->get_account_role();
         $account_type = $this->get_in_int_val('account_type');
-        $complaint_type = $this->get_in_int_val('complaint_type',-1);
+        $complained_feedback_type = $this->get_in_int_val('complained_feedback_type',-1);
 
         // 权限分配
         $root_id_arr = ['60','72','188','303','323','68','186','349','448','540','684','831','478','818'];
@@ -2059,7 +1995,7 @@ class user_manage extends Controller
             0 => array( "add_time", "投诉时间"),
             1 => array( "current_admin_assign_time", "分配时间"),
         ]);
-        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complaint_type);
+        $ret_info   = $this->t_complaint_info->get_complaint_info_by_ass($page_info,$opt_date_str,$start_time,$end_time,$account_id_str,$account_type,$root_flag, $complained_feedback_type );
 
 
         foreach($ret_info['list'] as $index=>&$item){
@@ -2146,7 +2082,6 @@ class user_manage extends Controller
 
         $page_info=$this->get_in_page_info();
         $ret_info = $this->t_student_info->get_no_type_student_score($page_info,$assistantid,$page_num,$start_time,$end_time);
-        dd($ret_info);
         foreach( $ret_info["list"] as $key => &$item ) {
             $ret_info['list'][$key]['num'] = $key + 1;
             E\Esubject::set_item_value_str($item);
@@ -2187,6 +2122,7 @@ class user_manage extends Controller
             ++$ret_student_subject["合计"];
         }
         $ret_student_subject['平均科目数'] = round($sum / $ret_student_subject["合计"],2);
+
         return $this->pageView(__METHOD__,null,[
                 "ret_info" => @$ret_student_subject,
         ]);
@@ -2220,9 +2156,9 @@ class user_manage extends Controller
             E\Esemester::set_item_value_str($item);
             E\Egrade::set_item_value_str($item);
             E\Estu_score_type::set_item_value_str($item);
-            if($ret_info['list'][$key]['total_score']){
-              $ret_info['list'][$key]['score'] = intval(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
-         }
+	if($ret_info['list'][$key]['total_score']){
+	$ret_info['list'][$key]['score'] = round(100*$ret_info['list'][$key]['score']/$ret_info['list'][$key]['total_score']);
+	}
             $this->cache_set_item_account_nick($item,"create_adminid","create_admin_nick" );
         }
         if (!$order_in_db_flag) {
