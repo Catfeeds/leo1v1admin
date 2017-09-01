@@ -729,6 +729,9 @@ class TeacherTask extends TaskController
                          * {{remark.DATA}}
                          */
 
+                        // if(){
+                            
+                        // }
                         $data=[];
                         $template_id      = "rSrEhyiqVmc2_NVI8L6fBSHLSCO9CJHly1AU-ZrhK-o";
                         $data['first']    = "老师您好,".$lesson_time."的模拟课程未上传".$status_str;
