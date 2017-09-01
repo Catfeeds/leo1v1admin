@@ -240,7 +240,6 @@ $(function(){
         var me=this;
 
         var opt_data=$(this).get_opt_data();
-
         $.do_ajax("/seller_student_new/test_lesson_order_fail_list_new",{
         } ,function(ret){
             if(ret.require_id){

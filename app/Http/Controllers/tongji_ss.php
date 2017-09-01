@@ -2106,7 +2106,7 @@ class tongji_ss extends Controller
                 $item["fail_info"]="";
             }elseif($item["test_lesson_order_fail_flag"]>0){
                 $item["have_order"] ="签约失败";
-                $item["fail_info"]="失败类型:".$item["test_lesson_order_fail_flag_str"]."br失败说明:".$item["test_lesson_order_fail_desc"];
+                $item["fail_info"]="失败类型:".$item["test_lesson_order_fail_flag_str"]."<br>失败说明:".$item["test_lesson_order_fail_desc"];
             }else{
                 $item["have_order"] ="未签";
                 $item["fail_info"]="";
