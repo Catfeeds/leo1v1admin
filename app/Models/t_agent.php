@@ -561,6 +561,25 @@ class t_agent extends \App\Models\Zgen\z_t_agent
         return $this->main_get_list($sql);
     }
 
+    public function get_p_pp_by_id($id){
+        $where_arr = [
+            ['a.id = %u ',$id,-1],
+        ];
+        $sql = $this->gen_sql_new(
+            " select a.phone,a.wx_openid,aa.wx_openid p_wx_openid,aaa.wx_openid pp_wx_openid"
+            ." from %s a "
+            ." left join %s aa on aa.id = a.parentid "
+            ." left join %s aaa on aaa.id = aa.parentid "
+            ." where %s limit 1 "
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,self::DB_TABLE_NAME
+            ,$where_arr
+        );
+        return $this->main_get_row($sql);
+    }
+
+
     public function get_count_by_phone($phone){
         $where_arr=[
             ['a1.phone = %s ',$phone],
@@ -853,7 +872,11 @@ class t_agent extends \App\Models\Zgen\z_t_agent
 
     public function reset_user_info_order_info($id,$userid ,$is_test_user,$create_time) {
         //重置订单信息
-        // $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
+        $p_pp_info = $this->task->t_agent->get_p_pp_by_id($id);
+        $phone = $p_pp_info['phone'];
+        $p_wx_openid = $p_pp_info['p_wx_openid'];
+        $pp_wx_openid = $p_pp_info['pp_wx_openid'];
+        $order_info_old = $this->task->t_agent_order->get_row_by_aid($id);
         $this->task->t_agent_order->row_delete_by_aid($id);
         if($userid && $is_test_user == 0 ){
             $order_info = $this->task-> t_order_info->get_agent_order_info($userid ,$create_time);
@@ -908,7 +931,29 @@ class t_agent extends \App\Models\Zgen\z_t_agent
                     'create_time' =>  $check_time,
                 ]);
 
-                // if(($order_info_old['orderid'] == $orderid) && )
+                if(!$order_info_old && $p_wx_openid && $p_price){
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $p_price.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$p_price.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($p_wx_openid,$template_id,$data,$url);
+                }
+
+                if(!$order_info_old && $pp_wx_openid && $pp_price){
+                    $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
+                    $data = [
+                        'first'    => '恭喜您获得邀请奖金',
+                        'keyword1' => $pp_price.'元',
+                        'keyword2' => $phone,
+                        'remark'   => '恭喜您邀请的学员'.$phone.'购课成功，课程金额'.$price.'元，您获得'.$pp_price.'元。',
+                    ];
+                    $url = '';
+                    \App\Helper\Utils::send_agent_msg_for_wx($pp_wx_openid,$template_id,$data,$url);
+                }
             }
 
         }

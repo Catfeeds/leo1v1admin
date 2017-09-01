@@ -2020,6 +2020,33 @@ class t_test_lesson_subject_require extends \App\Models\Zgen\z_t_test_lesson_sub
 
     public function  get_test_fail_row_new($cur_require_adminid)
    {
+       /*
+         select tr.require_id, l.lesson_start ,l.userid,l.teacherid ,s.grade,l.subject,  cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,   o.contract_status
+         from db_weiyi.t_test_lesson_subject_require tr
+         left join db_weiyi.t_test_lesson_subject t on tr.test_lesson_subject_id = t.test_lesson_subject_id
+         left join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid = tss.lessonid
+         left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid
+         left join db_weiyi.t_student_info s on l.userid = s.userid
+         left join db_weiyi.t_order_info o on tss.lessonid = o.from_test_lesson_id
+         where lesson_del_flag=0 and test_lesson_order_fail_flag=0 and require_time>=1501516800 and require_time<1504195200 and cur_require_adminid=734 and (contract_status=0 or  contract_status is null)  order by lesson_start desc   limit 0,10;
+
+
+         select tr.require_id,l.lesson_start,l.userid,l.teacherid ,s.grade,l.subject,cur_require_adminid ,  test_lesson_fail_flag , test_lesson_order_fail_set_time, test_lesson_order_fail_flag, test_lesson_order_fail_desc,o.contract_status
+         from db_weiyi.t_test_lesson_subject_require tr
+         left join db_weiyi.t_test_lesson_subject t on tr.test_lesson_subject_id = t.test_lesson_subject_id
+         left join db_weiyi.t_test_lesson_subject_sub_list tss on tr.current_lessonid = tss.lessonid
+         left join db_weiyi.t_lesson_info l on tr.current_lessonid = l.lessonid
+         left join db_weiyi.t_student_info s on l.userid = s.userid
+         left join db_weiyi.t_order_info o on tss.lessonid = o.from_test_lesson_id
+         where lesson_del_flag=0 and test_lesson_order_fail_flag=0 and contract_status in (0,null) and require_time>=1503849600 and require_time<1504256620 and cur_require_adminid=734  order by lesson_start desc limit 0,10;
+
+
+
+        */
+
+
+
+
        $where_arr=[
            "lesson_del_flag=0",
            "test_lesson_order_fail_flag in (0,null)",

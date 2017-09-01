@@ -19,7 +19,7 @@ class t_agent_cash extends \App\Models\Zgen\z_t_agent_cash
 
     public function get_cash_list_by_phone($phone){
         $sql = $this->gen_sql_new(
-            " select ac.aid,ac.cash,ac.is_suc_flag,ac.create_time,a.phone "
+            " select ac.aid,ac.cash,ac.check_money_flag,ac.create_time,a.phone "
             ." from %s ac "
             ." left join %s a on a.id = ac.aid "
             ." where a.phone=%d ",

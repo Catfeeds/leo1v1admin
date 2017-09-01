@@ -42,10 +42,12 @@ class teacher_first_test_lesson_deal extends Command
         /**  @var   $task \App\Console\Tasks\TaskController */
         $task     = new \App\Console\Tasks\TaskController();
 
-        $start_time = strtotime("2017-01-01");
+        $start_time = time()-86400;
         $end_time = time();
         $ret_info = $task->t_lesson_info_b2->get_teacher_first_test_lesson_detail($start_time,$end_time);
         foreach($ret_info as $val){
+            $flag = $task->t_teacher_record_list->check_is_exist_lesson($teacherid,$lesson_style);
+           
             $id = $val["id"];
             if($id>0){
                 $task->t_teacher_record_list->field_update_list($id,[
