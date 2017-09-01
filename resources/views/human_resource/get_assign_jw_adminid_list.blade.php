@@ -80,6 +80,17 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-xs-6 col-md-2">
+                    <div class="input-group ">
+                        <span >有无教材</span>
+                        <select id="id_textbook_flag" class ="opt-change" >
+                            <option value="-1">全部</option>
+                            <option value="1">有</option>
+                            <option value="0">无</option>
+                        </select>
+                    </div>
+                </div>
+
 
 
                 <div class="col-xs-6 col-md-2">

@@ -1613,6 +1613,11 @@ class t_teacher_info extends \App\Models\Zgen\z_t_teacher_info
         }elseif($revisit_flag==1){
             $where_arr[] = "r.add_time >0 ";
         }
+        if($textbook_flag==0){
+            $where_arr[] = "t.teacher_textbook =''";
+        }elseif($textbook_flag==1){
+            $where_arr[] = "t.teacher_textbook <> '' ";
+        }
 
         $sql=$this->gen_sql_new("select t.grade_part_ex,t.second_subject,realname,t.teacherid,assign_jw_adminid,t.subject,m.account,assign_jw_time,train_through_new_time,identity,t.phone,r.record_info,r.add_time,r.acc,r.class_will_type,r.class_will_sub_type,r.recover_class_time,l.lesson_start,l.subject l_subject,t.grade_start,t.grade_end,t.teacher_textbook  "
                                 ." from %s t left join %s m on t.assign_jw_adminid=m.uid "
