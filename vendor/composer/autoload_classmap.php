@@ -716,6 +716,7 @@ return array(
     'TStudentScoreInfoAddStatusReason' => $baseDir . '/database/migrations/2017_07_27_135514_t_student_score_info_add_status_reason.php',
     'TStudentScoreInfoAddTotalScoreSemester' => $baseDir . '/database/migrations/2017_07_26_151920_t_student_score_info_add_total_score_semester.php',
     'TStudentTypeChangeListAddStopTime' => $baseDir . '/database/migrations/2017_07_13_104517_t_student_type_change_list_add_stop_time.php',
+    'TSysErrorInfo' => $baseDir . '/database/migrations/2017_09_01_122651_t_sys_error_info.php',
     'TTeacherAddNotGradeString' => $baseDir . '/database/migrations/2017_04_25_161237_t_teacher_add_not_grade_string.php',
     'TTeacherAdvanceListAddHandFlag' => $baseDir . '/database/migrations/2017_07_27_175709_t_teacher_advance_list_add_hand_flag.php',
     'TTeacherAdvanceListCreate' => $baseDir . '/database/migrations/2017_07_18_162617_t_teacher_advance_list_create.php',

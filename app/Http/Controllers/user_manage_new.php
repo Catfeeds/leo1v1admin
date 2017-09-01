@@ -1376,9 +1376,8 @@ class user_manage_new extends Controller
                 $res[$k]['finish_personal_per'] =  round($v['all_price']/100/$res[$k]['target_personal_money'],2);
                 $res[$k]['los_personal_money'] = $res[$k]['target_personal_money']-$v['all_price']/100;
             }
-            // \App\Helper\Utils::unixtime2date_for_item($item,"lesson_start");
             $res[$k]['become_member_time'] = $v['become_member_time'];
-            $res[$k]['leave_member_time'] = $v['all_new_contract'];
+            $res[$k]['leave_member_time'] = $v['leave_member_time'];
             $res[$k]['del_flag'] = $v['del_flag'];
         }
         foreach ($res as $ret_k=> &$res_item) {
@@ -1387,9 +1386,6 @@ class user_manage_new extends Controller
         //$ret_info=\App\Helper\Common::gen_admin_member_data($res);
         $ret_info=\App\Helper\Common::gen_admin_member_data($res,[],0, strtotime( date("Y-m-01",$start_time )   ));
         foreach( $ret_info as &$item ){
-            $item["become_member_time"] = '';
-            $item["leave_member_time"] = '';
-            $item["del_flag_str"] = '';
             E\Emain_type::set_item_value_str($item);
             $item['lesson_per'] = @$item['test_lesson_count_for_month']!=0?(round(@$item['fail_all_count_for_month']/$item['test_lesson_count_for_month'],2)*100)."%":0;
             $item['order_per'] = @$item['succ_all_count_for_month']!=0?(round(@$item['all_new_contract_for_month']/$item['succ_all_count_for_month'],2)*100)."%":0;
@@ -1410,7 +1406,13 @@ class user_manage_new extends Controller
                 \App\Helper\Utils::unixtime2date_for_item($item,"leave_member_time");
                 if(isset($item["del_flag"])){
                     $item["del_flag_str"] = \App\Helper\Common::get_boolean_color_str($item["del_flag"]);
+                }else{
+                    $item["del_flag_str"] = '';
                 }
+            }else{
+                $item["become_member_time"] = '';
+                $item["leave_member_time"] = '';
+                $item["del_flag_str"] = '';
             }
 
         }

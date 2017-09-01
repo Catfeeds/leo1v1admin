@@ -27,7 +27,6 @@ interface RowData {
 	group_name_class	:any;
 	account_class	:any;
 	level	:any;
-	del_flag_str	:any;
 	main_type_str	:any;
 	lesson_per	:any;
 	order_per	:any;
@@ -37,6 +36,7 @@ interface RowData {
 	ave_price_for_month	:any;
 	los_money	:any;
 	los_personal_money	:any;
+	del_flag_str	:any;
 }
 
 /*
