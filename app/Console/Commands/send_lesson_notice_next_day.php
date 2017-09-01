@@ -73,7 +73,7 @@ class send_lesson_notice_next_day extends Command
                 $wx->send_template_msg($item['par_openid'],$template_id_parent,$data_stu ,'');
             }
 
-            if($itemp['tea_openid']){
+            if($item['tea_openid']){
                 \App\Helper\Utils::send_teacher_msg_for_wx($item['tea_openid'],$template_id_teacher, $data_tea,'');
             }
         }
