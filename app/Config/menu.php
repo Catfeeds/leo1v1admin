@@ -464,7 +464,6 @@ class menu{
                     ["power_id"=>11, "name"=>"科目统计-学生",   "url"=>"/user_manage/tongji_student_subject"],
                     ["power_id"=>12, "name"=>"课耗年级统计-学生",   "url"=>"/user_manage/tongji_grade_lesson_count"],
                     ["power_id"=>13, "name"=>"科目年级-学生",   "url"=>"/user_manage/tongji_student_grade_subject"],
-                    ["power_id"=>14, "name"=>"CC转化率统计",   "url"=>"/user_manage/tongji_cc"],
 
                 ]],
                 ["power_id"=>2, "name"=>"消息统计", "list"=>[
@@ -679,6 +678,7 @@ class menu{
                 ["power_id"=>26, "name"=>"投诉老师列表",   "url"=>"/tea_manage_new/get_teacher_complaints_info_jw"],
                 ["power_id"=>27, "name"=>"销售个人排行榜",   "url"=>"/tongji_ss/get_seller_rank_for_jw"],
                 ["power_id"=>28, "name"=>"限课特殊申请",   "url"=>"/seller_student_new2/test_lesson_plan_list_jw_leader"],
+                ["power_id"=>29, "name"=>"CC转化率统计", "url"=>"/user_manage/tongji_cc"],
             ]],
 
             ["power_id"=>33, "name"=>"角色-TMK-组长", "list"=>[
@@ -695,7 +695,6 @@ class menu{
 
             ["power_id"=>25, "name"=>"角色-招师",  "list"=>[
                 ["power_id"=>1, "name"=>"首页",   "url"=>"/main_page/zs_teacher_new" ],
-                ["power_id"=>22, "name"=>"面试转化信息",   "url"=>"/main_page/zs_teacher_old" ],
                 ["power_id"=>3, "name"=>"教师档案",   "url"=>"/human_resource/index_zs"],
                 // ["power_id"=>12, "name"=>"试听转化率统计-招师","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_zs"],
                 // ["power_id"=>13, "name"=>"试听转化率统计","url"=>"/tongji_ss/tongji_seller_test_lesson_order_info_for_jx"],
