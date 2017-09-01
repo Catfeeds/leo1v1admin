@@ -2062,6 +2062,7 @@ class tongji_ss extends Controller
 
             //E\Epad_type::set_item_value_str($item, "has_pad");
             E\Etest_lesson_level::set_item_value_str($item, "stu_test_lesson_level");
+            E\Etest_lesson_order_fail_flag::set_item_value_str($item, "test_lesson_order_fail_flag");
 
 
             $stu_request_lesson_time_info=\App\Helper\Utils::json_decode_as_array($item["stu_request_lesson_time_info"], true);

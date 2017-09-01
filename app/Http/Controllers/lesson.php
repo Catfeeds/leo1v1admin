@@ -458,7 +458,7 @@ class lesson extends TeaWxController
                 可登录学生端或升学帮查看详情，谢谢！
 
              **/
-            $lesson_info = $this->t_lesson_info_b3->get_lesson_info_by_lessonid($lessonid);
+            $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
 
             $subject_str = E\Esubject::get_desc($lesson_info['subject']);
             $lesson_begin = date('H:i',$lesson_info['lesson_start']);
@@ -502,7 +502,14 @@ class lesson extends TeaWxController
 
         $teacher_message_str = $this->get_in_str_val("teacher_message",'');
         $point_note_list_arr = [];
-        $teacher_message_arr = json_decode($teacher_message_str,true);
+
+
+        if(is_array($teacher_message_str)){
+            $teacher_message_arr = $teacher_message_str;
+        }else{
+            $teacher_message_arr = json_decode($teacher_message_str,true);
+        }
+
         foreach($teacher_message_arr as $index=> $item){
             $point_note_list_arr[] = [
                 'point_name'     => $index,

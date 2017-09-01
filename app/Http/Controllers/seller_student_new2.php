@@ -677,7 +677,8 @@ class seller_student_new2 extends Controller
 
     public function get_ass_test_lesson_info(){
         $this->switch_tongji_database();
-        $start_time = strtotime("2017-07-20");
+        // $start_time = strtotime("2017-07-20");
+        list($start_time,$end_time) = $this->get_in_date_range( "2017-07-20" ,0 );
         $page_info = $this->get_in_page_info();
         $account_id = $this->get_account_id();
         if($account_id==349){
@@ -691,7 +692,7 @@ class seller_student_new2 extends Controller
         $master_adminid = $this->get_in_int_val("master_adminid",-1);
         $lessonid = $this->get_in_int_val('lessonid',-1);
 
-        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid, $lessonid);
+        $ret_info = $this->t_test_lesson_subject_sub_list->get_ass_require_test_lesson_info($page_info,$start_time,$require_adminid,$master_flag,$assistantid,$success_flag,$order_confirm_flag,$master_adminid, $lessonid,$end_time);
 
         foreach($ret_info["list"] as &$item){
             E\Egrade::set_item_value_str($item);
@@ -702,6 +703,14 @@ class seller_student_new2 extends Controller
             }
 
             E\Etest_lesson_fail_flag::set_item_value_str($item);
+            if($item["test_lesson_fail_flag"]==0){
+                $item["test_lesson_fail_flag_str"]="";  
+            }
+            E\Eass_test_lesson_order_fail_flag::set_item_value_str($item);
+            if($item["ass_test_lesson_order_fail_flag"]==0){
+                $item["ass_test_lesson_order_fail_flag_str"]="";  
+            }
+
 
             E\Eass_test_lesson_type::set_item_value_str($item);
             E\Esuccess_flag::set_item_value_str($item);

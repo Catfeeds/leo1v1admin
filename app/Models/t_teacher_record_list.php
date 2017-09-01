@@ -985,6 +985,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=1",
             ["tr.lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
+            "tr.record_info <> ''"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select tr.acc,count(*) all_num "
@@ -1005,6 +1006,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=1",
             ["tr.lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
+            "tr.record_info <> ''",
             "tr.click_time>0",
             "tr.add_time>tr.click_time",
             "tr.add_time-tr.click_time<3600"
@@ -1027,6 +1029,7 @@ class t_teacher_record_list extends \App\Models\Zgen\z_t_teacher_record_list
             "tr.type=1",
             ["tr.lesson_style=%u",$lesson_style,-1],
             ["l.subject=%u",$subject,-1],
+            "tr.record_info <> ''"
         ];
         $this->where_arr_add_time_range($where_arr,"tr.add_time",$start_time,$end_time);
         $sql = $this->gen_sql_new("select count(*) all_num "

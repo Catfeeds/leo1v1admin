@@ -18,6 +18,7 @@ $(function(){
 			phone            : $('#id_phone').val(),
 			teacherid        : $('#id_teacherid').val(),
 			is_test_flag     : $('#id_is_test_flag').val(),
+			full_time        : $('#id_full_time').val(),
 			have_wx:	$('#id_have_wx').val()
         });
     }
@@ -40,6 +41,7 @@ $(function(){
     Enum_map.append_option_list("is_test",$("#id_is_test_flag"));
     Enum_map.append_option_list("boolean",$("#id_trans_grade"));
     Enum_map.append_option_list("boolean",$("#id_have_wx"));
+    Enum_map.append_option_list("boolean",$("#id_full_time"));
 
 	$('#id_grade').val(g_args.grade);
 	$('#id_trans_grade').val(g_args.trans_grade);
@@ -49,6 +51,7 @@ $(function(){
 	$('#id_teacherid').val(g_args.teacherid);
 	$('#id_is_test_flag').val(g_args.is_test_flag);
 	$('#id_have_wx').val(g_args.have_wx);
+	$('#id_full_time').val(g_args.full_time);
     $.admin_select_user( $("#id_teacherid"), "teacher", load_data);
 
 
@@ -334,7 +337,7 @@ $(function(){
         },function(result){
             var num = result.num;
             console.log(num);
-            if(num>1 && account==""){
+            if(num>1 && account=="" && opt_data.phone != 13079618620){
                 BootstrapDialog.alert("该老师重审次数超过1次,不能再审核,请联系技术人员处理!!");
                 return;
             }
@@ -353,9 +356,9 @@ $(function(){
                     return false;
                 }
 
-                if(acc==account  || acc=="ted" || acc=="zoe"  || acc=="abby" || acc=="adrian"){
+                if(acc==account  || account_role=="10" || account_role=="11"  || account_role=="12" || account_role=="8"){
                     if($.check_in_phone()){
-                        var w = $.check_in_phone()?329 : 558;
+                        var w = $.check_in_phone()?329:558;
                         var h = w/4*3;
                         var html_node = $("<div style=\"text-align:center;\"> "
                                           +"<div id=\"drawing_list\" style=\"width:100%\">"
@@ -370,12 +373,11 @@ $(function(){
                         });
                         Cwhiteboard = get_new_whiteboard(html_node.find("#drawing_list"));
                         Cwhiteboard.loadData(w,h,start,draw_url,audio_url,html_node);
-
                     }else{
                         window.open("http://admin.yb1v1.com/player/playback.html?draw="+draw_url
                                     +"&audio="+audio_url
                                     +"&start="+start,"_blank");
-                        window.location.reload(); 
+                        window.location.reload();
                     }
                 }else if(account != "" && (acc=="wander" || acc=="nick" || acc=="jack")){
                     if($.check_in_phone()){
@@ -707,12 +709,12 @@ $(function(){
         },function(result){
             var num = result.num;
             console.log(num);
-            if(num>2){
+            if(num>2  && data.phone != 13079618620){
                 BootstrapDialog.alert("该老师没有审核机会了!!");
                 return;
             }else{
-                var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label> ");
-                var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label>");
+                var id_re_submit=$("<label><input name=\"re_submit\" type=\"checkbox\" value=\"1\" />授课环境不佳</label> <label><input name=\"re_submit\" type=\"checkbox\" value=\"2\" />授课内容错误 </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"7\" />无自我介绍(英语科目) </label><label><input name=\"re_submit\" type=\"checkbox\" value=\"100\" />其他</label> ");
+                var id_lecture_out=$("<label><input name=\"lecture_out\" type=\"checkbox\" value=\"3\" />语速过慢/过快 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"4\" />语调沉闷 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"5\" />节奏拖沓 </label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"6\" />枯燥乏味 </label> <label><input name=\"lecture_out\" type=\"checkbox\" value=\"8\" />解题错误</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"9\" />普通话发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"10\" />英文发音不标准</label><label><input name=\"lecture_out\" type=\"checkbox\" value=\"100\" />其他</label>");
                 var id_reason_all = $("<textarea/>");
 
                 var arr = [

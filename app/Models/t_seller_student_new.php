@@ -2062,7 +2062,7 @@ class t_seller_student_new extends \App\Models\Zgen\z_t_seller_student_new
             "select l.userid ,n.phone, max(l.lesson_start) lesson_start  "
             . " from %s n "
             . " left join %s l on n.userid = l.userid "
-            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.add_time ) and  l.lesson_start< $now and l.lesson_start >0 "
+            . " where  admin_revisiterid = %u and lesson_type=2 and ( l.lesson_start > n.admin_assign_time ) and  l.lesson_start< $now and l.lesson_start >0 "
             ." group by l.userid  ",
             self::DB_TABLE_NAME,
             t_lesson_info::DB_TABLE_NAME,

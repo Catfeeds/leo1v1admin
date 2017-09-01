@@ -169,7 +169,7 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
             if ($contract_status ==-2) {
                $where_arr[] = "contract_status <> 0";
             }else{
-                $this->where_get_in_str_query("contract_status",$contract_status);
+                $this->where_arr_add_int_or_idlist($where_arr,"contract_status",$contract_status);
             }
 
             $this->where_arr_add__2_setid_field($where_arr,"tmk_adminid",$tmk_adminid);
@@ -2797,5 +2797,23 @@ class t_order_info extends \App\Models\Zgen\z_t_order_info
 
     }
 
+    public function get_open_order_list($start,$end){
+        $where_arr = [
+            ["pay_time>%u",$start,0],
+            ["pay_time<%u",$end,0],
+            "contract_type in (0,3)",
+            "contract_status=1",
+        ];
+        $sql = $this->gen_sql_new("select s.userid,s.grade"
+                                  ." from %s o"
+                                  ." left join %s s on o.userid=s.userid"
+                                  ." where %s"
+                                  ." group by s.userid"
+                                  ,self::DB_TABLE_NAME
+                                  ,t_student_info::DB_TABLE_NAME
+                                  ,$where_arr
+        );
+        return $this->main_get_list($sql);
+    }
 
 }

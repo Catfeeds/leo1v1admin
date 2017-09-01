@@ -966,9 +966,57 @@ class common_new extends Controller
     }
 
     public function send_msg_to_parent(){
-        $lesssonid = $this->get_in_int_val('lessonid');
+        $lessonid = $this->get_in_int_val('lessonid');
+        $type = $this->get_in_int_val('type'); // 1:试卷 2:作业
 
-        $lesson_info = $this->t_lessson_info_b3->get_lesson_info_by_lessonid($lessonid);
+        /***
+
+            待办事项提醒
+            x月x日
+
+            家长您好，x月x日xx:xx-xx:xx的xx课讲义，xx老师已经上传
+            待办主题：讲义已上传
+            待办内容：xx课学生讲义已上传
+            日期：2017/06/01
+            可登录学生端进行课前预习。
+
+
+            {{first.DATA}}
+            待办主题：{{keyword1.DATA}}
+            待办内容：{{keyword2.DATA}}
+            日期：{{keyword3.DATA}}
+            {{remark.DATA}}
+
+         **/
+
+
+        $lesson_info = $this->t_lesson_info_b2->get_lesson_info_by_lessonid($lessonid);
+
+        if($type == 1){ // 试卷
+            $keyword1 = '讲义已上传';
+        }elseif($type==2){ // 作业
+            $keyword1 = '课后作业已上传';
+        }
+
+        $wx = new \App\Helper\Wx();
+        $now = date('Y-m-d');
+
+        $subject_str = E\Esubject::get_desc($lesson_info['subject']);
+        $data_msg = [
+            'first' => "家长您好，".date('m月d日 H:i',$lesson_info['lesson_start']).' ~ '.date('H:i',$lesson_info['lesson_end'])."的 $subject_str 课讲义，".$lesson_info['tea_nick']."老师已经上传",
+            'keyword1' => "$keyword1",
+            'keyword2' => "$subject_str 课课后后作业已上传",
+            'keyword3' => "$now",
+            'remark'   => '可登录学生端进行课前预习。'
+        ];
+
+        $template_id_parent = '9MXYC2KhG9bsIVl16cJgXFVsI35hIqffpSlSJFYckRU'; // 待办主题
+
+        if($lesson_info['wx_openid']){
+            $wx->send_template_msg($lesson_info['wx_openid'],$template_id_parent,$data_msg ,'');
+        }
+
+
     }
 
     public function add_teacher(){

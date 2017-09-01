@@ -1039,6 +1039,19 @@ class ss_deal extends Controller
             return $this->output_err("课程开始时间过早!");
         }
 
+        //判断是否销售top20
+        if($top_seller_flag==1){
+            $require_adminid = $this->t_test_lesson_subject_require->get_cur_require_adminid($require_id);
+            $account_role = $this->t_manager_info->get_account_role($require_adminid);
+            $start_time = strtotime(date("Y-m-01",strtotime(date("Y-m-01",$lesson_start))-200));
+            $self_top_info =$this->t_tongji_seller_top_info->get_admin_top_list($require_adminid,  $start_time );
+            $rank = @$self_top_info[6]["top_index"];
+            if($account_role !=2 || $rank>20){
+                return $this->output_err("申请人不是销售top20!");
+            }
+
+        }
+
         //老师年级科目限制
         $rr = $this->get_teacher_grade_freeze_limit_info($teacherid,$lesson_start,$grade,$require_id);
         if($rr){
@@ -1427,16 +1440,9 @@ class ss_deal extends Controller
         //\App\Helper\Utils::logger("before_lesson_count:$before_lesson_count");
         $before_lesson_count=0;
 
-        if ( \App\Helper\Utils::check_env_is_release()) {
-            $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
+        $ret=\App\OrderPrice\order_price_base::get_price_ex_cur(
                 $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
             );
-        }else{
-            $ret=\App\OrderPrice\order_price_base:: get_price_ex_by_order_price_type(
-                E\Eorder_price_type::V_20170901,
-                $competition_flag,$order_promotion_type,$contract_type,$grade,$lesson_count,$before_lesson_count, ["from_test_lesson_id"=> $from_test_lesson_id]
-            );
-        }
         return $this->output_succ(["data"=>$ret]);
     }
 
