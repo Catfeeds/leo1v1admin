@@ -508,9 +508,11 @@ class user_manage extends Controller
             }
         }
 
-        return $this->Pageview(__METHOD__,$ret_list,
-                               ["all_lesson_count" => $all_lesson_count,
-                                "all_promotion_spec_diff_money"=> $all_promotion_spec_diff_money ] );
+        return $this->Pageview(__METHOD__,$ret_list,[
+            "account_role"                  => $this->get_account_role(),
+            "all_lesson_count"              => $all_lesson_count,
+            "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money
+        ]);
     }
 
     //＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -2375,7 +2377,7 @@ class user_manage extends Controller
 
    /**
      * @author    sam
-     * @function  助教统计年级-科目数量
+     * @function  CC试听分类统计
      */
     public function tongji_cc()
     {
