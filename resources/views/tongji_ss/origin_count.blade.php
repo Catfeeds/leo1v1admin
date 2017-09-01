@@ -9,6 +9,7 @@
      var g_subject_map= <?php  echo json_encode ($subject_map); ?> ;
      var g_has_pad_map= <?php  echo json_encode ($has_pad_map); ?> ;
      var g_area_map= <?php  echo json_encode ($area_map); ?> ;
+     var g_order_area_map= <?php  echo json_encode ($order_area_map); ?> ;
      var g_origin_level_map= <?php  echo json_encode ($origin_level_map); ?> ;
     </script>
     <section class="content">
