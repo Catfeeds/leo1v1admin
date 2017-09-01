@@ -1379,7 +1379,7 @@ class user_manage_new extends Controller
             $res[$k]['become_member_time'] = $v['create_time'];
             $res[$k]['leave_member_time'] = $v['leave_member_time']?$v['leave_member_time']:0;
             $res[$k]['del_flag'] = $v['del_flag'];
-            if($v['adminid'] == 463){
+            if($v['adminid'] == 429){
                 dd($v["become_member_time"],$v["leave_member_time"],$v['del_flag']);
             }
         }
