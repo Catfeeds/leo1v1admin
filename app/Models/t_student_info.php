@@ -2851,7 +2851,10 @@ class t_student_info extends \App\Models\Zgen\z_t_student_info
         return $this->main_get_list($sql);
     }
 
-    public function get_all_student(){
+    public function get_all_student($reg_time){
+        $where_arr = [
+            ["reg_time<%u",$reg_time,0]
+        ];
         $sql = $this->gen_sql_new("select userid,grade"
                                   ." from %s "
                                   ." where %s"

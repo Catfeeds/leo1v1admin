@@ -231,7 +231,7 @@ class NewRouteConfig {
         "/user_manage/tongji_student_grade_subject"             => true,
         "/user_manage/tongji_grade_lesson_count"                => true,
         "/user_manage/student_school_score_stat"                => true,
-
+        "/user_manage/tongji_cc"                                => true,
 
         "/authority/get_account_role" => true,
         "/authority/set_account_role"        => true,
