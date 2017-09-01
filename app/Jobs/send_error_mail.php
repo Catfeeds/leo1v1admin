@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Jobs\Job;
+use App\Enums as E;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,13 +18,14 @@ class send_error_mail extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($to,$title,$content)
+    public function __construct($to,$title,$content, $report_error_type )
     {
         parent::__construct();
         $this->mail_info = [
             "to"      => $to,
             "title"   => $title,
             "content" => $content,
+            "report_error_type"=> $report_error_type,
         ];
         //
     }
@@ -39,12 +41,11 @@ class send_error_mail extends Job implements ShouldQueue
         $to        = $mail_info["to"];
         $title     = $mail_info["title"];
         $content   = $mail_info["content"];
+        $report_error_type= $mail_info["report_error_type"];
 
         \App\Helper\Utils::logger("send_error_mail:$to");
         if (!$to) {
             \App\Helper\Utils::logger("send_to_all");
-
-            $ret=\App\Helper\Common::send_mail_leo_com($to,$title,$content);
 
             /*
             $email_list=[ "xcwenn@qq.com",  //"wg392567893@163.com", "jhp0416@163.com",
@@ -53,6 +54,7 @@ class send_error_mail extends Job implements ShouldQueue
                 $ret=\App\Helper\Common::send_mail_leo_com($email,$title,$content);
             }
             */
+            //$this->task->t_sys
 
             $admin_list=["jim","jack","adrian", "tom","james"];
 
@@ -60,7 +62,9 @@ class send_error_mail extends Job implements ShouldQueue
 
                 \App\Helper\Utils::logger(" send error to wx: $account");
                 try {
-                    $this->task->t_manager_info->send_wx_todo_msg($account,"",$title,  $content );
+                    $id= $this->task->t_sys_error_info->add(E\Ereport_error_from_type::V_1, $report_error_type , $title . "<br/>" .$content );
+
+                    $this->task->t_manager_info->send_wx_todo_msg($account,"",$title,  $content, "/" );
                 } catch (\Exception $e ) {
                     \App\Helper\Utils::logger("err: " . $e->getMessage() );
                 }

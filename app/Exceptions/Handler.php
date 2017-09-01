@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
                 dispatch( new \App\Jobs\send_error_mail(
                     "", date("H:i:s")."ERR1:" .$e->getMessage(),
                     "$bt_str".
-                    "<br>client_ip:$ip"
+                    "<br>client_ip:$ip", \App\Enums\Ereport_error_from_type::V_1
                 ));
                 \App\Helper\Utils::logger("LOG_HANDER: " .$bt_str.",ip:$ip");
             }
