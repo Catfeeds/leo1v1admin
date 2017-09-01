@@ -231,7 +231,7 @@ class agent extends Controller
     }
 
     public function check(){
-        $this->agent_add();
+        // $this->agent_add();
         $wx_openid = ' oAJiDwBbbqiTwnU__f6ce5tNpWYs';
         $template_id = 'zZ6yq8hp2U5wnLaRacon9EHc26N96swIY_9CM8oqSa4';
         $data = [
@@ -246,8 +246,8 @@ class agent extends Controller
     }
 
     public function agent_add(){
-        $p_phone = '18616626799';
-        $phone   = '17701796622';
+        // $p_phone = '18616626799';
+        // $phone   = '17701796622';
         $type   = E\Eagent_type::V_1;
         $userid = $this->t_phone_to_user->get_userid($phone);
         $student_info = $this->t_student_info->field_get_list($userid,'*');
