@@ -3785,8 +3785,7 @@ class user_manage_new extends Controller
         $money_301 = $this->get_in_int_val("money_301");
         $money_303 = $this->get_in_int_val("money_303");
 
-        $check_time = strtotime("2017-9-1");
-        if($teacher_money_type!=6 || time()>$check_time){
+        if($teacher_money_type!=6){
             return $this->output_err("此类型工资不能个修改!");
         }
 

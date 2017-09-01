@@ -718,7 +718,9 @@ class user_deal extends Controller
     }
 
     public function course_set_default_lesson_count () {
-        if ($this->get_account() != "jim"  && $this->get_account() != "echo" && $this->get_account() != "adrian"  ) {
+        $account      = $this->get_account();
+        $account_role = $this->get_account_role();
+        if ($this->get_account() != "jim"  && $this->get_account() != "adrian"  && $account_role!=13 ) {
             return $this->output_err("没有权限");
         }
         $orderid=$this->get_in_int_val("orderid");

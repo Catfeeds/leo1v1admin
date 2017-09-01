@@ -421,7 +421,6 @@ class user_manage extends Controller
         $from_key         = $this->get_in_str_val('from_key');
         $from_url         = $this->get_in_str_val('from_url');
         $spec_flag        = $this->get_in_e_boolean(-1,"spec_flag");
-        $account_role     = $this->get_account_role();
 
         $require_adminid_list = $this->t_admin_main_group_name->get_adminid_list_new($seller_groupid_ex);
         $account = $this->get_account();
@@ -513,7 +512,7 @@ class user_manage extends Controller
         return $this->Pageview(__METHOD__,$ret_list,[
             "all_lesson_count"              => $all_lesson_count,
             "all_promotion_spec_diff_money" => $all_promotion_spec_diff_money,
-            "account_role"                  => $account_role
+            "account_role"                  => $this->get_account_role()
         ]);
     }
 

@@ -182,7 +182,7 @@ class get_ass_stu_info_update extends Command
                     $userid_list_last=[];
                 }
 
-                $read_student_last = $stu_info_all[$k]["read_count"];
+                $read_student_last = @$stu_info_all[$k]["read_count"];
 
                 if(date("m",time()) == "06"){
                     foreach($userid_list_last as $kq=>$qq){
@@ -221,7 +221,7 @@ class get_ass_stu_info_update extends Command
                 $ass_list = $task->t_manager_info->get_adminid_list_by_account_role(1);
                 foreach($ass_list as $k=>$val){
                     if(isset($warning_stu_list[$k])){
-                        $warning_student = $warning_stu_list[$k]["warning_student"];
+                        $warning_student = @$warning_stu_list[$k]["warning_student"];
                         $userid_list = json_encode($warning_stu_list[$k]["userid_list"]);
                     }else{
                         $warning_student =0;

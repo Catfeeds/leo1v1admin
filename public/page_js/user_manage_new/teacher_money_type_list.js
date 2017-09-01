@@ -35,7 +35,7 @@ $(function(){
         var money_301          = $(".grade_301").data("money");
         var money_303          = $(".grade_303").data("money");
 
-        if(teacher_money_type>-1){
+        if(teacher_money_type != 6 )
             BootstrapDialog.alert("此工资类型不允许修改！");
             return false;
         }
